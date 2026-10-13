@@ -370,7 +370,7 @@ void func_021B7D5C(void *p) { if(func_0204EA38()==1) func_020434DC(16,0); else f
 
 /*
  *   src/matched/arm9/unit_0204B22C.c defines sub_0204B258 but its function:
- *   line lists only sub_0204B22C. Ilias must add the missing unit entry.
+ *   line lists only sub_0204B22C. the integrator must add the missing unit entry.
  *   Scratch one --arm, dsi/1.1p1 -O4,p -lang c99: EXACT, 24 bytes, no sites.
  *   Verified C:
  *   typedef unsigned char u8;

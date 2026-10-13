@@ -35,7 +35,7 @@ int STD_GetStringLength(const char *str);
 int func_0208CCFC(const char *str, int len);
 int func_0208CD94(const char *str1, const char *str2);
 int func_0208CE4C(const char *str1, const char *str2, int len);
-int OS_SPrintf(char *dst, const char *fmt, ...);
+int STD_TSScanf(char *dst, const char *fmt, ...);
 int STDi_IsSpace(int c);
 void STDi_FillBitset(unsigned long *bitset, unsigned long a, unsigned long b);
 int STD_TVSScanf(const char *src, const char *fmt, va_list vlist);
@@ -287,7 +287,7 @@ int func_0208CE4C(const char *str1, const char *str2, int len)
 #define va_end(v)
 
 
-int OS_SPrintf(char *dst, const char *fmt, ...)
+int STD_TSScanf(char *dst, const char *fmt, ...)
 {
     int r;
     va_list vlist;

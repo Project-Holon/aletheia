@@ -1,5 +1,5 @@
 /*
- * function: func_02702208
+ * function: CAMERA_SetMasterInterruptCore
  * address:  0x02702208
  * packet:   twl_wifi
  * region:   twl
@@ -15,22 +15,14 @@
  *   data_04004202         0x04004202  data twl a2
  */
 
+typedef unsigned short u16;
+#define reg_04004202 (*(volatile u16 *)0x04004202)
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
-extern unsigned short data_04004202;
 
-asm void func_02702208(unsigned int enable)
-{
-    stmdb   sp!, {r4, lr}
-    mov     r4, r0
-    bl      OS_DisableInterrupts
-    ldr     r1, =data_04004202
-    cmp     r4, #0
-    ldrh    r1, [r1]
-    orrne   r2, r1, #0x800
-    biceq   r2, r1, #0x800
-    ldr     r1, =data_04004202
-    strh    r2, [r1]
-    bl      OS_RestoreInterrupts
-    ldmfd   sp!, {r4, pc}
+void CAMERA_SetMasterInterruptCore(unsigned int enable) {
+    unsigned int irq = OS_DisableInterrupts();
+    u16 v = reg_04004202;
+    reg_04004202 = enable ? (v | 0x800) : (v & ~0x800);
+    OS_RestoreInterrupts(irq);
 }

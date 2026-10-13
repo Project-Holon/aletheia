@@ -1,5 +1,5 @@
 /*
- * function: func_0270410C
+ * function: FATFSi_AllocateCommandBuffer
  * address:  0x0270410C
  * packet:   twl_sys
  * region:   twl
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
- *   func_027040EC         0x027040EC  arm  twl
+ *   FATFSi_GetThreadHandle         0x027040EC  arm  twl
  *   data_027343E0         0x027343E0  data twl a4
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   data_0273442C         0x0273442C  data twl a4
@@ -19,83 +19,76 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct FsWait {
+    struct FsWait *next;
+    u32 key;
+    struct Big *slot;
+} FsWait;
+
+typedef struct Big {
+    u32 arg;
+    u32 state;
+    u32 mode;
+    u32 f0C;
+    u8 buf[0x7F0];
+    u32 key;
+    u32 f804;
+    u32 f808;
+    struct Big *next;
+} Big;
+
+typedef struct FsRoot {
+    u32 f00;
+    FsWait *waiters;
+    u32 f08[6];
+    Big *busy;
+    u32 f24[16];
+    Big *spare;
+    Big *cur;
+} FsRoot;
 
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);
 extern void OS_LockMutex(void *mutex);
-extern u32 func_027040EC(void);
-extern void *data_027343E0;
-extern void *data_0273442C;
+extern u32 FATFSi_GetThreadHandle(void);
+extern FsRoot data_027343E0;
+extern u32 data_0273442C[];
 
-asm void *func_0270410C(void *arg)
-{
-    stmdb   sp!, {r4, r5, r6, lr}
-    mov     r5, r0
-    mov     r4, #0
-    bl      OS_DisableInterrupts
-    mov     r6, r0
-    bl      func_027040EC
-    ldr     r1, =data_027343E0
-    ldr     r2, [r1, #0x20]
-    b       @loc_02704158
-
-@loc_02704130:
-    ldr     r1, [r2, #0x800]
-    cmp     r1, r0
-    bne     @loc_02704154
-    mov     r0, #0
-    str     r0, [r2, #0x800]
-    mov     r0, #2
-    mov     r4, r2
-    str     r0, [r2, #8]
-    b       @loc_02704160
-
-@loc_02704154:
-    ldr     r2, [r2, #0x80c]
-
-@loc_02704158:
-    cmp     r2, #0
-    bne     @loc_02704130
-
-@loc_02704160:
-    mov     r0, r6
-    bl      OS_RestoreInterrupts
-    cmp     r4, #0
-    bne     @loc_02704188
-    ldr     r0, =data_0273442C
-    bl      OS_LockMutex
-    ldr     r0, =data_027343E0
-    mov     r1, #0
-    ldr     r4, [r0, #0x64]
-    str     r1, [r4, #8]
-
-@loc_02704188:
-    bl      OS_DisableInterrupts
-    mov     r6, r0
-    bl      func_027040EC
-    ldr     r1, =data_027343E0
-    ldr     r2, [r1, #4]
-    b       @loc_027041B4
-
-@loc_027041A0:
-    ldr     r1, [r2, #4]
-    cmp     r1, r0
-    streq   r4, [r2, #8]
-    beq     @loc_027041BC
-    ldr     r2, [r2]
-
-@loc_027041B4:
-    cmp     r2, #0
-    bne     @loc_027041A0
-
-@loc_027041BC:
-    mov     r0, r6
-    bl      OS_RestoreInterrupts
-    str     r5, [r4]
-    mov     r0, #2
-    str     r0, [r4, #4]
-    mov     r1, #0
-    mov     r0, r4
-    str     r1, [r4, #0xc]
-    ldmfd   sp!, {r4, r5, r6, pc}
+Big *FATFSi_AllocateCommandBuffer(u32 arg) {
+    Big *e = 0;
+    u32 ime = OS_DisableInterrupts();
+    u32 key = FATFSi_GetThreadHandle();
+    Big *p;
+    for (p = data_027343E0.busy; (p != 0) ? 1 : 0; p = p->next) {
+        if (p->key == key) {
+            p->key = 0;
+            e = p;
+            p->mode = 2;
+            break;
+        }
+    }
+    OS_RestoreInterrupts(ime);
+    if (e == 0) {
+        OS_LockMutex(data_0273442C);
+        e = data_027343E0.spare;
+        e->mode = 0;
+    }
+    {
+        FsWait *w;
+        ime = OS_DisableInterrupts();
+        key = FATFSi_GetThreadHandle();
+        for (w = data_027343E0.waiters; (w != 0) ? 1 : 0; w = w->next) {
+            if (w->key == key) {
+                w->slot = e;
+                break;
+            }
+        }
+        OS_RestoreInterrupts(ime);
+    }
+    e->arg = arg;
+    e->state = 2;
+    e->f0C = 0;
+    return e;
 }

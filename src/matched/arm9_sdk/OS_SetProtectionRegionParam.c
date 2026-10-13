@@ -13,13 +13,11 @@
  *   g_020A86B4 0x020A86B4 data
  */
 
-extern void g_020A86B4(void);
-asm void OS_SetProtectionRegionParam(void)
+typedef unsigned long u32;
+
+extern void (*g_020A86B4[8])(u32);
+
+void OS_SetProtectionRegionParam(int regionNo, u32 param)
 {
-    stmfd sp!, {r3, lr}
-    ldr r2, =g_020A86B4
-    ldr r2, [r2, r0, lsl #2]
-    mov r0, r1
-    blx r2
-    ldmfd sp!, {r3, pc}
+    g_020A86B4[regionNo](param);
 }

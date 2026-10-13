@@ -1,5 +1,5 @@
 /*
- * function: func_02702A78
+ * function: NWMi_DeleteSleepCallback
  * address:  0x02702A78
  * packet:   twl_sys
  * region:   twl
@@ -8,16 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   data_027341B8  0x027341B8  data twl a2
+ *   func_0208C86C  0x0208C86C  arm twl
  */
 
-asm void func_02702A78(void)
+typedef unsigned int u32;
+
+extern u32 data_027341B8[];
+extern void func_0208C86C(u32 *);
+
+void NWMi_DeleteSleepCallback(void)
 {
-    ldr     r0, [pc, #4]
-    ldr     r12, [pc, #4]
-    bx      r12
-    dcd     0x027341B8
-    dcd     0x0208C86C
-    ldr     r12, [pc, #0]
-    bx      r12
-    dcd     0x02088234
+    func_0208C86C(data_027341B8);
 }

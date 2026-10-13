@@ -1,5 +1,5 @@
 /*
- * function: func_0272FE48
+ * function: MI_Card_NDmaCopy
  * address:  0x0272FE48
  * packet:   twl_audio
  * region:   twl
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0272FDDC 0x0272FDDC arm twl
+ *   MIi_CardNDmaRecv32 0x0272FDDC arm twl
  */
 
-asm void func_0272FE48(void)
+void MIi_CardNDmaRecv32(int ch, const void *src, void *dst);
+
+void MI_Card_NDmaCopy(int ch, const void *src, void *dst)
 {
-    ldr     r12, [pc, #0]
-    bx      r12
-    dcd     0x0272FDDC
+    MIi_CardNDmaRecv32(ch, src, dst);
 }

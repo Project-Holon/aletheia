@@ -14,17 +14,14 @@
  *   func_02088234 0x02088234 arm
  */
 
-typedef signed int     s32;
-typedef unsigned int   u32;
+typedef unsigned int u32;
+typedef int s32;
 extern u32 func_02030238(void *p, u32 heapId, s32 size);
 extern void func_02088234(void);
 
-asm void func_020307C8(void)
+void func_020307C8(void *p, u32 heapId, s32 size)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02030238
-    cmp	r0, #0
-    ldmnefd sp!, {r3, pc}
-    bl func_02088234
-    ldmfd sp!, {r3, pc}
+    if (func_02030238(p, heapId, size) == 0) {
+        func_02088234();
+    }
 }

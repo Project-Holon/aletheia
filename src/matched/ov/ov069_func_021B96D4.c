@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Byte-correct; blocked by one unwitnessed arm9 leaf (Ilias's), no outside
+ * Byte-correct; blocked by one unwitnessed arm9 leaf (the integrator's), no outside
  * caller: func_02012EFC at 0x02012EFC (unlabelled tail-call stub), verified EXACT as
  *   extern void *func_020071CC(void *a, int b);   // symbols: func_020071CC 0x020071CC thumb
  *   void *func_02012EFC(void **p) { return func_020071CC(*p, 0x3b); }

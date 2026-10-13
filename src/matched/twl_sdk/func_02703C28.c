@@ -1,5 +1,5 @@
 /*
- * function: func_02703C28
+ * function: NWMi_CheckFirmDataParamIntegrity
  * address:  0x02703C28
  * packet:   twl_sys
  * region:   twl
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern u16 func_02004632(u32, u32, u32);
 
-u32 func_02703C28(void) {
+u32 NWMi_CheckFirmDataParamIntegrity(void) {
     u32 *r4 = (u32 *)*(volatile u32 *)0x02FFFDFC;
     u16 crc = func_02004632(0xFFFF, (u32)r4 + 0x1e4, 0xc);
     u32 target = r4[0x1e0/4] >> 16;

@@ -10,14 +10,20 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_021DE668  0x021DE668  data
 */
 
-asm void Parent_get_child_data_kind(void)
-{
-	ldr r0, =0x021DE668
-	ldr r0, [r0]
-	add r0, r0, #0x100
-	ldrh r0, [r0, #0x44]
-	bx lr
-}
+typedef unsigned char u8;
+typedef unsigned short u16;
 
+typedef struct {
+    u8 sSendBuf[256];
+    u8 sRecvBuf[256];
+} Wk;
+
+extern Wk *g_021DE668;
+
+u16 Parent_get_child_data_kind(void)
+{
+    return *(u16 *)(g_021DE668->sRecvBuf + 0x44);
+}

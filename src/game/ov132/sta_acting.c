@@ -1,7 +1,7 @@
 /*
  * file:     sta_acting.c
  * unit:     yes
- * function: func_021F8480, func_021F8640, func_021F879C, func_021F899C, func_021F8BD4, func_021F8D88, func_021F8DA0, func_021F8DC4, func_021F8E58, func_021F8E88, func_021F8EA8, func_021F90E0, func_021F9140, func_021F91A8, func_021F91CC, func_021F92CC, func_021F9374, func_021F93D8, func_021F94B0, func_021F94F8, func_021F95CC, func_021F95E8, func_021F95F0, func_021F9664, func_021F9680, func_021F9690, func_021F969C, func_021F96B0, func_021F96C4, func_021F96D0, func_021F9730, func_021F9754, func_021F9768, func_021F9774, func_021F9794, func_021F99F4, func_021F9A48, func_021F9AD8, func_021F9CF4, func_021F9D08, func_021F9D18, func_021F9D80, func_021F9D90, func_021F9DA0, func_021F9DA4, func_021F9DAC, func_021F9DB0, func_021F9DB8, func_021F9DC0, func_021F9DC4, func_021F9DCC, func_021F9DD4, func_021F9DDC, func_021F9DE8, func_021F9DF4, func_021F9DFC, func_021F9E00, func_021F9E04, func_021F9E08, func_021F9E0C, func_021F9E18
+ * function: func_021F8480, func_021F8640, func_021F879C, func_021F899C, func_021F8BD4, func_021F8D88, func_021F8DA0, func_021F8DC4, func_021F8E58, func_021F8E88, func_021F8EA8, func_021F90E0, func_021F9140, func_021F91A8, func_021F91CC, func_021F92CC, func_021F9374, func_021F93D8, func_021F94B0, func_021F94F8, func_021F95CC, func_021F95E8, func_021F95F0, func_021F9664, func_021F9680, func_021F9690, func_021F969C, func_021F96B0, func_021F96C4, func_021F96D0, func_021F9730, func_021F9754, func_021F9768, func_021F9774, func_021F9794, func_021F99F4, func_021F9A48, func_021F9AD8, func_021F9CF4, func_021F9D08, func_021F9D18, func_021F9D80, func_021F9D90, func_021F9DA0, func_021F9DA4, func_021F9DAC, func_021F9DB0, func_021F9DB8, func_021F9DC0, func_021F9DC4, func_021F9DCC, func_021F9DD4, func_021F9DDC, func_021F9DE8, func_021F9DF4, func_021F9DFC, func_021F9E00, func_021F9E04, func_021F9E08, func_021F9E0C, func_021F9E18, func_021F9E20, func_021F9E34, func_021F9E3C, func_021F9E20, func_021F9E34, func_021F9E3C
  * address:  0x021F8480
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -1633,3 +1633,9 @@ u32 func_021F9E0C(u8 *p) { return func_021F4F10(*(u8 * *)&((struct ActingScene *
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
 int func_021F9E18(char *p) { return ((struct ActingScene *)p)->f11C; }
+
+unsigned char func_021F9E20(char *p, unsigned int i) { return *(unsigned short *)(((char **)(*(char **)(p + 0x30) + i * 4))[1] + 0x4A); }
+
+unsigned char func_021F9E34(char *p, unsigned int i) { return *(unsigned char *)(p + i + 0xF7); }
+
+void func_021F9E3C(char *p, unsigned int v) { *(unsigned int *)(p + 0x10) = v; }

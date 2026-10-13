@@ -32,22 +32,19 @@ typedef struct OSLockWord {
     volatile u16 extension;
 } OSLockWord;
 
-extern int func_02084D68(struct _FSFreeAreaSize *freesize, char *path, unsigned long size);
+extern s32 func_02084D68(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
 extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
-asm void OS_LockCard(void);
+s32 OS_TryLockCard(u16 lockID);
 void func_02084E54(void);
 void func_02084E98(void);
 
 
-asm void OS_LockCard(void)
+s32 OS_TryLockCard(u16 lockID)
 {
-    ldr r1, =0x02FFFFE0
-    ldr r2, =func_02084E54
-    ldr ip, =func_02084D68
-    bx	ip
+    return func_02084D68(lockID, (OSLockWord *)0x02FFFFE0, func_02084E54);
 }
 
 

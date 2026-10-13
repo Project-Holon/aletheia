@@ -1225,7 +1225,7 @@ void func_0217B9F4(void *p)
 
 /*
  * Interface evidence: stub at 0201A364 moves r0 to r2, r1 to r0,
- * sets r1=0x69, then jumps through pool 02048F4C. Ilias owns it.
+ * sets r1=0x69, then jumps through pool 02048F4C. the integrator owns it.
  */
 void func_0217BA10(char *p, int x)
 {

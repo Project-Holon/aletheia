@@ -20,6 +20,7 @@
  */
 extern void _ll_udiv(void);
 
+/* hand-written in the original: swaps the halves through callee-saved r4 around the _ll_udiv call, a register choice mwccarm does not make (sibling of the umlal loop) */
 asm unsigned long long CRYPTOi__bn_div_words(unsigned long h, unsigned long l, unsigned long d)
 {
     stmfd sp!, {r4, lr}

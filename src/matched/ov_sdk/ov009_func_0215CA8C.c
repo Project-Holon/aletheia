@@ -12,7 +12,7 @@
  * sdk:      SOCL_Startup (libsoc.TWL.HYB.a(socl_startup.o))
  *
  * symbols:
- *   func_02004EB0  0x02004EB0  arm
+ *   OSi_ReferSymbol  0x02004EB0  arm
  *   func_0215F0D4  0x0215F0D4  arm  ov009
  *   func_0215CB24  0x0215CB24  arm  ov009
  *   func_0215CAE4  0x0215CAE4  arm  ov009
@@ -23,7 +23,7 @@
 
 #include "../include/G_021A1CD8.h"
 
-extern void func_02004EB0(const void *symbol);
+extern void OSi_ReferSymbol(const void *symbol);
 extern void func_0215F0D4(void);
 extern void func_0215CB24(void);
 extern int func_0215CAE4(void);
@@ -35,7 +35,7 @@ int func_0215CA8C(void *socl_config)
 {
 	int result;
 
-	func_02004EB0(g_020050C4);
+	OSi_ReferSymbol(g_020050C4);
 	if (g_021A1CD8 != 0) {
 		return 0;
 	}

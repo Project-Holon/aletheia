@@ -1,0 +1,44 @@
+# Publishes the committed progress report for decomp.dev.
+#
+# CI has no ROM, so it cannot compute progress. tools/progress_report.py makes
+# progress/report.json locally (numbers only: names, sizes, addresses,
+# percentages) and the integrator commits it. This workflow checks that the file
+# parses as an objdiff report and uploads it as the artifact decomp.dev reads:
+# an artifact named `<version>_report` that holds `report.json`. decomp.dev
+# lists the push runs of the default branch and takes the version from the
+# artifact name (here IRBO, the game code of Pokemon Black USA/Europe).
+# See docs/PROGRESS_REPORT.md.
+
+name: progress
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    env:
+      OBJDIFF_VERSION: v3.8.2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the report parses as an objdiff report
+        run: |
+          test -s progress/report.json
+          python3 -c "import json,sys; r=json.load(open('progress/report.json')); sys.exit(0 if r.get('version') == 2 else 'report version must be 2')"
+          curl -sSfL -o objdiff-cli "https://github.com/encounter/objdiff/releases/download/${OBJDIFF_VERSION}/objdiff-cli-linux-x86_64"
+          chmod +x objdiff-cli
+          ./objdiff-cli report changes progress/report.json progress/report.json -o /tmp/changes.json
+          python3 -c "import json; m=json.load(open('/tmp/changes.json'))['to']; print('code %s, matched %s, complete %s, units %s/%s' % (m.get('total_code'), m.get('matched_code'), m.get('complete_code'), m.get('complete_units', 0), m.get('total_units', 0)))"
+
+      - name: Upload the report for decomp.dev
+        uses: actions/upload-artifact@v4
+        with:
+          name: IRBO_report
+          path: progress/report.json
+          if-no-files-found: error

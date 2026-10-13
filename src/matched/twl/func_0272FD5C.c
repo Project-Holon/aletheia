@@ -1,5 +1,5 @@
 /*
- * function: func_0272FD5C
+ * function: MI_SetNDmaArbitrament
  * address:  0x0272FD5C
  * packet:   twl_audio
  * region:   twl
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_0272FD5C(unsigned int a0, unsigned int a1) {
+void MI_SetNDmaArbitrament(unsigned int a0, unsigned int a1) {
     if (a0 == 0x80000000) {
         *(volatile unsigned int *)0x04004100 = a1 | 0x80000000;
     } else {

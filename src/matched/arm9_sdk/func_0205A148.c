@@ -13,12 +13,15 @@
  *   func_0205A12C    0x0205A12C  arm
 */
 
+typedef struct {
+    unsigned long magic;
+    unsigned long size;
+    unsigned char pad[24];
+} _tagDWCiAllocHeader;
 extern void *func_0205A12C(char *p);
 
-asm void func_0205A148(void)
+unsigned long func_0205A148(char *ptr)
 {
-    stmdb	sp!, {r3, lr}
-    bl	func_0205A12C
-    ldr	r0, [r0, #4]
-    ldmia	sp!, {r3, pc}
+    _tagDWCiAllocHeader *header = func_0205A12C(ptr);
+    return header->size;
 }

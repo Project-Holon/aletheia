@@ -1,5 +1,5 @@
 /*
- * function: DWCi_LSTlPopFront
+ * function: SBServerListCount
  * address:  0x0219F7B4
  * packet:   pkt_ov009_0219F7B4
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern int func_02184200(const int *p);
 
-void DWCi_LSTlPopFront(void *list)
+void SBServerListCount(void *list)
 {
     func_02184200(*(void **)((char *)list + 4));
 }

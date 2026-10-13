@@ -1,5 +1,5 @@
 /*
- * function: func_02702070
+ * function: CameraStandbyCallback
  * address:  0x02702070
  * packet:   twl_sys
  * region:   twl
@@ -10,14 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02700DB8  0x02700DB8  arm twl
+ *   CAMERA_I2CActivateCore  0x02700DB8  arm twl
  */
 
-typedef unsigned int   u32;
-extern u32 func_02700DB8(u32 a0);
+typedef unsigned int u32;
+typedef signed int s32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef void (*CamPxiCallback)(u32 result, u32 arg);
+extern u32 CAMERA_I2CActivateCore(u32 a0);
 
-asm void func_02702070(void) {
-    ldr ip, =func_02700DB8
-    mov r0, #0
-    bx ip
+static void CameraStandbyCallback(void) {
+    CAMERA_I2CActivateCore(0);
 }

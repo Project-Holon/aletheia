@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02004BB4",
+   "name": "INITi_DoAutoload",
    "address": "0x02004BB4",
    "kind": "sdk",
    "region": "arm9",

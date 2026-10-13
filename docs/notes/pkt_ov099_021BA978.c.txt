@@ -10,7 +10,7 @@
  * owner-blocker: fresh enum-tile one is DIFF138/320 with unresolved ARM9
  *   func_02045CAC at +0080. src/matched/arm9/unit_02045C44.c contains
  *   its body, but function: names only func_02045C44 and pkt_02045C44's
- *   unit functions list omits the reader. Ilias owns that inventory fix.
+ *   unit functions list omits the reader. the integrator owns that inventory fix.
  *   Stopped after one fresh substantive compile; no further caller retry
  *   while that witness is absent. Old once300 search remains consumed.
  *   Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021BA978-enum.log.

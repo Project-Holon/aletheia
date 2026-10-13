@@ -1,5 +1,5 @@
 /*
- * function: func_02700B34
+ * function: CAMERA_EndCore
  * address:  0x02700B34
  * packet:   twl_sys
  * region:   twl
@@ -15,15 +15,15 @@
  *   data_02733008  0x02733008  data twl a2
  *   data_0273302C  0x0273302C  data twl a2
  *   func_0208C86C  0x0208C86C  arm twl a2
- *   func_02731590  0x02731590  arm twl a2
- *   func_02700DB8  0x02700DB8  arm twl a2
- *   func_02702080  0x02702080  arm twl a2
- *   func_0270212C  0x0270212C  arm twl a2
- *   func_027021E4  0x027021E4  arm twl a2
+ *   PM_DeletePostExitCallback  0x02731590  arm twl a2
+ *   CAMERA_I2CActivateCore  0x02700DB8  arm twl a2
+ *   CAMERA_ResetCore  0x02702080  arm twl a2
+ *   CAMERA_StopCaptureCore  0x0270212C  arm twl a2
+ *   CAMERA_ClearBufferCore  0x027021E4  arm twl a2
  *   func_020885A0  0x020885A0  arm twl a2
- *   func_0270223C  0x0270223C  arm twl a2
- *   func_02702268  0x02702268  arm twl a2
- *   func_02702208  0x02702208  arm twl a2
+ *   CAMERA_SetVsyncInterruptCore  0x0270223C  arm twl a2
+ *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm twl a2
+ *   CAMERA_SetMasterInterruptCore  0x02702208  arm twl a2
  *   func_02084774  0x02084774  arm twl a2
  *   func_02084998  0x02084998  arm twl a2
  *   func_02085638  0x02085638  arm twl a2
@@ -37,32 +37,32 @@ extern u32 data_02733008[];
 extern u32 data_0273302C[];
 
 extern void func_0208C86C(u32*);
-extern void func_02731590(u32*);
-extern u32 func_02700DB8(u32 a0);
-extern void func_02702080(void);
-extern void func_0270212C(void);
-extern void func_027021E4(void);
+extern void PM_DeletePostExitCallback(u32*);
+extern u32 CAMERA_I2CActivateCore(u32 a0);
+extern void CAMERA_ResetCore(void);
+extern void CAMERA_StopCaptureCore(void);
+extern void CAMERA_ClearBufferCore(void);
 extern void func_020885A0(u32, u32);
-extern void func_0270223C(u32);
-extern void func_02702268(u32);
-extern void func_02702208(u32);
+extern void CAMERA_SetVsyncInterruptCore(u32);
+extern void CAMERA_SetBufferErrorInterruptCore(u32);
+extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, u32);
 extern void func_02084998(u32);
 extern void func_02085638(u32*, u32);
 
-void func_02700B34(void) {
+void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
     data_02732FC0[0] = 0;
     func_0208C86C(data_02732FF8);
-    func_02731590(data_02733008);
-    func_02700DB8(0);
-    func_02702080();
-    func_0270212C();
-    func_027021E4();
+    PM_DeletePostExitCallback(data_02733008);
+    CAMERA_I2CActivateCore(0);
+    CAMERA_ResetCore();
+    CAMERA_StopCaptureCore();
+    CAMERA_ClearBufferCore();
     func_020885A0(0x15, 0);
-    func_0270223C(0);
-    func_02702268(0);
-    func_02702208(0);
+    CAMERA_SetVsyncInterruptCore(0);
+    CAMERA_SetBufferErrorInterruptCore(0);
+    CAMERA_SetMasterInterruptCore(0);
     func_02084774(0x02000000, 0);
     func_02084998(0x02000000);
     func_02085638(data_0273302C, 0);

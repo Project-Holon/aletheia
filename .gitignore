@@ -69,3 +69,14 @@ __pycache__/
 
 # Junction to the companion port repository (Documents/eidos) so VS Code shows both repos
 /eidos/
+
+# game asset formats and build objects (guard rules, 2026-10-12 history audit)
+*.bmd0
+*.nclr
+*.ncgr
+*.narc
+*.srl
+*.sbin
+*.rom
+*.o
+*.a

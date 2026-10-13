@@ -1,11 +1,11 @@
 /*
- * function: func_02704B58
+ * function: SyncCallback
  * address:  0x02704B58
  * packet:   twl
  * region:   twl
  * compiler: 1.1p1
  * flags:    -O4,p
- * lang:     c99
+ * lang:     c
  * isa:      arm
  * status:   EXACT
  *
@@ -13,13 +13,10 @@
  *   func_02085DBC  0x02085DBC  arm
  */
 
-extern void func_02085DBC(void);
+typedef unsigned int u32;
 
-asm void func_02704B58(void) {
-    mov r2, r0
-    mov r0, r1
-    mov r1, r2
-    ldr ip, =func_02085DBC
-    mov r2, #0
-    bx ip
+extern void func_02085DBC(void *, u32, u32);
+
+void SyncCallback(u32 a0, void *a1) {
+    func_02085DBC(a1, a0, 0);
 }

@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: w77 owner gate before caller compile: current matched func020472F8 reads g020A8148 and func02062474 stores func020624C8; units/shards export functions but tools.match.attest(020A8148,data,021B6F00,021B7368,src=pending caller,align4,site_regionov133) still returns None. Zero renewed caller compiles; unresolved ARM9 data belongs to Ilias. Historical five-check/DIFF329 evidence and once300 consumption retained below; no repeated search or caller retry.
+ * checks: w77 owner gate before caller compile: current matched func020472F8 reads g020A8148 and func02062474 stores func020624C8; units/shards export functions but tools.match.attest(020A8148,data,021B6F00,021B7368,src=pending caller,align4,site_regionov133) still returns None. Zero renewed caller compiles; unresolved ARM9 data belongs to the integrator. Historical five-check/DIFF329 evidence and once300 consumption retained below; no repeated search or caller retry.
  * residual: DIFF329, compiled1128/original1128, 50/51 resolved; extra saved r3/frame8, scalar stack homes and Vec addressing; ARM9 data020A8148 remains unresolved. Five retry one runs.
  * prototype: 473EC legacy trailing inputs unused; 47250 forwards only resource pointer. DE0/F4B4C preserve original visibly live r0/r2 arguments despite legacy declarations.
- * owner-gate: 2026-10-03 current 02047260/02062474 shard and source witnesses exist; canonical data attestation remains None. Wait for Ilias, not another overlay attempt.
+ * owner-gate: 2026-10-03 current 02047260/02062474 shard and source witnesses exist; canonical data attestation remains None. Wait for the integrator, not another overlay attempt.
  * symbols:
  *   func_0200A644 0x0200A644 thumb
  *   func_0200A680 0x0200A680 thumb

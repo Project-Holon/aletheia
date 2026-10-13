@@ -1,5 +1,5 @@
 /*
- * function: func_027314F0
+ * function: PM_ReadyToExit
  * address:  0x027314F0
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   PMi_CallPostExitCallbackAndReset 0x027315E0 arm
  */
 
-asm void func_027314F0(void)
+extern void PMi_CallPostExitCallbackAndReset(int flag);
+
+void PM_ReadyToExit(void)
 {
+    PMi_CallPostExitCallbackAndReset(1);
 }

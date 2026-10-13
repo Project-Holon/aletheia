@@ -1,6 +1,6 @@
 
 /*
- * function: func_0270218C
+ * function: CAMERA_SetOutputFormatCore
  * address:  0x0270218C
  * packet:   twl_wifi
  * region:   twl
@@ -17,27 +17,20 @@
  *   data_04004202         0x04004202  data twl a2
  */
 
+typedef unsigned short u16;
+#define reg_04004202 (*(volatile u16 *)0x04004202)
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
-extern unsigned short data_04004202;
 
-asm void func_0270218C(int mode)
-{
-    stmdb   sp!, {r4, lr}
-    mov     r4, r0
-    bl      OS_DisableInterrupts
-    ldr     r2, =data_04004202
-    cmp     r4, #0
-    ldrh    r1, [r2]
-    beq     _eq
-    cmp     r4, #1
-    orreq   r1, r1, #0x2000
-    streqh r1, [r2]
-    b       _end
-_eq:
-    bic     r1, r1, #0x2000
-    strh    r1, [r2]
-_end:
-    bl      OS_RestoreInterrupts
-    ldmfd   sp!, {r4, pc}
+void CAMERA_SetOutputFormatCore(int mode) {
+    unsigned int irq = OS_DisableInterrupts();
+    u16 v = reg_04004202;
+    if (mode != 0) {
+        if (mode == 1) {
+            reg_04004202 = v | 0x2000;
+        }
+    } else {
+        reg_04004202 = v & ~0x2000;
+    }
+    OS_RestoreInterrupts(irq);
 }

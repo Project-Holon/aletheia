@@ -19,7 +19,7 @@
  * void func_02043588(void) { func_02043558(); func_02043570(); }
  * lever: SDK Inside0/Inside1/Outside int parameters preserve unfolded 31/32; retaining allocated bank for4B270 removes spurious mov0. Full candidate remains assigned scratch D5D8.c.
  * volatile: original rereads DISPCNT04000000/04001000 atD5EE/F8,D72C; POWCNT04000304 atD628; BG2/3 controlsD688/69A/6C0/6CC; WININ04000048 atD73E/74E and WINOUT0400004A atD762.
- * legacy C below is the pre-wave DIFF66 evidence, not a renewed valid prototype spelling. Do not retry this caller before Ilias's ARM9 witnesses and definitions are fixed.
+ * legacy C below is the pre-wave DIFF66 evidence, not a renewed valid prototype spelling. Do not retry this caller before the integrator's ARM9 witnesses and definitions are fixed.
  *
  * 2026-10-02: 66 bytes differ, all in the tail after func_0204B270: the WININ/WINOUT
  * (0x04000048/4A) read-modify-write sequences. The original keeps 0x1f and 0x20 as

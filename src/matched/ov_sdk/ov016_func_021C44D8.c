@@ -1,5 +1,5 @@
 /*
- * function: NWMi_ForceUnloadDeviceCallback
+ * function: cbMov
  * address:  0x021C44D8
  * packet:   pkt_ov016_021C44D8
  * region:   ov016
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      NWMi_ForceUnloadDeviceCallback (nwm_unloaddev.o)
+ * sdk:      cbMov (nwm_unloaddev.o)
  *
  * symbols:
  *   isUnloaded  0x021de5c4  data
@@ -17,7 +17,7 @@
 
 extern unsigned char isUnloaded;
 
-static void NWMi_ForceUnloadDeviceCallback(void)
+static void cbMov(void)
 {
     isUnloaded = 1;
 }

@@ -13,13 +13,16 @@
  *   gti2SNDiff                   0x02195EB4  arm
 */
 
-extern void gti2SNDiff(void);
+struct GTI2IncomingBufferMessage {
+    int start;
+    int len;
+    int type;
+    unsigned short serialNumber;
+};
 
-asm void gti2IncomingBufferMessageCompare(void)
+extern short gti2SNDiff(unsigned short a, unsigned short b);
+
+int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
 {
-	ldrh r0, [r0, #0xc]
-	ldrh r1, [r1, #0xc]
-	ldr ip, =gti2SNDiff
-	bx ip
+    return gti2SNDiff(((struct GTI2IncomingBufferMessage *)elem1)->serialNumber, ((struct GTI2IncomingBufferMessage *)elem2)->serialNumber);
 }
-

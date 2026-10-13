@@ -1,5 +1,5 @@
 /*
- * function: func_0272EFB0
+ * function: CARDi_TouchRomHashSector
  * address:  0x0272EFB0
  * packet:   twl_sys
  * region:   twl
@@ -14,8 +14,8 @@
  *   func_0209C2B0 0x0209C2B0 arm
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
- *   func_0272EE98 0x0272EE98 arm twl
- *   func_0272ED4C 0x0272ED4C arm twl
+ *   CARDi_TouchRomHashBlock 0x0272EE98 arm twl
+ *   CARDi_StartLoading 0x0272ED4C arm twl
  */
 typedef unsigned int u32;
 struct Node {
@@ -52,9 +52,9 @@ extern void func_02088234(void);
 extern u32 func_0209C2B0(u32, u32);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern struct Node *func_0272EE98(struct Obj *, u32);
-extern void func_0272ED4C(struct Obj *);
-u32 func_0272EFB0(struct Obj *obj, u32 addr)
+extern struct Node *CARDi_TouchRomHashBlock(struct Obj *, u32);
+extern void CARDi_StartLoading(struct Obj *);
+u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 addr)
 {
     u32 res = 0;
     u32 off = addr;
@@ -99,8 +99,8 @@ u32 func_0272EFB0(struct Obj *obj, u32 addr)
             t->f4 = key;
             t->f8 = addr & ~(obj->f20 - 1);
             func_0208799C(irq);
-            func_0272EE98(obj, key);
-            func_0272ED4C(obj);
+            CARDi_TouchRomHashBlock(obj, key);
+            CARDi_StartLoading(obj);
             break;
         }
         pp = (struct Node **)n;

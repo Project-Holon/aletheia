@@ -1230,7 +1230,7 @@ void func_0219F634(u32 o)
 
 /*
  * Blocked at MATCH: func_02050080 (0x02050080), func_0205082C (0x0205082C) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u32 func_02050080(u32 *p) { return p[1]; }  (EXACT as arm9 leaf, verified)
  *   void func_0205082C(u8 *p, int i, u16 h): strh into the record at +0xE, then tail-calls func_020500A0 (bx ip, pool 0x020500A0); not compiled here
@@ -1274,7 +1274,7 @@ void func_0219F750(u32 a)
 
 /*
  * Blocked at MATCH: func_02050880 (0x02050880) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u16 func_02050880(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }  (EXACT, verified)
  *
@@ -1331,7 +1331,7 @@ int func_0219F7CC(u32 a, u32 b)
 
 /*
  * Blocked at MATCH: func_02050080 (0x02050080) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u32 func_02050080(u32 *p) { return p[1]; }  (EXACT as arm9 leaf, verified)
  *
@@ -1734,7 +1734,7 @@ return ((struct Obj17984 *)((u8 *)(func_0216D6F0((void *)a))))->f0;
 
 /*
  * Blocked at MATCH: func_02050848 (0x02050848), func_02050880 (0x02050880) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u16 func_02050848(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0xe); }  (EXACT, verified)
  *   u16 func_02050880(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }  (EXACT, verified)
@@ -1884,7 +1884,7 @@ void func_0219FD94(u32 a)
 
 /*
  * Blocked at MATCH: func_020508EC (0x020508EC) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u32 func_020508EC(u8 *p, int i, u16 *out) reads a u16 at record+0x1C, stores it, returns a range test; see the pending ov021 files that already name it
  *
@@ -2060,7 +2060,7 @@ u32 func_0219FFD4(u32 a){
 
 /*
  * Blocked at MATCH: func_020507F0 (0x020507F0) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   void func_020507F0(u8 *p, int i, u32 v) { *(u32 *)(*(u8 **)(p + 0x18) + i * 40 + 0x18) = v; }  (EXACT, verified)
  *

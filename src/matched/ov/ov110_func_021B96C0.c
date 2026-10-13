@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x02024150, unresolved Thumb code witness; Ilias owns.
+ * blocker: ARM9 0x02024150, unresolved Thumb code witness; the integrator owns.
  *   Verified EXACT in scratch b24150-r2.log:
  *   typedef struct {unsigned char pad[3];unsigned char flag:1;unsigned char rest:7;} Bits;
  *   int func_02024150(Bits *p){return p->flag;}

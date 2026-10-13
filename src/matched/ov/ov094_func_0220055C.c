@@ -17,7 +17,7 @@
  *   func_021F8710  0x021F8710  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  *
- * blocker: unlabelled arm9 Thumb leaf func_02016394 (Ilias's; no witness outside
+ * blocker: unlabelled arm9 Thumb leaf func_02016394 (the integrator's; no witness outside
  *   0220055C..022005C2). Every concrete byte matches (MATCH*, the extent's 2 extra bytes
  *   are the pad); only the final bl relocation stays wildcarded.
  *   Verified C (match.py one, --thumb, no --region, dsi/1.1p1 -O4,p), EXACT, 28 bytes:

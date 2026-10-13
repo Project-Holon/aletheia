@@ -1,5 +1,5 @@
 /*
- * function: func_027315A8
+ * function: PMi_ExecutePostExitCallbackList
  * address:  0x027315A8
  * packet:   pkt_027315A8
  * region:   twl
@@ -21,7 +21,7 @@ typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern void PMi_ExecuteList(PMiGenCallbackInfo *listp);
 
-void func_027315A8(void)
+void PMi_ExecutePostExitCallbackList(void)
 {
     PMi_ExecuteList(PMi_PostExitCallbackList);
 }

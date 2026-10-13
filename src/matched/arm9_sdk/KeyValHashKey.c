@@ -14,9 +14,8 @@
  */
 
 extern void func_020524C8(void *p);
-asm void KeyValHashKey(void)
+
+void KeyValHashKey(void **p)
 {
-    ldr r0, [r0]
-    ldr ip, =func_020524C8
-    bx ip
+    func_020524C8(*p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02704C5C
+ * function: CheckState
  * address:  0x02704C5C
  * packet:   twl
  * region:   twl
@@ -10,44 +10,61 @@
  * status:   EXACT
  *
  * symbols:
+ *   DAT_02734450  0x02734450  data twl
  *   func_02087988  0x02087988  arm twl
- *   DAT_02734450   0x02734450  data twl
  *   func_0208799C  0x0208799C  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
+typedef void (*Cb)(u32, void *);
+
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
+
+extern State DAT_02734450;
 extern u32 func_02087988(void);
-extern u32 DAT_02734450[];
 extern void func_0208799C(u32);
 
-asm void func_02704C5C(void) {
-    stmdb sp!, {r3, lr}
-    bl func_02087988
-    ldr r1, =DAT_02734450
-    ldr r1, [r1, #0xc]
-    cmp r1, #5
-    addls pc, pc, r1, lsl #2
-    b @lbl_02704CA8
-    b @lbl_02704C90
-    b @lbl_02704C90
-    b @lbl_02704CA8
-    b @lbl_02704C9C
-    b @lbl_02704C9C
-    b @lbl_02704C9C
-@lbl_02704C90:
-    bl func_0208799C
-    mov r0, #1
-    ldmfd sp!, {r3, pc}
-@lbl_02704C9C:
-    bl func_0208799C
-    mov r0, #3
-    ldmfd sp!, {r3, pc}
-@lbl_02704CA8:
-    ldr r1, =DAT_02734450
-    mov r2, #3
-    str r2, [r1, #0xc]
-    bl func_0208799C
-    mov r0, #0
-    ldmfd sp!, {r3, pc}
+u32 CheckState(void) {
+    u32 irq = func_02087988();
+    switch (DAT_02734450.state) {
+    case 0:
+    case 1:
+        func_0208799C(irq);
+        return 1;
+    case 3:
+    case 4:
+    case 5:
+        func_0208799C(irq);
+        return 3;
+    default:
+        DAT_02734450.state = 3;
+        func_0208799C(irq);
+        return 0;
+    }
 }

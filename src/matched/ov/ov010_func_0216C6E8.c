@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker: ARM9 0x02045CAC at +0080 has no outside witness. Ilias-owned
+ * blocker: ARM9 0x02045CAC at +0080 has no outside witness. integrator-owned
  * unit_02045C44.c omits func_02045CAC from function:. Singleton TU split
  * leaves this caller OUT. No overlay leaves filed.
  * blocker: C below copied from ov122_func_021D5004.c, previously verified

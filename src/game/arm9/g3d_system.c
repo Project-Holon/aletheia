@@ -99,7 +99,7 @@
  *   func_02078B70  0x02078B70  arm
  *   func_02048D54_File  0x020A7EE0  data
  *   FS_InitFile             0x020788AC  arm
- *   CRYPTOi__BN_lshift1     0x02078C18  arm
+ *   FS_OpenFile     0x02078C18  arm
  *   FS_CreateFileFromMemory 0x0207A940  arm
  *   FS_SeekFile             0x02078B44  arm
  *   FS_ReadFile             0x02078B70  arm
@@ -777,7 +777,7 @@ extern void func_0206B6A4(struct Obj0206B6A4 *p);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 extern void func_02078A80(void *p);
 extern void FS_InitFile(void *file);
-extern void CRYPTOi__BN_lshift1(struct ArcFile *arc, u32 value);
+extern void FS_OpenFile(struct ArcFile *arc, u32 value);
 extern void FS_CreateFileFromMemory(void *file, void *src, u32 size);
 extern void FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
 extern void FS_ReadFile(struct ArcHandle *arc, void *dst, u32 size);
@@ -847,7 +847,8 @@ u32 func_020470A8(void *p);
 int func_020470D0(u32 *p);
 int func_02047180(u32 *p);
 u32 func_02047204(struct Tagged *p);
-asm void DWCi_LSTlPopFront(void);
+struct DwcList { u32 f0; unsigned char *f4; };
+unsigned char *DWCi_LSTlPopFront(struct DwcList *list);
 int func_02047260(u32 a0, u32 *a1, u32 *a2);
 int func_020472F8(struct Layer_020472F8 *layer, u32 *out);
 int func_02047348(struct Layer_02047348 *layer);
@@ -944,7 +945,7 @@ u32 func_020490A8(u32 a, u32 b);
 void *sub_020490F4(u32 id, u16 heap);
 void *func_0204913C(void *a0, u32 a1, u16 heap);
 void func_0204919C(u8 *p);
-asm void func_02049238(void *arc);
+void func_02049238(void *arc);
 void *func_02049250(struct ArcHandle *arc, u32 member, u16 heap);
 void func_0204932C(struct ArcHandle *arc, u32 member, void *dst);
 u32 func_020493D4(struct ArcHandle *arc, u32 member);
@@ -952,7 +953,7 @@ void func_0204944C(struct ArcHandle *arc, u32 member, u32 offset, u32 size, void
 void func_020494F4(struct ArcHandle *arc, u32 member, u32 *out);
 u32 func_02049578(struct ArcHandle *arc, u32 member);
 void func_020495F4(struct ArcFile_020495F4 *arc, u32 size, void *dst);
-asm void NHTTPi_GetConnection(void);
+int NHTTPi_GetConnection(struct FSFile *file, long offset);
 u16 func_0204961C(void *obj);
 u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 u32 sub_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -2133,11 +2134,9 @@ u32 func_02047204(struct Tagged *p)
 
 
 
-asm void DWCi_LSTlPopFront(void)
+unsigned char *DWCi_LSTlPopFront(struct DwcList *list)
 {
-    ldr r0, [r0, #4]
-    ldr ip, =func_0206E964
-    bx ip
+    return func_0206E964(list->f4);
 }
 
 
@@ -4686,7 +4685,7 @@ void func_02048DDC(struct ArcFile *arc, u32 id)
 {
     FS_InitFile(arc);
     if (g_02146A68.unk08 == 0) {
-        CRYPTOi__BN_lshift1(arc, g_02146A68.unk00[id]);
+        FS_OpenFile(arc, g_02146A68.unk00[id]);
     } else {
         u32 *tbl = (u32 *)g_02146A68.unk00;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + id;
@@ -5032,14 +5031,10 @@ void func_0204919C(u8 *p)
 
 
 
-asm void func_02049238(void *arc)
+void func_02049238(void *arc)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_02078A80
-    mov	r0, r4
-    bl func_020307B0
-    ldmfd sp!, {r4, pc}
+    func_02078A80(arc);
+    func_020307B0(arc);
 }
 
 
@@ -5280,11 +5275,9 @@ void func_020495F4(struct ArcFile_020495F4 *arc, u32 size, void *dst)
 
 
 
-asm void NHTTPi_GetConnection(void)
+int NHTTPi_GetConnection(struct FSFile *file, long offset)
 {
-    ldr ip, =func_02078B44
-    mov r2, #0
-    bx ip
+    return func_02078B44(file, offset, 0);
 }
 
 

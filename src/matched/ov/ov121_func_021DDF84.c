@@ -11,7 +11,7 @@
  *   G2S_ChangeBlendAlpha (ARM ov121 021DDC44) lack code witnesses.
  *   sdk/TwlSDK/include/nitro/gx/g2.h static inline definitions match the
  *   ARM bodies (orr r0,r0,r1,lsl #8; strh to 04000052 / 04001052).
- *   Parent confirmed Ilias ownership despite their absence from SDK union.
+ *   Parent confirmed the integrator ownership despite their absence from SDK union.
  * extent: unlabelled boolean accessor func_021DE014 at 0x021DE014 follows.
  * symbols:
  *   func_021DC024 0x021DC024 thumb ov121

@@ -1,5 +1,5 @@
 /*
- * function: func_02700DB8
+ * function: CAMERA_I2CActivateCore
  * address:  0x02700DB8
  * packet:   twl_sys
  * region:   twl
@@ -12,22 +12,22 @@
  * symbols:
  *   data_02701FD8  0x02701FD8  arm twl a2
  *   data_02732FC8  0x02732FC8  data twl a2
- *   func_02700CEC  0x02700CEC  arm twl a2
- *   func_02702028  0x02702028  arm twl a2
+ *   CAMERA_I2CActivateAsyncCore  0x02700CEC  arm twl a2
+ *   CameraWaitBusy  0x02702028  arm twl a2
  */
 
 typedef unsigned int u32;
 
 extern u32 data_02701FD8;
 extern u32 data_02732FC8[];
-extern u32 func_02700CEC(u32, u32*, u32);
-extern void func_02702028(void);
+extern u32 CAMERA_I2CActivateAsyncCore(u32, u32*, u32);
+extern void CameraWaitBusy(void);
 
-u32 func_02700DB8(u32 a0) {
-    u32 ret = func_02700CEC(a0, &data_02701FD8, 0);
+u32 CAMERA_I2CActivateCore(u32 a0) {
+    u32 ret = CAMERA_I2CActivateAsyncCore(a0, &data_02701FD8, 0);
     data_02732FC8[2] = ret;
     if (ret == 0) {
-        func_02702028();
+        CameraWaitBusy();
     }
     return data_02732FC8[2];
 }

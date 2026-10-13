@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 02048AE8, 02048AFC, 02048B30, 02048B44 have no witness.
- *   Ilias owns these accessors. Existing unit_02048AD0.c defines them but
+ *   the integrator owns these accessors. Existing unit_02048AD0.c defines them but
  *   its function header lists only func_02048AD0, so no individual shard entries resolve them.
  * blocker: Verified separately with one --arm (no region), fixed compiler/flags:
  *   typedef unsigned char u8; typedef unsigned int u32;

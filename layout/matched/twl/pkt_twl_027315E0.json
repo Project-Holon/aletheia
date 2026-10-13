@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_027315E0",
+   "name": "PMi_CallPostExitCallbackAndReset",
    "address": "0x027315E0",
    "kind": "game",
    "region": "twl",
@@ -16,7 +16,13 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0272FD18",
+     "0x02731500"
+    ]
+   }
   }
  ]
 }

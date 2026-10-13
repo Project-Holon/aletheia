@@ -1,5 +1,5 @@
 /*
- * function: OS_SPrintf
+ * function: STD_TSScanf
  * address:  0x0208CF34
  * packet:   pkt_02087AE4
  * region:   arm9
@@ -16,7 +16,7 @@
  * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md);
  * disasm.py labels the SECOND push (the one that saves lr) instead, so
  * 0x0208CF38 was a mis-seeded label, not a function.  layout/symbols_sdk.txt
- * names 0x0208CF34 OS_SPrintf.
+ * names 0x0208CF34 STD_TSScanf.
  *
  * The callee 0x0208CFD8 is named STD_TVSScanf in layout/symbols_sdk.txt, but
  * the call shape here (dst, fmt, va_list) is a vsprintf, not a scanf; the SDK
@@ -33,7 +33,7 @@ typedef char *va_list;
 
 extern int STD_TVSScanf(char *dst, const char *fmt, va_list vlist);
 
-int OS_SPrintf(char *dst, const char *fmt, ...)
+int STD_TSScanf(char *dst, const char *fmt, ...)
 {
     int r;
     va_list vlist;

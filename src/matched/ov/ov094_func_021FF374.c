@@ -19,7 +19,7 @@
  *   func_02015EB0  0x02015EB0  thumb
  *   func_02015EC4  0x02015EC4  thumb
  *
- * Byte-correct; MATCH blocked on two unlabelled ARM9 Thumb leaves (Ilias's;
+ * Byte-correct; MATCH blocked on two unlabelled ARM9 Thumb leaves (the integrator's;
  * no witness outside the range): func_02015E94 and func_02015EC4. Verified C
  * (match.py one, no --region, --thumb, EXACT), both over
  *   typedef struct { char pad[0x140]; unsigned int lo : 11; unsigned int b : 1;

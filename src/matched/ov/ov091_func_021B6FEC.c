@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Blocker: func_02061C30 (arm9, unlabelled ARM tail-call stub, Ilias's leaf):
+ * Blocker: func_02061C30 (arm9, unlabelled ARM tail-call stub, the integrator's leaf):
  * `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C; .word 0x02146B80`,
  * no witness outside this range.  Leaf C tried (DIFF only, the two loads and
  * the two pool words come out swapped, 8 bytes):

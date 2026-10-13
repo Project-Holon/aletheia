@@ -16,6 +16,8 @@
  *   func_02198C08  0x02198C08  thumb
  *   func_02198C4C       0x02198C4C  thumb
  *   DWCca_ghttp_caList  0x021D4A44  data
+ *   DWCca_ghttp_caList_b 0x021D4A80  data
+ *   DWCca_ghttp_caList_c 0x021D4A9C  data
  *   func_0216D6BC  0x0216D6BC  thumb  ov010
  *   func_0216D674  0x0216D674  thumb  ov010
  *   func_0216D7CC  0x0216D7CC  thumb
@@ -527,6 +529,8 @@ u32 func_0219B478(u32 a);
 int func_0219B494(int a);
 int func_0219B4C8(int a);
 extern char DWCca_ghttp_caList[];
+extern char DWCca_ghttp_caList_b[];
+extern char DWCca_ghttp_caList_c[];
 extern int *d_021DDBD4[2];
 extern T40 d_021D4C1C;
 extern const Vec d_021D4B44;
@@ -1306,7 +1310,7 @@ u32 func_02198DC4(u32 a1)
 
 BOOL func_02198DD4(char *url)
 {
-    if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList) == 1)
+    if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList_b) == 1)
     {
         return 1;
     }
@@ -1495,7 +1499,7 @@ u32 func_02198E1C(u32 a1)
 
 BOOL func_02198E2C(char *url)
 {
-    if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList) == 1)
+    if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList_c) == 1)
     {
         return 1;
     }
@@ -4909,7 +4913,7 @@ return 0;
 
 
 /*
- * Former blocker (now filed in src/matched/arm9): func_020508EC (0x020508EC, arm9, unlabelled leaf, Ilias's).
+ * Former blocker (now filed in src/matched/arm9): func_020508EC (0x020508EC, arm9, unlabelled leaf, the integrator's).
  * Verified EXACT from a scratch file (region arm9, --arm, dsi/1.1p1 -O4,p):
  *
  *   u32 func_020508EC(u8 *p, int i, u16 *out)

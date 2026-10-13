@@ -13,13 +13,12 @@
  *   d_021A3730                   0x021A3730  data
 */
 
-extern unsigned char d_021A3730[];
+extern void *d_021A3730[4];
 
-asm void gsiMemoryCallbacksSet(void)
+void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long))
 {
-	ldr ip, =d_021A3730
-	stmia ip, {r0, r1, r2}
-	str r3, [ip, #0xc]
-	bx lr
+    d_021A3730[0] = p_malloc;
+    d_021A3730[1] = p_free;
+    d_021A3730[2] = p_realloc;
+    d_021A3730[3] = p_memalign;
 }
-

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_LSTlPopFront",
+   "name": "SOCLi_ConsumeCallBack",
    "address": "0x0215DD78",
    "kind": "sdk",
    "region": "ov009",

@@ -15,7 +15,7 @@
  *   021B8370 cmp r0,#1, whereas callee 021B8AF2 calls ARM9 0203D3F8 and returns r0 unchanged.
  *   Exact own definitions must be fixed by owner; do not revive historic divergent prototypes below.
  *   021B7818 fallback two-argument pointer return is corroborated by 8282/8284/8288; no own definition found.
- * Next: resolve owner definition witnesses before renewed caller matching; Ilias leaves excluded.
+ * Next: resolve owner definition witnesses before renewed caller matching; the integrator leaves excluded.
  * note 2026-10-02: logic complete; 8 instructions differ in the q+0x64 init block only. The original
  *   materialises the 0 for the 0x74/0x7c stores in r3 right after the func_021BDFDC call and builds the
  *   copy dst (q+0x80) later in r3; this C builds dst early and the 0 late. Inert: store order, chained

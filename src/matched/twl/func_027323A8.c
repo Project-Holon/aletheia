@@ -1,5 +1,5 @@
 /*
- * function: func_027323A8
+ * function: WcmNwmcbScanEx
  * address:  0x027323A8
  * packet:   twl_sys
  * region:   twl
@@ -20,8 +20,8 @@
  *   func_020862D4  0x020862D4  arm  twl
  *   func_02080D24  0x02080D24  arm
  *   _u32_div_f  0x0209C2B0  arm
- *   func_02703088  0x02703088  arm  twl
- *   func_02731F14  0x02731F14  arm  twl
+ *   NWM_StartScanEx  0x02703088  arm  twl
+ *   WcmNwmReset  0x02731F14  arm  twl
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -68,11 +68,11 @@ extern u16 func_02165918(u16 a);
 extern void func_020862B8(u32 buf, u32 len);
 extern void func_020862D4(u32 buf, u32 len);
 extern u32 func_02080D24(u32 x);
-extern int func_02703088(void *cb, void *buf);
-extern void func_02731F14(void);
-void func_027323A8(SendPkt *p);
+extern int NWM_StartScanEx(void *cb, void *buf);
+extern void WcmNwmReset(void);
+void WcmNwmcbScanEx(SendPkt *p);
 
-void func_027323A8(SendPkt *p)
+void WcmNwmcbScanEx(SendPkt *p)
 {
     int status = 13;
     NetWork *w = func_021657C8();
@@ -103,7 +103,7 @@ void func_027323A8(SendPkt *p)
             w->sendMask = (1 << func_02165918(32 - clz32(p->len))) >> 1;
             func_020862D4(w->sendBuf, w->sendLen);
             w->sendCount++;
-            status = func_02703088(func_027323A8, &w->sendBuf);
+            status = NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf);
             break;
         case 7:
             status = 2;
@@ -111,7 +111,7 @@ void func_027323A8(SendPkt *p)
             func_021659B4(0, 0, 0, 983);
             break;
         case 13:
-            func_02731F14();
+            WcmNwmReset();
             return;
         }
         switch (status) {
@@ -128,7 +128,7 @@ void func_027323A8(SendPkt *p)
             return;
         }
     case 1:
-        func_02731F14();
+        WcmNwmReset();
         return;
     case 2:
     case 3:

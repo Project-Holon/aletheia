@@ -40,14 +40,14 @@ void func_02089330(int playerNo);
 void func_02089350(int playerNo, const void *base, u32 offset, struct SNDBankData *bank);
 void func_02089378(u32 a);
 void func_02089398(int playerNo, int flag);
-asm void SND_SetPlayerTempoRatio(void);
-asm void SND_SetPlayerVolume(void);
-asm void SND_SetPlayerChannelPriority(void);
-asm void SND_SetTrackVolume(void);
-asm void SND_SetTrackPitch(void);
-asm void SND_SetTrackPan(void);
-asm void SND_SetTrackModDepth(void);
-asm void SND_SetTrackModSpeed(void);
+void SND_SetPlayerTempoRatio(int playerNo, int ratio);
+void SND_SetPlayerVolume(int playerNo, int volume);
+void SND_SetPlayerChannelPriority(int playerNo, int prio);
+void SND_SetTrackVolume(int playerNo, u32 trackBitMask, int volume);
+void SND_SetTrackPitch(int playerNo, u32 trackBitMask, int pitch);
+void SND_SetTrackPan(int playerNo, u32 trackBitMask, int pan);
+void SND_SetTrackModDepth(int playerNo, u32 trackBitMask, u32 depth);
+void SND_SetTrackModSpeed(int playerNo, u32 trackBitMask, u32 speed);
 void func_0208948C(int playerNo, u32 trackBitMask, u32 chBitMask);
 void func_020894B4(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
 void func_020894DC(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
@@ -112,100 +112,58 @@ void func_02089398(int playerNo, int flag)
 
 
 
-asm void SND_SetPlayerTempoRatio(void)
+void SND_SetPlayerTempoRatio(int playerNo, int ratio)
 {
-    ldr ip, =func_020897B4
-    mov	r2, r1
-    mov	r1, #0x1a
-    mov	r3, #2
-    bx	ip
+    func_020897B4(playerNo, 0x1a, (u32)ratio, 2);
 }
 
 
 
-asm void SND_SetPlayerVolume(void)
+void SND_SetPlayerVolume(int playerNo, int volume)
 {
-    ldr ip, =func_020897B4
-    mov	r2, r1
-    mov	r1, #6
-    mov	r3, #2
-    bx	ip
+    func_020897B4(playerNo, 0x6, (u32)volume, 2);
 }
 
 
 
-asm void SND_SetPlayerChannelPriority(void)
+void SND_SetPlayerChannelPriority(int playerNo, int prio)
 {
-    ldr ip, =func_020897B4
-    mov	r2, r1
-    mov	r1, #4
-    mov	r3, #1
-    bx	ip
+    func_020897B4(playerNo, 0x4, (u32)prio, 1);
 }
 
 
 
-asm void SND_SetTrackVolume(void)
+void SND_SetTrackVolume(int playerNo, u32 trackBitMask, int volume)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #2
-    mov	r2, #0xa
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0xa, (u32)volume, 2);
 }
 
 
 
-asm void SND_SetTrackPitch(void)
+void SND_SetTrackPitch(int playerNo, u32 trackBitMask, int pitch)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #2
-    mov	r2, #0xc
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0xc, (u32)pitch, 2);
 }
 
 
 
-asm void SND_SetTrackPan(void)
+void SND_SetTrackPan(int playerNo, u32 trackBitMask, int pan)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #1
-    mov	r2, #9
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0x9, (u32)pan, 1);
 }
 
 
 
-asm void SND_SetTrackModDepth(void)
+void SND_SetTrackModDepth(int playerNo, u32 trackBitMask, u32 depth)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #1
-    mov	r2, #0x1a
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0x1a, (u32)depth, 1);
 }
 
 
 
-asm void SND_SetTrackModSpeed(void)
+void SND_SetTrackModSpeed(int playerNo, u32 trackBitMask, u32 speed)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #1
-    mov	r2, #0x19
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0x19, (u32)speed, 1);
 }
 
 

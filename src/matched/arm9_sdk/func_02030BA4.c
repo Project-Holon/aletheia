@@ -14,16 +14,13 @@
  *   func_02088234 0x02088234 arm
  */
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 extern signed int func_02030534(u32 size);
 extern void func_02088234(void);
 
-asm void func_02030BA4(void)
+void func_02030BA4(u32 size)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02030534
-    cmp	r0, #0
-    ldmnefd sp!, {r3, pc}
-    bl func_02088234
-    ldmfd sp!, {r3, pc}
+    if (func_02030534(size) == 0) {
+        func_02088234();
+    }
 }

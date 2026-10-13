@@ -3,7 +3,7 @@
  * address:  0x02067AA0
  * packet:   pkt_02067AA0
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: ../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm

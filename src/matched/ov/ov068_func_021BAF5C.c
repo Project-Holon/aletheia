@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Byte-correct; blocked by two unwitnessed arm9 leaves (Ilias's):
+ * Byte-correct; blocked by two unwitnessed arm9 leaves (the integrator's):
  *   func_020083AC (bitfield read, verified EXACT: typedef struct { unsigned short a:7; unsigned short b:1; } S;
  *                  unsigned func_020083AC(S *p){ return p->b; })
  *   func_020083C8 (same with a:6, b:1; disasm ldrh; lsls #0x19; lsrs #0x1f)

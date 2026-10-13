@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Former blocker (now filed in src/matched/arm9): the only unresolved site is the call to func_020508D8
- * (0x020508D8, arm, arm9), an unlabelled arm9 leaf with no witness (Ilias's).
+ * (0x020508D8, arm, arm9), an unlabelled arm9 leaf with no witness (the integrator's).
  * Verified C for the leaf (EXACT, dsi/1.1p1 -O4,p --arm --region arm9):
  *     u32 func_020508D8(u8 *o, u32 i)
  *     {

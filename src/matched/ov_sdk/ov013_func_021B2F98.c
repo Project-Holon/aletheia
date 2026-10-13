@@ -10,14 +10,21 @@
  * status:   EXACT
  *
  * symbols:
+ *   d_021B4C24 0x021B4C24 data
 */
 
-asm void DWCi_InitReliableQueue(void)
+typedef struct E E;
+
+typedef struct {
+    E *cur;
+    E *buf;
+} G;
+
+extern G d_021B4C24;
+
+void DWCi_InitReliableQueue(void)
 {
-	ldr r0, =0x021B4C24
-	mov r1, #0
-	str r1, [r0]
-	str r1, [r0, #4]
-	bx lr
+    d_021B4C24.cur = 0;
+    d_021B4C24.buf = 0;
 }
 

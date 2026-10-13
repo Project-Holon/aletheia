@@ -278,8 +278,7 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x021D313C",
-     "0x021D39C0"
+     "0x021D313C"
     ]
    }
   },

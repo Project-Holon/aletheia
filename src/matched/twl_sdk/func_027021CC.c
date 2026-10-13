@@ -1,5 +1,5 @@
 /*
- * function: func_027021CC
+ * function: CAMERA_GetErrorStatusCore
  * address:  0x027021CC
  * packet:   twl_wifi
  * region:   twl
@@ -18,7 +18,7 @@ typedef signed int s32;
 
 extern u16 data_04004202;
 
-s32 func_027021CC(void)
+s32 CAMERA_GetErrorStatusCore(void)
 {
     return (data_04004202 & 0x10) >> 4;
 }

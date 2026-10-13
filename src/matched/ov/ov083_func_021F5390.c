@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Byte-correct. Only blocker: func_02010F7C (arm9, thumb, unlabelled tail-call
- * stub, 0x02010F7C..0x02010F8C; Ilias's leaf). Its verified body (EXACT with
+ * stub, 0x02010F7C..0x02010F8C; the integrator's leaf). Its verified body (EXACT with
  * symbols: func_02048F60  0x02048F60  arm):
  *     extern int func_02048F60(int a, int b, int c);
  *     int func_02010F7C(int a) { return func_02048F60(0x26, 0, a); }

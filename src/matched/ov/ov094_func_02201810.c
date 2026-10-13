@@ -14,7 +14,7 @@
  *   func_02015EF4  0x02015EF4  thumb
  *   func_02015EFC  0x02015EFC  thumb
  *
- * blocker (cleared 2026-10-01, arm9 leaf filed): two unlabelled arm9 Thumb leaves (Ilias's; no witness outside this range).
+ * blocker (cleared 2026-10-01, arm9 leaf filed): two unlabelled arm9 Thumb leaves (the integrator's; no witness outside this range).
  *   Every concrete byte matches; only the two bl relocation sites stay wildcarded.
  *   Verified C (match.py one --arm9 no --region, --thumb, dsi/1.1p1 -O4,p), both EXACT:
  *

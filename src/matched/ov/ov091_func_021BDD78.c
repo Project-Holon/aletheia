@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * residual: MATCH 1340/1340,81/82 resolved; zero concrete byte differences.
- * blocker: ARM9 02020F34 lacks an outside witness; Ilias owns it. No leaf attempted.
+ * blocker: ARM9 02020F34 lacks an outside witness; the integrator owns it. No leaf attempted.
  * renewed: wave75 R30 direct s2/s4 declaration swap fixes all 20 bytes; one and TU agree.
  * checks: 1 own ARM9 getter interfaces and BE9BC re-read; 2 no additional twin; 3 direct spill-slot declaration correction; 4 spill-order idiom; 5 fresh neighbours. TU suggest-split has no cut for 02020F34. Prior permuter remains spent.
  * permuter: temp(tmp=v > 0) only in final stat block; decl-order(s5<->s1); no type/signature change, all reads assigned before use.

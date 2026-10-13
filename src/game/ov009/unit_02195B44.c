@@ -56,12 +56,12 @@ extern int gti2SendFilterCallback(void *connection, int filterID,
     unsigned char *message, int len, int reliable);
 extern int gti2Send(void *connection, unsigned char *message, int len, int reliable);
 extern void func_02195980(int a, int b);
-extern void DWC_IsSendableReliable(void);
+extern void DWC_IsSendableReliable(void *p);
 extern void func_0218489C(int a, char *p, int c);
 int func_02195B44(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 int gt2Send(void *connection, unsigned char *message, int len, int reliable);
 void func_02195DC4(int a);
-asm void KeyValHashKey(void);
+static void gti2CloseAllConnectionsHardMap(void **elem);
 void func_02195DE4(int *p);
 int func_02195E00(const int *p);
 
@@ -147,22 +147,20 @@ void func_02195DC4(int a)
     func_02195980(a, 1);
 }
 
-asm void KeyValHashKey(void)
+static void gti2CloseAllConnectionsHardMap(void **elem)
 {
-	ldr r0, [r0]
-	ldr ip, =DWC_IsSendableReliable
-	bx ip
+    DWC_IsSendableReliable(*elem);
 }
 
 
 /*
  * Tail call on the word at +0xc of the object.  The pool word at +0x14 is the
- * address of the ARM function KeyValHashKey (0x02195DD4, EXACT in
+ * address of the ARM function gti2CloseAllConnectionsHardMap (0x02195DD4, EXACT in
  * ov009_func_02195DD4.c), not data: seeded as a function 2026-09-28.
  */
 void func_02195DE4(int *p)
 {
-    func_0218489C(p[3], (char *)KeyValHashKey, 0);
+    func_0218489C(p[3], (char *)gti2CloseAllConnectionsHardMap, 0);
 }
 
 /*

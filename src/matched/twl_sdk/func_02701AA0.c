@@ -1,5 +1,5 @@
 /*
- * function: func_02701AA0
+ * function: CameraPxiCallback
  * address:  0x02701AA0
  * packet:   twl_sys
  * region:   twl
@@ -14,8 +14,8 @@
  *   data_02733FC8  0x02733FC8  data twl a2
  *   func_02087988  0x02087988  arm twl a2
  *   func_0208799C  0x0208799C  arm twl a2
- *   func_02701FE8  0x02701FE8  arm twl a2
- *   func_027001F0  0x027001F0  arm twl a2
+ *   CameraCallCallbackAndUnlock  0x02701FE8  arm twl a2
+ *   CAMERA_GoReboot  0x027001F0  arm twl a2
  */
 
 typedef unsigned int u32;
@@ -55,18 +55,18 @@ typedef struct CamPxiState {
 
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern void func_02701FE8(u32);
-extern void func_027001F0(void);
+extern void CameraCallCallbackAndUnlock(u32);
+extern void CAMERA_GoReboot(void);
 extern CamPxiCmd data_02732FC8;
 extern CamPxiState data_02733FC8;
 
-void func_02701AA0(int tag, u32 data, int err)
+void CameraPxiCallback(int tag, u32 data, int err)
 {
     u32 result;
     u8 *buf;
 
     if (err) {
-        func_02701FE8(7);
+        CameraCallCallbackAndUnlock(7);
         return;
     }
     if (data & 0x2000000) {
@@ -77,7 +77,7 @@ void func_02701AA0(int tag, u32 data, int err)
     } else {
         buf = data_02732FC8.buf;
         if (buf == 0) {
-            func_02701FE8(7);
+            CameraCallCallbackAndUnlock(7);
             return;
         }
         if (data_02732FC8.index < data_02732FC8.len) {
@@ -251,9 +251,9 @@ void func_02701AA0(int tag, u32 data, int err)
         result = 7;
         break;
     }
-    func_02701FE8(result);
+    CameraCallCallbackAndUnlock(result);
     if (result == 6) {
-        func_027001F0();
+        CAMERA_GoReboot();
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02701FE8
+ * function: CameraCallCallbackAndUnlock
  * address:  0x02701FE8
  * packet:   twl_sys
  * region:   twl
@@ -14,23 +14,37 @@
  */
 
 typedef unsigned int u32;
+typedef signed int s32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef void (*CamPxiCallback)(u32 result, u32 arg);
+typedef struct CamPxiCmd {
+    u32 busy;
+    CamPxiCallback callback;
+    u32 f08;
+    u32 arg;
+    s32 command;
+    s32 type;
+    u8 index;
+    u8 total;
+    u8 pad[2];
+    u8 *buf;
+    u32 len;
+    u32 pend0;
+    u32 pend1;
+    u32 pend2;
+} CamPxiCmd;
+extern CamPxiCmd data_02732FC8;
 
-extern u32 data_02732FC8[];
-
-asm void func_02701FE8(void) {
-    stmdb sp!, {r3, lr}
-    ldr r1, =data_02732FC8
-    ldr r2, [r1]
-    cmp r2, #0
-    movne r2, #0
-    strne r2, [r1]
-    ldr r1, =data_02732FC8
-    ldr r3, [r1, #4]
-    cmp r3, #0
-    ldmeqfd sp!, {r3, pc}
-    mov r2, #0
-    str r2, [r1, #4]
-    ldr r1, [r1, #0xC]
-    blx r3
-    ldmfd sp!, {r3, pc}
+void CameraCallCallbackAndUnlock(u32 result) {
+    CamPxiCallback cb;
+    if (data_02732FC8.busy != 0) {
+        data_02732FC8.busy = 0;
+    }
+    cb = data_02732FC8.callback;
+    if (cb == 0) {
+        return;
+    }
+    data_02732FC8.callback = 0;
+    cb(result, data_02732FC8.arg);
 }

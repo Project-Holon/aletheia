@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: 0x020071D8 ARM9 leaf has no outside witness; verified EXACT
- *   in scratch blocker071d8-r1.log, 12 bytes. Ilias owns filing it.
+ *   in scratch blocker071d8-r1.log, 12 bytes. the integrator owns filing it.
  *   extern unsigned func_02031994(void *, unsigned *);
  *   symbols: func_02031994 0x02031994 arm
  *   unsigned func_020071D8(char *p, unsigned *out) {

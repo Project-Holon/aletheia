@@ -1,5 +1,5 @@
 /*
- * function: GX_DisableBankForSubBGExtPltt
+ * function: GX_ResetBankForSubBGExtPltt
  * address:  0x020809C8
  * packet:   pkt_020809C8
  * region:   arm9
@@ -15,16 +15,13 @@
  */
 
 typedef unsigned short u16;
+typedef volatile unsigned long vu32;
+#define reg_GX_DISPCNT     (*(vu32 *)0x04000000)
+#define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
 extern int func_020808BC(u16 *g3bit);
-extern void g_02150E62(void);
 
-asm void GX_DisableBankForSubBGExtPltt(void)
+void GX_ResetBankForSubBGExtPltt(void)
 {
-    ldr r2, =0x04001000
-    ldr r0, =g_02150E62
-    ldr	r1, [r2]
-    ldr ip, =func_020808BC
-    bic	r1, r1, #0x40000000
-    str	r1, [r2]
-    bx	ip
+    reg_GXS_DB_DISPCNT &= ~0x40000000;
+    func_020808BC((u16 *)((int)0x2150E62));
 }

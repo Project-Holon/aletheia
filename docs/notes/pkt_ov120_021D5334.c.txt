@@ -14,7 +14,7 @@
  * reread; 5 plain idiom directory and matched 7AF4 neighbour refreshed.
  * residual: Wave 77 fresh best DIFF1060/38,85/85 relocations resolved;
  * touch-switch offset/register lifetime remains. The old 6E70 leaf is exact.
- * blocker: Ilias SDK matched definitions func_02035C08(const void *) and
+ * blocker: the integrator SDK matched definitions func_02035C08(const void *) and
  * func_02035BA4(const void *) both return void in src/matched/arm9_sdk/.
  * Original caller +0284 BLX35C08 then +0288 adds r6,r0,#0 uses its result
  * for switch dispatch; +0344 BLX35BA4 then +0348 cmp r0,#0 uses its result.

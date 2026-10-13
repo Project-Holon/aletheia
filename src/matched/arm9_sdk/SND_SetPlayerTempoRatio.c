@@ -16,11 +16,7 @@
 typedef unsigned int   u32;
 extern void func_020897B4(int playerNo, u32 offset, u32 data, int size);
 
-asm void SND_SetPlayerTempoRatio(void)
+void SND_SetPlayerTempoRatio(int playerNo, int ratio)
 {
-    ldr ip, =func_020897B4
-    mov	r2, r1
-    mov	r1, #0x1a
-    mov	r3, #2
-    bx	ip
+    func_020897B4(playerNo, 0x1a, (u32)ratio, 2);
 }

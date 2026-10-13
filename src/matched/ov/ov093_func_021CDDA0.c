@@ -8,11 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ov094 0x021F8524 unlabelled Thumb tail wrapper, owner Ilias;
+ * blocker: ov094 0x021F8524 unlabelled Thumb tail wrapper, owner the integrator;
  * unresolved THM_CALL at +0x14. Region hint ov094 does not supply a witness.
  * symbols:
  *   func_021F8524 0x021F8524 thumb ov094
-  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F8524 is an ov094 Thumb wrapper (pool-based tail), other overlay, not filed here (ov094 owner Ilias). Integrator: seed label.
+  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F8524 is an ov094 Thumb wrapper (pool-based tail), other overlay, not filed here (ov094 owner the integrator). Integrator: seed label.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

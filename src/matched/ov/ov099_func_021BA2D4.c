@@ -11,7 +11,7 @@
  *
  * Parked at MATCH: every byte is right, the single wildcard is the
  * blx to the unlabelled arm9 leaf 0x0203F5FC (no witness outside the range;
- * an arm9 leaf is Ilias's).  All ov127 leaves it needs are filed and EXACT.
+ * an arm9 leaf is the integrator's).  All ov127 leaves it needs are filed and EXACT.
  *
  * blocker: arm9 leaf func_0203F5FC 0x0203F5FC (arm, 64 bytes), verified EXACT
  * with `one --arm` (no --region), C:

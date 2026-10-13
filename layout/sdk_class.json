@@ -8,10 +8,10 @@
  "regions": {
   "arm9": {
    "02004DF4": {
-    "name": "MIi_UncompressBLZ",
+    "name": "MIi_UncompressBackward",
     "size": 180,
-    "lib": "libmi.TWL.HYB.a",
-    "member": "mi_secureuncompr",
+    "lib": "crt0.HYB.TWL.o",
+    "member": "crt0.HYB.TWL.o",
     "method": "verified"
    },
    "0201C408": {
@@ -8410,10 +8410,10 @@
     "method": "verified"
    },
    "02702A78": {
-    "name": "WMi_DeleteSleepCallback",
+    "name": "NWMi_DeleteSleepCallback",
     "size": 20,
-    "lib": "libwm.TWL.HYB.a",
-    "member": "wm_system.o",
+    "lib": "libnwm.TWL.HYB.a",
+    "member": "nwm_system.o",
     "method": "verified"
    },
    "02702A98": {
@@ -8440,6 +8440,13 @@
    "02702CA0": {
     "name": "NWMi_ForceUnloadDevice",
     "size": 200,
+    "lib": "libnwm.TWL.HYB.a",
+    "member": "nwm_unloaddev.o",
+    "method": "verified"
+   },
+   "02702D68": {
+    "name": "NWMi_ForceUnloadDeviceCallback",
+    "size": 20,
     "lib": "libnwm.TWL.HYB.a",
     "member": "nwm_unloaddev.o",
     "method": "verified"
@@ -8676,10 +8683,10 @@
     "method": "verified"
    },
    "02704318": {
-    "name": "FS_IsAvailable",
+    "name": "FATFSi_IsInitialized",
     "size": 16,
-    "lib": "libfs.TWL.HYB.a",
-    "member": "fs_api.o",
+    "lib": "libfatfs.TWL.HYB.a",
+    "member": "fatfs_api.o",
     "method": "verified"
    },
    "02704328": {
@@ -8879,10 +8886,10 @@
     "method": "verified"
    },
    "02705284": {
-    "name": "OS_IsTickAvailable",
+    "name": "DSP_GetSemaphoreCore",
     "size": 16,
-    "lib": "libos.TWL.HYB.a",
-    "member": "os_tick.o",
+    "lib": "libdsp.TWL.HYB.a",
+    "member": "dsp_if.o",
     "method": "verified"
    },
    "02705294": {
@@ -9016,13 +9023,6 @@
     "size": 20,
     "lib": "libdsp.TWL.HYB.a",
     "member": "dsp_util.o",
-    "method": "verified"
-   },
-   "02705F9C": {
-    "name": "NHTTPi_InitMutexInfo",
-    "size": 12,
-    "lib": "libnhttp.TWL.HYB.a",
-    "member": "d_nhttp_common.o",
     "method": "verified"
    },
    "02705FAC": {
@@ -9340,53 +9340,109 @@
     "member": "aes_cache.o",
     "method": "verified"
    },
+   "0272FD40": {
+    "name": "MIi_Wait",
+    "size": 28,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_ndma.o",
+    "method": "verified"
+   },
+   "0272FFC8": {
+    "name": "MIi_FIFOCallback",
+    "size": 200,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_ndma_gxcomman",
+    "method": "verified"
+   },
    "02730090": {
-    "name": "MIi_DMACallback",
+    "name": "MIi_NDMACallback",
     "size": 96,
     "lib": "libmi.TWL.HYB.a",
-    "member": "mi_dma_gxcommand",
+    "member": "mi_ndma_gxcomman",
     "method": "verified"
    },
    "027301B4": {
-    "name": "MIi_DMAFastCallback",
+    "name": "MIi_NDMAFastCallback",
     "size": 44,
     "lib": "libmi.TWL.HYB.a",
-    "member": "mi_dma_gxcommand",
+    "member": "mi_ndma_gxcomman",
     "method": "verified"
    },
    "02730388": {
-    "name": "OS_SetProtectionRegionParam",
+    "name": "MI_GetWramBankMaster",
     "size": 28,
-    "lib": "libos.TWL.HYB.a",
-    "member": "os_protectionreg",
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_sharedwram.o",
     "method": "verified"
    },
    "02730414": {
-    "name": "OS_GetProtectionRegionParam",
+    "name": "MI_GetWramMapStart",
     "size": 24,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_sharedwram.o",
+    "method": "verified"
+   },
+   "02730440": {
+    "name": "MIi_GetAddress_B",
+    "size": 20,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_sharedwram.o",
+    "method": "verified"
+   },
+   "02730454": {
+    "name": "MIi_GetAddress_C",
+    "size": 20,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_sharedwram.o",
+    "method": "verified"
+   },
+   "0273131C": {
+    "name": "OSi_SearchTitleIdFromList",
+    "size": 144,
     "lib": "libos.TWL.HYB.a",
-    "member": "os_protectionreg",
+    "member": "os_application_j",
     "method": "verified"
    },
    "027314F0": {
-    "name": "DWC_EnableHotspot",
+    "name": "PM_ReadyToExit",
     "size": 16,
-    "lib": "libdwcac.TWL.HYB.a",
-    "member": "dwc_connectinet.",
+    "lib": "libspi.TWL.HYB.a",
+    "member": "pm.o",
+    "method": "verified"
+   },
+   "0273154C": {
+    "name": "PM_AppendPreExitCallback",
+    "size": 32,
+    "lib": "libspi.TWL.HYB.a",
+    "member": "pm.o",
+    "method": "verified"
+   },
+   "0273156C": {
+    "name": "PMi_InsertPostExitCallbackEx",
+    "size": 36,
+    "lib": "libspi.TWL.HYB.a",
+    "member": "pm.o",
     "method": "verified"
    },
    "02731590": {
-    "name": "wsRacingSetServiceURL",
+    "name": "PM_DeletePostExitCallback",
     "size": 24,
-    "lib": "libdwcgswebservices.TWL.HYB.a",
-    "member": "racingservice.o",
+    "lib": "libspi.TWL.HYB.a",
+    "member": "pm.o",
     "method": "verified"
    },
    "027315D0": {
-    "name": "CPS_GetSslHandshakePriority",
+    "name": "PM_GetAutoExit",
     "size": 16,
-    "lib": "libssl.TWL.HYB.a",
-    "member": "ssl.o",
+    "lib": "libspi.TWL.HYB.a",
+    "member": "pm.o",
+    "method": "verified"
+   },
+   "02732B70": {
+    "name": "WcmEditScanExParam",
+    "size": 316,
+    "lib": "libwcm.TWL.HYB.a",
+    "member": "nwmif.o",
     "method": "verified"
    }
   },
@@ -24952,10 +25008,10 @@
     "method": "verified"
    },
    "0217A014": {
-    "name": "DSPi_IsSoundPlayingCore",
+    "name": "IRC_IsSender",
     "size": 16,
-    "lib": "libdsp.TWL.HYB.a",
-    "member": "dsp_util.o",
+    "lib": "libirc.a",
+    "member": "irc.o",
     "method": "verified"
    }
   },
@@ -29161,13 +29217,6 @@
    }
   },
   "ov021": {
-   "021A8E14": {
-    "name": "EL_GetLibSize",
-    "size": 12,
-    "lib": "libel.TWL.HYB.thumb.a",
-    "member": "elf_loader.o",
-    "method": "verified"
-   },
    "021C6E48": {
     "name": "DWCi_IsShutdownMatch",
     "size": 18,

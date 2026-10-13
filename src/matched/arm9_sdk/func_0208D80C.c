@@ -1,5 +1,5 @@
 /*
- * function: OS_SNPrintf
+ * function: STD_TSNPrintf
  * address:  0x0208D80C
  * packet:   pkt_02087AE4
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * TwlSDK libos os_printf.o.  The worklist seeded this at 0x0208D810, four
  * bytes in; the real entry is the `push {r0,r1,r2,r3}` argument-home store at
- * 0x0208D80C, which layout/symbols_sdk.txt names OS_SNPrintf.
+ * 0x0208D80C, which layout/symbols_sdk.txt names STD_TSNPrintf.
  *
  * The bounded form: n comes straight from the caller, so unlike STD_TSPrintf
  * there is no INT_MAX to materialise and the body is one instruction shorter.
@@ -26,7 +26,7 @@ typedef char *va_list;
 
 extern int STD_TVSNPrintf(char *dst, int n, const char *fmt, va_list vlist);
 
-int OS_SNPrintf(char *dst, int n, const char *fmt, ...)
+int STD_TSNPrintf(char *dst, int n, const char *fmt, ...)
 {
     int r;
     va_list vlist;

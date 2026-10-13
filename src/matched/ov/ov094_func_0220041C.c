@@ -18,7 +18,7 @@
  *   func_022019F4  0x022019F4  thumb  ov094
  *
  * MATCH: bytes identical (one prints MATCH*); blocked on 0x020160CC, an
- * unfiled unlabelled ARM9 Thumb leaf (Ilias's) with no witness outside this
+ * unfiled unlabelled ARM9 Thumb leaf (the integrator's) with no witness outside this
  * range. Verified C for it (EXACT, `one --thumb`, no --region, cc 1.1p1,
  * -O4,p; packet pkt_020160CC, 64 B extent):
  *

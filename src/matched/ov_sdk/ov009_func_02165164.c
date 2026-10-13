@@ -16,7 +16,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02166A24  0x02166A24  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02731AF0  0x02731AF0  arm  twl
+ *   WCMi_NwmifBeginSearchAsync  0x02731AF0  arm  twl
  *   g_021AA7D4  0x021AA7D4  data ov009
  *
  * Starts an AP search on the active device (WM or NWM), returning a WCM result code.
@@ -36,7 +36,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern long func_02166A24(void *bssid, void *essid, unsigned long option);
 extern int OS_IsRunOnTwl(void);
-extern long func_02731AF0(void *bssid, void *essid, unsigned long option);
+extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 
 long func_02165164(void *bssid, void *essid, unsigned long option)
 {
@@ -54,7 +54,7 @@ long func_02165164(void *bssid, void *essid, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731AF0(bssid, essid, option);
+            wcmResult = WCMi_NwmifBeginSearchAsync(bssid, essid, option);
             break;
         }
     default:

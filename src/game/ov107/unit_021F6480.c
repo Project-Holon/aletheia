@@ -24,7 +24,6 @@
  *   func_02085868 0x02085868 arm
  *   g_021F7004 0x021F7004 data
  *   ctrdgi_task_work 0x021f7004 data
- *   MBi_IsTaskAvailable              0x021f6610 arm
  *   OS_GetThreadPriority             0x02085a30 arm
  *   OS_DisableInterrupts             0x02087988 arm
  *   OS_WakeupThreadDirect            0x02085868 arm
@@ -83,14 +82,13 @@ extern void func_021F662C(void *pt);
 extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void func_02085868(void *thread);
 extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern int MBi_IsTaskAvailable(void);
 extern u32 OS_GetThreadPriority(void *thread);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_WakeupThreadDirect(void *thread);
 extern u32 OS_RestoreInterrupts(u32 state);
 void func_021F6480(void *arg);
 void func_021F6590(void *p_work, unsigned long size);
-int CTRDGi_IsTaskAvailable(void);
+int MBi_IsTaskAvailable(void);
 void MBi_InitTaskInfo(void *pt);
 int MBi_IsTaskBusy(MBiTaskInfo *pt);
 void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(struct MBiTaskInfo_tag *), void (*callback)(struct MBiTaskInfo_tag *), u32 priority);
@@ -177,7 +175,7 @@ void func_021F6590(void *p_work, unsigned long size)
 }
 
 
-int CTRDGi_IsTaskAvailable(void)
+int MBi_IsTaskAvailable(void)
 {
     return ctrdgi_task_work != 0;
 }

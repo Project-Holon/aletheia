@@ -13,7 +13,7 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * Blocker: two unlabelled arm9 Thumb leaves (relocation wildcards, no witness):
- *   func_02015E28 (0x02015E28) and func_02015E70 (0x02015E70).  Both are Ilias's;
+ *   func_02015E28 (0x02015E28) and func_02015E70 (0x02015E70).  Both are the integrator's;
  *   verified C (one --thumb, no --region, EXACT each):
  *     struct R { unsigned int : 9; unsigned int f : 2; };
  *     void func_02015E28(void *p) { ((struct R *)((char *)p + 0x140))->f |= 2; }

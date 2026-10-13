@@ -20,6 +20,7 @@ typedef signed int     s32;
 typedef unsigned short u16;
 extern s32 func_02084D78(u16 lockID);
 
+/* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void func_02084D98(int a)
 {
     ldr r1, =func_02084D78

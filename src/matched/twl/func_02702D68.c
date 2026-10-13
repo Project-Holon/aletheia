@@ -1,5 +1,5 @@
 /*
- * function: func_02702D68
+ * function: NWMi_ForceUnloadDeviceCallback
  * address: 0x02702D68
  * packet: pkt_twl_02702D68
  * region: twl
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 extern u8 d_027341C8;
 
 /* Sets a one-byte flag. */
-void func_02702D68(void)
+static void NWMi_ForceUnloadDeviceCallback(void)
 {
     d_027341C8 = 1;
 }

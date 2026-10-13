@@ -1,5 +1,5 @@
 /*
- * function: func_027022E0
+ * function: CAMERA_GetTransferLinesCore
  * address:  0x027022E0
  * packet:   twl_wifi
  * region:   twl
@@ -18,7 +18,7 @@ typedef signed int s32;
 
 extern u16 data_04004202;
 
-s32 func_027022E0(void)
+s32 CAMERA_GetTransferLinesCore(void)
 {
     return (data_04004202 & 0xf) + 1;
 }

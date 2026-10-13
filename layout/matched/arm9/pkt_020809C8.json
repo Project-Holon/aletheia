@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GX_DisableBankForSubBGExtPltt",
+   "name": "GX_ResetBankForSubBGExtPltt",
    "address": "0x020809C8",
    "kind": "sdk",
    "region": "arm9",

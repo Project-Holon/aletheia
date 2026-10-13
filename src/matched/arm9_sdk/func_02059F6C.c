@@ -12,7 +12,7 @@
  * sdk:      DWC_InitForProduction (libdwccommon.TWL.HYB.a dwc_init.o)
  *
  * symbols:
- *   func_02004EB0        0x02004EB0 arm
+ *   OSi_ReferSymbol        0x02004EB0 arm
  *   DWCi_Init            0x02059FA8 arm
  *   id_string_production 0x02005050 data
  */
@@ -24,12 +24,12 @@ typedef void (*DWCFreeEx)(int name, void *ptr, u32 size);
 
 #define DWC_AUTHSERVER_PRODUCTION 1
 
-extern void func_02004EB0(const void *symbol);  /* OSi_ReferSymbol */
+extern void OSi_ReferSymbol(const void *symbol);  /* OSi_ReferSymbol */
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
 extern char id_string_production[68];
 
 int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
-    func_02004EB0(id_string_production);
+    OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02730230
+ * function: MIi_GetWramBank_C
  * address:  0x02730230
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-asm void func_02730230(void)
+u32 MIi_GetWramBank_C(u32 a)
 {
+    return *(u8 *)(a + 0x0400404C);
 }

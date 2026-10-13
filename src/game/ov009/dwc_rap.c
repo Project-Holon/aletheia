@@ -224,7 +224,7 @@ extern void func_021770EC(u8, u32, u32);
 extern int func_02034AC4(signed int id);
 extern void func_02034A5C(int id);
 extern void func_021B6100(void);
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
+extern void *func_02060C5C(void *start, u32 size, u16 attr);
 extern u32 func_02060F18(char *p, u32 v);
 extern u16 func_02060F40(char *p, u16 v);
 extern void func_02060C94(void *heap);

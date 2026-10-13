@@ -114,7 +114,7 @@ extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 int sub_0202FDC4(u32 src, u32 dst, u32 param);
 int sub_0202FE68(void *bound, u32 param, u32 dst);
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
+extern void *func_02060C5C(void *start, u32 size, u16 attr);
 int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void  func_02060C94(void *block);
 extern void func_02060E30(struct ExpHeap *heap, void *block);

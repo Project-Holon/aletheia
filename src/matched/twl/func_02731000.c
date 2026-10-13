@@ -1,5 +1,5 @@
 /*
- * function: func_02731000
+ * function: MIi_DoCancelWram
  * address:  0x02731000
  * packet:   twl_sys
  * region:   twl
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u16 data_02732F6C[3][8];
 
-u32 func_02731000(u32 ch, u32 val)
+u32 MIi_DoCancelWram(u32 ch, u32 val)
 {
     int count, i, lim;
 

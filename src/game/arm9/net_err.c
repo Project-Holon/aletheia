@@ -405,7 +405,7 @@ u32 sub_0200FBB0(void);
 u32 func_0200FC0C(u32 a0);
 void sub_0200FD38(u32 a0, u32 a1);
 void sub_0200FEBC(BOOL keepDark);
-asm void CTRDGi_IsTaskAvailable_02010054(void);
+BOOL CTRDGi_IsTaskAvailable_02010054(void);
 void sub_02010068(u32 a0);
 extern struct Sub0200F7C0Flags sub_0200F7C0_Flags;
 extern NetErrWork g_0214617C;
@@ -1730,17 +1730,12 @@ void sub_0200FEBC(BOOL keepDark)
 
 
 
-asm void CTRDGi_IsTaskAvailable_02010054(void)
+BOOL CTRDGi_IsTaskAvailable_02010054(void)
 {
-    ldr r0, =0x0214617C
-    ldr r0, [r0]
-    cmp r0, #0
-    beq _zero
-    mov r0, #1
-    bx lr
-_zero:
-    mov r0, #0
-    bx lr
+    if (g_0214617C.bg1Char != 0) {
+        return 1;
+    }
+    return 0;
 }
 
 

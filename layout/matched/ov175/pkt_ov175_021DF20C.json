@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWC_ScGetConnectionId",
+   "name": "DWC_ScGetSessionId",
    "address": "0x021DF20C",
    "kind": "sdk",
    "region": "ov175",

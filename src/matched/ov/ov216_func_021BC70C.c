@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: ARM9 0202DE64 +0048 and0202DE68 +0054 lack matched starts.
  * Owner unit_0202DE5C.c defines both but omits them from function:.
- * Ilias owns the repair; singleton TU --suggest-split leaves this caller out.
+ * the integrator owns the repair; singleton TU --suggest-split leaves this caller out.
  * Verified EXACT4 each with fixed flags, Thumb, no region, in assigned scratch:
  * void func_0202DE64(char *p,u16 value){*(u16 *)(p+36)=value;}
  * void func_0202DE68(char *p,u32 value){*(u32 *)(p+44)=value;}

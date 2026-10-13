@@ -28,22 +28,18 @@ typedef unsigned short u16;
 extern s32 func_02084CFC(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void), int disableFIQ);
 int OS_LockByWord(unsigned short lockID, void *lockBuf, void (*ctrlFuncp)(void));
 void OSi_AllocateCardBus(void);
-extern int func_02084CEC(struct _FSFreeAreaSize *freesize, char *path, unsigned long size);
+extern s32 func_02084CEC(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void));
 extern void func_02084E98(void);
-asm void OS_LockCartridge(void);
+s32 OS_TryLockCartridge(u16 lockID);
 void func_02084DC4(void);
 void func_02084DDC(void);
 int func_02084DF4(unsigned short lockID);
-asm void func_02084E10(void);
+s32 func_02084E10(u16 lockID);
 
 
-asm void OS_LockCartridge(void)
+s32 OS_TryLockCartridge(u16 lockID)
 {
-    ldr r1, =0x02FFFFE8
-    ldr r2, =func_02084DC4
-    ldr ip, =func_02084CFC
-    mov	r3, #1
-    bx	ip
+    return func_02084CFC(lockID, (struct OSLockWord *)0x02FFFFE8, func_02084DC4, 1);
 }
 
 /*
@@ -75,10 +71,7 @@ int func_02084DF4(unsigned short lockID)
 }
 
 
-asm void func_02084E10(void)
+s32 func_02084E10(u16 lockID)
 {
-    ldr r1, =0x02FFFFE0
-    ldr r2, =func_02084E98
-    ldr ip, =func_02084CEC
-    bx	ip
+    return func_02084CEC(lockID, (struct OSLockWord *)0x02FFFFE0, func_02084E98);
 }

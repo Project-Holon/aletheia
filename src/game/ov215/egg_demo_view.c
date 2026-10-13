@@ -1,7 +1,7 @@
 /*
  * file:     egg_demo_view.c
  * unit:     yes
- * function: func_021F63CC, func_021F6474, func_021F64D0, func_021F64E4, func_021F64F0, func_021F64FC, func_021F6508, func_021F651C, func_021F657C, func_021F65B4, func_021F65B8, func_021F65C0, func_021F6600, func_021F661C, func_021F6624, func_021F6630, func_021F669C, func_021F66AC, func_021F66C8, func_021F6718, func_021F6720, func_021F67B0, func_021F67E0, func_021F6A24, func_021F6A3C, func_021F6A48, func_021F6A84, func_021F6A98, func_021F6AB4, func_021F6AB8, func_021F6AE0, func_021F6AEC, func_021F6CAC, func_021F6CC0, func_021F6CCC, func_021F6D0C, func_021F6D1C, func_021F6D58, func_021F6D7C, func_021F6D90, func_021F6DB4, func_021F6E4C, func_021F6E5C, func_021F6EE4, func_021F6EEC, func_021F6EF8, func_021F6F18, func_021F6F24, func_021F6F64, func_021F7028, func_021F7048
+ * function: func_021F63CC, func_021F6474, func_021F64D0, func_021F64E4, func_021F64F0, func_021F64FC, func_021F6508, func_021F651C, func_021F657C, func_021F65B4, func_021F65B8, func_021F65C0, func_021F6600, func_021F661C, func_021F6624, func_021F6630, func_021F669C, func_021F66AC, func_021F66C8, func_021F6718, func_021F6720, func_021F67B0, func_021F67E0, func_021F6A24, func_021F6A3C, func_021F6A48, func_021F6A84, func_021F6A98, func_021F6AB4, func_021F6AB8, func_021F6AE0, func_021F6AEC, func_021F6CAC, func_021F6CC0, func_021F6CCC, func_021F6D0C, func_021F6D1C, func_021F6D58, func_021F6D7C, func_021F6D90, func_021F6DB4, func_021F6E4C, func_021F6E5C, func_021F6EE4, func_021F6EEC, func_021F6EF8, func_021F6F18, func_021F6F24, func_021F6F64, func_021F7028, func_021F7048, func_021F70F8, func_021F7100, func_021F7110
  * address:  0x021F63CC
  * region:   ov215
  * compiler: dsi/1.1p1
@@ -88,7 +88,7 @@
  *   func_02016020 0x02016020 thumb
  *   func_02015BF0 0x02015BF0 thumb
  *   func_02014BA8 0x02014BA8 thumb
- *   table 0x021F7384 data a4
+ *   table_021F7384 0x021F7384 data a4
  *   func_02017270 0x02017270 thumb
  *   func_02015FF0 0x02015FF0 thumb
  *   func_02015C48 0x02015C48 thumb
@@ -386,7 +386,7 @@ extern const s16 d_020A1EB8[];
 extern const struct Vec3 d_021F7160,d_021F7154,d_021F716C;
 extern const char d_021F73F4[];
 extern const unsigned d_021F7340[],d_021F7314[];
-extern const Entry table[];
+extern const Entry table_021F7384[];
 extern const unsigned long long d_021F7300;
 extern const Vec_021F6D7C d_021F73B4;
 extern const struct Setup d_021F7330;
@@ -918,9 +918,9 @@ void func_021F6AEC(char *p)
     species=func_02017E1C(((struct Obj02262 *)p)->f4,171,0);
     if(species!=650){
         for(;i<4;i++){
-            if(species==table[i].species){
-                trans.x=FIX(table[i].x);
-                trans.y=FIX(table[i].y);
+            if(species==table_021F7384[i].species){
+                trans.x=FIX(table_021F7384[i].x);
+                trans.y=FIX(table_021F7384[i].y);
                 trans.z=0xffce0000;
                 func_02015C48(((struct Obj02262 *)p)->f34,(u32 *)&trans);
                 break;
@@ -1182,3 +1182,7 @@ void func_021F7048(char *p)
             ((struct Obj01083 *)p)->f5C = 0;
     }
 }
+
+void func_021F70F8(char *p){((struct Obj01083 *)p)->f5C=1;}
+int func_021F7100(char *p){return ((struct Obj01083 *)p)->f5C==2;}
+void func_021F7110(char *p){((struct Obj01083 *)p)->f5C=3;}

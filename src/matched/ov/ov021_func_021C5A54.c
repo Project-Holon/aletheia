@@ -13,14 +13,14 @@
  * pooled small constant (abs_id_C2, R_ARM_ABS32) passed as the third argument
  * to func_020146F8 / func_02014728, neither of which is in match.py's
  * OVERLAY_ID_CONSUMERS, and no other pool word image-wide holds 0x000000C2,
- * so no evidence class attests it.  d_021F5580 resolves with the ov075 token.
+ * so no evidence class attests it.  d_021F5580 resolves with the ov194 token (0xC2 is ov194; its proc table init/main/exit sits at 0x021F5580).
  *
  * symbols:
  *   func_020146F8  0x020146F8  thumb
  *   func_02014728  0x02014728  thumb
  *   func_02012374  0x02012374  thumb
  *   abs_id_C2      0x000000C2  data
- *   d_021F5580     0x021F5580  data  ov075  a4
+ *   d_021F5580     0x021F5580  data  ov194  a4
  */
 
 extern char d_021F5580;

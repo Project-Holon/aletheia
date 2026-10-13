@@ -1,5 +1,5 @@
 /*
- * function: FSi_HasEnoughSpaceToCreateUserFile
+ * function: WM_Initialize
  * address:  0x0208F370
  * packet:   pkt_0208F370
  * region:   arm9
@@ -13,10 +13,14 @@
  *   func_0208F398 0x0208F398 arm
  */
 
-extern void func_0208F398(void);
-asm void FSi_HasEnoughSpaceToCreateUserFile(void)
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int WMErrCode;
+typedef void (*WMCallbackFunc)(void *arg);
+
+extern WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
+
+WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
 {
-    ldr ip, =func_0208F398
-    mov r3, #0
-    bx ip
+    return func_0208F398(wmSysBuf, callback, dmaNo, 0);
 }

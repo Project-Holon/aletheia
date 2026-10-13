@@ -46,7 +46,7 @@
  *   021BC916 bl BD0A4; 021BC91A adds r6,r0; 021BC91C cmp r6,#0.
  *   Renewed eight one runs preceded the update; best908B/2B with16/16
  *   resolved is rejected diagnostic C, now disabled. Old permuter not repeated.
- *   No further compile; Ilias ARM9 blockers and main-session overlay fix needed.
+ *   No further compile; the integrator ARM9 blockers and main-session overlay fix needed.
  */
 
 extern void func_0203CF3C(unsigned int a);

@@ -12,15 +12,15 @@
  *           reads the task-available flag at 0x0214617C.
  */
 
-asm void CTRDGi_IsTaskAvailable_02010054(void)
+typedef struct {
+    void *bg1Char;
+} NetErrWork;
+#define g_0214617C (*(NetErrWork *)0x0214617C)
+
+int CTRDGi_IsTaskAvailable_02010054(void)
 {
-    ldr r0, =0x0214617C
-    ldr r0, [r0]
-    cmp r0, #0
-    beq _zero
-    mov r0, #1
-    bx lr
-_zero:
-    mov r0, #0
-    bx lr
+    if (g_0214617C.bg1Char != 0) {
+        return 1;
+    }
+    return 0;
 }

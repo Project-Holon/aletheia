@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * blocker: ARM9 0x0204B09C has no outside witness; Ilias owns it.
+ * blocker: ARM9 0x0204B09C has no outside witness; the integrator owns it.
  * blocker: verified EXACT ARM leaf, 44 bytes (scratch blocker-r1.log):
  *   typedef unsigned char u8; typedef unsigned int u32; typedef signed short s16;
  *   struct Item { int x; int y; u8 pad_08[0x40]; };

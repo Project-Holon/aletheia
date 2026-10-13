@@ -55,8 +55,8 @@ struct _SBKeyValuePair {
 
 typedef unsigned int   u32;
 
-extern void StringHash(void);
-extern void func_0209ABF8(void);
+extern int StringHash(char *s, int numbuckets);
+extern int func_0209ABF8(char *s1, char *s2);
 extern void gsifree(void *ptr);
 extern struct HashImplementation *TableNew2(int elemSize, int nBuckets,
     int nChains, int (*hashFn)(void *, int), int (*compFn)(void *, void *),
@@ -80,9 +80,9 @@ extern char *SBServerGetStringValueA(struct _SBServer *server, char *keyname,
 extern double atof(char *s);
 int func_0219E120(struct SBServer *server, char *key, int idefault);
 double SBServerGetFloatValueA(struct _SBServer *server, char *key, double fdefault);
-asm int RefStringHash(void *elem, int numbuckets);
-asm int RefStringCompare(void *entry1, void *entry2);
-asm void RefStringFree(void *elem);
+int RefStringHash(void *elem, int numbuckets);
+int RefStringCompare(void *entry1, void *entry2);
+void RefStringFree(void *elem);
 struct HashImplementation *SBRefStrHash(void);
 void SBRefStrHashCleanup(void);
 void SBServerFree(void *elem);
@@ -94,31 +94,24 @@ extern const unsigned short g_020A61DC[];
 
 
 
-asm int RefStringHash(void *elem, int numbuckets)
+int RefStringHash(void *elem, int numbuckets)
 {
-	ldr r0, [r0]
-	ldr ip, =StringHash
-	bx ip
+    return StringHash(*(char **)elem, numbuckets);
 }
 
 
 
 
-asm int RefStringCompare(void *entry1, void *entry2)
+int RefStringCompare(void *entry1, void *entry2)
 {
-	ldr r0, [r0]
-	ldr r1, [r1]
-	ldr ip, =func_0209ABF8
-	bx ip
+    return func_0209ABF8(*(char **)entry1, *(char **)entry2);
 }
 
 
 
-asm void RefStringFree(void *elem)
+void RefStringFree(void *elem)
 {
-	ldr r0, [r0]
-	ldr ip, =gsifree
-	bx ip
+    gsifree(*(void **)elem);
 }
 
 

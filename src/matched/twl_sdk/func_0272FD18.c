@@ -1,5 +1,5 @@
 /*
- * function: func_0272FD18
+ * function: MI_StopAllNDma
  * address:  0x0272FD18
  * packet:   twl_audio
  * region:   twl
@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0272FCE0 0x0272FCE0 arm twl
+ *   MI_StopNDma 0x0272FCE0 arm twl
  */
 
-void func_0272FCE0(int);
+void MI_StopNDma(int);
 
-void func_0272FD18(void) {
-    func_0272FCE0(0);
-    func_0272FCE0(1);
-    func_0272FCE0(2);
-    func_0272FCE0(3);
+void MI_StopAllNDma(void) {
+    MI_StopNDma(0);
+    MI_StopNDma(1);
+    MI_StopNDma(2);
+    MI_StopNDma(3);
 }

@@ -11,7 +11,7 @@
  *
  * blocker:  byte-correct (212/212). The bl at +00BA to 0x02014184 has no
  *           witness: an unlabelled arm9 Thumb leaf (printed as .word data
- *           after func_020140F8), Ilias's to file. Evidence class: label /
+ *           after func_020140F8), the integrator's to file. Evidence class: label /
  *           sole-ref/code. Verified C for the leaf, per
  *           ov020_func_021852F0.c:
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;

@@ -11,6 +11,7 @@
  * status:   EXACT
  */
 
+/* hand-written in the original: swp instruction */
 asm int func_020834B8(int val, int *ptr)
 {
     swp r0, r0, [r1]

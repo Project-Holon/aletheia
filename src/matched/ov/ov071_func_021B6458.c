@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Byte-correct. Blocker: func_02010F8C (arm9 unlabelled tail-call stub,
- * Ilias's leaf) has no witness outside this range. Verified C for the leaf
+ * the integrator's leaf) has no witness outside this range. Verified C for the leaf
  * (EXACT, arm9, --thumb, symbols: func_020307B0 0x020307B0 arm):
  *   void func_02010F8C(void *p) { void func_020307B0(void *); func_020307B0(p); }
  *

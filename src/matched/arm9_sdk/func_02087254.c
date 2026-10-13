@@ -10,10 +10,16 @@
  * status:   EXACT
 */
 
-asm void func_02087254(void)
+typedef unsigned long u32;
+
+typedef struct OSiAlarm {
+    void (*handler)(void *arg);
+    void *arg;
+    u32 tag;
+} OSAlarm;
+
+void func_02087254(OSAlarm *alarm)
 {
-    mov	r1, #0
-    str	r1, [r0]
-    str	r1, [r0, #8]
-    bx	lr
+    alarm->handler = 0;
+    alarm->tag = 0;
 }

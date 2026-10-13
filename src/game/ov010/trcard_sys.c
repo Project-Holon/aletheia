@@ -1361,7 +1361,7 @@ void *func_0216EAB0(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u3
  *           seed, or with start/end locals ahead of it; permuter 300 found
  *           nothing (baseline agrees, DIFF 2/612).
  *           unlabelled: `ldr r1,[r0]; str r1,[r0,#8]; movs r1,#0; str
- *           r1,[r0]; bx lr`, verified C not filed: arm9 is Ilias's);
+ *           r1,[r0]; bx lr`, verified C not filed: arm9 is the integrator's);
  *           0x0216EFDC (ov010 unlabelled tail-call leaf, not filed while an
  *           arm9 leaf blocks); ov093_id/ov092_id pooled ids passed to
  *           func_02012444, which is not in OVERLAY_ID_CONSUMERS;

@@ -75,19 +75,16 @@ Of those addresses, 603 have only address-named variants (func_, sub_, d_, g_ pr
 | arm9/unit_0200421A.c | func_0200421A | game function: stand-in or unknown |
 | arm9/unit_02004490.c | func_02004490 | game function: stand-in or unknown |
 | arm9/unit_02004632.c | func_02004632 | game function: stand-in or unknown |
-| arm9/unit_02004800.c | _start | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004800.c | INITi_CpuClear32 | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004800.c | INITi_InitCoprocessor | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004800.c | INITi_InitRegion | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004800.c | func_02004BB4 | game function: stand-in or unknown |
-| arm9/unit_02004800.c | INITi_ShelterStaticInitializer | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004800.c | INITi_CallStaticInitializers | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004DF4.c | MIi_UncompressBLZ | SDK-style name, not in symbol list: likely real asm |
-| arm9/unit_02004EB4.c | INITi_IsRunOnTwl | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004EB4.c | INITi_Copy32 | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004EB4.c | INITi_Fill32 | SDK symbol (symbols_sdk.txt): real asm likely |
-| arm9/unit_02004F94.c | func_02004F94 | game function: stand-in or unknown |
-| arm9/unit_02004FD4.c | func_02004FD4 | game function: stand-in or unknown |
+| arm9/crt0.c | _start | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_CpuClear32 | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_InitCoprocessor | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_InitRegion | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_DoAutoload | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_ShelterStaticInitializer | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_CallStaticInitializers | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | MIi_UncompressBackward | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_Copy32 | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
+| arm9/crt0.c | INITi_Fill32 | SDK symbol (crt0.HYB.TWL.o): real asm in the SDK source |
 | arm9/unit_0202FB34.c | func_0202FB34 | game function: stand-in or unknown |
 | arm9/unit_02035390.c | DWCi_IsFold | SDK symbol (symbols_sdk.txt): real asm likely |
 | arm9/unit_020461E4.c | DWCi_Language | SDK symbol (symbols_sdk.txt): real asm likely |
@@ -249,7 +246,7 @@ Of those addresses, 603 have only address-named variants (func_, sub_, d_, g_ pr
 
 - 0x02004490: SVC_WaitByLoop, func_02004490
 - 0x02004632: SVC_GetCRC16, func_02004632
-- 0x02004EB0: OSi_ReferSymbol, func_02004EB0
+- 0x02004EB0: OSi_ReferSymbol, func_02004EB0 (one name since the crt0 merge: OSi_ReferSymbol)
 - 0x02005624: func_02005624, sub_02005624
 - 0x020056A0: func_020056A0, sub_020056A0
 - 0x020056BC: func_020056BC, sub_020056BC

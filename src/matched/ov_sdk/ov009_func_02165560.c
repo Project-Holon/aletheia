@@ -17,7 +17,7 @@
  *   func_02165A4C  0x02165A4C  arm  ov009
  *   func_02166C44  0x02166C44  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02731D6C  0x02731D6C  arm  twl
+ *   WCMi_NwmifTerminateAsync  0x02731D6C  arm  twl
  *   g_021AA7D4     0x021AA7D4  data ov009
  *
  * Starts asynchronous termination of the WCM state machine: switches on the phase and dispatches to the WM or NWM terminate call by device id.
@@ -42,7 +42,7 @@ extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02165A4C(unsigned char phase);
 extern long func_02166C44(void);
 extern int OS_IsRunOnTwl(void);
-extern long func_02731D6C();
+extern long WCMi_NwmifTerminateAsync();
 
 long func_02165560(void)
 {
@@ -83,7 +83,7 @@ long func_02165560(void)
                 break;
             case 2:
                 if (OS_IsRunOnTwl()) {
-                    wcmResult = func_02731D6C();
+                    wcmResult = WCMi_NwmifTerminateAsync();
                     break;
                 }
             default:

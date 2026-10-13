@@ -2182,6 +2182,7 @@ overlay_021 0x021A74F4  thumb   # referenced by func_021A7404.c (+1 more)
 overlay_021 0x021A75B0  thumb   # referenced by func_021A7418.c
 overlay_021 0x021A81EC  thumb   # referenced by ov021_func_021A7CE8.c (+1 more)
 overlay_021 0x021A8200  thumb   # referenced by ov021_func_021A7CE8.c (+1 more)
+overlay_021 0x021A8840  thumb   # referenced by ov021_func_021A1298.c; push {r4-r6,lr} prologue after pop {r4-r7,pc} at 0x021A883E
 overlay_021 0x021AC134  thumb   # referenced by ov021_func_021AC0A0.c
 overlay_021 0x021B3B04  thumb   # referenced by ov021_func_021B35A4.c
 overlay_021 0x021B785C  thumb   # referenced by ov021_func_021B6BDC.c
@@ -2509,6 +2510,9 @@ overlay_131 0x021D46E4  thumb   # referenced by ov131_func_021D4240.c
 overlay_131 0x021D703C  thumb   # referenced by ov131_func_021D6F54.c
 overlay_131 0x021D7B48  thumb   # referenced by ov131_func_021D44C8.c
 overlay_132 0x021F9E18  thumb   # referenced by ov112_func_021F6CE0.c (+1 more)
+overlay_132 0x021F9E20  thumb   # referenced by ov132_func_021FA0D8.c (script_command)
+overlay_132 0x021F9E34  thumb   # referenced by script_command.c
+overlay_132 0x021F9E3C  thumb   # referenced by script_command.c
 overlay_132 0x021FCAA0  thumb   # referenced by ov132_func_021FC694.c
 overlay_132 0x021FD52C  thumb   # referenced by ov010_func_02156C4C.c
 overlay_137 0x021DFEA0  thumb   # referenced by ov137_func_021E1320.c
@@ -3083,8 +3087,6 @@ overlay_134  0x021DC860  thumb  # matched EXACT in src/matched/ov/ov134_func_021
 # inside src/game and had no listing label, so the previous function listed their bytes in its
 # extent. Each one has an EXACT entry (the source named in the comment); the label only moves
 # the boundary, the bytes were already counted.
-arm9_main    0x02004F94  arm    # matched EXACT in src/matched/arm9/func_02004F94.c
-arm9_main    0x02004FD4  arm    # matched EXACT in src/matched/arm9/func_02004FD4.c
 arm9_main    0x0200C520  thumb  # matched EXACT in src/matched/arm9/func_0200C520.c
 arm9_main    0x0200C528  thumb  # matched EXACT in src/matched/arm9/func_0200C528.c
 arm9_main    0x0200EA0C  thumb  # matched EXACT in src/matched/arm9/func_0200EA0C.c
@@ -3836,6 +3838,7 @@ twl          0x02730278  arm    # matched EXACT in src/matched/twl/func_02730278
 twl          0x0273034C  arm    # matched EXACT in src/matched/twl/func_0273034C.c
 twl          0x02730360  arm    # matched EXACT in src/matched/twl/func_02730360.c
 twl          0x02730374  arm    # matched EXACT in src/matched/twl/func_02730374.c
+twl          0x0273154C  arm    # matched EXACT in src/matched/twl_sdk/func_0273154C.c
 twl          0x027315C0  arm    # matched EXACT in src/matched/twl/func_027315C0.c
 twl          0x027315D0  arm    # matched EXACT in src/matched/twl/func_027315D0.c
 twl          0x027315E0  arm    # matched EXACT in src/matched/twl/func_027315E0.c
@@ -3888,3 +3891,406 @@ overlay_093  0x021E5968  thumb  # matched EXACT in src/matched/ov/ov093_func_021
 twl          0x02702A8C  arm    # matched EXACT in src/matched/twl/func_02702A8C.c
 twl          0x02705320  arm    # matched EXACT in src/matched/twl/func_02705320.c
 overlay_039 0x021F36FC  thumb  # matched EXACT in src/matched/ov/ov039_func_021F36FC.c
+
+# codegaps scan (lane S01, 2026-10-12): destinations of bl/blx/b or code pointers, or push-after-return runs,
+# that sat in .word data or mid-function with no label.  Evidence in the comment.
+arm9_main    0x02006B3C  thumb   # bl from 0x021C3878 (S01 scan)
+arm9_main    0x02006B5C  thumb   # bl from 0x021C384A (S01 scan)
+arm9_main    0x02006B78  thumb   # bl from 0x021C3880 (S01 scan)
+arm9_main    0x02006B94  thumb   # bl from 0x021C3870 (S01 scan)
+arm9_main    0x0200829C  thumb   # bl from 0x0220C8C2 (S01 scan)
+arm9_main    0x020082B0  thumb   # bl from 0x0220C8D0 (S01 scan)
+arm9_main    0x020082B4  thumb   # bl from 0x0220C8DE (S01 scan)
+arm9_main    0x020086C8  thumb   # bl from 0x021F0636 (S01 scan)
+arm9_main    0x020086D0  thumb   # bl from 0x021F064E (S01 scan)
+arm9_main    0x020086D8  thumb   # bl from 0x021F0666 (S01 scan)
+arm9_main    0x020086E0  thumb   # bl from 0x021F067E (S01 scan)
+arm9_main    0x020086E8  thumb   # bl from 0x021F0696 (S01 scan)
+arm9_main    0x020089D0  thumb   # bl from 0x0216F76E (S01 scan)
+arm9_main    0x02008A0C  thumb   # bl from 0x0216F542 (S01 scan)
+arm9_main    0x02008A28  thumb   # bl from 0x0216F54A (S01 scan)
+arm9_main    0x02008EA0  thumb   # bl from 0x0216F6BC (S01 scan)
+arm9_main    0x02009100  thumb   # bl from 0x021F25B6 (S01 scan)
+arm9_main    0x02009110  thumb   # bl from 0x021F2BA8 (S01 scan)
+arm9_main    0x02009134  thumb   # bl from 0x021F2BC4 (S01 scan)
+arm9_main    0x02009160  thumb   # bl from 0x021F2BE0 (S01 scan)
+arm9_main    0x020092AC  thumb   # bl from 0x021DD926 (S01 scan)
+arm9_main    0x020093C8  thumb   # bl from 0x021D898A (S01 scan)
+arm9_main    0x020093D0  thumb   # bl from 0x021D7E84 (S01 scan)
+arm9_main    0x02009524  thumb   # bl from 0x02183BD0 (S01 scan)
+arm9_main    0x0200A630  thumb   # bl from 0x021F99BA (S01 scan)
+arm9_main    0x0200A680  thumb   # bl from 0x021B6F4A (S01 scan)
+arm9_main    0x0200A828  thumb   # bl from 0x021B623E (S01 scan)
+arm9_main    0x0200A834  thumb   # bl from 0x021B624C (S01 scan)
+arm9_main    0x0200A8E4  thumb   # bl from 0x021B8C3A (S01 scan)
+arm9_main    0x0200B214  thumb   # bl from 0x021E6FAE (S01 scan)
+arm9_main    0x0200B928  thumb   # bl from 0x021F9996 (S01 scan)
+arm9_main    0x0200BA38  thumb   # bl from 0x022131EC (S01 scan)
+arm9_main    0x0200BA58  thumb   # bl from 0x021CB2D2 (S01 scan)
+arm9_main    0x0200BA68  thumb   # bl from 0x021CB2DE (S01 scan)
+arm9_main    0x0200C104  thumb   # bl from 0x021F1456 (S01 scan)
+arm9_main    0x0200C2B0  thumb   # bl from 0x021B5C76 (S01 scan)
+arm9_main    0x0200C34C  thumb   # bl from 0x0216BA28 (S01 scan)
+arm9_main    0x0200C38C  thumb   # bl from 0x0216BF92 (S01 scan)
+arm9_main    0x0200C39C  thumb   # bl from 0x0216BFB6 (S01 scan)
+arm9_main    0x0200C3B0  thumb   # bl from 0x021F391C (S01 scan)
+arm9_main    0x0200C3C0  thumb   # bl from 0x0216909C (S01 scan)
+arm9_main    0x0200C3E0  thumb   # bl from 0x021F9116 (S01 scan)
+arm9_main    0x0200C6D8  thumb   # bl from 0x021F68DA (S01 scan)
+arm9_main    0x0200C6DC  thumb   # bl from 0x021F68E2 (S01 scan)
+arm9_main    0x0200CA54  thumb   # bl from 0x021BCAE0 (S01 scan)
+arm9_main    0x0200D478  thumb   # bl from 0x0215E3E6 (S01 scan)
+arm9_main    0x0200D480  thumb   # bl from 0x0215E656 (S01 scan)
+arm9_main    0x0200D6EC  thumb   # bl from 0x021E3166 (S01 scan)
+arm9_main    0x0200D6FC  thumb   # bl from 0x021FD422 (S01 scan)
+arm9_main    0x0200D72C  thumb   # bl from 0x021FD432 (S01 scan)
+arm9_main    0x0200D73C  thumb   # bl from 0x021FD41A (S01 scan)
+arm9_main    0x0200D820  thumb   # bl from 0x021FD598 (S01 scan)
+arm9_main    0x0200D9E8  thumb   # bl from 0x021CB45E (S01 scan)
+arm9_main    0x0200DCF8  thumb   # bl from 0x021D6E1E (S01 scan)
+arm9_main    0x0200DF40  thumb   # bl from 0x0216C81E (S01 scan)
+arm9_main    0x0200DF4C  thumb   # bl from 0x0216C826 (S01 scan)
+arm9_main    0x0200E184  thumb   # bl from 0x02166294 (S01 scan)
+arm9_main    0x0200E440  thumb   # bl from 0x021BBCD0 (S01 scan)
+arm9_main    0x0200E6F0  thumb   # bl, pool word from 0x0200E6EC (S01 scan)
+arm9_main    0x0200E740  thumb   # bl from 0x0216EAE6 (S01 scan)
+arm9_main    0x0200E74C  thumb   # bl from 0x0216EB1C (S01 scan)
+arm9_main    0x0200E76C  thumb   # bl from 0x0216EB54 (S01 scan)
+arm9_main    0x0200E780  thumb   # bl from 0x0216EB60 (S01 scan)
+arm9_main    0x0200E788  thumb   # bl from 0x0216EB12 (S01 scan)
+arm9_main    0x0200E7A4  thumb   # bl from 0x0216EB30 (S01 scan)
+arm9_main    0x0200E7AC  thumb   # bl from 0x0216EB72 (S01 scan)
+arm9_main    0x0200E7B4  thumb   # bl from 0x0216EB26 (S01 scan)
+arm9_main    0x0200ECC4  thumb   # bl from 0x021DCDAC (S01 scan)
+arm9_main    0x0200EE14  thumb   # bl from 0x021B9CC0 (S01 scan)
+arm9_main    0x0200F7E8  thumb   # bl, pool word from 0x0200F7FC (S01 scan)
+arm9_main    0x020128DC  thumb   # bl from 0x0218522A (S01 scan)
+arm9_main    0x020128E4  thumb   # bl from 0x02185174 (S01 scan)
+arm9_main    0x02012A4C  thumb   # bl from 0x0216EFFE (S01 scan)
+arm9_main    0x02012B34  thumb   # bl from 0x021A372C (S01 scan)
+arm9_main    0x02013FEC  thumb   # bl from 0x02185F24 (S01 scan)
+arm9_main    0x02014184  thumb   # bl from 0x0215A05C (S01 scan)
+arm9_main    0x02014CEC  thumb   # bl from 0x021C4FCC (S01 scan)
+arm9_main    0x02015D80  thumb   # bl from 0x021D78D4 (S01 scan)
+arm9_main    0x020160C0  thumb   # bl from 0x021D488E (S01 scan)
+arm9_main    0x02017FA8  thumb   # bl from 0x0216EB8E (S01 scan)
+arm9_main    0x020189D0  thumb   # bl from 0x021DD836 (S01 scan)
+arm9_main    0x02019D84  thumb   # bl from 0x021DD124 (S01 scan)
+arm9_main    0x0201B70C  thumb   # bl from 0x021BB9A8 (S01 scan)
+arm9_main    0x0201C408  thumb   # bl from 0x02187F86 (S01 scan)
+arm9_main    0x020240FC  thumb   # bl from 0x02166F04 (S01 scan)
+arm9_main    0x02024104  thumb   # bl from 0x021C4004 (S01 scan)
+arm9_main    0x02024108  thumb   # bl from 0x021C158C (S01 scan)
+arm9_main    0x0202421C  thumb   # bl from 0x021BD5DE (S01 scan)
+arm9_main    0x02024450  thumb   # bl from 0x021C4064 (S01 scan)
+arm9_main    0x020244F0  thumb   # bl from 0x021BF6FA (S01 scan)
+arm9_main    0x02026480  thumb   # bl from 0x021732E0 (S01 scan)
+arm9_main    0x020275DC  thumb   # bl from 0x021DCD46 (S01 scan)
+arm9_main    0x020275E0  thumb   # bl from 0x021DCF76 (S01 scan)
+arm9_main    0x02027A20  thumb   # bl from 0x021DA32E (S01 scan)
+arm9_main    0x0202815C  thumb   # bl from 0x021BB120 (S01 scan)
+arm9_main    0x0202B434  thumb   # bl from 0x021BD914 (S01 scan)
+arm9_main    0x0202B580  thumb   # bl from 0x021BD90E (S01 scan)
+arm9_main    0x0202F144  thumb   # bl from 0x0220BBDA (S01 scan)
+arm9_main    0x0202F688  thumb   # bl from 0x021D878C (S01 scan)
+arm9_main    0x0202F6D8  thumb   # bl from 0x021D8794 (S01 scan)
+arm9_main    0x0202F72C  thumb   # bl from 0x021DB03A (S01 scan)
+arm9_main    0x0203EA54  arm     # bl from 0x021B823C (S01 scan)
+arm9_main    0x0204EA38  arm     # bl from 0x021B6710 (S01 scan)
+arm9_main    0x0204EDD0  arm     # bl from 0x021B6948 (S01 scan)
+arm9_main    0x0204F2E4  arm     # bl from 0x021B691E (S01 scan)
+arm9_main    0x0204F6DC  arm     # bl from 0x021AC370 (S01 scan)
+arm9_main    0x02051790  arm     # bl from 0x021FD806 (S01 scan)
+arm9_main    0x020517A4  arm     # bl from 0x021FD85C (S01 scan)
+arm9_main    0x020517B4  arm     # bl from 0x021FD61A (S01 scan)
+arm9_main    0x020517D0  arm     # bl from 0x021FD73A (S01 scan)
+arm9_main    0x020517D8  arm     # bl from 0x021FD77C (S01 scan)
+arm9_main    0x020517E0  arm     # bl from 0x021FD752 (S01 scan)
+arm9_main    0x020517E8  arm     # bl from 0x021FD7A0 (S01 scan)
+arm9_main    0x020517F0  arm     # bl from 0x021FD862 (S01 scan)
+arm9_main    0x02051800  arm     # bl from 0x021FD882 (S01 scan)
+arm9_main    0x02051808  arm     # bl from 0x021FD888 (S01 scan)
+arm9_main    0x02051818  arm     # bl from 0x021FD8A8 (S01 scan)
+arm9_main    0x02051820  arm     # bl from 0x021FD74A (S01 scan)
+arm9_main    0x02051830  arm     # bl from 0x021FD742 (S01 scan)
+arm9_main    0x0206AA8C  arm     # bl from 0x021A06F4 (S01 scan)
+arm9_main    0x0206AAB0  arm     # bl from 0x021A0704 (S01 scan)
+arm9_main    0x0207AD30  arm     # bl from 0x02705C3C (S01 scan)
+arm9_main    0x0207AD40  arm     # bl from 0x02166B34 (S01 scan)
+arm9_main    0x0207AE24  thumb   # bl from 0x021A1830 (S01 scan)
+arm9_main    0x0207DE88  arm     # bl from 0x021BE766 (S01 scan)
+arm9_main    0x02082EA4  arm     # bl, b from 0x020831A0 (S01 scan)
+arm9_main    0x020848EC  arm     # bl from 0x0272FA24 (S01 scan)
+arm9_main    0x020884A4  arm     # pool word from 0x020884A0 (S01 scan)
+overlay_021  0x021AE360  thumb   # pool word from 0x021D9338 (S01 scan)
+overlay_021  0x021AE394  thumb   # pool word from 0x021D933C (S01 scan)
+overlay_021  0x021AE3C8  thumb   # pool word from 0x021D9340 (S01 scan)
+overlay_021  0x021AE3FC  thumb   # pool word from 0x021D9344 (S01 scan)
+overlay_070  0x021B86B8  thumb   # pool word from 0x021BB96C (S01 scan)
+overlay_093  0x021E3544  thumb   # pool word from 0x021F2F2C (S01 scan)
+overlay_125  0x021D81EC  arm     # pool word from 0x021D842C (S01 scan)
+overlay_132  0x021FBA6C  thumb   # pool word, push after return in data run from 0x021FBA6C (S01 scan)
+twl          0x02704318  arm     # bl from 0x02088298 (S01 scan)
+twl          0x027052FC  arm     # pool word from 0x02705DF0 (S01 scan)
+twl          0x027067B4  arm     # pool word, push after return in data run from 0x027067B4 (S01 scan)
+twl          0x027312D0  arm     # bl from 0x02087DD8 (S01 scan)
+twl          0x027312F8  arm     # bl from 0x02087E98 (S01 scan)
+twl          0x027315A8  arm     # bl from 0x020774E8 (S01 scan)
+overlay_013 0x021B3084  arm     # bl from ov013 0x021B0DE0; push {r3-r5,lr} after pool_021B3080 (S01 scan)
+twl          0x02706324  arm     # hidden function, no listing label (PH2b)
+twl          0x02705F98  arm     # hidden function in the pool gap of func_02705F64, alarm handler passed to func_0208738C (PH1c)
+twl          0x0272F0BC  arm     # func_0272F0BC, matched EXACT in src/matched/twl/func_0272F0BC.c
+twl          0x027302B4  arm     # hidden function, no listing label (code in the pool gap after func_02730294)
+twl          0x027302DC  arm     # hidden function, no listing label (code in the pool gap after func_02730294)
+twl          0x02730304  arm     # hidden function, no listing label (code in the pool gap after func_02730294)
+twl          0x02702364  arm     # pool word at 0x021B6998 in ov172 (CAMERA_SizeToWidthCore, hidden in func_0270234C's extent, AC-T14)
+twl          0x027023CC  arm     # pool word at 0x021B69B8 in ov172 (CAMERA_SizeToHeightCore, hidden in func_0270234C's extent, AC-T14)
+twl          0x02703F60  arm     # pool words at 0x02703CD8 and 0x02703F00 (MicexSyncCallback; ends func_02703F04 at 92 bytes)
+arm9_main    0x0202F098  thumb   # sub_0202F098 in src/game/arm9/time_icon.c, hidden in func_0202F038's extent (IN3)
+arm9_main    0x0202F0A4  thumb   # sub_0202F0A4 in src/game/arm9/time_icon.c, hidden in func_0202F038's extent (IN3)
+overlay_095  0x0689CCB4  thumb   # func_0689CCB4 in src/game/ov095/unit_0689CB3C.c, hidden in func_0689CC8C's extent (IN3)
+overlay_095  0x0689CCF8  thumb   # func_0689CCF8 in src/game/ov095/unit_0689CB3C.c, hidden in func_0689CC8C's extent (IN3)
+overlay_132  0x021FBA6C  thumb   # func_021FBA6C in src/game/ov132/script_command.c, hidden in func_021FBA14's extent (IN3)
+
+# BT4 (2026-10-12): code-like runs codegaps.py left unexplained after the split listings.
+# Evidence per row: a word holding the address (table or pool entry, 'word <region>:<site>'),
+# a bl/blx from another region ('call <region>:<site>'), or a valid body right after the
+# previous function's return. Full table: f19/BT4/bt4_runs.tsv (scratch).
+arm9_main    0x02008284  thumb   # BT4: call ov070:21b8728
+arm9_main    0x02008AEC  thumb   # BT4: word arm9:209dbe8
+arm9_main    0x0202B224  thumb   # BT4: word arm9:202b208
+arm9_main    0x0202E80C  thumb   # BT4: call ov010:216ec62
+arm9_main    0x02031994  arm     # BT4: word arm9:20071e0
+arm9_main    0x0203512C  arm     # BT4: word arm9:2035158
+arm9_main    0x0203EA70  arm     # BT4: call ov172:21b86a0,ov172:21b86bc
+arm9_main    0x0204F704  arm     # BT4: word arm9:20507ec
+arm9_main    0x0205CF24  arm     # BT4: word arm9:205d018; DWC_GetCheckNintendoZoneWorkSize
+arm9_main    0x02079B70  arm     # BT4: word arm9:20a1a20; FSi_OpenFileDirectDefault
+arm9_main    0x0207A190  arm     # BT4: word arm9:20a1a70; FSi_ROMFAT_SeekFile
+arm9_main    0x0207A264  arm     # BT4: word arm9:20a1a84; FSi_ROMFAT_GetArchiveCaps
+arm9_main    0x0207A2C8  arm     # BT4: word arm9:20a1abc; FSi_ROMFAT_CloseDirectory
+arm9_main    0x02084610  arm     # BT4: word arm9_autoload1_MAIN_TWL:2fe0020,arm9_autoload1_MAIN_TWL:2fe0024,arm9_autoload1_MAIN_TWL:2fe0028(+17); OS_IrqDummy
+arm9_main    0x02092264  arm     # BT4: word arm9:20a8834
+arm9_main    0x0209229C  arm     # BT4: word arm9:20a8838
+overlay_009  0x0215631C  thumb   # BT4: word ov009:21563b8
+overlay_009  0x02156D5C  thumb   # BT4: call ov099:21c0fd4,ov099:21c0fee
+overlay_009  0x02156D70  thumb   # BT4: word ov009:2155360
+overlay_010  0x0215EC40  thumb   # BT4: word ov010:217123c,ov010:2171294
+overlay_010  0x02164C5C  thumb   # BT4: word ov010:2164c34
+overlay_010  0x02167AF0  thumb   # BT4: word ov010:2172030
+overlay_010  0x02167AF4  thumb   # BT4: word ov010:2172034
+overlay_010  0x0216E464  thumb   # BT4: word ov021:21d58ac,ov021:21d5a28
+overlay_010  0x0216E468  thumb   # BT4: word ov021:21d58b0,ov021:21d5a2c
+overlay_010  0x0216E46C  thumb   # BT4: word ov021:21d56e8,ov021:21d56fc,ov021:21d5710(+47)
+overlay_010  0x0216E470  thumb   # BT4: word ov021:21d56ec,ov021:21d5700,ov021:21d5714(+60)
+overlay_011  0x02175C04  thumb   # BT4: word ov011:2174254
+overlay_011  0x02175D2C  thumb   # BT4: word ov011:21740a8
+overlay_012  0x02173DB0  thumb   # BT4: word ov012:2175450
+overlay_012  0x02174B7C  thumb   # BT4: word ov012:2175588
+overlay_012  0x02174E08  thumb   # BT4: word ov012:21755c8
+overlay_012  0x02174E88  thumb   # BT4: word ov012:21755d8
+overlay_012  0x02174EC4  thumb   # BT4: word ov012:21755e0
+overlay_014  0x021770F8  thumb   # BT4: word ov014:21796bc
+overlay_014  0x021770FC  thumb   # BT4: word ov014:21796c0
+overlay_014  0x02177100  thumb   # BT4: word ov014:21796c4
+overlay_014  0x02177ED4  thumb   # BT4: word ov014:2177ef4
+overlay_014  0x02177ED8  thumb   # BT4: word ov014:2177ef8;call ov016:21c09b0
+overlay_015  0x021797F8  thumb   # BT4: word ov015:217a9f0
+overlay_021  0x021C77FC  thumb   # BT4: word ov021:21c77f8
+overlay_021  0x021D335C  thumb   # BT4: word ov021:21de6c0
+overlay_028  0x021EE864  thumb   # BT4: word ov028:21eec20
+overlay_030  0x021F0114  thumb   # BT4: word ov021:21a1198
+overlay_051  0x021F38A0  thumb   # BT4: word ov021:21d9ed8,ov021:21d9edc,ov021:21d9ee0
+overlay_052  0x021F38E4  thumb   # BT4: word ov052:21f3a84
+overlay_056  0x021F3EC8  thumb   # BT4: word ov056:21f4368
+overlay_069  0x021B9F68  thumb   # BT4: word ov069:21ba5ec
+overlay_069  0x021B9F6C  thumb   # BT4: word ov069:21ba5f0
+overlay_093  0x021D44B4  thumb   # BT4: word ov093:21f03d4
+overlay_093  0x021D6DCC  thumb   # BT4: word ov095:689d4cc,ov095:689d4ec
+overlay_093  0x021D8318  thumb   # BT4: word ov095:689ab24,ov095:689acb8
+overlay_093  0x021D8424  thumb   # BT4: word ov095:689ab44
+overlay_093  0x021E6274  thumb   # BT4: word ov093:21f2f4c
+overlay_095  0x0689B0CC  thumb   # BT4: word ov093:21e991c
+overlay_095  0x0689CAE0  thumb   # BT4: word ov093:21d0b68
+overlay_095  0x0689CAEC  thumb   # BT4: word ov093:21e9c9c
+overlay_095  0x0689CB08  thumb   # BT4: word ov093:21ce7d0
+overlay_095  0x0689CB14  thumb   # BT4: word ov093:21ceea4,ov093:21d1228
+overlay_095  0x0689CB18  thumb   # BT4: word ov093:21e9b00,ov093:21e9cac
+overlay_095  0x0689CB1C  thumb   # BT4: word ov093:21ceeb4,ov093:21d1238
+overlay_095  0x0689CB2C  thumb   # BT4: word ov093:21e9b10
+overlay_095  0x0689CD40  thumb   # BT4: word ov093:21bd270,ov093:21be364,ov093:21bf144(+4)
+overlay_095  0x0689CD48  thumb   # BT4: word ov093:21be394,ov093:21ca0f4
+overlay_095  0x0689CD50  thumb   # BT4: word ov093:21bf018,ov093:21bf028,ov093:21bf038(+3)
+overlay_095  0x0689D050  thumb   # BT4: word ov093:21bf048
+overlay_095  0x0689D064  thumb   # BT4: word ov093:21e726c
+overlay_095  0x0689D098  thumb   # BT4: word ov093:21e7dac,ov093:21e7dfc
+overlay_095  0x0689D0C8  thumb   # BT4: word ov093:21e8380
+overlay_096  0x02188F08  thumb   # BT4: word ov096:218a648
+overlay_096  0x02188F50  thumb   # BT4: word ov096:218a654
+overlay_096  0x021893AC  thumb   # BT4: word ov096:218a698
+overlay_096  0x021893B4  thumb   # BT4: word ov096:218a69c
+overlay_096  0x021893CC  thumb   # BT4: word ov096:218a6a0
+overlay_096  0x021893D4  thumb   # BT4: word ov096:218a6a4
+overlay_096  0x021894B4  thumb   # BT4: word ov096:218a6bc
+overlay_096  0x021894C4  thumb   # BT4: word ov096:218a6c0
+overlay_096  0x02189D30  thumb   # BT4: word ov096:218a740
+overlay_096  0x02189D38  thumb   # BT4: word ov096:218a744
+overlay_096  0x02189D40  thumb   # BT4: word ov096:218a748
+overlay_097  0x021F669C  thumb   # BT4: word ov097:21f7614
+overlay_099  0x021BA520  thumb   # BT4: word ov099:21b9a2c
+overlay_099  0x021BA578  thumb   # BT4: word ov099:21ba2c8
+overlay_099  0x021BA590  thumb   # BT4: word ov099:21b9adc
+overlay_099  0x021BCF8C  thumb   # BT4: word ov099:21c3dfc
+overlay_099  0x021BCF98  thumb   # BT4: word ov099:21c3d88
+overlay_099  0x021BD8C0  thumb   # BT4: word ov099:21c3e24
+overlay_099  0x021BD97C  thumb   # BT4: word ov099:21c3e14
+overlay_099  0x021C10A0  thumb   # BT4: word ov099:21c3ca4
+overlay_099  0x021C10A4  thumb   # BT4: word ov099:21c3ca8
+overlay_099  0x021C12CC  thumb   # BT4: word ov099:21c28e0
+overlay_099  0x021C15B4  thumb   # BT4: word ov099:21c3cc4
+overlay_100  0x021B98F0  thumb   # BT4: word ov100:21bb6d0
+overlay_101  0x021B6674  thumb   # BT4: word ov101:21b6250
+overlay_101  0x021B6CF8  thumb   # BT4: word ov101:21b74c4
+overlay_101  0x021B6D3C  thumb   # BT4: word ov101:21b74d4
+overlay_101  0x021B6D90  thumb   # BT4: word ov101:21b74e4
+overlay_101  0x021B6E84  thumb   # BT4: word ov101:21b74f4
+overlay_107  0x021F13AC  thumb   # BT4: word ov107:21f6c84
+overlay_107  0x021F13E8  thumb   # BT4: word ov107:21f6c8c
+overlay_107  0x021F13F4  thumb   # BT4: word ov107:21f6c90
+overlay_107  0x021F13F8  thumb   # BT4: word ov107:21f6cac
+overlay_107  0x021F1400  thumb   # BT4: word ov107:21f6cb0
+overlay_110  0x021B9A3C  thumb   # BT4: word ov110:21bb1e0
+overlay_112  0x021F3A4C  thumb   # BT4: word ov112:21f396c
+overlay_112  0x021F4AA4  thumb   # BT4: call ov133:21b6998
+overlay_112  0x021F6B9C  thumb   # BT4: call ov132:21fbeea,ov132:21fbf94
+overlay_112  0x021F6BB0  thumb   # BT4: call ov132:21fbf18
+overlay_112  0x021F7A80  thumb   # BT4: call ov132:21f9780
+overlay_121  0x021D98F0  thumb   # BT4: word ov121:21d974c
+overlay_121  0x021DEEBC  thumb   # BT4: word ov121:21dfad4
+overlay_121  0x021DEEC0  thumb   # BT4: word ov121:21dfad8
+overlay_121  0x021DEEC4  thumb   # BT4: word ov121:21dfadc
+overlay_123  0x021D6EDC  thumb   # BT4: word ov123:21d6ee4
+overlay_123  0x021DA030  thumb   # BT4: word ov123:21da038
+overlay_125  0x021D72EC  thumb   # BT4: call ov186:21ff736
+overlay_125  0x021D72F8  thumb   # BT4: call ov186:21ff850
+overlay_127  0x021C464C  thumb   # BT4: word ov127:21c5fbc
+overlay_127  0x021C465C  thumb   # BT4: word ov127:21c5fc0
+overlay_127  0x021C466C  thumb   # BT4: word ov127:21c5fc4
+overlay_127  0x021C4698  thumb   # BT4: word ov127:21c5fcc
+overlay_127  0x021C46AC  thumb   # BT4: word ov127:21c5fd0
+overlay_127  0x021C46C0  thumb   # BT4: word ov127:21c5fd4
+overlay_127  0x021C46D4  thumb   # BT4: word ov127:21c5fd8
+overlay_127  0x021C46E8  thumb   # BT4: word ov127:21c5fdc
+overlay_127  0x021C46FC  thumb   # BT4: word ov127:21c5fe8
+overlay_127  0x021C470C  thumb   # BT4: word ov127:21c5fec
+overlay_127  0x021C4740  thumb   # BT4: word ov127:21c5ff4
+overlay_127  0x021C4750  thumb   # BT4: word ov127:21c5ff8
+overlay_127  0x021C4760  thumb   # BT4: word ov127:21c5ffc
+overlay_127  0x021C4770  thumb   # BT4: word ov127:21c6000
+overlay_127  0x021C4780  thumb   # BT4: word ov127:21c6004
+overlay_127  0x021C4948  thumb   # BT4: call ov099:21b9a40
+overlay_127  0x021C54B0  thumb   # BT4: word ov127:21c6090
+overlay_127  0x021C59D0  thumb   # BT4: call ov099:21b962c
+overlay_128  0x021C8660  thumb   # BT4: word ov128:21ca7c0
+overlay_128  0x021C8664  thumb   # BT4: word ov128:21ca7c8
+overlay_132  0x021F8994  thumb   # BT4: word ov132:21f8638
+overlay_132  0x021FAF10  thumb   # BT4: word ov132:21fdd14
+overlay_132  0x021FCE60  thumb   # BT4: word ov132:21fde04
+overlay_132  0x021FCE64  thumb   # BT4: word ov132:21fde08
+overlay_132  0x021FCE68  thumb   # BT4: word ov132:21fde0c
+overlay_132  0x021FD8F8  thumb   # BT4: call ov010:2156598
+overlay_132  0x021FD948  thumb   # BT4: call ov010:2155fc2
+overlay_132  0x021FD954  thumb   # BT4: call ov010:2156b7a
+overlay_132  0x021FD95C  thumb   # BT4: call ov010:2156b82
+overlay_135  0x021FC598  thumb   # BT4: word ov135:2203cf0
+overlay_135  0x021FF070  thumb   # BT4: word ov135:2203df0
+overlay_137  0x021DCAE8  thumb   # BT4: word ov137:21e1a60
+overlay_137  0x021DCD0C  thumb   # BT4: word ov137:21e1a80
+overlay_137  0x021DF598  thumb   # BT4: word ov137:21e2220
+overlay_137  0x021DF7E4  thumb   # BT4: word ov137:21e224c
+overlay_172  0x021BA114  thumb   # BT4: word ov172:21ba10c
+overlay_173  0x021B764C  thumb   # BT4: word ov173:21b824c
+overlay_174  0x021B6B8C  thumb   # BT4: word ov174:21b73a8
+overlay_174  0x021B6B94  thumb   # BT4: word ov174:21b73ac
+overlay_175  0x021D905C  thumb   # BT4: word ov175:21d6dac,ov175:21d76d0,ov175:21d8fa4
+overlay_176  0x0217BBD4  thumb   # BT4: word ov176:217d020
+overlay_180  0x021B6B18  thumb   # BT4: word ov180:21b8158
+overlay_181  0x021BAA84  thumb   # BT4: word ov181:21babd8
+overlay_181  0x021BAA98  thumb   # BT4: word ov181:21babdc
+overlay_181  0x021BAAA4  thumb   # BT4: word ov181:21babe0
+overlay_181  0x021BAAB0  thumb   # BT4: word ov181:21babe4
+overlay_181  0x021BAABC  thumb   # BT4: word ov181:21babe8
+overlay_183  0x021E13D4  thumb   # BT4: word ov183:21e3864
+overlay_186  0x021F93D0  thumb   # BT4: word ov186:2200264
+overlay_186  0x021F9728  thumb   # BT4: word ov186:22002c8
+overlay_186  0x021F9750  thumb   # BT4: word ov186:22002dc
+overlay_186  0x021F9770  thumb   # BT4: word ov186:22002f0
+overlay_186  0x021F979C  thumb   # BT4: word ov186:2200304
+overlay_186  0x021FC60C  thumb   # BT4: word ov186:21fc4e4
+overlay_186  0x021FD094  thumb   # BT4: word ov186:21fcbf8
+overlay_186  0x021FD0A8  thumb   # BT4: word ov186:21fcc04
+overlay_186  0x021FDFF0  thumb   # BT4: word ov186:21fd92c
+overlay_186  0x021FFACC  thumb   # BT4: word ov186:21ff4c4
+overlay_186  0x021FFAD8  thumb   # BT4: word ov186:21ff4c8
+overlay_186  0x021FFAE4  thumb   # BT4: word ov186:21ff4cc
+overlay_186  0x021FFAF0  thumb   # BT4: word ov186:21ff4d0
+overlay_186  0x021FFAFC  thumb   # BT4: word ov186:21ff4d4
+overlay_186  0x021FFB08  thumb   # BT4: word ov186:21ff4d8
+overlay_194  0x021F4D1C  thumb   # BT4: word ov194:21f4bf4
+overlay_203  0x021BE150  thumb   # BT4: word ov203:21be4b0
+overlay_203  0x021BEE04  thumb   # BT4: word ov203:21c3d18
+overlay_203  0x021BEE14  thumb   # BT4: word ov203:21c3d1c
+overlay_204  0x021BDFA0  thumb   # BT4: word ov204:21bdd80
+overlay_204  0x021BE100  thumb   # BT4: word ov204:21bdd74
+overlay_204  0x021BE108  thumb   # BT4: word ov204:21c0aa4
+overlay_204  0x021BE308  thumb   # BT4: word ov204:21c09f0
+overlay_204  0x021BE314  thumb   # BT4: word ov204:21c09f4
+overlay_204  0x021BF77C  thumb   # BT4: word ov204:21be548
+overlay_206  0x021BA514  thumb   # BT4: call ov207:220b126
+overlay_206  0x021BA51C  thumb   # BT4: call ov207:220b1f4
+overlay_206  0x021BA524  thumb   # BT4: call ov207:220b132
+overlay_206  0x021BA534  thumb   # BT4: call ov207:220b13c,ov207:220b1c2
+overlay_206  0x021BA544  thumb   # BT4: call ov207:220b0f0
+overlay_207  0x0220B558  thumb   # BT4: word ov207:220b430
+overlay_210  0x021C065C  thumb   # BT4: word ov210:21c0bf4
+overlay_213  0x021BADC4  thumb   # BT4: word ov213:21bac9c
+overlay_214  0x021BB0C4  thumb   # BT4: word ov214:21b9f20
+overlay_214  0x021BB3D8  thumb   # BT4: word ov214:21bb2b0
+overlay_215  0x021F662C  thumb   # BT4: word ov215:21f6504
+overlay_215  0x021F66C0  thumb   # BT4: word ov215:21f64f8
+overlay_216  0x021BCBA0  thumb   # BT4: word ov216:21bca40
+overlay_218  0x021BA0AC  thumb   # BT4: word ov218:21bab30
+overlay_218  0x021BA238  thumb   # BT4: word ov218:21b9f94
+overlay_218  0x021BAA90  thumb   # BT4: word ov218:21ba968
+overlay_220  0x021B995C  thumb   # BT4: word ov220:21b9754
+overlay_221  0x021B98FC  thumb   # BT4: word ov221:21b972c
+overlay_221  0x021BA0C0  thumb   # BT4: word ov221:21b9f98
+overlay_222  0x021B98FC  thumb   # BT4: word ov222:21b972c
+overlay_222  0x021BA158  thumb   # BT4: word ov222:21ba030
+overlay_223  0x021BB9DC  thumb   # BT4: word ov223:21bc84c
+overlay_223  0x021BC348  thumb   # BT4: word ov223:21bc880
+overlay_223  0x021BC65C  thumb   # BT4: word ov223:21bc528
+overlay_224  0x021B9820  thumb   # BT4: word ov224:21b96fc
+overlay_225  0x021B9B38  thumb   # BT4: word ov225:21b9a10
+overlay_225  0x021BA894  thumb   # BT4: word ov225:21ba73c
+overlay_225  0x021BB850  thumb   # BT4: word ov225:21bb7f0
+overlay_225  0x021BBA70  thumb   # BT4: word ov225:21bba10;call ov019:217b7aa,ov031:21f00fa
+twl          0x02701FD8  arm     # BT4: word twl:2700ce4,twl:2700de8,twl:2701018(+3); CameraSyncCallback
+twl          0x02704B58  arm     # BT4: word twl:2704850,twl:270493c; SyncCallback
+twl          0x02707558  arm     # BT4: word twl:2707884,twl:270798c; CallbackForJpeg
+arm9_main    0x0200407E  thumb   # BT4: svc #0x12; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UncompressLZ16FromDevice
+arm9_main    0x020040E2  thumb   # BT4: svc #0x6; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_Halt
+arm9_main    0x02004136  thumb   # BT4: svc #0xC; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_CpuSetFast
+arm9_main    0x020041B2  thumb   # BT4: svc #0x4; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_WaitIntr
+arm9_main    0x02004278  thumb   # BT4: svc #0xF; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_IsMmemExpanded
+arm9_main    0x020042E2  thumb   # BT4: svc #0x9; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_Div
+arm9_main    0x020043D0  thumb   # BT4: svc #0x10; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UnpackBits
+arm9_main    0x02004434  thumb   # BT4: svc #0x0; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_SoftReset
+arm9_main    0x020044FE  thumb   # BT4: svc #0x11; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UncompressLZ8
+arm9_main    0x02004560  thumb   # BT4: svc #0x13; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UncompressHuffmanFromDevice
+arm9_main    0x020045CC  thumb   # BT4: svc #0x15; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UncompressRL16FromDevice
+arm9_main    0x02004694  thumb   # BT4: svc #0x14; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_UncompressRL8
+arm9_main    0x0200471C  thumb   # BT4: svc #0xD; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_Sqrt
+arm9_main    0x020047A6  thumb   # BT4: svc #0x5; bx lr stub in the secure area (17 stubs, one per SWI, 3 called); no caller; SVC_WaitVBlankIntr
+arm9_main    0x0200BA78  thumb   # BT4: word arm9:209dc78
+arm9_main    0x0209D818  arm     # "mov r0, #0; bx lr" close hook after func_0209D7D4; FILE tables hold 0x0209D818 at 0x020A8774 and 0x020A87C0 next to func_0209D784, func_0209D7D4 (LX5)

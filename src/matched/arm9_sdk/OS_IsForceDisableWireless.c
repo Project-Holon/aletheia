@@ -11,19 +11,18 @@
  *
  * symbols:
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_027312F8 0x027312F8 arm twl
+ *   OS_IsForceDisableWireless_ltdmain 0x027312F8 arm twl
  */
 
-extern void OS_IsRunOnTwl(void);
-extern void func_027312F8(void);
+typedef int BOOL;
 
-asm void OS_IsForceDisableWireless(void)
+extern BOOL OS_IsRunOnTwl(void);
+extern BOOL OS_IsForceDisableWireless_ltdmain(void);
+
+BOOL OS_IsForceDisableWireless(void)
 {
-    stmfd sp!, {r3, lr}
-    bl OS_IsRunOnTwl
-    cmp r0, #0
-    moveq r0, #0
-    ldmeqfd sp!, {r3, pc}
-    bl func_027312F8
-    ldmfd sp!, {r3, pc}
+    if (!OS_IsRunOnTwl()) {
+        return 0;
+    }
+    return OS_IsForceDisableWireless_ltdmain();
 }

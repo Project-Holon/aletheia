@@ -249,7 +249,7 @@ int gti2SendKeepAlive(GTI2Connection *connection);
 int func_02197930(GTI2Connection *connection, u8 *message, int len);
 int gti2SendAck(GTI2Connection *connection);
 int func_02197AD8(GTI2Connection *connection, unsigned short SNMin, unsigned short SNMax);
-asm void gti2SendPong(void);
+int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len);
 int func_02197BB8(int *p);
 int func_02197BD4(GTI2Socket *sock, unsigned int ip, unsigned short port);
 int gti2ResendMessage(GTI2Connection *connection, GTI2OutgoingBufferMessage *message);
@@ -929,12 +929,10 @@ int func_02197AD8(GTI2Connection *connection, unsigned short SNMin, unsigned sho
 
 
 
-asm void gti2SendPong(void)
+int gti2SendPong(GTI2Connection *connection, unsigned char *message, int len)
 {
-	ldr ip, =gti2ConnectionSendData
-	mov r3, #0x67
-	strb r3, [r1, #2]
-	bx ip
+    message[2] = 0x67;
+    return gti2ConnectionSendData(connection, message, len);
 }
 
 

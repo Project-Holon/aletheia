@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker: func_02008494 (arm9 unlabelled thumb tail-call stub, Ilias's:
+ * Blocker: func_02008494 (arm9 unlabelled thumb tail-call stub, the integrator's:
  * ldr r3,=0x02082D44; movs r2,#0x20; bx r3) has no witness outside the range.
  * Verified C for the leaf: void func_02008494(void *a, void *b) { func_02082D44(a, b, 0x20); }
  * (verified EXACT, 12 bytes, thumb, with func_02082D44 0x02082D44 arm.)

@@ -21,16 +21,16 @@
     "sole-ref": [
      "data:0x021C726C",
      "data:0x021C88F0",
+     "data:0x021C891C",
+     "data:0x021C899C",
      "data:0x021C8A1C",
      "data:0x021C8B1C",
      "data:0x021C8C1C",
      "data:0x021C8C9C",
      "data:0x021C8D1C",
+     "data:0x021C8D9C",
      "data:0x021C959C",
-     "self:0x021C72AC",
-     "self:0x021C891C",
-     "self:0x021C899C",
-     "self:0x021C8D9C"
+     "self:0x021C72AC"
     ],
     "sdk": [
      "0x021BEFB8",

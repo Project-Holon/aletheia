@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CARDi_GetTargetMode",
+   "name": "IRC_IsConnect",
    "address": "0x0217A024",
    "kind": "sdk",
    "region": "ov015",

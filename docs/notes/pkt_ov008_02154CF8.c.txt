@@ -24,7 +24,7 @@ separately compiled helper spelling that yields the island.
 Current wave76 enum-return Check attempt remains DIFF121/936 (31/41 sites).
 BA58/BA68 now resolve from current EXACT sources; ARM9 0203D594/0203D5A0
 still lack outside witnesses at six sites. Stopped immediately when this
-remaining Ilias blocker was identified; no further caller retries or search.
+remaining the integrator blocker was identified; no further caller retries or search.
 Data d_021BB0B0, d_021F75EC,
 d_021F03C4, d_021EFDAC report "no witness outside" (reason not yet
 investigated; the ov hints are on the symbols: lines).  The overlay ids (0x5D, 0x61, 0xD5, 0xD6) resolve as overlay_id.
@@ -40,7 +40,7 @@ investigated; the ov hints are on the symbols: lines).  The overlay ids (0x5D, 0
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 current BA58/68 EXACT bodies read; 0203D594/5A0 remain unresolved Ilias targets; 2 current ov008/ov006 callers read; 3 enum Boolean Check tried121; 4 enum Boolean and call-result ternary idioms read; 5 current owner witnesses rechecked, stop under user owner-blocker instruction; further checks/permuter deferred while owner blockers remain.
+ * checks: 1 current BA58/68 EXACT bodies read; 0203D594/5A0 remain unresolved the integrator targets; 2 current ov008/ov006 callers read; 3 enum Boolean Check tried121; 4 enum Boolean and call-result ternary idioms read; 5 current owner witnesses rechecked, stop under user owner-blocker instruction; further checks/permuter deferred while owner blockers remain.
  *
  * 18-stage task on *mode.  func_02031348's second/third arguments are an
  * overlay id and an address in that overlay (0xD5/ov213, 0x61/ov097,

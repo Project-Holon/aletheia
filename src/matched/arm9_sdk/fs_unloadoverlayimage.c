@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   FS_EndOverlay  0x02079164  arm
  *
  * Original (16 bytes):
  *   push {r3, lr}
@@ -22,10 +23,10 @@
 
 typedef int BOOL;
 
-extern void func_02079164(void);
+extern void FS_EndOverlay(void);
 
 BOOL FS_UnloadOverlayImage(void)
 {
-    func_02079164();
+    FS_EndOverlay();
     return 1;
 }

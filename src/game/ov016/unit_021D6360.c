@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
-extern void *func_02060C5C(void *start, u32 size, u32 attr);
+extern void *func_02060C5C(void *start, u32 size, unsigned short attr);
 extern void OS_Terminate(void);
 extern void func_02060C94(void *heap);
 extern unsigned long OS_DisableIrqMask(unsigned long intr);

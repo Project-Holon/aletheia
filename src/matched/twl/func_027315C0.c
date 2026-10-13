@@ -1,5 +1,5 @@
 /*
- * function: func_027315C0
+ * function: PM_SetAutoExit
  * address: 0x027315C0
  * packet: pkt_twl_027315C0
  * region: twl
@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 extern u32 d_020A8724[];
 
-void func_027315C0(u32 v)
+void PM_SetAutoExit(u32 v)
 {
     d_020A8724[1] = v;
 }

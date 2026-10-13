@@ -22,7 +22,10 @@ which is the rule the arm9 side uses for a row without a unit.  Two caveats, bot
 deliberate: the code bytes come from each listing's own header, so they include
 any SDK code mixed into the overlay (there is no per-overlay SDK symbol table
 yet, unlike ``layout/symbols_sdk.txt`` for arm9), and only functions with a shard
-entry are counted as matched.  EXACT and EXACT* both count.
+entry are counted as matched.  EXACT and EXACT* both count, except a
+placeholder (tools/placeholders.py: an entry whose source holds no code, such as
+an empty asm body, which compares zero bytes and passes): it is counted apart as
+`placeholder` and stays unmatched.
 """
 import argparse
 import bisect
@@ -36,6 +39,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import stampcache  # noqa: E402  (stamp-validated pickle caches)
+import placeholders  # noqa: E402  (EXACT entries whose source holds no code)
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
 HDR_CODE = re.compile(r"classified\s+0x([0-9A-Fa-f]+) bytes code\s+\(([0-9.]+)%\),\s+0x([0-9A-Fa-f]+) bytes data")
@@ -304,6 +308,10 @@ def overlay_rows(funcs_out=None):
     session writes shards while the map is being generated.
     """
     rows = []
+    import regmismatch
+    regmm_all = {}
+    for e in regmismatch.sizes():
+        regmm_all.setdefault(e["region"], []).append(e)
     # One read of each listing gives its header, labels and per-function code
     # bytes; none of the three depends on anything but the listing, so they
     # are kept under the listing's stamp (build/cache/ovstats_listings.pkl).
@@ -333,6 +341,13 @@ def overlay_rows(funcs_out=None):
             "matched_sdk_funcs": 0,
             "veneer_bytes": 0,
             "veneer_funcs": 0,
+            "regmm_bytes": 0,
+            "regmm_funcs": 0,
+            "placeholder_bytes": 0,
+            "placeholder_funcs": 0,
+            "placeholder_sdk_bytes": 0,
+            "placeholder_sdk_funcs": 0,
+            "placeholders": [],
         }
         sdk = sdk_addrs(overlay)
         addrs = [a for a, _ in labels]
@@ -358,6 +373,19 @@ def overlay_rows(funcs_out=None):
         matched, uncounted = matched_addresses(overlay, addrs, by_label)
         row["uncounted"] = ["0x%08X %s" % (k, st) if isinstance(k, int) else "%s %s" % (k, st)
                             for k, st in uncounted]
+        # Placeholders (tools/placeholders.py): an EXACT/EXACT* entry whose source holds no
+        # code (an empty asm body compares zero bytes and passes).  They leave the matched
+        # set and stay in the denominator as their own class.
+        held = {a for a in matched if a not in veneers and placeholders.is_placeholder(overlay, a)}
+        for a in sorted(held):
+            matched.discard(a)
+            if a in sdk:
+                row["placeholder_sdk_bytes"] += code[a]
+                row["placeholder_sdk_funcs"] += 1
+            else:
+                row["placeholder_bytes"] += code[a]
+                row["placeholder_funcs"] += 1
+            row["placeholders"].append("0x%08X" % a)
         for a in sorted(matched):
             if a in veneers:
                 continue          # linker veneers sit outside both sides of the figure
@@ -367,15 +395,45 @@ def overlay_rows(funcs_out=None):
             else:
                 row["matched_bytes"] += code[a]
                 row["matched_funcs"] += 1
+        # Register mismatch (layout/register_mismatch.txt, tools/regmismatch.py): counted as
+        # its own class.  A function that is a label of this listing is already in the
+        # denominator (and leaves the exact count if a shard had it); one the listing does
+        # not label yet (a pool-word region, say) is added to the denominator here.
+        regmm_tiles = {}
+        for e in regmm_all.get(overlay, []):
+            a = e["addr"]
+            if a in sdk or a in held:
+                continue          # a placeholder stays a placeholder: its source has no code
+            if a in set(addrs):
+                if a in matched:
+                    matched.discard(a)
+                    row["matched_bytes"] -= code[a]
+                    row["matched_funcs"] -= 1
+                regmm_tiles[a] = None
+                size = code[a]
+            else:
+                row["game_bytes"] += e["size"]
+                regmm_tiles[a] = e
+                size = e["size"]
+            row["regmm_bytes"] += size
+            row["regmm_funcs"] += 1
         if funcs_out is not None:
+            for a, e in regmm_tiles.items():
+                if e is not None:
+                    funcs_out.append({"addr": a, "name": e["name"], "code_bytes": e["size"],
+                                      "region": overlay, "cls": "regmm", "sole_ref": False})
             seen = set()
             for a, name in labels:
                 if a in seen or code[a] <= 0 or a in veneers:
                     continue
                 seen.add(a)
                 exact = a in matched
-                if a in sdk:
+                if a in held:
+                    cls = "placeholder_sdk" if a in sdk else "placeholder"
+                elif a in sdk:
                     cls = "matched_sdk" if exact else "sdk"
+                elif a in regmm_tiles:
+                    cls = "regmm"
                 else:
                     cls = "matched" if exact else "open"
                 funcs_out.append({"addr": a, "name": name, "code_bytes": code[a], "region": overlay,
@@ -413,6 +471,12 @@ def main():
     ov_game = sum(r["game_bytes"] for r in rows)
     ov_matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
     ov_matched_sdk_funcs = sum(r["matched_sdk_funcs"] for r in rows)
+    ov_regmm = sum(r["regmm_bytes"] for r in rows)
+    ov_regmm_funcs = sum(r["regmm_funcs"] for r in rows)
+    ov_placeholder = sum(r["placeholder_bytes"] for r in rows)
+    ov_placeholder_funcs = sum(r["placeholder_funcs"] for r in rows)
+    ov_placeholder_sdk = sum(r["placeholder_sdk_bytes"] for r in rows)
+    ov_placeholder_sdk_funcs = sum(r["placeholder_sdk_funcs"] for r in rows)
     ov_veneer = sum(r["veneer_bytes"] for r in rows)
     ov_veneer_funcs = sum(r["veneer_funcs"] for r in rows)
     arm9 = arm9_summary()
@@ -445,6 +509,12 @@ def main():
                 "overlay_matched_funcs": ov_matched_funcs,
                 "overlay_matched_sdk_bytes": ov_matched_sdk,
                 "overlay_matched_sdk_funcs": ov_matched_sdk_funcs,
+                "overlay_regmm_bytes": ov_regmm,
+                "overlay_regmm_funcs": ov_regmm_funcs,
+                "overlay_placeholder_bytes": ov_placeholder,
+                "overlay_placeholder_funcs": ov_placeholder_funcs,
+                "overlay_placeholder_sdk_bytes": ov_placeholder_sdk,
+                "overlay_placeholder_sdk_funcs": ov_placeholder_sdk_funcs,
                 "overlay_veneer_bytes": ov_veneer,
                 "overlay_veneer_funcs": ov_veneer_funcs,
                 "arm9_game_bytes": arm9_game,
@@ -465,8 +535,13 @@ def main():
     print("overlay game code        : %d bytes, %d functions" % (ov_game, ov_matched_funcs))
     print("overlay matched (game)   : %d bytes (%.4f%% of game code), %d functions"
           % (ov_matched, 100.0 * ov_matched / ov_game if ov_game else 0.0, ov_matched_funcs))
+    print("overlay register mismatch: %d bytes, %d functions (exact + register mismatch %.4f%% of game code)"
+          % (ov_regmm, ov_regmm_funcs, 100.0 * (ov_matched + ov_regmm) / ov_game if ov_game else 0.0))
     print("overlay matched SDK      : %d bytes (%.4f%% of SDK code), %d functions"
           % (ov_matched_sdk, 100.0 * ov_matched_sdk / ov_sdk if ov_sdk else 0.0, ov_matched_sdk_funcs))
+    print("overlay placeholder      : %d bytes, %d functions game; %d bytes, %d functions SDK "
+          "(EXACT entries whose source holds no code; counted as unmatched)"
+          % (ov_placeholder, ov_placeholder_funcs, ov_placeholder_sdk, ov_placeholder_sdk_funcs))
     print()
     print("arm9 game code           : %d bytes, %d matched (%.4f%%)"
           % (arm9_game, arm9_matched, 100.0 * arm9_matched / arm9_game if arm9_game else 0.0))

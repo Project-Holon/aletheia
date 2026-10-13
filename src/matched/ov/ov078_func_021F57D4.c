@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ov021 0x021CF51C unlabelled accessor, owned by Ilias.
+ * blocker: ov021 0x021CF51C unlabelled accessor, owned by the integrator.
  * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF51C (no label witness). Filed src/matched/ov/ov021_func_021CF51C.c (EXACT, 4-byte accessor); it needs a manifest shard to count as a witness.
  * symbols:
  *   func_021CF51C 0x021CF51C thumb ov021

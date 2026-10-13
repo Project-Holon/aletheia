@@ -79,7 +79,6 @@
  *   g_020A7814     0x020A7814  data
  *   unk_0202F099   0x0202F099  data
  *   func_02030DA8  0x02030DA8  arm
- *   unk_0202F0A5   0x0202F0A5  data  a1
  *   func_020311B8  0x020311B8  arm
  *   func_02031290  0x02031290  arm
  *   func_020056EC   0x020056EC  thumb
@@ -588,7 +587,6 @@ extern const char blink_palanm_File[];
 extern s16 g_020A1B38[];
 extern char g_020A7814[];
 extern u8   unk_0202F099[];
-extern u8   unk_0202F0A5[];
 extern u8 g_0202F099[];
 extern struct Entry g_020A03C8[];
 extern u8 ov088_id[];
@@ -2003,17 +2001,8 @@ u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
 
 
 /*
- *           0x0202F0A5 as a `pool` row whose only referrer sites image-wide are the
- *           pool word at 0x0202EEC8 (listed twice, once per unit listing), which lies
- *           INSIDE this function's own 0x0202EE8C..0x0202EECC extent.  A lone
- *           reference never contributes its own start, so sole-ref/data refuses it
- *           exactly as `literal` and `label` do.  No other src/matched or src/pending
- *           file declares the address either, so `matched` has nothing to offer.
- *           Contrast 0x0202F099 (line 179), the sibling tag func_0202EE30 uses: that
- *           one also has a referrer at 0x0202F034, outside any one function, plus a
- *           data-symbol declaration from two EXACT files, which is why the sibling
- *           resolves and this one cannot.  Unblocks the moment any function outside
- *           this extent references the tag, or a matched file declares it.
+ * tag:      the word at +0x3C of func_0202EE8C is the Thumb address of sub_0202F0A4
+ *           (0x0202F0A5), the node callback handed to the func_020311B8 allocator.
  *
  * Sibling of func_0202EE30 (src/matched, EXACT): the same 0x1c-byte IconRec, built
  * through the func_020311B8 node allocator instead of func_02030734.  The node is
@@ -2036,7 +2025,7 @@ u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)
     void *v;
     u8 *r;
 
-    v = func_020311B8(a, unk_0202F0A5, 0x1c, 0);
+    v = func_020311B8(a, (u8 *)sub_0202F0A4, 0x1c, 0);
     r = func_02031290(v);
     func_0202EECC(r, b, c, d, e);
     ((struct Obj08812 *)r)->f4 = (u32)v;

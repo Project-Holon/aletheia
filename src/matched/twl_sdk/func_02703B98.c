@@ -1,5 +1,5 @@
 /*
- * function: func_02703B98
+ * function: NwmGetCommandBuffer4Arm7
  * address:  0x02703B98
  * packet:   twl
  * region:   twl
@@ -10,56 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027026DC  0x027026DC  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_02085E50  0x02085E50  arm twl
  *   func_020862B8  0x020862B8  arm twl
  *   func_02085DBC  0x02085DBC  arm twl
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
 
-extern u32 func_027026DC(void);
-extern u32 func_02085E50(u32, u32, u32);
-extern void func_020862B8(u32, u32);
-extern void func_02085DBC(u32, u32, u32);
+extern u32 NWMi_GetSystemWork(void);
+extern u32 func_02085E50(u32, u16 **, u32);
+extern void func_020862B8(void *, u32);
+extern void func_02085DBC(u32, u16 *, u32);
 
-asm void func_02703B98(void) {
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-    mov r0, #0
-    str r0, [sp]
-    bl func_027026DC
-    mov sb, r0
-    mov r4, #1
-    mov r6, #0x2000
-    mov r5, #2
-    add r8, sp, #0
-    mov r7, #0
-@lbl_02703BC0:
-    mov r1, r8
-    mov r2, r7
-    add r0, sb, #0x2000
-    bl func_02085E50
-    cmp r0, #0
-    moveq r0, r7
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    mov r0, sb
-    mov r1, r6
-    bl func_020862B8
-    ldr r0, [sp]
-    mov r1, r5
-    bl func_020862B8
-    ldr r1, [sp]
-    ldrh r0, [r1]
-    tst r0, #0x8000
-    bne @lbl_02703C18
-    mov r2, r4
-    add r0, sb, #0x2000
-    bl func_02085DBC
-    mov r1, r7
-    str r7, [sp]
-@lbl_02703C18:
-    cmp r1, #0
-    beq @lbl_02703BC0
-    mov r0, r1
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+u16 *NwmGetCommandBuffer4Arm7(void) {
+    u16 *msg = 0;
+    u32 base = NWMi_GetSystemWork();
+
+    do {
+        if (func_02085E50(base + 0x2000, &msg, 0) == 0) {
+            return 0;
+        }
+        func_020862B8((void *)base, 0x2000);
+        func_020862B8(msg, 2);
+        if (!(*msg & 0x8000)) {
+            func_02085DBC(base + 0x2000, msg, 1);
+            msg = 0;
+        }
+    } while (msg == 0);
+    return msg;
 }

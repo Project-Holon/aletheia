@@ -2371,7 +2371,7 @@ int func_021C0750(char *p, int ret)
 
 
 /*
- *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of Ilias's blocker.
+ *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of the integrator's blocker.
  *   extern char *d_021469DC;
  *   extern void func_0203CADC(void);
  *   int func_0203CB00(void) {

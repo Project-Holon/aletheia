@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * note 2026-10-05: re-run, bytes identical to the original; the only unresolved relocation is the BL to arm9 0x0200B98C (Thumb, 64 bytes, no code-start label, no asm/arm9 witness). Integrator: seed a label at 0x0200B98C; no source change needed.
- * blocker: 0x0200B98C arm9 thumb, no witness outside caller; prior verified Thumb EXACT copied from ov183_func_021DF838.c; not recompiled (Ilias-owned ARM9).
+ * blocker: 0x0200B98C arm9 thumb, no witness outside caller; prior verified Thumb EXACT copied from ov183_func_021DF838.c; not recompiled (integrator-owned ARM9).
  * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;

@@ -157,7 +157,7 @@
    }
   },
   {
-   "name": "func_0216BA08",
+   "name": "DWC_IsServerMyself",
    "address": "0x0216BA08",
    "kind": "sdk",
    "region": "ov009",
@@ -405,7 +405,6 @@
      "0x021713CC",
      "0x02171884",
      "0x021736AC",
-     "0x02175FE4",
      "0x021769E0"
     ]
    }

@@ -10,7 +10,7 @@
  * status:   EXACT
  * blocker:  label/matched. Every concrete byte is right; three call sites stay
  *           wildcarded because their targets are unlabelled arm9 leaves with no
- *           caller outside this range (Ilias's, inside arm9). Each was verified
+ *           caller outside this range (the integrator's, inside arm9). Each was verified
  *           EXACT with `one --thumb` and no --region:
  *             0x020275A8  u32 func_020275A8(u32 a) { return a; }
  *             0x020275AC  u8 func_020275AC(u8 *p) { return p[0xb0e]; }

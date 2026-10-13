@@ -20,7 +20,7 @@
  *   func_021CD3A4  0x021CD3A4  thumb  ov021
  *   func_02045808  0x02045808  arm
  *   abs_id_C2      0x000000C2  data
- *   d_021F5580     0x021F5580  data  ov075  a4
+ *   d_021F5580     0x021F5580  data  ov194  a4
  */
 #include "../include/Obj03150.h"
 

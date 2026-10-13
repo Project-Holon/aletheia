@@ -1,5 +1,5 @@
 /*
- * function: func_027022F8
+ * function: CAMERA_GetMaxLinesRoundCore
  * address:  0x027022F8
  * packet:   twl_sys
  * region:   twl
@@ -19,7 +19,7 @@ typedef unsigned long long u64;
 
 extern u64 func_0209C0A4(u32, u32);
 
-u32 func_027022F8(u32 a0, u32 a1) {
+u32 CAMERA_GetMaxLinesRoundCore(u32 a0, u32 a1) {
     u32 r4 = (u32)func_0209C0A4(0x400, a0);
     if ((s32)r4 > 0x10) r4 = 0x10;
     if ((s32)r4 > 1) {

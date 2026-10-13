@@ -29,6 +29,7 @@ extern char d_021899A0[];
  *           and invalidates the D-cache line. CP15 writes have no C
  *           spelling, so this is an asm function like DC_StoreRange.
  */
+/* hand-written in the original: cache maintenance loop with CP15 mcr writes (I-cache invalidate, write buffer drain, D-cache clean and invalidate), no C spelling */
 asm void func_021889E4(void *addr, unsigned int size)
 {
     add     r1, r1, r0

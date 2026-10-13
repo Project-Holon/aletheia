@@ -52,8 +52,7 @@ import protofix as pf  # noqa: E402
 
 ROOT = pf.ROOT
 GCC = pf.GCC
-SP = ('<home>/AppData/Local/Temp/claude/<project>/'
-      'd965be22-e087-410a-b91d-ae680804241d/scratchpad')
+SP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scratch')
 DEFAULT_OUT = SP + '/protofix2'
 
 # ---------------------------------------------------------------------------

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * blocked: every concrete byte matches; the one wildcard is the bl at +0x0E to
- * func_0201C1E8, an arm9 unlabelled leaf (Ilias's) between unit_0201C1C8 and
+ * func_0201C1E8, an arm9 unlabelled leaf (the integrator's) between unit_0201C1C8 and
  * unit_0201C1F4 with no label and no matched entry; its other caller
  * (src/pending/ov/ov070_func_021B97E8.c) is itself MATCH on the same leaf.
  * Unblocks once the leaf is filed.

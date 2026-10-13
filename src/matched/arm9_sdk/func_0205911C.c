@@ -13,12 +13,12 @@
  *   func_02059108    0x02059108  arm
 */
 
-extern void func_02059108(void);
+typedef struct {
+    unsigned char pad[1];
+} DWCstAccFlag;
+extern unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
 
-asm void func_0205911C(void)
+unsigned long func_0205911C(void *userdata)
 {
-    stmdb	sp!, {r3, lr}
-    bl	func_02059108
-    and	r0, r0, #3
-    ldmia	sp!, {r3, pc}
+    return DWCi_Acc_GetFlags(userdata) & 3;
 }

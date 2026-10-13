@@ -3,6 +3,10 @@
  * address:  0x021DD56C
  * packet:   pkt_021DD56C
  * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
  * status:   EXACT
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009

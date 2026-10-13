@@ -1,5 +1,5 @@
 /*
- * function: func_02702028
+ * function: CameraWaitBusy
  * address:  0x02702028
  * packet:   twl_sys
  * region:   twl
@@ -24,7 +24,7 @@ extern u16 data_04000208;
 extern u32 func_020879E0(void);
 extern void func_02088688(void);
 
-void func_02702028(void) {
+void CameraWaitBusy(void) {
     if (data_02732FC8[0] == 0) {
         return;
     }

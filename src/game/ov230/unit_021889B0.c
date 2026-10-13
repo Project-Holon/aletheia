@@ -49,6 +49,7 @@
 
 extern void func_02188A48(void);
 
+/* hand-written in the original: position-independent entry reading pc (orr r0, pc, #0), followed by a data table */
 asm void func_021889B0(void)
 {
     orr     r0, pc, #0

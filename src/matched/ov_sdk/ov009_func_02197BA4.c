@@ -13,13 +13,10 @@
  *   gti2ConnectionSendData       0x02195750  arm
 */
 
-extern void gti2ConnectionSendData(void);
+extern int gti2ConnectionSendData(void *connection, unsigned char *message, int len);
 
-asm void gti2SendPong(void)
+int gti2SendPong(void *connection, unsigned char *message, int len)
 {
-	ldr ip, =gti2ConnectionSendData
-	mov r3, #0x67
-	strb r3, [r1, #2]
-	bx ip
+    message[2] = 0x67;
+    return gti2ConnectionSendData(connection, message, len);
 }
-

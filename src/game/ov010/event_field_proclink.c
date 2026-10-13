@@ -82,7 +82,6 @@
  *   func_02012444  0x02012444  thumb
  *   d_021B9EC0     0x021B9EC0  data  a4
  *   ov_id_00CD     0x000000CD  data  a1
- *   func_0215FA1C  0x0215FA1C  thumb  ov010
  *   func_02012374  0x02012374  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012ED0  0x02012ED0  thumb
@@ -112,9 +111,7 @@
  *   func_0200C3B8  0x0200C3B8  thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02183B6C 0x02183B6C thumb ov020
- *   OS_SleepThread     0x02034ac4  arm
- *   DSP_SyncPipe       0x0218571c  thumb
- *   DSPiBlockingQueue  0x00000014  data
+ *   func_0218571C      0x0218571C  thumb  ov020
  *   abs_id_14      0x00000014  data
  *   sub_02034AC4   0x02034AC4  arm
  *   sub_02034A5C   0x02034A5C  arm
@@ -312,8 +309,6 @@ struct Evt;
 struct Big;
 struct Work_0215F52C;
 struct Sub02008700Obj;
-struct DSPPipe;
-struct _OSThreadQueue;
 struct Owner;
 struct Work_0215EC54;
 struct Rec44;
@@ -1022,7 +1017,7 @@ extern int func_02159F80(void);
 extern u16 func_02012914(const struct BigObj *p);
 extern void func_02023F60(u32 a0, u32 a1, u32 mask);
 extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern int func_0215FA1C();
+void *func_0215FA1C(void *owner);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
 u8 *func_02012944(void *p);
 u8 *func_02012ED0(struct Big *p);
@@ -1044,8 +1039,7 @@ extern void *func_02012F08(int *p);
 extern int func_0200C3B8();
 extern int func_02034AC4(s32_0215EC54 handle);
 extern void func_02183B6C(int a, int *p);
-void OS_SleepThread(struct _OSThreadQueue *queue);
-void DSP_SyncPipe(struct DSPPipe *pipe);
+extern void *func_0218571C(void *owner);
 extern int sub_02034AC4(int id);
 extern void sub_02034A5C(int handle);
 extern void func_020129B8(struct BigObj *p, u32 v);
@@ -1322,7 +1316,6 @@ extern u8 d_021BAB24[];
 extern u8 d_021B9E54[];
 extern u8 d_021B9BA0[];
 extern unsigned char ov020_id[];
-extern struct _OSThreadQueue DSPiBlockingQueue;
 extern unsigned char abs_id_14[];
 extern u8 ov122_id[];
 extern u8 ov172_id[];
@@ -2365,7 +2358,7 @@ int func_0215F64C(int a0, int *st, int *a2)
         break;
     case 1:
         func_02023F60(0, 0x3f, 3);
-        func_02012374((struct Evt *)a0, (struct Evt **)func_0215FA1C(a2[0]));
+        func_02012374((struct Evt *)a0, (struct Evt **)func_0215FA1C((void *)a2[0]));
         (*st)++;
         break;
     case 2:
@@ -2756,10 +2749,15 @@ void func_0215FA00(void *p, void *q) { func_02034AC4((u32)ov020_id); func_02183B
 
 
 
-static void DSPi_WaitForPipe(struct DSPPipe *pipe)
+/*
+ * Loads overlay 20 (sub_02034AC4 with the pooled id abs_id_14) and returns
+ * the task that ov020 func_0218571C creates for the owner.  The bytes are the
+ * same as the TWL DSPi_WaitForPipe (dsp_pipe.o), which named it before.
+ */
+void *func_0215FA1C(void *owner)
 {
-    OS_SleepThread(&DSPiBlockingQueue);
-    DSP_SyncPipe(pipe);
+    sub_02034AC4((int)abs_id_14);
+    return func_0218571C(owner);
 }
 
 

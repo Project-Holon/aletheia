@@ -34,21 +34,17 @@ typedef struct OsSystemWorkBss {
     BOOL initialized;
 } OsSystemWorkBss;
 
-extern void func_02087B14(void);
 extern BOOL OS_IsRunOnTwl(void);
-asm void func_02087B04(void);
+u16 func_02087B04(void);
 asm void *OS_GetBootInfo(void);
 BOOL func_02087B20(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OsSystemWorkBss g_02151360;
 
 
-asm void func_02087B04(void)
+u16 func_02087B04(void)
 {
-    stmdb	sp!, {r3, lr}
-    bl	func_02087B14
-    ldrh	r0, [r0]
-    ldmia	sp!, {r3, pc}
+    return *(u16 *)OS_GetBootInfo();
 }
 
 asm void *OS_GetBootInfo(void)

@@ -214,7 +214,7 @@ extern void func_021A02E0(SBServerList *slist);
 /* * sdk: SBServerListFindServerByIP (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o)) */ int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short port);
 /* * sdk: AddServerToDeadlist (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o)) */ void func_0219F738(SBServerList *slist, SBServer *server);
 /* * sdk: SBServerListRemoveAt (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o)) */ void func_0219F768(SBServerList *slist, int index);
-void DWCi_LSTlPopFront(void *list);
+void SBServerListCount(void *list);
 int func_0219F7C4(int *p);
 void func_0219F7D8(SBServerList *slist);
 void func_0219F830(SBServerList *slist);
@@ -505,7 +505,7 @@ void func_0219F768(SBServerList *slist, int index)
 
 
 
-void DWCi_LSTlPopFront(void *list)
+void SBServerListCount(void *list)
 {
     func_02184200(*(void **)((char *)list + 4));
 }

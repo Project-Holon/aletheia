@@ -13,11 +13,11 @@
  *   func_02062BAC 0x02062BAC arm
  */
 
+typedef unsigned char u8;
 struct Tbl;
 extern void func_02062BAC(struct Tbl *t);
-asm void func_02062810(void)
+
+void func_02062810(void *p)
 {
-    ldr ip, =func_02062BAC
-    add r0, r0, #8
-    bx ip
+    func_02062BAC((struct Tbl *)((u8 *)p + 8));
 }

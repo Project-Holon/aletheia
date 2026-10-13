@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "OS_LockCard",
+   "name": "OS_TryLockCard",
    "address": "0x02084E38",
    "kind": "sdk",
    "region": "arm9",

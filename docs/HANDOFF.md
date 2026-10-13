@@ -831,10 +831,10 @@ the previous session's memory.
 
 - Repositories: the decompilation is aletheia (this repo), the native port is
   eidos, the modding suite is kenon (empty, planned), all under the GitHub
-  organisation Project-Holon. Local checkouts: `Documents/aletheia` (this
+  organisation Project-Holon. Local checkouts: the repository root (this
   repo, folder name kept), `Documents/eidos`, `Documents/kenon`,
   `Documents/holon` (the org profile repo `.github-private`). A junction
-  `aletheia/eidos` points at the eidos checkout so one VS Code window shows
+  `eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
 - Code: 21.1157 percent of ARM9 game code matched byte for byte (2130 matched
   functions, 84582 of 400564 bytes, `python tools/worklist.py --summary`),
@@ -1308,7 +1308,7 @@ corrections noted here.
 
 ### `eidos` Native Port Alignment
 - Landed NSBMD 3D node dictionary, bone matrix hierarchy, shape binding, and host rasteriser additions in `eidos` (`commit 26785a8`). Verified via `python tools/hostbuild.py` (31 text, 44 stats, 49 tcbl checks all PASS with 0 failures).
-- Host toolchain configured with GCC 14.2 shim under `aletheia/tools/gcc-host/xpack-mingw-w64-gcc-14.2.0-1/bin/`.
+- Host toolchain configured with GCC 14.2 shim under `tools/gcc-host/xpack-mingw-w64-gcc-14.2.0-1/bin/`.
 - DeepSeek's NSBMD rotation packing implementation marked provisional in documentation; exact bitwise decoding formula will be derived from `NNS_G3D` matrix evaluation routines in `aletheia`.
 
 ### Technical Guidelines & Multi-Agent Collaboration Rules

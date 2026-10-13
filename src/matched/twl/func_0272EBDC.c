@@ -1,5 +1,5 @@
 /*
- * function: func_0272EBDC
+ * function: CARD_CalcRomHashBufferLength
  * address:  0x0272EBDC
  * packet:   twl_audio
  * region:   twl
@@ -11,30 +11,23 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-asm u32 func_0272EBDC(void *r0)
+struct SizeHdr_0272EBDC {
+    char pad[0x1fc];
+    u32 c;
+    u32 b;
+    u32 a;
+};
+
+u32 CARD_CalcRomHashBufferLength(void *p)
 {
-    ldr r2, [r0, #0x204]
-    mov r1, #0x14
-    mul r1, r2, r1
-    add r1, r1, #0xff
-    ldr r2, [r0, #0x1fc]
-    ldr r0, [r0, #0x200]
-    mov ip, #0
-    add r2, r2, #0x1f
-    mov r0, r0, lsl #5
-    bic r3, r2, #0x1f
-    add r2, r0, #0x1f
-    add r1, r1, #0x500
-    sub r0, ip, #0x600
-    and r0, r1, r0
-    mov r0, r0, lsl #2
-    add r0, r0, #0x1f
-    add r3, r3, #0
-    bic r1, r2, #0x1f
-    add r1, r3, r1
-    bic r0, r0, #0x1f
-    add r0, r1, r0
-    add r0, r0, #0x260
-    bx lr
+    struct SizeHdr_0272EBDC *hdr = p;
+    u32 per = hdr->a * 0x14;
+    u8 *start = 0;
+    u8 *q = start;
+    q += (hdr->c + 0x1f) & ~0x1f;
+    q += ((hdr->b << 5) + 0x1f) & ~0x1f;
+    q += (((((per + 0xff + 0x500) & (u32)(start - 0x600)) << 2) + 0x1f) & ~0x1f);
+    return (u32)q + 0x260;
 }

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * blocker: the THM_CALL at +0x50 to func_0201A354 (arm9, unlabelled Thumb
- * tail-call stub, Ilias's) has no witness outside the unit. Verified C for it
+ * tail-call stub, the integrator's) has no witness outside the unit. Verified C for it
  * (match.py one --thumb, no --region, EXACT, 16 bytes):
  *   extern int func_02048F60(int a, int b, int c);   (0x02048F60 arm)
  *   int func_0201A354(int a, int b) { return func_02048F60(0x69, a, b); }

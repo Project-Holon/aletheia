@@ -1,5 +1,5 @@
 /*
- * function: func_02732648
+ * function: WcmNwmcbConnect
  * address:  0x02732648
  * packet:   twl_sys
  * region:   twl
@@ -11,192 +11,145 @@
  *
  * symbols:
  *   func_021657C8  0x021657C8  arm  ov009
- *   func_027028B0  0x027028B0  arm  twl
+ *   NWM_GetState  0x027028B0  arm  twl
  *   func_02165A4C  0x02165A4C  arm  ov009
- *   func_02731F14  0x02731F14  arm  twl
+ *   WcmNwmReset  0x02731F14  arm  twl
  *   func_021659B4  0x021659B4  arm  ov009
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
 
-extern int func_021657C8(void);
-extern u32 func_027028B0(void);
+typedef struct NetWork {
+    u8 pad00[0x600];
+    u8 recvBuf[0xc40];
+    u8 peer[0x20];
+    u8 pad0a[0x1290 - 0x1260];
+    u8 mode;
+    u8 submode;
+    u8 pad0b[0x12c0 - 0x1292];
+    u32 cmdArg;
+    u8 pad0c[0x12d4 - 0x12c4];
+    u32 linkFlags;
+    u16 sync;
+    short phase;
+    u8 pad2a;
+    u8 stopFlag;
+    u8 state;
+    u8 pad3;
+    u8 buf[0x130c - 0x12e0];
+    u16 optFlags;
+    u8 pad4[0x13a0 - 0x130e];
+    u8 rxBuf[0x3000];
+    u32 sendBuf;
+    u16 sendLen;
+    u16 sendMask;
+    u16 sendId;
+    u16 sendFlag;
+    u8 sendMac[6];
+    u16 nameLen;
+    u8 sendName[0x20];
+    u16 nameLen2;
+    u8 pad5[0x43e0 - 0x43d6];
+    u32 sendCount;
+    u16 rxFlag;
+    u16 txFlag;
+} NetWork;
+
+extern NetWork *func_021657C8(void);
+extern u32 NWM_GetState(void);
 extern void func_02165A4C(unsigned char phase);
-extern void func_02731F14(void);
+extern void WcmNwmReset(void);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 
-asm void func_02732648(void *arg)
+void WcmNwmcbConnect(u16 *arg)
 {
-    stmdb   sp!, {r4, r5, r6, lr}
-    mov     r6, r0
-    mov     r4, #0
-    bl      func_021657C8
-    mov     r5, r0
-    bl      func_027028B0
-    ldrh    r1, [r6, #2]
-    cmp     r1, #5
-    addls   pc, pc, r1, lsl #2
-    b       @loc_02732840
+    NetWork *w = func_021657C8();
+    u32 cur = NWM_GetState();
 
-    b       @loc_02732688
-    b       @loc_02732704
-    b       @loc_02732840
-    b       @loc_02732840
-    b       @loc_02732840
-    b       @loc_02732830
-
-@loc_02732688:
-    cmp     r0, #4
-    bne     @loc_027326E0
-    add     r0, r5, #0x1000
-    ldrb    r0, [r0, #0x2de]
-    cmp     r0, #0xc
-    bne     @loc_027326B0
-    mov     r0, #8
-    bl      func_02165A4C
-    bl      func_02731F14
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_027326B0:
-    ldrh    r2, [r6, #0xe]
-    add     r1, r5, #0x4300
-    mov     r0, #9
-    strh    r2, [r1, #0xe4]
-    bl      func_02165A4C
-    add     r1, r5, #0x2e0
-    mov     r0, r4
-    ldr     r3, =0x436
-    mov     r2, r0
-    add     r1, r1, #0x1000
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_027326E0:
-    mov     r0, #0xb
-    bl      func_02165A4C
-    add     r0, r5, #0x2e0
-    add     r1, r0, #0x1000
-    ldr     r3, =0x43C
-    mov     r0, #7
-    mov     r2, r4
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_02732704:
-    ldrh    r0, [r6, #0x10]
-    cmp     r0, #0xd
-    addls   pc, pc, r0, lsl #2
-    b       @loc_0273280C
-
-    b       @loc_0273280C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_027327EC
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-    b       @loc_0273274C
-
-@loc_0273274C:
-    add     r0, r5, #0x1000
-    ldrb    r0, [r0, #0x2de]
-    sub     r0, r0, #8
-    cmp     r0, #4
-    addls   pc, pc, r0, lsl #2
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-    b       @loc_02732784
-    b       @loc_02732778
-    b       @loc_02732778
-    ldmfd   sp!, {r4, r5, r6, pc}
-    b       @loc_027327E4
-
-@loc_02732778:
-    add     r0, r5, #0x1200
-    mov     r1, #6
-    strh    r1, [r0, #0xda]
-
-@loc_02732784:
-    add     r0, r5, #0x4300
-    strh    r4, [r0, #0xe4]
-    ldrh    r1, [r6, #0x10]
-    cmp     r1, #0xb
-    addls   pc, pc, r1, lsl #2
-    b       @loc_027327E4
-
-    b       @loc_027327E4
-    b       @loc_027327E4
-    b       @loc_027327E4
-    b       @loc_027327E4
-    b       @loc_027327E4
-    b       @loc_027327CC
-    b       @loc_027327E4
-    b       @loc_027327DC
-    b       @loc_027327E4
-    b       @loc_027327E4
-    b       @loc_027327D4
-    b       @loc_027327D4
-
-@loc_027327CC:
-    mov     r1, #0xd
-    b       @loc_027327E0
-
-@loc_027327D4:
-    mov     r1, #0xf
-    b       @loc_027327E0
-
-@loc_027327DC:
-    mov     r1, #0x11
-
-@loc_027327E0:
-    strh    r1, [r0, #0xe6]
-
-@loc_027327E4:
-    bl      func_02731F14
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_027327EC:
-    add     r0, r5, #0x1000
-    ldrb    r0, [r0, #0x2de]
-    cmp     r0, #8
-    ldmnefd sp!, {r4, r5, r6, pc}
-    add     r0, r5, #0x4300
-    strh    r4, [r0, #0xe4]
-    bl      func_02731F14
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_0273280C:
-    mov     r0, #0xb
-    bl      func_02165A4C
-    add     r0, r5, #0x2e0
-    add     r1, r0, #0x1000
-    ldrh    r2, [r6, #0x10]
-    ldr     r3, =0x481
-    mov     r0, #7
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_02732830:
-    mov     r0, #8
-    bl      func_02165A4C
-    bl      func_02731F14
-    ldmfd   sp!, {r4, r5, r6, pc}
-
-@loc_02732840:
-    mov     r4, #0xb
-    mov     r0, r4
-    bl      func_02165A4C
-    add     r0, r5, #0x2e0
-    add     r1, r0, #0x1000
-    rsb     r3, r4, #0x4a0
-    mov     r0, #7
-    mov     r2, #0
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, pc}
+    switch (arg[1]) {
+    case 0:
+        if (cur == 4) {
+            if (w->state == 12) {
+                func_02165A4C(8);
+                WcmNwmReset();
+                return;
+            }
+            w->rxFlag = arg[7];
+            func_02165A4C(9);
+            func_021659B4(0, w->buf, 0, 1078);
+            return;
+        }
+        func_02165A4C(11);
+        func_021659B4(7, w->buf, 0, 1084);
+        return;
+    case 1:
+        switch (arg[8]) {
+        case 1:
+        case 2:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+            switch (w->state) {
+            case 9:
+            case 10:
+                w->phase = 6;
+            case 8:
+                w->rxFlag = 0;
+                switch (arg[8]) {
+                case 5:
+                    w->txFlag = 13;
+                    break;
+                case 10:
+                case 11:
+                    w->txFlag = 15;
+                    break;
+                case 7:
+                    w->txFlag = 17;
+                    break;
+                }
+            case 12:
+                WcmNwmReset();
+                break;
+            case 11:
+                goto exit11;
+            default:
+                goto exit_default;
+            }
+            return;
+        case 3:
+            if (w->state == 8) {
+                w->rxFlag = 0;
+                WcmNwmReset();
+            }
+            return;
+        default:
+            func_02165A4C(11);
+            func_021659B4(7, w->buf, arg[8], 1153);
+            return;
+        }
+    case 5:
+        func_02165A4C(8);
+        WcmNwmReset();
+        return;
+    case 2:
+    case 3:
+    case 4:
+    default:
+        func_02165A4C(11);
+        func_021659B4(7, w->buf, 0, 1173);
+        return;
+    }
+exit11:
+    return;
+exit_default:
+    return;
 }

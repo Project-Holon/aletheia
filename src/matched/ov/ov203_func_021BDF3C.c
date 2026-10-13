@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x02048CDC has no outside witness. Existing src/matched/arm9/unit_02048C58.c defines it but omits it from function:. Ilias owns the unit; no ARM9 source filed.
+ * blocker: ARM9 0x02048CDC has no outside witness. Existing src/matched/arm9/unit_02048C58.c defines it but omits it from function:. the integrator owns the unit; no ARM9 source filed.
  * blocker: verified EXACT by one --addr 0x02048CDC --arm without --region, fixed flags/c99; scratch blocker-02048CDC-one.log, exit 0.
  * blocker: typedef struct {unsigned short r,g,b,spare;} LightSlot;
  * blocker: void func_02048CDC(LightSlot *p,unsigned i,unsigned short *v){p[i].spare=*v;}

@@ -1,5 +1,5 @@
 /*
- * function: DWCi_LSTlDelete
+ * function: DWCi_QUElDelete
  * address:  0x021D5450
  * packet:   pkt_ov016_021D5450
  * region:   ov016
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      DWCi_LSTlDelete (libdwcutil.TWL.HYB.a(list.o))
+ * sdk:      DWCi_QUElDelete (libdwcutil.TWL.HYB.a(list.o))
  *
  * symbols:
  *   DWCi_HEAPlFree_                  0x021D6438  arm
@@ -19,7 +19,7 @@ struct tagLISTCB;
 
 extern void DWCi_HEAPlFree_(void **mem);
 
-void DWCi_LSTlDelete(struct tagLISTCB *list)
+void DWCi_QUElDelete(struct tagLISTCB *list)
 {
 	DWCi_HEAPlFree_((void **)&list);
 }

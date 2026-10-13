@@ -1,5 +1,5 @@
 /*
- * function: func_0272EC38
+ * function: CARDi_CompareHash
  * address:  0x0272EC38
  * packet:   twl_sys
  * region:   twl
@@ -29,7 +29,7 @@ extern int func_02087B04(void);
 extern void *func_020774B0(void);
 extern void func_02082C60(void *p, int v, u32 n);
 extern void func_02088234(void);
-void func_0272EC38(u32 *expect, void *data, u32 len)
+void CARDi_CompareHash(u32 *expect, void *data, u32 len)
 {
     unsigned char dbuf[20];
     u32 *digest = (u32 *)dbuf;

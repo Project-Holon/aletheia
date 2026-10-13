@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: ARM9 0201A364 has no witness outside this caller range.
  * Interface evidence: stub at 0201A364 moves r0 to r2, r1 to r0,
- * sets r1=0x69, then jumps through pool 02048F4C. Ilias owns it.
+ * sets r1=0x69, then jumps through pool 02048F4C. the integrator owns it.
  * symbols:
  *   func_0217B908 0x0217B908 thumb ov019
  *   func_0217B974 0x0217B974 thumb ov019

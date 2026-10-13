@@ -1,5 +1,5 @@
 /*
- * function: func_027026B4
+ * function: NWMi_CheckEnableFlag
  * address:  0x027026B4
  * packet:   twl_sys
  * region:   twl
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 func_02087DC4(void);
 extern u32 func_02087E84(void);
 
-u32 func_027026B4(void) {
+u32 NWMi_CheckEnableFlag(void) {
     if (func_02087DC4() == 1) {
         if (func_02087E84() == 0) {
             return 1;

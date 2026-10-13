@@ -40,7 +40,7 @@ extern void func_02088234(void);
 extern unsigned long func_02084968(unsigned long intr);
 void *func_021D53DC(long size);
 void *func_021D5410(long size, void *data, long dataSize);
-void DWCi_LSTlDelete(struct tagLISTCB *list);
+void DWCi_QUElDelete(struct tagLISTCB *list);
 void func_021D546C(void *queue, void *data);
 void *func_021D54C4(void *queue);
 
@@ -76,7 +76,7 @@ void *func_021D5410(long size, void *data, long dataSize)
 }
 
 
-void DWCi_LSTlDelete(struct tagLISTCB *list)
+void DWCi_QUElDelete(struct tagLISTCB *list)
 {
 	DWCi_HEAPlFree_((void **)&list);
 }

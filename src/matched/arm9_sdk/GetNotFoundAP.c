@@ -10,12 +10,17 @@
  * status:   EXACT
  */
 
-asm void GetNotFoundAP(void)
+typedef unsigned char u8;
+typedef struct {
+    u8 pad00[0xb];
+    u8 findAP : 4;
+    u8 ipCollision : 4;
+} ACHOLD;
+
+int GetNotFoundAP(ACHOLD *hd)
 {
-    ldrb r0, [r0, #0xb]
-    mov r0, r0, lsl #28
-    movs r0, r0, lsr #28
-    ldreq r0, =0xFFFF3C4D
-    ldrne r0, =0xFFFF3865
-    bx lr
+    if (hd->findAP == 0) {
+        return -50099;
+    }
+    return -51099;
 }

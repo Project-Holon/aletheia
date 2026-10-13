@@ -21,9 +21,6 @@
     "sole-ref": [
      "data:0x021DCFD0",
      "data:0x021DD050"
-    ],
-    "sdk": [
-     "0x02164EE0"
     ]
    }
   },
@@ -475,11 +472,8 @@
      "data:0x021DAB58",
      "data:0x021DCFD0",
      "data:0x021DD478",
-     "self:0x021D77C8",
-     "self:0x021DD504"
-    ],
-    "sdk": [
-     "0x021B9FE0"
+     "data:0x021DD504",
+     "self:0x021D77C8"
     ]
    }
   },
@@ -510,9 +504,9 @@
     "sole-ref": [
      "data:0x021DAB58",
      "data:0x021DCFD0",
+     "data:0x021DD224",
      "data:0x021DD504",
      "self:0x021DD020",
-     "self:0x021DD224",
      "self:0x021DD310",
      "self:0x021DD490",
      "self:0x021DD4A0",

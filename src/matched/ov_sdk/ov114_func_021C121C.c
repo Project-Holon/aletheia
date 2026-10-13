@@ -1,5 +1,5 @@
 /*
- * function: CaseInsensitiveCompare
+ * function: ghiCompareCertUrl
  * address:  0x021C121C
  * packet:   pkt_ov114_021C121C
  * region:   ov114
@@ -15,7 +15,7 @@
  */
 extern int func_020948E0(const char *s1, const char *s2);
 
-int CaseInsensitiveCompare(const char **a, const char **b)
+static int ghiCompareCertUrl(const char **a, const char **b)
 {
     return func_020948E0(*a, *b);
 }

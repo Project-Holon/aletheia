@@ -18,7 +18,7 @@
  *   offsets from p (0x450 first, 0x454 second, 0x458 object, 0x45c state)
  *   so the address sums are p + (0x450 + k), as the original computes them.
  * blocker: ARM9 020083AC/C8 no outside witness; primary
- *   asm/arm9/src/001_02007464.s2782..2790, no owner C permitted (Ilias).
+ *   asm/arm9/src/001_02007464.s2782..2790, no owner C permitted (the integrator).
  * checks: W82 R11 retry: 1 arities kept from the earlier full check, all 30
  *   call setups byte-correct; 2 B66D4 record twin as before; 3 not needed
  *   after the width-free fix; 4 flag default after the call MATCH, own

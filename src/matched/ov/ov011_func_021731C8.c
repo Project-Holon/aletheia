@@ -14,7 +14,7 @@
  * unresolved sites are leaves whose only caller image-wide is this
  * function (tu --suggest-split: not cuttable):
  *   +0076 func_02161F68 (ov010, unlabelled 12-byte memset stub)
- *   +0168 func_02026680 (arm9, unlabelled; Ilias's)
+ *   +0168 func_02026680 (arm9, unlabelled; the integrator's)
  * Because an arm9 leaf is among the blockers, the ov010 leaf is not filed.
  * Levers from the DIFF note (wave 82): the `b` to the next instruction at
  * +0x136 is the shared func_02012B4C(h, 1) call written in both arms of the

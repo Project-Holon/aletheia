@@ -1,7 +1,7 @@
 /*
  * file:     psel_graphic.c
  * unit:     yes
- * function: func_021BB450, func_021BB508, func_021BB520, func_021BB540, func_021BB62C, func_021BB630, func_021BB7A4, func_021BB840, func_021BB844, func_021BB944, func_021BB954, func_021BB964, func_021BB974, func_021BB9A4, func_021BB9E0, func_021BBA78, func_021BBADC, func_021BBB28, func_021BBC6C, func_021BBCBC, func_021BBCF0, func_021BBD74, func_021BBDE0, func_021BC274, func_021BC2CC, func_021BC30C, func_021BC34C, func_021BC3F0, func_021BC498, func_021BC4F4, func_021BC508, func_021BC514, func_021BC520, func_021BC52C, func_021BC538, func_021BC54C, func_021BC5AC, func_021BC5E4, func_021BC5E8, func_021BC5F0, func_021BC630, func_021BC64C, func_021BC654, func_021BC660, func_021BC6CC, func_021BC6DC, func_021BC6F0
+ * function: func_021BB450, func_021BB508, func_021BB520, func_021BB540, func_021BB62C, func_021BB630, func_021BB7A4, func_021BB840, func_021BB844, func_021BB944, func_021BB954, func_021BB964, func_021BB974, func_021BB9A4, func_021BB9DC, func_021BB9E0, func_021BBA78, func_021BBADC, func_021BBB28, func_021BBC6C, func_021BBCBC, func_021BBCF0, func_021BBD74, func_021BBDE0, func_021BC274, func_021BC2CC, func_021BC30C, func_021BC348, func_021BC34C, func_021BC3F0, func_021BC498, func_021BC4F4, func_021BC508, func_021BC514, func_021BC520, func_021BC52C, func_021BC538, func_021BC54C, func_021BC5AC, func_021BC5E4, func_021BC5E8, func_021BC5F0, func_021BC630, func_021BC64C, func_021BC654, func_021BC65C, func_021BC660, func_021BC6CC, func_021BC6DC, func_021BC6F0
  * address:  0x021BB450
  * region:   ov223
  * compiler: dsi/1.1p1

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   defaultPos 0x021C08FC data
+ *   defaultPos_021C08FC 0x021C08FC data
  *   func_02015CAC 0x02015CAC thumb
  *   func_02015E04 0x02015E04 thumb
  *   func_020307B0 0x020307B0 arm
@@ -38,7 +38,7 @@
  *   func_02048A18 0x02048A18 arm
  *   func_020477A4 0x020477A4 arm
  *   func_020477D4 0x020477D4 arm
- *   site 0x021C0B00 data a1
+ *   site_021C0B00 0x021C0B00 data a1
  *   va 0x021C0914 data a4
  *   vb 0x021C0920 data a4
  *   vc 0x021C0908 data a4
@@ -174,9 +174,9 @@ void func_021BFBC8(char *p,unsigned value);
 char *func_021BFC24(void *owner,unsigned heap);
 void func_021BFCD0(char *a);
 void func_021BFCE0(int a0);
-extern const struct Vec defaultPos;
+extern const struct Vec defaultPos_021C08FC;
 extern const Vec3 va,vb,vc;
-extern const char site[];
+extern const char site_021C0B00[];
 extern const char setup[];
 extern const char d_021C0B30[];
 extern int d_021C0B18[];
@@ -186,7 +186,7 @@ extern int d_021C0B0C[],d_021C0B24[];
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i)
 {
     char data[36];
-    struct Vec pos = defaultPos;
+    struct Vec pos = defaultPos_021C08FC;
     void *tmp = func_020173F0((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
     char *base = p + 8;
     unsigned int off = i * 12;
@@ -307,7 +307,7 @@ char *func_021BF8DC(void *owner,int kind,u32 heap)
     Vec3 a,b,c;
     char *p;
     void *obj;
-    p=func_02030734(heap,48,1,site,162);
+    p=func_02030734(heap,48,1,site_021C0B00,162);
     ((struct Obj02921 *)p)->f4=heap;
     ((struct Obj02921 *)p)->f0=owner;
     ((struct Obj02921 *)p)->f8=func_02047CFC(10,16,heap);

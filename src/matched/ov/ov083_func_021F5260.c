@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Byte-correct. Only blockers: four unlabelled arm9 leaves (Ilias's), each
+ * Byte-correct. Only blockers: four unlabelled arm9 leaves (the integrator's), each
  * with no witness outside the range.
  * blocker:
  *   0x02010F7C thumb (verified EXACT in ov083_func_021F5390.c's header):

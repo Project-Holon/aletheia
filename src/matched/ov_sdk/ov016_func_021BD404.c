@@ -12,17 +12,15 @@
  * symbols:
  *   DWCi_FOCUSlDelete            0x021BD5A8  arm
  *   DWCi_HEAPlFree_              0x021D6438  arm
+ *   g_021DE550                   0x021DE550  data
 */
 
 extern void DWCi_FOCUSlDelete(void);
-extern void DWCi_HEAPlFree_(void);
+extern void DWCi_HEAPlFree_(void **mem);
+extern void *g_021DE550;
 
-asm void DWCi_FOCUSlEnd(void)
+void DWCi_FOCUSlEnd(void)
 {
-	stmdb sp!, {r3, lr}
-	bl DWCi_FOCUSlDelete
-	ldr r0, =0x021DE550
-	bl DWCi_HEAPlFree_
-	ldmia sp!, {r3, pc}
+    DWCi_FOCUSlDelete();
+    DWCi_HEAPlFree_(&g_021DE550);
 }
-

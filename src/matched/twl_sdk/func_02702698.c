@@ -1,5 +1,5 @@
 /*
- * function: func_02702698
+ * function: NWMi_CheckInitialized
  * address:  0x02702698
  * packet:   twl_sys
  * region:   twl
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u8 data_027341A0[];
 
-u32 func_02702698(void) {
+u32 NWMi_CheckInitialized(void) {
     if (data_027341A0[0] != 0) {
         return 0;
     }

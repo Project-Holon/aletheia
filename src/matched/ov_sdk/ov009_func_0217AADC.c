@@ -10,14 +10,17 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_021ACE5C  0x021ACE5C  data
 */
 
-asm void DWC_Netcheck_GetReturnCode(void)
+struct NetcheckHolder
 {
-	ldr r0, =0x021ACE5C
-	ldr r0, [r0, #4]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #4]
-	bx lr
-}
+	int unused;
+	char *nc;
+};
+extern struct NetcheckHolder g_021ACE5C;
 
+int DWC_Netcheck_GetReturnCode(void)
+{
+	return *(int *)(g_021ACE5C.nc + 0x1004);
+}

@@ -1,5 +1,5 @@
 /*
- * function: gpSetInfoi
+ * function: gpSetInfosA
  * address:  0x02185CB4
  * packet:   pkt_ov009_02185CB4
  * region:   ov009
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      gpSetInfoi (gp.o)
+ * sdk:      gpSetInfosA (gp.o)
  *
  * symbols:
  *   gpiSetErrorString  0x02193734  arm
@@ -26,7 +26,7 @@ extern char g_021A4024[];
 extern void gpiSetErrorString(void **connection, char *errorString);
 extern int gpiSetInfoi(void **connection, int info, int value);
 
-int gpSetInfoi(void **connection, int info, int value)
+int gpSetInfosA(void **connection, int info, int value)
 {
     GPIConnection *iconnection;
 

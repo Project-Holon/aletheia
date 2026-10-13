@@ -12,34 +12,18 @@
  * symbols:
  */
 
-asm int GetProgramaError(int err)
+int GetProgramaError(int err)
 {
-    cmp r0, #3
-    addls pc, pc, r0, lsl #2
-    b loc_default
-
-    b case_0
-    b case_1
-    b case_2
-    b case_3
-
-case_1:
-    mvn r0, #8
-    bx lr
-
-case_0:
-    mvn r0, #9
-    bx lr
-
-case_2:
-    mvn r0, #7
-    bx lr
-
-case_3:
-    mvn r0, #6
-    bx lr
-
-loc_default:
-    mov r0, #0
-    bx lr
+    switch (err) {
+    case 1:
+        return -9;
+    case 0:
+        return -10;
+    case 2:
+        return -8;
+    case 3:
+        return -7;
+    default:
+        return 0;
+    }
 }

@@ -10,7 +10,7 @@
  * checks: 1 copied own ov114/DC610 signatures and ARM9 blocker input reads; 2 existing DC8A0 Pair twin used; 3 Pair replaces scalar two-word copy; 4 aggregate-copy idioms applied; 5 fresh directory and ov175 neighbours read. Caller TU MATCH has no viable split; only ARM90200FB4C blocks it.
  * lever: Pair aggregate assignment fixes all four payload-copy register bytes; TU --suggest-split confirms MATCH, no viable cut.
  * extent: lead 292 bytes; following 20-byte DC8A0 is already B7's src/matched/ov/ov175_func_021DC8A0.c.
- * blocker: Ilias-owned ARM9 0200FB4C, unresolved at caller +008E/+009C/+00C6; verified EXACT32 with one --thumb, fixed flags, no --region, scratch fb4c-r1.log.
+ * blocker: integrator-owned ARM9 0200FB4C, unresolved at caller +008E/+009C/+00C6; verified EXACT32 with one --thumb, fixed flags, no --region, scratch fb4c-r1.log.
  *   symbols: d_0214617C 0x0214617C data a4; d_021461BC 0x021461BC data a4.
  *   typedef unsigned char u8; typedef unsigned int u32;
  *   extern u8 d_0214617C[],d_021461BC[];

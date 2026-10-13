@@ -1,5 +1,5 @@
 /*
- * function: func_02702A8C
+ * function: NwmSleepCallback
  * address: 0x02702A8C
  * packet: pkt_twl_02702A8C
  * region: twl
@@ -18,7 +18,7 @@
 void func_02088234(void);
 
 /* Tail stub: forwards to func_02088234. */
-void func_02702A8C(void)
+void NwmSleepCallback(void)
 {
     func_02088234();
 }

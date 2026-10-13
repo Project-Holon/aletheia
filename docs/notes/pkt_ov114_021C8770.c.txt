@@ -11,7 +11,7 @@
  * retry: wave24 R1, 3 targeted changes (bound object, const global pointer,
  *   typed destination Pair) did not shrink 8; one --budget 300 --types
  *   permuter compiled 300 candidates and found no improvement. Do not rerun.
- * owner-blocker: Ilias SDK ov114 0x021CA470; matched ov_sdk definition
+ * owner-blocker: the integrator SDK ov114 0x021CA470; matched ov_sdk definition
  *   void func_021CA470(int,int,int,int,int) conflicts with caller return use.
  *   021C87B8: bl 021CA470; 021C87BC: cmp r0,#0.
  *   021CA488: bl 021CA240; 021CA48C: add sp,sp,#8; 021CA490: pop {r3,pc}

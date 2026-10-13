@@ -664,7 +664,7 @@ int func_021744D0(int a, int b, int c, ...)
 /*
  * 2026-10-05 (D8 lane19): re-verified, MATCH; only unresolved relocations are arm9 leaves 0x0202E7E0 and 0x0202E7C4 (no witness outside range). Needs labels seeded. Source is byte-correct; no C change possible.
  *
- * Blocked: MATCH*, two unlabelled arm9 leaves have no witness outside the range (Ilias's):
+ * Blocked: MATCH*, two unlabelled arm9 leaves have no witness outside the range (the integrator's):
  *   0x0202E7E0 thumb `int f(int *p) { return *p; }` (ldr r0,[r0]; bx lr)
  *   0x0202E7C4 thumb leaf, ldm/stm struct copy of 0x18 bytes (words at 0202E7C4..0202E7DC)
  * Everything else in the file compiles byte-correct (88 of 90 B listed, tail is pad).
@@ -1206,7 +1206,7 @@ void func_02174E3C(u8 *p)
 /*
  * (ldr r3,=target; movs r2,#0x20; bx r3), no witness outside the range.
  * Verified C for the leaf: void func_02008494(u8 *a, int b) style thunk;
- * needs Ilias's arm9 leaf filed to promote this to EXACT.
+ * needs the integrator's arm9 leaf filed to promote this to EXACT.
  */
 void func_02174EAC(u8 *p, int idx, u8 *q)
 {

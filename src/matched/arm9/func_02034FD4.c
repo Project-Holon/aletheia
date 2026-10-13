@@ -10,11 +10,15 @@
  * status:   EXACT
  */
 
-asm void func_02034FD4(void)
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct UiCtx {
+    u8 pad00[0x38];
+    u8 always;
+};
+#define g_021469BC (*(struct UiCtx **)0x021469BC)
+
+u32 func_02034FD4(struct UiCtx *p, u8 flags)
 {
-    ldrb r0, [r0, #0x38]
-    tst r0, r1
-    movne r0, #1
-    moveq r0, #0
-    bx lr
+    return (p->always & flags) != 0;
 }

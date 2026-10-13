@@ -1,5 +1,5 @@
 /*
- * function: func_02707ACC
+ * function: AESi_PxiSendResult
  * address:  0x02707ACC
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
- */
+ * status:   EXACT
+ *
+ * symbols:
+ *   AESi_PxiSendFirst  0x02707994  arm
+  */
 
-asm void func_02707ACC(void)
+typedef unsigned int u32;
+typedef unsigned short u16;
+void AESi_PxiSendFirst(int tag, u32 a, u32 b);
+void AESi_PxiSendResult(u32 a, u32 b)
 {
+    AESi_PxiSendFirst(0x13, (u16)a, (u16)b);
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 func_02043588 is defined in src/matched/arm9/unit_02043570.c
- *   but omitted from its function: header; Ilias owns this unit.
+ *   but omitted from its function: header; the integrator owns this unit.
  * blocker: verified EXACT 16-byte ARM C copied from
  *   src/pending/ov/ov133_func_021B69AC.c after the caller's MATCH verdict:
  *   extern void func_02043558(void),func_02043570(void);

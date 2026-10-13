@@ -1,6 +1,6 @@
 pkt_ov021_021B6628  func_021B6628 (ov021, thumb, 144 B)  status: DIFF (compiled 140 B) and MATCH-capped
 
-Blocker 1 (evidence): func_02012FD8 is an unlabelled arm9 thumb leaf (Ilias's), no witness.
+Blocker 1 (evidence): func_02012FD8 is an unlabelled arm9 thumb leaf (the integrator's), no witness.
 Verified C for it (match.py one, region arm9, --thumb, EXACT, 12 B):
   extern void *func_020071CC(void *, int);
   void *func_02012FD8(void **p) { return func_020071CC(*p, 0x43); }   (symbols: func_020071CC 0x020071CC thumb)

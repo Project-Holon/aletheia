@@ -1,6 +1,6 @@
 # Merge lane brief (src/game restructure)
 
-Repo: <home>/OneDrive/Documents/aletheia. A byte-matching C decompilation of
+Repo: the repository root. A byte-matching C decompilation of
 Pokemon Black (DS), compiler mwccarm dsi/1.1p1. `src/matched/` holds one function per
 file, every one verified byte-exact; it is the frozen record: NEVER edit anything under
 `src/matched/`, `layout/`, `asm/`, `tools/` or `docs/`.

@@ -1,5 +1,5 @@
 /*
- * function: accept
+ * function: getsockname
  * address:  0x0217ED0C
  * packet:   pkt_ov009_0217ED0C
  * region:   ov009
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      accept (gsplatformsocket)
+ * sdk:      getsockname (gsplatformsocket)
  *
  * symbols:
  *   SOC_Accept       0x0215f714 arm
@@ -26,7 +26,7 @@ struct SOCSockAddr {
 extern int SOC_Accept(int s, void * sockAddr);
 extern int CheckRcode(int rcode, int errCode);
 
-int accept(int sock, struct SOCSockAddr * addr, int * len)
+int getsockname(int sock, struct SOCSockAddr * addr, int * len)
 {
     int rcode;
 

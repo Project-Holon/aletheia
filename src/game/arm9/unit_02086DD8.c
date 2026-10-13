@@ -116,6 +116,7 @@ _4:
     bx      lr
 }
 
+/* hand-written in the original: SDK asm wrapper; saves r0 and calls the mrs/msr routines, which take r12 (the exception frame) implicitly */
 asm void OSi_GetAndDisplayContext(void)
 {
     stmfd sp!, {r0, lr}

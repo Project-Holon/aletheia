@@ -1,7 +1,7 @@
 /*
  * file:     manual_category.c
  * unit:     yes
- * function: func_021BB6E0, func_021BB7F4, func_021BB854, func_021BBA14, func_021BBA74, func_021BBAE8, func_021BBB0C, func_021BBBF0, func_021BBBF4, func_021BBC44, func_021BBC50, func_021BBC54, func_021BBCF4, func_021BBD28
+ * function: func_021BB6E0, func_021BB7F4, func_021BB850, func_021BB854, func_021BBA14, func_021BBA70, func_021BBA74, func_021BBAE8, func_021BBB0C, func_021BBBF0, func_021BBBF4, func_021BBC44, func_021BBC50, func_021BBC54, func_021BBCF4, func_021BBD28
  * address:  0x021BB6E0
  * region:   ov225
  * compiler: dsi/1.1p1

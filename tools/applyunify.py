@@ -62,8 +62,7 @@ import globalunify as gu  # noqa: E402
 import protofix as pf  # noqa: E402
 
 REPO = pf.ROOT
-SCRATCH = ('<home>/AppData/Local/Temp/claude/<project>/'
-           'd965be22-e087-410a-b91d-ae680804241d/scratchpad')
+SCRATCH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scratch')
 DEF_GU = SCRATCH + '/gu'
 DEF_OUT = SCRATCH + '/applyunify'
 

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   DWCi_Ndi_memcpy  0x021BA100  arm  ov114
+ *   NHTTPi_memcpy  0x021BA100  arm  ov114
  *   func_021BA020    0x021BA020  arm  ov114
  *   func_021B9F94 0x021B9F94 arm ov114
  *   func_021BEBE0 0x021BEBE0 arm ov114
@@ -135,7 +135,7 @@ typedef unsigned long u32_021BC160;
 
 typedef unsigned int   u32_021BC2FC;
 
-extern void DWCi_Ndi_memcpy(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
 extern int func_021BA020(NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern int func_021B9F94(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern void *func_021BEBE0(void *, void *);
@@ -342,7 +342,7 @@ static int func_021BBF44(NHTTPReq *req_p, char *commBuf_p, int socket, int *bufw
         n = 0x4000 - *bufwp_p;
         if (len <= n)
             n = len;
-        DWCi_Ndi_memcpy(commBuf_p + *bufwp_p, src_p, n);
+        NHTTPi_memcpy(commBuf_p + *bufwp_p, src_p, n);
         src_p += n;
         *bufwp_p += n;
         len -= n;

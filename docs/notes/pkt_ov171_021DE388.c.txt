@@ -20,7 +20,7 @@
  * renewed-pass: typed parent165; explicit first-result temp440/616;
  *   enum slot165; three nonshrinks stop. Unsigned-long key check165.
  * checks: 1 own D7C8/D7D8/D81C/D898/DE290 and forwarding bodies reread,
- *   strict own-prototype conflicts parked for Ilias, no more caller compiles;
+ *   strict own-prototype conflicts parked for the integrator, no more caller compiles;
  *   2 DE144/DE2D4/DE608/DE684 neighbours reread,no twin; 3 long key compiled;
  *   4 enum/long/aggregate idioms; 5 fresh directory/neighbours, declared-struct
  *   idiom read: existing24-byte local copy/frame addressing already agrees.

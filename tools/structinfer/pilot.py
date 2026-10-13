@@ -1,7 +1,7 @@
 """Pilot: rewrite raw-offset accesses of a random sample of files and verify each result with the real compile test."""
 import sys, os, re, random, pickle, collections, tempfile, shutil, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-REPO = r'<home>/OneDrive/Documents/aletheia'
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, REPO + '/tools')
 import protofix as P
 from pycparser import c_ast

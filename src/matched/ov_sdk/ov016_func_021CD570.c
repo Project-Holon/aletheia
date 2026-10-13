@@ -13,12 +13,9 @@
  *   DWCi_HEAPlFree2              0x021D647C  arm
 */
 
-extern void DWCi_HEAPlFree2(void);
+extern void DWCi_HEAPlFree2(void *mem);
 
-asm void acFree(void)
+void acFree(void *unused, void *ptr)
 {
-	ldr ip, =DWCi_HEAPlFree2
-	mov r0, r1
-	bx ip
+    DWCi_HEAPlFree2(ptr);
 }
-

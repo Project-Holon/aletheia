@@ -20,7 +20,7 @@
  *   func_02200A50  0x02200A50  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  *
- * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (Ilias's; no
+ * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (the integrator's; no
  * witness outside the range): func_02015CC4 (copies three words from +0x128).
  * Verified C (match.py one, no --region, --thumb, EXACT):
  *   typedef unsigned int u32;

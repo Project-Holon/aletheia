@@ -1,5 +1,5 @@
 /*
- * function: func_02731234
+ * function: MIi_LockWramManagerDI
  * address:  0x02731234
  * packet:   twl_sys
  * region:   twl
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_02087988 0x02087988 arm
- *   func_027311E8 0x027311E8 arm twl
+ *   MI_LockWramManager 0x027311E8 arm twl
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_02087988(void);
-extern void func_027311E8(u16 *p);
+extern void MI_LockWramManager(u16 *p);
 
-u32 func_02731234(u16 *p)
+u32 MIi_LockWramManagerDI(u16 *p)
 {
     u32 irq = func_02087988();
-    func_027311E8(p);
+    MI_LockWramManager(p);
     return irq;
 }

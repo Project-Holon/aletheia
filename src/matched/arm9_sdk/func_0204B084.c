@@ -14,15 +14,13 @@
  *   func_0204BE28 0x0204BE28 arm
  */
 
-extern void func_020307B0(void *p);
-extern void func_0204BE28(int *p);
+typedef unsigned int u32;
+struct OamState;
+extern void func_0204BE28(struct OamState *p);
+extern u32 sub_020307B0(void *p);
 
-asm void func_0204B084(void)
+void func_0204B084(struct OamState *p)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_0204BE28
-    mov	r0, r4
-    bl func_020307B0
-    ldmfd sp!, {r4, pc}
+    func_0204BE28(p);
+    sub_020307B0(p);
 }

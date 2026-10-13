@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GX_GetBankForLCDC",
+   "name": "GX_IsDispOn",
    "address": "0x0207D41C",
    "kind": "sdk_calibration",
    "region": "arm9",

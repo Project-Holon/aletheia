@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02043588 has no resolved witness; Ilias unit src/matched/arm9/unit_02043570.c contains its body but omits func_02043588 from its function value. No ARM9 source/shard filed. Standalone scratch one fixed flags ARM EXACT (16 bytes, 2/2): extern void func_02043558(void),func_02043570(void); void func_02043588(void) { func_02043558();func_02043570(); }
+ * blocker: ARM9 02043588 has no resolved witness; the integrator unit src/matched/arm9/unit_02043570.c contains its body but omits func_02043588 from its function value. No ARM9 source/shard filed. Standalone scratch one fixed flags ARM EXACT (16 bytes, 2/2): extern void func_02043558(void),func_02043570(void); void func_02043588(void) { func_02043558();func_02043570(); }
  * checks: 1 owner files/readers retained; 2 ov220 neighbours read, no resource twin; 3 u16 variant unchanged47; nonconst resources47->MATCH; 4 enum/hardware/const-record/table-field idioms read; 5 directory/neighbours reread. TU --suggest-split MATCH, no viable piece, sole ARM9 blocker retained.
  * lever: enum counter with unsigned do-while retains the original single-iteration BG loop; nonconst Resources extern keeps outgoing stack stores before the three resource loads (const gave47 concrete bytes).
  * volatile: 021B965C BLDCNT write; 021B9660/966A hardware DISPCNT reads.

@@ -1,5 +1,5 @@
 /*
- * function: func_02704D48
+ * function: SetSndexWork
  * address:  0x02704D48
  * packet:   twl
  * region:   twl
@@ -10,18 +10,45 @@
  * status:   EXACT
  *
  * symbols:
- *   DAT_02734450   0x02734450  data twl
+ *   DAT_02734450  0x02734450  data twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 DAT_02734450[];
+typedef void (*Cb)(u32, void *);
 
-asm void func_02704D48(u32 a0, u32 a1, u32 a2, u32 a3) {
-    ldr ip, =DAT_02734450
-    str r0, [ip, #0x4c]
-    str r1, [ip, #0x50]
-    str r2, [ip, #0x54]
-    strb r3, [ip, #0x58]
-    bx lr
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
+
+extern State DAT_02734450;
+
+void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3) {
+    DAT_02734450.f4c = a0;
+    DAT_02734450.f50 = a1;
+    DAT_02734450.f54 = a2;
+    DAT_02734450.f58 = a3;
 }

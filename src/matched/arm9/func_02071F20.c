@@ -3,7 +3,7 @@
  * address:  0x02071F20
  * packet:   pkt_02071F20
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: ../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -22,14 +22,10 @@
  *
  * Three levers, all measured, and all needed:
  *
- * L1  f30/f34 ARE `volatile`.  The image RE-READS the scale from the
- *     object before the second and third multiply of each block
- *     (`ldr r2,[r4,#0x30]` at 0x02071FC4, `ldr r1,[r4,#0x30]` at
- *     0x02071FDC); 1.1p1 otherwise forwards the register it still holds
- *     live and batches all three smulls, which is 8 bytes short.  But
- *     plain `volatile` also re-reads for the GUARD compare and comes out
- *     4 bytes LONG, so the guard's own load is bound to a local `s` and
- *     the FIRST multiply uses that local while the other two re-read.
+ * L1  f30/f34 are plain fields.  The image RE-READS the scale from the
+ *     object before the second and third multiply of each block; the
+ *     NITRO 2.0 compiler keeps those loads, so the source reads o->f30 for
+ *     each multiply and binds only the guard's load to a local `s`.
  * L2  THE CALL'S BASE IS A POINTER LOCAL.  The image spends two
  *     instructions on the argument, `add r1, sp, #0` then
  *     `add r1, r1, #4` (0x02072040/0x02072048); `&r.f04` folds to a
@@ -58,8 +54,8 @@ typedef signed long long s64;
 typedef struct Obj {
     u32 f00;
     u8  pad04[0x2c];
-    volatile s32 f30;
-    volatile s32 f34;
+    s32 f30;
+    s32 f34;
 } Obj;
 
 typedef struct Rec {

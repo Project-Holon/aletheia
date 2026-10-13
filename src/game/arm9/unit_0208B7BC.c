@@ -183,10 +183,10 @@ void func_0208C7E0(PMGenCallbackInfo *listp);
 void func_0208C808(void *info);
 void func_0208C828(void *info);
 void func_0208C848(struct PMiGenCallbackInfo *info, int priority);
-asm void func_0208C86C(void);
-asm void PM_DeletePostSleepCallback(void);
+void func_0208C86C(PMGenCallbackInfo *info);
+void PM_DeletePostSleepCallback(PMGenCallbackInfo *info);
 void PMi_LCDOnAvoidReset(void);
-asm void PMi_SetDispOffCount(void);
+void PMi_SetDispOffCount(void);
 extern PmBss g_02153000;
 extern int g_020A8724;
 extern PMGenCallbackInfo PMi_BatteryLowCallbackInfo;
@@ -1425,23 +1425,17 @@ void func_0208C848(struct PMiGenCallbackInfo *info, int priority)
 
 
 
-asm void func_0208C86C(void)
+void func_0208C86C(PMGenCallbackInfo *info)
 {
-    mov	r1, r0
-    ldr r0, =g_0215301C
-    ldr ip, =func_0208C788
-    bx	ip
+    func_0208C788((PMGenCallbackInfo **)g_0215301C, info);
 }
 
 
 
 
-asm void PM_DeletePostSleepCallback(void)
+void PM_DeletePostSleepCallback(PMGenCallbackInfo *info)
 {
-    mov	r1, r0
-    ldr r0, =g_02153004
-    ldr ip, =func_0208C788
-    bx	ip
+    func_0208C788(&g_02153000.postSleepCallbackList, info);
 }
 
 
@@ -1472,11 +1466,7 @@ void PMi_LCDOnAvoidReset(void)
 
 
 
-asm void PMi_SetDispOffCount(void)
+void PMi_SetDispOffCount(void)
 {
-    ldr r1, =0x02FFFC3C
-    ldr r0, =g_02153000
-    ldr	r1, [r1]
-    str	r1, [r0, #0x10]
-    bx	lr
+    g_02153000.dispOffCount = OS_GetVBlankCount();
 }

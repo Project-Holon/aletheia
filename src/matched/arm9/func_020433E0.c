@@ -70,13 +70,13 @@ struct DispVram {
 };
 
 extern int func_020808F4(void);
-extern void func_0208091C(void);   /* GX_DisableBankForBGExtPltt */
+extern void func_0208091C(void);   /* GX_ResetBankForBGExtPltt */
 extern int func_020809A0(void);
-extern void func_020809C8(void);   /* GX_DisableBankForSubBGExtPltt */
+extern void func_020809C8(void);   /* GX_ResetBankForSubBGExtPltt */
 extern void func_02080908(void);
-extern void func_02080940(void);   /* GX_DisableBankForOBJExtPltt */
+extern void func_02080940(void);   /* GX_ResetBankForOBJExtPltt */
 extern void func_020809B4(void);
-extern void func_020809F0(void);   /* GX_DisableBankForSubOBJExtPltt */
+extern void func_020809F0(void);   /* GX_ResetBankForSubOBJExtPltt */
 extern int func_02080964(void);
 extern void func_02080978(void);
 extern void func_0207FDCC(GXVRam v);   /* GX_SetBankForBG */

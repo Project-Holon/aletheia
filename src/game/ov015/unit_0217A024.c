@@ -28,14 +28,14 @@ typedef struct {
 
 extern unsigned short func_02179EE0(void *input, unsigned long length);
 extern void func_0217A8EC(unsigned char *data, unsigned char size);
-unsigned int CARDi_GetTargetMode(void);
+unsigned int IRC_IsConnect(void);
 void func_0217A034(unsigned char *data, unsigned char size, int command, unsigned char id);
 extern unsigned char d_0217ABA8[];
 extern unsigned char g_0217ABD8[184];
 extern unsigned char g_0217ABDC[184];
 
 
-unsigned int CARDi_GetTargetMode(void)
+unsigned int IRC_IsConnect(void)
 {
 	return *(unsigned int *)(d_0217ABA8 + 0x24);
 }

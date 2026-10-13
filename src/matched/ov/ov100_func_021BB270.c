@@ -16,7 +16,7 @@
  *     if(p) return p->bytes[0x4a]; return 8;
  *   }
  * blocker: ARM9 veneer0203D170 at+138/+14E = E59FC000 E12FFF1C 0203E590.
- *   Non-C veneer cannot attest unlabelled target; Ilias owns correction.
+ *   Non-C veneer cannot attest unlabelled target; the integrator owns correction.
  *   Reused full verified E590 C from parked ov100BA530, EXACT blocker-1.log;
  *   current show-E590.log proves identical28B body, null guard, byte108.
  *   symbols: d_021469F0 0x021469F0 data a4

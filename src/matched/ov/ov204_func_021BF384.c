@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: ARM9 02045CAC at +0044 lacks an outside code-start witness.
  * Owner unit_02045C44.c omits func_02045CAC from function:; singleton TU
- * --suggest-split leaves this caller out. Ilias owns that unit.
+ * --suggest-split leaves this caller out. the integrator owns that unit.
  * blocker: verified EXACT344 C copied from ov186_func_021FFFF8.c header,
  * prior fixed-flag ARM9-45CAC.log, using the owner's unit declarations:
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {

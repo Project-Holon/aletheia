@@ -1,5 +1,5 @@
 /*
- * function: func_027311A0
+ * function: MIi_TakeApartData
  * address:  0x027311A0
  * packet:   twl_sys
  * region:   twl
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_027311A0(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4)
+void MIi_TakeApartData(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4)
 {
     if (cmd != 0) {
         *cmd = (data >> 20) & 0xF;

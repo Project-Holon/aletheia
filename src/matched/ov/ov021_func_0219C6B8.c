@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * Former blocker (now filed in src/matched/arm9): func_0205082C (0x0205082C) and func_020507F0 (0x020507F0) are
- * unlabelled arm9 leaves (Ilias's), no witness outside this range. Verified C,
+ * unlabelled arm9 leaves (the integrator's), no witness outside this range. Verified C,
  * both EXACT under --arm --region arm9 (func_020500A0 is the arm9 label at 0x020500A0):
  *     void func_020507F0(void *p, int idx, u32 v)
  *     { char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40); *(u32 *)(e + 24) = v; }

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: 0x0201C1E8, unlabelled ARM9 tail-call wrapper owned by Ilias;
+ * blocker: 0x0201C1E8, unlabelled ARM9 tail-call wrapper owned by the integrator;
  *   no witness outside this caller (7374-r2.log). Verified blocker C copied
  *   from ov093_func_021C1E74.c, whose header records its EXACT compile:
  *   typedef unsigned short u16; typedef unsigned int u32;

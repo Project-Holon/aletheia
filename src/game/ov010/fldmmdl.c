@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl.c
  * unit:     yes
- * function: func_0216BF38, func_0216BF74, func_0216BF9C, func_0216BFD4, func_0216C028, func_0216C0A4, func_0216C0C0, func_0216C0D4, func_0216C0E4, func_0216C0E8, func_0216C204, func_0216C270, func_0216C280, func_0216C2A4, func_0216C2FC, func_0216C44C, func_0216C484, func_0216C538, func_0216C640, func_0216C680, func_0216C6E8, func_0216C7FC, func_0216C860, func_0216C888, func_0216C8B0, func_0216C8CC, func_0216C978, func_0216C9CC, func_0216C9F4, func_0216CAA8, func_0216CAD4, func_0216CAF4, func_0216CB48, func_0216CC30, func_0216CC40, func_0216CC58, func_0216CCB0, func_0216CCCC, func_0216CCDC, func_0216CD30, func_0216CD50, func_0216CD64, func_0216CD78, func_0216CD88, func_0216CDB8, func_0216CDC4, func_0216CE60, func_0216CE6C, func_0216CEAC, func_0216CEE4, func_0216CF2C, func_0216CF6C, func_0216CFC4, func_0216D02C, func_0216D040, func_0216D0E8, func_0216D0F8, func_0216D1C8, func_0216D208, func_0216D230, func_0216D244, func_0216D268, func_0216D28C, func_0216D2AC, func_0216D2F8, func_0216D38C, func_0216D3A8, func_0216D3B4, func_0216D3CC, func_0216D410, func_0216D438, func_0216D454, func_0216D480, func_0216D4B4, func_0216D4D4, func_0216D4DC, func_0216D4E4, func_0216D4F0, func_0216D4F4, func_0216D4F8, func_0216D4FC, func_0216D508, func_0216D514, func_0216D518, func_0216D51C, func_0216D520, func_0216D524, func_0216D528, func_0216D52C, func_0216D530, func_0216D534, func_0216D538, func_0216D548, func_0216D550, func_0216D55C, func_0216D564, func_0216D568, func_0216D570, func_0216D57C, func_0216D584, func_0216D588, func_0216D58C, func_0216D590, func_0216D594, func_0216D598, func_0216D59C, func_0216D5A0, func_0216D5A4, func_0216D5A8, func_0216D5AC, func_0216D5B0, func_0216D5B4, func_0216D5B8, func_0216D5BC, func_0216D5D4, func_0216D5D8, func_0216D5E0, func_0216D5F8, func_0216D5FC, func_0216D600, func_0216D608, func_0216D60C, func_0216D620, func_0216D63C, func_0216D65C, func_0216D660, func_0216D668, func_0216D66C, func_0216D674, func_0216D678, func_0216D67C, func_0216D684, func_0216D69C, func_0216D6A0, func_0216D6B8, func_0216D6BC, func_0216D6D4, func_0216D6D8, func_0216D6F0, func_0216D6F4, func_0216D708, func_0216D71C, func_0216D730, func_0216D744, func_0216D758, func_0216D76C, func_0216D780, func_0216D794, func_0216D7A8, func_0216D7C0, func_0216D7C4, func_0216D7C8, func_0216D7CC, func_0216D7D4, func_0216D7D8, func_0216D7DC, func_0216D7E0, func_0216D7E4, func_0216D7E8, func_0216D7F0, func_0216D7F4, func_0216D7F8, func_0216D800, func_0216D804, func_0216D80C, func_0216D810, func_0216D818, func_0216D81C, func_0216D824, func_0216D828, func_0216D83C, func_0216D844, func_0216D848, func_0216D854, func_0216D85C, func_0216D860, func_0216D86C, func_0216D874, func_0216D87C, func_0216D888, func_0216D88C, func_0216D89C, func_0216D8AC, func_0216D8B0, func_0216D8C0, func_0216D8D0, func_0216D8E0, func_0216D8F0, func_0216D900, func_0216D910, func_0216D91C, func_0216D924, func_0216D92C, func_0216D948, func_0216D95C, func_0216D974, func_0216D98C, func_0216D9A0, func_0216D9E4, func_0216DA20, func_0216DA30, func_0216DA44, func_0216DA50, func_0216DA5C, func_0216DA70, func_0216DA7C, func_0216DA88, func_0216DA94, func_0216DAA0, func_0216DAB4, func_0216DAC8, func_0216DAE0, func_0216DAF8, func_0216DB04, func_0216DB10, func_0216DB24, func_0216DB4C, func_0216DB68, func_0216DB80, func_0216DB98, func_0216DBB4, func_0216DBCC, func_0216DBE8, func_0216DC00, func_0216DC18, func_0216DC34, func_0216DC4C, func_0216DC64, func_0216DC80, func_0216DC98, func_0216DCB4, func_0216DCCC, func_0216DCE8, func_0216DD04, func_0216DD1C, func_0216DD60, func_0216DDC0, func_0216DDDC, func_0216DE54, func_0216DE94, func_0216DEE0, func_0216DEEC, func_0216DF1C, func_0216DF64, func_0216DFAC, func_0216DFC4, func_0216E014, func_0216E084, func_0216E0AC, func_0216E0E8, func_0216E114, func_0216E160, func_0216E174, func_0216E180, func_0216E190, func_0216E1A4, func_0216E1C4, func_0216E204, func_0216E280, func_0216E290, func_0216E29C, func_0216E2AC, func_0216E2E0, func_0216E2E8, func_0216E39C, func_0216E3C4, func_0216E3C8, func_0216E3CC, func_0216E3D0, func_0216E3D8, func_0216E400, func_0216E40C, func_0216E418, func_0216E42C, func_0216E434
+ * function: func_0216BF38, func_0216BF74, func_0216BF9C, func_0216BFD4, func_0216C028, func_0216C0A4, func_0216C0C0, func_0216C0D4, func_0216C0E4, func_0216C0E8, func_0216C204, func_0216C270, func_0216C280, func_0216C2A4, func_0216C2FC, func_0216C44C, func_0216C484, func_0216C538, func_0216C640, func_0216C680, func_0216C6E8, func_0216C7FC, func_0216C860, func_0216C888, func_0216C8B0, func_0216C8CC, func_0216C978, func_0216C9CC, func_0216C9F4, func_0216CAA8, func_0216CAD4, func_0216CAF4, func_0216CB48, func_0216CC30, func_0216CC40, func_0216CC58, func_0216CCB0, func_0216CCCC, func_0216CCDC, func_0216CD30, func_0216CD50, func_0216CD64, func_0216CD78, func_0216CD88, func_0216CDB8, func_0216CDC4, func_0216CE60, func_0216CE6C, func_0216CEAC, func_0216CEE4, func_0216CF2C, func_0216CF6C, func_0216CFC4, func_0216D02C, func_0216D040, func_0216D0E8, func_0216D0F8, func_0216D1C8, func_0216D208, func_0216D230, func_0216D244, func_0216D268, func_0216D28C, func_0216D2AC, func_0216D2F8, func_0216D38C, func_0216D3A8, func_0216D3B4, func_0216D3CC, func_0216D410, func_0216D438, func_0216D454, func_0216D480, func_0216D4B4, func_0216D4D4, func_0216D4DC, func_0216D4E4, func_0216D4F0, func_0216D4F4, func_0216D4F8, func_0216D4FC, func_0216D508, func_0216D514, func_0216D518, func_0216D51C, func_0216D520, func_0216D524, func_0216D528, func_0216D52C, func_0216D530, func_0216D534, func_0216D538, func_0216D548, func_0216D550, func_0216D55C, func_0216D564, func_0216D568, func_0216D570, func_0216D57C, func_0216D584, func_0216D588, func_0216D58C, func_0216D590, func_0216D594, func_0216D598, func_0216D59C, func_0216D5A0, func_0216D5A4, func_0216D5A8, func_0216D5AC, func_0216D5B0, func_0216D5B4, func_0216D5B8, func_0216D5BC, func_0216D5D4, func_0216D5D8, func_0216D5E0, func_0216D5F8, func_0216D5FC, func_0216D600, func_0216D608, func_0216D60C, func_0216D620, func_0216D63C, func_0216D65C, func_0216D660, func_0216D668, func_0216D66C, func_0216D674, func_0216D678, func_0216D67C, func_0216D684, func_0216D69C, func_0216D6A0, func_0216D6B8, func_0216D6BC, func_0216D6D4, func_0216D6D8, func_0216D6F0, func_0216D6F4, func_0216D708, func_0216D71C, func_0216D730, func_0216D744, func_0216D758, func_0216D76C, func_0216D780, func_0216D794, func_0216D7A8, func_0216D7C0, func_0216D7C4, func_0216D7C8, func_0216D7CC, func_0216D7D4, func_0216D7D8, func_0216D7DC, func_0216D7E0, func_0216D7E4, func_0216D7E8, func_0216D7F0, func_0216D7F4, func_0216D7F8, func_0216D800, func_0216D804, func_0216D80C, func_0216D810, func_0216D818, func_0216D81C, func_0216D824, func_0216D828, func_0216D83C, func_0216D844, func_0216D848, func_0216D854, func_0216D85C, func_0216D860, func_0216D86C, func_0216D874, func_0216D87C, func_0216D888, func_0216D88C, func_0216D89C, func_0216D8AC, func_0216D8B0, func_0216D8C0, func_0216D8D0, func_0216D8E0, func_0216D8F0, func_0216D900, func_0216D910, func_0216D91C, func_0216D924, func_0216D92C, func_0216D948, func_0216D95C, func_0216D974, func_0216D98C, func_0216D9A0, func_0216D9E4, func_0216DA20, func_0216DA30, func_0216DA44, func_0216DA50, func_0216DA5C, func_0216DA70, func_0216DA7C, func_0216DA88, func_0216DA94, func_0216DAA0, func_0216DAB4, func_0216DAC8, func_0216DAE0, func_0216DAF8, func_0216DB04, func_0216DB10, func_0216DB24, func_0216DB4C, func_0216DB68, func_0216DB80, func_0216DB98, func_0216DBB4, func_0216DBCC, func_0216DBE8, func_0216DC00, func_0216DC18, func_0216DC34, func_0216DC4C, func_0216DC64, func_0216DC80, func_0216DC98, func_0216DCB4, func_0216DCCC, func_0216DCE8, func_0216DD04, func_0216DD1C, func_0216DD60, func_0216DDC0, func_0216DDDC, func_0216DE54, func_0216DE94, func_0216DEE0, func_0216DEEC, func_0216DF1C, func_0216DF64, func_0216DFAC, func_0216DFC4, func_0216E014, func_0216E084, func_0216E0AC, func_0216E0E8, func_0216E114, func_0216E160, func_0216E174, func_0216E180, func_0216E190, func_0216E1A4, func_0216E1C4, func_0216E204, func_0216E280, func_0216E290, func_0216E29C, func_0216E2AC, func_0216E2E0, func_0216E2E8, func_0216E39C, func_0216E3C4, func_0216E3C8, func_0216E3CC, func_0216E3D0, func_0216E3D8, func_0216E400, func_0216E40C, func_0216E418, func_0216E42C, func_0216E434, func_0216E464, func_0216E468, func_0216E46C, func_0216E470
  * address:  0x0216BF38
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -179,7 +179,7 @@
  *   func_0200F128 0x0200F128 thumb
  *   func_0204944C 0x0204944C arm
  *   func_020143CC 0x020143CC thumb
- *   d_021D5E04  0x021D5E04  data  ov093  a4
+ *   d_021D5E04  0x021D5E04  data  ov021  a4
  *   d_021D770C  0x021D770C  data  ov021  a4
  *   func_020142E8  0x020142E8  thumb
  */
@@ -7932,10 +7932,11 @@ unsigned int func_0216E3D8(unsigned int a, unsigned int id) { if (id>=162 && id<
 
 
 /*
- * note: the parked file gave no overlay hint; un-hinted, sole-ref/data saw
- * data at 0x021D5E04 in several overlapping overlays and refused.  ov093 is
- * the one overlay where it is a data object start, so the hint fixes the
- * choice and the site resolves as sole-ref/data.
+ * note: un-hinted, sole-ref/data sees several overlays over 0x021D5E04 and
+ * refuses.  ov021 is the only one with data there (a pointer table after a
+ * zero word at 0x021D5E00); ov093, ov016 and the rest hold code.  ov021 is
+ * resident with ov010: ov010 branches straight into 62 ov021 functions
+ * (bl 0x021C3400 and others).  The ov021 hint fixes the choice.
  */
 u32 func_0216E400(int i)
 {
@@ -8021,3 +8022,20 @@ return 1;
 }
 return a;
 }
+
+void func_0216E464(void)
+{
+}
+
+void func_0216E468(void)
+{
+}
+
+void func_0216E46C(void)
+{
+}
+
+void func_0216E470(void)
+{
+}
+

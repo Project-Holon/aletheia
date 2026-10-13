@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocker: relocation evidence, func_02012AD4 (0x02012AD4, arm9 thumb leaf,
- * Ilias's) has no witness outside this range. Leaf C, verified EXACT
+ * the integrator's) has no witness outside this range. Leaf C, verified EXACT
  * with match.py one --thumb --region arm9 (symbols: data_0209DFA8
  * 0x0209DFA8 data a2):
  *   extern const u16 data_0209DFA8[];

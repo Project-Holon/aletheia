@@ -10,10 +10,15 @@
  * status:   EXACT
  */
 
-asm void func_02034F74(void)
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct UiCtx {
+    u8 pad00[0x38];
+    u8 always;
+};
+#define g_021469BC (*(struct UiCtx **)0x021469BC)
+
+void func_02034F74(struct UiCtx *p, u8 flags)
 {
-    ldrb r2, [r0, #0x38]
-    orr r1, r2, r1
-    strb r1, [r0, #0x38]
-    bx lr
+    p->always |= flags;
 }

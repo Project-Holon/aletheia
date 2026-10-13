@@ -1,5 +1,5 @@
 /*
- * function: DWCi_LSTlPopFront
+ * function: SOCLi_ConsumeCallBack
  * address:  0x0215DD78
  * packet:   pkt_ov009_0215DD78
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern void SOCLi_ConsumeCPSBuffer(void *next);
 
-void DWCi_LSTlPopFront(void *list)
+static void SOCLi_ConsumeCallBack(void *list)
 {
     SOCLi_ConsumeCPSBuffer(*(void **)((char *)list + 4));
 }

@@ -79,14 +79,14 @@ extern void func_021D5450(void *queue);
 extern void func_021D6438(void **mem);
 extern void *func_021D54C4(void *queue);
 extern void func_021D7750(u32 idx, struct StructR4 *r4);
-extern void formTask(void);
+extern TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc);
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern void func_021D6DC4(void *pos, void *ob);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 void func_021D7484(void);
 void func_021D7588(void);
 void func_021D75D0(int kind);
-asm void DWCi_TSKlForm(void);
+TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 TCB *func_021D7694(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc);
 extern MemTaskT *g_021DE6E4;
 extern unsigned char g_021DAA84[2];
@@ -150,13 +150,9 @@ void func_021D75D0(int kind)
 
 
 
-asm void DWCi_TSKlForm(void)
+TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio)
 {
-	stmdb sp!, {r3, lr}
-	mov ip, #0
-	str ip, [sp]
-	bl formTask
-	ldmia sp!, {r3, pc}
+    return formTask(kind, func, work, prio, 0);
 }
 
 

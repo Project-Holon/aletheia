@@ -11,18 +11,14 @@
  *
  * symbols:
  *   func_02085D3C 0x02085D3C arm
- *   func_02730468 0x02730468 arm twl
+ *   MIi_InitWramManager 0x02730468 arm twl
  */
+extern int func_02085D3C(void);
+extern void MIi_InitWramManager(void);
 
-extern void func_02085D3C(void);
-extern void func_02730468(void);
-
-asm void MI_InitWramManager(void)
+void MI_InitWramManager(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02085D3C
-    cmp r0, #0
-    ldmeqfd sp!, {r3, pc}
-    bl func_02730468
-    ldmfd sp!, {r3, pc}
+    if (func_02085D3C()) {
+        MIi_InitWramManager();
+    }
 }

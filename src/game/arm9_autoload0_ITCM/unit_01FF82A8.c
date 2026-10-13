@@ -315,6 +315,7 @@ asm void func_01FF8460(void)
     bx      r12
 }
 
+/* hand-written in the original: SDK inline-asm stm fill loop (os_reset.o) */
 asm void func_01FF852C(u32 data, void *destp, u32 size)
 {
     add ip, r1, r2

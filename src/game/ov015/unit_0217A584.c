@@ -16,14 +16,14 @@
  *   d_0217ABA8                   0x0217ABA8  data
  *   d_0217AAB0                   0x0217AAB0  data
  */
-void CARD_SetPulledOutCallback(void *cb);
+void IRC_SetRecvCallback(void *cb);
 void IRC_SetUnitNumber(unsigned int n);
 unsigned int IRC_GetUnitNumber(void);
 extern unsigned char d_0217ABA8[];
 extern unsigned char d_0217AAB0[];
 
 
-void CARD_SetPulledOutCallback(void *cb)
+void IRC_SetRecvCallback(void *cb)
 {
 	*(void **)(d_0217ABA8 + 8) = cb;
 }

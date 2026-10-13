@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 (pengy overlay, no witness).
- * blocker: ov114 ARM 021C93D0 has no outside code-start witness. It is vendor/Ilias-owned: adjacent SDK EXT_TestResetCounter at 021C93BC (libext/ext_scrntest.o) uses same datum 021D4084; no SDK row exists for query leaf. TU/split cannot produce a viable partition.
+ * blocker: ov114 ARM 021C93D0 has no outside code-start witness. It is vendor/integrator-owned: adjacent SDK EXT_TestResetCounter at 021C93BC (libext/ext_scrntest.o) uses same datum 021D4084; no SDK row exists for query leaf. TU/split cannot produce a viable partition.
  * 2026-10-05 (wD8 lane09): re-run, still MATCH. Only open relocation: func_021C93D0 (ov114 ARM, SDK-side
  *   libext code, no witness). Nothing source-side to change.
  * symbols:

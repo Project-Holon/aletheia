@@ -1,5 +1,5 @@
 /*
- * function: func_02700938
+ * function: CAMERA_InitCore
  * address:  0x02700938
  * packet:   twl_sys
  * region:   twl
@@ -26,180 +26,195 @@
  *   func_02088498  0x02088498  arm twl a2
  *   func_020885EC  0x020885EC  arm twl a2
  *   func_020885A0  0x020885A0  arm twl a2
- *   func_02702080  0x02702080  arm twl a2
- *   func_0270212C  0x0270212C  arm twl a2
- *   func_027021E4  0x027021E4  arm twl a2
+ *   CAMERA_ResetCore  0x02702080  arm twl a2
+ *   CAMERA_StopCaptureCore  0x0270212C  arm twl a2
+ *   CAMERA_ClearBufferCore  0x027021E4  arm twl a2
  *   func_0208C848  0x0208C848  arm twl a2
- *   func_0273156C  0x0273156C  arm twl a2
- *   func_0270223C  0x0270223C  arm twl a2
- *   func_02702268  0x02702268  arm twl a2
- *   func_02702208  0x02702208  arm twl a2
+ *   PMi_InsertPostExitCallbackEx  0x0273156C  arm twl a2
+ *   CAMERA_SetVsyncInterruptCore  0x0270223C  arm twl a2
+ *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm twl a2
+ *   CAMERA_SetMasterInterruptCore  0x02702208  arm twl a2
  *   func_02084774  0x02084774  arm twl a2
  *   func_02084968  0x02084968  arm twl a2
  *   func_02085D94  0x02085D94  arm twl a2
  *   func_020853C0  0x020853C0  arm twl a2
  *   func_02085868  0x02085868  arm twl a2
+ *   CameraPxiCallback  0x02701AA0  arm twl a2
+ *   CameraStandbyCallback  0x02702070  arm twl a2
+ *   CAMERA_CameraIntr  0x02700078  arm twl a2
+ *   CAMERA_MonitorThread  0x02700824  arm twl a2
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
+typedef signed int s32;
+typedef unsigned long long u64;
+typedef void (*TwlCb)(u32);
+typedef void (*CamPxiCallback)(u32 result, u32 arg);
+typedef void (*TwlFn)(void);
 
+typedef struct {
+    u32 f00;
+    CamPxiCallback f04;
+    u32 f08;
+    u32 f0C;
+    u32 pad10[(0x28 - 0x10) / 4];
+    u32 f28;
+    u32 f2C;
+    TwlFn f30;
+    u32 f34;
+    u32 pad38[(0x40 - 0x38) / 4];
+    TwlFn f40;
+    u32 f44;
+    u32 pad48[(0x50 - 0x48) / 4];
+    u64 tick;
+    TwlCb cbA;
+    TwlCb cbB;
+    TwlCb cbC;
+    u8 thread[0x124 - 0x64];      /* 0x0064: the thread (data_0273302C) */
+    u8 stack[0x1124 - 0x124];     /* 0x0124: its stack, top at data_027340EC */
+    u8 settings[0x11B4 - 0x1124]; /* 0x1124: TwlSysB f124..f1B0 (data_02733FC8 is this object + 0x1000) */
+    u8 queue[0x11D4 - 0x11B4];    /* 0x11B4: message queue (data_0273417C) */
+    u32 msg[1];                   /* 0x11D4: its one-message buffer (data_0273419C); data_027341A0 follows */
+} TwlSysA;
+
+extern TwlSysA data_02732FC8;
+typedef struct {
+    u32 pad[0x124 / 4];
+    u32 f124;
+    volatile u32 f128;
+    volatile u32 f12C;
+    volatile u32 f130;
+    volatile u32 f134;
+    volatile u32 f138;
+    volatile u32 f13C;
+    u32 f140;
+    u32 f144;
+    u32 f148;
+    u32 f14C;
+    s32 f150;
+    u32 f154;
+    u32 f158;
+    u32 f15C;
+    u32 f160;
+    volatile u32 f164;
+    volatile u32 f168;
+    volatile u32 f16C;
+    volatile u32 f170;
+    volatile u32 f174;
+    volatile u32 f178;
+    u32 f17C;
+    u32 f180;
+    u32 f184;
+    u32 f188;
+    u32 f18C;
+    u32 f190;
+    u32 f194;
+    u32 f198;
+    u32 f19C;
+    u32 f1A0;
+    u32 f1A4;
+    u32 f1A8;
+    u32 f1AC;
+    s32 f1B0;
+} TwlSysB;
+
+extern TwlSysB data_02733FC8;
 extern u32 data_02732FC0[];
-extern u32 data_02732FC8[];
-extern u32 data_02733FC8[];
-extern u32 data_02701AA0[];
-extern u32 data_02702070[];
 extern u32 data_02732FF8[];
 extern u32 data_02733008[];
-extern u32 data_02700078[];
 extern u32 data_0273417C[];
 extern u32 data_0273419C[];
 extern u32 data_0273302C[];
-extern u32 data_02700824[];
 extern u32 data_027340EC[];
 
 extern void func_02088498(void);
 extern u32 func_020885EC(u32, u32);
-extern void func_020885A0(u32, u32);
-extern void func_02702080(void);
-extern void func_0270212C(void);
-extern void func_027021E4(void);
-extern void func_0208C848(u32, u32);
-extern void func_0273156C(u32, u32);
-extern void func_0270223C(u32);
-extern void func_02702268(u32);
-extern void func_02702208(u32);
-extern void func_02084774(u32, u32);
+extern void func_020885A0(u32, void (*)(int, u32, int));
+extern void CameraPxiCallback(int, u32, int);
+extern void CAMERA_ResetCore(void);
+extern void CAMERA_StopCaptureCore(void);
+extern void CAMERA_ClearBufferCore(void);
+extern void CameraStandbyCallback(void);
+extern void func_0208C848(u32*, u32);
+extern void PMi_InsertPostExitCallbackEx(u32*, u32);
+extern void CAMERA_SetVsyncInterruptCore(u32);
+extern void CAMERA_SetBufferErrorInterruptCore(u32);
+extern void CAMERA_SetMasterInterruptCore(u32);
+extern void func_02084774(u32, TwlFn);
 extern void func_02084968(u32);
-extern void func_02085D94(u32, u32, u32);
-extern void func_020853C0(u32, u32, u32, u32);
-extern void func_02085868(u32);
+extern void func_02085D94(u32*, u32*, u32);
+extern void func_020853C0(u32*, void (*)(void), u32, u32*, u32, u32);
+extern void func_02085868(u32*);
+extern void CAMERA_CameraIntr(void);
+extern void CAMERA_MonitorThread(void);
 
-asm void func_02700938(void) {
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-    sub sp, sp, #8
-    ldr r0, [pc, #0x1b8]
-    ldr r1, [r0]
-    cmp r1, #0
-    addne sp, sp, #8
-    movne r0, #2
-    ldmnefd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    ldr r7, [pc, #0x1a4]
-    mov r4, #0
-    str r4, [r7, #0x58]
-    str r4, [r7, #0x5c]
-    str r4, [r7, #0x60]
-    str r4, [r7]
-    str r4, [r7, #4]
-    str r4, [r7, #0x28]
-    mov r5, #1
-    ldr r6, [pc, #0x184]
-    str r5, [r0]
-    str r4, [r7, #0x2c]
-    str r4, [r6, #0x124]
-    str r4, [r6, #0x1ac]
-    str r4, [r6, #0x1b0]
-    bl func_02088498
-    mov r8, #0x15
-    mov r0, r8
-    mov r1, r5
-    bl func_020885EC
-    cmp r0, #0
-    addeq sp, sp, #8
-    moveq r0, #7
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    ldr r1, [pc, #0x14c]
-    mov r0, r8
-    bl func_020885A0
-    bl func_02702080
-    bl func_0270212C
-    bl func_027021E4
-    ldr sb, [pc, #0x138]
-    ldr r0, [pc, #0x138]
-    str sb, [r7, #0x30]
-    str r4, [r7, #0x34]
-    mov r8, #0x3fc
-    mov r1, r8
-    bl func_0208C848
-    str sb, [r7, #0x40]
-    str r4, [r7, #0x44]
-    mov r1, r8
-    ldr r0, [pc, #0x118]
-    bl func_0273156C
-    mov r0, #0x200
-    bl func_0270223C
-    mov r0, r5
-    bl func_02702268
-    mov r0, r5
-    bl func_02702208
-    mov r7, #0x2000000
-    mov r0, r7
-    ldr r1, [pc, #0xf4]
-    bl func_02084774
-    mov r0, r7
-    bl func_02084968
-    mov r1, #5
-    str r1, [r6, #0x128]
-    str r4, [r6, #0x12c]
-    str r4, [r6, #0x130]
-    str r4, [r6, #0x134]
-    mov r0, #2
-    str r0, [r6, #0x138]
-    str r0, [r6, #0x13c]
-    sub r0, r0, #4
-    str r5, [r6, #0x140]
-    str r4, [r6, #0x144]
-    str r4, [r6, #0x148]
-    str r4, [r6, #0x14c]
-    str r0, [r6, #0x150]
-    str r5, [r6, #0x154]
-    str r5, [r6, #0x158]
-    str r5, [r6, #0x15c]
-    str r4, [r6, #0x160]
-    str r1, [r6, #0x164]
-    str r4, [r6, #0x168]
-    str r4, [r6, #0x16c]
-    str r4, [r6, #0x170]
-    str r4, [r6, #0x174]
-    str r4, [r6, #0x178]
-    str r4, [r6, #0x17c]
-    str r4, [r6, #0x180]
-    str r4, [r6, #0x184]
-    str r4, [r6, #0x188]
-    str r4, [r6, #0x18c]
-    str r5, [r6, #0x190]
-    str r5, [r6, #0x194]
-    str r5, [r6, #0x198]
-    str r4, [r6, #0x19c]
-    mov r2, r5
-    ldr r0, [pc, #0x60]
-    ldr r1, [pc, #0x60]
-    bl func_02085D94
-    mov r0, #0x1000
-    str r0, [sp]
-    mov r0, #4
-    str r0, [sp, #4]
-    ldr r5, [pc, #0x4c]
-    ldr r1, [pc, #0x4c]
-    mov r0, r5
-    mov r2, r4
-    ldr r3, [pc, #0x44]
-    bl func_020853C0
-    mov r0, r5
-    bl func_02085868
-    mov r0, r4
-    add sp, sp, #8
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    dcd data_02732FC0
-    dcd data_02732FC8
-    dcd data_02733FC8
-    dcd data_02701AA0
-    dcd data_02702070
-    dcd data_02732FF8
-    dcd data_02733008
-    dcd data_02700078
-    dcd data_0273417C
-    dcd data_0273419C
-    dcd data_0273302C
-    dcd data_02700824
-    dcd data_027340EC
+u32 CAMERA_InitCore(void) {
+    if (data_02732FC0[0] != 0) {
+        return 2;
+    }
+    data_02732FC0[0] = 1;
+    data_02732FC8.cbA = 0;
+    data_02732FC8.cbB = 0;
+    data_02732FC8.cbC = 0;
+    data_02732FC8.f00 = 0;
+    data_02732FC8.f04 = 0;
+    data_02732FC8.f28 = 0;
+    data_02732FC8.f2C = 0;
+    data_02733FC8.f124 = 0;
+    data_02733FC8.f1AC = 0;
+    data_02733FC8.f1B0 = 0;
+    func_02088498();
+    if (func_020885EC(0x15, 1) == 0) {
+        return 7;
+    }
+    func_020885A0(0x15, CameraPxiCallback);
+    CAMERA_ResetCore();
+    CAMERA_StopCaptureCore();
+    CAMERA_ClearBufferCore();
+    data_02732FC8.f30 = CameraStandbyCallback;
+    data_02732FC8.f34 = 0;
+    func_0208C848(data_02732FF8, 0x3FC);
+    data_02732FC8.f40 = CameraStandbyCallback;
+    data_02732FC8.f44 = 0;
+    PMi_InsertPostExitCallbackEx(data_02733008, 0x3FC);
+    CAMERA_SetVsyncInterruptCore(0x200);
+    CAMERA_SetBufferErrorInterruptCore(1);
+    CAMERA_SetMasterInterruptCore(1);
+    func_02084774(0x02000000, CAMERA_CameraIntr);
+    func_02084968(0x02000000);
+    data_02733FC8.f128 = 5;
+    data_02733FC8.f12C = 0;
+    data_02733FC8.f130 = 0;
+    data_02733FC8.f134 = 0;
+    data_02733FC8.f138 = 2;
+    data_02733FC8.f13C = 2;
+    data_02733FC8.f140 = 1;
+    data_02733FC8.f144 = 0;
+    data_02733FC8.f148 = 0;
+    data_02733FC8.f14C = 0;
+    data_02733FC8.f150 = -2;
+    data_02733FC8.f154 = 1;
+    data_02733FC8.f158 = 1;
+    data_02733FC8.f15C = 1;
+    data_02733FC8.f160 = 0;
+    data_02733FC8.f164 = 5;
+    data_02733FC8.f168 = 0;
+    data_02733FC8.f16C = 0;
+    data_02733FC8.f170 = 0;
+    data_02733FC8.f174 = 0;
+    data_02733FC8.f178 = 0;
+    data_02733FC8.f17C = 0;
+    data_02733FC8.f180 = 0;
+    data_02733FC8.f184 = 0;
+    data_02733FC8.f188 = 0;
+    data_02733FC8.f18C = 0;
+    data_02733FC8.f190 = 1;
+    data_02733FC8.f194 = 1;
+    data_02733FC8.f198 = 1;
+    data_02733FC8.f19C = 0;
+    func_02085D94(data_0273417C, data_0273419C, 1);
+    func_020853C0(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
+    func_02085868(data_0273302C);
+    return 0;
 }

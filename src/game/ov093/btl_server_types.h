@@ -164,4 +164,21 @@ typedef struct {
     u16 h4; u8 b6; u8 b7; u16 h8; u16 ha;
 } Ent_021C8D2C;
 
+typedef struct {
+    u32 a : 10;
+    u32 b : 9;
+    u32 c : 9;
+    u32 d : 1;
+    u32 e : 1;
+    u32 f : 1;
+    u32 g : 1;
+} Bf_td;
+
+typedef struct {
+    u8 pad0[0x68];
+    u8 rd[0x4c];      /* 0x68 */
+    u32 tab[4][3];    /* 0xb4 */
+    u8 cnt[4];        /* 0xe4 */
+} Obj_td;
+
 #endif

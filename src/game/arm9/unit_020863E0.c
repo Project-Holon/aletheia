@@ -22,6 +22,15 @@
  *   OSi_InitArenaEx_ltdmain   0x027312B4  arm
  *   func_02085D3C 0x02085D3C arm
  *   func_02085CBC 0x02085CBC arm
+ *   SDK_SYS_STACKSIZE             0x00001800  data
+ *   SDK_IRQ_STACKSIZE             0x00000800  data
+ *   SDK_AUTOLOAD_DTCM_START       0x02FE0000  data
+ *   SDK_SECTION_ARENA_DTCM_START  0x02FE00C0  data
+ *   SDK_LTDMAIN_ARENA_LO          0x02735B40  data
+ *   SDK_MAIN_ARENA_LO             0x02213D20  data
+ *   SDK_LTDMAIN_EX_ARENA_LO       0x0D000000  data
+ *   SDK_SECTION_ARENA_EX_START    0x02400060  data
+ *   SDK_SECTION_ARENA_ITCM_START  0x01FF8820  data
  */
 typedef unsigned int u32_020863E0;
 
@@ -94,18 +103,32 @@ extern void OS_SetArenaLo(OSArenaId id, void *newLo);
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_SetProtectionRegionEx(int regionNo, u32_020864FC address, u32_020864FC sizeDef);
 extern void OSi_InitArenaEx_ltdmain(void);
-extern void func_02085D3C(void);
+extern int func_02085D3C(void);
 extern u32_4 func_02085CBC(void);
 void func_020863E0(void);
 void func_020864FC(void);
 u32_0208656C func_0208656C(u32_0208656C idx);
 u32_02086580 func_02086580(u32_02086580 idx);
-asm void *OS_GetInitArenaHi(int id);
-asm void *OS_GetInitArenaLo(int id);
+void *OS_GetInitArenaHi(int id);
+void *OS_GetInitArenaLo(int id);
 void func_02086760(u32_02086760 idx, u32_02086760 val);
 void func_02086774(u32_02086774 idx, u32_02086774 val);
 u32_02086788 func_02086788(u32_02086788 r7, u32_02086788 r6, u32_02086788 r5);
-extern u32_020863E0 g_02151264;
+typedef struct OsArenaBss {
+    u32_020863E0 isInitialized;
+    u32_020863E0 exArenaEnabled;
+} OsArenaBss;
+
+extern OsArenaBss g_02151264;
+extern char SDK_AUTOLOAD_DTCM_START[];
+extern char SDK_SYS_STACKSIZE[];
+extern char SDK_IRQ_STACKSIZE[];
+extern char SDK_SECTION_ARENA_DTCM_START[];
+extern char SDK_LTDMAIN_ARENA_LO[];
+extern char SDK_MAIN_ARENA_LO[];
+extern char SDK_LTDMAIN_EX_ARENA_LO[];
+extern char SDK_SECTION_ARENA_EX_START[];
+extern char SDK_SECTION_ARENA_ITCM_START[];
 extern OSHeapInfo *OSiHeapInfo[OS_ARENA_MAX];
 
 
@@ -114,11 +137,11 @@ void func_020863E0(void)
     u32_020863E0 r5;
     u32_020863E0 r4;
 
-    if (g_02151264 != 0) {
+    if (g_02151264.isInitialized != 0) {
         return;
     }
     r5 = 0;
-    g_02151264 = 1;
+    g_02151264.isInitialized = 1;
 
     func_02086760(r5, func_02086594(r5));
     func_02086774(r5, func_02086694(r5));
@@ -181,166 +204,103 @@ u32_02086580 func_02086580(u32_02086580 idx)
 }
 
 
-asm void *OS_GetInitArenaHi(int id)
+void *OS_GetInitArenaHi(int id)
 {
-    stmfd sp!, {r4, lr}
-    cmp r0, #6
-    addls pc, pc, r0, lsl #2
-    b loc_default
+    switch (id) {
+    case OS_ARENA_MAIN:
+        return func_02085D3C() ? (void *)0x02F80000 : (void *)0x023E0000;
+    case OS_ARENA_MAINEX:
+        {
+            void *arena;
+            u32_020863E0 type;
 
-    b case_0
-    b loc_default
-    b case_2
-    b case_3
-    b case_4
-    b case_5
-    b case_6
+            if (g_02151264.exArenaEnabled == 0) {
+                return 0;
+            }
+            type = func_02085CBC() & 0xF;
+            if (func_02085D3C()) {
+                arena = 0;
+                if (type != 4) {
+                    arena = (void *)0x0DF00000;
+                }
+            } else {
+                arena = 0;
+                if (type != 1) {
+                    arena = (void *)0x02700000;
+                }
+            }
+            return arena;
+        }
+    case OS_ARENA_ITCM:
+        return (void *)0x02000000;
+    case OS_ARENA_DTCM:
+        {
+            u32_020863E0 start = (u32_020863E0)SDK_AUTOLOAD_DTCM_START;
+            u32_020863E0 end = start + 0x3F80;
+            u32_020863E0 top = end - (u32_020863E0)SDK_IRQ_STACKSIZE;
+            s32 sysStack = (s32)SDK_SYS_STACKSIZE;
 
-case_0:
-    bl func_02085D3C
-    cmp r0, #0
-    movne r0, #0x2f80000
-    ldreq r0, [pc, #0xa4]
-    ldmfd sp!, {r4, pc}
+            if (sysStack == 0) {
+                u32_020863E0 arena = start;
 
-case_2:
-    ldr r0, [pc, #0xa0]
-    ldr r0, [r0, #4]
-    cmp r0, #0
-    moveq r0, #0
-    ldmeqfd sp!, {r4, pc}
-    bl func_02085CBC
-    and r4, r0, #0xf
-    bl func_02085D3C
-    cmp r0, #0
-    mov r0, #0
-    beq loc_twl_nitro
-    cmp r4, #4
-    movne r0, #0xdf00000
-    ldmfd sp!, {r4, pc}
-
-loc_twl_nitro:
-    cmp r4, #1
-    movne r0, #0x2700000
-    ldmfd sp!, {r4, pc}
-
-case_3:
-    mov r0, #0x2000000
-    ldmfd sp!, {r4, pc}
-
-case_4:
-    ldr r0, [pc, #0x58]
-    ldr r1, [pc, #0x58]
-    ldr r2, [pc, #0x58]
-    add r3, r0, #0x3f80
-    cmp r1, #0
-    sub r2, r3, r2
-    bne loc_stack_nonzero
-    ldr r1, [pc, #0x48]
-    cmp r0, r1
-    movlo r0, r1
-    ldmfd sp!, {r4, pc}
-
-loc_stack_nonzero:
-    cmp r1, #0
-    ldrlt r0, [pc, #0x34]
-    sublt r0, r0, r1
-    subge r0, r2, r1
-    ldmfd sp!, {r4, pc}
-
-case_5:
-    ldr r0, [pc, #0x28]
-    ldmfd sp!, {r4, pc}
-
-case_6:
-    mov r0, #0x3040000
-    ldmfd sp!, {r4, pc}
-
-loc_default:
-    mov r0, #0
-    ldmfd sp!, {r4, pc}
-
-    dcd 0x023E0000
-    dcd g_02151264
-    dcd 0x02FE0000
-    dcd 0x00001800
-    dcd 0x00000800
-    dcd 0x02FE00C0
-    dcd 0x02FFF680
+                if (arena < (u32_020863E0)SDK_SECTION_ARENA_DTCM_START) {
+                    arena = (u32_020863E0)SDK_SECTION_ARENA_DTCM_START;
+                }
+                return (void *)arena;
+            }
+            if (sysStack < 0) {
+                return (void *)((u32_020863E0)SDK_SECTION_ARENA_DTCM_START - sysStack);
+            }
+            return (void *)(top - sysStack);
+        }
+    case OS_ARENA_SHARED:
+        return (void *)0x02FFF680;
+    case OS_ARENA_WRAM_MAIN:
+        return (void *)0x03040000;
+    default:
+        return 0;
+    }
 }
 
 
-asm void *OS_GetInitArenaLo(int id)
+void *OS_GetInitArenaLo(int id)
 {
-    stmfd sp!, {r4, lr}
-    cmp r0, #6
-    addls pc, pc, r0, lsl #2
-    b loc_default
+    switch (id) {
+    case OS_ARENA_MAIN:
+        return func_02085D3C() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
+    case OS_ARENA_MAINEX:
+        {
+            void *arena;
+            u32_020863E0 type;
 
-    b case_0
-    b loc_default
-    b case_2
-    b case_3
-    b case_4
-    b case_5
-    b case_6
-
-case_0:
-    bl func_02085D3C
-    cmp r0, #0
-    ldrne r0, [pc, #0x70]
-    ldreq r0, [pc, #0x70]
-    ldmfd sp!, {r4, pc}
-
-case_2:
-    ldr r0, [pc, #0x6c]
-    ldr r0, [r0, #4]
-    cmp r0, #0
-    moveq r0, #0
-    ldmeqfd sp!, {r4, pc}
-    bl func_02085CBC
-    and r4, r0, #0xf
-    bl func_02085D3C
-    cmp r0, #0
-    mov r0, #0
-    beq loc_twl_nitro
-    cmp r4, #4
-    ldrne r0, [pc, #0x40]
-    ldmfd sp!, {r4, pc}
-
-loc_twl_nitro:
-    cmp r4, #1
-    ldrne r0, [pc, #0x38]
-    ldmfd sp!, {r4, pc}
-
-case_3:
-    ldr r0, [pc, #0x34]
-    ldmfd sp!, {r4, pc}
-
-case_4:
-    ldr r0, [pc, #0x30]
-    ldmfd sp!, {r4, pc}
-
-case_5:
-    ldr r0, [pc, #0x2c]
-    ldmfd sp!, {r4, pc}
-
-case_6:
-    mov r0, #0x3040000
-    ldmfd sp!, {r4, pc}
-
-loc_default:
-    mov r0, #0
-    ldmfd sp!, {r4, pc}
-
-    dcd 0x02735B40
-    dcd 0x02213D20
-    dcd g_02151264
-    dcd 0x0D000000
-    dcd 0x02400060
-    dcd 0x01FF8820
-    dcd 0x02FE00C0
-    dcd 0x02FFF000
+            if (g_02151264.exArenaEnabled == 0) {
+                return 0;
+            }
+            type = func_02085CBC() & 0xF;
+            if (func_02085D3C()) {
+                arena = 0;
+                if (type != 4) {
+                    arena = (void *)SDK_LTDMAIN_EX_ARENA_LO;
+                }
+            } else {
+                arena = 0;
+                if (type != 1) {
+                    arena = (void *)SDK_SECTION_ARENA_EX_START;
+                }
+            }
+            return arena;
+        }
+    case OS_ARENA_ITCM:
+        return (void *)SDK_SECTION_ARENA_ITCM_START;
+    case OS_ARENA_DTCM:
+        return (void *)SDK_SECTION_ARENA_DTCM_START;
+    case OS_ARENA_SHARED:
+        return (void *)0x02FFF000;
+    case OS_ARENA_WRAM_MAIN:
+        return (void *)0x03040000;
+    default:
+        return 0;
+    }
 }
 
 

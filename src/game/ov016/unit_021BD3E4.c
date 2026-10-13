@@ -35,13 +35,13 @@ typedef struct {
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 extern void DWCi_FOCUSlDelete(void);
-extern void DWCi_HEAPlFree_(void);
+extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, int head);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlDelete(void *cell);
 void func_021BD3E4(void);
-asm void DWCi_FOCUSlEnd(void);
+void DWCi_FOCUSlEnd(void);
 void func_021BD41C(int kind, int x0, int x1, int y);
 void func_021BD4C8(int x0, int x1, int y0, int y1);
 void func_021BD5A8(void);
@@ -58,13 +58,10 @@ void func_021BD3E4(void)
 }
 
 
-asm void DWCi_FOCUSlEnd(void)
+void DWCi_FOCUSlEnd(void)
 {
-	stmdb sp!, {r3, lr}
-	bl DWCi_FOCUSlDelete
-	ldr r0, =0x021DE550
-	bl DWCi_HEAPlFree_
-	ldmia sp!, {r3, pc}
+    DWCi_FOCUSlDelete();
+    DWCi_HEAPlFree_((void **)&g_021DE550);
 }
 
 

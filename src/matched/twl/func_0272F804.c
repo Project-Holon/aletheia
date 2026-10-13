@@ -1,5 +1,5 @@
 /*
- * function: func_0272F804
+ * function: MIi_GetControlData
  * address:  0x0272F804
  * packet:   twl_audio
  * region:   twl
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0272F804(u32 type)
+u32 MIi_GetControlData(u32 type)
 {
     switch (type) {
     case 0:

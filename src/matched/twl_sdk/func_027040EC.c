@@ -1,5 +1,5 @@
 /*
- * function: func_027040EC
+ * function: FATFSi_GetThreadHandle
  * address:  0x027040EC
  * packet:   twl_sys
  * region:   twl
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern u32 data_02150FEC[];
 extern u32 func_020879EC(void);
 
-u32 func_027040EC(void) {
+u32 FATFSi_GetThreadHandle(void) {
     if (func_020879EC() == 0x12) {
         return 0x80000000u;
     }

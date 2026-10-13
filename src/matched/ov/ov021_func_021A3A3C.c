@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocker: relocation evidence, func_020508EC (0x020508EC, arm9 ARM leaf,
- * Ilias's) has no witness outside this range. Leaf C, verified EXACT
+ * the integrator's) has no witness outside this range. Leaf C, verified EXACT
  * with match.py one --arm --region arm9:
  *   int func_020508EC(u8 *p, int i, u16 *out)
  *   {

@@ -16,7 +16,7 @@
  * Renewed W76: one baseline run only. Original +0xEC calls ARM9 02045CAC,
  * unresolved: no witness outside 021BBEB4..021BC068. Its body exists in
  * src/matched/arm9/unit_02045C44.c, but the function header and matched shard
- * list only func_02045C44. Ilias owns that omitted entry; no retry until fixed.
+ * list only func_02045C44. the integrator owns that omitted entry; no retry until fixed.
  * The earlier budget300 permuter remains consumed and was not repeated.
  * A named row pointer is a future hypothesis once the owner witness resolves.
  *

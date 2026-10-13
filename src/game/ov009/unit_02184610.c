@@ -63,7 +63,7 @@ void TableEnter(struct HashImplementation *table, void *newElem);
 int TableRemove(struct HashImplementation *table, void *delElem);
 void *TableLookup(struct HashImplementation *table, void *elemKey);
 void TableMapSafe(struct HashImplementation *table, void (*fn)(void *, void *), void *clientData);
-void *TableMap2(struct HashImplementation *table, int (*fn)(void *, void *), void *clientData);
+void *TableMapSafe2(struct HashImplementation *table, int (*fn)(void *, void *), void *clientData);
 
 
 struct HashImplementation *TableNew(int elemSize, int nBuckets,
@@ -178,7 +178,7 @@ void TableMapSafe(struct HashImplementation *table, void (*fn)(void *, void *),
 }
 
 
-void *TableMap2(struct HashImplementation *table, int (*fn)(void *, void *),
+void *TableMapSafe2(struct HashImplementation *table, int (*fn)(void *, void *),
                 void *clientData)
 {
     void *pcurr;

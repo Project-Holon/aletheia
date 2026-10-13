@@ -1,5 +1,5 @@
 /*
- * function: func_02732CEC
+ * function: WcmNwmcbSetDCFDataAsync
  * address:  0x02732CEC
  * packet:   twl_sys
  * region:   twl
@@ -9,47 +9,69 @@
  * isa:      arm
  * status:   EXACT
  *
+ * sdk:      WcmNwmcbSetDCFDataAsync (libwcm.TWL.HYB.a nwmif.o)
+ *
+ * NWM completion callback for an asynchronous DCF send, the TWL twin of
+ * ov009 WcmWmcbSetDCFDataAsync (0x02167E20): record the NWM error code,
+ * re-arm the keep-alive alarm on success, map the result to the WCM cpsif
+ * code (0 or -5), release the send mutex and call the user callback.  The
+ * vendor member matches the image with 0 masked mismatches.  The result is
+ * a switch on sendResult with a `case 1: default:` arm, as in the wmif.o
+ * twin; that arm is reached by two edges, so it is not if-converted (the
+ * image's `mov r5,#0 / cmp / beq / mvn r5,#4`).
+ *
  * symbols:
  *   func_02166378  0x02166378  arm  ov009
  *   func_02165AF4  0x02165AF4  arm  ov009
  *   func_02166594  0x02166594  arm  ov009
  */
 
-extern void *func_02166378(void);
+typedef struct OSThreadQueue { void *head; void *tail; } OSThreadQueue;
+typedef struct OSMutex { OSThreadQueue queue; void *thread; long count; void *prev; void *next; } OSMutex;
+typedef struct WCMCpsifWork {
+    unsigned char initialized;
+    unsigned char reserved[3];
+    OSThreadQueue sendQ;
+    OSMutex sendMutex;
+    unsigned short sendResult;
+    unsigned short padding1;
+    void (*recvCallback)(unsigned char *, unsigned char *, unsigned char *, long);
+    void (*sendCallback)(long);
+    unsigned char macAddress[6];
+    unsigned short padding2;
+} WCMCpsifWork;
+typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWMCallback;
+
+extern WCMCpsifWork *func_02166378(void);
 extern void func_02165AF4(void);
-struct OSMutex;
-extern void func_02166594(struct OSMutex *mutex);
+extern void func_02166594(OSMutex *mutex);
 
-asm void func_02732CEC(void *arg)
+void WcmNwmcbSetDCFDataAsync(void *arg)
 {
-    stmdb   sp!, {r4, r5, r6, lr}
-    mov     r5, r0
-    bl      func_02166378
-    ldrh    r1, [r5]
-    mov     r4, r0
-    cmp     r1, #0xb
-    ldmnefd sp!, {r4, r5, r6, pc}
-    ldrh    r0, [r5, #2]
-    strh    r0, [r4, #0x24]
-    ldrh    r0, [r5, #2]
-    cmp     r0, #0
-    bne     @loc_02732D20
-    bl      func_02165AF4
+    NWMCallback *cb = (NWMCallback *)arg;
+    WCMCpsifWork *wcmiw = func_02166378();
+    long wcmResult;
+    void (*sendCallback)(long);
 
-@loc_02732D20:
-    ldrh    r0, [r4, #0x24]
-    mov     r5, #0
-    cmp     r0, #0
-    beq     @loc_02732D34
-    mvn     r5, #4
-
-@loc_02732D34:
-    ldr     r6, [r4, #0x2c]
-    mov     r1, #0
-    add     r0, r4, #0xc
-    str     r1, [r4, #0x2c]
-    bl      func_02166594
-    mov     r0, r5
-    blx     r6
-    ldmfd   sp!, {r4, r5, r6, pc}
+    switch (cb->apiid) {
+    case 0xb:
+        wcmiw->sendResult = cb->retcode;
+        if (cb->retcode == 0) {
+            func_02165AF4();
+        }
+        switch (wcmiw->sendResult) {
+        case 0:
+            wcmResult = 0;
+            break;
+        case 1:
+        default:
+            wcmResult = -5;
+            break;
+        }
+        sendCallback = wcmiw->sendCallback;
+        wcmiw->sendCallback = 0;
+        func_02166594(&wcmiw->sendMutex);
+        sendCallback(wcmResult);
+        break;
+    }
 }

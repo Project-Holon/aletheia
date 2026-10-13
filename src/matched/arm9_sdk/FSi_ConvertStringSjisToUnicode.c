@@ -17,11 +17,8 @@ typedef unsigned int   u32;
 struct Blk;
 struct In;
 extern struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
-asm void FSi_ConvertStringSjisToUnicode(void)
+
+struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
-    stmfd sp!, {r3, lr}
-    ldr ip, [sp, #8]
-    str ip, [sp]
-    bl func_0203174C
-    ldmfd sp!, {r3, pc}
+    return func_0203174C(in, heap, c, d, e);
 }

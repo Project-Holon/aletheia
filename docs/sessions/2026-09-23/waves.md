@@ -24,7 +24,7 @@ Target: 50 percent ARM9 game-code coverage (worklist --summary). Start: 41.91 pe
 5. Append the wave's result line to this file under Log.
 
 ## Standing packet-agent brief (paste)
-Repo <home>/Documents/aletheia. Read docs/AGENT-BRIEF.md fully once (it is the manual). Work
+Repo the repository root. Read docs/AGENT-BRIEF.md fully once (it is the manual). Work
 ONLY the packet(s) named. Foreground commands only, no background loops. Never edit layout/worklist.json,
 layout/units_*.json, layout/function_starts.txt, tools/, asm/. Do not commit. File EXACT/EXACT* in
 src/matched, MATCH in src/pending with the blocking class in the header, DIFF as docs/notes/*.c.txt

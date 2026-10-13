@@ -1,5 +1,5 @@
 /*
- * function: DWC_ScGetConnectionId
+ * function: DWC_ScGetSessionId
  * address:  0x021DF20C
  * packet:   pkt_ov175_021DF20C
  * region:   ov175
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      DWC_ScGetConnectionId (dwc_sc.o)
+ * sdk:      DWC_ScGetSessionId (dwc_sc.o)
  *
  * scGetConnectionId is the ARM leaf at 0x021DFA98 (add r0,r0,#0x5c; bx lr). It
  * had no listing label (disasm.py emitted a .word run); it is now seeded in
@@ -23,7 +23,7 @@
 extern int s_callback[];
 extern unsigned char *scGetConnectionId(int);
 
-unsigned char *DWC_ScGetConnectionId(void)
+unsigned char *DWC_ScGetSessionId(void)
 {
     return scGetConnectionId(s_callback[1]);
 }

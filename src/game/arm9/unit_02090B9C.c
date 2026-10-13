@@ -15,19 +15,17 @@
  *   func_0209028C  0x0209028C  arm
  */
 
-extern void func_0209004C(void);
+typedef unsigned short u16;
+typedef int BOOL;
+typedef int WMErrCode;
+
+extern WMErrCode func_0209004C(void *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
 
 extern void func_0209028C(void);
 void func_02090BB8(void);
-asm void WM_StartKeySharing(void)
+WMErrCode WM_StartKeySharing(void *dsInfo, u16 port)
 {
-    stmfd sp!, {r3, lr}
-    mov	ip, #1
-    rsb	r2, ip, #0x10000
-    mov	r3, #2
-    str	ip, [sp]
-    bl	func_0209004C
-    ldmfd sp!, {r3, pc}
+    return func_0209004C(dsInfo, port, 0xFFFF, 2, 1);
 }
 
 void func_02090BB8(void)

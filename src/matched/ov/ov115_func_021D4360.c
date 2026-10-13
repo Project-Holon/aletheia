@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x0203C600 has no outside code witness; Ilias owns it.
+ * blocker: ARM9 0x0203C600 has no outside code witness; the integrator owns it.
  * blocker: 0x0203C600 ARM verified EXACT in ov099_func_021BEB68.c.
  *   extern char *d_021469DC;
  *   extern void func_0203C0F4(void);

@@ -11,7 +11,8 @@
  * status:   MATCH
  *
  * symbols:
- *   func_02004EB0  0x02004EB0  arm
+ *   .bss           0x021AA440  data
+ *   OSi_ReferSymbol  0x02004EB0  arm
  *   func_0215F0D4  0x0215F0D4  arm  ov009
  *   func_0215EC90  0x0215EC90  arm  ov009
  *   func_0215CD3C  0x0215CD3C  arm  ov009
@@ -114,7 +115,7 @@ void SOCLi_DhcpTimeout(void);
 void CPSi_RecvCallbackFunc(u8 *, u8 *, u8 *, long);
 void SOCLi_TrashSocket(void);
 int SOCLi_CheckNConfig(void);
-extern void func_02004EB0(const void *symbol);
+extern void OSi_ReferSymbol(const void *symbol);
 extern void func_0215F0D4(void);
 extern void func_0215EC90(void);
 extern int func_0215CD3C(long cp_max_count);
@@ -140,7 +141,7 @@ int func_0215CA8C(SOCLConfig *socl_config)
 {
 	int result;
 
-	func_02004EB0(g_020050C4);
+	OSi_ReferSymbol(g_020050C4);
 	if (SOCLiConfigPtr != 0) {
 		return 0;
 	}

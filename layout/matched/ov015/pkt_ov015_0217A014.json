@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DSPi_IsSoundPlayingCore",
+   "name": "IRC_IsSender",
    "address": "0x0217A014",
    "kind": "sdk",
    "region": "ov015",

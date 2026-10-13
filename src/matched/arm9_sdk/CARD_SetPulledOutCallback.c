@@ -13,10 +13,10 @@
  *   g_02148B2C 0x02148B2C data
  */
 
-extern void g_02148B2C(void);
-asm void CARD_SetPulledOutCallback(void)
+struct UVFlipState { void *pFunc; int f04; unsigned int f08; };
+extern struct UVFlipState g_02148B2C;
+
+void CARD_SetPulledOutCallback(unsigned int callback)
 {
-    ldr r1, =g_02148B2C
-    str r0, [r1, #8]
-    bx lr
+    g_02148B2C.f08 = callback;
 }

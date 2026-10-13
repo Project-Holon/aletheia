@@ -11,7 +11,7 @@
  *
  * Byte-correct (MATCH*: 242 compiled against a 244-byte listing extent, the
  * two bytes are alignment padding).  The one wildcarded site is +0x4C,
- * `bl func_02013DD0`: an unlabelled arm9 leaf (Ilias's) with no witness
+ * `bl func_02013DD0`: an unlabelled arm9 leaf (the integrator's) with no witness
  * outside this range, the documented near miss after unit_02013D9C.c.  Its
  * bytes (ldr r1,=0x0209DFC0; ldr r3,=sub_02013B10+1; movs r2,#4; bx r3) are
  *     extern const unsigned short tbl_0209DFC0[];      (data)

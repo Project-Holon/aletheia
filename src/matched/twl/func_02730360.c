@@ -1,5 +1,5 @@
 /*
- * function: func_02730360
+ * function: MI_GetWramBankMaster_B
  * address: 0x02730360
  * packet: pkt_twl_02730360
  * region: twl
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_02730360(u32 a)
+u32 MI_GetWramBankMaster_B(u32 a)
 {
     return *(u8 *)(a + 0x04004044) & 3;
 }

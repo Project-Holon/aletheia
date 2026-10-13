@@ -11,7 +11,7 @@
  *
  * Blocker: func_02029DF4 (arm9, unlabelled thumb veneer: ldr r3,[pc]; bx r3;
  * .word 0x02029EB5) has no witness outside the range (evidence class: none;
- * arm9 leaf belongs to Ilias, not filed here).
+ * arm9 leaf belongs to the integrator, not filed here).
  *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010

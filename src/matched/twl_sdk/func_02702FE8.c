@@ -1,5 +1,5 @@
 /*
- * function: func_02702FE8
+ * function: NWM_Close
  * address:  0x02702FE8
  * packet:   twl
  * region:   twl
@@ -10,63 +10,47 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027028E4  0x027028E4  arm twl
- *   func_027026DC  0x027026DC  arm twl
+ *   NWMi_CheckState  0x027028E4  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_020862B8  0x020862B8  arm twl
- *   func_02703A34  0x02703A34  arm twl
- *   func_02703A74  0x02703A74  arm twl
+ *   NWMi_SetCallbackTable  0x02703A34  arm twl
+ *   NWMi_SendCommand  0x02703A74  arm twl
  */
 
 typedef unsigned int u32;
 
-extern u32 func_027028E4(u32, u32);
-extern u32 func_027026DC(void);
+extern u32 NWMi_CheckState(u32, u32);
+extern u32 NWMi_GetSystemWork(void);
 extern void func_020862B8(u32, u32);
-extern void func_02703A34(u32, u32);
-extern u32 func_02703A74(u32, u32);
+extern void NWMi_SetCallbackTable(u32, u32);
+extern u32 NWMi_SendCommand(u32, u32);
 
-asm void func_02702FE8(u32 a0) {
-    stmdb sp!, {r4, r5, r6, lr}
-    mov r4, r0
-    mov r0, #1
-    mov r1, #3
-    bl func_027028E4
-    cmp r0, #0
-    beq @lbl_0270300C
-    cmp r0, #2
-    ldmnefd sp!, {r4, r5, r6, pc}
-@lbl_0270300C:
-    bl func_027026DC
-    movs r5, r0
-    beq @lbl_02703048
-    add r0, r5, #0x2000
-    ldr r0, [r0, #0x278]
-    mov r6, #1
-    mov r1, r6
-    add r0, r0, #6
-    bl func_020862B8
-    add r0, r5, #0x2000
-    ldr r0, [r0, #0x278]
-    ldrb r0, [r0, #6]
-    cmp r0, #1
-    movne r6, #0
-    b @lbl_0270304C
-@lbl_02703048:
-    mov r6, #0
-@lbl_0270304C:
-    cmp r6, #1
-    moveq r0, #3
-    ldmeqfd sp!, {r4, r5, r6, pc}
-    mov r5, #6
-    mov r0, r5
-    mov r1, r4
-    bl func_02703A34
-    bl func_027026DC
-    mov r0, r5
-    mov r1, #0
-    bl func_02703A74
-    cmp r0, #0
-    cmpne r0, #2
-    moveq r0, #2
-    ldmfd sp!, {r4, r5, r6, pc}
+u32 NWM_Close(u32 a0) {
+    u32 r = NWMi_CheckState(1, 3);
+    u32 base;
+    u32 busy;
+    if (r != 0 && r != 2) {
+        return r;
+    }
+    base = NWMi_GetSystemWork();
+    if (base != 0) {
+        u32 ptr = *(u32 *)(base + 0x2278);
+        busy = 1;
+        func_020862B8(ptr + 6, 1);
+        if (*(unsigned char *)(*(u32 *)(base + 0x2278) + 6) != 1) {
+            busy = 0;
+        }
+    } else {
+        busy = 0;
+    }
+    if (busy == 1) {
+        return 3;
+    }
+    NWMi_SetCallbackTable(6, a0);
+    NWMi_GetSystemWork();
+    r = NWMi_SendCommand(6, 0);
+    if (r == 0 || r == 2) {
+        r = 2;
+    }
+    return r;
 }

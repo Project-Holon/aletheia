@@ -153,7 +153,6 @@
  *   func_02021EE4 0x02021EE4 thumb
  *   func_0202155C 0x0202155C thumb
  *   func_020216D4 0x020216D4 thumb
- *   site 0x021BB658 data ov214
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  *   func_02030DA4 0x02030DA4 arm
@@ -485,7 +484,6 @@ extern const Table d_021BB480;
 extern const Pair d_021BB4C4[];
 extern const u32 d_021BB498[][11];
 extern u32 d_021BB640[][3];
-extern const char site[];
 extern const struct Rect rects[];
 
 
@@ -1532,7 +1530,7 @@ void func_021BAE88(int unused,u8 *p){func_021BABA4(p+0x2c4,((struct Obj00182 *)p
 
 void func_021BAE9C(int unused,char *p)
 {
-    ((struct Obj00182 *)p)->f2DC=func_02030734(((struct Obj00182 *)p)->f0,func_02030CB0(2),1,site,2403);
+    ((struct Obj00182 *)p)->f2DC=func_02030734(((struct Obj00182 *)p)->f0,func_02030CB0(2),1,d_021BB658,2403);
     ((struct Obj00182 *)p)->f2D8=func_02030CBC(2,((struct Obj00182 *)p)->f2DC);
     ((struct Obj00182 *)p)->f2E0=func_02021518(((struct Obj00182 *)p)->f0);
     func_02021EE4(((struct Obj00182 *)p)->f2E0,1);

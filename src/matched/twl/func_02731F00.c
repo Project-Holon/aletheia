@@ -1,5 +1,5 @@
 /*
- * function: func_02731F00
+ * function: WCMi_NwmifGetAllowedChannel
  * address:  0x02731F00
  * packet:   twl_sys
  * region:   twl
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02702980  0x02702980  arm  twl
+ *   NWM_GetAllowedChannel  0x02702980  arm  twl
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02702980(void);
+extern u32 NWM_GetAllowedChannel(void);
 
-u32 func_02731F00(void)
+u32 WCMi_NwmifGetAllowedChannel(void)
 {
-    return (func_02702980() << 15) >> 16;
+    return (NWM_GetAllowedChannel() << 15) >> 16;
 }

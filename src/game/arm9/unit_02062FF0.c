@@ -4,7 +4,7 @@
  * function: func_02062FF0, func_02063000, func_02063018, func_02063030
  * address:  0x02062FF0
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
-void func_02063000(int p0, int p1, int p2, int p3);
+void func_02063000(struct CellAnim *anim, int p1, int p2, int p3);
 
 
 /*
@@ -45,13 +45,12 @@ void func_02062FF0(struct CellAnim *anim, void *bank)
 }
 
 
-/* stand-in: p0 must be an int cast to the struct; a CellAnim * parameter changes the bytes */
-void func_02063000(int p0, int p1, int p2, int p3)
+void func_02063000(struct CellAnim *anim, int p1, int p2, int p3)
 {
-    ((struct CellAnim *)p0)->unk28 = (int)p3;
-    ((struct CellAnim *)p0)->unk24 = (int)p2;
-    ((struct CellAnim *)p0)->unk20 = (int)p1;
-    ((struct CellAnim *)p0)->unk2C = (unsigned short)0;
+    anim->unk28 = p3;
+    anim->unk24 = p2;
+    anim->unk20 = p1;
+    anim->unk2C = 0;
 }
 
 

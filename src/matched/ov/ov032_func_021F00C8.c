@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Byte-correct; blocked only by two unlabelled arm9 Thumb leaves (Ilias's,
+ * Byte-correct; blocked only by two unlabelled arm9 Thumb leaves (the integrator's,
  * no witness outside this range: label/literal/sole-ref all refuse):
  *   func_020275D0 (12 bytes, EXACT verified with `one --region arm9 --thumb`):
  *     u16 *func_020275D0(int p) { return (u16 *)(p + 0xB0C); }

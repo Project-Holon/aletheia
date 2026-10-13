@@ -1,5 +1,5 @@
 /*
- * function: func_0272FD7C
+ * function: MI_InitNDmaConfig
  * address:  0x0272FD7C
  * packet:   twl_audio
  * region:   twl
@@ -23,7 +23,7 @@ struct Entry {
 
 extern struct G_twl_data_02732EFC data_02732EFC[];
 
-void func_0272FD7C(void) {
+void MI_InitNDmaConfig(void) {
     register struct Entry *e = ((struct Entry *)data_02732EFC);
     register int i = 0;
     do {

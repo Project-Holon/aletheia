@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x02045CAC has no outside witness; Ilias-owned unit_02045C44.c omits it from function:.
+ * blocker: ARM9 0x02045CAC has no outside witness; integrator-owned unit_02045C44.c omits it from function:.
  * blocker: Verified C below copied from ov070_func_021BAFC4.c header; prior fixed-flag EXACT, 344 bytes.
  * typedef unsigned char u8;
  * typedef unsigned short u16;

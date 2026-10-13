@@ -1,5 +1,5 @@
 /*
- * function: TableMap2
+ * function: TableMapSafe2
  * address:  0x021848E4
  * packet:   pkt_ov009_021848E4
  * region:   ov009
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      TableMap2 (hashtable.o)
+ * sdk:      TableMapSafe2 (hashtable.o)
  *
  * symbols:
  *   ArrayMap2  0x021844DC  arm  ov009
@@ -28,7 +28,7 @@ struct HashImplementation {
 extern void *ArrayMap2(void *elem, int (*fn)(void *, void *),
                        void *clientData);
 
-void *TableMap2(struct HashImplementation *table, int (*fn)(void *, void *),
+void *TableMapSafe2(struct HashImplementation *table, int (*fn)(void *, void *),
                 void *clientData)
 {
     void *pcurr;

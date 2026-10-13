@@ -21,7 +21,7 @@
  *   OS_UnlockMutex 0x02086078  arm
  *   func_02166D2C  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02731E50  0x02731E50  arm  twl
+ *   WCMi_NwmifSetDCFData  0x02731E50  arm  twl
  *   g_021AA7E8     0x021AA7E8  data ov009
  *   OS_WakeupThread  0x02085800  arm
  *   OS_IrqHandler  0x01FF80F0  data
@@ -69,7 +69,7 @@ extern void func_02086028(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 extern long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 extern int OS_IsRunOnTwl(void);
-extern void func_02731E50();
+extern void WCMi_NwmifSetDCFData();
 extern void OS_WakeupThread(void *queue);
 extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
 extern void func_02082EA4(char *p, int a, int n);
@@ -78,7 +78,7 @@ unsigned char *func_021663C8(unsigned short *length);
 void func_02166424(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
 long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 void func_02166594(OSMutex *mutex);
-asm void WCMi_CpsifSetMacAddress(void);
+void WCMi_CpsifSetMacAddress(void *mac);
 void func_021665E4(int a);
 unsigned long func_02166600(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen);
 extern struct G_ov009_021AA7DC g_021AA7DC;
@@ -200,7 +200,7 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            func_02731E50(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }
@@ -230,12 +230,9 @@ void func_02166594(OSMutex *mutex)
 
 
 
-asm void WCMi_CpsifSetMacAddress(void)
+void WCMi_CpsifSetMacAddress(void *mac)
 {
-	ldr r1, =0x021AA80C
-	ldr ip, =MI_CpuCopy
-	mov r2, #6
-	bx ip
+	MI_CpuCopy(mac, g_021AA80C, 6);
 }
 
 

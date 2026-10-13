@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02024450 unlabelled Thumb leaf, owned by Ilias.
+ * blocker: ARM9 02024450 unlabelled Thumb leaf, owned by the integrator.
  *   int func_02024450(unsigned short *p) { return *p != 0xFFFF; }
  * symbols:
  *   func_02024450 0x02024450 thumb

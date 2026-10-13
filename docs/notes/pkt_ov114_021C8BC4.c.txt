@@ -11,7 +11,7 @@
  * retry: wave24 R1, 3 targeted changes (inline Pair assignment, explicit int
  *   cast, Pair local) did not shrink 4; one --budget 300 --types permuter
  *   compiled 300 candidates and found no improvement. Do not rerun.
- * owner-blocker: Ilias SDK ov114 0x021CA470; matched ov_sdk definition
+ * owner-blocker: the integrator SDK ov114 0x021CA470; matched ov_sdk definition
  *   void func_021CA470(int,int,int,int,int) conflicts with caller return use.
  *   021C8C20: bl 021CA470; 021C8C24: cmp r0,#0.
  *   021CA488: bl 021CA240; 021CA48C: add sp,sp,#8; 021CA490: pop {r3,pc}

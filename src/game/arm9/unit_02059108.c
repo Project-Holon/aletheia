@@ -120,7 +120,7 @@ extern void *func_0205A10C(void);
 extern void DWCi_Acc_CreateUserData(void *userdata, unsigned long gamecode);
 extern int DWCi_Acc_IsValidLoginId(void *loginid);
 unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
-asm unsigned long func_0205911C(void *userdata);
+unsigned long func_0205911C(void *userdata);
 BOOL func_0205912C(u8 bitID);
 int DWCi_IsBuddyFriendData(void *frienddata);
 int DWCi_IsReverseBuddyFriendData(void *frienddata);
@@ -168,12 +168,9 @@ unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata)
 
 
 
-asm unsigned long func_0205911C(void *userdata)
+unsigned long func_0205911C(void *userdata)
 {
-    stmdb	sp!, {r3, lr}
-    bl	DWCi_Acc_GetFlags
-    and	r0, r0, #3
-    ldmia	sp!, {r3, pc}
+    return DWCi_Acc_GetFlags(userdata) & 3;
 }
 
 

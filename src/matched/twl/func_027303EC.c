@@ -1,5 +1,5 @@
 /*
- * function: func_027303EC
+ * function: MI_GetWramMapStart_C
  * address:  0x027303EC
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
+typedef unsigned int u32;
 
-asm void func_027303EC(void)
+u32 MI_GetWramMapStart_C(void)
 {
+    return ((((*(volatile u32 *)0x0400405C) & 0xFF8) >> 3) << 15) + 0x03000000;
 }

@@ -8,23 +8,33 @@ for this repository.
 
 ## Overlays
 
-237 overlays, 1,887,132 game code bytes (+519,104 SDK bytes), 28,627 labelled functions (869 of them linker veneers, counted as neither),
-  1,886,692 matched (99.9767% of game), plus 3,244 SDK functions (519,104 bytes) matched.
+237 overlays, 2,183,164 game code bytes (+563,740 SDK bytes), 29,042 labelled functions (971 of them linker veneers, counted as neither),
+  2,183,148 matched (99.9993% of game), plus 3,244 SDK functions (563,740 bytes) matched.
 Bytes are instruction bytes on both sides, the measure used for ARM9: literal pools
-and data runs are not counted as matched or as work.
+and data runs are not counted as matched or as work. The listings were
+regenerated this phase with the new function starts (hidden functions found
+from pointer tables and call targets), so the byte totals grew.
+
+Fully linked: 89.64% of game code (2,366,260 of 2,639,652 bytes) and 90.95% of
+all code (3,083,722 of 3,390,676 bytes). This is code in whole source files
+whose functions are all exact, linked by `mwldarm` from our own objects into a
+byte-identical region (`tools/linkstats.py`; `progress/report.json` is the
+decomp.dev report). 180 of 243 regions link byte-identical with every file,
+ARM9 included.
 
 ![Overlay coverage map](docs/coverage_overlays.svg)
 
 ## ARM9 main binary
 
-412,048 game bytes, 5,239 functions, byte-matching. SDK: 1,205 of 1,205 functions matched (132,824 of 132,824 bytes).
+443,820 game bytes, 5,479 functions, byte-matching (the worklist still lists one 8-byte linker veneer at 0x02072788 as open). SDK: 1,213 of 1,213 functions matched (140,610 of 140,610 bytes). The ARM9 static image now links byte-identical from our objects.
 
 ![ARM9 coverage map](docs/coverage_map.svg)
 
 ## DSi `twl` region and ARM9 autoloads
 
-twl: 206 functions, 39,336 SDK bytes (all matched) and 620 game bytes. ITCM
-100%. The DSi-mode `twl` block and the ARM9
+twl: 222 functions, 48,976 SDK bytes, all matched, in 48 files: one file per
+SDK object, with the vendor names (`camera_api.c`, `dsp_pipe.c`, `nwm_*.c`, ...).
+It links byte-identical from our objects. ITCM 100%. The DSi-mode `twl` block and the ARM9
 autoload blocks (ITCM, the two MAIN_TWL stubs and VRAM_LCDC) are not part of
 the ARM9 static image or the overlays, so they have a map of their own.
 
@@ -55,16 +65,16 @@ byte-matching ROM.
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [x] ARM9 main binary: all game-written functions ship as verified C (412,048 of 412,048 game bytes), and so do the NitroSDK / NitroSystem library code (132,824 of 132,824 bytes) and the compiler runtime (MSL, soft-float; 9,524 of 9,524 bytes)
-  - [x] ITCM, the data autoloads and the DSi-mode `twl` region: all code matched (836 of 836 game bytes, 38,616 of 38,616 SDK bytes)
+  - [x] ARM9 main binary: all game-written functions ship as verified C (443,820 game bytes), and so do the NitroSDK / NitroSystem library code (140,610 of 140,610 bytes) and the compiler runtime (MSL, soft-float; 10,360 of 10,360 bytes)
+  - [x] ITCM, the data autoloads and the DSi-mode `twl` region: all code matched; `twl` is one C file per SDK object (48 files, 48,976 of 48,976 SDK bytes)
   - Verified means recompiled and byte-identical to the original at every integration; unmatched functions are carried as reassembled listings so the ROM always rebuilds byte for byte.
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
-  - [ ] Overlays: 24,513 of 24,514 game functions are matched (1,886,692 of 1,887,132 game instruction bytes, 99.98%), plus 3,244 of 3,244 SDK functions (519,104 of 519,104 SDK instruction bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
+  - [ ] Overlays: 24,827 game functions are matched (2,183,148 of 2,183,164 game instruction bytes, 99.9993%), plus 3,244 of 3,244 SDK functions (563,740 of 563,740 SDK instruction bytes) matched; regions that do not link from objects yet are still carried as reassembled listings
   - [ ] 100% matching across the whole ROM
-  - [~] One C file per original source file (`src/game/`): 1,957 of 1,977 files whole and byte-exact; the rest are split at real compiler or library boundaries or wait on the last two unmatched functions (`docs/restructure/REPORT.md`)
-  - [~] Build from `src/game`: `tools/build.py --game` rebuilds every region whose files are whole; `tools/gamelink.py` links all 166 whole overlays and ITCM byte-identical with the original `mwldarm` linker (data between files still comes from the extracted image: `docs/restructure/BUILD_FROM_GAME.md`)
+  - [~] One C file per original source file (`src/game/`): 1,958 of 1,963 files whole and byte-exact; the last 5 are split at real compiler or library boundaries (`docs/restructure/REPORT.md`)
+  - [~] Build from `src/game`: `tools/build.py --game` rebuilds every region whose files are whole; `tools/gamelink.py` links 180 of 243 regions (ARM9, ITCM, `twl` and 177 overlays) byte-identical with the original `mwldarm` linker; fully linked: 89.64% of game code, 90.95% of all code (data between files still comes from the extracted image: `docs/restructure/BUILD_FROM_GAME.md`)
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
 - [ ] **Milestone 5**: Pokémon White support

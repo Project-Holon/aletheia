@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02004EB0  0x02004EB0  arm
+ *   OSi_ReferSymbol  0x02004EB0  arm
  *   d_02005108     0x02005108  data
  *   func_02082BCC  0x02082BCC  arm
  *   d_021B60CC     0x021B60CC  data  ov013
@@ -39,7 +39,7 @@ typedef struct {
 extern char d_02005108[];
 extern int  d_021B60CC[];
 extern u8   d_021B60D8[];
-extern void func_02004EB0(const void *symbol);
+extern void OSi_ReferSymbol(const void *symbol);
 extern void func_02082BCC(void *dst, int c, int n);
 extern int  func_021B0508(void);
 struct Config;
@@ -52,7 +52,7 @@ extern void func_021B2F98(void);
 
 int func_021B370C(Param *p)
 {
-    func_02004EB0(d_02005108);
+    OSi_ReferSymbol(d_02005108);
     if (p == 0)
         return 0;
     if (d_021B60CC[2] != 0)

@@ -1,0 +1,28 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "twl",
+ "shard": "pkt_027052FC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "DSPi_ShutdownCallback",
+   "address": "0x027052FC",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/twl/DSPi_ShutdownCallback.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02705E04",
+     "0x02705ED0"
+    ]
+   }
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 # Finish lane brief (last restructure and matching work)
 
-Repo: <home>/OneDrive/Documents/aletheia. Goal: every src/game
+Repo: the repository root. Goal: every src/game
 function EXACT, every TU one file where the original was one file, before the
 structural cleanup goes on. Read docs/restructure/REPORT.md (levers, state)
 and your TU's MERGE.md first.
@@ -34,6 +34,15 @@ and your TU's MERGE.md first.
   layout/function_starts.txt if missing, a src/matched file, a shard via the
   match.py manifest commands, `manifest --verify --force` twice,
   `manifest --check` clean.
+
+
+## The original was written by people
+It is sometimes poorly optimised and does needless work: duplicated
+variables, a value copied into a second local, a value recomputed or read
+twice, two structs (or two names) for one object, dead stores, odd types.
+Try such redundant forms before calling a function stuck. A form is a
+stand-in only when no person would have a reason to write it (a cast or
+statement whose only effect is to steer the compiler).
 
 ## Rules
 Only touch your own files. No permuter, brute force or sweeps. `volatile`

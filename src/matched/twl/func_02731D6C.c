@@ -1,5 +1,5 @@
 /*
- * function: func_02731D6C
+ * function: WCMi_NwmifTerminateAsync
  * address:  0x02731D6C
  * packet:   twl_sys
  * region:   twl
@@ -11,104 +11,235 @@
  *
  * symbols:
  *   func_021657C8  0x021657C8  arm  ov009
- *   func_027028B0  0x027028B0  arm  twl
- *   func_02702A98  0x02702A98  arm  twl
  *   func_02165A4C  0x02165A4C  arm  ov009
- *   func_02702BFC  0x02702BFC  arm  twl
- *   func_02702FE8  0x02702FE8  arm  twl
- *   func_02703424  0x02703424  arm  twl
- *   func_027320D0  0x027320D0  arm  twl
- *   func_02732874  0x02732874  arm  twl
+ *   NWM_GetState  0x027028B0  arm  twl
+ *   NWM_End  0x02702A98  arm  twl
+ *   NWM_UnloadDevice  0x02702BFC  arm  twl
+ *   NWM_Close  0x02702FE8  arm  twl
+ *   NWM_Disconnect  0x02703424  arm  twl
+ *   WcmNwmcbCommon  0x027320D0  arm  twl
+ *   WcmNwmcbDisconnect  0x02732874  arm  twl
+ *   NWM_Init  0x02702434  arm
+ *   NWM_GetAllowedChannel  0x02702980  arm
+ *   NWM_GetDispersionScanPeriod  0x02702998  arm
+ *   NWM_LoadDevice  0x02702B08  arm
+ *   NWM_Open  0x02702F38  arm
+ *   NWM_StartScanEx  0x02703088  arm
+ *   NWM_Connect  0x027032E0  arm
+ *   NWM_SetWEPKey  0x027034C0  arm
+ *   NWM_SetPowerSaveMode  0x027035F4  arm
+ *   NWM_SendFrame  0x027036A0  arm
+ *   NWM_SetReceivingFrameBuffer  0x0270379C  arm
+ *   NWM_UnsetReceivingFrameBuffer  0x02703854  arm
+ *   NWM_SetWPAPSK  0x02703960  arm
+ *   WCMi_NwmifStartupAsync  0x0273199C  arm
+ *   WCMi_NwmifCleanupAsync  0x02731A84  arm
+ *   WCMi_NwmifBeginSearchAsync  0x02731AF0  arm
+ *   WCMi_NwmifConnectAsync  0x02731BF8  arm
+ *   WCMi_NwmifDisconnectAsync  0x02731CFC  arm
+ *   WCMi_NwmifSetDCFData  0x02731E50  arm
+ *   WCMi_NwmifGetAllowedChannel  0x02731F00  arm
+ *   WcmNwmReset  0x02731F14  arm
+ *   WcmNwmcbScanEx  0x027323A8  arm
+ *   WcmNwmcbConnect  0x02732648  arm
+ *   WcmNwmcbSetRecvFrmBuf  0x02732944  arm
+ *   WcmNwmcbUnsetRecvFrmBuf  0x02732A64  arm
+ *   WcmNwmcbSetDCFData  0x02732CAC  arm
+ *   WcmNwmcbSetDCFDataAsync  0x02732CEC  arm
+ *   WcmEditScanExParam  0x02732B70  arm
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
 
-extern int func_021657C8(void);
-extern u32 func_027028B0(void);
-extern u32 func_02702A98(void);
+typedef unsigned char u8;
+
+typedef struct HmacCtx {
+    u8 sha[0x64];
+    u8 key[0x40];
+    u32 keyLen;
+} HmacCtx;
+
+typedef struct NetWork {
+    u8 pad00[0x600];
+    u8 recvBuf[0xc40];
+    u8 peer[0x20];
+    u8 pad0a[0x1290 - 0x1260];
+    u8 mode;
+    u8 submode;
+    u8 pad0b[0x12c0 - 0x1292];
+    u32 cmdArg;
+    u8 pad0c[0x12d4 - 0x12c4];
+    u32 linkFlags;
+    u16 sync;
+    short phase;
+    u8 pad2a;
+    u8 stopFlag;
+    u8 state;
+    u8 pad3;
+    u8 buf[0x130c - 0x12e0];
+    u16 optFlags;
+    u8 pad4[0x13a0 - 0x130e];
+    u8 rxBuf[0x3000];
+    u32 sendBuf;
+    u16 sendLen;
+    u16 sendMask;
+    u16 sendId;
+    u16 sendFlag;
+    u8 sendMac[6];
+    u16 nameLen;
+    u8 sendName[0x20];
+    u16 nameLen2;
+    u8 pad5[0x43e0 - 0x43d6];
+    u32 sendCount;
+    u16 rxFlag;
+    u16 txFlag;
+} NetWork;
+
+typedef struct SendPkt {
+    u16 pad0;
+    u16 kind;
+    u32 len;
+    u16 pad1;
+    u16 count;
+    u8 pad2[4];
+    u32 ptr[32];
+    u16 size[32];
+} SendPkt;
+
+typedef struct JoinReq {
+    u16 mode;
+    u8 peer[0x20];
+} JoinReq;
+
+typedef struct NetObj {
+    u8 pad0[4];
+    u8 queue[0x20];
+    u16 status;
+    u8 pad1[6];
+    u32 arg;
+} NetObj;
+
+typedef struct Pkt {
+    u16 pad0;
+    u16 kind;
+    u16 pad1;
+    short level;
+    u32 len;
+    u8 *data;
+} Pkt;
+
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+extern NetWork *func_021657C8(void);
+extern void func_020862B8(u32 buf, u32 len);
+extern int NWM_StartScanEx(void *cb, void *buf);
+extern u32 NWM_Init(u32 a0, u32 a1, u32 a2);
 extern void func_02165A4C(unsigned char phase);
-extern u32 func_02702BFC(void *arg);
-extern u32 func_02702FE8(void *arg);
-extern u32 func_02703424(void *arg);
-extern void func_027320D0(void);
-extern void func_02732874(void);
+extern u32 NWM_LoadDevice(void *arg);
+extern u32 NWM_Close(void *arg);
+extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
+extern u32 NWM_SetWPAPSK(void *a, void *b);
+extern u32 NWM_UnsetReceivingFrameBuffer(void *a0, u32 a1);
+extern u32 NWM_GetState(void);
+extern u32 NWM_End(void);
+extern u32 NWM_UnloadDevice(void *arg);
+extern u32 NWM_Disconnect(void *arg);
+extern NetObj *func_02166378(void);
+extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
+extern void OS_SleepThread(void *queue);
+extern void WcmNwmcbSetDCFDataAsync(void);
+extern u32 NWM_GetAllowedChannel(void);
+extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
+extern void func_021659F8(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void func_02165D04(u32 a, u32 b);
+extern u16 func_02165918(u16 a);
+extern void func_020862D4(u32 buf, u32 len);
+extern u32 func_02080D24(u32 x);
+extern u32 NWM_Open(void *arg);
+extern void OS_GetMacAddress(void *mac);
+extern void func_021665CC(void *mac);
+extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
+extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
+extern void func_02166804(u8 v);
+extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
+extern int NWM_Connect(void *cb, u8 flag, void *buf);
+extern unsigned long func_021656D0(unsigned long option);
+extern u32 NWM_GetDispersionScanPeriod(u32 a);
+extern void func_02165AF4(void);
+extern void OS_WakeupThread(void *queue);
+void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
+void func_0273184C(void *a, const void *b, u32 c);
+void func_02731868(HmacCtx *ctx, u8 *digest);
+asm void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len);
+u32 WCMi_NwmifStartupAsync(void);
+u32 WCMi_NwmifCleanupAsync(void);
+int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c);
+u32 WCMi_NwmifConnectAsync(void);
+u32 WCMi_NwmifDisconnectAsync(void);
+u32 WCMi_NwmifTerminateAsync(void);
+u32 WCMi_NwmifSetDCFData(u32 a, u32 b, u32 c, u32 d);
+u32 WCMi_NwmifGetAllowedChannel(void);
+asm void WcmNwmReset(void);
+void WcmNwmcbCommon(u16 *arg);
+void WcmNwmcbScanEx(SendPkt *p);
+asm void WcmNwmcbConnect(void *arg);
+void WcmNwmcbDisconnect(u16 *arg);
+void WcmNwmcbSetRecvFrmBuf(Pkt *p);
+void WcmNwmcbUnsetRecvFrmBuf(Pkt *p);
+void WcmEditScanExParam(u8 *mac, u8 *name, u32 opt);
+void WcmNwmcbSetDCFData(u16 *arg);
+extern u8 data_021A1988[];
+extern u8 data_021A1990[];
 
-asm u32 func_02731D6C(void)
+extern NetWork *func_021657C8(void);
+extern void func_02165A4C(unsigned char phase);
+extern u32 NWM_Close(void *arg);
+extern u32 NWM_GetState(void);
+extern u32 NWM_End(void);
+extern u32 NWM_UnloadDevice(void *arg);
+extern u32 NWM_Disconnect(void *arg);
+void WcmNwmcbCommon(u16 *arg);
+void WcmNwmcbDisconnect(u16 *arg);
+
+u32 WCMi_NwmifTerminateAsync(void)
 {
-    stmdb   sp!, {r4, lr}
-    bl      func_021657C8
-    mov     r4, r0
-    bl      func_027028B0
-    cmp     r0, #4
-    addls   pc, pc, r0, lsl #2
-    b       @loc_02731DE4
+    NetWork *w = func_021657C8();
+    u32 ret;
 
-    b       @loc_02731DE4
-    b       @loc_02731D9C
-    b       @loc_02731DC0
-    b       @loc_02731DCC
-    b       @loc_02731DD8
-
-@loc_02731D9C:
-    bl      func_02702A98
-    cmp     r0, #0
-    bne     @loc_02731DF4
-    mov     r0, #1
-    bl      func_02165A4C
-    add     r1, r4, #0x1200
-    mov     r0, #0
-    strh    r0, [r1, #0xda]
-    ldmfd   sp!, {r4, pc}
-
-@loc_02731DC0:
-    ldr     r0, =func_027320D0
-    bl      func_02702BFC
-    b       @loc_02731DF4
-
-@loc_02731DCC:
-    ldr     r0, =func_027320D0
-    bl      func_02702FE8
-    b       @loc_02731DF4
-
-@loc_02731DD8:
-    ldr     r0, =func_02732874
-    bl      func_02703424
-    b       @loc_02731DF4
-
-@loc_02731DE4:
-    add     r0, r4, #0x1000
-    mov     r1, #1
-    strb    r1, [r0, #0x2dd]
-    mov     r0, #4
-
-@loc_02731DF4:
-    cmp     r0, #2
-    beq     @loc_02731E10
-    cmp     r0, #3
-    beq     @loc_02731E30
-    cmp     r0, #6
-    beq     @loc_02731E28
-    b       @loc_02731E30
-
-@loc_02731E10:
-    mov     r0, #0xd
-    bl      func_02165A4C
-    add     r0, r4, #0x1200
-    mov     r1, #9
-    strh    r1, [r0, #0xda]
-    b       @loc_02731E40
-
-@loc_02731E28:
-    mov     r0, #4
-    ldmfd   sp!, {r4, pc}
-
-@loc_02731E30:
-    mov     r0, #0xb
-    bl      func_02165A4C
-    mov     r0, #7
-    ldmfd   sp!, {r4, pc}
-
-@loc_02731E40:
-    mov     r0, #3
-    ldmfd   sp!, {r4, pc}
+    switch (NWM_GetState()) {
+    case 1:
+        ret = NWM_End();
+        if (ret == 0) {
+            func_02165A4C(1);
+            w->phase = 0;
+            return 0;
+        }
+        break;
+    case 2:
+        ret = NWM_UnloadDevice(WcmNwmcbCommon);
+        break;
+    case 3:
+        ret = NWM_Close(WcmNwmcbCommon);
+        break;
+    case 4:
+        ret = NWM_Disconnect(WcmNwmcbDisconnect);
+        break;
+    default:
+        w->stopFlag = 1;
+        ret = 4;
+        break;
+    }
+    switch (ret) {
+    case 2:
+        func_02165A4C(13);
+        w->phase = 9;
+        break;
+    case 6:
+        return 4;
+    case 3:
+    default:
+        func_02165A4C(11);
+        return 7;
+    }
+    return 3;
 }

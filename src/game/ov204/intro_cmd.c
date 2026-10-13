@@ -1401,7 +1401,7 @@ int *func_021BF374(char *p, int v)
 
 /*
  * Owner unit_02045C44.c omits func_02045CAC from function:; singleton TU
- * --suggest-split leaves this caller out. Ilias owns that unit.
+ * --suggest-split leaves this caller out. the integrator owns that unit.
  * prior fixed-flag ARM9-45CAC.log, using the owner's unit declarations:
  * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
  *   u32 size; struct MsgEntry *e;

@@ -14,16 +14,15 @@
  *   DWCi_HLlLoad                 0x021BD674  arm
 */
 
-extern void DWCi_SETTIGNlGet(void);
-extern void DWCi_HLlLoad(void);
+typedef struct {
+    unsigned char pad[0xF4];
+    unsigned char idx;
+} SETTINGINFO;
 
-asm void DWCi_HLlLoadList(void)
+extern SETTINGINFO *DWCi_SETTIGNlGet(void);
+extern void DWCi_HLlLoad(int idx);
+
+void DWCi_HLlLoadList(void)
 {
-	stmdb sp!, {r3, lr}
-	bl DWCi_SETTIGNlGet
-	ldrb r0, [r0, #0xf4]
-	add r0, r0, #2
-	bl DWCi_HLlLoad
-	ldmia sp!, {r3, pc}
+    DWCi_HLlLoad(DWCi_SETTIGNlGet()->idx + 2);
 }
-

@@ -22,7 +22,7 @@
  *           nothing (baseline agrees, DIFF 2/612).
  * blocker:  even byte-correct this caps at MATCH: 0x0202E80C (arm9, Thumb,
  *           unlabelled: `ldr r1,[r0]; str r1,[r0,#8]; movs r1,#0; str
- *           r1,[r0]; bx lr`, verified C not filed: arm9 is Ilias's);
+ *           r1,[r0]; bx lr`, verified C not filed: arm9 is the integrator's);
  *           0x0216EFDC (ov010 unlabelled tail-call leaf, not filed while an
  *           arm9 leaf blocks); ov093_id/ov092_id pooled ids passed to
  *           func_02012444, which is not in OVERLAY_ID_CONSUMERS;

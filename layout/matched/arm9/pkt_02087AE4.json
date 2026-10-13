@@ -53,7 +53,7 @@
    }
   },
   {
-   "name": "OS_SPrintf",
+   "name": "STD_TSScanf",
    "address": "0x0208CF34",
    "kind": "sdk",
    "region": "arm9",
@@ -82,7 +82,7 @@
    "status": "EXACT"
   },
   {
-   "name": "OS_SNPrintf",
+   "name": "STD_TSNPrintf",
    "address": "0x0208D80C",
    "kind": "sdk",
    "region": "arm9",

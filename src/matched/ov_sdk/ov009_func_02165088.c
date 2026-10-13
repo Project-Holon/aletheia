@@ -16,7 +16,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_021669B8  0x021669B8  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02731A84  0x02731A84  arm  twl
+ *   WCMi_NwmifCleanupAsync  0x02731A84  arm  twl
  *   g_021AA7D4  0x021AA7D4  data ov009
  *
  * Requests cleanup of the WCM: only valid in the idle phase, dispatched to the WM or NWM cleanup by device id.
@@ -37,7 +37,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern long func_021669B8(void);
 extern int OS_IsRunOnTwl(void);
-extern long func_02731A84(void);
+extern long WCMi_NwmifCleanupAsync(void);
 
 long func_02165088(void)
 {
@@ -68,7 +68,7 @@ long func_02165088(void)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731A84();
+            wcmResult = WCMi_NwmifCleanupAsync();
             break;
         }
     default:

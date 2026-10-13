@@ -1,5 +1,5 @@
 /*
- * function: MIi_UncompressBLZ
+ * function: MIi_UncompressBackward
  * address:  0x02004DF4
  * packet:   pkt_02004DF4
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  * note:     same body as TwlSDK crt0.FLX.c MIi_UncompressBackward; the
  *           libmatch signature recovery catalogues 0x02004DF4 as
- *           MIi_UncompressBLZ in TwlSDK/libmi.TWL.HYB.a(mi_secureuncompr).
+ *           MIi_UncompressBackward in TwlSDK/libmi.TWL.HYB.a(mi_secureuncompr).
  */
 
-asm void MIi_UncompressBLZ(void)
+asm void MIi_UncompressBackward(void)
 {
     cmp r0, #0
     beq _exit

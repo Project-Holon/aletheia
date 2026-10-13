@@ -10,10 +10,18 @@
  * status:   EXACT
 */
 
-asm void func_02078530(void)
+typedef struct FSArchive {
+    union {
+        char ptr[4];
+        unsigned int pack;
+        char *name;
+    } name;
+} FSArchive;
+
+char *func_02078530(FSArchive *arc)
 {
-    ldrsb	r1, [r0, #3]
-    cmp	r1, #0
-    ldrne	r0, [r0]
-    bx	lr
+    if (arc->name.ptr[3] != 0) {
+        return arc->name.name;
+    }
+    return arc->name.ptr;
 }

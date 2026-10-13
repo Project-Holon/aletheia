@@ -11,7 +11,7 @@
  * checks: 1 exact own allocator/67E0/6F24/6FB0/7098 prototypes reread; 6FB0 pointer-parameter definition conflicts with caller scalar extraction, parked strict-prototype diagnostic without further compile; 2 root36C0/3F00 and current ov112 neighbours confirm layouts; 3 raw row address 260/160, named u32 stride 252/194, sizeof stride 252/201; definition conflict prevents further width tuning; 4 bitfield/stride/pointer idioms read, manual scheduling cap2; 5 fresh full idiom listing/neighbours read, no passed stack aggregate. Prior types300 permuter consumed, never repeated.
  * permuter: old once types300 consumed; rejected reading +40 before allocation; never repeated.
  * blockers: outer-loop stride multiply/lifetime and inner address scheduling; bounded renewed pass exhausted.
- * prototype-conflict: ov112 021F6FB0 parameter2 is char* in its EXACT* definition (loads q+0x1E,+0x24,+0x2E,+0x29), but caller 021F3BC4/3BC6 masks five bits and3BC8/3BCA explicitly narrows u8 before BL3BCC. Do not restore legacy u8 extern or edit unassigned definition; caller3CA4 also remains Ilias-blocked. Below keeps exact pointer prototype for diagnosis.
+ * prototype-conflict: ov112 021F6FB0 parameter2 is char* in its EXACT* definition (loads q+0x1E,+0x24,+0x2E,+0x29), but caller 021F3BC4/3BC6 masks five bits and3BC8/3BCA explicitly narrows u8 before BL3BCC. Do not restore legacy u8 extern or edit unassigned definition; caller3CA4 also remains the integrator-blocked. Below keeps exact pointer prototype for diagnosis.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021F67E0 0x021F67E0 thumb ov112

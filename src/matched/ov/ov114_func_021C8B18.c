@@ -8,7 +8,7 @@
  * isa: arm
  * status: EXACT
  * residual: 16 concrete bytes, first pool base load (state) is delayed after the six byte loads
- * owner-blocker: Ilias SDK ov114 0x021CA470; matched ov_sdk definition
+ * owner-blocker: the integrator SDK ov114 0x021CA470; matched ov_sdk definition
  *   void func_021CA470(int,int,int,int,int) conflicts with caller return use.
  *   021C8B84: bl 021CA470; 021C8B88: cmp r0,#0.
  *   021CA488: bl 021CA240; 021CA48C: add sp,sp,#8; 021CA490: pop {r3,pc}

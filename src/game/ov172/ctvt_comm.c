@@ -204,6 +204,8 @@
  *   func_021BA1E4 0x021BA1E4 thumb ov172
  *   func_0208B500 0x0208B500 arm
  *   func_0208B528 0x0208B528 arm
+ *   CAMERA_I2CEffectExCore  0x02701248  arm  twl
+ *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
  */
 #include "../../matched/include/Obj06553.h"
 #include "../../matched/include/Obj06554.h"
@@ -558,7 +560,7 @@ void func_021B796C(void *p, char *q, int i);
 void func_021B7B20(int unused, char *base, int i);
 u32 func_021B7B30(int unused, char *base, int i);
 void func_021B7B3C(int x, int y, int z);
-void func_02701248(int a, int b, int c);
+void CAMERA_I2CEffectExCore(int a, int b, int c);
 void func_021B7B64(int x, char *p);
 void func_021B7B80(int x, char *p);
 char *func_021B7BA8(void *p, u16 heap);
@@ -630,7 +632,7 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v);
 int func_021B9F4C(int a, int b, int mode);
 int func_021B9F98(int unused, int *p);
 void *func_021B9F9C(u32 heap);
-void func_027047C0(int, void *);
+void SNDEXi_SetIirFilter(int, void *);
 void func_021BA01C(char *p);
 void func_021BA050(u32 *p);
 void func_021BA094(int v);
@@ -903,7 +905,7 @@ void func_021B7B3C(int x, int y, int z)
     if (r != 1) {
         return;
     }
-    func_02701248(3, 3, z);
+    CAMERA_I2CEffectExCore(3, 3, z);
 }
 
 
@@ -3193,7 +3195,7 @@ void *func_021B9F9C(u32 heap)
     func_0208B8B0();
     func_0208BEF0(1);
     func_0208BF54(80);
-    if (func_02085D3C() == 1) func_027047C0(0, (void *)d_021C720C);
+    if (func_02085D3C() == 1) SNDEXi_SetIirFilter(0, (void *)d_021C720C);
     func_021BA1B4((char *)p, heap);
     p[1] = (u32)func_0203D7C8(heap, 51200, d_021C7218, 134);
     p[0] = 0;

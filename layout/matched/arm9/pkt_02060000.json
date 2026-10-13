@@ -296,7 +296,7 @@
    "status": "EXACT"
   },
   {
-   "name": "DWC_StartUtilityEx",
+   "name": "FS_TryLoadTable",
    "address": "0x0207ACB4",
    "kind": "sdk",
    "region": "arm9",

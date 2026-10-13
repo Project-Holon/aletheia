@@ -78,7 +78,7 @@
  *   g_021A7B14             0x021A7B14  data
  *   num_local_ips          0x021AE9A0  data
  *   local_ip_list          0x021AE9A4  data
- *   @13818                 0x021A1B64  data
+ *   @460                   0x021A1B64  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "qr2_types.h"

@@ -18,6 +18,7 @@
  *   (none)
  */
 
+/* hand-written in the original: MATHi_SHA1ProcessBlock, asm-only SDK object (sha1.s, no DWARF, no .comment; pc-relative round constants in a $d block) */
 asm void func_02081E7C(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, r12, lr}

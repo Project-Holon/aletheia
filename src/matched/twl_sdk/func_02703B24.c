@@ -1,5 +1,5 @@
 /*
- * function: func_02703B24
+ * function: NWMi_SendCommandDirect
  * address:  0x02703B24
  * packet:   twl
  * region:   twl
@@ -10,51 +10,41 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027026DC  0x027026DC  arm twl
- *   func_02703B98  0x02703B98  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
+ *   NwmGetCommandBuffer4Arm7  0x02703B98  arm twl
  *   func_02082D44  0x02082D44  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   func_02088610  0x02088610  arm twl
  *   func_02085DBC  0x02085DBC  arm twl
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
 
-extern u32 func_027026DC(void);
-extern u32 func_02703B98(void);
-extern void func_02082D44(u32, u32, u32);
-extern void func_020862D4(u32, u32);
-extern u32 func_02088610(u32, u32, u32);
-extern void func_02085DBC(u32, u32, u32);
+extern u32 NWMi_GetSystemWork(void);
+extern u16 *NwmGetCommandBuffer4Arm7(void);
+extern void func_02082D44(u32, u16 *, u32);
+extern void func_020862D4(u16 *, u32);
+extern s32 func_02088610(u32, u16 *, u32);
+extern void func_02085DBC(u32, u16 *, u32);
 
-asm void func_02703B24(u32 a0, u32 a1) {
-    stmdb sp!, {r3, r4, r5, r6, r7, lr}
-    mov r7, r0
-    mov r4, r1
-    bl func_027026DC
-    mov r6, r0
-    bl func_02703B98
-    movs r5, r0
-    moveq r0, #6
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, pc}
-    mov r0, r7
-    mov r1, r5
-    mov r2, r4
-    bl func_02082D44
-    mov r0, r5
-    mov r1, r4
-    bl func_020862D4
-    mov r1, r5
-    mov r0, #0x16
-    mov r2, #0
-    bl func_02088610
-    mov r4, r0
-    mov r1, r5
-    add r0, r6, #0x2000
-    mov r2, #1
-    bl func_02085DBC
-    mov r0, #6
-    cmp r4, #0
-    movge r0, #2
-    ldmfd sp!, {r3, r4, r5, r6, r7, pc}
+u32 NWMi_SendCommandDirect(u32 a0, u32 a1) {
+    u32 base = NWMi_GetSystemWork();
+    u16 *msg = NwmGetCommandBuffer4Arm7();
+    s32 res;
+    u32 ret;
+
+    if (msg == 0) {
+        return 6;
+    }
+    func_02082D44(a0, msg, a1);
+    func_020862D4(msg, a1);
+    res = func_02088610(0x16, msg, 0);
+    func_02085DBC(base + 0x2000, msg, 1);
+    ret = 6;
+    if (res >= 0) {
+        ret = 2;
+    }
+    return ret;
 }

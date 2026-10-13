@@ -1,5 +1,5 @@
 /*
- * function: func_02731500
+ * function: PMi_FinalizeDebugger
  * address:  0x02731500
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,25 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02084AB0 0x02084AB0 arm
+ *   func_02087988 0x02087988 arm
  */
 
-asm void func_02731500(void)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_02084AB0(int a0, volatile u8 *p);
+extern void func_02087988(void);
+
+void PMi_FinalizeDebugger(void)
 {
+    volatile u8 *a = (volatile u8 *)0x02FFFFF0;
+    *(volatile u8 *)0x02FFFFF4 = 0;
+    func_02084AB0(0, a);
+    func_02084AB0(1, a);
+    func_02087988();
+    *(volatile u8 *)0x02FFFFF4 = 1;
 }

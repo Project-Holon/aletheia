@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * blocker: unlabelled ov021 func_02189A50 at 0x02189A50, owned by Ilias;
+ * blocker: unlabelled ov021 func_02189A50 at 0x02189A50, owned by the integrator;
  * sole setter body stores r1 at [r0 + 0x144], then returns. No code-start
  * witness. No owner source or ARM9/SDK matching performed.
  * 2026-10-04 (wD2 lane 02): witness filed: src/matched/ov/ov021_func_02189A50.c (EXACT). Compiled 34 vs listing 36

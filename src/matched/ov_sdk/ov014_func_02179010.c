@@ -13,17 +13,9 @@
  *   WM_MeasureChannel            0x02090E50  arm
 */
 
-extern void WM_MeasureChannel(void);
+extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
 
-asm void WHi_MeasureChannel(void)
+int WHi_MeasureChannel(void *callback, unsigned short channel)
 {
-	PUSH {R3, LR}
-	ADD R3, R1, #0
-	MOV R1, #0x1E
-	STR R1, [SP, #0]
-	MOV R1, #3
-	MOV R2, #0x11
-	BL WM_MeasureChannel
-	POP {R3, PC}
+    return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1E);
 }
-

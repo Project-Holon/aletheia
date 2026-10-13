@@ -203,7 +203,7 @@ extern struct TcblNode *sub_02030F04(struct Tcbl *list);
 void func_020306F0(u32 heap);
 void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u32 sub_020307B0(void *p);
-asm void func_020307C8(void);
+void func_020307C8(void *p, u32 heapId, s32 size);
 void sub_020307E0(void *p, u32 size);
 void *sub_02030830(u32 heapId);
 void *sub_0203084C(u32 heapId);
@@ -217,7 +217,7 @@ void sub_02030A2C(void *p);
 void sub_02030A5C(u32 heapId);
 void func_02030A7C(void *heap);
 void func_02030B50(void *p);
-asm void func_02030BA4(void);
+void func_02030BA4(u32 size);
 void *sub_02030BBC(u32 a0);
 int sub_02030BC8(u32 idx);
 void sub_02030BD4(struct Ctx *c);
@@ -439,14 +439,11 @@ u32 sub_020307B0(void *p)
 
 
 
-asm void func_020307C8(void)
+void func_020307C8(void *p, u32 heapId, s32 size)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02030238
-    cmp	r0, #0
-    ldmnefd sp!, {r3, pc}
-    bl func_02088234
-    ldmfd sp!, {r3, pc}
+    if (func_02030238(p, heapId, size) == 0) {
+        func_02088234();
+    }
 }
 
 
@@ -1105,14 +1102,11 @@ void func_02030B50(void *p)
 
 
 
-asm void func_02030BA4(void)
+void func_02030BA4(u32 size)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02030534
-    cmp	r0, #0
-    ldmnefd sp!, {r3, pc}
-    bl func_02088234
-    ldmfd sp!, {r3, pc}
+    if (func_02030534(size) == 0) {
+        func_02088234();
+    }
 }
 
 

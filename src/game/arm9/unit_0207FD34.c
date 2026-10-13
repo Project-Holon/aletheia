@@ -161,10 +161,6 @@ typedef enum {
 
 extern void g_02150E4C(void);
 extern void func_0207FD34(void);
-extern void g_02150E5A(void);
-extern void g_02150E5C(void);
-extern void g_02150E62(void);
-extern void g_02150E64(void);
 extern void OSi_UnlockVram(u16 bank, u16 lockId);
 extern int disableBankForX_(u16 *g3bit);
 void GX_SetBankForBG(GXVRamBG bg);
@@ -183,15 +179,15 @@ void func_0208083C(int sub_objExtPltt);
 int func_020808BC(u16 *g3bit);
 int func_020808F4(void);
 void func_02080908(void);
-asm void GX_DisableBankForBGExtPltt(void);
-asm void GX_DisableBankForOBJExtPltt(void);
+void GX_ResetBankForBGExtPltt(void);
+void GX_ResetBankForOBJExtPltt(void);
 int func_02080964(void);
 void func_02080978(void);
 void func_0208098C(int a0, int a1, int a2, int a3);
 int func_020809A0(void);
 void func_020809B4(void);
-asm void GX_DisableBankForSubBGExtPltt(void);
-asm void GX_DisableBankForSubOBJExtPltt(void);
+void GX_ResetBankForSubBGExtPltt(void);
+void GX_ResetBankForSubOBJExtPltt(void);
 int func_02080A18(u16 *g3bit);
 GXVRam func_02080AD8(void);
 GXVRam func_02080AEC(void);
@@ -811,15 +807,10 @@ void func_02080908(void){ func_020808BC((u16 *)((int)0x2150E50)); }
 
 
 
-asm void GX_DisableBankForBGExtPltt(void)
+void GX_ResetBankForBGExtPltt(void)
 {
-    mov	r2, #0x4000000
-    ldr	r1, [r2]
-    ldr r0, =g_02150E5A
-    bic	r1, r1, #0x40000000
-    ldr ip, =func_020808BC
-    str	r1, [r2]
-    bx	ip
+    reg_GX_DISPCNT &= ~0x40000000;
+    func_020808BC((u16 *)((int)0x2150E5A));
 }
 
 
@@ -828,15 +819,10 @@ asm void GX_DisableBankForBGExtPltt(void)
 
 
 
-asm void GX_DisableBankForOBJExtPltt(void)
+void GX_ResetBankForOBJExtPltt(void)
 {
-    mov	r2, #0x4000000
-    ldr	r1, [r2]
-    ldr r0, =g_02150E5C
-    bic	r1, r1, #0x80000000
-    ldr ip, =func_020808BC
-    str	r1, [r2]
-    bx	ip
+    reg_GX_DISPCNT &= ~0x80000000;
+    func_020808BC((u16 *)((int)0x2150E5C));
 }
 
 
@@ -878,15 +864,10 @@ void func_020809B4(void){ func_020808BC((u16 *)((int)0x2150E60)); }
 
 
 
-asm void GX_DisableBankForSubBGExtPltt(void)
+void GX_ResetBankForSubBGExtPltt(void)
 {
-    ldr r2, =0x04001000
-    ldr r0, =g_02150E62
-    ldr	r1, [r2]
-    ldr ip, =func_020808BC
-    bic	r1, r1, #0x40000000
-    str	r1, [r2]
-    bx	ip
+    reg_GXS_DB_DISPCNT &= ~0x40000000;
+    func_020808BC((u16 *)((int)0x2150E62));
 }
 
 
@@ -894,15 +875,10 @@ asm void GX_DisableBankForSubBGExtPltt(void)
 
 
 
-asm void GX_DisableBankForSubOBJExtPltt(void)
+void GX_ResetBankForSubOBJExtPltt(void)
 {
-    ldr r2, =0x04001000
-    ldr r0, =g_02150E64
-    ldr	r1, [r2]
-    ldr ip, =func_020808BC
-    bic	r1, r1, #0x80000000
-    str	r1, [r2]
-    bx	ip
+    reg_GXS_DB_DISPCNT &= ~0x80000000;
+    func_020808BC((u16 *)((int)0x2150E64));
 }
 
 
@@ -981,7 +957,7 @@ GXVRam func_02080AEC(void)
 
 
 /*
- * sdk:      GX_DisableBankForBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
+ * sdk:      GX_ResetBankForBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
 GXVRam func_02080B00(void)
 {
@@ -995,7 +971,7 @@ GXVRam func_02080B00(void)
 
 
 /*
- * sdk:      GX_DisableBankForOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
+ * sdk:      GX_ResetBankForOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
 GXVRam func_02080B24(void)
 {
@@ -1074,7 +1050,7 @@ void func_02080BC0(int a0, int a1, int a2, int a3){ func_02080A18((u16 *)((int)0
 
 
 /*
- * sdk:      GX_DisableBankForSubBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
+ * sdk:      GX_ResetBankForSubBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
 GXVRam func_02080BD4(void)
 {
@@ -1087,7 +1063,7 @@ GXVRam func_02080BD4(void)
 
 
 /*
- * sdk:      GX_DisableBankForSubOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
+ * sdk:      GX_ResetBankForSubOBJExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)
  */
 GXVRam func_02080BFC(void)
 {

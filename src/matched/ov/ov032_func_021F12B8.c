@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Byte-correct; the only wildcard is the bl to func_020275B8 (blocker: no
- * witness outside the range for an unlabelled arm9 leaf, Ilias's). Verified
+ * witness outside the range for an unlabelled arm9 leaf, the integrator's). Verified
  * leaf C (EXACT, arm9 0x020275B8, thumb, 12 bytes incl. pool word 0x0B0E):
  *   typedef unsigned char u8;
  *   void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }

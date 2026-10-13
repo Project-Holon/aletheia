@@ -14,6 +14,7 @@
  *           stub).  A Thumb `asm` function: swi, then return.
  */
 
+/* hand-written in the original: SVC stub in the arm9 secure area, `swi 3; bx lr` in the BIOS call table */
 asm void func_02004490(void)
 {
     swi 3

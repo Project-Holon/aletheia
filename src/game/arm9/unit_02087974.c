@@ -122,6 +122,7 @@ asm unsigned int OS_GetProcMode(void)
 
 
 
+/* hand-written in the original: SDK OS_SpinWaitCpuCycles, cycle-exact subs/bhs delay loop */
 asm void func_020879F8(void)
 {
     subs	r0, r0, #4

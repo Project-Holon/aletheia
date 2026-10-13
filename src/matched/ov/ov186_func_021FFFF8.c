@@ -10,7 +10,7 @@
  * status: EXACT
  * blocker: ARM9 02045CAC arm; unresolved sole call, no witness outside
  *   021FFFF8..022000D0. Singleton tu --suggest-split confirms no viable cut.
- *   Existing Ilias-owned unit_02045C44.c function verified EXACT344 with
+ *   Existing integrator-owned unit_02045C44.c function verified EXACT344 with
  *   read-only fixed-flag one (ARM9-45CAC.log). No ARM9 file/shard writes.
  *   Its function: header lists only func_02045C44, omitting func_02045CAC.
  *   Verified C follows, using that unit's declarations:

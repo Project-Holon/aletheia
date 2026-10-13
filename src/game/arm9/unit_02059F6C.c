@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02004EB0        0x02004EB0 arm
+ *   OSi_ReferSymbol        0x02004EB0 arm
  *   DWCi_Init            0x02059FA8 arm
  *   id_string_production 0x02005050 data
  *   DWCi_SetMemFunc                0x0205A158 arm
@@ -28,7 +28,6 @@
  *   DWCi_Auth_InitInterface        0x02178C88 arm ov009
  *   gsiMemoryCallbacksSet          0x0217EA9C arm ov009
  *   strcpy                         0x02094798 arm
- *   DWCi_Np_SetInitFlag            0x0205A11C arm
  *   dwci_gamecode                  0x02146AAC data a4
  *   DWCi_GsMalloc                  0x0205A26C arm
  *   DWCi_GsFree                    0x0205A29C arm
@@ -59,7 +58,7 @@ typedef struct {
     int f3;
 } CARDiParam;
 
-extern void func_02004EB0(const void *symbol);  /* OSi_ReferSymbol */
+extern void OSi_ReferSymbol(const void *symbol);
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
 extern void  DWCi_SetMemFunc(DWCAllocEx alloc, DWCFreeEx free);
 extern void  OS_InitTick(void);
@@ -73,7 +72,6 @@ extern void  DWC_Free(int name, void *ptr, u32 size);
 extern int   DWCi_Auth_InitInterface(int auth_server);
 extern void  gsiMemoryCallbacksSet(void *(*p_malloc)(u32), void (*p_free)(void *),
                                    void *(*p_realloc)(void *, u32), void *(*p_memalign)(u32, u32));
-extern void  DWCi_Np_SetInitFlag(int initialized);
 extern void *DWCi_GsMalloc(u32 size);
 extern void  DWCi_GsFree(void *ptr);
 extern void *DWCi_GsRealloc(void *ptr, u32 size);
@@ -81,7 +79,7 @@ extern void *DWCi_GsMemalign(u32 boundary, u32 size);
 int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
 int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
 void *func_0205A10C(void);
-void CARDi_CommandBegin(int len);
+void DWCi_Np_SetInitFlag(int initialized);
 extern char id_string_production[68];
 extern u32  dwci_gamecode;
 extern char gcd_gamename[];
@@ -95,7 +93,7 @@ extern void *s_data_02146AAC;
  */
 int func_02059F6C(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
-    func_02004EB0(id_string_production);
+    OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);
 }
 
@@ -164,7 +162,7 @@ static CARDiParam cardi_param;
 
 
 
-void CARDi_CommandBegin(int len)
+void DWCi_Np_SetInitFlag(int initialized)
 {
-    cardi_param.len = len;
+    cardi_param.len = initialized;
 }

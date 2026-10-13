@@ -1,5 +1,5 @@
 /*
- * function: func_02705B70
+ * function: DSP_SetProcessHook
  * address:  0x02705B70
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,49 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef int s32;
+typedef volatile u16 vu16;
+typedef struct Sys {
+    u32 pad0[0x1a];
+    u32 mask;
+    void (*handler[19])(u32);
+    u32 arg[19];
+    u32 clear[19];
+} Sys;
 
-asm void func_02705B70(void)
+extern s32 func_02087988(void);
+extern void func_0208799C(s32);
+
+void DSP_SetProcessHook(Sys *s, s32 mask, void (*h)(u32), u32 arg)
 {
+    s32 en = func_02087988();
+    vu16 *r = (vu16 *)0x04004308;
+    s32 i;
+    u16 a, b;
+    u32 hi, lo;
+    for (i = 0; i < 19; i++) {
+        if (mask & (1 << i)) {
+            s->handler[i] = h;
+            s->arg[i] = arg;
+            s->clear[i] = mask;
+        }
+    }
+    a = r[0];
+    b = r[6];
+    hi = ((mask >> 16) & 7) << 9;
+    lo = mask & 0xffff;
+    if (h != 0) {
+        r[0] = a | hi;
+        r[6] = b & ~lo;
+        s->mask |= mask;
+    } else {
+        r[0] = a & ~hi;
+        r[6] = b | lo;
+        s->mask &= ~mask;
+    }
+    func_0208799C(en);
 }

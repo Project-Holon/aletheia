@@ -29,20 +29,20 @@
  *   func_021657D8        0x021657D8 arm ov009
  *   func_0208EE60        0x0208EE60 arm
  *   func_02166880        0x02166880 arm ov009
- *   func_0273199C        0x0273199C arm twl
+ *   WCMi_NwmifStartupAsync        0x0273199C arm twl
  *   func_021669B8        0x021669B8 arm ov009
- *   func_02731A84        0x02731A84 arm twl
+ *   WCMi_NwmifCleanupAsync        0x02731A84 arm twl
  *   func_02166A24        0x02166A24 arm ov009
- *   func_02731AF0        0x02731AF0 arm twl
+ *   WCMi_NwmifBeginSearchAsync        0x02731AF0 arm twl
  *   func_02165A4C        0x02165A4C arm ov009
  *   func_021657C8        0x021657C8 arm ov009
  *   func_021656D0        0x021656D0 arm ov009
  *   func_02166B2C        0x02166B2C arm ov009
- *   func_02731BF8        0x02731BF8 arm twl
+ *   WCMi_NwmifConnectAsync        0x02731BF8 arm twl
  *   func_02166BD8        0x02166BD8 arm ov009
- *   func_02731CFC        0x02731CFC arm twl
+ *   WCMi_NwmifDisconnectAsync        0x02731CFC arm twl
  *   func_02166C44        0x02166C44 arm ov009
- *   func_02731D6C        0x02731D6C arm twl
+ *   WCMi_NwmifTerminateAsync        0x02731D6C arm twl
  *   WCMi_WmifGetAllowedChannel  0x02166DE4 arm
  *   WCMi_NwmifGetAllowedChannel 0x02731F00 arm
  *   OS_CancelAlarm       0x020873F8 arm
@@ -123,18 +123,18 @@ extern void func_02087254(void *alarm);
 extern void func_021657D8(WCMConfig *config, void (*notify)(void *));
 extern unsigned short func_0208EE60(void);
 extern long func_02166880(void);
-extern long func_0273199C(void);
+extern long WCMi_NwmifStartupAsync(void);
 extern long func_021669B8(void);
-extern long func_02731A84(void);
+extern long WCMi_NwmifCleanupAsync(void);
 extern long func_02166A24(void *bssid, void *essid, unsigned long option);
-extern long func_02731AF0(void *bssid, void *essid, unsigned long option);
+extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
 extern void func_02165A4C(unsigned char phase);
 extern long func_02166B2C(void);
-extern long func_02731BF8();
+extern long WCMi_NwmifConnectAsync();
 extern long func_02166BD8(void);
-extern long func_02731CFC(void);
+extern long WCMi_NwmifDisconnectAsync(void);
 extern long func_02166C44(void);
-extern long func_02731D6C();
+extern long WCMi_NwmifTerminateAsync();
 extern unsigned short WCMi_WmifGetAllowedChannel(void);
 extern unsigned short WCMi_NwmifGetAllowedChannel(void);
 extern void OS_CancelAlarm(void *alarm);
@@ -166,7 +166,7 @@ void WCMi_ResetKeepAliveAlarm(void);
 extern void func_02165AF4(void);
 void func_02165B5C(void);
 
-void CRYPTOi__BN_lshift1(void *buf, long len)
+void WCM_Init(void *buf, long len)
 {
     WCM_InitEx(buf, len, 1);
 }
@@ -362,7 +362,7 @@ long func_02164F98(void *config, void (*notify)(void *))
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_0273199C();
+            wcmResult = WCMi_NwmifStartupAsync();
             break;
         }
     default:
@@ -408,7 +408,7 @@ long func_02165088(void)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731A84();
+            wcmResult = WCMi_NwmifCleanupAsync();
             break;
         }
     default:
@@ -450,7 +450,7 @@ long func_02165164(void *bssid, void *essid, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731AF0(bssid, essid, option);
+            wcmResult = WCMi_NwmifBeginSearchAsync(bssid, essid, option);
             break;
         }
     default:
@@ -562,7 +562,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731BF8();
+            wcmResult = WCMi_NwmifConnectAsync();
             break;
         }
     default:
@@ -613,7 +613,7 @@ long func_02165478(void)
             break;
         case 2:
             if (OS_IsRunOnTwl()) {
-                wcmResult = func_02731CFC();
+                wcmResult = WCMi_NwmifDisconnectAsync();
                 break;
             }
         default:
@@ -670,7 +670,7 @@ long func_02165560(void)
                 break;
             case 2:
                 if (OS_IsRunOnTwl()) {
-                    wcmResult = func_02731D6C();
+                    wcmResult = WCMi_NwmifTerminateAsync();
                     break;
                 }
             default:

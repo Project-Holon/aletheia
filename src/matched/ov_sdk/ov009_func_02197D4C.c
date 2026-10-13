@@ -1,5 +1,5 @@
 /*
- * function: KeyValHashKey
+ * function: gti2ConnectionFree
  * address:  0x02197D4C
  * packet:   pkt_ov009_02197D4C
  * region:   ov009
@@ -13,11 +13,9 @@
  *   gti2ConnectionCleanup        0x02195A30  arm
 */
 
-extern void gti2ConnectionCleanup(void);
-asm void KeyValHashKey(void)
-{
-	ldr r0, [r0]
-	ldr ip, =gti2ConnectionCleanup
-	bx ip
-}
+extern void gti2ConnectionCleanup(void *connection);
 
+static void gti2ConnectionFree(void **elem)
+{
+    gti2ConnectionCleanup(*elem);
+}

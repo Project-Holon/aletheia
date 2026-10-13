@@ -15,13 +15,11 @@
  */
 
 struct PMiGenCallbackInfo;
-extern void func_0208C788(struct PMiGenCallbackInfo **listp, struct PMiGenCallbackInfo *info);
-extern void g_0215301C(void);
+typedef struct PMiGenCallbackInfo PMGenCallbackInfo;
+extern void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
+extern int g_0215301C[];
 
-asm void func_0208C86C(void)
+void func_0208C86C(PMGenCallbackInfo *info)
 {
-    mov	r1, r0
-    ldr r0, =g_0215301C
-    ldr ip, =func_0208C788
-    bx	ip
+    func_0208C788((PMGenCallbackInfo **)g_0215301C, info);
 }

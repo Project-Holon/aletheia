@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MB_GetTgid",
+   "name": "MBi_GetTgid",
    "address": "0x021F62A0",
    "kind": "sdk",
    "region": "ov107",

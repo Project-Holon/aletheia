@@ -83,7 +83,7 @@
  *   Strict definition rule blocks renewed one and remaining checks/permuter.
  *   Full historical measured sketch below is rejected and disabled;
  *   old 1724B/8B is diagnostic history, not a fresh wave77 verdict.
- *   Ilias owns this blocker; no ARM9 edits or divergent active externs.
+ *   the integrator owns this blocker; no ARM9 edits or divergent active externs.
  */
 
 extern void sub_02035C60(void);

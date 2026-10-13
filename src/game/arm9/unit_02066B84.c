@@ -174,9 +174,9 @@ extern void func_0207D8E0(const void *m);
 extern u32 func_02067B50(const struct G2dOamState *p);
 extern u32 func_02067B64(const struct G2dOamState *p);
 void func_02066B84(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult);
-asm void CARD_SetPulledOutCallback(void);
-asm void CTRDGi_CallbackForSetPhi(void);
-asm void func_02066E10(void);
+void CARD_SetPulledOutCallback(u32 callback);
+void CTRDGi_CallbackForSetPhi(void);
+void func_02066E10(fx32 step);
 int func_02066E20(void);
 void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
 void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans);
@@ -190,7 +190,7 @@ extern const GXTexSizeS tbl_020A1844[3][4];    /* gxTexSizeSTbl */
 extern const GXTexSizeT tbl_020A1874[3][4];    /* gxTexSizeTTbl */
 extern const GXTexFmt tbl_020A181C[2];         /* pltFmtTbl */
 extern NNSG2dRndCoreInstance *g_02148B48;     /* pTheInstance_ */
-extern const fx32 g_020A8218;
+extern fx32 g_020A8218;
 extern const MtxFx32 g_020A18AC;              /* mtxIdentity_ */
 
 
@@ -418,33 +418,26 @@ void func_02066B84(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, 
 
 
 
-asm void CARD_SetPulledOutCallback(void)
+void CARD_SetPulledOutCallback(u32 callback)
 {
-    ldr r1, =g_02148B2C
-    str r0, [r1, #8]
-    bx lr
+    g_02148B2C.f08 = callback;
 }
 
 
 
 
 
-asm void CTRDGi_CallbackForSetPhi(void)
+void CTRDGi_CallbackForSetPhi(void)
 {
-    ldr r0, =g_02148B2C
-    mov	r1, #0
-    str	r1, [r0, #4]
-    bx	lr
+    g_02148B2C.f04 = 0;
 }
 
 
 
 
-asm void func_02066E10(void)
+void func_02066E10(fx32 step)
 {
-    ldr r1, =g_020A8218
-    str r0, [r1]
-    bx lr
+    g_020A8218 = step;
 }
 
 

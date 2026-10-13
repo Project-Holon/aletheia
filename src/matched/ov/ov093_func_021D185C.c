@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker: func_02024450 (arm9 leaf, Ilias's; unlabelled Thumb) has no witness.
+ * Blocker: func_02024450 (arm9 leaf, the integrator's; unlabelled Thumb) has no witness.
  * Verified C for it (match.py one --thumb, no --region, EXACT, 20 bytes):
  *   int func_02024450(u16 *p) { return *p != 0xffff; }
  *

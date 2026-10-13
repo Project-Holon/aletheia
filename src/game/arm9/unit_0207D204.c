@@ -21,7 +21,6 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   sDispMode       0x02150E0C  data
  *   sIsDispOn       0x020A84BC  data
- *   sVramLcdcMask       0x020A84BC  data
  *   PMi_SetDispOffCount              0x0208c944 arm
  *   .word 0x04001000
  */
@@ -98,9 +97,8 @@ extern GXDataState sIsDispOn;
 extern void PMi_SetDispOffCount(void);
 long func_0207D3AC(int enable);
 long func_0207D3E4(int enable);
-u16 GX_GetBankForLCDC(void);
+u16 GX_IsDispOn(void);
 void func_0207D42C(void);
-extern u16 sVramLcdcMask;
 typedef unsigned int u32_0;
 typedef unsigned long u32_0207D534;
 void func_0207D46C(void);
@@ -201,9 +199,9 @@ long func_0207D3E4(int enable)
 
 
 
-u16 GX_GetBankForLCDC(void)
+u16 GX_IsDispOn(void)
 {
-    return sVramLcdcMask;
+    return sIsDispOn.isDispOn;
 }
 
 

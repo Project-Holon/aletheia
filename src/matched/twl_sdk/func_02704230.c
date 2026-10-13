@@ -1,5 +1,5 @@
 /*
- * function: func_02704230
+ * function: FATFSi_FreeCommandBuffer
  * address:  0x02704230
  * packet:   twl
  * region:   twl
@@ -10,24 +10,48 @@
  * status:   EXACT
  *
  * symbols:
- *   DAT_027343e0   0x027343e0  data twl
- *   DAT_0273442c   0x0273442c  data twl
+ *   data_027343E0  0x027343E0  data twl
+ *   data_0273442C  0x0273442C  data twl
  *   func_02086078  0x02086078  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 DAT_027343e0[];
-extern u32 DAT_0273442c[];
-extern void func_02086078(u32);
+typedef struct FsWait {
+    struct FsWait *next;
+    u32 key;
+    struct Big *slot;
+} FsWait;
 
-asm void func_02704230(u32 a0) {
-    stmdb sp!, {r3, lr}
-    ldr r1, =DAT_027343e0
-    ldr r1, [r1, #0x64]
-    cmp r0, r1
-    ldmnefd sp!, {r3, pc}
-    ldr r0, =DAT_0273442c
-    bl func_02086078
-    ldmfd sp!, {r3, pc}
+typedef struct Big {
+    u32 arg;
+    u32 state;
+    u32 mode;
+    u32 f0C;
+    u8 buf[0x7F0];
+    u32 key;
+    u32 f804;
+    u32 f808;
+    struct Big *next;
+} Big;
+
+typedef struct FsRoot {
+    u32 f00;
+    FsWait *waiters;
+    u32 f08[6];
+    Big *busy;
+    u32 f24[16];
+    Big *spare;
+    Big *cur;
+} FsRoot;
+
+extern void func_02086078(void *mutex);
+extern FsRoot data_027343E0;
+extern u32 data_0273442C[];
+
+void FATFSi_FreeCommandBuffer(Big *a0) {
+    if (a0 == data_027343E0.spare) {
+        func_02086078(data_0273442C);
+    }
 }

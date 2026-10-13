@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocker: func_0204B09C (0x0204B09C, ARM, unlabelled arm9 leaf, Ilias's) has
+ * blocker: func_0204B09C (0x0204B09C, ARM, unlabelled arm9 leaf, the integrator's) has
  * no witness outside this range (both image-wide callers are the two bl in
  * this function); a split cannot help.  Verified C for the leaf (EXACT with
  * one --arm --cc dsi/1.1p1 --flags=-O4,p, 44 bytes):

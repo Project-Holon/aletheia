@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   gcd_gamename                   0x021AE01C data a1
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"

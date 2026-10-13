@@ -70,7 +70,7 @@ extern int func_021C846C(u8 *p, int a, int b, int *out);
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern int func_021C7D00(u8 *p, int b);
 extern void func_021C8494(u8 *p, int i);
-extern int func_021C814C(u8 *p, int v);
+extern int func_021C814C(u8 *p, u8 v);
 extern int func_021D5814(void *a, int b);
 void func_021E7E58(int a, u8 *b, int c);
 int *func_021E7F10(int *p);

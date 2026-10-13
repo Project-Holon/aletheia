@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * Note 2026-10-04 (wD2 lane12): byte-correct. Unresolved: func_0200EA00 and func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA00.c and func_0200EA08.c (EXACT) this wave; they need a manifest/shard, then this file re-verifies as EXACT with no C change.
- * blockers: ARM9 0200EA00 and 0200EA08 have no outside witness; Ilias owns filing.
+ * blockers: ARM9 0200EA00 and 0200EA08 have no outside witness; the integrator owns filing.
  * blocker: 0x0200EA00 Thumb EXACT (scratch one, fixed flags)
  *   unsigned char *func_0200EA00(unsigned char *p) { return p + 0x5a; }
  * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags)

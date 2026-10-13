@@ -34,6 +34,10 @@ other crt0 pieces), arm9 `textprint.c` split out of clact on the game's own
 separate because their neighbours are still empty asm stand-ins; fold them back
 when those become real code. (Round 5 listed 164 split TUs; the recount finds 165
 at that commit: ov093 unit_021EFC1C was missed.)
+Later (lanes CR1, CR2): the crt0 pieces `unit_02004800.c`, `unit_02004DF4.c`,
+`unit_02004EA8.c`, `unit_02004EB4.c`, `unit_02004F94.c` and `unit_02004FD4.c` are one
+file again, `src/game/arm9/crt0.c` (code and data of crt0.HYB.TWL.o, SDK names,
+EXACT; see BUILD_FROM_GAME.md).
 
 Checks at this commit:
 - `python tools/gameverify.py`: 1850 files, all EXACT or MATCH except
@@ -383,7 +387,7 @@ So "94.4%" means 1714 of the 1816 estimated TUs are one file.
 - Lane drivers (greedy merge plus harmonizer `go20.py`/`hzlib20.py`, canonical
   struct templates `canon36.py`/`canon195.py`, injectors) live in the session
   scratchpad, not in the repo:
-  `<home>/AppData/Local/Temp/claude/<project>/d965be22-e087-410a-b91d-ae680804241d/scratchpad/`.
+  `the session scratch directory`.
   If that folder is gone, the lane briefs here still describe the method.
 
 ## Standing rules (unchanged)

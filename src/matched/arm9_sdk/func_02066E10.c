@@ -13,10 +13,9 @@
  *   g_020A8218 0x020A8218 data
  */
 
-extern void g_020A8218(void);
-asm void func_02066E10(void)
+#define g_020A8218 (*(int *)0x020A8218)
+
+void func_02066E10(int step)
 {
-    ldr r1, =g_020A8218
-    str r0, [r1]
-    bx lr
+    g_020A8218 = step;
 }

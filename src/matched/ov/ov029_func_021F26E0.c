@@ -14,7 +14,7 @@
  * A separate arm9 label lane must label them; nothing left in this source.
  *
  * Blocked: func_02035010 and func_02035040 (arm, unlabelled arm9 leaves, EL_GetGlobalAdr
- * wrappers per sdk_class.json) have no witness outside this range; both are Ilias's.
+ * wrappers per sdk_class.json) have no witness outside this range; both are the integrator's.
  * Byte-correct otherwise.
  *
  * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: unlabelled arm9 02035010 and 02035040.

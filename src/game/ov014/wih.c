@@ -1,7 +1,7 @@
 /*
  * file:     wih.c
  * unit:     yes
- * function: func_02177C1C, func_02177C4C, func_02177CE4, func_02177D0C, func_02177D58, func_02177DB0, func_02177E20, func_02177E9C, func_02177EB0, func_02177EDC, func_02177EFC, func_02177F48, func_02177FC4, func_02177FF0, func_02178034, func_0217807C, func_02178098, func_021780C4, func_021780E4, func_021780FC, func_02178118, func_02178138, func_0217814C, func_02178168, func_02178198, func_021781BC, func_02178204, func_02178304, func_021783FC, func_021784AC, func_021784D0, func_021784F0, func_0217850C, func_02178524, func_021785B4, func_0217863C, func_02178714, func_0217873C, func_02178788, func_021788FC, func_02178964, func_02178980, func_021789C8, func_02178A18, func_02178AB8, func_02178B98, func_02178C50, func_02178C74, func_02178C98, func_02178CC4, func_02178CDC, func_02178D00, func_02178D20, func_02178D74, func_02178D9C, func_02178DE0, func_02178E1C, func_02178E28, func_02178E38, func_02178E4C, func_02178E68, func_02178E84, func_02178F1C, func_02178F8C, func_02179010, func_02179024, func_02179050, func_021790E4, func_02179158, func_02179188, func_021791A0, func_021791EC, func_021791F8, func_02179288, func_02179328, func_0217933C, func_02179368, func_02179394, func_021793B8, func_021793F8, func_0217945C, func_02179498, func_02179570, func_021795A4, func_021795C0, func_021795D4, func_02179614, func_02179628, func_0217963C, func_02179650
+ * function: func_02177C1C, func_02177C4C, func_02177CE4, func_02177D0C, func_02177D58, func_02177DB0, func_02177E20, func_02177E9C, func_02177EB0, func_02177EDC, func_02177EFC, func_02177F48, func_02177FC4, func_02177FF0, func_02178034, func_0217807C, func_02178098, func_021780C4, func_021780E4, func_021780FC, func_02178118, func_02178138, func_0217814C, func_02178168, func_02178198, func_021781BC, func_02178204, func_02178304, func_021783FC, func_021784AC, func_021784D0, func_021784F0, func_0217850C, func_02178524, func_021785B4, func_0217863C, func_02178714, func_0217873C, func_02178788, func_021788FC, func_02178964, DWCi_MOV_WH_StateOutEndScan, func_021789C8, func_02178A18, func_02178AB8, func_02178B98, func_02178C50, func_02178C74, func_02178C98, func_02178CC4, func_02178CDC, func_02178D00, func_02178D20, func_02178D74, func_02178D9C, func_02178DE0, func_02178E1C, func_02178E28, func_02178E38, func_02178E4C, func_02178E68, func_02178E84, func_02178F1C, func_02178F8C, func_02179010, func_02179024, func_02179050, func_021790E4, func_02179158, func_02179188, func_021791A0, func_021791EC, func_021791F8, func_02179288, func_02179328, func_0217933C, func_02179368, func_02179394, func_021793B8, func_021793F8, func_0217945C, func_02179498, func_02179570, func_021795A4, func_021795C0, func_021795D4, func_02179614, func_02179628, func_0217963C, func_02179650
  * address:  0x02177C1C
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -211,7 +211,7 @@ int func_0208FCB4(void *cb, u32 c, u32 a, u32 b, u32 d, u32 e, u32 f);
 void func_02087C6C(u16 *p);
 int func_02179010(void *cb, int n);
 u16 func_0208EE60(void);
-extern void WM_MeasureChannel(void);
+extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
 extern int func_0208F370(void *buf, void (*cb)(void *), int dma);
 extern int func_0208F380(void *buf, void (*cb)(void *), int dma, int x);
 extern int func_0208EAC8(void (*f)(void));
@@ -269,7 +269,7 @@ void func_02178714(u16 value, void *src);
 int func_0217873C(u8 *p);
 void func_02178788(void *arg);
 int func_021788FC(void);
-void func_02178980(u8 *m);
+void DWCi_MOV_WH_StateOutEndScan(u8 *m);
 int func_021789C8(void);
 void func_02178A18(u8 *m);
 BOOL func_02178AB8(void);
@@ -291,7 +291,7 @@ int func_02178E68(void);
 int func_02178E84(void);
 int func_02178F1C(u16 n);
 /* * note: 2026-10-05 wave P16 lane E8: older draft was DIFF 101 B / 136 B because the * two arms kept separate copies of the u16 store. Per-function pragma * opt_dead_assignments off gives 132 B EXACT (also with plain literal offsets). * Without the pragma the same source stays 136 B. Callee types from matched * definitions: func_0217814C and func_02178138 void(int), func_02178F1C int(u16). */ void func_02178F8C(const Msg *m);
-asm void WHi_MeasureChannel(void);
+int WHi_MeasureChannel(void *callback, unsigned short channel);
 u16 func_02179024(void);
 int func_02179050(u16 mask);
 BOOL func_021790E4(u32 heap, int a, int b);
@@ -1066,14 +1066,14 @@ void func_021784D0(void *arg)
 }
 
 
-static void DWCi_MOV_WH_StateOutEndChild(void *arg);
+static void DWCi_MOV_WH_StateOutEndParent(void *arg);
 
 
 
 
 int DWCi_MOV_WH_StateInEndParent(void)
 {
-	int r = WM_EndParent((void *)DWCi_MOV_WH_StateOutEndChild);
+	int r = WM_EndParent((void *)DWCi_MOV_WH_StateOutEndParent);
 	if (r != 2)
 	{
 		func_0217814C(r);
@@ -1085,7 +1085,7 @@ int DWCi_MOV_WH_StateInEndParent(void)
 
 
 
-static void DWCi_MOV_WH_StateOutEndChild(void *arg)
+static void DWCi_MOV_WH_StateOutEndParent(void *arg)
 {
 	WMCallback *cb = (WMCallback *)arg;
 
@@ -1417,7 +1417,7 @@ static int DWCi_MOV_WH_StateInEndScan(void)
 {
 	int result;
 
-	result = WM_EndScan((void *)func_02178980);
+	result = WM_EndScan((void *)DWCi_MOV_WH_StateOutEndScan);
 	if (result != 2)
 	{
 		DWCi_MOV_WH_SetError(result);
@@ -1439,7 +1439,7 @@ static int DWCi_MOV_WH_StateInEndScan(void)
 
 
 
-void func_02178980(u8 *m)
+void DWCi_MOV_WH_StateOutEndScan(u8 *m)
 {
     u8 *g;
 
@@ -1729,7 +1729,7 @@ int func_02178C98(void) {
 
 
 
-static void DWCi_MOV_WH_StateOutEndScan(void *arg)
+static void DWCi_MOV_WH_StateOutEndChild(void *arg)
 {
 	WMCallback *cb = (WMCallback *)arg;
 
@@ -2062,16 +2062,9 @@ void func_02178F8C(const Msg *m)
 
 
 
-asm void WHi_MeasureChannel(void)
+int WHi_MeasureChannel(void *callback, unsigned short channel)
 {
-	PUSH {R3, LR}
-	ADD R3, R1, #0
-	MOV R1, #0x1E
-	STR R1, [SP, #0]
-	MOV R1, #3
-	MOV R2, #0x11
-	BL WM_MeasureChannel
-	POP {R3, PC}
+    return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1E);
 }
 
 

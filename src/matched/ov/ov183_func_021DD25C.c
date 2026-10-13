@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * 2026-10-05 (D8 lane19): re-verified, status unchanged; sole blocker is arm9 callee 0x0200B98C (no witness outside the caller). Needs a label seed. Source is byte-correct; no C change possible.
- * blocker: 0x0200B98C arm9 thumb, no witness outside caller; verified Thumb EXACT C copied from ov183_func_021DCBD8.c (original ov183_func_021DF838.c), Ilias-owned.
+ * blocker: 0x0200B98C arm9 thumb, no witness outside caller; verified Thumb EXACT C copied from ov183_func_021DCBD8.c (original ov183_func_021DF838.c), integrator-owned.
  * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;

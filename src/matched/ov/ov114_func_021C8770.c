@@ -13,7 +13,7 @@
  *   typed destination Pair) did not shrink 8; one --budget 300 --types
  *   permuter compiled 300 candidates and found no improvement. Do not rerun.
  * stale-note 2026-10-05: ov_sdk func_021CA470 now returns int (calls func_021CA240), so the void-return blocker below no longer holds.
- * owner-blocker (stale): Ilias SDK ov114 0x021CA470; matched ov_sdk definition
+ * owner-blocker (stale): the integrator SDK ov114 0x021CA470; matched ov_sdk definition
  *   void func_021CA470(int,int,int,int,int) conflicts with caller return use.
  *   021C87B8: bl 021CA470; 021C87BC: cmp r0,#0.
  *   021CA488: bl 021CA240; 021CA48C: add sp,sp,#8; 021CA490: pop {r3,pc}

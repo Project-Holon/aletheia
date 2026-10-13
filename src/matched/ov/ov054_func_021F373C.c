@@ -16,7 +16,7 @@
  * vectors to p+0xC and p+0x18) is now EXACT in src/matched/arm9/func_0202BA9C.c. The remaining
  * unresolved site (+0034) needs 0x0202B93C and 0x0202BA9C to be labelled or in a shard.
  *
- * Blocker (older note): func_0202B93C (arm9, unlabelled tail-call stub, Ilias's) has no
+ * Blocker (older note): func_0202B93C (arm9, unlabelled tail-call stub, the integrator's) has no
  * witness.  Its verified C (MATCH, 8 bytes):
  *   extern void func_0202BA9C(int, void *, void *);
  *   void func_0202B93C(int a, void *b, void *c) { func_0202BA9C(a, b, c); }

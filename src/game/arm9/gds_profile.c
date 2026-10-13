@@ -22,13 +22,12 @@
  *   func_020457B0  0x020457B0  arm
  *   func_02045994  0x02045994  arm
  */
-struct Sub020071CCCtrl;
-struct Big;
-struct Blk34;
-struct Sub0200852CObj;
-struct Sub02009470Obj;
-struct Rec0200E6FC;
-struct U16Vec;
+struct GameSys;
+struct ProgressBlock;
+struct TrainerRec;
+struct SaveDataObj;
+struct RecordData;
+struct NameStrbuf;
 struct Strbuf;
 typedef unsigned char  u8;
 
@@ -36,64 +35,39 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct GdsEnt {
-    u16 unk00;
-    u8  unk02;
-    u8  unk03;
-    u32 unk04;
-    u32 unk08;
-    u16 unk0C;
-    u16 unk0E;
-    u8  unk10;
-    u8  unk11;
-    u8  unk12;
-    u8  unk13;
-};
-
-struct Blk38 {
-    u16 unk00;
-    u16 unk02;
-    struct GdsEnt unk04[2];
-    u8  unk2C[2];
-    u8  unk2E[2];
-    u8  unk30;
-    volatile u8 unk31;
-    u8  unk32[2];
-};
-
-struct Bits1B {
-    u8 f0 : 1;
-    u8 f1 : 6;
-    u8 f7 : 1;
+struct PlayFlags {
+    u8 gameCleared : 1;
+    u8 playMinutes : 6;
+    u8 hasNationalDex : 1;
 };
 
 struct GdsProfile {
-    u8  unk00[0x10];
-    u32 unk10;
-    u8  unk14;
-    u8  unk15;
-    u8  unk16;
-    u8  unk17;
-    u8  unk18;
-    u8  unk19;
-    u8  unk1A;
-    struct Bits1B unk1B;
-    u16 unk1C;
-    u8  unk1E;
-    u8  unk1F;
-    u16 unk20[0x28];
-    u8  unk70[0x0C];
-    u16 unk7C;
-    u16 unk7E;
+    u16 name[8];
+    u32 trainerId;
+    u8  gender;
+    u8  birthMonth;
+    u8  trainerSprite;
+    u8  country;
+    u8  region;
+    u8  gameVersion;
+    u8  language;
+    struct PlayFlags play;
+    u16 playHours;
+    u8  recordIsRaw;
+    u8  pad1F;
+    u16 record[0x28];
+    u8  pad70[0x0C];
+    u16 checksum;
+    u16 pad7E;
 };
 
 typedef signed int     s32;
 
 struct OwnerInfo {
-    u8 unk00;
-    u8 unk01;
-    u8 unk02;
-    u8 unk03[0x51];
+    u8 favoriteColor;
+    u8 pad01;
+    u8 birthMonth;
+    u8 rest[0x51];
 };
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
@@ -103,21 +77,21 @@ struct GdsProfile *func_0200D59C(u32 heap);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   func_02045A98(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void *func_02012EBC(struct Big *p);
+extern void *func_02012EBC(struct GameSys *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012F08(int *p);
-extern struct Sub02009470Obj *func_02009470(void *sys);
+extern struct SaveDataObj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
-extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void func_0200E6FC(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 func_02008530(const struct TrainerRec *obj);
+extern u8 func_02008550(const struct TrainerRec *obj);
+extern u8 func_02008554(const struct TrainerRec *obj);
+extern u8 func_0200856C(const struct TrainerRec *obj);
+extern u8 func_02008570(const struct TrainerRec *obj);
+extern void func_0200C164(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
+extern struct NameStrbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 void *func_0200D6D0(const void *src, u32 tag);
 extern const char func_0200D59C_File[];
@@ -160,17 +134,17 @@ extern const char func_0200D59C_File[];
  */
 struct GdsProfile *func_0200D59C(u32 heap)
 {
-    struct GdsProfile *p = func_02030734((u16)heap, sizeof(struct GdsProfile),
+    struct GdsProfile *profile = func_02030734((u16)heap, sizeof(struct GdsProfile),
                                          0, func_0200D59C_File, 0x50);
 
-    MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
-    return p;
+    MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
+    return profile;
 }
 
 
-void func_0200D5C8(struct GdsProfile *p)
+void func_0200D5C8(struct GdsProfile *profile)
 {
-    func_020307B0(p);
+    func_020307B0(profile);
 }
 
 
@@ -211,44 +185,44 @@ void func_0200D5C8(struct GdsProfile *p)
  *    because `sp + 8` is already a common subexpression: it is the fifth
  *    argument func_0200C164 took a few instructions earlier.
  */
-void func_0200D5D0(struct GdsProfile *p, void *sys)
+void func_0200D5D0(struct GdsProfile *profile, void *sys)
 {
     struct OwnerInfo info;
-    u32 a;
-    u32 b;
-    u32 c;
-    u32 d;
-    void *blk;
-    void *save = func_02012EBC(sys);
-    void *rec = func_02012944(sys);
-    void *env;
+    u32 playHours;
+    u32 playMinutes;
+    u32 cleared;
+    u32 nationalDex;
+    void *progress;
+    void *saveData = func_02012EBC(sys);
+    void *trainerRec = func_02012944(sys);
+    void *recordEnv;
     s32 i;
 
-    func_02009470(save);
-    blk = func_02012F08(sys);
-    env = func_0200E6E8((u32)save);
+    func_02009470(saveData);
+    progress = func_02012F08(sys);
+    recordEnv = func_0200E6E8((u32)saveData);
     OS_GetOwnerInfo(&info);
-    func_0200C164(blk, &a, &b, &c, &d);
+    func_0200C164(progress, &playHours, &playMinutes, &cleared, &nationalDex);
 
-    MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
-    func_0201F41C(func_020084F4(rec), (u16 *)p, 8);
-    p->unk10 = func_02008530(rec);
-    p->unk14 = func_02008550(rec);
-    p->unk1C = a;
-    p->unk1B.f1 = (u8)b;
-    p->unk1B.f0 = (u8)c;
-    p->unk1B.f7 = (u8)d;
-    p->unk17 = func_0200856C(rec);
-    p->unk18 = func_02008570(rec);
+    MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
+    func_0201F41C(func_020084F4(trainerRec), (u16 *)profile, 8);
+    profile->trainerId = func_02008530(trainerRec);
+    profile->gender = func_02008550(trainerRec);
+    profile->playHours = playHours;
+    profile->play.playMinutes = (u8)playMinutes;
+    profile->play.gameCleared = (u8)cleared;
+    profile->play.hasNationalDex = (u8)nationalDex;
+    profile->country = func_0200856C(trainerRec);
+    profile->region = func_02008570(trainerRec);
     for (i = 0; i < 0x28; i++) {
-        p->unk20[i] = func_02045A98();
+        profile->record[i] = func_02045A98();
     }
-    func_0200E6FC(env, 0, (struct Rec0200E6FC *)p->unk20);
-    p->unk15 = info.unk02;
-    p->unk16 = func_02008554(rec);
-    p->unk19 = 0x15;
-    p->unk1A = 2;
-    p->unk7C = func_0203F1FC((const u8 *)p, 0x7C);
+    func_0200E6FC(recordEnv, 0, (struct RecordData *)profile->record);
+    profile->birthMonth = info.birthMonth;
+    profile->trainerSprite = func_02008554(trainerRec);
+    profile->gameVersion = 0x15;
+    profile->language = 2;
+    profile->checksum = func_0203F1FC((const u8 *)profile, 0x7C);
 }
 
 

@@ -18,6 +18,11 @@ typedef struct VadCfg {
     s32 fC;
 } VadCfg;
 
+/* d_021B3C50 is declared with a size under four bytes so that every access
+ * to it falls in the unknown-memory set of the compiler (see func_021B3084). */
+extern u8 d_021B3C50;
+#define VAD_CFG (*(VadCfg *)&d_021B3C50)
+
 /* d_021B4C2C: gate state. */
 typedef struct VadState {
     volatile u32 f0;

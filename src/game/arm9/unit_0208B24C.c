@@ -428,6 +428,7 @@ void func_0208B788(MICResult result, void *arg)
     mic_bss.micWork.result = result;
 }
 
+/* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
 asm void func_0208B798(void)
 {
     ldr ip, =g_02152FE4

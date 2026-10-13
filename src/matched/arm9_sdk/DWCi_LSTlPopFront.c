@@ -13,10 +13,10 @@
  *   func_0206E964 0x0206E964 arm
  */
 
+struct DwcList { unsigned int f0; unsigned char *f4; };
 extern unsigned char *func_0206E964(unsigned char *p);
-asm void DWCi_LSTlPopFront(void)
+
+unsigned char *DWCi_LSTlPopFront(struct DwcList *list)
 {
-    ldr r0, [r0, #4]
-    ldr ip, =func_0206E964
-    bx ip
+    return func_0206E964(list->f4);
 }

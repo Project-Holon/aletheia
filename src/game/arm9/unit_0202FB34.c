@@ -18,6 +18,7 @@
  *   (none)
  */
 
+/* hand-written in the original: CRYPTO_RC4Encrypt, asm-only SDK object (rc4s-arm4cw.s, no DWARF, no .comment) */
 asm void func_0202FB34(void)
 {
     stmfd sp!, {r4-r9, lr}

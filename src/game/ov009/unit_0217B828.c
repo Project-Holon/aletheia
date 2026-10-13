@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217B828.c
  * unit:     yes
- * function: func_0217B828, func_0217BC44, func_0217BC90, func_0217BDA8, CameraStandbyCallback, CameraStandbyCallbackFree
+ * function: func_0217B828, func_0217BC44, func_0217BC90, func_0217BDA8, DWCi_Prof_Alloc, DWCi_Prof_Free
  * address:  0x0217B828
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -155,7 +155,7 @@ extern char *func_0217A728(DWCHttp *http, char *label);
 extern int func_02168250(char *datestr);
 extern int func_020964E0(u32 a0);
 extern int func_0217A77C(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
-extern void DWC_Alloc(void);
+extern void *DWC_Alloc(int name, unsigned long size);
 int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
 /*
  * sdk: DWC_CheckProfanityExAsync (dwc_prof.o) * * The region letter default is the byte at 0x02FFFE0F, a literal address * (no relocation in the object).
@@ -166,7 +166,7 @@ int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int time
  */
 int func_0217BC90(void);
 int func_0217BDA8(void);
-asm void CameraStandbyCallback(void);
+static void *DWCi_Prof_Alloc(int name, unsigned long size);
 extern DWCProfWorkarea *g_021ACEF0;
 extern DWCAuthHttpParam g_021A2358;
 extern char g_021A27D8[];
@@ -465,17 +465,13 @@ error:
     return 0;
 }
 
-asm void CameraStandbyCallback(void)
+static void *DWCi_Prof_Alloc(int name, unsigned long size)
 {
-	ldr ip, =DWC_Alloc
-	mov r0, #0
-	bx ip
+    return DWC_Alloc(0, size);
 }
 
-extern void DWC_Free(void);
-asm void CameraStandbyCallbackFree(void)
+extern void DWC_Free(int name, void *ptr, unsigned long size);
+static void DWCi_Prof_Free(int name, void *ptr, unsigned long size)
 {
-	ldr ip, =DWC_Free
-	mov r0, #0
-	bx ip
+    DWC_Free(0, ptr, size);
 }

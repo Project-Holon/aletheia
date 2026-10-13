@@ -854,7 +854,7 @@ extern char d_021DDE08[];
 
 /*
  * Former blocker (now filed in src/matched/arm9): func_02050080 (0x02050080) is an unlabelled arm9 leaf with no witness
- * outside this range (Ilias's). Verified C, EXACT under --arm --region arm9:
+ * outside this range (the integrator's). Verified C, EXACT under --arm --region arm9:
  *     u32 func_02050080(u32 *p) { return p[1]; }
  */
 int func_0219C4AC(u32 a, u32 b, u32 c, u32 d)
@@ -1119,7 +1119,7 @@ void func_0219C680(u32 a)
 
 /*
  * Former blocker (now filed in src/matched/arm9): func_0205082C (0x0205082C) and func_020507F0 (0x020507F0) are
- * unlabelled arm9 leaves (Ilias's), no witness outside this range. Verified C,
+ * unlabelled arm9 leaves (the integrator's), no witness outside this range. Verified C,
  * both EXACT under --arm --region arm9 (func_020500A0 is the arm9 label at 0x020500A0):
  *     void func_020507F0(void *p, int idx, u32 v)
  *     { char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40); *(u32 *)(e + 24) = v; }
@@ -1298,7 +1298,7 @@ int func_0219C814(u32 a, u16 *b)
 
 /*
  * Former blocker (now filed in src/matched/arm9): the only unresolved site is the call to func_020508D8
- * (0x020508D8, arm, arm9), an unlabelled arm9 leaf with no witness (Ilias's).
+ * (0x020508D8, arm, arm9), an unlabelled arm9 leaf with no witness (the integrator's).
  * Verified C for the leaf (EXACT, dsi/1.1p1 -O4,p --arm --region arm9):
  *     u32 func_020508D8(u8 *o, u32 i)
  *     {

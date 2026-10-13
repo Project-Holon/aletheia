@@ -20,7 +20,7 @@
  *   func_02166600  0x02166600  arm  ov009
  *   func_02166D2C  0x02166D2C  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02731E50  0x02731E50  arm  twl
+ *   WCMi_NwmifSetDCFData  0x02731E50  arm  twl
  *   g_021AA7E8     0x021AA7E8  data ov009
  *
  * Sends a DCF frame: merges header and body into the send buffer under the CPS interface mutex, then dispatches to the WM or NWM sender by device id.
@@ -43,7 +43,7 @@ extern void OS_UnlockMutex(void *mutex);
 extern unsigned long func_02166600(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen);
 extern long func_02166D2C(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 extern int OS_IsRunOnTwl(void);
-extern void func_02731E50();
+extern void WCMi_NwmifSetDCFData();
 
 long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen, unsigned char *body, long bodyLen)
 {
@@ -76,7 +76,7 @@ long func_02166444(unsigned char *dstAddr, unsigned char *header, long headerLen
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            func_02731E50(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData(dstAddr, w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }

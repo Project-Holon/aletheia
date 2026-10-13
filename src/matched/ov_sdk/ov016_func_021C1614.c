@@ -1,5 +1,5 @@
 /*
- * function: aossAlloc
+ * function: memAlloc
  * address:  0x021C1614
  * packet:   pkt_ov016_021C1614
  * region:   ov016
@@ -13,12 +13,9 @@
  *   DWCi_HEAPlAllocEx            0x021D6414  arm
 */
 
-extern void DWCi_HEAPlAllocEx(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 
-asm void aossAlloc(void)
+static void *memAlloc(unsigned long size)
 {
-	ldr ip, =DWCi_HEAPlAllocEx
-	mov r1, #0x20
-	bx ip
+    return DWCi_HEAPlAllocEx(size, 0x20);
 }
-

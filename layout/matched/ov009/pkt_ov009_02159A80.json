@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x02082EA4",
      "0x021598EC",
      "0x0215993C",
      "0x02159A30"

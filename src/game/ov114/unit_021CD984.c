@@ -22,6 +22,7 @@ asm void CRYPTOi__bn_sqr_words(unsigned long *r, const unsigned long *a, int n);
 asm unsigned long long CRYPTOi__bn_div_words(unsigned long h, unsigned long l, unsigned long d);
 asm unsigned long CRYPTOi__bn_add_words(unsigned long *r, const unsigned long *a, const unsigned long *b, int n);
 
+/* hand-written in the original: unrolled umlal multiply-accumulate loop with conditional loads (OpenSSL bn_asm style routine) */
 asm unsigned long CRYPTOi__bn_mul_add_words(unsigned long *rp, const unsigned long *ap, int num, unsigned long w)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, lr}
@@ -131,6 +132,14 @@ _L21CDACC:
 }
 
 
+/*
+ * hand-written in the original: the vendor object libcrypto.TWL.HYB.a
+ * (crypto_bobj2.o) names its source file crypto_bobj2.s, an assembly file
+ * that holds all six bn_*_words routines. The OpenSSL BN_LLONG C
+ * (((BN_ULLONG)h << BN_BITS2 | l) / d, with a 64-bit return) gives the same
+ * 32 bytes with orr rX, r0, #0 and r3 in place of mov and r4 (9 bytes differ),
+ * on every mwccarm version and -O level here.
+ */
 asm unsigned long long CRYPTOi__bn_div_words(unsigned long h, unsigned long l, unsigned long d)
 {
     stmfd sp!, {r4, lr}

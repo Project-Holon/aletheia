@@ -1,5 +1,5 @@
 /*
- * function: func_0272F8A8
+ * function: MIi_NDma_withConfig_Dev
  * address:  0x0272F8A8
  * packet:   twl_sys
  * region:   twl
@@ -12,8 +12,8 @@
  * symbols:
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
- *   func_0272FD40 0x0272FD40 arm twl
- *   func_0272F804 0x0272F804 arm twl
+ *   MIi_Wait 0x0272FD40 arm twl
+ *   MIi_GetControlData 0x0272F804 arm twl
  */
 typedef unsigned int u32;
 struct Cfg {
@@ -24,8 +24,8 @@ struct Cfg {
 };
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
-extern void func_0272FD40(int);
-extern u32 func_0272F804(u32);
+extern void MIi_Wait(int);
+extern u32 MIi_GetControlData(u32);
 
 
 struct NdmaCh {
@@ -39,7 +39,7 @@ struct NdmaCh {
 };
 #define NDMA ((volatile struct NdmaCh *)0x04004104)
 
-void func_0272F8A8(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, struct Cfg *cfg, int words, u32 flags)
+void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, struct Cfg *cfg, int words, u32 flags)
 {
     u32 irq;
     u32 ctrl;
@@ -48,7 +48,7 @@ void func_0272F8A8(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, struc
         return;
     }
     irq = func_02087988();
-    func_0272FD40(ch);
+    MIi_Wait(ch);
     if (mode != 0) {
         NDMA[ch].src = src;
     }
@@ -69,8 +69,8 @@ void func_0272F8A8(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, struc
         NDMA[ch].block = w;
     }
     ctrl = cfg->unk8 | (flags & 0x80000000);
-    ctrl |= func_0272F804(mode);
+    ctrl |= MIi_GetControlData(mode);
     NDMA[ch].ctrl = ctrl | (words == -1 ? 0x10000000 : words);
-    func_0272FD40(ch);
+    MIi_Wait(ch);
     func_0208799C(irq);
 }

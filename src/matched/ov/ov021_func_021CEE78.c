@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker: func_02008494 (arm9 unlabelled leaf, Ilias's; no witness outside
+ * Blocker: func_02008494 (arm9 unlabelled leaf, the integrator's; no witness outside
  * the range). Verified EXACT arm9 thumb leaf C for it:
  *   extern void func_02082D44(const void *a, void *b, unsigned n);  (arm)
  *   void func_02008494(void *a, void *b) { func_02082D44(a, b, 0x20); }

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * blocker: ARM9 func_02061C30 has no outside witness; Ilias owns it.
+ * blocker: ARM9 func_02061C30 has no outside witness; the integrator owns it.
  * extent: two-byte padding at 0x021F498E.
  * blocker: C below reproduces prior ov091_func_021B6FEC.c DIFF, 8 bytes
  *   differ (loads and pool words swapped), scratch blocker-1.log.

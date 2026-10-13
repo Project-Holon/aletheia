@@ -183,7 +183,7 @@ void func_021F1F7C(u8 *p);
 int func_021F1FB4(u8 *p);
 int func_021F2150(unsigned char *p);
 int func_021F2190(char *p, unsigned short v);
-int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b);
+int func_021F21BC(unsigned char *p, unsigned short a, u32 b);
 int func_021F21FC(u8 *a,int b);
 int func_021F22AC(char *p);
 int func_021F22E8(unsigned char *p);
@@ -406,7 +406,7 @@ int func_021F2190(char *p, unsigned short v)
 
 
 
-int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
+int func_021F21BC(unsigned char *p, unsigned short a, u32 b)
 {
     if (((struct Obj01574 *)p)->f1E < ((struct Obj01574 *)p)->f22 &&
         ((struct Obj01574 *)p)->f20 < 3) {

@@ -1,5 +1,5 @@
 /*
- * function: CameraStandbyCallback
+ * function: DWCi_Prof_Alloc
  * address:  0x0217C050
  * packet:   pkt_ov009_0217C050
  * region:   ov009
@@ -13,11 +13,9 @@
  *   DWC_Alloc                    0x0205A16C  arm
 */
 
-extern void DWC_Alloc(void);
-asm void CameraStandbyCallback(void)
-{
-	ldr ip, =DWC_Alloc
-	mov r0, #0
-	bx ip
-}
+extern void *DWC_Alloc(int name, unsigned long size);
 
+static void *DWCi_Prof_Alloc(int name, unsigned long size)
+{
+    return DWC_Alloc(0, size);
+}

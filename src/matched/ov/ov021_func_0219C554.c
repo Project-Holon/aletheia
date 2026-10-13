@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * Former blocker (now filed in src/matched/arm9): func_02050080 (0x02050080) is an unlabelled arm9 leaf with no witness
- * outside this range (Ilias's). Verified C, EXACT under --arm --region arm9:
+ * outside this range (the integrator's). Verified C, EXACT under --arm --region arm9:
  *     u32 func_02050080(u32 *p) { return p[1]; }
  * symbols:
  *   func_0216D4F8  0x0216D4F8  thumb  ov010

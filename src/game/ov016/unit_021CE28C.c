@@ -140,7 +140,7 @@ static void cbUsb(int result);
 
 static void procNotFound(void);
 
-static void procConfirm1(void);
+static void procNotFound1(void);
 
 static void procBoth(void);
 
@@ -253,7 +253,7 @@ static void procNotFound(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene(procConfirm1);
+    DWCi_ChangeScene(procNotFound1);
 }
 
 
@@ -262,7 +262,7 @@ static void initGraphics(void);
 static void procConfirm(void);
 
 
-static void procConfirm1(void)
+static void procNotFound1(void)
 {
     if (DWCi_WINlIsInit())
         return;

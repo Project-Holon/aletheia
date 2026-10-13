@@ -205,7 +205,7 @@ extern void OSi_ReferSymbol(const char *symbol);
 extern void func_02085868(OSThread *thread);
 unsigned long func_0216003C(void);
 unsigned long CPS_GetSslHandshakePriority(void);
-void CARDi_CommandBegin(int len);
+void CPS_SetSslHandshakePriority(int len);
 unsigned long func_0216009C(void);
 void func_02160108(int a, int b);
 SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn);
@@ -385,7 +385,7 @@ unsigned long CPS_GetSslHandshakePriority(void)
 }
 
 
-void CARDi_CommandBegin(int len)
+void CPS_SetSslHandshakePriority(int len)
 {
 	g_021A1D40.priority = len;
 }

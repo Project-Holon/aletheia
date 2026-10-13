@@ -14,6 +14,7 @@
  * so this is an asm body.
  */
 
+/* hand-written in the original: unrolled umlal loop with conditional loads, an OpenSSL bn_asm style routine */
 asm unsigned long CRYPTOi__bn_mul_add_words(unsigned long *rp, const unsigned long *ap, int num, unsigned long w)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, lr}

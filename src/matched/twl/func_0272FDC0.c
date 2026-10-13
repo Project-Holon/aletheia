@@ -1,5 +1,5 @@
 /*
- * function: func_0272FDC0
+ * function: MI_GetNDmaConfig
  * address:  0x0272FDC0
  * packet:   twl_audio
  * region:   twl
@@ -13,13 +13,12 @@
  *   func_02082A90 0x02082A90 arm
  */
 
-asm void func_0272FDC0(int a0, const void *src)
+#include "../include/G_twl_data_02732EFC.h"
+
+extern struct G_twl_data_02732EFC data_02732EFC[];
+void func_02082A90(void *dst, const void *src, unsigned int n);
+
+void MI_GetNDmaConfig(int a0, const void *src)
 {
-    ldr r3, [pc, #0xc]
-    ldr ip, [pc, #0xc]
-    mov r2, #0x10
-    add r0, r3, r0, lsl #4
-    bx ip
-    dcd 0x02732EFC
-    dcd 0x02082A90
+    func_02082A90(&data_02732EFC[a0], src, 16);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216BA08
+ * function: DWC_IsServerMyself
  * address:  0x0216BA08
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -21,7 +21,7 @@
 extern struct DwcGlobal g_021AA878;
 extern unsigned char func_0216B9B0(void);
 
-int func_0216BA08(void)
+int DWC_IsServerMyself(void)
 {
     if (*(char **)(((char *)&g_021AA878) + 4) == 0) {
         return 0;

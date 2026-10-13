@@ -18,7 +18,7 @@
  * Also capped at MATCH regardless: the arm9 callees 02010F18, 02010F7C,
  * 02010F40, 02010F8C (bl targets in the first 64 bytes of a 0x02010F18
  * table area, unlabelled leaves / tail stubs) have no witness outside the
- * range (arm9 leaves belong to Ilias, not filed here).
+ * range (arm9 leaves belong to the integrator, not filed here).
  *
  * checks: 1 callee arities: 02010F18 none, 02010F7C (r0=0x8015, tail-call stub), 02010F40 (idx, tbl), 02010F8C (one arg); 2 no twin; 3 n/a; 4 none fits; 5 n/a
  *

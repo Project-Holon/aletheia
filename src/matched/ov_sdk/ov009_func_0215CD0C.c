@@ -10,14 +10,12 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_021AA440  0x021AA440  data
 */
 
-asm void SOCLi_DhcpTimeout(void)
-{
-	ldr r0, =0x021AA440
-	ldr r1, [r0, #8]
-	orr r1, r1, #2
-	str r1, [r0, #8]
-	bx lr
-}
+extern unsigned long g_021AA440[3];
 
+void SOCLi_DhcpTimeout(void)
+{
+	g_021AA440[2] |= 2;
+}

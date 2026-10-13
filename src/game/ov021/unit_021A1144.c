@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   func_021A8840  0x021A8840  thumb  ov021
  *   func_0217D160  0x0217D160  thumb  ov018
  *   func_0217D1C0  0x0217D1C0  thumb  ov018
  *   func_0217D3AC  0x0217D3AC  thumb  ov018

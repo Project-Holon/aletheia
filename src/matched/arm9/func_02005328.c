@@ -11,7 +11,7 @@
  * blocker:  none, needs a second caller.  Every concrete byte reproduces;
  *           nine relocation sites stay wildcarded because this function is
  *           the ONLY branch anywhere in the image to GX_Init (0x0207D204),
- *           SCFG_SetCpuSpeed (0x0208C988), DWC_StartUtilityEx (0x0207ACB4,
+ *           SCFG_SetCpuSpeed (0x0208C988), FS_TryLoadTable (0x0207ACB4,
  *           two sites, both here), PM_GetAmp (0x0208C030) and the veneer at
  *           0x020053E4, and the only pool reference to g_020A9E94,
  *           func_02005440 and g_020A9E84.  --suggest-split reports
@@ -30,7 +30,7 @@
  *   OS_GetConsoleType   0x02085CBC  arm
  *   SCFG_SetCpuSpeed    0x0208C988  arm
  *   FS_Init             0x0207AD04  arm
- *   DWC_StartUtilityEx  0x0207ACB4  arm
+ *   FS_TryLoadTable  0x0207ACB4  arm
  *   OS_AllocFromArenaLo 0x02086788  arm
  *   sub_02061C0C        0x02061C0C  arm
  *   sub_0202EB0C        0x0202EB0C  thumb
@@ -69,7 +69,7 @@ extern void func_0207D148(void);
 extern u32  OS_GetConsoleType(void);
 extern void SCFG_SetCpuSpeed(int speed);
 extern void FS_Init(int dma);
-extern void *DWC_StartUtilityEx(int a, void *b);
+extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
 extern void sub_02061C0C(void *p, u32 capacity);
 extern u32 sub_0202EB0C(void);
@@ -101,8 +101,8 @@ void func_02005328(void)
     *(volatile u16 *)0x04000208;
     *(volatile u16 *)0x04000208 = 1;
     FS_Init(1);
-    arena = DWC_StartUtilityEx(0, 0);
-    DWC_StartUtilityEx((int)OS_AllocFromArenaLo(0, arena, 4), arena);
+    arena = FS_TryLoadTable(0, 0);
+    FS_TryLoadTable((int)OS_AllocFromArenaLo(0, arena, 4), arena);
     sub_02061C0C(g_020A9E94, 0x30);
     if (sub_0202EB0C()) {
         g_020A9E80[0] = 0;

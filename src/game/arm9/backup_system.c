@@ -449,7 +449,7 @@ extern void sub_0203422C(struct AreaMan *p, u32 start, s32 len);
 void func_020316C8(u32 a0, u32 a1, u32 a2);
 struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
 u32 func_0203192C(void *a, void *b);
-asm void FSi_ConvertStringSjisToUnicode(void);
+struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
 void func_0203195C(u8 *p);
 u32 func_02031994(u8 *p, u32 *out);
 u32 func_020319A4(u8 *p, u32 id);
@@ -705,13 +705,9 @@ u32 func_0203192C(void *a, void *b)
 
 
 
-asm void FSi_ConvertStringSjisToUnicode(void)
+struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
-    stmfd sp!, {r3, lr}
-    ldr ip, [sp, #8]
-    str ip, [sp]
-    bl func_0203174C
-    ldmfd sp!, {r3, pc}
+    return func_0203174C(in, heap, c, d, e);
 }
 
 

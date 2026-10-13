@@ -266,16 +266,16 @@ extern BOOL OS_IsForceDisableWireless(void);
 WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);
 WMErrCode func_0208E038(void *wmSysBuf, u16 dmaNo, u32 bufSize);
 WMErrCode WM_Finish(void);
-asm void WMi_SetCallbackTable(void);
+void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 u32 *WmGetCommandBuffer4Arm7(void);
 WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...);
 WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 void *func_0208E4BC(void);
-asm WMErrCode WMi_CheckInitialized(void);
+WMErrCode WMi_CheckInitialized(void);
 WMErrCode WMi_CheckIdle(void);
 WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err);
-asm void WmClearFifoRecvFlag(void);
+void WmClearFifoRecvFlag(void);
 WMStatus *WMi_GetStatusAddress(void);
 u16 WM_GetAID(void);
 u16 WM_GetConnectedAIDs(void);
@@ -437,13 +437,9 @@ WMErrCode WM_Finish(void)
 
 
 
-asm void WMi_SetCallbackTable(void)
+void WMi_SetCallbackTable(int id, WMCallbackFunc callback)
 {
-    ldr r2, =g_02153058
-    ldr	r2, [r2, #4]
-    add	r0, r2, r0, lsl #2
-    str	r1, [r0, #0x18]
-    bx	lr
+    g_02153058.wm9buf->CallbackTable[id] = callback;
 }
 
 
@@ -573,14 +569,12 @@ void *func_0208E4BC(void)
 
 
 
-asm WMErrCode WMi_CheckInitialized(void)
+WMErrCode WMi_CheckInitialized(void)
 {
-    ldr r0, =g_02153058
-    ldrh	r0, [r0]
-    cmp	r0, #0
-    movne	r0, #0
-    moveq	r0, #3
-    bx	lr
+    if (g_02153058.wmInitialized) {
+        return WM_ERRCODE_SUCCESS;
+    }
+    return WM_ERRCODE_ILLEGAL_STATE;
 }
 
 
@@ -876,15 +870,13 @@ void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err)
 
 
 
-asm void WmClearFifoRecvFlag(void)
+void WmClearFifoRecvFlag(void)
 {
-    ldr r2, =0x02FFFF96
-    ldrh r1, [r2]
-    tst r1, #1
-    ldrne r0, =0x0000FFFE
-    andne r0, r1, r0
-    strneh r0, [r2]
-    bx lr
+    u16 *flag = (u16 *)0x02FFFF96;
+
+    if (*flag & 1) {
+        *flag = (u16)(*flag & 0xFFFE);
+    }
 }
 
 

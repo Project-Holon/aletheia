@@ -12,7 +12,7 @@
  * blocker:  label (arm9 leaf). Every byte agrees; the one wildcard is the
  *   bl to func_020071C0, an unlabelled arm9 Thumb tail-call stub
  *   (ldr r0,[r0,#0x10]; ldr r3,[pc]; bx r3; .word 0x02031E69) with no
- *   witness outside this range. It is Ilias's. Verified leaf C
+ *   witness outside this range. It is the integrator's. Verified leaf C
  *   (match.py one --thumb, no --region: MATCH, byte-correct, its own
  *   pool word to func_02031E68 unwitnessed):
  *     extern u32 func_02031E68(void *p);

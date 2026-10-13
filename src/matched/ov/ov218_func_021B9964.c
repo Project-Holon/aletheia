@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * lever: window = field = constructor(...) preserves store-before-local-move and schedules the outgoing seventh argument as in the original.
- * blocker: ARM9 0x02045CAC at +0xE2 lacks a code-start witness; Ilias-owned unit_02045C44.c omits it from function:. Singleton TU leaves caller out.
+ * blocker: ARM9 0x02045CAC at +0xE2 lacks a code-start witness; integrator-owned unit_02045C44.c omits it from function:. Singleton TU leaves caller out.
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
  * copied unchanged from unit_02045C44.c, using dsi/1.1p1 -O4,p --arm.
  * typedef unsigned char u8;

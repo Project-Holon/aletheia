@@ -10,13 +10,13 @@
  * status:   EXACT
  */
 
-asm void WmClearFifoRecvFlag(void)
+typedef unsigned short u16;
+
+void WmClearFifoRecvFlag(void)
 {
-    ldr r2, =0x02FFFF96
-    ldrh r1, [r2]
-    tst r1, #1
-    ldrne r0, =0x0000FFFE
-    andne r0, r1, r0
-    strneh r0, [r2]
-    bx lr
+    u16 *flag = (u16 *)0x02FFFF96;
+
+    if (*flag & 1) {
+        *flag = (u16)(*flag & 0xFFFE);
+    }
 }

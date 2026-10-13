@@ -71,6 +71,59 @@ resolver treat these objects as defined in the unit rather than as image evidenc
 This is also what removes the MATCH refusals: a relocation to a data object that is
 defined in the build needs no witness.
 
+#### Data mode: `gamelink.py --data` (2026-10-12, lanes DG1 and DM1)
+
+    python tools/datagen.py companions 12          # build/datac/ov012/, build/gen/datac/ov012/
+    python tools/gamelink.py 12 --data --extra=build/datac/ov012
+
+`datagen.py companions` cuts the overlay's data tail into objects (registry starts,
+literal-pool targets of the code, header data names, the borders of the data sections
+the code files define themselves, the static-initialiser terminator). An all-zero
+piece of `.data` joins its neighbour (mwccarm would put it in `.bss`); its names become
+linker aliases at an offset. `.bss` is cut the same way at code references. Each object
+gets an owner file (the file whose code refers to it, else the file of a function it
+points at, else its neighbour); owners must rise in link order per section, otherwise
+a blocker is listed. Each owner file gets a companion `<stem>.zdata.c` with the same
+header, the definitions in layout order after an anchor function (mwccarm keeps
+definition order only after a function), and initialisers `#include`d from
+`build/gen/datac/ovNNN/*.inc`, made from the user's own extract. Function pointers are
+the plain name; the linker sets the Thumb bit. `datalink.json` gives the tail borders
+and the aliases (every other name a file uses for an object). Nothing is written to
+src/ or to tracked files.
+
+`gamelink.py --data` links the `.rodata` of all files in link order, `ALIGN(4)`, the
+terminator (`WRITEW 0`), `ALIGN(32)` as one segment, the `.data` as a second and the
+`.bss` as a third; a companion links right after its code file and its anchor function
+goes outside the overlay. Output is in `build/gamelink_data/`. The plain mode is
+unchanged.
+
+Result over the 178 overlays: **156 PASS** byte-identical with all `.rodata/.data/.bss`
+from C. Failures by class:
+
+| class | overlays |
+| --- | --- |
+| own-data overflow (the files' own data plus the companions exceed a segment: data a file defines that the original holds elsewhere, or counted twice) | ov009, ov015, ov016, ov107, ov114, ov119, ov120, ov172 |
+| code-word (a pool word into the tail differs: an object start moved, mostly a `.data` alignment or owner order) | ov021, ov093 (also fails in plain mode), ov121, ov128, ov132, ov204, ov214, ov225 |
+| overlap (a file's code range runs into the tail) | ov013, ov036, ov067 |
+| other | ov185 (`.bss` in the files, the overlay has none), ov215 (callee inside the overlay, not in a file or gap), ov230 (real static initialisers, not a lone terminator) |
+
+Plain mode in the same run: 177 of 178 overlays, itcm and arm9_main PASS (ov093:
+`btl_server` is being merged by another lane).
+
+Three more `gamelink.py` fixes from lane LX2 (ov009, ov016), all PASS results kept:
+
+- an ABS32 pool word that points outside the region takes no ARM/Thumb type from
+  `match.isa_evidence` unless the answer is an asm/arm9 or asm/twl label: another
+  overlay at the same RAM address turned the data name `gcd_gamename` into a Thumb stub
+  (+1);
+- a call to a function another file defines `static` gets a global alias of that local
+  symbol in its own file (local functions are now in the first-link address map, keyed
+  by file), not an absolute `.lcf` name: mwldarm misencodes a backward Thumb BL to an
+  odd absolute address by 2 bytes. A global target gets its alias only in the file that
+  defines it globally (ov016 has many files with a static `button`);
+- a `.rodata` blob found more than once in the image drops the places that lie inside
+  an object the headers name (registry size) before it gives up.
+
 ### 2. A real link with mwldarm
 
 `python tools/gamelink.py <overlay ids>` links whole overlays with
@@ -148,37 +201,87 @@ Findings that the old build could not see:
 
 ### Other regions
 
-`python tools/gamelink.py itcm` PASS. `python tools/gamelink.py arm9_main --skip=unit_020911D4`
-links 408 files (575564 bytes of code, 103902 bytes between them from the image) and
-all of them are byte-identical except one:
+`python tools/gamelink.py itcm` PASS.
 
-- `unit_0205D91C`: `s_nspot` lies at +8 of a 0x14-byte `.bss` in our object, in the
-  original at +0. Seven literal-pool words differ by 8. The old build accepted the file
-  because it resolves such words from the header address, not from the object layout.
-  Some static declared before `s_nspot` (8 bytes) belongs somewhere else.
+#### ARM9 static module (2026-10-12, lane LK1)
 
-Extra rules `arm9_main` needed (also used by the overlays, 166 still PASS):
+`python tools/gamelink.py arm9_main` (no skips) **PASS**: the linked module is
+byte-identical to the original static ARM9 (0x02004000..0x020A9E80, 679552 bytes).
+426 src/game/arm9 files link from objects (626436 bytes of code, 5 data sections in the
+image range, 24 `.bss` sections placed at their addresses), 245 typed stubs (callees in
+ITCM, TWL and other modules), 1041 absolute `.lcf` names (data, mostly `.bss`), 14 dead
+data sections. Same run, all regions: itcm and 175 of 178 overlays PASS.
 
-- a file at a halfword address (`unit_0200421A`, `unit_02004632`, `swi` thunks): the
-  section alignment is lowered to 2 so the linker does not move it;
-- names missing from every header (`MIC_AdjustLimitedSampling`, the `sub_..._Ptr`
-  pointers): the address is read from the original code at the place the file uses it
-  (pool word or branch target; a branch to a linker veneer is followed to the veneer's
-  target). This uses the image;
-- a first link with placeholder addresses, then a second with the inferred ones, so the
-  veneers the original has are counted in the file sizes;
-- the same name with two different SDK addresses (`ENV_SetResourceSet`,
-  `GXS_LoadBG0Char`): a header that gives a defined name another address than the
-  linked one makes a second name for that reference.
+What changed in `gamelink.py` for this:
 
-`unit_020911D4` (parts p01..p08) is skipped because another lane is rewriting it; its
-range comes from the image. Without the skip the link fails in the first pass: part p03
-needs 0x188 bytes more than the room the original gave it.
+| blocker | fix |
+| --- | --- |
+| a file whose functions are not contiguous (MSL runtime parts p03, p05 of `unit_020911D4`: other parts lie between their functions) | mwccarm writes one `.text` section per function; the sections are cut into runs at each function whose known address (header, `func_` name, `layout/runtime_arm9.txt`) lies outside the room of the current run, and each run gets its own `.lcf` region. Smaller differences are left to the linker (veneers after a function; some `func_` names sit one word into their function). `layout/symbols_sdk.json` is not used for this: game files define functions under SDK names the SDK has elsewhere (`CARD_SetPulledOutCallback` in `unit_02066B84`, `OS_KillThread` in `mystery_data`) |
+| a function-local `static const double` (MSL `k_sin`, `k_cos`) that the compiler puts in the literal pool and also emits as an unreferenced `.rodata` section; the string search placed it on top of the pool | a data section that no relocation uses and that has no global name is dead (the original link stripped it); it is parked outside every region |
+| calls to entry points inside an asm function (`_ll_udiv`, `_ll_sdiv`, `_fsub`: labels in `_ll_divmod_entry_signed` and the float routines) were absolute symbols, so the linker made BL instead of BLX | a typed alias symbol at function+offset (from the first link) |
+| a file with data and no code | no empty code region |
+| address vote for a data section: a tie, or a base the section alignment forbids, was picked silently (ov107 showed it as a 0x1C overflow) | reported as an error that names the symbols |
+
+New options: `--unplaced` also links `unplaced/*.c` stand-ins (arm9: `func_0209D850`,
+PASS); `--extra=DIR` replaces or adds files from DIR, to try a source change without
+touching src/.
+
+Overlays that fail in the same run, all from sources other lanes have open:
+ov009 (one word: `helper_threads_priority = 10` in `unit_021573C4_p01.c`, the original
+holds 0x10), ov021 (split TU, a 0xC overflow), ov093 (`btl_server` being merged).
+
+#### crt0 as one C file (src/game/arm9/crt0.c)
+
+The TwlSDK object crt0.HYB.TWL.o (its DWARF names the source crt0.FLX.c) is one
+file again: `src/game/arm9/crt0.c` at 0x02004800 holds the code and the data in the
+order of the original source. The data comes first in the source (DWARF lines 88-182):
+`_start_ModuleParams[9]`, `_start_LtdModuleParams[6]`, and the static tables
+`microcode_ShakeHand[10]`, `microcode_WaitAgreement[7]` and
+`microcode_SwitchCpuClock[13]`. Then the 14 functions in object order (lines 212-1084):
+`_start`, `INITi_CpuClear32`, `INITi_InitCoprocessor`, `INITi_InitRegion`,
+`INITi_DoAutoload`, `INITi_ShelterStaticInitializer`, `INITi_CallStaticInitializers`,
+`MIi_UncompressBackward`, `_start_AutoloadDoneCallback`, `NitroStartUp`,
+`OSi_ReferSymbol`, `INITi_IsRunOnTwl`, `INITi_Copy32`, `INITi_Fill32` (static where the
+object has a local symbol). Compiler dsi/1.1p1 `-O4,p`, ARM, as the vendor object. The
+text ends at 0x02004F7C; mwccarm puts the five tables in one `.rodata` (0xB4 bytes),
+which the link places right after it at 0x02004F7C, in the object's order
+(`_start_LtdModuleParams`, `microcode_WaitAgreement`, `_start_ModuleParams`,
+`microcode_ShakeHand`, `microcode_SwitchCpuClock`). The module parameters are the
+linker names `SDK_AUTOLOAD_LIST`, `SDK_AUTOLOAD_LIST_END`, `SDK_AUTOLOAD_START`,
+`SDK_STATIC_BSS_START`, `SDK_STATIC_BSS_END`, `SDK_COMPRESSED_STATIC_END` and the
+`SDK_LTD...` four, with values from `layout/layout.json`, plus the SDK version and the
+magic words. The microcode words come from the user's ROM through `#include`
+(build/gen, written by tools/gendata.py, not committed). `SDK_COMPRESSED_STATIC_END`
+is written by the compressor in the original flow; here it is a name with the value
+of the decompressed image. `_start_BuildParams` (line 103, a second `.rodata` of 0x20
+bytes at 0x02005030) is not in the file yet. The four files it replaces
+(`unit_02004800.c`, `unit_02004DF4.c`, `unit_02004EA8.c`, `unit_02004EB4.c`) and the
+asm `dcd` bodies `unit_02004F94.c`, `unit_02004FD4.c` are gone. gameverify EXACT: the
+table addresses are `symbols:` rows attested by the `sole-ref/data` class (the
+listings' data-object starts), the same rule that attested `_start_ModuleParams`
+before. gameverify reports a file without code (no executable section, at least one
+data byte) as `DATA-ONLY ... (checked by gamelink)`, not as not exact.
+
+#### What still comes from the image (arm9_main, 53026 bytes)
+
+| range | bytes | what it is |
+| --- | --- | --- |
+| 0x0209D86C..0x020A9E80 | 50646 | `.rodata`/`.data` of the module, no file defines it yet: data into C (`datagen.py`) |
+| 0x02004000..0x02004800 | 1980 | secure area around the SVC thunks: opaque bytes, stays a prebuilt binary |
+| 0x02005030..0x02005124 | 244 | crt0's `_start_BuildParams` (0x20 bytes at 0x02005030) and the `.version` middleware strings (`[SDK+NINTENDO:DWC...]`); the crt0 tables at 0x02004F7C (180 bytes) are C now (above) |
+| 14 x 2 bytes | 28 | zero padding after a Thumb file before the next 4-aligned one; a single-section link makes it itself |
+| 0x02081E6C | 16 | SHA-1 round constants inside the code range (an SDK `.rodata`) |
+
+Also image evidence, not bytes: the addresses of names missing from every header (read
+from the original code), and the typed stubs and absolute names, which stand for code
+and data of other modules and `.bss` addresses. The 3 small TWL/VRAM autoload blocks
+(`asm/arm9/autoload*_main_twl.s`, `vram_lcdc.s`) have no src/game directory and are not
+linked.
 
 Remaining gap to a link with no image input: the gap data (typed C from
 `datagen.py` compiled and linked as real objects instead of binary sections), the
 stub objects (real callees: the arm9 static module and other overlays linked as
-objects with their true code), the addresses of missing names, the 48 bytes above,
+objects with their true code), the addresses of missing names, the 48 bytes of ov119,
 and the overlay table and `.lcf` for the whole ROM instead of one region at a time.
 
 ### 3. Prebuilt pieces

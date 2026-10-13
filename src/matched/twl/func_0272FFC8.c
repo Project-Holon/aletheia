@@ -1,5 +1,5 @@
 /*
- * function: func_0272FFC8
+ * function: MIi_FIFOCallback
  * address:  0x0272FFC8
  * packet:   twl_sys
  * region:   twl
@@ -14,8 +14,8 @@
  *   data_02732EFC 0x02732EFC data twl
  *   func_02084998 0x02084998 arm
  *   func_020849C8 0x020849C8 arm
- *   func_02730090 0x02730090 arm twl
- *   func_0272F9C4 0x0272F9C4 arm twl
+ *   MIi_NDMACallback 0x02730090 arm twl
+ *   MIi_NDmaAsync_withConfig_Dev 0x0272F9C4 arm twl
  */
 typedef unsigned int u32;
 struct St { u32 f0; u32 f4; u32 f8; u32 fc; };
@@ -24,10 +24,10 @@ extern struct St data_02732F3C;
 extern struct E data_02732EFC[];
 extern void func_02084998(u32);
 extern void func_020849C8(u32);
-extern void func_02730090(void);
-extern void func_0272F9C4(u32, u32, u32, u32, u32, u32, void (*)(), u32, void *, u32, u32);
+extern void MIi_NDMACallback(void);
+extern void MIi_NDmaAsync_withConfig_Dev(u32, u32, u32, u32, u32, u32, void (*)(), u32, void *, u32, u32);
 
-void func_0272FFC8(void)
+static void MIi_FIFOCallback(void)
 {
     u32 pos;
     u32 n = data_02732F3C.fc;
@@ -48,12 +48,12 @@ void func_0272FFC8(void)
     }
     func_020849C8(0x200000);
     rem = data_02732F3C.fc;
-    cb = func_02730090;
+    cb = MIi_NDMACallback;
     if (rem != 0) {
         cb = 0;
     }
     idx = data_02732F3C.f4;
-    func_0272F9C4(rem == 0 ? 9 : 8, idx, pos, 0x04000400, 0, n, cb, 0,
+    MIi_NDmaAsync_withConfig_Dev(rem == 0 ? 9 : 8, idx, pos, 0x04000400, 0, n, cb, 0,
                   (void *)((char *)data_02732EFC + (idx << 4)), -1, 0x80000000);
 }
 

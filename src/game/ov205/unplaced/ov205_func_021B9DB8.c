@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02045CAC is inside Ilias-owned src/matched/arm9/unit_02045C44.c, whose function: lists only func_02045C44; the missing func_02045CAC entry leaves the call at +0x42 unwitnessed. TU suggest-split found no viable piece.
+ * blocker: ARM9 02045CAC is inside integrator-owned src/matched/arm9/unit_02045C44.c, whose function: lists only func_02045C44; the missing func_02045CAC entry leaves the call at +0x42 unwitnessed. TU suggest-split found no viable piece.
  * extent: intended function ends at 021B9E50 (152 bytes); the rest of the handed 392-byte extent is rodata, not follower code.
  * symbols:
  *   func_020457B0 0x020457B0 arm

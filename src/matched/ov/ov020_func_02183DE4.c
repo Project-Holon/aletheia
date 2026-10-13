@@ -12,8 +12,8 @@
  * Byte-correct at 376 of 376 bytes.  Four wildcarded call sites, all of
  * them unlabelled tail-call leaves with no witness outside this range.
  * Each leaf's C below was verified EXACT with `match.py one` in a scratch
- * file; none is filed, because the arm9 one belongs to Ilias:
- *   +0xD4  func_02029DF4 (arm9, Ilias's): ldr r3,=func_02029EB4+1; bx r3
+ * file; none is filed, because the arm9 one belongs to the integrator:
+ *   +0xD4  func_02029DF4 (arm9, the integrator's): ldr r3,=func_02029EB4+1; bx r3
  *          int func_02029DF4(int a, int b, int c)
  *          { return func_02029EB4(a, b, c); }
  *   +0x96  func_02164474 (ov010): void f(int a, int b) { func_0215E364(a, b); }

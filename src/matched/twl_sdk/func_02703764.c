@@ -1,5 +1,5 @@
 /*
- * function: func_02703764
+ * function: NWMi_AddMACHeader
  * address:  0x02703764
  * packet:   twl_sys
  * region:   twl
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_02082D44(u32, u32, u32);
 
-void func_02703764(u32 a0, u32 a1, u8 *a2, u32 a3) {
+void NWMi_AddMACHeader(u32 a0, u32 a1, u8 *a2, u32 a3) {
     if (a3 < 0xE) {
         return;
     }

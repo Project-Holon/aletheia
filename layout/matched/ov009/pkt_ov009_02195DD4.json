@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "KeyValHashKey",
+   "name": "gti2CloseAllConnectionsHardMap",
    "address": "0x02195DD4",
    "kind": "sdk",
    "region": "ov009",

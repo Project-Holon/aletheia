@@ -1,5 +1,5 @@
 /*
- * function: func_027310C0
+ * function: MIi_DoGetAllocatableWramSlot
  * address:  0x027310C0
  * packet:   twl_sys
  * region:   twl
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u16 data_02732F6C[3][8];
 
-u32 func_027310C0(u32 ch, u32 val)
+u32 MIi_DoGetAllocatableWramSlot(u32 ch, u32 val)
 {
     u32 mask;
     int i, lim;

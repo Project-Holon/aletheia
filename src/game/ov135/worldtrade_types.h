@@ -24,7 +24,7 @@ typedef struct {
     u32 cursor;
     u32 up;
     u32 down;
-    u8 pad14[0x18 - 0x14];
+    unsigned int f14;
     void *mgr;
     void *bag;
     void *bank;
@@ -35,15 +35,16 @@ typedef struct {
     void *num;
     s16 layout;
     s16 start;
-    u8 pad3C[0x44 - 0x3C];
+    short f3C;
+    u8 pad3E[6];
     int pos;
     int state;
-    u8 pad4C[0x50 - 0x4C];
+    int f4C;
     u32 layer;
-    u8 pad54[0x56 - 0x54];
+    short f54;
     s16 page;
     int total;
-    u8 pad5C[0x60 - 0x5C];
+    int f5C;
     u8 flags[0x7A - 0x60];
     u8 last;
     u8 pad7B;
@@ -218,10 +219,13 @@ struct Work {
         Args *args;
         Ctx *ctx;
     };
-    u8 pad4[0x10 - 0x4];
+    unsigned int f4_u;
+    unsigned int f8_u;
+    unsigned int fC_u;
     u32 x10; /* +0x10 */
     u32 x14; /* +0x14 */
-    u8 pad18[0x20 - 0x18];
+    unsigned int f18_u;
+    unsigned int f1C_u;
     int kind; /* +0x20 */
     int mode; /* +0x24 */
     union { /* +0x28 */
@@ -233,11 +237,13 @@ struct Work {
     u16 x2E; /* +0x2E */
     u16 x30; /* +0x30 */
     u16 busy; /* +0x32 */
-    u8 pad34[0x38 - 0x34];
+    u8 pad34_[2];
+    unsigned short f36;
     int err; /* +0x38 */
     u8 pad3C[0xB8 - 0x3C];
     u32 fB8; /* +0xB8 */
-    u8 padBC[0xC0 - 0xBC];
+    unsigned short fBC;
+    u8 padBE[2];
     u16 sel; /* +0xC0 */
     u8 padC2[0xC4 - 0xC2];
     u16 box; /* +0xC4 */
@@ -270,7 +276,20 @@ struct Work {
             u8 list[1][0x128]; /* +0x20C */
         };
     };
-    u8 padB4C[0xB56 - 0xB4C];
+    unsigned short fB4C;
+    unsigned short fB4E;
+    short fB50;
+    union {
+        unsigned short fB52_h;
+        struct {
+            signed char fB52;
+            signed char fB53;
+        };
+    };
+    union {
+        unsigned short fB54;
+        signed char fB54_c;
+    };
     union { /* +0xB56 */
         Rec rec_rec2[2];
         struct {
@@ -304,7 +323,7 @@ struct Work {
     void *fB80; /* +0xB80 */
     void *strs; /* +0xB84 */
     void *str; /* +0xB88 */
-    u8 padB8C[0xB90 - 0xB8C];
+    void *fB8C;
     void *name0; /* +0xB90 */
     void *name1; /* +0xB94 */
     u8 padB98[0xBC0 - 0xB98];
@@ -351,7 +370,8 @@ struct Work {
         u32 frame;
         void *d40;
     };
-    u8 padD44[0xD4C - 0xD44];
+    u8 padD44_[4];
+    void *fD48;
     void *fD4C; /* +0xD4C */
     union { /* +0xD50 */
         u8 fD50[0xD90 - 0xD50];
@@ -405,10 +425,11 @@ struct Work {
         u32 tab[2];
         void *win2[2];
     };
-    u8 padDE0[0xDE4 - 0xDE0];
+    void *fDE0;
     void *menu; /* +0xDE4 */
     void *de8; /* +0xDE8 */
-    u8 padDEC[0xDF8 - 0xDEC];
+    u8 padDEC_[8];
+    void *fDF4;
     u32 xDF8; /* +0xDF8 */
     int cnt; /* +0xDFC */
     union { /* +0xE00 */
@@ -416,9 +437,12 @@ struct Work {
         State *st;
         Target *target;
     };
-    u8 padE04[0xE10 - 0xE04];
+    void *fE04;
+    void *fE08;
+    unsigned short fE0C;
+    unsigned short fE0E;
     u32 next; /* +0xE10 */
-    u8 padE14[0xE18 - 0xE14];
+    void *fE14;
     u16 active; /* +0xE18 */
     u16 fE1A; /* +0xE1A */
     void *buf[16]; /* +0xE1C */
@@ -452,11 +476,12 @@ struct Work {
             int state_iF7C; /* +0xF7C */
             int sub_i; /* +0xF80 */
             u32 fF84; /* +0xF84 */
-            u8 padF88[0xF8C - 0xF88];
+            unsigned short fF88;
+            unsigned short fF8A;
             int wait; /* +0xF8C */
             void *vblank_p; /* +0xF90 */
             void *rec_p; /* +0xF94 */
-            u8 padF98[0xF9C - 0xF98];
+            void *fF98;
             void *recMem; /* +0xF9C */
         };
         struct {
@@ -465,7 +490,16 @@ struct Work {
         };
     };
     union { /* +0xFA0 */
-        u8 tail[0x12F0 - 0xFA0];
+        union {
+            u8 tail[0x12F0 - 0xFA0];
+            struct {
+                u8 padFA0[832];
+                unsigned int f12E0;
+                u8 pad12E4[4];
+                int f12E8;
+                unsigned int f12EC;
+            };
+        };
         struct {
             u8 fFA0[4]; /* +0xFA0 */
             u8 padFA4[0x10DC - 0xFA4];
@@ -484,8 +518,261 @@ struct Work {
     u32 busy_u; /* +0x12F4 */
     u32 f12F8; /* +0x12F8 */
     u32 flag; /* +0x12FC */
-    u8 pad1300[0x1328 - 0x1300];
+    u8 pad1300_[24];
+    unsigned int f1318;
+    u8 pad131C[4];
+    unsigned int f1320;
+    unsigned short f1324;
+    u8 pad1326[2];
     u32 done; /* +0x1328 */
 };
+
+typedef struct WorldtradeEnterObj1 {
+    u8 pad0[3976];
+    short fF88;
+    short fF8A;
+} WorldtradeEnterObj1;
+
+typedef struct WorldtradeEnterObj2 {
+    u8 pad0[56];
+    unsigned int f38;
+    u8 pad3C[3920];
+    unsigned int fF8C;
+} WorldtradeEnterObj2;
+
+typedef struct WorldtradeEnterObj3 {
+    unsigned short f0;
+    unsigned short f2;
+} WorldtradeEnterObj3;
+
+typedef struct WorldtradeEnterObj4 {
+    u8 pad0[4];
+    unsigned short f4;
+    u8 pad6[18];
+    unsigned short f18;
+} WorldtradeEnterObj4;
+
+typedef struct WorldtradeBoxObj1 {
+    unsigned int f0;
+    u8 pad4[28];
+    unsigned int f20;
+    u8 pad24[4];
+    unsigned int f28;
+    u8 pad2C[2880];
+    void *fB6C;
+    u8 padB70[140];
+    unsigned int fBFC;
+    u8 padC00[312];
+    void *fD38;
+    u8 padD3C[168];
+    void *fDE4;
+    void *fDE8;
+    u8 padDEC[24];
+    void *fE04;
+    void *fE08;
+    u8 padE0C[404];
+    unsigned int fFA0;
+    u8 padFA4[8];
+    unsigned int fFAC;
+} WorldtradeBoxObj1;
+
+typedef struct WorldtradeBoxObj2 {
+    void *f0;
+    void *f4;
+    void *f8;
+} WorldtradeBoxObj2;
+
+typedef struct WorldtradeBoxObj3 {
+    u8 pad0[4];
+    unsigned short f4;
+    unsigned short f6;
+    unsigned short f8;
+    unsigned short fA;
+} WorldtradeBoxObj3;
+
+typedef struct WorldtradeBoxObj4 {
+    u8 pad0[20];
+    int f14;
+    u8 pad18[16];
+    int f28;
+    u8 pad2C[3720];
+    int fEB4;
+} WorldtradeBoxObj4;
+
+typedef struct WorldtradeBoxObj5 {
+    u8 pad0[236];
+    unsigned short fEC;
+    unsigned short fEE;
+    unsigned short fF0;
+    unsigned short fF2;
+    unsigned short fF4;
+} WorldtradeBoxObj5;
+
+typedef struct WorldtradeBoxObj6 {
+    u8 pad0[4];
+    unsigned short f4;
+    unsigned short f6;
+    u8 pad8[12];
+    unsigned int f14;
+    void *f18;
+    unsigned int f1C;
+} WorldtradeBoxObj6;
+
+typedef struct WorldtradeBoxObj7 {
+    short f0;
+    signed char f2;
+    signed char f3;
+    signed char f4;
+} WorldtradeBoxObj7;
+
+typedef struct WorldtradeBoxObj8 {
+    u8 pad0[2];
+    unsigned char f2;
+} WorldtradeBoxObj8;
+
+typedef struct WorldtradeBoxObj9 {
+    short f0;
+    signed char f2;
+    signed char f3;
+} WorldtradeBoxObj9;
+
+typedef struct WorldtradeBoxObj10 {
+    u8 pad0[3072];
+    unsigned int fC00;
+    u8 padC04[116];
+    unsigned int fC78;
+} WorldtradeBoxObj10;
+
+typedef struct WorldtradeAdapterObj1 {
+    void *f0;
+    u8 pad4[4];
+    unsigned int f8;
+    unsigned int fC;
+    unsigned int f10;
+    unsigned int f14;
+    void *f18;
+    u8 pad1C[4];
+    void *f20;
+    u8 pad24[4];
+    void *f28;
+    u8 pad2C[4];
+    void *f30;
+    void *f34;
+    short f38;
+    short f3A;
+    u8 pad3C[2];
+    short f3E;
+    signed char f40;
+    signed char f41;
+    u8 pad42[2];
+    int f44;
+    int f48;
+    int f4C;
+    u8 pad50[6];
+    short f56;
+    int f58;
+    u8 pad5C[106];
+    unsigned short fC6;
+    u8 padC8[4116];
+    unsigned int f10DC;
+} WorldtradeAdapterObj1;
+
+typedef struct WorldtradeAdapterObj2 {
+    u8 pad0[8];
+    unsigned int f8;
+    u8 padC[28];
+    unsigned int f28;
+    unsigned int f2C;
+    u8 pad30[10];
+    short f3A;
+    u8 pad3C[8];
+    unsigned int f44;
+    unsigned int f48;
+    unsigned int f4C;
+    u8 pad50[3500];
+    int fDFC;
+} WorldtradeAdapterObj2;
+
+typedef struct WorldtradeAdapterObj3 {
+    u8 pad0[8];
+    void *f8;
+    u8 padC[28];
+    int f28;
+    u8 pad2C[20];
+    signed char f40;
+    u8 pad41[2837];
+    unsigned short fB56;
+    unsigned short fB58;
+    unsigned short fB5A;
+    unsigned short fB5C;
+    unsigned short fB5E;
+    unsigned short fB60;
+    u8 padB62[2];
+    unsigned int fB64;
+    u8 padB68[690];
+    unsigned short fE1A;
+    u8 padE1C[360];
+    int fF84;
+    u8 padF88[4];
+    int fF8C;
+} WorldtradeAdapterObj3;
+
+typedef struct WorldtradeAdapterObj4 {
+    unsigned int f0;
+    unsigned int f4;
+    u8 pad8[8];
+    void *f10;
+    void *f14;
+} WorldtradeAdapterObj4;
+
+typedef struct WorldtradeAdapterObj5 {
+    u8 pad0[236];
+    unsigned short fEC;
+    u8 padEE[9];
+    unsigned char fF7;
+    u8 padF8[20];
+    unsigned int f10C;
+    u8 pad110[22];
+    unsigned char f126;
+    unsigned char f127;
+} WorldtradeAdapterObj5;
+
+typedef struct WorldtradeAdapterObj6 {
+    u8 pad0[3340];
+    unsigned int fD0C;
+    u8 padD10[264];
+    unsigned short fE18;
+} WorldtradeAdapterObj6;
+
+typedef struct WorldtradeAdapterObj7 {
+    u8 pad0[3340];
+    unsigned int fD0C;
+} WorldtradeAdapterObj7;
+
+typedef struct WorldtradeAdapterObj8 {
+    u8 pad0[3340];
+    void *fD0C;
+    u8 padD10[436];
+    short fEC4;
+    short fEC6;
+} WorldtradeAdapterObj8;
+
+typedef struct WorldtradeAdapterObj9 {
+    u8 pad0[3340];
+    void *fD0C;
+    u8 padD10[436];
+    short fEC4;
+    short fEC6;
+} WorldtradeAdapterObj9;
+
+typedef struct WorldtradeAdapterObj10 {
+    u8 pad0[15];
+    unsigned char fF;
+} WorldtradeAdapterObj10;
+
+typedef struct WorldtradeAdapterObj11 {
+    u8 pad0[12];
+    void *fC;
+} WorldtradeAdapterObj11;
 
 #endif

@@ -4,7 +4,7 @@
  * address:  0x02063000
  * packet:   pkt_02063000
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: ../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -12,4 +12,10 @@
  */
 #include "../include/Obj00800.h"
 
-void func_02063000(int p0, int p1, int p2, int p3){ *(int *)&((struct Obj00800 *)p0)->f28 = (int)p3; *(int *)&((struct Obj00800 *)p0)->f24 = (int)p2; *(int *)&((struct Obj00800 *)p0)->f20 = (int)p1; ((struct Obj00800 *)p0)->f2C = (unsigned short)0; }
+void func_02063000(struct Obj00800 *anim, int p1, int p2, int p3)
+{
+    anim->f28 = p3;
+    anim->f24 = p2;
+    anim->f20 = p1;
+    anim->f2C = 0;
+}

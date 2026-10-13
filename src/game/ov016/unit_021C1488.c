@@ -39,13 +39,18 @@ extern void func_02088234(void);
 extern void func_021D6438(void **mem);
 extern int func_021BC7F0(int a);
 extern void func_021CF9BC(void *param);
-extern void DWCi_HEAPlAllocEx(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 void func_021C1488(void);
 void func_021C14F4(void);
 int func_021C1518(void);
 void func_021C15D0(void);
-asm void cbConfig(void);
-asm void aossAlloc(void);
+typedef struct {
+    int a;
+    int b;
+    int c;
+} Cfg3;
+void cbConfig(Cfg3 *cfg);
+static void *memAlloc(unsigned long size);
 extern int *g_021DE594;
 extern void func_021D647C(void *mem);
 void func_021C1624(void *mem);
@@ -116,21 +121,15 @@ void func_021C15D0(void)
 	func_021CF9BC(prm);
 }
 
-asm void cbConfig(void)
+void cbConfig(Cfg3 *cfg)
 {
-	ldr r3, =0x021DE594
-	ldmia r0, {r0, r1, r2}
-	ldr r3, [r3]
-	stmia r3, {r0, r1, r2}
-	bx lr
+    *(Cfg3 *)g_021DE594 = *cfg;
 }
 
 
-asm void aossAlloc(void)
+static void *memAlloc(unsigned long size)
 {
-	ldr ip, =DWCi_HEAPlAllocEx
-	mov r1, #0x20
-	bx ip
+    return DWCi_HEAPlAllocEx(size, 0x20);
 }
 
 void func_021C1624(void *mem)

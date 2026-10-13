@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02079164, func_02079254
+ * function: FS_EndOverlay, FS_UnloadOverlayImage
  * address:  0x02079164
  * packet:   pkt_020792B8
  * region:   arm9
@@ -18,7 +18,7 @@
  * 0x02079164..0x02079264: the callback-flush worker and its one-line
  * wrapper.
  *
- * func_02079164 repeatedly detaches, inside the 0x02087988/0x0208799C
+ * FS_EndOverlay repeatedly detaches, inside the 0x02087988/0x0208799C
  * critical section, every node of the global list g_021542B8 whose
  * callback argument (+8) falls in the descriptor's byte range, or whose
  * callback function (+4) does when the argument is null, then runs the
@@ -27,7 +27,7 @@
  * queue new nodes, so the list is rescanned until a pass detaches
  * nothing.  The range is [it->base, it->base + it->len0 + it->len1).
  *
- * func_02079254 is folded into the same unit deliberately.  The `bl` at
+ * FS_UnloadOverlayImage is folded into the same unit deliberately.  The `bl` at
  * 0x02079258 is 0x02079164's only reference in the whole image, so as two
  * separate files neither can attest the other and both cap at MATCH; in
  * one unit that call site is class `local` and the range is EXACT, which
@@ -76,7 +76,7 @@ extern struct Node *g_021542B8;
 extern u32  func_02087988(void);
 extern void func_0208799C(u32 e);
 
-void func_02079164(struct Iter020792B8 *it)
+void FS_EndOverlay(struct Iter020792B8 *it)
 {
     struct Node02079164 *prev;
     struct Node02079164 *list;
@@ -144,8 +144,8 @@ void func_02079164(struct Iter020792B8 *it)
     }
 }
 
-int func_02079254(struct Iter020792B8 *it)
+int FS_UnloadOverlayImage(struct Iter020792B8 *it)
 {
-    func_02079164(it);
+    FS_EndOverlay(it);
     return 1;
 }

@@ -102,7 +102,7 @@ extern void func_0207A5C8(void *arc, void *mem, void *size);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive_0207AB10 *arc, u32 image_top, u32 image_bottom, u32 id);
 void func_0207AB10(u32 default_dma_no);
 u32 func_0207AC64(u32 dma_no);
-void DWC_StartUtilityEx(void *a0, void *a1);
+void FS_TryLoadTable(void *a0, void *a1);
 BOOL func_0207ACD4(FSFile *p_file, u32 offset, u32 size);
 extern FSiRomState fsi_default_dma_no;
 extern FSArchive_0207AB10 fsi_arc_rom;
@@ -187,7 +187,7 @@ u32 func_0207AC64(u32 dma_no)
 
 
 
-void DWC_StartUtilityEx(void *a0, void *a1)
+void FS_TryLoadTable(void *a0, void *a1)
 {
     func_0207A5C8(&d_02150DA8, a0, a1);
 }

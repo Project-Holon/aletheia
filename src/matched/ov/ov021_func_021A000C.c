@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: func_020507F0 (0x020507F0) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   void func_020507F0(u8 *p, int i, u32 v) { *(u32 *)(*(u8 **)(p + 0x18) + i * 40 + 0x18) = v; }  (EXACT, verified)
  *

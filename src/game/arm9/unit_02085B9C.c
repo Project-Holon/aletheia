@@ -50,6 +50,7 @@ asm void OS_LoadContext(void);
  *           increasing line (43..78), the asm-function pattern; the C spelling
  *           schedules the stores and uses tst, not ands.
  */
+/* hand-written in the original: OS_InitContext, one instruction per source line in the object */
 asm void func_02085B9C(OSContext *context, u32 newpc, u32 newsp)
 {
     add     r1, r1, #4

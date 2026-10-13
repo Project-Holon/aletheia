@@ -1,0 +1,21 @@
+/*
+ * function: func_0215FA90
+ * address:  0x0215FA90
+ * packet:   pkt_ov009_0215F8FC
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * notes:    defined in src/game/ov009/unit_0215F650.c without a verification
+ *           entry.
+ */
+
+extern int func_0215EBF0(void);
+
+int func_0215FA90(void)
+{
+    return func_0215EBF0();
+}

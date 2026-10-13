@@ -10,7 +10,7 @@
  * status: MATCH
  * checks: 1 own callee bodies/forwarders and SDK-mode read rederived arities; 2 fresh own9748 and R1 ov221 constructor twin read; 3 BGMode counter with named enum-zero and uncast mode call; 4 enum-zero and enum-counter idioms cover lever; 5 fresh full idiom listing/neighbours. One MATCH424 and required TU MATCH424; sole unresolved ARM9 witness remains.
  * residual: concrete-correct MATCH424, 35/36 relocations resolved; +00AA ARM9 func_02043588 has no witness; required TU --suggest-split leaves whole caller OUT.
- * blocker: ARM902043588 omitted from src/matched/arm9/unit_02043570.c's function header; Ilias-owned.
+ * blocker: ARM902043588 omitted from src/matched/arm9/unit_02043570.c's function header; integrator-owned.
  *   Verified EXACT16 ARM C preserved from prior parked ov214021BAD14 / ov133021B69AC; R1 reverified this wave:
  *   extern void func_02043558(void),func_02043570(void);
  *   void func_02043588(void) {func_02043558();func_02043570();}

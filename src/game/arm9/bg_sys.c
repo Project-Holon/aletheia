@@ -429,7 +429,7 @@ void func_020410D0(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx
 void func_020411E8(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-asm void func_020414AC(void);
+void func_020414AC(u8 idx);
 void func_020414C4(u8 idx);
 void func_020414EC(u32 i);
 void func_0204152C(int channel, u16 val);
@@ -3039,14 +3039,10 @@ void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
 
 
 
-asm void func_020414AC(void)
+void func_020414AC(u8 idx)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_020414C4
-    mov	r0, r4
-    bl func_020414EC
-    ldmfd sp!, {r4, pc}
+    func_020414C4(idx);
+    func_020414EC(idx);
 }
 
 

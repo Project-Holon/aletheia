@@ -17,7 +17,7 @@
  *
  * Blocker: two unlabelled arm9 Thumb leaves (relocation wildcards, no
  * witness outside the range): func_020163B0 (0x020163B0) and func_020163B4
- * (0x020163B4).  Both are Ilias's; verified C (one --thumb, no --region,
+ * (0x020163B4).  Both are the integrator's; verified C (one --thumb, no --region,
  * EXACT each):
  *     void func_020163B0(char *p, int v) { *(int *)(p + 0x48) = v; }
  *     typedef struct { char pad[0x2c]; unsigned int b0 : 1; unsigned int b1 : 1; } Obj;

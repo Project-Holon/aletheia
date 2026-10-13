@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Byte-correct; the only wildcard is the bl to func_02010FA0 (blocker: no
- * witness outside the range for an unlabelled arm9 leaf, Ilias's; it sits
+ * witness outside the range for an unlabelled arm9 leaf, the integrator's; it sits
  * in the word run after sub_02010EA0/func_02010EEC). Verified leaf C
  * (EXACT, arm9 0x02010FA0, thumb, `one --thumb` with no --region):
  *   typedef unsigned short u16;

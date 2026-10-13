@@ -17,7 +17,7 @@
  * gate: before compiling, ov136 021C5420 source and EXACT shard showed sole-ref
  *   data:0x020A1448. The fresh ov137 caller still reports at +00B4:
  *   020A1448 (data, from header) has no witness outside 021DD4A8..021DD570.
- *   Stop this caller pending Ilias's ARM9 witness; do not retry it.
+ *   Stop this caller pending the integrator's ARM9 witness; do not retry it.
  * runs: wave77 renewed 1 iteration; earlier permuter300 consumed, not repeated.
  * residual: DIFF2/200 at +0014/+0036 (r4 versus r5), ARM9 data +00B4 unresolved.
  * symbols:

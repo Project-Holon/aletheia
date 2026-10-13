@@ -13,13 +13,9 @@
  *   DWCi_HEAPlAllocEx            0x021D6414  arm
 */
 
-extern void DWCi_HEAPlAllocEx(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 
-asm void acAlloc(void)
+void *acAlloc(void *unused, unsigned long size)
 {
-	ldr ip, =DWCi_HEAPlAllocEx
-	mov r0, r1
-	mov r1, #0x20
-	bx ip
+    return DWCi_HEAPlAllocEx(size, 0x20);
 }
-

@@ -1,5 +1,5 @@
 /*
- * function: func_0273034C
+ * function: MI_GetWramBankMaster_A
  * address: 0x0273034C
  * packet: pkt_twl_0273034C
  * region: twl
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 /* Register readers: the argument is a register-block base, the mask picks the field. */
-u32 func_0273034C(u32 a)
+u32 MI_GetWramBankMaster_A(u32 a)
 {
     return *(u8 *)(a + 0x04004040) & 1;
 }

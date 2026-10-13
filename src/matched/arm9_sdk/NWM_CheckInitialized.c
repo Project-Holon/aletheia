@@ -11,20 +11,19 @@
  *
  * symbols:
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02702698 0x02702698 arm twl
+ *   NWMi_CheckInitialized 0x02702698 arm twl
  */
 
-extern void OS_IsRunOnTwl(void);
-typedef unsigned int   u32;
-extern u32 func_02702698(void);
+typedef unsigned int u32;
+typedef int BOOL;
 
-asm void NWM_CheckInitialized(void)
+extern BOOL OS_IsRunOnTwl(void);
+extern u32 NWMi_CheckInitialized(void);
+
+u32 NWM_CheckInitialized(void)
 {
-    stmfd sp!, {r3, lr}
-    bl OS_IsRunOnTwl
-    cmp r0, #0
-    moveq r0, #3
-    ldmeqfd sp!, {r3, pc}
-    bl func_02702698
-    ldmfd sp!, {r3, pc}
+    if (!OS_IsRunOnTwl()) {
+        return 3;
+    }
+    return NWMi_CheckInitialized();
 }

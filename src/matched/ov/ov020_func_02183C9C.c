@@ -12,7 +12,7 @@
  * Byte-correct (202 bytes + 2 padding). The one unresolved site is
  * +005E THM_CALL func_02029DF4: an unlabelled arm9 Thumb thunk
  * (ldr r3,[pc,#0]; bx r3; .word 0x02029EB5), so no label and no
- * outside witness. It is Ilias's arm9 leaf, verified EXACT at
+ * outside witness. It is the integrator's arm9 leaf, verified EXACT at
  * 0x02029DF4 (region arm9, thumb, dsi/1.1p1 -O4,p) as:
  *     extern int func_02029EB4(u32 a, int b, u32 c);   (0x02029EB4 thumb)
  *     int func_02029DF4(u32 a, int b, u32 c)

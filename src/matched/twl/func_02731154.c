@@ -1,5 +1,5 @@
 /*
- * function: func_02731154
+ * function: MIi_SendToPxi
  * address:  0x02731154
  * packet:   twl_sys
  * region:   twl
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void func_02004490(u32);
 extern int func_02088610(u32, u32, u32);
 
-void func_02731154(u32 a, u32 b)
+void MIi_SendToPxi(u32 a, u32 b)
 {
     while (func_02088610(0x12, b, a) != 0) {
         func_02004490(1);

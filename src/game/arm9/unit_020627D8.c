@@ -4,7 +4,7 @@
  * function: func_020627D8, func_020627F0, func_02062810, func_02062820, func_0206285C, func_02062884, func_02062920, func_0206295C, func_0206296C, func_020629E8, func_02062A00, func_02062A3C, func_02062A4C, func_02062A88, func_02062A98, func_02062AD4, func_02062B10, func_02062B20
  * address:  0x020627D8
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -37,6 +37,8 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 
+typedef signed short   s16;
+
 struct AnimSequence {
     u16 numFrames;
     u16 loopStartFrameIdx;
@@ -55,6 +57,19 @@ struct CellDataBank {
     u16 numCells;
     u16 bankAttr;
     void *cells;
+};
+
+struct CellData {
+    u16 numOam;
+    u16 cellAttr;
+    void *oam;
+};
+
+struct CellDataEx {
+    u16 numOam;
+    u16 cellAttr;
+    void *oam;
+    s16 t, l, b, r;
 };
 
 struct MultiCellData {
@@ -78,14 +93,14 @@ extern void func_02062884(int *p);
 extern void *func_0206285C(struct CellDataBank *bank, u32 idx);
 extern void func_0206296C(volatile struct MultiCellBank *bank);
 int func_02062920(u32 a, u32 *out);
-asm void func_0206295C(void *animBank);
+void func_0206295C(void *animBank);
 struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 void func_02062A3C(u8 *block);
 void func_02062A88(u8 *block);
 void func_02062B10(u8 *block);
 void func_02062B20(u8 *block);
 struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-asm void func_02062810(void *p);
+void func_02062810(void *p);
 int func_02062820(int a, int *out);
 
 
@@ -129,25 +144,20 @@ struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx)
     return 0;
 }
 
-asm void *func_020627F0(void *ctx)
+void *func_020627F0(struct CellDataBank *bank)
 {
-    ldrh r1, [r0, #2]
-    tst r1, #1
-    ldrh r1, [r0]
-    ldrne r0, [r0, #4]
-    addne r0, r0, r1, lsl #4
-    ldreq r0, [r0, #4]
-    addeq r0, r0, r1, lsl #3
-    bx lr
+    if (bank->bankAttr & 1) {
+        return (struct CellDataEx *)bank->cells + bank->numCells;
+    } else {
+        return (struct CellData *)bank->cells + bank->numCells;
+    }
 }
 
 
 
-asm void func_02062810(void *p)
+void func_02062810(void *p)
 {
-    ldr ip, =func_02062BAC
-    add r0, r0, #8
-    bx ip
+    func_02062BAC((struct Tbl *)((u8 *)p + 8));
 }
 
 
@@ -224,7 +234,7 @@ void func_02062884(int *p)
     u16 i;
     int base;
     p[1] = (int)((char *)p[1] + (int)p);
-    base = (int)func_020627F0(p);
+    base = (int)func_020627F0((struct CellDataBank *)p);
     for (i = 0; i < ((struct Obj02023 *)p)->f0; i++) {
         int *e = func_0206285C((struct CellDataBank *)p, i);
         e[1] = (int)((char *)e[1] + base);
@@ -262,11 +272,9 @@ int func_02062920(u32 a, u32 *out)
     return 1;
 }
 
-asm void func_0206295C(void *animBank)
+void func_0206295C(void *animBank)
 {
-    ldr ip, =func_02062BAC
-    add r0, r0, #8
-    bx ip
+    func_02062BAC((struct Tbl *)((u8 *)animBank + 8));
 }
 
 

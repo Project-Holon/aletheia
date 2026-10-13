@@ -1,5 +1,5 @@
 /*
- * function: func_02704858
+ * function: SNDEXi_PreProcessForShutterSound
  * address:  0x02704858
  * packet:   twl
  * region:   twl
@@ -10,85 +10,81 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087B20  0x02087B20  arm twl
- *   DAT_02150fec   0x02150fec  data twl
- *   DAT_02734450   0x02734450  data twl
- *   func_02704C5C  0x02704C5C  arm twl
+ *   DAT_02150fec  0x02150fec  data twl
+ *   DAT_02734450  0x02734450  data twl
  *   func_02085D94  0x02085D94  arm twl
- *   func_02704B58  0x02704B58  arm twl
- *   func_02704D48  0x02704D48  arm twl
- *   func_02704B74  0x02704B74  arm twl
  *   func_02085E50  0x02085E50  arm twl
+ *   func_02087B20  0x02087B20  arm twl
+ *   SyncCallback  0x02704B58  arm twl
+ *   SendCommand  0x02704B74  arm twl
+ *   CheckState  0x02704C5C  arm twl
+ *   SetSndexWork  0x02704D48  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 func_02087B20(void);
+typedef void (*Cb)(u32, void *);
+
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
+
 extern u32 DAT_02150fec[];
-extern u32 DAT_02734450[];
-extern u32 func_02704C5C(void);
-extern void func_02085D94(u32, u32, u32);
-extern u32 func_02704B58(void);
-extern void func_02704D48(u32, u32, u32, u32);
-extern u32 func_02704B74(u32, u32);
-extern void func_02085E50(u32, u32, u32);
+extern State DAT_02734450;
+extern void func_02085D94(void *, void *, u32);
+extern void func_02085E50(void *, void *, u32);
+extern u32 func_02087B20(void);
+void SyncCallback(u32 a0, void *a1);
+u32 SendCommand(u32 a0, u8 a1);
+u32 CheckState(void);
+void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 
-asm void func_02704858(void) {
-    stmdb sp!, {r4, r5, r6, lr}
-    sub sp, sp, #0x28
-    bl func_02087B20
-    cmp r0, #0
-    addeq sp, sp, #0x28
-    moveq r0, #4
-    ldmeqfd sp!, {r4, r5, r6, pc}
-    ldr r0, =DAT_02150fec
-    ldr r0, [r0, #4]
-    cmp r0, #0
-    addeq sp, sp, #0x28
-    moveq r0, #4
-    ldmeqfd sp!, {r4, r5, r6, pc}
-    ldr r0, =DAT_02734450
-    ldr r1, [r0, #0xc]
-    cmp r1, #4
-    beq @lbl_027048B4
-    bl func_02704C5C
-    str r0, [sp, #4]
-    cmp r0, #0
-    beq @lbl_027048C8
-    add sp, sp, #0x28
-    ldmfd sp!, {r4, r5, r6, pc}
-@lbl_027048B4:
-    ldr r0, [r0, #0xc]
-    cmp r0, #5
-    addeq sp, sp, #0x28
-    moveq r0, #3
-    ldmeqfd sp!, {r4, r5, r6, pc}
-@lbl_027048C8:
-    add r6, sp, #8
-    mov r5, #1
-    add r1, sp, #0
-    mov r0, r6
-    mov r2, r5
-    bl func_02085D94
-    mov r4, #0
-    ldr r0, =func_02704B58
-    mov r1, r6
-    mov r2, r4
-    mov r3, #0xfb
-    bl func_02704D48
-    ldr r0, =DAT_02734450
-    mov r1, r4
-    ldrb r0, [r0, #0x58]
-    bl func_02704B74
-    cmp r0, #0
-    addeq sp, sp, #0x28
-    moveq r0, #5
-    ldmeqfd sp!, {r4, r5, r6, pc}
-    add r1, sp, #4
-    mov r0, r6
-    mov r2, r5
-    bl func_02085E50
-    ldr r0, [sp, #4]
-    add sp, sp, #0x28
-    ldmfd sp!, {r4, r5, r6, pc}
+u32 SNDEXi_PreProcessForShutterSound(void) {
+    u32 result;
+    u32 buf[1];
+    u32 q[8];
+    if (func_02087B20() == 0) {
+        return 4;
+    }
+    if (DAT_02150fec[1] == 0) {
+        return 4;
+    }
+    if (DAT_02734450.state != 4) {
+        result = CheckState();
+        if (result != 0) {
+            return result;
+        }
+    } else if (DAT_02734450.state == 5) {
+        return 3;
+    }
+    func_02085D94(q, buf, 1);
+    SetSndexWork(SyncCallback, q, 0, 0xfb);
+    if (SendCommand(DAT_02734450.f58, 0) == 0) {
+        return 5;
+    }
+    func_02085E50(q, &result, 1);
+    return result;
 }

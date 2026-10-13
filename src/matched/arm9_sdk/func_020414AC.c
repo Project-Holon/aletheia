@@ -14,16 +14,12 @@
  *   func_020414EC 0x020414EC arm
  */
 
-typedef unsigned int   u32;
-extern void func_020414C4(u32 idx);
-extern void func_020414EC(u32 i);
+typedef unsigned char u8;
+extern void func_020414C4(u8 idx);
+extern void func_020414EC(unsigned int i);
 
-asm void func_020414AC(void)
+void func_020414AC(u8 idx)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_020414C4
-    mov	r0, r4
-    bl func_020414EC
-    ldmfd sp!, {r4, pc}
+    func_020414C4(idx);
+    func_020414EC(idx);
 }

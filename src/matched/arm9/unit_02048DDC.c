@@ -13,7 +13,7 @@
  * symbols:
  *   g_02146A68              0x02146A68  data
  *   FS_InitFile             0x020788AC  arm
- *   CRYPTOi__BN_lshift1     0x02078C18  arm
+ *   FS_OpenFile     0x02078C18  arm
  *   FS_CreateFileFromMemory 0x0207A940  arm
  *   FS_SeekFile             0x02078B44  arm
  *   FS_ReadFile             0x02078B70  arm
@@ -142,7 +142,7 @@ extern const char func_02048DDC_File[];
 extern const char func_02048DDC_Msg[];
 
 extern void FS_InitFile(struct ArcFile *arc);
-extern void CRYPTOi__BN_lshift1(struct ArcFile *arc, u32 value);
+extern void FS_OpenFile(struct ArcFile *arc, u32 value);
 extern void FS_CreateFileFromMemory(struct ArcFile *arc, u32 start, u32 size);
 
 extern void FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
@@ -153,7 +153,7 @@ void func_02048DDC(struct ArcFile *arc, u32 id)
 {
     FS_InitFile(arc);
     if (g_02146A68.unk08 == 0) {
-        CRYPTOi__BN_lshift1(arc, g_02146A68.unk00[id]);
+        FS_OpenFile(arc, g_02146A68.unk00[id]);
     } else {
         u32 *tbl = (u32 *)g_02146A68.unk00;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + id;

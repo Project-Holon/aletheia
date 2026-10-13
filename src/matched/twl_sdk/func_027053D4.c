@@ -1,5 +1,5 @@
 /*
- * function: func_027053D4
+ * function: DSPi_ReadProcessImage
  * address:  0x027053D4
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,26 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
 
-asm void func_027053D4(void)
+typedef unsigned int u32;
+typedef int s32;
+typedef unsigned char u8;
+typedef struct FileRec {
+    u32 pad[5];
+    void *file;
+} FileRec;
+extern s32 func_02078B44(void *file, u32 a, u32 b);
+extern s32 func_02078B70(void *file, void *buf, s32 len);
+u32 DSPi_ReadProcessImage(FileRec *p, u32 a, void *buf, s32 len)
 {
+    u32 ok = 0;
+    if (func_02078B44(p->file, a, 0)) {
+        s32 n = func_02078B70(p->file, buf, len);
+        if (len == n) {
+            ok = 1;
+        }
+    }
+    return ok;
 }

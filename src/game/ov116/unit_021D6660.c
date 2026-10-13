@@ -558,7 +558,7 @@ int func_021D6D18(unsigned char *a,unsigned char *b) { int result; if(func_021D7
 
 /*
  * singleton tu --suggest-split returns MATCH252, no viable partition.
- * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner Ilias.
+ * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner the integrator.
  *   extern int func_020071CC(void *, int);
  *   int func_02012EF0(void **p) { return func_020071CC(*p, 58); }
  * evidence: 084F4 is bx lr and preserves its incoming pointer in r0;

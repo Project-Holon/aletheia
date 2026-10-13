@@ -171,7 +171,7 @@ WMErrCode func_0208F234(WMCallbackFunc callback, u32 miscFlags);
 WMErrCode func_0208F2A0(WMCallbackFunc callback);
 WMErrCode func_0208F2E4(WMCallbackFunc callback);
 WMErrCode func_0208F328(WMCallbackFunc callback);
-asm void FSi_HasEnoughSpaceToCreateUserFile(void);
+WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo);
 WMErrCode func_0208F380(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, BOOL blink);
 WMErrCode func_0208F398(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 WMErrCode func_0208F400(WMCallbackFunc callback);
@@ -303,11 +303,9 @@ WMErrCode func_0208F328(WMCallbackFunc callback)
 
 
 
-asm void FSi_HasEnoughSpaceToCreateUserFile(void)
+WMErrCode WM_Initialize(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo)
 {
-    ldr ip, =func_0208F398
-    mov r3, #0
-    bx ip
+    return func_0208F398(wmSysBuf, callback, dmaNo, 0);
 }
 
 

@@ -23,7 +23,7 @@
  *           8ACE str r0,[r1,#0xc]. 0204B294 returns void and has scalar fifth
  *           parameter; original8BE0 str r7,[sp] passes Point address, 8BF4 calls,
  *           8BFA str r0,[r1,#4] consumes pointer result. asm/overlays/ov121.s
- *           records these exact addresses; affected definitions belong to Ilias.
+ *           records these exact addresses; affected definitions belong to the integrator.
  * widths: historical173F0 tag and level full-word declarations reflect original
  *           outgoing slots, but future work must use the current own definitions
  *           or park a proven definition fault. Species/20E60 narrowu16; palette8.

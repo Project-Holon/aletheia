@@ -1,5 +1,5 @@
 /*
- * function: func_0273025C
+ * function: MIi_SetWramBankMaster_B
  * address: 0x0273025C
  * packet: pkt_twl_0273025C
  * region: twl
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_0273025C(u32 a, u32 v)
+void MIi_SetWramBankMaster_B(u32 a, u32 v)
 {
     *(u8 *)(a + 0x04004044) = (*(u8 *)(a + 0x04004044) & ~3) | v;
 }

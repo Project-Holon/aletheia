@@ -15606,7 +15606,7 @@ int func_021FEAA0(int v)
  * is spilled at entry and reloaded, as the image does).
  *
  * witness outside the range): func_020163B0 (0x020163B0) and func_020163B4
- * (0x020163B4).  Both are Ilias's; verified C (one --thumb, no --region,
+ * (0x020163B4).  Both are the integrator's; verified C (one --thumb, no --region,
  * EXACT each):
  *     void func_020163B0(char *p, int v) { *(int *)(p + 0x48) = v; }
  *     typedef struct { char pad[0x2c]; unsigned int b0 : 1; unsigned int b1 : 1; } Obj_vE254;
@@ -16113,7 +16113,7 @@ void func_021FF228(Work_021FF228 *w, int key)
  * 2026-10-01: the arm9 witness leaves named below are now filed in
  * src/matched/arm9, which closes the former MATCH.
  *
- *   func_02015DB0, func_02015DC0, func_02015DD4.  All Ilias's; verified C
+ *   func_02015DB0, func_02015DC0, func_02015DD4.  All the integrator's; verified C
  *   (one --thumb, no --region, EXACT each; +0x140 is a register-like word):
  *     struct R { unsigned int : 8; unsigned int f : 1; };
  *     void func_02015DB0(void *p) { *(unsigned int *)((char *)p + 0x140) |= 0x100u; }
@@ -16188,7 +16188,7 @@ int func_021FF2D8(Work_021FF228 *w, int key)
  * 2026-10-01: the arm9 witness leaves named below are now filed in
  * src/matched/arm9, which closes the former MATCH.
  *
- *   func_02015E28 (0x02015E28) and func_02015E70 (0x02015E70).  Both are Ilias's;
+ *   func_02015E28 (0x02015E28) and func_02015E70 (0x02015E70).  Both are the integrator's;
  *   verified C (one --thumb, no --region, EXACT each):
  *     struct R { unsigned int : 9; unsigned int f : 2; };
  *     void func_02015E28(void *p) { ((struct R *)((char *)p + 0x140))->f |= 2; }
@@ -16520,7 +16520,7 @@ void func_021FF630(Work_021FF630 *w, int i, int kind, VecFx32_vF5B0 *q, int n, i
  * 2026-10-01: the arm9 witness leaves named below are now filed in
  * src/matched/arm9, which closes the former MATCH.
  *
- * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (Ilias's; no
+ * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (the integrator's; no
  * witness outside the range): func_02015CC4 (copies three words from +0x128).
  * Verified C (match.py one, no --region, --thumb, EXACT):
  *   typedef unsigned int u32;
@@ -16560,7 +16560,7 @@ void func_021FF6B0(Work_vF5B0 *w, int i, int kind, VecFx32_vF5B0 *q, int n, int 
  * 2026-10-01: the arm9 witness leaves named below are now filed in
  * src/matched/arm9, which closes the former MATCH.
  *
- * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (Ilias's; no
+ * Byte-correct; MATCH blocked on one unlabelled ARM9 Thumb leaf (the integrator's; no
  * witness outside the range): func_02015CF8 (copies three words from +0xF8).
  * Verified C (match.py one, no --region, --thumb, EXACT):
  *   typedef unsigned int u32;
@@ -17365,7 +17365,7 @@ void func_022003EC(Work_022003EC *w, void *p, int *a, int flags)
  * src/matched/arm9, which closes the former MATCH.
  *
  * MATCH: bytes identical (one prints MATCH*); blocked on 0x020160CC, an
- * unfiled unlabelled ARM9 Thumb leaf (Ilias's) with no witness outside this
+ * unfiled unlabelled ARM9 Thumb leaf (the integrator's) with no witness outside this
  * range. Verified C for it (EXACT, `one --thumb`, no --region, cc 1.1p1,
  * -O4,p; packet pkt_020160CC, 64 B extent):
  *
@@ -17457,7 +17457,7 @@ int func_02200494(char *p, int key)
  * src/matched/arm9, which closes the former MATCH.
  *
  * MATCH: bytes identical; blocked on 0x02015C60, an unfiled unlabelled ARM9
- * Thumb leaf (Ilias's) with no witness outside this range. Verified C for it
+ * Thumb leaf (the integrator's) with no witness outside this range. Verified C for it
  * (EXACT, `one --thumb`, no --region, cc 1.1p1, -O4,p; packet pkt_02015C60,
  * 64 B extent, out-direction twin of func_02015C78):
  *
@@ -17949,7 +17949,7 @@ void func_02200B10(void *h)
  * 2026-10-01: the arm9 witness leaves named below are now filed in
  * src/matched/arm9, which closes the former MATCH.
  *
- * MATCH: bytes identical; blocked on two unfiled ARM9 Thumb leaves (Ilias's),
+ * MATCH: bytes identical; blocked on two unfiled ARM9 Thumb leaves (the integrator's),
  * no witness outside this range. Verified C, each EXACT with `one --thumb`
  * and no --region (cc 1.1p1, -O4,p), packets pkt_02015D4C / pkt_02015D64:
  *
@@ -18417,7 +18417,7 @@ void func_022012CC(void *h)
 
 
 /*
- * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015F40 belongs to Ilias.
+ * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015F40 belongs to the integrator.
  * Verified C: one, Thumb dsi/1.1p1 -O4,p EXACT 16 bytes;
  * proof: scratchpad/overlay-goal-20260930-w29/B6/f40-proof.log
  * symbols for blocker: func_02064D70 0x02064D70 arm
@@ -18578,7 +18578,7 @@ void func_02201700(void *h)
 
 
 /*
- * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015EF4 and 02015EEC are Ilias-owned.
+ * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015EF4 and 02015EEC are integrator-owned.
  * Verified C for 02015EF4 reused from ov094_func_02201810.c:
  *   typedef unsigned char u8;
  *   u8 func_02015EF4(char *p) { return **(u8 **)(p + 0x30); }
@@ -18627,7 +18627,7 @@ void func_02201718(int i)
 
 
 /*
- * blocker (cleared 2026-10-01, arm9 leaf filed): two unlabelled arm9 Thumb leaves (Ilias's; no witness outside this range).
+ * blocker (cleared 2026-10-01, arm9 leaf filed): two unlabelled arm9 Thumb leaves (the integrator's; no witness outside this range).
  *   Every concrete byte matches; only the two bl relocation sites stay wildcarded.
  *   Verified C (match.py one --arm9 no --region, --thumb, dsi/1.1p1 -O4,p), both EXACT:
  *
@@ -20063,7 +20063,7 @@ int func_022033F0(int *p)
  * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 0x02021728 at +0072 has no admissible outside witness.
  * Verified C copied from ov029_func_021F0DB4.c's EXACT 8-byte scratch proof:
  * int func_02021728(char *p, int i) { return *(int *)(p + i * 0x14); }
- * ARM9 belongs to Ilias. Caller sets r0 to the palette object, r1 to 1.
+ * ARM9 belongs to the integrator. Caller sets r0 to the palette object, r1 to 1.
  */
 void func_022033F4(Main_022033F4 *m)
 {

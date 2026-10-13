@@ -106,12 +106,12 @@ extern void func_02075E80(int id);
 extern unsigned long func_0207A78C(void *arc);
 extern int func_020771B4(int dma, unsigned long src, void *dst, unsigned long len, void (*cb)(void), void *arg, int async);
 extern void func_021D4B50(void);
-extern void FS_NotifyArchiveAsyncEnd(void);
+extern void FS_NotifyArchiveAsyncEnd(void *arc, int result);
 void func_021D486C(void);
 void func_021D4A20(void);
 int func_021D4A94(int unused, unsigned long cmd);
 int func_021D4AFC(void *arc, void *dst, unsigned long pos, unsigned long size);
-asm void FATFS_FormatDrive(void);
+static void cbReadRom(void *arc);
 extern MEMARCHIVE *g_021DE66C;
 extern char g_021DAA60[4];
 extern MEMARCHIVE *MemArchive;
@@ -205,9 +205,7 @@ int func_021D4AFC(void *arc, void *dst, unsigned long pos, unsigned long size)
 
 
 
-asm void FATFS_FormatDrive(void)
+static void cbReadRom(void *arc)
 {
-	ldr ip, =FS_NotifyArchiveAsyncEnd
-	mov r1, #0
-	bx ip
+    FS_NotifyArchiveAsyncEnd(arc, 0);
 }

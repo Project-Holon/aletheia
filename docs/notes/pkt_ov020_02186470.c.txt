@@ -11,7 +11,7 @@
  * DIFF: 108/108 bytes, 13 concrete bytes differ; entry parameter/getter
  * result register swap and stack-store/truncation scheduling remain.
  * blocker: ARM9 func_02013DE0 at +0x44 has no witness outside this caller.
- * New pass stops after discovery of that Ilias-owned blocker, per user
+ * New pass stops after discovery of that integrator-owned blocker, per user
  * exclusion; no ARM9 source or blocker leaf compiled, no permuter search.
  * checks: 1 getter 02012AC8 own unit returns u16, 020127A4 returns pointer,
  * 020127C4 tail-forwarder result consumed and declared pointer, 02186B2C

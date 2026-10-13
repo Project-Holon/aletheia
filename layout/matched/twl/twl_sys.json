@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02700000",
+   "name": "RTCEXi_CommonCallback",
    "address": "0x02700000",
    "kind": "sdk",
    "region": "twl",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02700078",
+   "name": "CAMERA_CameraIntr",
    "address": "0x02700078",
    "kind": "sdk",
    "region": "twl",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_02700128",
+   "name": "CAMERA_GetWhiteBalanceFromPhotoMode",
    "address": "0x02700128",
    "kind": "sdk",
    "region": "twl",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02700168",
+   "name": "CAMERA_GetSharpnessFromPhotoMode",
    "address": "0x02700168",
    "kind": "sdk",
    "region": "twl",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027001B8",
+   "name": "CAMERA_GetExposureFromPhotoMode",
    "address": "0x027001B8",
    "kind": "sdk",
    "region": "twl",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027001F0",
+   "name": "CAMERA_GoReboot",
    "address": "0x027001F0",
    "kind": "sdk",
    "region": "twl",
@@ -91,7 +91,7 @@
    }
   },
   {
-   "name": "func_02700230",
+   "name": "CAMERA_Reboot",
    "address": "0x02700230",
    "kind": "sdk",
    "region": "twl",
@@ -109,7 +109,7 @@
    }
   },
   {
-   "name": "func_027007C8",
+   "name": "CAMERA_CheckRetryCount",
    "address": "0x027007C8",
    "kind": "sdk",
    "region": "twl",
@@ -127,7 +127,7 @@
    }
   },
   {
-   "name": "func_02700824",
+   "name": "CAMERA_MonitorThread",
    "address": "0x02700824",
    "kind": "sdk",
    "region": "twl",
@@ -146,7 +146,7 @@
    }
   },
   {
-   "name": "func_02700938",
+   "name": "CAMERA_InitCore",
    "address": "0x02700938",
    "kind": "sdk",
    "region": "twl",
@@ -169,12 +169,16 @@
      "self:0x0273419C"
     ],
     "sdk": [
-     "0x0208C848"
+     "0x0208C848",
+     "0x02700078",
+     "0x02700824",
+     "0x02701AA0",
+     "0x02702070"
     ]
    }
   },
   {
-   "name": "func_02700B34",
+   "name": "CAMERA_EndCore",
    "address": "0x02700B34",
    "kind": "sdk",
    "region": "twl",
@@ -197,7 +201,7 @@
    }
   },
   {
-   "name": "func_02700BD0",
+   "name": "CAMERA_StopCore",
    "address": "0x02700BD0",
    "kind": "sdk",
    "region": "twl",
@@ -209,7 +213,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02700C18",
+   "name": "CAMERA_I2CInitAsyncCore",
    "address": "0x02700C18",
    "kind": "sdk",
    "region": "twl",
@@ -226,7 +230,7 @@
    }
   },
   {
-   "name": "func_02700CB4",
+   "name": "CAMERA_I2CInitCore",
    "address": "0x02700CB4",
    "kind": "sdk",
    "region": "twl",
@@ -239,11 +243,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02700CEC",
+   "name": "CAMERA_I2CActivateAsyncCore",
    "address": "0x02700CEC",
    "kind": "sdk",
    "region": "twl",
@@ -261,7 +268,7 @@
    }
   },
   {
-   "name": "func_02700DB8",
+   "name": "CAMERA_I2CActivateCore",
    "address": "0x02700DB8",
    "kind": "game",
    "region": "twl",
@@ -274,11 +281,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02700DF0",
+   "name": "CAMERA_I2CContextSwitchAsyncCore",
    "address": "0x02700DF0",
    "kind": "sdk",
    "region": "twl",
@@ -296,7 +306,7 @@
    }
   },
   {
-   "name": "func_02700EB8",
+   "name": "CAMERA_I2CSizeExAsyncCore",
    "address": "0x02700EB8",
    "kind": "sdk",
    "region": "twl",
@@ -314,7 +324,7 @@
    }
   },
   {
-   "name": "func_02700FE4",
+   "name": "CAMERA_I2CSizeExCore",
    "address": "0x02700FE4",
    "kind": "sdk",
    "region": "twl",
@@ -327,11 +337,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02701020",
+   "name": "CAMERA_I2CFrameRateAsyncCore",
    "address": "0x02701020",
    "kind": "sdk",
    "region": "twl",
@@ -349,7 +362,7 @@
    }
   },
   {
-   "name": "func_02701120",
+   "name": "CAMERA_I2CEffectExAsyncCore",
    "address": "0x02701120",
    "kind": "sdk",
    "region": "twl",
@@ -367,7 +380,7 @@
    }
   },
   {
-   "name": "func_02701248",
+   "name": "CAMERA_I2CEffectExCore",
    "address": "0x02701248",
    "kind": "game",
    "region": "twl",
@@ -380,11 +393,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02701284",
+   "name": "CAMERA_I2CFlipExAsyncCore",
    "address": "0x02701284",
    "kind": "sdk",
    "region": "twl",
@@ -402,7 +418,7 @@
    }
   },
   {
-   "name": "func_027013A4",
+   "name": "CAMERA_I2CPhotoModeAsyncCore",
    "address": "0x027013A4",
    "kind": "sdk",
    "region": "twl",
@@ -420,7 +436,7 @@
    }
   },
   {
-   "name": "func_02701488",
+   "name": "CAMERA_I2CWhiteBalanceAsyncCore",
    "address": "0x02701488",
    "kind": "sdk",
    "region": "twl",
@@ -438,7 +454,7 @@
    }
   },
   {
-   "name": "func_02701570",
+   "name": "CAMERA_I2CExposureAsyncCore",
    "address": "0x02701570",
    "kind": "sdk",
    "region": "twl",
@@ -456,7 +472,7 @@
    }
   },
   {
-   "name": "func_02701644",
+   "name": "CAMERA_I2CSharpnessAsyncCore",
    "address": "0x02701644",
    "kind": "sdk",
    "region": "twl",
@@ -474,7 +490,7 @@
    }
   },
   {
-   "name": "func_02701718",
+   "name": "CAMERA_I2CAutoExposureAsyncCore",
    "address": "0x02701718",
    "kind": "sdk",
    "region": "twl",
@@ -492,7 +508,7 @@
    }
   },
   {
-   "name": "func_027017DC",
+   "name": "CAMERA_I2CAutoExposureCore",
    "address": "0x027017DC",
    "kind": "sdk",
    "region": "twl",
@@ -505,11 +521,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02701814",
+   "name": "CAMERA_I2CAutoWhiteBalanceAsyncCore",
    "address": "0x02701814",
    "kind": "sdk",
    "region": "twl",
@@ -523,11 +542,15 @@
     "sole-ref": [
      "self:0x02732FC8",
      "self:0x02733FC8"
+    ],
+    "sdk": [
+     "0x027019B4",
+     "0x02701A60"
     ]
    }
   },
   {
-   "name": "func_02701908",
+   "name": "CAMERA_I2CAutoWhiteBalanceCore",
    "address": "0x02701908",
    "kind": "game",
    "region": "twl",
@@ -540,11 +563,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8"
+    ],
+    "sdk": [
+     "0x02701FD8"
     ]
    }
   },
   {
-   "name": "func_02701940",
+   "name": "CAMERA_SetLEDAsyncCore",
    "address": "0x02701940",
    "kind": "sdk",
    "region": "twl",
@@ -562,7 +588,7 @@
    }
   },
   {
-   "name": "func_027019B4",
+   "name": "CameraSendPxiCommand",
    "address": "0x027019B4",
    "kind": "sdk",
    "region": "twl",
@@ -579,7 +605,7 @@
    }
   },
   {
-   "name": "func_02701A60",
+   "name": "CameraSendPxiData",
    "address": "0x02701A60",
    "kind": "sdk",
    "region": "twl",
@@ -591,7 +617,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02701AA0",
+   "name": "CameraPxiCallback",
    "address": "0x02701AA0",
    "kind": "sdk",
    "region": "twl",
@@ -600,7 +626,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "self:0x02732FC8",
@@ -609,7 +635,7 @@
    }
   },
   {
-   "name": "func_02701FD8",
+   "name": "CameraSyncCallback",
    "address": "0x02701FD8",
    "kind": "sdk",
    "region": "twl",
@@ -626,7 +652,7 @@
    }
   },
   {
-   "name": "func_02701FE8",
+   "name": "CameraCallCallbackAndUnlock",
    "address": "0x02701FE8",
    "kind": "sdk",
    "region": "twl",
@@ -643,7 +669,7 @@
    }
   },
   {
-   "name": "func_02702028",
+   "name": "CameraWaitBusy",
    "address": "0x02702028",
    "kind": "sdk",
    "region": "twl",
@@ -660,7 +686,7 @@
    }
   },
   {
-   "name": "func_02702070",
+   "name": "CameraStandbyCallback",
    "address": "0x02702070",
    "kind": "sdk",
    "region": "twl",
@@ -672,7 +698,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702080",
+   "name": "CAMERA_ResetCore",
    "address": "0x02702080",
    "kind": "sdk",
    "region": "twl",
@@ -684,7 +710,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027022F8",
+   "name": "CAMERA_GetMaxLinesRoundCore",
    "address": "0x027022F8",
    "kind": "sdk",
    "region": "twl",
@@ -696,7 +722,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702434",
+   "name": "NWM_Init",
    "address": "0x02702434",
    "kind": "sdk",
    "region": "twl",
@@ -708,7 +734,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702698",
+   "name": "NWMi_CheckInitialized",
    "address": "0x02702698",
    "kind": "sdk",
    "region": "twl",
@@ -725,7 +751,7 @@
    }
   },
   {
-   "name": "func_027026B4",
+   "name": "NWMi_CheckEnableFlag",
    "address": "0x027026B4",
    "kind": "sdk",
    "region": "twl",
@@ -737,7 +763,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027026DC",
+   "name": "NWMi_GetSystemWork",
    "address": "0x027026DC",
    "kind": "sdk",
    "region": "twl",
@@ -754,7 +780,7 @@
    }
   },
   {
-   "name": "func_027026EC",
+   "name": "NWMi_ClearFifoRecvFlag",
    "address": "0x027026EC",
    "kind": "sdk",
    "region": "twl",
@@ -771,7 +797,7 @@
    }
   },
   {
-   "name": "func_027028B0",
+   "name": "NWM_GetState",
    "address": "0x027028B0",
    "kind": "sdk",
    "region": "twl",
@@ -783,7 +809,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027028E4",
+   "name": "NWMi_CheckState",
    "address": "0x027028E4",
    "kind": "sdk",
    "region": "twl",
@@ -792,10 +818,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02702980",
+   "name": "NWM_GetAllowedChannel",
    "address": "0x02702980",
    "kind": "sdk",
    "region": "twl",
@@ -807,7 +833,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702A40",
+   "name": "NWMi_RegisterSleepCallback",
    "address": "0x02702A40",
    "kind": "sdk",
    "region": "twl",
@@ -823,12 +849,13 @@
      "self:0x027341B8"
     ],
     "sdk": [
-     "0x0208C848"
+     "0x0208C848",
+     "0x02702A8C"
     ]
    }
   },
   {
-   "name": "func_02702A78",
+   "name": "NWMi_DeleteSleepCallback",
    "address": "0x02702A78",
    "kind": "sdk",
    "region": "twl",
@@ -837,10 +864,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027341B8"
+    ]
+   }
   },
   {
-   "name": "func_02703208",
+   "name": "NWM_GetInfoElements",
    "address": "0x02703208",
    "kind": "sdk",
    "region": "twl",
@@ -852,7 +884,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703764",
+   "name": "NWMi_AddMACHeader",
    "address": "0x02703764",
    "kind": "sdk",
    "region": "twl",
@@ -864,7 +896,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703854",
+   "name": "NWM_UnsetReceivingFrameBuffer",
    "address": "0x02703854",
    "kind": "sdk",
    "region": "twl",
@@ -876,7 +908,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703A34",
+   "name": "NWMi_SetCallbackTable",
    "address": "0x02703A34",
    "kind": "sdk",
    "region": "twl",
@@ -888,7 +920,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703A54",
+   "name": "NWMi_SetReceiveCallbackTable",
    "address": "0x02703A54",
    "kind": "sdk",
    "region": "twl",
@@ -900,7 +932,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703C28",
+   "name": "NWMi_CheckFirmDataParamIntegrity",
    "address": "0x02703C28",
    "kind": "sdk",
    "region": "twl",
@@ -912,7 +944,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02704088",
+   "name": "MicexStopLimitedSampling",
    "address": "0x02704088",
    "kind": "sdk",
    "region": "twl",
@@ -924,7 +956,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027040B4",
+   "name": "FATFSi_SendToPXI",
    "address": "0x027040B4",
    "kind": "sdk",
    "region": "twl",
@@ -936,7 +968,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027040EC",
+   "name": "FATFSi_GetThreadHandle",
    "address": "0x027040EC",
    "kind": "sdk",
    "region": "twl",
@@ -948,7 +980,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0270410C",
+   "name": "FATFSi_AllocateCommandBuffer",
    "address": "0x0270410C",
    "kind": "sdk",
    "region": "twl",
@@ -966,7 +998,7 @@
    }
   },
   {
-   "name": "func_02704258",
+   "name": "FATFSi_PostRequest",
    "address": "0x02704258",
    "kind": "game",
    "region": "twl",
@@ -975,10 +1007,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027040B4"
+    ]
+   }
   },
   {
-   "name": "func_0270505C",
+   "name": "DSP_RecvDataCore",
    "address": "0x0270505C",
    "kind": "sdk",
    "region": "twl",
@@ -987,10 +1024,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02705008"
+    ]
+   }
   },
   {
-   "name": "func_02705088",
+   "name": "DSP_SendFifoExCore",
    "address": "0x02705088",
    "kind": "sdk",
    "region": "twl",
@@ -999,10 +1041,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705150",
+   "name": "DSP_RecvFifoExCore",
    "address": "0x02705150",
    "kind": "sdk",
    "region": "twl",
@@ -1011,10 +1053,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705284",
+   "name": "DSP_GetSemaphoreCore",
    "address": "0x02705284",
    "kind": "sdk",
    "region": "twl",
@@ -1023,10 +1065,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705294",
+   "name": "DSP_ClearSemaphoreCore",
    "address": "0x02705294",
    "kind": "sdk",
    "region": "twl",
@@ -1035,10 +1077,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027052A4",
+   "name": "DSP_MaskSemaphoreCore",
    "address": "0x027052A4",
    "kind": "sdk",
    "region": "twl",
@@ -1047,10 +1089,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027052B4",
+   "name": "DSP_StopDSPComponent",
    "address": "0x027052B4",
    "kind": "sdk",
    "region": "twl",
@@ -1059,10 +1101,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0270502C",
+     "0x0270505C"
+    ]
+   }
   },
   {
-   "name": "func_0270532C",
+   "name": "DSPi_MasterInterrupts",
    "address": "0x0270532C",
    "kind": "sdk",
    "region": "twl",
@@ -1071,10 +1119,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027053D4",
+   "name": "DSPi_ReadProcessImage",
    "address": "0x027053D4",
    "kind": "sdk",
    "region": "twl",
@@ -1083,10 +1131,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_0270541C",
+   "name": "DSPi_CommitWram",
    "address": "0x0270541C",
    "kind": "sdk",
    "region": "twl",
@@ -1095,10 +1143,17 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027309A8",
+     "0x02730BD8",
+     "0x0273112C"
+    ]
+   }
   },
   {
-   "name": "func_027054E4",
+   "name": "DSPi_MapAndLoadProcessImageCallback",
    "address": "0x027054E4",
    "kind": "sdk",
    "region": "twl",
@@ -1107,10 +1162,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0208CC14"
+    ]
+   }
   },
   {
-   "name": "func_027058D8",
+   "name": "DSP_InitProcessContext",
    "address": "0x027058D8",
    "kind": "sdk",
    "region": "twl",
@@ -1119,10 +1179,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705980",
+   "name": "DSP_EnumSections",
    "address": "0x02705980",
    "kind": "sdk",
    "region": "twl",
@@ -1131,10 +1191,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705A4C",
+   "name": "DSP_SwitchProcessMemory",
    "address": "0x02705A4C",
    "kind": "sdk",
    "region": "twl",
@@ -1143,10 +1203,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705ACC",
+   "name": "DSP_MapAndLoadProcessImage",
    "address": "0x02705ACC",
    "kind": "sdk",
    "region": "twl",
@@ -1155,10 +1215,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027054E4"
+    ]
+   }
   },
   {
-   "name": "func_02705B70",
+   "name": "DSP_SetProcessHook",
    "address": "0x02705B70",
    "kind": "sdk",
    "region": "twl",
@@ -1167,10 +1232,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705C20",
+   "name": "DSP_HookPostStartProcess",
    "address": "0x02705C20",
    "kind": "game",
    "region": "twl",
@@ -1179,10 +1244,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02705C24",
+   "name": "DSP_ExecuteProcess",
    "address": "0x02705C24",
    "kind": "sdk",
    "region": "twl",
@@ -1191,10 +1256,33 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344AC",
+     "self:0x027344B8",
+     "self:0x027344C8"
+    ],
+    "sdk": [
+     "0x0207AD30",
+     "0x0208C848",
+     "0x02704E90",
+     "0x02704F4C",
+     "0x0270505C",
+     "0x027052A4",
+     "0x027052FC",
+     "0x02705320",
+     "0x0270532C",
+     "0x02705ACC",
+     "0x02705B70",
+     "0x02705C20",
+     "0x02706CD4",
+     "0x0273156C"
+    ]
+   }
   },
   {
-   "name": "func_02705E04",
+   "name": "DSP_QuitProcess",
    "address": "0x02705E04",
    "kind": "sdk",
    "region": "twl",
@@ -1203,10 +1291,22 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344AC",
+     "self:0x027344C8"
+    ],
+    "sdk": [
+     "0x02704EE8",
+     "0x02704F1C",
+     "0x027052B4",
+     "0x02730B04"
+    ]
+   }
   },
   {
-   "name": "func_02705ED0",
+   "name": "DSP_FindProcess",
    "address": "0x02705ED0",
    "kind": "sdk",
    "region": "twl",
@@ -1215,10 +1315,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344AC"
+    ]
+   }
   },
   {
-   "name": "func_02705F28",
+   "name": "DSP_WriteProcessPipe",
    "address": "0x02705F28",
    "kind": "sdk",
    "region": "twl",
@@ -1227,10 +1332,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02706D44",
+     "0x02706FCC"
+    ]
+   }
   },
   {
-   "name": "func_02705F64",
+   "name": "DSPiShutterPostProcessCallback",
    "address": "0x02705F64",
    "kind": "sdk",
    "region": "twl",
@@ -1239,10 +1350,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344D8"
+    ]
+   }
   },
   {
-   "name": "func_02705FAC",
+   "name": "DSPi_PipeCallbackForSound",
    "address": "0x02705FAC",
    "kind": "sdk",
    "region": "twl",
@@ -1251,10 +1367,24 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344D8",
+     "self:0x027344FC"
+    ],
+    "sdk": [
+     "0x02704940",
+     "0x02705F64",
+     "0x02705F98",
+     "0x02706D44",
+     "0x02706E90",
+     "0x02706EC0"
+    ]
+   }
   },
   {
-   "name": "func_027060B4",
+   "name": "DSPi_PlaySoundEx",
    "address": "0x027060B4",
    "kind": "sdk",
    "region": "twl",
@@ -1263,10 +1393,19 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732D78",
+     "self:0x027344D8"
+    ],
+    "sdk": [
+     "0x02705FAC"
+    ]
+   }
   },
   {
-   "name": "func_02706174",
+   "name": "DSPi_PlayShutterSoundCore",
    "address": "0x02706174",
    "kind": "sdk",
    "region": "twl",
@@ -1275,10 +1414,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344D8"
+    ]
+   }
   },
   {
-   "name": "func_027062C8",
+   "name": "DSPi_StopSoundCore",
    "address": "0x027062C8",
    "kind": "sdk",
    "region": "twl",
@@ -1287,10 +1431,32 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344D8"
+    ]
+   }
   },
   {
-   "name": "func_0270633C",
+   "name": "DSPi_IsShutterSoundPlayingCore",
+   "address": "0x02706324",
+   "kind": "sdk",
+   "region": "twl",
+   "source": "src/matched/twl_sdk/func_02706324.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027344D8"
+    ]
+   }
+  },
+  {
+   "name": "DSP_LoadData",
    "address": "0x0270633C",
    "kind": "sdk",
    "region": "twl",
@@ -1299,10 +1465,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706530",
+   "name": "DSP_Store8",
    "address": "0x02706530",
    "kind": "sdk",
    "region": "twl",
@@ -1311,10 +1477,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706694",
+   "name": "DSP_StoreData",
    "address": "0x02706694",
    "kind": "sdk",
    "region": "twl",
@@ -1323,10 +1489,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706B60",
+   "name": "DSPi_NotifyFileIOUpdation",
    "address": "0x02706B60",
    "kind": "sdk",
    "region": "twl",
@@ -1335,10 +1501,18 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734614"
+    ],
+    "sdk": [
+     "0x027067B4"
+    ]
+   }
   },
   {
-   "name": "func_02706C2C",
+   "name": "DSPi_PipeCallbackToConsole",
    "address": "0x02706C2C",
    "kind": "sdk",
    "region": "twl",
@@ -1347,10 +1521,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706CB4",
+   "name": "DSPi_WaitForPipe",
    "address": "0x02706CB4",
    "kind": "sdk",
    "region": "twl",
@@ -1359,10 +1533,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0273452C"
+    ]
+   }
   },
   {
-   "name": "func_02706CD4",
+   "name": "DSP_InitPipe",
    "address": "0x02706CD4",
    "kind": "sdk",
    "region": "twl",
@@ -1371,10 +1550,20 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734528",
+     "self:0x02734534",
+     "self:0x02734554"
+    ],
+    "sdk": [
+     "0x02706C2C"
+    ]
+   }
   },
   {
-   "name": "func_02706D28",
+   "name": "DSP_SetPipeCallback",
    "address": "0x02706D28",
    "kind": "sdk",
    "region": "twl",
@@ -1383,10 +1572,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734534",
+     "self:0x02734554"
+    ]
+   }
   },
   {
-   "name": "func_02706D44",
+   "name": "DSP_LoadPipe",
    "address": "0x02706D44",
    "kind": "sdk",
    "region": "twl",
@@ -1395,10 +1590,17 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734528",
+     "self:0x0273452C",
+     "self:0x02734574"
+    ]
+   }
   },
   {
-   "name": "func_02706DFC",
+   "name": "DSP_SyncPipe",
    "address": "0x02706DFC",
    "kind": "sdk",
    "region": "twl",
@@ -1407,10 +1609,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706E18",
+   "name": "DSP_FlushPipe",
    "address": "0x02706E18",
    "kind": "sdk",
    "region": "twl",
@@ -1419,10 +1621,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734528"
+    ]
+   }
   },
   {
-   "name": "func_02706E90",
+   "name": "DSP_GetPipeReadableSize",
    "address": "0x02706E90",
    "kind": "sdk",
    "region": "twl",
@@ -1431,10 +1638,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706EC0",
+   "name": "DSP_ReadPipe",
    "address": "0x02706EC0",
    "kind": "sdk",
    "region": "twl",
@@ -1443,10 +1650,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02706FCC",
+   "name": "DSP_WritePipe",
    "address": "0x02706FCC",
    "kind": "sdk",
    "region": "twl",
@@ -1455,10 +1662,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027070DC",
+   "name": "DSP_HookPipeNotification",
    "address": "0x027070DC",
    "kind": "sdk",
    "region": "twl",
@@ -1467,10 +1674,18 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734528",
+     "self:0x0273452C",
+     "self:0x02734534",
+     "self:0x02734554"
+    ]
+   }
   },
   {
-   "name": "func_0270723C",
+   "name": "DSPi_OpenStaticComponentG711Core",
    "address": "0x0270723C",
    "kind": "sdk",
    "region": "twl",
@@ -1479,10 +1694,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0207AD30"
+    ]
+   }
   },
   {
-   "name": "func_02707278",
+   "name": "DSPi_LoadG711Core",
    "address": "0x02707278",
    "kind": "sdk",
    "region": "twl",
@@ -1491,10 +1711,21 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735940",
+     "self:0x0273594C",
+     "string:0x02732D7C"
+    ],
+    "sdk": [
+     "0x027058D8",
+     "0x02705C24"
+    ]
+   }
   },
   {
-   "name": "func_027072E0",
+   "name": "DSPi_UnloadG711Core",
    "address": "0x027072E0",
    "kind": "sdk",
    "region": "twl",
@@ -1503,10 +1734,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735940",
+     "self:0x0273594C"
+    ]
+   }
   },
   {
-   "name": "func_02707310",
+   "name": "PxiCallback",
    "address": "0x02707310",
    "kind": "sdk",
    "region": "twl",
@@ -1515,10 +1752,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735A9C",
+     "self:0x02735AAC"
+    ]
+   }
   },
   {
-   "name": "func_0270738C",
+   "name": "WaitResult",
    "address": "0x0270738C",
    "kind": "sdk",
    "region": "twl",
@@ -1527,10 +1770,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735AAC"
+    ]
+   }
   },
   {
-   "name": "func_027073AC",
+   "name": "AESi_Init",
    "address": "0x027073AC",
    "kind": "sdk",
    "region": "twl",
@@ -1539,10 +1787,20 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735A9C",
+     "self:0x02735AAC"
+    ],
+    "sdk": [
+     "0x02707310",
+     "0x02707AEC"
+    ]
+   }
   },
   {
-   "name": "func_0270741C",
+   "name": "AESi_SeedRand",
    "address": "0x0270741C",
    "kind": "sdk",
    "region": "twl",
@@ -1551,10 +1809,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02707458",
+   "name": "AESi_RandUnit",
    "address": "0x02707458",
    "kind": "sdk",
    "region": "twl",
@@ -1563,22 +1821,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
-  },
-  {
-   "name": "func_0270745C",
-   "address": "0x0270745C",
-   "kind": "game",
-   "region": "twl",
-   "source": "src/matched/twl/func_0270745C.c",
-   "compiler": "dsi/dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
   },
   {
-   "name": "func_027074B0",
+   "name": "AESi_CalcMac",
    "address": "0x027074B0",
    "kind": "sdk",
    "region": "twl",
@@ -1587,10 +1833,27 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735A9C"
+    ]
+   }
   },
   {
-   "name": "func_02707570",
+   "name": "CallbackForJpeg",
+   "address": "0x02707558",
+   "kind": "sdk",
+   "region": "twl",
+   "source": "src/matched/twl_sdk/func_02707558.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "AESi_InitRand",
    "address": "0x02707570",
    "kind": "sdk",
    "region": "twl",
@@ -1599,10 +1862,18 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735AE0"
+    ],
+    "sdk": [
+     "0x0270741C"
+    ]
+   }
   },
   {
-   "name": "func_0270768C",
+   "name": "AESi_Rand",
    "address": "0x0270768C",
    "kind": "sdk",
    "region": "twl",
@@ -1611,10 +1882,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735AE0",
+     "self:0x02735B00"
+    ]
+   }
   },
   {
-   "name": "func_02707774",
+   "name": "AESi_SignForJpeg",
    "address": "0x02707774",
    "kind": "sdk",
    "region": "twl",
@@ -1623,10 +1900,25 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735AE0",
+     "self:0x02735AEC"
+    ],
+    "sdk": [
+     "0x027074B0",
+     "0x02707558",
+     "0x02707570",
+     "0x0270768C",
+     "0x02707994",
+     "0x02707B68",
+     "0x02707BDC"
+    ]
+   }
   },
   {
-   "name": "func_0270788C",
+   "name": "AESi_VerifySignForJpeg",
    "address": "0x0270788C",
    "kind": "sdk",
    "region": "twl",
@@ -1635,10 +1927,24 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735AE0",
+     "self:0x02735AEC"
+    ],
+    "sdk": [
+     "0x027074B0",
+     "0x02707558",
+     "0x02707570",
+     "0x02707994",
+     "0x02707B68",
+     "0x02707BDC"
+    ]
+   }
   },
   {
-   "name": "func_02707994",
+   "name": "AESi_PxiSendFirst",
    "address": "0x02707994",
    "kind": "sdk",
    "region": "twl",
@@ -1647,10 +1953,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027079D0",
+   "name": "AESi_PxiSendSecond",
    "address": "0x027079D0",
    "kind": "sdk",
    "region": "twl",
@@ -1659,10 +1965,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027079FC",
+   "name": "AESi_PxiSendData",
    "address": "0x027079FC",
    "kind": "sdk",
    "region": "twl",
@@ -1671,10 +1977,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027079D0"
+    ]
+   }
   },
   {
-   "name": "func_02707A94",
+   "name": "AESi_PxiSendCmd",
    "address": "0x02707A94",
    "kind": "sdk",
    "region": "twl",
@@ -1683,10 +1994,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02707994",
+     "0x027079FC"
+    ]
+   }
   },
   {
-   "name": "func_02707ACC",
+   "name": "AESi_PxiSendResult",
    "address": "0x02707ACC",
    "kind": "sdk",
    "region": "twl",
@@ -1695,10 +2012,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02707994"
+    ]
+   }
   },
   {
-   "name": "func_02707AEC",
+   "name": "AESi_InitLock",
    "address": "0x02707AEC",
    "kind": "sdk",
    "region": "twl",
@@ -1707,10 +2029,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735B20"
+    ]
+   }
   },
   {
-   "name": "func_02707B0C",
+   "name": "AESi_TryLock",
    "address": "0x02707B0C",
    "kind": "sdk",
    "region": "twl",
@@ -1719,10 +2046,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735B20"
+    ]
+   }
   },
   {
-   "name": "func_02707B68",
+   "name": "AESi_Lock",
    "address": "0x02707B68",
    "kind": "sdk",
    "region": "twl",
@@ -1731,10 +2063,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735B20",
+     "self:0x02735B28"
+    ]
+   }
   },
   {
-   "name": "func_02707BDC",
+   "name": "AESi_Unlock",
    "address": "0x02707BDC",
    "kind": "sdk",
    "region": "twl",
@@ -1743,10 +2081,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02735B20",
+     "self:0x02735B28"
+    ]
+   }
   },
   {
-   "name": "func_02707C2C",
+   "name": "AESi_FlushRange",
    "address": "0x02707C2C",
    "kind": "sdk",
    "region": "twl",
@@ -1755,10 +2099,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02707C48",
+   "name": "AESi_InvalidateRange",
    "address": "0x02707C48",
    "kind": "sdk",
    "region": "twl",
@@ -1770,7 +2114,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272EA04",
+   "name": "CARDi_ReadCardWithHashInternalAsync",
    "address": "0x0272EA04",
    "kind": "game",
    "region": "twl",
@@ -1787,7 +2131,7 @@
    }
   },
   {
-   "name": "func_0272EA74",
+   "name": "CARDi_InitRomHash",
    "address": "0x0272EA74",
    "kind": "game",
    "region": "twl",
@@ -1802,11 +2146,15 @@
      "self:0x02732DA0",
      "self:0x02732DA4",
      "self:0x02732DC4"
+    ],
+    "sdk": [
+     "0x0272E9E8",
+     "0x0272EA04"
     ]
    }
   },
   {
-   "name": "func_0272EC38",
+   "name": "CARDi_CompareHash",
    "address": "0x0272EC38",
    "kind": "game",
    "region": "twl",
@@ -1824,7 +2172,7 @@
    }
   },
   {
-   "name": "func_0272ED4C",
+   "name": "CARDi_StartLoading",
    "address": "0x0272ED4C",
    "kind": "game",
    "region": "twl",
@@ -1836,7 +2184,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272EE2C",
+   "name": "CARD_NotifyRomHashReadAsync",
    "address": "0x0272EE2C",
    "kind": "game",
    "region": "twl",
@@ -1848,7 +2196,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272EE98",
+   "name": "CARDi_TouchRomHashBlock",
    "address": "0x0272EE98",
    "kind": "game",
    "region": "twl",
@@ -1860,7 +2208,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272EFB0",
+   "name": "CARDi_TouchRomHashSector",
    "address": "0x0272EFB0",
    "kind": "game",
    "region": "twl",
@@ -1872,7 +2220,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F0BC",
+   "name": "CARD_InitRomHashContext",
    "address": "0x0272F0BC",
    "kind": "game",
    "region": "twl",
@@ -1881,10 +2229,20 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0272EB9C",
+     "self:0x02732E34",
+     "self:0x02732E98"
+    ],
+    "sdk": [
+     "0x0272EC38"
+    ]
+   }
   },
   {
-   "name": "func_0272F368",
+   "name": "CARDi_ReadRomHashImageDirect",
    "address": "0x0272F368",
    "kind": "game",
    "region": "twl",
@@ -1896,7 +2254,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F570",
+   "name": "CARDi_ReadRomHashImageCaching",
    "address": "0x0272F570",
    "kind": "game",
    "region": "twl",
@@ -1908,7 +2266,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F740",
+   "name": "CARD_ReadRomHashImage",
    "address": "0x0272F740",
    "kind": "game",
    "region": "twl",
@@ -1920,7 +2278,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F8A8",
+   "name": "MIi_NDma_withConfig_Dev",
    "address": "0x0272F8A8",
    "kind": "game",
    "region": "twl",
@@ -1932,7 +2290,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F9C4",
+   "name": "MIi_NDmaAsync_withConfig_Dev",
    "address": "0x0272F9C4",
    "kind": "game",
    "region": "twl",
@@ -1944,7 +2302,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FE54",
+   "name": "MI_Camera_NDmaRecvAsync",
    "address": "0x0272FE54",
    "kind": "game",
    "region": "twl",
@@ -1956,7 +2314,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FEF4",
+   "name": "MI_SendNDmaGXCommandAsync",
    "address": "0x0272FEF4",
    "kind": "game",
    "region": "twl",
@@ -1973,7 +2331,7 @@
    }
   },
   {
-   "name": "func_0272FFC8",
+   "name": "MIi_FIFOCallback",
    "address": "0x0272FFC8",
    "kind": "game",
    "region": "twl",
@@ -1987,11 +2345,14 @@
     "sole-ref": [
      "self:0x02732EFC",
      "self:0x02732F3C"
+    ],
+    "sdk": [
+     "0x02730090"
     ]
    }
   },
   {
-   "name": "func_02730090",
+   "name": "MIi_NDMACallback",
    "address": "0x02730090",
    "kind": "sdk",
    "region": "twl",
@@ -2000,10 +2361,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732F3C"
+    ]
+   }
   },
   {
-   "name": "func_027300F0",
+   "name": "MI_SendNDmaGXCommandAsyncFast",
    "address": "0x027300F0",
    "kind": "game",
    "region": "twl",
@@ -2012,10 +2378,19 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC",
+     "self:0x02732F3C"
+    ],
+    "sdk": [
+     "0x027301B4"
+    ]
+   }
   },
   {
-   "name": "func_027301B4",
+   "name": "MIi_NDMAFastCallback",
    "address": "0x027301B4",
    "kind": "sdk",
    "region": "twl",
@@ -2024,10 +2399,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732F3C"
+    ]
+   }
   },
   {
-   "name": "func_02730210",
+   "name": "MIi_GetWramBank_A",
    "address": "0x02730210",
    "kind": "game",
    "region": "twl",
@@ -2036,10 +2416,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02730220",
+   "name": "MIi_GetWramBank_B",
    "address": "0x02730220",
    "kind": "game",
    "region": "twl",
@@ -2048,10 +2428,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02730230",
+   "name": "MIi_GetWramBank_C",
    "address": "0x02730230",
    "kind": "game",
    "region": "twl",
@@ -2060,10 +2440,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02730294",
+   "name": "MIi_SetWramBankMaster",
    "address": "0x02730294",
    "kind": "game",
    "region": "twl",
@@ -2072,10 +2452,51 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02730204"
+    ]
+   }
   },
   {
-   "name": "func_0273032C",
+   "name": "MIi_SetWramBankEnable_A",
+   "address": "0x027302B4",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/twl/func_027302B4.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "MIi_SetWramBankEnable_B",
+   "address": "0x027302DC",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/twl/func_027302DC.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "MIi_SetWramBankEnable_C",
+   "address": "0x02730304",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/twl/func_02730304.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "MIi_SetWramBankEnable",
    "address": "0x0273032C",
    "kind": "game",
    "region": "twl",
@@ -2084,10 +2505,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027301F8"
+    ]
+   }
   },
   {
-   "name": "func_02730388",
+   "name": "MI_GetWramBankMaster",
    "address": "0x02730388",
    "kind": "sdk",
    "region": "twl",
@@ -2096,10 +2522,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027301E0"
+    ]
+   }
   },
   {
-   "name": "func_027303A4",
+   "name": "MI_GetWramMapStart_A",
    "address": "0x027303A4",
    "kind": "game",
    "region": "twl",
@@ -2108,10 +2539,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027303C4",
+   "name": "MI_GetWramMapStart_B",
    "address": "0x027303C4",
    "kind": "game",
    "region": "twl",
@@ -2120,10 +2551,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027303EC",
+   "name": "MI_GetWramMapStart_C",
    "address": "0x027303EC",
    "kind": "game",
    "region": "twl",
@@ -2132,10 +2563,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_02730414",
+   "name": "MI_GetWramMapStart",
    "address": "0x02730414",
    "kind": "sdk",
    "region": "twl",
@@ -2144,10 +2575,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027301EC"
+    ]
+   }
   },
   {
-   "name": "func_0273042C",
+   "name": "MIi_GetAddress_A",
    "address": "0x0273042C",
    "kind": "game",
    "region": "twl",
@@ -2159,7 +2595,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02730440",
+   "name": "MIi_GetAddress_B",
    "address": "0x02730440",
    "kind": "game",
    "region": "twl",
@@ -2171,7 +2607,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02730454",
+   "name": "MIi_GetAddress_C",
    "address": "0x02730454",
    "kind": "game",
    "region": "twl",
@@ -2183,7 +2619,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02730468",
+   "name": "MIi_InitWramManager",
    "address": "0x02730468",
    "kind": "game",
    "region": "twl",
@@ -2197,11 +2633,14 @@
     "sole-ref": [
      "self:0x02732F5C",
      "self:0x02732F6C"
+    ],
+    "sdk": [
+     "0x0273063C"
     ]
    }
   },
   {
-   "name": "func_0273063C",
+   "name": "MIi_CallbackForPxi",
    "address": "0x0273063C",
    "kind": "game",
    "region": "twl",
@@ -2221,7 +2660,7 @@
    }
   },
   {
-   "name": "func_02730868",
+   "name": "MIi_DoAllocWram",
    "address": "0x02730868",
    "kind": "game",
    "region": "twl",
@@ -2238,7 +2677,7 @@
    }
   },
   {
-   "name": "func_027309A8",
+   "name": "MI_AllocWramSlot",
    "address": "0x027309A8",
    "kind": "game",
    "region": "twl",
@@ -2250,7 +2689,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027309FC",
+   "name": "MIi_DoAllocWramSlot",
    "address": "0x027309FC",
    "kind": "game",
    "region": "twl",
@@ -2267,7 +2706,7 @@
    }
   },
   {
-   "name": "func_02730B04",
+   "name": "MI_FreeWram",
    "address": "0x02730B04",
    "kind": "game",
    "region": "twl",
@@ -2279,7 +2718,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02730B48",
+   "name": "MIi_DoFreeWram",
    "address": "0x02730B48",
    "kind": "game",
    "region": "twl",
@@ -2296,7 +2735,7 @@
    }
   },
   {
-   "name": "func_02730BD8",
+   "name": "MI_FreeWramSlot",
    "address": "0x02730BD8",
    "kind": "game",
    "region": "twl",
@@ -2308,7 +2747,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02730C2C",
+   "name": "MIi_DoFreeWramSlot",
    "address": "0x02730C2C",
    "kind": "game",
    "region": "twl",
@@ -2325,7 +2764,7 @@
    }
   },
   {
-   "name": "func_02730CC0",
+   "name": "MIi_DoSwitchWram",
    "address": "0x02730CC0",
    "kind": "game",
    "region": "twl",
@@ -2342,7 +2781,7 @@
    }
   },
   {
-   "name": "func_02730D50",
+   "name": "MIi_DoSwitchWramSlot",
    "address": "0x02730D50",
    "kind": "game",
    "region": "twl",
@@ -2359,7 +2798,7 @@
    }
   },
   {
-   "name": "func_02730DE4",
+   "name": "MIi_DoReserveWram",
    "address": "0x02730DE4",
    "kind": "game",
    "region": "twl",
@@ -2376,7 +2815,7 @@
    }
   },
   {
-   "name": "func_02730EEC",
+   "name": "MIi_DoReserveWramSlot",
    "address": "0x02730EEC",
    "kind": "game",
    "region": "twl",
@@ -2393,7 +2832,7 @@
    }
   },
   {
-   "name": "func_02730FBC",
+   "name": "MI_CancelWram",
    "address": "0x02730FBC",
    "kind": "game",
    "region": "twl",
@@ -2405,7 +2844,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731000",
+   "name": "MIi_DoCancelWram",
    "address": "0x02731000",
    "kind": "game",
    "region": "twl",
@@ -2422,7 +2861,7 @@
    }
   },
   {
-   "name": "func_02731060",
+   "name": "MIi_DoCancelWramSlot",
    "address": "0x02731060",
    "kind": "game",
    "region": "twl",
@@ -2439,7 +2878,7 @@
    }
   },
   {
-   "name": "func_027310C0",
+   "name": "MIi_DoGetAllocatableWramSlot",
    "address": "0x027310C0",
    "kind": "game",
    "region": "twl",
@@ -2456,7 +2895,7 @@
    }
   },
   {
-   "name": "func_0273112C",
+   "name": "MI_IsWramSlotUsed",
    "address": "0x0273112C",
    "kind": "game",
    "region": "twl",
@@ -2473,7 +2912,7 @@
    }
   },
   {
-   "name": "func_02731154",
+   "name": "MIi_SendToPxi",
    "address": "0x02731154",
    "kind": "game",
    "region": "twl",
@@ -2485,7 +2924,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027311A0",
+   "name": "MIi_TakeApartData",
    "address": "0x027311A0",
    "kind": "game",
    "region": "twl",
@@ -2497,7 +2936,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027311E8",
+   "name": "MI_LockWramManager",
    "address": "0x027311E8",
    "kind": "game",
    "region": "twl",
@@ -2514,7 +2953,7 @@
    }
   },
   {
-   "name": "func_02731210",
+   "name": "MI_UnlockWramManager",
    "address": "0x02731210",
    "kind": "game",
    "region": "twl",
@@ -2531,7 +2970,7 @@
    }
   },
   {
-   "name": "func_02731234",
+   "name": "MIi_LockWramManagerDI",
    "address": "0x02731234",
    "kind": "game",
    "region": "twl",
@@ -2543,7 +2982,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731254",
+   "name": "MIi_UnlockWramManagerRI",
    "address": "0x02731254",
    "kind": "game",
    "region": "twl",
@@ -2555,7 +2994,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0273126C",
+   "name": "OSi_EnterNDmaCallback_ltdmain",
    "address": "0x0273126C",
    "kind": "game",
    "region": "twl",
@@ -2574,7 +3013,7 @@
    }
   },
   {
-   "name": "func_027312B4",
+   "name": "OSi_InitArenaEx_ltdmain",
    "address": "0x027312B4",
    "kind": "game",
    "region": "twl",
@@ -2583,10 +3022,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_0273131C",
+   "name": "OSi_SearchTitleIdFromList",
    "address": "0x0273131C",
    "kind": "game",
    "region": "twl",
@@ -2595,10 +3034,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027313AC",
+   "name": "PMi_GetBatteryLevelCore",
    "address": "0x027313AC",
    "kind": "game",
    "region": "twl",
@@ -2607,10 +3046,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_027313E8",
+   "name": "PMi_PreSleepForNdma",
    "address": "0x027313E8",
    "kind": "game",
    "region": "twl",
@@ -2619,10 +3058,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0272FCB0",
+     "0x0272FCE0"
+    ]
+   }
   },
   {
-   "name": "func_027314A4",
+   "name": "PMi_ProceedToExit",
    "address": "0x027314A4",
    "kind": "game",
    "region": "twl",
@@ -2631,10 +3076,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027314F0",
+     "0x02731718"
+    ]
+   }
   },
   {
-   "name": "func_027314F0",
+   "name": "PM_ReadyToExit",
    "address": "0x027314F0",
    "kind": "sdk",
    "region": "twl",
@@ -2643,10 +3094,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027315E0"
+    ]
+   }
   },
   {
-   "name": "func_02731500",
+   "name": "PMi_FinalizeDebugger",
    "address": "0x02731500",
    "kind": "game",
    "region": "twl",
@@ -2655,10 +3111,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_0273153C",
+   "name": "PM_GetExitFactor",
    "address": "0x0273153C",
    "kind": "game",
    "region": "twl",
@@ -2667,10 +3123,30 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
-   "name": "func_0273156C",
+   "name": "PM_AppendPreExitCallback",
+   "address": "0x0273154C",
+   "kind": "sdk",
+   "region": "twl",
+   "source": "src/matched/twl_sdk/func_0273154C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732FA4"
+    ],
+    "sdk": [
+     "0x0208C6FC"
+    ]
+   }
+  },
+  {
+   "name": "PMi_InsertPostExitCallbackEx",
    "address": "0x0273156C",
    "kind": "sdk",
    "region": "twl",
@@ -2679,10 +3155,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0208C6FC"
+    ]
+   }
   },
   {
-   "name": "func_02731590",
+   "name": "PM_DeletePostExitCallback",
    "address": "0x02731590",
    "kind": "sdk",
    "region": "twl",
@@ -2691,10 +3172,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0208C788"
+    ]
+   }
   },
   {
-   "name": "func_02731718",
+   "name": "PMi_TryLockForReset",
    "address": "0x02731718",
    "kind": "game",
    "region": "twl",
@@ -2703,7 +3189,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732FA8"
+    ]
+   }
   },
   {
    "name": "func_02731754",
@@ -2795,14 +3286,14 @@
    "kind": "game",
    "region": "twl",
    "source": "src/matched/twl/func_02731920.c",
-   "compiler": "dsi/1.1p1",
+   "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
   },
   {
-   "name": "func_0273199C",
+   "name": "WCMi_NwmifStartupAsync",
    "address": "0x0273199C",
    "kind": "game",
    "region": "twl",
@@ -2811,10 +3302,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027320D0"
+    ]
+   }
   },
   {
-   "name": "func_02731A84",
+   "name": "WCMi_NwmifCleanupAsync",
    "address": "0x02731A84",
    "kind": "game",
    "region": "twl",
@@ -2823,10 +3319,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027320D0"
+    ]
+   }
   },
   {
-   "name": "func_02731AF0",
+   "name": "WCMi_NwmifBeginSearchAsync",
    "address": "0x02731AF0",
    "kind": "game",
    "region": "twl",
@@ -2835,10 +3336,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027323A8"
+    ]
+   }
   },
   {
-   "name": "func_02731BF8",
+   "name": "WCMi_NwmifConnectAsync",
    "address": "0x02731BF8",
    "kind": "game",
    "region": "twl",
@@ -2847,10 +3353,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027320D0"
+    ]
+   }
   },
   {
-   "name": "func_02731CFC",
+   "name": "WCMi_NwmifDisconnectAsync",
    "address": "0x02731CFC",
    "kind": "game",
    "region": "twl",
@@ -2859,10 +3370,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02732A64"
+    ]
+   }
   },
   {
-   "name": "func_02731D6C",
+   "name": "WCMi_NwmifTerminateAsync",
    "address": "0x02731D6C",
    "kind": "game",
    "region": "twl",
@@ -2871,10 +3387,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027320D0",
+     "0x02732874"
+    ]
+   }
   },
   {
-   "name": "func_02731E50",
+   "name": "WCMi_NwmifSetDCFData",
    "address": "0x02731E50",
    "kind": "game",
    "region": "twl",
@@ -2883,10 +3405,16 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02732CAC",
+     "0x02732CEC"
+    ]
+   }
   },
   {
-   "name": "func_02731F00",
+   "name": "WCMi_NwmifGetAllowedChannel",
    "address": "0x02731F00",
    "kind": "game",
    "region": "twl",
@@ -2898,7 +3426,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02731F14",
+   "name": "WcmNwmReset",
    "address": "0x02731F14",
    "kind": "game",
    "region": "twl",
@@ -2907,10 +3435,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027320D0"
+    ]
+   }
   },
   {
-   "name": "func_027320D0",
+   "name": "WcmNwmcbCommon",
    "address": "0x027320D0",
    "kind": "game",
    "region": "twl",
@@ -2922,12 +3455,12 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x021665CC"
+     "0x02732944"
     ]
    }
   },
   {
-   "name": "func_027323A8",
+   "name": "WcmNwmcbScanEx",
    "address": "0x027323A8",
    "kind": "game",
    "region": "twl",
@@ -2936,15 +3469,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x02165D04"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02732648",
+   "name": "WcmNwmcbConnect",
    "address": "0x02732648",
    "kind": "game",
    "region": "twl",
@@ -2956,7 +3484,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02732874",
+   "name": "WcmNwmcbDisconnect",
    "address": "0x02732874",
    "kind": "game",
    "region": "twl",
@@ -2968,7 +3496,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02732944",
+   "name": "WcmNwmcbSetRecvFrmBuf",
    "address": "0x02732944",
    "kind": "game",
    "region": "twl",
@@ -2977,10 +3505,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02732648"
+    ]
+   }
   },
   {
-   "name": "func_02732A64",
+   "name": "WcmNwmcbUnsetRecvFrmBuf",
    "address": "0x02732A64",
    "kind": "game",
    "region": "twl",
@@ -2989,10 +3522,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02732874"
+    ]
+   }
   },
   {
-   "name": "func_02732B70",
+   "name": "WcmEditScanExParam",
    "address": "0x02732B70",
    "kind": "game",
    "region": "twl",
@@ -3004,7 +3542,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02732CAC",
+   "name": "WcmNwmcbSetDCFData",
    "address": "0x02732CAC",
    "kind": "game",
    "region": "twl",
@@ -3016,7 +3554,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02732CEC",
+   "name": "WcmNwmcbSetDCFDataAsync",
    "address": "0x02732CEC",
    "kind": "game",
    "region": "twl",

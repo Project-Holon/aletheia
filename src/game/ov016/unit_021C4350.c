@@ -107,7 +107,7 @@ static void endScene2(void)
 }
 
 
-static void NWMi_ForceUnloadDeviceCallback(void)
+static void cbMov(void)
 {
     isUnloaded = 1;
 }

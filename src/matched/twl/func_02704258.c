@@ -1,5 +1,5 @@
 /*
- * function: func_02704258
+ * function: FATFSi_PostRequest
  * address:  0x02704258
  * packet:   twl_sys
  * region:   twl
@@ -8,11 +8,16 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   FATFSi_SendToPXI  0x027040B4  arm twl
  */
 
-asm void func_02704258(void)
+typedef unsigned int u32;
+
+extern void FATFSi_SendToPXI(u32 a0);
+
+void FATFSi_PostRequest(u32 a0)
 {
-    ldr     r12, [pc, #0]
-    bx      r12
-    dcd     0x027040B4
+    FATFSi_SendToPXI(a0);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  * 2026-10-05 (D8 lane19): re-verified, MATCH; only unresolved relocations are arm9 leaves 0x0202E7E0 and 0x0202E7C4 (no witness outside range). Needs labels seeded. Source is byte-correct; no C change possible.
  *
- * Blocked: MATCH*, two unlabelled arm9 leaves have no witness outside the range (Ilias's):
+ * Blocked: MATCH*, two unlabelled arm9 leaves have no witness outside the range (the integrator's):
  *   0x0202E7E0 thumb `int f(int *p) { return *p; }` (ldr r0,[r0]; bx lr)
  *   0x0202E7C4 thumb leaf, ldm/stm struct copy of 0x18 bytes (words at 0202E7C4..0202E7DC)
  * Everything else in the file compiles byte-correct (88 of 90 B listed, tail is pad).

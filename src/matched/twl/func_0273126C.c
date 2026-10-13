@@ -1,5 +1,5 @@
 /*
- * function: func_0273126C
+ * function: OSi_EnterNDmaCallback_ltdmain
  * address:  0x0273126C
  * packet:   twl_sys
  * region:   twl
@@ -24,7 +24,7 @@ struct Slot {
 extern struct Slot data_02150F68[];
 extern u32 func_02084968(u32);
 
-void func_0273126C(u32 a, u32 b, u32 c)
+void OSi_EnterNDmaCallback_ltdmain(u32 a, u32 b, u32 c)
 {
     u32 bit = 1 << (a + 28);
     data_02150F68[a].f0 = b;

@@ -1,7 +1,7 @@
 /*
  * file:     unit_020787A0.c
  * unit:     yes
- * function: func_020787A0, FSi_IncrementSjisPositionToSlash, func_02078834, func_02078868, FS_InitFile, func_020788D8, func_02078964, func_020789A4, func_020789FC, FS_CloseFile, func_02078A94, func_02078AEC, func_02078B44, func_02078B70, func_02078BC4, CRYPTOi__BN_lshift1
+ * function: func_020787A0, FSi_IncrementSjisPositionToSlash, func_02078834, func_02078868, FS_InitFile, func_020788D8, func_02078964, func_020789A4, func_020789FC, FS_CloseFile, func_02078A94, func_02078AEC, func_02078B44, func_02078B70, func_02078BC4, FS_OpenFile
  * address:  0x020787A0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -173,7 +173,7 @@ u32 func_02078AEC(FSFile *file);
 int func_02078B44(FSFile *file, long offset, FSSeekFileMode origin);
 s32 func_02078B70(FSFile *file, void *buffer, s32 length);
 s32 func_02078BC4(FSFile *file, void *buffer, s32 length);
-asm void CRYPTOi__BN_lshift1(void);
+BOOL FS_OpenFile(FSFile *file, const char *path);
 
 /*
  * sdk:      FSi_DecrementSjisPosition (libfs.TWL.HYB.a fs_file.o)
@@ -467,9 +467,7 @@ s32 func_02078BC4(FSFile *file, void *buffer, s32 length)
     return length;
 }
 
-asm void CRYPTOi__BN_lshift1(void)
+BOOL FS_OpenFile(FSFile *file, const char *path)
 {
-    ldr ip, =func_020789FC
-    mov r2, #1
-    bx ip
+    return func_020789FC(file, path, 1);
 }

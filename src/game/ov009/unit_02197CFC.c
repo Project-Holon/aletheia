@@ -106,7 +106,7 @@ struct GTI2Socket_02197FDC {
 };
 
 extern u32 _u32_div_f(u32 a, u32 b);
-extern void gti2ConnectionCleanup(void);
+extern void gti2ConnectionCleanup(void *connection);
 extern void *TableLookup(struct HashImplementation *table, void *elemKey);
 extern void func_0217F25C(void);
 extern int func_021986C4(char *string, unsigned int *ip, unsigned short *port);
@@ -133,7 +133,7 @@ extern void TableFree(struct HashImplementation *table);
 extern void ArrayFree(struct DArrayImplementation *array);
 extern void gsifree(void *ptr);
 extern void SocketShutDown(void);
-asm void KeyValHashKey(void);
+static void gti2ConnectionFree(void **elem);
 struct GTI2Connection_02197D5C *gti2SocketFindConnection(struct GTI2Socket_02197D5C *socket, u32 ip, u16 port);
 int func_02197D94(struct GTI2Socket_02197D94 **sock, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void (*callback)(struct GTI2Socket_02197D94 *), int type);
 void gti2CloseSocket(struct GTI2Socket_02197FDC *socket);
@@ -157,11 +157,9 @@ static int gti2ConnectionCompare(void *elem1, void *elem2)
         : (short)(connection1->port - connection2->port);
 }
 
-asm void KeyValHashKey(void)
+static void gti2ConnectionFree(void **elem)
 {
-	ldr r0, [r0]
-	ldr ip, =gti2ConnectionCleanup
-	bx ip
+    gti2ConnectionCleanup(*elem);
 }
 
 

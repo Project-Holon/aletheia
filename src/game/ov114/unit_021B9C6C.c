@@ -1,6 +1,6 @@
 /*
  * file:     unit_021B9C6C.c
- * function: DWCi_Http_CPSCallback
+ * function: NHTTPi_CpsAuthCallback
  * address:  0x021B9C6C
  * packet:   pkt_ov114_021B9C6C
  * region:   ov114
@@ -12,7 +12,7 @@
  *
  * SDK: TwlDWC/libdwcauth.TWL.HYB.a(dwc_http.o).  decl_line 769, param result.
  */
-int DWCi_Http_CPSCallback(int result)
+static int NHTTPi_CpsAuthCallback(int result)
 {
     if (result & 0x8000)
         result &= ~0x8000;

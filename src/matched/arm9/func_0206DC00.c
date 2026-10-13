@@ -36,8 +36,8 @@
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DB80  0x0206DB80  arm
  *   func_02085D3C  0x02085D3C  arm
- *   func_027300F0  0x027300F0  arm  twl
- *   func_0272FEF4  0x0272FEF4  arm  twl
+ *   MI_SendNDmaGXCommandAsyncFast  0x027300F0  arm  twl
+ *   MI_SendNDmaGXCommandAsync  0x0272FEF4  arm  twl
  *   func_02082960  0x02082960  arm
  *   func_02082760  0x02082760  arm
  */
@@ -55,8 +55,8 @@ extern void func_0206DBF4(void *arg);
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
 extern int  func_02085D3C(void);
-extern void func_027300F0(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
-extern void func_0272FEF4(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
+extern void MI_SendNDmaGXCommandAsyncFast(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
+extern void MI_SendNDmaGXCommandAsync(u32 ndma, const void *src, u32 sz, MICallback cb, void *arg);
 extern void func_02082960(u32 dma, const void *src, u32 sz, MICallback cb, void *arg);
 extern void func_02082760(u32 dma, const void *src, u32 sz, MICallback cb, void *arg);
 
@@ -73,7 +73,7 @@ void func_0206DC00(const u32 *src, u32 sz)
             u32 id = g_020A84C0;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                func_027300F0(id > 3 ? id - 4 : (u32)-1, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
+                MI_SendNDmaGXCommandAsyncFast(id > 3 ? id - 4 : (u32)-1, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
             else
                 func_02082960(dma, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
         } else {
@@ -84,7 +84,7 @@ void func_0206DC00(const u32 *src, u32 sz)
             u32 id = g_020A84C0;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                func_0272FEF4(id > 3 ? id - 4 : (u32)-1, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
+                MI_SendNDmaGXCommandAsync(id > 3 ? id - 4 : (u32)-1, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
             else
                 func_02082760(dma, src, sz, func_0206DBF4, (void *)&g_0214BAB4.busy);
         } else {

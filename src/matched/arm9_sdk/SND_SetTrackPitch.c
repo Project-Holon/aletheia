@@ -13,16 +13,10 @@
  *   func_020897DC 0x020897DC arm
  */
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 extern void func_020897DC(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size);
 
-asm void SND_SetTrackPitch(void)
+void SND_SetTrackPitch(int playerNo, u32 trackBitMask, int pitch)
 {
-    stmfd sp!, {r3, lr}
-    mov	r3, r2
-    mov	ip, #2
-    mov	r2, #0xc
-    str	ip, [sp]
-    bl	func_020897DC
-    ldmfd sp!, {r3, pc}
+    func_020897DC(playerNo, trackBitMask, 0xc, (u32)pitch, 2);
 }

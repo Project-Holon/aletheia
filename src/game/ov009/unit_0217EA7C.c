@@ -20,11 +20,11 @@
  */
 extern void *func_0209146C(unsigned long n, unsigned long size);
 void *func_0217EA7C(unsigned long boundary, unsigned long size);
-asm void gsiMemoryCallbacksSet(void);
+void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
 void func_0217EAB0(int a);
 void func_0217EAC8(int a, int b);
 void func_0217EAE0(void *p);
-extern unsigned char d_021A3730[];
+extern void *d_021A3730[4];
 extern char g_021A3730[];
 
 
@@ -38,12 +38,12 @@ void *func_0217EA7C(unsigned long boundary, unsigned long size)
 }
 
 
-asm void gsiMemoryCallbacksSet(void)
+void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long))
 {
-	ldr ip, =d_021A3730
-	stmia ip, {r0, r1, r2}
-	str r3, [ip, #0xc]
-	bx lr
+    d_021A3730[0] = p_malloc;
+    d_021A3730[1] = p_free;
+    d_021A3730[2] = p_realloc;
+    d_021A3730[3] = p_memalign;
 }
 
 

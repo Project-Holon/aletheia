@@ -1,5 +1,5 @@
 /*
- * function: func_027047C0
+ * function: SNDEXi_SetIirFilter
  * address:  0x027047C0
  * packet:   twl
  * region:   twl
@@ -10,58 +10,67 @@
  * status:   EXACT
  *
  * symbols:
- *   DAT_02150fec   0x02150fec  data twl
+ *   DAT_02150fec  0x02150fec  data twl
  *   func_02085D94  0x02085D94  arm twl
- *   func_02704B58  0x02704B58  arm twl
- *   func_027044F8  0x027044F8  arm twl
  *   func_02085E50  0x02085E50  arm twl
- *   DAT_02734450   0x02734450  data twl
+ *   SNDEXi_SetIirFilterAsync  0x027044F8  arm twl
+ *   SyncCallback  0x02704B58  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef void (*Cb)(u32, void *);
+
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
 
 extern u32 DAT_02150fec[];
-extern void func_02085D94(u32, u32, u32);
-extern u32 func_02704B58(void);
-extern u32 func_027044F8(u32, u32, u32, u32);
-extern void func_02085E50(u32, u32, u32);
-extern u32 DAT_02734450[];
+extern void func_02085D94(void *, void *, u32);
+extern void func_02085E50(void *, void *, u32);
+u32 SNDEXi_SetIirFilterAsync(u32 a0, u16 *a1, Cb a2, void *a3);
+void SyncCallback(u32 a0, void *a1);
 
-asm void func_027047C0(u32 a0, u32 a1) {
-    stmdb sp!, {r3, r4, r5, r6, r7, lr}
-    sub sp, sp, #0x28
-    ldr r2, =DAT_02150fec
-    mov r7, r0
-    ldr r0, [r2, #4]
-    mov r6, r1
-    cmp r0, #0
-    addeq sp, sp, #0x28
-    moveq r0, #4
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, pc}
-    add r5, sp, #8
-    mov r4, #1
-    add r1, sp, #0
-    mov r0, r5
-    mov r2, r4
-    bl func_02085D94
-    ldr r2, =func_02704B58
-    mov r0, r7
-    mov r1, r6
-    mov r3, r5
-    bl func_027044F8
-    str r0, [sp, #4]
-    cmp r0, #0
-    bne @lbl_02704830
-    add r1, sp, #4
-    mov r0, r5
-    mov r2, r4
-    bl func_02085E50
-@lbl_02704830:
-    ldr r0, =DAT_02734450
-    mov r1, #0
-    str r1, [r0, #0x18]
-    str r1, [r0, #4]
-    ldr r0, [sp, #4]
-    add sp, sp, #0x28
-    ldmfd sp!, {r3, r4, r5, r6, r7, pc}
+u32 SNDEXi_SetIirFilter(u32 a0, u16 *a1) {
+    u32 result;
+    u32 buf[1];
+    u32 q[8];
+    if (DAT_02150fec[1] == 0) {
+        return 4;
+    }
+    func_02085D94(q, buf, 1);
+    result = SNDEXi_SetIirFilterAsync(a0, a1, SyncCallback, q);
+    if (result == 0) {
+        func_02085E50(q, &result, 1);
+    }
+    {
+        State *s = (State *)0x02734450;
+        s->f18 = 0;
+        s->busy = 0;
+    }
+    return result;
 }

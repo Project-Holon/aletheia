@@ -11,7 +11,7 @@
  *
  * Byte-correct; the one wildcard is the arm9 call to 0x0201A354 (+0x10E).
  * blocker: func_0201A354 (arm9, unlabelled Thumb thunk inside the listing's
- *   data run, Ilias's) has no witness outside this range. Verified C for it
+ *   data run, the integrator's) has no witness outside this range. Verified C for it
  *   (from src/pending/ov/ov021_func_021B57CC.c, match.py one --thumb, EXACT,
  *   16 bytes):
  *     extern int func_02048F60();  (symbols: func_02048F60 0x02048F60 arm)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "KeyValHashKey",
+   "name": "RefStringFree",
    "address": "0x0219DF54",
    "kind": "sdk",
    "region": "ov009",

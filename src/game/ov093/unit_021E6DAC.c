@@ -50,7 +50,7 @@ extern u32 func_0201BEB8(u16 id, u32 bit);
 extern int func_021D76BC(int key, u32 val);
 extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021C804C(void *, u8, u32 *);
-extern int func_021C814C(u8 *p, int v);
+extern int func_021C814C(u8 *p, u8 v);
 extern int func_021C8374(u8 *p, int i);
 extern u32 func_021D8340(u32 *);
 extern u32 func_0201C314(void *p);

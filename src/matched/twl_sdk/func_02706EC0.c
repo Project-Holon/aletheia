@@ -1,5 +1,5 @@
 /*
- * function: func_02706EC0
+ * function: DSP_ReadPipe
  * address:  0x02706EC0
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,91 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   DSP_LoadData  0x0270633C  arm twl a2
+ *   DSPi_WaitForPipe  0x02706CB4  arm twl a2
+ *   DSP_SyncPipe  0x02706DFC  arm twl a2
+ *   DSP_FlushPipe  0x02706E18  arm twl a2
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
 
-asm void func_02706EC0(void)
+typedef struct DspRing {
+    u16 base;
+    u16 size;
+    u16 rd;
+    u16 wr;
+    u16 id;
+} DspRing;
+
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32);
+extern void DSP_LoadData(u32, u8 *, u32);
+extern void DSPi_WaitForPipe(DspRing *);
+extern DspRing *DSP_SyncPipe(DspRing *);
+extern void DSP_FlushPipe(DspRing *);
+
+void DSP_ReadPipe(DspRing *r, u8 *buf, u16 count)
 {
+    u32 ints;
+    int dirty;
+    int rd;
+    int wr;
+    u32 diff;
+    u16 rdIdx;
+    int limit;
+    u16 chunk;
+    int n;
+    int next;
+
+    ints = OS_DisableInterrupts();
+    dirty = 0;
+    DSP_SyncPipe(r);
+    if (count != 0) {
+        do {
+            wr = r->wr;
+            rd = r->rd;
+            diff = (u16)(rd ^ wr);
+            if (diff == 0) {
+                if (dirty != 0) {
+                    DSP_FlushPipe(r);
+                    dirty = 0;
+                }
+                DSPi_WaitForPipe(r);
+            } else {
+                rdIdx = rd & ~0x8000;
+                if (diff < 0x8000) {
+                    limit = wr & ~0x8000;
+                } else {
+                    limit = r->size;
+                }
+                n = (u16)limit - rdIdx;
+                if (count < n) {
+                    n = count;
+                }
+                n = (u16)n;
+                chunk = n;
+                DSP_LoadData(r->base * 2 + rdIdx, buf, chunk);
+                count = count - chunk;
+                buf += chunk;
+                next = chunk + rdIdx;
+                if (next < r->size) {
+                    next = rd + chunk;
+                } else {
+                    next = ~rd & 0x8000;
+                }
+                dirty = 1;
+                r->rd = next;
+            }
+        } while (count != 0);
+    }
+    if (dirty != 0) {
+        DSP_FlushPipe(r);
+    }
+    OS_RestoreInterrupts(ints);
 }

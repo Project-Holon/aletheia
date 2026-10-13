@@ -41,6 +41,7 @@ typedef enum
 #define SCFGi_SWITCH_CPU_WAIT        10
 #define SCFGi_SWITCH_CPU_WAIT2       (SCFGi_SWITCH_CPU_WAIT * 2)
 
+/* hand-written in the original: SDK SCFGi_SwitchCpuSpeed is declared asm in scfg_proc.c; the empty delay loop is deleted by mwccarm */
 asm void func_01FF87D4(SCFGCpuSpeed cpuSpeed)
 {
     ldr     r2, =REG_CLK_ADDR

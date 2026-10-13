@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0272E9E8",
+   "name": "CARDi_ReadCardWithHash",
    "address": "0x0272E9E8",
    "kind": "game",
    "region": "twl",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272EBDC",
+   "name": "CARD_CalcRomHashBufferLength",
    "address": "0x0272EBDC",
    "kind": "game",
    "region": "twl",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272F804",
+   "name": "MIi_GetControlData",
    "address": "0x0272F804",
    "kind": "game",
    "region": "twl",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FB10",
+   "name": "MI_InitNDma",
    "address": "0x0272FB10",
    "kind": "game",
    "region": "twl",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FB28",
+   "name": "MI_NDmaFill",
    "address": "0x0272FB28",
    "kind": "game",
    "region": "twl",
@@ -72,7 +72,7 @@
    }
   },
   {
-   "name": "func_0272FB78",
+   "name": "MI_NDmaCopy",
    "address": "0x0272FB78",
    "kind": "game",
    "region": "twl",
@@ -89,7 +89,7 @@
    }
   },
   {
-   "name": "func_0272FBD0",
+   "name": "MI_NDmaFillAsync",
    "address": "0x0272FBD0",
    "kind": "game",
    "region": "twl",
@@ -106,7 +106,7 @@
    }
   },
   {
-   "name": "func_0272FC2C",
+   "name": "MI_NDmaCopyAsync",
    "address": "0x0272FC2C",
    "kind": "game",
    "region": "twl",
@@ -123,7 +123,7 @@
    }
   },
   {
-   "name": "func_0272FC90",
+   "name": "MI_IsNDmaBusy",
    "address": "0x0272FC90",
    "kind": "game",
    "region": "twl",
@@ -135,7 +135,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FCB0",
+   "name": "MI_WaitNDma",
    "address": "0x0272FCB0",
    "kind": "game",
    "region": "twl",
@@ -147,7 +147,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FCE0",
+   "name": "MI_StopNDma",
    "address": "0x0272FCE0",
    "kind": "game",
    "region": "twl",
@@ -159,7 +159,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FD18",
+   "name": "MI_StopAllNDma",
    "address": "0x0272FD18",
    "kind": "sdk",
    "region": "twl",
@@ -171,7 +171,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FD40",
+   "name": "MIi_Wait",
    "address": "0x0272FD40",
    "kind": "game",
    "region": "twl",
@@ -183,7 +183,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FD5C",
+   "name": "MI_SetNDmaArbitrament",
    "address": "0x0272FD5C",
    "kind": "game",
    "region": "twl",
@@ -195,7 +195,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0272FD7C",
+   "name": "MI_InitNDmaConfig",
    "address": "0x0272FD7C",
    "kind": "game",
    "region": "twl",
@@ -212,7 +212,7 @@
    }
   },
   {
-   "name": "func_0272FDC0",
+   "name": "MI_GetNDmaConfig",
    "address": "0x0272FDC0",
    "kind": "game",
    "region": "twl",
@@ -221,10 +221,15 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC"
+    ]
+   }
   },
   {
-   "name": "func_0272FDDC",
+   "name": "MIi_CardNDmaRecv32",
    "address": "0x0272FDDC",
    "kind": "game",
    "region": "twl",
@@ -241,7 +246,7 @@
    }
   },
   {
-   "name": "func_0272FE48",
+   "name": "MI_Card_NDmaCopy",
    "address": "0x0272FE48",
    "kind": "game",
    "region": "twl",
@@ -250,7 +255,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0272FDDC"
+    ]
+   }
   }
  ]
 }

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: unlabelled ov094 Thumb wrapper 0x021F8524 lacks an outside code-start witness; ov094 is Ilias-owned.
+ * blocker: unlabelled ov094 Thumb wrapper 0x021F8524 lacks an outside code-start witness; ov094 is integrator-owned.
  * symbols:
  *   func_021F8524 0x021F8524 thumb ov094
   * note 2026-10-05 (D8 lane16): re-verified MATCH. Same blocker as 021CDDA0: ov094 0x021F8524 needs a label/witness.

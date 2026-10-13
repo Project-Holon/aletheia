@@ -13,7 +13,6 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   OSi_DetectDeviceType  0x02085D0C  arm
  *   g_020A86A4            0x020A86A4  data
  *   func_02087B04 0x02087B04 arm
  *   g_020A5CD4 0x020A5CD4 data
@@ -44,12 +43,11 @@ typedef struct OsSystemBss {
     int isChecked;
 } OsSystemBss;
 
-extern u32_02085CBC OSi_DetectDeviceType(void);
-extern void func_02087B04(void);
-extern void g_020A5CD4(void);
+extern int func_02087B04(void);
+extern u32_02085CBC g_020A5CD4[];
 u32_02085CBC func_02085CBC(void);
-asm void DWCi_CMNlFontFlag(void);
-asm void OS_IsRunOnEmulator(void);
+static u32_02085CBC OSi_DetectDeviceType(void);
+int OS_IsRunOnEmulator(void);
 int OS_IsRunOnTwl(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern OsEmulatorData g_020A86A4;
@@ -72,24 +70,15 @@ u32_02085CBC func_02085CBC(void)
     return g_020A86A4.OSi_ConsoleTypeCache;
 }
 
-asm void DWCi_CMNlFontFlag(void)
+static u32_02085CBC OSi_DetectDeviceType(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02087B04
-    ldr r1, =g_020A5CD4
-    ldr r0, [r1, r0, lsl #2]
-    ldmfd sp!, {r3, pc}
+    return g_020A5CD4[func_02087B04()];
 }
 
 
-asm void OS_IsRunOnEmulator(void)
+int OS_IsRunOnEmulator(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02085CBC
-    tst	r0, #0x10000000
-    movne	r0, #1
-    moveq	r0, #0
-    ldmfd sp!, {r3, pc}
+    return (func_02085CBC() & 0x10000000) ? 1 : 0;
 }
 
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02702A8C",
+   "name": "NwmSleepCallback",
    "address": "0x02702A8C",
    "kind": "game",
    "region": "twl",

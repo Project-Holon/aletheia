@@ -19,6 +19,7 @@
  * with swp words when width is a multiple of 4, else with swpb bytes.
  */
 
+/* hand-written in the original: clz, swp/swpb and a stack grown by a computed amount */
 asm void MATH_QSort(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}

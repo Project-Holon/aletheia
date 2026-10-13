@@ -1,5 +1,5 @@
 /*
- * function: func_02705284
+ * function: DSP_GetSemaphoreCore
  * address:  0x02705284
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
 
-asm void func_02705284(void)
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+u16 DSP_GetSemaphoreCore(void)
 {
+    return *(volatile u16 *)0x0400431C;
 }

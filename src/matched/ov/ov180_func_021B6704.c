@@ -11,7 +11,7 @@
  *   symbols: g_02146A80 0x02146A80 data a4
  *   extern char *g_02146A80;
  *   void func_0204EA4C(void) { *(int *)(g_02146A80+8)=1; }
- * split: scratch tu --suggest-split confirms no viable partition; ARM9 belongs to Ilias.
+ * split: scratch tu --suggest-split confirms no viable partition; ARM9 belongs to the integrator.
  * note 2026-10-05: the blocker leaf is now filed as src/matched/arm9/func_0204EA4C.c (EXACT, the
  * snippet above, verified). This file stays MATCH until the integrator regenerates the manifest
  * so the witness resolves; then it is EXACT with no change to the C.

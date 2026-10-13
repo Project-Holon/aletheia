@@ -2340,7 +2340,7 @@ void func_021F1268(char *this)
 
 /*
  * Byte-correct; the only wildcard is the bl to func_020275B8 (blocker: no
- * witness outside the range for an unlabelled arm9 leaf, Ilias's). Verified
+ * witness outside the range for an unlabelled arm9 leaf, the integrator's). Verified
  * leaf C (EXACT, arm9 0x020275B8, thumb, 12 bytes incl. pool word 0x0B0E):
  *   typedef unsigned char u8;
  *   void func_020275B8(char *p, u8 v) { p[0xb0e] = v; }
@@ -2868,7 +2868,7 @@ void func_021F1A18(char *p, int b)
 
 /*
  * Byte-correct; the only wildcard is the bl to func_02010FA0 (blocker: no
- * witness outside the range for an unlabelled arm9 leaf, Ilias's; it sits
+ * witness outside the range for an unlabelled arm9 leaf, the integrator's; it sits
  * in the word run after sub_02010EA0/func_02010EEC). Verified leaf C
  * (EXACT, arm9 0x02010FA0, thumb, `one --thumb` with no --region):
  *   typedef unsigned short u16;
@@ -3479,7 +3479,7 @@ void func_021F2344(char *p, int a1)
 
 /*
  * Byte-correct; the only wildcards are the bls to two unlabelled arm9
- * leaves, Ilias's (blocker: no witness outside the range). Verified leaf C
+ * leaves, the integrator's (blocker: no witness outside the range). Verified leaf C
  * (both EXACT, thumb, `one --thumb` with no --region):
  *   0x020275B8 (12 bytes incl. pool word 0x0B0E):
  *     typedef unsigned char u8;
@@ -3830,7 +3830,7 @@ int func_021F27CC(char *p)
 
 /*
  *           wildcarded because their targets are unlabelled arm9 leaves with no
- *           caller outside this range (Ilias's, inside arm9). Each was verified
+ *           caller outside this range (the integrator's, inside arm9). Each was verified
  *           EXACT with `one --thumb` and no --region:
  *             0x020275A8  u32 func_020275A8(u32 a) { return a; }
  *             0x020275AC  u8 func_020275AC(u8 *p) { return p[0xb0e]; }

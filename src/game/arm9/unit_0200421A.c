@@ -11,6 +11,7 @@
  * status:   EXACT*
  */
 
+/* hand-written in the original: SVC stub in the arm9 secure area, `swi 0xb; bx lr` in the BIOS call table */
 asm void func_0200421A(void)
 {
     swi 0xb

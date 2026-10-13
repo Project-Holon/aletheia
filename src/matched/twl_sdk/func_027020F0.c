@@ -1,5 +1,5 @@
 /*
- * function: func_027020F0
+ * function: CAMERA_IsBusyCore
  * address:  0x027020F0
  * packet:   twl_wifi
  * region:   twl
@@ -19,7 +19,7 @@ typedef signed int s32;
 
 extern u16 data_04004202;
 
-s32 func_027020F0(void)
+s32 CAMERA_IsBusyCore(void)
 {
     return (data_04004202 & 0x8000) >> 15;
 }

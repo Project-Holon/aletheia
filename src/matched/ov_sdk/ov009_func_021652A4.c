@@ -20,7 +20,7 @@
  *   func_021656D0         0x021656D0  arm  ov009
  *   func_02166B2C         0x02166B2C  arm  ov009
  *   OS_IsRunOnTwl         0x02085D3C  arm
- *   func_02731BF8         0x02731BF8  arm  twl
+ *   WCMi_NwmifConnectAsync         0x02731BF8  arm  twl
  *
  * The 0x40 bound reads keyLen from the work area before it is stored, as the object does.
  */
@@ -65,7 +65,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned long func_021656D0(unsigned long option);
 extern long func_02166B2C(void);
 extern int OS_IsRunOnTwl(void);
-extern long func_02731BF8();
+extern long WCMi_NwmifConnectAsync();
 
 long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
 {
@@ -128,7 +128,7 @@ long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_02731BF8();
+            wcmResult = WCMi_NwmifConnectAsync();
             break;
         }
     default:

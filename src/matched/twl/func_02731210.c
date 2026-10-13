@@ -1,5 +1,5 @@
 /*
- * function: func_02731210
+ * function: MI_UnlockWramManager
  * address:  0x02731210
  * packet:   twl_sys
  * region:   twl
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 extern void func_02084CEC(u32, void *, void *);
 extern void func_02084F10(u32);
 
-void func_02731210(u32 id)
+void MI_UnlockWramManager(u32 id)
 {
     func_02084CEC(id, (void *)0x02FFF680, 0);
     func_02084F10(id);

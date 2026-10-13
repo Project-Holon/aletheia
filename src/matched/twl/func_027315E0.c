@@ -1,5 +1,5 @@
 /*
- * function: func_027315E0
+ * function: PMi_CallPostExitCallbackAndReset
  * address: 0x027315E0
  * packet: pkt_twl_027315E0
  * region: twl
@@ -19,8 +19,8 @@
  *   func_0208BC8C 0x0208BC8C arm
  *   func_02087988 0x02087988 arm
  *   func_02082658 0x02082658 arm
- *   func_0272FD18 0x0272FD18 arm
- *   func_02731500 0x02731500 arm
+ *   MI_StopAllNDma 0x0272FD18 arm
+ *   PMi_FinalizeDebugger 0x02731500 arm
  *   func_020882C0 0x020882C0 arm
  */
 
@@ -36,11 +36,11 @@ void func_02087A04(u32 n);
 int func_0208BC8C(u32 cmd, u32 a, u16 *buf);
 void func_02087988(void);
 void func_02082658(void);
-void func_0272FD18(void);
-void func_02731500(void);
+void MI_StopAllNDma(void);
+void PMi_FinalizeDebugger(void);
 void func_020882C0(void);
 
-void func_027315E0(int flag)
+void PMi_CallPostExitCallbackAndReset(int flag)
 {
     u32 cmd;
     int i;
@@ -74,7 +74,7 @@ void func_027315E0(int flag)
     }
     func_02087988();
     func_02082658();
-    func_0272FD18();
-    func_02731500();
+    MI_StopAllNDma();
+    PMi_FinalizeDebugger();
     func_020882C0();
 }

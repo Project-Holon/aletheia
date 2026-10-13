@@ -22,25 +22,25 @@
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  *   func_02085A38 0x02085A38 arm
- *   func_02700B34  0x02700B34  arm
- *   func_02700BD0  0x02700BD0  arm
- *   func_02700DB8  0x02700DB8  arm
- *   func_02700FE4  0x02700FE4  arm
- *   func_027020F0  0x027020F0  arm
- *   func_02702108  0x02702108  arm
- *   func_0270212C  0x0270212C  arm
- *   func_02702158  0x02702158  arm
- *   func_027021E4  0x027021E4  arm
- *   func_0270229C  0x0270229C  arm
- *   func_027022F8  0x027022F8  arm
- *   func_0270234C  0x0270234C  arm
- *   func_02706174  0x02706174  arm
- *   func_027062C8  0x027062C8  arm
- *   func_02706324  0x02706324  arm
- *   func_027072E0  0x027072E0  arm
- *   func_0272FC90  0x0272FC90  arm
- *   func_0272FCE0  0x0272FCE0  arm
- *   func_0272FE54  0x0272FE54  arm
+ *   CAMERA_EndCore  0x02700B34  arm
+ *   CAMERA_StopCore  0x02700BD0  arm
+ *   CAMERA_I2CActivateCore  0x02700DB8  arm
+ *   CAMERA_I2CSizeExCore  0x02700FE4  arm
+ *   CAMERA_IsBusyCore  0x027020F0  arm
+ *   CAMERA_StartCaptureCore  0x02702108  arm
+ *   CAMERA_StopCaptureCore  0x0270212C  arm
+ *   CAMERA_SetTrimmingCore  0x02702158  arm
+ *   CAMERA_ClearBufferCore  0x027021E4  arm
+ *   CAMERA_SetTransferLinesCore  0x0270229C  arm
+ *   CAMERA_GetMaxLinesRoundCore  0x027022F8  arm
+ *   CAMERA_GetBytesAtOnceCore  0x0270234C  arm
+ *   DSPi_PlayShutterSoundCore  0x02706174  arm
+ *   DSPi_StopSoundCore  0x027062C8  arm
+ *   DSPi_IsShutterSoundPlayingCore  0x02706324  arm
+ *   DSPi_UnloadG711Core  0x027072E0  arm
+ *   MI_IsNDmaBusy  0x0272FC90  arm
+ *   MI_StopNDma  0x0272FCE0  arm
+ *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm
  *   func_02034FB8 0x02034FB8 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020490A8 0x020490A8 arm
@@ -48,9 +48,22 @@
  *   func_02048F4C 0x02048F4C arm
  *   func_020862F0 0x020862F0 arm
  *   func_0203D7FC  0x0203D7FC  arm
- *   func_02702364  0x02702364  arm
- *   func_027023CC  0x027023CC  arm
+ *   CAMERA_SizeToWidthCore  0x02702364  arm
+ *   CAMERA_SizeToHeightCore  0x027023CC  arm
  *   d_021C88E4 0x021C88E4 data a4 ov172
+ *   CAMERA_SetVsyncCallbackCore  0x027000F8  arm  twl
+ *   CAMERA_SetBufferErrorCallbackCore  0x02700108  arm  twl
+ *   CAMERA_SetRebootCallbackCore  0x02700118  arm  twl
+ *   CAMERA_InitCore  0x02700938  arm  twl
+ *   CAMERA_I2CInitCore  0x02700CB4  arm  twl
+ *   CAMERA_I2CEffectExCore  0x02701248  arm  twl
+ *   CAMERA_I2CAutoExposureCore  0x027017DC  arm  twl
+ *   CAMERA_I2CAutoWhiteBalanceCore  0x02701908  arm  twl
+ *   CAMERA_SetOutputFormatCore  0x0270218C  arm  twl
+ *   DSPi_OpenStaticComponentG711Core  0x0270723C  arm  twl
+ *   DSPi_LoadG711Core  0x02707278  arm  twl
+ *   MI_FreeWram  0x02730B04  arm  twl
+ *   MI_CancelWram  0x02730FBC  arm  twl
  */
 
 typedef unsigned short u16;
@@ -105,25 +118,25 @@ extern void func_02088234(void);
 extern void func_02084968(int);
 extern void func_020351F8(u32 a, u32 b);
 extern void func_02085A38(u32 msec);
-extern int func_02706324(void);
-extern void func_027072E0(void);
-extern void func_02700BD0(void);
-extern void func_0272FCE0(int);
-extern void func_02700B34(void);
-int func_02700938(void);
-int func_02700CB4(int);
-void func_02701248(int, int, int);
-void func_027017DC(int, int);
-void func_02701908(int, int);
-u32 func_02700DB8(u32 a0);
-void func_027000F8(void *);
-void func_02700108(void *);
-void func_02700118(void *);
-void func_0270218C(int);
-void func_02730B04(int, int);
-void func_02730FBC(int, int);
-void func_0270723C(void *);
-int func_02707278(void *, int, int);
+extern int DSPi_IsShutterSoundPlayingCore(void);
+extern void DSPi_UnloadG711Core(void);
+extern void CAMERA_StopCore(void);
+extern void MI_StopNDma(int);
+extern void CAMERA_EndCore(void);
+int CAMERA_InitCore(void);
+int CAMERA_I2CInitCore(int);
+void CAMERA_I2CEffectExCore(int, int, int);
+void CAMERA_I2CAutoExposureCore(int, int);
+void CAMERA_I2CAutoWhiteBalanceCore(int, int);
+u32 CAMERA_I2CActivateCore(u32 a0);
+void CAMERA_SetVsyncCallbackCore(void *);
+void CAMERA_SetBufferErrorCallbackCore(void *);
+void CAMERA_SetRebootCallbackCore(void *);
+void CAMERA_SetOutputFormatCore(int);
+void MI_FreeWram(int, int);
+void MI_CancelWram(int, int);
+void DSPi_OpenStaticComponentG711Core(void *);
+int DSPi_LoadG711Core(void *, int, int);
 extern void func_02034FB8(u32 v);
 extern u32 func_020307B0(void *p);
 extern u32 func_020490A8(u32 a, u32 b);
@@ -131,21 +144,21 @@ extern void *func_0203D7C8(u32, u32, const char *, u16);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_020862F0(void *, u32);
 extern void func_0203D7FC(void *p);
-extern u32 func_02700FE4(u32 a, u32 b, u32 c);
-void func_027062C8(void);
-u32 func_0270234C(u32 a0);
-void func_0272FE54(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(void), int s2);
-void func_02706174(void *, int);
-void func_0270212C(void);
-void func_027021E4(void);
-void func_02702108(void);
-int func_027020F0(void);
-int func_0272FC90(int ch);
-void func_02702158(int);
-int func_027022F8(u32, u32);
-void func_0270229C(int);
-int func_02702364(u32 v);
-int func_027023CC(u32 v);
+extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
+void DSPi_StopSoundCore(void);
+u32 CAMERA_GetBytesAtOnceCore(u32 a0);
+void MI_Camera_NDmaRecvAsync(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(void), int s2);
+void DSPi_PlayShutterSoundCore(void *, int);
+void CAMERA_StopCaptureCore(void);
+void CAMERA_ClearBufferCore(void);
+void CAMERA_StartCaptureCore(void);
+int CAMERA_IsBusyCore(void);
+int MI_IsNDmaBusy(int ch);
+void CAMERA_SetTrimmingCore(int);
+int CAMERA_GetMaxLinesRoundCore(u32, u32);
+void CAMERA_SetTransferLinesCore(int);
+u32 CAMERA_SizeToWidthCore(u32 v);
+u32 CAMERA_SizeToHeightCore(u32 v);
 Camera *func_021B6100(int id);
 void func_021B6338(Camera *p);
 void func_021B63B8(Camera *p);
@@ -206,41 +219,41 @@ Camera *func_021B6100(int id)
     p->f40 = z;
     func_02034F84(0x40);
     if (func_02085D3C() == 1) {
-        r = func_02700938();
-        if (r == 0) r = func_02700CB4(3);
+        r = CAMERA_InitCore();
+        if (r == 0) r = CAMERA_I2CInitCore(3);
     } else {
         r = 7;
     }
     if (r == 7) func_02088234();
     if (r == 6) return 0;
     r = p->f2C;
-    if (func_02085D3C() == 1) func_02701248(r, 3, 0);
+    if (func_02085D3C() == 1) CAMERA_I2CEffectExCore(r, 3, 0);
     r = p->f2C;
-    if (func_02085D3C() == 1) func_027017DC(r, 1);
+    if (func_02085D3C() == 1) CAMERA_I2CAutoExposureCore(r, 1);
     r = p->f2C;
-    if (func_02085D3C() == 1) func_02701908(r, 1);
+    if (func_02085D3C() == 1) CAMERA_I2CAutoWhiteBalanceCore(r, 1);
     r = p->f2C;
-    if (func_02085D3C() == 1) r = func_02700DB8(r);
+    if (func_02085D3C() == 1) r = CAMERA_I2CActivateCore(r);
     else r = 7;
     if (r == 7) func_02088234();
     if (r == 6) return 0;
     p->f28 = 0;
     func_02084968(0x20000000);
-    if (func_02085D3C() == 1) func_027000F8((void *)func_021B662C);
-    if (func_02085D3C() == 1) func_02700108((void *)func_021B65D8);
-    if (func_02085D3C() == 1) func_02700118((void *)func_021B6620);
+    if (func_02085D3C() == 1) CAMERA_SetVsyncCallbackCore((void *)func_021B662C);
+    if (func_02085D3C() == 1) CAMERA_SetBufferErrorCallbackCore((void *)func_021B65D8);
+    if (func_02085D3C() == 1) CAMERA_SetRebootCallbackCore((void *)func_021B6620);
     func_021B68A0(p);
-    if (func_02085D3C() == 1) func_0270218C(1);
+    if (func_02085D3C() == 1) CAMERA_SetOutputFormatCore(1);
     p->buf = 0;
     p->state = 0;
-    func_02730B04(1, 0);
-    func_02730FBC(1, 0);
-    func_02730FBC(1, 1);
-    func_02730B04(2, 0);
-    func_02730FBC(2, 0);
-    func_02730FBC(2, 1);
-    if (func_02085D3C() != 0) func_0270723C(buf);
-    if (func_02085D3C() != 0) r = func_02707278(buf, 0xFF, 0xFF);
+    MI_FreeWram(1, 0);
+    MI_CancelWram(1, 0);
+    MI_CancelWram(1, 1);
+    MI_FreeWram(2, 0);
+    MI_CancelWram(2, 0);
+    MI_CancelWram(2, 1);
+    if (func_02085D3C() != 0) DSPi_OpenStaticComponentG711Core(buf);
+    if (func_02085D3C() != 0) r = DSPi_LoadG711Core(buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) func_02088234();
     func_020351F8((u32)((void *)func_021B6338), (u32)p);
@@ -258,13 +271,13 @@ void func_021B6338(Camera *p)
         func_02085A38(10);
 test:
         result = 0;
-        if (func_02085D3C() != 0) result = func_02706324();
+        if (func_02085D3C() != 0) result = DSPi_IsShutterSoundPlayingCore();
     } while (result == 1);
-    if (func_02085D3C() != 0) func_027072E0();
+    if (func_02085D3C() != 0) DSPi_UnloadG711Core();
     func_021B6868(p);
-    if (func_02085D3C() == 1) func_02700BD0();
-    func_0272FCE0(1);
-    if (func_02085D3C() == 1) func_02700B34();
+    if (func_02085D3C() == 1) CAMERA_StopCore();
+    MI_StopNDma(1);
+    if (func_02085D3C() == 1) CAMERA_EndCore();
 }
 
 
@@ -272,12 +285,12 @@ test:
 void func_021B63B8(Camera *p)
 {
     func_020351F8(0, 0);
-    if (func_02085D3C() != 0) func_027062C8();
-    if (func_02085D3C() != 0) func_027072E0();
+    if (func_02085D3C() != 0) DSPi_StopSoundCore();
+    if (func_02085D3C() != 0) DSPi_UnloadG711Core();
     func_021B6868(p);
-    if (func_02085D3C() == 1) func_02700BD0();
-    func_0272FCE0(1);
-    if (func_02085D3C() == 1) func_02700B34();
+    if (func_02085D3C() == 1) CAMERA_StopCore();
+    MI_StopNDma(1);
+    if (func_02085D3C() == 1) CAMERA_EndCore();
     func_021B65C4(p);
     func_021B67BC(p);
     func_02034FB8(0x40);
@@ -291,9 +304,9 @@ void func_021B644C(Camera *p)
 {
     u32 width = func_021B6938(p);
     u32 height = func_021B6944(p);
-    u32 offset = func_02085D3C() == 1 ? func_0270234C(width) : 0;
+    u32 offset = func_02085D3C() == 1 ? CAMERA_GetBytesAtOnceCore(width) : 0;
     width *= 2;
-    func_0272FE54(1, (u32)p->frames[p->frameIndex], offset >> 2,
+    MI_Camera_NDmaRecvAsync(1, (u32)p->frames[p->frameIndex], offset >> 2,
                  width * height, 0, func_021B66B0, 0);
 }
 
@@ -312,12 +325,12 @@ void func_021B64AC(Camera *p)
         func_021B657C(p, 1);
         a = p->bufSize;
         b = p->buf;
-        if (func_02085D3C() != 0) func_02706174(b, a);
+        if (func_02085D3C() != 0) DSPi_PlayShutterSoundCore(b, a);
         p->state = 2;
         break;
     case 2:
         r = 0;
-        if (func_02085D3C() != 0) r = func_02706324();
+        if (func_02085D3C() != 0) r = DSPi_IsShutterSoundPlayingCore();
         if (r == 0) {
             func_021B65C4(p);
             p->state = 3;
@@ -327,12 +340,12 @@ void func_021B64AC(Camera *p)
         func_021B657C(p, 0);
         c = p->bufSize;
         d = p->buf;
-        if (func_02085D3C() != 0) func_02706174(d, c);
+        if (func_02085D3C() != 0) DSPi_PlayShutterSoundCore(d, c);
         p->state = 5;
         break;
     case 5:
         r = 0;
-        if (func_02085D3C() != 0) r = func_02706324();
+        if (func_02085D3C() != 0) r = DSPi_IsShutterSoundPlayingCore();
         if (r == 0) {
             func_021B65C4(p);
             p->state = 6;
@@ -386,10 +399,10 @@ void func_021B65D8(void)
     Camera *p = g_021C88E0;
 
     if (func_02085D3C() == 1)
-        func_0270212C();
-    func_0272FCE0(1);
+        CAMERA_StopCaptureCore();
+    MI_StopNDma(1);
     if (func_02085D3C() == 1)
-        func_027021E4();
+        CAMERA_ClearBufferCore();
     p->f24 = 1;
     p->f1C = 1;
 }
@@ -418,15 +431,15 @@ void func_021B662C(void)
         if (p->f28 <= 30) ++p->f28;
         if (p->f20 != 0) {
             v = p->f2C;
-            if ((func_02085D3C() == 1 ? func_02700DB8(v) : 7) == 7)
+            if ((func_02085D3C() == 1 ? CAMERA_I2CActivateCore(v) : 7) == 7)
                 func_02088234();
             p->f28 = 0;
             p->f20 = 0;
         }
         if (p->f1C != 0) {
             func_021B644C(p);
-            if (func_02085D3C() == 1) func_027021E4();
-            if (func_02085D3C() == 1) func_02702108();
+            if (func_02085D3C() == 1) CAMERA_ClearBufferCore();
+            if (func_02085D3C() == 1) CAMERA_StartCaptureCore();
             p->f1C = 0;
         }
     }
@@ -438,10 +451,10 @@ void func_021B66B0(void)
 {
     Camera *p = g_021C88E0;
     int one;
-    func_0272FCE0(1);
-    if ((func_02085D3C() == 1 ? func_027020F0() : 0) == 1) {
+    MI_StopNDma(1);
+    if ((func_02085D3C() == 1 ? CAMERA_IsBusyCore() : 0) == 1) {
         one = 1;
-        if (func_0272FC90(one) != 0) func_0272FCE0(one);
+        if (MI_IsNDmaBusy(one) != 0) MI_StopNDma(one);
         if (p->f24 != 0) {
             p->f24 = 0;
         } else if (p->f28 > 4) {
@@ -483,7 +496,7 @@ void func_021B67BC(Camera *p)
 {
     u8 i;
     if (p->f10 != 0) return;
-    if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0) return;
+    if ((func_02085D3C() == 1 ? CAMERA_IsBusyCore() : 0) != 0) return;
     if (p->allocated == 1) {
         for (i = 0; i < p->frameCount; i++)
             func_0203D7FC(p->frames[i]);
@@ -502,10 +515,10 @@ void func_021B6814(Camera *a0)
 
     if (p->f10 != 0)
         return;
-    if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0)
+    if ((func_02085D3C() == 1 ? CAMERA_IsBusyCore() : 0) != 0)
         return;
-    if (func_0272FC90(one) == 1)
-        func_0272FCE0(one);
+    if (MI_IsNDmaBusy(one) == 1)
+        MI_StopNDma(one);
     p->f10 = one;
     p->f1C = one;
     p->f28 = 0;
@@ -519,7 +532,7 @@ void func_021B6868(Camera *p)
         p->f10 = 0;
         p->f1C = 0;
         if (func_02085D3C() == 1) {
-            func_0270212C();
+            CAMERA_StopCaptureCore();
         }
     }
 }
@@ -540,8 +553,8 @@ void func_021B68A0(Camera *p)
     u32 width;
     u32 height;
     if (p->f10 != 0) return;
-    if ((func_02085D3C() == 1 ? func_027020F0() : 0) != 0) return;
-    if (func_02085D3C() == 1) func_02702158(0);
+    if ((func_02085D3C() == 1 ? CAMERA_IsBusyCore() : 0) != 0) return;
+    if (func_02085D3C() == 1) CAMERA_SetTrimmingCore(0);
     result = 0;
     p->x0 = 0;
     p->x1 = func_021B697C(p);
@@ -549,8 +562,8 @@ void func_021B68A0(Camera *p)
     p->y1 = func_021B699C(p);
     width = func_021B6938(p);
     height = func_021B6944(p);
-    if (func_02085D3C() == 1) result = func_027022F8(width, height);
-    if (func_02085D3C() == 1) func_0270229C(result);
+    if (func_02085D3C() == 1) result = CAMERA_GetMaxLinesRoundCore(width, height);
+    if (func_02085D3C() == 1) CAMERA_SetTransferLinesCore(result);
     p->f14 = 0;
 }
 
@@ -577,7 +590,7 @@ u16 func_021B6944(Camera *p)
 
 void func_021B6950(Camera *p, int v)
 {
-    if (func_02085D3C() == 1) func_02700FE4(3, 3, v);
+    if (func_02085D3C() == 1) CAMERA_I2CSizeExCore(3, 3, v);
     p->f30 = v;
     func_021B68A0(p);
 }
@@ -593,7 +606,7 @@ int func_021B697C(Camera *p)
 {
     u32 f = p->f30;
     if (func_02085D3C() == 1) {
-        return func_02702364(f);
+        return CAMERA_SizeToWidthCore(f);
     }
     return 0;
 }
@@ -604,7 +617,7 @@ int func_021B699C(Camera *p)
 {
     u32 v = p->f30;
     if (func_02085D3C() == 1) {
-        return func_027023CC(v);
+        return CAMERA_SizeToHeightCore(v);
     }
     return 0;
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * lever: permuter split-assign(count2) moves the otherwise swapped outer/inner count spill slots; fixed-flag one validates MATCH*258B; trailing2B alignment excluded.
- * blocker: ARM9 02025B38,02025BB8,02025BD0 have no matched witnesses. Independent scratch one:02025B38 EXACT4B;02025BB8 MATCH24B sole data0209FA34;02025BD0 MATCH24B sole data0209FA35. Ilias owns their sources.
+ * blocker: ARM9 02025B38,02025BB8,02025BD0 have no matched witnesses. Independent scratch one:02025B38 EXACT4B;02025BB8 MATCH24B sole data0209FA34;02025BD0 MATCH24B sole data0209FA35. the integrator owns their sources.
  * blocker C: int func_02025B38(void){return 19;} typedef unsigned int u32; extern const unsigned char d_0209FA34[],d_0209FA35[]; u32 func_02025BB8(u32 i){if(i<19)return d_0209FA34[i*12];return 0;} u32 func_02025BD0(u32 i){if(i<19)return d_0209FA35[i*12];return 18;}
  * note 2026-10-04 (D2): still MATCH*; the three arm9 leaves 02025B38, 02025BB8, 02025BD0 are now filed EXACT in
  *   src/matched/arm9/func_<ADDR>.c (D2 lane 11). Rerun after the integrator regenerates shards: expected EXACT*.

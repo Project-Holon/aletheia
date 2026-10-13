@@ -53,8 +53,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import protofix as pf  # noqa: E402
 
 ROOT = pf.ROOT
-SCRATCH = ('<home>/AppData/Local/Temp/claude/<project>/'
-           'd965be22-e087-410a-b91d-ae680804241d/scratchpad')
+SCRATCH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scratch')
 DEFAULT_OUT = SCRATCH + '/gu'
 DEFAULT_DECLS = SCRATCH + '/tm_p6_final/decls.tsv'
 

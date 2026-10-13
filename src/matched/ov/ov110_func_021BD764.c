@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * blocker: 0x02024224, Thumb ARM9, Ilias-owned unlabelled tail forwarder.
+ * blocker: 0x02024224, Thumb ARM9, integrator-owned unlabelled tail forwarder.
  * No witness outside this caller; tu --suggest-split leaves it out.
  * Scratch one verdict EXACT (12 bytes), fixed compiler/flags, no region:
  * Blocker relocation: func_020355D8 0x020355D8 arm (matched).

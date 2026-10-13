@@ -1,5 +1,5 @@
 /*
- * function: func_0272FCE0
+ * function: MI_StopNDma
  * address:  0x0272FCE0
  * packet:   twl_audio
  * region:   twl
@@ -16,7 +16,7 @@
 int func_02087988(void);
 void func_0208799C(int);
 
-void func_0272FCE0(int ch)
+void MI_StopNDma(int ch)
 {
     int irq = func_02087988();
     volatile unsigned int *reg = (volatile unsigned int *)(0x04004000 + 0x11C + ch * 0x1C);

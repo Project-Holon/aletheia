@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Former blocker (now filed in src/matched/arm9): func_020508EC (0x020508EC, arm9, unlabelled leaf, Ilias's).
+ * Former blocker (now filed in src/matched/arm9): func_020508EC (0x020508EC, arm9, unlabelled leaf, the integrator's).
  * Verified EXACT from a scratch file (region arm9, --arm, dsi/1.1p1 -O4,p):
  *
  *   u32 func_020508EC(u8 *p, int i, u16 *out)

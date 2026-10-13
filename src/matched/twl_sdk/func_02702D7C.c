@@ -1,5 +1,5 @@
 /*
- * function: func_02702D7C
+ * function: NWMi_ForceExit
  * address:  0x02702D7C
  * packet:   twl
  * region:   twl
@@ -10,147 +10,77 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0273153C  0x0273153C  arm twl
- *   func_027026DC  0x027026DC  arm twl
+ *   PM_GetExitFactor  0x0273153C  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_02087A04  0x02087A04  arm twl
  *   func_02088688  0x02088688  arm twl
  *   func_020862B8  0x020862B8  arm twl
- *   func_027028B0  0x027028B0  arm twl
- *   func_027028E4  0x027028E4  arm twl
- *   DAT_027341c8   0x027341c8  data twl
- *   func_02702CA0  0x02702CA0  arm twl
- *   DAT_02702d68   0x02702D68  arm twl
+ *   NWM_GetState  0x027028B0  arm twl
+ *   NWMi_CheckState  0x027028E4  arm twl
+ *   d_027341C8     0x027341C8  data twl
+ *   NWMi_ForceUnloadDevice  0x02702CA0  arm twl
+ *   NWMi_ForceUnloadDeviceCallback  0x02702D68  arm twl
+ *   NWM_UnloadDevice  0x02702BFC  arm
+ *   NWMi_SetCallbackTable  0x02703A34  arm
+ *   NWMi_SendCommand  0x02703A74  arm
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 func_0273153C(void);
-extern u32 func_027026DC(void);
+extern u32 NWMi_CheckState(u32, ...);
+extern u32 NWMi_GetSystemWork(void);
+extern void func_020862B8(u32, u32);
+extern void NWMi_SetCallbackTable(u32, u32);
+extern u32 NWMi_SendCommand(u32, u32, u32);
+extern u32 PM_GetExitFactor(void);
 extern void func_02087A04(u32);
 extern void func_02088688(void);
-extern void func_020862B8(u32, u32);
-extern u32 func_027028B0(void);
-extern u32 func_027028E4(u32, u32, u32, u32, u32);
-extern u32 DAT_027341c8[];
-extern void func_02702CA0(void);
-extern u32 DAT_02702d68[];
+extern u32 NWM_GetState(void);
+void NWMi_ForceUnloadDeviceCallback(void);
+extern u8 d_027341C8;
+u32 NWM_UnloadDevice(u32 a0);
+u32 NWMi_ForceUnloadDevice(u32 a0);
 
-asm void func_02702D7C(void) {
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-    sub sp, sp, #4
-    mov r4, #0
-    bl func_0273153C
-    cmp r0, #0
-    addeq sp, sp, #4
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-    bl func_027026DC
-    cmp r0, #0
-    ldr r7, =0x3fec420
-    addeq sp, sp, #4
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-    ldr r0, =0x61a80
-    bl func_02087A04
-    mov r8, #1
-    mov r10, r8
-    mov r5, r8
-    ldr r6, =0x2710
-    b @lbl_02702DD4
-@lbl_02702DC8:
-    mov r0, r6
-    bl func_02087A04
-    bl func_02088688
-@lbl_02702DD4:
-    bl func_027026DC
-    movs r9, r0
-    beq @lbl_02702E10
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    mov r1, r5
-    add r0, r0, #3
-    bl func_020862B8
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    ldrb r0, [r0, #3]
-    cmp r0, #1
-    moveq r0, r5
-    movne r0, r4
-    b @lbl_02702E14
-@lbl_02702E10:
-    mov r0, r4
-@lbl_02702E14:
-    cmp r0, #1
-    bne @lbl_02702E28
-    bl func_027028B0
-    cmp r0, #1
-    beq @lbl_02702DC8
-@lbl_02702E28:
-    bl func_027026DC
-    movs r9, r0
-    beq @lbl_02702E64
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    mov r1, r10
-    add r0, r0, #1
-    bl func_020862B8
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    ldrb r0, [r0, #1]
-    cmp r0, #1
-    moveq r0, r10
-    movne r0, r4
-    b @lbl_02702E68
-@lbl_02702E64:
-    mov r0, r4
-@lbl_02702E68:
-    cmp r0, #1
-    beq @lbl_02702DC8
-    bl func_027026DC
-    movs r9, r0
-    beq @lbl_02702EAC
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    mov r1, r8
-    add r0, r0, #0x13
-    bl func_020862B8
-    add r0, r9, #0x2000
-    ldr r0, [r0, #0x278]
-    ldrb r0, [r0, #0x13]
-    cmp r0, #1
-    moveq r0, r8
-    movne r0, r4
-    b @lbl_02702EB0
-@lbl_02702EAC:
-    mov r0, r4
-@lbl_02702EB0:
-    cmp r0, #1
-    beq @lbl_02702DC8
-    mov r0, #4
-    mov r4, #5
-    mov r3, r0
-    mov r1, #2
-    mov r2, #3
-    str r4, [sp]
-    mov r5, #0
-    bl func_027028E4
-    cmp r0, #0
-    addne sp, sp, #4
-    ldmnefd sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-    ldr r4, =0x27341c8
-    ldr r0, =0x2702d68
-    strb r5, [r4]
-    bl func_02702CA0
-    ldr r5, =0x2710
-@lbl_02702EF8:
-    mov r0, r5
-    bl func_02087A04
-    bl func_02088688
-    subs r7, r7, r5
-    addmi sp, sp, #4
-    ldmmifd sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-    ldrb r0, [r4]
-    cmp r0, #0
-    beq @lbl_02702EF8
-    add sp, sp, #4
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+static inline u32 flag_set(u32 n) {
+    u32 base = NWMi_GetSystemWork();
+    if (base != 0) {
+        func_020862B8(*(u32 *)(base + 0x2278) + n, 1);
+        return *(u8 *)(*(u32 *)(base + 0x2278) + n) == 1;
+    }
+    return 0;
 }
 
+void NWMi_ForceExit(void) {
+    int timeout;
+    u32 base;
+    if (PM_GetExitFactor() == 0) {
+        return;
+    }
+    base = NWMi_GetSystemWork();
+    timeout = 0x3fec420;
+    if (base == 0) {
+        return;
+    }
+    func_02087A04(0x61a80);
+    while ((flag_set(3) == 1 && NWM_GetState() == 1) || flag_set(1) == 1 || flag_set(0x13) == 1) {
+        func_02087A04(0x2710);
+        func_02088688();
+    }
+    if (NWMi_CheckState(4, 2, 3, 4, 5) != 0) {
+        return;
+    }
+    d_027341C8 = 0;
+    NWMi_ForceUnloadDevice((u32)NWMi_ForceUnloadDeviceCallback);
+    for (;;) {
+        func_02087A04(0x2710);
+        func_02088688();
+        timeout -= 0x2710;
+        if (timeout < 0) {
+            return;
+        }
+        if (d_027341C8 != 0) {
+            return;
+        }
+    }
+}

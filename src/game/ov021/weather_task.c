@@ -6762,7 +6762,7 @@ return func_020307B0(a);
 
 
 /*
- * Ilias's) has no witness outside this range. Leaf C, verified EXACT
+ * the integrator's) has no witness outside this range. Leaf C, verified EXACT
  * with match.py one --thumb --region arm9 (symbols: data_0209DFA8
  * 0x0209DFA8 data a2):
  *   extern const u16 data_0209DFA8[];
@@ -10193,7 +10193,7 @@ return 0;
 
 
 /*
- * Ilias's) has no witness outside this range. Leaf C, verified EXACT
+ * the integrator's) has no witness outside this range. Leaf C, verified EXACT
  * with match.py one --arm --region arm9:
  *   int func_020508EC(u8 *p, int i, u16 *out)
  *   {

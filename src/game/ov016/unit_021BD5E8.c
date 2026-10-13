@@ -45,14 +45,18 @@ void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
 void DWCi_ARClRelease(void *file);
 void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 void taskLoad(void *task);
-extern void DWCi_SETTIGNlGet(void);
+typedef struct {
+    unsigned char pad[0xF4];
+    unsigned char idx;
+} SETTINGINFO;
+extern SETTINGINFO *DWCi_SETTIGNlGet(void);
 extern void func_020862F0(void *addr, unsigned long n);
 extern void func_021D7724(int kind, void *task);
 void func_021BD5E8(void);
 void func_021BD660(void);
 void DWCi_HLlLoad(int idx);
-asm void DWCi_HLlLoadSet(void);
-asm void DWCi_HLlLoadList(void);
+void DWCi_HLlLoadSet(void);
+void DWCi_HLlLoadList(void);
 void func_021BD704(void *task);
 extern unsigned short *g_021DE554;
 extern char g_021DAE54[];
@@ -99,25 +103,15 @@ void DWCi_HLlLoad(int idx)
 }
 
 
-asm void DWCi_HLlLoadSet(void)
+void DWCi_HLlLoadSet(void)
 {
-	stmdb sp!, {r3, lr}
-	bl DWCi_SETTIGNlGet
-	ldrb r0, [r0, #0xf4]
-	add r0, r0, #5
-	bl DWCi_HLlLoad
-	ldmia sp!, {r3, pc}
+    DWCi_HLlLoad(DWCi_SETTIGNlGet()->idx + 5);
 }
 
 
-asm void DWCi_HLlLoadList(void)
+void DWCi_HLlLoadList(void)
 {
-	stmdb sp!, {r3, lr}
-	bl DWCi_SETTIGNlGet
-	ldrb r0, [r0, #0xf4]
-	add r0, r0, #2
-	bl DWCi_HLlLoad
-	ldmia sp!, {r3, pc}
+    DWCi_HLlLoad(DWCi_SETTIGNlGet()->idx + 2);
 }
 
 

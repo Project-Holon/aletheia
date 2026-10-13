@@ -1,5 +1,5 @@
 /*
- * function: func_02700230
+ * function: CAMERA_Reboot
  * address:  0x02700230
  * packet:   twl_sys
  * region:   twl
@@ -10,423 +10,378 @@
  * status:   EXACT
  *
  * symbols:
- *   data_02733FC8  0x02733FC8  data twl a2
- *   data_02732FC8  0x02732FC8  data twl a2
+ *   data_02732FC8 0x02732FC8 data twl a2
+ *   data_02733FC8 0x02733FC8 data twl a2
+ *   func_02085D3C 0x02085D3C arm twl a2
+ *   CAMERA_GetWhiteBalanceFromPhotoMode 0x02700128  arm twl a2
+ *   CAMERA_GetSharpnessFromPhotoMode 0x02700168  arm twl a2
+ *   CAMERA_GetExposureFromPhotoMode 0x027001B8  arm twl a2
+ *   CAMERA_Reboot 0x02700230  arm twl a2
+ *   CAMERA_I2CInitAsyncCore 0x02700C18  arm twl a2
+ *   CAMERA_I2CActivateAsyncCore 0x02700CEC  arm twl a2
+ *   CAMERA_I2CContextSwitchAsyncCore 0x02700DF0  arm twl a2
+ *   CAMERA_I2CSizeExAsyncCore 0x02700EB8  arm twl a2
+ *   CAMERA_I2CFrameRateAsyncCore 0x02701020  arm twl a2
+ *   CAMERA_I2CEffectExAsyncCore 0x02701120  arm twl a2
+ *   CAMERA_I2CFlipExAsyncCore 0x02701284  arm twl a2
+ *   CAMERA_I2CPhotoModeAsyncCore 0x027013A4  arm twl a2
+ *   CAMERA_I2CWhiteBalanceAsyncCore 0x02701488  arm twl a2
+ *   CAMERA_I2CExposureAsyncCore 0x02701570  arm twl a2
+ *   CAMERA_I2CSharpnessAsyncCore 0x02701644  arm twl a2
+ *   CAMERA_I2CAutoExposureAsyncCore 0x02701718  arm twl a2
+ *   CAMERA_I2CAutoWhiteBalanceAsyncCore 0x02701814  arm twl a2
+ *   CAMERA_SetLEDAsyncCore 0x02701940  arm twl a2
+ *   CAMERA_CameraIntr  0x02700078  arm
+ *   CAMERA_SetVsyncCallbackCore  0x027000F8  arm
+ *   CAMERA_SetBufferErrorCallbackCore  0x02700108  arm
+ *   CAMERA_SetRebootCallbackCore  0x02700118  arm
+ *   CAMERA_GoReboot  0x027001F0  arm
+ *   CAMERA_CheckRetryCount  0x027007C8  arm
+ *   CAMERA_MonitorThread  0x02700824  arm
+ *   CAMERA_EndCore  0x02700B34  arm
+ *   CAMERA_StopCore  0x02700BD0  arm
+ *   CAMERA_I2CActivateCore  0x02700DB8  arm
+ *   CameraSendPxiCommand  0x027019B4  arm
+ *   CameraPxiCallback  0x02701AA0  arm
+ *   CAMERA_ResetCore  0x02702080  arm
+ *   CAMERA_IsBusyCore  0x027020F0  arm
+ *   CAMERA_StopCaptureCore  0x0270212C  arm
+ *   CAMERA_GetErrorStatusCore  0x027021CC  arm
+ *   CAMERA_ClearBufferCore  0x027021E4  arm
+ *   CAMERA_SetMasterInterruptCore  0x02702208  arm
+ *   CAMERA_SetVsyncInterruptCore  0x0270223C  arm
+ *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm
+ *   CameraStandbyCallback  0x02702070  arm
+ *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
+ *   PM_DeletePostExitCallback  0x02731590  arm
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 data_02733FC8[];
-extern u32 data_02732FC8[];
+typedef signed int     s32;
+typedef unsigned long long u64;
+typedef signed long long s64;
+typedef void (*TwlCb)(u32);
+typedef void (*CamPxiCallback)(u32 result, u32 arg);
+typedef void (*TwlFn)(void);
+typedef volatile u32 vu32;
 
-extern void func_02085D3C(void);
-extern void func_02700128(void);
-extern void func_02700168(void);
-extern void func_027001B8(void);
-extern void func_02700C18(void);
-extern void func_02700CEC(void);
-extern void func_02700DF0(void);
-extern void func_02700EB8(void);
-extern void func_02701020(void);
-extern void func_02701120(void);
-extern void func_02701284(void);
-extern void func_027013A4(void);
-extern void func_02701488(void);
-extern void func_02701570(void);
-extern void func_02701644(void);
-extern void func_02701718(void);
-extern void func_02701814(void);
-extern void func_02701940(void);
+typedef struct TwlShared {
+    u8 pad[0x3FF8];
+    vu32 flags;
+} TwlShared;
 
-asm void func_02700230(u32 a0, u32 a1) {
-    stmdb sp!, {r3, r4, r5, lr}
-    ldr r4, [pc, #0x580]
-    cmp r0, #0
-    ldmnefd sp!, {r3, r4, r5, pc}
-    cmp r1, #0x1e
-    addls pc, pc, r1, lsl #2
-    b @lbl_0270079C
-    b @lbl_027002C8
-    b @lbl_027002DC
-    b @lbl_027002FC
-    b @lbl_0270031C
-    b @lbl_02700348
-    b @lbl_02700374
-    b @lbl_027003A0
-    b @lbl_027003CC
-    b @lbl_027003EC
-    b @lbl_0270040C
-    b @lbl_02700438
-    b @lbl_02700464
-    b @lbl_02700490
-    b @lbl_027004BC
-    b @lbl_027004E8
-    b @lbl_02700514
-    b @lbl_02700540
-    b @lbl_0270056C
-    b @lbl_02700594
-    b @lbl_027005BC
-    b @lbl_027005E8
-    b @lbl_02700614
-    b @lbl_02700640
-    b @lbl_0270066C
-    b @lbl_0270068C
-    b @lbl_027006AC
-    b @lbl_027006CC
-    b @lbl_027006EC
-    b @lbl_0270071C
-    b @lbl_0270074C
-    b @lbl_02700768
-@lbl_027002C8:
-    ldr r1, [pc, #0x4f0]
-    mov r0, #3
-    mov r2, #1
-    bl func_02700C18
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027002DC:
-    ldr r1, [r4, #0x140]
-    cmp r1, #1
-    beq @lbl_027002FC
-    ldr r2, [pc, #0x4d0]
-    mov r0, #1
-    mov r3, #2
-    bl func_027013A4
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027002FC:
-    ldr r1, [r4, #0x17c]
-    cmp r1, #0
-    beq @lbl_0270031C
-    ldr r2, [pc, #0x4b0]
-    mov r0, #2
-    mov r3, #3
-    bl func_027013A4
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270031C:
-    ldr r0, [r4, #0x128]
-    cmp r0, #5
-    beq @lbl_02700348
-    mov r0, #4
-    str r0, [sp]
-    mov r0, #1
-    ldr r2, [r4, #0x128]
-    ldr r3, [pc, #0x480]
-    mov r1, r0
-    bl func_02700EB8
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700348:
-    ldr r0, [r4, #0x12c]
-    cmp r0, #0
-    beq @lbl_02700374
-    mov r0, #5
-    str r0, [sp]
-    ldr r2, [r4, #0x12c]
-    ldr r3, [pc, #0x458]
-    mov r0, #1
-    mov r1, #2
-    bl func_02700EB8
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700374:
-    ldr r0, [r4, #0x164]
-    cmp r0, #5
-    beq @lbl_027003A0
-    mov r0, #6
-    str r0, [sp]
-    ldr r2, [r4, #0x164]
-    ldr r3, [pc, #0x42c]
-    mov r0, #2
-    mov r1, #1
-    bl func_02700EB8
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027003A0:
-    ldr r0, [r4, #0x168]
-    cmp r0, #0
-    beq @lbl_027003CC
-    mov r0, #7
-    str r0, [sp]
-    mov r0, #2
-    ldr r2, [r4, #0x168]
-    ldr r3, [pc, #0x3fc]
-    mov r1, r0
-    bl func_02700EB8
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027003CC:
-    ldr r1, [r4, #0x148]
-    cmp r1, #0
-    beq @lbl_027003EC
-    ldr r2, [pc, #0x3e0]
-    mov r0, #1
-    mov r3, #8
-    bl func_02701020
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027003EC:
-    ldr r1, [r4, #0x184]
-    cmp r1, #0
-    beq @lbl_0270040C
-    ldr r2, [pc, #0x3c0]
-    mov r0, #2
-    mov r3, #9
-    bl func_02701020
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270040C:
-    ldr r0, [r4, #0x130]
-    cmp r0, #0
-    beq @lbl_02700438
-    mov r0, #0xa
-    str r0, [sp]
-    mov r0, #1
-    ldr r2, [r4, #0x130]
-    ldr r3, [pc, #0x390]
-    mov r1, r0
-    bl func_02701120
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700438:
-    ldr r0, [r4, #0x134]
-    cmp r0, #0
-    beq @lbl_02700464
-    mov r0, #0xb
-    str r0, [sp]
-    ldr r2, [r4, #0x134]
-    ldr r3, [pc, #0x368]
-    mov r0, #1
-    mov r1, #2
-    bl func_02701120
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700464:
-    ldr r0, [r4, #0x16c]
-    cmp r0, #0
-    beq @lbl_02700490
-    mov r0, #0xc
-    str r0, [sp]
-    ldr r2, [r4, #0x16c]
-    ldr r3, [pc, #0x33c]
-    mov r0, #2
-    mov r1, #1
-    bl func_02701120
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700490:
-    ldr r0, [r4, #0x170]
-    cmp r0, #0
-    beq @lbl_027004BC
-    mov r0, #0xd
-    str r0, [sp]
-    mov r0, #2
-    ldr r2, [r4, #0x170]
-    ldr r3, [pc, #0x30c]
-    mov r1, r0
-    bl func_02701120
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027004BC:
-    ldr r0, [r4, #0x138]
-    cmp r0, #2
-    beq @lbl_027004E8
-    mov r0, #0xe
-    str r0, [sp]
-    mov r0, #1
-    ldr r2, [r4, #0x138]
-    ldr r3, [pc, #0x2e0]
-    mov r1, r0
-    bl func_02701284
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027004E8:
-    ldr r0, [r4, #0x13c]
-    cmp r0, #2
-    beq @lbl_02700514
-    mov r0, #0xf
-    str r0, [sp]
-    ldr r2, [r4, #0x13c]
-    ldr r3, [pc, #0x2b8]
-    mov r0, #1
-    mov r1, #2
-    bl func_02701284
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700514:
-    ldr r0, [r4, #0x174]
-    cmp r0, #0
-    beq @lbl_02700540
-    mov r0, #0x10
-    str r0, [sp]
-    ldr r2, [r4, #0x174]
-    ldr r3, [pc, #0x28c]
-    mov r0, #2
-    mov r1, #1
-    bl func_02701284
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700540:
-    ldr r0, [r4, #0x178]
-    cmp r0, #0
-    beq @lbl_0270056C
-    mov r0, #0x11
-    str r0, [sp]
-    mov r0, #2
-    ldr r2, [r4, #0x178]
-    ldr r3, [pc, #0x25c]
-    mov r1, r0
-    bl func_02701284
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270056C:
-    ldr r0, [r4, #0x140]
-    bl func_02700128
-    ldr r1, [r4, #0x144]
-    cmp r1, r0
-    beq @lbl_02700594
-    ldr r2, [pc, #0x238]
-    mov r0, #1
-    mov r3, #0x12
-    bl func_02701488
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700594:
-    ldr r0, [r4, #0x17c]
-    bl func_02700128
-    ldr r1, [r4, #0x180]
-    cmp r1, r0
-    beq @lbl_027005BC
-    ldr r2, [pc, #0x210]
-    mov r0, #2
-    mov r3, #0x13
-    bl func_02701488
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027005BC:
-    ldr r5, [r4, #0x14c]
-    ldr r0, [r4, #0x140]
-    bl func_027001B8
-    cmp r5, r0
-    beq @lbl_027005E8
-    ldr r2, [pc, #0x1e8]
-    mov r1, r5
-    mov r0, #1
-    mov r3, #0x14
-    bl func_02701570
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027005E8:
-    ldr r5, [r4, #0x188]
-    ldr r0, [r4, #0x17c]
-    bl func_027001B8
-    cmp r5, r0
-    beq @lbl_02700614
-    ldr r2, [pc, #0x1bc]
-    mov r1, r5
-    mov r0, #2
-    mov r3, #0x15
-    bl func_02701570
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700614:
-    ldr r5, [r4, #0x150]
-    ldr r0, [r4, #0x140]
-    bl func_02700168
-    cmp r5, r0
-    beq @lbl_02700640
-    ldr r2, [pc, #0x190]
-    mov r1, r5
-    mov r0, #1
-    mov r3, #0x16
-    bl func_02701644
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700640:
-    ldr r5, [r4, #0x18c]
-    ldr r0, [r4, #0x17c]
-    bl func_02700168
-    cmp r5, r0
-    beq @lbl_0270066C
-    ldr r2, [pc, #0x164]
-    mov r1, r5
-    mov r0, #2
-    mov r3, #0x17
-    bl func_02701644
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270066C:
-    ldr r1, [r4, #0x154]
-    cmp r1, #1
-    beq @lbl_0270068C
-    ldr r2, [pc, #0x140]
-    mov r0, #1
-    mov r3, #0x18
-    bl func_02701718
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270068C:
-    ldr r1, [r4, #0x190]
-    cmp r1, #1
-    beq @lbl_027006AC
-    ldr r2, [pc, #0x120]
-    mov r0, #2
-    mov r3, #0x19
-    bl func_02701718
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027006AC:
-    ldr r1, [r4, #0x158]
-    cmp r1, #1
-    beq @lbl_027006CC
-    ldr r2, [pc, #0x100]
-    mov r0, #1
-    mov r3, #0x1a
-    bl func_02701814
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027006CC:
-    ldr r1, [r4, #0x194]
-    cmp r1, #1
-    beq @lbl_027006EC
-    ldr r2, [pc, #0xe0]
-    mov r0, #2
-    mov r3, #0x1b
-    bl func_02701814
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_027006EC:
-    ldr r5, [r4, #0x15c]
-    cmp r5, #1
-    beq @lbl_0270071C
-    bl func_02085D3C
-    cmp r0, #1
-    ldmnefd sp!, {r3, r4, r5, pc}
-    ldr r2, [pc, #0xb4]
-    mov r1, r5
-    mov r0, #1
-    mov r3, #0x1c
-    bl func_02700DF0
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270071C:
-    ldr r5, [r4, #0x198]
-    cmp r5, #1
-    beq @lbl_0270074C
-    bl func_02085D3C
-    cmp r0, #1
-    ldmnefd sp!, {r3, r4, r5, pc}
-    ldr r2, [pc, #0x84]
-    mov r1, r5
-    mov r0, #2
-    mov r3, #0x1d
-    bl func_02700DF0
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270074C:
-    ldr r0, [r4, #0x124]
-    cmp r0, #0
-    beq @lbl_02700768
-    ldr r1, [pc, #0x60]
-    mov r2, #0x1e
-    bl func_02700CEC
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_02700768:
-    ldr r0, [r4, #0x124]
-    cmp r0, #2
-    ldreq r0, [r4, #0x19c]
-    cmpeq r0, #1
-    bne @lbl_0270079C
-    bl func_02085D3C
-    cmp r0, #1
-    ldmnefd sp!, {r3, r4, r5, pc}
-    ldr r1, [pc, #0x30]
-    mov r0, #1
-    mov r2, #0x1f
-    bl func_02701940
-    ldmfd sp!, {r3, r4, r5, pc}
-@lbl_0270079C:
-    mov r0, #0
-    ldr r1, [pc, #0x1c]
-    str r0, [r4, #0x1ac]
-    ldr r1, [r1, #0x60]
-    cmp r1, #0
-    ldmeqfd sp!, {r3, r4, r5, pc}
-    blx r1
-    ldmfd sp!, {r3, r4, r5, pc}
-    dcd data_02733FC8
-    dcd 0x02700230
-    dcd data_02732FC8
+extern u32 func_02085D3C(void);
+extern s32 CAMERA_GetErrorStatusCore(void);
+extern u64 func_020870D0(void);
+extern void func_02085DBC(u32*, u32, u32);
+extern void CameraPxiCallback(int, u32, int);
+extern void CameraStandbyCallback(void);
+extern u32 CAMERA_I2CActivateAsyncCore(u32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CContextSwitchAsyncCore(u32, u32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CSizeExAsyncCore(u32, u32, u32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CFrameRateAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CEffectExAsyncCore(u32, u32, u32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CFlipExAsyncCore(u32, u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CPhotoModeAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CWhiteBalanceAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CExposureAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CSharpnessAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CAutoExposureAsyncCore(u32, s32, CamPxiCallback, u32);
+extern u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32, s32, CamPxiCallback, u32);
+extern int CAMERA_SetLEDAsyncCore(u32, CamPxiCallback, u32);
+extern u32 CameraSendPxiCommand(u32, u32, u32);
+extern u32 func_02087988(void);
+extern void func_02085A38(u32);
+extern u32 func_02085E50(u32*, u32*, u32);
+extern void func_02087974(void);
+extern void CAMERA_ResetCore(void);
+extern void func_02088498(void);
+extern u32 func_020885EC(u32, u32);
+extern void func_020885A0(u32, void (*)(int, u32, int));
+extern void CAMERA_StopCaptureCore(void);
+extern void CAMERA_ClearBufferCore(void);
+extern void func_0208C848(u32*, u32);
+extern void PMi_InsertPostExitCallbackEx(u32*, u32);
+extern void CAMERA_SetVsyncInterruptCore(u32);
+extern void CAMERA_SetBufferErrorInterruptCore(u32);
+extern void CAMERA_SetMasterInterruptCore(u32);
+extern void func_02084774(u32, TwlFn);
+extern void func_02084968(u32);
+extern void func_02085D94(u32*, u32*, u32);
+extern void func_020853C0(u32*, void (*)(void), u32, u32*, u32, u32);
+extern void func_02085868(u32*);
+extern void func_0208C86C(u32*);
+extern void PM_DeletePostExitCallback(u32*);
+extern u32 CAMERA_I2CActivateCore(u32 a0);
+extern void func_02084998(u32);
+extern void func_02085638(u32*, u32);
+extern void func_02087A04(u32);
+extern s32 CAMERA_IsBusyCore(void);
+extern void func_0208799C(u32);
+void CAMERA_CameraIntr(void);
+void CAMERA_SetVsyncCallbackCore(TwlCb a0);
+void CAMERA_SetBufferErrorCallbackCore(TwlCb a0);
+void CAMERA_SetRebootCallbackCore(TwlCb a0);
+u32 CAMERA_GetWhiteBalanceFromPhotoMode(u32 a0);
+s32 CAMERA_GetSharpnessFromPhotoMode(u32 a0);
+u32 CAMERA_GetExposureFromPhotoMode(u32 a0);
+void CAMERA_GoReboot(void);
+void CAMERA_Reboot(u32 a0, u32 a1);
+u32 CAMERA_CheckRetryCount(void);
+void CAMERA_MonitorThread(void);
+void CAMERA_EndCore(void);
+void CAMERA_StopCore(void);
+u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2);
+typedef struct {
+    u32 f00;
+    CamPxiCallback f04;
+    u32 f08;
+    u32 f0C;
+    u32 pad10[(0x28 - 0x10) / 4];
+    u32 f28;
+    u32 f2C;
+    TwlFn f30;
+    u32 f34;
+    u32 pad38[(0x40 - 0x38) / 4];
+    TwlFn f40;
+    u32 f44;
+    u32 pad48[(0x50 - 0x48) / 4];
+    u64 tick;
+    TwlCb cbA;
+    TwlCb cbB;
+    TwlCb cbC;
+} TwlSysA;
+
+extern TwlSysA data_02732FC8;
+typedef struct {
+    u32 pad[0x124 / 4];
+    u32 f124;
+    volatile u32 f128;
+    volatile u32 f12C;
+    volatile u32 f130;
+    volatile u32 f134;
+    volatile u32 f138;
+    volatile u32 f13C;
+    u32 f140;
+    u32 f144;
+    u32 f148;
+    u32 f14C;
+    s32 f150;
+    u32 f154;
+    u32 f158;
+    u32 f15C;
+    u32 f160;
+    volatile u32 f164;
+    volatile u32 f168;
+    volatile u32 f16C;
+    volatile u32 f170;
+    volatile u32 f174;
+    volatile u32 f178;
+    u32 f17C;
+    u32 f180;
+    u32 f184;
+    u32 f188;
+    u32 f18C;
+    u32 f190;
+    u32 f194;
+    u32 f198;
+    u32 f19C;
+    u32 f1A0;
+    u32 f1A4;
+    u32 f1A8;
+    u32 f1AC;
+    s32 f1B0;
+} TwlSysB;
+
+extern TwlSysB data_02733FC8;
+extern u32 data_0273417C[];
+extern u32 data_02732FC0[];
+extern u32 data_02701AA0[];
+extern u32 data_02702070[];
+extern u32 data_02700078[];
+extern u32 data_02700824[];
+extern u32 data_02732FF8[];
+extern u32 data_02733008[];
+extern u32 data_0273419C[];
+extern u32 data_0273302C[];
+extern u32 data_027340EC[];
+
+void CAMERA_Reboot(u32 a0, u32 a1) {
+    u32 t;
+    if (a0 != 0) {
+        return;
+    }
+    switch (a1) {
+    case 0:
+        CAMERA_I2CInitAsyncCore(3, CAMERA_Reboot, 1);
+        return;
+    case 1:
+        if (data_02733FC8.f140 != 1) {
+            CAMERA_I2CPhotoModeAsyncCore(1, data_02733FC8.f140, CAMERA_Reboot, 2);
+            return;
+        }
+    case 2:
+        if (data_02733FC8.f17C != 0) {
+            CAMERA_I2CPhotoModeAsyncCore(2, data_02733FC8.f17C, CAMERA_Reboot, 3);
+            return;
+        }
+    case 3:
+        if (data_02733FC8.f128 != 5) {
+            CAMERA_I2CSizeExAsyncCore(1, 1, data_02733FC8.f128, CAMERA_Reboot, 4);
+            return;
+        }
+    case 4:
+        if (data_02733FC8.f12C != 0) {
+            CAMERA_I2CSizeExAsyncCore(1, 2, data_02733FC8.f12C, CAMERA_Reboot, 5);
+            return;
+        }
+    case 5:
+        if (data_02733FC8.f164 != 5) {
+            CAMERA_I2CSizeExAsyncCore(2, 1, data_02733FC8.f164, CAMERA_Reboot, 6);
+            return;
+        }
+    case 6:
+        if (data_02733FC8.f168 != 0) {
+            CAMERA_I2CSizeExAsyncCore(2, 2, data_02733FC8.f168, CAMERA_Reboot, 7);
+            return;
+        }
+    case 7:
+        if (data_02733FC8.f148 != 0) {
+            CAMERA_I2CFrameRateAsyncCore(1, data_02733FC8.f148, CAMERA_Reboot, 8);
+            return;
+        }
+    case 8:
+        if (data_02733FC8.f184 != 0) {
+            CAMERA_I2CFrameRateAsyncCore(2, data_02733FC8.f184, CAMERA_Reboot, 9);
+            return;
+        }
+    case 9:
+        if (data_02733FC8.f130 != 0) {
+            CAMERA_I2CEffectExAsyncCore(1, 1, data_02733FC8.f130, CAMERA_Reboot, 0xA);
+            return;
+        }
+    case 10:
+        if (data_02733FC8.f134 != 0) {
+            CAMERA_I2CEffectExAsyncCore(1, 2, data_02733FC8.f134, CAMERA_Reboot, 0xB);
+            return;
+        }
+    case 11:
+        if (data_02733FC8.f16C != 0) {
+            CAMERA_I2CEffectExAsyncCore(2, 1, data_02733FC8.f16C, CAMERA_Reboot, 0xC);
+            return;
+        }
+    case 12:
+        if (data_02733FC8.f170 != 0) {
+            CAMERA_I2CEffectExAsyncCore(2, 2, data_02733FC8.f170, CAMERA_Reboot, 0xD);
+            return;
+        }
+    case 13:
+        if (data_02733FC8.f138 != 2) {
+            CAMERA_I2CFlipExAsyncCore(1, 1, data_02733FC8.f138, CAMERA_Reboot, 0xE);
+            return;
+        }
+    case 14:
+        if (data_02733FC8.f13C != 2) {
+            CAMERA_I2CFlipExAsyncCore(1, 2, data_02733FC8.f13C, CAMERA_Reboot, 0xF);
+            return;
+        }
+    case 15:
+        if (data_02733FC8.f174 != 0) {
+            CAMERA_I2CFlipExAsyncCore(2, 1, data_02733FC8.f174, CAMERA_Reboot, 0x10);
+            return;
+        }
+    case 16:
+        if (data_02733FC8.f178 != 0) {
+            CAMERA_I2CFlipExAsyncCore(2, 2, data_02733FC8.f178, CAMERA_Reboot, 0x11);
+            return;
+        }
+    case 17:
+        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.f140);
+        if (data_02733FC8.f144 != t) {
+            CAMERA_I2CWhiteBalanceAsyncCore(1, data_02733FC8.f144, CAMERA_Reboot, 0x12);
+            return;
+        }
+    case 18:
+        t = CAMERA_GetWhiteBalanceFromPhotoMode(data_02733FC8.f17C);
+        if (data_02733FC8.f180 != t) {
+            CAMERA_I2CWhiteBalanceAsyncCore(2, data_02733FC8.f180, CAMERA_Reboot, 0x13);
+            return;
+        }
+    case 19:
+        if (data_02733FC8.f14C != CAMERA_GetExposureFromPhotoMode(data_02733FC8.f140)) {
+            CAMERA_I2CExposureAsyncCore(1, data_02733FC8.f14C, CAMERA_Reboot, 0x14);
+            return;
+        }
+    case 20:
+        if (data_02733FC8.f188 != CAMERA_GetExposureFromPhotoMode(data_02733FC8.f17C)) {
+            CAMERA_I2CExposureAsyncCore(2, data_02733FC8.f188, CAMERA_Reboot, 0x15);
+            return;
+        }
+    case 21:
+        if (data_02733FC8.f150 != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.f140)) {
+            CAMERA_I2CSharpnessAsyncCore(1, data_02733FC8.f150, CAMERA_Reboot, 0x16);
+            return;
+        }
+    case 22:
+        if (data_02733FC8.f18C != CAMERA_GetSharpnessFromPhotoMode(data_02733FC8.f17C)) {
+            CAMERA_I2CSharpnessAsyncCore(2, data_02733FC8.f18C, CAMERA_Reboot, 0x17);
+            return;
+        }
+    case 23:
+        if (data_02733FC8.f154 != 1) {
+            CAMERA_I2CAutoExposureAsyncCore(1, data_02733FC8.f154, CAMERA_Reboot, 0x18);
+            return;
+        }
+    case 24:
+        if (data_02733FC8.f190 != 1) {
+            CAMERA_I2CAutoExposureAsyncCore(2, data_02733FC8.f190, CAMERA_Reboot, 0x19);
+            return;
+        }
+    case 25:
+        if (data_02733FC8.f158 != 1) {
+            CAMERA_I2CAutoWhiteBalanceAsyncCore(1, data_02733FC8.f158, CAMERA_Reboot, 0x1A);
+            return;
+        }
+    case 26:
+        if (data_02733FC8.f194 != 1) {
+            CAMERA_I2CAutoWhiteBalanceAsyncCore(2, data_02733FC8.f194, CAMERA_Reboot, 0x1B);
+            return;
+        }
+    case 27:
+        t = data_02733FC8.f15C;
+        if (t != 1) {
+            if (func_02085D3C() == 1) {
+                CAMERA_I2CContextSwitchAsyncCore(1, t, CAMERA_Reboot, 0x1C);
+            }
+            return;
+        }
+    case 28:
+        t = data_02733FC8.f198;
+        if (t != 1) {
+            if (func_02085D3C() == 1) {
+                CAMERA_I2CContextSwitchAsyncCore(2, t, CAMERA_Reboot, 0x1D);
+            }
+            return;
+        }
+    case 29:
+        if (data_02733FC8.f124 != 0) {
+            CAMERA_I2CActivateAsyncCore(data_02733FC8.f124, CAMERA_Reboot, 0x1E);
+            return;
+        }
+    case 30:
+        if (data_02733FC8.f124 == 2 && data_02733FC8.f19C == 1) {
+            if (func_02085D3C() == 1) {
+                CAMERA_SetLEDAsyncCore(1, CAMERA_Reboot, 0x1F);
+            }
+            return;
+        }
+    default:
+        break;
+    }
+    data_02733FC8.f1AC = 0;
+    if (data_02732FC8.cbC != 0) {
+        data_02732FC8.cbC(0);
+    }
 }

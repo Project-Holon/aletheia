@@ -26,7 +26,7 @@
  *   func_02082E74  0x02082E74  arm
  *   func_02082EA4  0x02082EA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02703250  0x02703250  arm  twl
+ *   NWM_GetVenderInfoElements  0x02703250  arm  twl
  *   @12407  0x021A19B4  data
  *   @12409  0x021A19B8  data
  *   @12437         0x021A19B0  data
@@ -58,7 +58,7 @@ extern void func_02082B0C(const void *srcp, void *destp, u32 size);
 extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
 extern void func_02082EA4(const void *srcp, void *destp, u32 size);
 extern int OS_IsRunOnTwl(void);
-extern NWMInfoElements *func_02703250();
+extern NWMInfoElements *NWM_GetVenderInfoElements();
 void WCM_ClearApList(void);
 long WCM_CountApList(void);
 long WCM_LockApList(long lock);
@@ -442,7 +442,7 @@ WMGameInfo *func_021661F0(WMBssDesc *bssDesc)
         if (w->deviceId == 2) {
             elem = 0;
             if (bssDesc->elementCount != 0) {
-                elem = func_02703250(bssDesc, 0xDD, tag);
+                elem = NWM_GetVenderInfoElements(bssDesc, 0xDD, tag);
             }
             if (elem != 0) {
                 gameInfo = (WMGameInfo *)&elem->element[4];

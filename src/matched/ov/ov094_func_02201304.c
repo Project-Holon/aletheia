@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015F40 belongs to Ilias.
+ * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015F40 belongs to the integrator.
  * Verified C: one, Thumb dsi/1.1p1 -O4,p EXACT 16 bytes;
  * proof: scratchpad/overlay-goal-20260930-w29/B6/f40-proof.log
  * symbols for blocker: func_02064D70 0x02064D70 arm

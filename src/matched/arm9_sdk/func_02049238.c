@@ -14,15 +14,11 @@
  *   func_02078A80 0x02078A80 arm
  */
 
-extern void func_020307B0(void *arc);
-extern void func_02078A80(void *arc);
+extern void func_02078A80(void *p);
+extern unsigned int func_020307B0(void *p);
 
-asm void func_02049238(void *arc)
+void func_02049238(void *arc)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_02078A80
-    mov	r0, r4
-    bl func_020307B0
-    ldmfd sp!, {r4, pc}
+    func_02078A80(arc);
+    func_020307B0(arc);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Byte-correct; the only wildcard is the THM_CALL at +0x118 to the arm9
- * leaf func_02047888 (unlabelled ARM, 48 bytes, Ilias's), which has no
+ * leaf func_02047888 (unlabelled ARM, 48 bytes, the integrator's), which has no
  * witness outside this range.  Reading the frame count into `cur` before
  * the f38 test is what loads it ahead of the compare (3 lines otherwise).
  *

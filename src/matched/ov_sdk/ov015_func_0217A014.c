@@ -1,5 +1,5 @@
 /*
- * function: DSPi_IsSoundPlayingCore
+ * function: IRC_IsSender
  * address:  0x0217A014
  * packet:   pkt_ov015_0217A014
  * region:   ov015
@@ -15,7 +15,7 @@
 
 extern unsigned char d_0217ABA8[];
 
-unsigned int DSPi_IsSoundPlayingCore(void)
+unsigned int IRC_IsSender(void)
 {
 	return *(unsigned int *)(d_0217ABA8 + 0x18);
 }

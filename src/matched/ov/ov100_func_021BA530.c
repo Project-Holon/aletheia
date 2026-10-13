@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 veneer 0x0203D170 points to unlabelled 0x0203E590;
- *   veneer evidence cannot attest the target. Ilias owns the ARM9 fix.
+ *   veneer evidence cannot attest the target. the integrator owns the ARM9 fix.
  * blocker: 0x0203E590 ARM, verified EXACT with one in blocker-1.log.
  *   symbols: d_021469F0 0x021469F0 data a4
  *   extern unsigned char *d_021469F0;

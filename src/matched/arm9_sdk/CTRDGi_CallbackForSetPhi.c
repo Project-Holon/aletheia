@@ -13,12 +13,10 @@
  *   g_02148B2C 0x02148B2C data
  */
 
-extern void g_02148B2C(void);
+struct UVFlipState { void *pFunc; int f04; unsigned int f08; };
+extern struct UVFlipState g_02148B2C;
 
-asm void CTRDGi_CallbackForSetPhi(void)
+void CTRDGi_CallbackForSetPhi(void)
 {
-    ldr r0, =g_02148B2C
-    mov	r1, #0
-    str	r1, [r0, #4]
-    bx	lr
+    g_02148B2C.f04 = 0;
 }

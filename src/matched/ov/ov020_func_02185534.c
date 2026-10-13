@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked (evidence class: none, unresolved callee site) by unlabelled arm9 leaf
- * 0x02014184 (Ilias's), verified EXACT in a scratch file with `one --region arm9 --thumb`:
+ * 0x02014184 (the integrator's), verified EXACT in a scratch file with `one --region arm9 --thumb`:
  *   typedef short s16;
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
  *   void func_02014184(Obj *o, s16 a, s16 b, int c, int d, int e)

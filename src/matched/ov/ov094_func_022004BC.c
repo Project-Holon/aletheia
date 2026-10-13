@@ -13,7 +13,7 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * MATCH: bytes identical; blocked on 0x02015C60, an unfiled unlabelled ARM9
- * Thumb leaf (Ilias's) with no witness outside this range. Verified C for it
+ * Thumb leaf (the integrator's) with no witness outside this range. Verified C for it
  * (EXACT, `one --thumb`, no --region, cc 1.1p1, -O4,p; packet pkt_02015C60,
  * 64 B extent, out-direction twin of func_02015C78):
  *

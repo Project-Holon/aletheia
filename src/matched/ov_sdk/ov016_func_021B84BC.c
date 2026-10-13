@@ -1,9 +1,9 @@
 /*
- * function: alarmCallback
+ * function: aoss_apc_callback
  * address:  0x021B84BC
  * packet:   pkt_ov016_021B84BC
  * region:   ov016
- * compiler: 1.1p1
+ * compiler: ../2.0/sp1p2
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
@@ -11,20 +11,15 @@
  *
  * symbols:
  *   OS_SendMessage               0x02085DBC  arm
- *   d_021DCE40                   0x021DCE40  data
+ *   g_021DCE40                   0x021DCE40  data
 */
 
 #include "../include/G_OSMessageQueue.h"
 
-extern void OS_SendMessage(void);
-extern struct OSMessageQueue d_021DCE40;
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
+extern struct OSMessageQueue g_021DCE40;
 
-asm void alarmCallback(void)
+static void aoss_apc_callback(void *event)
 {
-	LDR R3, =OS_SendMessage
-	ADD R1, R0, #0
-	LDR R0, =0x021DCE40
-	MOV R2, #0
-	BX R3
+    OS_SendMessage(&g_021DCE40, event, 0);
 }
-

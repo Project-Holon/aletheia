@@ -14,17 +14,12 @@
  *   func_02005D34 0x02005D34 thumb
  */
 
+typedef unsigned int u32;
 extern void func_02005F90(void);
-typedef unsigned int   u32;
 extern void *func_02005D34(u32 a0, u32 a1);
-asm void ArrayDeleteAt(void)
+
+void ArrayDeleteAt(u32 a0, u32 a1)
 {
-    push {r3, r4, r5, lr}
-    add r5, r0, #0
-    add r4, r1, #0
-    bl func_02005F90
-    add r0, r5, #0
-    add r1, r4, #0
-    bl func_02005D34
-    pop {r3, r4, r5, pc}
+    func_02005F90();
+    func_02005D34(a0, a1);
 }

@@ -82,11 +82,11 @@ extern int AOSSi_EndLocal();
 extern void func_021CFABC(void *area);
 extern void func_021D6438(void **mem);
 extern int AOSSi_Init(AossWork_021C0900 *work);
-extern void DWCi_HEAPlAllocEx(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 void func_021C07A8(void);
 void func_021C08B0(int a);
 int func_021C0900(void);
-asm void aossAlloc(void);
+void *aossAlloc(unsigned long size);
 extern struct AossCtl g_021DE564;
 extern char g_021DA468[12];
 extern void *g_021DE568;
@@ -141,9 +141,7 @@ int func_021C0900(void)
 }
 
 
-asm void aossAlloc(void)
+void *aossAlloc(unsigned long size)
 {
-	ldr ip, =DWCi_HEAPlAllocEx
-	mov r1, #0x20
-	bx ip
+    return DWCi_HEAPlAllocEx(size, 0x20);
 }

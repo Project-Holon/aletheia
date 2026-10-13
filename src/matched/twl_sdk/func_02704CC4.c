@@ -1,5 +1,5 @@
 /*
- * function: func_02704CC4
+ * function: ReplyCallback
  * address:  0x02704CC4
  * packet:   twl
  * region:   twl
@@ -10,50 +10,65 @@
  * status:   EXACT
  *
  * symbols:
+ *   DAT_02734450  0x02734450  data twl
  *   func_02087988  0x02087988  arm twl
- *   DAT_02734450   0x02734450  data twl
- *   func_02704D48  0x02704D48  arm twl
  *   func_0208799C  0x0208799C  arm twl
+ *   SetSndexWork  0x02704D48  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
+typedef void (*Cb)(u32, void *);
+
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
+
+extern State DAT_02734450;
 extern u32 func_02087988(void);
-extern u32 DAT_02734450[];
-extern void func_02704D48(u32, u32, u32, u32);
 extern void func_0208799C(u32);
+void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 
-asm void func_02704CC4(u32 a0) {
-    stmdb sp!, {r4, r5, r6, r7, r8, lr}
-    mov r7, r0
-    bl func_02087988
-    ldr r1, =DAT_02734450
-    mov r4, r0
-    ldrb r8, [r1, #0x58]
-    ldr r5, [r1, #0x4c]
-    ldr r6, [r1, #0x50]
-    cmp r8, #0xc7
-    moveq r0, #0
-    streq r0, [r1, #0x18]
-    streq r0, [r1, #4]
-    mov r0, #0
-    mov r1, r0
-    mov r2, r0
-    mov r3, r0
-    bl func_02704D48
-    cmp r8, #0xfb
-    ldreq r0, =DAT_02734450
-    moveq r1, #4
-    streq r1, [r0, #0xc]
-    ldrne r0, =DAT_02734450
-    movne r1, #2
-    strne r1, [r0, #0xc]
-    mov r0, r4
-    bl func_0208799C
-    cmp r5, #0
-    ldmeqfd sp!, {r4, r5, r6, r7, r8, pc}
-    mov r0, r7
-    mov r1, r6
-    blx r5
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
+void ReplyCallback(u32 a0) {
+    u32 irq = func_02087988();
+    u8 cmd = DAT_02734450.f58;
+    Cb cb = DAT_02734450.f4c;
+    void *arg = DAT_02734450.f50;
+    if (cmd == 0xc7) {
+        DAT_02734450.f18 = 0;
+        DAT_02734450.busy = 0;
+    }
+    SetSndexWork(0, 0, 0, 0);
+    if (cmd == 0xfb) {
+        DAT_02734450.state = 4;
+    } else {
+        DAT_02734450.state = 2;
+    }
+    func_0208799C(irq);
+    if (cb != 0) {
+        cb(a0, arg);
+    }
 }

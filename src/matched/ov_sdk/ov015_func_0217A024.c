@@ -1,5 +1,5 @@
 /*
- * function: CARDi_GetTargetMode
+ * function: IRC_IsConnect
  * address:  0x0217A024
  * packet:   pkt_ov015_0217A024
  * region:   ov015
@@ -15,7 +15,7 @@
 
 extern unsigned char d_0217ABA8[];
 
-unsigned int CARDi_GetTargetMode(void)
+unsigned int IRC_IsConnect(void)
 {
 	return *(unsigned int *)(d_0217ABA8 + 0x24);
 }

@@ -19,7 +19,7 @@
  *       return 0;
  *   }
  *   symbols: d_021469DC 0x021469DC data; func_0203CADC 0x0203CADC arm.
- *   Leaf's only unresolved site is ARM9 0x0203CADC; Ilias owns it.
+ *   Leaf's only unresolved site is ARM9 0x0203CADC; the integrator owns it.
  * symbols:
  *   func_0203C3EC 0x0203C3EC arm
  *   func_0203CB00 0x0203CB00 arm

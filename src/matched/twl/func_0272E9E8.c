@@ -1,5 +1,5 @@
 /*
- * function: func_0272E9E8
+ * function: CARDi_ReadCardWithHash
  * address:  0x0272E9E8
  * packet:   twl_audio
  * region:   twl
@@ -10,12 +10,12 @@
  * status:   EXACT
  * symbols:
  *   data_02732DC4 0x02732DC4 data twl
- *   func_0272F740 0x0272F740 arm twl
+ *   CARD_ReadRomHashImage 0x0272F740 arm twl
  */
 
-void func_0272F740(void *ptr);
+void CARD_ReadRomHashImage(void *ptr);
 
-int func_0272E9E8(int a0, int a1, int a2, int a3) {
-    func_0272F740((void *)0x02732DC4);
+int CARDi_ReadCardWithHash(int a0, int a1, int a2, int a3) {
+    CARD_ReadRomHashImage((void *)0x02732DC4);
     return a3;
 }

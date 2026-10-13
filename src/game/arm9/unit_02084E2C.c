@@ -16,6 +16,7 @@
 
 extern void func_02084E10(void);
 
+/* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
 asm void func_02084E2C(void)
 {
     ldr r1, =func_02084E10

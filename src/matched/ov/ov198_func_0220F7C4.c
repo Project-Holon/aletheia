@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x02045CAC has no witness; owned by Ilias. No overlay leaves filed.
+ * blocker: ARM9 0x02045CAC has no witness; owned by the integrator. No overlay leaves filed.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_0220E13C 0x0220E13C thumb ov198

@@ -11,17 +11,51 @@
  *
  * symbols:
  *   func_0208C788 0x0208C788 arm
- *   g_02153004 0x02153004 data
+ *   g_02153000 0x02153000 data
  */
 
-struct PMiGenCallbackInfo;
-extern void func_0208C788(struct PMiGenCallbackInfo **listp, struct PMiGenCallbackInfo *info);
-extern void g_02153004(void);
+typedef unsigned long u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef volatile u32 vu32;
+typedef volatile u16 vu16;
+typedef int BOOL;
+typedef u32 OSIntrMode;
 
-asm void PM_DeletePostSleepCallback(void)
+typedef void (*PMCallback)(u32 result, void *arg);
+
+typedef struct PMiGenCallbackInfo {
+    void (*callback)(void *);
+    void *arg;
+    int priority;
+    struct PMiGenCallbackInfo *next;
+} PMGenCallbackInfo;
+
+typedef struct PMiWork {
+    volatile BOOL lock;
+    PMCallback callback;
+    void *callbackArg;
+    void *work;
+} PMiWork;
+
+/* pm.o .bss */
+typedef struct PmBss {
+    u16 isInit;
+    PMGenCallbackInfo *postSleepCallbackList;
+    volatile BOOL sleepEndFlag;
+    u32 lcdCount;
+    u32 dispOffCount;
+    u32 exitFactor;
+    u32 ampSwitch;
+    PMGenCallbackInfo *preSleepCallbackList;
+    u32 preDmaCnt[4];
+    PMiWork work;
+} PmBss;
+
+extern PmBss g_02153000;
+extern void func_0208C788(PMGenCallbackInfo **listp, PMGenCallbackInfo *info);
+
+void PM_DeletePostSleepCallback(PMGenCallbackInfo *info)
 {
-    mov	r1, r0
-    ldr r0, =g_02153004
-    ldr ip, =func_0208C788
-    bx	ip
+    func_0208C788(&g_02153000.postSleepCallbackList, info);
 }

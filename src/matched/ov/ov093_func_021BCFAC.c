@@ -23,7 +23,7 @@
  *   halfword is alignment padding). The one wildcard is +0x38, the bl to the
  *   ARM9 Thumb thunk func_02018480 (ldr r3,[pc]; bx r3; .word 0x02018489),
  *   which has no witness outside this range: label/sole-ref need an arm9
- *   label or a matched entry there. It is an arm9 leaf, Ilias's; its verified
+ *   label or a matched entry there. It is an arm9 leaf, the integrator's; its verified
  *   C is below. Once it is filed this caller re-runs to EXACT*.
  * blocker:
  *   func_02018480 0x02018480 thumb, arm9; `one --thumb` (no --region): EXACT

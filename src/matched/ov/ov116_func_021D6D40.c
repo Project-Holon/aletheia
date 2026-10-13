@@ -10,7 +10,7 @@
  * blocker: ARM9 02012EF0 has no witness outside 021D6D40..021D6E3C;
  * singleton tu --suggest-split returns MATCH252, no viable partition.
  * blocker: 02012EF0 verified EXACT12 in B10/12EF0-proof.log, no region,
- * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner Ilias.
+ * fixed dsi/1.1p1 -O4,p Thumb; copied prior 6CBC blocker, owner the integrator.
  *   extern int func_020071CC(void *, int);
  *   int func_02012EF0(void **p) { return func_020071CC(*p, 58); }
  * evidence: 084F4 is bx lr and preserves its incoming pointer in r0;

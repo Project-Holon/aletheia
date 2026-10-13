@@ -1,5 +1,5 @@
 /*
- * function: func_02730868
+ * function: MIi_DoAllocWram
  * address:  0x02730868
  * packet:   twl_sys
  * region:   twl
@@ -11,23 +11,23 @@
  *
  * symbols:
  *   data_02732F6C 0x02732F6C data twl
- *   func_02730294 0x02730294 arm twl
- *   func_0273032C 0x0273032C arm twl
- *   func_0273042C 0x0273042C arm twl
- *   func_02730440 0x02730440 arm twl
- *   func_02730454 0x02730454 arm twl
+ *   MIi_SetWramBankMaster 0x02730294 arm twl
+ *   MIi_SetWramBankEnable 0x0273032C arm twl
+ *   MIi_GetAddress_A 0x0273042C arm twl
+ *   MIi_GetAddress_B 0x02730440 arm twl
+ *   MIi_GetAddress_C 0x02730454 arm twl
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 data_02732F6C[3][8];
-extern u32 func_02730294(u32, u32, u32);
-extern u32 func_0273032C(u32, u32, u32);
-extern u32 func_0273042C(u32 a);
-extern u32 func_02730440(u32 a);
-extern u32 func_02730454(u32 a);
+extern u32 MIi_SetWramBankMaster(u32, u32, u32);
+extern u32 MIi_SetWramBankEnable(u32, u32, u32);
+extern u32 MIi_GetAddress_A(u32 a);
+extern u32 MIi_GetAddress_B(u32 a);
+extern u32 MIi_GetAddress_C(u32 a);
 
-u32 func_02730868(u32 ch, int n, u32 val)
+u32 MIi_DoAllocWram(u32 ch, int n, u32 val)
 {
     int run, start, i, lim;
 
@@ -59,17 +59,17 @@ u32 func_02730868(u32 ch, int n, u32 val)
     }
     for (i = 0; i < n; i++) {
         data_02732F6C[ch][start + i] = (data_02732F6C[ch][start + i] & ~3) | val;
-        func_02730294(ch, start + i, val);
-        func_0273032C(ch, start + i, 1);
+        MIi_SetWramBankMaster(ch, start + i, val);
+        MIi_SetWramBankEnable(ch, start + i, 1);
     }
     if (ch == 0) {
-        return func_0273042C(start);
+        return MIi_GetAddress_A(start);
     }
     if (ch == 1) {
-        return func_02730440(start);
+        return MIi_GetAddress_B(start);
     }
     if (ch == 2) {
-        return func_02730454(start);
+        return MIi_GetAddress_C(start);
     }
     return 0;
 }

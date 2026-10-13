@@ -13,15 +13,11 @@
  *   func_0205FFC4 0x0205FFC4 arm
  */
 
-struct NCFGConfig;
-extern int func_0205FFC4(struct NCFGConfig *config);
+typedef unsigned int u32;
+typedef struct NCFGConfig NCFGConfig;
+extern int func_0205FFC4(NCFGConfig *config);
 
-asm void NCFG_ReadConfig(void)
+u32 NCFG_ReadConfig(NCFGConfig *config)
 {
-    stmfd sp!, {r3, lr}
-    bl func_0205FFC4
-    cmp	r0, #0
-    movne	r0, #0
-    mvneq	r0, #0
-    ldmfd sp!, {r3, pc}
+    return func_0205FFC4(config) ? 0 : 0xFFFFFFFF;
 }

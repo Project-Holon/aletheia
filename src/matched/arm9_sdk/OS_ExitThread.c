@@ -15,17 +15,35 @@
  *   g_02150FD0 0x02150FD0 data
  */
 
-extern void func_020854D0(void);
-extern void func_02087988(void);
-extern void g_02150FD0(void);
+typedef unsigned long u32;
+typedef unsigned short u16;
+typedef struct _OSThread OSThread;
 
-asm void OS_ExitThread(void)
+typedef struct OSThreadInfo {
+    u16 isNeedRescheduling;
+    u16 irqDepth;
+    OSThread *current;
+    OSThread *list;
+    void *switchCallback;
+} OSThreadInfo;
+
+typedef struct OsThreadBss {
+    void *OSi_SystemCallbackInSwitchThread;
+    u32 OSi_RescheduleCount;
+    OSThread **OSi_CurrentThreadPtr;
+    int OSi_IsThreadInitialized;
+    u32 OSi_SystemStackBuffer;
+    u32 OSi_StackForDestructor;
+    u32 OSi_ThreadIdCount;
+    OSThreadInfo OSi_ThreadInfo;
+} OsThreadBss;
+
+extern void func_020854D0(OSThread *thread, void *arg);
+extern void func_02087988(void);
+extern OsThreadBss g_02150FD0;
+
+void OS_ExitThread(void)
 {
-    stmfd sp!, {r3, lr}
-    bl	func_02087988
-    ldr r0, =g_02150FD0
-    mov	r1, #0
-    ldr	r0, [r0, #0x20]
-    bl	func_020854D0
-    ldmfd sp!, {r3, pc}
+    func_02087988();
+    func_020854D0(g_02150FD0.OSi_ThreadInfo.current, 0);
 }

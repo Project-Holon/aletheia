@@ -31,12 +31,29 @@ code (image evidence).
 usage
     python tools/gamelink.py 12 11 14        # overlay ids
     python tools/gamelink.py itcm
-    python tools/gamelink.py arm9_main --skip=unit_020911D4
+    python tools/gamelink.py arm9_main
+    python tools/gamelink.py arm9_main --unplaced          # also link unplaced/*.c
+    python tools/gamelink.py arm9_main --extra=DIR         # files of DIR replace/add
+A file whose functions are not contiguous in the original is linked as several
+runs, one .lcf region each (see code_pieces).
 Output is in build/gamelink/ovNNN/.
+
+Data mode (overlays only):
+    python tools/datagen.py companions 12            # writes build/datac/ov012/
+    python tools/gamelink.py 12 --data --extra=build/datac/ov012
+The .rodata, .data and .bss of every file (and of the companion files
+<stem>.zdata.c that tools/datagen.py writes) are not placed at header addresses
+but linked as the overlay's data tail: one segment with the .rodata of all files
+in link order, ALIGN(4), the static-initialiser terminator (WRITEW 0), ALIGN(32);
+one segment with the .data; one with the .bss.  A companion is linked right after
+its code file; its anchor function goes outside the overlay.  DIR/datalink.json
+(from datagen) gives the tail borders and the linker aliases (second names of an
+object, names inside an object).  Output is in build/gamelink_data/ovNNN/.
 """
 
 from __future__ import annotations
 
+import bisect
 import json
 import os
 import re
@@ -144,20 +161,28 @@ def write_elf(path, sections, symbols):
 
 def add_alias_symbols(path, aliases):
     """Append global symbols to the object at `path`.  `aliases` is a list of
-    (new_name, existing_name): the new symbol copies value, size, type and
-    section of the existing one, so the linker sees a second, equally typed
-    name for a function the file defines."""
+    (new_name, existing_name[, offset]): the new symbol copies value, type and
+    section of the existing one (plus `offset`: an entry point inside a
+    function, an asm label such as the runtime's _ll_udiv), so the linker sees
+    a second, equally typed name for a function the file defines."""
     d, secs, syms = read_elf(path)
     st = [x for x in secs if x["type"] == 2][0]
     sx = secs[st["link"]]
-    by = {y["name"]: y for y in syms if y["name"] and y["shndx"] != 0}
+    by = {}
+    for y in syms:
+        if y["name"] and y["shndx"] != 0 and (y["name"] not in by or (y["info"] >> 4) == 1):
+            by[y["name"]] = y          # a global name wins over a local one
     strtab = bytearray(d[sx["off"]:sx["off"] + sx["size"]])
     sym = bytearray(d[st["off"]:st["off"] + st["size"]])
-    for new, old in aliases:
+    for al in aliases:
+        new, old = al[0], al[1]
+        off = al[2] if len(al) > 2 else 0
         y = by[old]
         o = len(strtab)
         strtab += new.encode() + b"\0"
-        sym += struct.pack("<IIIBBH", o, y["value"], 0, y["info"], 0, y["shndx"])
+        # always global: the old name may be a static (local) function of the file
+        sym += struct.pack("<IIIBBH", o, y["value"] + off, 0, (0x10 | (y["info"] & 15)) if not off else 0x12, 0,
+                           y["shndx"])
     buf = bytearray(d)
     while len(buf) % 4:
         buf += b"\0"
@@ -417,6 +442,11 @@ def infer_from_relocs(t, name, img, base, rname, secaddr):
             if typ == 2:
                 w = struct.unpack_from("<I", img, i)[0] - add
                 ev = match.isa_evidence(w & ~1, rname)
+                if ev and not base <= w < base + len(img) and not re.search(r"asm/(arm9|twl)\b", ev[1]):
+                    # outside the region, the answer may come from another overlay
+                    # that shares the RAM window (a data word read as a Thumb
+                    # function): without a static-module label it stays data
+                    ev = None
                 return (w & ~1, ev[0]) if ev else (w, "data")
             if typ == 10:
                 hi, lo = struct.unpack_from("<HH", img, i)
@@ -438,6 +468,84 @@ def infer_from_relocs(t, name, img, base, rname, secaddr):
                     return follow_veneer(img, base, (site + 8 + v, "thumb"))
                 return follow_veneer(img, base, (site + 8 + v, "arm"))
     return None
+
+
+def def_address(t, name, ovid):
+    """Original address of a function the file defines, or None: the header,
+    a func_XXXXXXXX name, layout/runtime_arm9.txt (ARM9 only).  Not
+    layout/symbols_sdk.json: some game files define a function under an SDK
+    name that the SDK has at another address (CARD_SetPulledOutCallback in
+    unit_02066B84, OS_KillThread in mystery_data)."""
+    if name in t["syms"] and t["syms"][name][1] in ("arm", "thumb"):
+        return t["syms"][name][0]
+    m = re.fullmatch(r"(?:func|sub)_([0-9A-Fa-f]{8})", name)
+    if m:
+        return int(m.group(1), 16)
+    if ovid in ("arm9_main", "itcm"):
+        rt = {v: k for k, v in match.runtime_addresses().items()}
+        if name in rt:
+            return rt[name]
+    return None
+
+
+def code_pieces(t, ovid, base, end, starts):
+    """Split the code sections of a file (mwccarm writes one .text section per
+    function, in source order) into runs that are contiguous in the original.
+    A run starts where a function's known original address lies outside the
+    room of the current run (before its start, or at or past the next file's
+    start): a file whose functions are not contiguous because other files lie
+    between them, e.g. the MSL runtime parts.  Smaller differences are left to
+    the linker (veneers, alignment; names can also sit a word into a function).  Returns a list of
+    dict(sec, idxs, addr, size); the first run keeps the name .text, the
+    others are renamed .txK so the .lcf can place them."""
+    secs = t["secs"]
+    names = {}
+    for y in t["osyms"]:
+        if y["name"] and not y["name"].startswith("$") and y["value"] == 0 and (y["info"] & 15) == 2:
+            names.setdefault(y["shndx"], y["name"])
+    runs = []
+    cur = None
+    for s in secs:
+        a = def_address(t, names.get(s["idx"], ""), ovid)
+        if a is not None and not (base <= a < end):
+            a = None
+        if cur is None:
+            cur = dict(addr=t["addr"], idxs=[s["idx"]], size=s["size"])
+            runs.append(cur)
+            continue
+        al = max(s["align"], 1)
+        est = cur["addr"] + cur["size"]
+        est += (-est) % al
+        nxt = min([x for x in starts if x > cur["addr"]] + [end])
+        if a is not None and not (cur["addr"] <= a < nxt):
+            cur = dict(addr=a, idxs=[s["idx"]], size=s["size"])
+            runs.append(cur)
+            continue
+        cur["size"] = est - cur["addr"] + s["size"]
+        cur["idxs"].append(s["idx"])
+    for k, r in enumerate(runs):
+        r["sec"] = ".text" if k == 0 else ".tx%d" % k
+    return runs or [dict(sec=".text", idxs=[], addr=t["addr"], size=0)]
+
+
+def unit_room(tus, i, a, end):
+    """True if address `a` lies in the room of one of the code runs of file i
+    (from the run's start up to the next run of any file)."""
+    return any(p["addr"] <= a < p["addr"] + p["room"] for p in tus[i]["pieces"])
+
+
+def referenced_sections(d, path):
+    """Indices of the sections that a relocation of the object at `path` points
+    into (through a symbol defined there)."""
+    _d, secs, syms = read_elf(path)
+    res = set()
+    for s in secs:
+        if s["type"] != 4:
+            continue
+        for k in range(s["size"] // 12):
+            _o, info, _a = struct.unpack_from("<IIi", _d, s["off"] + 12 * k)
+            res.add(syms[info >> 8]["shndx"])
+    return res
 
 
 def region_name(ovid):
@@ -464,11 +572,44 @@ def overlay_info(ovid):
     return o["ram_start"], img
 
 
-def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, skip=()):
+def is_companion(stem):
+    return stem.endswith((".zdata", ".zpre"))
+
+
+def link_rank(stem):
+    """A <stem>.zpre companion links before its code file, a .zdata one after it."""
+    return 0 if stem.endswith(".zpre") else 2 if stem.endswith(".zdata") else 1
+
+
+def registry_sizes(rname):
+    """address -> size of the data objects of layout/data_objects.json for a region."""
+    try:
+        reg = json.load(open(os.path.join(ROOT, "layout", "data_objects.json")))["regions"]
+    except (OSError, ValueError, KeyError):
+        return {}
+    r = reg.get({"arm9_main": "arm9"}.get(rname, rname)) or {}
+    return {int(o["addr"], 16): o["size"] for o in r.get("objects", [])}
+
+
+def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, skip=(), unplaced_files=False, extra=None,
+                 data=False):
     base, img = overlay_info(ovid)
     end = base + len(img)
     d = os.path.join(ROOT, "src", "game", SRC_DIR.get(ovid) or region_name(ovid))
     work = os.path.join(OUT, region_name(ovid))
+    data_tail = bss = None
+    data_aliases = {}
+    if data:
+        # --data: the data sections of all files form the data tail (see the docstring)
+        dl = os.path.join(extra or "", "datalink.json")
+        if not extra or not os.path.exists(dl):
+            return dict(ov=ovid, ok=False, why="--data needs --extra=DIR with DIR/datalink.json (tools/datagen.py companions)")
+        dj = json.load(open(dl))
+        data_tail = tuple(int(x, 16) for x in dj["tail"])        # rodata start, sinit start, data start, end
+        bss = tuple(int(x, 16) for x in dj["bss"]) if dj.get("bss") else None
+        data_aliases = dj.get("aliases", {})
+        data_sinit = dj.get("sinit", [])
+        work = os.path.join(OUT + "_data", region_name(ovid))
     shutil.rmtree(work, ignore_errors=True)
     os.makedirs(work)
     match.load_all_regions()
@@ -476,7 +617,16 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
 
     tus = []          # (addr, stem, objpath, text size)
     syms = {}
-    for f in sorted(os.listdir(d)):
+    files = [(d, f) for f in sorted(os.listdir(d))]
+    if unplaced_files and os.path.isdir(os.path.join(d, "unplaced")):
+        # --unplaced: also link the stand-ins of unplaced/ at their header address
+        files += [(os.path.join(d, "unplaced"), f) for f in sorted(os.listdir(os.path.join(d, "unplaced")))]
+    if extra:
+        # --extra=DIR: a file of DIR replaces the file of the same name, or is added
+        # (to try a source change without touching src/)
+        mine = set(f for f in os.listdir(extra) if f.endswith(".c"))
+        files = [(x, f) for x, f in files if f not in mine] + [(extra, f) for f in sorted(mine)]
+    for d, f in files:
         if not f.endswith(".c") or f.startswith("_") or not os.path.isfile(os.path.join(d, f)):
             continue
         if any(f.startswith(k) for k in skip):
@@ -498,31 +648,80 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         names = sorted(set(s["name"] for s in alloc))
         tus.append(dict(addr=addr, stem=f[:-2], obj=obj, secs=alloc, osyms=osyms, names=names, syms=tsyms,
                         odata=_d))
-    tus.sort(key=lambda t: t["addr"])
+    # a companion (<stem>.zdata.c) has the address of its code file and links after it
+    # (<stem>.zpre.c: before it)
+    tus.sort(key=lambda t: (t["addr"], link_rank(t["stem"])))
 
     other = sorted(set(n for t in tus for n in t["names"]) - {".text", ".data", ".rodata", ".bss"})
     if other:
         return dict(ov=ovid, ok=False, why="TU sections other than text/data: %s" % other)
+    named_data = {}       # address -> size of the data objects the headers name
+    _reg = registry_sizes(region_name(ovid))
+    for t in tus:
+        for _n, (a, k) in t["syms"].items():
+            if k == "data" and base <= a < end:
+                named_data[a] = max(named_data.get(a, 1), _reg.get(a, 1))
+    named_sorted = sorted(named_data)
+
+    def named_object_at(a, size):
+        """True if [a, a+size) overlaps a header-named object (its registry size,
+        else one byte) that does not start at a."""
+        k = bisect.bisect_right(named_sorted, a + size - 1)
+        for na in named_sorted[max(0, k - 8):k]:
+            if na != a and na < a + size and a < na + named_data[na]:
+                return True
+        return False
     dgroups = []          # data sections of the files: (tu index, name, start, end, nobits)
     seen_data = {}
     unplaced = []
+    dead_at = 0x0F000000  # unreferenced data sections go here, outside every region
+    dead = 0
     for ti, t in enumerate(tus):
         t["dsecs"] = [x for x in t["secs"] if x["name"] != ".text"]
         t["secs"] = [x for x in t["secs"] if x["name"] == ".text"]
+        t["tail_secs"] = []
+        if data_tail:
+            # data mode: every data section goes to the tail segments, in link order
+            t["tail_secs"], t["dsecs"] = t["dsecs"], []
+        used = referenced_sections(t["odata"], t["obj"])
         for x in t["dsecs"]:
+            if x["idx"] not in used and not any(y["shndx"] == x["idx"] and (y["info"] >> 4) == 1
+                                                for y in t["osyms"]):
+                # no relocation refers to it and it has no global name (a
+                # function-local static const double the compiler also put in
+                # the literal pool): the original link
+                # dead-stripped it; -nodeadstrip keeps it, so park it outside
+                x["addr"] = dead_at
+                dead_at += (x["size"] + 7) & ~7
+                dead += 1
+                continue
             votes = {}
             for y in t["osyms"]:
                 if y["shndx"] == x["idx"] and y["name"] in t["syms"] and t["syms"][y["name"]][1] == "data":
                     b = t["syms"][y["name"]][0] - y["value"]
                     votes[b] = votes.get(b, 0) + 1
             a = max(votes, key=lambda b: votes[b]) if votes else None
+            if votes:
+                top = [b for b in votes if votes[b] == votes[a]]
+                al = max(x["align"], 1)
+                if len(top) > 1 or a % al:
+                    # a tie, or a base the section alignment forbids: the header
+                    # addresses disagree with the object layout; report, do not guess
+                    who = ["%s=%08X(+%X)" % (y["name"], t["syms"][y["name"]][0], y["value"]) for y in t["osyms"]
+                           if y["shndx"] == x["idx"] and y["name"] in t["syms"] and t["syms"][y["name"]][1] == "data"]
+                    return dict(ov=ovid, ok=False, why="%s %s: no single aligned base (%s; align %d): %s" % (
+                        t["stem"], x["name"], ", ".join("%08X x%d" % (b, votes[b]) for b in sorted(votes)), al,
+                        " ".join(who[:8])))
             if a is None and x["type"] == 1:
                 blob = t["odata"][x["off"]:x["off"] + x["size"]]
                 hits = [m.start() for m in re.finditer(re.escape(blob), img)]
                 if len(hits) > 1:
                     # several equal strings: keep the one this file's own literal pool points at
                     code = img[t["addr"] - base:(tus[ti + 1]["addr"] if ti + 1 < len(tus) else end) - base]
-                    hits = [h for h in hits if struct.pack("<I", base + h) in code]
+                    hits = [h for h in hits if struct.pack("<I", base + h) in code] or hits
+                if len(hits) > 1:
+                    # drop places inside an object the headers already name
+                    hits = [h for h in hits if not named_object_at(base + h, len(blob))] or hits
                 if len(hits) == 1:
                     a = base + hits[0]
                 else:
@@ -547,10 +746,17 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             dgroups.append((ti, nm, x["addr"], x["addr"] + x["size"], x["type"] == 8))
     for t in tus:
         t["defs"] = set(y["name"] for y in t["osyms"] if y["name"] and y["shndx"] != 0)
+        t["pieces"] = [] if is_companion(t["stem"]) else \
+            code_pieces(t, ovid, base, end, [u["addr"] for u in tus if not is_companion(u["stem"])])
         t["size"] = sum(s["size"] for s in t["secs"])
         t["end"] = t["addr"] + t["size"]
-    for k, t in enumerate(tus):
-        t["room"] = (tus[k + 1]["addr"] if k + 1 < len(tus) else end) - t["addr"]
+        for p in t["pieces"]:
+            p["end"] = p["addr"] + p["size"]
+    starts = sorted(p["addr"] for t in tus for p in t["pieces"])
+    for t in tus:
+        for p in t["pieces"]:
+            nxt = [s for s in starts if s > p["addr"]]
+            p["room"] = (nxt[0] if nxt else end) - p["addr"]
     defined = set()
     undef = set()
     for t in tus:
@@ -560,6 +766,7 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             elif s["name"] and s["shndx"] != 0 and (s["info"] >> 4) == 1:
                 defined.add(s["name"])
     undef -= defined
+    undef -= set(data_aliases)
     # The same local name (site, config, ...) can mean different addresses in
     # different files.  Give each distinct meaning its own symbol name, renamed
     # in the object of the files that use it.
@@ -581,12 +788,11 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         if len(lst) == 1:
             # defined once, but another file means a different address by this name
             u = tus[lst[0]]
-            nxt = tus[lst[0] + 1]["addr"] if lst[0] + 1 < len(tus) else end
             for ti, t in enumerate(tus):
                 if ti == lst[0] or n not in t["syms"]:
                     continue
                 a, k = t["syms"][n]
-                if k in ("arm", "thumb") and not (u["addr"] <= a < nxt):
+                if k in ("arm", "thumb") and not unit_room(tus, lst[0], a, end):
                     en = "%s__%X" % (n, a)
                     t["rename"][n] = en
                     syms[en] = (a, k)
@@ -600,9 +806,7 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                 continue
             a = t["syms"][n][0]
             for k in range(1, len(lst)):
-                u = tus[lst[k]]
-                nxt = tus[lst[k] + 1]["addr"] if lst[k] + 1 < len(tus) else end
-                if u["addr"] <= a < nxt:
+                if unit_room(tus, lst[k], a, end):
                     t["rename"][n] = "%s__dup%d" % (n, k)
     for t in tus:
         t["defs"] = set(t["rename"].get(n, n) for n in t["defs"])
@@ -648,7 +852,17 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                 syms[nn] = syms[en]
                 undef.add(nn)
 
-    addr2name = {}
+    addr2name = {}  # address -> (name, file index; -1 for a global name)
+    funcs1 = []     # (address, size, name, file index) of the functions of the first link
+
+    def inner_entry(a):
+        """(name, offset, file index) if `a` lies inside a function defined by a file."""
+        k = bisect.bisect_right(funcs1, (a, 1 << 32, "", 0)) - 1
+        if k >= 0:
+            fa, fs, fn, fti = funcs1[k]
+            if fa < a < fa + fs:
+                return fn, a - fa, fti
+        return None
     plan, pi, redone, renamed_again = [1, 2], 0, False, False
     while pi < len(plan):
         pas = plan[pi]
@@ -657,14 +871,18 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         # gaps between files, as binary sections from the image
         gaps = []
         if pas == 2:
-            occ = [(t["addr"], t["end"]) for t in tus] + [(a, b) for _ti, _n, a, b, _nb in dgroups
+            occ = [(p["addr"], p["end"]) for t in tus for p in t["pieces"]] + [(a, b) for _ti, _n, a, b, _nb in dgroups
                                                           if a < end and b > base]
+            if data_tail:
+                occ.append((data_tail[0], data_tail[3]))
             cur = base
             for a, b in sorted(occ):
                 if a > cur:
                     gaps.append((cur, a))
                 elif a < cur:
-                    return dict(ov=ovid, ok=False, why="files or data overlap at %08X" % a)
+                    who = [t["stem"] for t in tus for p in t["pieces"] if p["addr"] <= a < p["end"] or p["addr"] < cur <= p["end"]]
+                    who += [tus[ti]["stem"] + " data" for ti, _n, x, y, _nb in dgroups if x <= a < y or x < cur <= y]
+                    return dict(ov=ovid, ok=False, why="files or data overlap at %08X (%s)" % (a, ", ".join(who)))
                 cur = b
             if cur < end:
                 gaps.append((cur, end))
@@ -676,7 +894,7 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             return None
 
         def in_tu(a):
-            return any(t["addr"] <= a < t["end"] for t in tus)
+            return any(p["addr"] <= a < p["end"] for t in tus for p in t["pieces"])
 
         # classify undefined names
         ext_funcs, gap_funcs, absol, missing = [], {}, [], []
@@ -697,7 +915,12 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                     gap_funcs.setdefault(in_gap(a), []).append((n, a, k))
                 elif in_tu(a) or (pas == 1 and base <= a < end):
                     if pas == 2 and a in addr2name:
-                        aliases.append((n, addr2name[a]))   # second name of a function of a file
+                        # second name of a function of a file (also of a static one:
+                        # an absolute .lcf symbol at an odd address makes mwldarm
+                        # misencode a backward Thumb BL by 2 bytes)
+                        aliases.append((n, addr2name[a][0], 0, addr2name[a][1]))
+                    elif pas == 2 and inner_entry(a):
+                        aliases.append((n,) + inner_entry(a))   # entry point inside a function
                     else:
                         absol.append((n, a | (k == "thumb")))
                 else:
@@ -713,7 +936,11 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         names = []
         for i, t in enumerate(tus):
             shutil.copy(t["obj"], os.path.join(work, "t%d.o" % i))
-            mine = [(n, r) for n, r in aliases if r in t["defs"]]
+            gdefs = set(t["rename"].get(y["name"], y["name"]) for y in t["osyms"]
+                        if y["name"] and y["shndx"] != 0 and (y["info"] >> 4) == 1)
+            # a global target: the file that defines it globally (other files may
+            # have a static of the same name); a static target: its own file
+            mine = [al[:3] for al in aliases if (al[1] in gdefs if al[3] == -1 else (al[3] == i and al[1] in t["defs"]))]
             if t["rename"]:
                 rename_symbols(os.path.join(work, "t%d.o" % i), t["rename"])
             if mine:
@@ -727,13 +954,49 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                         nm[(si, v)] = "__dup%d_%d_%d" % (i, si, v)
                         absol.append((nm[(si, v)], t["dupsec"][si] + v))
                 externalize_sections(os.path.join(work, "t%d.o" % i), set(t["dupsec"]), nm)
-            if t["addr"] % 4 and t["secs"]:
-                set_align(os.path.join(work, "t%d.o" % i), {t["secs"][0]["idx"]: 2 if t["addr"] % 4 == 2 else 1})
-            if t["secren"]:
-                rename_sections(os.path.join(work, "t%d.o" % i), t["secren"])
-            mem.append(("t%d" % i, t["addr"], t["size"] if pas == 2 else t["room"]))
-            sect.append(" .t%d : { t%d.o (.text) } > t%d" % (i, i, i))
+            for p in t["pieces"]:
+                if p["addr"] % 4 and p["idxs"]:
+                    set_align(os.path.join(work, "t%d.o" % i), {p["idxs"][0]: 2 if p["addr"] % 4 == 2 else 1})
+            ren = dict(t["secren"])
+            for k, p in enumerate(t["pieces"]):
+                if k:
+                    ren.update({x: p["sec"] for x in p["idxs"]})
+            if ren:
+                rename_sections(os.path.join(work, "t%d.o" % i), ren)
+            if is_companion(t["stem"]):
+                # the anchor function of a companion goes outside the overlay
+                mem.append(("z%d" % i, 0x0E000000 + 0x100 * i, 0x100))
+                sect.append(" .z%d : { t%d.o (.text) } > z%d" % (i, i, i))
+            for k, p in enumerate(t["pieces"]):
+                tag = "t%d" % i if k == 0 else "t%d_%d" % (i, k)
+                p["tag"] = tag
+                if not p["idxs"]:
+                    continue      # a file with data only
+                mem.append((tag, p["addr"], p["size"] if pas == 2 else p["room"]))
+                sect.append(" .%s : { t%d.o (%s) } > %s" % (tag, i, p["sec"], tag))
             names.append("t%d.o" % i)
+        if data_tail:
+            t0, s0, s1, e0 = data_tail
+
+            def tail_of(sname):
+                return " ".join("t%d.o (%s)" % (i, sname) for i, t in enumerate(tus)
+                                if any(x["name"] == sname for x in t["tail_secs"]))
+            # .rodata in link order, the static-initialiser table (the entries of
+            # datalink.json "sinit", then the terminator), .data at ALIGN(32)
+            sinit = "".join(" WRITEW %s;" % x for x in data_sinit)
+            body = tail_of(".rodata") + " . = ALIGN(4); SINIT_START = .;%s WRITEW 0; SINIT_END = .;" % sinit
+            if s1 > s0 + 4:
+                body += " . = ALIGN(32);"
+            mem.append(("dtail", t0, s1 - t0))
+            sect.append(" .dtail : { %s } > dtail" % body)
+            mem.append(("ddata", s1, e0 - s1))
+            # the overlay ends at ALIGN(32): zero padding after the last .data object
+            sect.append(" .ddata : { %s . = ALIGN(32); } > ddata" % tail_of(".data"))
+            if any(x["name"] == ".bss" for t in tus for x in t["tail_secs"]):
+                if not bss:
+                    return dict(ov=ovid, ok=False, why="data mode: .bss in the files but the overlay has no .bss")
+                mem.append(("dbss", bss[0], bss[1] - bss[0]))
+                sect.append(" .dbss : { %s } > dbss" % tail_of(".bss"))
         for j, (ti, nm, a, b, _nb) in enumerate(dgroups):
             mem.append(("d%d" % j, a, b - a))
             sect.append(" .d%d : { t%d.o (%s) } > d%d" % (j, ti, nm, j))
@@ -772,6 +1035,7 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         lcf = "MEMORY {\n" + "".join(" %s : ORIGIN = 0x%08X, LENGTH = 0x%X\n" % m for m in mem) + "}\n"
         lcf += "SECTIONS {\n" + "\n".join(sect) + "\n"
         lcf += "".join(" %s = 0x%08X;\n" % (n, a) for n, a in absol)
+        lcf += "".join(" %s = %s;\n" % (n, c) for n, c in sorted(data_aliases.items()))
         lcf += "}\n"
         open(os.path.join(work, "ov.lcf"), "w").write(lcf)
         cmd = [LD, "-proc", "arm946e"] + (["-interworking"] if interworking else []) + \
@@ -822,9 +1086,23 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                         break
         if pas == 1:
             addr2name.clear()
+            secfile = {}
+            for x in secs:
+                m = re.fullmatch(r"\.?t(\d+)(?:_\d+)?", x["name"])
+                if m:
+                    secfile[x["idx"]] = int(m.group(1))
+            fsyms = []
             for y in esyms:
-                if y["name"] and y["shndx"] != 0 and (y["info"] & 15) == 2 and (y["info"] >> 4) == 1:
-                    addr2name.setdefault(y["value"] & ~1, y["name"])
+                if not (y["name"] and y["shndx"] != 0 and (y["info"] & 15) == 2) or y["name"][0] in "$@.":
+                    continue
+                if (y["info"] >> 4) == 1:
+                    fsyms.append((y["value"] & ~1, y["size"], y["name"], -1))
+                elif (y["info"] >> 4) == 0 and y["shndx"] in secfile:
+                    # a static function: an alias for it must go into its own file
+                    fsyms.append((y["value"] & ~1, y["size"], y["name"], secfile[y["shndx"]]))
+            funcs1[:] = sorted(fsyms)
+            for fa, _fs, fn, fti in sorted(fsyms, key=lambda z: z[3] != -1):
+                addr2name.setdefault(fa, (fn, fti))
         out = bytearray(len(img))
         got = bytearray(len(img))
         for s in secs:
@@ -833,8 +1111,11 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                 got[s["addr"] - base:s["addr"] - base + s["size"]] = b"\1" * s["size"]
         if pas == 1:
             for t in tus:
-                t["size"] = max(s["size"] for s in secs if s["type"] == 1 and s["addr"] == t["addr"])
-                t["end"] = t["addr"] + t["size"]
+                for p in t["pieces"]:
+                    p["size"] = max([s["size"] for s in secs if s["type"] == 1 and s["name"] in (p["tag"], "." + p["tag"])] + [0])
+                    p["end"] = p["addr"] + p["size"]
+                t["size"] = sum(p["size"] for p in t["pieces"])
+                t["end"] = t["pieces"][0]["end"] if t["pieces"] else t["addr"]
             continue
         # a .bss stand-in that sits inside the image: the original holds initialised
         # data there (the C file declares it uninitialised); take it from the image
@@ -846,16 +1127,23 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                 got[a - base:min(b, end) - base] = b"" * (min(b, end) - a)
         code_diff = []
         for t in tus:
-            a0, a1 = t["addr"] - base, t["end"] - base
-            bad = [i for i in range(a0, a1) if out[i] != img[i] or not got[i]]
+            bad = [i for p in t["pieces"] for i in range(p["addr"] - base, p["end"] - base)
+                   if out[i] != img[i] or not got[i]]
             if bad:
                 code_diff.append((t["stem"], len(bad), [hex(base + b) for b in bad[:4]]))
         whole = bytes(out) == img
         open(os.path.join(work, "ov.bin"), "wb").write(bytes(out))
-    return dict(ov=ovid, ok=whole and not code_diff, files=len(tus), code_bytes=sum(t["size"] for t in tus),
+    tail_diff = None
+    if data_tail:
+        bad = [i for i in range(data_tail[0] - base, data_tail[3] - base) if out[i] != img[i] or not got[i]]
+        tail_diff = (len(bad), [hex(base + b) for b in bad[:8]])
+    return dict(ov=ovid, ok=whole and not code_diff, tail_diff=tail_diff, files=len(tus), code_bytes=sum(t["size"] for t in tus),
                 gap_bytes=sum(g1 - g0 for g0, g1 in gaps), size=len(img),
-                bss_standin_bytes=standin, data_sections=len(dgroups), unplaced_data=unplaced, typed_stubs=len(ext_funcs), gap_funcs=sum(len(v) for v in gap_funcs.values()),
-                absolute=len(absol), diffs=code_diff)
+                bss_standin_bytes=standin, data_sections=len(dgroups), dead_data=dead, unplaced_data=unplaced, typed_stubs=len(ext_funcs), gap_funcs=sum(len(v) for v in gap_funcs.values()),
+                absolute=len(absol), diffs=code_diff,
+                units=[dict(stem=t["stem"], addr=t["addr"], end=t["end"],
+                            pieces=[(p["addr"], p["end"]) for p in t["pieces"]]) for t in tus],
+                split=[t["stem"] for t in tus if len(t["pieces"]) > 1])
 
 
 def main(argv):
@@ -866,6 +1154,12 @@ def main(argv):
             mode["absolute_only"] = True
         elif a.startswith("--skip="):
             mode["skip"] = tuple(x for x in a[7:].split(",") if x)
+        elif a.startswith("--extra="):
+            mode["extra"] = os.path.abspath(a[8:])
+        elif a == "--unplaced":
+            mode["unplaced_files"] = True
+        elif a == "--data":
+            mode["data"] = True
         elif a == "--no-interworking":
             mode["interworking"] = False
         else:
@@ -873,7 +1167,7 @@ def main(argv):
     rc = 0
     for i in ids:
         r = link_overlay(i, **mode)
-        print("%s %s %s" % (region_name(i), "PASS" if r["ok"] else "FAIL", {k: v for k, v in r.items() if k not in ("ov", "ok")}))
+        print("%s %s %s" % (region_name(i), "PASS" if r["ok"] else "FAIL", {k: v for k, v in r.items() if k not in ("ov", "ok", "units")}))
         rc |= 0 if r["ok"] else 1
     return rc
 

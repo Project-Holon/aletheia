@@ -1,5 +1,5 @@
 /*
- * function: func_0270223C
+ * function: CAMERA_SetVsyncInterruptCore
  * address:  0x0270223C
  * packet:   twl_wifi
  * region:   twl
@@ -15,20 +15,13 @@
  *   data_04004202         0x04004202  data twl a2
  */
 
+typedef unsigned short u16;
+#define reg_04004202 (*(volatile u16 *)0x04004202)
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
-extern unsigned short data_04004202;
 
-asm void func_0270223C(unsigned int val)
-{
-    stmdb   sp!, {r4, lr}
-    mov     r4, r0
-    bl      OS_DisableInterrupts
-    ldr     r2, =data_04004202
-    ldrh    r1, [r2]
-    bic     r1, r1, #0x300
-    orr     r1, r1, r4
-    strh    r1, [r2]
-    bl      OS_RestoreInterrupts
-    ldmfd   sp!, {r4, pc}
+void CAMERA_SetVsyncInterruptCore(unsigned int val) {
+    unsigned int irq = OS_DisableInterrupts();
+    reg_04004202 = (reg_04004202 & ~0x300) | val;
+    OS_RestoreInterrupts(irq);
 }

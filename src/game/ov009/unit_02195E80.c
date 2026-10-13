@@ -527,12 +527,9 @@ int func_02196558(GTI2Connection *connection, int type, unsigned char *message, 
 }
 
 
-asm int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
+int gti2IncomingBufferMessageCompare(void *elem1, void *elem2)
 {
-	ldrh r0, [r0, #0xc]
-	ldrh r1, [r1, #0xc]
-	ldr ip, =func_02195EB4
-	bx ip
+    return func_02195EB4(((struct GTI2IncomingBufferMessage *)elem1)->serialNumber, ((struct GTI2IncomingBufferMessage *)elem2)->serialNumber);
 }
 
 

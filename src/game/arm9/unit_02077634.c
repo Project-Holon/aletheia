@@ -326,7 +326,7 @@ void func_02078360(FSArchive *p_arc);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
 BOOL func_02078384(FSArchive *p_arc, const char *name, u32 name_len);
 void func_02078484(FSArchive *p_arc);
-asm void func_02078530(void);
+char *func_02078530(FSArchive *arc);
 BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl);
 extern BOOL FS_SuspendArchive(FSArchive *p_arc);
 extern BOOL FS_ResumeArchive(FSArchive *arc);
@@ -2034,12 +2034,12 @@ void func_02078484(FSArchive *p_arc)
 
 
 
-asm void func_02078530(void)
+char *func_02078530(FSArchive *arc)
 {
-    ldrsb	r1, [r0, #3]
-    cmp	r1, #0
-    ldrne	r0, [r0]
-    bx	lr
+    if (arc->name.ptr[3] != 0) {
+        return arc->name.name;
+    }
+    return arc->name.ptr;
 }
 
 

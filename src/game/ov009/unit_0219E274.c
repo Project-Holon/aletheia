@@ -80,7 +80,7 @@ char *mytok(char *instr, char delim);
 void func_0219E33C(_SBServer *server, char *keyvals);
 void func_0219E3CC(_SBServer *server, char *data, int len);
 /* * sdk: SBServerParseQR2FullKeysSplit (sb_server.o) */ void func_0219E5B8(_SBServer *server, char *data, int len);
-asm void KeyValHashKey(void);
+int KeyValHashKey(void *elem, int numbuckets);
 extern char *g_021A8120[2];
 extern char g_021A8160[];
 extern char g_021A8164[];
@@ -365,11 +365,9 @@ static void KeyValFree(void *elem)
 }
 
 
-asm void KeyValHashKey(void)
+int KeyValHashKey(void *elem, int numbuckets)
 {
-	ldr r0, [r0]
-	ldr ip, =StringHash
-	bx ip
+    return StringHash(*(char **)elem, numbuckets);
 }
 
 

@@ -19,18 +19,12 @@ typedef unsigned short u16;
 extern int func_0202708C(u16 v);
 extern void func_02027230(u16 value);
 extern void func_020271F8(u16 value);
-asm void OS_SetPrintBlockingMode(void)
+
+void OS_SetPrintBlockingMode(u16 v)
 {
-    push {r4, lr}
-    add r4, r0, #0
-    bl func_0202708C
-    cmp r0, #0
-    beq loc_020271F0
-    add r0, r4, #0
-    bl func_02027230
-    pop {r4, pc}
-loc_020271F0:
-    add r0, r4, #0
-    bl func_020271F8
-    pop {r4, pc}
+    if (func_0202708C(v)) {
+        func_02027230(v);
+    } else {
+        func_020271F8(v);
+    }
 }

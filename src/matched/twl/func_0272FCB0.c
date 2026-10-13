@@ -1,5 +1,5 @@
 /*
- * function: func_0272FCB0
+ * function: MI_WaitNDma
  * address:  0x0272FCB0
  * packet:   twl_audio
  * region:   twl
@@ -16,7 +16,7 @@
 int func_02087988(void);
 void func_0208799C(int);
 
-void func_0272FCB0(int ch)
+void MI_WaitNDma(int ch)
 {
     int irq = func_02087988();
     volatile unsigned int *reg = (volatile unsigned int *)(0x0400411C + ch * 0x1C);

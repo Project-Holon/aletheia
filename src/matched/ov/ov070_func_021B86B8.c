@@ -1,0 +1,142 @@
+/*
+ * function: func_021B86B8
+ * address:  0x021B86B8
+ * packet:   pkt_ov070_021B86B8
+ * region:   ov070
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203064C  0x0203064C  arm
+ *   func_0203159C  0x0203159C  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02036370  0x02036370  arm
+ *   func_02045B38  0x02045B38  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_02051B84  0x02051B84  arm
+ *   func_0203101C  0x0203101C  arm
+ *   func_0203D34C  0x0203D34C  arm
+ *   func_020355C4  0x020355C4  arm
+ *   func_0200816C  0x0200816C  thumb
+ *   func_02008284  0x02008284  thumb
+ *   func_02008270  0x02008270  thumb
+ *   func_02007FA0  0x02007FA0  thumb
+ *   func_02008288  0x02008288  thumb
+ *   func_0201EC64  0x0201EC64  thumb
+ *   func_0201C450  0x0201C450  thumb
+ *   func_02028590  0x02028590  thumb
+ *   func_0201D7EC  0x0201D7EC  thumb
+ *   func_020056A0  0x020056A0  thumb
+ *   func_02027F60  0x02027F60  thumb
+ *   func_021B9280  0x021B9280  thumb  ov070
+ *   func_021B9BDC  0x021B9BDC  thumb  ov070
+ *   func_021B9EF4  0x021B9EF4  thumb  ov070
+ *   func_021BA8C0  0x021BA8C0  thumb  ov070
+ *   func_021B6120  0x021B6120  thumb  ov070
+ *   func_021BA028  0x021BA028  thumb  ov070
+ *   func_021B8B24  0x021B8B24  thumb  ov070
+ *   func_021B8E48  0x021B8E48  thumb  ov070
+ *   func_021BAE98  0x021BAE98  thumb  ov070
+ *   func_021B80C4  0x021B80C4  thumb  ov070
+ *   func_021B913C  0x021B913C  thumb  ov070
+ *   func_021B6100  0x021B6100  thumb  ov070
+ *   func_021B83B8  0x021B83B8  thumb  ov070
+ *   func_021B8600  0x021B8600  thumb  ov070
+ *   func_021B8640  0x021B8640  thumb  ov070
+ *   d_021BBA04     0x021BBA04  data  a4
+ */
+
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32; typedef short s16;
+/*
+ * The clamped scroll and cursor go back to func_02008288 (its definition
+ * takes them as s16 arguments 3 and 4). Without them the clamp loop coloured
+ * scroll/cur in r1/r2 instead of r2/r3 (28 bytes differed).
+ */
+struct MyItemSave;
+typedef struct Args {
+    int f00, f04, f08;
+    struct MyItemSave *f0C;
+    int f10, f14[6], f2C, f30;
+} Args;
+typedef struct Work {
+    int f00, f04, f08;
+    int *f0C;
+    int f10;
+    struct MyItemSave *f14;
+    int f18, f1C;
+    u8 pad20[0x50C - 0x20];
+    int f50C, f510, f514, f518, f51C, f520, f524, f528, f52C, f530;
+    u8 pad534[0x544 - 0x534];
+    u16 f544;
+    u8 pad546[0x694 - 0x546];
+    int f694, f698;
+    u8 pad69C[0x730 - 0x69C];
+    int f730;
+    u8 pad734[0x7E0 - 0x734];
+    int f7E0;
+    u8 pad7E4[0x80C - 0x7E4];
+    int f80C, f810, f814;
+    u8 pad818[0x858 - 0x818];
+    int f858;
+    u8 pad85C[0x86C - 0x85C];
+    int f86C, f870;
+} Work;
+extern void func_0203064C(); extern void *func_0203159C(); extern void func_02082BCC(); extern void func_02036370();
+extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
+extern int func_02045B38(); extern int func_020457B0(); extern int func_0201EC64(); extern int func_0201C450();
+extern int func_02028590(); extern int func_0201D7EC(); extern int func_02051B84(); extern int func_020056A0(); extern int func_0203101C();
+extern int func_02027F60(); extern void func_0203D34C(); extern int func_020355C4();
+extern void func_021B9280(), func_021B9BDC(), func_021B9EF4(), func_021BA8C0(), func_021B6120(), func_021BA028(), func_021B8B24(), func_021B8E48(), func_021BAE98(), func_021B80C4(), func_021B913C(), func_021B6100();
+extern void func_021B83B8(), func_021B8600(), func_021B8640(); extern char d_021BBA04[];
+int func_021B86B8(void *proc, int st, Args *a)
+{
+    Work *o; u16 i; s16 scr, cur;
+    func_0203064C(1, 0xe, 0x34000);
+    o = func_0203159C(proc, 0x874, 0xe);
+    func_02082BCC(o, 0, 0x874);
+    func_02036370(&o->f86C, &o->f870);
+    o->f544 = 0xe;
+    o->f858 = 1;
+    o->f00 = a->f00; o->f08 = a->f08; o->f04 = a->f04;
+    o->f14 = a->f0C; o->f18 = a->f10;
+    o->f0C = a->f14;
+    o->f10 = a->f2C; o->f1C = a->f30;
+    func_0200816C(o->f18, o->f1C);
+    o->f80C = func_02008284(o->f14);
+    for (i = 0; i < 5; i++) {
+        int n;
+        func_02008270(o->f14, i, &scr, &cur);
+        n = (u16)func_02007FA0(o->f18, i);
+        for (;;) {
+            if (scr == 0 && cur == 0) break;
+            if (cur + 5 >= n && cur != 0) { cur--; continue; }
+            if (scr + cur < n) break;
+            if (cur != 0) cur--; else scr--;
+        }
+        if (i == o->f80C) { o->f810 = scr; o->f814 = cur - 1; }
+        func_02008288(o->f14, i, scr, cur);
+    }
+    o->f51C = func_02045B38(0, 2, 3, o->f544);
+    o->f524 = func_020457B0(0xc8, o->f544);
+    o->f528 = func_020457B0(0xc8, o->f544);
+    o->f52C = func_020457B0(0x40, o->f544);
+    o->f520 = func_0201EC64(o->f544);
+    o->f50C = func_0201C450(0x40 << 6, o->f544);
+    o->f518 = func_02028590(0xf, 1, 1, o->f544);
+    o->f530 = func_0201D7EC(0x17, 0, 0, 0, o->f544);
+    func_021B9280(o); func_021B9BDC(o); func_021B9EF4(o); func_021BA8C0(o); func_021B6120(o); func_021BA028(o);
+    o->f694 = func_02051B84(d_021BBA04, func_021B83B8, o, o->f544);
+    func_021B8B24(o); func_021B8E48(o);
+    o->f698 = func_020056A0(func_021B8600, o, 0);
+    o->f730 = func_0203101C(o->f544, o->f544, 1, 0);
+    func_021BAE98(o);
+    o->f7E0 = func_02027F60(3, 9, o->f530, o->f50C, o->f544);
+    func_0203D34C(1, o->f544);
+    func_021B80C4(o, func_020355C4() ? 0 : 1);
+    func_021B913C();
+    func_021B6100(o, func_021B8640);
+    return 1;
+}

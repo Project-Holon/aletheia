@@ -140,7 +140,7 @@ extern int func_0215FC80(int s, void *con);
 int func_021C109C(int request, int engine);
 int func_021C1184(int ctx, int arg);
 int func_021C1210(char *url);
-int CaseInsensitiveCompare(const char **a, const char **b);
+static int ghiCompareCertUrl(const char **a, const char **b);
 void *func_021C1230(char *url);
 void func_021C135C(u8 *p);
 int func_021C137C(char *url, void *theRootCAList);
@@ -264,7 +264,7 @@ int func_021C1210(char *url)
 
 
 
-int CaseInsensitiveCompare(const char **a, const char **b)
+static int ghiCompareCertUrl(const char **a, const char **b)
 {
     return func_020948E0(*a, *b);
 }

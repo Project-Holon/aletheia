@@ -362,6 +362,7 @@ void func_02088EC4(int result)
 
 
 
+/* hand-written in the original: spin-wait on the lock word with the address in ip; mwccarm never picks ip for a leaf load (9 C variants tried) */
 asm void func_02088ED4(void)
 {
     ldr ip, =g_0215142C

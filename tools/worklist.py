@@ -388,8 +388,32 @@ def load_matched():
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import match  # noqa: E402
 
-    return cover_from_entries(match.load_manifest_entries(),
-                              match.MATCHED_STATUS)
+    cover = cover_from_entries(match.load_manifest_entries(),
+                               match.MATCHED_STATUS)
+    mark_placeholders(cover)
+    return cover
+
+
+def mark_placeholders(cover):
+    """Mark the cover records whose only source is a placeholder.
+
+    tools/placeholders.py finds EXACT/EXACT* entries whose source holds no code (an
+    empty asm body compares zero bytes and passes).  Their records get
+    "placeholder": reason, and classify() files them as class `placeholder`
+    (unmatched game code) or leaves an SDK/runtime row unreproduced."""
+    import placeholders  # noqa: E402
+    flagged = placeholders.flagged()
+    for addr, rec in cover.items():
+        hit = flagged.get((REGION, addr))
+        if hit is not None:
+            rec["placeholder"] = hit[3]
+        elif rec.get("implied") and rec.get("source"):
+            # a sibling definition found by find_unit_member_addrs: no manifest claim
+            # names it, so check its definition in the unit's source directly
+            rule = placeholders.source_rule(rec["source"], addr)
+            if rule:
+                rec["placeholder"] = "matched:%s (implied unit member)" % rule
+    return cover
 
 
 def cover_from_entries(entries, matched_status):
@@ -452,6 +476,7 @@ def cover_from_entries(entries, matched_status):
                         "entry": name,
                         "kind": kind,
                         "implied": True,
+                        "source": ent["source"],
                     },
                 )
     return cover
@@ -781,6 +806,9 @@ def parse_all(units):
 def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
     """Set fn["cls"] (sdk > runtime > matched > open) and its name fields.
 
+    An entry whose source is a placeholder (tools/placeholders.py) gives class
+    `placeholder` instead of matched, and no matched_name on an SDK/runtime row.
+
     Only a `game`/`game_unit` manifest entry proves game code over an SDK or
     runtime address; a `runtime` entry reproduces a runtime row and leaves it
     runtime (with matched_name set), so it never reaches the game figure.
@@ -789,10 +817,14 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
     ment = matched.get(addr)
     proven_game = (ment is not None and ment["kind"] in ("game", "game_unit")
                    and (addr not in sdk or addr in sdk_weak))
+    held = ment is not None and bool(ment.get("placeholder"))
+    if held:
+        # the entry's source holds no code (tools/placeholders.py): it reproduces nothing
+        fn["placeholder"] = ment["placeholder"]
     if addr in sdk and not proven_game:
         fn["cls"] = "sdk"
         fn["sdk_name"] = sdk[addr]
-        if ment is not None:
+        if ment is not None and not held:
             fn["matched_name"] = ment["name"]
     elif not proven_game and sdk_interior(sdk_ext, addr) is not None:
         # a label inside a sized SDK symbol: an interior kernel, not a
@@ -800,7 +832,7 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
         fn["cls"] = "sdk"
         fn["sdk_name"] = sdk_interior(sdk_ext, addr)
         fn["sdk_interior"] = True
-        if ment is not None:
+        if ment is not None and not held:
             fn["matched_name"] = ment["name"]
         else:
             # Credit the label to its parent only when the parent's EXACT or
@@ -811,14 +843,18 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
             pent = matched.get(start)
             if (pent is not None
                     and pent.get("status") in ("EXACT", "EXACT*")
+                    and not pent.get("placeholder")
                     and start + int(pent.get("compared_bytes") or 0) > addr):
                 fn["matched_name"] = "%s+0x%X" % (pname, addr - start)
                 fn["matched_interior"] = True
     elif addr in runtime and not proven_game:
         fn["cls"] = "runtime"
         fn["runtime_name"] = runtime[addr]
-        if ment is not None:
+        if ment is not None and not held:
             fn["matched_name"] = ment["name"]
+    elif addr in matched and held:
+        fn["cls"] = "placeholder"
+        fn["matched_entry"] = ment["entry"]
     elif addr in matched:
         fn["cls"] = "matched"
         fn["matched_name"] = ment["name"]
@@ -1126,8 +1162,10 @@ def sole_isa(group):
 
 def build_document(inv, packets):
     funcs = inv["funcs"]
-    counts = {"total": len(funcs), "sdk": 0, "runtime": 0, "matched": 0, "open": 0}
-    bytes_by = {"sdk": 0, "runtime": 0, "matched": 0, "open": 0}
+    counts = {"total": len(funcs), "sdk": 0, "runtime": 0, "matched": 0, "open": 0, "placeholder": 0}
+    bytes_by = {"sdk": 0, "runtime": 0, "matched": 0, "open": 0, "placeholder": 0}
+    sdk_placeholder = 0
+    sdk_placeholder_bytes = 0
     sdk_matched = 0
     sdk_matched_bytes = 0
     runtime_matched = 0
@@ -1139,6 +1177,9 @@ def build_document(inv, packets):
         if f["cls"] == "sdk" and "matched_name" in f:
             sdk_matched += 1
             sdk_matched_bytes += f["code_bytes"]
+        if f["cls"] in ("sdk", "runtime") and f.get("placeholder"):
+            sdk_placeholder += 1
+            sdk_placeholder_bytes += f["code_bytes"]
         if f["cls"] == "runtime" and "matched_name" in f:
             runtime_matched += 1
             runtime_matched_bytes += f["code_bytes"]
@@ -1151,7 +1192,8 @@ def build_document(inv, packets):
                 }
             )
 
-    game_bytes = bytes_by["matched"] + bytes_by["open"]
+    # a placeholder is game code that is not matched: in the denominator, not the numerator
+    game_bytes = bytes_by["matched"] + bytes_by["open"] + bytes_by["placeholder"]
     coverage = (100.0 * bytes_by["matched"] / game_bytes) if game_bytes else 0.0
 
     # The share of the matched coverage that rests on the `sole-ref` class,
@@ -1196,7 +1238,8 @@ def build_document(inv, packets):
         "base": inv["units"]["base"],
         "size": inv["units"]["size"],
         "policy": {
-            "classification": "sdk > runtime > matched > open",
+            "classification": "sdk > runtime > matched > open; a placeholder source "
+                              "(tools/placeholders.py) is class placeholder, not matched",
             "soft_max_funcs": SOFT_MAX_FUNCS,
             "soft_max_code_bytes": SOFT_MAX_CODE,
             "gap_split_bytes": GAP_SPLIT_BYTES,
@@ -1213,6 +1256,10 @@ def build_document(inv, packets):
             "code_bytes_runtime_reproduced": runtime_matched_bytes,
             "functions_matched": counts["matched"],
             "functions_open": counts["open"],
+            "functions_placeholder": counts["placeholder"],
+            "code_bytes_placeholder": bytes_by["placeholder"],
+            "functions_sdk_runtime_placeholder": sdk_placeholder,
+            "code_bytes_sdk_runtime_placeholder": sdk_placeholder_bytes,
             "code_bytes_sdk": bytes_by["sdk"],
             "code_bytes_runtime": bytes_by["runtime"],
             "code_bytes_matched": bytes_by["matched"],
@@ -1374,6 +1421,17 @@ def print_summary(doc):
         "  open                     %6d              %d bytes of code"
         % (s["functions_open"], s["code_bytes_open"])
     )
+    if s.get("functions_placeholder") or s.get("functions_sdk_runtime_placeholder"):
+        print(
+            "  placeholder              %6d              %d bytes of code "
+            "(EXACT entry, source holds no code; unmatched)"
+            % (s.get("functions_placeholder", 0), s.get("code_bytes_placeholder", 0))
+        )
+        print(
+            "    SDK/runtime placeholder %5d              %d bytes of code (not reproduced)"
+            % (s.get("functions_sdk_runtime_placeholder", 0),
+               s.get("code_bytes_sdk_runtime_placeholder", 0))
+        )
     if s.get("sdk_conflicts"):
         print(
             "  SDK symbols overruled    %6d  (matched game code at an SDK address)"

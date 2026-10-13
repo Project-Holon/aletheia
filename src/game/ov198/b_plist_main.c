@@ -1608,7 +1608,7 @@ void func_02210774(u8 *p) { func_02045C04(*(struct Rec * *)&((struct Obj06656 *)
  * lever: write upper experience to the same field in both if/else arms;
  *   one common store or a switch removes the original two-byte branch.
  * 2026-10-04: filed src/matched/arm9/func_02018544.c (EXACT, 8 bytes); needs the label registered by the integrator, then this resolves.
- *   022107A8..0221099C. Ilias-owned ARM9 Thumb tail stub, verified EXACT
+ *   022107A8..0221099C. integrator-owned ARM9 Thumb tail stub, verified EXACT
  *   (8 bytes, 1/1 relocation resolved) in B9/blocker18544.log:
  *   typedef unsigned int u32;
  *   extern u32 func_0201854C(void *);

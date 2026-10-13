@@ -1,5 +1,5 @@
 /*
- * function: func_02731F14
+ * function: WcmNwmReset
  * address:  0x02731F14
  * packet:   twl_sys
  * region:   twl
@@ -13,144 +13,108 @@
  *   func_021657C8  0x021657C8  arm  ov009
  *   func_02165A4C  0x02165A4C  arm  ov009
  *   func_021659B4  0x021659B4  arm  ov009
- *   func_02702FE8  0x02702FE8  arm  twl
- *   func_027320D0  0x027320D0  arm  twl
+ *   NWM_Close  0x02702FE8  arm  twl
+ *   WcmNwmcbCommon  0x027320D0  arm  twl
  */
 
 typedef unsigned int u32;
-
-extern int func_021657C8(void);
+typedef unsigned short u16; typedef unsigned char u8;
+typedef struct NetWork {
+    u8 pad00[0x600];
+    u8 recvBuf[0xc40];
+    u8 peer[0x20];
+    u8 pad0a[0x1290 - 0x1260];
+    u8 mode;
+    u8 submode;
+    u8 pad0b[0x12c0 - 0x1292];
+    u32 cmdArg;
+    u8 pad0c[0x12d4 - 0x12c4];
+    u32 linkFlags;
+    u16 sync;
+    short phase;
+    u8 pad2a;
+    u8 stopFlag;
+    u8 state;
+    u8 pad3;
+    u8 buf[0x130c - 0x12e0];
+    u16 optFlags;
+    u8 pad4[0x13a0 - 0x130e];
+    u8 rxBuf[0x3000];
+    u32 sendBuf;
+    u16 sendLen;
+    u16 sendMask;
+    u16 sendId;
+    u16 sendFlag;
+    u8 sendMac[6];
+    u16 nameLen;
+    u8 sendName[0x20];
+    u16 nameLen2;
+    u8 pad5[0x43e0 - 0x43d6];
+    u32 sendCount;
+    u16 rxFlag;
+    u16 txFlag;
+} NetWork;
+extern NetWork *func_021657C8(void);
 extern void func_02165A4C(unsigned char phase);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
-extern u32 func_02702FE8(void *arg);
-extern void func_027320D0(void);
-
-asm void func_02731F14(void)
+extern u32 NWM_Close(void *arg);
+void WcmNwmcbCommon(u16 *arg);
+void WcmNwmReset(void)
 {
-    stmdb   sp!, {r4, r5, r6, r7, r8, lr}
-    mov     r4, #3
-    bl      func_021657C8
-    mov     r7, r0
-    add     r0, r7, #0x1000
-    ldrb    r1, [r0, #0x2dd]
-    cmp     r1, #0
-    ldmnefd sp!, {r4, r5, r6, r7, r8, pc}
-    mov     r5, #0
-    strb    r5, [r0, #0x2dd]
-    add     r1, r7, #0x4300
-    strh    r5, [r1, #0xe4]
-    ldrb    r0, [r0, #0x2de]
-    mov     r6, #1
-    cmp     r0, #0xd
-    addls   pc, pc, r0, lsl #2
-    b       @loc_027320A4
+    NetWork *w = func_021657C8();
+    u16 tx;
 
-    b       @loc_027320A4
-    b       @loc_027320A4
-    b       @loc_027320A4
-    b       @loc_027320A4
-    b       @loc_027320A4
-    b       @loc_02731F90
-    b       @loc_02731F90
-    b       @loc_02731FB0
-    b       @loc_02731FD0
-    b       @loc_02731FFC
-    b       @loc_02732020
-    b       @loc_027320A4
-    b       @loc_02731FFC
-    b       @loc_02732044
-
-@loc_02731F90:
-    mov     r0, r4
-    bl      func_02165A4C
-    mov     r0, r6
-    mov     r1, r5
-    mov     r2, r5
-    add     r3, r4, #0x298
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02731FB0:
-    mov     r0, r4
-    bl      func_02165A4C
-    mov     r0, r5
-    mov     r1, r5
-    mov     r2, r5
-    rsb     r3, r4, #0x2a4
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02731FD0:
-    ldrh    r8, [r1, #0xe6]
-    mov     r0, r4
-    strh    r5, [r1, #0xe6]
-    bl      func_02165A4C
-    add     r1, r7, #0x2e0
-    mov     r0, r6
-    mov     r2, r8
-    add     r1, r1, #0x1000
-    add     r3, r4, #0x2a8
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02731FFC:
-    mov     r0, r4
-    bl      func_02165A4C
-    add     r1, r7, #0x2e0
-    mov     r0, r5
-    mov     r2, r6
-    add     r1, r1, #0x1000
-    add     r3, r4, #0x2b0
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02732020:
-    mov     r0, r4
-    bl      func_02165A4C
-    add     r1, r7, #0x2e0
-    ldr     r3, =0x2BA
-    mov     r0, r5
-    mov     r2, r5
-    add     r1, r1, #0x1000
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02732044:
-    ldr     r0, =func_027320D0
-    bl      func_02702FE8
-    cmp     r0, #2
-    ldmeqfd sp!, {r4, r5, r6, r7, r8, pc}
-    cmp     r0, #3
-    beq     @loc_02732084
-    cmp     r0, #6
-    bne     @loc_02732084
-    mov     r0, #0xc
-    bl      func_02165A4C
-    mov     r0, r6
-    mov     r1, r5
-    mov     r2, r5
-    mov     r3, #0x2c8
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_02732084:
-    mov     r0, #0xb
-    bl      func_02165A4C
-    mov     r0, #7
-    mov     r1, #0
-    mov     r2, r1
-    rsb     r3, r0, #0x2d8
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
-
-@loc_027320A4:
-    mov     r0, #0xb
-    bl      func_02165A4C
-    add     r1, r7, #0x1000
-    mov     r0, #7
-    ldrb    r2, [r1, #0x2de]
-    add     r3, r0, #0x2d0
-    mov     r1, #0
-    bl      func_021659B4
-    ldmfd   sp!, {r4, r5, r6, r7, r8, pc}
+    if (w->stopFlag != 0) {
+        return;
+    }
+    /* WcmNwmReset (libwcm nwmif.o): its line table puts a constant 1 on a
+       line of its own before the store of 0, so the source sets the flag
+       and then clears it; the dead first store leaves the 1 in a register. */
+    w->stopFlag = 1;
+    w->stopFlag = 0;
+    w->rxFlag = 0;
+    switch (w->state) {
+    case 5:
+    case 6:
+        func_02165A4C(3);
+        func_021659B4(1, 0, 0, 667);
+        return;
+    case 7:
+        func_02165A4C(3);
+        func_021659B4(0, 0, 0, 673);
+        return;
+    case 8:
+        tx = w->txFlag;
+        w->txFlag = 0;
+        func_02165A4C(3);
+        func_021659B4(1, w->buf, tx, 683);
+        return;
+    case 9:
+    case 12:
+        func_02165A4C(3);
+        func_021659B4(0, w->buf, 1, 691);
+        return;
+    case 10:
+        func_02165A4C(3);
+        func_021659B4(0, w->buf, 0, 698);
+        return;
+    case 13:
+        switch (NWM_Close(WcmNwmcbCommon)) {
+        case 2:
+            return;
+        case 6:
+            func_02165A4C(12);
+            func_021659B4(1, 0, 0, 712);
+            return;
+        case 3:
+        default:
+            func_02165A4C(11);
+            func_021659B4(7, 0, 0, 721);
+            return;
+        }
+    default:
+        func_02165A4C(11);
+        func_021659B4(7, 0, w->state, 727);
+        return;
+    }
 }

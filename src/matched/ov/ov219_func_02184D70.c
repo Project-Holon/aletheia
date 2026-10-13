@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02045CAC at +0048 lacks a code-start witness; Ilias-owned unit_02045C44.c omits func_02045CAC from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
+ * blocker: ARM9 02045CAC at +0048 lacks a code-start witness; integrator-owned unit_02045C44.c omits func_02045CAC from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
  * copied unchanged from unit_02045C44.c, using dsi/1.1p1 -O4,p --arm.
  * typedef unsigned char u8;

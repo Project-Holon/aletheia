@@ -1,5 +1,5 @@
 /*
- * function: procConfirm1
+ * function: procError1
  * address:  0x021CB760
  * packet:   pkt_ov016_021C3A68
  * region:   ov016
@@ -33,14 +33,14 @@
  *   endScene2                        0x021C21F0  arm
  *   initGraphics                     0x021C1F64  arm
  *   procConfirm                      0x021C22AC  arm
- *   procConfirm1                     0x021C22FC  arm
+ *   procError1                     0x021C22FC  arm
  *   procInit                         0x021C1FE4  arm
  *   procInit1                        0x021C204C  arm
  *   procInit2                        0x021C2088  arm
  *   procScene                        0x021C20AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneopterase.o), symbol procConfirm1 (name and prototype from the
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneopterase.o), symbol procError1 (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  * layout/symbols_sdk.txt files this copy under sceneopterase.o; its bytes equal sceneopterase.o's own
@@ -50,7 +50,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CB760.c \
- *       --func procConfirm1 --addr 0x021CB760 --region ov016 --cc 1.1p1 --arm --lang c99
+ *       --func procError1 --addr 0x021CB760 --region ov016 --cc 1.1p1 --arm --lang c99
  */
 typedef _Bool bool;
 
@@ -85,12 +85,12 @@ static void procInit1(void);
 static void procInit2(void);
 static void procScene(void);
 static void procConfirm(void);
-static void procConfirm1(void);
+static void procError1(void);
 static void endScene(void);
 static void endScene1(void);
 static void endScene2(void);
 
-static void procConfirm1(void)
+static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;

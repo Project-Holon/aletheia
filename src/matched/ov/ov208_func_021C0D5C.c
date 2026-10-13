@@ -11,7 +11,7 @@
  * 2026-10-04 (D2-16): blocker func_02051F1C filed EXACT as src/matched/arm9/func_02051F1C.c (24 bytes). Remaining MATCH* is the missing shard
  * witness only; the integrator manifest run should make this EXACT.
  * Tail: 021C100A..021C100C is two zero alignment bytes.
- * blocker: Ilias-owned ARM9 0x02051F1C has no code-start witness.
+ * blocker: integrator-owned ARM9 0x02051F1C has no code-start witness.
  *   Scratch fixed-flags one: EXACT, 24 bytes, blocker-02051F1C-1.log.
  *   struct Vec { int x,y,z; };
  *   struct Ball { struct Vec p; int radius; };

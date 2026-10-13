@@ -1,5 +1,5 @@
 /*
- * function: func_02703088
+ * function: NWM_StartScanEx
  * address:  0x02703088
  * packet:   twl
  * region:   twl
@@ -10,125 +10,111 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027028E4  0x027028E4  arm twl
- *   func_027026DC  0x027026DC  arm twl
+ *   NWMi_CheckState  0x027028E4  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_020862B8  0x020862B8  arm twl
  *   func_02082BCC  0x02082BCC  arm twl
  *   func_020862D4  0x020862D4  arm twl
- *   func_02703A34  0x02703A34  arm twl
+ *   NWMi_SetCallbackTable  0x02703A34  arm twl
  *   func_02082D44  0x02082D44  arm twl
- *   func_02703B24  0x02703B24  arm twl
+ *   NWMi_SendCommandDirect  0x02703B24  arm twl
+ *   NWM_GetInfoElements  0x02703208  arm
+ *   NWM_GetVenderInfoElements  0x02703250  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 func_027028E4(u32, u32);
-extern u32 func_027026DC(void);
-extern void func_020862B8(u32, u32);
-extern void func_02082BCC(u32, u32, u32);
-extern void func_020862D4(u32, u32);
-extern void func_02703A34(u32, u32);
-extern void func_02082D44(u32, u32, u32);
-extern u32 func_02703B24(u32, u32);
+typedef unsigned short u16;
+typedef unsigned char u8;
 
-asm void func_02703088(u32 a0, u32 a1) {
-    stmdb sp!, {r3, r4, r5, r6, r7, lr}
-    sub sp, sp, #0x38
-    mov r6, r0
-    mov r5, r1
-    mov r0, #1
-    mov r1, #3
-    bl func_027028E4
-    cmp r0, #0
-    beq @lbl_027030B8
-    cmp r0, #2
-    addne sp, sp, #0x38
-    ldmnefd sp!, {r3, r4, r5, r6, r7, pc}
-@lbl_027030B8:
-    bl func_027026DC
-    movs r7, r0
-    beq @lbl_027030F4
-    add r0, r7, #0x2000
-    ldr r0, [r0, #0x278]
-    mov r4, #1
-    mov r1, r4
-    add r0, r0, #7
-    bl func_020862B8
-    add r0, r7, #0x2000
-    ldr r0, [r0, #0x278]
-    ldrb r0, [r0, #7]
-    cmp r0, #1
-    movne r4, #0
-    b @lbl_027030F8
-@lbl_027030F4:
-    mov r4, #0
-@lbl_027030F8:
-    cmp r4, #1
-    addeq sp, sp, #0x38
-    moveq r0, #3
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, pc}
-    cmp r5, #0
-    addeq sp, sp, #0x38
-    moveq r0, #5
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, pc}
-    ldr r0, [r5]
-    cmp r0, #0
-    addeq sp, sp, #0x38
-    moveq r0, #5
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, pc}
-    ldrh r1, [r5, #0x12]
-    cmp r1, #0x20
-    addhi sp, sp, #0x38
-    movhi r0, #5
-    ldmhifd sp!, {r3, r4, r5, r6, r7, pc}
-    ldrh r1, [r5, #0x34]
-    cmp r1, #0x20
-    addhi sp, sp, #0x38
-    movhi r0, #5
-    ldmhifd sp!, {r3, r4, r5, r6, r7, pc}
-    ldrh r2, [r5, #4]
-    mov r1, #0
-    add r2, r2, #3
-    bic r2, r2, #3
-    bl func_02082BCC
-    ldrh r1, [r5, #4]
-    ldr r0, [r5]
-    add r1, r1, #3
-    bic r1, r1, #3
-    bl func_020862D4
-    mov r4, #7
-    mov r0, r4
-    mov r1, r6
-    bl func_02703A34
-    ldrh r2, [r5, #6]
-    ldrh r3, [r5, #4]
-    ldrh r1, [r5, #8]
-    ldrh r0, [r5, #0xa]
-    strh r2, [sp, #2]
-    ldrh r2, [r5, #0x12]
-    strh r3, [sp, #4]
-    ldrh r3, [r5, #0x34]
-    strh r4, [sp]
-    ldr r4, [r5]
-    strh r1, [sp, #6]
-    strh r0, [sp, #0xc]
-    strh r2, [sp, #0xe]
-    add r1, sp, #0x12
-    add r0, r5, #0x14
-    mov r2, #0x20
-    str r4, [sp, #8]
-    strh r3, [sp, #0x10]
-    bl func_02082D44
-    add r1, sp, #0x32
-    add r0, r5, #0xc
-    mov r2, #6
-    bl func_02082D44
-    add r0, sp, #0
-    mov r1, #0x38
-    bl func_02703B24
-    cmp r0, #0
-    cmpne r0, #2
-    moveq r0, #2
-    add sp, sp, #0x38
-    ldmfd sp!, {r3, r4, r5, r6, r7, pc}
+typedef struct ApInfo {
+    u8 *buf;
+    u16 bufLen;
+    u16 f06;
+    u16 f08;
+    u16 f0A;
+    u8 mac[6];
+    u16 ssidLen;
+    u8 ssid[0x20];
+    u16 f34;
+} ApInfo;
+
+typedef struct ApCmd {
+    u16 cmd;
+    u16 f02;
+    u16 bufLen;
+    u16 f06;
+    u8 *buf;
+    u16 f0C;
+    u16 ssidLen;
+    u16 f10;
+    u8 ssid[0x20];
+    u8 mac[6];
+} ApCmd;
+
+extern u32 NWMi_CheckState(u32, ...);
+extern u32 NWMi_GetSystemWork(void);
+extern void func_020862B8(u32, u32);
+extern void func_02082BCC(void *, u32, u32);
+extern void func_020862D4(void *, u32);
+extern void NWMi_SetCallbackTable(u32, u32);
+extern void func_02082D44(const void *, void *, u32);
+extern u32 NWMi_SendCommandDirect(void *, u32);
+extern u32 func_02082E74(void *, void *, u32);
+u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
+u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2);
+
+u32 NWM_StartScanEx(u32 a0, const ApInfo *a1) {
+    ApCmd cmd;
+    u32 r = NWMi_CheckState(1, 3);
+    u32 base;
+    u32 busy;
+    if (r != 0 && r != 2) {
+        return r;
+    }
+    base = NWMi_GetSystemWork();
+    if (base != 0) {
+        u32 ptr = *(u32 *)(base + 0x2278);
+        busy = 1;
+        func_020862B8(ptr + 7, 1);
+        if (*(u8 *)(*(u32 *)(base + 0x2278) + 7) != 1) {
+            busy = 0;
+        }
+    } else {
+        busy = 0;
+    }
+    if (busy == 1) {
+        return 3;
+    }
+    if (a1 == 0) {
+        return 5;
+    }
+    if (a1->buf == 0) {
+        return 5;
+    }
+    if (a1->ssidLen > 0x20) {
+        return 5;
+    }
+    if (a1->f34 > 0x20) {
+        return 5;
+    }
+    func_02082BCC(a1->buf, 0, (a1->bufLen + 3) & ~3);
+    func_020862D4(a1->buf, (a1->bufLen + 3) & ~3);
+    r = 7;
+    NWMi_SetCallbackTable(r, a0);
+    cmd.cmd = r;
+    cmd.f02 = a1->f06;
+    cmd.bufLen = a1->bufLen;
+    cmd.f06 = a1->f08;
+    cmd.buf = a1->buf;
+    cmd.f0C = a1->f0A;
+    cmd.ssidLen = a1->ssidLen;
+    cmd.f10 = a1->f34;
+    func_02082D44(a1->ssid, cmd.ssid, 0x20);
+    func_02082D44(a1->mac, cmd.mac, 6);
+    r = NWMi_SendCommandDirect(&cmd, 0x38);
+    if (r == 0 || r == 2) {
+        r = 2;
+    }
+    return r;
 }

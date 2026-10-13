@@ -12,7 +12,7 @@
  *
  * blocker: byte-correct; the bl to 0x02014184 has no witness (unlabelled ARM9
  * Thumb leaf, sole caller in range). Evidence class: label / sole-ref/code.
- * Leaf 0x02014184 (arm9, Thumb, EXACT with match.py one, Ilias's to file):
+ * Leaf 0x02014184 (arm9, Thumb, EXACT with match.py one, the integrator's to file):
  *   typedef short s16;
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
  *   void func_02014184(Obj *o, s16 a, s16 b, int c, int d, int e)

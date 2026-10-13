@@ -10,14 +10,17 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_02150FEC  0x02150FEC  data
 */
 
-asm void CPS_SocDup(void)
+struct CpsRoot
 {
-	ldr r1, =0x02150FEC
-	ldr r1, [r1, #4]
-	ldr r1, [r1, #0xa4]
-	str r1, [r0, #0xa4]
-	bx lr
-}
+	int prev;
+	char *current;
+};
+extern struct CpsRoot g_02150FEC;
 
+void CPS_SocDup(char *dst)
+{
+	*(int *)(dst + 0xa4) = *(int *)(g_02150FEC.current + 0xa4);
+}

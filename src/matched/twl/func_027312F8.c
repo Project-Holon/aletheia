@@ -1,5 +1,5 @@
 /*
- * function: func_027312F8
+ * function: OS_IsForceDisableWireless_ltdmain
  * address:  0x027312F8
  * packet:   pkt_027312F8
  * region:   twl
@@ -10,14 +10,8 @@
  * status:   EXACT
  */
 
-asm void func_027312F8(void)
+int OS_IsForceDisableWireless_ltdmain(void)
 {
-    ldr r0, =0x02FFFD68
-    ldrb r0, [r0, #4]
-    mov r0, r0, lsl #0x1f
-    mov r0, r0, lsr #0x1f
-    cmp r0, #1
-    moveq r0, #1
-    movne r0, #0
-    bx lr
+    volatile unsigned char *p = (volatile unsigned char *)0x02FFFD68;
+    return ((unsigned int)p[4] << 31 >> 31) == 1;
 }

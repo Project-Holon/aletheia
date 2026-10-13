@@ -1,5 +1,5 @@
 /*
- * function: CARD_SetPulledOutCallback
+ * function: IRC_SetRecvCallback
  * address:  0x0217A584
  * packet:   pkt_ov015_0217A584
  * region:   ov015
@@ -15,7 +15,7 @@
 
 extern unsigned char d_0217ABA8[];
 
-void CARD_SetPulledOutCallback(void *cb)
+void IRC_SetRecvCallback(void *cb)
 {
 	*(void **)(d_0217ABA8 + 8) = cb;
 }

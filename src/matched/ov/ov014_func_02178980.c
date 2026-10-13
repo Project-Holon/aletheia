@@ -1,5 +1,5 @@
 /*
- * function: func_02178980
+ * function: DWCi_MOV_WH_StateOutEndScan
  * address:  0x02178980
  * packet:   pkt_ov014_02178980
  * region:   ov014
@@ -27,7 +27,7 @@ void func_02178138(int a);
 void func_0217814C(int a);
 int func_021789C8(void);
 
-void func_02178980(u8 *m)
+void DWCi_MOV_WH_StateOutEndScan(u8 *m)
 {
     u8 *g;
 

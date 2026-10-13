@@ -87,7 +87,7 @@ void func_020869E8(int id, int heap, void *ptr);
 void *func_02086A50(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps);
 int func_02086AF8(OSArenaId id, void *start, void *end);
 int func_02086B98(OSArenaId id);
-asm void OS_ReferentSize(void);
+long OS_ReferentSize(int id, void *ptr);
 BOOL func_02086C70(void *ptr);
 int func_02086CBC(void *ptr);
 extern OSHeapInfo *OSiHeapInfo[9];
@@ -375,15 +375,11 @@ int func_02086B98(OSArenaId id)
 
 
 
-asm void OS_ReferentSize(void)
+long OS_ReferentSize(int id, void *ptr)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r1
-    bl	func_02087988
-    bl	func_0208799C
-    ldr	r0, [r4, #-0x18]
-    sub	r0, r0, #0x20
-    ldmfd sp!, {r4, pc}
+    func_02087988();
+    func_0208799C();
+    return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }
 
 

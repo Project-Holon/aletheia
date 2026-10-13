@@ -200,6 +200,9 @@ class Region:
         self.conflicts = []
         self.declared = {}                          # start -> end, data
         self.far_branch = []                        # (lo, hi): bl is a far branch inside
+        self.switch_tables = []                     # (dispatch, table, entries, cap)
+        self.switch_unresolved = []                 # dispatch addresses
+        self.switch_seeds = 0
 
     def contains(self, addr):
         return self.base <= addr < self.end
@@ -239,6 +242,7 @@ class Analyser:
             md.detail = True
             md.skipdata = False
         self.queue = []
+        self.pending_switch = []    # dispatch candidates, see trace()
         self._decl = None       # (declared dict, size, sorted lows, items, flat)
 
     # -- helpers ---------------------------------------------------------
@@ -390,6 +394,19 @@ class Analyser:
     # -- the trace -------------------------------------------------------
 
     def trace(self):
+        """Trace the queue to exhaustion, then size the switch tables found on
+        the way (their case bodies are bounded by everything the plain trace
+        already classified, so they wait until it is done) and go on until
+        neither produces anything new."""
+        while True:
+            self._trace_queue()
+            pending, self.pending_switch = self.pending_switch, []
+            for site in pending:
+                self._switch(*site)
+            if not self.queue:
+                break
+
+    def _trace_queue(self):
         r = self.r
         while self.queue:
             addr, thumb = self.queue.pop()
@@ -419,6 +436,8 @@ class Analyser:
                     self._reserve_pool(pool_addr, pool_w)
 
                 mnem = insn.mnemonic.split(".")[0]   # drop ".w" / ".n"
+                if mnem.startswith("add"):
+                    self.pending_switch.append((addr, o, thumb, insn))
                 uncond = (insn.cc == CC_AL or insn.cc == 0)
                 stop = False
 
@@ -456,6 +475,200 @@ class Analyser:
                 if stop:
                     break
                 addr += insn.size
+
+    # -- switch dispatch tables -----------------------------------------
+
+    def _hw(self, off):
+        d = self.r.data
+        if off < 0 or off + 2 > len(d):
+            return None
+        return struct.unpack_from("<H", d, off)[0]
+
+    def _code_hw(self, off):
+        """Halfword at off when it is a traced 16-bit instruction."""
+        rec = self.r.insns.get(off)
+        if rec is None or rec.size != 2:
+            return None
+        return self._hw(off)
+
+    def _claimed(self, off, size, index):
+        """True when table entry `index` at off overlaps classified bytes or
+        starts at a label, so the table cannot extend over it."""
+        r = self.r
+        if any(r.kind[x] != UNK for x in range(off, min(off + size,
+                                                          len(r.kind)))):
+            return True
+        a = r.base + off
+        return index > 0 and (a in r.locs or a in r.funcs)
+
+    def _add_case_seed(self, addr, thumb):
+        """Queue a switch case body: code inside the same function, so no
+        function or loc label is recorded for it."""
+        r = self.r
+        if not r.contains(addr) or self._in_declared(addr) is not None:
+            return False
+        if (addr & 1) if thumb else (addr & 3):
+            return False
+        self.queue.append((addr, thumb))
+        r.switch_seeds += 1
+        return True
+
+    def _switch(self, addr, o, thumb, insn):
+        """Follow a mwcc switch dispatch.
+
+        Thumb: `add rY, pc; ldrh rM, [rY, #n]; lsls rM, #16; asrs rM, #16;
+        add pc, rM`.  The table of signed halfword offsets starts at
+        (address of the add rY, pc) + 4 + n; entry i targets (address of
+        add pc, rM) + 4 + entry.  The table ends where the first case body
+        begins: the lowest target above the table, or the `cmp rN, #K; bhi`
+        bound when that comes first.
+
+        ARM: `add<cc> pc, pc, rN, lsl #2` reads pc as its own address + 8, so
+        entry i is the instruction at address + 8 + 4 * i (a branch, or a
+        one-instruction case).  The count comes from the `cmp rN, #K` before
+        an `addls`; other conditions run to the lowest forward branch target.
+        Unconditional `add pc, pc, rN, lsl #2` enters straight-line code.
+        Every entry is traced as code.  Case bodies get no label of their own.
+        """
+        r = self.r
+        if thumb:
+            h = self._hw(o)
+            if h is None or (h & 0xFF87) != 0x4487:
+                return
+            rm = (h >> 3) & 0xF
+            if rm > 7:
+                return
+            h1 = self._code_hw(o - 2)
+            h2 = self._code_hw(o - 4)
+            h3 = self._code_hw(o - 6)
+            if h1 != (0x1400 | rm << 3 | rm) or h2 != (0x0400 | rm << 3 | rm):
+                return
+            if h3 is None or (h3 & 0xF800) != 0x8800 or (h3 & 7) != rm:
+                return
+            ry = (h3 >> 3) & 7
+            imm = ((h3 >> 6) & 0x1F) * 2
+            ao = None
+            for back in range(8, 16, 2):
+                hh = self._code_hw(o - back)
+                if hh is not None and (hh & 0xFFF8) == 0x4478 \
+                        and (hh & 7) == ry:
+                    ao = o - back
+                    break
+            if ao is None:
+                r.switch_unresolved.append(addr)
+                return
+            tbl = ao + 4 + imm              # offset of entry 0
+            if tbl < o + 2 or (tbl & 1):
+                r.switch_unresolved.append(addr)
+                return
+            cap = None
+            for back in range(2, 22, 2):
+                hh = self._code_hw(ao - back)
+                if hh is None:
+                    break
+                if (hh & 0xFF00) == 0xD800:
+                    pc_ = self._code_hw(ao - back - 2)
+                    if pc_ is not None and (pc_ & 0xF800) == 0x2800:
+                        cap = (pc_ & 0xFF) + 1
+                    break
+            base = o + 4                    # pc read by add pc, rM
+            n_max = (len(r.data) - tbl) // 2
+            end_min = None                  # lowest target above the table
+            targets = []
+            i = 0
+            while i < n_max:
+                if cap is not None and i >= cap:
+                    break
+                eo = tbl + 2 * i
+                if end_min is not None and eo >= end_min:
+                    break
+                if self._claimed(eo, 2, i):
+                    break
+                v = self._hw(eo)
+                t = base + (v - 0x10000 if v & 0x8000 else v)
+                if t & 1 or not (0 <= t < len(r.data)):
+                    break
+                if tbl <= t < eo + 2:
+                    break               # lands inside the table itself
+                if t >= eo + 2:
+                    end_min = t if end_min is None else min(end_min, t)
+                targets.append(t)
+                i += 1
+            if not targets:
+                r.switch_unresolved.append(addr)
+                return
+            tend = tbl + 2 * len(targets)
+            if not all(r.kind[x] == UNK for x in range(tbl, tend)):
+                r.switch_unresolved.append(addr)
+                return
+            self._mark(tbl, tend - tbl, DATA)
+            r.switch_tables.append((addr, r.base + tbl, len(targets), cap))
+            for t in sorted(set(targets)):
+                self._add_case_seed(r.base + t, True)
+            return
+        # ARM
+        w = struct.unpack_from("<I", r.data, o)[0]
+        if (w & 0x0FFFFFF0) != 0x008FF100:
+            return
+        cond = w >> 28
+        rm = w & 0xF
+        tbl = o + 8
+        if cond == 14:
+            # Unconditional: either a computed entry into straight-line code
+            # (the unrolled copy and fill loops of the runtime library), which
+            # runs on from the next word, or a table whose bound check
+            # (`cmp rN, #K; bhi`) sits before it.
+            self._add_case_seed(r.base + o + 4, False)
+        cap = None
+        if cond in (9, 14):                 # ls, or always
+            p = o
+            for _ in range(8 if cond == 14 else 4):
+                p -= 4
+                rec = r.insns.get(p)
+                if rec is None or rec.size != 4:
+                    break
+                pw = struct.unpack_from("<I", r.data, p)[0]
+                if (pw & 0x0FF0F000) == 0x03500000 and (pw >> 16) & 0xF == rm \
+                        and (pw >> 28) == 14 and (pw & 0xF00) == 0:
+                    cap = (pw & 0xFF) + 1
+                    break
+        n_max = (len(r.data) - tbl) // 4
+        count = 0
+        end_min = None
+        while count < n_max:
+            if cap is not None and count >= cap:
+                break
+            eo = tbl + 4 * count
+            if end_min is not None and eo >= end_min:
+                break
+            if cap is None and self._claimed(eo, 4, count):
+                break
+            if cap is None:
+                ew = struct.unpack_from("<I", r.data, eo)[0]
+                if (ew & 0x0F000000) == 0x0A000000 and (ew >> 28) == 14:
+                    d = ew & 0xFFFFFF
+                    if d & 0x800000:
+                        d -= 0x1000000
+                    t = eo + 8 + 4 * d
+                    if t >= eo + 4:
+                        end_min = t if end_min is None else min(end_min, t)
+                elif not self._arm_entry_ok(ew):
+                    break
+            count += 1
+        if count == 0:
+            if cond != 14:
+                r.switch_unresolved.append(addr)
+            return
+        r.switch_tables.append((addr, r.base + tbl, count, cap))
+        for i in range(count):
+            self._add_case_seed(r.base + tbl + 4 * i, False)
+
+    @staticmethod
+    def _arm_entry_ok(w):
+        """A table slot that is not a plain branch: only a return
+        (`pop {.., pc}`, `bx lr`, `mov pc, lr`) is accepted."""
+        return (w & 0xFFFF8000) == 0xE8BD8000 or w == 0xE12FFF1E \
+            or w == 0xE1A0F00E
 
     # -- seed validation -------------------------------------------------
 

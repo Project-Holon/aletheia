@@ -15,8 +15,8 @@
  * symbols:
  *   MIi_CpuCopy16  0x02082A60  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_027312D0 0x027312D0 arm twl
- *   func_027312F8 0x027312F8 arm twl
+ *   OS_IsAvailableWireless_ltdmain 0x027312D0 arm twl
+ *   OS_IsForceDisableWireless_ltdmain 0x027312F8 arm twl
  */
 #define OSi_NVRAM_OWNER ((OSiNvramOwner *)0x02FFFC80)
 typedef unsigned long u32;
@@ -85,15 +85,15 @@ typedef volatile unsigned char vu8;
 
 extern BOOL OS_IsRunOnTwl(void);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void func_027312D0(void);
-extern void func_027312F8(void);
+extern BOOL OS_IsAvailableWireless_ltdmain(void);
+extern BOOL OS_IsForceDisableWireless_ltdmain(void);
 void func_02087D28(OSOwnerInfoEx *info);
-asm void OS_IsAvailableWireless(void);
+BOOL OS_IsAvailableWireless(void);
 BOOL func_02087DE0(void);
 u8 func_02087E1C(void);
 u8 OS_GetROMHeaderEULAVersion(void);
 const void *func_02087E60(void);
-asm void OS_IsForceDisableWireless(void);
+BOOL OS_IsForceDisableWireless(void);
 
 
 
@@ -135,15 +135,12 @@ void func_02087D28(OSOwnerInfoEx *info)
 
 
 
-asm void OS_IsAvailableWireless(void)
+BOOL OS_IsAvailableWireless(void)
 {
-    stmfd sp!, {r3, lr}
-    bl OS_IsRunOnTwl
-    cmp r0, #0
-    moveq r0, #1
-    ldmeqfd sp!, {r3, pc}
-    bl func_027312D0
-    ldmfd sp!, {r3, pc}
+    if (!OS_IsRunOnTwl()) {
+        return 1;
+    }
+    return OS_IsAvailableWireless_ltdmain();
 }
 
 
@@ -222,13 +219,10 @@ const void *func_02087E60(void)
 }
 
 
-asm void OS_IsForceDisableWireless(void)
+BOOL OS_IsForceDisableWireless(void)
 {
-    stmfd sp!, {r3, lr}
-    bl OS_IsRunOnTwl
-    cmp r0, #0
-    moveq r0, #0
-    ldmeqfd sp!, {r3, pc}
-    bl func_027312F8
-    ldmfd sp!, {r3, pc}
+    if (!OS_IsRunOnTwl()) {
+        return 0;
+    }
+    return OS_IsForceDisableWireless_ltdmain();
 }

@@ -46,8 +46,7 @@ import time
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 GCC = os.path.join(ROOT, 'tools', 'gcc-arm', 'xpack-arm-none-eabi-gcc-14.2.1-1.1',
                    'bin', 'arm-none-eabi-gcc.exe')
-DEFAULT_OUT = ('<home>/AppData/Local/Temp/claude/<project>/'
-               'd965be22-e087-410a-b91d-ae680804241d/scratchpad/protofix')
+DEFAULT_OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'scratch', 'protofix')
 
 NAME_RE = r'(?:func|sub)_[0-9A-Fa-f]{8}'
 BUILTIN = set('int char short long unsigned signed void float double const volatile'.split())

@@ -1,5 +1,5 @@
 /*
- * function: CARDi_CommandBegin
+ * function: DWCi_Np_SetInitFlag
  * address:  0x0205A11C
  * packet:   pkt_02040000
  * region:   arm9
@@ -23,7 +23,7 @@ typedef struct {
 
 static CARDiParam cardi_param;
 
-void CARDi_CommandBegin(int len)
+void DWCi_Np_SetInitFlag(int len)
 {
     cardi_param.len = len;
 }

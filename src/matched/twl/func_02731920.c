@@ -3,7 +3,7 @@
  * address:  0x02731920
  * packet:   twl_sys
  * region:   twl
- * compiler: 1.1p1
+ * compiler: ../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -15,47 +15,38 @@
  *   func_02731868  0x02731868  arm  twl
  */
 
+/* HMAC-SHA1 one-shot over the BIOS SHA1 calls. The object 0x02731754..
+   0x0273199C (SVC wrappers and the four HMAC functions) was built with the
+   NITRO mwcc 2.0: every 2.0 build compiles it whole to the image, while
+   dsi/1.1p1 keeps &ctx in a callee-saved register across the three calls. */
+
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern void func_02731774(void *ctx, const void *key, u32 key_len);
-extern void func_0273184C(void *a, void *b, void *c);
-extern void func_02731868(void *ctx, void *digest);
+typedef struct HmacCtx {
+    u8 sha[0x64];
+    u8 key[0x40];
+    u32 keyLen;
+} HmacCtx;
 
-asm void func_02731920(void *digest, const void *data, u32 data_len, const void *key, u32 key_len)
+void func_02731774(HmacCtx *ctx, const void *key, u32 key_len);
+void func_0273184C(void *a, const void *b, u32 c);
+void func_02731868(HmacCtx *ctx, u8 *digest);
+
+void func_02731920(u8 *digest, const void *data, u32 data_len, const void *key, u32 key_len)
 {
-    stmdb   sp!, {r4, r5, r6, lr}
-    sub     sp, sp, #0xa8
-    movs    r6, r0
-    mov     r5, r1
-    mov     r4, r2
-    addeq   sp, sp, #0xa8
-    ldmeqfd sp!, {r4, r5, r6, pc}
-    cmp     r4, #0
-    beq     @loc_02731950
-    cmp     r5, #0
-    addeq   sp, sp, #0xa8
-    ldmeqfd sp!, {r4, r5, r6, pc}
+    HmacCtx ctx;
 
-@loc_02731950:
-    ldr     r0, [sp, #0xb8]
-    cmp     r0, #0
-    beq     @loc_02731968
-    cmp     r3, #0
-    addeq   sp, sp, #0xa8
-    ldmeqfd sp!, {r4, r5, r6, pc}
-
-@loc_02731968:
-    ldr     r2, [sp, #0xb8]
-    add     r0, sp, #0
-    mov     r1, r3
-    bl      func_02731774
-    add     r0, sp, #0
-    mov     r1, r5
-    mov     r2, r4
-    bl      func_0273184C
-    add     r0, sp, #0
-    mov     r1, r6
-    bl      func_02731868
-    add     sp, sp, #0xa8
-    ldmfd   sp!, {r4, r5, r6, pc}
+    if (digest == 0) {
+        return;
+    }
+    if (data_len != 0 && data == 0) {
+        return;
+    }
+    if (key_len != 0 && key == 0) {
+        return;
+    }
+    func_02731774(&ctx, key, key_len);
+    func_0273184C(&ctx, data, data_len);
+    func_02731868(&ctx, digest);
 }

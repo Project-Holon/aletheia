@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x02024148, unresolved Thumb code witness; Ilias owns.
+ * blocker: ARM9 0x02024148, unresolved Thumb code witness; the integrator owns.
  *   Verified EXACT in scratch b24148-r1.log:
  *   void *func_02024148(char *p){return *(void **)(p+8);}
  * symbols:

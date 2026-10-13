@@ -1,7 +1,7 @@
 /*
  * file:     manual_common.c
  * unit:     yes
- * function: func_021B9B3C, func_021B9BA4, func_021B9BC8, func_021B9BD4, func_021B9BE0, func_021B9BEC, func_021B9BF8, func_021B9C0C, func_021B9C20, func_021B9C28, func_021B9C34, func_021B9C40, func_021B9C50, func_021B9C58, func_021B9C98, func_021B9CB0, func_021B9CC8, func_021B9CDC, func_021B9CE0, func_021B9CF0, func_021B9CFC, func_021B9D0C, func_021B9D18, func_021B9DEC, func_021B9E60, func_021B9E80, func_021B9EE8, func_021B9F20, func_021B9F24, func_021B9F8C, func_021B9FBC, func_021BA068, func_021BA0F0, func_021BA154, func_021BA158, func_021BA15C, func_021BA160, func_021BA1C0, func_021BA1C4, func_021BA218, func_021BA240, func_021BA28C, func_021BA2B0, func_021BA30C, func_021BA368, func_021BA41C, func_021BA4D8, func_021BA508, func_021BA644, func_021BA65C, func_021BA740, func_021BA760, func_021BA898, func_021BA9D0, func_021BAA44, func_021BAA50, func_021BAA88, func_021BAABC, func_021BAE2C, func_021BAFF8, func_021BB034, func_021BB044, func_021BB05C, func_021BB074, func_021BB088, func_021BB1F4, func_021BB258, func_021BB2B4, func_021BB308, func_021BB31C, func_021BB3FC, func_021BB400, func_021BB458, func_021BB4F8, func_021BB504, func_021BB50C, func_021BB53C
+ * function: func_021B9B3C, func_021B9BA4, func_021B9BC8, func_021B9BD4, func_021B9BE0, func_021B9BEC, func_021B9BF8, func_021B9C0C, func_021B9C20, func_021B9C28, func_021B9C34, func_021B9C40, func_021B9C50, func_021B9C58, func_021B9C98, func_021B9CB0, func_021B9CC8, func_021B9CDC, func_021B9CE0, func_021B9CF0, func_021B9CFC, func_021B9D0C, func_021B9D18, func_021B9DEC, func_021B9E60, func_021B9E80, func_021B9EE8, func_021B9F20, func_021B9F24, func_021B9F8C, func_021B9FBC, func_021BA068, func_021BA0F0, func_021BA154, func_021BA158, func_021BA15C, func_021BA160, func_021BA1C0, func_021BA1C4, func_021BA218, func_021BA240, func_021BA28C, func_021BA2B0, func_021BA30C, func_021BA368, func_021BA41C, func_021BA4D8, func_021BA508, func_021BA644, func_021BA65C, func_021BA740, func_021BA760, func_021BA894, func_021BA898, func_021BA9D0, func_021BAA44, func_021BAA50, func_021BAA88, func_021BAABC, func_021BAE2C, func_021BAFF8, func_021BB034, func_021BB044, func_021BB05C, func_021BB074, func_021BB088, func_021BB1F4, func_021BB258, func_021BB2B4, func_021BB308, func_021BB31C, func_021BB3FC, func_021BB400, func_021BB458, func_021BB4F8, func_021BB504, func_021BB50C, func_021BB53C
  * address:  0x021B9B3C
  * region:   ov225
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_0204A39C 0x0204A39C arm
- *   file 0x021BBFF4 data ov225 a1
+ *   file_021BBFF4 0x021BBFF4 data ov225 a1
  *   func_020307B0 0x020307B0 arm
  *   func_02012EBC 0x02012EBC thumb
  *   func_02009210 0x02009210 thumb
@@ -588,7 +588,7 @@ void func_021BB4F8(char *a0);
 void func_021BB504(char *p);
 void func_021BB50C(char *p);
 int func_021BB53C(char *p);
-extern char file[];
+extern char file_021BBFF4[];
 extern const char d_021BC004[];
 extern const char ov067_id[];
 extern const char d_021BC014[];
@@ -605,7 +605,7 @@ extern const u8 d_021BBF9C[];
 
 void *func_021B9B3C(void *narc, u32 heap)
 {
-    void **p = func_02030734(heap, 16, 1, file, 0x9c);
+    void **p = func_02030734(heap, 16, 1, file_021BBFF4, 0x9c);
     u32 size;
     p[0] = func_0204A39C(narc, 11, 0, heap, &size);
     p[1] = func_0204A39C(narc, 12, 0, heap, &size);

@@ -164,7 +164,7 @@ void func_021DF110(int a, int b, int c, int d);
 int func_021DF130(u32_021DF130 a0, u32_021DF130 a1, ScCallback a2, u32_021DF130 a3, char *a4);
 void func_021DF1A8(int a, int b, int c, int d);
 u32_021DF1C8 func_021DF1C8(u32_021DF1C8 a);
-unsigned char *DWC_ScGetConnectionId(void);
+unsigned char *DWC_ScGetSessionId(void);
 void func_021DF224(void);
 int func_021DF23C(u32_021DF23C a0, u32_021DF23C a1, u32_021DF23C a2, u32_021DF23C a3);
 int func_021DF298(u32_021DF298 *a0);
@@ -420,7 +420,7 @@ u32_021DF1C8 func_021DF1C8(u32_021DF1C8 a)
  */
 
 
-unsigned char *DWC_ScGetConnectionId(void)
+unsigned char *DWC_ScGetSessionId(void)
 {
     return scGetConnectionId(g_021E4D08.session);
 }

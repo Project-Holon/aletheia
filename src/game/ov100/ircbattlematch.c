@@ -1103,7 +1103,7 @@ void func_021BA454(int text,int a) {
 }
 
 /*
- *   veneer evidence cannot attest the target. Ilias owns the ARM9 fix.
+ *   veneer evidence cannot attest the target. the integrator owns the ARM9 fix.
  * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee func_0203D170 (veneer to 0x0203E590) still has no witness; func_0203E590 filed EXACT as src/matched/arm9/func_0203E590.c, integrator must regenerate labels/manifest so the veneer resolves.
  */
 void func_021BA530(int b,int a) {

@@ -473,7 +473,7 @@ void func_02183C58(int a)
  * Byte-correct (202 bytes + 2 padding). The one unresolved site is
  * +005E THM_CALL func_02029DF4: an unlabelled arm9 Thumb thunk
  * (ldr r3,[pc,#0]; bx r3; .word 0x02029EB5), so no label and no
- * outside witness. It is Ilias's arm9 leaf, verified EXACT at
+ * outside witness. It is the integrator's arm9 leaf, verified EXACT at
  * 0x02029DF4 (region arm9, thumb, dsi/1.1p1 -O4,p) as:
  *     extern int func_02029EB4(u32 a, int b, u32 c);   (0x02029EB4 thumb)
  *     int func_02029DF4(u32 a, int b, u32 c)
@@ -556,8 +556,8 @@ void func_02183DD4(void *p)
  * Byte-correct at 376 of 376 bytes.  Four wildcarded call sites, all of
  * them unlabelled tail-call leaves with no witness outside this range.
  * Each leaf's C below was verified EXACT with `match.py one` in a scratch
- * file; none is filed, because the arm9 one belongs to Ilias:
- *   +0xD4  func_02029DF4 (arm9, Ilias's): ldr r3,=func_02029EB4+1; bx r3
+ * file; none is filed, because the arm9 one belongs to the integrator:
+ *   +0xD4  func_02029DF4 (arm9, the integrator's): ldr r3,=func_02029EB4+1; bx r3
  *          int func_02029DF4(int a, int b, int c)
  *          { return func_02029EB4(a, b, c); }
  *   +0x96  func_02164474 (ov010): void f(int a, int b) { func_0215E364(a, b); }
@@ -902,7 +902,7 @@ int func_02184388(int a, int *state, u8 *p)
 /*
  * Byte-correct (MATCH*: 242 compiled against a 244-byte listing extent, the
  * two bytes are alignment padding).  The one wildcarded site is +0x4C,
- * `bl func_02013DD0`: an unlabelled arm9 leaf (Ilias's) with no witness
+ * `bl func_02013DD0`: an unlabelled arm9 leaf (the integrator's) with no witness
  * outside this range, the documented near miss after unit_02013D9C.c.  Its
  * bytes (ldr r1,=0x0209DFC0; ldr r3,=sub_02013B10+1; movs r2,#4; bx r3) are
  *     extern const unsigned short tbl_0209DFC0[];      (data)

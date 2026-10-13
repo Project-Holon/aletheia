@@ -1,5 +1,5 @@
 /*
- * function: DWCi_CMNlFontFlag
+ * function: OSi_DetectDeviceType
  * address:  0x02085D0C
  * packet:   pkt_02085D0C
  * region:   arm9
@@ -13,14 +13,11 @@
  *   func_02087B04 0x02087B04 arm
  *   g_020A5CD4 0x020A5CD4 data
  */
+typedef unsigned long u32;
+extern int func_02087B04(void);
+extern u32 g_020A5CD4[];
 
-extern void func_02087B04(void);
-extern void g_020A5CD4(void);
-asm void DWCi_CMNlFontFlag(void)
+static u32 OSi_DetectDeviceType(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02087B04
-    ldr r1, =g_020A5CD4
-    ldr r0, [r1, r0, lsl #2]
-    ldmfd sp!, {r3, pc}
+    return g_020A5CD4[func_02087B04()];
 }

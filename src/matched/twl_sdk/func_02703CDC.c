@@ -1,5 +1,5 @@
 /*
- * function: func_02703CDC
+ * function: MICEXi_StartLimitedSamplingAsync
  * address:  0x02703CDC
  * packet:   twl
  * region:   twl
@@ -13,138 +13,104 @@
  *   func_0208B7B0  0x0208B7B0  arm twl
  *   func_02087988  0x02087988  arm twl
  *   func_0208799C  0x0208799C  arm twl
- *   func_02703F7C  0x02703F7C  arm twl
+ *   MicexStartLimitedSampling  0x02703F7C  arm twl
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0208B7B0(void);
-extern void func_02087988(void);
-extern void func_0208799C(void);
-extern u32 func_02703F7C(u32, u32, u32, u32);
+typedef struct {
+    u32 mode;
+    u32 addr;
+    u32 len;
+    u32 size;
+    u32 flag;
+    u32 arg0;
+    u32 arg1;
+} Func_02703CDC_Req;
 
-asm void func_02703CDC(u32 a0, u32 a1, u32 a2) {
-    stmdb sp!, {r4, r5, r6, r7, r8, lr}
-    mov r8, r0
-    mov r7, r1
-    mov r6, r2
-    bl func_0208B7B0
-    ldr r1, [r8, #8]
-    mov r4, r0
-    cmp r1, #0
-    moveq r0, #2
-    ldmeqfd sp!, {r4, r5, r6, r7, r8, pc}
-    ldr r0, [r8, #4]
-    tst r0, #0x1f
-    bne @lbl_02703D18
-    tst r1, #0x1f
-    beq @lbl_02703D20
-@lbl_02703D18:
-    mov r0, #2
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
-@lbl_02703D20:
-    ldr r0, [r8]
-    cmp r0, #5
-    addls pc, pc, r0, lsl #2
-    b @lbl_02703D78
-    b @lbl_02703D48
-    b @lbl_02703D50
-    b @lbl_02703D58
-    b @lbl_02703D60
-    b @lbl_02703D68
-    b @lbl_02703D70
-@lbl_02703D48:
-    mov r2, #0
-    b @lbl_02703D80
-@lbl_02703D50:
-    mov r2, #1
-    b @lbl_02703D80
-@lbl_02703D58:
-    mov r2, #2
-    b @lbl_02703D80
-@lbl_02703D60:
-    mov r2, #3
-    b @lbl_02703D80
-@lbl_02703D68:
-    mov r2, #5
-    b @lbl_02703D80
-@lbl_02703D70:
-    mov r2, #7
-    b @lbl_02703D80
-@lbl_02703D78:
-    mov r0, #2
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
-@lbl_02703D80:
-    ldr r1, [r8, #0xc]
-    cmp r1, #0x800
-    bhi @lbl_02703DC0
-    bhs @lbl_02703E04
-    ldr r0, =0x3ff
-    cmp r1, r0
-    bhi @lbl_02703DB0
-    bhs @lbl_02703E04
-    sub r0, r0, #0x140
-    cmp r1, r0
-    beq @lbl_02703E04
-    b @lbl_02703DFC
-@lbl_02703DB0:
-    add r0, r0, #0x180
-    cmp r1, r0
-    beq @lbl_02703E04
-    b @lbl_02703DFC
-@lbl_02703DC0:
-    cmp r1, #0xb00
-    bhi @lbl_02703DDC
-    bhs @lbl_02703E04
-    ldr r0, =0x83f
-    cmp r1, r0
-    beq @lbl_02703E04
-    b @lbl_02703DFC
-@lbl_02703DDC:
-    ldr r0, =0xbff
-    cmp r1, r0
-    bhi @lbl_02703DF0
-    beq @lbl_02703E04
-    b @lbl_02703DFC
-@lbl_02703DF0:
-    rsb r0, r0, #0x1c00
-    cmp r1, r0
-    beq @lbl_02703E04
-@lbl_02703DFC:
-    mov r0, #2
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
-@lbl_02703E04:
-    ldr r0, [r8, #0x10]
-    cmp r0, #0
-    orrne r0, r2, #0x10
-    biceq r0, r2, #0x10
-    and r0, r0, #0xff
-    bic r0, r0, #0x20
-    and r5, r0, #0xff
-    bl func_02087988
-    ldr r1, [r4]
-    cmp r1, #0
-    beq @lbl_02703E3C
-    bl func_0208799C
-    mov r0, #1
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
-@lbl_02703E3C:
-    mov r1, #1
-    str r1, [r4]
-    bl func_0208799C
-    str r7, [r4, #4]
-    str r6, [r4, #8]
-    ldr r0, [r8, #0x14]
-    ldr r6, [r8, #0x18]
-    str r0, [r4, #0x10]
-    ldr r2, [r8, #0xc]
-    mov r3, r5
-    ldmib r8, {r0, r1}
-    str r6, [r4, #0x14]
-    bl func_02703F7C
-    cmp r0, #0
-    mov r0, #0
-    streq r0, [r4]
-    moveq r0, #3
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
+typedef struct {
+    u32 busy;
+    u32 cb;
+    u32 arg;
+    u32 unk0C;
+    u32 val10;
+    u32 val14;
+} Func_02703CDC_State;
+
+extern Func_02703CDC_State *func_0208B7B0(void);
+extern u32 func_02087988(void);
+extern void func_0208799C(u32);
+extern u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3);
+
+u32 MICEXi_StartLimitedSamplingAsync(const Func_02703CDC_Req *a0, u32 a1, u32 a2) {
+    Func_02703CDC_State *st = func_0208B7B0();
+    u8 flags;
+    u8 tmp;
+    u32 mode;
+    u32 irq;
+
+    if (a0->len == 0) {
+        return 2;
+    }
+    if ((a0->addr & 0x1f) != 0 || (a0->len & 0x1f) != 0) {
+        return 2;
+    }
+    switch (a0->mode) {
+    case 0:
+        mode = 0;
+        break;
+    case 1:
+        mode = 1;
+        break;
+    case 2:
+        mode = 2;
+        break;
+    case 3:
+        mode = 3;
+        break;
+    case 4:
+        mode = 5;
+        break;
+    case 5:
+        mode = 7;
+        break;
+    default:
+        return 2;
+    }
+    switch (a0->size) {
+    case 0x2BF:
+    case 0x3FF:
+    case 0x57F:
+    case 0x800:
+    case 0x83F:
+    case 0xB00:
+    case 0xBFF:
+    case 0x1001:
+        break;
+    default:
+        return 2;
+    }
+    if (a0->flag != 0) {
+        tmp = mode | 0x10;
+    } else {
+        tmp = mode & ~0x10;
+    }
+    flags = tmp & ~0x20;
+    irq = func_02087988();
+    if (st->busy != 0) {
+        func_0208799C(irq);
+        return 1;
+    }
+    st->busy = 1;
+    func_0208799C(irq);
+    st->cb = a1;
+    st->arg = a2;
+    st->val10 = a0->arg0;
+    st->val14 = a0->arg1;
+    if (MicexStartLimitedSampling(a0->addr, a0->len, a0->size, flags) == 0) {
+        st->busy = 0;
+        return 3;
+    }
+    return 0;
 }

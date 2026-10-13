@@ -1,5 +1,5 @@
 /*
- * function: func_0272EE2C
+ * function: CARD_NotifyRomHashReadAsync
  * address:  0x0272EE2C
  * packet:   twl_sys
  * region:   twl
@@ -13,7 +13,7 @@
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
  *   func_02085868 0x02085868 arm
- *   func_0272ED4C 0x0272ED4C arm twl
+ *   CARDi_StartLoading 0x0272ED4C arm twl
  */
 typedef unsigned int u32;
 
@@ -45,9 +45,9 @@ struct Obj {
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
 extern void func_02085868(u32);
-extern void func_0272ED4C(struct Obj *);
+extern void CARDi_StartLoading(struct Obj *);
 
-void func_0272EE2C(struct Obj *p)
+void CARD_NotifyRomHashReadAsync(struct Obj *p)
 {
     u32 irq = func_02087988();
     struct Node *n = p->free_a;
@@ -65,5 +65,5 @@ void func_0272EE2C(struct Obj *p)
     p->cur = 0;
     func_0208799C(irq);
     func_02085868(p->id);
-    func_0272ED4C(p);
+    CARDi_StartLoading(p);
 }

@@ -13,12 +13,11 @@
  *   func_02087B14    0x02087B14  arm
 */
 
-extern void func_02087B14(void);
+typedef unsigned short u16;
 
-asm void func_02087B04(void)
+extern void *OS_GetBootInfo(void);
+
+u16 func_02087B04(void)
 {
-    stmdb	sp!, {r3, lr}
-    bl	func_02087B14
-    ldrh	r0, [r0]
-    ldmia	sp!, {r3, pc}
+    return *(u16 *)OS_GetBootInfo();
 }

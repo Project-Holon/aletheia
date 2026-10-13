@@ -29,7 +29,6 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   procError1                       0x021C4E2C  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_BTNlEnd                     0x021BCAE4  arm
@@ -184,7 +183,6 @@ static void procScene(void);
 
 static void procConfirm(void);
 
-static void procConfirm1(void);
 
 static void endScene(void);
 
@@ -193,7 +191,7 @@ static void endScene1(void);
 static void endScene2(void);
 
 
-static void procConfirm1(void)
+static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: MATCH
  * superseded: prior DIFF16 note; parked byte-correct source is src/pending/ov/ov183_func_021DCBD8.c.
- * blocker: 0x0200B98C arm9 thumb, no witness outside caller; prior verified Thumb EXACT copied from ov183_func_021DF838.c; not recompiled (Ilias-owned ARM9).
+ * blocker: 0x0200B98C arm9 thumb, no witness outside caller; prior verified Thumb EXACT copied from ov183_func_021DF838.c; not recompiled (integrator-owned ARM9).
  * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
  *   typedef unsigned char u8;
  *   typedef unsigned short u16;

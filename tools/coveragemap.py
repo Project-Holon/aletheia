@@ -7,8 +7,10 @@ view below) and a small title on each panel:
   docs/coverage_overlays.svg   the 237 overlays, one block per overlay, functions inside
   docs/coverage_map.svg        the ARM9 static image, one block per translation unit
 
-Tile area is code bytes. Colours: matched exact, matched resting on sole-ref, open, SDK
-(excluded), runtime (excluded). Only addresses, sizes and names are drawn; no game bytes.
+Tile area is code bytes. Colours: matched exact, matched resting on sole-ref, register
+mismatch (counted, to be finished: layout/register_mismatch.txt), open, placeholder (an
+EXACT entry whose source holds no code, tools/placeholders.py: counted as unmatched),
+SDK (excluded), runtime (excluded). Only addresses, sizes and names are drawn; no game bytes.
 
 Usage:
     python3 tools/coveragemap.py                 both images
@@ -28,11 +30,37 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import worklist  # noqa: E402
 import ovstats  # noqa: E402
+import regmismatch  # noqa: E402  (layout/register_mismatch.txt)
+import placeholders  # noqa: E402  (EXACT entries whose source holds no code)
 
-COL = {"matched": "#2f9e5b", "matched2": "#3fb96e", "sole": "#8fd3a8", "open": "#34393b", "open2": "#3d4245",
-       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "matched_runtime": "#e0b020",
-       "bg": "#15181a", "line": "#0d0f10",
-       "ink": "#e6e9e6", "muted": "#8f978f", "title": "#c9d2c9"}
+# One palette per map, after the three legendaries of Pokemon Black and White:
+# Reshiram (white, flame) for the ARM9 map, Zekrom (electric blue, near black,
+# red eye) for the overlays, Kyurem (ice, yellow) for twl.  set_palette() picks
+# one before a map is drawn; COL is the palette in use.
+PALETTES = {
+    "arm9": {"matched": "#eef1f5", "matched2": "#dfe3e8", "sole": "#f6cfb4", "open": "#36343a", "open2": "#3e3b41",
+             "sdk": "#2e2623", "matched_sdk": "#ff8a3d", "runtime": "#33301f", "matched_runtime": "#f5c86a",
+             "regmm": "#d9304a", "placeholder": "#b04fd0", "placeholder_sdk": "#6b3a7a",
+             "bg": "#1a1817", "line": "#0f0e0d",
+             "ink": "#f4f2ef", "muted": "#a39d96", "title": "#e2ddd6"},
+    "overlays": {"matched": "#1e9bff", "matched2": "#45b0ff", "sole": "#bfe4ff", "open": "#25282e", "open2": "#2c3037",
+                 "sdk": "#211f2e", "matched_sdk": "#0f1e4d", "runtime": "#1b2a30", "matched_runtime": "#3ee6ff",
+                 "regmm": "#e5303a", "placeholder": "#c45cff", "placeholder_sdk": "#5e2f80",
+                 "bg": "#0e0f12", "line": "#060708",
+                 "ink": "#e4e8ee", "muted": "#7d8592", "title": "#c3cad4"},
+    "twl": {"matched": "#7fd0e6", "matched2": "#9ddcee", "sole": "#cdebf3", "open": "#323a40", "open2": "#3a434a",
+            "sdk": "#232b33", "matched_sdk": "#5d86b0", "runtime": "#2d3338", "matched_runtime": "#c7d3dc",
+            "regmm": "#f2cf3a", "placeholder": "#d070e0", "placeholder_sdk": "#6e3a78",
+            "bg": "#161b1f", "line": "#0c0f11",
+            "ink": "#e3edf2", "muted": "#8d9ba5", "title": "#c8d6de"},
+}
+COL = dict(PALETTES["arm9"])
+
+
+def set_palette(name):
+    COL.clear()
+    COL.update(PALETTES[name])
+
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
 HDR_CODE = re.compile(r"classified\s+0x([0-9A-Fa-f]+) bytes code")
@@ -143,6 +171,48 @@ def families_arm9(funcs, anchors):
             key = merged[i][1]
         groups.setdefault(key, []).append(fn)
     return groups
+
+
+def regmm_note(nbytes):
+    return (" (incl. %s bytes register mismatch)" % format(nbytes, ",")) if nbytes else ""
+
+
+def placeholder_note(nbytes, sdk_bytes=0):
+    """Headline note for placeholder bytes (unmatched; tools/placeholders.py)."""
+    parts = []
+    if nbytes:
+        parts.append("%s B game placeholder" % format(nbytes, ","))
+    if sdk_bytes:
+        parts.append("%s B SDK placeholder" % format(sdk_bytes, ","))
+    return (" [%s, unmatched]" % ", ".join(parts)) if parts else ""
+
+
+def apply_regmm(funcs, regions):
+    """Mark the register-mismatch rows of `regions` in a tile list.
+
+    A row whose function already has a tile (a listing label) is reclassified, which also
+    takes it out of matched; a row the listing does not label is added as a new tile and
+    reported, so the denominator grows by its bytes.  Returns the list of added rows.
+    """
+    by_addr = {}
+    for f in funcs:
+        by_addr.setdefault((f["region"], f["addr"]), f)
+    added = []
+    for e in regmismatch.sizes():
+        if e["region"] not in regions:
+            continue
+        f = by_addr.get((e["region"], e["addr"]))
+        if f is not None:
+            if f["cls"] in ("sdk", "matched_sdk"):
+                continue
+            f["cls"] = "regmm"
+        else:
+            funcs.append({"addr": e["addr"], "name": e["name"], "code_bytes": e["size"],
+                          "region": e["region"], "cls": "regmm", "sole_ref": False})
+            added.append(e)
+            print("coveragemap: register mismatch %s %08X is not a label in the %s listing; "
+                  "added %d bytes to the denominator" % (e["name"], e["addr"], e["region"], e["size"]))
+    return added
 
 
 def listing_labels(path):
@@ -279,7 +349,7 @@ def _unit_tiles(fns, ux, uy, uw, uh):
     keep, pooled = [], {}
     for f in fns:
         k = _tile_key(f)
-        if f["code_bytes"] * scale >= MIN_TILE_AREA or f["cls"] == "open":
+        if f["code_bytes"] * scale >= MIN_TILE_AREA or f["cls"] in ("open", "regmm", "placeholder", "placeholder_sdk"):
             keep.append((f["code_bytes"], k))
         else:
             pooled[k] = pooled.get(k, 0) + f["code_bytes"]
@@ -292,8 +362,8 @@ def panel(o, groups, y0, W, H):
     items = sorted(((sum(f["code_bytes"] for f in fns), i) for i, (_, fns) in enumerate(groups) if fns), reverse=True)
     for ux, uy, uw, uh, i in squarify(items, 0, y0, W, H):
         label, fns = groups[i]
-        ug = sum(f["code_bytes"] for f in fns if f["cls"] in ("open", "matched"))
-        um = sum(f["code_bytes"] for f in fns if f["cls"] == "matched")
+        ug = sum(f["code_bytes"] for f in fns if f["cls"] in ("open", "matched", "regmm", "placeholder"))
+        um = sum(f["code_bytes"] for f in fns if f["cls"] in ("matched", "regmm"))
         lab = 14 if uw > 70 and uh > 26 else 0
         tiles = _unit_tiles(fns, ux, uy + lab, uw, uh - lab)
         for fx, fy, fw, fh, k in tiles:
@@ -331,8 +401,9 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
                     present_keys.add(cls)
 
     all_legend = [("runtime", "runtime"), ("matched runtime", "matched_runtime"),
-                  ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
-                  ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")]
+                  ("SDK", "sdk"), ("matched SDK", "matched_sdk"), ("SDK placeholder", "placeholder_sdk"),
+                  ("open", "open"), ("placeholder", "placeholder"), ("register mismatch", "regmm"),
+                  ("sole-ref", "sole"), ("matched", "matched")]
     legend_items = [(label, key) for label, key in all_legend if key in present_keys]
 
     lx = W - 10
@@ -352,6 +423,7 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
 
 
 def render_arm9(a, anchors):
+    set_palette("arm9")
     inv = worklist.build_inventory()
     thunks = {t["addr"] for t in inv.get("thunks", [])}
     for fn in inv["funcs"]:
@@ -359,7 +431,14 @@ def render_arm9(a, anchors):
             fn["cls"] = "matched_sdk"
         if fn.get("cls") == "runtime" and fn.get("matched_name"):
             fn["cls"] = "matched_runtime"
+        if fn.get("cls") == "sdk" and fn.get("placeholder"):
+            fn["cls"] = "placeholder_sdk"    # worklist gave it no matched_name
         # an `open` function stays open: the caption must equal worklist's
+    for e in regmismatch.sizes():       # no arm9 row exists today; supported when one is added
+        if e["region"].startswith("arm9"):
+            for fn in inv["funcs"]:
+                if fn["addr"] == e["addr"] and fn.get("cls") in ("open", "matched"):
+                    fn["cls"] = "regmm"
     units = json.load(open(os.path.join(ROOT, "layout", "units_arm9.json")))["units"]
     ub = [u["base"] for u in units]
     per = [[] for _ in units]
@@ -367,19 +446,22 @@ def render_arm9(a, anchors):
         if fn["code_bytes"] <= 0:
             continue
         per[bisect.bisect_right(ub, fn["addr"]) - 1].append(fn)
-    game = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("open", "matched"))
-    matched = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched")
+    game = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("open", "matched", "regmm", "placeholder"))
+    regmm = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "regmm")
+    matched = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("matched", "regmm"))
+    held = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "placeholder")
+    held_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "placeholder_sdk")
     sole = sum(f["code_bytes"] for f in inv["funcs"] if f.get("sole_ref"))
-    sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("sdk", "matched_sdk"))
+    sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk"))
     matched_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_sdk")
     runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("runtime", "matched_runtime"))
     matched_runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_runtime")
     ugroups = [(units[i]["file"].split("/")[-1][:-2], per[i]) for i in range(len(units))]
     fgroups = sorted(families_arm9(inv["funcs"], anchors).items())
     rt_str = ("; +%s matched runtime of %s" % (format(matched_runtime, ","), format(runtime, ","))) if runtime else ""
-    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref); +%s matched SDK of %s%s" % (
-        100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game,
-        format(matched_sdk, ","), format(sdk, ","), rt_str)
+    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref)%s; +%s matched SDK of %s%s%s" % (
+        100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game, regmm_note(regmm),
+        format(matched_sdk, ","), format(sdk, ","), rt_str, placeholder_note(held, held_sdk))
     render(a.arm9_out, headline, ("translation units", "source files"), [ugroups, fgroups],
            "tile area is code bytes", a.width, a.height)
     print("wrote %s: %d units + %d source-file groups, %.2f%% exact"
@@ -387,6 +469,7 @@ def render_arm9(a, anchors):
 
 
 def render_overlays(a, anchors):
+    set_palette("overlays")
     # Tiles and totals from one pass over the listings and shards (ovstats.overlay_rows
     # with funcs_out), so a session writing shards meanwhile cannot make them disagree.
     funcs = []
@@ -394,6 +477,13 @@ def render_overlays(a, anchors):
     drawn = sum(f["code_bytes"] for f in funcs)
     matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
     mfuncs = len([f for f in funcs if f["cls"] == "matched"])
+    regmm = sum(f["code_bytes"] for f in funcs if f["cls"] == "regmm")
+    rfuncs = len([f for f in funcs if f["cls"] == "regmm"])
+    held = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder")
+    held_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder_sdk")
+    if (held, held_sdk) != (sum(r["placeholder_bytes"] for r in rows),
+                            sum(r["placeholder_sdk_bytes"] for r in rows)):
+        sys.exit("coveragemap: placeholder tiles disagree with ovstats")
     # Denominator is game code only: each listing's header code minus the catalogued SDK
     # symbol bytes (ovstats does the same split).  SDK and matched-SDK blocks are drawn but
     # never counted as game work.
@@ -402,6 +492,8 @@ def render_overlays(a, anchors):
     matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
     sdk = sum(r["sdk_bytes"] for r in rows)
     tiles_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
+    if regmm != sum(r["regmm_bytes"] for r in rows):
+        sys.exit("coveragemap: register-mismatch tiles disagree with ovstats")
     if (matched, tiles_sdk) != (matched_game, matched_sdk):
         sys.exit("coveragemap: overlay tiles disagree with ovstats: matched game %d vs %d, "
                  "matched SDK %d vs %d" % (matched, matched_game, tiles_sdk, matched_sdk))
@@ -418,18 +510,19 @@ def render_overlays(a, anchors):
     fgroups.sort(key=lambda kv: -sum(f["code_bytes"] for f in kv[1]))
     # Function counts use the same split as the bytes: game functions over game functions,
     # SDK functions over SDK functions (the old single "%d/%d fns" mixed the two).
-    gfuncs = len([f for f in funcs if f["cls"] in ("open", "matched")])
-    sfuncs = len([f for f in funcs if f["cls"] in ("sdk", "matched_sdk")])
+    gfuncs = len([f for f in funcs if f["cls"] in ("open", "matched", "regmm", "placeholder")])
+    sfuncs = len([f for f in funcs if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk")])
     msfuncs = len([f for f in funcs if f["cls"] == "matched_sdk"])
-    headline = ("Overlays: %.2f%% exact game (%s / %s B, %d/%d fns); "
-                "+%s matched SDK of %s (%d/%d fns)") % (
-        100.0 * matched_game / game if game else 0.0, format(matched_game, ","), format(game, ","),
-        mfuncs, gfuncs, format(matched_sdk, ","), format(sdk, ","), msfuncs, sfuncs)
+    headline = ("Overlays: %.2f%% exact game (%s / %s B, %d/%d fns)%s; "
+                "+%s matched SDK of %s (%d/%d fns)%s") % (
+        100.0 * (matched_game + regmm) / game if game else 0.0, format(matched_game + regmm, ","), format(game, ","),
+        mfuncs + rfuncs, gfuncs, regmm_note(regmm), format(matched_sdk, ","), format(sdk, ","), msfuncs, sfuncs,
+        placeholder_note(held, held_sdk))
     render(a.ov_out, headline, ("overlays", "source files"), [ugroups, fgroups],
-           "tile area is code bytes; SDK and matched SDK are not game work", a.width, a.height)
-    print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact game of %d game bytes (+%d matched SDK of %d SDK)"
+           "tile area is code bytes; SDK and matched SDK are not game work; register mismatch counts toward the percentage", a.width, a.height)
+    print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact game of %d game bytes%s (+%d matched SDK of %d SDK)"
           % (os.path.relpath(a.ov_out, ROOT), len(ugroups), len(funcs), drawn,
-             100.0 * matched_game / game if game else 0.0, game, matched_sdk, sdk))
+             100.0 * (matched_game + regmm) / game if game else 0.0, game, regmm_note(regmm), matched_sdk, sdk))
 
 
 # The always-resident ARM9 static image and the 237 overlays have their own maps.
@@ -461,6 +554,14 @@ def aux_shard_status(region):
         for f in data.get("functions", []):
             if isinstance(f, dict) and f.get("name") and str(f.get("region")) == region:
                 out[f["name"]] = f.get("status", "")
+                # also by address: twl shards carry vendor names (AESi_Init) where the
+                # listing labels the same address func_027073AC
+                try:
+                    a = int(str(f.get("address")), 16)
+                except ValueError:
+                    continue
+                if not str(out.get(a, "")).startswith("EXACT"):
+                    out[a] = f.get("status", "")
     return out
 
 
@@ -487,31 +588,39 @@ def aux_functions():
             size = end - addr
             if size <= 0:
                 continue
-            st = entries.get(name, "")
+            st = entries.get(name) or entries.get(addr, "")
             exact = st.startswith(("EXACT", "EXACT*"))
-            if addr in sdk:
+            if exact and (placeholders.is_placeholder(region, name)
+                          or placeholders.is_placeholder(region, addr)):
+                cls = "placeholder_sdk" if addr in sdk else "placeholder"
+            elif addr in sdk:
                 cls = "matched_sdk" if exact else "sdk"
             else:
                 cls = "matched" if exact else "open"
             funcs.append({"addr": addr, "name": name, "code_bytes": size, "region": region,
                           "cls": cls, "sole_ref": False})
+    apply_regmm(funcs, {r for r, _ in AUX_REGIONS})
     return funcs
 
 
 def render_aux(a):
+    set_palette("twl")
     funcs = aux_functions()
     drawn = sum(f["code_bytes"] for f in funcs)
     regions = {}
     for f in funcs:
         regions.setdefault(f["region"], []).append(f)
     ugroups = sorted(regions.items())
-    game = sum(f["code_bytes"] for f in funcs if f["cls"] in ("open", "matched"))
-    matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
+    game = sum(f["code_bytes"] for f in funcs if f["cls"] in ("open", "matched", "regmm", "placeholder"))
+    regmm = sum(f["code_bytes"] for f in funcs if f["cls"] == "regmm")
+    matched = sum(f["code_bytes"] for f in funcs if f["cls"] in ("matched", "regmm"))
     matched_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
-    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in ("sdk", "matched_sdk"))
-    headline = "TWL / ITCM / autoload: %.2f%% exact game (%s / %s B); +%s matched SDK of %s; %d fns" % (
-        100.0 * matched / game if game else 0.0, format(matched, ","), format(game, ","),
-        format(matched_sdk, ","), format(sdk, ","), len(funcs))
+    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk"))
+    held = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder")
+    held_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder_sdk")
+    headline = "TWL / ITCM / autoload: %.2f%% exact game (%s / %s B)%s; +%s matched SDK of %s; %d fns%s" % (
+        100.0 * matched / game if game else 0.0, format(matched, ","), format(game, ","), regmm_note(regmm),
+        format(matched_sdk, ","), format(sdk, ","), len(funcs), placeholder_note(held, held_sdk))
     render(a.twl_out, headline, ("regions",), [ugroups],
            "tile area is code bytes; the DSi twl region and the ARM9 autoload blocks", a.width, a.height)
     print("wrote %s: %d regions, %d functions, %d bytes drawn, %.2f%% exact game of %d (+%d matched SDK of %d)"
@@ -527,10 +636,12 @@ def main(argv=None):
     ap.add_argument("--arm9", action="store_true", help="write the ARM9 image only")
     ap.add_argument("--overlays", action="store_true", help="write the overlay image only")
     ap.add_argument("--twl", action="store_true", help="write the twl/ITCM/autoload image only")
+    ap.add_argument("--ov-out", default=os.path.join(ROOT, "docs", "coverage_overlays.svg"),
+                    help="overlay image path (default docs/coverage_overlays.svg)")
+    ap.add_argument("--twl-out", default=os.path.join(ROOT, "docs", "coverage_twl.svg"),
+                    help="twl/ITCM/autoload image path (default docs/coverage_twl.svg)")
     a = ap.parse_args(argv)
     a.arm9_out = a.out
-    a.ov_out = os.path.join(ROOT, "docs", "coverage_overlays.svg")
-    a.twl_out = os.path.join(ROOT, "docs", "coverage_twl.svg")
     anchors = read_anchors()
     do_all = not (a.arm9 or a.overlays or a.twl)
     if do_all or a.overlays:

@@ -1,5 +1,5 @@
 /*
- * function: func_02732944
+ * function: WcmNwmcbSetRecvFrmBuf
  * address:  0x02732944
  * packet:   twl_sys
  * region:   twl
@@ -16,9 +16,9 @@
  *   func_020862B8  0x020862B8  arm  twl
  *   func_02166804  0x02166804  arm  ov009
  *   func_02166358  0x02166358  arm  ov009
- *   func_02731F14  0x02731F14  arm  twl
- *   func_027032E0  0x027032E0  arm  twl
- *   func_02732648  0x02732648  arm  twl
+ *   WcmNwmReset  0x02731F14  arm  twl
+ *   NWM_Connect  0x027032E0  arm  twl
+ *   WcmNwmcbConnect  0x02732648  arm  twl
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -48,11 +48,11 @@ extern void func_021659B4(u32 a, void *b, u32 c, u32 line);
 extern void func_020862B8(void *buf, u32 len);
 extern void func_02166804(u8 v);
 extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
-extern void func_02731F14(void);
-extern int func_027032E0(void *cb, u8 flag, void *buf);
-extern void func_02732648(void *arg);
+extern void WcmNwmReset(void);
+extern int NWM_Connect(void *cb, u8 flag, void *buf);
+extern void WcmNwmcbConnect(void *arg);
 
-void func_02732944(Pkt *p)
+void WcmNwmcbSetRecvFrmBuf(Pkt *p)
 {
     NetWork *w = func_021657C8();
     int lv;
@@ -61,10 +61,10 @@ void func_02732944(Pkt *p)
     case 0:
         if (w->state == 12) {
             func_02165A4C(8);
-            func_02731F14();
+            WcmNwmReset();
             return;
         }
-        switch (func_027032E0(func_02732648, (w->flags & 2) ? 1 : 0, w->buf)) {
+        switch (NWM_Connect(WcmNwmcbConnect, (w->flags & 2) ? 1 : 0, w->buf)) {
         case 2:
             return;
         case 6:

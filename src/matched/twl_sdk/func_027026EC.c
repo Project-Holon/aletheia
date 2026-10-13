@@ -1,5 +1,5 @@
 /*
- * function: func_027026EC
+ * function: NWMi_ClearFifoRecvFlag
  * address:  0x027026EC
  * packet:   twl_sys
  * region:   twl
@@ -22,7 +22,7 @@ extern u32 data_027341A4[];
 extern void func_020862B8(u32, u32);
 extern void func_020862D4(u32, u32);
 
-void func_027026EC(void) {
+void NWMi_ClearFifoRecvFlag(void) {
     u8 val;
     u8 *r5;
     u32 r4;

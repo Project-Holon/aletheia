@@ -13,14 +13,11 @@
  *   formTask                     0x021D7694  arm
 */
 
-extern void formTask(void);
+typedef struct TCB TCB;
 
-asm void DWCi_TSKlForm(void)
+extern TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc);
+
+TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio)
 {
-	stmdb sp!, {r3, lr}
-	mov ip, #0
-	str ip, [sp]
-	bl formTask
-	ldmia sp!, {r3, pc}
+    return formTask(kind, func, work, prio, 0);
 }
-

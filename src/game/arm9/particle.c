@@ -556,7 +556,7 @@ int func_02051574(void);
 int func_020515B4(void *p, int b, int c);
 int func_020515CC(int *p, int a, int b, int c);
 int func_02051614(int **p);
-asm void KeyValHashKey(void);
+void KeyValHashKey(void **p);
 void func_02051630(void **p, void *q);
 void *func_02051640(char *p);
 void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, Vec3 *a3, Vec3 *a4, Vec3 *a5, u32 a6);
@@ -2538,11 +2538,9 @@ int func_02051614(int **p)
 
 
 
-asm void KeyValHashKey(void)
+void KeyValHashKey(void **p)
 {
-    ldr r0, [r0]
-    ldr ip, =func_020524C8
-    bx ip
+    func_020524C8(*p);
 }
 
 

@@ -182,7 +182,7 @@ void func_021D5CCC(void *canvas, int x, int y, int color, u32 flag, u16 *txt);
 int func_021D5D74(int a0, int a1, int a2, int a3, unsigned short s0, int s1);
 void func_021D5DB0(void *canvas, int x, int y, int color, int interval, u16 *txt, int font);
 void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-asm void DWCi_FNTlClear(void);
+void DWCi_FNTlClear(Canvas *cnv, int color);
 void func_021D5F28(void *canvas, int x, int y, void *cell, int prio);
 void func_021D5FC4(int x);
 extern MemFont *g_021DE680;
@@ -487,13 +487,9 @@ void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag
 
 
 
-asm void DWCi_FNTlClear(void)
+void DWCi_FNTlClear(Canvas *cnv, int color)
 {
-	stmdb sp!, {r3, lr}
-	ldr r2, [r0, #0x14]
-	ldr r2, [r2, #4]
-	blx r2
-	ldmia sp!, {r3, pc}
+    cnv->pFmt->pfnClear(cnv, color);
 }
 
 

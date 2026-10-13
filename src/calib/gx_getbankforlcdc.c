@@ -1,7 +1,10 @@
 /*
- * Calibration target, written from the disassembly only.
+ * Calibration target, written from the disassembly only.  Named
+ * GX_GetBankForLCDC before: the same 16-byte getter shape; gx.o order
+ * (after GX_VBlankIntr, before GX_DispOff) and the call from
+ * PM_SetLCDPower name it GX_IsDispOn.
  *
- * function: GX_GetBankForLCDC
+ * function: GX_IsDispOn
  * address:  0x0207D41C
  * region:   arm9
  * compiler: 1.1p1
@@ -11,13 +14,13 @@
  * status:   EXACT
  *
  * symbols:
- *   sVramLcdcMask       0x020A84BC  data
+ *   sIsDispOn       0x020A84BC  data
  *
  * Original:
- *   ldr  r0, [pc, #4]   ; &sVramLcdcMask
+ *   ldr  r0, [pc, #4]   ; &sIsDispOn
  *   ldrh r0, [r0]
  *   bx   lr
- *   .word <sVramLcdcMask>
+ *   .word <sIsDispOn>
  *
  * One halfword read of a file-scope u16, returned widened.  ldrh already
  * zero-extends, so the return type has to be a 16-bit unsigned one for the
@@ -28,9 +31,9 @@
 
 typedef unsigned short u16;
 
-extern u16 sVramLcdcMask;
+extern u16 sIsDispOn;
 
-u16 GX_GetBankForLCDC(void)
+u16 GX_IsDispOn(void)
 {
-    return sVramLcdcMask;
+    return sIsDispOn;
 }

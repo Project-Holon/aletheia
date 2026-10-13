@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021D5E04  0x021D5E04  data  ov093  a4
+ *   d_021D5E04  0x021D5E04  data  ov021  a4
  *
- * note: the parked file gave no overlay hint; un-hinted, sole-ref/data saw
- * data at 0x021D5E04 in several overlapping overlays and refused.  ov093 is
- * the one overlay where it is a data object start, so the hint fixes the
- * choice and the site resolves as sole-ref/data.
+ * note: un-hinted, sole-ref/data sees several overlays over 0x021D5E04 and
+ * refuses.  ov021 is the only one with data there (a pointer table after a
+ * zero word at 0x021D5E00); ov093, ov016 and the rest hold code.  ov021 is
+ * resident with ov010: ov010 branches straight into 62 ov021 functions
+ * (bl 0x021C3400 and others).  The ov021 hint fixes the choice.
  */
 
 typedef unsigned int u32;

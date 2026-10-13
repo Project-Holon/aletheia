@@ -79,7 +79,7 @@ int func_0218D7F4(void **connection);
  * sdk: gpiStatusInfoKeysDestroy (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
 void func_0218D840(void **connection);
-asm void CaseInsensitiveCompare(void);
+int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2);
 /*
  * sdk: gpiStatusInfoAddKey (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -155,12 +155,9 @@ void func_0218D840(void **connection)
 
 
 
-asm void CaseInsensitiveCompare(void)
+int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 {
-	ldr r0, [r0]
-	ldr r1, [r1]
-	ldr ip, =func_020948E0
-	bx ip
+    return func_020948E0(*elem1, *elem2);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0272FD40
+ * function: MIi_Wait
  * address:  0x0272FD40
  * packet:   twl_audio
  * region:   twl
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0272FC90 0x0272FC90 arm twl
+ *   MI_IsNDmaBusy 0x0272FC90 arm twl
  */
 
-int func_0272FC90(int);
+int MI_IsNDmaBusy(int);
 
-void func_0272FD40(int a0) {
+static void MIi_Wait(int a0) {
     do {
-    } while (func_0272FC90(a0) == 1);
+    } while (MI_IsNDmaBusy(a0) == 1);
 }

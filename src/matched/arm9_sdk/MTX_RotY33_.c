@@ -10,6 +10,7 @@
  * status:   EXACT
  */
 
+/* hand-written in the original: fx_mtx33.o (libfx) has one .debug_line row per instruction for MTX_RotY33_ (lines 172-184, 186), mov/lsl of 0x1000 on two lines, no DW_TAG_variable; the C ScaleApply33 beside it interleaves lines */
 asm void MTX_RotY33_(void)
 {
     str r2, [r0]

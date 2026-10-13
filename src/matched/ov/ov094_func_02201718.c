@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015EF4 and 02015EEC are Ilias-owned.
+ * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 sole-ref/code 02015EF4 and 02015EEC are integrator-owned.
  * Verified C for 02015EF4 reused from ov094_func_02201810.c:
  *   typedef unsigned char u8;
  *   u8 func_02015EF4(char *p) { return **(u8 **)(p + 0x30); }

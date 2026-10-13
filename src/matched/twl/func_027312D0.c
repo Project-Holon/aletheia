@@ -1,5 +1,5 @@
 /*
- * function: func_027312D0
+ * function: OS_IsAvailableWireless_ltdmain
  * address:  0x027312D0
  * packet:   pkt_027312D0
  * region:   twl
@@ -10,15 +10,7 @@
  * status:   EXACT
  */
 
-asm void func_027312D0(void)
+int OS_IsAvailableWireless_ltdmain(void)
 {
-    ldr r0, =0x02FFFDFC
-    ldr r0, [r0]
-    ldr r0, [r0]
-    mov r0, r0, lsl #0x1c
-    mov r0, r0, lsr #0x1f
-    cmp r0, #1
-    moveq r0, #1
-    movne r0, #0
-    bx lr
+    return ((**(volatile unsigned int **)0x02FFFDFC << 28) >> 31) == 1;
 }

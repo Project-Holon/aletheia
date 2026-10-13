@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: func_02050880 (0x02050880) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u16 func_02050880(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }  (EXACT, verified)
  *

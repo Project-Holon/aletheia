@@ -36,7 +36,7 @@ extern void string_put_char(struct dst_string_tag *p, char c);
 extern void string_fill_char(struct dst_string_tag *p, char c, int n);
 extern void string_put_string(struct dst_string_tag *p, const char *s, int n);
 int STD_TSPrintf(char *dst, const char *fmt, ...);
-int OS_SNPrintf(char *dst, int n, const char *fmt, ...);
+int STD_TSNPrintf(char *dst, int n, const char *fmt, ...);
 int STD_TVSNPrintf(char *dst, unsigned long len, const char *fmt, va_list vlist);
 
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
@@ -59,7 +59,7 @@ int STD_TSPrintf(char *dst, const char *fmt, ...)
 #define va_end(v)
 
 
-int OS_SNPrintf(char *dst, int n, const char *fmt, ...)
+int STD_TSNPrintf(char *dst, int n, const char *fmt, ...)
 {
     int r;
     va_list vlist;

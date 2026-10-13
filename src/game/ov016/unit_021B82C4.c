@@ -15,7 +15,7 @@
 extern int func_0215F428(int unused, int type);
 extern void func_0215F454(unsigned int, unsigned char *, unsigned char);
 extern int func_0215F644(int s);
-asm void func_021B82C4(void);
+void func_021B82C4(void);
 int func_021B82C8(int unused, int type);
 void func_021B82D0(unsigned int a, unsigned char *p, unsigned char c);
 int func_021B82DC(int s);
@@ -28,10 +28,8 @@ int func_021B82DC(int s);
  *   python tools/match.py one --src src/matched/func_021B82C4.c \
  *       --func func_021B82C4 --addr 0x021B82C4 --region ov016 --cc dsi/1.1p1 --thumb
  */
-asm void func_021B82C4(void)
+void func_021B82C4(void)
 {
-    bx lr
-    lsl r0, r0, 0
 }
 
 

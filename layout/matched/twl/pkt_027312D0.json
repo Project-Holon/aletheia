@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_027312D0",
+   "name": "OS_IsAvailableWireless_ltdmain",
    "address": "0x027312D0",
    "kind": "game",
    "region": "twl",

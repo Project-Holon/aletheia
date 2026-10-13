@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0x02045CAC at +0x58/+0x7C has no outside witness;
- * unit_02045C44.c omits func_02045CAC from function:. Ilias owns it.
+ * unit_02045C44.c omits func_02045CAC from function:. the integrator owns it.
  * blocker: Verified C copied from ov122_func_021D5004.c header;
  * prior fixed-flag EXACT, 344 bytes, originally ov070 arm9-blocker.log.
  * typedef unsigned char u8;

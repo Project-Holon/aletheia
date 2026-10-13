@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * blocker: ARM9 sole callers 0200837C, 020083B4, 020083D0,
- * 02008398, 02008430 lack outside witnesses; owner Ilias.
+ * 02008398, 02008430 lack outside witnesses; owner the integrator.
  * Interface evidence: each reads r0 pointer and r1 halfword input,
  * stores a masked bitfield to [r0], then bx lr. No ARM9 compile attempted.
  * Extent ends with two zero alignment bytes at 021BAFD6.

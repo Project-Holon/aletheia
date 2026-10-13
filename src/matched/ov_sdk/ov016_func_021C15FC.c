@@ -10,14 +10,18 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_021DE594  0x021DE594  data
 */
 
-asm void cbConfig(void)
-{
-	ldr r3, =0x021DE594
-	ldmia r0, {r0, r1, r2}
-	ldr r3, [r3]
-	stmia r3, {r0, r1, r2}
-	bx lr
-}
+typedef struct {
+    int a;
+    int b;
+    int c;
+} Cfg3;
 
+extern int *g_021DE594;
+
+void cbConfig(Cfg3 *cfg)
+{
+    *(Cfg3 *)g_021DE594 = *cfg;
+}

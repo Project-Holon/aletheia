@@ -1,5 +1,5 @@
 /*
- * function: func_0272F740
+ * function: CARD_ReadRomHashImage
  * address:  0x0272F740
  * packet:   twl_sys
  * region:   twl
@@ -12,8 +12,8 @@
  * symbols:
  *   data_02150FEC 0x02150FEC data
  *   func_02087B04 0x02087B04 arm
- *   func_0272F570 0x0272F570 arm twl
- *   func_0272F368 0x0272F368 arm twl
+ *   CARDi_ReadRomHashImageCaching 0x0272F570 arm twl
+ *   CARDi_ReadRomHashImageDirect 0x0272F368 arm twl
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -55,10 +55,10 @@ struct IdSrc {
 };
 extern struct IdSrc data_02150FEC;
 extern int func_02087B04(void);
-extern void func_0272F570(struct Obj *obj, u8 *buf, u32 off, u32 len);
-extern void func_0272F368(struct Obj *obj, u8 *buf, u32 off, u32 len);
+extern void CARDi_ReadRomHashImageCaching(struct Obj *obj, u8 *buf, u32 off, u32 len);
+extern void CARDi_ReadRomHashImageDirect(struct Obj *obj, u8 *buf, u32 off, u32 len);
 
-void func_0272F740(struct Obj *obj, u8 *buf, u32 off, u32 len)
+void CARD_ReadRomHashImage(struct Obj *obj, u8 *buf, u32 off, u32 len)
 {
     u32 mask;
     u32 head;
@@ -71,17 +71,17 @@ void func_0272F740(struct Obj *obj, u8 *buf, u32 off, u32 len)
         head = mask & (obj->f20 - off);
         bulk = ~mask & (len - head);
         if (head != 0) {
-            func_0272F570(obj, buf, off, head);
+            CARDi_ReadRomHashImageCaching(obj, buf, off, head);
             off += head;
             len -= head;
             buf += head;
         }
         if (bulk != 0) {
-            func_0272F368(obj, buf, off, bulk);
+            CARDi_ReadRomHashImageDirect(obj, buf, off, bulk);
             off += bulk;
             len -= bulk;
             buf += bulk;
         }
     }
-    func_0272F570(obj, buf, off, len);
+    CARDi_ReadRomHashImageCaching(obj, buf, off, len);
 }

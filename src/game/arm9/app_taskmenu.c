@@ -790,7 +790,7 @@ void func_02027138(u32 x);
 void func_0202715C(u32 a0);
 void func_02027174(u32 x);
 void func_02027198(void);
-asm void OS_SetPrintBlockingMode(void);
+void OS_SetPrintBlockingMode(u16 v);
 void sub_020271F8(u16 value);
 void sub_02027230(u16 value);
 void sub_02027268(u16 value);
@@ -2700,20 +2700,13 @@ void func_02027198(void)
 
 
 
-asm void OS_SetPrintBlockingMode(void)
+void OS_SetPrintBlockingMode(u16 v)
 {
-    push {r4, lr}
-    add r4, r0, #0
-    bl func_0202708C
-    cmp r0, #0
-    beq loc_020271F0
-    add r0, r4, #0
-    bl func_02027230
-    pop {r4, pc}
-loc_020271F0:
-    add r0, r4, #0
-    bl func_020271F8
-    pop {r4, pc}
+    if (func_0202708C(v)) {
+        func_02027230(v);
+    } else {
+        func_020271F8(v);
+    }
 }
 
 

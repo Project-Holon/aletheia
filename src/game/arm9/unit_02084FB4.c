@@ -223,7 +223,7 @@ void OSi_RescheduleThread(void);
 void func_02085264(void);
 BOOL func_020853B0(void);
 void func_020853C0(OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
-asm void OS_ExitThread(void);
+void OS_ExitThread(void);
 void func_020854D0(OSThread *thread, void *arg);
 void func_02085528(void *arg);
 void func_02085560(void);
@@ -607,15 +607,10 @@ void func_020853C0(OSThread *thread, void (*func)(void *), void *arg, void *stac
 
 
 
-asm void OS_ExitThread(void)
+void OS_ExitThread(void)
 {
-    stmfd sp!, {r3, lr}
-    bl	func_02087988
-    ldr r0, =g_02150FD0
-    mov	r1, #0
-    ldr	r0, [r0, #0x20]
-    bl	func_020854D0
-    ldmfd sp!, {r3, pc}
+    func_02087988();
+    func_020854D0(g_02150FD0.OSi_ThreadInfo.current, 0);
 }
 
 

@@ -700,7 +700,7 @@ void *func_02184F88(void *p)
 
 /*
  * Thumb leaf, sole caller in range). Evidence class: label / sole-ref/code.
- * Leaf 0x02014184 (arm9, Thumb, EXACT with match.py one, Ilias's to file):
+ * Leaf 0x02014184 (arm9, Thumb, EXACT with match.py one, the integrator's to file):
  *   typedef short s16;
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
  *   void func_02014184(Obj *o, s16 a, s16 b, int c, int d, int e)
@@ -787,7 +787,7 @@ void *func_021850FC(void *p, u8 *pos)
 
 /*
  *           witness: an unlabelled arm9 Thumb leaf (printed as .word data
- *           after func_020140F8), Ilias's to file. Evidence class: label /
+ *           after func_020140F8), the integrator's to file. Evidence class: label /
  *           sole-ref/code. Verified C for the leaf, per
  *           ov020_func_021852F0.c:
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
@@ -1030,7 +1030,7 @@ void *func_021854CC(void *p, int u, int u2, const S7 *src, u16 h)
 
 /*
  * Blocked (evidence class: none, unresolved callee site) by unlabelled arm9 leaf
- * 0x02014184 (Ilias's), verified EXACT in a scratch file with `one --region arm9 --thumb`:
+ * 0x02014184 (the integrator's), verified EXACT in a scratch file with `one --region arm9 --thumb`:
  *   typedef short s16;
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
  *   void func_02014184(Obj *o, s16 a, s16 b, int c, int d, int e)
@@ -1120,7 +1120,7 @@ void func_0218562C(int a)
 
 /*
  * Blocked (evidence class: none, unresolved callee sites) by two unlabelled arm9
- * leaves inside labelled arm9 functions (Ilias's), each verified EXACT in a
+ * leaves inside labelled arm9 functions (the integrator's), each verified EXACT in a
  * scratch file with `one --region arm9 --thumb`:
  *   0x0202B578: int func_0202B578(int *p) { return p[8]; }
  *   0x02029DF4: void func_02029DF4(void) { func_02029EB4(); }   (thumb tail-call
@@ -1287,7 +1287,7 @@ void func_021858E4(int a, const short *p)
 
 /*
  *           the THM_CALL to func_02013DD0 (arm9) has no witness: 0x02013DD0
- *           is an unlabelled arm9 leaf (Ilias's, inside func_02013D9C's
+ *           is an unlabelled arm9 leaf (the integrator's, inside func_02013D9C's
  *           listing extent; see unit_02013D9C.c's near-miss note). Verified
  *           C for it, per ov018_func_0217EC7C.c:
  *             int func_02013DD0(int a0)

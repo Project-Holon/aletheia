@@ -1,5 +1,5 @@
 /*
- * function: func_0272FB10
+ * function: MI_InitNDma
  * address:  0x0272FB10
  * packet:   twl_audio
  * region:   twl
@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0272FD5C 0x0272FD5C arm twl
- *   func_0272FD7C 0x0272FD7C arm twl
+ *   MI_SetNDmaArbitrament 0x0272FD5C arm twl
+ *   MI_InitNDmaConfig 0x0272FD7C arm twl
  */
 
-void func_0272FD5C(unsigned int, unsigned int);
-void func_0272FD7C(void);
+void MI_SetNDmaArbitrament(unsigned int, unsigned int);
+void MI_InitNDmaConfig(void);
 
-void func_0272FB10(void) {
-    func_0272FD5C(0x80000000, 0x60000);
-    func_0272FD7C();
+void MI_InitNDma(void) {
+    MI_SetNDmaArbitrament(0x80000000, 0x60000);
+    MI_InitNDmaConfig();
 }

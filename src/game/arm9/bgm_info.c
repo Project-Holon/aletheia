@@ -136,6 +136,7 @@
  *   func_0208BF38  0x0208BF38  arm
  *   func_0208B24C  0x0208B24C  arm
  *   func_02085D3C  0x02085D3C  arm
+ *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -469,7 +470,7 @@ extern unsigned int func_0208BEF0(unsigned int status);
 extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
 extern int   func_02085D3C(void);
-extern void  func_027047C0(u32 a, char *b);
+extern void  SNDEXi_SetIirFilter(u32 a, char *b);
 void func_02005BC0(void);
 void sub_02005C18(void);
 void func_02005C28(u32 a0);
@@ -485,7 +486,7 @@ void sub_02005D08(int (*hook)(void *arg));
 void sub_02005D14(void);
 void sub_02005D28(void);
 void *func_02005D34(u32 a0, u32 a1);
-asm void ArrayDeleteAt(void);
+void ArrayDeleteAt(u32 a0, u32 a1);
 void func_02005DA4(unsigned int a, unsigned short b, int c, int d);
 void sub_02005DAC(void *arg);
 void func_02005DE4(void *p);
@@ -838,16 +839,10 @@ void *func_02005D34(u32 a0, u32 a1)
     return r;
 }
 
-asm void ArrayDeleteAt(void)
+void ArrayDeleteAt(u32 a0, u32 a1)
 {
-    push {r3, r4, r5, lr}
-    add r5, r0, #0
-    add r4, r1, #0
-    bl func_02005F90
-    add r0, r5, #0
-    add r1, r4, #0
-    bl func_02005D34
-    pop {r3, r4, r5, pc}
+    func_02005F90();
+    func_02005D34(a0, a1);
 }
 
 /*
@@ -2395,7 +2390,7 @@ void func_02006AEC(u32 idx, u32 delta)
  *               witness each, the `bl`s at 0x02006C6E and 0x02006C78 inside
  *               this function.  Its guard chain is
  *               docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- *   0x02006CBC  128 bytes.  Three sites at once.  `label`: func_027047C0 is
+ *   0x02006CBC  128 bytes.  Three sites at once.  `label`: SNDEXi_SetIirFilter is
  *               named only by the `blx` at 0x02006D22 inside it.  `literal`:
  *               0x020A703C, which spells "snd_mic.c" and is the original file
  *               name of this range, and 0x020A7030, are each named by one pool
@@ -2609,7 +2604,7 @@ void func_02006CBC(u16 heap)
     p->unk20 = (p->unk20 & ~1u) | 1u;
     func_0208B24C();
     if (func_02085D3C() == 1) {
-        func_027047C0(0, g_020A7030);
+        SNDEXi_SetIirFilter(0, g_020A7030);
     }
     g_02146164 = p;
 }

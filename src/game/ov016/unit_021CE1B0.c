@@ -52,7 +52,7 @@
  *   endScene2                        0x021CE364  arm
  *   procBoth                         0x021CE5B0  arm
  *   procBoth1                        0x021CE604  arm
- *   procConfirm1                     0x021CE590  arm
+ *   procNotFound1                     0x021CE590  arm
  *   procNotFound                     0x021CE564  arm
  *   procScene                        0x021CE23C  arm
  */
@@ -113,7 +113,7 @@ static void cbUsb(int result);
 
 static void procNotFound(void);
 
-static void procConfirm1(void);
+static void procNotFound1(void);
 
 static void procBoth(void);
 

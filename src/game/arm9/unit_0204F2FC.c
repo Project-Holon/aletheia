@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204F2FC.c
  * unit:     yes
- * function: func_0204F2FC, func_0204F32C, func_0204F344, func_0204F428, func_0204F5A8, func_0204F5E4, func_0204F604, func_0204F638, func_0204F654, func_0204F66C, func_0204F684, func_0204F6B4
+ * function: func_0204F2FC, func_0204F32C, func_0204F344, func_0204F428, func_0204F5A8, func_0204F5E4, func_0204F604, func_0204F638, func_0204F654, func_0204F66C, func_0204F684, func_0204F6B4, func_0204F704
  * address:  0x0204F2FC
  * region:   arm9
  * compiler: dsi/1.1p1

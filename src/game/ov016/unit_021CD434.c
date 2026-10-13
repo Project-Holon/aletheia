@@ -57,13 +57,13 @@ extern void func_021C82EC(unsigned int v);
 extern void func_021CFFAC(unsigned int v);
 extern void func_021D7724(int kind, void *task);
 extern void func_021CD40C(void);
-extern void DWCi_HEAPlAllocEx(void);
-extern void DWCi_HEAPlFree2(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void DWCi_HEAPlFree2(void *mem);
 void func_021CD434(void);
 void func_021CD458(void);
 void func_021CD4F4(void *task);
-asm void acAlloc(void);
-asm void acFree(void);
+void *acAlloc(void *unused, unsigned long size);
+void acFree(void *unused, void *ptr);
 extern unsigned char g_021DE61C;
 
 
@@ -129,18 +129,13 @@ void func_021CD4F4(void *task)
 }
 
 
-asm void acAlloc(void)
+void *acAlloc(void *unused, unsigned long size)
 {
-	ldr ip, =DWCi_HEAPlAllocEx
-	mov r0, r1
-	mov r1, #0x20
-	bx ip
+    return DWCi_HEAPlAllocEx(size, 0x20);
 }
 
 
-asm void acFree(void)
+void acFree(void *unused, void *ptr)
 {
-	ldr ip, =DWCi_HEAPlFree2
-	mov r0, r1
-	bx ip
+    DWCi_HEAPlFree2(ptr);
 }

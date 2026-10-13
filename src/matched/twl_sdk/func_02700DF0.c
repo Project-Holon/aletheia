@@ -1,5 +1,5 @@
 /*
- * function: func_02700DF0
+ * function: CAMERA_I2CContextSwitchAsyncCore
  * address:  0x02700DF0
  * packet:   twl_sys
  * region:   twl
@@ -12,30 +12,30 @@
  * symbols:
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
- *   func_027007C8  0x027007C8  arm twl a2
+ *   CAMERA_CheckRetryCount  0x027007C8  arm twl a2
  *   func_02087988  0x02087988  arm twl a2
  *   func_0208799C  0x0208799C  arm twl a2
- *   func_027019B4  0x027019B4  arm twl a2
- *   func_02701A60  0x02701A60  arm twl a2
+ *   CameraSendPxiCommand  0x027019B4  arm twl a2
+ *   CameraSendPxiData  0x02701A60  arm twl a2
  */
 
 typedef unsigned int u32;
 
 extern u32 data_02732FC8[];
 extern u32 data_02733FC8[];
-extern u32 func_027007C8(void);
+extern u32 CAMERA_CheckRetryCount(void);
 extern void func_02087988(void);
 extern void func_0208799C(void);
-extern u32 func_027019B4(u32, u32, u32);
-extern void func_02701A60(u32);
+extern u32 CameraSendPxiCommand(u32, u32, u32);
+extern void CameraSendPxiData(u32);
 
-asm void func_02700DF0(u32 a0, u32 a1, u32 a2, u32 a3) {
+asm void CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, u32 a2, u32 a3) {
     stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
     mov r7, r0
     mov r6, r1
     mov r5, r2
     mov r4, r3
-    bl func_027007C8
+    bl CAMERA_CheckRetryCount
     mov sb, r0
     cmp sb, #7
     ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
@@ -71,12 +71,12 @@ asm void func_02700DF0(u32 a0, u32 a1, u32 a2, u32 a3) {
     ldrb r2, [sp]
     mov r0, #0x12
     mov r1, #2
-    bl func_027019B4
+    bl CameraSendPxiCommand
     cmp r0, #0
     moveq r0, #4
     ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
     add r0, sp, #1
-    bl func_02701A60
+    bl CameraSendPxiData
     mov r0, #0
     ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 }

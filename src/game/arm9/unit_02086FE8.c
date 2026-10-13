@@ -53,7 +53,7 @@ extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_CountUpTick(void);
 extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void), void *arg);
 void func_02086FE8(void);
-asm void func_02087058(void);
+BOOL func_02087058(void);
 void func_02087068(void);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -98,11 +98,9 @@ void func_02086FE8(void)
 }
 
 
-asm void func_02087058(void)
+BOOL func_02087058(void)
 {
-    ldr r0, =g_02151330
-    ldrh r0, [r0]
-    bx lr
+    return g_02151330.OSi_UseTick;
 }
 
 

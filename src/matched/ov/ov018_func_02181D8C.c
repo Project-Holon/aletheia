@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  two unlabelled arm9 thumb leaves (Ilias's), no witness outside the range:
+ * blocker:  two unlabelled arm9 thumb leaves (the integrator's), no witness outside the range:
  *   0x02008494 (unresolved site +0034), 0x0202E82C (site +002E). Verified EXACT in scratch:
  *     void func_02008494(void *a, void *b) { func_02082D44(a, b, 0x20); }   (func_02082D44 arm)
  *     typedef struct { int f00; int f04; } S;

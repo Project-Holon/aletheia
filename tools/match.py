@@ -132,6 +132,16 @@ def all_versions():
 def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
                extra_includes=()):
     """Compile one TU.  Returns (obj_path, cmdline, stdout+stderr, rc)."""
+    # A source that includes data generated from the user's own ROM
+    # (build/gen, gitignored; tools/gendata.py) gets it written first.
+    try:
+        with open(src, encoding="latin1") as fh:
+            needs_gen = "build/gen/" in fh.read()
+    except OSError:
+        needs_gen = False
+    if needs_gen:
+        import gendata
+        gendata.generate_all()
     exe = compiler_path(version)
     cmd = [exe] + list(BASE_FLAGS) + list(flags)
     if thumb:
@@ -2341,7 +2351,7 @@ _LAYOUT_DATA = {}
 
 
 def _scan_data_structure():
-    """Classify the ARM9 image's bytes and find its data object starts.
+    """Classify the ARM9 and twl images' bytes and find data object starts.
 
     One pass over the same listings evidence() reads.  Returns
 
@@ -2360,7 +2370,12 @@ def _scan_data_structure():
     data = set()
     starts = set()
     func_at = {}
-    for path in evidence_files():
+    # asm/twl/twl.s (present only with a DSi key) describes the twl image the
+    # same way; its addresses do not overlap the ARM9 image.
+    paths = list(evidence_files())
+    if os.path.exists(TWL_LISTING):
+        paths.append(TWL_LISTING)
+    for path in paths:
         prev_data = False
         try:
             fh = open(path, "r", errors="replace")
@@ -4269,6 +4284,39 @@ def attest_overlay_id(fb, st, value, sites, place):
     return None
 
 
+def loaded_overlay_ids(fb, sites, place):
+    """Overlay indices the function under test hands to a loader.
+
+    The `loaded_ids` input of self_hint_accepted() and attest_xwin_loaded().
+    A resolved `overlay_id` site counts, as before.  So does a resolved
+    ABS32 site of another class (in practice `literal`: some other pool word
+    in the image happens to hold the same small value, so the stronger class
+    won) whose value passes the same three overlay_id conditions: a valid
+    index, loaded by a pc-relative load of this function, reaching a
+    consumer's id register.  The class that resolved the word only says why
+    its bytes are right; the walk to the loader is what says the function
+    loads that overlay, and it is the same walk either way.  ov000
+    func_021542C0 passes 0x7B (pooled also at ARM9 0x02010B8C, so `literal`)
+    and ov123's proc table 0x021DA838 to func_020120B4 (BT2, 2026-10-12).
+    """
+    out = set()
+    for s in sites:
+        if not s.resolved or s.rtype != R_ARM_ABS32 or s.value is None:
+            continue
+        if s.cls == "overlay_id":
+            out.add(s.value)
+            continue
+        if s.value not in overlay_ids():
+            continue
+        note = s.note
+        try:
+            if attest_overlay_id(fb, s, s.value, sites, place) is not None:
+                out.add(s.value)
+        finally:
+            s.note = note
+    return out
+
+
 # ---------------------------------------------------------------------------
 # vendor-object rules: `linker`, `template` and section-relative .bss
 # ---------------------------------------------------------------------------
@@ -4397,6 +4445,26 @@ def _overlay_number(lay):
     return n
 
 
+def _autoload_bss_end(lay, kind):
+    hits = [a.get("bss_end") for a in (lay.get("arm9") or {}).get("autoloads")
+            or [] if a.get("kind") == kind]
+    return hits[0] if len(hits) == 1 else None
+
+
+def _max_bss_end(lay, lo, hi, with_static):
+    """Max bss_end over the overlays whose ram_start lies in [lo, hi) and,
+    with `with_static`, the ARM9 static module."""
+    ends = [o.get("bss_end") for o in lay.get("overlays") or []
+            if isinstance(o.get("ram_start"), int)
+            and lo <= o["ram_start"] < hi]
+    if with_static:
+        ends.append(((lay.get("arm9") or {}).get("static") or {})
+                    .get("bss_end"))
+    if not ends or any(not isinstance(e, int) for e in ends):
+        return None
+    return max(ends)
+
+
 # X -> (derivation from layout.json, how it is derived).  Only symbols whose
 # value is by definition a layout figure.
 LINKER_LAYOUT = {
@@ -4411,6 +4479,32 @@ LINKER_LAYOUT = {
     "SDK_LTDAUTOLOAD_LTDMAIN_BSS_END": (
         lambda lay: (lay.get("twl") or {}).get("bss_end"),
         "layout.json twl.bss_end"),
+    # The linker script places the ITCM autoload's section arena start at the
+    # end of that autoload's .bss (its bss_end), where the ITCM free memory
+    # begins.
+    "SDK_SECTION_ARENA_ITCM_START": (
+        lambda lay: _autoload_bss_end(lay, "ITCM"),
+        "layout.json arm9.autoloads[kind ITCM].bss_end"),
+    # The main arena starts after the highest .bss end of everything linked
+    # into the main-memory window below 0x02400000: the static module and the
+    # overlays loaded there (overlay 199 ends last).
+    "SDK_MAIN_ARENA_LO": (
+        lambda lay: _max_bss_end(lay, 0, 0x02400000, True),
+        "layout.json max bss_end over arm9.static and the overlays with "
+        "ram_start < 0x02400000"),
+    # The extended main-memory arena starts after the highest .bss end of the
+    # overlays linked into the main-ex window 0x02400000..0x03000000.
+    "SDK_SECTION_ARENA_EX_START": (
+        lambda lay: _max_bss_end(lay, 0x02400000, 0x03000000, False),
+        "layout.json max bss_end over the overlays with ram_start in "
+        "0x02400000..0x03000000"),
+    # Hardware constant, not derived from the image: 0x0D000000 is the start
+    # of the DSi extended main memory (the 16 MB extra main RAM mirror), GBATEK
+    # "DSi Memory Map"; the SDK names it the LTD main EX arena low bound.
+    "SDK_LTDMAIN_EX_ARENA_LO": (
+        lambda lay: 0x0D000000,
+        "hardware constant: DSi extended main memory base 0x0D000000 "
+        "(GBATEK, DSi Memory Map)"),
 }
 
 
@@ -4875,6 +4969,40 @@ def attest_game_template(fb, name, addend, decls, region, hi):
                "function" % (name, len(ours), GAME_TEMPLATE_WINDOW))
 
 
+def attest_game_string(fb, name, addend, decls, region, lo, hi):
+    """A string literal's `@N` pool word in game code with no vendor object.
+
+    (decl, proof) or None.  Accepted only when the symbols: block declares
+    `@N` as a data address, the image bytes there equal our compile's
+    literal exactly (NUL included, so the image run is neither longer nor
+    shorter), and attest_sole_ref_string() holds at that address (a real
+    run start in a data section, the whole run outside the compared range).
+    """
+    ours = getattr(fb, "anon", {}).get(name)
+    d = decls.get(name)
+    if (addend != 0 or not ours or ours[-1:] != b"\0" or d is None
+            or getattr(d, "kind", None) != "data"
+            or getattr(d, "addr", None) is None
+            or hi is None or lo is None):
+        return None
+    body = bytes(ours[:-1])
+    if len(body) < MIN_STRING_CHARS or not all(0x20 <= c <= 0x7E
+                                               for c in body):
+        return None
+    r = witness_region(d.addr, region, None)
+    if r is None:
+        return None
+    o = d.addr - r.base
+    if bytes(r.data[o:o + len(ours)]) != bytes(ours):
+        return None
+    got = attest_sole_ref_string(d.addr, lo, hi, region, None)
+    if got is None:
+        return None
+    return d, got + ("%s (%d bytes): the image holds our compile's string "
+                     "literal at the declared address, a run start outside "
+                     "the compared range" % (name, len(ours)),)
+
+
 def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
                        region=None):
     """A section-relative `.bss` target: (attest()'s proof, note) or None.
@@ -4896,11 +5024,25 @@ def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
     sec_size, sec_align = sec[5], sec[8] or 1
     if addend < 0 or addend >= max(sec_size, 1) or base % sec_align:
         return None
-    static = (_layout_json().get("arm9") or {}).get("static") or {}
-    b_lo, b_hi = static.get("bss_start"), static.get("bss_end")
-    if not isinstance(b_lo, int) or not isinstance(b_hi, int):
-        return None
-    if not (b_lo <= base and base + sec_size <= b_hi):
+    # The member's own .bss: the ARM9 static .bss, or, for code in an
+    # overlay, that overlay's .bss (layout.json bss_start..bss_end).
+    lay = _layout_json()
+    spans = []
+    static = (lay.get("arm9") or {}).get("static") or {}
+    spans.append((static.get("bss_start"), static.get("bss_end"), "ARM9 static"))
+    m = re.match(r"ov(\d+)$", region or "")
+    if m:
+        for ov in lay.get("overlays") or []:
+            if ov.get("id") == int(m.group(1)):
+                spans.append((ov.get("bss_start"), ov.get("bss_end"),
+                              region))
+    where = None
+    for b_lo, b_hi, what in spans:
+        if (isinstance(b_lo, int) and isinstance(b_hi, int)
+                and b_lo <= base and base + sec_size <= b_hi):
+            where = what
+            break
+    if where is None:
         return None
     # exactly the call the resolver makes for any ABS32 data site, so the
     # witness classes (sole-ref/self included) apply unchanged
@@ -4909,8 +5051,9 @@ def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
                    site_region=region)
     if proof is None:
         return None
-    return proof, ("%s+%#x of %s, based at %08X in the ARM9 static .bss"
-                   % (name, addend, vf_member_name(place, region), base))
+    return proof, ("%s+%#x of %s, based at %08X in the %s .bss"
+                   % (name, addend, vf_member_name(place, region), base,
+                      where))
 
 
 # ---------------------------------------------------------------------------
@@ -5112,6 +5255,12 @@ def _resolve_vendor_named(fb, st, place, decls, lo, hi, src, region):
             st.cls, st.witnesses, st.witness = proof[:3]
             st.note = proof[3]
             return d.addr, d.kind
+        got = attest_game_string(fb, name, addend, decls, region, lo, hi)
+        if got is not None:
+            d, proof = got
+            st.cls, st.witnesses, st.witness, st.subkind = proof[:4]
+            st.note = proof[4]
+            return d.addr, d.kind
     if vt is None or vt[0] not in decls:
         st.reason = ("no address for %r: a compiler template is named by the "
                      "vendor object's own @N at this slot (%s), which the "
@@ -5192,6 +5341,23 @@ def section_static_base(fb, secname, decls):
     return next(iter(bases)), declared, ""
 
 
+def _own_bss_spans(region):
+    """[(lo, hi)] of the .bss the code of `region` may own: twl's, an
+    overlay's own, else the ARM9 static and autoload bss."""
+    lay = _layout_json()
+    if region == "twl":
+        tw = lay.get("twl") or {}
+        return [(tw.get("bss_start"), tw.get("bss_end"))]
+    m = re.match(r"ov(\d+)$", region or "")
+    if m:
+        return [(ov.get("bss_start"), ov.get("bss_end"))
+                for ov in lay.get("overlays") or []
+                if ov.get("id") == int(m.group(1))]
+    a9 = lay.get("arm9") or {}
+    return [(b.get("bss_start"), b.get("bss_end"))
+            for b in [a9.get("static") or {}] + list(a9.get("autoloads") or [])]
+
+
 def _resolve_own_static(fb, st, place, decls, lo, hi, src, region):
     """(target, "data") for a `.data`/`.bss` relocation into the file's own
     statics, with st's class, witness and note set; None (st.reason set)."""
@@ -5205,6 +5371,22 @@ def _resolve_own_static(fb, st, place, decls, lo, hi, src, region):
         st.reason = ("%s+%#x: base %08X is not a multiple of the section "
                      "alignment %d" % (name, addend, base, sec["align"]))
         return None
+    if sec["nobits"]:
+        # A `.bss` base is placed by the layout: it must lie inside the bss
+        # span layout.json gives the region, with the whole section, and the
+        # addend must lie inside the section.
+        spans = _own_bss_spans(region)
+        if addend >= max(sec["size"], 1):
+            st.reason = ("%s+%#x is past the end of the compiled section "
+                         "(%d bytes)" % (name, addend, sec["size"]))
+            return None
+        if not any(isinstance(a, int) and isinstance(b, int)
+                   and a <= base and base + sec["size"] <= b
+                   for a, b in spans):
+            st.reason = ("%s at base %08X (%d bytes) does not lie inside the "
+                         ".bss span layout.json gives %s"
+                         % (name, base, sec["size"], region or "any region"))
+            return None
     hit = [x for x in declared if x[1] <= addend < x[1] + x[2]]
     if not hit:
         st.reason = ("%s+%#x lands in no declared static (declared: %s)"
@@ -5236,7 +5418,9 @@ def _resolve_own_static(fb, st, place, decls, lo, hi, src, region):
     st.note = ("%s+%#x is static %s (+%#x) of the file, section based at "
                "%08X; %d declared static(s) agree on that base"
                % (name, addend, oname, ooff, base, len(declared)))
-    return target, "data"
+    # the caller adds the addend to what it gets back, as the vendor route
+    # does, so hand it the section base
+    return base, "data"
 
 
 def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
@@ -5470,8 +5654,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
 
     # A contested overlay hint on a sole-ref/self site stands only when this
     # function loads the hinted overlay (self_hint_accepted()).
-    loaded = set(s.value for s in sites
-                 if s.resolved and s.cls == "overlay_id")
+    loaded = loaded_overlay_ids(fb, sites, place)
     for st, proof, hint, val in self_later:
         if not self_hint_accepted(proof[2], hint, loaded):
             continue
@@ -5543,6 +5726,12 @@ def compare(fb, tgt):
     every byte to be both hard (`fb.mask` all 1) and equal; a wildcarded
     byte that happens to match still only earns MATCH.
     """
+    if not len(fb.data):
+        # an empty body (`asm void f(void) {}`) compiles to no bytes; a comparison
+        # over zero bytes passes vacuously and used to come out EXACT, then EXACT*
+        # in run_one() because the listing extent differs.  It reproduces nothing.
+        # (tools/placeholders.py rule P1/P2 finds the entries this already let in.)
+        return "EMPTY", []
     if len(fb.data) != len(tgt):
         return "SIZE", []
     hard = [i for i in range(len(tgt)) if fb.mask[i] and fb.data[i] != tgt[i]]
@@ -5838,7 +6027,7 @@ class TULayout:
     """
 
     __slots__ = ("data", "mask", "parts", "relocs", "locals", "local_isa",
-                 "veneers")
+                 "veneers", "anon", "secs")
 
     def __init__(self, data, mask, parts, relocs, locals_=None):
         self.data = data        # bytes, the laid-out image
@@ -5848,6 +6037,8 @@ class TULayout:
         self.locals = locals_ or {}   # symbol -> offset within self.data
         self.local_isa = {}     # function symbol -> True if Thumb (from the
                                 #   $a/$t mapping symbols of its section)
+        self.anon = {}          # "@N" data object the code relocates
+                                #   against -> its bytes (string literals)
         self.veneers = []       # [(offset, size)] linker veneers taken from
                                 #   the image (see linker_gap())
 
@@ -5972,6 +6163,24 @@ def layout_tu(obj_path, image=None):
     tl = TULayout(bytes(data), mask, parts, relocs, locals_)
     tl.local_isa = local_isa
     tl.veneers = veneers
+    wanted = set(r[2] for r in relocs)
+    for n, v, sz, t, b, sh in syms:
+        if (n in wanted and n.startswith("@") and t == 1 and sz > 0
+                and 0 < sh < len(obj.sections)
+                and obj.sections[sh][1] == SHT_PROGBITS):
+            tl.anon[n] = bytes(obj.section_data(sh)[v:v + sz])
+    # The unit's own data objects per section symbol, as extract does for one
+    # function, so the own-static rule also applies to a whole-file check.
+    tl.secs = {}
+    for n, v, sz, t, b, sh in syms:
+        if (n in wanted and t == 3 and 0 < sh < len(obj.sections)
+                and obj.secnames[sh] == n and n != ".text"):
+            objs = sorted((on, ov, osz) for on, ov, osz, ot, ob, osh in syms
+                          if osh == sh and ot == 1 and osz > 0)
+            tl.secs[n] = {"align": obj.sections[sh][8] or 1,
+                          "size": obj.sections[sh][5],
+                          "nobits": obj.sections[sh][1] != SHT_PROGBITS,
+                          "objs": objs}
     return tl
 
 
@@ -6161,6 +6370,8 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
         fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text",
                          tl.relocs, tl.locals)
         fake.local_isa = tl.local_isa
+        fake.anon = dict(tl.anon)
+        fake.secs = dict(getattr(tl, "secs", None) or {})
         tu_decls = declared_symbols(read_header(src))
         resolve_relocations(fake, addr, tu_decls,
                             src=source_key(src), region=reg.name)
@@ -7379,16 +7590,21 @@ FUNC_XREGION = 0x02014468
 # 0x020AA260 is a data object eighteen literal pools name.
 DATA_LITERAL = 0x020AA260
 
-# 0x02072788 is a linker veneer in front of SND_SetMasterVolume: no label, no
-# branch to it anywhere in the image, and the only two words that hold its
-# address are the pool words of src/matched/unit_02005794.c.
-VENEER = 0x02072788
+# 0x02031E70 is an ARM linker veneer (ldr ip, [pc]; bx ip; .word 0x020338F8):
+# no label, no branch to it anywhere in the image, no pool word naming it, so
+# attest() reaches the `veneer` class itself.  (Was 0x02072788 until the
+# switch-following listings labelled it and gave it a caller; any unlabelled
+# ARM veneer with no witness at all does the same job.)
+VENEER = 0x02031E70
 # Veneer-shaped, but its pointer word names nothing this project can confirm
-# is a function, so the veneer rule refuses it: a long-branch stub whose
-# target lies in arm9i, outside every region in layout/layout.json.  (The
-# earlier fixture 0x02030BBC became a confirmed veneer once its target
-# 0x020305C4 was seeded and matched.)
-VENEER_UNCONFIRMED = 0x02006D3C
+# is a function, so the veneer rule refuses it: a long-branch stub in arm9
+# whose target 0x02731920 is DSi-only code with no listing label and no
+# vendor object (a NO_MATCH row of docs/restructure/twl_vendor.tsv), so no
+# layout/symbols_sdk.json row names it.  (The earlier fixtures became
+# confirmed veneers once their targets were named: 0x02030BBC when
+# 0x020305C4 was seeded and matched, 0x02006D3C when its target 0x027047C0,
+# SNDEXi_SetIirFilter, got its twl catalogue row on 2026-10-12.)
+VENEER_UNCONFIRMED = 0x02091284
 # The same job in Thumb, and deliberately not recognised: mwccarm emits these
 # eight bytes for a tail call, and 0x02005C3C is a committed instance of it in
 # src/matched/unit_02005C3C.c.
@@ -7412,10 +7628,12 @@ TWL_ARM9_ADDR = 0x0206DBF4
 # the literal-pool word just before TWL_FUNC (not a label).
 TWL_FUNC2 = 0x0272FEF4
 TWL_POOL = 0x027300EC
-# decrypted ov230: ica_anime's probe targets (slots 0, 3, 4 of the table at
-# 0x02188414), its own extent, a plain ov230 function outside every
-# decrypted range, and a second-layer encrypted body at ov230's base
-OV230D_SLOTS = (0x021882A0, 0x02188354, 0x02188390)
+# decrypted ov230: three of its range starts that no listing calls (the
+# earlier probe targets 0x021882A0, 0x02188354 and 0x02188390 now have
+# callers in the overlays sharing that window and are carried by `label`),
+# its own extent, a plain ov230 function outside every decrypted range, and
+# a second-layer encrypted body at ov230's base
+OV230D_SLOTS = (0x021888FC, 0x02188938, 0x02188974)
 OV230D_CALLER_LO = 0x02011D9C
 OV230D_CALLER_HI = 0x02011D9C + 272
 OV230D_PLAIN = 0x02188A0C
@@ -7465,6 +7683,9 @@ OVERLAY_XCALL_CANDIDATES = ("ov016", "ov021", "ov093")
 # well past it) and is not itself a table entry.
 RUNTIME_LL_SHL = 0x0209C074
 RUNTIME_NOT_AN_ENTRY = 0x0209C078
+# A synthetic extra table entry for the positive cases: unlabelled, uncalled,
+# unpooled (checked: attest() answers None for it without the injection).
+RUNTIME_SYNTH = 0x0209C07C
 
 # The `sdk` class.  Both are single-call leaf SDK wrappers with no other
 # direct caller or literal-pool reference anywhere in the image (see
@@ -7537,17 +7758,18 @@ SOLE_REF_INTERIOR = 0x0209D900
 SOLE_REF_CODE = 0x02096670
 
 # --- sole-ref/code, sole-ref/string (widened 2026-09-21) -------------------
-# 0x02005DA4 is a real func_ label (Thumb) with no in-region call
+# 0x02006448 is a real func_ label (Thumb) with no in-region call
 # (evidence().calls has no entry for it) and no cross-region branch either
 # (xregion_calls() agrees): the `label` class has no witness at all, and
 # nothing pools it either, so `attest()` used to refuse it outright.  It is
 # the pure sole-ref/code case: a traced function start, carried on the
-# layout alone.
-SOLE_REF_CODE_LABEL = 0x02005DA4   # was 0x02005230 until NitroMain (its caller) was traced
+# layout alone.  (Earlier fixtures, 0x02005230 and 0x02005DA4, became called
+# once their callers were traced; any Thumb label with no caller serves.)
+SOLE_REF_CODE_LABEL = 0x02006448
 # one halfword past the label above: still inside the function's own first
 # instruction, not itself a label start.  sole-ref/code must refuse an
 # address that is merely interior to a traced function.
-SOLE_REF_CODE_NONLABEL = 0x02005DA6
+SOLE_REF_CODE_NONLABEL = 0x02006448 + 2
 # "mail.c" (0x020A716C) and "wifilist.c" (0x020A7198): both immediately
 # follow a static table rather than a string (see
 # docs/idioms/a-string-after-a-data-table-has-no-witness.md), so
@@ -7557,14 +7779,16 @@ SOLE_REF_CODE_NONLABEL = 0x02005DA6
 SOLE_REF_STRING_AFTER_TABLE = 0x020A716C
 
 # --- sole-ref/self (2026-09-21) -------------------------------------------
-# A real ABS32-shaped site: the pool word at 0x02059FA4 holds 0x02005050, a
-# rodata address (in_data_section() agrees) that no code extent covers.  This
-# is the positive `self` case -- relocation agreement is the whole evidence,
-# no second referrer anywhere.  (Until 2026-10-10 this was 0x02004F94, which
-# is in fact a crt0 helper copied to WRAM; it is labelled code now,
-# src/game/arm9/unit_02004F94.c.)
-SOLE_REF_SELF_SITE = 0x02059FA4
-SOLE_REF_SELF_TARGET = 0x02005050
+# A real ABS32-shaped site: the pool word at 0x02025C84 holds 0x0209FB18, a
+# data address (in_data_section() agrees) that no code extent covers, that
+# no map row, block start or string starts at, and that nothing else attests
+# (attest_sole_ref() with an empty range gives None).  This is the positive
+# `self` case -- relocation agreement is the whole evidence.  (Earlier
+# fixtures 0x02004F94 and 0x02005050 became declared objects when
+# layout/data_objects.txt gained the crt0 and SDK version-string rows,
+# 2026-10-12.)
+SOLE_REF_SELF_SITE = 0x02025C84
+SOLE_REF_SELF_TARGET = 0x0209FB18
 # The pool word at 0x020052E0 holds 0x0200FB6D, a Thumb function pointer:
 # 0x0200FB6C is inside a traced function's extent, so in_data_section()
 # refuses it and `self` must too, however well the ROM word agrees.  Code
@@ -7580,20 +7804,21 @@ SOLE_REF_SELF_CODE_TARGET = 0x0200FB6C
 SOLE_REF_STRING_INTERIOR = SOLE_REF_ANCHOR + 1
 
 # --- the data-object map (layout/data_objects.txt, tools/datamap.py) -------
-# 0x020050AC is in the rodata of the ARM9 static module.  disasm.py emits no
+# 0x020A1C78 is in the rodata of the ARM9 static module.  disasm.py emits no
 # block start there and no ARM9 pool word names it; the ONLY reference to it
-# anywhere in the image is a literal-pool word in ov009's listing.  That is
-# the map's own case: evidence read from a file no ARM9 comparison ever
-# includes.
-SOLE_REF_MAP_OVERLAY = 0x020050AC
-SOLE_REF_MAP_OVERLAY_SITE = 0x02157588
-# 0x02005050 has exactly one referrer image-wide, the pool word at 0x02059FA4.
+# anywhere in the image is a literal-pool word in an overlay listing
+# (0x02185820).  That is the map's own case: evidence read from a file no
+# ARM9 comparison ever includes.  (Was 0x020050AC, ov009 0x02157588, until it
+# became a hand-declared SDK version string.)
+SOLE_REF_MAP_OVERLAY = 0x020A1C78
+SOLE_REF_MAP_OVERLAY_SITE = 0x02185820
+# 0x0209D8A0 has exactly one referrer image-wide, the pool word at 0x020055D8.
 # Outside that range the map attests it; with that one site inside the range
 # under test, the start has no witness left and the class must refuse it,
 # because a lone reference never attests its own start.  (Was 0x02004F94
-# until 2026-10-10, now labelled crt0 code.)
-SOLE_REF_MAP_LONE = 0x02005050
-SOLE_REF_MAP_LONE_SITE = 0x02059FA4
+# until 2026-10-10, now labelled crt0 code; then 0x02005050, now declared.)
+SOLE_REF_MAP_LONE = 0x0209D8A0
+SOLE_REF_MAP_LONE_SITE = 0x020055D8
 # one word past SOLE_REF_MAP_OVERLAY, and before the next map start at
 # 0x020050C4: an address BETWEEN two map starts is interior to neither's
 # object and is refused.
@@ -7649,9 +7874,14 @@ OV_MATCHED = 0x02168800
 OV_MATCHED_REGION = "ov010"
 OV_MATCHED_SRC = "src/matched/ov/func_02168800.c"
 OV_MATCHED_CALLER_SRC = "src/pending/overlay_selftest.c"
-# func_021DC2D8 (EXACT, layout/matched/ov175/pkt_021DC2D8.json), called at
-# 0x021DA82C by func_021DA6B8 (0x021DA6B8..0x021DADA8).
-OV175_MATCHED = 0x021DC2D8
+# func_021D4318 (EXACT, layout/matched/ov175/pkt_ov175_021D4318.json): only
+# ov175 has a matched entry there, nothing calls it, and its sole reference is
+# the function-pointer word 0x021E2C74.  The compared range below is the
+# extent of an unrelated ov175 function (func_021DA6B8, the scratch copy the
+# 2026-09-28 measurement was made from), so the entry lies outside it.
+# (Was func_021DC2D8, called by func_021DA6B8, until the listings labelled it
+# and `label` answered first.)
+OV175_MATCHED = 0x021D4318
 OV175_CALLER_LO = 0x021DA6B8
 OV175_CALLER_HI = 0x021DADA8
 
@@ -7820,6 +8050,7 @@ def _selftest_overlay_id():
     """End to end: the ov010 thunk func_0215FA34 is EXACT on `overlay_id`."""
     out = []
     work = tempfile.mkdtemp(prefix="bwself_")
+    _real_dt = _pw = _ev = None
     try:
         src = os.path.join(work, "ovid_selftest.c")
         with open(src, "w", newline="\n") as fh:
@@ -7828,6 +8059,35 @@ def _selftest_overlay_id():
                     True, "c99", region="ov010")
         _check(out, "overlay_id: func_0215FA34 (ov010, id 0x14 into "
                     "sub_02034AC4) is EXACT end to end", r.status, "EXACT")
+        # loaded_overlay_ids(): ov000 func_021542C0 hands 0x7B, 0x10 and 0x73
+        # (ov123, ov016, ov115) to the loader.  Those id words resolve as
+        # literal (the same small value is pooled elsewhere in the image),
+        # yet each sits on a proven path to an overlay loader, so they count
+        # as loaded; 0xAA resolves as overlay_id and counts as before.
+        p0 = os.path.join(ROOT, "src", "matched", "ov",
+                          "ov000_func_021542C0.c")
+        r = run_one(p0, "func_021542C0", 0x021542C0, "1.1p1", ["-O4,p"],
+                    True, "c99", region="ov000")
+        _sites = r.func.sites
+        _by = dict((st.name, st) for st in _sites)
+        _check(out, "loaded_overlay_ids: ov000 func_021542C0's ov123 id word "
+                    "resolves as literal and still counts as loaded",
+               (_by["ov123_id"].cls,
+                123 in loaded_overlay_ids(r.func, _sites, 0x021542C0)),
+               ("literal", True))
+        _check(out, "loaded_overlay_ids: an overlay_id word counts as before",
+               (_by["ov170_id"].cls,
+                170 in loaded_overlay_ids(r.func, _sites, 0x021542C0)),
+               ("overlay_id", True))
+        # A resolved literal word with a valid overlay index that no
+        # pc-relative load of the function addresses is on no loader path.
+        _fake = __import__("copy").copy(_by["ov016_id"])
+        _fake.off = len(r.func.data) + 4
+        _fake.value = 77
+        _check(out, "loaded_overlay_ids: a literal id word on no loader path "
+                    "does not count",
+               77 in loaded_overlay_ids(r.func, _sites + [_fake],
+                                        0x021542C0), False)
         # sole-ref/self on a contested ov115 hint, end to end: accepted in
         # func_02010AC4, which loads ov115; refused in the same function
         # once its ov115 id is declared as ov123's (no ov115 load left).
@@ -7837,6 +8097,20 @@ def _selftest_overlay_id():
                 p10 = os.path.join(dp, "func_02010AC4.c")
                 break
         text = open(p10).read()
+        # The 0x021D6338 table is now also named by a second real pool word
+        # (func_02010C34), an ov115 pointer table the data_table class reads,
+        # and the plain constant 0x73 by other pool words, so `literal` and
+        # `data_table` answer before sole-ref/self ever speaks.  The case is
+        # about the hint rule, so those witnesses are removed for the two
+        # compiles and restored after.
+        _ev = evidence()
+        _pw = {k: _ev.pool_words.get(k) for k in (0x021D6338, 0x73, 0x7B)}
+        _ev.pool_words[0x021D6338] = [w for w in _pw[0x021D6338] or ()
+                                      if not 0x02010C34 <= w < 0x02010E00]
+        _ev.pool_words.pop(0x73, None)
+        _ev.pool_words.pop(0x7B, None)
+        _real_dt = attest_data_table
+        globals()["attest_data_table"] = lambda *a, **k: None
         # beside the original: the struct headers are included by relative path
         acc = os.path.join(os.path.dirname(p10), "_selfhint_acc.c")
         with open(acc, "w", newline="\n") as fh:
@@ -7846,6 +8120,10 @@ def _selftest_overlay_id():
         _check(out, "sole-ref/self hint: func_02010AC4 (ov115 hint, "
                     "contested by ov021, loads ov115) is EXACT end to end",
                r.status, "EXACT")
+        _check(out, "sole-ref/self hint: and the contested 0x021D6338 site "
+                    "resolves as sole-ref, on the ov115 load alone",
+               [st.cls for st in getattr(r.func, "sites", None) or ()
+                if st.name == "d_021D6338"], ["sole-ref"])
         ref = os.path.join(os.path.dirname(p10), "_selfhint_ref.c")
         bad = re.sub(r"(ov115_id\s+)0x00000073", r"\g<1>0x0000007B", text)
         with open(ref, "w", newline="\n") as fh:
@@ -7859,6 +8137,14 @@ def _selftest_overlay_id():
                    for st in getattr(r.func, "sites", None) or ()),
                True)
     finally:
+        if _real_dt is not None:
+            globals()["attest_data_table"] = _real_dt
+        if _pw is not None:
+            for k, v in _pw.items():
+                if v is None:
+                    _ev.pool_words.pop(k, None)
+                else:
+                    _ev.pool_words[k] = v
         shutil.rmtree(work, ignore_errors=True)
         for leftover in ("_selfhint_acc.c", "_selfhint_ref.c"):
             p = os.path.join(ROOT, "src", "matched", "arm9", leftover)
@@ -7991,16 +8277,34 @@ def cmd_selftest(args):
                 cache[key] = val
 
     # --- the runtime class ---------------------------------------------
-    _check(res, "runtime: a curated MSL/runtime.a entry attests itself, no "
-                "label or outside call needed",
-           cls(attest(RUNTIME_LL_SHL, "arm", 0, 0)), "runtime")
-    _check(res, "runtime: every witness inside the compared range is still "
-                "irrelevant -- the table is never in any compared range",
-           cls(attest(RUNTIME_LL_SHL, "arm", 0x0209C000, 0x0209C100)),
-           "runtime")
-    _check(res, "runtime: a Thumb declaration against an ARM table entry is "
-                "refused",
-           cls(attest(RUNTIME_LL_SHL, "thumb", 0, 0)), None)
+    # Every curated entry is now a labelled function with outside callers, so
+    # `label` answers first for the real table.  The class is exercised on a
+    # table with one extra entry, RUNTIME_SYNTH: an address no listing labels
+    # and nothing calls or pools, so only the table can attest it.
+    _saved_rt = _RUNTIME_ADDRS.get("a")
+    _RUNTIME_ADDRS["a"] = dict(runtime_addresses())
+    _RUNTIME_ADDRS["a"][RUNTIME_SYNTH] = "_selftest_runtime_entry"
+    try:
+        _check(res, "runtime: a curated MSL/runtime.a entry attests itself, "
+                    "no label or outside call needed",
+               cls(attest(RUNTIME_SYNTH, "arm", 0, 0)), "runtime")
+        _check(res, "runtime: every witness inside the compared range is "
+                    "still irrelevant -- the table is never in any compared "
+                    "range",
+               cls(attest(RUNTIME_SYNTH, "arm", 0x0209C000, 0x0209C100)),
+               "runtime")
+        _check(res, "runtime: a Thumb declaration against an ARM table entry "
+                    "is refused",
+               cls(attest(RUNTIME_SYNTH, "thumb", 0, 0)), None)
+    finally:
+        if _saved_rt is None:
+            _RUNTIME_ADDRS.pop("a", None)
+        else:
+            _RUNTIME_ADDRS["a"] = _saved_rt
+    _check(res, "runtime: the real table's entries are all attested "
+                "(by `label` or `runtime`)",
+           all(cls(attest(a, "arm", 0, 0)) in ("label", "runtime")
+               for a in runtime_addresses()), True)
     _check(res, "runtime: an address inside the runtime range that is not "
                 "itself a listed entry does not attest",
            cls(attest(RUNTIME_NOT_AN_ENTRY, "arm", 0, 0)), None)
@@ -8045,25 +8349,20 @@ def cmd_selftest(args):
                          0x02701250, "ov172"), None)
 
     # --- the veneer class --------------------------------------------------
-    # VENEER's address is now also named by two real literal pool words
-    # (0x0200579C, 0x020057A8: untraced "ldr r3, [pc, #4]; movs r0, #0;
-    # bx r3" accessors that call through it, found by disasm.py's
-    # index_hidden_pool_words()), and `attest()` tries the `literal` class
-    # before `veneer`, so the overall address-level resolution now honestly
-    # reports the stronger evidence first. The two range-exclusion checks
-    # below are specifically about the veneer class's own logic, so they
-    # go straight at attest_veneer() rather than through attest(), the same
-    # way the string class's negatives go straight at attest_string() above.
+    # VENEER has no label, no caller and no pool word, so attest() reaches the
+    # `veneer` class itself.  The checks below go straight at attest_veneer()
+    # for the range exclusions, the same way the string class's negatives go
+    # straight at attest_string() above.
     _check(res, "veneer: a linker veneer attests its own address",
-           cls(attest(VENEER, "arm", 0, 0)), "literal")
+           cls(attest(VENEER, "arm", 0, 0)), "veneer")
     _check(res, "veneer: in isolation, a linker veneer attests its own "
                 "address",
            cls(attest_veneer(VENEER, "arm", 0, 0)), "veneer")
     _check(res, "veneer: a compared range covering the veneer is refused",
-           cls(attest_veneer(VENEER, "arm", 0x02072780, 0x020727A0)), None)
+           cls(attest_veneer(VENEER, "arm", VENEER - 8, VENEER + 0x20)), None)
     _check(res, "veneer: a compared range covering only its pointer word is "
                 "refused",
-           cls(attest_veneer(VENEER, "arm", 0x02072790, 0x02072794)), None)
+           cls(attest_veneer(VENEER, "arm", VENEER + 8, VENEER + 12)), None)
     _check(res, "veneer: the class never applies to a Thumb symbol",
            cls(attest_veneer(VENEER, "thumb", 0, 0)), None)
     _check(res, "veneer: the class never applies to data",
@@ -8358,8 +8657,8 @@ def cmd_selftest(args):
     _check(res, "sole-ref/self: the dispatcher reaches it only after data, "
                 "string and every stronger class have failed",
            (attest_sole_ref(SOLE_REF_SELF_TARGET, "data", 4,
-                            SOLE_REF_MAP_LONE_SITE - 0x40,
-                            SOLE_REF_MAP_LONE_SITE + 0x40,
+                            SOLE_REF_SELF_SITE - 0x40,
+                            SOLE_REF_SELF_SITE + 0x40,
                             SOLE_REF_SELF_SITE,
                             SOLE_REF_SELF_TARGET) or (None,))[-1],
            "self")
@@ -8481,12 +8780,23 @@ def cmd_selftest(args):
     how = "asm/twl/twl.s" if real_twl else "injected label table, no key"
     lo, hi = TWL_CALLER_LO, TWL_CALLER_HI
     try:
+        # Both callees are catalogued TwlSDK functions (libmi mi_ndma.o and
+        # mi_ndma_gxcommand.o rows of layout/symbols_sdk.json since
+        # 2026-10-12), so attest() reports the stronger `sdk` class first;
+        # the sole-ref/code rule itself is checked in isolation, the way the
+        # veneer class is above.
         for a in (TWL_FUNC, TWL_FUNC2):
             _check(res, "twl sole-ref/code: 0x%08X, called only from inside "
-                        "the compared range, is carried by attest() (%s)"
+                        "the compared range, is carried by the rule (%s)"
                         % (a, how),
-                   (attest(a, "arm", lo, hi, region_hint="twl")
+                   (attest_sole_ref(a, "arm", lo=lo, hi=hi,
+                                    region_hint="twl")
                     or (None,))[::3], ("sole-ref", "code"))
+            if real_twl:
+                _check(res, "twl sole-ref/code: attest() takes the catalogue "
+                            "row of 0x%08X first (%s)" % (a, how),
+                       cls(attest(a, "arm", lo, hi, region_hint="twl")),
+                       "sdk")
         _check(res, "twl sole-ref/code: an interior address (start + 4) is "
                     "refused (%s)" % how,
                cls(attest_sole_ref(TWL_FUNC + 4, "arm", lo=lo, hi=hi,
@@ -8551,8 +8861,8 @@ def cmd_selftest(args):
                view is not None and all(a in view.entry_points()
                                         for a in OV230D_SLOTS), True)
         for a in OV230D_SLOTS:
-            _check(res, "ov230d sole-ref/code: slot 0x%08X, called only from "
-                        "inside func_02011D9C, is carried by attest() (%s)"
+            _check(res, "ov230d sole-ref/code: slot 0x%08X, which no "
+                        "listing calls, is carried by attest() (%s)"
                         % (a, how),
                    (attest(a, "arm", lo, hi, region_hint="ov230d")
                     or (None,))[::3], ("sole-ref", "code"))
@@ -8993,6 +9303,15 @@ def cmd_selftest(args):
                 "the entry",
            cmp_case(b"\xAA\xBB\xCC\xDD", [1, 1, 0, 1], b"\x00\xBB\xCC\xDD"),
            "DIFF")
+    # An empty body (`asm void f(void) {}`) compiles to no bytes.  Zero
+    # bytes compared with zero bytes passed vacuously and came out EXACT
+    # (src/matched/twl_sdk/func_027073AC.c and two others did): it is EMPTY,
+    # whatever the target, never EXACT and not a SIZE miss to fix.
+    _check(res, "compare: a 0-byte compile against a 0-byte target is "
+                "EMPTY, not a vacuous EXACT",
+           cmp_case(b"", [], b""), "EMPTY")
+    _check(res, "compare: a 0-byte compile against real bytes is EMPTY",
+           cmp_case(b"", [], b"\xAA\xBB\xCC\xDD"), "EMPTY")
 
     # --- the declared ISA of a call target ---------------------------------
     def conflict(addr, kind):
@@ -9214,6 +9533,18 @@ def cmd_selftest(args):
                 "refused",
            attest_linker(solo, 0x120, "SDK_LTDAUTOLOAD_LTDMAIN_START",
                          0x02735B40, 0, solo, sohi), None)
+    gilo, gihi = 0x02086694, 0x02086760          # OS_GetInitArenaLo
+    for _nm, _off, _val in (
+            ("SDK_SECTION_ARENA_ITCM_START", 0xC0, 0x01FF8820),
+            ("SDK_MAIN_ARENA_LO", 0xB0, 0x02213D20),
+            ("SDK_SECTION_ARENA_EX_START", 0xBC, 0x02400060),
+            ("SDK_LTDMAIN_EX_ARENA_LO", 0xB8, 0x0D000000)):
+        _check(res, "linker: %s in OS_GetInitArenaLo is derived (%#x)"
+                    % (_nm, _val),
+               cls(attest_linker(gilo, _off, _nm, _val, 0, gilo, gihi)),
+               "linker")
+        _check(res, "linker: %s with a pool word 4 off is refused" % _nm,
+               attest_linker(gilo, _off, _nm, _val + 4, 0, gilo, gihi), None)
     got = attest_linker(thlo, 0x120, "SDK_SYS_STACKSIZE", 0x1800, 0,
                         thlo, thhi)
     _check(res, "linker: SDK_SYS_STACKSIZE in OS_InitThread is witnessed by "
@@ -9320,14 +9651,15 @@ def cmd_selftest(args):
     # 0x021CADE4 in the image.
     ybw = 0x021C0C3C
 
-    def _own_static(secinfo, decl_lines, addend=0, sec=".bss"):
+    def _own_static(secinfo, decl_lines, addend=0, sec=".bss", at=ybw,
+                    reg="ov172"):
         fb = FuncBytes("t", bytes(200), bytearray(b"\x01" * 200), False,
                        ".text", [(0xC0, R_ARM_ABS32, sec, addend)])
         for k in range(0xC0, 0xC4):
             fb.mask[k] = 0
         fb.secs = {sec: secinfo}
         decls = dict((n, Decl(n, a, "data", "header")) for n, a in decl_lines)
-        resolve_relocations(fb, ybw, decls, 200, region="ov172")
+        resolve_relocations(fb, at, decls, 200, region=reg)
         return fb.sites[0]
     _objs = [("gBitLen", 0, 4), ("gBitCode", 4, 4), ("gWriteLimit", 8, 4)]
     _bss = {"align": 4, "size": 12, "nobits": True, "objs": _objs}
@@ -9359,6 +9691,40 @@ def cmd_selftest(args):
     got = _own_static(dict(_bss, align=8), _good)
     _check(res, "static: a base that breaks the section alignment is refused",
            (got.resolved, "alignment" in got.reason), (False, True))
+    # twl: no vendor object.  data_02735B00 (a 0x20-byte static, `.bss`+0x20
+    # in func_02707570.c) is referenced by one pool word in the image, at
+    # 0x218 from 0x02707558: the test places the site on it.
+    _tw = 0x02707558 + 0x218 - 0xC0
+    _tbss = {"align": 4, "size": 0x60, "nobits": True,
+             "objs": [("data_02735AE0", 0, 4), ("data_02735B00", 0x20, 0x20)]}
+    _tgood = [("data_02735AE0", 0x02735AE0), ("data_02735B00", 0x02735B00)]
+    got = _own_static(_tbss, _tgood, addend=0x20, at=_tw, reg="twl")
+    _check(res, "static/twl: .bss based inside twl's bss span, addend inside "
+                "the section, witnessed in the image, is accepted",
+           (got.resolved, got.value), (True, 0x02735B00))
+    got = _own_static(_tbss, [("data_02735AE0", 0x02735B00),
+                              ("data_02735B00", 0x02735B20)],
+                      addend=0x20, at=_tw, reg="twl")
+    _check(res, "static/twl: a base whose section runs past twl's bss_end "
+                "is refused",
+           (got.resolved, "bss span" in got.reason), (False, True))
+    got = _own_static(_tbss, [("data_02735AE0", 0x02732D80),
+                              ("data_02735B00", 0x02732DA0)],
+                      addend=0x20, at=_tw, reg="twl")
+    _check(res, "static/twl: a base below twl's bss_start is refused",
+           (got.resolved, "bss span" in got.reason), (False, True))
+    got = _own_static(_tbss, _tgood, addend=0x60, at=_tw, reg="twl")
+    _check(res, "static/twl: an addend past the section size is refused",
+           (got.resolved, "past the end" in got.reason), (False, True))
+    got = _own_static(dict(_tbss, align=64), _tgood, addend=0x20, at=_tw,
+                      reg="twl")
+    _check(res, "static/twl: a base that breaks the section alignment is "
+                "refused",
+           (got.resolved, "alignment" in got.reason), (False, True))
+    got = _own_static(_tbss, _tgood, addend=0x20, at=_tw, reg="ov172")
+    _check(res, "static/twl: the same base claimed from an overlay is "
+                "refused",
+           (got.resolved, "bss span" in got.reason), (False, True))
     got = _own_static(_bss, [(n, a + 0x100) for n, a in _good])
     _check(res, "static: a consistent layout at an address with no witness "
                 "is refused (a declaration alone proves nothing)",
@@ -9389,6 +9755,7 @@ def cmd_selftest(args):
 
     # --- the three documented end-to-end behaviours -----------------------
     res += _selftest_member()
+    res += _selftest_game_string()
     if not args.quick:
         res += _selftest_resolution()
         res += _selftest_overlay_id()
@@ -9449,6 +9816,44 @@ def _selftest_resolution():
             _check(out, name, r.status, want)
     finally:
         shutil.rmtree(work, ignore_errors=True)
+    return out
+
+
+def _selftest_game_string():
+    """attest_game_string(): a string literal's `@N` in game code with no
+    vendor object (the "g711" literal of the twl image at 0x02732D7C)."""
+    out = []
+    a = 0x02732D7C
+    ours = b"g711" + bytes(1)
+    fb = FuncBytes("f", bytes(8), bytearray(b"" * 8), False, ".text", [])
+    fb.anon["@20"] = ours
+    d = Decl("@20", a, "data", "header")
+    lo, hi = 0x02707278, 0x02707310
+
+    def go(decl=d, addend=0, text=ours, lo=lo, hi=hi, region="twl"):
+        fb.anon["@20"] = text
+        return attest_game_string(fb, "@20", addend, {"@20": decl}, region,
+                                  lo, hi)
+
+    got = go()
+    _check(out, "game string: image bytes equal our literal, run start "
+                "outside the range: sole-ref/string",
+           got and got[1][:4], ("sole-ref", 1, a, "string"))
+    _check(out, "game string: our literal differs from the image, refused",
+           go(text=b"g712" + bytes(1)), None)
+    _check(out, "game string: a longer literal than the image run, refused",
+           go(text=b"g711x" + bytes(1)), None)
+    _check(out, "game string: a shorter literal than the image run, refused",
+           go(text=b"g71" + bytes(1)), None)
+    _check(out, "game string: a nonzero addend, refused",
+           go(addend=1), None)
+    _check(out, "game string: the run inside the compared range, refused",
+           go(lo=a - 8, hi=a + 8), None)
+    _check(out, "game string: an interior offset of the run, refused",
+           go(decl=Decl("@20", a + 1, "data", "header"),
+              text=b"711" + bytes(1)), None)
+    _check(out, "game string: a code address, refused",
+           go(decl=Decl("@20", 0x02707278, "data", "header")), None)
     return out
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02004EA8
+ * function: _start_AutoloadDoneCallback
  * address:  0x02004EA8
  * packet:   pkt_02004EA8
  * region:   arm9
@@ -16,6 +16,6 @@
  *           lands here.  Seeded in layout/function_starts.txt.
  */
 
-void func_02004EA8(void)
+void _start_AutoloadDoneCallback(void)
 {
 }

@@ -108,7 +108,7 @@ int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *a
  * Tail call with the constant pair (0, -1).
  */
 void func_0217ECF8(void);
-int accept(int sock, struct SOCSockAddr * addr, int * len);
+int getsockname(int sock, struct SOCSockAddr * addr, int * len);
 /*
  * The word the call fills in, or -1.
  */
@@ -281,7 +281,7 @@ void func_0217ECF8(void)
 
 
 
-int accept(int sock, struct SOCSockAddr * addr, int * len)
+int getsockname(int sock, struct SOCSockAddr * addr, int * len)
 {
     int rcode;
 

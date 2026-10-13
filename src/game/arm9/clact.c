@@ -784,7 +784,7 @@ int sub_0204AEF4(u32 idx, u32 alternate);
 s32 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 void sub_0204AFD8(u32 i);
 struct OamState *func_0204B034(const struct OamInit *a0, u32 a1, u32 heap);
-asm void func_0204B084(void);
+void func_0204B084(struct OamState *p);
 void func_0204B09C(struct OamState *o, int idx, struct Vec2 *v);
 void sub_0204B0C8(struct OamState *owner, u32 index, struct Vec2 *out);
 void func_0204B0F4(struct OamState *a0, int a1);
@@ -1770,14 +1770,10 @@ struct OamState *func_0204B034(const struct OamInit *a0, u32 a1, u32 heap)
 
 
 
-asm void func_0204B084(void)
+void func_0204B084(struct OamState *p)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r0
-    bl func_0204BE28
-    mov	r0, r4
-    bl sub_020307B0
-    ldmfd sp!, {r4, pc}
+    func_0204BE28(p);
+    sub_020307B0(p);
 }
 
 

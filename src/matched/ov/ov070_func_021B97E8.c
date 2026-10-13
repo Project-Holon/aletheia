@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocked: func_0201C1E8 (arm9 unlabelled leaf, Ilias's; 12 bytes, tail stub)
+ * blocked: func_0201C1E8 (arm9 unlabelled leaf, the integrator's; 12 bytes, tail stub)
  * has no witness outside this function. Verified C for the leaf (EXACT,
  * thumb, arm9, no region):
  *   extern int func_0201BD28(int, int);   // symbols: func_0201BD28 0x0201BD28 thumb

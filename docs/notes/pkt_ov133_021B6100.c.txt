@@ -10,7 +10,7 @@
  * status: DIFF
  * residual: 408 bytes versus 404, 163 concrete differences, 18/18 relocations resolved; constructor stores and divisor/multiply register allocation differ, trailing code shifted.
  * checks: W78 1 own ARM9 definitions/ov133 callees and 9028 arity reread; 2 6E74/9B48/9DE8 neighbours and constructor layout refreshed; 3 u16 heap unchanged163; 4 shared divisor/product worsened171, enum divisor restored163, relevant constant/register idioms read; 5 current directory and neighbours refreshed. Four one runs; original 408-byte C retained after three nonshrinking changes. Earlier once300 consumed including rejected baseline, not repeated; FINAL retry-exhausted.
- * protected-tool: tools/permuter.py Scorer._post omits region in resolve_relocations(fb,c["addr"],self.decls,src=self.srckey); replacement adds region=self.reg.name. Fixed one and emitted one resolve 18/18 versus search baseline unresolved1; Ilias owns correction, tools untouched.
+ * protected-tool: tools/permuter.py Scorer._post omits region in resolve_relocations(fb,c["addr"],self.decls,src=self.srckey); replacement adds region=self.reg.name. Fixed one and emitted one resolve 18/18 versus search baseline unresolved1; the integrator owns correction, tools untouched.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021B69AC 0x021B69AC thumb ov133

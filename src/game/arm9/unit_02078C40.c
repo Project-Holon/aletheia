@@ -1,7 +1,7 @@
 /*
  * file:     unit_02078C40.c
  * unit:     yes
- * function: func_02078C40, func_02078CB0, func_02078CCC, func_02078D08, func_02078D34, func_02078EB0, func_02078F30, func_0207902C, func_02079164, func_02079254, func_02079264, func_020792B8
+ * function: func_02078C40, func_02078CB0, func_02078CCC, func_02078D08, func_02078D34, func_02078EB0, func_02078F30, func_0207902C, FS_EndOverlay, FS_UnloadOverlayImage, func_02079264, func_020792B8
  * address:  0x02078C40
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -179,8 +179,8 @@ BOOL func_02078D34(FSOverlayInfo *p_ovi, u32 target, u32 id);
 BOOL func_02078EB0(FSOverlayInfo *p_ovi);
 BOOL func_02078F30(const u8 *spec_digest, void *src, int len, BOOL table_mode);
 void func_0207902C(FSOverlayInfo *p_ovi);
-void func_02079164(FSOverlayInfo *p_ovi);
-BOOL func_02079254(FSOverlayInfo *p_ovi);
+void FS_EndOverlay(FSOverlayInfo *p_ovi);
+BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi);
 BOOL func_02079264(int target, u32 id);
 int func_020792B8(int target, u32 id);
 
@@ -449,7 +449,7 @@ void func_0207902C(FSOverlayInfo *p_ovi)
  * 0x02079164..0x02079264: the callback-flush worker and its one-line
  * wrapper.
  *
- * func_02079164 repeatedly detaches, inside the 0x02087988/0x0208799C
+ * FS_EndOverlay repeatedly detaches, inside the 0x02087988/0x0208799C
  * critical section, every node of the global list g_021542B8 whose
  * callback argument (+8) falls in the overlay's byte range, or whose
  * callback function (+4) does when the argument is null, then runs the
@@ -473,7 +473,7 @@ void func_0207902C(FSOverlayInfo *p_ovi)
  *    loop body's declarations here; moving either one inside the block
  *    moves eight or more bytes.
  */
-void func_02079164(FSOverlayInfo *p_ovi)
+void FS_EndOverlay(FSOverlayInfo *p_ovi)
 {
     Node02079164 *prev;
     Node02079164 *list;
@@ -541,9 +541,9 @@ void func_02079164(FSOverlayInfo *p_ovi)
     }
 }
 
-BOOL func_02079254(FSOverlayInfo *p_ovi)
+BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi)
 {
-    func_02079164(p_ovi);
+    FS_EndOverlay(p_ovi);
     return 1;
 }
 
@@ -567,7 +567,7 @@ BOOL func_02079264(int target, u32 id)
 
 /*
  * Builds the 44-byte overlay info on the stack from (target, id) and, if
- * that succeeded, runs func_02079254 on it once; the result is normalised
+ * that succeeded, runs FS_UnloadOverlayImage on it once; the result is normalised
  * to 0/1.
  */
 /*
@@ -582,7 +582,7 @@ int func_020792B8(int target, u32 id)
 {
     FSOverlayInfo ovi;
 
-    if (func_02078D34(&ovi, target, id) != 0 && func_02079254(&ovi) != 0) {
+    if (func_02078D34(&ovi, target, id) != 0 && FS_UnloadOverlayImage(&ovi) != 0) {
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02731254
+ * function: MIi_UnlockWramManagerRI
  * address:  0x02731254
  * packet:   twl_sys
  * region:   twl
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_0208799C 0x0208799C arm
- *   func_02731210 0x02731210 arm twl
+ *   MI_UnlockWramManager 0x02731210 arm twl
  */
 typedef unsigned int u32;
 
 extern void func_0208799C(u32);
-extern void func_02731210(u32 id);
+extern void MI_UnlockWramManager(u32 id);
 
-void func_02731254(u32 id, u32 irq)
+void MIi_UnlockWramManagerRI(u32 id, u32 irq)
 {
-    func_02731210(id);
+    MI_UnlockWramManager(id);
     func_0208799C(irq);
 }

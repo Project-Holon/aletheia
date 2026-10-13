@@ -16,7 +16,7 @@
  * the case-1 test), ours branches straight to `set` (0x022005B6). All
  * registers, the dense 4-entry switch table (cases 1 and 2 with empty 0/3
  * arms) and case 2's cmp 2 / cmp 5 / cmp 6 chain match. Also blocked on the
- * unfiled ARM9 leaf func_02016394 (Ilias's); verified C for it:
+ * unfiled ARM9 leaf func_02016394 (the integrator's); verified C for it:
  *
  *   typedef struct { char pad[0x140]; unsigned int lo : 30; unsigned int f : 1;
  *                    unsigned int hi : 1; } S;

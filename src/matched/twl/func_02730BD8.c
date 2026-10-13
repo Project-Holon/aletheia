@@ -1,5 +1,5 @@
 /*
- * function: func_02730BD8
+ * function: MI_FreeWramSlot
  * address:  0x02730BD8
  * packet:   twl_sys
  * region:   twl
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02730C2C 0x02730C2C arm twl
- *   func_02731234 0x02731234 arm twl
- *   func_02731254 0x02731254 arm twl
+ *   MIi_DoFreeWramSlot 0x02730C2C arm twl
+ *   MIi_LockWramManagerDI 0x02731234 arm twl
+ *   MIi_UnlockWramManagerRI 0x02731254 arm twl
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02730C2C(u32 ch, int start, int n, u32 val);
-extern u32 func_02731234(u16 *p);
-extern void func_02731254(u32 id, u32 irq);
+extern u32 MIi_DoFreeWramSlot(u32 ch, int start, int n, u32 val);
+extern u32 MIi_LockWramManagerDI(u16 *p);
+extern void MIi_UnlockWramManagerRI(u32 id, u32 irq);
 
-u32 func_02730BD8(u32 ch, int start, int n, u32 val)
+u32 MI_FreeWramSlot(u32 ch, int start, int n, u32 val)
 {
     u16 sv;
     u32 irq, r;
 
-    irq = func_02731234(&sv);
-    r = func_02730C2C(ch, start, n, val);
-    func_02731254(sv, irq);
+    irq = MIi_LockWramManagerDI(&sv);
+    r = MIi_DoFreeWramSlot(ch, start, n, val);
+    MIi_UnlockWramManagerRI(sv, irq);
     return r;
 }

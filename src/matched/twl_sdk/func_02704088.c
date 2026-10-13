@@ -1,5 +1,5 @@
 /*
- * function: func_02704088
+ * function: MicexStopLimitedSampling
  * address:  0x02704088
  * packet:   twl_sys
  * region:   twl
@@ -22,7 +22,7 @@ typedef signed int s32;
 
 extern s32 func_02088610(u32, u32, u32);
 
-u32 func_02704088(void) {
+u32 MicexStopLimitedSampling(void) {
     u32 res = 0;
     if (func_02088610(9, 0x03004500, 0) >= 0) {
         res = 1;

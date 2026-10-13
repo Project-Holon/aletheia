@@ -1,0 +1,110 @@
+/*
+ * file:     nwm_cmd.c
+ * unit:     yes
+ * function: NWMi_SetCallbackTable, NWMi_SetReceiveCallbackTable, NWMi_SendCommand, NWMi_SendCommandDirect, NwmGetCommandBuffer4Arm7
+ * address:  0x02703A34
+ * region:   twl
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ * sdk:      libnwm.TWL.HYB.a nwm_cmd.o
+ *
+ * symbols:
+ *   NWMi_GetSystemWork  0x027026DC  arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+extern u32 NWMi_GetSystemWork(void);
+extern void func_020862D4(u16 *, u32);
+extern s32 func_02088610(u32, u16 *, u32);
+extern void func_02085DBC(u32, u16 *, u32);
+extern void func_02082D44(u32, u16 *, u32);
+extern u32 func_02085E50(u32, u16 **, u32);
+extern void func_020862B8(void *, u32);
+void NWMi_SetCallbackTable(u32 a0, u32 a1);
+void NWMi_SetReceiveCallbackTable(u32 a0, u32 a1);
+u32 NWMi_SendCommand(u16 a0, u16 a1, ...);
+u32 NWMi_SendCommandDirect(u32 a0, u32 a1);
+u16 *NwmGetCommandBuffer4Arm7(void);
+
+void NWMi_SetCallbackTable(u32 a0, u32 a1) {
+    u32 base = NWMi_GetSystemWork();
+    *(u32 *)(base + (a0 << 2) + 0x2284) = a1;
+}
+
+void NWMi_SetReceiveCallbackTable(u32 a0, u32 a1) {
+    u32 base = NWMi_GetSystemWork();
+    *(u32 *)(base + (a0 << 2) + 0x22D4) = a1;
+}
+
+u32 NWMi_SendCommand(u16 a0, u16 a1, ...) {
+    u32 ret;
+    s32 res;
+    char *ap;
+    s32 i;
+    s32 n;
+    u16 *msg;
+    u32 base;
+
+    base = NWMi_GetSystemWork();
+    msg = NwmGetCommandBuffer4Arm7();
+    if (msg == 0) {
+        return 6;
+    }
+    msg[0] = a0;
+    ap = (char *)(((u32)&a1 & ~3) + 4);
+    n = a1;
+    for (i = 0; i < n; i++) {
+        ((u32 *)msg)[1 + i] = *(u32 *)((ap += 4) - 4);
+    }
+    func_020862D4(msg, 0x100);
+    res = func_02088610(0x16, msg, 0);
+    func_02085DBC(base + 0x2000, msg, 1);
+    ret = 6;
+    if (res >= 0) {
+        ret = 2;
+    }
+    return ret;
+}
+
+u32 NWMi_SendCommandDirect(u32 a0, u32 a1) {
+    u32 base = NWMi_GetSystemWork();
+    u16 *msg = NwmGetCommandBuffer4Arm7();
+    s32 res;
+    u32 ret;
+
+    if (msg == 0) {
+        return 6;
+    }
+    func_02082D44(a0, msg, a1);
+    func_020862D4(msg, a1);
+    res = func_02088610(0x16, msg, 0);
+    func_02085DBC(base + 0x2000, msg, 1);
+    ret = 6;
+    if (res >= 0) {
+        ret = 2;
+    }
+    return ret;
+}
+
+u16 *NwmGetCommandBuffer4Arm7(void) {
+    u16 *msg = 0;
+    u32 base = NWMi_GetSystemWork();
+
+    do {
+        if (func_02085E50(base + 0x2000, &msg, 0) == 0) {
+            return 0;
+        }
+        func_020862B8((void *)base, 0x2000);
+        func_020862B8(msg, 2);
+        if (!(*msg & 0x8000)) {
+            func_02085DBC(base + 0x2000, msg, 1);
+            msg = 0;
+        }
+    } while (msg == 0);
+    return msg;
+}

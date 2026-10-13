@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: 0x0204B5E4 ARM9 ARM, sole unresolved relocation in own MATCH 212; unit_0204B5D4.c defines sub_0204B5E4 but omits it from function: header. Owner unit and shard require Ilias maintenance.
+ * blocker: 0x0204B5E4 ARM9 ARM, sole unresolved relocation in own MATCH 212; unit_0204B5D4.c defines sub_0204B5E4 but omits it from function: header. Owner unit and shard require the integrator maintenance.
  * Verified blocker C: one --arm without region, fixed compiler/flags/lang, EXACT 16 (scratch b5e4.c and b5e4-verify.log).
  * typedef unsigned long u32;
  * typedef struct { char pad[0x14]; u32 a; u32 b; } Actor;

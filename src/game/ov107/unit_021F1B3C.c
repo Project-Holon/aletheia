@@ -172,7 +172,7 @@ extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
 extern void func_02082A48(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
 extern int func_021F2A44(void);
-void MB_CommSetChildStateCallback(WMCallback_021F1B3C callback);
+void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback);
 void *func_021F1B64(unsigned short child_aid);
 int func_021F1BE0(unsigned short child_aid);
 int func_021F1C30(unsigned short child_aid, int ack);
@@ -198,7 +198,7 @@ extern char g_021F6E4C[];
 
 
 
-void MB_CommSetChildStateCallback(WMCallback_021F1B3C callback)
+void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback)
 {
     u32 enabled;
 

@@ -19,8 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x0205BEA8",
-     "0x0205C758"
+     "0x0205BEA8"
     ]
    }
   }

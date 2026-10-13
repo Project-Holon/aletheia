@@ -11,7 +11,7 @@
  *
  * Blocker (evidence class: none image-wide): both calls to func_02021728
  * (0x02021728, arm9, Thumb) are inside this function; that address is an
- * unlabelled arm9 leaf (Ilias's) with no outside witness. Verified C for it
+ * unlabelled arm9 leaf (the integrator's) with no outside witness. Verified C for it
  * (EXACT, region arm9, --cc 1.1p1 --thumb, no relocations):
  *
  *   int func_02021728(char *p, int i)

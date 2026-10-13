@@ -9,7 +9,7 @@
  * status: EXACT
  * blocker: ARM9 Thumb tails 0200BA58 and 0200BA68 lack matched/label witnesses.
  * Scratch-only tails each EXACT 16B; blocker-0200BA58.log and blocker-0200BA68.log.
- * TU/suggest-split MATCH: no viable partition; Ilias owns ARM9 filing.
+ * TU/suggest-split MATCH: no viable partition; the integrator owns ARM9 filing.
  * Verified blocker C (symbols: ov188_id 0x000000BC data a1;
  * func_02034AC4 0x02034AC4 arm; func_02034A5C 0x02034A5C arm):
  * extern const char ov188_id[];

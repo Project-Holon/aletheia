@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: func_020508EC (0x020508EC) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u32 func_020508EC(u8 *p, int i, u16 *out) reads a u16 at record+0x1C, stores it, returns a range test; see the pending ov021 files that already name it
  *

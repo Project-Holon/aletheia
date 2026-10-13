@@ -18,7 +18,7 @@
  *   func_0208EE60  0x0208EE60  arm
  *   func_02166880  0x02166880  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_0273199C  0x0273199C  arm  twl
+ *   WCMi_NwmifStartupAsync  0x0273199C  arm  twl
  *   g_021AA7D4  0x021AA7D4  data ov009
  *
  * Starts up the WCM: configures it in the idle phase, then starts the WM or NWM device if a channel is allowed.
@@ -42,7 +42,7 @@ extern void func_021657D8(struct WCMConfig *config, void (*notify)(void *));
 extern unsigned short func_0208EE60(void);
 extern long func_02166880(void);
 extern int OS_IsRunOnTwl(void);
-extern long func_0273199C(void);
+extern long WCMi_NwmifStartupAsync(void);
 
 long func_02164F98(void *config, void (*notify)(void *))
 {
@@ -77,7 +77,7 @@ long func_02164F98(void *config, void (*notify)(void *))
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = func_0273199C();
+            wcmResult = WCMi_NwmifStartupAsync();
             break;
         }
     default:

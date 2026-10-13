@@ -1,5 +1,5 @@
 /*
- * function: func_0272F368
+ * function: CARDi_ReadRomHashImageDirect
  * address:  0x0272F368
  * packet:   twl_sys
  * region:   twl
@@ -15,8 +15,8 @@
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
  *   func_020857B0 0x020857B0 arm
- *   func_0272EE98 0x0272EE98 arm twl
- *   func_0272EC38 0x0272EC38 arm twl
+ *   CARDi_TouchRomHashBlock 0x0272EE98 arm twl
+ *   CARDi_CompareHash 0x0272EC38 arm twl
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -57,10 +57,10 @@ extern u32 func_0209C2B0(u32, u32);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
 extern void func_020857B0(int);
-extern struct Node *func_0272EE98(struct Obj *obj, u32 key);
-extern void func_0272EC38(u32 *expect, void *data, u32 len);
+extern struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 key);
+extern void CARDi_CompareHash(u32 *expect, void *data, u32 len);
 
-void func_0272F368(struct Obj *obj, u8 *buf, u32 off, u32 len)
+void CARDi_ReadRomHashImageDirect(struct Obj *obj, u8 *buf, u32 off, u32 len)
 {
     u32 psz = obj->f20;
     u32 per = obj->f24;
@@ -84,12 +84,12 @@ void func_0272F368(struct Obj *obj, u8 *buf, u32 off, u32 len)
         u32 n;
 
         n = obj->f34(obj->f30, buf, off, end - off);
-        func_0272EE98(obj, key);
+        CARDi_TouchRomHashBlock(obj, key);
         if (obj->f38 != 0 && off + n < end) {
             obj->f38(obj->f30, 0, off + n, end - (off + n));
         }
         while (n >= psz) {
-            struct Node *node = func_0272EE98(obj, key);
+            struct Node *node = CARDi_TouchRomHashBlock(obj, key);
             u32 idx = key - node->f4 * per;
 
             for (; idx < per && n >= psz; idx++, key++) {
@@ -103,11 +103,11 @@ void func_0272F368(struct Obj *obj, u8 *buf, u32 off, u32 len)
                         obj->used_b = node->next;
                     }
                     func_0208799C(irq);
-                    func_0272EC38((u32 *)(obj->hash + node->f4 * 0x14), (void *)node->fc, per * 0x14);
+                    CARDi_CompareHash((u32 *)(obj->hash + node->f4 * 0x14), (void *)node->fc, per * 0x14);
                     node->next = obj->cache_b;
                     obj->cache_b = node;
                 }
-                func_0272EC38((u32 *)(node->fc + idx * 0x14), buf, psz);
+                CARDi_CompareHash((u32 *)(node->fc + idx * 0x14), buf, psz);
                 n -= psz;
                 off += psz;
                 buf += psz;

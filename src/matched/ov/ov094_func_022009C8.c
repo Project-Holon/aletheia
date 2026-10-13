@@ -19,7 +19,7 @@
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  *
- * MATCH: bytes identical; blocked on two unfiled ARM9 Thumb leaves (Ilias's),
+ * MATCH: bytes identical; blocked on two unfiled ARM9 Thumb leaves (the integrator's),
  * no witness outside this range. Verified C, each EXACT with `one --thumb`
  * and no --region (cc 1.1p1, -O4,p), packets pkt_02015CC4 / pkt_02015CDC:
  *

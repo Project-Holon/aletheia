@@ -134,7 +134,7 @@ extern void initPageEx(NCFGConfigEx *configEx, int page);
 extern int  writeAllExSlots(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
 extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 extern s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
-asm void NCFG_ReadConfig(void);
+u32 NCFG_ReadConfig(NCFGConfig *config);
 s32 func_0205FAC0(void *work);
 s32 func_0205FB1C(void *work);
 s32 func_0205FB8C(NCFGConfig *config, MATHCRC16Table *tbl);
@@ -147,14 +147,9 @@ int func_02060094(NCFGConfig *config, MATHCRC16Table *tbl);
 int func_02060140(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
 
 
-asm void NCFG_ReadConfig(void)
+u32 NCFG_ReadConfig(NCFGConfig *config)
 {
-    stmfd sp!, {r3, lr}
-    bl func_0205FFC4
-    cmp	r0, #0
-    movne	r0, #0
-    mvneq	r0, #0
-    ldmfd sp!, {r3, pc}
+    return func_0205FFC4(config) ? 0 : 0xFFFFFFFF;
 }
 
 

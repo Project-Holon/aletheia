@@ -252,7 +252,7 @@ int func_021859C0(void **connection, char *authtoken, char *partnerchallenge, in
 void gpDisconnect(void **connection);
 int func_02185B10(void **connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int blocking, GPCallback callback, void *param);
 int func_02185BD8(void **connection, int profile, int checkCache, int blocking, GPCallback callback, void *param);
-int gpSetInfoi(void **connection, int info, int value);
+int gpSetInfosA(void **connection, int info, int value);
 int func_02185D04(void **connection, int profile, char *reason);
 int gpAuthBuddyRequest(void **connection, int profile);
 int func_02185EE4(void **connection, int profile);
@@ -462,7 +462,7 @@ int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
 
 
 
-int gpSetInfoi(void **connection, int info, int value)
+int gpSetInfosA(void **connection, int info, int value)
 {
     GPIConnection_02185CB4 *iconnection;
 

@@ -145,17 +145,15 @@ typedef struct tagACWORK {
 } ACWORK;
 
 extern void *DWCi_AC_GetMemPtr(u32 name);
-asm void GetNotFoundAP(void);
+int GetNotFoundAP(ACHOLD *hd);
 int func_0205D1E4(ACHOLD *hd);
 
-asm void GetNotFoundAP(void)
+int GetNotFoundAP(ACHOLD *hd)
 {
-    ldrb r0, [r0, #0xb]
-    mov r0, r0, lsl #28
-    movs r0, r0, lsr #28
-    ldreq r0, =0xFFFF3C4D
-    ldrne r0, =0xFFFF3865
-    bx lr
+    if (hd->findAP == 0) {
+        return -50099;
+    }
+    return -51099;
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: DWC_StartUtilityEx
+ * function: FS_TryLoadTable
  * address:  0x0207ACB4
  * packet:   pkt_02060000
  * region:   arm9
@@ -27,7 +27,7 @@
 extern void func_0207A5C8(void *arc, void *mem, void *size);
 extern char d_02150DA8;
 
-void DWC_StartUtilityEx(void *a0, void *a1)
+void FS_TryLoadTable(void *a0, void *a1)
 {
     func_0207A5C8(&d_02150DA8, a0, a1);
 }

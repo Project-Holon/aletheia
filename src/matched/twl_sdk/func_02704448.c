@@ -1,5 +1,5 @@
 /*
- * function: func_02704448
+ * function: SNDEXi_SetVolumeAsync
  * address:  0x02704448
  * packet:   twl
  * region:   twl
@@ -10,47 +10,61 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02704C5C  0x02704C5C  arm twl
- *   func_02704D48  0x02704D48  arm twl
- *   DAT_02734450   0x02734450  data twl
- *   func_02704B74  0x02704B74  arm twl
+ *   DAT_02734450  0x02734450  data twl
+ *   SendCommand  0x02704B74  arm twl
+ *   CheckState  0x02704C5C  arm twl
+ *   SetSndexWork  0x02704D48  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
-extern u32 func_02704C5C(void);
-extern void func_02704D48(u32, u32, u32, u32);
-extern u32 DAT_02734450[];
-extern u32 func_02704B74(u32, u32);
+typedef void (*Cb)(u32, void *);
 
-asm void func_02704448(u32 a0, u32 a1, u32 a2, u32 a3) {
-    stmdb sp!, {r4, r5, r6, r7, r8, lr}
-    movs r5, r3
-    mov r8, r0
-    movne r0, #7
-    moveq r0, #0x1f
-    cmp r8, r0
-    mov r7, r1
-    mov r6, r2
-    movgt r0, #2
-    ldmgtfd sp!, {r4, r5, r6, r7, r8, pc}
-    bl func_02704C5C
-    cmp r0, #0
-    ldmnefd sp!, {r4, r5, r6, r7, r8, pc}
-    mov r4, #0
-    mov r0, r7
-    mov r1, r6
-    mov r2, r4
-    mov r3, #0x84
-    bl func_02704D48
-    ldr r0, =DAT_02734450
-    and r1, r8, #0x1f
-    orr r1, r1, r5, lsl #6
-    ldrb r0, [r0, #0x58]
-    and r1, r1, #0xff
-    bl func_02704B74
-    cmp r0, #0
-    moveq r4, #5
-    mov r0, r4
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
+typedef struct {
+    u32 pad0;
+    u32 busy;
+    u32 pad8;
+    volatile u32 state;
+    u32 pad10;
+    u32 pad14;
+    u32 f18;
+    void (*f1c)(void);
+    u32 f20;
+    u32 pad24;
+    u32 pad28;
+    Cb f2c;
+    void *f30;
+    u32 pad34;
+    u32 pad38;
+    void (*f3c)(void);
+    u32 f40;
+    u32 pad44;
+    u32 pad48;
+    Cb f4c;
+    void *f50;
+    void *f54;
+    u8 f58;
+} State;
+
+extern State DAT_02734450;
+u32 SendCommand(u32 a0, u8 a1);
+u32 CheckState(void);
+void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
+
+u32 SNDEXi_SetVolumeAsync(u32 a0, Cb a1, void *a2, u32 a3) {
+    u32 r;
+    int limit = a3 ? 7 : 0x1f;
+    if ((int)a0 > limit) {
+        return 2;
+    }
+    r = CheckState();
+    if (r != 0) {
+        return r;
+    }
+    SetSndexWork(a1, a2, 0, 0x84);
+    if (SendCommand(DAT_02734450.f58, (a0 & 0x1f) | (a3 << 6)) == 0) {
+        return 5;
+    }
+    return 0;
 }

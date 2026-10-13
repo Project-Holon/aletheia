@@ -13,9 +13,9 @@
  *   Own body returns func_020395EC(p)&0xff; caller 021B8468 calls it and 846C spills r0 directly,
  *   then 021B85AA loads this self value straight into r1 for u8 setter 021BE0A8 at 85AC.
  *   Historic u8 return override below removes caller narrowing but violates updated exact-definition rule.
- *   ARM9 narrow-return correction belongs to Ilias; no divergent declarations or budget reset allowed.
+ *   ARM9 narrow-return correction belongs to the integrator; no divergent declarations or budget reset allowed.
  *   Also inspect original unconditional final 7740 call at 021B85B0 onward when caller is unblocked.
- * Next: await Ilias exact return witness, then replace all old word/pointer prototypes before matching.
+ * Next: await the integrator exact return witness, then replace all old word/pointer prototypes before matching.
  * note 2026-10-02: logic complete; only register allocation differs. The original spills `changed` to
  *   sp+0x14 (reloaded before the joinmask subtract) and keeps i<<6 in r6 in the remove path; this C keeps
  *   `changed` in r6 (merged with the dirty=1 constant) and spills i<<6. Inert: decl order, u8/u32/enum

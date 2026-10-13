@@ -16,7 +16,7 @@
  * renewed-pass: raw ctx/exact17DBC/17DE4 returns17; union fill object17;
  *   inline fill loop33; three nonshrinks stop. Signed-short rowoff268/304.
  * checks: 1 own07A18/17DBC/17E88/17DE4/ADE4/AE1C/AE14 reread; ADE4 conflict
- *   parks under Ilias ownership, no definition edit or further caller compile;
+ *   parks under the integrator ownership, no definition edit or further caller compile;
  *   2 DD25C/DEF98/DEDD8/DEFF8/EDAB0 reread,no twin; 3 signed-short rowoff
  *   compiled; 4 spill/inline/commutative idioms; 5 fresh directory/neighbours,
  *   no aggregate stack object; union fill already gave same best17.

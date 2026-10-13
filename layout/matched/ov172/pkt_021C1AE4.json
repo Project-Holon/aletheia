@@ -20,6 +20,10 @@
    "evidence": {
     "sole-ref": [
      "data:0x021CADE4"
+    ],
+    "sdk": [
+     "0x027073AC",
+     "0x02707774"
     ]
    }
   }

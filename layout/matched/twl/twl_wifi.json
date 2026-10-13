@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_027020F0",
+   "name": "CAMERA_IsBusyCore",
    "address": "0x027020F0",
    "kind": "sdk",
    "region": "twl",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02702108",
+   "name": "CAMERA_StartCaptureCore",
    "address": "0x02702108",
    "kind": "sdk",
    "region": "twl",
@@ -33,15 +33,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_0270212C",
+   "name": "CAMERA_StopCaptureCore",
    "address": "0x0270212C",
    "kind": "sdk",
    "region": "twl",
@@ -50,15 +45,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02702158",
+   "name": "CAMERA_SetTrimmingCore",
    "address": "0x02702158",
    "kind": "sdk",
    "region": "twl",
@@ -67,12 +57,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0270218C",
@@ -86,16 +71,11 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0270218C"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+    "CAMERA_SetOutputFormatCore"
+   ]
   },
   {
-   "name": "func_027021CC",
+   "name": "CAMERA_GetErrorStatusCore",
    "address": "0x027021CC",
    "kind": "sdk",
    "region": "twl",
@@ -112,7 +92,7 @@
    }
   },
   {
-   "name": "func_027021E4",
+   "name": "CAMERA_ClearBufferCore",
    "address": "0x027021E4",
    "kind": "sdk",
    "region": "twl",
@@ -121,15 +101,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02702208",
+   "name": "CAMERA_SetMasterInterruptCore",
    "address": "0x02702208",
    "kind": "sdk",
    "region": "twl",
@@ -138,15 +113,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_0270223C",
+   "name": "CAMERA_SetVsyncInterruptCore",
    "address": "0x0270223C",
    "kind": "sdk",
    "region": "twl",
@@ -155,15 +125,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02702268",
+   "name": "CAMERA_SetBufferErrorInterruptCore",
    "address": "0x02702268",
    "kind": "sdk",
    "region": "twl",
@@ -172,12 +137,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0270229C",
@@ -191,16 +151,11 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0270229C"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004202"
-    ]
-   }
+    "CAMERA_SetTransferLinesCore"
+   ]
   },
   {
-   "name": "func_027022E0",
+   "name": "CAMERA_GetTransferLinesCore",
    "address": "0x027022E0",
    "kind": "sdk",
    "region": "twl",

@@ -1,0 +1,7 @@
+# Register-mismatch functions: the best C draft compiles to the same size and the same
+# instructions as the original, apart from register choice and the order of independent
+# instructions inside a basic block.  They count toward the coverage percentage as their
+# own class ("register mismatch") until a later pass makes them byte-exact.
+# tools/regmismatch.py checks every row against this rule.
+#
+# Columns: region  address  isa  draft path  note

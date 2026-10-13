@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: sole-ref/code cannot attest unlabelled ov094:021F7E94 tail stub; owner Ilias.
+ * blocker: sole-ref/code cannot attest unlabelled ov094:021F7E94 tail stub; owner the integrator.
  * evidence: Thumb 01 49 02 4b 18 47 c0 46; pools 0x26e and 0x021F7A29. No ARM9/SDK blocker work.
  * symbols:
  *   func_021B8E70 0x021B8E70 thumb ov093

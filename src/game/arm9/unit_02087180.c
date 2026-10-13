@@ -81,8 +81,8 @@ extern u32 OS_DisableIrqMask(u32 intr);
 extern void OS_Terminate(void);
 void OSi_SetTimer(OSAlarm *alarm);
 void func_02087208(void);
-asm void func_02087244(void);
-asm void func_02087254(void);
+BOOL func_02087244(void);
+void func_02087254(OSAlarm *alarm);
 void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire);
 void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
 void func_020873F8(OSAlarm *alarm);
@@ -152,11 +152,9 @@ void func_02087208(void)
 
 
 
-asm void func_02087244(void)
+BOOL func_02087244(void)
 {
-    ldr r0, =g_02151340
-    ldrh r0, [r0]
-    bx lr
+    return g_02151340.OSi_UseAlarm;
 }
 
 
@@ -164,12 +162,10 @@ asm void func_02087244(void)
 
 
 
-asm void func_02087254(void)
+void func_02087254(OSAlarm *alarm)
 {
-    mov	r1, #0
-    str	r1, [r0]
-    str	r1, [r0, #8]
-    bx	lr
+    alarm->handler = 0;
+    alarm->tag = 0;
 }
 
 
@@ -287,6 +283,7 @@ void func_020873F8(OSAlarm *alarm)
 
 
 
+/* hand-written in the original: OSi_AlarmHandler (os_alarm.o). C was tried: mwccarm always makes the call a tail call (ldr ip,=f; bx ip) at -O2/-O4, and with -O0 or a non-tail call it pads the stack with r3 (push {r3,lr}) and returns with pop {r3,pc}. It never pads with r0 or returns with ldmia + bx lr. The only other code with the {r0,lr} pad is SDK asm (OS_SaveContext, OS_LoadContext, OSi_GetAndDisplayContext). */
 asm void func_0208747C(void)
 {
     stmdb	sp!, {r0, lr}

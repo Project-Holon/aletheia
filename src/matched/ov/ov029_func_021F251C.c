@@ -15,7 +15,7 @@
  * and THM_CALL +0128/+0130 to unlabelled arm9 02035010 and 02035040 (arm9 wrappers:
  * r2=*(0x021469BC), tail call to 02035004/02035034 style stubs, no source or label yet).
  *
- * Byte-correct.  Blocked by two unlabelled ARM9 leaves (Ilias's), so the
+ * Byte-correct.  Blocked by two unlabelled ARM9 leaves (the integrator's), so the
  * overlay leaf 0x021F24FC is not filed either:
  *   +0128 func_02035010 (arm): verified MATCH with `one --arm`, capped
  *     only by its own unlabelled tail-call target 0x02035004

@@ -13,7 +13,7 @@
  * budget: Wave77 final retry before rule change: bound enum allocation tag176/14, allocation-sized Context176/14, full-word enum d176/14; stopped after three nonshrinking changes. Three fixed-flag one runs. Prior types300 search consumed; no repeats or budget reset. Best12 had narrowed full-width d: rejected.
  * owner-blocked: arm9 0x02020F14, own src/matched/arm9/func_02020F14.c returns void and tail-calls pointer-returning020490F4. Caller02187F40 bl02020F14,02187F44 adds r1,r4,#0,02187F46 adds r1,#0xA8,02187F48 str r0,[r1] consumes its result. Preserve strict void declaration; owner must resolve return type before another caller compile.
  * width-evidence: arm9020490F4 own second argument is u16. Caller02187F0C loads full heap word fromsp+0x20 and02187F2E copies r5 into r1 before02187F34 blx020490F4 without truncation. Strict u16 extern retained, no wider replacement; do not narrow incoming heap used by full-word allocator.
- * next: Exhausted historical DIFF and current owner blocker. Do not retry until Ilias resolves the return/prototype discrepancy. The marked void-result assignment below documents the original required store and cannot compile with the required declaration.
+ * next: Exhausted historical DIFF and current owner blocker. Do not retry until the integrator resolves the return/prototype discrepancy. The marked void-result assignment below documents the original required store and cannot compile with the required declaration.
  * symbols:
  *   d_0218A7A0     0x0218A7A0  data   ov096  a1
  *   d_0218A574     0x0218A574  data   ov096  a4

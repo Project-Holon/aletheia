@@ -1,5 +1,5 @@
 /*
- * function: func_0273112C
+ * function: MI_IsWramSlotUsed
  * address:  0x0273112C
  * packet:   twl_sys
  * region:   twl
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u16 data_02732F6C[3][8];
 
-u32 func_0273112C(u32 ch, u32 idx)
+u32 MI_IsWramSlotUsed(u32 ch, u32 idx)
 {
     return (data_02732F6C[ch][idx] & 3) != 3;
 }

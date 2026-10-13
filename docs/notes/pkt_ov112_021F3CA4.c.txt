@@ -8,12 +8,12 @@
  * isa: thumb
  * status: DIFF
  * residual: 524 versus520 bytes; 414 concrete bytes differ; 24/33 relocations resolve, nine table ABS32 sites lack outside witnesses.
- * checks: 1 exact own callee types applied, 524/414; ARM9 02046440 s16 parameter6 conflicts with both listings, stop caller compiles; 2 ov056/ov111 camera twins and own3EAC reviewed; 3 mutable Scene 524/422, enum one 524/418, exact blend prototype 524/418; further widths blocked by Ilias definition conflict; 4 genuine SDK volatile/BOOL inlines and declared 28/12-byte stack aggregates retained; 5 fresh full idiom listing/neighbours read. Prior types300 permuter consumed, never repeated.
+ * checks: 1 exact own callee types applied, 524/414; ARM9 02046440 s16 parameter6 conflicts with both listings, stop caller compiles; 2 ov056/ov111 camera twins and own3EAC reviewed; 3 mutable Scene 524/422, enum one 524/418, exact blend prototype 524/418; further widths blocked by the integrator definition conflict; 4 genuine SDK volatile/BOOL inlines and declared 28/12-byte stack aggregates retained; 5 fresh full idiom listing/neighbours read. Prior types300 permuter consumed, never repeated.
  * permuter: old once types300 consumed; rejected call reorder/cached heap across side effects; never repeated.
  * blockers: zero/three/one webs and subsequent scheduling; three nongaining renewed variants; table sites still unresolved while DIFF.
  * volatile: DISP3DCNT 0x04000060 reads 021F3D0E/14/22; DISPCNT 04000000 at3E3C;
  *           WINOUT 0400004A at021F3E4C/60.
- * prototype-conflict: Ilias ARM9 02046440 parameter6 declared s16 heap; its 02046448 ldrh r8,[sp,#0x74],02046468 mov r0,r8 and02046478 allocator BL prove zero-extension. Caller021F3CAE ldrh/3CB4 stack store likewise zero-extend; exact extern produces ldrsh here. No further caller compiles or leaf edits.
+ * prototype-conflict: the integrator ARM9 02046440 parameter6 declared s16 heap; its 02046448 ldrh r8,[sp,#0x74],02046468 mov r0,r8 and02046478 allocator BL prove zero-extension. Caller021F3CAE ldrh/3CB4 stack store likewise zero-extend; exact extern produces ldrsh here. No further caller compiles or leaf edits.
  * prototype-conflict: ARM9 0204EBD4 parameter2 declared void* heap, while caller021F3D5C feeds numeric u16 heap and own body casts heap to allocator int/u16 header store. Pointer-cast spelling below is diagnostic, not a filed workaround.
  * symbols:
  *   func_02046440 0x02046440 arm

@@ -13,14 +13,11 @@
  *   func_02061EB8 0x02061EB8 arm
  */
 
-typedef unsigned int   u32;
+typedef unsigned int u32;
 struct Blk;
 extern int func_02061EB8(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
-asm void DWCi_TSKlForm(void)
+
+int DWCi_TSKlForm(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size)
 {
-    stmfd sp!, {r3, lr}
-    mov ip, #0
-    str ip, [sp]
-    bl func_02061EB8
-    ldmfd sp!, {r3, pc}
+    return func_02061EB8(list, pool, pRet, size, 0);
 }

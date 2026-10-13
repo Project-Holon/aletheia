@@ -10,15 +10,20 @@
  * status:   EXACT
  *
  * symbols:
+ *   g_02150FEC  0x02150FEC  data
 */
 
-asm void CPS_SetUdpCallback(void)
+struct CpsRoot
 {
-	ldr r1, =0x02150FEC
-	ldr r1, [r1, #4]
-	ldr r1, [r1, #0xa4]
-	cmp r1, #0
-	strne r0, [r1, #0x44]
-	bx lr
-}
+	int prev;
+	char *current;
+};
+extern struct CpsRoot g_02150FEC;
 
+void CPS_SetUdpCallback(int callback)
+{
+	char *soc = *(char **)(g_02150FEC.current + 0xa4);
+
+	if (soc != 0)
+		*(int *)(soc + 0x44) = callback;
+}

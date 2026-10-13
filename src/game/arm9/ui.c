@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: func_02034E24, func_02034EF8, func_02034F5C, func_02034F74, func_02034F84, func_02034FA0, func_02034FB8, func_02034FD4, func_02034FE8, func_02035004, func_02035010, func_02035034, func_02035040, func_02035064, func_02035080, func_0203508C, func_02035100, func_02035108, func_02035120, func_02035138, func_0203515C, func_0203516C, func_02035188, func_020351A0, func_020351BC, func_020351D0, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC
+ * function: func_02034E24, func_02034EF8, func_02034F5C, func_02034F74, func_02034F84, func_02034FA0, func_02034FB8, func_02034FD4, func_02034FE8, func_02035004, func_02035010, func_02035034, func_02035040, func_02035064, func_02035080, func_0203508C, func_02035100, func_02035108, func_02035120, func_0203512C, func_02035138, func_0203515C, func_0203516C, func_02035188, func_020351A0, func_020351BC, func_020351D0, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,7 +31,6 @@
  *   d_021469BC   0x021469BC  data  a4
  *   func_02035080 0x02035080  arm
  *   func_02035120 0x02035120  arm
- *   func_0203512C 0x0203512C  arm
  *   func_0203515C 0x0203515C arm
  *   func_02035188 0x02035188  arm
  *   func_020351BC 0x020351BC arm
@@ -106,7 +105,6 @@ extern void sub_02035544(u32 x);
 extern void func_02034EF8(struct AreaCtx *p);
 extern void func_02035080(struct UiCtx *p, UiCb fn, void *arg);
 extern void func_02035120(struct UiCtx *p, UiCb fn, void *arg);
-extern void func_0203512C(struct UiCtx *p, UiCb fn, void *arg);
 extern void func_0203515C(struct UiCtx *p, u8 mask);
 extern int func_02035188(struct UiCtx *p, u32 v);
 extern u32 func_020351BC(struct UiCtx *p, u32 mask);
@@ -117,12 +115,12 @@ extern int PM_GetACAdapter(u16 *out);
 void sub_02034E24(u32 heap, u8 mode);
 void sub_02034EF8(struct AreaCtx *p);
 void sub_02034F5C(void);
-asm void func_02034F74(void);
-asm void func_02034F84(unsigned long x);
+void func_02034F74(struct UiCtx *p, u8 flags);
+void func_02034F84(u8 flags);
 void func_02034FA0(struct UiCtx *p, unsigned char flags);
 void func_02034FB8(u8 v);
-asm void func_02034FD4(void);
-asm void func_02034FE8(void);
+u32 func_02034FD4(struct UiCtx *p, u8 flags);
+u32 func_02034FE8(u8 flags);
 void func_02035004(struct UiCtx *o, UiCb a, void *b);
 void func_02035010(UiCb a, void *b);
 void func_02035034(struct UiCtx *o, UiCb a, void *b);
@@ -133,14 +131,14 @@ void func_0203508C(UiCb a, UiCb b, void *c);
 UiCb func_02035100(struct UiCtx *p);
 UiCb func_02035108(void);
 void sub_02035120(struct UiCtx *p, UiCb fn, void *arg);
-void sub_0203512C(struct UiCtx *p, UiCb fn, void *arg);
+void func_0203512C(struct UiCtx *p, UiCb fn, void *arg);
 void func_02035138(UiCb fn, void *arg);
 void sub_0203515C(struct UiCtx *p, u8 mask);
-asm void func_0203516C(u32 x);
+void func_0203516C(u8 mask);
 void sub_02035188(struct UiCtx *p, u8 mask);
 int func_020351A0(u32 v);
 u32 sub_020351BC(struct UiCtx *p, u32 mask);
-asm void func_020351D0(void);
+u32 func_020351D0(u32 mask);
 void sub_020351EC(struct UiCtx *p, u32 a, u32 b);
 void sub_020351F8(u32 a, u32 b);
 u32 sub_0203521C(u32 *p);
@@ -321,25 +319,18 @@ void sub_02034F5C(void)
 
 
 
-asm void func_02034F74(void)
+void func_02034F74(struct UiCtx *p, u8 flags)
 {
-    ldrb r2, [r0, #0x38]
-    orr r1, r2, r1
-    strb r1, [r0, #0x38]
-    bx lr
+    p->always |= flags;
 }
 
 
 
 
 
-asm void func_02034F84(unsigned long x)
+void func_02034F84(u8 flags)
 {
-    ldr r2, =0x021469BC
-    mov r1, r0
-    ldr r0, [r2]
-    ldr ip, =func_02034F74
-    bx ip
+    func_02034F74(g_021469BC, flags);
 }
 
 
@@ -364,13 +355,9 @@ void func_02034FB8(u8 v)
 
 
 
-asm void func_02034FD4(void)
+u32 func_02034FD4(struct UiCtx *p, u8 flags)
 {
-    ldrb r0, [r0, #0x38]
-    tst r0, r1
-    movne r0, #1
-    moveq r0, #0
-    bx lr
+    return (p->always & flags) != 0;
 }
 
 
@@ -378,13 +365,9 @@ asm void func_02034FD4(void)
 
 
 
-asm void func_02034FE8(void)
+u32 func_02034FE8(u8 flags)
 {
-    ldr r2, =0x021469BC
-    mov r1, r0
-    ldr r0, [r2]
-    ldr ip, =func_02034FD4
-    bx ip
+    return func_02034FD4(g_021469BC, flags);
 }
 
 
@@ -566,7 +549,7 @@ void sub_02035120(struct UiCtx *p, UiCb fn, void *arg)
 
 
 
-void sub_0203512C(struct UiCtx *p, UiCb fn, void *arg)
+void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
 {
     p->on_20 = fn;
     p->arg_30 = arg;
@@ -617,13 +600,9 @@ void sub_0203515C(struct UiCtx *p, u8 mask)
 
 
 
-asm void func_0203516C(u32 x)
+void func_0203516C(u8 mask)
 {
-    ldr r2, =g_021469BC
-    mov	r1, r0
-    ldr	r0, [r2]
-    ldr ip, =func_0203515C
-    bx	ip
+    func_0203515C(g_021469BC, mask);
 }
 
 
@@ -682,13 +661,9 @@ u32 sub_020351BC(struct UiCtx *p, u32 mask)
 
 
 
-asm void func_020351D0(void)
+u32 func_020351D0(u32 mask)
 {
-    ldr r2, =g_021469BC
-    mov	r1, r0
-    ldr	r0, [r2]
-    ldr ip, =func_020351BC
-    bx	ip
+    return func_020351BC(g_021469BC, mask);
 }
 
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02730360",
+   "name": "MI_GetWramBankMaster_B",
    "address": "0x02730360",
    "kind": "game",
    "region": "twl",

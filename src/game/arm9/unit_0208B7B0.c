@@ -15,7 +15,7 @@
  * It is not one of the two linker-veneer encodings the `veneer` class
  * recognises (it loads r0 and returns through lr rather than branching through
  * ip/pc), so only a `matched` entry can witness it.  Matching it lets the two
- * TWL parks src/pending/func_02703CDC.c and src/pending/func_02703F04.c
+ * TWL parks src/pending/MICEXi_StartLimitedSamplingAsync.c and src/pending/MICEXi_StopLimitedSamplingAsync.c
  * resolve their `bl` sites.  The pointer word resolves `literal x1` against
  * the duplicate 0x02152FE4 word at 0x0208B7AC.
  *

@@ -12,7 +12,7 @@
  * Byte-correct; 36 of 37 sites resolve.  The one wildcard is the arm9 call
  * at +013C to func_02061C30, which has no witness outside this range.
  * blocker:
- *   func_02061C30  0x02061C30  arm  (arm9, Ilias's leaf; unlabelled ARM
+ *   func_02061C30  0x02061C30  arm  (arm9, the integrator's leaf; unlabelled ARM
  *   tail-call stub `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C;
  *   .word 0x02146B80`).  No verified C exists: src/pending/arm9_sdk/
  *   func_02061C30.c (`OS_WakeupThreadDirect(&dacktimer_thread);`) is DIFF,

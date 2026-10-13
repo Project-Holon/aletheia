@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_02048AFC and func_02048B44 have no external witnesses; Ilias owns them.
+ * blocker: ARM9 func_02048AFC and func_02048B44 have no external witnesses; the integrator owns them.
  * blocker C (read-only root show):
  *   void func_02048AFC(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
  *   void func_02048B44(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }

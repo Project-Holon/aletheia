@@ -13,17 +13,20 @@
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
  */
+typedef struct Cell Cell;
+
+struct Cell {
+    Cell *prev;
+    Cell *next;
+    long size;
+};
 
 extern void func_02087988(void);
 extern void func_0208799C(void);
 
-asm void OS_ReferentSize(void)
+long OS_ReferentSize(int id, void *ptr)
 {
-    stmfd sp!, {r4, lr}
-    mov	r4, r1
-    bl	func_02087988
-    bl	func_0208799C
-    ldr	r0, [r4, #-0x18]
-    sub	r0, r0, #0x20
-    ldmfd sp!, {r4, pc}
+    func_02087988();
+    func_0208799C();
+    return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }

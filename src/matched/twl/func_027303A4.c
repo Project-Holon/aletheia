@@ -1,5 +1,5 @@
 /*
- * function: func_027303A4
+ * function: MI_GetWramMapStart_A
  * address:  0x027303A4
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  */
+typedef unsigned int u32;
 
-asm void func_027303A4(void)
+u32 MI_GetWramMapStart_A(void)
 {
+    return ((((*(volatile u32 *)0x04004054) & 0xFF0) >> 4) << 16) + 0x03000000;
 }

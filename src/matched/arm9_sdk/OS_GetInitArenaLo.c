@@ -13,82 +13,67 @@
  *   func_02085D3C 0x02085D3C arm
  *   func_02085CBC 0x02085CBC arm
  *   g_02151264 0x02151264 data
+ *   SDK_LTDMAIN_ARENA_LO          0x02735B40  data
+ *   SDK_MAIN_ARENA_LO             0x02213D20  data
+ *   SDK_LTDMAIN_EX_ARENA_LO       0x0D000000  data
+ *   SDK_SECTION_ARENA_EX_START    0x02400060  data
+ *   SDK_SECTION_ARENA_ITCM_START  0x01FF8820  data
+ *   SDK_SECTION_ARENA_DTCM_START  0x02FE00C0  data
  */
 
-extern void func_02085D3C(void);
-typedef unsigned int   u32;
+typedef unsigned int u32;
+
+typedef struct OsArenaBss {
+    u32 isInitialized;
+    u32 exArenaEnabled;
+} OsArenaBss;
+
+extern int func_02085D3C(void);
 extern u32 func_02085CBC(void);
-extern int g_02151264;
+extern OsArenaBss g_02151264;
+extern char SDK_LTDMAIN_ARENA_LO[];
+extern char SDK_MAIN_ARENA_LO[];
+extern char SDK_LTDMAIN_EX_ARENA_LO[];
+extern char SDK_SECTION_ARENA_EX_START[];
+extern char SDK_SECTION_ARENA_ITCM_START[];
+extern char SDK_SECTION_ARENA_DTCM_START[];
 
-asm void *OS_GetInitArenaLo(int id)
+void *OS_GetInitArenaLo(int id)
 {
-    stmfd sp!, {r4, lr}
-    cmp r0, #6
-    addls pc, pc, r0, lsl #2
-    b loc_default
+    switch (id) {
+    case 0:
+        return func_02085D3C() ? (void *)SDK_LTDMAIN_ARENA_LO : (void *)SDK_MAIN_ARENA_LO;
+    case 2:
+        {
+            void *arena;
+            u32 type;
 
-    b case_0
-    b loc_default
-    b case_2
-    b case_3
-    b case_4
-    b case_5
-    b case_6
-
-case_0:
-    bl func_02085D3C
-    cmp r0, #0
-    ldrne r0, [pc, #0x70]
-    ldreq r0, [pc, #0x70]
-    ldmfd sp!, {r4, pc}
-
-case_2:
-    ldr r0, [pc, #0x6c]
-    ldr r0, [r0, #4]
-    cmp r0, #0
-    moveq r0, #0
-    ldmeqfd sp!, {r4, pc}
-    bl func_02085CBC
-    and r4, r0, #0xf
-    bl func_02085D3C
-    cmp r0, #0
-    mov r0, #0
-    beq loc_twl_nitro
-    cmp r4, #4
-    ldrne r0, [pc, #0x40]
-    ldmfd sp!, {r4, pc}
-
-loc_twl_nitro:
-    cmp r4, #1
-    ldrne r0, [pc, #0x38]
-    ldmfd sp!, {r4, pc}
-
-case_3:
-    ldr r0, [pc, #0x34]
-    ldmfd sp!, {r4, pc}
-
-case_4:
-    ldr r0, [pc, #0x30]
-    ldmfd sp!, {r4, pc}
-
-case_5:
-    ldr r0, [pc, #0x2c]
-    ldmfd sp!, {r4, pc}
-
-case_6:
-    mov r0, #0x3040000
-    ldmfd sp!, {r4, pc}
-
-loc_default:
-    mov r0, #0
-    ldmfd sp!, {r4, pc}
-
-    dcd 0x02735B40
-    dcd 0x02213D20
-    dcd g_02151264
-    dcd 0x0D000000
-    dcd 0x02400060
-    dcd 0x01FF8820
-    dcd 0x02FE00C0
-    dcd 0x02FFF000
+            if (g_02151264.exArenaEnabled == 0) {
+                return 0;
+            }
+            type = func_02085CBC() & 0xF;
+            if (func_02085D3C()) {
+                arena = 0;
+                if (type != 4) {
+                    arena = (void *)SDK_LTDMAIN_EX_ARENA_LO;
+                }
+            } else {
+                arena = 0;
+                if (type != 1) {
+                    arena = (void *)SDK_SECTION_ARENA_EX_START;
+                }
+            }
+            return arena;
+        }
+    case 3:
+        return (void *)SDK_SECTION_ARENA_ITCM_START;
+    case 4:
+        return (void *)SDK_SECTION_ARENA_DTCM_START;
+    case 5:
+        return (void *)0x02FFF000;
+    case 6:
+        return (void *)0x03040000;
+    default:
+        return 0;
+    }
 }

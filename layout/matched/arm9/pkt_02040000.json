@@ -323,7 +323,7 @@
    "status": "EXACT"
   },
   {
-   "name": "CARDi_CommandBegin",
+   "name": "DWCi_Np_SetInitFlag",
    "address": "0x0205A11C",
    "kind": "sdk",
    "region": "arm9",

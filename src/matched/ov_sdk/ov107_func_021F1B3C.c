@@ -1,5 +1,5 @@
 /*
- * function: MB_CommSetChildStateCallback
+ * function: MB_CommSetParentStateCallback
  * address:  0x021F1B3C
  * packet:   pkt_ov107_021F1B3C
  * region:   ov107
@@ -24,7 +24,7 @@ extern void *mbc;
 
 typedef void (*WMCallback)(u32, void *);
 
-void MB_CommSetChildStateCallback(WMCallback callback)
+void MB_CommSetParentStateCallback(WMCallback callback)
 {
     u32 enabled;
 

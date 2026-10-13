@@ -7,37 +7,64 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0270234C",
+   "name": "CAMERA_GetBytesAtOnceCore",
    "address": "0x0270234C",
    "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270234C.c",
    "compiler": "dsi/1.1p1",
-   "lang": "c",
+   "lang": "c99",
    "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
   },
   {
-   "name": "func_02702468",
+   "name": "CAMERA_SizeToWidthCore",
+   "address": "0x02702364",
+   "kind": "sdk",
+   "region": "twl",
+   "source": "src/matched/twl_sdk/func_02702364.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CAMERA_SizeToHeightCore",
+   "address": "0x027023CC",
+   "kind": "sdk",
+   "region": "twl",
+   "source": "src/matched/twl_sdk/func_027023CC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "NWMi_InitCore",
    "address": "0x02702468",
    "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702468.c",
    "compiler": "dsi/1.1p1",
-   "lang": "c",
+   "lang": "c99",
    "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "self:0x027341A0",
      "self:0x027341A4"
+    ],
+    "sdk": [
+     "0x02702740"
     ]
    }
   },
   {
-   "name": "func_02702740",
+   "name": "NWMi_ReceiveFifo9",
    "address": "0x02702740",
    "kind": "sdk",
    "region": "twl",
@@ -55,19 +82,7 @@
    }
   },
   {
-   "name": "func_027028E8",
-   "address": "0x027028E8",
-   "kind": "game",
-   "region": "twl",
-   "source": "src/matched/twl/func_027028E8.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_02702998",
+   "name": "NWM_GetDispersionScanPeriod",
    "address": "0x02702998",
    "kind": "sdk",
    "region": "twl",
@@ -79,7 +94,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702A98",
+   "name": "NWM_End",
    "address": "0x02702A98",
    "kind": "sdk",
    "region": "twl",
@@ -97,7 +112,7 @@
    }
   },
   {
-   "name": "func_02702B08",
+   "name": "NWM_LoadDevice",
    "address": "0x02702B08",
    "kind": "sdk",
    "region": "twl",
@@ -110,11 +125,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x027341A8"
+    ],
+    "sdk": [
+     "0x02702D7C"
     ]
    }
   },
   {
-   "name": "func_02702BFC",
+   "name": "NWM_UnloadDevice",
    "address": "0x02702BFC",
    "kind": "sdk",
    "region": "twl",
@@ -126,7 +144,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702CA0",
+   "name": "NWMi_ForceUnloadDevice",
    "address": "0x02702CA0",
    "kind": "sdk",
    "region": "twl",
@@ -135,16 +153,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT*",
-   "compared_bytes": 220,
-   "evidence": {
-    "sole-ref": [
-     "self:0x027341C8"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02702D7C",
+   "name": "NWMi_ForceExit",
    "address": "0x02702D7C",
    "kind": "sdk",
    "region": "twl",
@@ -153,10 +165,18 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027341C8"
+    ],
+    "sdk": [
+     "0x02702D68"
+    ]
+   }
   },
   {
-   "name": "func_02702F38",
+   "name": "NWM_Open",
    "address": "0x02702F38",
    "kind": "sdk",
    "region": "twl",
@@ -168,7 +188,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02702FE8",
+   "name": "NWM_Close",
    "address": "0x02702FE8",
    "kind": "sdk",
    "region": "twl",
@@ -180,7 +200,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703088",
+   "name": "NWM_StartScanEx",
    "address": "0x02703088",
    "kind": "sdk",
    "region": "twl",
@@ -192,7 +212,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703250",
+   "name": "NWM_GetVenderInfoElements",
    "address": "0x02703250",
    "kind": "sdk",
    "region": "twl",
@@ -204,7 +224,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027032E0",
+   "name": "NWM_Connect",
    "address": "0x027032E0",
    "kind": "sdk",
    "region": "twl",
@@ -221,7 +241,7 @@
    }
   },
   {
-   "name": "func_02703424",
+   "name": "NWM_Disconnect",
    "address": "0x02703424",
    "kind": "sdk",
    "region": "twl",
@@ -233,7 +253,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027034C0",
+   "name": "NWM_SetWEPKey",
    "address": "0x027034C0",
    "kind": "sdk",
    "region": "twl",
@@ -245,7 +265,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027035F4",
+   "name": "NWM_SetPowerSaveMode",
    "address": "0x027035F4",
    "kind": "sdk",
    "region": "twl",
@@ -257,7 +277,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027036A0",
+   "name": "NWM_SendFrame",
    "address": "0x027036A0",
    "kind": "sdk",
    "region": "twl",
@@ -269,7 +289,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0270379C",
+   "name": "NWM_SetReceivingFrameBuffer",
    "address": "0x0270379C",
    "kind": "sdk",
    "region": "twl",
@@ -278,10 +298,15 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x027038BC"
+    ]
+   }
   },
   {
-   "name": "func_027038BC",
+   "name": "NWMi_ReceivingFrameCallback",
    "address": "0x027038BC",
    "kind": "sdk",
    "region": "twl",
@@ -293,7 +318,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703960",
+   "name": "NWM_SetWPAPSK",
    "address": "0x02703960",
    "kind": "sdk",
    "region": "twl",
@@ -305,7 +330,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703A74",
+   "name": "NWMi_SendCommand",
    "address": "0x02703A74",
    "kind": "sdk",
    "region": "twl",
@@ -317,7 +342,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703B24",
+   "name": "NWMi_SendCommandDirect",
    "address": "0x02703B24",
    "kind": "sdk",
    "region": "twl",
@@ -329,7 +354,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703B98",
+   "name": "NwmGetCommandBuffer4Arm7",
    "address": "0x02703B98",
    "kind": "sdk",
    "region": "twl",
@@ -341,7 +366,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703C60",
+   "name": "MICEXi_StartLimitedSampling",
    "address": "0x02703C60",
    "kind": "sdk",
    "region": "twl",
@@ -350,10 +375,15 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02703F60"
+    ]
+   }
   },
   {
-   "name": "func_02703CDC",
+   "name": "MICEXi_StartLimitedSamplingAsync",
    "address": "0x02703CDC",
    "kind": "sdk",
    "region": "twl",
@@ -365,7 +395,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703E90",
+   "name": "MICEXi_StopLimitedSampling",
    "address": "0x02703E90",
    "kind": "sdk",
    "region": "twl",
@@ -374,10 +404,15 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02703F60"
+    ]
+   }
   },
   {
-   "name": "func_02703F04",
+   "name": "MICEXi_StopLimitedSamplingAsync",
    "address": "0x02703F04",
    "kind": "sdk",
    "region": "twl",
@@ -389,7 +424,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703F60",
+   "name": "MicexSyncCallback",
    "address": "0x02703F60",
    "kind": "sdk",
    "region": "twl",
@@ -401,7 +436,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02703F7C",
+   "name": "MicexStartLimitedSampling",
    "address": "0x02703F7C",
    "kind": "sdk",
    "region": "twl",
@@ -413,7 +448,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027041E8",
+   "name": "FATFSi_AllocateEmergencyCommandBuffer",
    "address": "0x027041E8",
    "kind": "sdk",
    "region": "twl",
@@ -430,7 +465,7 @@
    }
   },
   {
-   "name": "func_02704230",
+   "name": "FATFSi_FreeCommandBuffer",
    "address": "0x02704230",
    "kind": "sdk",
    "region": "twl",
@@ -448,7 +483,7 @@
    }
   },
   {
-   "name": "func_02704264",
+   "name": "FATFSi_WaitForRequest",
    "address": "0x02704264",
    "kind": "sdk",
    "region": "twl",
@@ -457,7 +492,7 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "self:0x02734420",
@@ -466,7 +501,7 @@
    }
   },
   {
-   "name": "func_02704328",
+   "name": "FATFS_UnmountAll",
    "address": "0x02704328",
    "kind": "sdk",
    "region": "twl",
@@ -478,7 +513,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02704364",
+   "name": "SNDEXi_Init",
    "address": "0x02704364",
    "kind": "sdk",
    "region": "twl",
@@ -495,12 +530,14 @@
      "self:0x0273448C"
     ],
     "sdk": [
-     "0x0208C848"
+     "0x0208C848",
+     "0x027049B0",
+     "0x02704D64"
     ]
    }
   },
   {
-   "name": "func_02704448",
+   "name": "SNDEXi_SetVolumeAsync",
    "address": "0x02704448",
    "kind": "sdk",
    "region": "twl",
@@ -517,7 +554,7 @@
    }
   },
   {
-   "name": "func_027044C0",
+   "name": "SNDEXi_SetVolumeExAsync",
    "address": "0x027044C0",
    "kind": "sdk",
    "region": "twl",
@@ -529,7 +566,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_027044F8",
+   "name": "SNDEXi_SetIirFilterAsync",
    "address": "0x027044F8",
    "kind": "sdk",
    "region": "twl",
@@ -546,7 +583,7 @@
    }
   },
   {
-   "name": "func_027047C0",
+   "name": "SNDEXi_SetIirFilter",
    "address": "0x027047C0",
    "kind": "sdk",
    "region": "twl",
@@ -557,13 +594,13 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "self:0x02734450"
+    "sdk": [
+     "0x02704B58"
     ]
    }
   },
   {
-   "name": "func_02704858",
+   "name": "SNDEXi_PreProcessForShutterSound",
    "address": "0x02704858",
    "kind": "sdk",
    "region": "twl",
@@ -576,11 +613,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02734450"
+    ],
+    "sdk": [
+     "0x02704B58"
     ]
    }
   },
   {
-   "name": "func_02704940",
+   "name": "SNDEXi_PostProcessForShutterSound",
    "address": "0x02704940",
    "kind": "sdk",
    "region": "twl",
@@ -597,7 +637,7 @@
    }
   },
   {
-   "name": "func_027049B0",
+   "name": "CommonCallback",
    "address": "0x027049B0",
    "kind": "sdk",
    "region": "twl",
@@ -606,7 +646,7 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "self:0x02734450"
@@ -614,19 +654,19 @@
    }
   },
   {
-   "name": "func_02704B58",
+   "name": "SyncCallback",
    "address": "0x02704B58",
    "kind": "game",
    "region": "twl",
    "source": "src/matched/twl/func_02704B58.c",
    "compiler": "dsi/1.1p1",
-   "lang": "c99",
+   "lang": "c",
    "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
    "status": "EXACT"
   },
   {
-   "name": "func_02704B74",
+   "name": "SendCommand",
    "address": "0x02704B74",
    "kind": "sdk",
    "region": "twl",
@@ -643,7 +683,7 @@
    }
   },
   {
-   "name": "func_02704BE0",
+   "name": "SendCommandEx",
    "address": "0x02704BE0",
    "kind": "sdk",
    "region": "twl",
@@ -660,7 +700,7 @@
    }
   },
   {
-   "name": "func_02704C5C",
+   "name": "CheckState",
    "address": "0x02704C5C",
    "kind": "sdk",
    "region": "twl",
@@ -677,7 +717,7 @@
    }
   },
   {
-   "name": "func_02704CC4",
+   "name": "ReplyCallback",
    "address": "0x02704CC4",
    "kind": "sdk",
    "region": "twl",
@@ -694,7 +734,7 @@
    }
   },
   {
-   "name": "func_02704D48",
+   "name": "SetSndexWork",
    "address": "0x02704D48",
    "kind": "sdk",
    "region": "twl",
@@ -711,7 +751,7 @@
    }
   },
   {
-   "name": "func_02704D64",
+   "name": "SndexSleepAndExitCallback",
    "address": "0x02704D64",
    "kind": "game",
    "region": "twl",
@@ -723,7 +763,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02704D74",
+   "name": "WaitIirFilterSetting",
    "address": "0x02704D74",
    "kind": "sdk",
    "region": "twl",
@@ -740,7 +780,7 @@
    }
   },
   {
-   "name": "func_02704DB0",
+   "name": "WaitResetSoundCallback",
    "address": "0x02704DB0",
    "kind": "sdk",
    "region": "twl",
@@ -757,7 +797,7 @@
    }
   },
   {
-   "name": "func_02704E04",
+   "name": "ResetTempVolume",
    "address": "0x02704E04",
    "kind": "sdk",
    "region": "twl",
@@ -770,11 +810,14 @@
    "evidence": {
     "sole-ref": [
      "self:0x02734450"
+    ],
+    "sdk": [
+     "0x02704DB0"
     ]
    }
   },
   {
-   "name": "func_02704E90",
+   "name": "DSP_PowerOnCore",
    "address": "0x02704E90",
    "kind": "sdk",
    "region": "twl",
@@ -783,15 +826,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004006"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02704EE8",
+   "name": "DSP_PowerOffCore",
    "address": "0x02704EE8",
    "kind": "sdk",
    "region": "twl",
@@ -800,15 +838,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004006"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02704F1C",
+   "name": "DSP_ResetOnCore",
    "address": "0x02704F1C",
    "kind": "sdk",
    "region": "twl",
@@ -817,15 +850,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004308"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02704F4C",
+   "name": "DSP_ResetOffExCore",
    "address": "0x02704F4C",
    "kind": "sdk",
    "region": "twl",
@@ -834,16 +862,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004308",
-     "data:0x0400430C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02704F9C",
+   "name": "DSP_ResetInterfaceCore",
    "address": "0x02704F9C",
    "kind": "sdk",
    "region": "twl",
@@ -852,15 +874,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x04004308"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02704FE4",
+   "name": "DSP_SendDataIsEmptyCore",
    "address": "0x02704FE4",
    "kind": "sdk",
    "region": "twl",
@@ -869,15 +886,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x0400430C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_02705008",
+   "name": "DSP_RecvDataIsReadyCore",
    "address": "0x02705008",
    "kind": "sdk",
    "region": "twl",
@@ -886,15 +898,10 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "data:0x0400430C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "func_0270502C",
+   "name": "DSP_SendDataCore",
    "address": "0x0270502C",
    "kind": "sdk",
    "region": "twl",

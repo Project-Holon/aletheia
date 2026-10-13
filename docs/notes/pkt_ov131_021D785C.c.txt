@@ -12,7 +12,7 @@
  * residual: original size 288, four concrete bytes differ at +AA/+AC;
  *   original stores constructor result before mov r1,#2, compiled reverses.
  *   22/24 relocations resolved; ARM9 02015D80 lacks independent witness
- *   outside this caller. Ilias owns it; no blocker C was written/matched.
+ *   outside this caller. the integrator owns it; no blocker C was written/matched.
  * interface: 02017270 leaves r0 live and this caller stores and passes it;
  *   extern returns that payload despite legacy void declaration. 020173B4
  *   sets all r1-r3 before forwarding to 02015F2C, so consumes only r0.

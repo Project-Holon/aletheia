@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Blocked (evidence class: none, unresolved callee sites) by two unlabelled arm9
- * leaves inside labelled arm9 functions (Ilias's), each verified EXACT in a
+ * leaves inside labelled arm9 functions (the integrator's), each verified EXACT in a
  * scratch file with `one --region arm9 --thumb`:
  *   0x0202B578: int func_0202B578(int *p) { return p[8]; }
  *   0x02029DF4: void func_02029DF4(void) { func_02029EB4(); }   (thumb tail-call

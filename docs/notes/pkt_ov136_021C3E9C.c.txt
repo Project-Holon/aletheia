@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  * residual: fresh wave77 own414C second argument plus inner result switch DIFF152, compiled248/original252; stopped after its completed verdict exposed owner blockers.
- * blocker: unresolved ARM9 Thumb0202411C/02024134/02024124 (Ilias), source/unit/shard searches find no current exact witnesses; data021C7750 also has no witness. No ARM9 or overlay blocker leaves filed.
- * checks: 1 own414C(void*,u8*) second input corrected from listing/definition; first substantive compile reveals12/16 resolved, then all further caller compiles forbidden by owner scope; 2 own3FC8/414C and neighbour source/unit/shards checked; 3-4 deferred because unresolved Ilias leaves now block this caller; 5 idiom directory and ov135/136 neighbours refreshed.
+ * blocker: unresolved ARM9 Thumb0202411C/02024134/02024124 (the integrator), source/unit/shard searches find no current exact witnesses; data021C7750 also has no witness. No ARM9 or overlay blocker leaves filed.
+ * checks: 1 own414C(void*,u8*) second input corrected from listing/definition; first substantive compile reveals12/16 resolved, then all further caller compiles forbidden by owner scope; 2 own3FC8/414C and neighbour source/unit/shards checked; 3-4 deferred because unresolved the integrator leaves now block this caller; 5 idiom directory and ov135/136 neighbours refreshed.
  * runs: wave77 1 one; no further caller retries or permuter.
  * history: old pending spelling DIFF12 claimed in its header had wrong one-argument414C; verbatim original is preserved at scratchpad/overlay-newpass-20261003-w77/R24/021C3E9C.c. This note retains the completed renewed candidate; legacy ARM9 extern types still need own-definition correction after blockers resolve.
  *

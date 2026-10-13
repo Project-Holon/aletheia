@@ -4,7 +4,7 @@
  * function: func_02067AA0, func_02067AAC, func_02067AB8, func_02067AC0, func_02067B28, func_02067B40, func_02067B48, func_02067B50, func_02067B64, func_02067B78
  * address:  0x02067AA0
  * region:   arm9
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -222,32 +222,17 @@ u32 func_02067B64(const struct G2dOamState_02067B40 *p)
  * word is flip-H and bit 1 is flip-V, both set or cleared from a BOOL.  Its
  * four neighbours in the same `.word` run are src/matched/unit_02067B40.c.
  *
- * docs/notes/g2d_flip_setter.c.txt wrote this off as a four-byte near miss:
- * the second `ldr r1, [r0, #0x24]` is a re-read of the word the preceding
- * store just wrote, which the compiler proves redundant and degrades to
- * `mov r1, r1`, and making the field or the parameter `volatile` restores
- * the load but splits the predicated `orrne`/`biceq` pair into a full
- * predicated load-modify-store per arm (60 bytes instead of 44).  The
- * spelling that does reproduce it is a volatile read of that one word and
- * nothing else: the first half stays a plain read-modify-write on the
- * field, so its predication survives, and only the re-read is forced.  See
- * docs/idioms/a-re-read-of-a-field-just-stored-is-one-volatile-read-not-a-volatile-field.md.
+ * The second `ldr r1, [r0, #0x24]` is the plain re-read of the field the
+ * first half just stored.  The NITRO 2.0 compiler keeps it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067B78.c \
- *       --func func_02067B78 --addr 0x02067B78 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_02067B78.c  *       --func func_02067B78 --addr 0x02067B78 --cc ../2.0/sp2 --arm
  */
 void func_02067B78(struct G2dOamState_02067B78 *p, u32 h, u32 v)
 {
-    u32 w;
-
     if (h) p->flip |= 1;
     else   p->flip &= ~1u;
 
-    w = *(volatile u32 *)&p->flip;
-
-    if (v) w |= 2;
-    else   w &= ~2u;
-
-    p->flip = w;
+    if (v) p->flip |= 2;
+    else   p->flip &= ~2u;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02004BB4
+ * function: INITi_DoAutoload
  * address:  0x02004BB4
  * packet:   pkt_02004BB4
  * region:   arm9
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * notes:    byte-correct asm; the tail branch to _start_AutoloadDoneCallback (0x02004EA8) resolves now that 0x02004EA8 is a seeded function start matched as func_02004EA8.
+ * notes:    byte-correct asm; the tail branch to _start_AutoloadDoneCallback (0x02004EA8) resolves now that 0x02004EA8 is a seeded function start matched as _start_AutoloadDoneCallback.
  *
  * sdk:      INITi_DoAutoload (crt0.HYB.TWL.o)
  * asm:      crt0 code that runs before C (no C runtime yet, fixed-register
@@ -36,7 +36,7 @@ extern unsigned long _start_ModuleParams[];
 extern unsigned long _start_LtdModuleParams[];
 extern char SDK_AUTOLOAD_DTCM_START[];
 
-asm void func_02004BB4(void)
+asm void INITi_DoAutoload(void)
 {
     stmdb sp!, {lr}
     ldr r1, =_start_ModuleParams

@@ -10,13 +10,7 @@
  * status:   EXACT
  */
 
-asm void INITi_IsRunOnTwl(void)
+int INITi_IsRunOnTwl(void)
 {
-    ldr r0, =0x04004000
-    ldrb r0, [r0]
-    and r0, r0, #3
-    cmp r0, #1
-    moveq r0, #1
-    movne r0, #0
-    bx lr
+    return (*(volatile unsigned char *)0x04004000 & 3) == 1;
 }

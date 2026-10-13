@@ -12,16 +12,10 @@
  * symbols:
  *   func_02085CBC 0x02085CBC arm
  */
-
 typedef unsigned int   u32;
 extern u32 func_02085CBC(void);
 
-asm void OS_IsRunOnEmulator(void)
+int OS_IsRunOnEmulator(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02085CBC
-    tst	r0, #0x10000000
-    movne	r0, #1
-    moveq	r0, #0
-    ldmfd sp!, {r3, pc}
+    return (func_02085CBC() & 0x10000000) ? 1 : 0;
 }

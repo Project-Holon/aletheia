@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: 0x0201C1E8, unlabelled ARM9 tail-call wrapper owned by Ilias.
+ * blocker: 0x0201C1E8, unlabelled ARM9 tail-call wrapper owned by the integrator.
  *   Call +0x10 has no witness outside 021C1E74..021C2048; all concrete
  *   bytes match, and the other 39 relocation sites resolve.
  *   Verified one --thumb, no --region, dsi/1.1p1 -O4,p: EXACT, 12 bytes.

@@ -10,7 +10,7 @@
  * blocker (cleared 2026-10-01, arm9 leaf filed): ARM9 0x02021728 at +0072 has no admissible outside witness.
  * Verified C copied from ov029_func_021F0DB4.c's EXACT 8-byte scratch proof:
  * int func_02021728(char *p, int i) { return *(int *)(p + i * 0x14); }
- * ARM9 belongs to Ilias. Caller sets r0 to the palette object, r1 to 1.
+ * ARM9 belongs to the integrator. Caller sets r0 to the palette object, r1 to 1.
  * symbols:
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm

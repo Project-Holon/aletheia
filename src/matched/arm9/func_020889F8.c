@@ -12,7 +12,7 @@
  * Unlabelled 12-byte ARM pointer thunk in a .word run:
  *   ldr r0, [pc, #0]; bx lr; .word func_0215142C
  * Same shape as func_0208B7B0 and, for the same reason, witnessable only as a
- * `matched` entry.  It unblocks the TWL park src/pending/func_02700000.c.
+ * `matched` entry.  It unblocks the TWL park src/pending/RTCEXi_CommonCallback.c.
  * The pointer word resolves `literal x1` against the duplicate 0x0215142C
  * word at 0x02088EE8.
  *

@@ -1,0 +1,205 @@
+class	region	name	address	compiled	extent	tail_bytes	bytes_by_class(c=another fn,e=code,k=nonzero unexplained data w/ code sigs,d=data,b=pad)	notes
+c-start	arm9	func_02082E74	0x02082E74	48	212	164	{'c': 4, 'e': 88, 'k': 72}	codesig:arm_sig@2082EF8,start@02082EA4;
+c-veneer	arm9	func_0200B424	0x0200B424	20	36	16	{'k': 16}	codesig:thumb_bx@200B43A|thumb_bx@200B442;veneer@200B438,veneer@200B440,ldrbx@200B440
+c-veneer	arm9	func_0200E164	0x0200E164	30	40	10	{'b': 2, 'k': 8}	codesig:thumb_bx@200E186;veneer@200E184
+c-veneer	arm9	func_0200E714	0x0200E714	26	168	142	{'b': 2, 'k': 140}	codesig:thumb_bx@200E732|thumb_bx@200E73A|thumb_bx@200E74A;ldrbx@200E796
+c-veneer	arm9	func_020173B4	0x020173B4	20	28	8	{'k': 8}	codesig:thumb_bx@20173CA;veneer@20173C8
+c-veneer	arm9	func_02024044	0x02024044	184	216	32	{'k': 32}	codesig:thumb_bx@20240FE|thumb_bx@2024106|thumb_bx@2024118;veneer@20240FC
+c-veneer	arm9	func_020241E0	0x020241E0	60	68	8	{'k': 8}	codesig:thumb_bx@202421E;veneer@202421C
+c-veneer	arm9	func_02028148	0x02028148	18	28	10	{'b': 2, 'k': 8}	codesig:thumb_bx@202815E;veneer@202815C
+c-veneer	arm9	func_0202AB38	0x0202AB38	20	36	16	{'k': 16}	codesig:thumb_bx@202AB4E|thumb_bx@202AB56;veneer@202AB4C,veneer@202AB54
+c-veneer	arm9	func_0202B1F4	0x0202B1F4	8	24	16	{'k': 16}	codesig:thumb_bx@202B1FE|thumb_bx@202B206;veneer@202B1FC,veneer@202B204
+c-veneer	arm9	func_0202B420	0x0202B420	4	12	8	{'k': 8}	codesig:thumb_bx@202B426;veneer@202B424
+c-veneer	arm9	func_0202B8F4	0x0202B8F4	8	24	16	{'k': 16}	codesig:thumb_bx@202B8FE|thumb_bx@202B906;veneer@202B8FC,veneer@202B904
+c-veneer	arm9	func_0202BEDC	0x0202BEDC	8	16	8	{'k': 8}	codesig:thumb_bx@202BEE6;veneer@202BEE4
+c-veneer	arm9	func_0202C09C	0x0202C09C	26	44	18	{'b': 2, 'k': 16}	codesig:thumb_bx@202C0BA|thumb_bx@202C0C2;veneer@202C0B8,veneer@202C0C0
+c-veneer	arm9	func_0202C0F8	0x0202C0F8	24	32	8	{'k': 8}	codesig:thumb_bx@202C112;veneer@202C110
+c-veneer	ov010	func_021616F0	0x021616F0	42	52	10	{'b': 2, 'k': 8}	codesig:thumb_bx@216171E;veneer@216171C
+c-veneer	ov014	DWC_GHTTPCleanupRootCAList	0x021771F8	18	36	18	{'b': 2, 'k': 16}	codesig:thumb_bx@217720E|thumb_bx@2177216;veneer@217720C,veneer@2177214
+c-veneer	ov014	func_0217723C	0x0217723C	32	64	32	{'k': 32}	codesig:thumb_bx@217725E|thumb_bx@2177266|thumb_bx@217726E;veneer@217725C,veneer@2177264,veneer@217726C,veneer@2177274
+c-veneer	ov015	func_0217984C	0x0217984C	20	84	64	{'k': 64}	codesig:thumb_bx@2179862|thumb_bx@217986A|thumb_bx@2179872;veneer@2179860,veneer@2179868,veneer@2179870,veneer@2179878
+c-veneer	ov015	func_021798A0	0x021798A0	18	52	34	{'b': 2, 'k': 32}	codesig:thumb_bx@21798B6|thumb_bx@21798BE|thumb_bx@21798C6;veneer@21798B4,veneer@21798BC,veneer@21798C4,veneer@21798CC
+c-veneer	ov015	func_02179D68	0x02179D68	16	24	8	{'k': 8}	codesig:thumb_bx@2179D7A;veneer@2179D78
+c-veneer	ov018	func_0218261C	0x0218261C	652	668	16	{'k': 16}	codesig:thumb_bx@21828AA|thumb_bx@21828B2;veneer@21828A8,veneer@21828B0
+c-veneer	ov093	func_021DAE94	0x021DAE94	16	24	8	{'k': 8}	codesig:thumb_bx@21DAEA6;veneer@21DAEA4
+c?-hidden-fn-suspect	arm9	func_0200421A	0x0200421A	4	630	626	{'k': 626}	codesig:thumb_bx@200427A|thumb_bx@20042E4|thumb_bx@200436A;push@2004350,push@2004390
+c?-hidden-fn-suspect	arm9	func_0201416C	0x0201416C	22	60	38	{'b': 2, 'k': 36}	codesig:thumb_bx@20141A4;push@2014184
+c?-hidden-fn-suspect	arm9	func_02088498	0x02088498	12	264	252	{'k': 252}	codesig:arm_sig@20884A4|arm_sig@2088584;armprol@20884A4
+c?-hidden-fn-suspect	arm9	sub_0202F138	0x0202F138	12	56	44	{'k': 44}	codesig:thumb_bx@202F158|thumb_bx@202F164;push@202F144
+c?-hidden-fn-suspect	ov093	func_021C446C	0x021C446C	376	424	48	{'k': 48}	codesig:thumb_bx@21C45E4|thumb_bx@21C45F4|thumb_bx@21C4604;armprol@21C45E8,armprol@21C45F8,armprol@21C4608
+c?-hidden-fn-suspect	ov093	func_021CA8F8	0x021CA8F8	220	300	80	{'k': 80}	codesig:thumb_bx@21CA9D4|thumb_bx@21CA9E4|thumb_bx@21CA9F4;armprol@21CA9D8,armprol@21CA9E8,armprol@21CA9F8,armprol@21CAA08
+c?-hidden-fn-suspect	ov093	func_021CBD48	0x021CBD48	336	352	16	{'k': 16}	codesig:thumb_bx@21CBE98;armprol@21CBE9C
+c?-hidden-fn-suspect	ov093	func_021CE4D0	0x021CE4D0	756	772	16	{'k': 16}	codesig:thumb_bx@21CE7C4;armprol@21CE7C8
+c?-hidden-fn-suspect	ov093	func_021D10B8	0x021D10B8	356	388	32	{'k': 32}	codesig:thumb_bx@21D121C|thumb_bx@21D122C;armprol@21D1220,armprol@21D1230
+c?-hidden-fn-suspect	ov093	func_021E9B20	0x021E9B20	320	448	128	{'k': 128}	codesig:thumb_bx@21E9C60|thumb_bx@21E9C70|thumb_bx@21E9C80;armprol@21E9C64,armprol@21E9C74,armprol@21E9C84,armprol@21E9C94
+c?-hidden-fn-suspect	ov093	func_021E9E80	0x021E9E80	300	412	112	{'k': 112}	codesig:thumb_bx@21E9FAC|thumb_bx@21E9FBC|thumb_bx@21E9FCC;armprol@21E9FB0,armprol@21E9FC0,armprol@21E9FD0,armprol@21E9FE0
+c?-hidden-fn-suspect	ov093	func_021EAC80	0x021EAC80	196	292	96	{'k': 96}	codesig:thumb_bx@21EAD44|thumb_bx@21EAD54|thumb_bx@21EAD64;armprol@21EAD48,armprol@21EAD58,armprol@21EAD68,armprol@21EAD78
+c?-hidden-fn-suspect	ov095	func_0689B69C	0x0689B69C	148	228	80	{'k': 80}	codesig:thumb_bx@689B730|thumb_bx@689B740|thumb_bx@689B750;armprol@689B734,armprol@689B744,armprol@689B754,armprol@689B764
+c?-hidden-fn-suspect	ov095	func_0689C284	0x0689C284	208	224	16	{'k': 16}	codesig:thumb_bx@689C354;armprol@689C358
+c?-hidden-fn-suspect	ov095	func_0689CC8C	0x0689CC8C	40	172	132	{'k': 132}	codesig:thumb_bx@689CCE4|thumb_bx@689CCF6|thumb_bx@689CD24;push@689CCB4,push@689CCF8
+c?-hidden-fn-suspect	twl	DSP_StopDSPComponent	0x027052B4	72	120	48	{'k': 48}	codesig:arm_sig@27052FC|arm_sig@270531C;armprol@27052FC,armprol@2705320
+d-data	arm9	FSi_OpenFileFastDefault	0x02079AE8	136	172	36	{'k': 36}	codesig:arm_sig@2079B90;
+d-data	arm9	FSi_ROMFAT_OpenDirectory	0x0207A270	88	112	24	{'k': 24}	codesig:arm_sig@207A2DC;
+d-data	arm9	FSi_ROMFAT_OpenFile	0x0207A140	80	188	108	{'k': 108}	codesig:arm_sig@207A1E8|arm_sig@207A1F8;
+d-data	arm9	FSi_ROMFAT_Unmount	0x0207A234	48	60	12	{'k': 12}	codesig:arm_sig@207A26C;
+d-data	arm9	INITi_Fill32	0x02004F20	92	116	24	{'d': 24}	
+d-data	arm9	MATH_QSort	0x02081BE4	648	664	16	{'d': 16}	otherpool
+d-data	arm9	OSi_EnterDmaCallback	0x020848A4	72	84	12	{'d': 12}	
+d-data	arm9	_ll_mul	0x0209C054	32	80	48	{'k': 48}	codesig:arm_sig@209C094|arm_sig@209C0A0;
+d-data	arm9	func_02004490	0x02004490	4	418	414	{'k': 414}	codesig:thumb_bx@2004500|thumb_bx@2004562|thumb_bx@2004588;
+d-data	arm9	func_02004632	0x02004632	4	462	458	{'k': 458}	codesig:thumb_bx@2004696|thumb_bx@200471E|thumb_bx@20047A8;
+d-data	arm9	func_02005BC0	0x02005BC0	88	104	16	{'k': 16}	codesig:thumb_bx@2005C1E|thumb_bx@2005C24;
+d-data	arm9	func_0200B2A4	0x0200B2A4	162	180	18	{'b': 2, 'k': 16}	codesig:thumb_bx@200B350;
+d-data	arm9	func_0200B98C	0x0200B98C	172	184	12	{'k': 12}	codesig:thumb_bx@200BA3E|thumb_bx@200BA42;
+d-data	arm9	func_0200BD48	0x0200BD48	80	104	24	{'k': 24}	codesig:thumb_bx@200BD9C|thumb_bx@200BDA8;
+d-data	arm9	func_0200BE84	0x0200BE84	130	140	10	{'b': 2, 'k': 8}	codesig:thumb_bx@200BF0E;
+d-data	arm9	func_02015D64	0x02015D64	26	36	10	{'b': 2, 'k': 8}	codesig:thumb_bx@2015D86;
+d-data	arm9	func_02019D58	0x02019D58	44	76	32	{'k': 32}	codesig:thumb_bx@2019D92|thumb_bx@2019D9C;
+d-data	arm9	func_0202441C	0x0202441C	52	72	20	{'k': 20}	codesig:thumb_bx@202445A|thumb_bx@202445E;
+d-data	arm9	func_020244D4	0x020244D4	28	36	8	{'k': 8}	codesig:thumb_bx@20244F6;
+d-data	arm9	func_020275D0	0x020275D0	12	20	8	{'k': 8}	codesig:thumb_bx@20275DE|thumb_bx@20275E0;
+d-data	arm9	func_02027A08	0x02027A08	24	28	4	{'k': 4}	codesig:thumb_bx@2027A22;
+d-data	arm9	func_0202B20C	0x0202B20C	22	36	14	{'b': 2, 'k': 12}	codesig:thumb_bx@202B22E;
+d-data	arm9	func_0202B42C	0x0202B42C	8	12	4	{'k': 4}	codesig:thumb_bx@202B436;
+d-data	arm9	func_0202B710	0x0202B710	16	52	36	{'k': 36}	codesig:thumb_bx@202B724|thumb_bx@202B730|thumb_bx@202B73C;
+d-data	arm9	func_0202B744	0x0202B744	18	68	50	{'b': 2, 'k': 48}	codesig:thumb_bx@202B75C|thumb_bx@202B768|thumb_bx@202B774;
+d-data	arm9	func_0202B788	0x0202B788	12	48	36	{'k': 36}	codesig:thumb_bx@202B798|thumb_bx@202B7A4|thumb_bx@202B7B0;
+d-data	arm9	func_0202E7E4	0x0202E7E4	40	52	12	{'k': 12}	codesig:thumb_bx@202E814;
+d-data	arm9	func_0202F038	0x0202F038	94	120	26	{'b': 2, 'k': 24}	codesig:thumb_bx@202F09C|thumb_bx@202F0A8;
+d-data	arm9	func_0202F640	0x0202F640	72	248	176	{'k': 176}	codesig:thumb_bx@202F690|thumb_bx@202F6A0|thumb_bx@202F6A4;
+d-data	arm9	func_0203195C	0x0203195C	56	72	16	{'k': 16}	codesig:arm_sig@20319A0;
+d-data	arm9	func_0203E9DC	0x0203E9DC	120	192	72	{'k': 72}	codesig:arm_sig@203EA68|arm_sig@203EA94;
+d-data	arm9	func_0204BFF4	0x0204BFF4	48	108	60	{'d': 60}	
+d-data	arm9	func_0204D52C	0x0204D52C	16	32	16	{'d': 16}	
+d-data	arm9	func_0204EA0C	0x0204EA0C	44	64	20	{'k': 20}	codesig:arm_sig@204EA44;
+d-data	arm9	func_0204EDC4	0x0204EDC4	12	72	60	{'k': 60}	codesig:arm_sig@204EE08;
+d-data	arm9	func_0204F2CC	0x0204F2CC	24	48	24	{'k': 24}	codesig:arm_sig@204F2F8;
+d-data	arm9	func_02051788	0x02051788	8	176	168	{'k': 168}	codesig:arm_sig@20517A0|arm_sig@20517B0|arm_sig@20517CC;
+d-data	arm9	func_0205CE84	0x0205CE84	160	172	12	{'k': 12}	codesig:arm_sig@205CF28;
+d-data	arm9	func_0206AA78	0x0206AA78	20	92	72	{'k': 72}	codesig:arm_sig@206AAA8|arm_sig@206AACC;
+d-data	arm9	func_0207AD04	0x0207AD04	44	84	40	{'k': 40}	codesig:arm_sig@207AD38|arm_sig@207AD54;
+d-data	arm9	func_0207ADE8	0x0207ADE8	60	80	20	{'k': 20}	codesig:thumb_bx@207AE34;
+d-data	arm9	func_0207B60C	0x0207B60C	52	80	28	{'k': 28}	codesig:thumb_bx@207B658;
+d-data	arm9	func_0207DE5C	0x0207DE5C	44	72	28	{'k': 28}	codesig:arm_sig@207DE98;
+d-data	arm9	func_0208459C	0x0208459C	116	120	4	{'k': 4}	codesig:arm_sig@2084610;
+d-data	arm9	func_02084614	0x02084614	136	328	192	{'d': 192}	
+d-data	arm9	func_020921F4	0x020921F4	112	188	76	{'k': 76}	codesig:arm_sig@2092298|arm_sig@20922AC;
+d-data	arm9	func_0209D7D4	0x0209D7D4	68	76	8	{'k': 8}	codesig:arm_sig@209D81C;
+d-data	arm9	sub_0200E3E8	0x0200E3E8	86	100	14	{'b': 2, 'k': 12}	codesig:thumb_bx@200E448;
+d-data	arm9	sub_0200E994	0x0200E994	70	76	6	{'b': 2, 'k': 4}	codesig:thumb_bx@200E9DE;
+d-data	arm9	sub_02016078	0x02016078	72	76	4	{'k': 4}	codesig:thumb_bx@20160C2;
+d-data	arm9	sub_0201B2B0	0x0201B2B0	1116	1128	12	{'d': 12}	
+d-data	arm9	sub_0204D478	0x0204D478	28	76	48	{'d': 48}	
+d-data	arm9	sub_02063054	0x02063054	20	36	16	{'d': 16}	
+d-data	ov009	gsLargeIntGetByteLength	0x0217E9EC	108	144	36	{'d': 36}	
+d-data	ov010	func_0216E434	0x0216E434	48	64	16	{'k': 16}	codesig:thumb_bx@216E464|thumb_bx@216E468|thumb_bx@216E46C;
+d-data	ov021	func_021A1288	0x021A1288	14	28	14	{'b': 2, 'k': 12}	codesig:thumb_bx@21A129C;
+d-data	ov021	func_021AB458	0x021AB458	28	96	68	{'k': 68}	codesig:thumb_bx@21AB486|thumb_bx@21AB48A|thumb_bx@21AB49E;
+d-data	ov039	func_021F36F0	0x021F36F0	12	836	824	{'d': 824}	
+d-data	ov055	func_021F3AA4	0x021F3AA4	106	124	18	{'b': 2, 'k': 16}	codesig:thumb_bx@21F3B18;
+d-data	ov070	func_021B8688	0x021B8688	48	636	588	{'d': 588}	
+d-data	ov093	func_021BF0E4	0x021BF0E4	82	84	2	{'d': 2}	
+d-data	ov093	func_021BF1B4	0x021BF1B4	78	80	2	{'d': 2}	
+d-data	ov093	func_021BF83C	0x021BF83C	86	88	2	{'d': 2}	
+d-data	ov093	func_021BF8D4	0x021BF8D4	110	112	2	{'d': 2}	
+d-data	ov093	func_021C1CE4	0x021C1CE4	74	76	2	{'d': 2}	
+d-data	ov093	func_021C43F0	0x021C43F0	74	76	2	{'d': 2}	
+d-data	ov093	func_021C82D0	0x021C82D0	18	20	2	{'d': 2}	
+d-data	ov093	func_021C97D0	0x021C97D0	70	72	2	{'d': 2}	
+d-data	ov093	func_021CAA58	0x021CAA58	458	668	210	{'b': 2, 'k': 208}	codesig:thumb_bx@21CAC24|thumb_bx@21CAC34|thumb_bx@21CAC44;
+d-data	ov093	func_021CACF4	0x021CACF4	546	740	194	{'b': 2, 'k': 192}	codesig:thumb_bx@21CAF18|thumb_bx@21CAF28|thumb_bx@21CAF38;
+d-data	ov093	func_021CC4AC	0x021CC4AC	74	76	2	{'d': 2}	
+d-data	ov093	func_021D0B10	0x021D0B10	42	44	2	{'d': 2}	
+d-data	ov093	func_021D34E8	0x021D34E8	110	112	2	{'d': 2}	
+d-data	ov093	func_021D7E10	0x021D7E10	34	36	2	{'d': 2}	
+d-data	ov093	func_021DB1A8	0x021DB1A8	26	28	2	{'d': 2}	
+d-data	ov093	func_021DB4E8	0x021DB4E8	102	104	2	{'d': 2}	
+d-data	ov093	func_021E01D4	0x021E01D4	158	160	2	{'d': 2}	
+d-data	ov093	func_021E6CDC	0x021E6CDC	178	180	2	{'d': 2}	
+d-data	ov093	func_021E6E38	0x021E6E38	202	204	2	{'d': 2}	
+d-data	ov093	func_021E7DB0	0x021E7DB0	62	64	2	{'d': 2}	
+d-data	ov093	func_021E9104	0x021E9104	194	196	2	{'d': 2}	
+d-data	ov093	func_021E91E8	0x021E91E8	972	1100	128	{'d': 128}	
+d-data	ov093	func_021E964C	0x021E964C	86	88	2	{'d': 2}	
+d-data	ov093	func_021E98E8	0x021E98E8	38	40	2	{'d': 2}	
+d-data	ov093	func_021E9928	0x021E9928	26	28	2	{'d': 2}	
+d-data	ov093	func_021EAA00	0x021EAA00	34	36	2	{'d': 2}	
+d-data	ov093	func_021EAECC	0x021EAECC	34	36	2	{'d': 2}	
+d-data	ov093	func_021EFA94	0x021EFA94	50	52	2	{'d': 2}	
+d-data	ov093	func_021EFC78	0x021EFC78	90	92	2	{'d': 2}	
+d-data	ov095	func_068980CC	0x068980CC	22	24	2	{'d': 2}	
+d-data	ov095	func_068982C0	0x068982C0	42	44	2	{'d': 2}	
+d-data	ov095	func_06898328	0x06898328	178	180	2	{'d': 2}	
+d-data	ov095	func_068984C8	0x068984C8	350	352	2	{'d': 2}	
+d-data	ov095	func_0689905C	0x0689905C	58	60	2	{'d': 2}	
+d-data	ov095	func_068991B0	0x068991B0	34	36	2	{'d': 2}	
+d-data	ov095	func_068994B4	0x068994B4	94	96	2	{'d': 2}	
+d-data	ov095	func_068996D4	0x068996D4	170	172	2	{'d': 2}	
+d-data	ov095	func_06899A9C	0x06899A9C	34	36	2	{'d': 2}	
+d-data	ov095	func_06899BE0	0x06899BE0	106	108	2	{'d': 2}	
+d-data	ov095	func_06899CA4	0x06899CA4	38	40	2	{'d': 2}	
+d-data	ov095	func_06899D04	0x06899D04	22	24	2	{'d': 2}	
+d-data	ov095	func_06899D64	0x06899D64	26	28	2	{'d': 2}	
+d-data	ov095	func_06899DB0	0x06899DB0	22	24	2	{'d': 2}	
+d-data	ov095	func_06899DD8	0x06899DD8	34	36	2	{'d': 2}	
+d-data	ov095	func_0689A84C	0x0689A84C	26	28	2	{'d': 2}	
+d-data	ov095	func_0689A878	0x0689A878	158	160	2	{'d': 2}	
+d-data	ov095	func_0689AB48	0x0689AB48	70	72	2	{'d': 2}	
+d-data	ov095	func_0689ACD8	0x0689ACD8	18	20	2	{'d': 2}	
+d-data	ov095	func_0689ACFC	0x0689ACFC	22	24	2	{'d': 2}	
+d-data	ov095	func_0689AD24	0x0689AD24	22	24	2	{'d': 2}	
+d-data	ov095	func_0689AE34	0x0689AE34	346	348	2	{'d': 2}	
+d-data	ov095	func_0689B354	0x0689B354	382	384	2	{'d': 2}	
+d-data	ov095	func_0689B524	0x0689B524	34	36	2	{'d': 2}	
+d-data	ov095	func_0689B558	0x0689B558	26	28	2	{'d': 2}	
+d-data	ov095	func_0689B7A8	0x0689B7A8	66	68	2	{'d': 2}	
+d-data	ov095	func_0689B974	0x0689B974	62	64	2	{'d': 2}	
+d-data	ov095	func_0689BDE0	0x0689BDE0	90	92	2	{'d': 2}	
+d-data	ov095	func_0689BEAC	0x0689BEAC	62	64	2	{'d': 2}	
+d-data	ov095	func_0689C0A8	0x0689C0A8	42	44	2	{'d': 2}	
+d-data	ov095	func_0689C1A4	0x0689C1A4	46	48	2	{'d': 2}	
+d-data	ov095	func_0689C214	0x0689C214	46	48	2	{'d': 2}	
+d-data	ov095	func_0689C364	0x0689C364	94	96	2	{'d': 2}	
+d-data	ov095	func_0689C540	0x0689C540	138	140	2	{'d': 2}	
+d-data	ov095	func_0689C68C	0x0689C68C	38	40	2	{'d': 2}	
+d-data	ov095	func_0689C6E4	0x0689C6E4	78	80	2	{'d': 2}	
+d-data	ov095	func_0689CFF0	0x0689CFF0	34	36	2	{'d': 2}	
+d-data	ov095	func_0689D1FC	0x0689D1FC	74	76	2	{'d': 2}	
+d-data	ov095	func_0689D258	0x0689D258	94	96	2	{'d': 2}	
+d-data	ov095	func_0689D338	0x0689D338	206	208	2	{'d': 2}	
+d-data	ov095	func_0689D448	0x0689D448	86	88	2	{'d': 2}	
+d-data	ov132	func_021F9E18	0x021F9E18	8	40	32	{'k': 32}	codesig:thumb_bx@21F9E30|thumb_bx@21F9E3A|thumb_bx@21F9E3E;
+d-data	ov132	func_021FBA14	0x021FBA14	88	868	780	{'d': 780}	
+d-data	ov172	func_021B6338	0x021B6338	86	88	2	{'d': 2}	
+d-data	ov172	func_021B6950	0x021B6950	34	36	2	{'d': 2}	
+d-data	ov230	func_02188A48	0x02188A48	256	616	360	{'d': 360}	
+d-data	twl	AESi_CalcMac	0x027074B0	168	192	24	{'d': 24}	
+d-data	twl	CAMERA_GetBytesAtOnceCore	0x0270234C	24	232	208	{'k': 208}	codesig:arm_sig@2702390|arm_sig@2702398|arm_sig@27023A0;
+d-data	twl	CAMERA_SetRebootCallbackCore	0x02700118	16	216	200	{'k': 200}	codesig:arm_sig@270014C|arm_sig@2700154|arm_sig@270015C;
+d-data	twl	CARDi_InitRomHash	0x0272EA74	296	360	64	{'d': 64}	
+d-data	twl	CameraPxiCallback	0x02701AA0	1336	1352	16	{'d': 16}	
+d-data	twl	CameraWaitBusy	0x02702028	72	88	16	{'d': 16}	
+d-data	twl	CommonCallback	0x027049B0	424	452	28	{'d': 28}	
+d-data	twl	DSP_StoreData	0x02706694	288	1228	940	{'d': 940}	
+d-data	twl	DSPiShutterPostProcessCallback	0x02705F64	52	72	20	{'k': 20}	codesig:arm_sig@2705FA4;
+d-data	twl	DSPi_StopSoundCore	0x027062C8	92	116	24	{'k': 24}	codesig:arm_sig@2706334;
+d-data	twl	FATFSi_WaitForRequest	0x02704264	180	196	16	{'k': 16}	codesig:arm_sig@2704320;
+d-data	twl	MICEXi_StopLimitedSamplingAsync	0x02703F04	92	120	28	{'d': 28}	
+d-data	twl	MIi_NDMAFastCallback	0x027301B4	44	92	48	{'d': 48}	
+d-data	twl	MIi_SetWramBankMaster	0x02730294	32	152	120	{'k': 120}	codesig:arm_sig@27302D4|arm_sig@27302FC|arm_sig@2730324;
+d-data	twl	NWMi_DeleteSleepCallback	0x02702A78	20	32	12	{'d': 12}	
+d-data	twl	OSi_InitArenaEx_ltdmain	0x027312B4	28	104	76	{'k': 76}	codesig:arm_sig@27312F0|arm_sig@2731314;
+d-data	twl	PM_DeletePostExitCallback	0x02731590	24	48	24	{'d': 24}	
+d-data	twl	PM_GetExitFactor	0x0273153C	16	48	32	{'d': 32}	
+d-data(.inst table)	ov230	func_021889B0	0x021889B0	12	52	40	{'e': 40}	
+e-empty	twl	AESi_Init	0x027073AC	0	112	112	{'z': 112}	empty body
+e-empty	twl	AESi_InitRand	0x02707570	0	284	284	{'z': 284}	empty body
+e-empty	twl	DSPi_LoadG711Core	0x02707278	0	104	104	{'z': 104}	empty body
+x-extent-short	arm9	FSi_RomArchiveProc	0x0207AA34	212	176	-36		
+x-extent-short	arm9	MI_CpuMove	0x02083194	788	188	-600		
+x-extent-short	arm9	__fadd	0x0209C95C	1204	560	-644		
+x-extent-short	arm9	_double_arith_prelude	0x0209AC04	1764	816	-948		
+x-extent-short	arm9	_ll_divmod_entry_signed	0x0209BE4C	520	16	-504		
+x-extent-short	arm9	func_0202822C	0x0202822C	4	2	-2		
+x-extent-short	arm9	func_02050080	0x02050080	8	4	-4		
+x-same	arm9	_s32_div_f	0x0209C0A4	524	524	0		

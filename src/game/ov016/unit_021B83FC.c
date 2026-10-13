@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B83FC.c
  * unit:     yes
- * function: func_021B83FC, func_021B8488, func_021B84AC, alarmCallback, alarmCallback_021B84D0, func_021B84E4, func_021B85A8, AOSSi_Disconnect, AOSSi_WLANGetBSSList, func_021B87F0
+ * function: func_021B83FC, func_021B8488, func_021B84AC, aoss_apc_callback, alarmCallback, func_021B84E4, func_021B85A8, AOSSi_Disconnect, AOSSi_WLANGetBSSList, func_021B87F0
  * address:  0x021B83FC
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -23,7 +23,6 @@
  *   aosslink_bss          0x021DCE20  data
  *   aoss_mq               0x021DCE40  data
  *   aoss_msgArray         0x021DCE30  data
- *   aoss_apc_callback     0x021B84BC  thumb
  *   OS_InitMessageQueue   0x02085D94  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
@@ -158,8 +157,7 @@ extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void func_021B83FC(int, int *);
-extern void OS_SendMessage(void);
-extern void aoss_apc_callback(int event);
+extern int OS_SendMessage(OSMessageQueue *mq, void *msg, long flags);
 extern void OS_InitMessageQueue(OSMessageQueue *mq, void **msgArray, long msgCount);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -183,8 +181,8 @@ extern void func_021B84D0(void *event);
 void Set_WLLA_BSS_INFO(struct WMBssDesc *bd, struct wlla_bss_info *bi);
 void Get_WLLA_SSID_PARAM(struct wlla_ssid *ssid, struct WMBssDesc *bd);
 void func_021B84AC(int *p, int a, int c);
-asm void alarmCallback(void *event);
-asm void alarmCallback_021B84D0(void *event);
+static void aoss_apc_callback(void *event);
+static void alarmCallback(void *event);
 int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *));
 int AOSSi_EndLocal(void);
 int AOSSi_Disconnect(void);
@@ -261,25 +259,17 @@ void func_021B84AC(int *p, int a, int c)
 
 
 
-asm void alarmCallback(void *event)
+static void aoss_apc_callback(void *event)
 {
-	LDR R3, =OS_SendMessage
-	ADD R1, R0, #0
-	LDR R0, =0x021DCE40
-	MOV R2, #0
-	BX R3
+    OS_SendMessage(&g_021DCE40, event, 0);
 }
 
 
 
 
-asm void alarmCallback_021B84D0(void *event)
+static void alarmCallback(void *event)
 {
-	LDR R3, =OS_SendMessage
-	ADD R1, R0, #0
-	LDR R0, =0x021DCE40
-	MOV R2, #0
-	BX R3
+    OS_SendMessage(&g_021DCE40, event, 0);
 }
 
 
@@ -451,7 +441,7 @@ int AOSSi_WLANGetBSSList(struct wlla_bss_list **bssList)
     if (APC_SearchStart(0, 0, 0, 0x30BFFE) == 0)
         goto free_desc;
     OS_CreateAlarm(&alarm);
-    OS_SetAlarm(&alarm, 0x3FEC42, alarmCallback_021B84D0, (void *)0x13);
+    OS_SetAlarm(&alarm, 0x3FEC42, alarmCallback, (void *)0x13);
     do {
         OS_ReceiveMessage(&aoss_mq, &msg, 1);
         switch ((int)msg) {

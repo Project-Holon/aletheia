@@ -1,5 +1,5 @@
 /*
- * function: func_02701284
+ * function: CAMERA_I2CFlipExAsyncCore
  * address:  0x02701284
  * packet:   twl_sys
  * region:   twl
@@ -12,95 +12,91 @@
  * symbols:
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
- *   func_027007C8  0x027007C8  arm twl a2
+ *   CAMERA_CheckRetryCount  0x027007C8  arm twl a2
  *   func_02087988  0x02087988  arm twl a2
  *   func_0208799C  0x0208799C  arm twl a2
- *   func_027019B4  0x027019B4  arm twl a2
- *   func_02701A60  0x02701A60  arm twl a2
+ *   CameraSendPxiCommand  0x027019B4  arm twl a2
+ *   CameraSendPxiData  0x02701A60  arm twl a2
  */
 
 typedef unsigned int u32;
+typedef signed int s32;
+typedef unsigned char u8;
 
-extern u32 data_02732FC8[];
-extern u32 data_02733FC8[];
-extern u32 func_027007C8(void);
-extern void func_02087988(void);
-extern void func_0208799C(void);
-extern u32 func_027019B4(u32, u32, u32);
-extern u32 func_02701A60(u32);
+typedef void (*CamPxiCallback)(u32 result, u32 arg);
 
-asm void func_02701284(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4) {
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-    sub sp, sp, #8
-    mov r8, r0
-    mov r7, r1
-    mov r6, r2
-    mov r5, r3
-    bl func_027007C8
-    mov r4, r0
-    cmp r4, #7
-    addeq sp, sp, #8
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    cmp r8, #1
-    cmpne r8, #2
-    cmpne r8, #3
-    addne sp, sp, #8
-    movne r0, #3
-    ldmnefd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    cmp r7, #1
-    cmpne r7, #2
-    cmpne r7, #3
-    addne sp, sp, #8
-    movne r0, #3
-    ldmnefd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    cmp r6, #3
-    addls pc, pc, r6, lsl #2
-    b @lbl_027012FC
-    b @lbl_02701308
-    b @lbl_02701308
-    b @lbl_02701308
-    b @lbl_02701308
-@lbl_027012FC:
-    add sp, sp, #8
-    mov r0, #3
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-@lbl_02701308:
-    bl func_02087988
-    ldr sb, =data_02732FC8
-    ldr r1, [sb]
-    cmp r1, #0
-    beq @lbl_02701334
-    bl func_0208799C
-    mov r0, #6
-    cmp r4, #6
-    add sp, sp, #8
-    movne r0, #2
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-@lbl_02701334:
-    mov r1, #1
-    str r1, [sb]
-    bl func_0208799C
-    ldr r1, [sp, #0x28]
-    str r5, [sb, #4]
-    str r1, [sb, #0xc]
-    ldr r0, =data_02733FC8
-    strb r8, [sp]
-    strb r7, [sp, #1]
-    strb r6, [sp, #2]
-    str r8, [r0, #0x1a0]
-    str r7, [r0, #0x1a4]
-    str r6, [r0, #0x1a8]
-    ldrb r2, [sp]
-    mov r0, #0x33
-    mov r1, #3
-    bl func_027019B4
-    cmp r0, #0
-    addeq sp, sp, #8
-    moveq r0, #4
-    ldmeqfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-    add r0, sp, #1
-    bl func_02701A60
-    mov r0, #0
-    add sp, sp, #8
-    ldmfd sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+typedef struct CamPxiCmd {
+    u32 busy;
+    CamPxiCallback callback;
+    u32 f08;
+    u32 arg;
+    s32 command;
+    s32 type;
+    u8 index;
+    u8 total;
+    u8 pad[2];
+    u8 *buf;
+    u32 len;
+    u32 pend0;
+    u32 pend1;
+    u32 pend2;
+} CamPxiCmd;
+
+typedef struct CamPxiState {
+    u8 pad0[0x1a0];
+    u32 flagsA;
+    u32 flagsB;
+    s32 value;
+} CamPxiState;
+
+extern u32 CAMERA_CheckRetryCount(void);
+extern u32 func_02087988(void);
+extern void func_0208799C(u32);
+extern int CameraSendPxiCommand(u32, u32, u32);
+extern void CameraSendPxiData(const u8 *);
+extern CamPxiCmd data_02732FC8;
+extern CamPxiState data_02733FC8;
+
+u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4) {
+    u8 buf[8];
+    u32 st = CAMERA_CheckRetryCount();
+    u32 irq;
+    if (st == 7) {
+        return st;
+    }
+    if (a0 != 1 && a0 != 2 && a0 != 3) {
+        return 3;
+    }
+    if (a1 != 1 && a1 != 2 && a1 != 3) {
+        return 3;
+    }
+    switch (a2) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        break;
+    default:
+        return 3;
+    }
+    irq = func_02087988();
+    if (data_02732FC8.busy != 0) {
+        func_0208799C(irq);
+        return (st == 6) ? 6 : 2;
+    }
+    data_02732FC8.busy = 1;
+    func_0208799C(irq);
+    data_02732FC8.callback = a3;
+    data_02732FC8.arg = a4;
+    buf[0] = a0;
+    buf[1] = a1;
+    buf[2] = a2;
+    data_02733FC8.flagsA = a0;
+    data_02733FC8.flagsB = a1;
+    data_02733FC8.value = a2;
+    if (CameraSendPxiCommand(0x33, 3, buf[0]) == 0) {
+        return 4;
+    }
+    CameraSendPxiData(&buf[1]);
+    return 0;
 }

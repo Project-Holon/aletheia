@@ -24,7 +24,7 @@
  * Blocker: byte-correct; 0x02008494 is an unlabelled arm9 Thumb thunk
  * (ldr r3,=target; movs r2,#0x20; bx r3), no witness outside the range.
  * Verified C for the leaf: void func_02008494(u8 *a, int b) style thunk;
- * needs Ilias's arm9 leaf filed to promote this to EXACT.
+ * needs the integrator's arm9 leaf filed to promote this to EXACT.
  */
 #include "../include/Obj00269.h"
 

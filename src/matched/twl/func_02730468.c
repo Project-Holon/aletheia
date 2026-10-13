@@ -1,5 +1,5 @@
 /*
- * function: func_02730468
+ * function: MIi_InitWramManager
  * address:  0x02730468
  * packet:   twl_sys
  * region:   twl
@@ -13,10 +13,10 @@
  *   data_02732F5C 0x02732F5C data twl
  *   data_02732F6C 0x02732F6C data twl
  *   func_020885A0 0x020885A0 arm
- *   func_02730210 0x02730210 arm twl
- *   func_02730220 0x02730220 arm twl
- *   func_02730230 0x02730230 arm twl
- *   func_0273063C 0x0273063C arm twl
+ *   MIi_GetWramBank_A 0x02730210 arm twl
+ *   MIi_GetWramBank_B 0x02730220 arm twl
+ *   MIi_GetWramBank_C 0x02730230 arm twl
+ *   MIi_CallbackForPxi 0x0273063C arm twl
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern int data_02732F5C;
 extern u16 data_02732F6C[3][8];
 extern void func_020885A0(u32, void *);
-extern u32 func_02730210(u32);
-extern u32 func_02730220(u32);
-extern u32 func_02730230(u32);
-extern void func_0273063C(u32 tag, u32 data, int err);
+extern u32 MIi_GetWramBank_A(u32);
+extern u32 MIi_GetWramBank_B(u32);
+extern u32 MIi_GetWramBank_C(u32);
+extern void MIi_CallbackForPxi(u32 tag, u32 data, int err);
 
-void func_02730468(void)
+void MIi_InitWramManager(void)
 {
     int i;
     if (data_02732F5C != 0) {
@@ -39,7 +39,7 @@ void func_02730468(void)
     }
     data_02732F5C = 1;
     for (i = 0; i < 4; i++) {
-        switch (func_02730210(i) & 1) {
+        switch (MIi_GetWramBank_A(i) & 1) {
         case 0:
             PIN(0, i) = PIN(0, i) & ~0x300;
             PIN(0, i) = PIN(0, i) & ~3;
@@ -51,7 +51,7 @@ void func_02730468(void)
         }
     }
     for (i = 0; i < 8; i++) {
-        switch (func_02730220(i) & 3) {
+        switch (MIi_GetWramBank_B(i) & 3) {
         case 0:
             PIN(1, i) = PIN(1, i) & ~0x300;
             PIN(1, i) = PIN(1, i) & ~3;
@@ -67,7 +67,7 @@ void func_02730468(void)
         }
     }
     for (i = 0; i < 8; i++) {
-        switch (func_02730230(i) & 3) {
+        switch (MIi_GetWramBank_C(i) & 3) {
         case 0:
             PIN(2, i) = PIN(2, i) & ~0x300;
             PIN(2, i) = PIN(2, i) & ~3;
@@ -82,5 +82,5 @@ void func_02730468(void)
             break;
         }
     }
-    func_020885A0(0x12, func_0273063C);
+    func_020885A0(0x12, MIi_CallbackForPxi);
 }

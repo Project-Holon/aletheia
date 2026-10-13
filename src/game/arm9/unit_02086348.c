@@ -17,6 +17,7 @@
  *   (none)
  */
 
+/* hand-written in the original: no-prologue code on r12 that stores its own register base to IME */
 asm void func_02086348(void)
 {
     mov r12, #0x4000000

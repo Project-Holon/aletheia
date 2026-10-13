@@ -94,7 +94,7 @@ int gpiFindProfileByUser(void ** connection, char * nick, char * email, GPIProfi
 void func_0218FFE0(int a, int *p);
 int gpiProfileMap(void ** connection, int (*func)(void *, GPIProfile *, void *), void * data);
 int gpiCheckForBuddy(void * unused, GPIProfile * profile, void * udata);
-GPIProfile * gpiFindBlockedProfile(void ** connection, int blockIndex);
+GPIProfile * gpiFindBuddy(void ** connection, int blockIndex);
 void gpiRemoveBuddyStatus(GPIBuddyStatus * buddyStatus);
 void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo * buddyStatusInfo);
 int func_02190140(char *p);
@@ -450,7 +450,7 @@ int gpiCheckForBuddy(void * unused, GPIProfile * profile, void * udata)
 
 
 
-GPIProfile * gpiFindBlockedProfile(void ** connection, int blockIndex)
+GPIProfile * gpiFindBuddy(void ** connection, int blockIndex)
 {
 	GPIFindProfileData data;
 

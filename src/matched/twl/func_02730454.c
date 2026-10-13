@@ -1,5 +1,5 @@
 /*
- * function: func_02730454
+ * function: MIi_GetAddress_C
  * address:  0x02730454
  * packet:   twl_sys
  * region:   twl
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027303EC 0x027303EC arm twl
+ *   MI_GetWramMapStart_C 0x027303EC arm twl
  */
 typedef unsigned int u32;
 
-extern u32 func_027303EC(void);
+extern u32 MI_GetWramMapStart_C(void);
 
-u32 func_02730454(u32 a)
+static u32 MIi_GetAddress_C(u32 a)
 {
-    return func_027303EC() + (a << 15);
+    return MI_GetWramMapStart_C() + (a << 15);
 }

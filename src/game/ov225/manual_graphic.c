@@ -1,7 +1,7 @@
 /*
  * file:     manual_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B9660, func_021B96BC, func_021B98FC, func_021B9900, func_021B99A0, func_021B99F4, func_021B9A08, func_021B9A14, func_021B9A28, func_021B9A88, func_021B9AC0, func_021B9AC4, func_021B9ACC, func_021B9B0C, func_021B9B28, func_021B9B30
+ * function: func_021B95A0, func_021B9660, func_021B96BC, func_021B98FC, func_021B9900, func_021B99A0, func_021B99F4, func_021B9A08, func_021B9A14, func_021B9A28, func_021B9A88, func_021B9AC0, func_021B9AC4, func_021B9ACC, func_021B9B0C, func_021B9B28, func_021B9B30, func_021B9B38
  * address:  0x021B95A0
  * region:   ov225
  * compiler: dsi/1.1p1

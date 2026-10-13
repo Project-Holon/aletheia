@@ -226,7 +226,7 @@ void *func_021F5368(void *p,void *q) { void *task=func_020122C0(p,0,(void *)func
 
 /*
  * Byte-correct. Only blocker: func_02010F7C (arm9, thumb, unlabelled tail-call
- * stub, 0x02010F7C..0x02010F8C; Ilias's leaf). Its verified body (EXACT with
+ * stub, 0x02010F7C..0x02010F8C; the integrator's leaf). Its verified body (EXACT with
  */
 void func_021F5390(Work *p, int a1, int a2)
 {

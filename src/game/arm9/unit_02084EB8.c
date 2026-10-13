@@ -26,6 +26,7 @@ asm void func_02084F10(u16 lockID);
  *           DW_TAG_variable, and .debug_line gives each instruction its own
  *           strictly increasing line (836..898), the asm-function pattern.
  */
+/* hand-written in the original: clz and a lock-bit scan across two words, the asm OS_GetLockID shape */
 asm s32 func_02084EB8(void)
 {
     ldr     r3, =0x02FFFFB0
@@ -58,6 +59,14 @@ _1:
  *           and .debug_line gives each instruction its own strictly
  *           increasing line (914..929), the asm-function pattern; the body
  *           selects its word with flag-conditional addpl/subpl/submi.
+ */
+/*
+ * hand-written in the original: the os_spinlock.o DWARF has the asm-function
+ * pattern (above). mwccarm does emit pl/mi, but only after a flag-setting
+ * subs (`if ((s32)(id - 0x60) >= 0)` gives subs/addpl/submi); a cmp it
+ * predicates with ge/lt. It also folds the mask shift into the orr (orr
+ * rX, rY, rZ, lsr rW) and loads the word first. Here cmp is followed by a
+ * recomputing subpl, a separate mov/lsr and a late ldr: not compiler output.
  */
 asm void func_02084F10(u16 lockID)
 {

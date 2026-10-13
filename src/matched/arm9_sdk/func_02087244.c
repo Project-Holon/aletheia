@@ -13,10 +13,12 @@
  *   g_02151340 0x02151340 data
  */
 
-extern void g_02151340(void);
-asm void func_02087244(void)
+typedef unsigned short u16;
+typedef int BOOL;
+
+extern u16 g_02151340;
+
+BOOL func_02087244(void)
 {
-    ldr r0, =g_02151340
-    ldrh r0, [r0]
-    bx lr
+    return g_02151340;
 }

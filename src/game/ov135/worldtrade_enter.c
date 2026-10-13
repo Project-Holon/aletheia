@@ -142,52 +142,14 @@
  *   g_022033FC  0x022033FC  data  ov135
  *   func_0201F868 0x0201F868 thumb
  */
-#include "../../matched/include/Obj02204.h"
-#include "../../matched/include/Obj12203.h"
-#include "../../matched/include/Obj12204.h"
-#include "../../matched/include/Obj05413.h"
-#include "../../matched/include/Obj08184.h"
-#include "../../matched/include/Obj00287.h"
 #include "../../matched/include/Obj23396.h"
 #include "../../matched/include/Obj23397.h"
 #include "../../matched/include/Obj23398.h"
 #include "../../matched/include/Obj23399.h"
-#include "../../matched/include/Obj18565.h"
-#include "../../matched/include/Obj04905.h"
-#include "../../matched/include/Obj14167.h"
 #include "../../matched/include/Obj23400.h"
-#include "../../matched/include/Obj03294.h"
 #include "../../matched/include/Obj23401.h"
 #include "worldtrade_types.h"
-#include "../../matched/include/Obj06513.h"
-#include "../../matched/include/Obj04527.h"
 #include "../../matched/include/Obj23403.h"
-#include "../../matched/include/Obj09233.h"
-#include "../../matched/include/Obj01743.h"
-#include "../../matched/include/Obj12205.h"
-#include "../../matched/include/Obj10580.h"
-#include "../../matched/include/Obj04528.h"
-#include "../../matched/include/Obj02857.h"
-#include "../../matched/include/Obj01259.h"
-#include "../../matched/include/Obj12206.h"
-#include "../../matched/include/Obj01744.h"
-#include "../../matched/include/Obj03296.h"
-#include "../../matched/include/Obj00474.h"
-#include "../../matched/include/Obj01745.h"
-#include "../../matched/include/Obj09234.h"
-#include "../../matched/include/Obj03297.h"
-#include "../../matched/include/Obj07245.h"
-#include "../../matched/include/Obj05414.h"
-#include "../../matched/include/Obj05415.h"
-#include "../../matched/include/Obj00246.h"
-#include "../../matched/include/Obj00098.h"
-#include "../../matched/include/Obj01160.h"
-#include "../../matched/include/Obj00194.h"
-#include "../../matched/include/Obj09235.h"
-#include "../../matched/include/Obj02490.h"
-#include "../../matched/include/Obj02858.h"
-#include "../../matched/include/Obj00195.h"
-#include "../../matched/include/Obj02859.h"
 
 struct Slot;
 struct Obj;
@@ -427,37 +389,37 @@ extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
 extern void func_021F84BC(u32 i, int *start, int *end);
 extern u32 func_0201F868(void *p);
-void func_021F88B0(u8 *p,u32 n);
+void func_021F88B0(Work *p,u32 n);
 int func_021F88D8(u32 id, u32 *start);
 int func_021F8908(void **menu, void *msg, int id);
 int func_021F8950(void *p, u16 *old);
-void func_021F8990(u8 *p);
+void func_021F8990(WorldtradeEnterObj3 *p);
 void func_021F89A8(u8 *p, int i, u16 a, u16 b);
-int func_021F89B4(u8 *p);
-int func_021F89F0(u8 *p);
-u32 func_021F8A18(u8 *p);
-void func_021F8A3C(void *a0);
+int func_021F89B4(Work *p);
+int func_021F89F0(Work *p);
+u32 func_021F8A18(Menu *p);
+void func_021F8A3C(Work *a0);
 void func_021F8A40(void);
 int func_021F8A44(Work *p);
-int func_021F8A74(void *a0);
-int func_021F8A80(u8 *a0);
+int func_021F8A74(Work *a0);
+int func_021F8A80(Work *a0);
 int func_021F8AB0(u8 **p);
-int func_021F8AF4(u8 *p);
-int func_021F8B0C(u8 *p);
-int func_021F8BBC(u8 *p);
+int func_021F8AF4(Work *p);
+int func_021F8B0C(WorldtradeEnterObj2 *p);
+int func_021F8BBC(Work *p);
 int func_021F8BE8(Work *p);
-int func_021F8D10(u8 *p);
-int func_021F8DA4(u8 *p);
-int func_021F8DE4(u8 *p);
-int func_021F8E58(u8 *p);
+int func_021F8D10(Work *p);
+int func_021F8DA4(Work *p);
+int func_021F8DE4(Work *p);
+int func_021F8E58(Work *p);
 int func_021F8E88(void *dialog, u8 *p);
 u32 func_021F8F5C(u8 *p);
-int func_021F8F68(u8 *p);
-int func_021F8F84(u8 *p, void *dialog);
-int func_021F9024(u8 *p, void *dialog);
+int func_021F8F68(Work *p);
+int func_021F8F84(Work *p, void *dialog);
+int func_021F9024(WorldtradeEnterObj1 *p, void *dialog);
 void func_021F9088(u32 a, u32 b, u32 c, u32 d, u16 e);
 void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e);
-void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int slow);
+void func_021F90B8(Work *p, void *bank, u32 index, int unused1, int unused2, int slow);
 int func_021F914C(void *win, void *str, int x, int align, int unused, int font, void *ctx);
 int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
@@ -466,10 +428,10 @@ void func_021F9254(u8 *a0);
 void ov135_func_021F9260(Menu *p, u32 mode);
 void func_021F9660(Obj_021F9024 *p, int mode);
 Menu_021F9024 *func_021F9890(Init *init, u32 a, u32 b);
-void func_021F9968(u8 *p, int mode);
-void func_021F99D0(u8 *p);
+void func_021F9968(Menu *p, int mode);
+void func_021F99D0(Menu *p);
 int func_021F99F0(Obj_021F99F0 *p);
-int func_021F9A1C(void *p, int mode);
+int func_021F9A1C(Menu *p, int mode);
 int func_021F9A88(Menu *p, u8 *enable);
 int func_021F9CB0(Menu *p, int v);
 int func_021F9CDC(Menu *p, int base);
@@ -486,36 +448,36 @@ int func_021FA514(Menu *p, u8 *enable);
 int func_021FA760(Menu *m, int key);
 void func_021FA7C4(Menu *m, int dir);
 int func_021FA85C(Menu *m);
-void func_021FA9C8(u8 *p, int mode, int pos);
-void func_021FAAD4(u8 *p);
-void func_021FAB70(u8 *p);
+void func_021FA9C8(Menu *p, int mode, int pos);
+void func_021FAAD4(Menu *p);
+void func_021FAB70(Menu *p);
 void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
 int func_021FAC84(void);
-int func_021FAC8C(u8 *p);
-int func_021FAD08(u8 *p);
-int func_021FAD24(u8 *p);
-int func_021FAD84(u8 *p);
-int func_021FADA8(u8 *p);
-void func_021FADF0(u8 *p);
-int func_021FAE2C(u8 *p);
-int func_021FAE8C(u8 *p);
-int func_021FAEE0(u8 *p);
+int func_021FAC8C(Menu *p);
+int func_021FAD08(Menu *p);
+int func_021FAD24(Menu *p);
+int func_021FAD84(Menu *p);
+int func_021FADA8(Menu *p);
+void func_021FADF0(Menu *p);
+int func_021FAE2C(Menu *p);
+int func_021FAE8C(Menu *p);
+int func_021FAEE0(Menu *p);
 int func_021FAFF0(Menu *m);
-int func_021FB164(u8 *p);
-int func_021FB1E4(u8 *p);
-int func_021FB220(u8 *p);
+int func_021FB164(Menu *p);
+int func_021FB1E4(Menu *p);
+int func_021FB220(Menu *p);
 int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
 int func_021FB26C(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
 void func_021FB2F0(Menu *m, int page, int total);
 void func_021FB364(Menu *m, int page, int total);
 int func_021FB3D8(Menu *p);
-int func_021FB510(u8 *p);
-int func_021FB588(u8 *p);
-int func_021FB5E4(u8 *p);
-int func_021FB614(u8 *p);
-int func_021FB674(u8 *p);
-int func_021FB704(u8 *p);
-int func_021FB7A0(u8 *p);
+int func_021FB510(Menu *p);
+int func_021FB588(Menu *p);
+int func_021FB5E4(Menu *p);
+int func_021FB614(Menu *p);
+int func_021FB674(Menu *p);
+int func_021FB704(Menu *p);
+int func_021FB7A0(Menu *p);
 extern const u16 d_022030E8[];
 extern const Range_021F88B0 tbl_02202F0C[];
 extern u16 tbl_022030E8[];
@@ -555,7 +517,7 @@ extern u8 g_022033FC[];
 
 
 
-void func_021F88B0(u8 *p,u32 n) { if(n==0){((struct Obj02204 *)p)->fF84=0;return;}n--;if(n<130)((struct Obj02204 *)p)->fF84=d_022030E8[n]; }
+void func_021F88B0(Work *p,u32 n) { if(n==0){p->fF84=0;return;}n--;if(n<130)p->fF84=d_022030E8[n]; }
 
 
 
@@ -636,17 +598,17 @@ int func_021F8950(void *p, u16 *old)
 /*
  * Clear the two ten-entry u16 tables at +4 and +0x18 and the two header words.
  */
-void func_021F8990(u8 *p)
+void func_021F8990(WorldtradeEnterObj3 *p)
 {
     int i;
     u16 z = 0;
 
     for (i = 0; i < 10; i++) {
-        *(u16 *)(p + i * 2 + 4) = z;
-        *(u16 *)(p + i * 2 + 0x18) = z;
+        *(u16 *)((u8 *)p + i * 2 + 4) = z;
+        *(u16 *)((u8 *)p + i * 2 + 0x18) = z;
     }
-    ((struct Obj12203 *)p)->f0 = z;
-    ((struct Obj12203 *)p)->f2 = z;
+    p->f0 = z;
+    p->f2 = z;
 }
 
 
@@ -660,8 +622,8 @@ void func_021F89A8(u8 *p, int i, u16 a, u16 b)
 {
     u8 *q = p + i * 2;
 
-    ((struct Obj12204 *)q)->f4 = a;
-    ((struct Obj12204 *)q)->f18 = b;
+    ((WorldtradeEnterObj4 *)q)->f4 = a;
+    ((WorldtradeEnterObj4 *)q)->f18 = b;
 }
 
 
@@ -671,7 +633,7 @@ void func_021F89A8(u8 *p, int i, u16 a, u16 b)
 /*
  * volatile: hardware read-modify-write at 021F89C6/021F89CA, 0x04000304.
  */
-int func_021F89B4(u8 *p) {func_021F50EC(p);func_021F8A3C(p);*(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);switch(((struct Obj05413 *)p)->f20){case 19:case 21:((struct Obj05413 *)p)->f28=2;break;case 20:((struct Obj05413 *)p)->f28=4;break;}return 1;}
+int func_021F89B4(Work *p) {func_021F50EC((u8 *)p);func_021F8A3C(p);*(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);switch(p->kind){case 19:case 21:p->state=2;break;case 20:p->state=4;break;}return 1;}
 
 
 
@@ -683,7 +645,7 @@ extern int (*const d_02203C1C[])(void *);
 
 
 
-int func_021F89F0(u8 *p) { int state,r;state=((struct Obj08184 *)p)->f28;r=d_02203C1C[state](p);if(state!=((struct Obj08184 *)p)->f28){((struct Obj08184 *)p)->fF88=0;((struct Obj08184 *)p)->fF8A=0;}return r; }
+int func_021F89F0(Work *p) { int state,r;state=p->state_i;r=d_02203C1C[state]((u8 *)p);if(state!=p->state_i){p->fF88=0;p->fF8A=0;}return r; }
 
 
 
@@ -692,12 +654,12 @@ int func_021F89F0(u8 *p) { int state,r;state=((struct Obj08184 *)p)->f28;r=d_022
 /*
  * Run the three teardown steps, then report 4 while the +0x10 handle is gone.
  */
-u32 func_021F8A18(u8 *p)
+u32 func_021F8A18(Menu *p)
 {
     func_021F8A40();
-    func_021F5074(p);
-    func_021F4EC8(p);
-    if (((struct Obj00287 *)p)->f10 == 0) {
+    func_021F5074((u8 *)p);
+    func_021F4EC8((u8 *)p);
+    if (p->down == 0) {
         return 4;
     }
     return 0;
@@ -710,7 +672,7 @@ u32 func_021F8A18(u8 *p)
 /*
  * Empty stub.
  */
-void func_021F8A3C(void *a0)
+void func_021F8A3C(Work *a0)
 {
 }
 
@@ -743,7 +705,7 @@ int func_021F8A44(Work *p)
 /*
  * Call func_02168064 and report success.
  */
-int func_021F8A74(void *a0)
+int func_021F8A74(Work *a0)
 {
     func_02168064();
     return 1;
@@ -756,7 +718,7 @@ int func_021F8A74(void *a0)
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-int func_021F8A80(u8 *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+int func_021F8A80(Work *a0) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
 
 
 
@@ -785,10 +747,10 @@ int func_021F8AB0(u8 **p)
 /*
  * Hand the object over, clear the +0xf8c slot and latch 1.
  */
-int func_021F8AF4(u8 *p)
+int func_021F8AF4(Work *p)
 {
-    func_021C8DA0(p);
-    ((struct Obj18565 *)p)->fF8C = 0;
+    func_021C8DA0((u8 *)p);
+    p->timer = 0;
     return 1;
 }
 
@@ -814,41 +776,41 @@ int func_021F8AF4(u8 *p)
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int func_021F8B0C(u8 *p)
+int func_021F8B0C(WorldtradeEnterObj2 *p)
 {
     s32 n;
 
-    if (func_021C866C(func_021C7C1C(p)) != 0) {
+    if (func_021C866C(func_021C7C1C((u8 *)p)) != 0) {
         n = func_021C86A8();
-        ((struct Obj04905 *)p)->fF8C = 0;
+        p->fF8C = 0;
         switch (n + 15) {
         case 15:
             return 1;
         case 16:
-            func_021F4FC4(p);
-            ((struct Obj04905 *)p)->f38 = n;
+            func_021F4FC4((u8 *)p);
+            p->f38 = n;
             return 2;
         case 14:
         case 17:
-            func_021F4FC4(p);
-            ((struct Obj04905 *)p)->f38 = n;
+            func_021F4FC4((u8 *)p);
+            p->f38 = n;
             return 2;
         case 0:
         case 3:
-            func_021F4FC4(p);
-            ((struct Obj04905 *)p)->f38 = n;
+            func_021F4FC4((u8 *)p);
+            p->f38 = n;
             return 2;
         case 1:
         case 13:
-            func_021F4FC4(p);
-            ((struct Obj04905 *)p)->f38 = n;
+            func_021F4FC4((u8 *)p);
+            p->f38 = n;
             return 2;
         }
-        func_021F4FC4(p);
-        func_021F513C(p);
+        func_021F4FC4((u8 *)p);
+        func_021F513C((u8 *)p);
     } else {
-        if (++((struct Obj04905 *)p)->fF8C == 0xe10) {
-            func_021F513C(p);
+        if (++p->fF8C == 0xe10) {
+            func_021F513C((u8 *)p);
         }
     }
     return 0;
@@ -858,7 +820,7 @@ int func_021F8B0C(u8 *p)
 
 
 
-int func_021F8BBC(u8 *p) { func_021B9B00(p+0xf18,((struct Obj23400 *)(*(u8 * *)&((struct Obj14167 *)p)->f0))->f1C);func_021C8E18(p+0xf18,(u32)(p+0xf7c));((struct Obj14167 *)p)->fF8C=0;return 1; }
+int func_021F8BBC(Work *p) { func_021B9B00((u8 *)p+0xf18,((struct Obj23400 *)(*(u8 * *)(void **)&p->ctx))->f1C);func_021C8E18((u8 *)p+0xf18,(u32)((u8 *)p+0xf7c));p->timer=0;return 1; }
 
 
 
@@ -944,25 +906,25 @@ done:
 /*
  * lever: ov115 data hint is witnessed by this function loading ov115 via func_02031348; no hint remains MATCH.
  */
-int func_021F8D10(u8 *p)
+int func_021F8D10(Work *p)
 {
     State_p01 *s;
-    *(State_p01 * *)&((struct Obj03294 *)p)->f10DC = func_02030734(0x48, sizeof(State_p01), 0, str_02203C34, 0x263);
-    func_02082BCC(*(State_p01 * *)&((struct Obj03294 *)p)->f10DC, 0, sizeof(State_p01));
-    s = *(State_p01 * *)&((struct Obj03294 *)p)->f10DC;
-    s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)&((struct Obj03294 *)p)->f0))->f40);
+    *(State_p01 * *)(void **)&p->req = func_02030734(0x48, sizeof(State_p01), 0, str_02203C34, 0x263);
+    func_02082BCC(*(State_p01 * *)(void **)&p->req, 0, sizeof(State_p01));
+    s = *(State_p01 * *)(void **)&p->req;
+    s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)(void **)&p->ctx))->f40);
     s->f4 = 0;
     s->f8 = 1;
-    s->f10 = p + 0x116C;
+    s->f10 = (u8 *)p + 0x116C;
     s->fc = 30;
     s->callback_021F88B0 = func_021F8E88;
-    s->user = p;
-    ((struct Obj03294 *)p)->f12EC = 0;
-    if (((struct Obj03294 *)p)->f20 == 21) s->f14 = 1;
+    s->user = (u8 *)p;
+    p->f12EC = 0;
+    if ((*(unsigned int *)&p->kind) == 21) s->f14 = 1;
     else s->f14 = 0;
-    func_02031348(((struct Obj03294 *)p)->f12F0, (u32)ov115_id, d_021D6338, *(State_p01 **)(p + 0x10DC));
+    func_02031348(p->f12F0, (u32)ov115_id, d_021D6338, *(State_p01 **)((u8 *)p + 0x10DC));
     func_0200F7B8(0);
-    ((struct Obj03294 *)p)->f28 = 3;
+    p->state = 3;
     return 2;
 }
 
@@ -970,18 +932,18 @@ int func_021F8D10(u8 *p)
 
 
 
-int func_021F8DA4(u8 *p)
+int func_021F8DA4(Work *p)
 {
-    u32 *state = *(u32 * *)&((struct Obj06513 *)p)->f10DC;
-    if (((struct Obj06513 *)p)->f12F4 == 0) {
+    u32 *state = *(u32 * *)(void **)&p->req;
+    if (p->busy_u == 0) {
         switch (state[7]) {
-        case 0: ((struct Obj06513 *)p)->f28 = 0; break;
+        case 0: p->state = 0; break;
         case 1:
-            func_021F4EC0(p, 0, 0);
-            ((struct Obj06513 *)p)->f28 = 1;
+            func_021F4EC0((u8 *)p, 0, 0);
+            p->state = 1;
             break;
         }
-        func_020307B0(((struct Obj06513 *)p)->f10DC);
+        func_020307B0((void *)p->req);
     }
     return 2;
 }
@@ -990,19 +952,19 @@ int func_021F8DA4(u8 *p)
 
 
 
-int func_021F8DE4(u8 *p)
+int func_021F8DE4(Work *p)
 {
     Req_p02 *r;
-    *(Req_p02 * *)&((struct Obj04527 *)p)->f10DC = func_02030734(72, 28, 0, str_02203C34, 689);
-    func_02082BCC(*(Req_p02 * *)&((struct Obj04527 *)p)->f10DC, 0, 28);
-    r = *(Req_p02 * *)&((struct Obj04527 *)p)->f10DC;
-    r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
+    *(Req_p02 * *)(void **)&p->req = func_02030734(72, 28, 0, str_02203C34, 689);
+    func_02082BCC(*(Req_p02 * *)(void **)&p->req, 0, 28);
+    r = *(Req_p02 * *)(void **)&p->req;
+    r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)(void **)&p->ctx))->f40);
     r->zero = 0;
     r->enabled = 1;
     r->callback_021F8DA4 = func_021F8F5C;
-    r->context = p;
-    func_02031348(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req_p02 * *)&((struct Obj04527 *)p)->f10DC);
-    ((struct Obj04527 *)p)->f28 = 5;
+    r->context = (u8 *)p;
+    func_02031348(p->f12F0, (u32)ov115_id, tbl_021D654C, *(Req_p02 * *)(void **)&p->req);
+    p->state_i = 5;
     func_0200F7B8(0);
     return 2;
 }
@@ -1011,12 +973,12 @@ int func_021F8DE4(u8 *p)
 
 
 
-int func_021F8E58(u8 *p)
+int func_021F8E58(Work *p)
 {
-    if (((struct Obj09233 *)p)->f12F4 == 0) {
-        func_020307B0((void *)(((struct Obj09233 *)p)->f10DC));
-        func_021F4EC0(p, 0, 0);
-        ((struct Obj09233 *)p)->f28 = 1;
+    if (p->busy_u == 0) {
+        func_020307B0((void *)((*(unsigned int *)&p->req)));
+        func_021F4EC0((u8 *)p, 0, 0);
+        p->state = 1;
     }
     return 2;
 }
@@ -1028,49 +990,49 @@ int func_021F8E58(u8 *p)
 int func_021F8E88(void *dialog, u8 *p)
 {
     int result;
-    switch (((struct Obj01743 *)p)->f12EC) {
+    switch (((Work *)p)->f12EC) {
     case 0:
-        if (func_021F8A74(p))
-            (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F8A74((Work *)p))
+            (((Work *)p)->f12EC)++;
         break;
     case 1:
-        result = func_021F8A80(p);
+        result = func_021F8A80((Work *)p);
         switch (result) {
-        case 1: (((struct Obj01743 *)p)->f12EC)++; break;
-        case 2: ((struct Obj01743 *)p)->f12EC = 9; break;
+        case 1: (((Work *)p)->f12EC)++; break;
+        case 2: ((Work *)p)->f12EC = 9; break;
         }
         break;
     case 2:
-        if (func_021F8AB0((u8 **)p)) (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F8AB0((u8 **)p)) (((Work *)p)->f12EC)++;
         break;
     case 3:
-        if (func_021F8AF4(p)) (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F8AF4((Work *)p)) (((Work *)p)->f12EC)++;
         break;
     case 4:
-        result = func_021F8B0C(p);
+        result = func_021F8B0C((WorldtradeEnterObj2 *)p);
         switch (result) {
-        case 1: (((struct Obj01743 *)p)->f12EC)++; break;
-        case 2: ((struct Obj01743 *)p)->f12EC = 7; break;
+        case 1: (((Work *)p)->f12EC)++; break;
+        case 2: ((Work *)p)->f12EC = 7; break;
         }
         break;
     case 5:
-        if (func_021F8BBC(p)) (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F8BBC((Work *)p)) (((Work *)p)->f12EC)++;
         break;
     case 6:
         result = func_021F8BE8((Work *)p);
         switch (result) {
-        case 1: ((struct Obj01743 *)p)->f12EC = 0; return 0;
-        case 2: ((struct Obj01743 *)p)->f12EC = 7; break;
+        case 1: ((Work *)p)->f12EC = 0; return 0;
+        case 2: ((Work *)p)->f12EC = 7; break;
         }
         break;
     case 7:
-        if (func_021F8F84(p, dialog)) (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F8F84((Work *)p, dialog)) (((Work *)p)->f12EC)++;
         break;
     case 8:
-        if (func_021F9024(p, dialog)) (((struct Obj01743 *)p)->f12EC)++;
+        if (func_021F9024((WorldtradeEnterObj1 *)p, dialog)) (((Work *)p)->f12EC)++;
         break;
     case 9:
-        ((struct Obj01743 *)p)->f12EC = 0;
+        ((Work *)p)->f12EC = 0;
         return 1;
     }
     return 2;
@@ -1103,11 +1065,11 @@ u32 func_021F8F5C(u8 *p)
 /*
  * Reset the object, latch state 0 and set the +0xeb4 slot to 1.
  */
-int func_021F8F68(u8 *p)
+int func_021F8F68(Work *p)
 {
-    func_021F4FC4(p);
-    ((struct Obj12205 *)p)->f28 = 0;
-    ((struct Obj12205 *)p)->fEB4 = 1;
+    func_021F4FC4((u8 *)p);
+    p->state = 0;
+    p->eb4 = 1;
     return 3;
 }
 
@@ -1115,10 +1077,10 @@ int func_021F8F68(u8 *p)
 
 
 
-int func_021F8F84(u8 *p, void *dialog)
+int func_021F8F84(Work *p, void *dialog)
 {
     int text;
-    switch (((struct Obj10580 *)p)->f38) {
+    switch (p->err) {
     case 1: text = 166; break;
     case 2: text = 167; break;
     case -1: text = 157; break;
@@ -1138,8 +1100,8 @@ int func_021F8F84(u8 *p, void *dialog)
     case -15: text = 161; break;
     default: text = 159; break;
     }
-    func_021D5B5C(dialog, ((struct Obj10580 *)p)->fB6C, text);
-    ((struct Obj10580 *)p)->fF88 = 0;
+    func_021D5B5C(dialog, p->bank, text);
+    (*(short *)&p->fF88) = 0;
     return 1;
 }
 
@@ -1147,27 +1109,27 @@ int func_021F8F84(u8 *p, void *dialog)
 
 
 
-int func_021F9024(u8 *p, void *dialog)
+int func_021F9024(WorldtradeEnterObj1 *p, void *dialog)
 {
-    switch (((struct Obj04528 *)p)->fF88) {
+    switch (p->fF88) {
     case 0:
-        (((struct Obj04528 *)p)->fF88)++;
+        (p->fF88)++;
         break;
     case 1:
-        if (func_021D5C70(dialog)) (((struct Obj04528 *)p)->fF88)++;
+        if (func_021D5C70(dialog)) (p->fF88)++;
         break;
     case 2:
-        (((struct Obj04528 *)p)->fF88)++;
+        (p->fF88)++;
         break;
     case 3:
         func_021C8658();
         func_0216AD50();
         func_0205CC20();
-        (((struct Obj04528 *)p)->fF88)++;
+        (p->fF88)++;
         break;
     default:
-        (((struct Obj04528 *)p)->fF8A)++;
-        if (((struct Obj04528 *)p)->fF8A > 60) return 1;
+        (p->fF8A)++;
+        if (p->fF8A > 60) return 1;
         break;
     }
     return 0;
@@ -1182,7 +1144,7 @@ int func_021F9024(u8 *p, void *dialog)
  */
 void func_021F9088(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_021F90B8((u8 *)a, (void *)b, c, d, e, 1);
+    func_021F90B8((Work *)a, (void *)b, c, d, e, 1);
 }
 
 
@@ -1194,27 +1156,27 @@ void func_021F9088(u32 a, u32 b, u32 c, u32 d, u16 e)
  */
 void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_021F90B8((u8 *)a, (void *)b, c, d, e, 0);
+    func_021F90B8((Work *)a, (void *)b, c, d, e, 0);
 }
 
 
 
 
 
-void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int slow)
+void func_021F90B8(Work *p, void *bank, u32 index, int unused1, int unused2, int slow)
 {
     void *str;
     str = func_02045EC0(bank, index);
-    func_0201F250(((struct Obj02857 *)p)->fB68, ((struct Obj02857 *)p)->fB88, str);
+    func_0201F250(p->words, p->str, str);
     func_02045808(str);
-    func_02043B5C(func_02045770(((struct Obj02857 *)p)->fD40), 15);
-    func_02045334(((struct Obj02857 *)p)->fD40);
-    func_0201F73C(((struct Obj02857 *)p)->fD40, 0, 1, 14);
+    func_02043B5C(func_02045770(p->d40), 15);
+    func_02045334(p->d40);
+    func_0201F73C(p->d40, 0, 1, 14);
     if (slow)
-        func_02202878(((struct Obj02857 *)p)->fD40, 0, (unsigned int)(((struct Obj02857 *)p)->fB88), 0, 0, p + 0xfa0);
+        func_02202878(p->d40, 0, (unsigned int)(p->str), 0, 0, (u8 *)p + 0xfa0);
     else
-        func_02202858(((struct Obj02857 *)p)->fD40, 0, ((struct Obj02857 *)p)->fB88, 0, 0, p + 0xfa0);
-    ((struct Obj02857 *)p)->fDFC = 0;
+        func_02202858(p->d40, 0, p->str, 0, 0, (u8 *)p + 0xfa0);
+    p->cnt = 0;
 }
 
 
@@ -1513,33 +1475,33 @@ Menu_021F9024 *func_021F9890(Init *init, u32 a, u32 b)
 /*
  * trailing: two-byte zero alignment padding at 0x021F99CE.
  */
-void func_021F9968(u8 *p, int mode)
+void func_021F9968(Menu *p, int mode)
 {
-    ((struct Obj01259 *)p)->f54 = mode;
+    p->f54 = mode;
     switch (mode) {
     case 0:
-        p[122] = 0;
-        ((struct Obj01259 *)p)->f44 = 0;
-        ((struct Obj01259 *)p)->f38 = 0;
-        ((struct Obj01259 *)p)->f3A = 0;
-        ((struct Obj01259 *)p)->f48 = 6;
+        ((u8 *)p)[122] = 0;
+        p->pos = 0;
+        p->layout = 0;
+        p->start = 0;
+        p->state = 6;
         return;
     case 3:
-        p[122] = 0;
-        ((struct Obj01259 *)p)->f44 = 0;
-        ((struct Obj01259 *)p)->f38 = 0;
-        ((struct Obj01259 *)p)->f3A = 0;
-        ((struct Obj01259 *)p)->f48 = 18;
+        ((u8 *)p)[122] = 0;
+        p->pos = 0;
+        p->layout = 0;
+        p->start = 0;
+        p->state = 18;
         return;
     case 1:
-        p[122] = 0;
-        ((struct Obj01259 *)p)->f44 = 0;
-        ((struct Obj01259 *)p)->f48 = 30;
+        ((u8 *)p)[122] = 0;
+        p->pos = 0;
+        p->state = 30;
         return;
     case 2:
-        p[122] = 0;
-        ((struct Obj01259 *)p)->f44 = 0;
-        ((struct Obj01259 *)p)->f48 = 33;
+        ((u8 *)p)[122] = 0;
+        p->pos = 0;
+        p->state = 33;
         break;
     }
 }
@@ -1551,11 +1513,11 @@ void func_021F9968(u8 *p, int mode)
 /*
  * Tear the object down: sub-object at +0x7c, buffer at +0x34, then the object.
  */
-void func_021F99D0(u8 *p)
+void func_021F99D0(Menu *p)
 {
-    func_02202744(p + 0x7c);
-    func_022029D4(*(u8 * *)&((struct Obj12206 *)p)->f34);
-    func_0202CA0C(*(struct WinMgr * *)&((struct Obj12206 *)p)->f18);
+    func_02202744((u8 *)p + 0x7c);
+    func_022029D4(*(u8 * *)&p->num);
+    func_0202CA0C(*(struct WinMgr * *)&p->mgr);
     func_020307B0((void *)((u32)p));
 }
 
@@ -1588,7 +1550,7 @@ int func_021F99F0(Obj_021F99F0 *p)
  * (0..7; modes 0/2 and 5/7 share a table). Any other mode falls off the
  * end and hands back the first argument still in r0.
  */
-int func_021F9A1C(void *p, int mode)
+int func_021F9A1C(Menu *p, int mode)
 {
     switch (mode) {
     case 4:
@@ -2439,95 +2401,95 @@ int func_021FA85C(Menu *m)
 
 
 
-void func_021FA9C8(u8 *p, int mode, int pos)
+void func_021FA9C8(Menu *p, int mode, int pos)
 {
     int i;
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(((struct Obj01744 *)p)->f18, 0, 96, mode == 6 ? 27 : 28, 1);
-    func_0202CF84(((struct Obj01744 *)p)->f18, 0);
+    func_0202CAE4(p->mgr, 0, 96, mode == 6 ? 27 : 28, 1);
+    func_0202CF84(p->mgr, 0);
     func_021F9260(p, mode);
-    func_021FBEB8(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
-    func_02082BCC(p + 96, 1, 26);
-    g = p;
+    func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    func_02082BCC((u8 *)p + 96, 1, 26);
+    g = (u8 *)p;
     g += 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(((struct Obj01744 *)p)->f20, i + 116);
+        str = func_02045EC0(p->bank, i + 116);
         if (mode == 4) {
             if (func_021FBFB0(p, i) == 1) {
                 color = 0x3dc2;
-                p[i + 96] = 1;
+                ((u8 *)p)[i + 96] = 1;
             } else {
                 color = 0x2122;
-                p[i + 96] = 0;
+                ((u8 *)p)[i + 96] = 0;
             }
         } else {
             if (func_021FC014(p, i) == 1) {
                 color = 0x3dc2;
-                p[i + 96] = 1;
+                ((u8 *)p)[i + 96] = 1;
             } else {
                 color = 0x2122;
-                p[i + 96] = 0;
+                ((u8 *)p)[i + 96] = 0;
             }
         }
-        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
+        func_021FAC50(p->mgr, (*(void ***)p)[i], str, 2, color, g);
         func_02045808(str);
     }
     if (mode == 6) {
-        str = func_02045EC0(((struct Obj01744 *)p)->f20, 188);
-        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
+        str = func_02045EC0(p->bank, 188);
+        func_021FAC50(p->mgr, (*(void ***)p)[15], str, 2, 0x3dc2, (u8 *)p + 124);
         func_02045808(str);
     }
-    func_0202CB4C(((struct Obj01744 *)p)->f18, 0, pos, 0);
-    func_0202CC58(((struct Obj01744 *)p)->f18, 0);
+    func_0202CB4C(p->mgr, 0, pos, 0);
+    func_0202CC58(p->mgr, 0);
 }
 
 
 
 
-void func_021FAAD4(u8 *p)
+void func_021FAAD4(Menu *p)
 {
     int i;
     void *str;
-    func_0202CAE4(((struct Obj03296 *)p)->f18, 0, 96, 25, 1);
-    func_0202CF84(((struct Obj03296 *)p)->f18, 0);
+    func_0202CAE4(p->mgr, 0, 96, 25, 1);
+    func_0202CF84(p->mgr, 0);
     func_021F9260(p, 1);
     for (i = 0; i < 3; i++) {
-        str = func_02045EC0(((struct Obj03296 *)p)->f20, i + 130);
-        func_021FAC50(((struct Obj03296 *)p)->f18, (*(void ***)p)[i], str, 2, 0x3dc2, p + 124);
+        str = func_02045EC0(p->bank, i + 130);
+        func_021FAC50(p->mgr, (*(void ***)p)[i], str, 2, 0x3dc2, (u8 *)p + 124);
         func_02045808(str);
     }
-    func_021FBEB8(((struct Obj03296 *)p)->f18, ((struct Obj03296 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
-    func_0202CB4C(((struct Obj03296 *)p)->f18, 0, 32, 0);
-    func_0202CC58(((struct Obj03296 *)p)->f18, 0);
-    func_0202CD64(((struct Obj03296 *)p)->f18, 0, -4, 0, 4);
+    func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    func_0202CB4C(p->mgr, 0, 32, 0);
+    func_0202CC58(p->mgr, 0);
+    func_0202CD64(p->mgr, 0, -4, 0, 4);
 }
 
 
 
 
-void func_021FAB70(u8 *p)
+void func_021FAB70(Menu *p)
 {
-    func_0202CAE4(((struct Obj00474 *)p)->f18, 0, 96, 29, 1);
-    func_0202CF84(((struct Obj00474 *)p)->f18, 0);
+    func_0202CAE4(p->mgr, 0, 96, 29, 1);
+    func_0202CF84(p->mgr, 0);
     func_021F9260(p, 2);
-    if (((struct Obj00474 *)p)->f5C == 1)
-        ((struct Obj00474 *)p)->f58 = func_021F87E0((void **)(p + 48), ((struct Obj00474 *)p)->f20, 1);
-    else if (((struct Obj00474 *)p)->f5C == 0)
-        ((struct Obj00474 *)p)->f58 = func_021F87E0((void **)(p + 48), ((struct Obj00474 *)p)->f20, 0);
-    func_021FB2F0((Menu *)p, 0, ((struct Obj00474 *)p)->f58);
-    ((struct Obj00474 *)p)->f56 = 0;
-    func_021FBF04(((struct Obj00474 *)p)->f18, ((struct Obj00474 *)p)->f34, (*(void ***)p)[4], ((struct Obj00474 *)p)->f56, func_021F9EEC((u8 *)(((struct Obj00474 *)p)->f58), 4));
-    func_021FBEB8(((struct Obj00474 *)p)->f18, ((struct Obj00474 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
-    func_0202CB4C(((struct Obj00474 *)p)->f18, 0, 32, 0);
-    func_0204B878((struct Obj *)(((struct Obj00474 *)p)->f8), 6);
-    ((struct Obj00474 *)p)->f7A = 0;
-    *(int *)&((struct Obj00474 *)p)->f44 = 0;
-    func_021F4FF4(((struct Obj00474 *)p)->f8, tbl_02203220[*(int *)(p + 68)].x, tbl_02203220[*(int *)(p + 68)].y);
-    func_0202CC58(((struct Obj00474 *)p)->f18, 0);
-    func_0202CD64(((struct Obj00474 *)p)->f18, 0, -4, 0, 4);
-    *(int *)&((struct Obj00474 *)p)->f48 = 34;
+    if (p->f5C == 1)
+        p->total = func_021F87E0((void **)((u8 *)p + 48), p->bank, 1);
+    else if (p->f5C == 0)
+        p->total = func_021F87E0((void **)((u8 *)p + 48), p->bank, 0);
+    func_021FB2F0((Menu *)p, 0, p->total);
+    p->page = 0;
+    func_021FBF04(p->mgr, p->num, (*(void ***)p)[4], p->page, func_021F9EEC((u8 *)(p->total), 4));
+    func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    func_0202CB4C(p->mgr, 0, 32, 0);
+    func_0204B878((struct Obj *)(p->cursor), 6);
+    p->last = 0;
+    *(int *)(unsigned int *)&p->pos = 0;
+    func_021F4FF4(p->cursor, tbl_02203220[p->pos].x, tbl_02203220[p->pos].y);
+    func_0202CC58(p->mgr, 0);
+    func_0202CD64(p->mgr, 0, -4, 0, 4);
+    *(int *)(unsigned int *)&p->state = 34;
 }
 
 
@@ -2554,24 +2516,24 @@ int func_021FAC84(void)
 /*
  * lever: explicit if/else calls preserve the flag argument's scheduling.
  */
-int func_021FAC8C(u8 *p)
+int func_021FAC8C(Menu *p)
 {
-    if (!func_0202CE40(*(struct WinMgr * *)&((struct Obj01745 *)p)->f18, 0)) {
+    if (!func_0202CE40(*(struct WinMgr * *)&p->mgr, 0)) {
         if (func_020355C4() == 1)
-            func_0204B3DC(((struct Obj01745 *)p)->f8, 0);
+            func_0204B3DC((*(void * *)&p->cursor), 0);
         else
-            func_0204B3DC(((struct Obj01745 *)p)->f8, 1);
-        if (((struct Obj01745 *)p)->f54 == 2) {
-            func_0204B92C(((struct Obj01745 *)p)->fC, 0);
-            func_0204B92C(((struct Obj01745 *)p)->f10, 0);
-            func_0204B878(((struct Obj01745 *)p)->fC, 38);
-            func_0204B878(((struct Obj01745 *)p)->f10, 39);
-            func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->fC, 228, 120);
-            func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->f10, 154, 120);
-            func_0204B3DC(((struct Obj01745 *)p)->fC, 1);
-            func_0204B3DC(((struct Obj01745 *)p)->f10, 1);
+            func_0204B3DC((*(void * *)&p->cursor), 1);
+        if (p->f54 == 2) {
+            func_0204B92C((*(void * *)&p->up), 0);
+            func_0204B92C((*(void * *)&p->down), 0);
+            func_0204B878((*(void * *)&p->up), 38);
+            func_0204B878((*(void * *)&p->down), 39);
+            func_021F4FF4(*(u32 *)(void * *)&p->up, 228, 120);
+            func_021F4FF4(*(u32 *)(void * *)&p->down, 154, 120);
+            func_0204B3DC((*(void * *)&p->up), 1);
+            func_0204B3DC((*(void * *)&p->down), 1);
         }
-        ((struct Obj01745 *)p)->f48 = ((struct Obj01745 *)p)->f4C;
+        p->state = p->f4C;
     }
     return -1;
 }
@@ -2582,10 +2544,10 @@ int func_021FAC8C(u8 *p)
 /*
  * Flush the queued value when the probe reports empty, then answer -1.
  */
-int func_021FAD08(u8 *p)
+int func_021FAD08(Menu *p)
 {
-    if (func_0202CE40(*(struct WinMgr * *)&((struct Obj09234 *)p)->f18, 0) == 0) {
-        ((struct Obj09234 *)p)->f48 = ((struct Obj09234 *)p)->f4C;
+    if (func_0202CE40(*(struct WinMgr * *)&p->mgr, 0) == 0) {
+        (*(unsigned int *)&p->state) = (*(unsigned int *)&p->f4C);
     }
     return -1;
 }
@@ -2596,17 +2558,17 @@ int func_021FAD08(u8 *p)
 /*
  * trailing: two-byte zero alignment padding at 0x021FAD82.
  */
-int func_021FAD24(u8 *p)
+int func_021FAD24(Menu *p)
 {
-    if (func_0204B98C(((struct Obj03297 *)p)->f8)) return -1;
-    func_0204B3DC(((struct Obj03297 *)p)->f8, 0);
-    func_0204B3DC(((struct Obj03297 *)p)->fC, 0);
-    func_0204B3DC(((struct Obj03297 *)p)->f10, 0);
-    if (((struct Obj03297 *)p)->f54 == 3 && ((struct Obj03297 *)p)->f4C == 28)
-        func_0202CD64(((struct Obj03297 *)p)->f18, 0, 6, 0, 6);
+    if (func_0204B98C((*(void * *)&p->cursor))) return -1;
+    func_0204B3DC((*(void * *)&p->cursor), 0);
+    func_0204B3DC((*(void * *)&p->up), 0);
+    func_0204B3DC((*(void * *)&p->down), 0);
+    if (p->f54 == 3 && p->f4C == 28)
+        func_0202CD64(p->mgr, 0, 6, 0, 6);
     else
-        func_0202CD64(((struct Obj03297 *)p)->f18, 0, 4, 0, 4);
-    ((struct Obj03297 *)p)->f48 = 4;
+        func_0202CD64(p->mgr, 0, 4, 0, 4);
+    p->state = 4;
     return -1;
 }
 
@@ -2616,11 +2578,11 @@ int func_021FAD24(u8 *p)
 /*
  * Drain the queue then flush the shadowed value, always answering -1.
  */
-int func_021FAD84(u8 *p)
+int func_021FAD84(Menu *p)
 {
-    if (func_0202CE40(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0) == 0) {
-        func_0202CC70(*(struct WinMgr * *)&((struct Obj07245 *)p)->f18, 0);
-        ((struct Obj07245 *)p)->f48 = ((struct Obj07245 *)p)->f4C;
+    if (func_0202CE40(*(struct WinMgr * *)&p->mgr, 0) == 0) {
+        func_0202CC70(*(struct WinMgr * *)&p->mgr, 0);
+        (*(unsigned int *)&p->state) = (*(unsigned int *)&p->f4C);
     }
     return -1;
 }
@@ -2628,41 +2590,41 @@ int func_021FAD84(u8 *p)
 
 
 
-int func_021FADA8(u8 *p)
+int func_021FADA8(Menu *p)
 {
-    if (func_0204B98C(((struct Obj05414 *)p)->f8)) return -1;
-    func_0204B3DC(((struct Obj05414 *)p)->f8, 0);
-    func_0204B3DC(((struct Obj05414 *)p)->fC, 0);
-    func_0204B3DC(((struct Obj05414 *)p)->f10, 0);
-    func_0202CD64(((struct Obj05414 *)p)->f18, 0, 4, 0, 4);
-    ((struct Obj05414 *)p)->f48 = 2;
+    if (func_0204B98C((*(void * *)&p->cursor))) return -1;
+    func_0204B3DC((*(void * *)&p->cursor), 0);
+    func_0204B3DC((*(void * *)&p->up), 0);
+    func_0204B3DC((*(void * *)&p->down), 0);
+    func_0202CD64(p->mgr, 0, 4, 0, 4);
+    p->state = 2;
     return -1;
 }
 
 
 
 
-void func_021FADF0(u8 *p) {func_021FA9C8(p,4,32);func_0204B878(((struct Obj05415 *)p)->f8,18);func_021F4FF4(*(u32 *)&((struct Obj05415 *)p)->f8,144,40);func_0202CD64(((struct Obj05415 *)p)->f18,0,-4,0,4);((struct Obj05415 *)p)->f48=1;((struct Obj05415 *)p)->f4C=7;((struct Obj05415 *)p)->f38=-1;}
+void func_021FADF0(Menu *p) {func_021FA9C8(p,4,32);func_0204B878((*(void * *)&p->cursor),18);func_021F4FF4(*(u32 *)(void * *)&p->cursor,144,40);func_0202CD64(p->mgr,0,-4,0,4);(*(unsigned int *)&p->state)=1;(*(unsigned int *)&p->f4C)=7;p->layout=-1;}
 
 
 
 
-int func_021FAE2C(u8 *p)
+int func_021FAE2C(Menu *p)
 {
-    u32 sel = func_021F9A88((Menu *)p, p + 96);
+    u32 sel = func_021F9A88((Menu *)p, (u8 *)p + 96);
     if (sel != -2) {
         if (sel <= 8) {
-            func_0204B3DC(((struct Obj00246 *)p)->f8, 1);
-            func_0204B878(((struct Obj00246 *)p)->f8, 19);
-            ((struct Obj00246 *)p)->f48 = 8;
-            ((struct Obj00246 *)p)->f38 = sel;
+            func_0204B3DC((*(void * *)&p->cursor), 1);
+            func_0204B878((*(void * *)&p->cursor), 19);
+            p->state = 8;
+            p->layout = sel;
         }
     } else {
-        func_0204B3DC(((struct Obj00246 *)p)->f8, 1);
-        func_0204B878(((struct Obj00246 *)p)->f8, func_0204B898(((struct Obj00246 *)p)->f8) + 9);
-        ((struct Obj00246 *)p)->f48 = 3;
-        ((struct Obj00246 *)p)->f4C = 8;
-        ((struct Obj00246 *)p)->f38 = -1;
+        func_0204B3DC((*(void * *)&p->cursor), 1);
+        func_0204B878((*(void * *)&p->cursor), func_0204B898((*(void * *)&p->cursor)) + 9);
+        p->state = 3;
+        p->f4C = 8;
+        p->layout = -1;
     }
     return -1;
 }
@@ -2670,17 +2632,17 @@ int func_021FAE2C(u8 *p)
 
 
 
-int func_021FAE8C(u8 *p)
+int func_021FAE8C(Menu *p)
 {
-    if (func_0204B98C(((struct Obj00098 *)p)->f8)) return -1;
+    if (func_0204B98C((*(void * *)&p->cursor))) return -1;
     func_021F9660((Obj_021F9024 *)p, 4);
-    func_0204B3DC(((struct Obj00098 *)p)->f8, 0);
-    if (((struct Obj00098 *)p)->f38 >= 0) {
-        if (tbl_022033FC[((struct Obj00098 *)p)->f38].count != 1)
-            ((struct Obj00098 *)p)->f48 = 10;
+    func_0204B3DC((*(void * *)&p->cursor), 0);
+    if (p->layout >= 0) {
+        if (tbl_022033FC[p->layout].count != 1)
+            p->state = 10;
         else {
-            ((struct Obj00098 *)p)->f3A = 0;
-            ((struct Obj00098 *)p)->f48 = 14;
+            p->start = 0;
+            p->state = 14;
         }
     } else return -2;
     return -1;
@@ -2689,41 +2651,41 @@ int func_021FAE8C(u8 *p)
 
 
 
-int func_021FAEE0(u8 *p)
+int func_021FAEE0(Menu *p)
 {
     int i;
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(((struct Obj01160 *)p)->f18, 0, 96, 28, 1);
-    func_0202CF84(((struct Obj01160 *)p)->f18, 0);
+    func_0202CAE4(p->mgr, 0, 96, 28, 1);
+    func_0202CF84(p->mgr, 0);
     func_021F9260(p, 4);
-    func_021FBEB8(((struct Obj01160 *)p)->f18, ((struct Obj01160 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
-    func_02082BCC(p + 96, 1, 26);
-    g = p + 124;
+    func_021FBEB8(p->mgr, p->bank, (*(void ***)p)[14], 74, (u8 *)p + 124);
+    func_02082BCC((u8 *)p + 96, 1, 26);
+    g = (u8 *)p + 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(((struct Obj01160 *)p)->f20, i + 116);
+        str = func_02045EC0(p->bank, i + 116);
         if (func_021FBFB0(p, i) == 1) {
             color = 0x3dc2;
-            p[i + 96] = 1;
+            ((u8 *)p)[i + 96] = 1;
         } else {
             color = 0x2122;
-            p[i + 96] = 0;
+            ((u8 *)p)[i + 96] = 0;
         }
-        func_021FAC50(((struct Obj01160 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
+        func_021FAC50(p->mgr, (*(void ***)p)[i], str, 2, color, g);
         func_02045808(str);
     }
-    func_0202CB4C(((struct Obj01160 *)p)->f18, 0, 16, 0);
-    func_0202CC58(((struct Obj01160 *)p)->f18, 0);
-    func_0204B878((struct Obj *)(((struct Obj01160 *)p)->f8), 18);
-    func_021F4FF4(((struct Obj01160 *)p)->f8, (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
-    ((struct Obj01160 *)p)->f44 = ((struct Obj01160 *)p)->f38;
-    func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 1);
-    ((struct Obj01160 *)p)->f48 = 7;
+    func_0202CB4C(p->mgr, 0, 16, 0);
+    func_0202CC58(p->mgr, 0);
+    func_0204B878((struct Obj *)(p->cursor), 18);
+    func_021F4FF4(p->cursor, (tbl_022032C6[p->layout].x + 16) * 8, tbl_022032C6[p->layout].y * 8);
+    p->pos = p->layout;
+    func_0204B3DC((struct Obj *)p->cursor, 1);
+    p->state = 7;
     if (func_020355C4() == 1)
-        func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 0);
+        func_0204B3DC((struct Obj *)p->cursor, 0);
     else
-        func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
     return -1;
 }
 
@@ -2772,22 +2734,22 @@ int func_021FAFF0(Menu *m)
 
 
 
-int func_021FB164(u8 *p)
+int func_021FB164(Menu *p)
 {
     int r;
-    r = func_021F9CDC((Menu *)p, (int)(p + 0x60));
+    r = func_021F9CDC((Menu *)p, (int)((u8 *)p + 0x60));
     switch ((u32)r) {
     case 0: case 1: case 2: case 3: case 4:
-        func_0204B3DC((struct Obj *)((struct Obj00194 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00194 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
-        ((struct Obj00194 *)p)->f48 = 12;
-        ((struct Obj00194 *)p)->f3A = r;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 12;
+        p->start = r;
         break;
     case -2:
-        func_0204B3DC((struct Obj *)((struct Obj00194 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00194 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
-        ((struct Obj00194 *)p)->f48 = 12;
-        ((struct Obj00194 *)p)->f3A = -1;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 12;
+        p->start = -1;
         break;
     }
     return -1;
@@ -2796,7 +2758,7 @@ int func_021FB164(u8 *p)
 
 
 
-int func_021FB1E4(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660((Obj_021F9024 *)p, 5);if(((struct Obj00098 *)p)->f3A>=0)*(u32 *)&((struct Obj00098 *)p)->f48=14;else *(u32 *)&((struct Obj00098 *)p)->f48=9;return -1; }
+int func_021FB1E4(Menu *p) { if(func_0204B98C((*(void * *)&p->cursor)))return -1;func_0204B3DC((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 5);if(p->start>=0)*(u32 *)&p->state=14;else *(u32 *)&p->state=9;return -1; }
 
 
 
@@ -2804,20 +2766,20 @@ int func_021FB1E4(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -
 /*
  * State select before the notify call.
  */
-int func_021FB220(u8 *p)
+int func_021FB220(Menu *p)
 {
     u32 v;
     int n;
 
     if (func_020355C4() == 1) {
-        v = ((struct Obj09235 *)p)->f8;
+        v = p->cursor;
         n = 0;
     } else {
-        v = ((struct Obj09235 *)p)->f8;
+        v = p->cursor;
         n = 1;
     }
     func_0204B3DC((struct Obj *)v, n);
-    ((struct Obj09235 *)p)->f48 = 0xa;
+    (*(unsigned int *)&p->state) = 0xa;
     return -1;
 }
 
@@ -2941,25 +2903,25 @@ int func_021FB3D8(Menu *p)
 
 
 
-int func_021FB510(u8 *p)
+int func_021FB510(Menu *p)
 {
     int r;
     r = func_021F9FF0((Menu *)p);
     switch (r) {
     case -2:
         func_020061E4(0x551);
-        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
-        ((struct Obj02490 *)p)->f48 = 16;
-        ((struct Obj02490 *)p)->f3C = -1;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 16;
+        p->f3C = -1;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
-        ((struct Obj02490 *)p)->f48 = 3;
-        ((struct Obj02490 *)p)->f4C = 17;
-        ((struct Obj02490 *)p)->f3C = r;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 3;
+        p->f4C = 17;
+        p->f3C = r;
         break;
     }
     return -1;
@@ -2970,67 +2932,67 @@ int func_021FB510(u8 *p)
 /*
  * If the buffer is still live return -1; otherwise release the three pointers and pick the 0xd/0x9 code from the table.
  */
-int func_021FB588(u8 *p)
+int func_021FB588(Menu *p)
 {
-    if (func_0204B98C((struct Actor *)(*(u32 *)&((struct Obj00098 *)p)->f8)) != 0) {
+    if (func_0204B98C((struct Actor *)(*(u32 *)(void * *)&p->cursor)) != 0) {
         return -1;
     }
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->fC, 0);
-    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f10, 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
+    func_0204B3DC((struct Obj *)p->up, 0);
+    func_0204B3DC((struct Obj *)p->down, 0);
     func_021F9660((Obj_021F9024 *)p, 0x0);
-    func_0201F868((void *)(*(u32 *)&((struct Obj00098 *)p)->f30));
-    *(u32 *)&((struct Obj00098 *)p)->f48 = (*(s32 *)(g_022033FC + ((struct Obj00098 *)p)->f38 * 8) != 1) ? 0xd : 0x9;
+    func_0201F868((void *)(*(u32 *)(void **)&p->items));
+    *(u32 *)&p->state = (*(s32 *)(g_022033FC + p->layout * 8) != 1) ? 0xd : 0x9;
     return -1;
 }
 
 
 
-int func_021FB5E4(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660((Obj_021F9024 *)p, 0);func_0201F868(((struct Obj00098 *)p)->f30);return ((struct Obj00098 *)p)->f3C; }
+int func_021FB5E4(Menu *p) { if(func_0204B98C((*(void * *)&p->cursor)))return -1;func_0204B3DC((*(void * *)&p->cursor),0);func_021F9660((Obj_021F9024 *)p, 0);func_0201F868((void *)p->items);return p->f3C; }
 
 
 
-int func_021FB614(u8 *p)
+int func_021FB614(Menu *p)
 {
     func_021FA9C8(p, 6, 0x20);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 18);
-    func_0202CD64(((struct Obj02858 *)p)->f18, 0, -4, 0, 4);
-    ((struct Obj02858 *)p)->f48 = 1;
-    ((struct Obj02858 *)p)->f4C = 19;
-    ((struct Obj02858 *)p)->f44 = 10;
-    ((struct Obj02858 *)p)->f38 = -1;
-    func_021F4FF4(((struct Obj02858 *)p)->f8, (tbl_02203298[((struct Obj02858 *)p)->f44].x + 16) * 8, tbl_02203298[((struct Obj02858 *)p)->f44].y * 8);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 6);
+    func_0204B878((struct Obj *)(p->cursor), 18);
+    func_0202CD64(p->mgr, 0, -4, 0, 4);
+    p->state = 1;
+    p->f4C = 19;
+    p->pos = 10;
+    p->layout = -1;
+    func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
+    func_0204B878((struct Obj *)(p->cursor), 6);
     return -1;
 }
 
 
 
-int func_021FB674(u8 *p)
+int func_021FB674(Menu *p)
 {
     int r;
-    r = func_021FA514((Menu *)p, p + 0x60);
+    r = func_021FA514((Menu *)p, (u8 *)p + 0x60);
     switch ((u32)r) {
     case -2:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
-        ((struct Obj00195 *)p)->f48 = 3;
-        ((struct Obj00195 *)p)->f4C = 20;
-        ((struct Obj00195 *)p)->f38 = -1;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 3;
+        p->f4C = 20;
+        p->layout = -1;
         break;
     case 10:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
-        ((struct Obj00195 *)p)->f48 = 3;
-        ((struct Obj00195 *)p)->f4C = 20;
-        ((struct Obj00195 *)p)->f38 = -2;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), func_0204B898((struct Obj *)(p->cursor)) + 9);
+        p->state = 3;
+        p->f4C = 20;
+        p->layout = -2;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), 19);
-        ((struct Obj00195 *)p)->f38 = r;
-        ((struct Obj00195 *)p)->f48 = 20;
+        func_0204B3DC((struct Obj *)p->cursor, 1);
+        func_0204B878((struct Obj *)(p->cursor), 19);
+        p->layout = r;
+        p->state = 20;
         break;
     }
     return -1;
@@ -3038,25 +3000,25 @@ int func_021FB674(u8 *p)
 
 
 
-int func_021FB704(u8 *p)
+int func_021FB704(Menu *p)
 {
-    if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    if (func_0204B98C((*(void * *)&p->cursor)) != 0) return -1;
+    func_0204B3DC((struct Obj *)*(u32 *)(void * *)&p->cursor, 0);
     func_021F9660((Obj_021F9024 *)p, 6);
-    if (((struct Obj00098 *)p)->f38 < 0) {
-        if (((struct Obj00098 *)p)->f38 == -1) return -2;
-        else if (((struct Obj00098 *)p)->f38 == -2) return 0;
+    if (p->layout < 0) {
+        if (p->layout == -1) return -2;
+        else if (p->layout == -2) return 0;
     } else {
-        if (tbl_022033FC[((struct Obj00098 *)p)->f38].count != 1) {
-            ((struct Obj00098 *)p)->f48 = 22;
+        if (tbl_022033FC[p->layout].count != 1) {
+            p->state = 22;
         } else {
-            ((struct Obj00098 *)p)->f3A = 0;
-            func_0202CD64(((struct Obj00098 *)p)->f18, 0, -4, 0, 3);
-            if (((struct Obj00098 *)p)->f14 != 0) func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f14, 0);
-            func_0204B878((struct Obj *)(*(u32 *)&((struct Obj00098 *)p)->f8), 7);
-            ((struct Obj00098 *)p)->f48 = 2;
-            func_0202CAE4(((struct Obj00098 *)p)->f18, 0, 0x60, 0x18, 1);
-            ((struct Obj00098 *)p)->f4C = 26;
+            p->start = 0;
+            func_0202CD64(p->mgr, 0, -4, 0, 3);
+            if (p->f14 != 0) func_0204B3DC((struct Obj *)p->f14, 0);
+            func_0204B878((struct Obj *)(*(u32 *)(void * *)&p->cursor), 7);
+            p->state = 2;
+            func_0202CAE4(p->mgr, 0, 0x60, 0x18, 1);
+            p->f4C = 26;
         }
     }
     return -1;
@@ -3064,15 +3026,15 @@ int func_021FB704(u8 *p)
 
 
 
-int func_021FB7A0(u8 *p)
+int func_021FB7A0(Menu *p)
 {
     func_021FA9C8(p, 6, 0x10);
-    func_0204B878((struct Obj *)(((struct Obj02859 *)p)->f8), 18);
-    func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 1);
-    ((struct Obj02859 *)p)->f44 = ((struct Obj02859 *)p)->f38;
-    func_021F4FF4(((struct Obj02859 *)p)->f8, (tbl_02203298[((struct Obj02859 *)p)->f44].x + 16) * 8, tbl_02203298[((struct Obj02859 *)p)->f44].y * 8);
-    if (func_020355C4() == 1) func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 0);
-    else func_0204B3DC((struct Obj *)((struct Obj02859 *)p)->f8, 1);
-    ((struct Obj02859 *)p)->f48 = 19;
+    func_0204B878((struct Obj *)(p->cursor), 18);
+    func_0204B3DC((struct Obj *)p->cursor, 1);
+    p->pos = p->layout;
+    func_021F4FF4(p->cursor, (tbl_02203298[p->pos].x + 16) * 8, tbl_02203298[p->pos].y * 8);
+    if (func_020355C4() == 1) func_0204B3DC((struct Obj *)p->cursor, 0);
+    else func_0204B3DC((struct Obj *)p->cursor, 1);
+    p->state = 19;
     return -1;
 }

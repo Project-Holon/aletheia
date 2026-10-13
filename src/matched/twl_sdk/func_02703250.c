@@ -1,5 +1,5 @@
 /*
- * function: func_02703250
+ * function: NWM_GetVenderInfoElements
  * address:  0x02703250
  * packet:   twl
  * region:   twl
@@ -11,50 +11,68 @@
  *
  * symbols:
  *   func_02082E74  0x02082E74  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm
+ *   NWM_StartScanEx  0x02703088  arm
+ *   NWM_GetInfoElements  0x02703208  arm
+ *   NWMi_SetCallbackTable  0x02703A34  arm
+ *   NWMi_SendCommandDirect  0x02703B24  arm
+ *   NWMi_CheckState  0x027028E4  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02082E74(u32, u32, u32);
+typedef unsigned short u16;
+typedef unsigned char u8;
 
-asm void func_02703250(u32 a0, u32 a1, u32 a2) {
-    stmdb sp!, {r4, r5, r6, r7, r8, lr}
-    ldrh r3, [r0]
-    add r5, r0, #0x40
-    mov r8, r1
-    add r0, r5, r3
-    mov r7, r2
-    sub r6, r0, #0x40
-    cmp r8, #0xdd
-    movne r0, #0
-    ldmnefd sp!, {r4, r5, r6, r7, r8, pc}
-    ldrb r0, [r5, #1]
-    add r0, r5, r0
-    add r0, r0, #2
-    cmp r0, r6
-    bhi @lbl_027032D8
-    mov r4, #4
-@lbl_02703290:
-    ldrb r0, [r5]
-    cmp r0, r8
-    bne @lbl_027032B8
-    mov r1, r7
-    mov r2, r4
-    add r0, r5, #2
-    bl func_02082E74
-    cmp r0, #0
-    moveq r0, r5
-    ldmeqfd sp!, {r4, r5, r6, r7, r8, pc}
-@lbl_027032B8:
-    ldrb r0, [r5, #1]
-    add r0, r0, #2
-    add r5, r5, r0
-    ldrb r0, [r5, #1]
-    add r0, r5, r0
-    add r0, r0, #2
-    cmp r0, r6
-    bls @lbl_02703290
-@lbl_027032D8:
-    mov r0, #0
-    ldmfd sp!, {r4, r5, r6, r7, r8, pc}
+typedef struct ApInfo {
+    u8 *buf;
+    u16 bufLen;
+    u16 f06;
+    u16 f08;
+    u16 f0A;
+    u8 mac[6];
+    u16 ssidLen;
+    u8 ssid[0x20];
+    u16 f34;
+} ApInfo;
+
+typedef struct ApCmd {
+    u16 cmd;
+    u16 f02;
+    u16 bufLen;
+    u16 f06;
+    u8 *buf;
+    u16 f0C;
+    u16 ssidLen;
+    u16 f10;
+    u8 ssid[0x20];
+    u8 mac[6];
+} ApCmd;
+
+extern u32 NWMi_CheckState(u32, ...);
+extern u32 NWMi_GetSystemWork(void);
+extern void func_020862B8(u32, u32);
+extern void func_02082BCC(void *, u32, u32);
+extern void func_020862D4(void *, u32);
+extern void NWMi_SetCallbackTable(u32, u32);
+extern void func_02082D44(const void *, void *, u32);
+extern u32 NWMi_SendCommandDirect(void *, u32);
+extern u32 func_02082E74(void *, void *, u32);
+u32 NWM_StartScanEx(u32 a0, const ApInfo *a1);
+u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
+u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2);
+
+u8 *NWM_GetVenderInfoElements(u8 *a0, u32 a1, void *a2) {
+    u8 *p = a0 + 0x40;
+    u8 *end = p + *(u16 *)a0 - 0x40;
+    if (a1 != 0xdd) {
+        return 0;
+    }
+    while (p + p[1] + 2 <= end) {
+        if (*p == a1 && func_02082E74(p + 2, a2, 4) == 0) {
+            return p;
+        }
+        p += p[1] + 2;
+    }
+    return 0;
 }

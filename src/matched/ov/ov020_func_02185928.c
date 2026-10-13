@@ -11,7 +11,7 @@
  *
  * blocker:  byte-correct (MATCH*, 198 of 200 bytes, the rest is padding);
  *           the THM_CALL to func_02013DD0 (arm9) has no witness: 0x02013DD0
- *           is an unlabelled arm9 leaf (Ilias's, inside func_02013D9C's
+ *           is an unlabelled arm9 leaf (the integrator's, inside func_02013D9C's
  *           listing extent; see unit_02013D9C.c's near-miss note). Verified
  *           C for it, per ov018_func_0217EC7C.c:
  *             int func_02013DD0(int a0)

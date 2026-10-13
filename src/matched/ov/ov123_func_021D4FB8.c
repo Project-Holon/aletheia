@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: Ilias-owned ARM9 0x02045CAC lacks outside witness because unit_02045C44.c omits it from function:.
+ * blocker: integrator-owned ARM9 0x02045CAC lacks outside witness because unit_02045C44.c omits it from function:.
  * blocker: Verified EXACT, 344 bytes, from existing owner unit using fixed flags --arm; C copied from ov070_func_021BAFC4.c below.
  * typedef unsigned char u8;
  * typedef unsigned short u16;

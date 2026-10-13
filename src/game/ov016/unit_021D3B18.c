@@ -23,7 +23,6 @@
  *   DWCi_MOV_WH_SetGgid              0x021D3228  arm  ov016
  *   WM_GetNextTgid                   0x0208F1B4  arm
  *   MI_CpuCopy8                      0x02082D44  arm
- *   dat_021DE668  0x021DE668  data
  *   func_021D455C 0x021D455C  arm  ov016
  *   func_021D3250 0x021D3250  arm  ov016
  *   func_021D3AC8 0x021D3AC8  arm  ov016
@@ -181,9 +180,8 @@ int func_021D45A4(WMStartParentCallback *cb);
 void func_021D45E0(void);
 void func_021D4624(u16 kind, u16 counter, u8 *data);
 void func_021D4770(void);
-asm void Parent_get_child_data_kind(void);
+u16 Parent_get_child_data_kind(void);
 extern Wk *g_021DE668;
-extern Wk *dat_021DE668;
 
 
 
@@ -351,16 +349,16 @@ int func_021D3D8C(void)
  */
 void func_021D3DC0(void)
 {
-    switch (dat_021DE668->mov_stt) {
+    switch (g_021DE668->mov_stt) {
     case 1:
-        if (dat_021DE668->reset_kind == 1) {
-            dat_021DE668->reset_kind = 0;
+        if (g_021DE668->reset_kind == 1) {
+            g_021DE668->reset_kind = 0;
             func_021D3D44();
             return;
         }
-        if (dat_021DE668->reset_kind == 2) {
-            dat_021DE668->reset_kind = 0;
-            dat_021DE668->mov_stt = 0x22;
+        if (g_021DE668->reset_kind == 2) {
+            g_021DE668->reset_kind = 0;
+            g_021DE668->mov_stt = 0x22;
         }
         return;
     case 2:
@@ -368,10 +366,10 @@ void func_021D3DC0(void)
         return;
     case 3:
         func_021D41F0();
-        dat_021DE668->mov_stt = 4;
+        g_021DE668->mov_stt = 4;
         return;
     case 4:
-        dat_021DE668->start_wait_child_cnt++;
+        g_021DE668->start_wait_child_cnt++;
         func_021D4214();
         return;
     case 5:
@@ -390,84 +388,84 @@ void func_021D3DC0(void)
         func_021D455C();
         return;
     case 16:
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x11;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x11;
         return;
     case 17:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         func_021D4574();
         return;
     case 18:
         func_021F5F74();
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x16;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x16;
         return;
     case 19:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         if (func_021D3250() != 1)
             return;
         func_021D3AC8();
-        dat_021DE668->mov_stt = 0x14;
+        g_021DE668->mov_stt = 0x14;
         return;
     case 21:
         func_021D39C0();
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x16;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x16;
         return;
     case 22:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         if (func_021D3250() != 1)
             return;
         func_021D3AC8();
-        dat_021DE668->mov_stt = 0x17;
+        g_021DE668->mov_stt = 0x17;
         return;
     case 24:
         func_021D39C0();
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x19;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x19;
         return;
     case 25:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         if (func_021D3250() != 1)
             return;
         func_021D3AC8();
-        dat_021DE668->mov_stt = 0x1a;
+        g_021DE668->mov_stt = 0x1a;
         return;
     case 27:
         func_021D39C0();
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x1c;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x1c;
         return;
     case 28:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         if (func_021D3250() == 1) {
             func_021D3AC8();
-            dat_021DE668->mov_stt = 0x1d;
+            g_021DE668->mov_stt = 0x1d;
             return;
         }
-        if (dat_021DE668->cnt % 30 != 1)
+        if (g_021DE668->cnt % 30 != 1)
             return;
-        if (dat_021DE668->cnt <= 0x37)
+        if (g_021DE668->cnt <= 0x37)
             return;
         func_021D39C0();
         return;
     case 32:
         func_021D39C0();
-        dat_021DE668->cnt = 0;
-        dat_021DE668->mov_stt = 0x21;
+        g_021DE668->cnt = 0;
+        g_021DE668->mov_stt = 0x21;
         return;
     case 33:
-        if (dat_021DE668->cnt++ <= 0x1e)
+        if (g_021DE668->cnt++ <= 0x1e)
             return;
         if (func_021D3250() != 1)
             return;
         func_021D3AC8();
-        dat_021DE668->mov_stt = 0x22;
+        g_021DE668->mov_stt = 0x22;
         return;
     case 30:
         func_021D39C0();
@@ -827,11 +825,7 @@ void func_021D4770(void)
 }
 
 
-asm void Parent_get_child_data_kind(void)
+u16 Parent_get_child_data_kind(void)
 {
-	ldr r0, =0x021DE668
-	ldr r0, [r0]
-	add r0, r0, #0x100
-	ldrh r0, [r0, #0x44]
-	bx lr
+    return *(u16 *)(g_021DE668->sRecvBuf + 0x44);
 }

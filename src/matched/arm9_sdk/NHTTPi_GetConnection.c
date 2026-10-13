@@ -15,9 +15,8 @@
 
 struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-asm void NHTTPi_GetConnection(void)
+
+int NHTTPi_GetConnection(struct FSFile *file, long offset)
 {
-    ldr ip, =func_02078B44
-    mov r2, #0
-    bx ip
+    return func_02078B44(file, offset, 0);
 }

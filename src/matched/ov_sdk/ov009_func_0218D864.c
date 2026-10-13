@@ -1,5 +1,5 @@
 /*
- * function: CaseInsensitiveCompare
+ * function: gpiStatusInfoKeyCompFunc
  * address:  0x0218D864
  * packet:   pkt_ov009_0218D864
  * region:   ov009
@@ -15,11 +15,7 @@
 
 extern int func_020948E0(const char *s1, const char *s2);
 
-asm void CaseInsensitiveCompare(void)
+int gpiStatusInfoKeyCompFunc(char **elem1, char **elem2)
 {
-	ldr r0, [r0]
-	ldr r1, [r1]
-	ldr ip, =func_020948E0
-	bx ip
+    return func_020948E0(*elem1, *elem2);
 }
-

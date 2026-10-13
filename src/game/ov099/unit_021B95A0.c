@@ -1652,7 +1652,7 @@ void func_021BA2D4(void *w, S_021BA2D4 *s)
 /*
  * Parked at MATCH: every byte is right, the single wildcard is the
  * blx to the unlabelled arm9 leaf 0x0203F5FC (no witness outside the range;
- * an arm9 leaf is Ilias's).  Same blocker as ov099_func_021BA2D4.c.
+ * an arm9 leaf is the integrator's).  Same blocker as ov099_func_021BA2D4.c.
  *
  * with `one --arm` (no --region), C:
  *

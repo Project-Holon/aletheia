@@ -39,6 +39,7 @@ asm void func_0207AD58(void)
 }
 
 
+/* hand-written in the original: fx_mtx22.o (libfx) has one .debug_line row per instruction for MTX_Rot22_ (lines 65-69, 71), the neg on its own line, no DW_TAG_variable; the C ScaleApply22 beside it interleaves lines */
 asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos)
 {
     str r2, [r0]

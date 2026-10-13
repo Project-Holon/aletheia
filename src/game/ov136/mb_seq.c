@@ -1138,7 +1138,7 @@ void func_021C7350(u8 *p)
 /*
  *   2026-10-02: src/matched/arm9/func_02024450.c exists (EXACT) but has no shard yet.
  *   After the integrator runs manifest on it, re-run: expect EXACT.
- *   Verified Thumb C is preserved here; ARM9 filing belongs to Ilias.
+ *   Verified Thumb C is preserved here; ARM9 filing belongs to the integrator.
  *   typedef unsigned short u16;
  *   int func_02024450(const u16 *p)
  *   {

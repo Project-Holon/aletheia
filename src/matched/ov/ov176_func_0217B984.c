@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: func_0200EA08 (witness). Filed src/matched/arm9/func_0200EA08.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
- * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags); ARM9 belongs to Ilias.
+ * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags); ARM9 belongs to the integrator.
  *   unsigned char *func_0200EA08(unsigned char *p) { return p; }
  * symbols:
  *   func_02030734 0x02030734 arm

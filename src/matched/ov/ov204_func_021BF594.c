@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: 0x02016024 Thumb, Ilias-owned ARM9 leaf; scratch one EXACT, 4 bytes.
+ * blocker: 0x02016024 Thumb, integrator-owned ARM9 leaf; scratch one EXACT, 4 bytes.
  *   void func_02016024(char *p, unsigned int v)
  *   {
  *       *(unsigned int *)(p + 52) = v;

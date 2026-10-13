@@ -16,11 +16,7 @@
 typedef unsigned int   u32;
 extern void func_020897B4(int playerNo, u32 offset, u32 data, int size);
 
-asm void SND_SetPlayerChannelPriority(void)
+void SND_SetPlayerChannelPriority(int playerNo, int prio)
 {
-    ldr ip, =func_020897B4
-    mov	r2, r1
-    mov	r1, #4
-    mov	r3, #1
-    bx	ip
+    func_020897B4(playerNo, 0x4, (u32)prio, 1);
 }

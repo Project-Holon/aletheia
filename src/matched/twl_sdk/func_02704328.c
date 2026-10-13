@@ -1,5 +1,5 @@
 /*
- * function: func_02704328
+ * function: FATFS_UnmountAll
  * address:  0x02704328
  * packet:   twl
  * region:   twl
@@ -10,33 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027041E8  0x027041E8  arm twl
- *   func_02704258  0x02704258  arm twl
- *   func_02704264  0x02704264  arm twl
- *   func_02704230  0x02704230  arm twl
+ *   FATFSi_AllocateEmergencyCommandBuffer  0x027041E8  arm twl
+ *   FATFSi_PostRequest  0x02704258  arm twl
+ *   FATFSi_WaitForRequest  0x02704264  arm twl
+ *   FATFSi_FreeCommandBuffer  0x02704230  arm twl
  */
 
 typedef unsigned int u32;
+typedef int BOOL;
 
-extern u32 func_027041E8(u32);
-extern void func_02704258(void);
-extern void func_02704264(u32);
-extern void func_02704230(u32);
+typedef struct FsEntry {
+    u32 arg;
+    u32 state;
+} FsEntry;
 
-asm void func_02704328(void) {
-    stmdb sp!, {r3, r4, r5, lr}
-    mov r0, #0x1a
-    bl func_027041E8
-    mov r4, r0
-    bl func_02704258
-    mov r0, r4
-    bl func_02704264
-    ldr r0, [r4, #4]
-    mov r5, #1
-    cmp r0, #0
-    mov r0, r4
-    movne r5, #0
-    bl func_02704230
-    mov r0, r5
-    ldmfd sp!, {r3, r4, r5, pc}
+extern FsEntry *FATFSi_AllocateEmergencyCommandBuffer(u32);
+extern void FATFSi_PostRequest(FsEntry *);
+extern void FATFSi_WaitForRequest(FsEntry *);
+extern void FATFSi_FreeCommandBuffer(FsEntry *);
+
+BOOL FATFS_UnmountAll(void) {
+    FsEntry *e = FATFSi_AllocateEmergencyCommandBuffer(0x1a);
+    BOOL ok;
+    FATFSi_PostRequest(e);
+    FATFSi_WaitForRequest(e);
+    ok = (e->state == 0);
+    FATFSi_FreeCommandBuffer(e);
+    return ok;
 }

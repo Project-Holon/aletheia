@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH: func_02050080 (0x02050080) is an unlabelled arm9 leaf
- * (Ilias's, inside a labelled arm9 function) with no witness outside this range.
+ * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
  *   u32 func_02050080(u32 *p) { return p[1]; }  (EXACT as arm9 leaf, verified)
  *

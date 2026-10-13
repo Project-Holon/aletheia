@@ -1,5 +1,5 @@
 /*
- * function: func_02705320
+ * function: DSPi_PreSleepCallback
  * address: 0x02705320
  * packet: pkt_twl_02705320
  * region: twl
@@ -18,7 +18,7 @@
 void func_02088234(void);
 
 /* Tail stub: forwards to func_02088234. */
-void func_02705320(void)
+void DSPi_PreSleepCallback(void)
 {
     func_02088234();
 }

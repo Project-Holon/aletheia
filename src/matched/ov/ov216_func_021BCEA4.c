@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * blocker: ARM9 02045CAC +0010 lacks a code-start witness; Ilias owns src/matched/arm9/unit_02045C44.c, whose function header and shard omit func_02045CAC. Its C verifies EXACT individually (344 bytes).
+ * blocker: ARM9 02045CAC +0010 lacks a code-start witness; the integrator owns src/matched/arm9/unit_02045C44.c, whose function header and shard omit func_02045CAC. Its C verifies EXACT individually (344 bytes).
  * typedef unsigned char  u8;
  * typedef unsigned short u16;
  * typedef unsigned int   u32;

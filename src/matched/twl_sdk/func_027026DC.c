@@ -1,5 +1,5 @@
 /*
- * function: func_027026DC
+ * function: NWMi_GetSystemWork
  * address:  0x027026DC
  * packet:   twl_sys
  * region:   twl
@@ -16,6 +16,6 @@
 typedef unsigned int u32;
 extern u32 data_027341A4[];
 
-u32 func_027026DC(void) {
+u32 NWMi_GetSystemWork(void) {
     return data_027341A4[0];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02730388
+ * function: MI_GetWramBankMaster
  * address:  0x02730388
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
+ * symbols:
+ *   data_027301E0 0x027301E0 data twl
  */
+typedef unsigned int u32;
 
-asm void func_02730388(void)
+extern u32 (*const data_027301E0[])(u32);
+
+u32 MI_GetWramBankMaster(u32 i, u32 a)
 {
+    return data_027301E0[i](a);
 }

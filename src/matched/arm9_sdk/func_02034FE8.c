@@ -13,13 +13,16 @@
  *   func_02034FD4 0x02034FD4 arm
  */
 
-extern void func_02034FD4(void);
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct UiCtx {
+    u8 pad00[0x38];
+    u8 always;
+};
+#define g_021469BC (*(struct UiCtx **)0x021469BC)
+extern u32 func_02034FD4(struct UiCtx *p, u8 flags);
 
-asm void func_02034FE8(void)
+u32 func_02034FE8(u8 flags)
 {
-    ldr r2, =0x021469BC
-    mov r1, r0
-    ldr r0, [r2]
-    ldr ip, =func_02034FD4
-    bx ip
+    return func_02034FD4(g_021469BC, flags);
 }

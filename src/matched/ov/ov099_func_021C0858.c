@@ -9,7 +9,7 @@
  * status: EXACT
  * blocker: ARM9 0x0203CB00 and unlabelled ov099 0x021BDD98 lack outside witnesses.
  * blocker: 0x0203CB00 ARM verified MATCH, 52 bytes; copied from
- *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of Ilias's blocker.
+ *   ov099_func_021BEB68.c (leaf-cb00-r1.log); no retry of the integrator's blocker.
  *   extern char *d_021469DC;
  *   extern void func_0203CADC(void);
  *   int func_0203CB00(void) {

@@ -14,54 +14,38 @@
  *   g_02150E2C 0x02150E2C data
  */
 
-#include "../include/G_GXLoad3DState.h"
+typedef unsigned long u32;
+typedef struct {
+    int clrImg;
+    u32 texLCDCBlk1;
+    u32 texPlttLCDCBlk;
+    int texPltt;
+    u32 clrImgLCDCBlk;
+    int tex;
+    u32 texLCDCBlk2;
+    u32 szTexBlk1;
+} GXLoad3DState;
+#define sClrImg (*(GXLoad3DState *)0x02150E2C)
+extern int func_0208098C(void);
 
-extern void func_0208098C(int a0, int a1, int a2, int a3);
-extern struct GXLoad3DState g_02150E2C;
-
-asm void GX_BeginLoadClearImage(void)
+void GX_BeginLoadClearImage(void)
 {
-    stmfd sp!, {r3, lr}
-    bl func_0208098C
-    ldr r1, =g_02150E2C
-    cmp r0, #0xc
-    str r0, [r1]
-    addls pc, pc, r0, lsl #2
-    ldmfd sp!, {r3, pc}
-
-    ldmfd sp!, {r3, pc}
-    b case_1
-    b case_2
-    b case_3
-    b case_4
-    ldmfd sp!, {r3, pc}
-    ldmfd sp!, {r3, pc}
-    ldmfd sp!, {r3, pc}
-    b case_8
-    ldmfd sp!, {r3, pc}
-    ldmfd sp!, {r3, pc}
-    ldmfd sp!, {r3, pc}
-    b case_12
-
-case_2:
-case_3:
-    mov r0, #0x06800000
-    str r0, [r1, #0x10]
-    ldmfd sp!, {r3, pc}
-
-case_8:
-case_12:
-    ldr r0, =0x06840000
-    str r0, [r1, #0x10]
-    ldmfd sp!, {r3, pc}
-
-case_1:
-    ldr r0, =0x067E0000
-    str r0, [r1, #0x10]
-    ldmfd sp!, {r3, pc}
-
-case_4:
-    ldr r0, =0x06820000
-    str r0, [r1, #0x10]
-    ldmfd sp!, {r3, pc}
+    int fmt = func_0208098C();
+    sClrImg.clrImg = fmt;
+    switch (fmt) {
+    case 2:
+    case 3:
+        sClrImg.clrImgLCDCBlk = 0x06800000;
+        break;
+    case 8:
+    case 12:
+        sClrImg.clrImgLCDCBlk = 0x06840000;
+        break;
+    case 1:
+        sClrImg.clrImgLCDCBlk = 0x067E0000;
+        break;
+    case 4:
+        sClrImg.clrImgLCDCBlk = 0x06820000;
+        break;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * function: KeyValHashKey
+ * function: gti2CloseAllConnectionsHardMap
  * address:  0x02195DD4
  * packet:   pkt_ov009_02195DD4
  * region:   ov009
@@ -13,11 +13,9 @@
  *   DWC_IsSendableReliable       0x02195DC4  arm
 */
 
-extern void DWC_IsSendableReliable(void);
-asm void KeyValHashKey(void)
-{
-	ldr r0, [r0]
-	ldr ip, =DWC_IsSendableReliable
-	bx ip
-}
+extern void DWC_IsSendableReliable(void *p);
 
+static void gti2CloseAllConnectionsHardMap(void **elem)
+{
+    DWC_IsSendableReliable(*elem);
+}

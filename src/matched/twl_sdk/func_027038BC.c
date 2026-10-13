@@ -1,5 +1,5 @@
 /*
- * function: func_027038BC
+ * function: NWMi_ReceivingFrameCallback
  * address:  0x027038BC
  * packet:   twl
  * region:   twl
@@ -10,60 +10,53 @@
  * status:   EXACT
  *
  * symbols:
- *   func_027026DC  0x027026DC  arm twl
+ *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   func_020862D4  0x020862D4  arm twl
- *   func_02703A74  0x02703A74  arm twl
+ *   NWMi_SendCommand  0x02703A74  arm twl
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
 
-extern u32 func_027026DC(void);
-extern void func_020862D4(u32, u32);
-extern u32 func_02703A74(u32, u32, u32, u32, u32);
+typedef struct TwlMsg {
+    u16 w0;
+    u16 kind;
+    u16 idx;
+    u16 w6;
+    u32 w8;
+    u32 arg;
+} TwlMsg;
 
-asm void func_027038BC(u32 a0) {
-    stmdb sp!, {r3, r4, r5, r6, lr}
-    sub sp, sp, #4
-    mov r6, r0
-    bl func_027026DC
-    ldrh r1, [r6, #2]
-    mov r4, r0
-    cmp r1, #0
-    beq @lbl_027038F0
-    cmp r1, #0xb
-    addne sp, sp, #4
-    ldmnefd sp!, {r3, r4, r5, r6, pc}
-    mov r5, #0
-    b @lbl_027038F4
-@lbl_027038F0:
-    mov r5, #1
-@lbl_027038F4:
-    ldrh r0, [r6, #4]
-    add r0, r4, r0, lsl #2
-    add r0, r0, #0x2000
-    ldr r0, [r0, #0x2d4]
-    cmp r0, #0
-    beq @lbl_02703930
-    mov r0, r6
-    mov r1, #0x10
-    bl func_020862D4
-    ldrh r1, [r6, #4]
-    mov r0, r6
-    add r1, r4, r1, lsl #2
-    add r1, r1, #0x2000
-    ldr r1, [r1, #0x2d4]
-    blx r1
-@lbl_02703930:
-    cmp r5, #0
-    addne sp, sp, #4
-    ldmnefd sp!, {r3, r4, r5, r6, pc}
-    ldrh r2, [r6, #4]
-    mov r0, #0xa
-    mov r1, #3
-    str r2, [sp]
-    ldr r2, [r6, #0xc]
-    mov r3, #0
-    bl func_02703A74
-    add sp, sp, #4
-    ldmfd sp!, {r3, r4, r5, r6, pc}
+typedef struct TwlWork {
+    u8 pad0[0x2280];
+    u16 h2280;
+    u8 pad1[0x22D4 - 0x2282];
+    void (*cb[1])(TwlMsg *);
+} TwlWork;
+
+extern TwlWork *NWMi_GetSystemWork(void);
+extern void func_020862D4(void *, u32);
+extern u32 NWMi_SendCommand();
+
+void NWMi_ReceivingFrameCallback(TwlMsg *a0) {
+    TwlWork *w;
+    u32 first;
+
+    w = NWMi_GetSystemWork();
+    if (a0->kind != 0) {
+        if (a0->kind != 0xB) {
+            return;
+        }
+        first = 0;
+    } else {
+        first = 1;
+    }
+    if (w->cb[a0->idx] != 0) {
+        func_020862D4(a0, 0x10);
+        w->cb[a0->idx](a0);
+    }
+    if (first == 0) {
+        NWMi_SendCommand(0xA, 3, a0->arg, 0, a0->idx);
+    }
 }

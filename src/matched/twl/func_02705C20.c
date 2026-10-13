@@ -1,5 +1,5 @@
 /*
- * function: func_02705C20
+ * function: DSP_HookPostStartProcess
  * address:  0x02705C20
  * packet:   twl_sys
  * region:   twl
@@ -7,9 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
+ *
  */
 
-asm void func_02705C20(void)
+
+void DSP_HookPostStartProcess(void)
 {
 }

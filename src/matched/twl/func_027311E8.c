@@ -1,5 +1,5 @@
 /*
- * function: func_027311E8
+ * function: MI_LockWramManager
  * address:  0x027311E8
  * packet:   twl_sys
  * region:   twl
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern void func_02084C68(u32, void *, void *);
 extern u32 func_02084EB8(void);
 
-void func_027311E8(u16 *p)
+void MI_LockWramManager(u16 *p)
 {
     *p = func_02084EB8();
     func_02084C68(*p, (void *)0x02FFF680, 0);

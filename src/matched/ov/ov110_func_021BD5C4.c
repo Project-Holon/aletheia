@@ -9,7 +9,7 @@
  * status: EXACT
  * blocked: ARM9 02024144 and02024168 have only this caller as outside
  *   branch witness; tu --suggest-split gives no viable partition. No overlay
- *   leaf filed while ARM9 caps. Scratch-only proofs below; Ilias owns filing.
+ *   leaf filed while ARM9 caps. Scratch-only proofs below; the integrator owns filing.
  * evidence: 128-byte allocation; highest field7c ends at80. Input mode0
  *   writes one halfword to p+10, mode1 two to p+10, mode2 four to p+08;
  *   no output overlap or uninitialized output is read by the constructor

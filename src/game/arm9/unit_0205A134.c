@@ -35,7 +35,7 @@ extern void *DWC_AllocEx(int name, unsigned long size, int tag);
 extern unsigned long DWCi_GetAllocateSize(void *ptr);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
-asm void func_0205A148(void);
+unsigned long func_0205A148(char *ptr);
 void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);
 void *DWC_Alloc(int name, unsigned long size);
 void *func_0205A17C(int name, unsigned long size, int align);
@@ -62,12 +62,10 @@ void *DWCi_SetAllocateHeader(void *ptr, unsigned long size)
 
 
 
-asm void func_0205A148(void)
+unsigned long func_0205A148(char *ptr)
 {
-    stmdb	sp!, {r3, lr}
-    bl	func_0205A12C
-    ldr	r0, [r0, #4]
-    ldmia	sp!, {r3, pc}
+    _tagDWCiAllocHeader *header = func_0205A12C(ptr);
+    return header->size;
 }
 
 

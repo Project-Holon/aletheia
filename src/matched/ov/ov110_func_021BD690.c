@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * blocker: 0x02024530, Thumb ARM9, Ilias-owned unlabelled leaf.
+ * blocker: 0x02024530, Thumb ARM9, integrator-owned unlabelled leaf.
  * No witness outside this caller; tu --suggest-split leaves it out.
  * Scratch one verdict EXACT (4 bytes), fixed compiler/flags, no region:
  * typedef unsigned short u16;

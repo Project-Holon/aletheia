@@ -171,6 +171,16 @@ class Obj:
         self.sections = secs
         shstr = self._strtab(secs[e_shstrndx])
         self.secnames = [cstr(shstr, s[0]) for s in secs]
+        # (name, value, size, type, bind, shndx) for every symbol-table row
+        si = self.symtab_index()
+        if si >= 0:
+            symsec = secs[si]
+            strtab = self._strtab(secs[symsec[6]])
+            for i in range(symsec[5] // 16):
+                nameoff, value, size, info, _other, shndx = struct.unpack_from(
+                    "<IIIBBH", d, symsec[4] + i * 16)
+                self.symbols.append((cstr(strtab, nameoff), value, size,
+                                     info & 0xF, info >> 4, shndx))
 
     def _strtab(self, sec):
         return self.data[sec[4]:sec[4] + sec[5]]
@@ -199,7 +209,8 @@ def cstr(tab, off):
 # pattern extraction
 # ---------------------------------------------------------------------------
 
-CODE_SECTION_RE = re.compile(r"^\.(text|itcm|init|dtcm)")
+# .ltdmain: the TWL-only code section of the TwlSDK HYB/LTD libraries
+CODE_SECTION_RE = re.compile(r"^\.(text|itcm|init|dtcm|ltdmain)")
 
 
 class Pattern:
@@ -1116,12 +1127,137 @@ def run(args):
     shape_names = defaultdict(set)
     for pi, locs in hits.items():
         shape_names[frozenset(locs)].add(patterns[pi].name)
+
+    # Fit with what is already located.  Anchors are the functions that
+    # verify at exactly one place under bytes no other name shares, so their
+    # name at that address is certain.  Two checks split a same-bytes family
+    # (gti2CloseAllConnectionsMap / ...HardMap, CAMERA_I2C*Core,
+    # PM_Append*Callback) where callers and siblings within 4 KiB cannot:
+    #   reloc  the placement's own named references (calls, tail-call and
+    #          callback words) that land on an anchor: +1 when the anchor
+    #          carries the referenced name, -1 when it carries another;
+    #   adj    the function's section-order neighbours in its object (the
+    #          linker lays an object's sections out in that order) found as
+    #          anchors flush before or after it, with at most 3 bytes of
+    #          alignment padding.
+    # A dead-stripped neighbour gives no adjacency, never a penalty, so a
+    # relocation that names an anchor outranks adjacency.  The greedy pass
+    # below then runs again with its own placements as further anchors
+    # (gt2CloseConnectionHard, PM_GetExitFactor share their bytes with other
+    # names, so only the first round places them), until nothing changes.
+    anchor = {}
+    anchor_pi = {}
+    for pi, loc in once.items():
+        if len(shape_names[frozenset(hits[pi])]) == 1:
+            anchor[loc] = patterns[pi].name
+            anchor_pi[loc] = pi
+
+    def data_of(placed):
+        """{(region, data symbol): address} that every placed function
+        naming the symbol agrees on (statics through their own name, not a
+        section symbol or a string literal)."""
+        seen = defaultdict(set)
+        for (reg, addr), pi in placed.items():
+            refs = patterns[pi].refs
+            if len(refs) != 1:
+                continue
+            for name, t, _l, kind, _rt, word in checker.targets(pi, reg, addr, refs[0]):
+                if kind == "func" or word is None or not name or name[0] in ".@"                         or name.startswith("_ZZ"):
+                    continue
+                seen[(reg, name)].add(t)
+        return {k: next(iter(v)) for k, v in seen.items() if len(v) == 1}
+
+    anchor_data = data_of(anchor_pi)
+
+    all_by_name = defaultdict(list)         # every pattern, scanned or not
+    for pj, p in enumerate(patterns):
+        all_by_name[p.name].append(pj)
+
+    def callee_fit(name, tr, t, anchor):
+        """+1/-1/0: does the unnamed function at (tr, t) reference what the
+        vendor function `name` references?  Reaches through small wrappers
+        too short to scan (DWC_ScReportAddByteValue calls scimain.o's
+        12-byte scReportAddByteValue, which tail-calls
+        sciReportAddByteValue through a literal)."""
+        for pj in all_by_name.get(name, ()):
+            for refs in patterns[pj].refs or [()]:
+                for n2, t2, _l, k2, _rt, _w in checker.targets(pj, tr, t, refs):
+                    if k2 != "func":
+                        continue
+                    for tr2 in checker.target_regions(tr, t2)[0]:
+                        got = anchor.get((tr2, t2))
+                        if got is not None:
+                            return 1 if got == n2 else -1
+        return 0
+
+    def reloc_fit(pi, reg, addr, anchor=anchor, data=None):
+        if data is None:
+            data = anchor_data
+        best = None
+        for refs in patterns[pi].refs or [()]:
+            sc = 0
+            for name, t, _l, kind, _rt, _w in checker.targets(pi, reg, addr, refs):
+                if kind != "func":
+                    # a data symbol the located functions put elsewhere
+                    # (PM_AppendPreSleepCallback and ...PostSleepCallback
+                    # differ only in which callback list they load)
+                    v = data.get((reg, name)) if _w is not None else None
+                    if v is not None:
+                        sc += 1 if v == t else -1
+                    continue
+                tregs, det = checker.target_regions(reg, t)
+                if not det:
+                    continue
+                for tr in tregs:
+                    got = anchor.get((tr, t))
+                    if got is not None:
+                        sc += 1 if got == name else -1
+                        break
+                else:
+                    for tr in tregs:
+                        if (tr, t) not in resolved_now:
+                            sc += callee_fit(name, tr, t, anchor)
+                            break
+            best = sc if best is None else max(best, sc)
+        return best or 0
+
+    resolved_now = {}                       # last greedy round's placements
+    pos_of = defaultdict(list)              # pattern -> [(object list, index)]
+    for funcs_list in obj_funcs.values():
+        for funcs in funcs_list:
+            for k, pj in enumerate(funcs):
+                pos_of[pj].append((funcs, k))
+
+    def adj_fit(pi, reg, addr, anchor=anchor):
+        best = 0
+        size = patterns[pi].size
+        for funcs, k in pos_of.get(pi, ()):
+            n = 0
+            if k > 0:
+                pp = funcs[k - 1]
+                ps = patterns[pp].size
+                if any(anchor.get((reg, addr - g - ps)) == patterns[pp].name
+                       for g in range(4)):
+                    n += 1
+            if k + 1 < len(funcs):
+                pn = funcs[k + 1]
+                if any(anchor.get((reg, addr + size + g)) == patterns[pn].name
+                       for g in range(4)):
+                    n += 1
+            best = max(best, n)
+        return best
+
+    for reg, lst in cands.items():
+        for c in lst:
+            c.append(reloc_fit(c[4], reg, c[0]))     # c[7]
+            c.append(adj_fit(c[4], reg, c[0]))       # c[8]
+
     unsure = 0
     for reg in list(cands):
         keep = []
         for c in cands[reg]:
             pi = c[4]
-            if (c[5] == 0 and c[6] == 0
+            if (c[5] == 0 and c[6] == 0 and c[7] <= 0 and c[8] == 0
                     and len(shape_names[frozenset(hits[pi])]) > 1):
                 rejected.append((reg, c[0], patterns[pi].name,
                                  "shares its bytes with other names at the"
@@ -1134,46 +1270,90 @@ def run(args):
 
     # Greedy, biggest and most-concrete first: a 12-byte pattern that happens
     # to sit inside a longer function that also matched is a false positive.
-    # Ties: the name callers use (votes), copies of one name by object
-    # support, then the object's section
+    # Ties: the placement's references that land on anchors (reloc), the
+    # name callers use (votes), section-order neighbours located flush
+    # (adj), copies of one name by object support, then the object's section
     # order, which is the link order.  That splits same-bytes families
     # (GX_/GXS_LoadBGnScr, GX_ResetBankForX / GX_DisableBankForX) in the
     # order the object defines them; the name order used before gave the
     # alphabetically first name every copy.  A global is defined once per
     # link, so it is placed at most once per region; statics may repeat
     # (libdwcutil's scene objects each carry the same procInit).
-    resolved = {}
-    dropped_overlap = 0
-    contested = 0
-    twins = 0
-    taken_by_reg = {}
-    placed_by_reg = {}
-    for reg, lst in cands.items():
-        lst.sort(key=lambda c: (-c[1], -c[2], -c[3], -c[6], -c[5],
-                                patterns[c[4]].order, c[0]))
-        taken = taken_by_reg[reg] = []      # sorted list of (start, end)
-        placed = placed_by_reg[reg] = set()  # global names placed in reg
-        for addr, size, concrete, sc, pi, _sup, _votes in lst:
-            if patterns[pi].glob and patterns[pi].name in placed:
-                twins += 1
-                continue                    # leave the address to a twin
-            end = addr + size
-            clash = False
-            for ts, te in taken:
-                if addr < te and ts < end:
-                    clash = True
-                    break
-            if clash:
-                if (reg, addr) in resolved:
-                    contested += 1
-                else:
-                    dropped_overlap += 1
+    def greedy():
+        resolved = {}
+        stats = [0, 0, 0]                   # dropped_overlap, contested, twins
+        taken_by_reg = {}
+        placed_by_reg = {}
+        for reg, lst in cands.items():
+            lst.sort(key=lambda c: (-c[1], -c[2], -c[3], -c[7], -c[6], -c[8],
+                                    -c[5], patterns[c[4]].order, c[0]))
+            taken = taken_by_reg[reg] = []      # sorted list of (start, end)
+            placed = placed_by_reg[reg] = set()  # global names placed in reg
+            for addr, size, concrete, sc, pi, _sup, _votes, _rel, _adj in lst:
+                if patterns[pi].glob and patterns[pi].name in placed:
+                    stats[2] += 1
+                    continue                    # leave the address to a twin
+                end = addr + size
+                clash = False
+                for ts, te in taken:
+                    if addr < te and ts < end:
+                        clash = True
+                        break
+                if clash:
+                    if (reg, addr) in resolved:
+                        stats[1] += 1
+                    else:
+                        stats[0] += 1
+                    continue
+                taken.append((addr, end))
+                taken.sort()
+                resolved[(reg, addr)] = pi
+                if patterns[pi].glob:
+                    placed.add(patterns[pi].name)
+        return resolved, stats, taken_by_reg, placed_by_reg
+
+    rounds = 0
+    while True:
+        resolved, (dropped_overlap, contested, twins), taken_by_reg, placed_by_reg = greedy()
+        resolved_now = resolved
+        rounds += 1
+        if rounds >= 5:
+            break
+        # Only placements that evidence chose count: bytes no other name
+        # shares, or (reloc, votes) strictly better than every other name's
+        # at that address.  Adjacency alone does not make a placement an
+        # anchor: same-bytes siblings (DWC_ScReportAdd*Value all call the same
+        # helpers) would otherwise vouch for each other's positions, and the
+        # rounds would not settle.
+        known = dict(anchor)
+        known_pi = dict(anchor_pi)
+        fit_at = defaultdict(list)
+        for reg, lst in cands.items():
+            for c in lst:
+                fit_at[(reg, c[0])].append(((c[7], c[6]), c[4]))
+        for loc, pi in resolved.items():
+            if len(shape_names[frozenset(hits[pi])]) == 1:
+                known.setdefault(loc, patterns[pi].name)
+                known_pi.setdefault(loc, pi)
                 continue
-            taken.append((addr, end))
-            taken.sort()
-            resolved[(reg, addr)] = pi
-            if patterns[pi].glob:
-                placed.add(patterns[pi].name)
+            mine = [f for f, pj in fit_at.get(loc, ()) if pj == pi]
+            others = [f for f, pj in fit_at.get(loc, ())
+                      if patterns[pj].name != patterns[pi].name]
+            if mine and all(max(mine) > f for f in others):
+                known.setdefault(loc, patterns[pi].name)
+                known_pi.setdefault(loc, pi)
+        known_data = data_of(known_pi)
+        changed = False
+        for reg, lst in cands.items():
+            for c in lst:
+                r7 = reloc_fit(c[4], reg, c[0], known, known_data)
+                r8 = adj_fit(c[4], reg, c[0], known)
+                if (r7, r8) != (c[7], c[8]):
+                    c[7], c[8] = r7, r8
+                    changed = True
+        if not changed:
+            break
+    print("greedy placement: %d round(s)" % rounds)
 
     # Pass 2: a pattern that landed in more than MAX_HITS places is kept at
     # one of them only when it is the next (or previous) function, in the
@@ -1199,6 +1379,15 @@ def run(args):
         if len(uniq) > MAX_HITS:
             for loc in uniq:
                 multi_at[loc].add(pi)
+    # Callers that name an address (votes) and the placement's own
+    # references veto a pass-2 placement: FATFS_GetLastError
+    # (fatfs_request.o) and FATFSi_IsInitialized (fatfs_api.o) both fit flush
+    # at twl 0x02704318 between their objects, and OS_Terminate's call there
+    # names the latter.
+    votes_at = defaultdict(dict)
+    for (vr, va, vn), cnt in votes.items():
+        votes_at[(vr, va)][vn] = cnt
+    vetoed = 0
     adjacent = 0
     frontier = sorted(resolved)
     while frontier:
@@ -1235,6 +1424,11 @@ def run(args):
                             continue
                         if checker.bad(pj, reg, addr):
                             continue
+                        va = votes_at.get((reg, addr))
+                        if ((va and not va.get(patterns[pj].name))
+                                or reloc_fit(pj, reg, addr) < 0):
+                            vetoed += 1
+                            continue
                         end = addr + size
                         taken = taken_by_reg.setdefault(reg, [])
                         if any(addr < te and ts < end for ts, te in taken):
@@ -1253,7 +1447,8 @@ def run(args):
                         break
         frontier = sorted(nxt)
     print("pass 2: %d placements of patterns with >%d hits, each the next or"
-          " previous function of a resolved neighbour's object" % (adjacent, MAX_HITS))
+          " previous function of a resolved neighbour's object (%d vetoed by"
+          " callers or references)" % (adjacent, MAX_HITS, vetoed))
 
     print("reference checks: %d candidate placements rejected (a named callee"
           " whose bytes do not verify at the call target, or a static named from"

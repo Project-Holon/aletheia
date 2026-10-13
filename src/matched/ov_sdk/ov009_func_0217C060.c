@@ -1,5 +1,5 @@
 /*
- * function: CameraStandbyCallback
+ * function: DWCi_Prof_Free
  * address:  0x0217C060
  * packet:   pkt_ov009_0217C060
  * region:   ov009
@@ -13,11 +13,9 @@
  *   DWC_Free                     0x0205A1B0  arm
 */
 
-extern void DWC_Free(void);
-asm void CameraStandbyCallback(void)
-{
-	ldr ip, =DWC_Free
-	mov r0, #0
-	bx ip
-}
+extern void DWC_Free(int name, void *ptr, unsigned long size);
 
+static void DWCi_Prof_Free(int name, void *ptr, unsigned long size)
+{
+    DWC_Free(0, ptr, size);
+}

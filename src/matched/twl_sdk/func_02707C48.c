@@ -1,5 +1,5 @@
 /*
- * function: func_02707C48
+ * function: AESi_InvalidateRange
  * address:  0x02707C48
  * packet:   twl_sys
  * region:   twl
@@ -18,7 +18,7 @@ extern void DC_FlushAll(void);
 extern void DC_StoreRange(const void *start, u32 bytes);
 extern void DC_InvalidateRange(const void *start, u32 bytes);
 
-void func_02707C48(void *addr, u32 size)
+void AESi_InvalidateRange(void *addr, u32 size)
 {
     if (size < 0x400) {
         IC_InvalidateRange(addr, size);

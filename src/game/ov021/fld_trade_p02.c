@@ -55,7 +55,7 @@
  *   func_020146F8  0x020146F8  thumb
  *   func_02012374  0x02012374  thumb
  *   abs_id_C2      0x000000C2  data
- *   d_021F5580     0x021F5580  data  ov075  a4
+ *   d_021F5580     0x021F5580  data  ov194  a4
  *   func_0200C1F8  0x0200C1F8  thumb
  *   func_02027198  0x02027198  thumb
  *   func_0200C210  0x0200C210  thumb

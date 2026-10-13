@@ -15,13 +15,9 @@
  */
 
 extern void *func_02031354(int a0);
-extern void g_02146990(void);
+#define g_02146990 (*(void **)0x02146990)
 
-asm void func_0203129C(void)
+void func_0203129C(int a0)
 {
-    stmfd sp!, {r3, lr}
-    bl func_02031354
-    ldr r1, =g_02146990
-    str r0, [r1]
-    ldmfd sp!, {r3, pc}
+    g_02146990 = func_02031354(a0);
 }

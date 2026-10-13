@@ -1,5 +1,5 @@
 /*
- * function: func_02700000
+ * function: RTCEXi_CommonCallback
  * address:  0x02700000
  * packet:   twl_sys
  * region:   twl
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void *func_020889F8(void);
 
-asm void func_02700000(void) {
+asm void RTCEXi_CommonCallback(void) {
     stmdb sp!, {r3, lr}
     bl func_020889F8
     ldr r1, [r0, #0x14]

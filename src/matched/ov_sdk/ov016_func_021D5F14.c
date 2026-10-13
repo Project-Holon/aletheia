@@ -12,12 +12,17 @@
  * symbols:
 */
 
-asm void DWCi_FNTlClear(void)
-{
-	stmdb sp!, {r3, lr}
-	ldr r2, [r0, #0x14]
-	ldr r2, [r2, #4]
-	blx r2
-	ldmia sp!, {r3, pc}
-}
+typedef struct {
+    void *pad;
+    void (*pfnClear)(void *cnv, int color);
+} CharFmt;
 
+typedef struct {
+    unsigned char chr0[0x14];
+    CharFmt *pFmt;
+} Canvas;
+
+void DWCi_FNTlClear(Canvas *cnv, int color)
+{
+    cnv->pFmt->pfnClear(cnv, color);
+}

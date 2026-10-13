@@ -22,7 +22,7 @@
  *   bytes off (run 5). The C below declares `int func_021BF050(char *p)`.
  *   The owner's fix is a one-parameter definition (unused `char *p`); then
  *   this file can be filed as a pending MATCH unchanged.
- * blocker even then: arm9 0x0203CB00 (+0x38, ARM, unlabelled; Ilias's) has no
+ * blocker even then: arm9 0x0203CB00 (+0x38, ARM, unlabelled; the integrator's) has no
  *   outside witness (13 call sites image-wide, all unlabelled targets);
  *   tu --suggest-split: not cuttable. Its verified C is in the header of
  *   src/pending/ov/ov099_func_021BF2C4.c (copied from ov099_func_021BEB68.c).

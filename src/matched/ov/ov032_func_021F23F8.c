@@ -22,7 +22,7 @@ u32 func_021F23F8(char *p);
 
 /*
  * Byte-correct; the only wildcards are the bls to two unlabelled arm9
- * leaves, Ilias's (blocker: no witness outside the range). Verified leaf C
+ * leaves, the integrator's (blocker: no witness outside the range). Verified leaf C
  * (both EXACT, thumb, `one --thumb` with no --region):
  *   0x020275B8 (12 bytes incl. pool word 0x0B0E):
  *     typedef unsigned char u8;

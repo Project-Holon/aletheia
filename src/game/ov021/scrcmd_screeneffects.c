@@ -2540,7 +2540,7 @@ int func_021AEFA4(u32 *a, u32 *st)
 
 /*
  * .word 0x02029EB5) has no witness outside the range (evidence class: none;
- * arm9 leaf belongs to Ilias, not filed here).
+ * arm9 leaf belongs to the integrator, not filed here).
  *
  * Addresses are Black-image addresses.
  */

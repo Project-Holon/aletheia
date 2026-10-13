@@ -74,4 +74,4 @@ int func_0216628C(u32 *obj, u32 slot)
  * compiled: lsls r0,r7,#2; ldr r1,[r4,r0]; lsls r0,r6,#2; str r1,[r4,r0]; cmp r5,#3
  * Tried: temp var, pointer temps, split if/else, int slot/dst, k3 flag. The unlabelled thunk
  * Fresh wave75 verdict contradicts the earlier claim that func_0200E184
- * was filed: it is unresolved ARM9 evidence. Ilias owns that blocker. */
+ * was filed: it is unresolved ARM9 evidence. the integrator owns that blocker. */

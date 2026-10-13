@@ -1,5 +1,5 @@
 /*
- * function: MB_GetTgid
+ * function: MBi_GetTgid
  * address:  0x021F62A0
  * packet:   pkt_ov107_021F62A0
  * region:   ov107
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern struct WmBase d_021F6F90;
 
-u16 MB_GetTgid(void)
+u16 MBi_GetTgid(void)
 {
     return *(u16 *)(*(char **)(((char *)&d_021F6F90) + 0xC) + 0xC);
 }

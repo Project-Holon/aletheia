@@ -12,7 +12,7 @@
  *   (8 of 8 relocations resolved, data_02211AFF sole-ref) with
  *   func_020276C4 declared (void *), as matched caller
  *   ov131_func_021D6A38.c declares it. Its own definition
- *   src/matched/arm9/func_020276C4.c (arm9, Ilias's) declares four int
+ *   src/matched/arm9/func_020276C4.c (arm9, the integrator's) declares four int
  *   parameters; its listing reads only r0 (020276C4 push {r3,r4,r5,lr};
  *   020276C6 movs r1,#0xa0; 020276C8 movs r2,#0; 020276CA adds r5,r0,#0:
  *   r1/r2 overwritten before any read, r3 pushed only as frame padding).

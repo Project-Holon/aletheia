@@ -9,7 +9,7 @@
  * isa: thumb
  * status: DIFF
  * checks: 1 own callee bodies and fresh pending CEA4/D07C/DA54 caller ABI read; 2 fresh scoped neighbours no setup twin; 3 int entry index removes enum guard and shrinks to DIFF40/372; long counters unchanged40, prior const p unchanged; 4 enum/spill/struct-local idioms read; 5 fresh complete idiom directory and matched/pending neighbours read, residue is scalar spill colouring.
- * residue: 372/372 DIFF40 (improved from249/376), 19/22 relocations; Ilias ARM9 02045CAC lacks unit header/shard witness. Five one runs; declaration order unchanged40, long counters unchanged40, separate phase bases worsened204/356; three consecutive nonshrinks stop. Prior once300 baseline disagreement consumed search; not repeated.
+ * residue: 372/372 DIFF40 (improved from249/376), 19/22 relocations; the integrator ARM9 02045CAC lacks unit header/shard witness. Five one runs; declaration order unchanged40, long counters unchanged40, separate phase bases worsened204/356; three consecutive nonshrinks stop. Prior once300 baseline disagreement consumed search; not repeated.
  * permuter: once-only300 search baseline245/376 with4 unresolved disagreed fixed249/376 with3; AST emission changed baseline. Search consumed, output not accepted; fixed best retained.
  * symbols:
  *   func_02045CAC 0x02045CAC arm

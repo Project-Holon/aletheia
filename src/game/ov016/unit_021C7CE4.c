@@ -100,9 +100,19 @@ void func_021C7D00(void)
 
 static int ErrorCode = 0;
 
-static const unsigned char FONT_TBL[7] = {0};
+static const unsigned char FONT_TBL[7] = { 0, 1, 1, 1, 1, 1, 0 };
 
-static const struct tagCOORD C_CODE[7] = {0};
+/*
+ * The vendor .rodata has this rectangle between FONT_TBL and C_CODE. No code
+ * reads it: the DWCi_FNTlDrawRect call below uses the same values as
+ * constants. The vendor symbol list does not name it.
+ */
+static const struct tagRECT { unsigned short x, y, w, h; } R_MSG = { 0xd, 0x3c, 0xe6, 0x5e };
+
+static const struct tagCOORD C_CODE[7] = {
+    { 0x62, 0x22 }, { 0x62, 0x22 }, { 0x3d, 0x22 }, { 0x65, 0x22 },
+    { 0x6c, 0x22 }, { 0x34, 0x22 }, { 0x4e, 0x22 }
+};
 
 
 static inline void drawStr(void *canvas, int x, int y, int color, int interval, u16 *txt, int font)

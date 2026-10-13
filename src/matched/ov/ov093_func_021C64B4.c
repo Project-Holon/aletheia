@@ -11,7 +11,7 @@
  *
  * Byte-correct except the call to the unlabelled arm9 leaf 0x0201C1E8,
  * which has no witness outside this function (evidence class: none until the
- * leaf is filed; it is Ilias's, inside a labelled arm9 region). Verified C for
+ * leaf is filed; it is the integrator's, inside a labelled arm9 region). Verified C for
  * that leaf (`one` --thumb, no --region, EXACT, 12 bytes):
  *
  *   extern u32 sub_0201BD28(void *p, u32 id);   // symbols: sub_0201BD28 0x0201BD28 thumb

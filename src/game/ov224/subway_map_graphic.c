@@ -1,7 +1,7 @@
 /*
  * file:     subway_map_graphic.c
  * unit:     yes
- * function: func_021B95A0, func_021B9718, func_021B9788, func_021B9824, func_021B9898, func_021B989C, func_021B9940, func_021B99E8, func_021B9A44, func_021B9A58, func_021B9A6C, func_021B9ACC, func_021B9B04, func_021B9B08, func_021B9B10, func_021B9B50, func_021B9B6C, func_021B9B74, func_021B9B7C
+ * function: func_021B95A0, func_021B9718, func_021B9788, func_021B9820, func_021B9824, func_021B9898, func_021B989C, func_021B9940, func_021B99E8, func_021B9A44, func_021B9A58, func_021B9A6C, func_021B9ACC, func_021B9B04, func_021B9B08, func_021B9B10, func_021B9B50, func_021B9B6C, func_021B9B74, func_021B9B7C
  * address:  0x021B95A0
  * region:   ov224
  * compiler: dsi/1.1p1

@@ -15,7 +15,7 @@
  * permuter: emitted baseline DIFF431/504 agreed; best 59/504 widens heap but leaves narrow BF10 extern, adding a truncation absent in the original. Rejected; ABI-faithful C retained.
  * wave77-gate: no caller compile; current BF10 and ARM9 020490F4 listings preserve full-word heap, but both existing matched declarations use u16. Owner correction required before retry; prior DIFF431/504 retained, consumed 300 search not repeated.
  * checks: 1 BF10 holds full r1 in r4; 020490F4 +0C moves r1 to r0 and +20 passes it to 02030734 without truncation; 2 current same/sibling neighbours refreshed; 3 owner gate prevented a new width/const compile; 4 palette-base, hardware-inline and declared-stack-struct idioms inspected; 5 unfiltered directory and current neighbours refreshed. Prepared uncompiled next hypothesis: palette inline returning selected base plus byte offset.
- * blocker: Ilias ARM9 sub_020490F4(u32 id,u16 heap) should take u32 heap; dependent ov121 BF10 also needs that declaration and u32 heap. No protected file changed.
+ * blocker: the integrator ARM9 sub_020490F4(u32 id,u16 heap) should take u32 heap; dependent ov121 BF10 also needs that declaration and u32 heap. No protected file changed.
  * symbols:
  *   func_021DBF10 0x021DBF10 thumb ov121
  *   func_021DBF40 0x021DBF40 thumb ov121

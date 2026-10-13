@@ -17,3 +17,20 @@ twice, a u32 prototype adds nothing to p01 that stays EXACT). Tested both ways i
 Round 18 (L17): retested. With a u32 prototype p01 loses its repeated per-use narrowing of `(u16)a`; with a u16 heap
 parameter func_021CD48C loads heap with ldrh at each use (the original has one ldr into r6). func_021CD1C8 would
 need u16 heap too. Boundary unchanged.
+
+F08b (2026-10-12): merged text compiles after casting func_021CD1AC/func_021CD004/func_021CD038 arguments to the
+other part's work type. With a u16 heap in func_02030734, func_021CD1C8 (u16 heap parameter) and everything before
+func_021CD48C are EXACT; the only difference is the single call in func_021CD48C, which the target makes with
+heap unnarrowed (r6 straight from `ldr r6,[sp,#0x28]`). With a u32 prototype instead, func_021CBFB0 computes
+`(u16)a` once (CSE into r6, also with `a & 0xFFFF`) where the target narrows at each call. A u16 stack parameter
+gives `add r4,sp,#N; ldrh`. A K&R redeclaration of func_02030734 (file or block scope) is rejected as a redeclaration.
+
+F11 (2026-10-12): the boundary is a real source boundary. The site strings passed as the `file` argument of func_02030734
+name the original source files: d_021DE59C "fld_trade.c", d_021DE5A8 "scrcmd_palpark.c", d_021DE5C0
+"party_select_list.c" (all in p01), d_021DE5D4 "field_bb_color.c", d_021DE5E8 "comm_entry_menu.c" (both in p02).
+func_021CD48C belongs to comm_entry_menu.c and func_021CBFB0 to fld_trade.c, so the two parts were different
+translation units where func_02030734 (asm-only, no C definition) was declared with different heap parameter types
+(u16 in fld_trade.c, unnarrowed in comm_entry_menu.c). Tested in F11 without result: u32 prototype with the u16
+parameter or plain `a` in func_021CBFB0 (no narrowing), `heap & 0xFFFF`, `(u16)heap`, `heap % 65536` at the call,
+u16 heap parameter (ldrh, add r4,sp), `register u16` copy (narrows at entry), optimization_level 1 on func_021CBFB0
+(no CSE but scheduling differs, 24 bytes off). Keep the two parts.

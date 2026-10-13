@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CARDi_CommandBegin",
+   "name": "CPS_SetSslHandshakePriority",
    "address": "0x0216008C",
    "kind": "sdk",
    "region": "ov009",

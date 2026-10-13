@@ -19,6 +19,7 @@
  * symbols:
  */
 
+/* hand-written in the original: biginteger.o (libssl) asm routine, one debug row per instruction and no DWARF locals; no C spelling gives the bare lsl */
 asm void get64bits(void)
 {
 	ldrh r2, [r0]

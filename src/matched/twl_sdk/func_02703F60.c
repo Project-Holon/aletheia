@@ -1,5 +1,5 @@
 /*
- * function: func_02703F60
+ * function: MicexSyncCallback
  * address:  0x02703F60
  * packet:   twl
  * region:   twl
@@ -13,13 +13,10 @@
  *   func_02085DBC  0x02085DBC  arm
  */
 
-extern void func_02085DBC(void);
+typedef unsigned int u32;
 
-asm void func_02703F60(void) {
-    mov r2, r0
-    mov r0, r1
-    mov r1, r2
-    ldr ip, =func_02085DBC
-    mov r2, #0
-    bx ip
+extern u32 func_02085DBC(u32, u32, u32);
+
+void MicexSyncCallback(u32 a0, u32 a1) {
+    func_02085DBC(a1, a0, 0);
 }

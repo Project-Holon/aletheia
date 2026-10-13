@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0x020275EC has no witness outside caller; Ilias owns it.
+ * blocker: ARM9 0x020275EC has no witness outside caller; the integrator owns it.
  * Verified scratch one: EXACT 12 bytes, Thumb, dsi/1.1p1 -O4,p.
  * typedef unsigned char u8;
  * extern const u8 d_0209FCF8[];

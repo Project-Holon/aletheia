@@ -2,7 +2,7 @@
  * function: func_021DC170
  * address:  0x021DC170
  * packet:   pkt_ov093_021DC170
- * hint:     EXACT* with `volatile u32 n` (store/reload of the count); filed only if Ilias accepts volatile locals (twin ov093_func_021C7F68.c already uses it).
+ * hint:     EXACT* with `volatile u32 n` (store/reload of the count); filed only if the integrator accepts volatile locals (twin ov093_func_021C7F68.c already uses it).
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p

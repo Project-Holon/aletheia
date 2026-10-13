@@ -1,6 +1,6 @@
 /*
  * file:     unit_0208459C.c
- * function: func_0208459C
+ * function: func_0208459C, func_02084610
  * address:  0x0208459C
  * packet:   pkt_0208459C
  * region:   arm9
@@ -52,4 +52,9 @@ void func_0208459C(BOOL clear, u32 irqFlags)
     while (!(irqFlags & OSi_IRQ_CHECK_FLAG)) {
         OS_SleepThread(&OSi_IrqThreadQueue);
     }
+}
+
+/* SDK name: OS_IrqDummy (os_irqhandler.o), the default empty IRQ handler. */
+void func_02084610(void)
+{
 }

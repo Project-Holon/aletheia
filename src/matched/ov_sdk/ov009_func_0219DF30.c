@@ -1,5 +1,5 @@
 /*
- * function: KeyValHashKey
+ * function: RefStringHash
  * address:  0x0219DF30
  * packet:   pkt_ov009_0219DF30
  * region:   ov009
@@ -13,11 +13,9 @@
  *   StringHash                   0x0219E848  arm
 */
 
-extern void StringHash(void);
-asm void KeyValHashKey(void)
-{
-	ldr r0, [r0]
-	ldr ip, =StringHash
-	bx ip
-}
+extern int StringHash(char *s, int numbuckets);
 
+int RefStringHash(void *elem, int numbuckets)
+{
+    return StringHash(*(char **)elem, numbuckets);
+}

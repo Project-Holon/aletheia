@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_MOV_WH_StateInEndParent",
+   "name": "DWCi_MOV_WH_StateInEndScan",
    "address": "0x02178964",
    "kind": "sdk",
    "region": "ov014",

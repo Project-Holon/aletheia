@@ -25,7 +25,7 @@
  *   below follows the matched ov020 callers (02183DD4, 021859FC, 02186E94):
  *   one argument, pointer return.
  * blocker even when byte-exact: func_02013DE0 (arm9) is an unlabelled thumb
- *   leaf (Ilias's), verified EXACT in isolation with
+ *   leaf (the integrator's), verified EXACT in isolation with
  *     extern const unsigned short d_0209DFEC[];
  *     extern int func_02013B10(int id, const unsigned short *tbl, int n);
  *     int func_02013DE0(int id) { return func_02013B10(id, d_0209DFEC, 9); }
