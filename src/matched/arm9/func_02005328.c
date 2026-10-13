@@ -32,7 +32,7 @@
  *   FS_Init             0x0207AD04  arm
  *   FS_TryLoadTable  0x0207ACB4  arm
  *   OS_AllocFromArenaLo 0x02086788  arm
- *   sub_02061C0C        0x02061C0C  arm
+ *   NNS_GfdInitVramTransferTaskQueue        0x02061C0C  arm
  *   sub_0202EB0C        0x0202EB0C  thumb
  *   GFL_USE_OnPreExit       0x02005440  thumb
  *   func_020053E4       0x020053E4  arm
@@ -71,7 +71,7 @@ extern void SCFG_SetCpuSpeed(int speed);
 extern void FS_Init(int dma);
 extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
-extern void sub_02061C0C(void *p, u32 capacity);
+extern void NNS_GfdInitVramTransferTaskQueue(void *p, u32 capacity);
 extern u32 sub_0202EB0C(void);
 extern void GFL_USE_OnPreExit(void);
 extern void func_020053E4(void *p);
@@ -103,7 +103,7 @@ void GFL_USE_InitSdk(void)
     FS_Init(1);
     arena = FS_TryLoadTable(0, 0);
     FS_TryLoadTable((int)OS_AllocFromArenaLo(0, arena, 4), arena);
-    sub_02061C0C(_TwlServiceBuf, 0x30);
+    NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
     if (sub_0202EB0C()) {
         _PreExitState[0] = 0;
         _PreExitState[1] = (u32)GFL_USE_OnPreExit;

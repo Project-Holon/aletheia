@@ -11,22 +11,22 @@
  *
  * symbols:
  *   func_021C519C   0x021C519C  arm
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   func_021BD170   0x021BD170  arm  ov016
- *   func_021D4B68   0x021D4B68  arm  ov016
- *   func_021CE668   0x021CE668  arm  ov016
- *   func_021CE6F0   0x021CE6F0  arm  ov016
- *   dat_021DA58C   0x021DA58C  data
- *   dat_021DA574   0x021DA574  data
- *   dat_021DB438   0x021DB438  data
- *   dat_0207ECF0   0x0207ECF0  data
- *   dat_021DE5D8   0x021DE5D8  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   DWCi_Char   0x021BD170  arm  ov016
+ *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
+ *   DWCi_SCREENlInit   0x021CE668  arm  ov016
+ *   DWCi_SCREENlRenew   0x021CE6F0  arm  ov016
+ *   sSceneSetApListPathXb4ApListBackScr   0x021DA58C  data
+ *   sSceneSetApListPathYbBgStep31Pltt   0x021DA574  data
+ *   sSceneSetApListPathJb4ApListScr   0x021DB438  data
+ *   GX_LoadBG3Scr   0x0207ECF0  data
+ *   gSceneSetApListWork   0x021DE5D8  data
  *
  * Copy a 0x19-byte and a 0x16-byte NCL resource path into two stack buffers
  * (the first copy is odd-sized, so it ends with a trailing byte), load one
- * tilemap through func_021BD1D4, publish both buffers through
- * func_021BD170/func_021D4B68 into the record held by 0x021DE5D8+4, poke
- * func_021CE668/func_021CE6F0 on it, then set the low two bits of the
+ * tilemap through DWCi_CMNlLoadResource, publish both buffers through
+ * DWCi_Char/DWCi_ARClReadEx into the record held by 0x021DE5D8+4, poke
+ * DWCi_SCREENlInit/DWCi_SCREENlRenew on it, then set the low two bits of the
  * 0x04001008 pair, 0x04000008 and the 0x0400000A triple.
  * Addresses are Black-image addresses.
  *
@@ -43,15 +43,15 @@ typedef struct { char s[0x17]; } T23;
 typedef struct { char s[0x16]; } T22;
 typedef struct { char s[0x15]; } T21;
 
-extern void func_021BD1D4(int, int);
-extern int func_021BD170(void *);
-extern int func_021D4B68(int, int, int);
+extern void DWCi_CMNlLoadResource(int, int);
+extern int DWCi_Char(void *);
+extern int DWCi_ARClReadEx(int, int, int);
 
-extern T25 dat_021DA58C;
-extern T22 dat_021DA574;
-extern unsigned char dat_021DB438[];
-extern unsigned char dat_0207ECF0[];
-extern unsigned char dat_021DE5D8[];
+extern T25 sSceneSetApListPathXb4ApListBackScr;
+extern T22 sSceneSetApListPathYbBgStep31Pltt;
+extern unsigned char sSceneSetApListPathJb4ApListScr[];
+extern unsigned char GX_LoadBG3Scr[];
+extern unsigned char gSceneSetApListWork[];
 
 void func_021C519C(void)
 {
@@ -59,14 +59,14 @@ void func_021C519C(void)
     T22 buf;
     u16 *p;
 
-    buf2 = dat_021DA58C;
-    buf = dat_021DA574;
-    func_021BD1D4((int)dat_021DB438, (int)dat_0207ECF0);
+    buf2 = sSceneSetApListPathXb4ApListBackScr;
+    buf = sSceneSetApListPathYbBgStep31Pltt;
+    DWCi_CMNlLoadResource((int)sSceneSetApListPathJb4ApListScr, (int)GX_LoadBG3Scr);
 
-    (*(int **)(dat_021DE5D8 + 4))[1] = func_021D4B68(func_021BD170(&buf2), 0, 4);
-    func_021CE668((*(int **)(dat_021DE5D8 + 4))[1]);
-    func_021CE6F0();
-    (*(int **)(dat_021DE5D8 + 4))[2] = func_021D4B68(func_021BD170(&buf), 0, 4);
+    (*(int **)(gSceneSetApListWork + 4))[1] = DWCi_ARClReadEx(DWCi_Char(&buf2), 0, 4);
+    DWCi_SCREENlInit((*(int **)(gSceneSetApListWork + 4))[1]);
+    DWCi_SCREENlRenew();
+    (*(int **)(gSceneSetApListWork + 4))[2] = DWCi_ARClReadEx(DWCi_Char(&buf), 0, 4);
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;

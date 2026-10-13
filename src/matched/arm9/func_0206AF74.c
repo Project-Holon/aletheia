@@ -1,5 +1,5 @@
 /*
- * function: func_0206AF74
+ * function: NNSi_G3dAnmBlendJntVec
  * address:  0x0206AF74
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -20,13 +20,13 @@
  * reproduces the original's strictly sequential ldr/add/str per word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AF74.c \
- *       --func func_0206AF74 --addr 0x0206AF74 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_G3dAnmBlendJntVec.c \
+ *       --func NNSi_G3dAnmBlendJntVec --addr 0x0206AF74 --arm --cc 1.1p1
  */
 
 typedef signed int s32;
 
-void func_0206AF74(volatile s32 *dst, s32 *src, s32 v, int flag)
+void NNSi_G3dAnmBlendJntVec(volatile s32 *dst, s32 *src, s32 v, int flag)
 {
     if (flag) {
         dst[0] += v;

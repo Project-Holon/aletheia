@@ -37,12 +37,12 @@ typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 #define FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL 9    /* models 9 to 11 */
 
 /* The common work of the gimmick on the field map (4 bytes, id 1), filled by the event creators. */
-typedef struct Gimmick42Work {
+typedef struct FieldGimmickButtonStatesWork {
     u8 stateModel;      /* 0x00: model the state event changes */
     u8 oneShotIndex;    /* 0x01: one-shot model (relative to the first one) the play event runs */
     u8 showLastFrame;   /* 0x02: nonzero: the state event shows the last frame */
     u8 reserved;        /* 0x03 */
-} Gimmick42Work;
+} FieldGimmickButtonStatesWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);

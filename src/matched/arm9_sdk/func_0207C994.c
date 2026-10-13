@@ -1,5 +1,5 @@
 /*
- * function: func_0207C994
+ * function: FX_ModS32
  * address:  0x0207C994
  * packet:   pkt_0207C994
  * region:   arm9
@@ -78,7 +78,7 @@ static inline s64 CP_GetDivResult64(void)
 #define reg_CP_DIV_NUMER32  (*(volatile u32 *)0x04000290)
 #define reg_CP_DIV_REM32    (*(volatile u32 *)0x040002A8)
 
-fx32 func_0207C994(fx32 a, fx32 b)
+fx32 FX_ModS32(fx32 a, fx32 b)
 {
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER32 = (u32)a;

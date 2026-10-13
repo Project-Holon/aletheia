@@ -1,5 +1,5 @@
 /*
- * function: func_021BC06C
+ * function: WIFICLUB_DeleteRuleWindow
  * address: 0x021BC06C
  * packet: pkt_ov099_021BC06C
  * region: ov099
@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   POKE_REGULATION_DeleteText 0x0201A570 thumb
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  */
 #include "../include/Obj04412.h"
 extern void POKE_REGULATION_DeleteText(void *);
-extern int func_021BA8BC(void *);
-void func_021BC06C(char *p)
+extern int WIFICLUB_DeleteWindow(void *);
+void WIFICLUB_DeleteRuleWindow(char *p)
 {
     POKE_REGULATION_DeleteText(((struct Obj04412 *)p)->f1344);
     *(int *)&((struct Obj04412 *)p)->f1344 = 0;
-    *(int *)&((struct Obj04412 *)p)->f19C = func_021BA8BC(((struct Obj04412 *)p)->f19C);
+    *(int *)&((struct Obj04412 *)p)->f19C = WIFICLUB_DeleteWindow(((struct Obj04412 *)p)->f19C);
 }

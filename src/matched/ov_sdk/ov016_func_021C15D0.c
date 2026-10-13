@@ -1,5 +1,5 @@
 /*
- * function: func_021C15D0
+ * function: DWCi_RAKUlSetResult
  * address:  0x021C15D0
  * packet:   pkt_ov016_021C15D0
  * region:   ov016
@@ -14,18 +14,18 @@
  * symbols:
  *   func_021BC7F0  0x021BC7F0  thumb  ov016
  *   OS_Terminate  0x02088234  arm
- *   func_021CF9BC  0x021CF9BC  arm  ov016
+ *   DWCi_SETTINGlSetRaku  0x021CF9BC  arm  ov016
  */
 
 extern int func_021BC7F0(int a);
 extern void OS_Terminate(void);
-extern void func_021CF9BC(void *param);
+extern void DWCi_SETTINGlSetRaku(void *param);
 
-void func_021C15D0(void)
+void DWCi_RAKUlSetResult(void)
 {
 	char prm[0xe8];
 
 	if (func_021BC7F0((int)prm) != 1)
 		OS_Terminate();
-	func_021CF9BC(prm);
+	DWCi_SETTINGlSetRaku(prm);
 }

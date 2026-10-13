@@ -13,18 +13,18 @@
  *
  * symbols:
  *   func_0219A4A4  0x0219A4A4  arm  ov009
- *   func_0219DE88  0x0219DE88  arm  ov009
+ *   SBQueryEngineThink  0x0219DE88  arm  ov009
  *   func_021A1928  0x021A1928  arm  ov009
  */
 
 extern void func_0219A4A4(void *p);
-extern void func_0219DE88(void *p);
+extern void SBQueryEngineThink(void *p);
 extern int func_021A1928(int *p);
 
 int func_0219EFD0(char *p)
 {
     func_0219A4A4(p);
-    func_0219DE88(p);
+    SBQueryEngineThink(p);
     return func_021A1928((int *)(p + 0x60));
 }
 

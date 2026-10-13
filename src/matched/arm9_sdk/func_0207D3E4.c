@@ -1,5 +1,5 @@
 /*
- * function: func_0207D3E4
+ * function: GX_VBlankIntr
  * address:  0x0207D3E4
  * packet:   pkt_0207D3E4
  * region:   arm9
@@ -17,7 +17,7 @@
 
 #define reg_GX_DISPSTAT (*(volatile unsigned short *)0x04000004)
 
-long func_0207D3E4(int enable)
+long GX_VBlankIntr(int enable)
 {
     long rval = reg_GX_DISPSTAT & 0x8;
 

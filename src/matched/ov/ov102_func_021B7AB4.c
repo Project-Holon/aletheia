@@ -1,5 +1,5 @@
 /*
- * function: func_021B7AB4
+ * function: IRC_COMPATIBLE_MENU_InitSprites
  * address: 0x021B7AB4
  * packet: pkt_ov102_021B7AB4
  * region: ov102
@@ -46,7 +46,7 @@ struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int),CLACT_SetActorBgPriority(void *,u32),CLACT_SetActorAutoAnim(struct Obj *,u32);
 struct State { void *bank; u32 palette, chars, other; void *actors[32]; };
-void func_021B7AB4(struct State *p,const void *config,u16 heap)
+void IRC_COMPATIBLE_MENU_InitSprites(struct State *p,const void *config,u16 heap)
 {
     void *arc;
     int i;

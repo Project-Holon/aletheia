@@ -12,7 +12,7 @@
  *   add order; zero the loop counter before assigning that base.
  * symbols:
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,7 +21,7 @@ typedef struct { char p0[0x14]; char *f14; } O;
 typedef struct { char p0[4]; void *f4; char p8[0x44]; int f4c; } E;
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 void BTLV_GAUGE_DrawHpNumbers(const O *o, E *e, int v)
 {
     Struct36 buf;
@@ -60,8 +60,8 @@ void BTLV_GAUGE_DrawHpNumbers(const O *o, E *e, int v)
         i = 0;
         base = VRAM;
         for (; i < 3; i++) {
-            func_02082A60(o->f14 + current[i], (void *)(buf.w[1] + (base + i * 32)), 32);
-            func_02082A60(o->f14 + maximum[i], (void *)(buf.w[1] + (base + (i + 4) * 32)), 32);
+            MIi_CpuCopy16(o->f14 + current[i], (void *)(buf.w[1] + (base + i * 32)), 32);
+            MIi_CpuCopy16(o->f14 + maximum[i], (void *)(buf.w[1] + (base + (i + 4) * 32)), 32);
         }
     }
 }

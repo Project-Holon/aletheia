@@ -1,5 +1,5 @@
 /*
- * function: func_021B6254
+ * function: COMPATIBLE_IRC_SYS_StepConnectChild
  * address: 0x021B6254
  * packet: pkt_ov101_021B6254
  * region: ov101
@@ -11,7 +11,7 @@
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  */
 extern int GFL_NET_StartChangeoverChild(int);
-int func_021B6254(int *p)
+int COMPATIBLE_IRC_SYS_StepConnectChild(int *p)
 {
     if (p[30] != 0) return 1;
     switch(p[17]) {

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: callee of the ov099 veneer func_021C0C7C +0008.
+ * Recursive MATCH unblocker: callee of the ov099 veneer WIFICLUB_DisableVoiceChat +0008.
  * Coherent Thumb code only in ov009 (ov010 decodes to a pop with no push), so
  * the ov009 shard makes that site attest as `matched`.
  *

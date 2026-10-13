@@ -16,7 +16,7 @@
  *   func_021D941C  0x021D941C  thumb  ov123
  *   func_021D9A1C  0x021D9A1C  thumb  ov123
  *   func_020307B0  0x020307B0  arm
- *   func_021B9838  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   DWC_RAP_SetErrorCallback  0x02156DC4  thumb  ov009
  *   func_020315D4  0x020315D4  arm
@@ -32,7 +32,7 @@ extern void func_021D941C(u8 *p);
 extern void func_021D9A1C(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 extern int GFL_NET_GetRunState(void);
 extern void DWC_RAP_SetErrorCallback(int a, int b);
 struct S020315D4;
@@ -51,7 +51,7 @@ int func_021DA5D0(int a, int b, int c, char *obj)
     if (((struct Obj02479 *)obj)->f24)
         func_020307B0((void *)(((struct Obj02479 *)obj)->f24));
     if (((struct Obj02479 *)obj)->f8) {
-        func_021B9838((u8 *)(((struct Obj02479 *)obj)->f8));
+        NHTTP_RAP_Destroy((u8 *)(((struct Obj02479 *)obj)->f8));
         ((struct Obj02479 *)obj)->f8 = 0;
     }
     if (GFL_NET_GetRunState())

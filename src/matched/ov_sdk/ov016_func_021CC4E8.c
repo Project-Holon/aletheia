@@ -12,8 +12,8 @@
  * sdk:      moveFocus (libdwcutil.TWL.HYB.a(scenesetselectap))
  *
  * symbols:
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021CC46C  0x021CC46C  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_SceneSetSelectApDispFocus  0x021CC46C  arm  ov016
  *   g_021DE60C  0x021DE60C  data
  *
  * FocusPos (0x021DE60C) anchors the statics; MemSssa sits at +4. The DWARF lists
@@ -32,8 +32,8 @@ typedef struct tagMEMSSSA {
 
 extern struct SCENESETSELECTAP_BSS g_021DE60C;
 
-extern void func_021CFFAC(unsigned int v);
-extern void func_021CC46C(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_SceneSetSelectApDispFocus(void);
 
 static void func_021CC4E8(int dir)
 {
@@ -120,7 +120,7 @@ static void func_021CC4E8(int dir)
         break;
     }
     if (move) {
-        func_021CFFAC(8);
-        func_021CC46C();
+        DWCi_SNDlPlay(8);
+        DWCi_SceneSetSelectApDispFocus();
     }
 }

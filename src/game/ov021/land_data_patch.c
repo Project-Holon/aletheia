@@ -18,7 +18,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021DE558  0x021DE558  data  ov021  a4
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   FIELD_BUILDMODEL_RegisterObject  0x0218BA04  thumb  ov021
  */
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef struct LandAttrBlock {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void FIELD_BUILDMODEL_RegisterObject(u32 a, u32 b, u32 *c, u32 d);
 u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId);
 void LAND_DATA_PATCH_Delete(void **patch);
@@ -71,7 +71,7 @@ void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u
     u32 i;
 
     for (i = 0; i < height; i++) {
-        func_02082D44(srcCells + (srcX + (srcY + i) * ((LandAttrBlock *)patchAttr)->width) * 0x18,
+        MI_CpuCopy8(srcCells + (srcX + (srcY + i) * ((LandAttrBlock *)patchAttr)->width) * 0x18,
                       dstCells + (dstX + (dstY + i) * ((LandAttrBlock *)mapAttr)->width) * 0x18, width * 0x18);
     }
 }
@@ -85,7 +85,7 @@ u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 f
     u32 entry[4];
 
     for (i = 0; i < models[0]; i++) {
-        func_02082D44(entries + i * 4, entry, 0x10);
+        MI_CpuCopy8(entries + i * 4, entry, 0x10);
         entry[0] += offsetX << 16;
         entry[2] -= offsetZ << 16;
         FIELD_BUILDMODEL_RegisterObject(bmodelMan, mapIndex, entry, firstIndex + i);

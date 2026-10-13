@@ -23,7 +23,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   func_02030DA8  0x02030DA8  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_02030734  0x02030734  arm
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
@@ -97,7 +97,7 @@ extern void func_021F918C(const Vec *from, const Vec *to, Vec *outDelta, int fra
 
 extern int func_021F9260(void *mover, int *outPos);
 
-extern u32 TCBL_IsDeletePending(struct Task *task);
+extern u32 TCBL_GetTaskUserData(struct Task *task);
 
 extern void func_02040618(u32 layer, u32 param, u32 value);
 
@@ -246,7 +246,7 @@ void BTLV_BG_ScrollTask(void *task, void *arg)
 
 void BTLV_BG_OnScrollJobEnd(void *task)
 {
-    BtlvBg *bg = *((BtlvBg **)TCBL_IsDeletePending(task));
+    BtlvBg *bg = *((BtlvBg **)TCBL_GetTaskUserData(task));
     bg->scrolling = 0;
 }
 
@@ -257,7 +257,7 @@ void BTLV_BG_OnScrollJobEnd(void *task)
  */
 void BTLV_BG_ApplyScrollTask(void *task)
 {
-    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending(task);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetTaskUserData(task);
 
     func_02040618(3, 0, args->scrollX);
     func_02040618(3, 3, args->scrollY);

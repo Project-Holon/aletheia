@@ -1,5 +1,5 @@
 /*
- * function: func_021C64E0
+ * function: nhttpCleanupCallback
  * address:  0x021C64E0
  * packet:   pkt_ov114_021C64E0
  * region:   ov114
@@ -12,10 +12,10 @@
  * sdk:      nhttpCleanupCallback (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
  * symbols:
- *   func_021C5E78  0x021C5E78  arm  ov114
- *   func_021C78DC  0x021C78DC  arm  ov114
- *   func_021C7930  0x021C7930  arm  ov114
- *   g_021D3B9C     0x021D3B9C  data
+ *   DWCi_Ndi_freeAttr  0x021C5E78  arm  ov114
+ *   DWCi_Ndi_freeLockGlobal  0x021C78DC  arm  ov114
+ *   DWCi_Ndi_freeHttpCallback  0x021C7930  arm  ov114
+ *   gDwciNdStatics     0x021D3B9C  data
  */
 
 typedef struct NdGlobals {
@@ -27,17 +27,17 @@ typedef struct NdGlobals {
     void (*f24)(void);
 } NdGlobals;
 
-extern void func_021C5E78(void);
-extern void func_021C78DC(void);
-extern void func_021C7930(void);
-extern NdGlobals g_021D3B9C;
+extern void DWCi_Ndi_freeAttr(void);
+extern void DWCi_Ndi_freeLockGlobal(void);
+extern void DWCi_Ndi_freeHttpCallback(void);
+extern NdGlobals gDwciNdStatics;
 
-void func_021C64E0(void)
+void nhttpCleanupCallback(void)
 {
-    func_021C5E78();
-    func_021C78DC();
-    func_021C7930();
-    g_021D3B9C.f14(g_021D3B9C.f18);
-    g_021D3B9C.f14(g_021D3B9C.f1C);
-    g_021D3B9C.f24();
+    DWCi_Ndi_freeAttr();
+    DWCi_Ndi_freeLockGlobal();
+    DWCi_Ndi_freeHttpCallback();
+    gDwciNdStatics.f14(gDwciNdStatics.f18);
+    gDwciNdStatics.f14(gDwciNdStatics.f1C);
+    gDwciNdStatics.f24();
 }

@@ -15,7 +15,7 @@
  *   func_021D9468 0x021D9468 thumb ov119
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_021D8FA4 0x021D8FA4 thumb ov119
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DDF74 0x021DDF74 thumb ov119
  *   func_021DE0F0 0x021DE0F0 thumb ov119
@@ -30,7 +30,7 @@ extern int func_021D8A24(void *);
 extern void func_021D9468(void *,int,void *);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_021D8FA4(void *,int);
-extern void func_02082D44(void *,const void *,int);
+extern void MI_CpuCopy8(void *,const void *,int);
 extern void func_021D8E84(void *,int);
 extern void func_021DDF74(char *p);
 extern void func_021DE0F0(void *);
@@ -48,7 +48,7 @@ void func_021DE12C(char *p)
         obj=((struct Obj05329 *)p)->fFD8;
         func_021D9468(p,1,obj);
         n=POKE_TOOL_GetPartyParamSize();
-        func_02082D44(obj,func_021D8FA4(p,1),n);
+        MI_CpuCopy8(obj,func_021D8FA4(p,1),n);
         func_021D8E84(p,(int)func_021DDF74);
         return;
     }

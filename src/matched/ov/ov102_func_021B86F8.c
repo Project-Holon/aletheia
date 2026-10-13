@@ -1,5 +1,5 @@
 /*
- * function: func_021B86F8
+ * function: IRC_COMPATIBLE_MENU_SetButtonsEnabled
  * address:  0x021B86F8
  * packet:   pkt_ov102_021B86F8
  * region:   ov102
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B86F8(u8 *p, u32 v) { ((struct Obj22165 *)p)->f38 = v; }
+void IRC_COMPATIBLE_MENU_SetButtonsEnabled(u8 *p, u32 v) { ((struct Obj22165 *)p)->f38 = v; }

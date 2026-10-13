@@ -1,5 +1,5 @@
 /*
- * function: func_02071104
+ * function: NNSi_G3dTexMtxScaleTrans
  * address:  0x02071104
  * packet:   pkt_02071104
  * region:   arm9
@@ -12,8 +12,8 @@
  * NitroSystem g3d, the texture-SRT matrix builder for a material with scale
  * and translation but no rotation: fills the scale diagonal and the two
  * translation terms of a 4x4 fx32 matrix from a material animation result.
- * Same family as func_02071180 / func_020711C8 / func_020712A8 /
- * func_020713A4, which carry the same ../2.0/sp2 pin (docs/FRONTEND-PINS.md).
+ * Same family as NNSi_G3dTexMtxTrans / func_020711C8 / func_020712A8 /
+ * NNSi_G3dTexMtxIdentity, which carry the same ../2.0/sp2 pin (docs/FRONTEND-PINS.md).
  *
  * Closed 2026-09-24 (wave 21, lane G) from DIFF 6.  The lever is the _31
  * term's aspect factor written as two subtractions of the same field,
@@ -27,8 +27,8 @@
  * sp1 are all 124 bytes, 0 out; ../1.2/sp2 is 128 bytes.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02071104.c \
- *       --func func_02071104 --addr 0x02071104 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dTexMtxScaleTrans.c \
+ *       --func NNSi_G3dTexMtxScaleTrans --addr 0x02071104 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned short u16;
@@ -63,7 +63,7 @@ struct Mtx44 {
     fx32 _30, _31, _32, _33;
 };
 
-void func_02071104(struct Mtx44 *m, const struct MatAnm *anm)
+void NNSi_G3dTexMtxScaleTrans(struct Mtx44 *m, const struct MatAnm *anm)
 {
     m->_00 = anm->scaleS;
     m->_11 = anm->scaleT;

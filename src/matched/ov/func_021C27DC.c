@@ -1,5 +1,5 @@
 /*
- * function: func_021C27DC
+ * function: WIFICLUB_SetStatusActionArg
  * address:  0x021C27DC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Byte setter at +0x17, the pair of func_021C27D8.
+ * Byte setter at +0x17, the pair of WIFICLUB_GetStatusActionArg.
  */
 
 typedef unsigned char  u8;
@@ -25,7 +25,7 @@ typedef struct {
     u8 f17;
 } S;
 
-void func_021C27DC(S *s, u8 v)
+void WIFICLUB_SetStatusActionArg(S *s, u8 v)
 {
     s->f17 = v;
 }

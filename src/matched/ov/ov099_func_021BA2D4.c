@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2D4
+ * function: WIFICLUBACTOR_AnimateWalkBob
  * address:  0x021BA2D4
  * packet:   pkt_ov099_021BA2D4
  * region:   ov099
@@ -68,7 +68,7 @@ extern int func_0203F5FC(u32 x);
 extern void func_021C5814(void *p, P2 v);
 extern void func_021C5898(void *p, P2 v);
 
-void func_021BA2D4(void *w, S *s)
+void WIFICLUBACTOR_AnimateWalkBob(void *w, S *s)
 {
     P2 pos;
     P2 q;

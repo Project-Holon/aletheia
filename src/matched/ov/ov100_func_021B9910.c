@@ -1,5 +1,5 @@
 /*
- * function: func_021B9910
+ * function: IRCBATTLEMATCH_RecvTrainerInfoHandler
  * address: 0x021B9910
  * packet: pkt_ov100_021B9910
  * region: ov100
@@ -24,7 +24,7 @@ struct Rec44;
 struct Sub24;
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern int func_0200F5EC(void *a0, void *a1, void *a2, void *a3);
-void func_021B9910(int a,int b,int c,int d,int e)
+void IRCBATTLEMATCH_RecvTrainerInfoHandler(int a,int b,int c,int d,int e)
 {
  int p = ((struct Obj10215 *)d)->f244;
  int q = ((struct Obj22070 *)p)->f0;

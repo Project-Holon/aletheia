@@ -1,5 +1,5 @@
 /*
- * function: func_021C00FC
+ * function: ghiResetBuffer
  * address:  0x021C00FC
  * packet:   pkt_ov114_021C00FC
  * region:   ov114
@@ -26,7 +26,7 @@ typedef struct {
     char pad2[4];
 } GHIBuffer;
 
-void func_021C00FC(GHIBuffer *buffer)
+void ghiResetBuffer(GHIBuffer *buffer)
 {
     buffer->length = 0;
     buffer->pos = 0;

@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D9A14 0x021D9A14 thumb ov123
  *   func_021D9404 0x021D9404 thumb ov123
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
@@ -26,7 +26,7 @@ extern void APP_TASKMENU_UpdateMenu(void *);
 extern void func_021D9A14(int);
 extern void func_021D9404(char *p);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void func_021B9774(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
@@ -45,7 +45,7 @@ int func_021DA54C(int a,int b,char *c,char *p)
     func_021D9404(((struct Obj03276 *)p)->f10);
     if (WIPE_SYS_EndCheck()) {
         if (func_0200FB24()) {
-            func_021B9774(((struct Obj03276 *)p)->f8);
+            NHTTP_RAP_DeleteConnection(((struct Obj03276 *)p)->f8);
             if (((struct Obj03276 *)p)->f6C) {
                 GAME_DATA_SaveCancel(((struct Obj03276 *)p)->f20);
                 ((struct Obj03276 *)p)->f6C = 0;

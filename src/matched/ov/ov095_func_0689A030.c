@@ -1,5 +1,5 @@
 /*
- * function: func_0689A030
+ * function: BTLV_SCD_OpenActionMenuStep
  * address: 0x0689A030
  * packet: pkt_ov095_0689A030
  * region: ov095
@@ -136,7 +136,7 @@ extern int func_0689A72C(void *);
 extern int func_0689A73C(void *);
 extern u8 func_0689A74C(void *);
 extern void func_0689A75C(void *, int, void *);
-int func_0689A030(int unused, u8 *p)
+int BTLV_SCD_OpenActionMenuStep(int unused, u8 *p)
 {
     u16 n, pass, index;
     void *groups[2] = {0, 0};

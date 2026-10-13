@@ -11,7 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021C0E80 0x021C0E80 data a4
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -23,7 +23,7 @@ extern const char d_021C0E80[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_021BCBB8(char *p)
@@ -34,7 +34,7 @@ void func_021BCBB8(char *p)
     ((struct Obj05546 *)p)->f2BC = func_02030734(123, 384, 0, d_021C0E80, 0x3b0);
     h = func_020490F4(159, 0x807b);
     blob = ARC_UTIL_LoadPaletteDataFromHandle(h, 91, 0, (void **)&out, 0x807b);
-    func_02082A60((char *)out + 12, ((struct Obj05546 *)p)->f2BC, 384);
+    MIi_CpuCopy16((char *)out + 12, ((struct Obj05546 *)p)->f2BC, 384);
     func_020307B0(blob);
     ARC_TOOL_DeleteHandle(h);
 }

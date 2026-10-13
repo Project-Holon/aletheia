@@ -1,5 +1,5 @@
 /*
- * function: func_021CACE4
+ * function: CRYPTOi__BN_new
  * address:  0x021CACE4
  * packet:   pkt_ov114_021CACE4
  * region:   ov114
@@ -12,16 +12,16 @@
  * sdk:      CRYPTOi__BN_new (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CAAB4  0x021CAAB4  arm  ov114
+ *   CRYPTOi_MyAlloc  0x021CAAB4  arm  ov114
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_021CAAB4(unsigned long);
+extern void *CRYPTOi_MyAlloc(unsigned long);
 
-void *func_021CACE4(void)
+void *CRYPTOi__BN_new(void)
 {
-    u8 *p = func_021CAAB4(0x14);
+    u8 *p = CRYPTOi_MyAlloc(0x14);
     if (p == 0)
         return 0;
     *(u32 *)(p + 0x10) = 1;

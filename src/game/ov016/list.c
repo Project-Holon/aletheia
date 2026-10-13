@@ -1,7 +1,7 @@
 /*
  * file:     list.c
  * unit:     yes
- * function: func_021D6D44, func_021D6D70, func_021D6D8C, func_021D6DC4, func_021D6DF4, func_021D6E04
+ * function: DWCi_LSTlForm, DWCi_LSTlDelete, DWCi_LSTlErase, DWCi_LSTlInsert, DWCi_LSTlPushBack, DWCi_LSTlPushFront
  * address:  0x021D6D44
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,14 +12,14 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Tail-call func_021D6DC4 with the pointer held at +0x04.
+ * Tail-call DWCi_LSTlInsert with the pointer held at +0x04.
  * Addresses are Black-image addresses.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D6E04.c \
- *       --func func_021D6E04 --addr 0x021D6E04 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_LSTlPushFront.c \
+ *       --func DWCi_LSTlPushFront --addr 0x021D6E04 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  *   DWCi_HEAPlFree_                  0x021D6438  arm
  *   OS_DisableIrqMask 0x02084998  arm
  *   OS_EnableIrqMask 0x02084968  arm
@@ -37,25 +37,25 @@ typedef struct ListCB {
     void *fc;
 } ListCB;
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
-ListCB *func_021D6D44(void);
+ListCB *DWCi_LSTlForm(void);
 void DWCi_LSTlDelete(struct tagLISTCB *list);
-void func_021D6D8C(void *ob);
-void func_021D6DC4(void *pos, void *ob);
-void func_021D6DF4(char *p, void *ob);
-void func_021D6E04(char *p, void *ob);
-
+void DWCi_LSTlErase(void *ob);
+void DWCi_LSTlInsert(void *pos, void *ob);
+void DWCi_LSTlPushBack(char *p, void *ob);
+void DWCi_LSTlPushFront(char *p, void *ob);
 
 
 /*
  * sdk:      DWCi_LSTlForm (libdwcutil.TWL.HYB.a list.o)
  */
-ListCB *func_021D6D44(void)
+
+ListCB *DWCi_LSTlForm(void)
 {
-    ListCB *list = func_021D6414(0x10, 4);
+    ListCB *list = DWCi_HEAPlAllocEx(0x10, 4);
     list->f0 = 0;
     list->f4 = &list->f8;
     list->f8 = list;
@@ -64,18 +64,16 @@ ListCB *func_021D6D44(void)
 }
 
 
-
 void DWCi_LSTlDelete(struct tagLISTCB *list)
 {
 	DWCi_HEAPlFree_((void **)&list);
 }
 
 
-
 /*
  * sdk:      DWCi_LSTlErase (libdwcutil.TWL.HYB.a list.o)
  */
-void func_021D6D8C(void *ob)
+void DWCi_LSTlErase(void *ob)
 {
     ListNode *ln = ob;
     unsigned long irq = OS_DisableIrqMask(1);
@@ -87,8 +85,7 @@ void func_021D6D8C(void *ob)
 }
 
 
-
-void func_021D6DC4(void *pos, void *ob)
+void DWCi_LSTlInsert(void *pos, void *ob)
 {
     ListNode *tgt = pos;
     ListNode *ln = ob;
@@ -101,14 +98,13 @@ void func_021D6DC4(void *pos, void *ob)
 }
 
 
-
-void func_021D6DF4(char *p, void *ob)
+void DWCi_LSTlPushBack(char *p, void *ob)
 {
-    func_021D6DC4(p + 8, ob);
+    DWCi_LSTlInsert(p + 8, ob);
 }
 
 
-void func_021D6E04(char *p, void *ob)
+void DWCi_LSTlPushFront(char *p, void *ob)
 {
-    func_021D6DC4(*(void **)(p + 4), ob);
+    DWCi_LSTlInsert(*(void **)(p + 4), ob);
 }

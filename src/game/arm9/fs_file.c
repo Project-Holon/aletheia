@@ -1,7 +1,7 @@
 /*
  * file:     fs_file.c
  * unit:     yes
- * function: func_020787A0, FSi_IncrementSjisPositionToSlash, func_02078834, func_02078868, FS_InitFile, func_020788D8, func_02078964, func_020789A4, func_020789FC, FS_CloseFile, func_02078A94, func_02078AEC, func_02078B44, func_02078B70, func_02078BC4, FS_OpenFile, FS_GetLength, FS_ChangeDir
+ * function: func_020787A0, FSi_IncrementSjisPositionToSlash, func_02078834, func_02078868, FS_InitFile, func_020788D8, func_02078964, func_020789A4, func_020789FC, FS_CloseFile, func_02078A94, func_02078AEC, func_02078B44, FS_ReadFile, func_02078BC4, FS_OpenFile, FS_GetLength, FS_ChangeDir
  * address:  0x020787A0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -169,7 +169,7 @@ asm void FS_CloseFile(void);
 u32_020787A0 func_02078A94(FSFile *file);
 u32_020787A0 func_02078AEC(FSFile *file);
 int func_02078B44(FSFile *file, long offset, FSSeekFileMode origin);
-s32 func_02078B70(FSFile *file, void *buffer, s32 length);
+s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 s32 func_02078BC4(FSFile *file, void *buffer, s32 length);
 BOOL FS_OpenFile(FSFile *file, const char *path);
 u32_02078C28 FS_GetLength(struct FSFile *file);
@@ -445,7 +445,7 @@ int func_02078B44(FSFile *file, long offset, FSSeekFileMode origin)
 /*
  * sdk:      FS_ReadFile (libfs.TWL.HYB.a fs_file.o)
  */
-s32 func_02078B70(FSFile *file, void *buffer, s32 length)
+s32 FS_ReadFile(FSFile *file, void *buffer, s32 length)
 {
     FSArgumentForReadFile arg[1];
 

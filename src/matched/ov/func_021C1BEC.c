@@ -1,5 +1,5 @@
 /*
- * function: func_021C1BEC
+ * function: WIFICLUB_RedrawSlotPanelIfPending
  * address:  0x021C1BEC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2090  0x021C2090  thumb  ov099
+ *   WIFICLUB_RedrawSlotPanels  0x021C2090  thumb  ov099
  *
  * When the flag at +0x8EF is clear and the selector at +0x8F1 is 1, runs
- * func_021C2090 on the block and clears the selector.
+ * WIFICLUB_RedrawSlotPanels on the block and clears the selector.
  */
 
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021C2090(char *p);
+extern void WIFICLUB_RedrawSlotPanels(char *p);
 
-void func_021C1BEC(u8 *p)
+void WIFICLUB_RedrawSlotPanelIfPending(u8 *p)
 {
     if (p[0x8EF] != 0) {
         return;
@@ -35,6 +35,6 @@ void func_021C1BEC(u8 *p)
         return;
     }
 
-    func_021C2090((char *)p);
+    WIFICLUB_RedrawSlotPanels((char *)p);
     p[0x8F1] = 0;
 }

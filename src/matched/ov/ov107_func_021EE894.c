@@ -53,12 +53,12 @@
  *   func_021EFFB0 0x021EFFB0 thumb ov107
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020461E4 0x020461E4 arm
- *   func_020788AC 0x020788AC arm
- *   func_02078C18 0x02078C18 arm
+ *   FS_InitFile 0x020788AC arm
+ *   FS_OpenFile 0x02078C18 arm
  *   func_02078B44 0x02078B44 arm
  *   FS_GetLength 0x02078C28 arm
- *   func_02078B70 0x02078B70 arm
- *   func_02078A80 0x02078A80 arm
+ *   FS_ReadFile 0x02078B70 arm
+ *   FS_CloseFile 0x02078A80 arm
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -119,11 +119,11 @@ extern u32 func_020461E4(int);
 extern u32 func_0200C184(struct Blk34 *p);
 extern int func_021F1370(void *,void *),func_021F1060(void *);
 extern void *func_0200575C(u32);
-extern void func_020788AC(File *);
-extern int func_02078C18(File *,void *),func_02078A80(File *);
+extern void FS_InitFile(File *);
+extern int FS_OpenFile(File *,void *),FS_CloseFile(File *);
 typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern u32 FS_GetLength(struct FSFile *a0);
 extern u8 d_021F6E08[],d_021F6E0C[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -156,12 +156,12 @@ typedef enum { Phase0=0,Phase33=33 } Phase;
 #define PHASE (*(Phase *)(p+32))
 static inline void load_payload(u8 *p) {
  File file; void *name;
- name=func_0200575C(142);func_020788AC(&file);
- if(!func_02078C18(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
+ name=func_0200575C(142);FS_InitFile(&file);
+ if(!FS_OpenFile(&file,name))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
  func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,(const char *)d_021F6E0C,660);
- func_02078B70((struct FSFile *)(&file),P(96),W(100));
- if(!func_02078A80(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
+ FS_ReadFile((struct FSFile *)(&file),P(96),W(100));
+ if(!FS_CloseFile(&file))func_02034714((const char *)d_021F6E08,0,(const char *)d_021F6E08);
  W(32)=13;
 }
 int func_021EE894(u8 *p) {

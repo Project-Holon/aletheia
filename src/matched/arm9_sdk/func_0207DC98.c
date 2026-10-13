@@ -1,5 +1,5 @@
 /*
- * function: func_0207DC98
+ * function: G3X_GetClipMtx
  * address:  0x0207DC98
  * packet:   pkt_0207DC98
  * region:   arm9
@@ -56,7 +56,7 @@ typedef union {
 
 extern void MI_Copy64B(const void *pSrc, void *pDest);
 
-int func_0207DC98(MtxFx44 *m)
+int G3X_GetClipMtx(MtxFx44 *m)
 {
     if (reg_G3X_GXSTAT & 0x08000000) {
         return -1;

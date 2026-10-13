@@ -1,5 +1,5 @@
 /*
- * function: func_021BB210
+ * function: NHTTPi_loadFromHdrRecvBuf
  * address:  0x021BB210
  * packet:   pkt_ov114_021BB210
  * region:   ov114
@@ -12,7 +12,7 @@
  * sdk:      NHTTPi_loadFromHdrRecvBuf (libnhttp.TWL.HYB.a(nhttp_recvbuf.o))
  *
  * symbols:
- *   func_021BA100 0x021BA100 arm ov114
+ *   NHTTPi_memcpy 0x021BA100 arm ov114
  */
 
 typedef struct HdrBuf {
@@ -27,9 +27,9 @@ typedef struct {
     char hdrBuf[0x400];
 } Res;
 
-extern void func_021BA100(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
 
-int func_021BB210(Res *res_p, char *dst_p, int pos, int len)
+int NHTTPi_loadFromHdrRecvBuf(Res *res_p, char *dst_p, int pos, int len)
 {
     HdrBuf *hdrbuf_p;
     int blockidx;
@@ -42,7 +42,7 @@ int func_021BB210(Res *res_p, char *dst_p, int pos, int len)
                 if (len <= n) {
                     n = len;
                 }
-                func_021BA100(dst_p, res_p->hdrBuf + pos, n);
+                NHTTPi_memcpy(dst_p, res_p->hdrBuf + pos, n);
                 pos += n;
                 len -= n;
                 dst_p += n;
@@ -60,7 +60,7 @@ int func_021BB210(Res *res_p, char *dst_p, int pos, int len)
                     if (len <= n) {
                         n = len;
                     }
-                    func_021BA100(dst_p, hdrbuf_p->buf + pos, n);
+                    NHTTPi_memcpy(dst_p, hdrbuf_p->buf + pos, n);
                     pos = (pos + n) & 0x1ff;
                     len -= n;
                     dst_p += n;

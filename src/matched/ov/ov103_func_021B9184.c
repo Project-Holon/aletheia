@@ -1,5 +1,5 @@
 /*
- * function: func_021B9184
+ * function: IRC_COMPATIBLE_TOUCH_TEST_InitTrailSprite
  * address: 0x021B9184
  * packet: pkt_ov103_021B9184
  * region: ov103
@@ -19,4 +19,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void MI_CpuFill8(void *,int,int);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021B9184(u8 *p, struct Obj *q, int v, u8 w) { MI_CpuFill8(p,0,0x2c); *(struct Obj * *)&((struct Obj13740 *)p)->f0=q; ((struct Obj13740 *)p)->f4=w; CLACT_SetActorPaletteOffset(q,(u8)v,1); }
+void IRC_COMPATIBLE_TOUCH_TEST_InitTrailSprite(u8 *p, struct Obj *q, int v, u8 w) { MI_CpuFill8(p,0,0x2c); *(struct Obj * *)&((struct Obj13740 *)p)->f0=q; ((struct Obj13740 *)p)->f4=w; CLACT_SetActorPaletteOffset(q,(u8)v,1); }

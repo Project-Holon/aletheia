@@ -16,7 +16,7 @@
  * symbols:
  *   sub_02006394_State   0x020AA260  data
  *   sub_02006394_Thread  0x020AA354  data
- *   func_0208574C        0x0208574C  arm
+ *   OS_IsThreadTerminated        0x0208574C  arm
  *
  * "Has the worker thread finished."  A thread that was never started counts
  * as finished, which is the early `return 1`.
@@ -31,7 +31,7 @@
  * this compiler merge the same way.  Specifically, states 0 and 1 share one
  * copy of the `GFL_USE_StartLoaderThread` call with the two arguments set up beforehand;
  * the `stop` path and the two normal paths share one copy of the store back
- * through the state pointer; the two `func_02085A38(2)` error exits share
+ * through the state pointer; the two `OS_Sleep(2)` error exits share
  * one block placed between the last case and the common `return 0`; and
  * case 1 reaches that block through a two byte `b` bridge rather than
  * branching to it directly.  Twelve source shapes were tried, crossing a
@@ -57,12 +57,12 @@ struct Sub02006394State {
 extern struct Sub02006394State sub_02006394_State;
 extern u32 sub_02006394_Thread[];
 
-extern int func_0208574C(u32 *thread);
+extern int OS_IsThreadTerminated(u32 *thread);
 
 int GFL_USE_IsLoaderDone(void)
 {
     if (sub_02006394_State.unk14 == 0) {
         return 1;
     }
-    return func_0208574C(sub_02006394_Thread);
+    return OS_IsThreadTerminated(sub_02006394_Thread);
 }

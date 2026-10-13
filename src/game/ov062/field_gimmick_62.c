@@ -23,8 +23,8 @@
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
- *   d_021F3768     0x021F3768  data  a4
- *   d_021F3790     0x021F3790  data  a4
+ *   gFieldGimmick62UnitSetup     0x021F3768  data  a4
+ *   gFieldGimmick62ModelPos     0x021F3790  data  a4
  *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  */
@@ -47,8 +47,8 @@ extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hi
 extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
 void FIELD_GIMMICK_62_Init(void *fieldMap);
 void FIELD_GIMMICK_62_Exit(void *fieldMap);
-extern VecFx32 d_021F3768;
-extern VecFx32 d_021F3790;
+extern VecFx32 gFieldGimmick62UnitSetup;
+extern VecFx32 gFieldGimmick62ModelPos;
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 
 void FIELD_GIMMICK_62_Init(void *fieldMap)
@@ -58,8 +58,8 @@ void FIELD_GIMMICK_62_Init(void *fieldMap)
 
     hideFlag = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &d_021F3768, 0);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = d_021F3790;
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gFieldGimmick62UnitSetup, 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = gFieldGimmick62ModelPos;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0, 0, 1);
     if (*hideFlag != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_021B86A0
+ * function: IRC_RHYTHM_JudgeTap
  * address: 0x021B86A0
  * packet: pkt_ov104_021B86A0
  * region: ov104
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 static inline int magnitude(int x) { return x<0 ? -x : x; }
-int func_021B86A0(u8 *p) {
+int IRC_RHYTHM_JudgeTap(u8 *p) {
  int diff; int result; int sound; u16 n;
  n=((struct Obj22230 *)p)->f78;
  if(n<2) { sound=0x64c; result=3; }

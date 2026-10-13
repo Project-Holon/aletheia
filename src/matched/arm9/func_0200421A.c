@@ -1,5 +1,5 @@
 /*
- * function: func_0200421A
+ * function: SVC_CpuSet
  * address:  0x0200421A
  * packet:   pkt_0200421A
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-asm void func_0200421A(void)
+asm void SVC_CpuSet(void)
 {
     swi 0xb
     bx lr

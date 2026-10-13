@@ -12,10 +12,10 @@
  * sdk:      find_session_from_IP (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020870D0  0x020870D0  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA664  0x021AA664  data
  */
 
@@ -32,10 +32,10 @@ typedef struct CPSSslConnection {
 
 extern struct CPSSslSession g_021AA664[4];
 
-extern unsigned long func_02087988(void);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern unsigned long OS_DisableInterrupts(void);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long long func_020870D0(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port)
 {
@@ -43,17 +43,17 @@ static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned shor
     CPSSslSession *p;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
         p = &g_021AA664[i];
         if (p->valid != 0 && p->ip == ip && p->port == port) {
-            func_02082D44(p, con->session_id, 0x20);
-            func_02082D44(p->master, con, 0x30);
+            MI_CpuCopy8(p, con->session_id, 0x20);
+            MI_CpuCopy8(p->master, con, 0x30);
             p->last_used = (unsigned long)(func_020870D0() >> 16);
             con->cache = 1;
             break;
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 }

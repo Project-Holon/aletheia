@@ -15,7 +15,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0208068C  0x0208068C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  *   func_0202E888  0x0202E888  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
@@ -360,7 +360,7 @@ struct Mail;
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void func_0208068C(int a);
-extern void func_02082AC0(int v, u32 a, u32 b);
+extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void func_02080B98(void);
 extern int func_0202E888(void);
 extern u8 func_0202E8CC(struct GameData *gameData, s32 season);
@@ -724,7 +724,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStar
     switch (*seq) {
     case 0:
         func_0208068C(0x1ff);
-        func_02082AC0(0, 0x1a << 22, 0x29 << 14);
+        MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
         func_02080B98();
         (*seq)++;
         break;
@@ -821,7 +821,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gam
     PALANM_StartTimer();
     EVENT_MAPCHANGE_AddPresetMail(work->gameData);
     func_0208068C(0x1ff);
-    func_02082AC0(0, 0x1a << 22, 0x29 << 14);
+    MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
     func_02080B98();
     return event;
 }
@@ -936,7 +936,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     EVENT_MAPCHANGE_RefreshUnionInfo(gameSystem);
     PALANM_StartTimer();
     func_0208068C(0x1FF);
-    func_02082AC0(0, 0x06800000, 0xA4000);
+    MIi_CpuClearFast(0, 0x06800000, 0xA4000);
     func_02080B98();
     return event;
 }

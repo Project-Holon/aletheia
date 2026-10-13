@@ -1,5 +1,5 @@
 /*
- * function: func_0689CA1C
+ * function: BTL_ID_IsSleepTalkExcludedMove
  * address: 0x0689CA1C
  * packet: pkt_ov095_0689CA1C
  * region: ov095
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0689CA0C 0x0689CA0C thumb ov095
- *   func_0689C888 0x0689C888 thumb ov095
- *   d_0689E346 0x0689E346 data a2
+ *   BTL_ID_IsCallMoveExcluded 0x0689CA0C thumb ov095
+ *   BTL_ID_IsInList 0x0689C888 thumb ov095
+ *   gSleepTalkExtraExcludedMoves 0x0689E346 data a2
  */
 
-extern int func_0689CA0C(unsigned a);
-extern int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-extern unsigned short d_0689E346[];
-int func_0689CA1C(unsigned a)
+extern int BTL_ID_IsCallMoveExcluded(unsigned a);
+extern int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+extern unsigned short gSleepTalkExtraExcludedMoves[];
+int BTL_ID_IsSleepTalkExcludedMove(unsigned a)
 {
-    if (func_0689CA0C(a)) return 1;
-    return func_0689C888(a, d_0689E346, 11);
+    if (BTL_ID_IsCallMoveExcluded(a)) return 1;
+    return BTL_ID_IsInList(a, gSleepTalkExtraExcludedMoves, 11);
 }

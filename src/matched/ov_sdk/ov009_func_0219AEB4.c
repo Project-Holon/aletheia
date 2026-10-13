@@ -1,5 +1,5 @@
 /*
- * function: func_0219AEB4
+ * function: qr2_init_socketA
  * address:  0x0219AEB4
  * packet:   pkt_ov009_0219AEB4
  * region:   ov009
@@ -20,7 +20,7 @@
  *   func_02094694  0x02094694  arm
  *   func_020923B0  0x020923B0  arm
  *   func_0219B6CC  0x0219B6CC  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0219B73C  0x0219B73C  arm  ov009
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   g_021A73A0  0x021A73A0  data
@@ -104,11 +104,11 @@ extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern int func_02094694(void);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
 extern void func_0219B6CC(void);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0219B73C(char *host, int port, struct SOCSockAddrIn *saddr, struct SOCHostEnt **savehent);
 extern char *func_0215FA9C(SOCInAddr in);
 
-int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key,
+int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key,
                   int ispublic, int natnegotiate,
                   void (*server_key_callback)(int, struct qr2_buffer_s *, void *),
                   void (*player_key_callback)(int, int, struct qr2_buffer_s *, void *),
@@ -173,7 +173,7 @@ int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamen
     if (ispublic) {
         int override = g_021AE9B8[0];
         if (!override)
-            func_02084F40(hostname, g_021A73B4, gamename);
+            OS_SPrintf(hostname, g_021A73B4, gamename);
         ret = func_0219B73C(override ? g_021AE9B8 : hostname, 27900, &cr->hbaddr, 0);
         if (ret == 1)
             func_0217D254(3, 0, 0x10, g_021A73D4, override ? g_021AE9B8 : hostname, func_0215FA9C(cr->hbaddr.addr));

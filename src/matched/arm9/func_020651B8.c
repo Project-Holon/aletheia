@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020651B8
+ * function: NNSi_G2dRendererPreDrawOam
  * address:  0x020651B8
  * packet:   pkt_02064B68
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The actor object's third in-object callback (func_02065B74 stores it at
+ * The actor object's third in-object callback (NNS_G2dInitRenderSurface stores it at
  * +0x20): applies the live actor's OAM overrides to one cell's OAM
  * attributes (GXOamAttr at +0x38 of the cell) and then dispatches the
  * actor vtable's +0x40 slot with the selected affine matrix as the stacked
@@ -134,7 +134,7 @@ static inline void SetObjMode(OamAttr *oam, int mode, int cParam)
     oam->attr2 = (u16)((oam->attr2 & ~0xF000) | (cParam << 12));
 }
 
-void func_020651B8(struct Cell *c, void *a1, void *a2)
+void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2)
 {
     void *map;
     struct Actor *o;

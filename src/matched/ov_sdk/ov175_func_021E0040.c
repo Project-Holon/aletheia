@@ -1,5 +1,5 @@
 /*
- * function: func_021E0040
+ * function: sciReportBeginGlobalData
  * address:  0x021E0040
  * packet:   pkt_ov175_021E0040
  * region:   ov175
@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-int func_021E0040(u32 *p)
+int sciReportBeginGlobalData(u32 *p)
 {
     u32 *q = (u32 *)p[0x124 / 4];
 

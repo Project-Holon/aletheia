@@ -13,8 +13,8 @@
  *   gVctReadyHead  0x021B4BAC  data  ov013  a4
  *   gVctReadyCount  0x021B4BB8  data  ov013  a4
  *   gVctReadyTail  0x021B4BC4  data  ov013  a4
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef unsigned int u32;
@@ -33,8 +33,8 @@ extern Node *gVctReadyHead[3];
 extern int gVctReadyCount[3];
 extern Node *gVctReadyTail[3];
 
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 
 int VCT_AUDIO_InsertReadyPacket(Node *n, u32 idx)
 {
@@ -46,7 +46,7 @@ int VCT_AUDIO_InsertReadyPacket(Node *n, u32 idx)
     if (idx >= 3)
         return -1;
 
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (gVctReadyHead[idx] == 0) {
         gVctReadyHead[idx] = n;
         n->next = 0;
@@ -72,6 +72,6 @@ int VCT_AUDIO_InsertReadyPacket(Node *n, u32 idx)
     }
 done:
     gVctReadyCount[idx]++;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return gVctReadyCount[idx];
 }

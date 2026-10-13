@@ -1,5 +1,5 @@
 /*
- * function: func_021C61C0
+ * function: DWCi_Ndi_decodeBASE64
  * address:  0x021C61C0
  * packet:   pkt_ov114_021C61C0
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      DWCi_Ndi_decodeBASE64 (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
  * symbols:
- *   func_021C6004  0x021C6004  arm  ov114
- *   func_021C6048  0x021C6048  arm  ov114
+ *   getNchar  0x021C6004  arm  ov114
+ *   decodeChar  0x021C6048  arm  ov114
  */
 
-extern int func_021C6004(unsigned char *c, char *str, int n);
-extern int func_021C6048(unsigned char c);
+extern int getNchar(unsigned char *c, char *str, int n);
+extern int decodeChar(unsigned char c);
 
-int func_021C61C0(char *decbin, char *str, int length)
+int DWCi_Ndi_decodeBASE64(char *decbin, char *str, int length)
 {
     unsigned char c[4];
     char dec[3];
@@ -29,24 +29,24 @@ int func_021C61C0(char *decbin, char *str, int length)
     int len;
 
     len = 0;
-    n = func_021C6004(c, str, 4);
+    n = getNchar(c, str, 4);
     d = 0;
     while (n > 0 && d >= 0) {
         dec[0] = 0;
         dec[1] = 0;
         dec[2] = 0;
-        d = func_021C6048(c[0]);
+        d = decodeChar(c[0]);
         if (d >= 0) {
             dec[0] = d << 2;
-            d = func_021C6048(c[1]);
+            d = decodeChar(c[1]);
             if (d >= 0) {
                 dec[0] |= d >> 4;
                 dec[1] = d << 4;
-                d = func_021C6048(c[2]);
+                d = decodeChar(c[2]);
                 if (d >= 0) {
                     dec[1] |= d >> 2;
                     dec[2] = d << 6;
-                    d = func_021C6048(c[3]);
+                    d = decodeChar(c[3]);
                     if (d >= 0)
                         dec[2] |= d;
                 }
@@ -59,7 +59,7 @@ int func_021C61C0(char *decbin, char *str, int length)
         length -= 4;
         if (length <= 0)
             break;
-        n = func_021C6004(c, str, 4);
+        n = getNchar(c, str, 4);
     }
     *decbin = 0;
     return len;

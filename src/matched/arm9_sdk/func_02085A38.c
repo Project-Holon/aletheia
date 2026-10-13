@@ -1,5 +1,5 @@
 /*
- * function: func_02085A38
+ * function: OS_Sleep
  * address:  0x02085A38
  * packet:   pkt_02085A38
  * region:   arm9
@@ -18,7 +18,7 @@
  *   OS_DisableInterrupts    0x02087988  arm
  *   OS_RestoreInterrupts    0x0208799C  arm
  *   OSi_SleepAlarmCallback  0x02085AD8  arm
- *   g_02150FD0              0x02150FD0  data
+ *   gOsThreadBss              0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -142,7 +142,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -152,14 +152,14 @@ extern void OS_SetAlarm(OSAlarm *alarm, u64 tick, OSAlarmHandler handler, void *
 extern void OS_SleepThread(OSThreadQueue *queue);
 extern void OSi_SleepAlarmCallback(void *arg);
 
-void func_02085A38(u32 msec)
+void OS_Sleep(u32 msec)
 {
     OSAlarm alarm;
     OSThread *volatile p_thread;
     OSIntrMode bak_cpsr;
 
     OS_CreateAlarm(&alarm);
-    p_thread = *g_02150FD0.OSi_CurrentThreadPtr;
+    p_thread = *gOsThreadBss.OSi_CurrentThreadPtr;
     bak_cpsr = OS_DisableInterrupts();
     p_thread->alarmForSleep = &alarm;
     OS_SetAlarm(&alarm, ((u64)33514 * msec) / 64, &OSi_SleepAlarmCallback, (void *)&p_thread);

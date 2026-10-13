@@ -12,11 +12,11 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BCAE4  0x021BCAE4  arm  ov016
- *   func_021D55A4  0x021D55A4  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5A8  0x021DE5A8  data
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_BTNlEnd  0x021BCAE4  arm  ov016
+ *   DWCi_EFFlFade  0x021D55A4  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMenuWork  0x021DE5A8  data
  *   func_021C2FA0  0x021C2FA0  arm  ov016
  */
 
@@ -29,20 +29,20 @@ typedef struct {
 	void *ptr;
 } FocusPosT;
 
-extern int func_021D5580(int lcd);
-extern void func_021BCAE4(void);
-extern int func_021D55A4(int kind, int lcd, int plane, int frame);
-extern void func_021C0E40(unsigned int v);
+extern int DWCi_EFFlCheck(int lcd);
+extern void DWCi_BTNlEnd(void);
+extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C2FA0(void);
-extern struct FocusPosT g_021DE5A8;
+extern struct FocusPosT gSceneOptMenuWork;
 
 void func_021C2F34(void)
 {
-	if (func_021D5580(1))
+	if (DWCi_EFFlCheck(1))
 		return;
-	if (g_021DE5A8.flag)
-		func_021BCAE4();
-	func_021D55A4(3, 1, 1, 8);
-	func_021D55A4(3, 0, 0x14, 8);
-	func_021C0E40((unsigned int)func_021C2FA0);
+	if (gSceneOptMenuWork.flag)
+		DWCi_BTNlEnd();
+	DWCi_EFFlFade(3, 1, 1, 8);
+	DWCi_EFFlFade(3, 0, 0x14, 8);
+	DWCi_ChangeScene((unsigned int)func_021C2FA0);
 }

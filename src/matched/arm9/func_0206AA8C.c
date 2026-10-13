@@ -13,7 +13,7 @@
  *   g_renderState       0x02148B4C  data
  *
  * Unlabelled leaf: no prologue, so disasm.py never traced it and it sits in
- * the 76-byte gap between NNS_G3dGlbLightColor and func_0206AAD4, between two of the
+ * the 76-byte gap between NNS_G3dGlbLightColor and NNS_G3dGlbGetInvCameraMtx, between two of the
  * flags object's literal pools.  Packs a 16-bit field, a one-bit flag at bit
  * 15 and a 16-bit payload into the word at 0x02148B4C + 0x94.
  *

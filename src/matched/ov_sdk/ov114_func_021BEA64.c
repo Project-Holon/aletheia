@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA64
+ * function: NHTTPi_WaitForCompletion
  * address:  0x021BEA64
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEA20  0x021BEA20  arm  ov114
+ *   NHTTPi_GetStaticResource  0x021BEA20  arm  ov114
+ *   OS_SleepThread  0x020857B0  arm  arm9
  *
  *
  * Drains the +0x0c queue of `p` by releasing the +0x1c resource each time.
@@ -20,12 +21,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEA20(void);
-extern void func_020857B0(void *);
+extern u8 *NHTTPi_GetStaticResource(void);
+extern void OS_SleepThread(void *);
 
-void func_021BEA64(u8 *p)
+void NHTTPi_WaitForCompletion(u8 *p)
 {
-    u8 *q = func_021BEA20();
+    u8 *q = NHTTPi_GetStaticResource();
     while (*(u32 *)(p + 0xc) != 0)
-        func_020857B0(q + 0x1c);
+        OS_SleepThread(q + 0x1c);
 }

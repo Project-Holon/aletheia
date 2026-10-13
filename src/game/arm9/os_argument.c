@@ -20,9 +20,8 @@
  *   s_02151384     0x02151384  data
  *   s_02151390     0x02151390  data
  *   func_02088150  0x02088150  arm
- *   func_02082D44  0x02082D44  arm
- *   func_02004632  0x02004632  thumb
- *   MI_CpuFill8_Alt  0x02082BCC  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   SVC_GetCRC16  0x02004632  thumb
  *   func_02088118  0x02088118  arm
  */
 typedef unsigned long long u64;
@@ -80,10 +79,11 @@ typedef unsigned int   u32_0208806C;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32_02087F60 size);
 extern u16 SVC_GetCRC16(u32_02087FBC start, const void *data, u32_02087FBC size);
+
 extern void MI_CpuCopy8(const void *src, void *dest, u32_02087FBC size);
-extern void func_02082D44(u32_0208806C bus, u32_0208806C p, u32_0208806C n);
-extern u32_0208806C  func_02004632(u32_0208806C a, u32_0208806C p, u32_0208806C n);
-extern void MI_CpuFill8_Alt(u32_0208806C p, u32_0208806C c, u32_0208806C n);
+
+
+
 void func_02088118(void);
 u64 func_0208812C(void);
 asm int OS_IsValidDeliverArg(void);
@@ -170,7 +170,7 @@ int func_02087FBC(void)
  * is missing.
  *
  * The other four calls resolve through `label` with plenty of outside
- * witnesses.  func_02004632 had to be declared at 0x02004632 (thumb), not
+ * witnesses.  SVC_GetCRC16 had to be declared at 0x02004632 (thumb), not
  * 0x02004630: the target is a BLX, and match.py rewrites BL against BLX from
  * the declared ISA, so a wrong address leaves the H bit wrong and reports a
  * concrete one-byte DIFF (0xFB vs 0xEB in byte 3 of the branch) rather than
@@ -188,14 +188,14 @@ int func_0208806C(void)
     if (base[2] == 0)
         return -1;
 
-    func_02082D44(0x02000000, base[2], 0x300);
+    ((void (*)(u32_0208806C bus, u32_0208806C p, u32_0208806C n))MI_CpuCopy8)(0x02000000, base[2], 0x300);
 
     old = *(u16 *)(base[2] + 0x10);
     *(u16 *)(base[2] + 0x10) = 0;
-    *(u16 *)(base[2] + 0x10) = func_02004632(0xffff, base[2], 0x300);
+    *(u16 *)(base[2] + 0x10) = ((u32_0208806C (*)(u32_0208806C a, u32_0208806C p, u32_0208806C n))SVC_GetCRC16)(0xffff, base[2], 0x300);
 
     if (old != *(u16 *)(base[2] + 0x10)) {
-        MI_CpuFill8_Alt(base[2], 0, 0x300);
+        MI_CpuFill8((void *)base[2], 0, 0x300);
         func_02088118();
         return 0;
     }

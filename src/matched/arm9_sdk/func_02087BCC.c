@@ -1,5 +1,5 @@
 /*
- * function: func_02087BCC
+ * function: OS_ResetSystem
  * address:  0x02087BCC
  * packet:   pkt_02087BCC
  * region:   arm9
@@ -50,7 +50,7 @@ extern void MI_StopAllNDma(void);
 extern void OSi_SendToPxi(u16 data);
 extern void OSi_DoResetSystem(void);
 
-void func_02087BCC(u32 parameter)
+void OS_ResetSystem(u32 parameter)
 {
     if (*(u16 *)0x02FFFC40 == 2
         || (OS_IsRunOnTwl() == 1 && (*(u32 *)0x02FFE234 & 4))) {

@@ -22,7 +22,7 @@
  *   d_020A8140     0x020A8140  data  a4
  *   d_020A8148     0x020A8148  data  a4
  *   TCBL_Main  0x020310C4  arm
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   d_020A814C     0x020A814C  data  a4
  *   d_020A8144     0x020A8144  data  a4
  *   TCBL_Destroy  0x02031140  arm
@@ -92,7 +92,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_020307B0(void *p);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void TCBL_Main(struct Tcbl *tcbl);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void func_0206DF3C(const VecFx32 *worldPos, int *screenX, int *screenY);
 extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
@@ -251,7 +251,7 @@ void TALKMSGWIN_Draw(TalkMsgWinSys *sys)
 {
     int i;
 
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     TALKMSGWIN_SetupCamera(sys, 1);
     for (i = 0; i < TALKMSGWIN_MAX; i++) {
         if (sys->windows[i].isPlain == 0) {

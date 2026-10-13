@@ -15,7 +15,7 @@
  *   no layout/data_objects.txt row for it either.
  *
  * symbols:
- *   func_02087C6C  0x02087C6C  arm twl
+ *   OS_GetMacAddress  0x02087C6C  arm twl
  *   data_02FFFC3C   0x02FFFC3C  data
  */
 
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02087C6C(u8 *);
+extern void OS_GetMacAddress(u8 *);
 extern u32 data_02FFFC3C[];
 
 u16 NWM_GetDispersionScanPeriod(u32 a0) {
@@ -31,7 +31,7 @@ u16 NWM_GetDispersionScanPeriod(u32 a0) {
     u16 sum;
     int i;
     int v;
-    func_02087C6C(mac);
+    OS_GetMacAddress(mac);
     for (sum = i = 0; i < 6; i++) {
         sum += mac[i];
     }

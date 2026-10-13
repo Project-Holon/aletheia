@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1D8
+ * function: PMS_INPUT_VIEW_TaskUpdateEditFocus
  * address: 0x021BA1D8
  * packet: pkt_ov110_021BA1D8
  * region: ov110
@@ -10,17 +10,17 @@
  * status: EXACT*
  * extent: trailing two-byte zero alignment padding.
  * symbols:
- *   func_021BAE24 0x021BAE24 thumb ov110
- *   func_021B9CBC 0x021B9CBC thumb ov110
+ *   PMS_INPUT_VIEW_UpdateEditFocus 0x021BAE24 thumb ov110
+ *   PMS_INPUT_VIEW_EndTask 0x021B9CBC thumb ov110
  */
 #include "../include/Obj00135.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BAE24(u8 *p, u8 *a1, void *a2);
-extern void func_021B9CBC(u8 *);
-void func_021BA1D8(void *unused, u8 *p)
+extern void PMS_INPUT_VIEW_UpdateEditFocus(u8 *p, u8 *a1, void *a2);
+extern void PMS_INPUT_VIEW_EndTask(u8 *);
+void PMS_INPUT_VIEW_TaskUpdateEditFocus(void *unused, u8 *p)
 {
-    func_021BAE24(((struct Obj00135 *)p)->f0, ((struct Obj00135 *)p)->f4, ((struct Obj00135 *)p)->f8);
-    func_021B9CBC(p);
+    PMS_INPUT_VIEW_UpdateEditFocus(((struct Obj00135 *)p)->f0, ((struct Obj00135 *)p)->f4, ((struct Obj00135 *)p)->f8);
+    PMS_INPUT_VIEW_EndTask(p);
 }

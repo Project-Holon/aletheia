@@ -48,13 +48,13 @@
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
- *   func_021C8F2C 0x021C8F2C arm ov114
- *   func_021C96CC 0x021C96CC arm ov114
+ *   DPW_BT_Init 0x021C8F2C arm ov114
+ *   DPW_BT_GetServerStateAsync 0x021C96CC arm ov114
  *   func_021D70E4 0x021D70E4 thumb ov116
  *   func_021D70EC 0x021D70EC thumb ov116
- *   func_021C93D0 0x021C93D0 arm ov114
- *   func_021C9634 0x021C9634 arm ov114
- *   func_021C93BC 0x021C93BC arm ov114
+ *   DPW_BT_IsAsyncEnd 0x021C93D0 arm ov114
+ *   DPW_BT_CancelAsync 0x021C9634 arm ov114
+ *   DPW_BT_End 0x021C93BC arm ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_0200FB24 0x0200FB24 thumb
  *   GFL_NET_STATE_GetError 0x0203CA98 arm
@@ -94,15 +94,15 @@
  *   func_02049F78 0x02049F78 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_0203FA08 0x0203FA08 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
  *   func_02040618 0x02040618 arm
  *   func_0203FB44 0x0203FB44 arm
@@ -304,13 +304,13 @@ extern int func_02009CC0(void *a0);
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
-extern void func_021C8F2C(unsigned a, unsigned b, unsigned c, unsigned mode);
-extern void func_021C96CC(void);
+extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
+extern void DPW_BT_GetServerStateAsync(void);
 extern void func_021D70E4(u8 *p);
 extern int func_021D70EC(u8 *, int *);
-extern int func_021C93D0(void);
-extern void func_021C9634(void);
-extern void func_021C93BC(void);
+extern int DPW_BT_IsAsyncEnd(void);
+extern void DPW_BT_CancelAsync(void);
+extern void DPW_BT_End(void);
 extern int DWC_RAPCOMMON_HandleNetError(int,int);
 extern u32 func_0200FB24(void);
 extern u32 GFL_NET_STATE_GetError(void);
@@ -350,15 +350,15 @@ extern void func_02049990(void *, int, int, int, u16, int, int, u32_021D7D0C);
 extern void *func_02049F78(void *a0, u32_021D7D0C a1, u32_021D7D0C a2, u32_021D7D0C a3);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02049B40(int, int, int, int, int, u32_021D7D0C);
-extern void func_02082D44(const void *, void *, u32_021D7D0C);
+extern void MI_CpuCopy8(const void *, void *, u32_021D7D0C);
 extern u32_021D7D0C func_020307B0(void *p);
 extern void *func_020056A0(void *, void *, int);
-extern void func_020862F0(void *, u32_021D7D0C);
+extern void DWCi_ScreenDC_FlushRange(void *, u32_021D7D0C);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32_021D7D0C func_0203FA08(u32_021D7D0C layer, u32_021D7D0C size, u32_021D7D0C top);
 extern void *func_0201F5DC(void *a0, u32_021D7D0C a1, u32_021D7D0C a2, u32_021D7D0C a3);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
-extern void func_0207E3D0(void *,int,int);
+extern void GX_LoadBGPltt(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void func_02040618(u32_021D7F54 layer, u32_021D7F54 a, u32_021D7F54 b);
 extern void func_0203FB44(u32_021D7FC4 layer, u32_021D7FC4 offset, u32_021D7FC4 size);
@@ -659,8 +659,8 @@ void func_021D7A3C(u8 *p) {
     func_02008540(((struct Obj00671 *)p)->f1850,(u32)func_02009CC0(((struct Obj00671 *)p)->f184C));
     b=(void *)func_0200853C(((struct Obj00671 *)p)->f1850);
     value=DWC_CreateFriendKey(a);
-    func_021C8F2C((unsigned int)b,(u32)value,(u32)(value>>32),0);
-    func_021C96CC();
+    DPW_BT_Init((unsigned int)b,(u32)value,(u32)(value>>32),0);
+    DPW_BT_GetServerStateAsync();
     func_021D70E4(p+0x182c);
     ((struct Obj00671 *)p)->fB68=1;
 }
@@ -675,13 +675,13 @@ int func_021D7A94(u8 *p)
 
 /*
  * 2026-10-05 (wD4 lane19): still MATCH. Blocked by ov114 ARM 0x021C93D0 (pengy overlay, no witness).
- * 2026-10-05 (wD8 lane09): re-run, still MATCH. Only open relocation: func_021C93D0 (ov114 ARM, SDK-side
+ * 2026-10-05 (wD8 lane09): re-run, still MATCH. Only open relocation: DPW_BT_IsAsyncEnd (ov114 ARM, SDK-side
  *   libext code, no witness). Nothing source-side to change.
  */
 void func_021D7AA8(u8 *p)
 {
-    if (func_021C93D0() == 0) {
-        func_021C9634();
+    if (DPW_BT_IsAsyncEnd() == 0) {
+        DPW_BT_CancelAsync();
         func_021D70E4(p + 0x182c);
     }
 }
@@ -692,7 +692,7 @@ int func_021D7AC8(u8 *p)
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;
     if (func_021D70EC(p + 0x182c, &result)) {
-        func_021C93BC();
+        DPW_BT_End();
         ((struct Obj13868 *)p)->fB68 = 0;
         return 1;
     }
@@ -811,8 +811,8 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(p + 0xc, 0, 0x970);
     blk = func_02049F78(arc, 2, (u32_021D7D0C)(&res), (u16)heap);
-    func_02082D44(res->fC, p + 0x14, 0x1e0);
-    func_02082D44(res->fC, p + 0x1f4, 0x1e0);
+    MI_CpuCopy8(res->fC, p + 0x14, 0x1e0);
+    MI_CpuCopy8(res->fC, p + 0x1f4, 0x1e0);
     func_020307B0(blk);
     k = 0;
     pa = p + 0x1f4;
@@ -837,7 +837,7 @@ void func_021D7D0C(u8 *p, short heap) {
             if (t >= 0x1000) { t = 0x1000; done = 1; }
         }
     }
-    func_020862F0(p + 0x1f4, 0x780);
+    DWCi_ScreenDC_FlushRange(p + 0x1f4, 0x780);
     *(u32_021D7D0C *)(p + 0x10) = 1;
     *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
@@ -855,7 +855,7 @@ void func_021D7F54(void *unused,u8 *p) {
     if(((struct Obj03252 *)p)->f4!=0) {
         p[0x96b]^=1;
         if((p[0x96b]&1)==0) {
-            func_0207E3D0(p+0x1f0+(((struct Obj03252 *)p)->f968<<5),40,14);
+            GX_LoadBGPltt(p+0x1f0+(((struct Obj03252 *)p)->f968<<5),40,14);
             func_0207E468(p+0x1f0+(((struct Obj03252 *)p)->f968<<5),40,14);
             (((struct Obj03252 *)p)->f968)++;
             if(((struct Obj03252 *)p)->f968>=60) ((struct Obj03252 *)p)->f968=0;

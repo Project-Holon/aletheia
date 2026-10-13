@@ -17,13 +17,13 @@
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   NNS_G3dGetTex  0x0206E964  arm
  *   NNS_G3dAllocAnmObj  0x0206E364  arm
- *   func_02069C74  0x02069C74  arm
+ *   NNS_G3dAnmObjInit  0x02069C74  arm
  *
  * g3d_system.c.  Allocate a 12-byte record from the context heap (tag
  * 0x59D1, owner a1), fetch animation a2 from a1's resource
  * (NNS_G3dGetAnmByIdx), allocate the animation object against a0's model
  * (NNS_G3dAllocAnmObj) and initialise it with a0's texture when a0 has one
- * (G3D_SYSTEM_GetRenderTexRes / NNS_G3dGetTex, then func_02069C74).
+ * (G3D_SYSTEM_GetRenderTexRes / NNS_G3dGetTex, then NNS_G3dAnmObjInit).
  *
  * The lever (wave 16) is `const` on the read-only owner parameter a1 (and
  * the record field that keeps it): with a1 const the a1->f04 load may move
@@ -74,7 +74,7 @@ extern u8 *NNS_G3dGetAnmByIdx(u8 *p, u32 idx);
 extern int G3D_SYSTEM_GetRenderTexRes(int *p);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern u32  NNS_G3dAllocAnmObj(struct G3dCtx *a0, int a1, u32 a2);
-extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
+extern void NNS_G3dAnmObjInit(u32 a0, int a1, u32 a2, int a3);
 
 struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2)
 {
@@ -91,6 +91,6 @@ struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner
     if (G3D_SYSTEM_GetRenderTexRes((int *)a0) != 0)
         z = (int)NNS_G3dGetTex((unsigned char *)a0->f0c->handle);
     r->unk_04 = NNS_G3dAllocAnmObj(_G3dSystem, x, y);
-    func_02069C74(r->unk_04, x, y, z);
+    NNS_G3dAnmObjInit(r->unk_04, x, y, z);
     return r;
 }

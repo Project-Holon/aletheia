@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4E4
+ * function: NHTTPi_intToStr
  * address:  0x021BA4E4
  * packet:   pkt_ov114_021BA4E4
  * region:   ov114
@@ -17,7 +17,7 @@
  */
 
 
-int func_021BA4E4(char *p_p, unsigned long n)
+int NHTTPi_intToStr(char *p_p, unsigned long n)
 {
     unsigned int rdx[9] = {1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10};
     int len = 0;

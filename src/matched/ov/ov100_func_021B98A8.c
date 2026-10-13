@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B98A8, func_021B98F0
+ * function: IRCBATTLEMATCH_RecvMyStatusHandler, IRCBATTLEMATCH_NoOp
  * address: 0x021B98A8
  * packet: pkt_ov100_021B98A8
  * region: ov100
@@ -33,7 +33,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-void func_021B98A8(int a,int b,int c,int d,int e)
+void IRCBATTLEMATCH_RecvMyStatusHandler(int a,int b,int c,int d,int e)
 {
  int p;
  int q;
@@ -44,4 +44,4 @@ void func_021B98A8(int a,int b,int c,int d,int e)
  func_0200ED54((struct L0200ED54 *)q,func_02008530((const struct Sub0200852CObj *)p));
  }
 }
-void func_021B98F0(void) {}
+void IRCBATTLEMATCH_NoOp(void) {}

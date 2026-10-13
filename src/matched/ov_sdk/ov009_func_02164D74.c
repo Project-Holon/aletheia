@@ -32,9 +32,9 @@
  *   WCM_GetWorkSize        0x02164F38 arm ov009
  *   WcmInitOption        0x021658F8 arm ov009
  *   func_02166304        0x02166304 arm ov009
- *   func_02087058        0x02087058 arm
+ *   OS_IsTickAvailable        0x02087058 arm
  *   func_02086FE8        0x02086FE8 arm
- *   func_02087244        0x02087244 arm
+ *   OS_IsAlarmAvailable        0x02087244 arm
  *   func_02087208        0x02087208 arm
  *   func_02087254        0x02087254 arm
  *   WCMi_OverridedDeviceId 0x021AA7D4 data
@@ -98,9 +98,9 @@ extern unsigned char WCMi_GetDefaultDeviceId(void);
 extern long WCM_GetWorkSize(long *size, unsigned char deviceId);
 extern void WcmInitOption(void);
 extern void func_02166304(void);
-extern long func_02087058(void);
+extern long OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
-extern long func_02087244(void);
+extern long OS_IsAlarmAvailable(void);
 extern void func_02087208(void);
 extern void func_02087254(void *alarm);
 
@@ -147,10 +147,10 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     wcmw->deviceId = deviceId;
     WcmInitOption();
     func_02166304();
-    if (func_02087058() == 0) {
+    if (OS_IsTickAvailable() == 0) {
         func_02086FE8();
     }
-    if (func_02087244() == 0) {
+    if (OS_IsAlarmAvailable() == 0) {
         func_02087208();
     }
     func_02087254(wcmw->alarm);

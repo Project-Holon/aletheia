@@ -136,8 +136,8 @@
  *   G3D_SYSTEM_GetRenderTexRes 0x02047554 arm
  *   G3D_SYSTEM_GetRenderObj 0x0204755C arm
  *   func_02047250 0x02047250 arm
- *   G3D_TEX_ClearDictDoneFlags 0x0206A67C arm
- *   func_0206A5B4 0x0206A5B4 arm
+ *   NNS_G3dReleaseMdlPltt 0x0206A67C arm
+ *   NNS_G3dBindMdlPlttEx 0x0206A5B4 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
  *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
@@ -375,8 +375,8 @@ extern void PARTICLE_ExitManager(void);
 extern int PARTICLE_StartEffect(void *,int,int);
 extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G3D_SYSTEM_GetRenderObj(int *);
 extern int func_02047250(char *);
-extern void G3D_TEX_ClearDictDoneFlags(char *);
-extern int func_0206A5B4(char *,char *,u32,u32);
+extern void NNS_G3dReleaseMdlPltt(char *);
+extern int NNS_G3dBindMdlPlttEx(char *,char *,u32,u32);
 extern u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup);
 extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
@@ -1369,7 +1369,7 @@ void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f48
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)func_02047250(a); G3D_TEX_ClearDictDoneFlags(h); return func_0206A5B4(h,r,b,c)&1; }
+int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct Obj25711 *)((char *)G3D_SYSTEM_GetRenderObj(q)))->f4; r=(char *)func_02047250(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
 
 
 

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C1288, func_021C12CC
+ * function: WIFICLUB_RecvFriendTrainerCard, WIFICLUB_NoOpNetCommand
  * address: 0x021C1288
  * packet: pkt_ov099_021C1288
  * region: ov099
@@ -29,7 +29,7 @@ extern void MYSTATUS_Copy(void *, void *);
 extern void *func_0200ED48(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
-void func_021C1288(int index, int unused, void *src, char *p, int handle)
+void WIFICLUB_RecvFriendTrainerCard(int index, int unused, void *src, char *p, int handle)
 {
     void *q;
     void *list;
@@ -40,4 +40,4 @@ void func_021C1288(int index, int unused, void *src, char *p, int handle)
         func_0200ED54(list, func_02008530(q));
     }
 }
-void func_021C12CC(void) {}
+void WIFICLUB_NoOpNetCommand(void) {}

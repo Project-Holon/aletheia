@@ -1,5 +1,5 @@
 /*
- * function: func_021CC530
+ * function: CRYPTOi__BN_gen_exp_bits
  * address:  0x021CC530
  * packet:   pkt_ov114_021CC530
  * region:   ov114
@@ -12,13 +12,14 @@
  * sdk:      CRYPTOi__BN_gen_exp_bits (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CADAC  0x021CADAC  arm  ov114
- *   func_021CC674  0x021CC674  arm  ov114
- *   g_021CE1F8  0x021CE1F8  data  ov114
- *   g_021CE1EE  0x021CE1EE  data  ov114
- *   g_021CE1E4  0x021CE1E4  data  ov114
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
+ *   CRYPTOi__BN_gen_exp_string  0x021CC674  arm  ov114
+ *   sCryptoBnGenExpBitsTable16  0x021CE1F8  data  ov114
+ *   sCryptoBnGenExpBitsTable4  0x021CE1EE  data  ov114
+ *   sCryptoBnGenExpBitsTable2  0x021CE1E4  data  ov114
+ *   sCryptoBnNumBitsWordBits  0x021CE202  data
  *
- * g_021CE1F8, g_021CE1EE, g_021CE1E4 are the object's local tables p16, p4, p2.
+ * sCryptoBnGenExpBitsTable16, sCryptoBnGenExpBitsTable4, sCryptoBnGenExpBitsTable2 are the object's local tables p16, p4, p2.
  */
 
 typedef unsigned int BN_ULONG;
@@ -40,46 +41,46 @@ typedef struct
     int depth;
 } BN_CTX;
 
-extern BIGNUM *func_021CADAC(BIGNUM *, int);
-extern int func_021CC674(unsigned char *, const BIGNUM *, int);
-extern unsigned char g_021CE1F8[10];
-extern unsigned char g_021CE1EE[10];
-extern unsigned char g_021CE1E4[10];
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *, int);
+extern int CRYPTOi__BN_gen_exp_string(unsigned char *, const BIGNUM *, int);
+extern unsigned char sCryptoBnGenExpBitsTable16[10];
+extern unsigned char sCryptoBnGenExpBitsTable4[10];
+extern unsigned char sCryptoBnGenExpBitsTable2[10];
 
-#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : func_021CADAC((a), (w)))
+#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (w)))
 
-int func_021CC530(const BIGNUM *e, unsigned char **out, int unused, BN_CTX *ctx)
+int CRYPTOi__BN_gen_exp_bits(const BIGNUM *e, unsigned char **out, int unused, BN_CTX *ctx)
 {
-    int top, bits, window, count, step, words, len;
+    int top, sCryptoBnNumBitsWordBits, window, count, step, words, len;
     unsigned char *p;
     BIGNUM *tmp;
 
     tmp = &ctx->bn[ctx->tos];
     p = 0;
     top = e->top;
-    bits = top << 5;
+    sCryptoBnNumBitsWordBits = top << 5;
     if (top == 0)
         return 0;
 
     if (top == 1)
     {
         if (top == 1 && e->d[0] == 0x10001)
-            p = g_021CE1F8;
+            p = sCryptoBnGenExpBitsTable16;
         else if (e->d[0] == 0x11 && top == 1)
-            p = g_021CE1EE;
+            p = sCryptoBnGenExpBitsTable4;
         else if (e->d[0] == 3 && top == 1)
-            p = g_021CE1E4;
+            p = sCryptoBnGenExpBitsTable2;
         window = 1;
         count = 1;
         step = 32;
     }
-    else if (bits >= 256)
+    else if (sCryptoBnNumBitsWordBits >= 256)
     {
         window = 5;
         count = 16;
         step = 7;
     }
-    else if (bits >= 128)
+    else if (sCryptoBnNumBitsWordBits >= 128)
     {
         window = 4;
         count = 8;
@@ -98,7 +99,7 @@ int func_021CC530(const BIGNUM *e, unsigned char **out, int unused, BN_CTX *ctx)
         if (bn_wexpand(tmp, words) == 0)
             return 0;
         p = (unsigned char *)tmp->d;
-        len = func_021CC674(p + 4, e, window) + 2;
+        len = CRYPTOi__BN_gen_exp_string(p + 4, e, window) + 2;
         p[0] = len >> 8;
         p[1] = len;
         p[2] = window;

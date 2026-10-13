@@ -1,5 +1,5 @@
 /*
- * function: func_0689D15C
+ * function: BTL_DEADREC_Add
  * address: 0x0689D15C
  * packet: pkt_ov095_0689D15C
  * region: ov095
@@ -21,7 +21,7 @@ typedef struct {
     u8 b[24];
 } Slot;
 
-void func_0689D15C(Slot *s, u8 v)
+void BTL_DEADREC_Add(Slot *s, u8 v)
 {
     u8 *q;
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689CB48",
+   "name": "BTL_POKESET_Add",
    "address": "0x0689CB48",
    "kind": "game",
    "region": "ov095",

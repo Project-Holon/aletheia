@@ -9,13 +9,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  +0040 ABS32 g_0214DECC             -> unresolved: 0214DECC (data, from header) has no witness outside 02072A44..02072A88
+ * blocker:  +0040 ABS32 gNNSSndWaveOutHandles             -> unresolved: 0214DECC (data, from header) has no witness outside 02072A44..02072A88
  *
  * symbols:
- *   func_0207292C    0x0207292C  arm
- *   g_0214DECC       0x0214DECC  data
+ *   NNSi_SndWaveOutLockChannels    0x0207292C  arm
+ *   gNNSSndWaveOutHandles       0x0214DECC  data
  *
- * Claims one bit with func_0207292C and, on success, seeds the matching slot of
+ * Claims one bit with NNSi_SndWaveOutLockChannels and, on success, seeds the matching slot of
  * the stride-0x14 table and clears its +8 word; the slot address is returned.
  *
  * Verified with:
@@ -33,17 +33,17 @@ typedef struct {
     u32 unk10;
 } Slot02072A44;
 
-extern int func_0207292C(int mask);
-extern Slot02072A44 g_0214DECC[];
+extern int NNSi_SndWaveOutLockChannels(int mask);
+extern Slot02072A44 gNNSSndWaveOutHandles[];
 
 Slot02072A44 *NNS_SndWaveOutAllocChannel(u32 idx)
 {
     Slot02072A44 *s;
 
-    if (func_0207292C(1 << idx) == 0) {
+    if (NNSi_SndWaveOutLockChannels(1 << idx) == 0) {
         return 0;
     }
-    s = &g_0214DECC[idx];
+    s = &gNNSSndWaveOutHandles[idx];
     s->unk00 = idx;
     s->unk08 = 0;
     return s;

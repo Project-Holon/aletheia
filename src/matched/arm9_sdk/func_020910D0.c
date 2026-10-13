@@ -19,34 +19,34 @@
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   OS_ReadOwnerOfLockWord  0x02084EB0  arm
  *   func_02084DA4  0x02084DA4  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02004490  0x02004490  thumb
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   SVC_WaitByLoop  0x02004490  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02087988(void);
+extern u32 OS_DisableInterrupts(void);
 extern unsigned short OS_ReadOwnerOfLockWord(char *p);
 extern u32 func_02084DA4(u32 a);
-extern void func_0208799C(u32 h);
-extern void func_02004490(u32 v);
+extern void OS_RestoreInterrupts(u32 h);
+extern void SVC_WaitByLoop(u32 v);
 
 void func_020910D0(u32 a0, u32 *a1)
 {
     u32 t;
 
     while (1) {
-        a1[1] = func_02087988();
+        a1[1] = OS_DisableInterrupts();
         t = OS_ReadOwnerOfLockWord((void *)0x02FFFFE8) & 0x40;
         a1[0] = t;
         if (t != 0)
             return;
         if (func_02084DA4(a0) == 0)
             return;
-        func_0208799C(a1[1]);
-        func_02004490(1);
+        OS_RestoreInterrupts(a1[1]);
+        SVC_WaitByLoop(1);
     }
 }

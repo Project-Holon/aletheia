@@ -1,5 +1,5 @@
 /*
- * function: func_021B6148
+ * function: COMPATIBLE_IRC_SYS_Delete
  * address:  0x021B6148
  * packet:   pkt_ov101_021B6148
  * region:   ov101
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u32 func_020307B0(void *p);
-void func_021B6148(void *a0) { func_020307B0(a0); }
+void COMPATIBLE_IRC_SYS_Delete(void *a0) { func_020307B0(a0); }

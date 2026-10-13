@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFED0",
+   "name": "WIFICLUB_StateErrorMessageWait",
    "address": "0x021BFED0",
    "kind": "game",
    "region": "ov099",

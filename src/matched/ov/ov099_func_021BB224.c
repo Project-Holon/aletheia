@@ -1,5 +1,5 @@
 /*
- * function: func_021BB224
+ * function: WIFICLUB_DeleteTextBuffers
  * address:  0x021BB224
  * packet:   pkt_ov099_021BB224
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB4D0  0x021BB4D0  thumb  ov099
- *   func_021BB42C  0x021BB42C  thumb  ov099
+ *   WIFICLUB_DeleteTouchBar  0x021BB4D0  thumb  ov099
+ *   WIFICLUB_DeleteTrainerActor  0x021BB42C  thumb  ov099
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
@@ -25,8 +25,8 @@ struct PrintSys;
 struct Rec3;
 struct S02031140;
 struct U16Vec;
-extern void func_021BB4D0(char *p);
-extern void func_021BB42C(void *p);
+extern void WIFICLUB_DeleteTouchBar(char *p);
+extern void WIFICLUB_DeleteTrainerActor(void *p);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
@@ -34,10 +34,10 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
-void func_021BB224(char *p)
+void WIFICLUB_DeleteTextBuffers(char *p)
 {
-    func_021BB4D0(p);
-    func_021BB42C(p);
+    WIFICLUB_DeleteTouchBar(p);
+    WIFICLUB_DeleteTrainerActor(p);
     APP_KEYCURSOR_Delete((int)(((struct Obj01706 *)p)->f9B0));
     STRBUF_Delete(((struct Obj01706 *)p)->fF8);
     STRBUF_Delete(((struct Obj01706 *)p)->fF4);

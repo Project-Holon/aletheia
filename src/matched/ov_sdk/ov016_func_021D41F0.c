@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_MOV_MBP_Init                0x021D1D40  arm  ov016
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -32,10 +32,10 @@ typedef struct {
     u32 ggid;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 
 void func_021D41F0(void)
 {
-    DWCi_MOV_MBP_Init(g_021DE668->ggid, g_021DE668->moveid_tgid);
+    DWCi_MOV_MBP_Init(gDwcMoveidWork->ggid, gDwcMoveidWork->moveid_tgid);
 }

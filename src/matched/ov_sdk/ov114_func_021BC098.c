@@ -1,5 +1,5 @@
 /*
- * function: func_021BC098
+ * function: NHTTPi_GetPostContentlength
  * address:  0x021BC098
  * packet:   pkt_ov114_021BC098
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      NHTTPi_GetPostContentlength (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEBE0 0x021BEBE0 arm ov114
- *   func_021BEC74 0x021BEC74 arm ov114
- *   func_021BA25C 0x021BA25C arm ov114
+ *   NHTTPi_Request2Connection 0x021BEBE0 arm ov114
+ *   NHTTPi_PostSendCallback 0x021BEC74 arm ov114
+ *   NHTTPi_getUrlEncodedSize2 0x021BA25C arm ov114
  */
 
 typedef struct {
@@ -27,12 +27,12 @@ typedef struct {
     unsigned long length;
 } Con;
 
-extern Con *func_021BEBE0(void *mutexInfo_p, Req *req_p);
+extern Con *NHTTPi_Request2Connection(void *mutexInfo_p, Req *req_p);
 struct Conn;
-extern int func_021BEC74(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
-extern int func_021BA25C(char *p_p, int len);
+extern int NHTTPi_PostSendCallback(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
+extern int NHTTPi_getUrlEncodedSize2(char *p_p, int len);
 
-int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *contentLength, int sendtype)
+int NHTTPi_GetPostContentlength(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *contentLength, int sendtype)
 {
     int offset;
     unsigned long length;
@@ -40,7 +40,7 @@ int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *c
     Con *connection_p;
 
     offset = 0;
-    connection_p = func_021BEBE0(mutexInfo_p, req_p);
+    connection_p = NHTTPi_Request2Connection(mutexInfo_p, req_p);
     if (connection_p == 0) {
         return 0;
     }
@@ -50,7 +50,7 @@ int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *c
             return 0;
         }
         connection_p->length = 0;
-        if (func_021BEC74(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0) {
+        if (NHTTPi_PostSendCallback(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0) {
             return 0;
         }
         length = connection_p->length;
@@ -66,7 +66,7 @@ int func_021BC098(void *mutexInfo_p, Req *req_p, char *label_p, unsigned long *c
                 *contentLength += length;
                 break;
             case 2:
-                *contentLength += func_021BA25C(value_p, length);
+                *contentLength += NHTTPi_getUrlEncodedSize2(value_p, length);
                 break;
             }
         } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6E4
+ * function: PMS_INPUT_GetSentenceType
  * address:  0x021BF6E4
  * packet:   pkt_ov110_021BF6E4
  * region:   ov110
@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
-int func_021BF6E4(u8 *p) { return PMSI_PARAM_GetSentenceType((const u16 *)(p + 8)); }
+int PMS_INPUT_GetSentenceType(u8 *p) { return PMSI_PARAM_GetSentenceType((const u16 *)(p + 8)); }

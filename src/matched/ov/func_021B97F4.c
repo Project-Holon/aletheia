@@ -1,5 +1,5 @@
 /*
- * function: func_021B97F4
+ * function: WIFICLUBACTOR_GetPickResult
  * address:  0x021B97F4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -23,7 +23,7 @@ typedef struct {
     u8 *p;
 } W;
 
-u8 func_021B97F4(W *w)
+u8 WIFICLUBACTOR_GetPickResult(W *w)
 {
     return ((u8 *)w->p)[0xA];
 }

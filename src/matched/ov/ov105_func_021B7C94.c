@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C94
+ * function: IRC_RESULT_RunPrintQueue
  * address:  0x021B7C94
  * packet:   pkt_ov105_021B7C94
  * region:   ov105
@@ -23,4 +23,4 @@ typedef int s32;
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-u32 func_021B7C94(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22243 *)p)->f8)); }
+u32 IRC_RESULT_RunPrintQueue(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22243 *)p)->f8)); }

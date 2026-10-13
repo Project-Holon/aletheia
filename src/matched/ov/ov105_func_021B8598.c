@@ -1,5 +1,5 @@
 /*
- * function: func_021B8598
+ * function: IRC_RESULT_ExitRankFade
  * address:  0x021B8598
  * packet:   pkt_ov105_021B8598
  * region:   ov105
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B8598(void *p) { MI_CpuFill8(p, 0, 0x60); }
+void IRC_RESULT_ExitRankFade(void *p) { MI_CpuFill8(p, 0, 0x60); }

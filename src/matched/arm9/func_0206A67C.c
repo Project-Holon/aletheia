@@ -1,5 +1,5 @@
 /*
- * function: G3D_TEX_ClearDictDoneFlags
+ * function: NNS_G3dReleaseMdlPltt
  * address:  0x0206A67C
  * packet:   pkt_0206A67C
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The unlabelled follower of src/matched/func_0206A5B4.c, and the bulk form
+ * The unlabelled follower of src/matched/NNS_G3dBindMdlPlttEx.c, and the bulk form
  * of that function's per-entry work: resolve the same cell table out of the
  * header chain and walk every entry, clearing the done bit (flags bit 0 at
  * +3) on each.  It shares 0x0206A5B4's Ent layout and its
@@ -34,8 +34,8 @@
  *      folds to `andne r0, r0, #0xfe`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/G3D_TEX_ClearDictDoneFlags.c \
- *       --func G3D_TEX_ClearDictDoneFlags --addr 0x0206A67C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dReleaseMdlPltt.c \
+ *       --func NNS_G3dReleaseMdlPltt --addr 0x0206A67C --cc 1.1p1 --arm
  */
 #include "../include/Obj07044.h"
 #include "../include/Obj16557.h"
@@ -53,7 +53,7 @@ typedef struct {
     u16 tbl;
 } Ent;
 
-void G3D_TEX_ClearDictDoneFlags(char *h)
+void NNS_G3dReleaseMdlPltt(char *h)
 {
     char *base;
     Ent  *e1;

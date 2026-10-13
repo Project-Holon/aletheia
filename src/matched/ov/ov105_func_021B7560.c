@@ -1,5 +1,5 @@
 /*
- * function: func_021B7560
+ * function: IRC_RESULT_Init
  * address: 0x021B7560
  * packet: pkt_ov105_021B7560
  * region: ov105
@@ -19,23 +19,23 @@
  *   func_0201F73C 0x0201F73C thumb
  *   func_02041F6C 0x02041F6C arm
  *   func_02041FB0 0x02041FB0 arm
- *   func_021B784C 0x021B784C thumb ov105
- *   func_021B7C20 0x021B7C20 thumb ov105
- *   func_021B7CB0 0x021B7CB0 thumb ov105
- *   func_021B7D20 0x021B7D20 thumb ov105
- *   func_021B7E48 0x021B7E48 thumb ov105
- *   func_021B8348 0x021B8348 thumb ov105
- *   func_021B658C 0x021B658C thumb ov101
- *   func_021B7F78 0x021B7F78 thumb ov105
- *   func_021B78D4 0x021B78D4 thumb ov105
- *   func_021B7CA0 0x021B7CA0 thumb ov105
- *   func_021B7CA4 0x021B7CA4 thumb ov105
- *   func_021B70DC 0x021B70DC thumb ov101
- *   func_021B728C 0x021B728C thumb ov101
- *   func_021B84B4 0x021B84B4 thumb ov105
- *   func_021B8840 0x021B8840 thumb ov105
- *   func_021B80BC 0x021B80BC thumb ov105
- *   func_021B80D8 0x021B80D8 thumb ov105
+ *   IRC_RESULT_InitScreen 0x021B784C thumb ov105
+ *   IRC_RESULT_InitTextSystem 0x021B7C20 thumb ov105
+ *   IRC_RESULT_InitMessageWindow 0x021B7CB0 thumb ov105
+ *   IRC_RESULT_InitTextWindow 0x021B7D20 thumb ov105
+ *   IRC_RESULT_PrintCenteredMessage 0x021B7E48 thumb ov105
+ *   IRC_RESULT_InitScoreDisplay 0x021B8348 thumb ov105
+ *   COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
+ *   IRC_RESULT_PrintMessageWithNames 0x021B7F78 thumb ov105
+ *   IRC_RESULT_GetScreenActorUnit 0x021B78D4 thumb ov105
+ *   IRC_RESULT_GetFont 0x021B7CA0 thumb ov105
+ *   IRC_RESULT_GetPrintQueue 0x021B7CA4 thumb ov105
+ *   IRC_APPBAR_Create 0x021B70DC thumb ov101
+ *   IRC_APPBAR_SetEnabled 0x021B728C thumb ov101
+ *   IRC_RESULT_InitRankFade 0x021B84B4 thumb ov105
+ *   IRC_RESULT_GetRewardQuantity 0x021B8840 thumb ov105
+ *   IRC_RESULT_SetState 0x021B80BC thumb ov105
+ *   IRC_RESULT_StateStart 0x021B80D8 thumb ov105
  */
 #include "../include/Obj03234.h"
 typedef unsigned char u8;
@@ -54,24 +54,24 @@ struct Rec;
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
-extern void func_021B784C(u8 *,int);
-extern void func_021B7C20(u32 *p, int flag, int heap);
-extern void func_021B7CB0(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g);
-extern void func_021B7D20(u8 *,u32,u32,u8,u8,u8,u8,u16,u8,u16);
-extern void func_021B7E48(u8 *,void *,int);
-extern void func_021B8348(Display *,void *,int);
-extern void func_021B658C(void *,Data *);
-extern void func_021B7F78(u8 *,void *,int,u8 *,u8 *,int);
-extern u32 func_021B78D4(u8 *);
-extern int func_021B7CA0(void *),func_021B7CA4(void *);
-extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
-extern void func_021B728C(int,int);
-extern void func_021B84B4(u8 *,int,int,int);
-extern unsigned int func_021B8840(unsigned int x, int y);
-extern void func_021B80BC(unsigned char *p, unsigned int v);
-extern void func_021B80D8(u8 *p);
+extern void IRC_RESULT_InitScreen(u8 *,int);
+extern void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap);
+extern void IRC_RESULT_InitMessageWindow(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g);
+extern void IRC_RESULT_InitTextWindow(u8 *,u32,u32,u8,u8,u8,u8,u16,u8,u16);
+extern void IRC_RESULT_PrintCenteredMessage(u8 *,void *,int);
+extern void IRC_RESULT_InitScoreDisplay(Display *,void *,int);
+extern void COMPATIBLE_IRC_SYS_BuildProfile(void *,Data *);
+extern void IRC_RESULT_PrintMessageWithNames(u8 *,void *,int,u8 *,u8 *,int);
+extern u32 IRC_RESULT_GetScreenActorUnit(u8 *);
+extern int IRC_RESULT_GetFont(void *),IRC_RESULT_GetPrintQueue(void *);
+extern void *IRC_APPBAR_Create(u32,u32,u16,u16,u8,u32,u32,u32,u16);
+extern void IRC_APPBAR_SetEnabled(int,int);
+extern void IRC_RESULT_InitRankFade(u8 *,int,int,int);
+extern unsigned int IRC_RESULT_GetRewardQuantity(unsigned int x, int y);
+extern void IRC_RESULT_SetState(unsigned char *p, unsigned int v);
+extern void IRC_RESULT_StateStart(u8 *p);
 #define CTX (*(u8 **)(p+0x1a4))
-int func_021B7560(struct Task *a,void *b,u8 *context)
+int IRC_RESULT_Init(struct Task *a,void *b,u8 *context)
 {
     Data first,second;
     u8 *p;
@@ -81,34 +81,34 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     p=PROCSYS_AllocProcWork((struct Obj0203159C *)a,0x1a8,60);
     MI_CpuFill8(p,0,0x1a8);
     *(u8 * *)&((struct Obj03234 *)p)->f1A4=context;
-    func_021B784C(p,60);
-    func_021B7C20((u32 *)(p+0xb0),0,60);
+    IRC_RESULT_InitScreen(p,60);
+    IRC_RESULT_InitTextSystem((u32 *)(p+0xb0),0,60);
     if(*(void **)CTX) func_02012138(*(void **)CTX);
-    func_021B7CB0((struct Rec *)(p+0xc0),5,1,(u32)18,30,5,5,60);
+    IRC_RESULT_InitMessageWindow((struct Rec *)(p+0xc0),5,1,(u32)18,30,5,5,60);
     func_0201F73C(((struct Obj03234 *)p)->fC0,0,(u16)(((struct Obj03234 *)p)->f0),6);
-    func_021B7D20(p+0xd4,7,6,3,20,5,8,1,1,60);
-    func_021B7E48(p+0xd4,p+0xb0,1);
+    IRC_RESULT_InitTextWindow(p+0xd4,7,6,3,20,5,8,1,1,60);
+    IRC_RESULT_PrintCenteredMessage(p+0xd4,p+0xb0,1);
     func_02041F6C(7,3,4096);
     func_02041F6C(7,6,4096);
     func_02041FB0(7,9,128);
     func_02041FB0(7,12,40);
-    func_021B8348((Display *)(p+0xe8),p,CTX[12]);
+    IRC_RESULT_InitScoreDisplay((Display *)(p+0xe8),p,CTX[12]);
     if(*(void **)CTX) {
-        func_021B658C(*(void **)CTX,&first);
-        func_021B7F78(p+0xc0,p+0xb0,0,(u8 *)&first,*(u8 **)(CTX+8),60);
+        COMPATIBLE_IRC_SYS_BuildProfile(*(void **)CTX,&first);
+        IRC_RESULT_PrintMessageWithNames(p+0xc0,p+0xb0,0,(u8 *)&first,*(u8 **)(CTX+8),60);
     }
-    handle=func_021B78D4(p);
-    tag=func_021B7CA0(p+0xb0);
-    font=func_021B7CA4(p+0xb0);
-    ((struct Obj03234 *)p)->f188=func_021B70DC(2,handle,0,13,13,2,tag,font,60);
-    func_021B728C(*(int *)&((struct Obj03234 *)p)->f188,0);
-    func_021B84B4(p+0x128,3,CTX[12],60);
+    handle=IRC_RESULT_GetScreenActorUnit(p);
+    tag=IRC_RESULT_GetFont(p+0xb0);
+    font=IRC_RESULT_GetPrintQueue(p+0xb0);
+    ((struct Obj03234 *)p)->f188=IRC_APPBAR_Create(2,handle,0,13,13,2,tag,font,60);
+    IRC_APPBAR_SetEnabled(*(int *)&((struct Obj03234 *)p)->f188,0);
+    IRC_RESULT_InitRankFade(p+0x128,3,CTX[12],60);
     if(*(void **)CTX) {
-        func_021B658C(*(void **)CTX,&second);
+        COMPATIBLE_IRC_SYS_BuildProfile(*(void **)CTX,&second);
         if(second.low && ((Data *)*(void **)(CTX+8))->low) ((struct Obj03234 *)p)->f19C=1;
         else ((struct Obj03234 *)p)->f19C=0;
-        ((struct Obj03234 *)p)->f1A0=func_021B8840(CTX[12],((struct Obj03234 *)p)->f19C);
+        ((struct Obj03234 *)p)->f1A0=IRC_RESULT_GetRewardQuantity(CTX[12],((struct Obj03234 *)p)->f19C);
     }
-    func_021B80BC(p,(unsigned int)func_021B80D8);
+    IRC_RESULT_SetState(p,(unsigned int)IRC_RESULT_StateStart);
     return 1;
 }

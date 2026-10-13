@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021D3D70 0x021D3D70 thumb ov093
+ *   BTL_CLIENT_GetClientId 0x021D3D70 thumb ov093
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
@@ -39,7 +39,7 @@ struct GfFont;
 struct Tcbl;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8 func_021D3D70(u8 *p);
+extern u8 BTL_CLIENT_GetClientId(u8 *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -53,7 +53,7 @@ struct Scene *BTLV_CORE_Create(void *a, void *b, u32 c, int d, u16 heap)
     p->a = a;
     p->b = b;
     p->c = c;
-    p->index = func_021D3D70(b);
+    p->index = BTL_CLIENT_GetClientId(b);
     p->state = 4;
     p->heap = heap;
     p->buffer = STRBUF_Create(0x200, heap);

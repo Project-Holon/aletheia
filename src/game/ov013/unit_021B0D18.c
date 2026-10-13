@@ -32,7 +32,7 @@
  *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
  *   VCT_AUDIO_TrackPacketTiming  0x021B1B94  arm  ov013
  *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   VCT_AUDIO_GetPendingHead  0x021B1488  arm  ov013
  *   VCT_AUDIO_GetPendingCount  0x021B1498  arm  ov013
  *   VCT_AUDIO_FindPending  0x021B14A8  arm  ov013
@@ -41,8 +41,8 @@
  *   VCT_AUDIO_ConvertPcm8ToPcm16  0x021B16B4  arm  ov013
  *   VCT_AUDIO_UnlinkPending  0x021B14F8  arm  ov013
  *   VCT_AUDIO_InsertReadyPacket  0x021B1810  arm  ov013
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
  *   func_02177044  0x02177044  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
@@ -70,7 +70,7 @@ extern void VCT_AUDIO_FlushReadyQueue(u32 slot);
 extern void VCT_AUDIO_FlushAllReadyQueues(void);
 extern int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet);
 extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern VctRxPacket *VCT_AUDIO_GetPendingHead(void);
 extern int VCT_AUDIO_GetPendingCount(unsigned int slot);
 extern VctRxPacket *VCT_AUDIO_FindPending(u32 slot);
@@ -79,8 +79,8 @@ extern void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int s
 extern void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sampleCount, int mode);
 extern u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet);
 extern int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot);
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 extern int func_02177044(unsigned char aid, void *buffer, int size);
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
@@ -285,7 +285,7 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
     }
 
     dst = &packet->buffer[sizeof(packet->buffer)] - (size - 0xc);
-    func_02082D44(frame->data, dst, size - 0xc);
+    MI_CpuCopy8(frame->data, dst, size - 0xc);
     packet->queueIndex = source->queueIndex;
     packet->codecMode = mode;
     packet->payload = dst;
@@ -326,7 +326,7 @@ int VCT_AUDIO_DecodePendingFrames(void)
     if (head == 0)
         return 0;
 
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     slot = head->queueIndex;
     count = VCT_AUDIO_GetPendingCount(slot);
     for (i = 0; i < count; i++) {
@@ -343,7 +343,7 @@ int VCT_AUDIO_DecodePendingFrames(void)
         if (VCT_AUDIO_InsertReadyPacket(packet, packet->queueIndex) < 0)
             VCT_POOL_FreeFrame(packet);
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return count;
 }
 

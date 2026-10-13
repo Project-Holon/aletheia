@@ -14,8 +14,8 @@
  * symbols:
  *   DC_InvalidateRange  0x020862B8  arm
  *   memcmp  0x020923F0  arm
- *   g_021DE654  0x021DE654  data
- *   g_021DA94E  0x021DA94E  data
+ *   gUsbapWork  0x021DE654  data
+ *   sUsbApSsid  0x021DA94E  data
  */
 
 #include "../arm9_sdk/libc/memcmp/string.h"
@@ -60,8 +60,8 @@ typedef struct {
 } MemUsbT;
 
 extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
-extern MemUsbT *g_021DE654;
-extern char g_021DA94E[9];
+extern MemUsbT *gUsbapWork;
+extern char sUsbApSsid[9];
 
 void func_021D0FCC(ScanCbT *prm)
 {
@@ -69,27 +69,27 @@ void func_021D0FCC(ScanCbT *prm)
     int i;
     int j;
 
-    if (g_021DE654->stack) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(g_021DE654->stack);
+    if (gUsbapWork->stack) {
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(gUsbapWork->stack);
         return;
     }
-    DC_InvalidateRange(g_021DE654->scanBuf, 1024);
+    DC_InvalidateRange(gUsbapWork->scanBuf, 1024);
     for (i = 0; i < prm->bssDescCount; i++) {
         info = prm->bssDesc[i];
-        if (memcmp(info->ssid, g_021DA94E, 8) != 0)
+        if (memcmp(info->ssid, sUsbApSsid, 8) != 0)
             continue;
         if (!(info->ssid[9] & 1))
             continue;
         for (j = 0; j < 16; j++) {
-            if (memcmp(info->bssid, g_021DE654->ap[j].bssid, 6) == 0) {
-                if (g_021DE654->ap[j].used)
+            if (memcmp(info->bssid, gUsbapWork->ap[j].bssid, 6) == 0) {
+                if (gUsbapWork->ap[j].used)
                     goto next;
-                if (g_021DE654->callback == 0) {
-                    g_021DE654->stack = 1;
+                if (gUsbapWork->callback == 0) {
+                    gUsbapWork->stack = 1;
                     return;
                 }
-                g_021DE654->callback(1);
+                gUsbapWork->callback(1);
                 return;
             }
         }

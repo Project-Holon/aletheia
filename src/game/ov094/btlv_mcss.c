@@ -18,9 +18,9 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02030EAC 0x02030EAC arm
  *   func_02030DA8  0x02030DA8  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_0203F0A8 0x0203F0A8 arm
- *   FX_Div_Alt  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   func_02030734  0x02030734  arm
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
@@ -710,13 +710,13 @@ extern void func_02030EAC(struct Node *n);
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern u32 func_0203F0A8(void);
 
-extern u32 FX_Div_Alt(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -1413,7 +1413,7 @@ void func_021FF0F8(Work_021FF0F8 *w, int key)
     MCSS_Del(w->obj, w->e[idx].h);
     w->e[idx].h = 0;
     if (w->e[idx].task != 0) {
-        func_020307B0((void *)TCBL_IsDeletePending(w->e[idx].task));
+        func_020307B0((void *)TCBL_GetTaskUserData(w->e[idx].task));
         func_02030EAC(w->e[idx].task);
         w->e[idx].task = 0;
     }
@@ -2604,9 +2604,9 @@ void func_0220074C(Work_0220074C *w, int i, int kind, VecFx32_vFE48 *p, VecFx32_
     case 3:
         o->f4c *= 2;
     case 2:
-        o->step.x = FX_Div_Alt(q->x, FX_INT_TO_FX32(n));
-        o->step.y = FX_Div_Alt(q->y, FX_INT_TO_FX32(n));
-        o->step.z = FX_Div_Alt(q->z, FX_INT_TO_FX32(n));
+        o->step.x = FX_Div(q->x, FX_INT_TO_FX32(n));
+        o->step.y = FX_Div(q->y, FX_INT_TO_FX32(n));
+        o->step.z = FX_Div(q->z, FX_INT_TO_FX32(n));
         if ((i & 1) && flip) {
             o->step.x *= -1;
             o->step.z *= -1;
@@ -2647,7 +2647,7 @@ void func_02200904(void *h, Ctx_021FFE48 *c)
 
 void func_02200990(void *h)
 {
-    Ctx_02200990 *c = (Ctx_02200990 *)TCBL_IsDeletePending(h);
+    Ctx_02200990 *c = (Ctx_02200990 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2681,7 +2681,7 @@ void func_022009C8(void *h, Ctx_vFE48 *c)
 
 void func_02200A50(void *h)
 {
-    Ctx_02200A50 *c = (Ctx_02200A50 *)TCBL_IsDeletePending(h);
+    Ctx_02200A50 *c = (Ctx_02200A50 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2721,7 +2721,7 @@ void func_02200A84(void *h, Ctx_02200A84 *c)
  */
 void func_02200B10(void *h)
 {
-    Ctx_02200B10 *c = (Ctx_02200B10 *)TCBL_IsDeletePending(h);
+    Ctx_02200B10 *c = (Ctx_02200B10 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2779,7 +2779,7 @@ void func_02200B48(void *h, Ctx_02200B48 *c)
 
 void func_02200BD4(void *h)
 {
-    Ctx_02200BD4 *c = (Ctx_02200BD4 *)TCBL_IsDeletePending(h);
+    Ctx_02200BD4 *c = (Ctx_02200BD4 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2813,7 +2813,7 @@ void func_02200C0C(void *h, Ctx_02200C0C *c)
 
 void func_02200C98(void *h)
 {
-    Ctx_02200C98 *c = (Ctx_02200C98 *)TCBL_IsDeletePending(h);
+    Ctx_02200C98 *c = (Ctx_02200C98 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2846,7 +2846,7 @@ void func_02200CD0(void *h, void *arg)
 
 void func_02200D30(void *h)
 {
-    Ctx_v0D30 *c = (Ctx_v0D30 *)TCBL_IsDeletePending(h);
+    Ctx_v0D30 *c = (Ctx_v0D30 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -2882,7 +2882,7 @@ void func_02200D68(void *o, char *q)
 
 void func_02200DE4(void *h)
 {
-    Ctx_v0DE4 *c = (Ctx_v0DE4 *)TCBL_IsDeletePending(h);
+    Ctx_v0DE4 *c = (Ctx_v0DE4 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -3002,7 +3002,7 @@ void func_02200E1C(void *task, void *arg)
  */
 void func_02201098(void *h)
 {
-    Ctx_v1098 *c = (Ctx_v1098 *)TCBL_IsDeletePending(h);
+    Ctx_v1098 *c = (Ctx_v1098 *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(((struct Obj06318 *)c)->f4) ^ 0xFFFFFFFF;
@@ -3061,7 +3061,7 @@ void func_022010D0(void *task, void *arg)
  */
 void func_022011FC(void *h)
 {
-    Ctx_022011FC *c = (Ctx_022011FC *)TCBL_IsDeletePending(h);
+    Ctx_022011FC *c = (Ctx_022011FC *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(((struct Obj06319 *)c)->f4) ^ 0xFFFFFFFF;
@@ -3099,7 +3099,7 @@ void func_02201234(void *o, char *q)
 
 void func_022012CC(void *h)
 {
-    Ctx_022012CC *c = (Ctx_022012CC *)TCBL_IsDeletePending(h);
+    Ctx_022012CC *c = (Ctx_022012CC *)TCBL_GetTaskUserData(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(c->key) ^ 0xFFFFFFFF;
@@ -3240,7 +3240,7 @@ void func_02201408(void *task, void *arg)
 
 void func_02201700(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((struct Obj21729 *)p)->f510 &= ~4;
 }
 

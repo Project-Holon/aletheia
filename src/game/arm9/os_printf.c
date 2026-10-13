@@ -1,7 +1,7 @@
 /*
  * file:     os_printf.c
  * unit:     yes
- * function: func_02084F40, func_02084F68, func_02084F80, OS_VSNPrintf
+ * function: OS_SPrintf, func_02084F68, func_02084F80, OS_VSNPrintf
  * address:  0x02084F40
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   OS_VSPrintf  0x02084F68  arm
- *   OS_VSNPrintf_Alt   0x02084FA8  arm
+ *   OS_VSNPrintf  0x02084FA8  arm
  *   STD_TVSNPrintf  0x0208D834  arm
  */
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
@@ -22,7 +22,6 @@
 typedef char *va_list;
 
 extern int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
-extern void OS_VSNPrintf_Alt(void *a0, int a1, int a2, int a3);
 extern int STD_TVSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
 int OS_SPrintf(char *dst, const char *fmt, ...);
 void func_02084F68(void *a0, int a1, int a2);
@@ -42,7 +41,7 @@ int OS_SPrintf(char *dst, const char *fmt, ...)
 
 void func_02084F68(void *a0, int a1, int a2)
 {
-    OS_VSNPrintf_Alt(a0, 0x7fffffff, a1, a2);
+    OS_VSNPrintf((char *)a0, 0x7fffffff, (const char *)a1, (void *)a2);
 }
 
 

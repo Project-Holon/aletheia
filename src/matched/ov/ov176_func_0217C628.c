@@ -33,7 +33,7 @@
  *   func_0217E1FC 0x0217E1FC thumb ov176
  *   func_0217E23C 0x0217E23C thumb ov176
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0200B078 0x0200B078 thumb
  *   func_0200E994 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
@@ -81,7 +81,7 @@ extern void func_0217D388(int *,int *);
 extern int func_0217E1FC(int,int);
 extern int func_0217E23C(char *,void **);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u32 func_0200E994(void *base, void *key);
 extern void GFL_USE_StopAllSe(void);
@@ -127,7 +127,7 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 13:func_0217D388(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(func_0217E1FC(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
-        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){func_02082D44(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
+        if(func_0217E23C(*(char * *)&((struct Obj00241 *)p)->fC,&out)){MI_CpuCopy8(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
     }
     case 15:
         if(((struct Obj24412 *)(*(u8 * *)&((struct Obj00241 *)p)->f1BC))->f40==((struct Obj24413 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C0))->f40){

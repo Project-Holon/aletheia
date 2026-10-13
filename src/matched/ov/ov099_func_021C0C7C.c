@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C7C
+ * function: WIFICLUB_DisableVoiceChat
  * address:  0x021C0C7C
  * packet:   pkt_ov099_021C0C7C
  * region:   ov099
@@ -27,4 +27,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void DWC_RAP_SetVchatEnabled(int);
-void func_021C0C7C(void) { DWC_RAP_SetVchatEnabled(0); }
+void WIFICLUB_DisableVoiceChat(void) { DWC_RAP_SetVchatEnabled(0); }

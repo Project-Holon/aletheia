@@ -1,5 +1,5 @@
 /*
- * function: func_021B80E4
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExitWindow
  * address: 0x021B80E4
  * packet: pkt_ov103_021B80E4
  * region: ov103
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec); extern void BMP_WIN_Delete(void *); extern void MI_CpuFill8(void *,int,u32);
-void func_021B80E4(u8 *p) {STRBUF_Delete(((struct Obj13732 *)p)->fC);BMP_WIN_Delete(((struct Obj13732 *)p)->f0);MI_CpuFill8(p,0,20);}
+void IRC_COMPATIBLE_TOUCH_TEST_ExitWindow(u8 *p) {STRBUF_Delete(((struct Obj13732 *)p)->fC);BMP_WIN_Delete(((struct Obj13732 *)p)->f0);MI_CpuFill8(p,0,20);}

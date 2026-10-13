@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF458",
+   "name": "DWC_ScDestroyReport",
    "address": "0x021DF458",
    "kind": "sdk",
    "region": "ov175",

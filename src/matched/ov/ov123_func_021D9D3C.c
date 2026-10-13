@@ -19,10 +19,10 @@
  *   func_020498F4 0x020498F4 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021D9F40 0x021D9F40 thumb ov123
  *   func_0207D63C 0x0207D63C arm
@@ -37,10 +37,10 @@ extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void MI_CpuFill8(void *, u8, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
-extern void func_020862F0(void *, int);
+extern void DWCi_ScreenDC_FlushRange(void *, int);
 extern void *func_020056A0(void *, void *, int);
 extern void func_021D9F40(void *, char *);
 extern void func_0207D63C(void *, int, int, int, int);
@@ -74,8 +74,8 @@ void func_021D9D3C(char *p)
     heap = *(u16 *)(p + 0x9e4);
     MI_CpuFill8(p + 8, 0, 0x970);
     allocated = func_02049F78(h, 2, (u32)&record, heap);
-    func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x10, 0x1e0);
-    func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x1f0, 0x1e0);
+    MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x10, 0x1e0);
+    MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x1f0, 0x1e0);
     func_020307B0(allocated);
     for (i = 0; i < 15; i++) {
         base1 = (u16 *)(p + 0x1f0);
@@ -99,7 +99,7 @@ void func_021D9D3C(char *p)
             }
         }
     }
-    func_020862F0(p + 0x1f0, 0x780);
+    DWCi_ScreenDC_FlushRange(p + 0x1f0, 0x780);
     *(u32 *)(p + 0xc) = 1;
     *(void **)(p + 8) = func_020056A0((void *)func_021D9F40, p + 8, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);

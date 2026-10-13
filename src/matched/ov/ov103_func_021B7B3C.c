@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B3C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_InitSprites
  * address: 0x021B7B3C
  * packet: pkt_ov103_021B7B3C
  * region: ov103
@@ -49,7 +49,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int),CLACT_SetActorBgPriority(void *,u32),CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct State { void *bank; u32 palette, chars, other; void *actors[33]; };
-void func_021B7B3C(struct State *p,const void *config,u16 heap)
+void IRC_COMPATIBLE_TOUCH_TEST_InitSprites(struct State *p,const void *config,u16 heap)
 {
     void *arc;
     int i;

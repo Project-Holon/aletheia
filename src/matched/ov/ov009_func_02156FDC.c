@@ -16,8 +16,8 @@
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
  *   func_02060F98  0x02060F98  arm  arm9
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02060E30  0x02060E30  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  */
@@ -45,8 +45,8 @@ extern char d_021A1C7C[];
 
 typedef unsigned char  u8;
 extern u8 func_02060F98(char *p);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 h);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 h);
 struct ExpHeap;
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
@@ -60,16 +60,16 @@ void DWC_RAPCOMMON_Free(u32 a, void *p, int b)
     }
     if (func_02060F98(p) == 0xEA) {
         if (_pRapHeap->f8 != 0) {
-            h = func_02087988();
+            h = OS_DisableInterrupts();
             func_02060E30((struct ExpHeap *)_pRapHeap->f8, p);
-            func_0208799C(h);
+            OS_RestoreInterrupts(h);
             _pRapHeap->f14--;
             return;
         }
         GFL_NET_STATE_SetError(0, 0, 0, 0x3EE);
         return;
     }
-    h = func_02087988();
+    h = OS_DisableInterrupts();
     func_02060E30((struct ExpHeap *)_pRapHeap->f0, p);
-    func_0208799C(h);
+    OS_RestoreInterrupts(h);
 }

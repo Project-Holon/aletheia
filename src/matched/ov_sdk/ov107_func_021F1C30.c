@@ -13,14 +13,14 @@
  *
  * symbols:
  *   g_021F6FA0  0x021F6FA0  data
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_021F2EE8  0x021F2EE8  arm  ov107
  */
 
 extern char *g_021F6FA0;
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_021F2EE8(unsigned short child_aid);
 
 int func_021F1C30(unsigned short child_aid, int ack)
@@ -29,7 +29,7 @@ int func_021F1C30(unsigned short child_aid, int ack)
     int state;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
 
     switch (ack) {
     case 0:
@@ -49,16 +49,16 @@ int func_021F1C30(unsigned short child_aid, int ack)
         req = 5;
         break;
     default:
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     if (g_021F6FA0 && func_021F2EE8(child_aid)) {
         if (state == ((int *)(g_021F6FA0 + 0x14E8))[child_aid - 1]) {
             *(unsigned short *)(g_021F6FA0 + 0x1754 + (child_aid - 1) * 2) = req;
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             return 1;
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 0;
 }

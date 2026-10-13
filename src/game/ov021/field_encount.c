@@ -21,23 +21,23 @@
  *   func_020307B0  0x020307B0  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02012934  0x02012934  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02018598  0x02018598  thumb
  *   func_0201296C  0x0201296C  thumb
- *   func_0200D58C  0x0200D58C  thumb
+ *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
  *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   func_0209C2B0  0x0209C2B0  arm
  *   GPOWER_ApplyEncountRate  0x02010FB0  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02005728  0x02005728  thumb
- *   func_0200D488  0x0200D488  thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D4B8  0x0200D4B8  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryField  0x0200D4B8  thumb
  *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
  *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
  *   func_020056EC  0x020056EC  thumb
@@ -48,7 +48,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   sSwarmTable  0x021D8DE8  data
- *   func_0200D454  0x0200D454  thumb
+ *   MOVE_POKEMON_SAVE_GetStartLocation  0x0200D454  thumb
  *   func_02019C90  0x02019C90  thumb
  *   sSlotPickFuncs  0x021D8DD8  data
  *   sHeldItemWeights  0x021D8DCC  data
@@ -220,22 +220,22 @@ extern u8 func_02008550(const struct MyStatus *myStatus);
 extern u32 func_020307B0(void *memory);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Party *func_02012934(const struct GameData *gameData);
-extern struct EncountSave *func_0200D418(struct SaveControl *saveControl);
+extern struct EncountSave *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 func_02017E1C(struct PokemonParam *pp, u32 id, u32 arg);
 extern u8 func_02018598(struct PokemonParam *pp);
 extern struct EventWork *func_0201296C(const struct GameData *gameData);
-extern u32 func_0200D58C(struct EncountSave *encountSave);
+extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct EncountSave *encountSave);
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
 extern u32 func_0209C2B0(u32 numerator, u32 denominator);
 extern u32 GPOWER_ApplyEncountRate(u32 rate);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern u8 func_0200D488(struct EncountSave *encountSave, u32 index);
-extern struct Roamer *func_0200D4AC(struct EncountSave *encountSave, u32 index);
-extern u32 func_0200D4B8(const struct Roamer *roamer, u32 field);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct EncountSave *encountSave, u32 index);
+extern struct Roamer *MOVE_POKEMON_SAVE_GetEntry(struct EncountSave *encountSave, u32 index);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct Roamer *roamer, u32 field);
 extern u32 func_02005728(u32 range);
 extern struct FieldWfbcPeople *FIELD_WFBC_GetPeople(struct FieldWfbc *wfbc, u32 npcId);
 extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(struct FieldWfbcPeople *people);
@@ -246,7 +246,7 @@ extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 extern void func_02018A00(struct PokemonParam *pp, u32 species, u32 form);
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 extern void POKE_PERSONAL_Delete(struct PersonalData *personal);
-extern u8 func_0200D454(struct EncountSave *encountSave);
+extern u8 MOVE_POKEMON_SAVE_GetStartLocation(struct EncountSave *encountSave);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 func_02019C90(u16 species, u16 form, u32 field);
@@ -365,7 +365,7 @@ void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameDat
     param->encountType = encountType;
     param->triggerMode = triggerMode;
     param->gameData = gameData;
-    param->encountSave = func_0200D418(saveControl);
+    param->encountSave = MOVE_POKEMON_SAVE_GetBlock(saveControl);
     if (encountType == 5 || encountType == 6)
         param->isFishing = 1;
     param->myStatus = func_02012944(gameData);
@@ -381,7 +381,7 @@ void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameDat
         FIELD_ENCOUNT_ApplyLeadAbility(param, weather);
     }
     param->swarmEnabled = ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960);
-    if (func_0200D58C(func_0200D418(saveControl)) == 0)
+    if (MOVE_POKEMON_SAVE_IsCooldownDone(MOVE_POKEMON_SAVE_GetBlock(saveControl)) == 0)
         param->repelActive = 1;
     if (param->triggerMode == 2) {
         param->ignoreRepel = 1;
@@ -458,12 +458,12 @@ struct Roamer *FIELD_ENCOUNT_PickRoamer(EncountData *encountData, FieldEncountPa
     struct Roamer *roamer;
 
     for (i = 0; i < 2; i++) {
-        if (func_0200D488(param->encountSave, i) == 0)
+        if (MOVE_POKEMON_SAVE_IsEntryActive(param->encountSave, i) == 0)
             continue;
-        roamer = func_0200D4AC(param->encountSave, i);
-        if (func_0200D4B8(roamer, 1) != zoneId)
+        roamer = MOVE_POKEMON_SAVE_GetEntry(param->encountSave, i);
+        if (MOVE_POKEMON_SAVE_GetEntryField(roamer, 1) != zoneId)
             continue;
-        if (FIELD_ENCOUNT_IsRepelled(param, func_0200D4B8(roamer, 6)) != 0)
+        if (FIELD_ENCOUNT_IsRepelled(param, MOVE_POKEMON_SAVE_GetEntryField(roamer, 6)) != 0)
             continue;
         candidates[count++] = roamer;
     }
@@ -554,14 +554,14 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
  */
 void FIELD_ENCOUNT_InitRoamerPokemon(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer)
 {
-    u16 species = func_0200D4B8(roamer, 4);
-    u8 level = func_0200D4B8(roamer, 6);
-    u32 ivs = func_0200D4B8(roamer, 2);
+    u16 species = MOVE_POKEMON_SAVE_GetEntryField(roamer, 4);
+    u8 level = MOVE_POKEMON_SAVE_GetEntryField(roamer, 6);
+    u32 ivs = MOVE_POKEMON_SAVE_GetEntryField(roamer, 2);
 
-    POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, func_0200D4B8(roamer, 3));
-    POKE_TOOL_SetPartyValue(pp, 0x70, func_0200D4B8(roamer, 10));
-    POKE_TOOL_SetPartyValue(pp, 0x9D, func_0200D4B8(roamer, 7));
-    POKE_TOOL_SetPartyValue(pp, 0xA0, func_0200D4B8(roamer, 5));
+    POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, MOVE_POKEMON_SAVE_GetEntryField(roamer, 3));
+    POKE_TOOL_SetPartyValue(pp, 0x70, MOVE_POKEMON_SAVE_GetEntryField(roamer, 10));
+    POKE_TOOL_SetPartyValue(pp, 0x9D, MOVE_POKEMON_SAVE_GetEntryField(roamer, 7));
+    POKE_TOOL_SetPartyValue(pp, 0xA0, MOVE_POKEMON_SAVE_GetEntryField(roamer, 5));
     POKE_TOOL_RecalcParam(pp);
 }
 
@@ -652,7 +652,7 @@ const SwarmEntry *FIELD_ENCOUNT_GetSwarmEntry(struct GameData *gameData)
 
     if (ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960) == 0)
         return 0;
-    index = func_0200D454(func_0200D418(saveControl));
+    index = MOVE_POKEMON_SAVE_GetStartLocation(MOVE_POKEMON_SAVE_GetBlock(saveControl));
     if (index >= 0x11)
         index = 0;
     return &sSwarmTable[index];

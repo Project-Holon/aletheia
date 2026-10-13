@@ -1,5 +1,5 @@
 /*
- * function: func_021E191C
+ * function: DWCi_GdbShutdownGsCore
  * address:  0x021E191C
  * packet:   pkt_021E191C
  * region:   ov175
@@ -23,7 +23,7 @@ extern void func_0217CD94(void);
 extern void func_0217CCCC(unsigned int theMS);
 extern int  func_0217CE1C(void);
 
-void func_021E191C(void)
+void DWCi_GdbShutdownGsCore(void)
 {
     func_0217CD94();
     func_0217CCCC(0);

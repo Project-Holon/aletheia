@@ -11,7 +11,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
  */
@@ -34,7 +34,7 @@ typedef struct {
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void UNION_COMM_ClearPartnerSelects(u8 *p);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -46,7 +46,7 @@ void UNION_COMM_InitConnectInfo(Work *w, u8 *p)
     MI_CpuFill8(p, 0, 0x4c);
     UNION_COMM_ClearPartnerSelects(p);
     r = (Rec *)(p + 0x1c);
-    func_02087C6C(r);
+    OS_GetMacAddress(r);
     r->f6 = func_02008554(w->head->f0);
     r->b0 = (u32)func_02008550(w->head->f0);
     r->b1 = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDE0
+ * function: PMS_WORDLIST_GetScrollDelta
  * address:  0x021BEDE0
  * packet:   pkt_ov110_021BEDE0
  * region:   ov110
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021BEDE0(u8 *p)
+u32 PMS_WORDLIST_GetScrollDelta(u8 *p)
 {
     return ((struct Obj22381 *)p)->f8;
 }

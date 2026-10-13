@@ -1,5 +1,5 @@
 /*
- * function: func_0219D8E0
+ * function: SBEngineHaltUpdates
  * address:  0x0219D8E0
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,14 @@
  * Prepares the two blocks inside the argument.
  *
  * symbols:
- *   func_0219D5B0  0x0219D5B0  arm  ov009
+ *   FIFOClear  0x0219D5B0  arm  ov009
  */
 
-extern void func_0219D5B0(int *p);
+extern void FIFOClear(int *p);
 
-void func_0219D8E0(char *p)
+void SBEngineHaltUpdates(char *p)
 {
-    func_0219D5B0((int *)(p + 0x14));
-    func_0219D5B0((int *)(p + 8));
+    FIFOClear((int *)(p + 0x14));
+    FIFOClear((int *)(p + 8));
 }
 

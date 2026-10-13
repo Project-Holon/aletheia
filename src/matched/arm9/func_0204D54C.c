@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Tear the actor down and release the sub-object at +0x40: CLACT_ResetCellAnim on
- * the actor itself, then NNSi_G2dMCAnimUpdateBank on the tail.
+ * the actor itself, then NNSi_G2dSetMCInstanceCurrentFrameZero on the tail.
  *
  * Both call sites resolve from `matched` witnesses, which is what this file
  * waited for while it sat parked in src/pending/ with both PC24s wildcarded.
@@ -26,17 +26,17 @@
  *
  * symbols:
  *   CLACT_ResetCellAnim  0x0204D52C  arm
- *   NNSi_G2dMCAnimUpdateBank  0x02064C10  arm
+ *   NNSi_G2dSetMCInstanceCurrentFrameZero  0x02064C10  arm
  */
 
 typedef unsigned char u8;
 
 extern void CLACT_ResetCellAnim(void *p);
 struct Obj02064C10;
-extern void NNSi_G2dMCAnimUpdateBank(struct Obj02064C10 *x);
+extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct Obj02064C10 *x);
 
 void CLACT_ResetVramAnim(void *p)
 {
     CLACT_ResetCellAnim(p);
-    NNSi_G2dMCAnimUpdateBank((struct Obj02064C10 *)((u8 *)p + 0x40));
+    NNSi_G2dSetMCInstanceCurrentFrameZero((struct Obj02064C10 *)((u8 *)p + 0x40));
 }

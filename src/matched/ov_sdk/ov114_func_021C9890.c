@@ -1,5 +1,5 @@
 /*
- * function: func_021C9890
+ * function: my_randinit
  * address:  0x021C9890
  * packet:   pkt_021B9500
  * region:   ov114
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-void func_021C9890(u32 v)
+void my_randinit(u32 v)
 {
     *(u32 *)0x021D4228 = v | ((u32)v << 16);
 }

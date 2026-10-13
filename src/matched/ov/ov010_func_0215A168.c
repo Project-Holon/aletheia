@@ -16,8 +16,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   EVENT_POKE_STATUS_PokeSelectEvent  0x0215A214  thumb  ov010
  *   d_021728CC  0x021728CC  data
@@ -38,8 +38,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void EVENT_POKE_STATUS_PokeSelectEvent(void);
 extern const char d_021728CC[];
@@ -50,7 +50,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int a, int b, int c)
 {
     void *h = GAMESYSTEM_GetGameData((const struct Ctx *)a);
     void *l = GAME_DATA_GetMyParty(h);
-    int m = (int)func_0200CA1C(h);
+    int m = (int)ZUKAN_SAVE_GetFromGameData(h);
     u32 *p = func_02030734(4, 0x98, 1, d_021728CC, 0x90);
     u32 *s;
     void *r;
@@ -66,7 +66,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int a, int b, int c)
     ((u8 *)s)[0xd] = 1;
     ((u8 *)s)[0xe] = POKEPARTY_GetCount(l);
     ((u8 *)s)[0x10] = 0;
-    s[0x18 / 4] = func_0200CA38((struct Blk37 *)m);
+    s[0x18 / 4] = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)m);
     s[0x20 / 4] = 0;
     r = func_020122C0((void *)a, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     q = func_020124E8(r);

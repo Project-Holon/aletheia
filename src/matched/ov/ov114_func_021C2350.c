@@ -1,5 +1,5 @@
 /*
- * function: func_021C2350
+ * function: ghttpCleanupRootCAList
  * address:  0x021C2350
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1210  0x021C1210  arm  ov114
+ *   ghiEncryptorCleanupRootCAList  0x021C1210  arm  ov114
  *
  *
- * Tail-call thunk to func_021C1210 via `ldr ip,pool; bx ip`.
+ * Tail-call thunk to ghiEncryptorCleanupRootCAList via `ldr ip,pool; bx ip`.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C1210(void);
+extern void ghiEncryptorCleanupRootCAList(void);
 
-void func_021C2350(void)
+void ghttpCleanupRootCAList(void)
 {
-    func_021C1210();
+    ghiEncryptorCleanupRootCAList();
 }

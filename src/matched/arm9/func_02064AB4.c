@@ -1,5 +1,5 @@
 /*
- * function: func_02064AB4
+ * function: NNS_G2dSetMCAnimationCurrentFrame
  * address:  0x02064AB4
  * packet:   pkt_02064934
  * region:   arm9
@@ -28,11 +28,11 @@
  *   func_020640DC  0x020640DC  arm
  *   func_02064120  0x02064120  arm
  *   func_02064100  0x02064100  arm
- *   func_020643CC  0x020643CC  arm
+ *   NNSi_G2dSetMCDataToMCInstanceImpl  0x020643CC  arm
  *
- * Same body as func_020649D4 from the header test down, but with a guard
+ * Same body as NNS_G2dTickMCAnimation from the header test down, but with a guard
  * that returns early instead of the missed-lookup arm, and no call to
- * func_02064934.  The early-out is ONE expression: the two tests are
+ * NNSi_G2dTickMCInstance.  The early-out is ONE expression: the two tests are
  * predicated onto a single `popeq` (`ldrne`/`cmpne`/`popeq`), which is what
  * makes it a `||` inside a single `if` rather than two `if`s (two separate
  * guards would each need their own `pop`).
@@ -55,9 +55,9 @@ extern void func_020640DC(char *self, int a, int b);
 extern void func_02064120(char *self, int a, int b);
 struct Obj02064100;
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
-extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
+extern void NNSi_G2dSetMCDataToMCInstanceImpl(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
-void func_02064AB4(char *self, unsigned int i)
+void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i)
 {
     char *p;
     int kind;
@@ -81,5 +81,5 @@ void func_02064AB4(char *self, unsigned int i)
         func_020640DC(self + 0x48, ((struct Obj03475 *)p)->fC, ((struct Obj03475 *)p)->fE);
         break;
     }
-    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)item, ((struct Obj07024 *)self)->f30);
+    NNSi_G2dSetMCDataToMCInstanceImpl((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)item, ((struct Obj07024 *)self)->f30);
 }

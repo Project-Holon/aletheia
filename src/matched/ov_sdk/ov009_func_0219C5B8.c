@@ -1,5 +1,5 @@
 /*
- * function: func_0219C5B8
+ * function: qr2_process_ip_verify
  * address:  0x0219C5B8
  * packet:   pkt_ov009_0219C5B8
  * region:   ov009
@@ -94,7 +94,7 @@ extern int rand(void);
 			) \
 	)
 
-int func_0219C5B8(qr2_implementation_s *qrec, struct qr2_buffer_s *buf, SOCSockAddrIn *sender)
+int qr2_process_ip_verify(qr2_implementation_s *qrec, struct qr2_buffer_s *buf, SOCSockAddrIn *sender)
 {
 	int i = 0;
 	unsigned int now = current_time();

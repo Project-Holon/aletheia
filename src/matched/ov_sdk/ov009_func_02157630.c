@@ -1,5 +1,5 @@
 /*
- * function: func_02157630
+ * function: CPS_SetScavengerCallback
  * address:  0x02157630
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A826C[];
 
-void func_02157630(int v)
+void CPS_SetScavengerCallback(int v)
 {
     *(int *)(g_021A826C + 0x34) = v;
 }

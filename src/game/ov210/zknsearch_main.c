@@ -71,7 +71,7 @@
  *   BGWINFRM_Delete  0x0202CA0C  thumb
  *   func_02030734 0x02030734 arm
  *   func_02049EF4 0x02049EF4 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
  *   d_021C0E80 0x021C0E80 data a4
  *   func_02041090 0x02041090 arm
@@ -90,7 +90,7 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0204363C  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
- *   func_0200CA70  0x0200CA70  thumb
+ *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_021BC3D4  0x021BC3D4  thumb  ov210
  *   func_021BC294  0x021BC294  thumb  ov210
@@ -432,7 +432,7 @@ extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern int GAME_DATA_CheckSaveFlag(int, int);
@@ -446,7 +446,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void func_0204363C(u32 a);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern u32 func_0200CA70(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_021BC3D4(void);
 extern void func_021BC294(u8 *p);
@@ -1134,7 +1134,7 @@ void func_021BCBB8(char *p)
     ((struct Obj05546 *)p)->f2BC = func_02030734(123, 384, 0, d_021C0E80, 0x3b0);
     h = func_020490F4(159, 0x807b);
     blob = func_02049EF4(h, 91, 0, (void **)&out, 0x807b);
-    func_02082A60((char *)out + 12, ((struct Obj05546 *)p)->f2BC, 384);
+    MIi_CpuCopy16((char *)out + 12, ((struct Obj05546 *)p)->f2BC, 384);
     func_020307B0(blob);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -1425,7 +1425,7 @@ u32 func_021BCF8C(u8 *p)
     m = -16;
     func_0207D534((volatile u16 *)(ra + 0x1c), m);
     func_0207D534((volatile u16 *)(rb + 0x1c), m);
-    if (func_0200CA70((struct Blk37 *)(((struct Obj25597 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f4)) == 1) {
+    if (ZUKAN_SAVE_GetViewMode((struct Blk37 *)(((struct Obj25597 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f4)) == 1) {
         ((struct Obj25599 *)(*(u8 * *)&((struct Obj25598 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = z;
     } else {
         ((struct Obj25601 *)(*(u8 * *)&((struct Obj25600 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = 1;

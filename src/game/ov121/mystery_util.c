@@ -175,7 +175,7 @@
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
@@ -771,7 +771,7 @@ extern u32 MYSTERY_DATA_HasCardSpace(void *p);
 extern void MYSTERY_DATA_SaveStart(void *a0, int a1);
 extern int MYSTERY_DATA_SaveMain(void *a0, int a1);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *,int);
+extern void MI_CpuCopy8(const void *, void *,int);
 extern s32_021DCFC8 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void CLACT_SetActorObjMode(void *actor, u32 value);
 extern int POKEGRA_OpenHandle(int a0);
@@ -3812,8 +3812,8 @@ void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
     MI_CpuFill8(p,0,0x60);
     allocation=func_02049F78(arc,id,(u32)(&res),heap);
     data=*(char * *)&((struct Obj22906 *)res)->fC;
-    func_02082D44(data+index*32,p+0x40,32);
-    func_02082D44(data+other*32,p+0x20,32);
+    MI_CpuCopy8(data+index*32,p+0x40,32);
+    MI_CpuCopy8(data+other*32,p+0x20,32);
     func_020307B0(allocation);
 }
 

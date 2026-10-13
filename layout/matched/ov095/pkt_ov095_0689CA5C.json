@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0689CA5C",
-    "func_0689CA7C",
-    "func_0689CA8C",
-    "func_0689CA98"
+    "BTL_ID_IsCopycatExcludedMove",
+    "BTL_ID_IsMimicExcludedMove",
+    "BTL_ID_GetMetronomeExcludedMoves",
+    "BTL_PICK_InitSlotChoices"
+   ],
+   "addresses": [
+    "0x0689CA5C",
+    "0x0689CA7C",
+    "0x0689CA8C",
+    "0x0689CA98"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,7 +1,7 @@
 /*
  * file:     os_reset.c
  * unit:     yes
- * function: func_02087B78, func_02087BCC
+ * function: func_02087B78, OS_ResetSystem
  * address:  0x02087B78
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -58,7 +58,7 @@ extern void MI_StopAllNDma(void);
 extern void OSi_SendToPxi(u16 data);
 extern void OSi_DoResetSystem(void);
 void func_02087B78(void);
-void func_02087BCC(u32 parameter);
+void OS_ResetSystem(u32 parameter);
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern u16 OSi_IsInitReset;
 
@@ -83,7 +83,7 @@ void func_02087B78(void)
 /*
  * sdk:      OS_ResetSystem (os_reset.o)
  */
-void func_02087BCC(u32 parameter)
+void OS_ResetSystem(u32 parameter)
 {
     if (*(u16 *)0x02FFFC40 == 2
         || (OS_IsRunOnTwl() == 1 && (*(u32 *)0x02FFE234 & 4))) {

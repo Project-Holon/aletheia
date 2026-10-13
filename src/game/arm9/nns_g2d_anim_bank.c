@@ -280,7 +280,7 @@ void func_02062688(volatile struct AnimBank_02062634 *bank)
  * (the NANR file's 'KNBA' block body), or NULL when idx is out of range.
  * The `lsl #4` pins the sequence stride at 16 bytes.
  *
- * This is the lookup a multi-cell node's own u16 index feeds: func_020643CC
+ * This is the lookup a multi-cell node's own u16 index feeds: NNSi_G2dSetMCDataToMCInstanceImpl
  * passes the node's +0x00 field straight in, so a node names a sequence, and
  * the sequence's current frame is what names the cell to draw.
  *
@@ -295,7 +295,7 @@ void func_02062688(volatile struct AnimBank_02062634 *bank)
  *   sequence  +0x00  u16 numFrames
  *             +0x02  u16 loopStartFrameIdx
  *             +0x04  u32 animType (low byte 0/1/2 selects the frame-data
- *                                  record shape, see func_0206419C)
+ *                                  record shape, see NNSi_G2dRefreshCellAnimation)
  *             +0x08  u32 playMode
  *             +0x0C  offset -> this sequence's own run of frame entries,
  *                              relative to the bank's +0x08 array

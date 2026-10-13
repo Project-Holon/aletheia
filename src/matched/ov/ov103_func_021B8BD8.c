@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BD8
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExchangeReceiveCallback
  * address: 0x021B8BD8
  * packet: pkt_ov103_021B8BD8
  * region: ov103
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-void func_021B8BD8(u32 a, u32 b, u32 c, u8 *p, struct Entry *e) { if(e == GFL_NET_HANDLE_GetCurrentHandle()) { if(a != GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22211 *)p)->f290=1; } }
+void IRC_COMPATIBLE_TOUCH_TEST_ExchangeReceiveCallback(u32 a, u32 b, u32 c, u8 *p, struct Entry *e) { if(e == GFL_NET_HANDLE_GetCurrentHandle()) { if(a != GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22211 *)p)->f290=1; } }

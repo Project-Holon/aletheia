@@ -1,5 +1,5 @@
 /*
- * function: func_021D53DC
+ * function: DWCi_QUElForm
  * address:  0x021D53DC
  * packet:   pkt_ov016_021D53DC
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_QUElForm (libdwcutil.TWL.HYB.a(deque.o))
  *
  * symbols:
- *   func_021D6414  0x021d6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021d6414  arm  ov016
  */
 
 typedef unsigned char u8;
@@ -25,13 +25,13 @@ typedef struct tagQCB {
     void *data[1];
 } QCB;
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 
-void *func_021D53DC(long size)
+void *DWCi_QUElForm(long size)
 {
     QCB *qcb;
 
-    qcb = (QCB *)func_021D6414((size + 1) * 4 + 8, 4);
+    qcb = (QCB *)DWCi_HEAPlAllocEx((size + 1) * 4 + 8, 4);
     qcb->size = size + 1;
     qcb->head = 0;
     qcb->tail = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE680
+ * function: NHTTP_CleanupAsync
  * address:  0x021BE680
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA988  0x021BA988  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
+ *   NHTTPi_CleanupAsync  0x021BA988  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
  *
  *
  * Tears the module down, forwarding `a` as the teardown callback.
@@ -20,10 +20,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern u8 *func_021BEF08(void);
-extern void func_021BA988(u8 *, int);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void NHTTPi_CleanupAsync(u8 *, int);
 
-void func_021BE680(int a)
+void NHTTP_CleanupAsync(int a)
 {
-    func_021BA988(func_021BEF08(), a);
+    NHTTPi_CleanupAsync(NHTTPi_GetSystemInfoP(), a);
 }

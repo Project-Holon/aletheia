@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F88
+ * function: BTL_CLIENT_StopCounterReplay
  * address: 0x021D3F88
  * packet: pkt_ov093_021D3F88
  * region: ov093
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 struct S { u8 a,b; u8 bit:1; u8 rest:7; };
-void func_021D3F88(struct S *p) { p->a=0; p->bit=0; }
+void BTL_CLIENT_StopCounterReplay(struct S *p) { p->a=0; p->bit=0; }

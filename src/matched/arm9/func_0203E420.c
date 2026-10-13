@@ -18,7 +18,7 @@
  *
  * symbols:
  *   gNetIrcWirelessLink     0x021469F0  data
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 #include "../include/G_Ctx.h"
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern struct Ctx *gNetIrcWirelessLink;
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *arg)
 {
@@ -37,6 +37,6 @@ void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *arg)
     if (p == 0)
         return 0;
     r = p->fn_18(arg);
-    func_02082D44(r, (u8 *)p + 0xB4, 0x4C);
+    MI_CpuCopy8(r, (u8 *)p + 0xB4, 0x4C);
     return (u8 *)p + 0x90;
 }

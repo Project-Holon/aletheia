@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AC8
+ * function: PMS_SELECT_GRAPHIC_OpenRowMenu
  * address: 0x021C0AC8
  * packet: pkt_ov110_021C0AC8
  * region: ov110
@@ -14,14 +14,14 @@
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   d_021C3C94 0x021C3C94 data ov110
+ *   gPmsSelectGraphicMenuTextIds 0x021C3C94 data ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Entry { void *str; u16 flag; u16 pad; u32 term; } Entry;
 typedef struct Config { u32 size; u8 flag; u8 pad[3]; void *target; u32 mode; u8 x, y, z, w; } Config;
-extern const u8 d_021C3C94[];
+extern const u8 gPmsSelectGraphicMenuTextIds[];
 struct MsgBank;
 struct TaskMenu;
 struct TaskMenuTmpl;
@@ -29,14 +29,14 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void STRBUF_Delete(struct U16Vec *vec);
-int func_021C0AC8(void *parent, void *bank, u16 size)
+int PMS_SELECT_GRAPHIC_OpenRowMenu(void *parent, void *bank, u16 size)
 {
     Config c;
     Entry e[3];
     u32 i;
     int r;
     for (i = 0; i < 3; i++) {
-        e[i].str = func_02045EC0(bank, d_021C3C94[i]);
+        e[i].str = func_02045EC0(bank, gPmsSelectGraphicMenuTextIds[i]);
         e[i].flag = 0x39E3;
         e[i].term = 0;
     }

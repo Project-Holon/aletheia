@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02184200  0x02184200  arm   ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_02184208  0x02184208  arm   ov009
  *   func_0209477C  0x0209477C  arm
  *   func_0217EAB0  0x0217EAB0  arm   ov009
@@ -44,7 +44,7 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern int func_02184200(const int *p);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void *func_02184208(void *array, int n);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
@@ -90,7 +90,7 @@ int func_0218DA40(void **connection, char **buffer)
     char keysHeader[64];
 
     aLength = func_02184200(iconnection->extendedInfoKeys);
-    func_02084F40(keysHeader, g_021A4DB8, aLength);
+    OS_SPrintf(keysHeader, g_021A4DB8, aLength);
 
     for (i = 0; i < aLength; i++) {
         GPIKey *aKey = (GPIKey *)func_02184208(iconnection->extendedInfoKeys, i);
@@ -106,7 +106,7 @@ int func_0218DA40(void **connection, char **buffer)
         return 1;
     }
 
-    bytesWritten = func_02084F40(*buffer, g_021A4DF0, keysHeader);
+    bytesWritten = OS_SPrintf(*buffer, g_021A4DF0, keysHeader);
     tempPoint = *buffer + bytesWritten;
 
     for (i = 0; i < aLength; i++) {

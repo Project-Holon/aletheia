@@ -19,7 +19,7 @@
  *           zero in r4/r2 the other way round and cost 3 bytes at +0x0080.
  *
  * symbols:
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  */
 
 typedef unsigned char u8;
@@ -47,7 +47,7 @@ typedef struct {
 
 enum SegType { SEG_A, SEG_B, SEG_C };
 
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 
 
 void MBi_SetSegmentInfo(const RomHeader *hdr, enum SegType *list, SegInfo *seg, u32 *child_recv)
@@ -64,7 +64,7 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, enum SegType *list, SegInfo *seg, 
             seg->recv_addr = seg->load_addr;
             seg->target = 0;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
         break;
     case SEG_B: {
@@ -91,7 +91,7 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, enum SegType *list, SegInfo *seg, 
             error_flag = 1;
         }
         if (error_flag == 1)
-            func_02088234();
+            OS_Terminate();
         seg->size = romRegp->size;
         seg->load_addr = romRegp->ram_address;
         if (!reload_flag) {

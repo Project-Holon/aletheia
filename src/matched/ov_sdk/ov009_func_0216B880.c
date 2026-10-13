@@ -16,8 +16,8 @@
  *   g_021AA880  0x021AA880  data
  *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0217603C  0x0217603C  arm  ov009
- *   func_0217637C  0x0217637C  arm  ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
@@ -26,8 +26,8 @@ extern struct DwcGlobal g_021AA878;
 extern unsigned char g_021AA880[];
 extern int DWCi_IsGetAIDValid(void);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern int func_0217603C(void);
-extern unsigned char *func_0217637C(int index);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern unsigned char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 
 int DWC_GetAIDList(unsigned char **out)
 {
@@ -37,9 +37,9 @@ int DWC_GetAIDList(unsigned char **out)
         return 0;
     }
     MI_CpuFill8(g_021AA880, 0, 0x20);
-    for (i = 0; i < func_0217603C(); i++) {
-        g_021AA880[i] = func_0217637C(i)[0x16];
+    for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
+        g_021AA880[i] = DWCi_NodeInfoList_GetNodeInfoForIndex(i)[0x16];
     }
     *out = g_021AA880;
-    return func_0217603C();
+    return DWCi_NodeInfoList_GetCount();
 }

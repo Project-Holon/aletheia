@@ -1,5 +1,5 @@
 /*
- * function: func_0689D5FC
+ * function: BTL_POSPOKE_GetPokeIdAtPos
  * address: 0x0689D5FC
  * packet: pkt_ov095_0689D5FC
  * region: ov095
@@ -16,4 +16,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_0689D5FC(u8 *p, int i) { return ((u8 *)((u32)p + (u32)i * 3u))[2]; }
+int BTL_POSPOKE_GetPokeIdAtPos(u8 *p, int i) { return ((u8 *)((u32)p + (u32)i * 3u))[2]; }

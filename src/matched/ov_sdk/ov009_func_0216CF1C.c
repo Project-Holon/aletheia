@@ -13,22 +13,22 @@
  *
  * symbols:
  *   DWC_Free                0x0205A1B0  arm
- *   func_0216FAD4           0x0216FAD4  arm  ov009
+ *   DWCi_GetDefaultMatchFilter           0x0216FAD4  arm  ov009
  *   func_0209477C           0x0209477C  arm
  *   DWC_Alloc               0x0205A16C  arm
- *   func_0216EB68           0x0216EB68  arm  ov009
+ *   DWCi_StopMatch           0x0216EB68  arm  ov009
  *   MI_CpuCopy8             0x02082D44  arm
- *   func_0216F5FC           0x0216F5FC  arm  ov009
+ *   DWCi_SetMatchCommonParam           0x0216F5FC  arm  ov009
  *   func_02175F3C           0x02175F3C  arm  ov009
- *   func_02175560           0x02175560  arm  ov009
- *   func_02175F4C           0x02175F4C  arm  ov009
+ *   DWCi_SetConnectionAttemptParam           0x02175560  arm  ov009
+ *   DWCi_SetMatchStatus           0x02175F4C  arm  ov009
  *   func_0219EC74           0x0219EC74  arm  ov009
- *   func_02173D9C           0x02173D9C  arm  ov009
- *   func_0216F20C           0x0216F20C  arm  ov009
- *   func_0216CD8C           0x0216CD8C  arm  ov009
+ *   DWCi_HandleSBError           0x02173D9C  arm  ov009
+ *   DWCi_GPSetServerStatus           0x0216F20C  arm  ov009
+ *   DWCi_QR2Startup           0x0216CD8C  arm  ov009
  *   func_0219B490           0x0219B490  arm  ov009
  *   func_0216F770           0x0216F770  arm  ov009
- *   func_02174058           0x02174058  arm  ov009
+ *   DWCi_SBCallback           0x02174058  arm  ov009
  *   g_021AAA20              0x021AAA20  data
  *   g_021A2044              0x021A2044  data
  */
@@ -36,23 +36,23 @@
 #include "../include/G_NNThinkGlobal.h"
 
 extern void DWC_Free(int name, void *ptr, unsigned long size);
-extern int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
+extern int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEntry, unsigned char matchType, unsigned char hostState);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern void *DWC_Alloc(int name, unsigned long size);
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void func_0216F5FC(unsigned char matchType, unsigned char numEntry, void *callback, void *param);
+extern void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, void *callback, void *param);
 extern int func_02175F3C(void);
-extern void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
-extern void func_02175F4C(int state);
+extern void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
+extern void DWCi_SetMatchStatus(int state);
 extern void *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
-extern int func_02173D9C(int error);
-extern int func_0216F20C(int status);
-extern int func_0216CD8C(int profileID);
+extern int DWCi_HandleSBError(int error);
+extern int DWCi_GPSetServerStatus(int status);
+extern int DWCi_QR2Startup(int profileID);
 extern void func_0219B490(void *qrec);
 extern int func_0216F770(int profileID);
-extern void func_02174058(void *sb, int reason, void *server);
+extern void DWCi_SBCallback(void *sb, int reason, void *server);
 
 extern struct NNThinkGlobal g_021AAA20;
 extern char g_021A2044[];
@@ -68,37 +68,37 @@ void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addF
         g_021AAA20.addFilter = 0;
     }
     if (addFilter != 0) {
-        addFilterLenMax = 0x1ff - func_0216FAD4(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
+        addFilterLenMax = 0x1ff - DWCi_GetDefaultMatchFilter(filter, -1, 32, 3, 3) - func_0209477C((const u8 *)g_021A2044);
         g_021AAA20.addFilter = DWC_Alloc(4, addFilterLenMax);
         if (g_021AAA20.addFilter == 0) {
-            func_0216EB68(9, -80001);
+            DWCi_StopMatch(9, -80001);
             return;
         }
         MI_CpuCopy8(addFilter, g_021AAA20.addFilter, addFilterLenMax);
         (g_021AAA20.addFilter + addFilterLenMax)[-1] = 0;
     }
-    func_0216F5FC(0, numEntry, matchedCallback, matchedParam);
+    DWCi_SetMatchCommonParam(0, numEntry, matchedCallback, matchedParam);
     *(void **)(func_02175F3C() + 0x778) = newClientCallback;
     *(void **)(func_02175F3C() + 0x77c) = newClientParam;
     *(void **)(func_02175F3C() + 0x780) = evalCallback;
     *(void **)(func_02175F3C() + 0x784) = evalParam;
     *(int *)(func_02175F3C() + 0x7b0) = topology;
-    func_02175560(attemptCallback, connectionUserData, attemptParam);
-    func_02175F4C(0x16);
+    DWCi_SetConnectionAttemptParam(attemptCallback, connectionUserData, attemptParam);
+    DWCi_SetMatchStatus(0x16);
     if (*(void **)(func_02175F3C() + 0x5e0) == 0) {
-        *(void **)(func_02175F3C() + 0x5e0) = func_0219EC74(*(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x688), 0, 20, 1, 0, func_02174058, 0);
+        *(void **)(func_02175F3C() + 0x5e0) = func_0219EC74(*(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x684), *(char **)(func_02175F3C() + 0x688), 0, 20, 1, 0, DWCi_SBCallback, 0);
     }
     if (*(void **)(func_02175F3C() + 0x5e0) == 0) {
-        if (func_02173D9C(5))
+        if (DWCi_HandleSBError(5))
             return;
     }
-    func_0216F20C(3);
+    DWCi_GPSetServerStatus(3);
     if (*(void **)(func_02175F3C() + 0x10) == 0) {
-        if (func_0216CD8C(*(int *)(func_02175F3C() + 0x678)))
+        if (DWCi_QR2Startup(*(int *)(func_02175F3C() + 0x678)))
             return;
     } else {
         func_0219B490(*(void **)(func_02175F3C() + 0x10));
     }
     sbError = func_0216F770(*(int *)(func_02175F3C() + 0x678));
-    func_02173D9C(sbError);
+    DWCi_HandleSBError(sbError);
 }

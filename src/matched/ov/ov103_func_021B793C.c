@@ -1,5 +1,5 @@
 /*
- * function: func_021B793C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_GetSprite
  * address:  0x021B793C
  * packet:   pkt_ov103_021B793C
  * region:   ov103
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7C5C  0x021B7C5C  thumb  ov103
+ *   IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetActor  0x021B7C5C  thumb  ov103
  *
- * evidence: func_021B7C5C is ov103's own code ("lsls r1, #2; adds r0, r1;
+ * evidence: IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetActor is ov103's own code ("lsls r1, #2; adds r0, r1;
  * ldr r0, [r0, #0x10]; bx lr" after pool_021B7C58), inside ov103's window, so
  * only ov103 can be resident there when this pool word is used.  Its start is
  * seeded in layout/function_starts.txt from this pointer word, the only
@@ -27,5 +27,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 func_021B7C5C(u8 *p, u32 i);
-int func_021B793C(u8 *p, int i) { return func_021B7C5C(p + 0xcc, i); }
+extern u32 IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetActor(u8 *p, u32 i);
+int IRC_COMPATIBLE_TOUCH_TEST_GetSprite(u8 *p, int i) { return IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetActor(p + 0xcc, i); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEDE0",
+   "name": "PMS_WORDLIST_GetScrollDelta",
    "address": "0x021BEDE0",
    "kind": "game",
    "region": "ov110",

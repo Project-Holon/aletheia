@@ -21,7 +21,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
- *   d_021F3A34     0x021F3A34  data  a4
+ *   gGaugeEffectUnitSetup     0x021F3A34  data  a4
  *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
  *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -61,13 +61,13 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern Gimmick60Work *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
+extern FieldGimmickGaugeEffectWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
 extern void FLD_EXP_OBJ_AddUnit(void *expObj, void *unitDesc, int b);
 extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
 extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
-extern Gimmick60Work *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
+extern FieldGimmickGaugeEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
-extern void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(Gimmick60Work *work, void *expObj);
+extern void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(FieldGimmickGaugeEffectWork *work, void *expObj);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unit, u16 model);
 extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, u16 model, int hidden);
@@ -90,14 +90,14 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Exit(void *fieldMap);
 void FIELD_GIMMICK_GAUGE_EFFECT_Update(void *fieldMap);
 void FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt(void *fieldMap, VecFx32 *pos);
 int FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(void *fieldMap);
-void FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(Gimmick60Work *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys);
+void FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(FieldGimmickGaugeEffectWork *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys);
 void FIELD_GIMMICK_GAUGE_EFFECT_HideGaugeModels(void *expObj);
 int FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(int count);
 u8 FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges(struct GameData *gameData, void *expObj, IntrudeCommSys *unusedCommSys);
 IntrudeCommSys *FIELD_GIMMICK_GAUGE_EFFECT_GetIntrudeCommSys(struct GameComm *gameComm);
 void FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(void *unused, void *expObj);
-void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(Gimmick60Work *work, void *expObj, VecFx32 *pos);
-extern char d_021F3A34[];
+void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(FieldGimmickGaugeEffectWork *work, void *expObj, VecFx32 *pos);
+extern char gGaugeEffectUnitSetup[];
 extern int FLD_EXP_OBJ_IsAnimeStopped(u8 *anime);
 
 void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap)
@@ -107,7 +107,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap)
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     IntrudeCommSys *commSys;
-    Gimmick60Work *work;
+    FieldGimmickGaugeEffectWork *work;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
@@ -116,7 +116,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap)
     GAME_DATA_GetFieldSave(gameData);
     commSys = FIELD_GIMMICK_GAUGE_EFFECT_GetIntrudeCommSys(GAMESYSTEM_GetGameComm(gameSystem));
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, 4);
-    FLD_EXP_OBJ_AddUnit(expObj, d_021F3A34, 0);
+    FLD_EXP_OBJ_AddUnit(expObj, gGaugeEffectUnitSetup, 0);
     FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(work, fieldMap, gameData, commSys);
     FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(work, expObj);
 }
@@ -133,7 +133,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Update(void *fieldMap)
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     void *expObj;
-    Gimmick60Work *work;
+    FieldGimmickGaugeEffectWork *work;
     IntrudeCommSys *commSys;
 
     gameSystem = FIELDMAP_GetGameSystem(fieldMap);
@@ -157,7 +157,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Update(void *fieldMap)
 /* Shows the effect model at pos; the sub display polls FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive until it ends. */
 void FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt(void *fieldMap, VecFx32 *pos)
 {
-    Gimmick60Work *work;
+    FieldGimmickGaugeEffectWork *work;
     void *expObj;
 
     work = FIELDMAP_GetCommonWork(fieldMap, 0);
@@ -172,7 +172,7 @@ int FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(void *fieldMap)
 }
 
 /* Hides every model, then shows the gauges of the visited player. */
-void FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(Gimmick60Work *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys)
+void FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(FieldGimmickGaugeEffectWork *work, void *fieldMap, struct GameData *gameData, IntrudeCommSys *commSys)
 {
     void *expObj;
     int model;
@@ -272,7 +272,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(void *unused, void *expObj)
 }
 
 /* Moves the effect model to pos, restarts its animes and shows it. */
-void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(Gimmick60Work *work, void *expObj, VecFx32 *pos)
+void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(FieldGimmickGaugeEffectWork *work, void *expObj, VecFx32 *pos)
 {
     int animeIdx;
 
@@ -285,7 +285,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(Gimmick60Work *work, void *expObj, Ve
 }
 
 /* Ends the effect once its first anime has stopped: hides the model and clears the flag. */
-void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(Gimmick60Work *work, void *expObj)
+void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(FieldGimmickGaugeEffectWork *work, void *expObj)
 {
     if (work->effectActive != 0) {
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, 0)) != 0) {

@@ -12,7 +12,7 @@
  *        (+00B8/+00C0: the image computes the last call argument `add ip, r5,
  *        #1` before the `mov r2, r4` third argument, the park after it)
  *        closes on the message-index table: declaring it `extern const s8
- *        g_021DA724[7]` instead of plain s8 makes the front end read it as a
+ *        sSceneSetSelectApMessageByLanguage[7]` instead of plain s8 makes the front end read it as a
  *        const table and the last argument's add is scheduled first.  The
  *        function name, `lang` local and all statements are unchanged.
  *
@@ -32,7 +32,7 @@
  *   dispPush                         0x021CC8C4  arm   ov016
  *   g_021DE60C                       0x021DE60C  data
  *   DWCi_SceneEnd                    0x021C1630  arm
- *   g_021DA724                       0x021DA724  data
+ *   sSceneSetSelectApMessageByLanguage                       0x021DA724  data
  *   procErase                        0x021CC740  arm   ov016
  *   endScene                         0x021CC208  arm   ov016
  */
@@ -48,7 +48,7 @@ struct SelApObj {
     u8 state;
 };
 extern struct SCENESETSELECTAP_BSS g_021DE60C;
-extern const s8 g_021DA724[7];
+extern const s8 sSceneSetSelectApMessageByLanguage[7];
 
 extern int DWCi_BTNlGet(void);
 extern int DWCi_Entry(void);
@@ -95,7 +95,7 @@ static void button(void)
                 return;
             }
             DWCi_SNDlPlay(6);
-            lang = g_021DA724[DWCi_Language()];
+            lang = sSceneSetSelectApMessageByLanguage[DWCi_Language()];
             DWCi_WINlInitEx(0x46, 0, 1, lang, idx + 1);
 
             dispPushClear();

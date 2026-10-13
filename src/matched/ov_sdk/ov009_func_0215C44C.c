@@ -1,5 +1,5 @@
 /*
- * function: func_0215C44C
+ * function: dhcp_release_server
  * address:  0x0215C44C
  * packet:   pkt_ov009_0215C44C
  * region:   ov009
@@ -12,13 +12,13 @@
  * sdk:      dhcp_release_server (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_0215AA88  0x0215AA88  arm  ov009
- *   func_0215AAB0  0x0215AAB0  arm  ov009
- *   func_0215BC04  0x0215BC04  arm  ov009
- *   func_0215BD58  0x0215BD58  arm  ov009
- *   func_0215B470  0x0215B470  arm  ov009
- *   func_0215AB5C  0x0215AB5C  arm  ov009
+ *   CPS_SocUse  0x0215AB10  arm  ov009
+ *   CPS_SocDatagramMode  0x0215AA88  arm  ov009
+ *   CPS_SocBind  0x0215AAB0  arm  ov009
+ *   dhcp_setcommon  0x0215BC04  arm  ov009
+ *   pad_mem  0x0215BD58  arm  ov009
+ *   CPS_SocWrite  0x0215B470  arm  ov009
+ *   CPS_SocRelease  0x0215AB5C  arm  ov009
  *   g_021A826C  0x021A826C  data
  *   g_021A878E  0x021A878E  data
  */
@@ -28,26 +28,26 @@ struct NetVars {
 	unsigned long dhcp_server_ip;
 };
 
-extern void func_0215AB10(void);
-extern void func_0215AA88(void);
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned char *func_0215BC04(unsigned char *d, int type);
-extern unsigned char *func_0215BD58(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
-extern unsigned long func_0215B470(unsigned char *buf, unsigned long len);
-extern void func_0215AB5C(void);
+extern void CPS_SocUse(void);
+extern void CPS_SocDatagramMode(void);
+extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
+extern unsigned char *dhcp_setcommon(unsigned char *d, int type);
+extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
+extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
+extern void CPS_SocRelease(void);
 extern struct NetVars g_021A826C;
 extern unsigned char g_021A878E[];
 
-void func_0215C44C(void)
+void dhcp_release_server(void)
 {
 	unsigned char *buf;
 	unsigned char *d;
 
-	func_0215AB10();
-	func_0215AA88();
-	func_0215AAB0(0x44, 0x43, g_021A826C.dhcp_server_ip);
+	CPS_SocUse();
+	CPS_SocDatagramMode();
+	CPS_SocBind(0x44, 0x43, g_021A826C.dhcp_server_ip);
 	buf = g_021A878E;
-	d = func_0215BC04(buf, 7);
+	d = dhcp_setcommon(buf, 7);
 	*d++ = 0x36;
 	*d++ = 4;
 	*d++ = (unsigned short)(g_021A826C.dhcp_server_ip >> 16) >> 8;
@@ -55,7 +55,7 @@ void func_0215C44C(void)
 	*d++ = (unsigned short)g_021A826C.dhcp_server_ip >> 8;
 	*d++ = g_021A826C.dhcp_server_ip;
 	*d++ = 0xff;
-	d = func_0215BD58(0, 300, d, d - buf);
-	func_0215B470(buf, d - buf);
-	func_0215AB5C();
+	d = pad_mem(0, 300, d, d - buf);
+	CPS_SocWrite(buf, d - buf);
+	CPS_SocRelease();
 }

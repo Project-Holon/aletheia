@@ -21,7 +21,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
- *   func_02082AC0    0x02082AC0  arm
+ *   MIi_CpuClearFast    0x02082AC0  arm
  *   func_021C54FC 0x021C54FC thumb
  *   func_021C5508 0x021C5508 thumb
  *   func_021C5518 0x021C5518 thumb
@@ -116,6 +116,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
  */
 #include "ov136_types.h"
 
@@ -174,7 +175,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(u32, void *, u32);
+extern void MIi_CpuClearFast(u32, void *, u32);
 extern void func_021C5B40(u8 *);
 extern void func_021C5508(void);
 extern void func_021C5518(u8 *);
@@ -249,7 +250,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void PROCSYS_Push(void *, u32, const void *, void *);
 extern u8 func_0202138C(u16 v);
 extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
@@ -348,7 +349,7 @@ int func_021C6984(u8 *p)
     BG_SYS_SetLcdSwap(0);
     GFL_HEAP_CreateChildHeap(1, 0x66, 0x60000);
     ((struct MbSeqCtx *)p)->f8 = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
-    func_02082AC0(0, ((struct MbSeqCtx *)p)->f8, 0x370);
+    MIi_CpuClearFast(0, ((struct MbSeqCtx *)p)->f8, 0x370);
     func_021C5B40(p);
     func_021C5508();
     func_021C5518(p);
@@ -1231,7 +1232,7 @@ void func_021C7430(u8 *p, int a, u16 b, u16 c)
     ((struct MbSeqCtx *)q)->f34 = a;
     ((struct MbSeqCtx *)q)->f44 = b;
     ((struct MbSeqCtx *)q)->f5C = c;
-    ((struct MbSeqCtx *)q)->f18 = (u32)func_0200CA1C(**(void ** *)&((struct MbSeqCtx *)p)->f4);
+    ((struct MbSeqCtx *)q)->f18 = (u32)ZUKAN_SAVE_GetFromGameData(**(void ** *)&((struct MbSeqCtx *)p)->f4);
     *(u8 * *)&((struct MbSeqCtx *)p)->f10 = q;
 }
 

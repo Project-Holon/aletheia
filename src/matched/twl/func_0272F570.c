@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44 0x02082D44 arm
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
- *   func_020857B0 0x020857B0 arm
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   OS_SleepThread 0x020857B0 arm
  *   CARDi_TouchRomHashSector 0x0272EFB0 arm twl
  *   CARDi_TouchRomHashBlock 0x0272EE98 arm twl
  *   CARDi_CompareHash 0x0272EC38 arm twl
@@ -52,10 +52,10 @@ struct Obj {
     u8 *hash;
 };
 
-extern void func_02082D44(const void *src, void *dst, u32 n);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern void func_020857B0(int);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
+extern void OS_SleepThread(int);
 extern u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 off);
 extern struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 key);
 extern void CARDi_CompareHash(u32 *expect, void *data, u32 len);
@@ -72,7 +72,7 @@ void CARDi_ReadRomHashImageCaching(struct Obj *obj, u8 *buf, u32 off, u32 len)
             if (len <= n) {
                 n = len;
             }
-            func_02082D44((u8 *)page + pos, buf, n);
+            MI_CpuCopy8((u8 *)page + pos, buf, n);
             len -= n;
             buf += n;
             off += n;
@@ -91,10 +91,10 @@ void CARDi_ReadRomHashImageCaching(struct Obj *obj, u8 *buf, u32 off, u32 len)
                 CARDi_TouchRomHashSector(obj, a);
             }
             for (;;) {
-                irq = func_02087988();
+                irq = OS_DisableInterrupts();
                 na = 0;
                 while ((obj->free_a != 0 && obj->used_a == 0) || (obj->free_b != 0 && obj->used_b == 0)) {
-                    func_020857B0(0);
+                    OS_SleepThread(0);
                 }
                 nb = obj->used_b;
                 if (nb != 0) {
@@ -105,7 +105,7 @@ void CARDi_ReadRomHashImageCaching(struct Obj *obj, u8 *buf, u32 off, u32 len)
                         obj->used_a = na->next;
                     }
                 }
-                func_0208799C(irq);
+                OS_RestoreInterrupts(irq);
                 if (nb != 0) {
                     CARDi_CompareHash((u32 *)(obj->hash + nb->f4 * 0x14), (void *)nb->fc, obj->f24 * 0x14);
                     nb->next = obj->cache_b;

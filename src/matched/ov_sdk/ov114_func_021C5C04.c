@@ -1,5 +1,5 @@
 /*
- * function: func_021C5C04
+ * function: DWC_NdSetAttr
  * address:  0x021C5C04
  * packet:   pkt_ov114_021C5C04
  * region:   ov114
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_021C5F90  0x021C5F90  arm  ov114
+ *   DWCi_NdSetAttr  0x021C5F90  arm  ov114
  */
 
 extern int func_02059F38(void);
-extern int func_021C5F90(char *attr1, char *attr2, char *attr3);
+extern int DWCi_NdSetAttr(char *attr1, char *attr2, char *attr3);
 
-int func_021C5C04(char *attr1, char *attr2, char *attr3)
+int DWC_NdSetAttr(char *attr1, char *attr2, char *attr3)
 {
     if (func_02059F38())
         return 0;
-    return func_021C5F90(attr1, attr2, attr3);
+    return DWCi_NdSetAttr(attr1, attr2, attr3);
 }

@@ -48,20 +48,20 @@
  *   WM_DMA_NO                  0x021F6F90  data
  *   mbiScanParam               0x021F6FC0  data
  *   OS_GetMacAddress                 0x02087c6c arm
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   func_021F5ADC 0x021F5ADC arm ov107
  *   func_021F6148 0x021F6148 arm ov107
  *   WM_Initialize 0x0208F370 arm
  *   WM_SetIndCallback 0x0208EAC8 arm
  *   func_021F4628 0x021F4628 arm ov107
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F1B3C  0x021F1B3C  arm  ov107
  *   func_021F6804  0x021F6804  arm  ov107
  *   func_021F6830  0x021F6830  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F3F78  0x021F3F78  arm  ov107
- *   func_020885EC  0x020885EC  arm
+ *   PXI_IsCallbackReady  0x020885EC  arm
  *   func_021F1D80  0x021F1D80  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
  *   WM_Reset     0x0208F400  arm
@@ -450,8 +450,6 @@ static inline u16 mbi_game_char(int advance)
 static u32 mbi_reject_ggid = 0xffffffff;
 static u32 mbi_reject_ggid_mask = 0xffffffff;
 
-extern int WM_SetLifeTime(void (*callback)(void *), u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
-extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern BOOL MBi_CheckMBParent(WMBssDesc *bssDescp);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
@@ -461,12 +459,8 @@ extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern BOOL changeScanChannel(WMScanExParam *p);
 extern BOOL MBi_CommEnd(void);
 extern int WM_StartConnectEx(void (*callback)(void *), WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
-extern int WM_SetPortCallback(u16 port, void (*callback)(void *), void *arg);
-extern int WM_StartMPEx(void (*callback)(void *), u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError);
 extern BOOL MBi_IsSendEnabled(void);
-extern int WM_End(void (*callback)(void *));
 extern void MBi_EndCommon(void *arg);
-extern void OS_Terminate(void);
 extern void OS_GetMacAddress(u8 *macAddress);
 /* .data anchor at mbi_life_mp (0x021F6E58) */
 
@@ -765,31 +759,25 @@ extern u32 WM_GetNextTgid(void);
 extern u32 OS_DisableInterrupts(void);
 extern void MIi_CpuClear32(u32, void *, u32);
 extern void MIi_CpuClear16(u32, void *, u32);
-extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 MBi_GetBeaconPeriodDispersion(void);
 extern u32 OS_RestoreInterrupts(u32);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
 extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 extern void func_021F6148(unsigned short time);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern void func_021F4628(void);
-extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F1B3C(void (*callback)(u16, u32, void *));
 extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F3F78(void);
-extern int func_020885EC(int fifotag, int proc);
+extern int PXI_IsCallbackReady(int fifotag, int proc);
 extern void func_021F1D80(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 extern int WM_Reset(u32 param);
 extern void func_021F6334(u16 apiid, int errcode);
-extern void MBi_EndCommon(void *arg);
 extern int MBi_IsTaskAvailable(void);
 extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
 extern void MBi_OnReset(void);
-extern void OS_Terminate(void);
 extern int WM_Disconnect(void (*callback)(void *), u16 aid);
 extern void func_021F6850(u16 child_aid);
 extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
@@ -802,7 +790,6 @@ int func_021F5CAC(int channel);
 int MB_StartParentFromIdle(int channel);
 int MBi_CallReset(void);
 int func_021F5ED8(void);
-int MBi_CommEnd(void);
 void MB_EndToIdle(void);
 void func_021F5FB0(u16 aid);
 void MBi_SetMaxScanTime(u16 time);
@@ -811,26 +798,8 @@ u32 MBi_GetGgid(void);
 u16 MBi_GetTgid(void);
 unsigned char MBi_GetAttribute(void);
 int MBi_IsStarted(void);
-void MBi_CheckWmErrcode(u16 apiid, int errcode);
 
 
-int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
-int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren);
-int func_021F5BE0(void);
-int func_021F5CAC(int channel);
-int MB_StartParentFromIdle(int channel);
-int MBi_CallReset(void);
-int func_021F5ED8(void);
-int MBi_CommEnd(void);
-void MB_EndToIdle(void);
-void func_021F5FB0(u16 aid);
-void MBi_SetMaxScanTime(u16 time);
-int func_021F61A4(unsigned short *buf, int len, int pollbmp);
-u32 MBi_GetGgid(void);
-u16 MBi_GetTgid(void);
-unsigned char MBi_GetAttribute(void);
-int MBi_IsStarted(void);
-void MBi_CheckWmErrcode(u16 apiid, int errcode);
 
 
 int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma)
@@ -928,20 +897,20 @@ static int MBi_IsCommSizeValid(u16 sendSize, u16 recvSize, u16 entry_num)
  */
 int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren)
 {
-    unsigned long enabled = func_02087988();
+    unsigned long enabled = OS_DisableInterrupts();
 
     if ((*(unsigned char **)(d_021F6F90 + 0xC))[0x50D] != 0) {
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     if (func_021F5ADC(sendSize, 8, maxChildren) == 0) {
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     *(unsigned short *)(*(unsigned char **)(d_021F6F90 + 0xC) + 0x10) = maxChildren;
     *(unsigned short *)(*(unsigned char **)(d_021F6F90 + 0xC) + 0x500) = sendSize;
     *(unsigned short *)(*(unsigned char **)(d_021F6F90 + 0xC) + 0x502) = 8;
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 1;
 }
 
@@ -994,11 +963,11 @@ int func_021F5CAC(int channel)
     void (*cb_tmp)(u16, u32, void *);
     u32 enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     *(u16 *)(WM + 0x32) = channel;
     *(u32 *)(d_021F6F90 + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
     cb_tmp = *(void (**)(u16, u32, void *))(PBUF + 0x1000 + 0x4e4);
-    func_02082A48(0, PBUF + 0x1340, 0x69c0);
+    MIi_CpuClear16(0, PBUF + 0x1340, 0x69c0);
     func_021F1B3C(cb_tmp);
     *(int *)(PBUF + 0x1000 + 0x318) = *(u16 *)(WM + 0x500) - 6;
     func_021F6804(*(u16 *)(WM + 0x502));
@@ -1009,7 +978,7 @@ int func_021F5CAC(int channel)
         *(signed char *)(PBUF + i + 0x1000 + 0x526) = -1;
     }
     *(u8 *)(PBUF + 0x1000 + 0x524) = ret;
-    func_02082A48(ret, PBUF + 0x388 + 0x1400, 0x5d40);
+    MIi_CpuClear16(ret, PBUF + 0x388 + 0x1400, 0x5d40);
     MI_CpuFill8(PBUF + 0x354 + 0x1400, ret, 0x1e);
     ret = 1;
     *(u16 *)(WM + 0x500 + 0x24) = ret;
@@ -1021,8 +990,8 @@ int func_021F5CAC(int channel)
     *(u16 *)(WM + 0x500 + 0x1a) = (((*(u16 *)(WM + 0x36) + 0xe) * 15 + 0x29) & ~0x1f) << 1;
     func_021F3F78();
     i = func_021F5BE0();
-    func_0208799C(enabled);
-    *(int *)(PBUF + 0x7000 + 0x4c8) = func_020885EC(0xf, ret);
+    OS_RestoreInterrupts(enabled);
+    *(int *)(PBUF + 0x7000 + 0x4c8) = PXI_IsCallbackReady(0xf, ret);
     return i;
 }
 

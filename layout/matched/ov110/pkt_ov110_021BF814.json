@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF814",
+   "name": "PMS_INPUT_GetInitialWord",
    "address": "0x021BF814",
    "kind": "game",
    "region": "ov110",

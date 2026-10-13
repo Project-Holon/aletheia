@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A74
+ * function: DWCi_Ndi_intToStrFigure
  * address:  0x021C7A74
  * packet:   pkt_ov114_021C7A74
  * region:   ov114
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   _ll_udiv  0x0209C00C  arm
- *   g_021CE138  0x021CE138  data
+ *   sDwciNdPowersOfTen  0x021CE138  data
  *
  * Renders the 64-bit value n as decimal into p, with `figure` digits of
  * minimum width (digits above the figure are suppressed until the first
@@ -37,14 +37,14 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov114_func_021C7A74.c \
- *       --func func_021C7A74 --addr 0x021C7A74 --region ov114 --arm \
+ *       --func DWCi_Ndi_intToStrFigure --addr 0x021C7A74 --region ov114 --arm \
  *       --cc 1.2 --lang c99
  */
 
 typedef unsigned long long u64;
-extern u64 g_021CE138[];
+extern u64 sDwciNdPowersOfTen[];
 
-int func_021C7A74(char *p, u64 n, int figure)
+int DWCi_Ndi_intToStrFigure(char *p, u64 n, int figure)
 {
 	int i;
 	int b;
@@ -53,9 +53,9 @@ int func_021C7A74(char *p, u64 n, int figure)
 	if (n >= 100000000000000000ULL)
 		return -1;
 	for (i = 0, b = 0; i < 16; i++) {
-		if (n >= g_021CE138[i]) {
-			x = n / g_021CE138[i];
-			n -= (u64)x * g_021CE138[i];
+		if (n >= sDwciNdPowersOfTen[i]) {
+			x = n / sDwciNdPowersOfTen[i];
+			n -= (u64)x * sDwciNdPowersOfTen[i];
 			p[len] = x + '0';
 			b = 1;
 		} else {

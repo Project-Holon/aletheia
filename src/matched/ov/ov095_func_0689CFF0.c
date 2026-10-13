@@ -1,5 +1,5 @@
 /*
- * function: func_0689CFF0
+ * function: BTL_WAZAREC_Init
  * address: 0x0689CFF0
  * packet: pkt_ov095_0689CFF0
  * region: ov095
@@ -14,7 +14,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0689D014(void *, int, u32);
-void func_0689CFF0(void *p)
+void BTL_WAZAREC_Init(void *p)
 {
     u32 i;
     func_0689D014(p, 0, 964);

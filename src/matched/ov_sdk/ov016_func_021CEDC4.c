@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_021CEE10  0x021CEE10  arm  ov016
- *   func_021D68E4  0x021D68E4  arm  ov016
+ *   DWCi_TPlCheck  0x021D68E4  arm  ov016
  */
 
 extern void func_021CEE10(int idx, void *r);
 typedef unsigned short u16;
-extern int func_021D68E4(u16 *a);
+extern int DWCi_TPlCheck(u16 *a);
 
 int func_021CEDC4(int a)
 {
@@ -27,7 +27,7 @@ int func_021CEDC4(int a)
 
 	for (idx = 2; idx <= 3; idx++) {
 		func_021CEE10(idx, r);
-		if (func_021D68E4((u16 *)r))
+		if (DWCi_TPlCheck((u16 *)r))
 			return idx;
 	}
 	return 0;

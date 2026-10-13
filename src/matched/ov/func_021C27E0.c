@@ -1,5 +1,5 @@
 /*
- * function: func_021C27E0
+ * function: WIFICLUB_GetStatusSeatFlag
  * address:  0x021C27E0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -24,7 +24,7 @@ typedef struct {
     u8 b0:1, b1:1, b2:1, b3:1, b4:1, b5:1, b6:1, b7:1;
 } S;
 
-int func_021C27E0(S *s)
+int WIFICLUB_GetStatusSeatFlag(S *s)
 {
     return s->b1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA240",
+   "name": "DWCi_EncSessionGetPrivateAsync",
    "address": "0x021CA240",
    "kind": "sdk",
    "region": "ov114",

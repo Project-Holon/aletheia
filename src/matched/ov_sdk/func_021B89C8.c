@@ -1,5 +1,5 @@
 /*
- * function: func_021B89C8
+ * function: AOSSi_Status
  * address:  0x021B89C8
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -22,13 +22,13 @@
  * function is compiled in, and the site attests sole-ref/self.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B89C8.c \
- *       --func func_021B89C8 --addr 0x021B89C8 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSSi_Status.c \
+ *       --func AOSSi_Status --addr 0x021B89C8 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void (*func_021DCE20[])(int);
 
-int func_021B89C8(int a)
+int AOSSi_Status(int a)
 {
     if (func_021DCE20[1])
         func_021DCE20[1](a);

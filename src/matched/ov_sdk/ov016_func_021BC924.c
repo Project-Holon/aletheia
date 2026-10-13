@@ -12,11 +12,11 @@
  * sdk:      taskAnime (libdwcutil.TWL.HYB.a(anime.o))
  *
  * symbols:
- *   func_0207C994  0x0207C994  arm
- *   func_0207C958  0x0207C958  arm
- *   func_021D52D4  0x021D52D4  arm  ov016
- *   g_021DE504  0x021DE504  data
- *   g_021D9FF8  0x021D9FF8  data
+ *   FX_ModS32  0x0207C994  arm
+ *   FX_DivS32  0x0207C958  arm
+ *   DWCi_CEINlSet  0x021D52D4  arm  ov016
+ *   gAnimeWork  0x021DE504  data
+ *   sAnimePaletteByColor  0x021D9FF8  data
  */
 
 #include "../include/G_Ani.h"
@@ -37,25 +37,25 @@ typedef struct {
 	u8 cnt;
 } Ani;
 
-extern struct Ani *g_021DE504;
-extern u8 g_021D9FF8[];
+extern struct Ani *gAnimeWork;
+extern u8 sAnimePaletteByColor[];
 
-extern int func_0207C994(int a, int b);
-extern int func_0207C958(int a, int b);
-extern void func_021D52D4(int a, int b, void *obj);
+extern int FX_ModS32(int a, int b);
+extern int FX_DivS32(int a, int b);
+extern void DWCi_CEINlSet(int a, int b, void *obj);
 
 void func_021BC924(void)
 {
 	int name;
 	u32 pal;
 	Obj *o;
-	g_021DE504->cnt = func_0207C994(g_021DE504->cnt + 1, 40);
-	name = func_0207C958(g_021DE504->cnt, 5) + 0x47;
-	func_021D52D4(0, name, g_021DE504->obj);
-	((Obj *)g_021DE504->obj)->h4 = (((Obj *)g_021DE504->obj)->h4 & ~0xc00) | 0x400;
-	pal = g_021D9FF8[g_021DE504->color];
-	o = g_021DE504->obj;
+	gAnimeWork->cnt = FX_ModS32(gAnimeWork->cnt + 1, 40);
+	name = FX_DivS32(gAnimeWork->cnt, 5) + 0x47;
+	DWCi_CEINlSet(0, name, gAnimeWork->obj);
+	((Obj *)gAnimeWork->obj)->h4 = (((Obj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
+	pal = sAnimePaletteByColor[gAnimeWork->color];
+	o = gAnimeWork->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	((Obj *)g_021DE504->obj)->w0 = (((Obj *)g_021DE504->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	((Obj *)gAnimeWork->obj)->w0 = (((Obj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
 }

@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02075BAC  0x02075BAC  arm
+ *   NNSi_SndFaderSet  0x02075BAC  arm
  *
- * Wave 17 lane untried_small. Callee arity read from func_02075BAC's body
+ * Wave 17 lane untried_small. Callee arity read from NNSi_SndFaderSet's body
  * (three parameters, r2 stored to +0x0C): the wrapper forwards its own third
  * parameter untouched, so r0..r2 are all live and the null test's load lands
  * in r3, the register the earlier two-parameter spellings could not reach.
@@ -29,7 +29,7 @@ typedef struct Obj02072F5C {
 } Obj02072F5C;
 
 struct Obj02075BAC;
-extern void func_02075BAC(struct Obj02075BAC *o, u32 a, u32 b);
+extern void NNSi_SndFaderSet(struct Obj02075BAC *o, u32 a, u32 b);
 
 void NNS_SndHandleMoveVolume(Obj02072F5C *volatile *pp, u32 a, u32 b)
 {
@@ -42,5 +42,5 @@ void NNS_SndHandleMoveVolume(Obj02072F5C *volatile *pp, u32 a, u32 b)
     if (o->state == 2) {
         return;
     }
-    func_02075BAC((struct Obj02075BAC *)o->env, a << 8, b);
+    NNSi_SndFaderSet((struct Obj02075BAC *)o->env, a << 8, b);
 }

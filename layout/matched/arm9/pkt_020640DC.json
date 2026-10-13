@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064178",
+   "name": "NNSi_G2dInitMCNode",
    "address": "0x02064178",
    "kind": "game",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206428C",
+   "name": "NNS_G2dInitCellAnimation",
    "address": "0x0206428C",
    "kind": "game",
    "region": "arm9",
@@ -84,7 +84,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020643CC",
+   "name": "NNSi_G2dSetMCDataToMCInstanceImpl",
    "address": "0x020643CC",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206469C",
+   "name": "NNS_G2dSetAnimSequenceToMCAnimation",
    "address": "0x0206469C",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +108,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064754",
+   "name": "NNS_G2dInitMCAnimation",
    "address": "0x02064754",
    "kind": "game",
    "region": "arm9",
@@ -120,7 +120,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064934",
+   "name": "NNSi_G2dTickMCInstance",
    "address": "0x02064934",
    "kind": "game",
    "region": "arm9",
@@ -132,7 +132,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020649D4",
+   "name": "NNS_G2dTickMCAnimation",
    "address": "0x020649D4",
    "kind": "game",
    "region": "arm9",

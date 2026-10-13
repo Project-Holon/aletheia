@@ -1,5 +1,5 @@
 /*
- * function: func_06899DB0
+ * function: BTLV_SCD_IsInputIdle
  * address: 0x06899DB0
  * packet: pkt_ov095_06899DB0
  * region: ov095
@@ -13,4 +13,4 @@
 #include "../include/Obj21886.h"
 typedef unsigned int u32;
 extern int func_06899DC8(u32);
-int func_06899DB0(unsigned char *p) { return func_06899DC8(((struct Obj21886 *)p)->fB0) == 0; }
+int BTLV_SCD_IsInputIdle(unsigned char *p) { return func_06899DC8(((struct Obj21886 *)p)->fB0) == 0; }

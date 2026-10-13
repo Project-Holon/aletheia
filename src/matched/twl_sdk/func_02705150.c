@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -15,8 +19,8 @@ typedef unsigned short u16;
 typedef int s32;
 typedef volatile u16 vu16;
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 
 #define REG_DATA (*(vu16 *)0x04004300)
 #define REG_CTRL (*(vu16 *)0x04004304)
@@ -25,7 +29,7 @@ extern void func_0208799C(u32);
 
 void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u32 x = (u16)((flags & 1) ? 0 : 2);
     u32 sel;
     switch (flags & 0x300) {
@@ -50,5 +54,5 @@ void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags)
         }
     }
     REG_MODE &= 0xFFEF;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0A94",
+   "name": "WIFICLUB_StatePollCancelRequestPrompt",
    "address": "0x021C0A94",
    "kind": "game",
    "region": "ov099",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFC64
+ * function: PMSIV_WORDWIN_SetCursorCell
  * address: 0x021BFC64
  * packet: pkt_ov110_021BFC64
  * region: ov110
@@ -22,7 +22,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021BFC64(u8 *p, unsigned i) {
+void PMSIV_WORDWIN_SetCursorCell(u8 *p, unsigned i) {
     Vec2 pos;
     if (i != -1) {
         pos.x = 0x70*(i&1)+0x3e;

@@ -40,8 +40,8 @@
  * symbols:
  *   data_0214EAC0  0x0214EAC0  data
  *   data_020A5D08  0x020A5D08  data
- *   func_02073A60  0x02073A60  arm
- *   func_02073AD0  0x02073AD0  arm
+ *   NNS_SndStrmStart  0x02073A60  arm
+ *   NNS_SndStrmSetVolume  0x02073AD0  arm
  *   func_02075994  0x02075994  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
@@ -77,8 +77,8 @@ struct A;
 struct LerpObj;
 struct Obj;
 struct Obj75994;
-extern void func_02073A60(struct A *a);
-extern void func_02073AD0(struct Slot *, s32);
+extern void NNS_SndStrmStart(struct A *a);
+extern void NNS_SndStrmSetVolume(struct Slot *, s32);
 extern void func_02075994(struct Obj75994 *o);
 extern s32 NNS_SndFaderGet(struct Obj *o);
 extern void NNS_SndFaderUpdate(struct LerpObj *obj);
@@ -98,7 +98,7 @@ void func_02075858(void)
                 goto next;
             } else {
                 if (s->b2 && s->f120 != 0) {
-                    func_02073A60((struct A *)s);
+                    NNS_SndStrmStart((struct A *)s);
                     s->b1 = 1;
                     s->b2 = 0;
                 }
@@ -111,7 +111,7 @@ void func_02075858(void)
                     v = data_020A5D08[c] + (d + a);
 
                     if (v != s->f164) {
-                        func_02073AD0(s, v);
+                        NNS_SndStrmSetVolume(s, v);
                         s->f164 = v;
                     }
                     if (s->b3) {

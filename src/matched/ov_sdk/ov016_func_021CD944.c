@@ -15,31 +15,31 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD944.c \n *       --func func_021CD944 --addr 0x021CD944 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   g_021DA8AC     0x021DA8AC  data
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021C0EA0  0x021C0EA0  arm  ov016
- *   func_021D1208  0x021D1208  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   sSceneSetTestConfirmMessages     0x021DA8AC  data
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_GetParam2_  0x021C0EA0  arm  ov016
+ *   DWCi_WINlInitEx  0x021D1208  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CD9CC  0x021CD9CC  arm  ov016
  */
 
 typedef struct { int m[3]; } MsgTable;
-extern MsgTable g_021DA8AC;
-extern int func_021D5580(int lcd);
-extern void func_021C0EA0(unsigned int *a, unsigned int *b);
-extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
-extern void func_021C0E40(unsigned int v);
+extern MsgTable sSceneSetTestConfirmMessages;
+extern int DWCi_EFFlCheck(int lcd);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
+extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD9CC(void);
 
 void func_021CD944(void)
 {
     int prm;
-    MsgTable msg = g_021DA8AC;
-    if (func_021D5580(1))
+    MsgTable msg = sSceneSetTestConfirmMessages;
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    func_021C0EA0(0, (unsigned int *)((void **)&prm));
-    func_021D1208(msg.m[prm], 1, 1, -1, 0);
-    func_021C0E40((unsigned int)func_021CD9CC);
+    DWCi_GetParam2_(0, (unsigned int *)((void **)&prm));
+    DWCi_WINlInitEx(msg.m[prm], 1, 1, -1, 0);
+    DWCi_ChangeScene((unsigned int)func_021CD9CC);
 }

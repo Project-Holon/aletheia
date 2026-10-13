@@ -12,10 +12,10 @@
  * sdk:      taskEnd2 (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
- *   func_0207D6C0  0x0207D6C0  arm
+ *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
  *   func_021D1C5C  0x021D1C5C  arm  ov016
- *   g_021DE658     0x021DE658  data
+ *   gWindowWork     0x021DE658  data
  */
 
 #include "../include/G_MemWinT.h"
@@ -38,16 +38,16 @@ typedef struct {
 } MemWinT;
 
 typedef unsigned int   u32;
-extern void func_0207D6C0(u32 addr, int brightness);
+extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021D1C5C(void *task);
-extern struct MemWinT *g_021DE658;
+extern struct MemWinT *gWindowWork;
 
 void func_021D1C04(void *task)
 {
-    g_021DE658->count++;
-    func_0207D6C0(0x04000050, g_021DE658->count);
-    if (g_021DE658->count < 0)
+    gWindowWork->count++;
+    DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
+    if (gWindowWork->count < 0)
         return;
     DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
 }

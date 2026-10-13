@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK38_CallEvent
+ * function: SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallEvent
  * address:  0x021B2568
  * packet:   pkt_ov021_021B2568
  * region:   ov021
@@ -26,7 +26,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *p, int v);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK38_CallEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

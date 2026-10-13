@@ -1,5 +1,5 @@
 /*
- * function: func_021D3FAC
+ * function: BTL_CLIENT_TryLockCounter
  * address: 0x021D3FAC
  * packet: pkt_ov093_021D3FAC
  * region: ov093
@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 pad[2]; u8 f0:1,f1:1,f2:1,f3:1,f4:1,rest:3; } Flags;
-int func_021D3FAC(Flags *p)
+int BTL_CLIENT_TryLockCounter(Flags *p)
 {
     if (p->f1) return 0;
     p->f4 = 1;

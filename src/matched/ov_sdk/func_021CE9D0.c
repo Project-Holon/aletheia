@@ -1,5 +1,5 @@
 /*
- * function: func_021CE9D0
+ * function: DWCi_SBlDisable
  * address:  0x021CE9D0
  * packet:   pkt_021CE6F0
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CE9D0   0x021CE9D0  arm
+ *   DWCi_SBlDisable   0x021CE9D0  arm
  *
  * Set the byte at +0x1e of the object behind the global pointer to 1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CE9D0.c \
- *       --func func_021CE9D0 --addr 0x021CE9D0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SBlDisable.c \
+ *       --func DWCi_SBlDisable --addr 0x021CE9D0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021CE9D0(void)
+void DWCi_SBlDisable(void)
 {
     *(unsigned char *)(*(char **)0x021DE63C + 0x1e) = 1;
 }

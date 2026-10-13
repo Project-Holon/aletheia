@@ -14,7 +14,7 @@
  * symbols:
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
- *   func_0215A970  0x0215A970  arm  ov009
+ *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   func_0215CF98  0x0215CF98  arm  ov009
  *   func_0215E450  0x0215E450  arm  ov009
  */
@@ -66,7 +66,7 @@ struct SOCLiSocketSendCommandPipe {
 
 extern struct SOCLiCommandPacket *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
-extern unsigned short func_0215A970(void);
+extern unsigned short CPS_SocGetEport(void);
 extern int func_0215CF98(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
 extern int func_0215E450(void *arg);
 
@@ -109,7 +109,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
     send_pipe->buffer.in = command->buffer_in;
     if (socket->flag_mode == 1) {
         if (socket->local_port == 0) {
-            socket->local_port = func_0215A970();
+            socket->local_port = CPS_SocGetEport();
             socket->cps_socket.local_port = socket->local_port;
         }
         command->local_port = socket->local_port;

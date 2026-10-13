@@ -1,5 +1,5 @@
 /*
- * function: func_021BEAB8
+ * function: NHTTPi_ControlConnectionList
  * address:  0x021BEAB8
  * packet:   pkt_ov114_021BEAB8
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      NHTTPi_ControlConnectionList (libnhttp.TWL.HYB.a(d_nhttp_common.o))
  *
  * symbols:
- *   func_021BEFCC 0x021BEFCC arm ov114
- *   func_021BEFD8 0x021BEFD8 arm ov114
- *   g_021CF984 0x021CF984 data
+ *   NHTTPi_lockReqList 0x021BEFCC arm ov114
+ *   NHTTPi_unlockReqList 0x021BEFD8 arm ov114
+ *   gNHTTPModuleGlobals 0x021CF984 data
  *   g_021CF984_hdr 0x021CF984 data
  */
 
@@ -22,26 +22,26 @@
 
 typedef struct Conn Conn;
 
-extern struct Conn *g_021CF984;
+extern struct Conn *gNHTTPModuleGlobals;
 extern struct Conn *g_021CF984_hdr;
 
-extern void func_021BEFCC(void);
-extern void func_021BEFD8(void *mutexInfo_p);
+extern void NHTTPi_lockReqList(void);
+extern void NHTTPi_unlockReqList(void *mutexInfo_p);
 
-Conn *func_021BEAB8(void *mutexInfo_p, Conn *handle_p, unsigned long order)
+Conn *NHTTPi_ControlConnectionList(void *mutexInfo_p, Conn *handle_p, unsigned long order)
 {
     Conn *ret_p = 0;
     Conn **connection_pp;
     Conn *connection_p;
 
-    func_021BEFCC();
+    NHTTPi_lockReqList();
     if (order == 3) {
         ret_p = handle_p;
-        handle_p->next = g_021CF984;
-        g_021CF984 = handle_p;
+        handle_p->next = gNHTTPModuleGlobals;
+        gNHTTPModuleGlobals = handle_p;
     } else {
         connection_pp = &g_021CF984_hdr;
-        connection_p = g_021CF984;
+        connection_p = gNHTTPModuleGlobals;
         while (connection_p != 0) {
             switch (order) {
             case 0:
@@ -73,6 +73,6 @@ Conn *func_021BEAB8(void *mutexInfo_p, Conn *handle_p, unsigned long order)
             connection_p = *connection_pp;
         }
     }
-    func_021BEFD8(mutexInfo_p);
+    NHTTPi_unlockReqList(mutexInfo_p);
     return ret_p;
 }

@@ -7831,16 +7831,18 @@ SOLE_REF_CODE_NONLABEL = 0x02006448 + 2
 SOLE_REF_STRING_AFTER_TABLE = 0x020A716C
 
 # --- sole-ref/self (2026-09-21) -------------------------------------------
-# A real ABS32-shaped site: the pool word at 0x02025C84 holds 0x0209FB18, a
+# A real ABS32-shaped site: the pool word at 0x020052DC holds 0x020A0480, a
 # data address (in_data_section() agrees) that no code extent covers, that
 # no map row, block start or string starts at, and that nothing else attests
 # (attest_sole_ref() with an empty range gives None).  This is the positive
 # `self` case -- relocation agreement is the whole evidence.  (Earlier
 # fixtures 0x02004F94 and 0x02005050 became declared objects when
 # layout/data_objects.txt gained the crt0 and SDK version-string rows,
-# 2026-10-12.)
-SOLE_REF_SELF_SITE = 0x02025C84
-SOLE_REF_SELF_TARGET = 0x0209FB18
+# 2026-10-12.  0x0209FB18, the third fixture, is a real 16-entry record
+# table declared by two arm9 sources, so layout/data_objects.txt lists it and
+# the `data` class wins before `self`; it moved on 2026-10-13.)
+SOLE_REF_SELF_SITE = 0x020052DC
+SOLE_REF_SELF_TARGET = 0x020A0480
 # The pool word at 0x020052E0 holds 0x0200FB6D, a Thumb function pointer:
 # 0x0200FB6C is inside a traced function's extent, so in_data_section()
 # refuses it and `self` must too, however well the ROM word agrees.  Code

@@ -1,5 +1,5 @@
 /*
- * function: func_021590BC
+ * function: check_listener
  * address:  0x021590BC
  * packet:   pkt_ov009_021590BC
  * region:   ov009
@@ -43,7 +43,7 @@ struct ThreadInfo {
 
 extern struct ThreadInfo g_02150FEC;
 
-struct Soc *func_021590BC(unsigned char *iphdr, unsigned char *tcphdr)
+struct Soc *check_listener(unsigned char *iphdr, unsigned char *tcphdr)
 {
 	struct Soc *soc;
 	struct Thread *t;

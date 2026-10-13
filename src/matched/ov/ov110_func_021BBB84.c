@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB84
+ * function: PMSIV_CATEGORY_StartSelectAnim
  * address: 0x021BBB84
  * packet: pkt_ov110_021BBB84
  * region: ov110
@@ -10,9 +10,9 @@
  * symbols:
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BF6DC 0x021BF6DC thumb ov110
+ *   PMS_INPUT_GetBrowseMode 0x021BF6DC thumb ov110
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021BB224 0x021BB224 thumb ov110
+ *   PMSI_SEARCH_GetKeyPosition 0x021BB224 thumb ov110
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
@@ -25,19 +25,19 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u8 func_021BF6DC(u8 *);
-extern void func_021BB224(unsigned, int *, int *);
+extern u8 PMS_INPUT_GetBrowseMode(u8 *);
+extern void PMSI_SEARCH_GetKeyPosition(unsigned, int *, int *);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021BBB84(u8 *p, unsigned index)
+void PMSIV_CATEGORY_StartSelectAnim(u8 *p, unsigned index)
 {
     Vec2 pos;
     int x, y;
     int state;
     ((struct Obj05290 *)p)->f58 = CLACT_GetActorDrawEnable(((struct Obj05290 *)p)->f54);
     CLACT_SetActorDrawEnable(((struct Obj05290 *)p)->f54, 1);
-    if (func_021BF6DC(*(u8 * *)&((struct Obj05290 *)p)->f4) == 0 && index != 254) {
+    if (PMS_INPUT_GetBrowseMode(*(u8 * *)&((struct Obj05290 *)p)->f4) == 0 && index != 254) {
         pos.x = 48 + 80 * (index % 3U);
         pos.y = 64 + 24 * (index / 3U);
         state = 31;
@@ -46,7 +46,7 @@ void func_021BBB84(u8 *p, unsigned index)
         switch (index) {
         case 252: case 253: case 254: break;
         default:
-            func_021BB224(index, &x, &y);
+            PMSI_SEARCH_GetKeyPosition(index, &x, &y);
             pos.x = x + 18;
             pos.y = y + 56;
             state = 30;

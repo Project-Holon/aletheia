@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02189CEC",
-    "func_02189D30",
-    "func_02189D38",
-    "func_02189D40"
+    "TR_AI_CmdLoadPokeValueTwoArgs",
+    "TR_AI_NopA",
+    "TR_AI_NopB",
+    "TR_AI_NopC"
+   ],
+   "addresses": [
+    "0x02189CEC",
+    "0x02189D30",
+    "0x02189D38",
+    "0x02189D40"
    ]
   }
  ]

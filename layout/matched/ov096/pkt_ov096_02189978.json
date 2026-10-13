@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189978",
+   "name": "TR_AI_CmdLoadItemFieldNoSick19",
    "address": "0x02189978",
    "kind": "game",
    "region": "ov096",

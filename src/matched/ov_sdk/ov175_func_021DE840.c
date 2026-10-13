@@ -1,5 +1,5 @@
 /*
- * function: func_021DE840
+ * function: sakeiFreeOutputRecord
  * address:  0x021DE840
  * packet:   pkt_ov175_021DE840
  * region:   ov175
@@ -24,7 +24,7 @@ struct SAKEField {
     int pad;
 };
 
-void func_021DE840(int numFields, struct SAKEField *record)
+void sakeiFreeOutputRecord(int numFields, struct SAKEField *record)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021DEFC4
+ * function: DWCi_ScCleanupRootCAList
  * address:  0x021DEFC4
  * packet:   pkt_021DEFC4
  * region:   ov175
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E22E4  0x021E22E4  arm  ov175
- *   func_021DFE20  0x021DFE20  arm  ov175
- *   func_021BF540  0x021BF540  arm  ov114
+ *   wsGetServiceUrl  0x021E22E4  arm  ov175
+ *   scCleanupServiceUrl  0x021DFE20  arm  ov175
+ *   DWC_GHTTPCleanupRootCAList  0x021BF540  arm  ov114
  *
- * Build/teardown pair: func_021E22E4 (ov175) and func_021DFE20, each
+ * Build/teardown pair: wsGetServiceUrl (ov175) and scCleanupServiceUrl, each
  *  *  separated by a 0x021BF540 (ov114) step -- the overlay re-arms its state
  *  *  between the two halves.
  */
 
 typedef signed int     s32;
-extern s32 func_021E22E4(void);
-extern int func_021BF540(void);
-extern void func_021DFE20(void);
+extern s32 wsGetServiceUrl(void);
+extern int DWC_GHTTPCleanupRootCAList(void);
+extern void scCleanupServiceUrl(void);
 
-void func_021DEFC4(void)
+void DWCi_ScCleanupRootCAList(void)
 {
-    func_021E22E4();
-    func_021BF540();
-    func_021DFE20();
-    func_021BF540();
+    wsGetServiceUrl();
+    DWC_GHTTPCleanupRootCAList();
+    scCleanupServiceUrl();
+    DWC_GHTTPCleanupRootCAList();
 }
 

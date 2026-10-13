@@ -1,5 +1,5 @@
 /*
- * function: func_02158E84
+ * function: process_icmp_reply
  * address:  0x02158E84
  * packet:   pkt_ov009_02158E84
  * region:   ov009
@@ -43,7 +43,7 @@ extern int g_02150FEC;
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 
-void func_02158E84(unsigned char *iphdr, unsigned char *icmpdata, unsigned long len)
+void process_icmp_reply(unsigned char *iphdr, unsigned char *icmpdata, unsigned long len)
 {
 	struct _CPSSoc *soc;
 	struct _OSThread *t;

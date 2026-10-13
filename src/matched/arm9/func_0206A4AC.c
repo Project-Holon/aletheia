@@ -1,5 +1,5 @@
 /*
- * function: func_0206A4AC
+ * function: NNS_G3dBindMdlPltt
  * address:  0x0206A4AC
  * packet:   pkt_0206A17C
  * region:   arm9
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E62C  0x0206E62C  arm
- *   func_0206A3CC  0x0206A3CC  arm
+ *   NNS_G3dGetResDataByName  0x0206E62C  arm
+ *   NNSi_G3dBindMdlPlttInternal  0x0206A3CC  arm
  *
  * NitroSystem G3D NNS_G3dBindMdlPltt(mdl, tex): the palette twin of
- * func_0206A2CC.  Walks the pltt-to-material dictionary, looks each name up in
+ * NNS_G3dBindMdlTex.  Walks the pltt-to-material dictionary, looks each name up in
  * the texture's palette dictionary (tex + plttInfo.ofsDict at +0x34, only when
- * that offset is non-zero), binds through func_0206A3CC.  Same closing lever
- * as func_0206A2CC (GetMat as an if/return inline).
+ * that offset is non-zero), binds through NNSi_G3dBindMdlPlttInternal.  Same closing lever
+ * as NNS_G3dBindMdlTex (GetMat as an if/return inline).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206A4AC.c
- *       --func func_0206A4AC --addr 0x0206A4AC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNS_G3dBindMdlPltt.c
+ *       --func NNS_G3dBindMdlPltt --addr 0x0206A4AC --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -37,8 +37,8 @@ typedef struct { u32 sig; u32 size; u32 ofsMat; } ResMdl;
 typedef struct { u8 pad[0x34]; u16 ofsPlttDict; } ResTex;
 typedef struct { u16 offset; u8 numIdx; u8 flag; } PlttToMatIdx;
 
-extern void *func_0206E62C(const ResDict *dict, const ResName *name);
-extern void func_0206A3CC(ResMat *mat, PlttToMatIdx *data, const ResTex *tex, void *plttData);
+extern void *NNS_G3dGetResDataByName(const ResDict *dict, const ResName *name);
+extern void NNSi_G3dBindMdlPlttInternal(ResMat *mat, PlttToMatIdx *data, const ResTex *tex, void *plttData);
 
 static inline ResMat *GetMat(ResMdl *mdl)
 {
@@ -67,11 +67,11 @@ static inline const ResName *GetResNameByIdx(const ResDict *dict, u32 idx)
 static inline void *GetPlttDataByName(const ResTex *tex, const ResName *name)
 {
     if (tex && tex->ofsPlttDict != 0)
-        return func_0206E62C((const ResDict *)((const u8 *)tex + tex->ofsPlttDict), name);
+        return NNS_G3dGetResDataByName((const ResDict *)((const u8 *)tex + tex->ofsPlttDict), name);
     return 0;
 }
 
-BOOL func_0206A4AC(ResMdl *pMdl, const ResTex *pTex)
+BOOL NNS_G3dBindMdlPltt(ResMdl *pMdl, const ResTex *pTex)
 {
     ResMat *mat;
     ResDict *dict;
@@ -87,7 +87,7 @@ BOOL func_0206A4AC(ResMdl *pMdl, const ResTex *pTex)
         if (plttData) {
             PlttToMatIdx *data = (PlttToMatIdx *)GetResDataByIdx(dict, i);
             if (!(data->flag & 1))
-                func_0206A3CC(mat, data, pTex, plttData);
+                NNSi_G3dBindMdlPlttInternal(mat, data, pTex, plttData);
         } else {
             result = 0;
         }

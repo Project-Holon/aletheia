@@ -30,6 +30,7 @@
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
+ *   MIi_CpuCopy16  0x02082A60  arm  arm9
  */
 #include "../include/Obj01384.h"
 
@@ -68,7 +69,7 @@ extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -110,9 +111,9 @@ void func_02205F88(char *p)
     CLACT_GetActorImageProxy(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
-        func_02082A60(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);
-        func_02082A60(pixels + (i * 0x1c0 + 0x100), (void *)(vram + (i * 4 + 0xed) * 32 + buf.w[2]), 0x80);
-        func_02082A60(pixels + (i * 0x1c0 + 0x180), (void *)(vram + (i * 2 + 0xfd) * 32 + buf.w[2]), 0x40);
+        MIi_CpuCopy16(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);
+        MIi_CpuCopy16(pixels + (i * 0x1c0 + 0x100), (void *)(vram + (i * 4 + 0xed) * 32 + buf.w[2]), 0x80);
+        MIi_CpuCopy16(pixels + (i * 0x1c0 + 0x180), (void *)(vram + (i * 2 + 0xfd) * 32 + buf.w[2]), 0x40);
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);

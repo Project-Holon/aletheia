@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_021D70EC 0x021D70EC thumb ov116
- *   func_021C93BC 0x021C93BC arm ov114
+ *   DPW_BT_End 0x021C93BC arm ov114
  */
 #include "../include/Obj13868.h"
 typedef unsigned char u8;
@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_021D70EC(u8 *, int *);
-extern void func_021C93BC(void);
+extern void DPW_BT_End(void);
 int func_021D7AC8(u8 *p)
 {
     int result;
     if (((struct Obj13868 *)p)->fB68 == 0) return 1;
     if (func_021D70EC(p + 0x182c, &result)) {
-        func_021C93BC();
+        DPW_BT_End();
         ((struct Obj13868 *)p)->fB68 = 0;
         return 1;
     }

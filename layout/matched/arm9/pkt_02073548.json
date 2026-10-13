@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02073548",
+   "name": "NNSi_SndPlayerInsertSeqPlayer",
    "address": "0x02073548",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073598",
+   "name": "NNSi_SndInsertActiveSeqPlayer",
    "address": "0x02073598",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020735EC",
+   "name": "NNSi_SndSeqPlayerStopNow",
    "address": "0x020735EC",
    "kind": "game",
    "region": "arm9",

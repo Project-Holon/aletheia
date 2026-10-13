@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7A0
+ * function: PMS_INPUT_GetScrollDelta
  * address:  0x021BF7A0
  * packet:   pkt_ov110_021BF7A0
  * region:   ov110
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unblocked by matching func_021BEDE0 in ov110 (pkt_ov110_021BEDE0).
+ * Unblocked by matching PMS_WORDLIST_GetScrollDelta in ov110 (pkt_ov110_021BEDE0).
  *
  * symbols:
- *   func_021BEDE0  0x021BEDE0  thumb  ov110
+ *   PMS_WORDLIST_GetScrollDelta  0x021BEDE0  thumb  ov110
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 func_021BEDE0(u8 *p);
-int func_021BF7A0(u8 *p) { return func_021BEDE0(p + 0x54); }
+extern u32 PMS_WORDLIST_GetScrollDelta(u8 *p);
+int PMS_INPUT_GetScrollDelta(u8 *p) { return PMS_WORDLIST_GetScrollDelta(p + 0x54); }

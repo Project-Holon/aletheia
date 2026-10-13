@@ -1,5 +1,5 @@
 /*
- * function: func_021DF928
+ * function: sciInterfaceSetSessionId
  * address:  0x021DF928
  * packet:   pkt_021DF928
  * region:   ov175
@@ -20,7 +20,7 @@
 
 extern char *func_02094798(char *dst, const char *src);
 
-void func_021DF928(char *obj, int v)
+void sciInterfaceSetSessionId(char *obj, int v)
 {
     if (v == 0) {
         obj[0x5c] = 0;

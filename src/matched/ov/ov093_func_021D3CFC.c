@@ -1,5 +1,5 @@
 /*
- * function: func_021D3CFC
+ * function: BTL_CLIENT_StepAdvanceTurn
  * address: 0x021D3CFC
  * packet: pkt_ov093_021D3CFC
  * region: ov093
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_AdvanceTurn(u8 *);
 extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
-int func_021D3CFC(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepAdvanceTurn(char *p, int unused, unsigned int *a)
 {
     u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21202 *)p)->f4, (u8)a[0]);
     BTL_POKEPARAM_AdvanceTurn(obj);

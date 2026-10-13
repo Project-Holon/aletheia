@@ -23,7 +23,6 @@
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
  *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
- *   MI_CpuFill8_Alt  0x02082BCC  arm
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
  *   func_02034714  0x02034714  arm
@@ -38,7 +37,6 @@ extern int BTL_POKEPARAM_HasSick(void *poke, int condition);
 extern int BTL_POKEPARAM_TestTurnFlag(void *poke, u32 condition);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern int HAND_WAZA_IsKeptOnSuspend(void *factor, u32 *work);
-void MI_CpuFill8_Alt(int, int, int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 void BTL_EVENT_InitFactorList(void);
 void BTL_EVENT_ClearSuspendedFlags(void);
@@ -419,7 +417,7 @@ void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { B
 
 void BTL_EVENT_ClearFactor(int factor)
 {
-    MI_CpuFill8_Alt(factor, 0, 0x3c);
+    MI_CpuFill8((void *)factor, 0, 0x3c);
 }
 
 

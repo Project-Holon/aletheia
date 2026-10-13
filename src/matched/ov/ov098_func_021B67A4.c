@@ -1,5 +1,5 @@
 /*
- * function: func_021B67A4
+ * function: PDC_MAIN_StartFadeIn
  * address: 0x021B67A4
  * packet: pkt_ov098_021B67A4
  * region: ov098
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0207D55C(volatile u16 *reg);
 extern void FADE_Start(u32,int,int,int);
-void func_021B67A4(int a) { if (func_0207D55C((unsigned short *)0x0400006c) <= 0) FADE_Start(3,16,0,a); else FADE_Start(12,16,0,a); }
+void PDC_MAIN_StartFadeIn(int a) { if (func_0207D55C((unsigned short *)0x0400006c) <= 0) FADE_Start(3,16,0,a); else FADE_Start(12,16,0,a); }

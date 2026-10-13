@@ -1,5 +1,5 @@
 /*
- * function: func_021F68E0
+ * function: VS_MULTI_LIST_ExitBgs
  * address: 0x021F68E0
  * packet: pkt_ov097_021F68E0
  * region: ov097
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_020403F4(u32);
 extern void func_0203F9B4(void);
-void func_021F68E0(void) { func_020403F4(2); func_020403F4(1); func_020403F4(0); func_0203F9B4(); }
+void VS_MULTI_LIST_ExitBgs(void) { func_020403F4(2); func_020403F4(1); func_020403F4(0); func_0203F9B4(); }

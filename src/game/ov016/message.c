@@ -1,7 +1,7 @@
 /*
  * file:     message.c
  * unit:     yes
- * function: func_021C0F60, func_021C0F98, func_021C0FAC, func_021C1004, func_021C1030, func_021C1048
+ * function: DWCi_MSGlInit, DWCi_MSGlEnd, DWCi_MSGlRead, DWCi_MSGlRelease, DWCi_MSGlGet, DWCi_MSGlGetEx
  * address:  0x021C0F60
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,13 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5410  0x021D5410  arm  ov016
- *   g_021DE58C  0x021DE58C  data
- *   func_021D54C4  0x021D54C4  arm  ov016
- *   func_021D4B68  0x021D4B68  arm  ov016
- *   func_021D4C68  0x021D4C68  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
+ *   DWCi_HEAPlFree_                0x021D6438  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_QUElFormEx  0x021D5410  arm  ov016
+ *   gMessageWork  0x021DE58C  data
+ *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
+ *   DWCi_ARClReadEx  0x021D4B68  arm  ov016
+ *   DWCi_ARClRelease  0x021D4C68  arm  ov016
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
  */
 #include "../../matched/include/G_MemMsg.h"
 
@@ -36,59 +37,60 @@ typedef struct MsgPrm {
     unsigned char *data;
 } MsgPrm;
 
-extern void *func_021D6414(unsigned long size, int align);
-extern void *func_021D5410(long size, void *data, long dsize);
-extern void func_021D6438(void **mem);
-extern void *func_021D54C4(void *que);
-extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
-extern void func_021D4C68(void *file);
-extern void func_021D546C(void *queue, void *data);
-void func_021C0F60(void);
-void func_021C0F98(void);
-void *func_021C0FAC(char *file);
-void func_021C1004(void *msg);
-unsigned int func_021C1030(unsigned int *p, unsigned int idx);
-unsigned short *func_021C1048(void *msg, int id, int n, int num);
-extern struct MemMsg *g_021DE58C;
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
+extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
+extern void DWCi_HEAPlFree_(void **mem);
+extern void *DWCi_QUElPopBack(void *que);
+extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
+extern void DWCi_ARClRelease(void *file);
+extern void DWCi_QUElPushBack(void *queue, void *data);
+void DWCi_MSGlInit(void);
+void DWCi_MSGlEnd(void);
+void *DWCi_MSGlRead(char *file);
+void DWCi_MSGlRelease(void *msg);
+unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
+unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
+extern struct MemMsg *gMessageWork;
 
 
 /*
  * sdk:      DWCi_MSGlInit (libdwcutil.TWL.HYB.a(message.o))
  */
-void func_021C0F60(void)
+
+void DWCi_MSGlInit(void)
 {
-	void *m = func_021D6414(0x64, 4);
-	g_021DE58C = m;
-	*(void **)(((char *)g_021DE58C) + 0x60) = func_021D5410(8, m, 0xc);
+	void *m = DWCi_HEAPlAllocEx(0x64, 4);
+	gMessageWork = m;
+	*(void **)(((char *)gMessageWork) + 0x60) = DWCi_QUElFormEx(8, m, 0xc);
 }
 
 
 /*
- * Tail-call func_021D6438 with the address of 0x021DE58C.
+ * Tail-call DWCi_HEAPlFree_ with the address of 0x021DE58C.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0F98.c \
- *       --func func_021C0F98 --addr 0x021C0F98 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MSGlEnd.c \
+ *       --func DWCi_MSGlEnd --addr 0x021C0F98 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0F98(void)
+void DWCi_MSGlEnd(void)
 {
-    func_021D6438((void *)0x021DE58C);
+    DWCi_HEAPlFree_((void *)0x021DE58C);
 }
 
 
 /*
  * sdk:      DWCi_MSGlRead (libdwcutil.TWL.HYB.a(message.o))
  */
-void *func_021C0FAC(char *file)
+void *DWCi_MSGlRead(char *file)
 {
 	unsigned long size;
 	Info *info;
 	char *msg;
 	int *hdr;
 
-	info = (Info *)func_021D54C4(*(void **)(((char *)g_021DE58C) + 0x60));
-	msg = func_021D4B68(file, &size, 4);
+	info = (Info *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
+	msg = DWCi_ARClReadEx(file, &size, 4);
 	hdr = (int *)(msg + 0x20);
 	info->c = (int)msg;
 	info->a = (int)(hdr + 4);
@@ -100,10 +102,10 @@ void *func_021C0FAC(char *file)
 /*
  * sdk:      DWCi_MSGlRelease (libdwcutil.TWL.HYB.a message.o)
  */
-void func_021C1004(void *msg)
+void DWCi_MSGlRelease(void *msg)
 {
-    func_021D4C68(((void **)msg)[2]);
-    func_021D546C(g_021DE58C->queue, msg);
+    DWCi_ARClRelease(((void **)msg)[2]);
+    DWCi_QUElPushBack(gMessageWork->queue, msg);
 }
 
 /*
@@ -111,10 +113,10 @@ void func_021C1004(void *msg)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C1030.c \
- *       --func func_021C1030 --addr 0x021C1030 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MSGlGet.c \
+ *       --func DWCi_MSGlGet --addr 0x021C1030 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned int func_021C1030(unsigned int *p, unsigned int idx)
+unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx)
 {
     return p[1] + ((unsigned int *)p[0])[(unsigned short)idx];
 }
@@ -123,7 +125,7 @@ unsigned int func_021C1030(unsigned int *p, unsigned int idx)
 /*
  * sdk:      DWCi_MSGlGetEx (libdwcutil.TWL.HYB.a message.o)
  */
-unsigned short *func_021C1048(void *msg, int id, int n, int num)
+unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num)
 {
     MsgPrm *ms = msg;
     unsigned short *str = (unsigned short *)(ms->data + ms->index[(unsigned short)id]);

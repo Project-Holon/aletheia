@@ -1,5 +1,5 @@
 /*
- * function: func_021C235C
+ * function: ghiPostDataFree
  * address:  0x021C235C
  * packet:   pkt_ov114_021C235C
  * region:   ov114
@@ -26,7 +26,7 @@ typedef struct Obj {
 extern void func_0217EAE0(void *);
 extern void func_02181D84(void *);
 
-void func_021C235C(Obj *o)
+void ghiPostDataFree(Obj *o)
 {
     if (o->type != 3)
         func_0217EAE0(o->p4);

@@ -133,7 +133,7 @@
  *   STRBUF_SetString  0x02045924  arm
  *   func_02017E1C  0x02017E1C  thumb
  *   POKEGRA_LoadCharDataPP  0x0202D6F4  thumb
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
  *   func_02017EAC  0x02017EAC  thumb
@@ -184,7 +184,7 @@
  *   tbl_022037BC   0x022037BC  data  a2
  *   func_02040DA8 0x02040DA8 arm
  *   func_02030734  0x02030734  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_021F84EC  0x021F84EC  thumb
  *   func_021F8990  0x021F8990  thumb
  *   g_02203E18     0x02203E18  data  ov135
@@ -195,16 +195,16 @@
  *   func_021F7B9C 0x021F7B9C thumb ov135
  *   func_020355D8  0x020355D8  arm
  *   tbl_02203D46   0x02203D46  data  a2
- *   func_021C8B18 0x021C8B18 arm ov114
- *   func_021C8BC4 0x021C8BC4 arm ov114
+ *   DPW_TR_DownloadMatchDataAsync 0x021C8B18 arm ov114
+ *   DPW_TR_DownloadMatchDataRawAsync 0x021C8BC4 arm ov114
  *   func_021F513C  0x021F513C  thumb  ov135
  *   GFL_USE_StopAllSe  0x02006210  thumb
  *   func_0200FBB0  0x0200FBB0  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
- *   func_021C866C  0x021C866C  arm
- *   func_021C86A8  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *   func_02034714  0x02034714  arm
  *   func_021F4FC4  0x021F4FC4  thumb  ov135
  *   func_021F9968  0x021F9968  thumb  ov135
@@ -230,7 +230,7 @@
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   tbl_022038A2   0x022038A2  data  a2
  *   func_02030DA8 0x02030DA8 arm
- *   TCBL_IsDeletePending 0x02030EE8 arm
+ *   TCBL_GetTaskUserData 0x02030EE8 arm
  *   str_02203E44 0x02203E44 data a1
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -279,23 +279,23 @@
  *   func_02025C1C 0x02025C1C thumb
  *   func_02025C30 0x02025C30 thumb
  *   func_020173EC 0x020173EC thumb
- *   func_021B9800 0x021B9800 thumb ov114
- *   func_021B98A0 0x021B98A0 thumb ov114
- *   func_021B98D8 0x021B98D8 thumb ov114
- *   func_021B98F8 0x021B98F8 thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021B99DC  0x021B99DC  thumb  ov114
- *   func_021B9790  0x021B9790  thumb  ov114
- *   func_021B97F4  0x021B97F4  thumb  ov114
- *   func_021B9774  0x021B9774  thumb  ov114
- *   func_021B99B8  0x021B99B8  thumb  ov114
- *   func_021B9838  0x021B9838  thumb  ov114
- *   func_021B99F0  0x021B99F0  thumb  ov114
- *   func_021B99F4  0x021B99F4  thumb  ov114
- *   func_021B9A14  0x021B9A14  thumb  ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
+ *   NHTTP_RAP_AllocPostData 0x021B98A0 thumb ov114
+ *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
+ *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_RAP_GetResultCode  0x021B99DC  thumb  ov114
+ *   NHTTP_RAP_PollConnection  0x021B9790  thumb  ov114
+ *   NHTTP_RAP_GetRecvBuffer  0x021B97F4  thumb  ov114
+ *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
+ *   NHTTP_RAP_FreePostData  0x021B99B8  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetCount  0x021B99F0  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetValue  0x021B99F4  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetRecord  0x021B9A14  thumb  ov114
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetLength 0x020458F8 arm
@@ -306,7 +306,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_02008DF0  0x02008DF0  thumb
  *   func_0200ADE0  0x0200ADE0  thumb
- *   func_021C8C68 0x021C8C68 arm ov114
+ *   DPW_TR_TradeAsync 0x021C8C68 arm ov114
  *   func_0200AD8C  0x0200AD8C  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
@@ -319,7 +319,7 @@
  *   memset 0x02082BCC arm
  *   MYSTATUS_Copy 0x02008494 thumb
  *   func_0202EB7C 0x0202EB7C thumb
- *   func_021C89F0  0x021C89F0  arm  ov114
+ *   DPW_TR_CancelAsync  0x021C89F0  arm  ov114
  *   func_021F9088  0x021F9088  thumb  ov135
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_02007A18 0x02007A18 thumb
@@ -330,7 +330,7 @@
  *   GAME_DATA_GetBoxSave 0x02012F98 thumb
  *   func_02012934 0x02012934 thumb
  *   func_02007C34 0x02007C34 thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
@@ -370,6 +370,12 @@
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
+ *   DPW_TR_GetUploadResultAsync  0x021C8770  arm  ov114
+ *   DPW_TR_DownloadAsync  0x021C87FC  arm  ov114
+ *   DPW_TR_ReturnAsync  0x021C887C  arm  ov114
+ *   DPW_TR_DeleteAsync  0x021C88FC  arm  ov114
+ *   DPW_TR_UploadFinishAsync  0x021C8978  arm  ov114
+ *   DPW_TR_TradeFinishAsync  0x021C8D14  arm  ov114
  */
 #include "../../matched/include/Obj23404.h"
 #include "../../matched/include/Obj23405.h"
@@ -895,7 +901,7 @@ extern void func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g)
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
-extern void func_020862F0(void *p, u32 n);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern int POKEGRA_GetArcID(void);
 extern u32 func_02017EAC(void *mon);
@@ -927,7 +933,7 @@ extern void func_021F99D0(u8 *p);
 extern void func_02040C14(u32 a, u32 b, u32 c, u32 d);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(u32 value, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern u8 *func_021F84EC(u32 id);
 extern void func_021F8990(u8 *p);
 extern void *POKE_PERSONAL_Create(u32,int,u32);
@@ -935,10 +941,10 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern int func_021F7B9C(u8 *p, int event);
 extern void func_020355D8(u8 v);
-extern void func_021C8B18(void *, int, void *);
-extern void func_021C8BC4(const void *p, unsigned int x);
-extern int func_021C866C();
-extern s32 func_021C86A8(void);
+extern void DPW_TR_DownloadMatchDataAsync(void *, int, void *);
+extern void DPW_TR_DownloadMatchDataRawAsync(const void *p, unsigned int x);
+extern int DPW_TR_IsAsyncEnd();
+extern s32 DPW_TR_GetAsyncResult(void);
 extern void func_021F513C(u8 *p);
 extern void GFL_USE_StopAllSe(void);
 extern u32 func_0200FBB0(void);
@@ -966,7 +972,7 @@ extern void func_021F5074(u8 *p);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void *func_02030DA8(void *, void (*)(void *, Anim *), void *, int);
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern void func_02030EAC(struct Node *n);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
@@ -991,23 +997,23 @@ extern u32 func_02025C1C(u32, u32, u32);
 extern u32 func_02025C30(u32, u32, u32);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u32 func_020173EC(void);
-extern u8 *func_021B9800(int, int, int);
-extern void func_021B98A0(u8 *, int, int, int);
-extern void func_021B98D8(u8 *, int, int);
-extern int func_021B98F8(u8 *);
-extern int func_021B9748(u8 *);
-extern int func_021B99DC(u8 *p);
-extern int func_021B9790(u8 *p);
-extern u8 *func_021B97F4(u8 *p);
-extern void func_021B9774(u8 *p);
-extern void func_021B99B8(u8 *p);
-extern void func_021B9838(u8 *p);
-extern int func_021B99F0(u8 *p);
-extern u32 func_021B99F4(u32 p, u32 i);
-extern u8 *func_021B9A14(u8 *p, u32 i);
+extern u8 *NHTTP_RAP_Create(int, int, int);
+extern void NHTTP_RAP_AllocPostData(u8 *, int, int, int);
+extern void NHTTP_RAP_AppendPostData(u8 *, int, int);
+extern int NHTTP_RAP_CreatePostRequest(u8 *);
+extern int NHTTP_RAP_StartConnection(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_PollConnection(u8 *p);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_FreePostData(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
+extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
 extern void GFL_NET_ERR_RaiseFatal(u32 id);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 extern u16 *STRBUF_GetChars(struct U16Vec *);
 extern u16 STRBUF_GetLength(struct U16Vec *);
@@ -1018,13 +1024,13 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_021C86B8(u8 *dst, u8 *src, u32 n);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void func_021C8770(u8 *p);
-extern void func_021C87FC(u8 *p);
+extern void DPW_TR_GetUploadResultAsync(u8 *p);
+extern void DPW_TR_DownloadAsync(u8 *p);
 extern u16 func_0200ADE0(struct RegB *p);
-extern void func_021C8978(u8 *p);
-extern void func_021C8C68(u32, const void *, u32, const void *, u32);
-extern void func_021C8D14(u8 *p);
-extern void func_021C887C(u8 *p);
+extern void DPW_TR_UploadFinishAsync(u8 *p);
+extern void DPW_TR_TradeAsync(u32, const void *, u32, const void *, u32);
+extern void DPW_TR_TradeFinishAsync(u8 *p);
+extern void DPW_TR_ReturnAsync(u8 *p);
 extern u16 func_0200AD8C(const struct Rec0200AD8C *p);
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
@@ -1037,8 +1043,8 @@ extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern void *memset(void *, int, u32);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern u32 func_0202EB7C(u32 a0, u32 a1);
-extern void func_021C89F0(void);
-extern void func_021C88FC(u8 *p);
+extern void DPW_TR_CancelAsync(void);
+extern void DPW_TR_DeleteAsync(u8 *p);
 extern u32 func_021F9088(u8 *p, u32 a, u32 b, u32 c, u32 d);
 extern int GAME_DATA_SaveStart(int a0);
 extern u32 func_020056EC(u32 v);
@@ -1051,7 +1057,7 @@ extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void func_02007C34(struct PerapVoice *p, void *a);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
@@ -2412,7 +2418,7 @@ void func_021FCB54(void *mon)
     u32 id;
 
     h = (void *)POKEGRA_LoadCharDataPP(&pal, func_020185F0(), 0, 0x48);
-    func_020862F0(pal->data, 0x1200);
+    DWCi_ScreenDC_FlushRange(pal->data, 0x1200);
     func_0207E780(pal->data, 0x3F80, 0x1200);
     func_020307B0(h);
     arc = POKEGRA_GetArcID();
@@ -3256,7 +3262,7 @@ void func_021FE118(Work *p)
     p->str = STRBUF_Create(0xb4, 0x48);
     p->fB8C = func_02045EC0(p->bank, 0x30);
     (*(void **)&p->st) = func_02030734(0x48, 0x30, 0, (const char *)g_02203E18, 0x351);
-    func_02082AC0(0, (void *)p->st, 0x30);
+    MIi_CpuClearFast(0, (void *)p->st, 0x30);
     *(u8 * *)&((struct Obj23412 *)(*(u8 * *)(void **)&p->st))->f14 = func_021F84EC(0x48);
     func_021F8990((u8 *)p + 0xeec);
 }
@@ -3509,7 +3515,7 @@ int func_021FE6A0(WorldtradeAdapterObj3 *p)
 {
     Request_021FB800 q;
     if (p->fF84 == 0) {
-        func_021C8B18((u8 *)p + 0xb56, 7, (u8 *)p + 0x20c);
+        DPW_TR_DownloadMatchDataAsync((u8 *)p + 0xb56, 7, (u8 *)p + 0x20c);
     } else {
         MI_CpuFill8(&q, 0, 8);
         q.id = *(short *)&p->fB56;
@@ -3519,7 +3525,7 @@ int func_021FE6A0(WorldtradeAdapterObj3 *p)
         q.d = *(s8 *)((u8 *)p + 0xb5b);
         q.mode = 7;
         q.flag = p->fF84;
-        func_021C8BC4(&q, (unsigned int)((u8 *)p + 0x20c));
+        DPW_TR_DownloadMatchDataRawAsync(&q, (unsigned int)((u8 *)p + 0x20c));
     }
     p->fB5C = p->fB56;
     p->fB5E = p->fB58;
@@ -3547,7 +3553,7 @@ int func_021FE6A0(WorldtradeAdapterObj3 *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -3556,8 +3562,8 @@ int func_021FE744(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -4473,7 +4479,7 @@ void func_021FF8B0(Work *p)
     func_021FF6A4((Work *)p);
     p->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0xD4);
     p->fE14 = func_02030DA8(p->rec_p, func_021FF92C, p->fF98, 5);
-    a = (Anim *)TCBL_IsDeletePending(p->fE14);
+    a = (Anim *)TCBL_GetTaskUserData(p->fE14);
     a->state = 0;
     a->y = -40;
     a->p = (u8 *)p;
@@ -4540,7 +4546,7 @@ void func_021FF9E0(Work *p)
     Anim *a;
     p->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0x150);
     p->fE14 = func_02030DA8(p->rec_p, func_021FFA3C, p->fF98, 5);
-    a = (Anim *)TCBL_IsDeletePending(p->fE14);
+    a = (Anim *)TCBL_GetTaskUserData(p->fE14);
     a->state = 0;
     a->y = 0x8A;
     a->p = (u8 *)p;
@@ -5596,11 +5602,11 @@ int func_02200FF4(Work *p)
     func_02019CE0((const struct RecDC *)mon, *(struct RecDC * *)&p->fEA8);
     ((u8 *)p)[0x204]=func_02025C1C(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     ((u8 *)p)[0x205]=func_02025C30(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
-    *(u8 * *)&p->wm=func_021B9800(0x48,func_0200853C(((struct Obj23442 *)(*(u8 * *)(void **)&p->ctx))->f1C),(int)((u8 *)p+0x116C));
-    func_021B98A0(*(u8 * *)&p->wm,0x48,func_020173EC(),1);
-    func_021B98D8(*(u8 * *)&p->wm,(int)mon,func_020173EC());
-    if(func_021B98F8(*(u8 * *)&p->wm)==0) func_02034714(str_02203F58,0,str_02203F58);
-    ready=func_021B9748(*(u8 **)((u8 *)p+0x10E0))==0;
+    *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,func_0200853C(((struct Obj23442 *)(*(u8 * *)(void **)&p->ctx))->f1C),(int)((u8 *)p+0x116C));
+    NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,func_020173EC(),1);
+    NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,func_020173EC());
+    if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) func_02034714(str_02203F58,0,str_02203F58);
+    ready=NHTTP_RAP_StartConnection(*(u8 **)((u8 *)p+0x10E0))==0;
     if(ready==0) func_02034714(str_02203F58,0,str_02203F58);
     p->state=3;
     return 2;
@@ -5619,49 +5625,49 @@ int func_022010BC(Work *p)
     int r;
     void *rec;
 
-    st = func_021B99DC(p->wm);
-    r = func_021B9790(p->wm);
+    st = NHTTP_RAP_GetResultCode(p->wm);
+    r = NHTTP_RAP_PollConnection(p->wm);
     if (r == 0) {
-        rec = func_021B97F4(p->wm);
+        rec = NHTTP_RAP_GetRecvBuffer(p->wm);
         switch (st) {
         case 400:
             GFL_NET_ERR_RaiseFatal(0x41);
             GFL_NET_ERR_ShowScreen(0);
-            func_021B9774(p->wm);
-            func_021B99B8(p->wm);
-            func_021B9838(p->wm);
+            NHTTP_RAP_DeleteConnection(p->wm);
+            NHTTP_RAP_FreePostData(p->wm);
+            NHTTP_RAP_Destroy(p->wm);
             p->state_i = 0x2C;
             return 2;
         case 401:
             GFL_NET_ERR_RaiseFatal(0x42);
             GFL_NET_ERR_ShowScreen(0);
-            func_021B9774(p->wm);
-            func_021B99B8(p->wm);
-            func_021B9838(p->wm);
+            NHTTP_RAP_DeleteConnection(p->wm);
+            NHTTP_RAP_FreePostData(p->wm);
+            NHTTP_RAP_Destroy(p->wm);
             p->state_i = 0x2C;
             return 2;
         case 408:
             GFL_NET_ERR_RaiseFatal(0x44);
             GFL_NET_ERR_ShowScreen(0);
-            func_021B9774(p->wm);
-            func_021B99B8(p->wm);
-            func_021B9838(p->wm);
+            NHTTP_RAP_DeleteConnection(p->wm);
+            NHTTP_RAP_FreePostData(p->wm);
+            NHTTP_RAP_Destroy(p->wm);
             p->state_i = 0x2C;
             return 2;
         default:
             GFL_NET_ERR_RaiseFatal(0x43);
             GFL_NET_ERR_ShowScreen(0);
-            func_021B9774(p->wm);
-            func_021B99B8(p->wm);
-            func_021B9838(p->wm);
+            NHTTP_RAP_DeleteConnection(p->wm);
+            NHTTP_RAP_FreePostData(p->wm);
+            NHTTP_RAP_Destroy(p->wm);
             p->state_i = 0x2C;
             return 2;
         case 200:
-            p->valid = func_021B99F0(rec);
-            p->count_u = func_021B99F4((u32)rec, 0);
-            func_02082D44(func_021B9A14(rec, 1), p->buf_b128, 0x80);
-            func_021B99B8(p->wm);
-            func_021B9838(p->wm);
+            p->valid = NHTTP_RAP_RecordList_GetCount(rec);
+            p->count_u = NHTTP_RAP_RecordList_GetValue((u32)rec, 0);
+            MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(rec, 1), p->buf_b128, 0x80);
+            NHTTP_RAP_FreePostData(p->wm);
+            NHTTP_RAP_Destroy(p->wm);
             if (p->valid == 0) {
                 if (p->count_u == 0) {
                     p->state_i = 4;
@@ -5686,8 +5692,8 @@ int func_022010BC(Work *p)
     } else if (r != 0xF) {
         p->err = -15;
         p->state_i = 0x2B;
-        func_021B99B8(p->wm);
-        func_021B9838(p->wm);
+        NHTTP_RAP_FreePostData(p->wm);
+        NHTTP_RAP_Destroy(p->wm);
         func_0200FBB0();
         GFL_NET_STATE_SetWifiError();
         func_0200FBA0();
@@ -5793,7 +5799,7 @@ int func_022013E4(u8 *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -5802,8 +5808,8 @@ int func_02201414(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -5863,7 +5869,7 @@ int func_02201414(Work *p)
  */
 int func_022014B8(Work *p)
 {
-    func_021C8770((u8 *)p);
+    DPW_TR_GetUploadResultAsync((u8 *)p);
     p->state = 9;
     p->timer = 0;
     p->busy = 1;
@@ -5888,7 +5894,7 @@ int func_022014B8(Work *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -5897,8 +5903,8 @@ int func_022014D8(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -5937,7 +5943,7 @@ int func_022014D8(Work *p)
  */
 int func_02201554(Work *p)
 {
-    func_021C87FC((u8 *)p + 0xe4);
+    DPW_TR_DownloadAsync((u8 *)p + 0xe4);
     p->state = 0xc;
     p->timer = 0;
     func_0220251C(p, 0xd, 0xf);
@@ -5961,8 +5967,8 @@ int func_0220157C(Work *p)
     s32 n;
     s32 v;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6018,12 +6024,12 @@ int func_0220157C(Work *p)
 
 
 /*
- * State-setter: hand the object to func_021C8978, latch state 0xe at +0x28,
+ * State-setter: hand the object to DPW_TR_UploadFinishAsync, latch state 0xe at +0x28,
  * clear the word at +0xf8c and report 2.
  */
 int func_0220163C(Work *p)
 {
-    func_021C8978((u8 *)p);
+    DPW_TR_UploadFinishAsync((u8 *)p);
     p->state = 0xe;
     p->timer = 0;
     return 2;
@@ -6046,7 +6052,7 @@ int func_0220163C(Work *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -6055,8 +6061,8 @@ int func_02201658(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6089,7 +6095,7 @@ int func_02201658(Work *p)
 
 int func_022016CC(Work *p)
 {
-    func_021C8C68(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, (u32)((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
+    DPW_TR_TradeAsync(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, (u32)((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
     func_0220251C(p, 0x12, 0x14);
     p->state = 0x11;
     p->timer = 0;
@@ -6101,8 +6107,8 @@ int func_022016CC(Work *p)
 int func_0220171C(Work *p)
 {
     int r;
-    if(func_021C866C()) {
-        r=func_021C86A8();
+    if(DPW_TR_IsAsyncEnd()) {
+        r=DPW_TR_GetAsyncResult();
         p->timer=0;
         switch(r) {
         case 0:
@@ -6146,7 +6152,7 @@ int func_0220171C(Work *p)
  */
 int func_022017F0(Work *p)
 {
-    func_021C8D14((u8 *)p);
+    DPW_TR_TradeFinishAsync((u8 *)p);
     p->state = 0x13;
     p->timer = 0x0;
     return 0x2;
@@ -6158,8 +6164,8 @@ int func_0220180C(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6190,7 +6196,7 @@ int func_0220180C(Work *p)
 
 int func_02201880(Work *p)
 {
-    func_021C887C((u8 *)p + 0xe4);
+    DPW_TR_ReturnAsync((u8 *)p + 0xe4);
     p->state = 0x1d;
     p->timer = 0x0;
     return 0x2;
@@ -6203,8 +6209,8 @@ int func_0220189C(Work *p)
     int r;
     void *mon;
 
-    if (func_021C866C() != 0) {
-        r = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd() != 0) {
+        r = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (r) {
         case 0:
@@ -6296,7 +6302,7 @@ int func_02201A34(Work *p)
 
 int func_02201A48(Work *p)
 {
-    func_021C87FC((u8 *)p + 0xe4);
+    DPW_TR_DownloadAsync((u8 *)p + 0xe4);
     p->state = 0x1f;
     p->timer = 0x0;
     return 0x2;
@@ -6316,7 +6322,7 @@ int func_02201A48(Work *p)
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -6325,8 +6331,8 @@ int func_02201A64(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6430,7 +6436,7 @@ void func_02201B44(Work *p, void *mon, WorldtradeAdapterObj5 *r, void *old)
 int func_02201C08(Work *p)
 {
     p->wait = 0;
-    func_021C89F0();
+    DPW_TR_CancelAsync();
     p->state_i = 0x2f;
     return 2;
 }
@@ -6446,7 +6452,7 @@ int func_02201C08(Work *p)
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -6455,8 +6461,8 @@ int func_02201C24(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         switch (n) {
         case -12:
             p->state = 0x30;
@@ -6517,7 +6523,7 @@ int func_02201CBC(Work *p)
 
 int func_02201D14(Work *p)
 {
-    func_021C88FC((u8 *)p);
+    DPW_TR_DeleteAsync((u8 *)p);
     p->state = 0x18;
     p->timer = 0x0;
     return 0x2;
@@ -6538,7 +6544,7 @@ int func_02201D14(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT*.
@@ -6547,8 +6553,8 @@ int func_02201D30(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6638,7 +6644,7 @@ int func_02201E04(Work *p)
 
 int func_02201E1C(Work *p)
 {
-    func_021C8978((u8 *)p);
+    DPW_TR_UploadFinishAsync((u8 *)p);
     p->state = 0x1b;
     p->timer = 0x0;
     return 0x2;
@@ -6660,7 +6666,7 @@ int func_02201E1C(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -6669,8 +6675,8 @@ int func_02201E38(Work *p)
 {
     s32 n;
 
-    if (func_021C866C((u8 *)p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
@@ -6784,14 +6790,14 @@ u32 func_02201F18(Work *p)
 
 
 
-int func_02201FA4(Work *p) { func_02201F18(p); if(func_021C866C()) func_021F4E98(p,41,48); else func_021F4E98(p,41,46); func_021F4EC0(p,0,21); func_021F4FC4((u8 *)p); return 2; }
+int func_02201FA4(Work *p) { func_02201F18(p); if(DPW_TR_IsAsyncEnd()) func_021F4E98(p,41,48); else func_021F4E98(p,41,46); func_021F4EC0(p,0,21); func_021F4FC4((u8 *)p); return 2; }
 
 
 
 /*
  * Every concrete byte is reproduced (36 bytes, the last two of them the
  * listing's alignment padding).  The single wildcard is the BLX at +0004 to
- * func_021C866C, which has no independent witness outside 02201FDC..02201FFE;
+ * DPW_TR_IsAsyncEnd, which has no independent witness outside 02201FDC..02201FFE;
  * the resolver reports "(arm, from name) ... 8 overlays overlap this address
  * (ov016, ov021, ov093, ov111, ov114, ov128, ov172, ov208), none resolvable
  * without a region hint on the symbols: line".  Guessing one of those eight
@@ -6801,14 +6807,14 @@ int func_02201FA4(Work *p) { func_02201F18(p); if(func_021C866C()) func_021F4E98
  * The shape itself is settled: the callee's result selects state 0x30 or 0x2e,
  * then the 0/0x15 pair is published and 2 is returned.
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT*.
  */
 int func_02201FDC(Work *p)
 {
-    if (func_021C866C((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
         p->state = 0x30;
     } else {
         p->state = 0x2e;
@@ -6977,7 +6983,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
     u32 slot;
 
     func_02017E1C(mon, 6, 0);
-    func_0200CDE0(p->ctx->dex, mon);
+    ZUKAN_SAVE_RegisterCaught(p->ctx->dex, mon);
     box = 0xFF;
     if (POKEPARTY_GetCount(p->ctx->party) == 6) {
         box = 0;
@@ -7008,12 +7014,12 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
 
 
 /*
- * evidence: func_0200CDE0 receives the entry r1 Pokemon pointer; fifth parameter is reassigned in its incoming stack slot.
+ * evidence: ZUKAN_SAVE_RegisterCaught receives the entry r1 Pokemon pointer; fifth parameter is reassigned in its incoming stack slot.
  */
 void func_022023A4(Work *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
-    func_0200CDE0(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)(void **)&p->ctx))->f10,mon);
+    ZUKAN_SAVE_RegisterCaught(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)(void **)&p->ctx))->f10,mon);
     index=0xFF;
     if(POKEPARTY_GetCount(((struct Obj23477 *)(*(u8 * *)(void **)&p->ctx))->f8)==6) index=0;
     POKE_TOOL_SetPartyValue(mon,9,0x46);
@@ -7151,7 +7157,7 @@ void *func_02202608(u32 heap)
  */
 void func_0220262C(u32 a, u32 b)
 {
-    func_02082D44((const void *)a, (void *)b, func_020173EC());
+    MI_CpuCopy8((const void *)a, (void *)b, func_020173EC());
 }
 
 

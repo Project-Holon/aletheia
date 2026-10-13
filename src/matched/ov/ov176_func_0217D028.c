@@ -23,7 +23,7 @@
  *   func_0200AE54 0x0200AE54 thumb
  *   func_02008554 0x02008554 thumb
  *   func_0200B074 0x0200B074 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0200B078 0x0200B078 thumb
  *   func_021E6118 0x021E6118 thumb ov177
  */
@@ -51,7 +51,7 @@ extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 *func_0200B074(struct Reg2 *p);
-extern void func_02082D44(int, void *, u32);
+extern void MI_CpuCopy8(int, void *, u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 void func_0217D028(u8 *p)
@@ -72,7 +72,7 @@ void func_0217D028(u8 *p)
     rec.fa4 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
     rec.fa6 = func_0200AE54((struct Reg *)box, 0x16);
     rec.f9c = func_02008554((const struct Sub0200852CObj *)x);
-    func_02082D44((int)func_0200B074(((struct Obj00053 *)p)->f38), &rec, 0x92);
+    MI_CpuCopy8((int)func_0200B074(((struct Obj00053 *)p)->f38), &rec, 0x92);
     a = func_0200B078(((struct Obj00053 *)p)->f38, 6);
     b = func_0200B078(((struct Obj00053 *)p)->f38, 5);
     c = func_0200B078(((struct Obj00053 *)p)->f38, 4);

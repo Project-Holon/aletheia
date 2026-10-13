@@ -16,7 +16,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   FADE_Start  0x0204E720  arm
  *   func_0208068C  0x0208068C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   SYMBOL_MAP_StopBg2Scale  0x02166B2C  thumb  ov010
@@ -39,7 +39,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int a, int b, int c, int d, int e);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);
-extern void func_02082AC0(u32 a, u32 b, u32 c);
+extern void MIi_CpuClearFast(u32 a, u32 b, u32 c);
 extern void func_02080B98(void);
 extern void func_0207FDCC(u32 a);
 extern void SYMBOL_MAP_StopBg2Scale(void);
@@ -72,7 +72,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(u32 p0, int *st, u8 *q)
         }
         func_02040588(2, 0);
         func_0208068C(8);
-        func_02082AC0(0, 0x06800000, 0x20000);
+        MIi_CpuClearFast(0, 0x06800000, 0x20000);
         func_02080B98();
         func_0207FDCC(8);
         SYMBOL_MAP_StopBg2Scale();

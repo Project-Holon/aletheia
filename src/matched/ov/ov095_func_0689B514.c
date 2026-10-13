@@ -1,5 +1,5 @@
 /*
- * function: func_0689B514
+ * function: BTLV_SCD_ShowRotateScreen
  * address: 0x0689B514
  * packet: pkt_ov095_0689B514
  * region: ov095
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj21895.h"
 extern void func_0220270C(char *s, int mode, void *arg);
-void func_0689B514(void *p, void *q)
+void BTLV_SCD_ShowRotateScreen(void *p, void *q)
 {
     func_0220270C(((struct Obj21895 *)p)->fB0, 5, q);
 }

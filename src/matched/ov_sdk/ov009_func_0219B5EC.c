@@ -1,5 +1,5 @@
 /*
- * function: func_0219B5EC
+ * function: qr2_keybuffer_add
  * address:  0x0219B5EC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_0219B5EC(char *p, int v)
+int qr2_keybuffer_add(char *p, int v)
 {
     int n = *(int *)(p + 0x100);
 

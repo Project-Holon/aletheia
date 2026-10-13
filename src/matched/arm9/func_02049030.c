@@ -10,9 +10,9 @@
  * status:   EXACT
  * symbols:
  *   ARC_TOOL_OpenArchive  0x02048DDC  arm
- *   func_02078A80  0x02078A80  arm
+ *   FS_CloseFile  0x02078A80  arm
  *   func_02078B44  0x02078B44  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  */
 
 typedef unsigned int u32;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 
 struct ArcFile;
 extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
-extern void func_02078A80(void *p);
+extern void FS_CloseFile(void *p);
 typedef signed int     s32;
 struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 u32 ARC_TOOL_GetArchiveFileCount(u32 a)
 {
@@ -35,9 +35,9 @@ u32 ARC_TOOL_GetArchiveFileCount(u32 a)
     off = 0;
     ARC_TOOL_OpenArchive((struct ArcFile *)buf, a);
     func_02078B44((struct FSFile *)buf, 0xc, 0);
-    func_02078B70((struct FSFile *)buf, &off, 2);
+    FS_ReadFile((struct FSFile *)buf, &off, 2);
     func_02078B44((struct FSFile *)buf, off + 4, 0);
-    func_02078B70((struct FSFile *)buf, hdr, 6);
-    func_02078A80(buf);
+    FS_ReadFile((struct FSFile *)buf, hdr, 6);
+    FS_CloseFile(buf);
     return hdr[2];
 }

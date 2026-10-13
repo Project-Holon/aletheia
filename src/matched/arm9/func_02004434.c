@@ -1,5 +1,5 @@
 /*
- * function: func_02004434
+ * function: SVC_SoftReset
  * address:  0x02004434
  * packet:   pkt_02004434
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_SoftReset), `swi N; bx lr` in the BIOS call table */
 
-asm void func_02004434(void)
+asm void SVC_SoftReset(void)
 {
     swi 0x0
     bx lr

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C78
+ * function: NHTTPi_CpsAuthCallbackForDebug
  * address:  0x021B9C78
  * packet:   pkt_ov114_021B9C78
  * region:   ov114
@@ -16,7 +16,7 @@
  *           pool word at 0x021B9EC4.  Seeded in layout/function_starts.txt.
  */
 
-int func_021B9C78(void)
+int NHTTPi_CpsAuthCallbackForDebug(void)
 {
     return 0;
 }

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
- *   g_021DE508  0x021de508  data
+ *   gButtonWork  0x021de508  data
  *   func_021BCD00  0x021bcd00  arm  ov016
  */
 
@@ -21,17 +21,17 @@
 
 typedef _Bool bool;
 
-extern struct tagMEMBTN *g_021DE508;
+extern struct tagMEMBTN *gButtonWork;
 
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCD00(void);
 
 void func_021BCCB0(void *task)
 {
-    g_021DE508->input = -1;
-    g_021DE508->count++;
-    if (g_021DE508->count >= 4) {
-        g_021DE508->count = 0;
+    gButtonWork->input = -1;
+    gButtonWork->count++;
+    if (gButtonWork->count >= 4) {
+        gButtonWork->count = 0;
         DWCi_TSKlSetParam(task, (unsigned int)func_021BCD00);
     }
 }

@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_02066B84",
+   "name": "NNSi_G2dCalcSpriteParams",
    "address": "0x02066B84",
    "kind": "game",
    "region": "arm9",
@@ -45,7 +45,7 @@
    }
   },
   {
-   "name": "func_02067340",
+   "name": "NNSi_G2dDrawCellToSurface2D",
    "address": "0x02067340",
    "kind": "game",
    "region": "arm9",
@@ -62,7 +62,7 @@
    }
   },
   {
-   "name": "func_0206775C",
+   "name": "NNSi_G2dDrawOam3D",
    "address": "0x0206775C",
    "kind": "game",
    "region": "arm9",

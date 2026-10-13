@@ -1,5 +1,5 @@
 /*
- * function: func_0215ABB0
+ * function: CPSi_TcpConnectRaw
  * address:  0x0215ABB0
  * packet:   pkt_ov009_0215ABB0
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      CPSi_TcpConnectRaw (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_0215AA18  0x0215AA18  arm  ov009
+ *   get_seqno  0x0215AA18  arm  ov009
  *   func_020870D0  0x020870D0  arm
- *   func_021593A8  0x021593A8  arm  ov009
- *   func_02087988  0x02087988  arm
- *   func_020857B0  0x020857B0  arm
- *   func_0208799C  0x0208799C  arm
+ *   _tcp_send_handshake  0x021593A8  arm  ov009
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_SleepThread  0x020857B0  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A826C  0x021A826C  data
  */
 
@@ -36,32 +36,32 @@ struct Soc {
 	unsigned long seqno;
 };
 
-extern unsigned long func_0215AA18(void);
+extern unsigned long get_seqno(void);
 extern unsigned long long func_020870D0(void);
-extern void func_021593A8(char *soc, unsigned char flag);
-extern unsigned long func_02087988(void);
-extern void func_020857B0(void *queue);
-extern unsigned long func_0208799C(unsigned long state);
+extern void _tcp_send_handshake(char *soc, unsigned char flag);
+extern unsigned long OS_DisableInterrupts(void);
+extern void OS_SleepThread(void *queue);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct NetVars g_021A826C;
 
-unsigned long func_0215ABB0(struct Soc *soc)
+unsigned long CPSi_TcpConnectRaw(struct Soc *soc)
 {
 	unsigned long retry;
 	unsigned long seqno;
 	unsigned long enabled;
 
-	seqno = func_0215AA18();
+	seqno = get_seqno();
 	for (retry = 0; retry < 3; retry++) {
 		soc->seqno = seqno;
 		soc->state = 2;
 		soc->when = (unsigned long)(func_020870D0() >> 16);
-		func_021593A8((char *)soc, 2);
-		enabled = func_02087988();
+		_tcp_send_handshake((char *)soc, 2);
+		enabled = OS_DisableInterrupts();
 		if (soc->state == 2 && g_021A826C.myip != 0) {
 			soc->block_type = 1;
-			func_020857B0(0);
+			OS_SleepThread(0);
 		}
-		func_0208799C(enabled);
+		OS_RestoreInterrupts(enabled);
 		if (soc->state == 4)
 			return 0;
 		if (g_021A826C.myip == 0)

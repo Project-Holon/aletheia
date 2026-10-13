@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B97BC",
+   "name": "IRCBATTLEMATCH_NudgeActor",
    "address": "0x021B97BC",
    "kind": "game",
    "region": "ov100",

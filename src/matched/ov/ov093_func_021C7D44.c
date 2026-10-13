@@ -13,8 +13,8 @@
  * the byte in r0. Tail pool target is 0x0689D5FC + 1. This ov095 leaf
  * was authorized by root separately; no domain assumptions.
  * symbols:
- *   func_0689D5FC 0x0689D5FC thumb ov095
+ *   BTL_POSPOKE_GetPokeIdAtPos 0x0689D5FC thumb ov095
  */
 typedef unsigned char u8;
-extern int func_0689D5FC(u8 *p, int i);
-int BTL_SERVER_FLOW_GetPosTableEntryForPoke(char *p, int i) { return func_0689D5FC((u8 *)(p + 0x1ab8), i); }
+extern int BTL_POSPOKE_GetPokeIdAtPos(u8 *p, int i);
+int BTL_SERVER_FLOW_GetPosTableEntryForPoke(char *p, int i) { return BTL_POSPOKE_GetPokeIdAtPos((u8 *)(p + 0x1ab8), i); }

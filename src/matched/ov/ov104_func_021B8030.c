@@ -1,5 +1,5 @@
 /*
- * function: func_021B8030
+ * function: IRC_RHYTHM_PrintMessageWithName
  * address: 0x021B8030
  * packet: pkt_ov104_021B8030
  * region: ov104
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7DE0 0x021B7DE0 thumb ov104
- *   func_021B7DE4 0x021B7DE4 thumb ov104
- *   func_021B7DE8 0x021B7DE8 thumb ov104
- *   func_021B7DEC 0x021B7DEC thumb ov104
+ *   IRC_RHYTHM_GetFont 0x021B7DE0 thumb ov104
+ *   IRC_RHYTHM_GetPrintQueue 0x021B7DE4 thumb ov104
+ *   IRC_RHYTHM_GetMessages 0x021B7DE8 thumb ov104
+ *   IRC_RHYTHM_GetWordSet 0x021B7DEC thumb ov104
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -26,10 +26,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021B7DE0(void *);
-extern int func_021B7DE4(void *);
-extern int func_021B7DE8(void *);
-extern int func_021B7DEC(void *);
+extern int IRC_RHYTHM_GetFont(void *);
+extern int IRC_RHYTHM_GetPrintQueue(void *);
+extern int IRC_RHYTHM_GetMessages(void *);
+extern int IRC_RHYTHM_GetWordSet(void *);
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
@@ -44,4 +44,4 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021B8030(u8 *p, void *a, int b, u8 *c, s16 x, s16 y, u16 a6) { int set; int bank; void *text; int font; int tag; BMP_Clear(BMP_WIN_GetBmp(((struct Obj05274 *)p)->f0),((struct Obj05274 *)p)->f10); set=func_021B7DEC(a); bank=func_021B7DE8(a); func_0201F02C((struct WordSet *)set,0,c+0xc); text=func_02045EC0((struct MsgBank *)bank,b); func_0201F250((struct WordSet *)set,((struct Obj05274 *)p)->fC,text); STRBUF_Delete(text); font=func_021B7DE4(a); tag=func_021B7DE0(a); PRINTSYS_PrintQue((struct PrintSys *)font,(u32)BMP_WIN_GetBmp(((struct Obj05274 *)p)->f4),x,y,((struct Obj05274 *)p)->fC,tag); p[8]=1; }
+void IRC_RHYTHM_PrintMessageWithName(u8 *p, void *a, int b, u8 *c, s16 x, s16 y, u16 a6) { int set; int bank; void *text; int font; int tag; BMP_Clear(BMP_WIN_GetBmp(((struct Obj05274 *)p)->f0),((struct Obj05274 *)p)->f10); set=IRC_RHYTHM_GetWordSet(a); bank=IRC_RHYTHM_GetMessages(a); func_0201F02C((struct WordSet *)set,0,c+0xc); text=func_02045EC0((struct MsgBank *)bank,b); func_0201F250((struct WordSet *)set,((struct Obj05274 *)p)->fC,text); STRBUF_Delete(text); font=IRC_RHYTHM_GetPrintQueue(a); tag=IRC_RHYTHM_GetFont(a); PRINTSYS_PrintQue((struct PrintSys *)font,(u32)BMP_WIN_GetBmp(((struct Obj05274 *)p)->f4),x,y,((struct Obj05274 *)p)->fC,tag); p[8]=1; }

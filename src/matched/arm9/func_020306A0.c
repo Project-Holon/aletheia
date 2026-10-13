@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  */
 
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 
 void GFL_HEAP_FatalError(int n)
 {
@@ -20,19 +20,19 @@ void GFL_HEAP_FatalError(int n)
     case 0:
         break;
     case 1:
-        func_02088234();
+        OS_Terminate();
         break;
     case 2:
-        func_02088234();
+        OS_Terminate();
         break;
     case 3:
-        func_02088234();
+        OS_Terminate();
         break;
     case 4:
-        func_02088234();
+        OS_Terminate();
         break;
     case 5:
-        func_02088234();
+        OS_Terminate();
         break;
     }
 }

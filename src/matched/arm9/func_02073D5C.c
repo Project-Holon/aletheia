@@ -1,5 +1,5 @@
 /*
- * function: func_02073D5C
+ * function: NNSi_SndMainReset
  * address:  0x02073D5C
  * packet:   pkt_02073D5C
  * region:   arm9
@@ -9,28 +9,28 @@
  * isa:      arm
  * status:   EXACT
  *
- * blocker:  +0018 ABS32 g_0214E9B4             -> unresolved: 0214E9B4 (data, from header) has no witness outside 02073D5C..02073D7C
+ * blocker:  +0018 ABS32 gNNSSndSystemFlag             -> unresolved: 0214E9B4 (data, from header) has no witness outside 02073D5C..02073D7C
  *
  * symbols:
- *   g_0214E9B4       0x0214E9B4  data
- *   g_0214E9FC       0x0214E9FC  data
+ *   gNNSSndSystemFlag       0x0214E9B4  data
+ *   gNNSSndSystem       0x0214E9FC  data
  *
  * Clears the two words of the sequence/index pair to zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02073D5C.c \
- *       --func func_02073D5C --addr 0x02073D5C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_SndMainReset.c \
+ *       --func NNSi_SndMainReset --addr 0x02073D5C --cc 1.1p1 --arm
  */
 
 #include "../include/G_St.h"
 
 typedef unsigned int u32;
 
-extern u32 g_0214E9B4;
-extern struct St g_0214E9FC;
+extern u32 gNNSSndSystemFlag;
+extern struct St gNNSSndSystem;
 
-void func_02073D5C(void)
+void NNSi_SndMainReset(void)
 {
-    g_0214E9B4 = 0;
-    (*(u32 *)&g_0214E9FC) = 0;
+    gNNSSndSystemFlag = 0;
+    (*(u32 *)&gNNSSndSystem) = 0;
 }

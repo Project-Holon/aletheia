@@ -15,7 +15,7 @@
  *   FIELD_3DBG_SetPolygonAttr  0x021A1934  thumb  ov021
  *   FIELD_3DBG_SetTextureParams  0x021A195C  thumb  ov021
  *   FIELD_3DBG_DrawQuad  0x021A1848  thumb  ov021
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207D8C4  0x0207D8C4  arm
  *   g_DefaultProjectionMtx     0x02148B54  data  a4
  * Addresses are Black-image addresses.
@@ -31,7 +31,7 @@ typedef signed int     s32;
 extern void FIELD_3DBG_SetPolygonAttr(u8 *p);
 extern void FIELD_3DBG_SetTextureParams(u32 *);
 extern void FIELD_3DBG_DrawQuad(const s32 *a);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207D8C4(S64 *);
 
 void FIELD_3DBG_DrawBillboard(u32 *p)
@@ -39,7 +39,7 @@ void FIELD_3DBG_DrawBillboard(u32 *p)
     S64 buf;
     volatile u32 *r;
     if (p != 0 && p[2] != 0 && FIELD_3DBG_IsTextureLoaded((u8 *)(p + 8)) != 0) {
-        func_0206DB80();
+        NNS_G3dGeFlushBuffer();
         *(volatile u32 *)0x04000440 = 0;
         buf = g_DefaultProjectionMtx;
         func_0207D8C4(&buf);

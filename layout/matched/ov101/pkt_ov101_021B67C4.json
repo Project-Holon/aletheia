@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B67C4",
+   "name": "COMPATIBLE_IRC_SYS_ProfileSyncSendAck",
    "address": "0x021B67C4",
    "kind": "game",
    "region": "ov101",

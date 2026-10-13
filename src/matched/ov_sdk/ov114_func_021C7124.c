@@ -30,7 +30,7 @@
  *   NHTTP_AddPostDataAscii          0x021BE748  arm  ov114
  *   runHttp                         0x021C70D4  arm  ov114
  *   freeHttp                        0x021C6BEC  arm  ov114
- *   g_021D3B9C                      0x021D3B9C  data  ov114
+ *   gDwciNdStatics                      0x021D3B9C  data  ov114
  *   DWCiNd_action_list              0x021CE0CE  data  ov114
  *   @17416                          0x021CF510  data
  *   @17417                          0x021CF518  data
@@ -78,7 +78,7 @@ typedef struct tagDWCi_Ndi_HTTPREQ {
     } param;
 } tagDWCi_Ndi_HTTPREQ;
 
-extern NdStatics g_021D3B9C;
+extern NdStatics gDwciNdStatics;
 extern char DWCiNd_action_list[9];
 
 extern void DWCi_NdSetError(int err, int servererror);
@@ -106,32 +106,32 @@ int DWCi_NdGetFileListAsync(DWCNdFileInfo *filelist, int offset, int num)
     lenBuf = num << 8;
     if (lenBuf < 0x80)
         lenBuf = 0x80;
-    pBuf = g_021D3B9C.alloc(lenBuf, 4);
+    pBuf = gDwciNdStatics.alloc(lenBuf, 4);
     if (pBuf == 0) {
         DWCi_NdSetError(1, 0);
         return 0;
     }
     lenOffset = DWCi_Ndi_intToStr(strBuf, offset);
-    strOffset = g_021D3B9C.alloc(DWCi_Ndi_getEncodeLenBASE64(lenOffset) + 1, 4);
+    strOffset = gDwciNdStatics.alloc(DWCi_Ndi_getEncodeLenBASE64(lenOffset) + 1, 4);
     if (strOffset == 0) {
-        g_021D3B9C.free(pBuf);
+        gDwciNdStatics.free(pBuf);
         DWCi_NdSetError(1, 0);
         return 0;
     }
     strOffset[DWCi_Ndi_encodeBASE64(strOffset, strBuf, lenOffset)] = 0;
     lenNum = DWCi_Ndi_intToStr(strBuf, num);
-    strNum = g_021D3B9C.alloc(DWCi_Ndi_getEncodeLenBASE64(lenNum) + 1, 4);
+    strNum = gDwciNdStatics.alloc(DWCi_Ndi_getEncodeLenBASE64(lenNum) + 1, 4);
     if (strNum == 0) {
-        g_021D3B9C.free(strOffset);
-        g_021D3B9C.free(pBuf);
+        gDwciNdStatics.free(strOffset);
+        gDwciNdStatics.free(pBuf);
         DWCi_NdSetError(1, 0);
         return 0;
     }
     strNum[DWCi_Ndi_encodeBASE64(strNum, strBuf, lenNum)] = 0;
     if (!setupHttp(&hrq, &req, DWCiNd_action_list, pBuf, lenBuf, 0)) {
-        g_021D3B9C.free(strNum);
-        g_021D3B9C.free(strOffset);
-        g_021D3B9C.free(pBuf);
+        gDwciNdStatics.free(strNum);
+        gDwciNdStatics.free(strOffset);
+        gDwciNdStatics.free(pBuf);
         return 0;
     }
     if (NHTTP_AddPostDataAscii(req, "offset", strOffset) == -1)
@@ -146,15 +146,15 @@ int DWCi_NdGetFileListAsync(DWCNdFileInfo *filelist, int offset, int num)
     hrq->param.list.pBuf = pBuf;
     if (runHttp(hrq, req))
         return 1;
-    g_021D3B9C.free(strNum);
-    g_021D3B9C.free(strOffset);
-    g_021D3B9C.free(pBuf);
+    gDwciNdStatics.free(strNum);
+    gDwciNdStatics.free(strOffset);
+    gDwciNdStatics.free(pBuf);
     return 0;
 
 error:
-    g_021D3B9C.free(strNum);
-    g_021D3B9C.free(strOffset);
-    g_021D3B9C.free(pBuf);
+    gDwciNdStatics.free(strNum);
+    gDwciNdStatics.free(strOffset);
+    gDwciNdStatics.free(pBuf);
     freeHttp(hrq, req);
     DWCi_NdSetError(1, 0);
     return 0;

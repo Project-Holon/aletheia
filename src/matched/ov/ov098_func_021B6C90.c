@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C90
+ * function: PDC_MSG_BlendStartFadeOut
  * address:  0x021B6C90
  * packet:   pkt_ov098_021B6C90
  * region:   ov098
@@ -24,7 +24,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-void func_021B6C90(char *p, int flag)
+void PDC_MSG_BlendStartFadeOut(char *p, int flag)
 {
     if ((u8)(((struct Obj03220 *)p)->f14 + 0xff) <= 1) {
         if (flag == 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_020858BC
+ * function: OS_RescheduleThread
  * address:  0x020858BC
  * packet:   pkt_020858BC
  * region:   arm9
@@ -20,7 +20,7 @@ int OS_DisableInterrupts(void);
 void OSi_RescheduleThread(void);
 int OS_RestoreInterrupts(int last);
 
-void func_020858BC(void)
+void OS_RescheduleThread(void)
 {
     int bak_intr = OS_DisableInterrupts();
     OSi_RescheduleThread();

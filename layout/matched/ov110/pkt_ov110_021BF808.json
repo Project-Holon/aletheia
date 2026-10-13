@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF808",
+   "name": "PMS_INPUT_GetSearchState",
    "address": "0x021BF808",
    "kind": "game",
    "region": "ov110",

@@ -10,7 +10,7 @@
  * symbols:
  *   func_0200F7C0 0x0200F7C0 thumb
  *   func_021D5D58 0x021D5D58 thumb ov123
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   func_021D8F58 0x021D8F58 thumb ov123
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   func_021D5D7C 0x021D5D7C thumb ov123
@@ -29,7 +29,7 @@ extern unsigned int WIPE_SYS_EndCheck(void);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern int func_021D5D58(char *p);
-extern void func_021B9774(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_021D8F58(char *);
 extern void func_0200F7C0(u32 value);
@@ -47,7 +47,7 @@ int func_021D9158(void *a, int b, int c, char *p)
     result=1;
     if (WIPE_SYS_EndCheck() && !((struct Obj01406 *)p)->fAE && func_0200FB24()) {
         if (((struct Obj01406 *)p)->f8) func_021D5D58(((struct Obj01406 *)p)->f8);
-        func_021B9774(((struct Obj01406 *)p)->f10);
+        NHTTP_RAP_DeleteConnection(((struct Obj01406 *)p)->f10);
         if (((struct Obj01406 *)p)->fAD) {
             GAME_DATA_SaveCancel(((struct Obj01406 *)p)->f2C);
             ((struct Obj01406 *)p)->fAD=0;

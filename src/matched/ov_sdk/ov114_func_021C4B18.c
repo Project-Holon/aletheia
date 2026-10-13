@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B18
+ * function: ghiDeliverIncomingFileData
  * address:  0x021C4B18
  * packet:   pkt_ov114_021C4B18
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      ghiDeliverIncomingFileData (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
  * symbols:
- *   func_021BFCEC  0x021BFCEC  arm  ov114
- *   func_021C02C8  0x021C02C8  arm  ov114
+ *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
+ *   ghiCallProgressCallback  0x021C02C8  arm  ov114
  */
 
 typedef struct GHIBuffer {
@@ -38,10 +38,10 @@ typedef struct GHIConnection {
     int f158;
 } GHIConnection;
 
-extern int func_021BFCEC(GHIBuffer *, char *, int);
-extern void func_021C02C8(GHIConnection *, char *, int);
+extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
+extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 
-int func_021C4B18(GHIConnection *connection, char *data, int len)
+int ghiDeliverIncomingFileData(GHIConnection *connection, char *data, int len)
 {
     char *buffer = 0;
     int bufferLen = 0;
@@ -51,7 +51,7 @@ int func_021C4B18(GHIConnection *connection, char *data, int len)
         connection->f124 = 1;
 
     if (connection->fC == 0) {
-        if (func_021BFCEC(&connection->buf, data, len) == 0)
+        if (ghiAppendDataToBuffer(&connection->buf, data, len) == 0)
             return 0;
         buffer = connection->buf.f4;
         bufferLen = connection->buf.fC;
@@ -67,6 +67,6 @@ int func_021C4B18(GHIConnection *connection, char *data, int len)
         buffer = data;
         bufferLen = len;
     }
-    func_021C02C8(connection, buffer, bufferLen);
+    ghiCallProgressCallback(connection, buffer, bufferLen);
     return 1;
 }

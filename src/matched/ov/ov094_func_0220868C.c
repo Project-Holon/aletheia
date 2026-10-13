@@ -11,6 +11,7 @@
  *
  * symbols:
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
+ *   MIi_CpuCopy16  0x02082A60  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -19,7 +20,7 @@ typedef struct { char p0[0xc]; void *fc; char p10[0x78 - 0x10]; int f78; } E;
 typedef struct { char p0[0x14]; char *f14; } O;
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 
 void BTLV_GAUGE_DrawHpLoss(O *o, E *e, int c)
 {
@@ -46,5 +47,5 @@ void BTLV_GAUGE_DrawHpLoss(O *o, E *e, int c)
     i = 0;
     vram = VRAM_BASE;
     for (; i < 6; i++)
-        func_02082A60(o->f14 + (cnt[i] * 32 + 0x6a0), (void *)(vram + i * 32 + buf.w[1]), 0x20);
+        MIi_CpuCopy16(o->f14 + (cnt[i] * 32 + 0x6a0), (void *)(vram + i * 32 + buf.w[1]), 0x20);
 }

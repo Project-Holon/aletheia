@@ -1,5 +1,5 @@
 /*
- * function: func_0689D118
+ * function: BTL_DEADREC_Init
  * address: 0x0689D118
  * packet: pkt_ov095_0689D118
  * region: ov095
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0689D0FC 0x0689D0FC thumb ov095
+ *   BTL_DEADREC_ClearTurn 0x0689D0FC thumb ov095
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0689D0FC(u8 *p);
-void func_0689D118(u8 *p)
+extern void BTL_DEADREC_ClearTurn(u8 *p);
+void BTL_DEADREC_Init(u8 *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        func_0689D0FC(p + i * 49);
+        BTL_DEADREC_ClearTurn(p + i * 49);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE21C
+ * function: WIFICLUB_AddPeerActor
  * address:  0x021BE21C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021BE21C(char *p, void *v)
+void WIFICLUB_AddPeerActor(char *p, void *v)
 {
     int i;
 

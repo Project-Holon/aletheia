@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207F47C  0x0207F47C  arm
  *   func_0207F4C4  0x0207F4C4  arm
  *   func_0207F560  0x0207F560  arm
- *   func_0207E51C  0x0207E51C  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_0207F6A8  0x0207F6A8  arm
  *   func_0207F6C0  0x0207F6C0  arm
  *   func_0207F754  0x0207F754  arm
@@ -41,7 +41,7 @@
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
  *
- *   1. The two products are NAMED LOCALS computed before func_020862F0, not
+ *   1. The two products are NAMED LOCALS computed before DWCi_ScreenDC_FlushRange, not
  *      expressions at the six call sites.  Writing `a + step * i` inline gives
  *      `mla r0, r6, r4, r5` repeated in every arm where the image has one
  *      `mul r4, r8, r7` / `mul r6, r8, r0` pair at 0x02063FA8 and a plain
@@ -61,7 +61,7 @@
  *      docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  *
  *   4. The `default:` arm of the switch is explicit and empty, the same tell
- *      as src/matched/func_02072AA0.c: without it the last case is
+ *      as src/matched/NNS_SndWaveOutStart.c: without it the last case is
  *      if-converted into the compare chain instead of getting its own `beq`.
  *
  *   5. THE `../2.0/sp2` PIN.  With all of the above right, dsi/1.1p1 is
@@ -109,11 +109,11 @@ typedef struct List02063F4C {
     u16 *items;
 } List02063F4C;
 
-extern void func_020862F0(u32 a, u32 b);
+extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
 extern void func_0207F47C(u32 a);
 extern void func_0207F4C4(u32 a, u32 b, u32 c);
 extern void func_0207F560(void);
-extern void func_0207E51C(u32 a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void func_0207F6A8(u32 a);
 extern void func_0207F6C0(u32 a, u32 b, u32 c);
 extern void func_0207F754(void);
@@ -141,7 +141,7 @@ void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
             a = self->fC;
             d = step * i;
             t = step * list->items[i];
-            func_020862F0(a, self->f8);
+            DWCi_ScreenDC_FlushRange(a, self->f8);
             switch (sel) {
             case 1:
                 if (self->f4 != 0) {
@@ -149,7 +149,7 @@ void func_02063F4C(Self02063F4C *self, List02063F4C *list, u32 base, int sel,
                     func_0207F4C4(a + d, base + t, step);
                     func_0207F560();
                 } else {
-                    func_0207E51C(a + d, base + t, step);
+                    GX_LoadOBJPltt(a + d, base + t, step);
                 }
                 break;
             case 2:

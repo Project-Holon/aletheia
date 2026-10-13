@@ -1,5 +1,5 @@
 /*
- * function: func_0206AE94
+ * function: NNS_G3dGlbGetViewPort
  * address:  0x0206AE94
  * packet:   pkt_0206AA78
  * region:   arm9
@@ -28,8 +28,8 @@
  * arm's value in ip while the rest use r0).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AE94.c \
- *       --func func_0206AE94 --addr 0x0206AE94 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbGetViewPort.c \
+ *       --func NNS_G3dGlbGetViewPort --addr 0x0206AE94 --cc ../2.0/sp2 --arm
  *
  * symbols:
  *   g_renderState  0x02148B4C  data
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 
 extern u32 g_renderState[];
 
-void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3)
+void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3)
 {
     if (a0 != 0)
         *a0 = g_renderState[0x28] & 0xff;

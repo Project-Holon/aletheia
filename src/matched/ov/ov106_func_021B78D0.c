@@ -1,5 +1,5 @@
 /*
- * function: func_021B78D0
+ * function: IRC_RANKING_SeqSetFunc
  * address:  0x021B78D0
  * packet:   pkt_ov106_021B78D0
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B78D0(u8 *p, u32 v) { ((struct Obj13757 *)p)->f0 = v; ((struct Obj13757 *)p)->f8 = 0; }
+void IRC_RANKING_SeqSetFunc(u8 *p, u32 v) { ((struct Obj13757 *)p)->f0 = v; ((struct Obj13757 *)p)->f8 = 0; }

@@ -1,7 +1,7 @@
 /*
  * file:     scenesetrakuready.c
  * unit:     yes
- * function: DWCi_SceneSetRakuReady, func_021CB344, func_021CB3EC, func_021CB454, func_021CB498, func_021CB4BC, func_021CB4DC, DWCi_SceneSetRakuReady_draw, button, endScene, endScene1, endScene2, func_021CB6A4, func_021CB734, procError1
+ * function: DWCi_SceneSetRakuReady, initGraphics, DWCi_SceneSetRakuReadyProcInit, DWCi_SceneSetRakuReadyProcInit1, DWCi_SceneSetRakuReadyProcInit2, procScene, input, DWCi_SceneSetRakuReady_draw, button, endScene, endScene1, endScene2, checkRaku, DWCi_SceneSetRakuReadyProcError, procError1
  * address:  0x021CB2E8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -18,13 +18,13 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CB2E8.c \
  *       --func DWCi_SceneSetRakuReady --addr 0x021CB2E8 --region ov016 --cc 1.1p1 --arm --lang c99
- * Set r0 to 0xa, call func_02085A38, then run the four ov016 steps.
+ * Set r0 to 0xa, call OS_Sleep, then run the four ov016 steps.
  * Addresses are Black-image addresses.
- *   python tools/match.py one --src src/matched/func_021CB4BC.c \
- *       --func func_021CB4BC --addr 0x021CB4BC --region ov016 --cc dsi/1.1p1 --arm
- * Two-stage guard around func_021BCB28.
- *   python tools/match.py one --src src/matched/func_021CB4DC.c \
- *       --func func_021CB4DC --addr 0x021CB4DC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CB4BC --region ov016 --cc dsi/1.1p1 --arm
+ * Two-stage guard around DWCi_BTNlSet.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021CB4DC --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneSetRakuReady_draw.c \
  *       --func DWCi_SceneSetRakuReady_draw --addr 0x021CB514 --region ov016 --cc dsi/1.1p1 --arm
@@ -45,6 +45,10 @@
  *       --func procError1 --addr 0x021CB760 --region ov016 --cc 1.1p1 --arm --lang c99
  *
  * symbols:
+ *   OS_Sleep                       0x02085A38  arm  arm9
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IsFold                    0x021CB2C8  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   initGraphics                     0x021cb344 arm
  *   DWCi_HLlLoadSet                  0x021bd6d4 arm
  *   DWCi_COMMENTlDispEx              0x021bd060 arm
@@ -54,13 +58,13 @@
  *   DWCi_SNDlPlay                    0x021cffac arm
  *   DWCi_ChangeScene                 0x021c0e40 arm
  *   Choose                           0x021de604 data
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   dat_021DB680    0x021DB680  data
- *   dat_021DB698    0x021DB698  data
- *   dat_021DB6B0    0x021DB6B0  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_0207EB78    0x0207EB78  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   sSceneSetRakuReadyPathJbBgStep3Char    0x021DB680  data
+ *   sSceneSetRakuReadyPathYbBgStep3Pltt    0x021DB698  data
+ *   sSceneSetRakuReadyPathXb4MultiScr    0x021DB6B0  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
  *   DWCi_EFFlCheck                   0x021d5580 arm
@@ -109,7 +113,7 @@ extern void DWCi_CMNlMsgDraw(int msgId);
 extern void DWCi_ANIMElInitEx(int color);
 extern void DWCi_SNDlPlay(int no);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern bool DWCi_EFFlCheck(int lcd);
@@ -117,12 +121,10 @@ extern void DWCi_RAKUlInit(void);
 extern void DWCi_CMNlButton(int kind);
 extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
-extern void func_02085A38(u32 msec);
-extern void func_021CB6A4(void);
-extern void func_021CB518(void);
-extern int func_021D6824(unsigned int f);
-extern int func_021CB2C8(void);
-extern void func_021BCB28(signed char v);
+extern void OS_Sleep(u32 msec);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_IsFold(void);
+extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_SNDlStop(void);
 extern void DWCi_BTNlDisable(void);
 extern bool DWCi_EFFlWait(int frame);
@@ -133,7 +135,7 @@ extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern bool DWCi_COMMENTlDelete(void);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_RAKUlEnd(void);
-extern void DWCi_SetParam_(void *param0, void *param1);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneSetSelectWay(void);
 extern void DWCi_SceneSetRakuButton(void);
 extern int DWCi_RAKUlGetState(void);
@@ -143,23 +145,29 @@ extern void DWCi_WINlEnd(void);
 extern void DWCi_HLlLoad(int idx);
 extern bool DWCi_WINlIsInit(void);
 void DWCi_SceneSetRakuReady(void);
-void func_021CB344(void);
-void func_021CB4BC(void);
-void func_021CB4DC(void);
 void DWCi_SceneSetRakuReady_draw(void);
 extern unsigned char Choose;
-extern unsigned short dat_021DB680[];
-extern unsigned short dat_021DB698[];
-extern unsigned short dat_021DB6B0[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_0207EB78[];
+extern unsigned short sSceneSetRakuReadyPathJbBgStep3Char[];
+extern unsigned short sSceneSetRakuReadyPathYbBgStep3Pltt[];
+extern unsigned short sSceneSetRakuReadyPathXb4MultiScr[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short GX_LoadBG2Scr[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
-
 static void initGraphics(void);
-
 static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void procScene(void);
+static void input(void);
+static void button(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
+static void checkRaku(void);
+static void procError(void);
+static void procError1(void);
 
 
 void DWCi_SceneSetRakuReady(void)
@@ -176,19 +184,18 @@ void DWCi_SceneSetRakuReady(void)
 }
 
 
-
 /*
- * Load three tilemaps through func_021BD1D4, then set the low two bits of five
+ * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.
  */
-void func_021CB344(void)
+static void initGraphics(void)
 {
     u16 *p;
 
-    func_021BD1D4((char *)((int)dat_021DB680), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB698), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB6B0), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathXb4MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -201,11 +208,6 @@ void func_021CB344(void)
 }
 
 
-
-static void procInit1(void);
-
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -214,11 +216,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
-
-
-static void procInit2(void);
-
 
 
 static void procInit1(void)
@@ -232,11 +229,6 @@ static void procInit1(void)
 }
 
 
-
-static void procScene(void);
-
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) {
@@ -247,33 +239,30 @@ static void procInit2(void)
 }
 
 
-void func_021CB4BC(void)
+static void procScene(void)
 {
-    func_02085A38(0xa);
-    func_021CB6A4();
-    func_021CB4DC();
+    OS_Sleep(0xa);
+    checkRaku();
+    input();
     DWCi_SceneSetRakuReady_draw();
-    func_021CB518();
+    button();
 }
 
 
-void func_021CB4DC(void)
+static void input(void)
 {
-    if (func_021D6824(2))
+    if (DWCi_IPTlCheckTrigger(2))
     {
-        func_021BCB28(0);
+        DWCi_BTNlSet(0);
         return;
     }
-    if (func_021CB2C8())
-        func_021BCB28(0);
+    if (DWCi_IsFold())
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneSetRakuReady_draw(void)
 {
 }
-
-
-static void endScene(void);
 
 
 static void button(void)
@@ -286,18 +275,12 @@ static void button(void)
 }
 
 
-static void endScene1(void);
-
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
-
-static void endScene2(void);
 
 
 static void endScene1(void)
@@ -335,17 +318,13 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if (Choose == 0) {
         DWCi_RAKUlEnd();
-        DWCi_SetParam_((void *)2, (void *)1);
+        DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 0);
         DWCi_ChangeScene(DWCi_SceneSetRakuButton);
     }
 }
-
-
-static void procError(void);
-
 
 
 static void checkRaku(void)
@@ -365,11 +344,6 @@ static void checkRaku(void)
         break;
     }
 }
-
-
-
-static void procError1(void);
-
 
 
 static void procError(void)

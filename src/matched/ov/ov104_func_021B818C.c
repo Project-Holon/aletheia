@@ -1,5 +1,5 @@
 /*
- * function: func_021B818C
+ * function: IRC_RHYTHM_Finish
  * address:  0x021B818C
  * packet:   pkt_ov104_021B818C
  * region:   ov104
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B818C(u8 *p) { ((struct Obj22227 *)p)->f80C = 1; }
+void IRC_RHYTHM_Finish(u8 *p) { ((struct Obj22227 *)p)->f80C = 1; }

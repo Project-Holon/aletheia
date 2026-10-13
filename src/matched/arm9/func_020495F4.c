@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  *
  * Argument-swapping shim in front of the FS read: this entry point takes the
  * length before the destination, the reader takes them the other way round.
@@ -34,9 +34,9 @@ struct ArcFile {
 
 typedef signed int     s32;
 struct FSFile;
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst)
 {
-    func_02078B70((struct FSFile *)arc, dst, size);
+    FS_ReadFile((struct FSFile *)arc, dst, size);
 }

@@ -35,7 +35,7 @@
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_020084BC  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
@@ -64,7 +64,7 @@
  *   func_02008DFC  0x02008DFC  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   func_0200D0AC  0x0200D0AC  thumb
+ *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   func_020089D0  0x020089D0  thumb
  *   func_020089CC  0x020089CC  thumb
  *   TRCARD_SYS_CountStars  0x0216F830  thumb  ov010
@@ -176,7 +176,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern void *func_0200E6E8(u32 a);
-extern void *func_0200CA1C(void *save);
+extern void *ZUKAN_SAVE_GetFromGameData(void *save);
 extern int func_020084BC(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -206,7 +206,7 @@ extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 struct Blk37;
-extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
 extern int func_020089D0(const struct Sub020089A8Obj *obj);
 extern void *func_020089CC(void *p);
 extern int TRCARD_SYS_CountStars(void *save);
@@ -242,7 +242,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     clock = (Clock *)func_02008B14(x28);
     x14 = func_02008C58(x28);
     x10 = func_0200E6E8((u32)x28);
-    x0c = func_0200CA1C(save);
+    x0c = ZUKAN_SAVE_GetFromGameData(save);
 
     if (func_020084BC(player) == 0) {
         MIi_CpuCopy16(func_020084F4(player), out->name, 16);
@@ -335,7 +335,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
         out->b2 = 1;
     else
         out->b2 = 0;
-    out->f24 = func_0200D0AC(x0c, heap);
+    out->f24 = ZUKAN_SAVE_CountSeen(x0c, heap);
     out->b3 = (u32)func_020089D0(x24);
     MI_CpuCopy8(func_020089CC(x24), out->f74, 0x600);
     out->b6 = flag;

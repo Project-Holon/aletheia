@@ -1,5 +1,5 @@
 /*
- * function: func_021BB658
+ * function: PMSIV_CATEGORY_SetCursorVisible
  * address: 0x021BB658
  * packet: pkt_ov110_021BB658
  * region: ov110
@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   func_021BF6DC 0x021BF6DC thumb ov110
+ *   PMS_INPUT_GetBrowseMode 0x021BF6DC thumb ov110
  */
 #include "../include/Obj04444.h"
 typedef unsigned char u8;
@@ -20,13 +20,13 @@ typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u8 func_021BF6DC(u8 *);
-void func_021BB658(u8 *p, int enable)
+extern u8 PMS_INPUT_GetBrowseMode(u8 *);
+void PMSIV_CATEGORY_SetCursorVisible(u8 *p, int enable)
 {
     if (enable) {
         if (**(int * *)&((struct Obj04444 *)p)->f5C == 0) {
             CLACT_SetActorDrawEnable(((struct Obj04444 *)p)->f54, 1);
-            if (func_021BF6DC(*(u8 * *)&((struct Obj04444 *)p)->f4) == 0) {
+            if (PMS_INPUT_GetBrowseMode(*(u8 * *)&((struct Obj04444 *)p)->f4) == 0) {
                 CLACT_SetActorAnimSeq(((struct Obj04444 *)p)->f54, 4);
             } else {
                 CLACT_SetActorAnimSeq(((struct Obj04444 *)p)->f54, 6);

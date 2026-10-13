@@ -1,5 +1,5 @@
 /*
- * function: func_0689B69C
+ * function: BTLV_SCD_RunCloseSequence
  * address: 0x0689B69C
  * packet: pkt_ov095_0689B69C
  * region: ov095
@@ -29,7 +29,7 @@ extern void func_0689B740(void *, int, int);
 extern void func_0689B750(int);
 extern void func_0689B760(void);
 extern int func_0689B770(void *);
-int func_0689B69C(S *s)
+int BTLV_SCD_RunCloseSequence(S *s)
 {
     switch (s->f.state) {
     case 0:

@@ -92,7 +92,7 @@
  *   BTL_MAIN_IsRecordEnabledInComm 0x021BA1EC thumb ov093
  *   BTL_MAIN_IsRecordAllowed 0x021BA20C thumb ov093
  *   sub_02030EAC   0x02030EAC  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   d_0220AC70 0x0220AC70 data a4
@@ -100,7 +100,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_0203F0A8 0x0203F0A8 arm
- *   FX_Div_Alt  0x0207C768  arm
+ *   FX_Div  0x0207C768  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02061CA4  0x02061CA4  arm
  *   func_021F882C 0x021F882C thumb ov094
@@ -539,7 +539,7 @@ extern int BTL_MAIN_IsRecordEnabledInComm(char **p);
 
 extern int BTL_MAIN_IsRecordAllowed(char **p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern void sub_02030EAC(struct Node *n);
 
@@ -547,7 +547,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern u32 KEY_GetTrg(void);
 
@@ -555,7 +555,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 func_0203F0A8(void);
 
-extern u32 FX_Div_Alt(u32 a, u32 b);
+extern u32 FX_Div(u32 a, u32 b);
 
 extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
@@ -1925,7 +1925,7 @@ void func_021F89BC(void *h)
 
     if (h == 0)
         return;
-    w = (void *)TCBL_IsDeletePending(h);
+    w = (void *)TCBL_GetTaskUserData(h);
     if (d_0220AF20->cb[i] != 0)
         d_0220AF20->cb[i](h);
     if (w != 0)
@@ -2079,7 +2079,7 @@ void func_021F8BAC(void *h, void *arg)
  */
 void func_021F8C78(void *h)
 {
-    int m = func_021F935C(*((int *)TCBL_IsDeletePending(h)));
+    int m = func_021F935C(*((int *)TCBL_GetTaskUserData(h)));
     d_0220AF20->m0 &= m ^ 0xffffffff;
 }
 
@@ -2151,7 +2151,7 @@ void func_021F8CB0(void *h, void *arg)
  */
 void func_021F8EF8(void *h)
 {
-    int m = func_021F935C(((int *)TCBL_IsDeletePending(h))[0]);
+    int m = func_021F935C(((int *)TCBL_GetTaskUserData(h))[0]);
     d_0220AF20->m1 &= m ^ 0xffffffff;
 }
 
@@ -2184,7 +2184,7 @@ void func_021F8F30(void *h, void *p)
 
 void func_021F8FB0(void *h)
 {
-    int m = func_021F935C(((int *)TCBL_IsDeletePending(h))[2]);
+    int m = func_021F935C(((int *)TCBL_GetTaskUserData(h))[2]);
     d_0220AF20->m2 &= m ^ 0xffffffff;
 }
 
@@ -2206,7 +2206,7 @@ void func_021F8FE8(void *h, void *arg)
  */
 void func_021F9028(void *h)
 {
-    void *p = *(void **)(TCBL_IsDeletePending(h) + 0x10);
+    void *p = *(void **)(TCBL_GetTaskUserData(h) + 0x10);
     if (p != 0)
         func_020307B0(p);
 }
@@ -2285,17 +2285,17 @@ void func_021F918C(const VecFx32_021F8F30 *a, const VecFx32_021F8F30 *b, VecFx32
     if (div == 0)
         div = 0x1000;
     if (b->x - a->x != 0) {
-        out->x = FX_Div_Alt(b->x - a->x, div);
+        out->x = FX_Div(b->x - a->x, div);
         if (out->x == 0)
             out->x = (b->x > a->x) ? 1 : -1;
     }
     if (b->y - a->y != 0) {
-        out->y = FX_Div_Alt(b->y - a->y, div);
+        out->y = FX_Div(b->y - a->y, div);
         if (out->y == 0)
             out->y = (b->y > a->y) ? 1 : -1;
     }
     if (b->z - a->z != 0) {
-        out->z = FX_Div_Alt(b->z - a->z, div);
+        out->z = FX_Div(b->z - a->z, div);
         if (out->z == 0)
         {
             if (b->z > a->z)

@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
  */
 #include "../include/Obj06462.h"
 #include "../include/Obj22948.h"
 typedef unsigned char u8;
 extern void CLACT_VBlankSystem(void);
-extern void func_0207E3D0(void *, unsigned int, unsigned int);
+extern void GX_LoadBGPltt(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
 void func_021D60F8(void *a, u8 *p)
 {
@@ -29,7 +29,7 @@ void func_021D60F8(void *a, u8 *p)
     if (n % 10 == 1) {
         base = *(u8 * *)&((struct Obj22948 *)(*(u8 * *)&((struct Obj06462 *)p)->f18))->fC;
         off = (n / 10 + 2) * 32;
-        func_0207E3D0(base + off, 64, 32);
+        GX_LoadBGPltt(base + off, 64, 32);
         func_0207E468(base + off, 64, 32);
     }
     if (((struct Obj06462 *)p)->f4564 >= 80) ((struct Obj06462 *)p)->f4564 = 0;

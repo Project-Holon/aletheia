@@ -1,5 +1,5 @@
 /*
- * function: func_021B8880
+ * function: IRC_RHYTHM_CalcSyncScore
  * address: 0x021B8880
  * packet: pkt_ov104_021B8880
  * region: ov104
@@ -9,19 +9,19 @@
  * status: EXACT
  * lever: Direct word indexing retains the second stack record's base across the call.
  * symbols:
- *   func_021B87F4 0x021B87F4 thumb ov104
+ *   IRC_RHYTHM_GetPartnerRecord 0x021B87F4 thumb ov104
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int words[33]; } Block;
-extern void func_021B87F4(u8 *, Block *);
-int func_021B8880(u8 *p) {
+extern void IRC_RHYTHM_GetPartnerRecord(u8 *, Block *);
+int IRC_RHYTHM_CalcSyncScore(u8 *p) {
  Block a; Block b; int d; u32 score, sum; int i; Block *bp;
  a=*(Block *)(p+0x814);
  bp=&b;
- func_021B87F4(p+0xe0,bp);
+ IRC_RHYTHM_GetPartnerRecord(p+0xe0,bp);
  d=a.words[(*(u16 *)((u8 *)&a+120)-1)*2]-a.words[0]
   -(b.words[(*(u16 *)((u8 *)&b+120)-1)*2]-b.words[0]);
  if(d<0) d=-d;

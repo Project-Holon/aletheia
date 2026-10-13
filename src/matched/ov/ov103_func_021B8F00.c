@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F00
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke
  * address: 0x021B8F00
  * packet: pkt_ov103_021B8F00
  * region: ov103
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pt { int x, y; };
-u8 func_021B8F00(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b)
+u8 IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b)
 {
     int i;
     u32 sum;

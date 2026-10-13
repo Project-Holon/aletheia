@@ -10,9 +10,10 @@
  * status:   EXACT
  *
  * symbols:
+ *   DPW_TR_UploadFinishAsync  0x021C8978  arm  ov114
  *
 
- * State-setter: hand the object to func_021C8978, latch state 0xe at +0x28,
+ * State-setter: hand the object to DPW_TR_UploadFinishAsync, latch state 0xe at +0x28,
  * clear the word at +0xf8c and report 2.
  */
 #include "../include/Obj12233.h"
@@ -20,11 +21,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021C8978(u8 *p);
+extern void DPW_TR_UploadFinishAsync(u8 *p);
 
 int func_0220163C(u8 *p)
 {
-    func_021C8978(p);
+    DPW_TR_UploadFinishAsync(p);
     ((struct Obj12233 *)p)->f28 = 0xe;
     ((struct Obj12233 *)p)->fF8C = 0;
     return 2;

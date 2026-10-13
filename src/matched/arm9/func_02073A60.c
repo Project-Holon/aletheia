@@ -1,5 +1,5 @@
 /*
- * function: func_02073A60
+ * function: NNS_SndStrmStart
  * address:  0x02073A60
  * packet:   pkt_020738C0
  * region:   arm9
@@ -30,7 +30,7 @@ struct A {
 extern void func_020894B4(u32, u32, u32, u32);
 extern void func_0208C808(void *);
 extern void func_0208C828(void *);
-void func_02073A60(struct A *a) {
+void NNS_SndStrmStart(struct A *a) {
     func_020894B4(a->f4c, 0, 1u << a->f48, 0);
     if (a->u.f.b1) return;
     func_0208C808((u8 *)a + 8);

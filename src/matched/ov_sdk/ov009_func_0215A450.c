@@ -1,5 +1,5 @@
 /*
- * function: func_0215A450
+ * function: check_frag
  * address:  0x0215A450
  * packet:   pkt_ov009_0215A450
  * region:   ov009
@@ -53,7 +53,7 @@ extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
 #define NTOHL(p) (((u32)NTOHS(p) << 16) | NTOHS((u8 *)(p) + 2))
 
-u8 *func_0215A450(u8 *buf, u32 *fragmented)
+u8 *check_frag(u8 *buf, u32 *fragmented)
 {
     u32 i;
     u32 frag;

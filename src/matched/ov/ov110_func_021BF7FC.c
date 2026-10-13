@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7FC
+ * function: PMS_INPUT_GetInitialCount
  * address:  0x021BF7FC
  * packet:   pkt_ov110_021BF7FC
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB1C0  0x021BB1C0  thumb  ov110
+ *   PMSI_SEARCH_HasResults  0x021BB1C0  thumb  ov110
  */
 #include "../include/Obj22399.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 func_021BB1C0(u8 *p);
-u8 func_021BF7FC(u8 *p) { return func_021BB1C0((u8 *)(((struct Obj22399 *)p)->f1C)); }
+extern u8 PMSI_SEARCH_HasResults(u8 *p);
+u8 PMS_INPUT_GetInitialCount(u8 *p) { return PMSI_SEARCH_HasResults((u8 *)(((struct Obj22399 *)p)->f1C)); }

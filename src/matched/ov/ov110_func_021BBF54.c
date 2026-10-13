@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF54
+ * function: PMSIV_EDIT_StepPanelScroll
  * address: 0x021BBF54
  * packet: pkt_ov110_021BBF54
  * region: ov110
@@ -25,7 +25,7 @@ extern s16 CLACT_GetActorSurfacePosAxis(void *,u16,unsigned);
 extern void CLACT_SetActorSurfacePosAxis(void *,s16,u16,unsigned);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-int func_021BBF54(Obj *p)
+int PMSIV_EDIT_StepPanelScroll(Obj *p)
 {
     int delta,i,j;
     u8 *b=(u8 *)p;

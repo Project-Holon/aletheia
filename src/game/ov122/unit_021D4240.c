@@ -52,7 +52,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
@@ -100,7 +100,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -256,7 +256,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -308,7 +308,7 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
 extern void func_0204363C(u32);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
@@ -649,8 +649,8 @@ void func_021D48D8(char *p)
     func_02049B68((void *)arc, 0, 0, 0, 0, ((struct Obj00073 *)p)->fC);
     func_02049B68((void *)arc, 1, 4, 0, 0, ((struct Obj00073 *)p)->fC);
     resource = func_02049F78((void *)arc, 1, (u32)&palette, ((struct Obj00073 *)p)->fC);
-    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
-    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
+    MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
+    MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
     func_021D4644((u16 *)(p + 0x20c), data_021D5870, 7);
     func_020307B0(resource);
     ((struct Obj00073 *)p)->f60 = func_02049740((void *)arc, 4, 4, 0, 0, ((struct Obj00073 *)p)->fC);
@@ -1011,10 +1011,10 @@ void func_021D503C(char *p)
 
 
 
-void func_021D50B4(char *p,u32 n) {void *q;GFL_NET_GetInitParam();q=GFL_NET_GetScanResultMac(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;func_02082D44(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}
+void func_021D50B4(char *p,u32 n) {void *q;GFL_NET_GetInitParam();q=GFL_NET_GetScanResultMac(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;MI_CpuCopy8(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}
 
 
-void func_021D50DC(char *p) {u8 buf[6]={0};GFL_NET_GetInitParam();((struct Obj22933 *)(*(char * *)&((struct Obj13966 *)p)->f344))->f10=1;func_02082D44(buf,*(char * *)&((struct Obj13966 *)p)->f344+20,6);}
+void func_021D50DC(char *p) {u8 buf[6]={0};GFL_NET_GetInitParam();((struct Obj22933 *)(*(char * *)&((struct Obj13966 *)p)->f344))->f10=1;MI_CpuCopy8(buf,*(char * *)&((struct Obj13966 *)p)->f344+20,6);}
 
 
 void func_021D5110(char *p)
@@ -1076,7 +1076,7 @@ void func_021D5278(Object_021D50DC *p, const char *data, int value, int tag)
         }
         for (i = 0; i < 16; i++) {
             if (!p->f64[i].f08) {
-                func_02082D44(data + 4, p->f64[i].f00, 6);
+                MI_CpuCopy8(data + 4, p->f64[i].f00, 6);
                 p->f64[i].f08 = 600;
                 p->f64[i].f0a = tag;
                 return;
@@ -1117,7 +1117,7 @@ int func_021D5370(void *owner, void *unused, char *args)
     ((struct Obj00073 *)p)->f354 = ((struct Obj13967 *)args)->f0;
     func_0204363C(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(((struct Obj00073 *)p)->fC);
     BMP_WIN_Init(((struct Obj00073 *)p)->fC);
     func_0201DD60();

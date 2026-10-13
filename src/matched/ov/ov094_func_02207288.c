@@ -10,10 +10,10 @@
  * trailing: 0220742E..02207430 is two zero alignment bytes.
  * lever: rows are an array member of the object; raw offset casts gave 416 bytes and the wrong field-base spills, while the member form gives exact 422 bytes.
  * symbols:
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
- *   func_0200CED4 0x0200CED4 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
  *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
@@ -30,11 +30,11 @@ typedef struct { char pad[0x40]; u32 mode, side, a, b, f90, f94, f98, f9c, fa0, 
 typedef struct W { char pad[0x40]; Row rows[8]; } W;
 typedef struct S S;
 typedef struct { short x, y; } Pt;
-extern void func_02082A48(u32, void *, u32);
+extern void MIi_CpuClear16(u32, void *, u32);
 extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
 struct Blk37;
-extern u32 func_0200CED4(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
 extern u8 POKE_TOOL_GetGender(void *);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
 extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
@@ -46,7 +46,7 @@ void func_02207288(W *p, void *a, void *q, int mode, int i)
 {
     u32 x, y, exp;
     u16 species;
-    func_02082A48(0, &p->rows[i].mode, 0x40);
+    MIi_CpuClear16(0, &p->rows[i].mode, 0x40);
     p->rows[i].a = POKE_TOOL_GetPartyValue(q, 0xa0, 0);
     p->rows[i].b = POKE_TOOL_GetPartyValue(q, 0xa1, 0);
     p->rows[i].f90 = 0x80000000;
@@ -69,7 +69,7 @@ void func_02207288(W *p, void *a, void *q, int mode, int i)
     p->rows[i].fa0 = 0;
     p->rows[i].fae = 0;
     species = POKE_TOOL_GetPartyValue(q, 5, 0);
-    p->rows[i].seen = func_0200CED4(a, species);
+    p->rows[i].seen = ZUKAN_SAVE_IsCaught(a, species);
     if (species != 32 && species != 29)
         p->rows[i].sex = POKE_TOOL_GetGender(q);
     else

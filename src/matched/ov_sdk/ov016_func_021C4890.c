@@ -12,31 +12,31 @@
  * sdk:      cbMov (libdwcutil.TWL.HYB.a sceneoptmovwait.o)
  *
  * symbols:
- *   func_021D0014  0x021D0014  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021C11D4  0x021C11D4  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C8     0x021DE5C8  data
+ *   DWCi_SNDlStop  0x021D0014  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_MOVlChangeCallback  0x021C11D4  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovWaitWork     0x021DE5C8  data
  *   func_021C46DC  0x021C46DC  arm  ov016
  */
 
-extern void func_021D0014();
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C11D4(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_SNDlStop();
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_MOVlChangeCallback(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C46DC();
-extern unsigned char g_021DE5C8;
+extern unsigned char gSceneOptMovWaitWork;
 
 void func_021C4890(int state)
 {
-    func_021D0014();
+    DWCi_SNDlStop();
     if (state == 0) {
-        g_021DE5C8 = 1;
-        func_021CFFAC(0x10);
+        gSceneOptMovWaitWork = 1;
+        DWCi_SNDlPlay(0x10);
     } else {
-        g_021DE5C8 = 2;
-        func_021CFFAC(0x12);
+        gSceneOptMovWaitWork = 2;
+        DWCi_SNDlPlay(0x12);
     }
-    func_021C11D4(0);
-    func_021C0E40((unsigned int)func_021C46DC);
+    DWCi_MOVlChangeCallback(0);
+    DWCi_ChangeScene((unsigned int)func_021C46DC);
 }

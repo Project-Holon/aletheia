@@ -1,5 +1,5 @@
 /*
- * function: func_02174CF8
+ * function: DWCi_QR2AddErrorCallback
  * address:  0x02174CF8
  * packet:   pkt_ov009_02174CF0
  * region:   ov009
@@ -11,11 +11,14 @@
  *
  * notes:    defined in src/game/ov009/unit_02174CF0.c without a verification
  *           entry.
+ *
+ * symbols:
+ *   DWCi_HandleQR2Error  0x02173E30  arm
  */
 
-extern int func_02173E30(int error);
+extern int DWCi_HandleQR2Error(int error);
 
-int func_02174CF8(int error)
+int DWCi_QR2AddErrorCallback(int error)
 {
-    return func_02173E30(error);
+    return DWCi_HandleQR2Error(error);
 }

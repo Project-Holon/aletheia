@@ -11,6 +11,13 @@
  * status:   EXACT
  *
  * sdk:      libmi.TWL.HYB.a mi_sharedwram.o
+ *
+ * symbols:
+ *   SVC_WaitByLoop  0x02004490  thumb  arm9
+ *   OS_GetLockID  0x02084EB8  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -24,14 +31,14 @@ extern void (*const data_027301F8[])(u32, u32);
 extern u32 (*const data_027301E0[])(u32);
 extern u32 (*const data_027301EC[])(void);
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern u32 func_02084EB8(void);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
+extern u32 OS_GetLockID(void);
 extern void func_02084C68(u32, void *, void *);
 extern void func_02084CEC(u32, void *, void *);
 extern void func_02084F10(u32);
-extern int func_02088610(u32, u32, u32);
-extern void func_02004490(u32);
+extern int PXI_SendWordByFifo(u32, u32, u32);
+extern void SVC_WaitByLoop(u32);
 extern void func_020885A0(u32, void *);
 extern int data_02732F5C;
 extern int *data_02732F60;
@@ -641,8 +648,8 @@ u32 MI_IsWramSlotUsed(u32 ch, u32 idx)
 
 void MIi_SendToPxi(u32 a, u32 b)
 {
-    while (func_02088610(0x12, b, a) != 0) {
-        func_02004490(1);
+    while (PXI_SendWordByFifo(0x12, b, a) != 0) {
+        SVC_WaitByLoop(1);
     }
 }
 
@@ -664,7 +671,7 @@ void MIi_TakeApartData(u32 data, u32 *cmd, u32 *p2, u32 *p3, u32 *p4)
 
 void MI_LockWramManager(u16 *p)
 {
-    *p = func_02084EB8();
+    *p = OS_GetLockID();
     func_02084C68(*p, (void *)0x02FFF680, 0);
 }
 
@@ -676,7 +683,7 @@ void MI_UnlockWramManager(u32 id)
 
 u32 MIi_LockWramManagerDI(u16 *p)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     MI_LockWramManager(p);
     return irq;
 }
@@ -684,5 +691,5 @@ u32 MIi_LockWramManagerDI(u16 *p)
 void MIi_UnlockWramManagerRI(u32 id, u32 irq)
 {
     MI_UnlockWramManager(id);
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

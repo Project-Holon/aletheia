@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B64
+ * function: DWCi_TPlGet
  * address:  0x021D6B64
  * packet:   pkt_ov016_021D6B64
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_TPlGet (libdwcutil.TWL.HYB.a input.o)
  *
  * symbols:
- *   g_021DE688     0x021DE688  data
+ *   gInputStatics     0x021DE688  data
  */
 
 typedef struct tagCOORD {
@@ -32,14 +32,14 @@ typedef struct FoldState {
     TpData *tp;
 } FoldState;
 
-extern FoldState g_021DE688;
+extern FoldState gInputStatics;
 
-int func_021D6B64(COORD *c)
+int DWCi_TPlGet(COORD *c)
 {
     TpData *t;
     if ((*(volatile unsigned short *)0x02FFFFA8 & 0x8000) >> 15)
         return 0;
-    t = g_021DE688.tp;
+    t = gInputStatics.tp;
     if (!t->flag) {
         *c = t->b;
         return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB154
+ * function: IRCBATTLEMATCH_StepShowDisconnectMessage
  * address: 0x021BB154
  * packet: pkt_ov100_021BB154
  * region: ov100
@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA5F4 0x021BA5F4 thumb ov100
- *   func_021BA3A4 0x021BA3A4 thumb ov100
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BAEB4 0x021BAEB4 thumb ov100
- *   d_021BB660 0x021BB660 data a4
+ *   IRCBATTLEMATCH_FreeMessageWindows 0x021BA5F4 thumb ov100
+ *   IRCBATTLEMATCH_PrintMainMessage 0x021BA3A4 thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitTouchThenCancel 0x021BAEB4 thumb ov100
+ *   gIrcBattleMatchMsgDisconnected 0x021BB660 data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Word { int x; };
-extern const struct Word d_021BB660;
-extern void func_021BA5F4(unsigned a);
-extern void func_021BA3A4(struct Word *,int);
-extern void func_021B95B8(u8 *,u32);
-extern void func_021BAEB4(int);
-void func_021BB154(int p) {
-    struct Word x=d_021BB660;
-    func_021BA5F4(p);
-    func_021BA3A4(&x,p);
-    func_021B95B8((u8 *)p,(u32)func_021BAEB4);
+extern const struct Word gIrcBattleMatchMsgDisconnected;
+extern void IRCBATTLEMATCH_FreeMessageWindows(unsigned a);
+extern void IRCBATTLEMATCH_PrintMainMessage(struct Word *,int);
+extern void IRCBATTLEMATCH_SetStep(u8 *,u32);
+extern void IRCBATTLEMATCH_StepWaitTouchThenCancel(int);
+void IRCBATTLEMATCH_StepShowDisconnectMessage(int p) {
+    struct Word x=gIrcBattleMatchMsgDisconnected;
+    IRCBATTLEMATCH_FreeMessageWindows(p);
+    IRCBATTLEMATCH_PrintMainMessage(&x,p);
+    IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepWaitTouchThenCancel);
 }

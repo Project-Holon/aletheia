@@ -1,5 +1,5 @@
 /*
- * function: func_021B9800
+ * function: IRCBATTLEMATCH_MoveActor
  * address: 0x021B9800
  * packet: pkt_ov100_021B9800
  * region: ov100
@@ -19,4 +19,4 @@ struct Point { s16 x,y; };
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B9800(int a,int b,int c,int d) { struct Point p; int obj; obj=*(int *)(a+0x2c8+d*4); if(obj){p.x=b;p.y=c;CLACT_AddActorSurfacePos((struct Obj *)obj,(const struct Vec2 *)(&p),0);} }
+void IRCBATTLEMATCH_MoveActor(int a,int b,int c,int d) { struct Point p; int obj; obj=*(int *)(a+0x2c8+d*4); if(obj){p.x=b;p.y=c;CLACT_AddActorSurfacePos((struct Obj *)obj,(const struct Vec2 *)(&p),0);} }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AC0
+ * function: PMS_SELECT_GRAPHIC_UpdateTouchBar
  * address:  0x021C0AC0
  * packet:   pkt_ov110_021C0AC0
  * region:   ov110
@@ -24,4 +24,4 @@ typedef int s32;
 
 struct S;
 extern void TOUCHBAR_Update(struct S *p);
-void func_021C0AC0(void *a0) { TOUCHBAR_Update(a0); }
+void PMS_SELECT_GRAPHIC_UpdateTouchBar(void *a0) { TOUCHBAR_Update(a0); }

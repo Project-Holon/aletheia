@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
@@ -37,7 +37,7 @@ typedef struct Cp {
     int w[5];
 } Cp;
 
-void func_02082D44(const Ent *a, Ent *b, int c);
+void MI_CpuCopy8(const Ent *a, Ent *b, int c);
 void GAME_COMM_UpdatePlayerStatus(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
@@ -49,7 +49,7 @@ void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const Ent *src, int arg)
 
     e = (Ent *)(p + 0x8C) + idx;
     saved = e->f0;
-    func_02082D44(src, e, 0x1C);
+    MI_CpuCopy8(src, e, 0x1C);
     e->f0 = saved;
     e->hi = (u8)src->f0;
     if (src->f0 == 1) {

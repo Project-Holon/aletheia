@@ -1,5 +1,5 @@
 /*
- * function: func_021DFF30
+ * function: sciDestroyReport
  * address:  0x021DFF30
  * packet:   pkt_ov175_021DFF30
  * region:   ov175
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void func_0217EAE0(void *);
 
-int func_021DFF30(u32 *p)
+int sciDestroyReport(u32 *p)
 {
     u32 *q = (u32 *)p[0x124 / 4];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0217576C
+ * function: DWCi_SendServerPolling
  * address:  0x0217576C
  * packet:   pkt_ov009_0217576C
  * region:   ov009
@@ -17,11 +17,11 @@
  *   func_020870D0                0x020870D0 arm
  *   _ll_udiv                     0x0209C00C arm
  *   DWC_GetAIDBitmap                0x0216B908 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
- *   func_02176344                0x02176344 arm   ov009
- *   func_0216FF2C                0x0216FF2C arm   ov009
- *   func_021719A4                0x021719A4 arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
+ *   DWCi_NodeInfoList_GetMyNodeInfo                0x02176344 arm   ov009
+ *   DWCi_SendMatchCommand                0x0216FF2C arm   ov009
+ *   DWCi_HandleMatchCommandError                0x021719A4 arm   ov009
  */
 
 typedef unsigned char u8;
@@ -51,13 +51,13 @@ extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
 extern int DWC_GetAIDBitmap(void);
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern struct DWCstNodeInfo *func_02176344(void);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
-extern int func_021719A4(int error);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern struct DWCstNodeInfo *DWCi_NodeInfoList_GetMyNodeInfo(void);
+extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern int DWCi_HandleMatchCommandError(int error);
 
-int func_0217576C(int immediate)
+int DWCi_SendServerPolling(int immediate)
 {
     u32 sendData[3];
     struct DWCstNodeInfo *pNodeInfo;
@@ -77,11 +77,11 @@ int func_0217576C(int immediate)
     sendData[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
     sendData[1] = DWC_GetAIDBitmap();
     sendData[2] = ((struct DWCstMatchControl *)func_02175F3C())->f7c8;
-    for (i = 0; i < func_0217603C(); i++) {
-        pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
-        if (pNodeInfo != func_02176344()) {
-            result = func_0216FF2C(0x83, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)sendData, 3);
-            if (func_021719A4(result))
+    for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
+        pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
+        if (pNodeInfo != DWCi_NodeInfoList_GetMyNodeInfo()) {
+            result = DWCi_SendMatchCommand(0x83, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)sendData, 3);
+            if (DWCi_HandleMatchCommandError(result))
                 return -1;
         }
     }

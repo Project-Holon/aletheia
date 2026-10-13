@@ -54,7 +54,7 @@
  *   PALANM_GetDefaultWork  0x02021728  thumb
  *   PALANM_GetTransWork  0x02021730  thumb
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   d_021F31B6     0x021F31B6  data  a2
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_ForceStopFade 0x02021B18 thumb
@@ -70,7 +70,7 @@
  *   func_020091AC  0x020091AC  thumb
  *   d_021F332C     0x021F332C  data  a4
  *   func_02049F78  0x02049F78  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E468  0x0207E468  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0203FA08  0x0203FA08  arm
@@ -141,7 +141,7 @@
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
- *   func_0200C6F0  0x0200C6F0  thumb
+ *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
  *   func_02040B1C  0x02040B1C  arm
  *   func_02040E78  0x02040E78  arm
  *   func_02040AE0  0x02040AE0  arm
@@ -270,14 +270,14 @@ extern int FIELDMAP_GetSubscreenBusy(void *gameData);
 extern char *PALANM_GetDefaultWork(struct PalAnm *palAnm, int bank);
 extern char *PALANM_GetTransWork(struct PalAnm *palAnm, int bank);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, int count, int weight, u16 color);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
 extern void PALANM_ForceStopFade(struct PalAnm *o);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnm *palAnm);
 extern u32 func_0204162C(int channel);
 extern void func_020091AC(struct HexMap *obj, int row, int col, int kind, int marked, int flagged);
 extern void *func_02049F78(void *archive, u32 member, CGearFileInfo **outFile, u32 heapId);
-extern void func_020862F0(void *a, u32 b);
+extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
@@ -336,7 +336,7 @@ extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveCtrl *sv, u32 id, u8 
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct HexMap *func_02009210(void *saveSys);
 extern u16 func_0200910C(const struct HexMap *obj);
-extern u32 func_0200C6F0(const u8 *bgData);
+extern u32 MUSICAL_DIST_SAVE_IsFooterSet(const u8 *bgData);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
@@ -1661,7 +1661,7 @@ void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
             if (0xFBEE & (1 << i)) {
                 PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
                               d_021F31B6[work->colorTheme]);
-                func_02082D44(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
+                MI_CpuCopy8(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
             }
         }
         srcPal = PALANM_GetDefaultWork(work->palAnm, 1);
@@ -1670,7 +1670,7 @@ void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
             if (0x3E & (1 << i)) {
                 PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
                               d_021F31B6[work->colorTheme]);
-                func_02082D44(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
+                MI_CpuCopy8(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
             }
         }
     }
@@ -2055,7 +2055,7 @@ u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
 
     if (loadPalettes) {
         handle = func_02049F78(work->archive, d_021F31E0[theme], &file, 0x8070);
-        func_020862F0(file->data, file->size);
+        DWCi_ScreenDC_FlushRange(file->data, file->size);
         func_0207E468(file->data, 0, file->size);
         fileData = file->data;
         for (colorIdx = 0; colorIdx < 5; colorIdx++) {
@@ -3010,7 +3010,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
         crc = func_0203F1FC(buf, 0x2600);
         savedCrc = func_0200910C(func_02009210(saveSys));
         charBase = (u16)work->bgCharBlock;
-        if (crc == savedCrc && func_0200C6F0(buf) != 0) {
+        if (crc == savedCrc && MUSICAL_DIST_SAVE_IsFooterSet(buf) != 0) {
             result = 1;
             for (i = 0; i < 15; i++) {
                 func_02040B1C(6, buf + i * 0x220, 0x220, charBase + (i + 5) * 0x20);

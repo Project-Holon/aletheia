@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BC544",
-    "func_021BC5C0",
-    "func_021BC5D4",
-    "func_021BC5E8"
+    "WIFICLUB_ShowScenePrompt",
+    "WIFICLUB_StatePickScene4",
+    "WIFICLUB_StatePickScene5",
+    "WIFICLUB_StatePickScene6"
+   ],
+   "addresses": [
+    "0x021BC544",
+    "0x021BC5C0",
+    "0x021BC5D4",
+    "0x021BC5E8"
    ],
    "evidence": {
     "sole-ref": [

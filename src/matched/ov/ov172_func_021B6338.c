@@ -10,7 +10,7 @@
  * Trailing extent: 0x021B638E is a two-byte alignment nop, before the existing ARM veneer.
  * Loop lever: goto into the do-while test keeps a named result across the probe.
  * symbols:
- *   func_02085A38 0x02085A38 arm
+ *   OS_Sleep 0x02085A38 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_021B6390 0x021B6390 arm ov172
  *   func_021B6398 0x021B6398 arm ov172
@@ -20,7 +20,7 @@
  *   func_021B6868 0x021B6868 thumb ov172
  */
 typedef unsigned int   u32;
-extern void func_02085A38(u32 msec);
+extern void OS_Sleep(u32 msec);
 extern int OS_IsRunOnTwl(void);
 extern int func_021B6390(void);
 extern void func_021B6398(void);
@@ -33,7 +33,7 @@ void func_021B6338(char *p)
     int result;
     goto test;
     do {
-        func_02085A38(10);
+        OS_Sleep(10);
 test:
         result = 0;
         if (OS_IsRunOnTwl() != 0) result = func_021B6390();

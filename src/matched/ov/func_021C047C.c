@@ -1,5 +1,5 @@
 /*
- * function: func_021C047C
+ * function: WIFICLUB_StateSendChoiceAfterDelay
  * address:  0x021C047C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C18C8  0x021C18C8  thumb  ov099
+ *   WIFICLUB_SetOwnStatusAndPublish  0x021C18C8  thumb  ov099
  *
  * Ages the counter at +0x1E0 and, when it underflows, hands the halfword at
- * +0x246 to func_021C18C8 with mode 2 and stamps selector 0x9E.  The image
+ * +0x246 to WIFICLUB_SetOwnStatusAndPublish with mode 2 and stamps selector 0x9E.  The image
  * branches on the subs flags themselves (bpl), so the condition is the
  * decremented value, written as a prefix -- on the dereference.
  */
@@ -26,12 +26,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021C18C8(char *p, int a, int b);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *p, int a, int b);
 
-int func_021C047C(char *p, int v)
+int WIFICLUB_StateSendChoiceAfterDelay(char *p, int v)
 {
     if (--((struct Obj09203 *)p)->f1E0 < 0) {
-        func_021C18C8(p, 2, ((struct Obj09203 *)p)->f246);
+        WIFICLUB_SetOwnStatusAndPublish(p, 2, ((struct Obj09203 *)p)->f246);
         ((struct Obj09203 *)p)->f1CC = 0x9E;
     }
 

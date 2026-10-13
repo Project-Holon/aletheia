@@ -1,5 +1,5 @@
 /*
- * function: func_0205B98C
+ * function: DWC_AC_Create
  * address:  0x0205B98C
  * packet:   pkt_0205B98C
  * region:   arm9
@@ -170,7 +170,7 @@ extern s32 WCM_InitEx(void *buf, s32 len, u8 deviceId);
 extern s32 WCM_Init(void *buf, s32 len);
 extern void DWCi_AC_FreeAll(void);
 
-BOOL func_0205B98C(DWCACConfig *config)
+BOOL DWC_AC_Create(DWCACConfig *config)
 {
     int result;
     ACHOLD *hd;

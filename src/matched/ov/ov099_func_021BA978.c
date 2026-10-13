@@ -1,5 +1,5 @@
 /*
- * function: func_021BA978
+ * function: WIFICLUB_PrintTalkMessage
  * address:  0x021BA978
  * packet:   pkt_ov099_021BA978
  * region:   ov099
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02012FFC  0x02012FFC  thumb
- *   func_021BA8D4  0x021BA8D4  thumb  ov099
- *   func_021BA8BC  0x021BA8BC  thumb  ov099
+ *   WIFICLUB_DeleteTimeIcon  0x021BA8D4  thumb  ov099
+ *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb
@@ -41,8 +41,8 @@ struct PrintSys;
 struct Rec3;
 struct WordSet;
 extern signed char func_02012FFC(void);
-extern void func_021BA8D4(char *p);
-extern int func_021BA8BC(void *p);
+extern void WIFICLUB_DeleteTimeIcon(char *p);
+extern int WIFICLUB_DeleteWindow(void *p);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
@@ -59,12 +59,12 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 
-void func_021BA978(char *p, int a1, int a2, int a3)
+void WIFICLUB_PrintTalkMessage(char *p, int a1, int a2, int a3)
 {
     int k, e;
     func_02012FFC();
-    func_021BA8D4(p);
-    *(u32 *)(p + 0x190) = (u32)func_021BA8BC((void *)(*(u32 *)(p + 0x190)));
+    WIFICLUB_DeleteTimeIcon(p);
+    *(u32 *)(p + 0x190) = (u32)WIFICLUB_DeleteWindow((void *)(*(u32 *)(p + 0x190)));
     if ((int)PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(u32 *)(p + 0x1B8))) == 0)
         PRINTSYS_QUE_Clear((struct PrintSys *)(*(u32 *)(p + 0x1B8)));
     if (*(u32 *)(p + 0x1BC) != 0) {

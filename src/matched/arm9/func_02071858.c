@@ -1,5 +1,5 @@
 /*
- * function: func_02071858
+ * function: NNSi_G3dSendTexMtx4x3
  * address:  0x02071858
  * packet:   pkt_02071360
  * region:   arm9
@@ -13,10 +13,10 @@
  * 15-word descriptor on the stack, selects the translation source out of the
  * flag word's bits 3 / 2 / 0, applies the object's two 1.12 scale factors at
  * +0x30 / +0x34 when they are not unity, and hands the whole thing to
- * func_0206DDA4 with a count of 0xe.
+ * NNS_G3dGeBufferOP_N with a count of 0xe.
  *
  * PINNED ../2.0/sp2 on the "kept branches" tell, the same pin its family-mate
- * src/matched/func_02071510.c carries (see docs/FRONTEND-PINS.md).  The image
+ * src/matched/NNSi_G3dSendJointSRTSi3d.c carries (see docs/FRONTEND-PINS.md).  The image
  * emits REAL branches for the three-way translation select: `beq 0x20718f0`
  * at +0x5C, `beq 0x20718dc` at +0x70, `b 0x2071990` at +0x80 and again at
  * +0x94.  dsi/1.1p1 -O4,p if-converts the two inner arms into predicated
@@ -35,7 +35,7 @@
  *                 (`ldr r2, [r0, #0x30]` at +0x15C).  Non-volatile, 1.1p1
  *                 and 2.0 both cache the field and batch the two multiplies,
  *                 which is 8 bytes short.  This is the same re-read the
- *                 family-mate func_020713C8 documents for its own +0x30/+0x34
+ *                 family-mate NNSi_G3dSendTexMtx4x4 documents for its own +0x30/+0x34
  *                 pair.
  *
  * AND ONE NON-VOLATILE READ.  The OUTER else-branch at +0x98 reuses the flag
@@ -47,11 +47,11 @@
  * EXACT.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02071858.c \
- *       --func func_02071858 --addr 0x02071858 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dSendTexMtx4x3.c \
+ *       --func NNSi_G3dSendTexMtx4x3 --addr 0x02071858 --arm --cc ../2.0/sp2
  *
  * symbols:
- *   func_0206DDA4    0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N    0x0206DDA4  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -73,9 +73,9 @@ struct Obj {
     s32 f34;
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_02071858(struct Obj *o)
+void NNSi_G3dSendTexMtx4x3(struct Obj *o)
 {
     int buf[0x0f];
     s32 sc;
@@ -131,6 +131,6 @@ void func_02071858(struct Obj *o)
 
     {
         char *q = (char *)buf;
-        func_0206DDA4((u32)buf[0], (int *)(q + 4), 0x0e);
+        NNS_G3dGeBufferOP_N((u32)buf[0], (int *)(q + 4), 0x0e);
     }
 }

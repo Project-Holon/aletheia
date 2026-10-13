@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02078AEC  0x02078AEC  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  *   func_02078B44  0x02078B44  arm
  */
 
@@ -30,7 +30,7 @@ typedef struct {
 typedef signed int     s32;
 struct FSFile;
 extern u32 func_02078AEC(struct FSFile *file);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 
 u32 func_021F2F1C(void *file)
@@ -44,7 +44,7 @@ u32 func_021F2F1C(void *file)
     ret = 0;
     if (file) {
         bak_pos = func_02078AEC(file);
-        if ((u32)func_02078B70(file, rom, 96) >= 96)
+        if ((u32)FS_ReadFile(file, rom, 96) >= 96)
             p = (RomHeader *)rom;
         func_02078B44(file, bak_pos, 0);
     } else {

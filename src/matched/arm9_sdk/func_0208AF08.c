@@ -1,5 +1,5 @@
 /*
- * function: func_0208AF08
+ * function: TP_GetLatestIndexInAuto
  * address:  0x0208AF08
  * packet:   pkt_0208AF08
  * region:   arm9
@@ -66,7 +66,7 @@ typedef struct TpBss {
 extern TpBss g_02152FA4;
 #define tpState g_02152FA4
 
-u16 func_0208AF08(void)
+u16 TP_GetLatestIndexInAuto(void)
 {
     return tpState.index;
 }

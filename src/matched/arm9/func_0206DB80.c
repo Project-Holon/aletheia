@@ -1,5 +1,5 @@
 /*
- * function: func_0206DB80
+ * function: NNS_G3dGeFlushBuffer
  * address:  0x0206DB80
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214BAB4       0x0214BAB4  data
- *   func_0206DBDC    0x0206DBDC  arm
- *   func_02082AA8    0x02082AA8  arm
+ *   gNnsG3dGeState       0x0214BAB4  data
+ *   NNS_G3dGeWaitSendDL    0x0206DBDC  arm
+ *   MIi_CpuSend32    0x02082AA8  arm
  *
  * Drains the block described by the global pair at 0x0214BAB4: word 1
  * non-zero means a transfer is still in flight, so wait for it; then word 0's
@@ -24,7 +24,7 @@
  * [pc, #0x48]` at +0004, `ldr r0, [pc, #0x34]` at +0018 and `ldr r0,
  * [pc, #0xc]` at +0040 -- and its prologue is `push {r3, lr}`, i.e. not one
  * callee-saved register is spent.  1.1p1 -O4,p instead materialises the
- * address once into r4 across the func_02082AA8 call, growing the push to
+ * address once into r4 across the MIi_CpuSend32 call, growing the push to
  * `push {r4, lr}` and shortening the tail by one load: 88 bytes against the
  * original's 92, 23 concrete bytes out (the residue docs/notes/
  * pkt_0206DB80.c.txt recorded).  No spelling of the C moves it under 1.1p1:
@@ -33,22 +33,22 @@
  * same C is 92 bytes, 0 mismatches.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206DB80.c \
- *       --func func_0206DB80 --addr 0x0206DB80 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGeFlushBuffer.c \
+ *       --func NNS_G3dGeFlushBuffer --addr 0x0206DB80 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned int u32;
 
-extern u32 *g_0214BAB4[2];
-extern void func_0206DBDC(void);
-extern void func_02082AA8(void *dst, u32 c, u32 n);
+extern u32 *gNnsG3dGeState[2];
+extern void NNS_G3dGeWaitSendDL(void);
+extern void MIi_CpuSend32(void *dst, u32 c, u32 n);
 
-void func_0206DB80(void)
+void NNS_G3dGeFlushBuffer(void)
 {
-    if (g_0214BAB4[1] != 0)
-        func_0206DBDC();
-    if (g_0214BAB4[0] != 0 && g_0214BAB4[0][0] != 0) {
-        func_02082AA8(g_0214BAB4[0] + 1, 0x04000400, g_0214BAB4[0][0] * 4);
-        g_0214BAB4[0][0] = 0;
+    if (gNnsG3dGeState[1] != 0)
+        NNS_G3dGeWaitSendDL();
+    if (gNnsG3dGeState[0] != 0 && gNnsG3dGeState[0][0] != 0) {
+        MIi_CpuSend32(gNnsG3dGeState[0] + 1, 0x04000400, gNnsG3dGeState[0][0] * 4);
+        gNnsG3dGeState[0][0] = 0;
     }
 }

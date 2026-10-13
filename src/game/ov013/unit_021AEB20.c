@@ -17,7 +17,7 @@
  *   func_0208BF38  0x0208BF38  arm
  *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm ov013
  *   func_020726D0  0x020726D0  arm
- *   func_020737C0  0x020737C0  arm
+ *   NNS_SndStrmInit  0x020737C0  arm
  *   func_02082AC0  0x02082AC0  arm
  *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
  *   gVctWork     0x021B3C80  data ov013
@@ -45,9 +45,9 @@
  *   VCT_ReceiveFrame  0x021B38B0  arm ov013
  *   DWC_RAPCOMMON_Alloc  0x02156F5C  thumb ov009
  *   VCT_MAIN_InitAudio  0x021AEB20  thumb ov013
- *   func_02073838  0x02073838  arm
- *   func_02073AD0  0x02073AD0  arm
- *   func_020738C0  0x020738C0  arm
+ *   NNS_SndStrmAllocChannel  0x02073838  arm
+ *   NNS_SndStrmSetVolume  0x02073AD0  arm
+ *   NNS_SndStrmSetup  0x020738C0  arm
  *   VCT_MAIN_StreamCallback  0x021AEB7C  thumb ov013
  *   func_02034714  0x02034714  arm
  *   VCT_MAIN_OnEventGroup  0x021AED08  thumb ov013
@@ -55,11 +55,11 @@
  *   VCT_Init  0x021B370C  arm ov013
  *   VCT_SESSION_SetCodecMode  0x021B0C64  arm ov013
  *   VCT_MAIN_StartStream  0x021AF124  thumb ov013
- *   func_02073A60  0x02073A60  arm
+ *   NNS_SndStrmStart  0x02073A60  arm
  *   func_0208B480  0x0208B480  arm
  *   func_0208B528  0x0208B528  arm
- *   func_02073AB4  0x02073AB4  arm
- *   func_02073898  0x02073898  arm
+ *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
+ *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   VCT_Exit  0x021B3844  arm ov013
  *   DWC_RAPCOMMON_Free  0x02156FDC  thumb ov009
  *   VCT_DSP_SetVoiceGateConfig  0x021B3064  arm ov013
@@ -116,14 +116,14 @@ extern int func_0208B528(void);
 
 /* Sound system and sound stream object (arm9 unit_020737C0). */
 extern void func_020726D0(void);
-extern void func_020737C0(void *stream);
-extern int func_02073838(u8 *stream, int channelCount, u8 *channelNumbers);
-extern void func_02073AD0(void *stream, s32 volume);
-extern int func_020738C0(void *stream, int format, void *buffer, u32 length, int rate,
+extern void NNS_SndStrmInit(void *stream);
+extern int NNS_SndStrmAllocChannel(u8 *stream, int channelCount, u8 *channelNumbers);
+extern void NNS_SndStrmSetVolume(void *stream, s32 volume);
+extern int NNS_SndStrmSetup(void *stream, int format, void *buffer, u32 length, int rate,
                          int frames, VctStreamCallback callback, void *arg);
-extern void func_02073A60(void *stream);
-extern void func_02073AB4(void *stream);
-extern void func_02073898(void *stream);
+extern void NNS_SndStrmStart(void *stream);
+extern void NNSi_SndStrmStopIfSetup(void *stream);
+extern void NNS_SndStrmFreeChannel(void *stream);
 
 /* Memory, time and error helpers. */
 extern void func_02082AC0(int value, void *dst, u32 size);
@@ -230,7 +230,7 @@ void VCT_MAIN_InitAudio(void)
     func_0208BF38(3);
     VCT_SESSION_SetSendEnabled(1);
     func_020726D0();
-    func_020737C0(gVctWork->audioStream);
+    NNS_SndStrmInit(gVctWork->audioStream);
     func_02082AC0(0, gVctWork->playbackBuffers[1], VCT_BUFFER_BYTES);
     gVctWork->microsecondDebt = 0;
     VCT_SESSION_SetFilterEnabled(1);
@@ -516,9 +516,9 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->micParam.fullCallback = 0;
     gVctWork->micParam.fullArg = 0;
     gVctWork->micRestartPending = 1;
-    func_02073838(gVctWork->audioStream, 1, channelNumbers);
-    func_02073AD0(gVctWork->audioStream, 0);
-    if (func_020738C0(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
+    NNS_SndStrmAllocChannel(gVctWork->audioStream, 1, channelNumbers);
+    NNS_SndStrmSetVolume(gVctWork->audioStream, 0);
+    if (NNS_SndStrmSetup(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
                       func_0202EB0C() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
         func_02034714(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
@@ -549,7 +549,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
 
 
 /* Start the playback stream. */
-void VCT_MAIN_StartStream(void) { func_02073A60(gVctWork->audioStream); }
+void VCT_MAIN_StartStream(void) { NNS_SndStrmStart(gVctWork->audioStream); }
 
 
 /* Hang up: ask the engine to end the pending request, then stop the chat. */
@@ -593,8 +593,8 @@ void VCT_MAIN_Exit(void)
     } else {
         func_0208B528();
     }
-    func_02073AB4(gVctWork->audioStream);
-    func_02073898(gVctWork->audioStream);
+    NNSi_SndStrmStopIfSetup(gVctWork->audioStream);
+    NNS_SndStrmFreeChannel(gVctWork->audioStream);
     VCT_Exit();
     func_0208BEF0(0);
     DWC_RAPCOMMON_Free(0, gVctWork->frameMemory, 0);

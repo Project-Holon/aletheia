@@ -1,5 +1,5 @@
 /*
- * function: func_021B68C0
+ * function: COMPATIBLE_IRC_SYS_RecvDoneHandler
  * address: 0x021B68C0
  * packet: pkt_ov101_021B68C0
  * region: ov101
@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-void func_021B68C0(u32 a,int b,int c,u8 *d,void *e) {
+void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 a,int b,int c,u8 *d,void *e) {
  if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22108 *)d)->f20=1; }
 }

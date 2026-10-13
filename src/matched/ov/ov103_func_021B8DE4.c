@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DE4
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ScoreDrawing
  * address: 0x021B8DE4
  * packet: pkt_ov103_021B8DE4
  * region: ov103
@@ -14,8 +14,8 @@
  *   only pairs 0..9 of each initialized 12-pair line. dy is assigned before
  *   subtraction, dx before multiplication; arithmetic stays unsigned 32-bit.
  * symbols:
- *   func_021B8BC0 0x021B8BC0 thumb ov103
- *   func_021B8F00 0x021B8F00 thumb ov103
+ *   IRC_COMPATIBLE_TOUCH_TEST_GetReceivedDrawing 0x021B8BC0 thumb ov103
+ *   IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke 0x021B8F00 thumb ov103
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned char u8;
@@ -24,10 +24,10 @@ typedef struct {int x,y;} Pair;
 typedef struct {Pair point[12];} Line;
 typedef struct {Pair origin,end;Line a,b;} Record;
 typedef struct {Pair origin,end;Line a,b;u32 tail[2];} Block;
-extern void func_021B8BC0(u8 *,Block *);
+extern void IRC_COMPATIBLE_TOUCH_TEST_GetReceivedDrawing(u8 *,Block *);
 struct Pt;
-extern u8 func_021B8F00(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b);
-u8 func_021B8DE4(u8 *p)
+extern u8 IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke(struct Pt *pa, struct Pt *a, struct Pt *pb, struct Pt *b);
+u8 IRC_COMPATIBLE_TOUCH_TEST_ScoreDrawing(u8 *p)
 {
     Block ref;
     Block cur;
@@ -41,7 +41,7 @@ u8 func_021B8DE4(u8 *p)
     ref.end=*(Pair *)(p+0xa44);
     ref.a=*tmp;
     ref.b=*(Line *)(p+0xaac);
-    func_021B8BC0(p+0x75c,&cur);
+    IRC_COMPATIBLE_TOUCH_TEST_GetReceivedDrawing(p+0x75c,&cur);
     rp=ref.origin;
     cp=cur.origin;
     dy=(u32)rp.y;
@@ -54,7 +54,7 @@ u8 func_021B8DE4(u8 *p)
     else if(dist>576 && dist<=1024)score=30;
     else if(dist>1024 && dist<=1600)score=10;
     else score=0;
-    first=func_021B8F00((struct Pt *)ref.a.point,(struct Pt *)ref.a.point,(struct Pt *)cur.a.point,(struct Pt *)cur.a.point);
-    second=func_021B8F00((struct Pt *)ref.b.point,(struct Pt *)ref.b.point,(struct Pt *)cur.b.point,(struct Pt *)cur.b.point);
+    first=IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke((struct Pt *)ref.a.point,(struct Pt *)ref.a.point,(struct Pt *)cur.a.point,(struct Pt *)cur.a.point);
+    second=IRC_COMPATIBLE_TOUCH_TEST_ScoreStroke((struct Pt *)ref.b.point,(struct Pt *)ref.b.point,(struct Pt *)cur.b.point,(struct Pt *)cur.b.point);
     return (score*40u)/100u+(first*40u)/100u+(second*20u)/100u;
 }

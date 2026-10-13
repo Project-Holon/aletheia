@@ -1,5 +1,5 @@
 /*
- * function: func_021CAE94
+ * function: CRYPTOi__BN_clear
  * address:  0x021CAE94
  * packet:   pkt_ov114_021CAE94
  * region:   ov114
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, unsigned long);
 
-void func_021CAE94(u8 *p)
+void CRYPTOi__BN_clear(u8 *p)
 {
     if (*(void **)p != 0)
         MI_CpuFill8(*(void **)p, 0, *(u32 *)(p + 8) * 4);

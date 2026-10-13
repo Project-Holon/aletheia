@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   GIMMICK_OBJ_ELBOARD_ClearHighlights  0x021F44B8  thumb  ov048
  *   MOVE_POKEMON_HasActiveEntry  0x0215E404  thumb  ov010
  *   MOVE_POKEMON_GetEntryZoneId  0x0215E3E4  thumb  ov010
@@ -21,7 +21,7 @@
 
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *sys);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void GIMMICK_OBJ_ELBOARD_ClearHighlights(u8 *p);
@@ -36,7 +36,7 @@ void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(int *a, void *b)
     int r6;
     int r0;
 
-    r7 = (int)func_0200D418(GAME_DATA_GetSaveControl((struct Big *)a[2]));
+    r7 = (int)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a[2]));
     GIMMICK_OBJ_ELBOARD_ClearHighlights(b);
     if (MOVE_POKEMON_HasActiveEntry(r7)) {
         r0 = GPOWER_GetSpecialPowerId();

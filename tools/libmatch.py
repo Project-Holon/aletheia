@@ -447,7 +447,18 @@ def classify(path):
     return tree, build, variant, thumb, libname
 
 
+_ARCHIVE_CACHE = {}
+
+
 def find_archives(include_demos=False):
+    # The sdk tree is large; walk it once per process.
+    key = bool(include_demos)
+    if key not in _ARCHIVE_CACHE:
+        _ARCHIVE_CACHE[key] = _walk_archives(include_demos)
+    return list(_ARCHIVE_CACHE[key])
+
+
+def _walk_archives(include_demos=False):
     out = []
     sdk = os.path.join(ROOT, "sdk")
     for dirpath, dirnames, filenames in os.walk(sdk):

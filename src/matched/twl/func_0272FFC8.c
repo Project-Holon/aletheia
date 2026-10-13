@@ -12,7 +12,7 @@
  * symbols:
  *   data_02732F3C 0x02732F3C data twl
  *   data_02732EFC 0x02732EFC data twl
- *   func_02084998 0x02084998 arm
+ *   OS_DisableIrqMask 0x02084998 arm
  *   func_020849C8 0x020849C8 arm
  *   MIi_NDMACallback 0x02730090 arm twl
  *   MIi_NDmaAsync_withConfig_Dev 0x0272F9C4 arm twl
@@ -22,7 +22,7 @@ struct St { u32 f0; u32 f4; u32 f8; u32 fc; };
 struct E { int a, b, c, d; };
 extern struct St data_02732F3C;
 extern struct E data_02732EFC[];
-extern void func_02084998(u32);
+extern void OS_DisableIrqMask(u32);
 extern void func_020849C8(u32);
 extern void MIi_NDMACallback(void);
 extern void MIi_NDmaAsync_withConfig_Dev(u32, u32, u32, u32, u32, u32, void (*)(), u32, void *, u32, u32);
@@ -44,7 +44,7 @@ static void MIi_FIFOCallback(void)
     data_02732F3C.fc -= n;
     data_02732F3C.f8 = pos + n;
     if (data_02732F3C.fc == 0) {
-        func_02084998(0x200000);
+        OS_DisableIrqMask(0x200000);
     }
     func_020849C8(0x200000);
     rem = data_02732F3C.fc;

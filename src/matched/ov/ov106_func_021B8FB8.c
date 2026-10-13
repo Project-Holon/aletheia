@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FB8
+ * function: IRC_RANKING_InertiaInit
  * address:  0x021B8FB8
  * packet:   pkt_ov106_021B8FB8
  * region:   ov106
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B8FB8(void *p) { MI_CpuFill8(p, 0, 0x14); }
+void IRC_RANKING_InertiaInit(void *p) { MI_CpuFill8(p, 0, 0x14); }

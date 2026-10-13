@@ -15,14 +15,14 @@
  *   func_020627D8  0x020627D8  arm
  *   func_020307B0  0x020307B0  arm
  *   MCSS_InitAnimCtrl  0x02016984  thumb
- *   func_0206469C  0x0206469C  arm
+ *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *
  * Reconfigures the object: derives a value from func_020627D8 on field
  * +0x28 and a caller-supplied flag truncated to 16 bits (the explicit
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
  * the handle at +0x98 through func_020307B0 if one is set, calls
- * MCSS_InitAnimCtrl(a, 1), passes the derived value into func_0206469C on the
+ * MCSS_InitAnimCtrl(a, 1), passes the derived value into NNS_G2dSetAnimSequenceToMCAnimation on the
  * member at +0x34, then clears bit 0 of the word at +0x144.
  *
  * Every concrete byte matches; MCSS_InitAnimCtrl (0x02016984, later in this
@@ -50,7 +50,7 @@ struct Obj0206469C;
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern u32 func_020307B0(void *p);
 extern void MCSS_InitAnimCtrl(char *a0, int a1);
-extern void func_0206469C(struct Obj0206469C *o, void *bank);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank);
 
 void MCSS_SetAnimeIndex(void *a, u32 flag)
 {
@@ -62,6 +62,6 @@ void MCSS_SetAnimeIndex(void *a, u32 flag)
     }
 
     MCSS_InitAnimCtrl(a, 1);
-    func_0206469C((struct Obj0206469C *)(p + 0x34), (void *)value);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct Obj0206469C *)(p + 0x34), (void *)value);
     ((struct Obj02301 *)p)->f144 &= ~1u;
 }

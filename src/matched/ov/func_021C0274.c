@@ -1,5 +1,5 @@
 /*
- * function: func_021C0274
+ * function: WIFICLUB_StateShowPartnerMenuMessage
  * address:  0x021C0274
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *
  * Runs the five/zero setup and stamps selector 0x1D 0x1CC bytes in.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BAAB8(char *p, int a, int b);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021C0274(char *p, int v)
+int WIFICLUB_StateShowPartnerMenuMessage(char *p, int v)
 {
-    func_021BAAB8(p, 5, 0);
+    WIFICLUB_ShowStreamedMessage(p, 5, 0);
     ((struct Obj18266 *)p)->f1CC = 0x1D;
     return v;
 }

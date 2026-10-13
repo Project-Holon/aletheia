@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0E8
+ * function: sakeiDeleteRecordValidateInput
  * address:  0x021DE0E8
  * packet:   pkt_ov175_021DE0E8
  * region:   ov175
@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-int func_021DE0E8(void *p)
+int sakeiDeleteRecordValidateInput(void *p)
 {
     return *(u32 *)(*(u32 *)((char *)p + 8)) != 0 ? 0 : 4;
 }

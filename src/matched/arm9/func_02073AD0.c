@@ -1,5 +1,5 @@
 /*
- * function: func_02073AD0
+ * function: NNS_SndStrmSetVolume
  * address:  0x02073AD0
  * packet:   pkt_02073AD0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Pushes the base value v to +0x44 and re-emits every one of the +0x50 active
- * slots: each slot byte at +0x54+i indexes the 8-byte records of g_0214E934,
+ * slots: each slot byte at +0x54+i indexes the 8-byte records of gSndStrmChannels,
  * whose second word is added to the base, converted by func_0208A24C, and
  * handed to func_02089638 as (1 << k, low byte, arithmetic high half).
  *
@@ -37,13 +37,13 @@
  * only a `matched` entry at 0x0208A24C would close this row.
  *
  * symbols:
- *   g_0214E934     0x0214E934  data
+ *   gSndStrmChannels     0x0214E934  data
  *   func_0208A24C  0x0208A24C  arm
  *   func_02089638  0x02089638  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02073AD0.c \
- *       --func func_02073AD0 --addr 0x02073AD0 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/pending/NNS_SndStrmSetVolume.c \
+ *       --func NNS_SndStrmSetVolume --addr 0x02073AD0 --cc ../2.0/sp2 --arm
  */
 
 #include "../include/G_SlotDesc.h"
@@ -53,7 +53,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed   int   s32;
 
-extern struct SlotDesc g_0214E934[];
+extern struct SlotDesc gSndStrmChannels[];
 
 extern unsigned short func_0208A24C(int dB);
 extern void func_02089638(u32 chBitMask, int volume, int shift);
@@ -66,7 +66,7 @@ struct Slot {
     u8  f54[4];       /* 0x54 */
 };
 
-void func_02073AD0(struct Slot *s, s32 v)
+void NNS_SndStrmSetVolume(struct Slot *s, s32 v)
 {
     u32 k;
     s32 i;
@@ -75,7 +75,7 @@ void func_02073AD0(struct Slot *s, s32 v)
     for (i = 0; i < s->f50; i++) {
         s32 r;
         k = s->f54[i];
-        r = func_0208A24C(s->f44 + (s32)g_0214E934[k].b);
+        r = func_0208A24C(s->f44 + (s32)gSndStrmChannels[k].b);
         func_02089638((u32)(1 << k), (u32)r & 0xff, r >> 8);
     }
 }

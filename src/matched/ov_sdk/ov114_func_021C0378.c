@@ -1,5 +1,5 @@
 /*
- * function: func_021C0378
+ * function: ghiDecryptReceivedData
  * address:  0x021C0378
  * packet:   pkt_ov114_021C0378
  * region:   ov114
@@ -12,11 +12,11 @@
  * sdk:      ghiDecryptReceivedData (libdwcgsghttp.TWL.HYB.a ghttpcommon.o)
  *
  * symbols:
- *   func_021BFB90  0x021bfb90  arm   ov114
+ *   ghiResizeBuffer  0x021bfb90  arm   ov114
  *   func_0217D254  0x0217d254  arm   ov009
- *   func_021C00FC  0x021c00fc  arm   ov114
+ *   ghiResetBuffer  0x021c00fc  arm   ov114
  *   func_02092364  0x02092364  arm
- *   g_021CE5B4     0x021ce5b4  data  ov114
+ *   sGhttpGhidecryptreceiveddataReadPastTheEnd     0x021ce5b4  data  ov114
  */
 
 struct GHIConnection;
@@ -46,13 +46,13 @@ typedef struct GHIConnection {
     GHIDecryptFunc decryptFunc;
 } GHIConnection;
 
-extern int func_021BFB90(GHIBuffer *, int);
+extern int ghiResizeBuffer(GHIBuffer *, int);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_021C00FC(GHIBuffer *);
+extern void ghiResetBuffer(GHIBuffer *);
 extern void *func_02092364(void *, const void *, unsigned int);
-extern char g_021CE5B4[];
+extern char sGhttpGhidecryptreceiveddataReadPastTheEnd[];
 
-int func_021C0378(GHIConnection *connection)
+int ghiDecryptReceivedData(GHIConnection *connection)
 {
     int aResult;
     char *aReadPos;
@@ -69,7 +69,7 @@ int func_021C0378(GHIConnection *connection)
         aResult = connection->decryptFunc(connection, connection->encryptor,
                                           aReadPos, &aReadLen, aWritePos, &aWriteLen);
         if (aResult == 2) {
-            if (func_021BFB90(&connection->decodedBuffer, connection->decodedBuffer.sizeIncrement) == 0)
+            if (ghiResizeBuffer(&connection->decodedBuffer, connection->decodedBuffer.sizeIncrement) == 0)
                 return 0;
         } else if (aResult == 3) {
             return 0;
@@ -77,7 +77,7 @@ int func_021C0378(GHIConnection *connection)
         if (aResult == 2 && aWriteLen == 0)
             continue;
         if (aReadLen > connection->recvBuffer.len) {
-            func_0217D254(8, (char *)4, 1, g_021CE5B4, aReadLen, connection->recvBuffer.len);
+            func_0217D254(8, (char *)4, 1, sGhttpGhidecryptreceiveddataReadPastTheEnd, aReadLen, connection->recvBuffer.len);
             return 0;
         }
         connection->recvBuffer.pos += aReadLen;
@@ -88,7 +88,7 @@ int func_021C0378(GHIConnection *connection)
     if (connection->recvBuffer.pos > 0xff) {
         bytesToKeep = connection->recvBuffer.len - connection->recvBuffer.pos;
         if (bytesToKeep == 0) {
-            func_021C00FC(&connection->recvBuffer);
+            ghiResetBuffer(&connection->recvBuffer);
         } else {
             func_02092364(connection->recvBuffer.data, connection->recvBuffer.data + connection->recvBuffer.pos, bytesToKeep);
             connection->recvBuffer.pos = 0;

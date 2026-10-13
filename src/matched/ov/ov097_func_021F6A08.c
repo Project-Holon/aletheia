@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A08
+ * function: VS_MULTI_LIST_VBlankCallback
  * address: 0x021F6A08
  * packet: pkt_ov097_021F6A08
  * region: ov097
@@ -20,4 +20,4 @@ extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
 extern u32 SDK_AUTOLOAD_DTCM_START[];
 static inline void OS_SetIrqCheckFlag(u32 intr) { *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3ff8) |= intr; }
-void func_021F6A08(void) { func_020419E4(); CLACT_VBlankSystem(); OS_SetIrqCheckFlag(1); }
+void VS_MULTI_LIST_VBlankCallback(void) { func_020419E4(); CLACT_VBlankSystem(); OS_SetIrqCheckFlag(1); }

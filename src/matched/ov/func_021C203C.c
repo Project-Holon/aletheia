@@ -1,5 +1,5 @@
 /*
- * function: func_021C203C
+ * function: WIFICLUB_ClearSlotState
  * address:  0x021C203C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021C203C(char *p, int i)
+void WIFICLUB_ClearSlotState(char *p, int i)
 {
     *(u8 *)(p + i + 0x8CB) = 0;
     ((struct Obj18286 *)p)->f8F1 = 1;

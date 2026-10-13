@@ -14,7 +14,7 @@
  * 0x02071EFC and 0x02072524.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md),
- * the same measurement already taken for src/matched/func_020713A4.c: the
+ * the same measurement already taken for src/matched/NNSi_G3dTexMtxIdentity.c: the
  * image materialises the unit scale FIRST, `mov r2, #0x1000`
  * (`01 2a a0 e3`) at 0x02071EFC followed by `str r2, [r0]`, and only then
  * `mov r1, #0` (`00 10 a0 e3`) at 0x02071F04. dsi/1.1p1 -O4,p schedules the

@@ -1,5 +1,5 @@
 /*
- * function: func_0207ACD4
+ * function: FS_CreateFileFromRom
  * address:  0x0207ACD4
  * packet:   pkt_0207ACD4
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct FSArchive FSArchive;
 extern struct G_fsi_arc_rom fsi_arc_rom;
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 
-BOOL func_0207ACD4(FSFile *p_file, u32 offset, u32 size)
+BOOL FS_CreateFileFromRom(FSFile *p_file, u32 offset, u32 size)
 {
     return FS_OpenFileDirect(p_file, &(*(FSArchive *)&fsi_arc_rom), offset, offset + size, 0xFFFF);
 }

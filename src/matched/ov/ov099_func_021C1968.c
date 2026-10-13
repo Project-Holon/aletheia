@@ -1,5 +1,5 @@
 /*
- * function: func_021C1968
+ * function: WIFICLUB_ToggleOwnSeat
  * address:  0x021C1968
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE6E4  0x021BE6E4  thumb  ov099
- *   func_021C27E0  0x021C27E0  thumb  ov099
- *   func_021C27E8  0x021C27E8  thumb  ov099
- *   func_021C2864  0x021C2864  thumb  ov099
+ *   WIFICLUB_PublishOwnStatus  0x021BE6E4  thumb  ov099
+ *   WIFICLUB_GetStatusSeatFlag  0x021C27E0  thumb  ov099
+ *   WIFICLUB_SetStatusSeatFlag  0x021C27E8  thumb  ov099
+ *   WIFICLUB_SetStatusModeFlag  0x021C2864  thumb  ov099
  */
 typedef unsigned char u8;
 
@@ -29,16 +29,16 @@ typedef struct {
     Sub *f248;              /* 0x248 */
 } Work;
 
-extern void func_021C27E8(void *a, int v);
-extern void func_021C2864(void *a, int v);
-extern void func_021BE6E4(char *s);
-extern void func_021C27E0(void *a);
+extern void WIFICLUB_SetStatusSeatFlag(void *a, int v);
+extern void WIFICLUB_SetStatusModeFlag(void *a, int v);
+extern void WIFICLUB_PublishOwnStatus(char *s);
+extern void WIFICLUB_GetStatusSeatFlag(void *a);
 
-void func_021C1968(Work *w)
+void WIFICLUB_ToggleOwnSeat(Work *w)
 {
     w->f248->f46 = 1 - w->f248->f46;
-    func_021C27E8(w->f8, w->f248->f46);
-    func_021C2864(w->f8, w->f248->f46);
-    func_021BE6E4((char *)w);
-    func_021C27E0(w->f8);
+    WIFICLUB_SetStatusSeatFlag(w->f8, w->f248->f46);
+    WIFICLUB_SetStatusModeFlag(w->f8, w->f248->f46);
+    WIFICLUB_PublishOwnStatus((char *)w);
+    WIFICLUB_GetStatusSeatFlag(w->f8);
 }

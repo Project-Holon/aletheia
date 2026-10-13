@@ -1,5 +1,5 @@
 /*
- * function: func_0208565C
+ * function: OS_KillThreadWithPriority
  * address:  0x0208565C
  * packet:   pkt_0208565C
  * region:   arm9
@@ -22,7 +22,7 @@
  *   OS_EnableScheduler             0x02085B60  arm
  *   OSi_RescheduleThread           0x020851A0  arm
  *   OSi_ExitThread                 0x02085528  arm
- *   g_02150FD0                     0x02150FD0  data
+ *   gOsThreadBss                     0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -146,7 +146,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -160,18 +160,18 @@ extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
 extern void OSi_RescheduleThread(void);
 extern void OSi_ExitThread(void *arg);
 
-void func_0208565C(OSThread *thread, void *arg, u32 prio)
+void OS_KillThreadWithPriority(OSThread *thread, void *arg, u32 prio)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
-    if (thread == g_02150FD0.OSi_ThreadInfo.current) {
+    if (thread == gOsThreadBss.OSi_ThreadInfo.current) {
         OSi_ExitThread_ArgSpecified(thread, arg);
     }
 
     OSi_CancelThreadAlarmForSleep(thread);
 
     OS_InitContext(&thread->context, (u32)OSi_ExitThread,
-                   g_02150FD0.OSi_StackForDestructor ? g_02150FD0.OSi_StackForDestructor
+                   gOsThreadBss.OSi_StackForDestructor ? gOsThreadBss.OSi_StackForDestructor
                                                      : thread->stackBottom - 8);
     thread->context.r[0] = (u32)arg;
     thread->context.cpsr |= 0x80;

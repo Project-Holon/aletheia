@@ -14,8 +14,8 @@
  * Split from wih.c at 0x02178138 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_020862F0  0x020862F0  arm
- *   func_02082D44  0x02082D44  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gWihWork 0x021797A8 data ov014 a4
  *   WM_SetParentParameter 0x0208F480 arm
  *   WM_StartParent  0x0208F644  arm
@@ -49,16 +49,16 @@
  *   DC_InvalidateRange  0x020862B8  arm
  *   MI_CpuCopy8         0x02082D44  arm
  *   func_02034714       0x02034714  arm
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   WM_EndScan                     0x0208F808  arm
  *   WM_StartConnectEx  0x0208F84C  arm
  *   func_02178CC4 0x02178CC4 thumb ov014
  *   WM_Reset 0x0208F400 arm
  *   WM_SetMPDataToPortEx  0x0208FCB4  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_02179010  0x02179010  thumb  ov014
- *   func_0208EE60  0x0208EE60  arm
+ *   WM_GetAllowedChannel  0x0208EE60  arm
  *   WM_MeasureChannel            0x02090E50  arm
  *   WM_Initialize  0x0208F370  arm
  *   WM_InitializeForListening  0x0208F380  arm
@@ -284,8 +284,8 @@ typedef struct WihWork {
 } WihWork;
 
 /* SDK and arm9 functions (names resolved by the SDK rename table) */
-void func_020862F0(void *p, u32 n);
-void func_02082D44(void *dst, void *src, u32 n);
+void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+void MI_CpuCopy8(void *dst, void *src, u32 n);
 extern int WM_SetParentParameter(void *callback, void *parentParam);
 int WM_StartParent(void *callback);
 u32 GFL_NET_GetUserArg(void);
@@ -311,16 +311,14 @@ extern int WM_StartScanEx(void (*cb)(void *), void *scanParam);
 extern void WIH_DWC_RequestAlertLevel(u32 linkLevel);
 extern void WIH_DWC_Dummy(void);
 extern void DC_InvalidateRange(void *p, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-int func_02087988(void);
-void func_0208799C(int irqState);
+int OS_DisableInterrupts(void);
+void OS_RestoreInterrupts(int irqState);
 extern int WM_EndScan(void *callback);
 int WM_StartConnectEx(void *callback, void *bssDesc, void *ssid, int powerSave, int authMode);
 extern int WM_Reset(void *callback);
 int WM_SetMPDataToPortEx(void *callback, u32 userCallback, u32 data, u32 size, u32 destBitmap, u32 port, u32 priority);
-void func_02087C6C(u16 *p);
-u16 func_0208EE60(void);
+void OS_GetMacAddress(u16 *p);
 extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
 extern int WM_Initialize(void *wmWork, void (*callback)(void *), int dmaNo);
 extern int WM_InitializeForListening(void *wmWork, void (*callback)(void *), int dmaNo, int x);
@@ -332,7 +330,6 @@ extern int WM_SetPortCallback(int port, void *callback, void *arg);
 extern int WM_GetSharedDataAddress(void *info, void *dataSet, u16 aid);
 extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
 extern int WM_EndDataSharing(void *dataSharingInfo);
-extern int WM_EndDataSharing(void *info);
 extern int WM_End(void *callback);
 extern void WM_SetGameInfo(int callback, int userGameInfo, u16 size, int ggid, u16 tgid, int attr);
 
@@ -811,7 +808,7 @@ BOOL DWCi_MOV_WH_StateInStartScan(void)
 void WIH_SetScanTarget(u16 channel, void *macAddr)
 {
     gWihWork->fixedScanChannel = channel;
-    func_02082D44(macAddr, gWihWork->scanParam.bssid, 6);
+    MI_CpuCopy8(macAddr, gWihWork->scanParam.bssid, 6);
 }
 
 int WIH_IsMatchingParent(WMBssDesc *bssDesc)
@@ -890,7 +887,7 @@ int DWCi_MOV_WH_EndScan(void)
 {
     int irqState;
     int stopped = 0;
-    irqState = func_02087988();
+    irqState = OS_DisableInterrupts();
     if (gWihWork->sysState == 2) {
         if (gWihWork->scanWait != 0) {
             if (DWCi_MOV_WH_StateInStartScan() == 0)
@@ -902,7 +899,7 @@ int DWCi_MOV_WH_EndScan(void)
         gWihWork->endScanPending = 1;
         WIH_ChangeSysState(3);
     }
-    func_0208799C(irqState);
+    OS_RestoreInterrupts(irqState);
     return stopped;
 }
 
@@ -1156,7 +1153,7 @@ void WIH_StateOutReset(WMCallback *arg)
 
 int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback)
 {
-    func_020862F0(gWihWork->sendBuf, gWihWork->sendBufSize);
+    DWCi_ScreenDC_FlushRange(gWihWork->sendBuf, gWihWork->sendBufSize);
     if (WM_SetMPDataToPortEx((void *)WIH_StateOutSetMPData, userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;
@@ -1239,7 +1236,7 @@ int WIH_StartMeasureChannel(void)
     int ok;
     u32 vblankCount;
 
-    func_02087C6C(dateTime);
+    OS_GetMacAddress(dateTime);
     /* the VBlank counter in the shared main memory area */
     vblankCount = *(volatile u32 *)0x02FFFC3C;
     gWihWork->randomSeed = dateTime[2] + (dateTime[1] + (dateTime[0] + vblankCount));
@@ -1264,7 +1261,7 @@ int WIH_StartMeasureChannel(void)
 
 int WIH_StateInMeasureChannel(u16 channel)
 {
-    u32 allowedChannels = func_0208EE60();
+    u32 allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0x8000) {
         WIH_SetError(3);
         WIH_ChangeSysState(9);

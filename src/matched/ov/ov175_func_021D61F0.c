@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021DCB58 0x021DCB58 thumb ov175
  *   func_021DCC28 0x021DCC28 thumb ov175
  *   func_021E8AA8 0x021E8AA8 thumb ov177
@@ -18,7 +18,7 @@
 #include "../include/Obj24227.h"
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,int);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern void func_021DCB58(char *p, void *q, int mode);
 typedef unsigned char  u8;
 extern int func_021DCC28(char *p, u8 *out);
@@ -45,7 +45,7 @@ void func_021D61F0(u32 sys,int *state,char *p)
         break;
     case 3:
         if(((struct Obj03317 *)p)->f44==0) {
-            func_02082D44(p+0x60,base+0x54,0x80);
+            MI_CpuCopy8(p+0x60,base+0x54,0x80);
             ((struct Obj03317 *)p)->f3C=0; *state=4;
         } else { ((struct Obj03317 *)p)->f3C=1; *state=4; }
         break;

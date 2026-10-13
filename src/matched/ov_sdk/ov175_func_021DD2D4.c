@@ -1,5 +1,5 @@
 /*
- * function: func_021DD2D4
+ * function: sakeiRunRequest
  * address:  0x021DD2D4
  * packet:   pkt_ov175_021DD2D4
  * region:   ov175
@@ -12,8 +12,8 @@
  * sdk:      sakeiRunRequest (sakemain.o)
  *
  * symbols:
- *   func_021DD56C  0x021DD56C  arm  ov175
- *   func_021DD604  0x021DD604  arm  ov175
+ *   sakeiInitRequest  0x021DD56C  arm  ov175
+ *   sakeiFreeRequest  0x021DD604  arm  ov175
  */
 
 typedef struct SAKEInternal {
@@ -24,19 +24,19 @@ typedef struct SAKEInternal {
 typedef struct SAKERequestInternal SAKERequestInternal;
 typedef void (*SAKERequestCallback)(SAKEInternal *sake, SAKERequestInternal *request, int result, void *inputData, void *outputData, void *userData);
 
-extern int *func_021DD56C(int *ctx, int a1, int a2, int a3, int a4);
-extern void func_021DD604(void *request);
+extern int *sakeiInitRequest(int *ctx, int a1, int a2, int a3, int a4);
+extern void sakeiFreeRequest(void *request);
 
-SAKERequestInternal *func_021DD2D4(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData, int type, int (*startRequestFunc)(SAKERequestInternal *))
+SAKERequestInternal *sakeiRunRequest(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData, int type, int (*startRequestFunc)(SAKERequestInternal *))
 {
     SAKERequestInternal *request;
 
-    request = (SAKERequestInternal *)func_021DD56C((int *)sake, type, (int)input, (int)callback, (int)userData);
+    request = (SAKERequestInternal *)sakeiInitRequest((int *)sake, type, (int)input, (int)callback, (int)userData);
     if (!request)
         return 0;
     sake->startResult = startRequestFunc(request);
     if (sake->startResult != 0) {
-        func_021DD604(request);
+        sakeiFreeRequest(request);
         return 0;
     }
     return request;

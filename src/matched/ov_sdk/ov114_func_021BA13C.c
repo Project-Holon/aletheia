@@ -1,5 +1,5 @@
 /*
- * function: func_021BA13C
+ * function: NHTTPi_memclr
  * address:  0x021BA13C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MI_CpuFill8(int, int, int);
 
-void func_021BA13C(int a, int b)
+void NHTTPi_memclr(int a, int b)
 {
     MI_CpuFill8(a, 0, b);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0689CF24
+ * function: BTL_POKESET_SortBySpeed
  * address:  0x0689CF24
  * packet:   pkt_ov095_0689CF24
  * region:   ov095
@@ -37,7 +37,7 @@ typedef struct {
 u16 func_0689CFD0(int ctx, u32 id, int k);
 int func_0689CFE0(int k);
 
-void func_0689CF24(S *p, int ctx)
+void BTL_POKESET_SortBySpeed(S *p, int ctx)
 {
     u32 i;
     u32 j;

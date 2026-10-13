@@ -11,12 +11,12 @@
  *
  * Blocker: MYSTATUS_Copy (arm9 unlabelled leaf, the integrator's; no witness outside
  * the range). Verified EXACT arm9 thumb leaf C for it:
- *   extern void func_02082D44(const void *a, void *b, unsigned n);  (arm)
- *   void MYSTATUS_Copy(void *a, void *b) { func_02082D44(a, b, 0x20); }
+ *   extern void MI_CpuCopy8(const void *a, void *b, unsigned n);  (arm)
+ *   void MYSTATUS_Copy(void *a, void *b) { MI_CpuCopy8(a, b, 0x20); }
  *
  * symbols:
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   MYSTATUS_Copy  0x02008494  thumb
  * Addresses are Black-image addresses.
  */
@@ -48,7 +48,7 @@ typedef struct {
 
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void MYSTATUS_Copy(void *src, void *dst);
 
 void COMM_ENTRY_AddParent(u8 *p, u8 *a, u32 b)
@@ -64,7 +64,7 @@ void COMM_ENTRY_AddParent(u8 *p, u8 *a, u32 b)
     }
     for (i = 0; i < 16; i++) {
         if (n->e[i].used == 0) {
-            func_02082D44(a, n->e[i].mac, 6);
+            MI_CpuCopy8(a, n->e[i].mac, 6);
             MYSTATUS_Copy((void *)b, n->e[i].name);
             n->e[i].timer = 150;
             n->e[i].used = 1;

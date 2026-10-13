@@ -1,7 +1,7 @@
 /*
  * file:     field_sound_system.c
  * unit:     yes
- * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, FIELD_SOUND_SYSTEM_IsBusy, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone, FIELD_SOUND_SYSTEM_ClaimSlot, FIELD_SOUND_SYSTEM_ClaimSlotWithOwner, FIELD_SOUND_SYSTEM_TransferSlot, FIELD_SOUND_SYSTEM_ReleaseSlot, FIELD_SOUND_SYSTEM_PauseSlots, FIELD_SOUND_SYSTEM_ResumeSlots, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7
+ * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, FIELD_SOUND_SYSTEM_IsBusy, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone, FIELD_SOUND_SYSTEM_ClaimSlot, FIELD_SOUND_SYSTEM_ClaimSlotWithOwner, FIELD_SOUND_SYSTEM_TransferSlot, FIELD_SOUND_SYSTEM_ReleaseSlot, FIELD_SOUND_SYSTEM_PauseSlots, FIELD_SOUND_SYSTEM_ResumeSlots, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7, FIELD_SOUND_SYSTEM_HandleModeState8, FIELD_SOUND_SYSTEM_HandleModeState9, FIELD_SOUND_SYSTEM_HandleModeState10, FIELD_SOUND_SYSTEM_HandleModeState11, FIELD_SOUND_SYSTEM_HandleModeState12, FIELD_SOUND_SYSTEM_HandleModeState13, FIELD_SOUND_SYSTEM_HandleModeState14, FIELD_SOUND_SYSTEM_HandleModeState15, FIELD_SOUND_SYSTEM_HandleModeState16, FIELD_SOUND_SYSTEM_HandleModeState17
  * address:  0x02028844
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -52,11 +52,12 @@
  *   FIELD_SOUND_SYSTEM_PlayRequestedBgmNow  0x0202945C  thumb
  *   RINGTONE_SYS_Update  0x02029F4C  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-
 struct Fader;
+typedef unsigned char  u8;
+
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
 
 /* One queued request: a ring slot of 12 bytes. */
 typedef struct FieldSoundRequest {
@@ -138,22 +139,35 @@ extern void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(FieldSoundSystem *s);
 extern void FIELD_SOUND_SYSTEM_PlayRequestedBgmNow(FieldSoundSystem *s);
 extern void FIELD_SOUND_SYSTEM_DiscardRequest(FieldSoundSystem *s);
 extern void FIELD_SOUND_SYSTEM_FadeOutCurrentBgm(FieldSoundSystem *s);
-
-extern const char g_020A7590[];
-extern void (*g_020A7554[])(FieldSoundSystem *);
-extern void (*g_020A7518[])(FieldSoundSystem *);
-extern const u16 sTable_0209FDD0[];
-extern u8 g_0209FD90[][8];
-extern const u8 g_flagTable_0209FE1C[];
-
-void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc);
+FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap);
+void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s);
+int FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *s);
+void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s);
+u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *s);
+u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *s);
+u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_PostRequest(FieldSoundSystem *s, u32 kind, u32 value, u16 lowParam, u16 highParam);
+void FIELD_SOUND_SYSTEM_Update(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_Reset(FieldSoundSystem *s, void *desc);
+void FIELD_SOUND_SYSTEM_FadeVolume(FieldSoundSystem *s, u8 level, u16 frames);
+void FIELD_SOUND_SYSTEM_StartRingtone(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_StopRingtone(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId);
+void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32 owner);
+void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner);
+void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId);
+void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *s, u32 bits);
+void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *s, u32 bits);
+int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId);
+u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex);
 int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 soundId);
-int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s);
-u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(FieldSoundSystem *s, u32 kind);
+void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc);
+void FIELD_SOUND_SYSTEM_DrainAndInit(FieldSoundSystem *s, void *desc);
 void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s);
 FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s);
 FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s);
-void FIELD_SOUND_SYSTEM_DrainAndInit(FieldSoundSystem *s, void *desc);
+int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s);
+u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(FieldSoundSystem *s, u32 kind);
 void FIELD_SOUND_SYSTEM_EnqueueRequest(FieldSoundSystem *s, FieldSoundRequest *req);
 u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(FieldSoundSystem *s, u32 kind);
 void FIELD_SOUND_SYSTEM_DequeueRequest(FieldSoundSystem *s);
@@ -166,8 +180,33 @@ void FIELD_SOUND_SYSTEM_SetMode5(FieldSoundSystem *s, u32 value, u16 lowParam, u
 void FIELD_SOUND_SYSTEM_SetMode6(FieldSoundSystem *s, u32 value, u16 lowParam);
 void FIELD_SOUND_SYSTEM_SetMode7(FieldSoundSystem *s, u32 value);
 u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(FieldSoundSystem *s, u32 kind);
-int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId);
-u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex);
+void FIELD_SOUND_SYSTEM_HandleModeState0(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState1(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState2(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState3(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState4(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState5(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState6(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState7(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState8(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState9(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState10(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState11(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState12(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState13(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState14(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState15(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState16(FieldSoundSystem *s);
+void FIELD_SOUND_SYSTEM_HandleModeState17(FieldSoundSystem *s);
+extern const char g_020A7590[];
+extern const u16 sTable_0209FDD0[];
+extern u8 g_0209FD90[][8];
+extern const u8 g_flagTable_0209FE1C[];
+
+extern void (*g_020A7554[])(FieldSoundSystem *);
+
+extern void (*g_020A7518[])(FieldSoundSystem *);
+
 
 /* Constructor: allocates the system through the debug allocator (file name and line number are arguments). */
 FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap)
@@ -182,6 +221,7 @@ FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(void *desc, u32 heap)
     return s;
 }
 
+
 /* Destructor. */
 void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s)
 {
@@ -190,6 +230,7 @@ void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s)
     PLAYER_VOLUME_FADER_Delete(s->volumeFader);
     func_020307B0(s);
 }
+
 
 /* Queue depth callers poll: stack depth plus pending pushes (kind 3) less pops (kind 4), with two mode corrections. */
 int FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *s)
@@ -212,6 +253,7 @@ int FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *s)
     }
     return depth;
 }
+
 
 /*
  * Replays the queued requests (kind 3 push, 4 pop, 5 to 7 set) over the
@@ -257,6 +299,7 @@ void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s)
     return value;
 }
 
+
 /*
  * Predicate over the state word: nine accepted values in one disjunction (they share one exit).
  * The order of the tests is the order of the compares in the original.
@@ -272,6 +315,7 @@ u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *s)
     return 0;
 }
 
+
 /* Busy: the queue helper says so or the mode is non zero. Written as a negated conjunction (its `return 0` is the block emitted first). */
 u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *s)
 {
@@ -280,6 +324,7 @@ u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *s)
     }
     return 1;
 }
+
 
 /* Can take another request: two separate rejections, each with its own epilogue. */
 u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *s)
@@ -293,6 +338,7 @@ u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *s)
     return 1;
 }
 
+
 /* Builds a request record on the stack and enqueues it; every caller in the region goes through here. */
 void FIELD_SOUND_SYSTEM_PostRequest(FieldSoundSystem *s, u32 kind, u32 value, u16 lowParam, u16 highParam)
 {
@@ -305,6 +351,7 @@ void FIELD_SOUND_SYSTEM_PostRequest(FieldSoundSystem *s, u32 kind, u32 value, u1
     FIELD_SOUND_SYSTEM_EnqueueRequest(s, &req);
 }
 
+
 /* Per-frame update: process one request, run the per-state handlers, then update ringtone and fader. */
 void FIELD_SOUND_SYSTEM_Update(FieldSoundSystem *s)
 {
@@ -314,6 +361,7 @@ void FIELD_SOUND_SYSTEM_Update(FieldSoundSystem *s)
     RINGTONE_SYS_Update(s->ringtone);
     PLAYER_VOLUME_FADER_Update(s->volumeFader);
 }
+
 
 /*
  * Forwarding thunks (a pool word and a bx). The reset thunk is the only caller of
@@ -326,20 +374,24 @@ void FIELD_SOUND_SYSTEM_Reset(FieldSoundSystem *s, void *desc)
     FIELD_SOUND_SYSTEM_DrainAndInit(s, desc);
 }
 
+
 void FIELD_SOUND_SYSTEM_FadeVolume(FieldSoundSystem *s, u8 level, u16 frames)
 {
     PLAYER_VOLUME_FADER_SetTarget(s->volumeFader, level, frames);
 }
+
 
 void FIELD_SOUND_SYSTEM_StartRingtone(FieldSoundSystem *s)
 {
     RINGTONE_SYS_Start(s->ringtone);
 }
 
+
 void FIELD_SOUND_SYSTEM_StopRingtone(FieldSoundSystem *s)
 {
     RINGTONE_SYS_Stop(s->ringtone);
 }
+
 
 /*
  * Sound slot functions: the two tables at +0xAC and +0xB0 hold two halfwords
@@ -366,6 +418,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId)
     }
 }
 
+
 /* The same claim with an owner supplied by the caller. */
 void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32 owner)
 {
@@ -385,6 +438,7 @@ void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32
     }
 }
 
+
 /* Hands a claimed slot to a new owner. */
 void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner)
 {
@@ -400,6 +454,7 @@ void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner
         }
     }
 }
+
 
 /* Releases the slot that holds the sound. Both halfword cells are cleared through one scaled index (separate u16 pointers cost two bytes of frame). */
 void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
@@ -420,6 +475,7 @@ void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
     GFL_USE_StopSeSlot(slotNumber);
 }
 
+
 /* Adds bits to the pause set; on the first bit, stops the sounds in both slots. */
 void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *s, u32 bits)
 {
@@ -434,6 +490,7 @@ void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *s, u32 bits)
     }
     s->pauseMask |= bits;
 }
+
 
 /* Drops bits from the pause set; when the set empties, replays the two stored sounds. */
 void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *s, u32 bits)
@@ -458,6 +515,7 @@ void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *s, u32 bits)
     }
 }
 
+
 /* Is the id one of the 0x26 ids in sTable_0209FDD0. */
 int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId)
 {
@@ -470,6 +528,7 @@ int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId)
     }
     return 0;
 }
+
 
 /* Walks the record chain (event, group, entries) of the index and checks each link. */
 u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex)
@@ -499,6 +558,7 @@ u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex)
     return 1;
 }
 
+
 /* Hook registered with GFL_USE_SetSeqStartFilter: accepts an id that is in the table and whose record chain is valid. */
 int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 soundId)
 {
@@ -510,6 +570,7 @@ int FIELD_SOUND_SYSTEM_IsSoundIdPlayable(u32 soundId)
     }
     return 0;
 }
+
 
 /* Initialises the system from the descriptor (shared by the constructor and the drain-and-init function). */
 void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc)
@@ -540,6 +601,7 @@ void FIELD_SOUND_SYSTEM_Init(FieldSoundSystem *s, void *desc)
     s->pauseMask = 0;
 }
 
+
 /*
  * Drains the stack through FIELD_SOUND_SYSTEM_PopBgm, closes the frame and re-initialises
  * from desc. Nothing branches to it; its only reference is the pool word of
@@ -554,6 +616,7 @@ void FIELD_SOUND_SYSTEM_DrainAndInit(FieldSoundSystem *s, void *desc)
     FIELD_SOUND_SYSTEM_Init(s, desc);
 }
 
+
 /* Takes the request at the read index if its class is allowed in the current state, runs it and removes it. */
 void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s)
 {
@@ -564,12 +627,14 @@ void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s)
     }
 }
 
+
 /* Slot at the read index. */
 FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s)
 {
     u8 index = s->readIndex;
     return &s->queue[index];
 }
+
 
 /*
  * The slot the caller should look at: the read index while the ring is idle,
@@ -589,11 +654,13 @@ FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s)
     return &s->queue[index];
 }
 
+
 /* Is the slot at the read index occupied. */
 int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s)
 {
     return FIELD_SOUND_SYSTEM_GetReadSlot(s)->kind != 0;
 }
+
 
 /*
  * Counts queued requests of the given kind.
@@ -617,6 +684,7 @@ u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(FieldSoundSystem *s, u32 kind)
     return count;
 }
 
+
 /*
  * Enqueues one request. A slot whose first word is non zero is still occupied
  * and the request is dropped. The write index is read into a local before the
@@ -636,6 +704,7 @@ void FIELD_SOUND_SYSTEM_EnqueueRequest(FieldSoundSystem *s, FieldSoundRequest *r
     s->queue[writeIndex] = *req;
     s->writeIndex = (writeIndex + 1) % 10;
 }
+
 
 /*
  * Decides whether a request of class kind is accepted. The class of the
@@ -659,6 +728,7 @@ u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(FieldSoundSystem *s, u32 kind)
     return FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, kind);
 }
 
+
 /* Removes the request at the read index. */
 void FIELD_SOUND_SYSTEM_DequeueRequest(FieldSoundSystem *s)
 {
@@ -669,6 +739,7 @@ void FIELD_SOUND_SYSTEM_DequeueRequest(FieldSoundSystem *s)
         s->readIndex = (readIndex + 1) % 10;
     }
 }
+
 
 /* Runs one request: kind n latches mode n. */
 void FIELD_SOUND_SYSTEM_ExecuteRequest(FieldSoundSystem *s, FieldSoundRequest *req)
@@ -700,6 +771,7 @@ void FIELD_SOUND_SYSTEM_ExecuteRequest(FieldSoundSystem *s, FieldSoundRequest *r
     }
 }
 
+
 void FIELD_SOUND_SYSTEM_SetMode1(FieldSoundSystem *s, u16 highParam)
 {
     if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 1)) {
@@ -707,6 +779,7 @@ void FIELD_SOUND_SYSTEM_SetMode1(FieldSoundSystem *s, u16 highParam)
         s->highParam = highParam;
     }
 }
+
 
 void FIELD_SOUND_SYSTEM_SetMode2(FieldSoundSystem *s, u16 lowParam)
 {
@@ -716,6 +789,7 @@ void FIELD_SOUND_SYSTEM_SetMode2(FieldSoundSystem *s, u16 lowParam)
     }
 }
 
+
 void FIELD_SOUND_SYSTEM_SetMode3(FieldSoundSystem *s, u16 lowParam)
 {
     if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 3)) {
@@ -723,6 +797,7 @@ void FIELD_SOUND_SYSTEM_SetMode3(FieldSoundSystem *s, u16 lowParam)
         s->lowParam = lowParam;
     }
 }
+
 
 void FIELD_SOUND_SYSTEM_SetMode4(FieldSoundSystem *s, u16 lowParam, u16 highParam)
 {
@@ -732,6 +807,7 @@ void FIELD_SOUND_SYSTEM_SetMode4(FieldSoundSystem *s, u16 lowParam, u16 highPara
         s->lowParam = lowParam;
     }
 }
+
 
 void FIELD_SOUND_SYSTEM_SetMode5(FieldSoundSystem *s, u32 value, u16 lowParam, u16 highParam)
 {
@@ -743,6 +819,7 @@ void FIELD_SOUND_SYSTEM_SetMode5(FieldSoundSystem *s, u32 value, u16 lowParam, u
     }
 }
 
+
 void FIELD_SOUND_SYSTEM_SetMode6(FieldSoundSystem *s, u32 value, u16 lowParam)
 {
     if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 6)) {
@@ -752,6 +829,7 @@ void FIELD_SOUND_SYSTEM_SetMode6(FieldSoundSystem *s, u32 value, u16 lowParam)
     }
 }
 
+
 void FIELD_SOUND_SYSTEM_SetMode7(FieldSoundSystem *s, u32 value)
 {
     if (FIELD_SOUND_SYSTEM_IsKindAllowedInState(s, 7)) {
@@ -760,12 +838,14 @@ void FIELD_SOUND_SYSTEM_SetMode7(FieldSoundSystem *s, u32 value)
     }
 }
 
+
 /* Is a request of class kind allowed in the current state (8 flags per state in g_flagTable_0209FE1C). */
 u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(FieldSoundSystem *s, u32 kind)
 {
     const u8 *flags = g_flagTable_0209FE1C + s->state * 8;
     return flags[kind];
 }
+
 
 /* Entry 0 of the mode handler table g_020A7554: a Thumb switch on the latched mode. */
 void FIELD_SOUND_SYSTEM_HandleModeState0(FieldSoundSystem *s)
@@ -794,6 +874,7 @@ void FIELD_SOUND_SYSTEM_HandleModeState0(FieldSoundSystem *s)
         break;
     }
 }
+
 
 /* Entry 1 of g_020A7554: an eight arm switch (add pc, r0) on the mode. Every callee takes the object, so the index lives in r1. */
 void FIELD_SOUND_SYSTEM_HandleModeState1(FieldSoundSystem *s)
@@ -844,6 +925,7 @@ void FIELD_SOUND_SYSTEM_HandleModeState1(FieldSoundSystem *s)
     }
 }
 
+
 /* Entry 2 of g_020A7554. */
 void FIELD_SOUND_SYSTEM_HandleModeState2(FieldSoundSystem *s)
 {
@@ -862,23 +944,94 @@ void FIELD_SOUND_SYSTEM_HandleModeState2(FieldSoundSystem *s)
     }
 }
 
+
 /* Entries 3 to 7 of g_020A7554: states with no mode handling. */
-void FIELD_SOUND_SYSTEM_HandleModeState3(void)
+void FIELD_SOUND_SYSTEM_HandleModeState3(FieldSoundSystem *s)
 {
 }
 
-void FIELD_SOUND_SYSTEM_HandleModeState4(void)
+
+void FIELD_SOUND_SYSTEM_HandleModeState4(FieldSoundSystem *s)
 {
 }
 
-void FIELD_SOUND_SYSTEM_HandleModeState5(void)
+
+void FIELD_SOUND_SYSTEM_HandleModeState5(FieldSoundSystem *s)
 {
 }
 
-void FIELD_SOUND_SYSTEM_HandleModeState6(void)
+
+void FIELD_SOUND_SYSTEM_HandleModeState6(FieldSoundSystem *s)
 {
 }
 
-void FIELD_SOUND_SYSTEM_HandleModeState7(void)
+
+void FIELD_SOUND_SYSTEM_HandleModeState7(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState8(FieldSoundSystem *s)
+{
+    switch (s->mode) {
+    case 0:
+    case 5:
+        break;
+    case 3:
+        FIELD_SOUND_SYSTEM_SetState(s, 11);
+        break;
+    }
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState9(FieldSoundSystem *s)
+{
+    switch (s->mode) {
+    case 0:
+    case 5:
+        break;
+    case 3:
+        FIELD_SOUND_SYSTEM_SetState(s, 12);
+        break;
+    }
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState10(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState11(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState12(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState13(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState14(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState15(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState16(FieldSoundSystem *s)
+{
+}
+
+
+void FIELD_SOUND_SYSTEM_HandleModeState17(FieldSoundSystem *s)
 {
 }

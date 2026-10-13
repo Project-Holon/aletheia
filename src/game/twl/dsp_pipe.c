@@ -19,6 +19,10 @@
  *   DSP_ClearSemaphoreCore  0x02705294  arm
  *   DSP_LoadData  0x0270633C  arm
  *   DSP_StoreData  0x02706694  arm
+ *   FS_CloseFile  0x02078A80  arm  arm9
+ *   FS_ReadFile  0x02078B70  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -94,15 +98,13 @@ extern void OS_InitMessageQueue(void *, void **, int);
 extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
 extern void OS_WakeupThreadDirect(void *);
 extern BOOL OS_SendMessage(void *, void *, int);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 state);
 extern BOOL func_02085E50(void *queue, void *msg, s32 flags);
 extern BOOL func_020789FC(FSFile *file, const char *path, u32 mode);
-extern void func_02078A80(FSFile *file);
+extern void FS_CloseFile(FSFile *file);
 extern u32 func_02078A94(FSFile *file);
 extern u32 func_02078AEC(FSFile *file);
 extern BOOL func_02078B44(FSFile *file, long offset, int origin);
-extern s32 func_02078B70(FSFile *file, void *dst, s32 len);
+extern s32 FS_ReadFile(FSFile *file, void *dst, s32 len);
 extern s32 func_02078BC4(FSFile *file, const void *src, s32 len);
 extern BOOL func_0207A940(FSFile *file, void *buf, u32 size);
 extern void DSP_SendDataCore(u32, u32);
@@ -156,7 +158,7 @@ void DSPi_FileIOProc(void *arg)
     FSFile *file;
 
     for (;;) {
-        state = func_02087988();
+        state = OS_DisableInterrupts();
         for (;;) {
             bits = p->pending;
             bits = ~bits & (bits - 1);
@@ -168,7 +170,7 @@ void DSPi_FileIOProc(void *arg)
             func_02085E50(p->queue, msg, 1);
         }
         p->pending &= ~(1 << index);
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         file = &p->files[index];
         DSP_LoadPipe(&in, index, 0);
         DSP_LoadPipe(&out, index, 1);
@@ -196,7 +198,7 @@ void DSPi_FileIOProc(void *arg)
                 DSP_WritePipe(&out, &memRes, 2);
                 break;
             case 1:
-                func_02078A80(file);
+                FS_CloseFile(file);
                 closeRes = 1;
                 DSP_WritePipe(&out, &closeRes, 2);
                 break;
@@ -224,7 +226,7 @@ void DSPi_FileIOProc(void *arg)
                 DSP_WritePipe(&out, &readHalf, 2);
                 while (readLen != 0) {
                     u16 n = readLen > 0x100 ? 0x100 : readLen;
-                    func_02078B70(file, rbuf, n);
+                    FS_ReadFile(file, rbuf, n);
                     DSP_WritePipe(&out, rbuf, n);
                     readLen = readLen - n;
                 }

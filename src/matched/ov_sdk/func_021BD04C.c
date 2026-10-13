@@ -1,5 +1,5 @@
 /*
- * function: func_021BD04C
+ * function: DWCi_COMMENTlInit
  * address:  0x021BD04C
  * packet:   pkt_021BD04C
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD04C 0x021BD04C arm
+ *   DWCi_COMMENTlInit 0x021BD04C arm
  *
  * Clear the byte at 0x021DE50C.
  * Addresses are Black-image addresses.
  */
 
-void func_021BD04C(void)
+void DWCi_COMMENTlInit(void)
 {
     *(unsigned char *)0x021DE50C = 0;
 }

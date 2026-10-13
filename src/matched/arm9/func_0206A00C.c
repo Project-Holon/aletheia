@@ -1,5 +1,5 @@
 /*
- * function: func_0206A00C
+ * function: NNS_G3dTexLoad
  * address:  0x0206A00C
  * packet:   pkt_02069FF8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   GX_EndLoadTex    0x0207F9B4  arm
  *
  * The ATTACH half of the upload descriptor whose DETACH half is
- * src/matched/func_0206A0C4.c: push this descriptor's texture slot and its
+ * src/matched/NNS_G3dTexReleaseTexKey.c: push this descriptor's texture slot and its
  * palette slot into texture VRAM and mark each uploaded.  `wrap` asks for the
  * GX_BeginLoadTex / GX_EndLoadTex bracket to be opened and closed here; a
  * caller uploading several descriptors in a row passes 0 and brackets the run
@@ -87,13 +87,13 @@
  * Both callers agree with the two-argument signature (0x02047080 and
  * 0x02047238, via src/matched/G3D_SYSTEM_TransVramTexture.c), and the sibling's callers
  * agree with the three-argument one (src/matched/G3D_SYSTEM_FreeVramTexture.c calls
- * func_0206A0C4(r, &x, &y)).
+ * NNS_G3dTexReleaseTexKey(r, &x, &y)).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A00C.c \
- *       --func func_0206A00C --addr 0x0206A00C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G3dTexLoad.c \
+ *       --func NNS_G3dTexLoad --addr 0x0206A00C --arm --cc 1.1p1
  *   -> EXACT, compiled 184 = original 184, 4 of 4 sites resolved
  */
 
@@ -122,7 +122,7 @@ extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *src, u32 off, u32 n);
 extern void GX_EndLoadTex(void);
 
-void func_0206A00C(struct Up *u, u32 wrap)
+void NNS_G3dTexLoad(struct Up *u, u32 wrap)
 {
     u32 m;
     u32 d2;

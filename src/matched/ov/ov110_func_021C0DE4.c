@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DE4
+ * function: PMS_SELECT_GRAPHIC_StartThumbDrag
  * address: 0x021C0DE4
  * packet: pkt_ov110_021C0DE4
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-int func_021C0DE4(char *p) {
+int PMS_SELECT_GRAPHIC_StartThumbDrag(char *p) {
     unsigned x,y;
     if(!CLACT_GetActorDrawEnable(((struct Obj10284 *)p)->f8)) return 0;
     if(!TOUCHPANEL_GetPointTrg(&x,&y)) return 0;

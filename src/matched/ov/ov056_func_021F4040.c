@@ -19,7 +19,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   ICA_ANIME_CreateStream  0x02011510  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   d_021F4400  0x021F4400  data  ov056  a1
  */
 
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 ICA_ANIME_CreateStream(u16 heap, u32 b, u32 c, u32 d);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern char d_021F4400[];
 
 u32 *FIELD_FK_SOUND_ANIME_Create(void *a, u32 b, u32 c, u32 d, u16 e)
@@ -38,6 +38,6 @@ u32 *FIELD_FK_SOUND_ANIME_Create(void *a, u32 b, u32 c, u32 d, u16 e)
     r = func_02030734(e, 0x1c, 1, d_021F4400, 0x4d);
     r[1] = 0;
     r[0] = ICA_ANIME_CreateStream(e, b, c, d);
-    func_02082D44(a, r + 2, 0x12);
+    MI_CpuCopy8(a, r + 2, 0x12);
     return r;
 }

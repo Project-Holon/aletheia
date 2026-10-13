@@ -12,58 +12,58 @@
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a scenesetaossbutton.o)
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BCB58  0x021BCB58  arm  ov016
- *   func_021C08B0  0x021C08B0  arm  ov016
- *   func_021BC8EC  0x021BC8EC  arm  ov016
- *   func_021D5CA8  0x021D5CA8  arm  ov016
- *   func_021BD138  0x021BD138  arm  ov016
- *   func_021D6090  0x021D6090  arm  ov016
- *   func_021C0E50  0x021C0E50  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5CC     0x021DE5CC  data
- *   func_021CC998  0x021CC998  arm  ov016
- *   func_021C4EC8  0x021C4EC8  arm  ov016
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_BTNlIsEnd  0x021BCB58  arm  ov016
+ *   DWCi_AOSSlEnd  0x021C08B0  arm  ov016
+ *   DWCi_ANIMElEnd  0x021BC8EC  arm  ov016
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm  ov016
+ *   DWCi_COMMENTlDelete  0x021BD138  arm  ov016
+ *   DWCi_GXlInvisible  0x021D6090  arm  ov016
+ *   DWCi_SetParam_  0x021C0E50  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneSetAossButtonWork     0x021DE5CC  data
+ *   DWCi_SceneSetSelectWay  0x021CC998  arm  ov016
+ *   DWCi_SceneSetAossComplete  0x021C4EC8  arm  ov016
  */
 
 #include "../include/G_SCENESETAOSSBUTT_BSS.h"
 
-extern int func_021D5580();
-extern int func_021BCB58();
-extern void func_021C08B0(int a);
-extern void func_021BC8EC();
-extern void func_021D5CA8(int a);
-extern void func_021BD138();
-extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021CC998();
-extern void func_021C4EC8();
-extern struct SCENESETAOSSBUTT_BSS g_021DE5CC;
+extern int DWCi_EFFlCheck();
+extern int DWCi_BTNlIsEnd();
+extern void DWCi_AOSSlEnd(int a);
+extern void DWCi_ANIMElEnd();
+extern void DWCi_FNTlDeleteBgLcd(int a);
+extern void DWCi_COMMENTlDelete();
+extern void DWCi_GXlInvisible(int lcd, int plane);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_SceneSetSelectWay();
+extern void DWCi_SceneSetAossComplete();
+extern struct SCENESETAOSSBUTT_BSS gSceneSetAossButtonWork;
 
 void func_021C4D04(void)
 {
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        if (func_021D5580(1))
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        if (DWCi_EFFlCheck(1))
             return;
     }
-    if (!func_021BCB58())
+    if (!DWCi_BTNlIsEnd())
         return;
-    func_021C08B0((*(unsigned char *)&g_021DE5CC) != 0);
-    func_021BC8EC();
-    func_021D5CA8(0);
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        func_021BD138();
-        func_021D6090(1, 1);
+    DWCi_AOSSlEnd((*(unsigned char *)&gSceneSetAossButtonWork) != 0);
+    DWCi_ANIMElEnd();
+    DWCi_FNTlDeleteBgLcd(0);
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    func_021D6090(0, 0x15);
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        func_021C0E50(2, 1);
-        func_021C0E40((unsigned int)func_021CC998);
+    DWCi_GXlInvisible(0, 0x15);
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        DWCi_SetParam_(2, 1);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectWay);
     } else {
-        func_021C0E50(0, 0);
-        func_021C0E40((unsigned int)func_021C4EC8);
+        DWCi_SetParam_(0, 0);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetAossComplete);
     }
 }

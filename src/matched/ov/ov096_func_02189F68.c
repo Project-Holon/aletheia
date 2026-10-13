@@ -1,5 +1,5 @@
 /*
- * function: func_02189F68
+ * function: TR_AI_CmdIfGreater
  * address: 0x02189F68
  * packet: pkt_ov096_02189F68
  * region: ov096
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02189F98 0x02189F98 thumb ov096
+ *   TR_AI_CompareGeneric 0x02189F98 thumb ov096
  */
 #include "../include/Obj21980.h"
-extern int func_02189F98(unsigned char *, unsigned char *, int);
-int func_02189F68(unsigned char *a, unsigned char *b) { func_02189F98(a,b,1); return ((struct Obj21980 *)b)->fC4; }
+extern int TR_AI_CompareGeneric(unsigned char *, unsigned char *, int);
+int TR_AI_CmdIfGreater(unsigned char *a, unsigned char *b) { TR_AI_CompareGeneric(a,b,1); return ((struct Obj21980 *)b)->fC4; }

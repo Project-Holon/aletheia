@@ -28,8 +28,8 @@
  *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  *   func_02030734  0x02030734  arm
  *   ICA_ANIME_CreateStream  0x02011510  thumb
- *   func_02082D44  0x02082D44  arm
- *   d_021F4400  0x021F4400  data  ov056  a1
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   gFkSoundAnimeSourceFile  0x021F4400  data  ov056  a1
  *   ICA_ANIME_Delete  0x02011558  thumb
  *   sub_020307B0   0x020307B0  arm
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
@@ -45,7 +45,7 @@
 #include "field_fk_demo_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082D44(const void *src, void *dst, int size);
+extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern u32 sub_020307B0(void *memory);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u16 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, VecFx32 *translate);
@@ -212,10 +212,10 @@ FkSoundAnime *FIELD_FK_SOUND_ANIME_Create(const void *soundIds, u32 arcId, u32 d
 {
     FkSoundAnime *sound;
 
-    sound = func_02030734(heapId, sizeof(FkSoundAnime), 1, d_021F4400, 0x4d);
+    sound = func_02030734(heapId, sizeof(FkSoundAnime), 1, gFkSoundAnimeSourceFile, 0x4d);
     sound->frame = 0;
     sound->anime = ICA_ANIME_CreateStream(heapId, arcId, dataId, bufFrameNum);
-    func_02082D44(soundIds, sound->soundId, 0x12);
+    MI_CpuCopy8(soundIds, sound->soundId, 0x12);
     return sound;
 }
 

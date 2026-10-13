@@ -1,5 +1,5 @@
 /*
- * function: func_02189620
+ * function: TR_AI_CmdIfTargetSick11
  * address: 0x02189620
  * packet: pkt_ov096_02189620
  * region: ov096
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02189640 0x02189640 thumb ov096
+ *   TR_AI_CompareTargetSick11 0x02189640 thumb ov096
  */
 #include "../include/Obj21966.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern int func_02189640(struct Cursor *a, int b, int c);
-int func_02189620(u8 *a, u8 *b)
+extern int TR_AI_CompareTargetSick11(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfTargetSick11(u8 *a, u8 *b)
 {
-    func_02189640((struct Cursor *)a, (int)b, 2); return ((struct Obj21966 *)b)->fC4;
+    TR_AI_CompareTargetSick11((struct Cursor *)a, (int)b, 2); return ((struct Obj21966 *)b)->fC4;
 }

@@ -12,9 +12,9 @@
  * sdk:      MBi_AttachCacheBuffer (libmb.TWL.HYB.a mb_cache.o)
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_02088234  0x02088234  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_Terminate  0x02088234  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef unsigned char u8;
@@ -33,19 +33,19 @@ typedef struct {
     MBiCacheInfo list[4];
 } MBiCacheList;
 
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32 state);
-extern void func_02088234(void);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern void OS_Terminate(void);
 
 void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
 {
     u32 bak_cpsr;
     MBiCacheInfo *pi;
 
-    bak_cpsr = func_02087988();
+    bak_cpsr = OS_DisableInterrupts();
     for (pi = pl->list; ; pi++) {
         if (pi >= &pl->list[4])
-            func_02088234();
+            OS_Terminate();
         if (pi->state == 0) {
             pi->src = src;
             pi->len = len;
@@ -54,5 +54,5 @@ void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
             break;
         }
     }
-    func_0208799C(bak_cpsr);
+    OS_RestoreInterrupts(bak_cpsr);
 }

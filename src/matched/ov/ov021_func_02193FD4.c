@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 
 void FIELD_WFBC_PEOPLE_StorePerson(u16 *a, void *b)
 {
     if (*a == 1) {
-        func_02082D44((u8 *)a + 0x34, b, 0x18);
+        MI_CpuCopy8((u8 *)a + 0x34, b, 0x18);
     }
 }

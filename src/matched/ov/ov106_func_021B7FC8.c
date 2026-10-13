@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FC8
+ * function: IRC_RANKING_ClactExit
  * address: 0x021B7FC8
  * packet: pkt_ov106_021B7FC8
  * region: ov106
@@ -20,4 +20,4 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,int);
-void func_021B7FC8(void **p) { CLACT_DeleteUnit(*p); CLACT_ExitSystem(); MI_CpuFill8(p,0,20); }
+void IRC_RANKING_ClactExit(void **p) { CLACT_DeleteUnit(*p); CLACT_ExitSystem(); MI_CpuFill8(p,0,20); }

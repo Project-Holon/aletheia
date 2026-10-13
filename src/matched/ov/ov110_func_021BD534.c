@@ -1,5 +1,5 @@
 /*
- * function: func_021BD534
+ * function: PMS_INPUT_ProcMain
  * address: 0x021BD534
  * packet: pkt_ov110_021BD534
  * region: ov110
@@ -26,7 +26,7 @@ typedef signed int     s32;
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern void func_02030D28(struct Ctx *c);
-int func_021BD534(void *a,int b,int c,u8 *p) {
+int PMS_INPUT_ProcMain(void *a,int b,int c,u8 *p) {
     int result;
     int x;
     x=KEY_GetTrg(); ((struct Obj05294 *)p)->f34=x;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5A8
+ * function: DWCi_FOCUSlDelete
  * address:  0x021BD5A8
  * packet:   pkt_ov016_021BD5A8
  * region:   ov016
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_CELLlDelete                 0x021D4F60  arm  ov016
- *   g_021DE550                       0x021DE550  data
+ *   gFocusWork                       0x021DE550  data
  */
 
 #include "../include/G_MemFocus.h"
@@ -25,16 +25,16 @@ typedef struct {
     void *cell[4];
 } MemFocus;
 
-extern struct MemFocus *g_021DE550;
+extern struct MemFocus *gFocusWork;
 extern void DWCi_CELLlDelete(void *cell);
 
-void func_021BD5A8(void)
+void DWCi_FOCUSlDelete(void)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (g_021DE550->cell[i]) {
-            DWCi_CELLlDelete(g_021DE550->cell[i]);
-            g_021DE550->cell[i] = 0;
+        if (gFocusWork->cell[i]) {
+            DWCi_CELLlDelete(gFocusWork->cell[i]);
+            gFocusWork->cell[i] = 0;
         }
     }
 }

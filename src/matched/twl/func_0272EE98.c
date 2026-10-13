@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0209C2B0 0x0209C2B0 arm
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   CARDi_StartLoading 0x0272ED4C arm twl
  */
 typedef unsigned int u32;
@@ -35,8 +35,8 @@ struct Obj {
 };
 
 extern u32 func_0209C2B0(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void CARDi_StartLoading(struct Obj *);
 
 struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 a)
@@ -55,7 +55,7 @@ struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 a)
             obj->used_c = tail;
             break;
         } else if (tail->next == 0) {
-            u32 irq = func_02087988();
+            u32 irq = OS_DisableInterrupts();
             struct Node *n = obj->used_b;
             struct Node *link;
             while (n != 0) {
@@ -85,7 +85,7 @@ struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 a)
                     tail->f8 = key * (obj->f24 * 0x14) + obj->f10;
                 }
             }
-            func_0208799C(irq);
+            OS_RestoreInterrupts(irq);
             if (tail != 0) {
                 CARDi_StartLoading(obj);
             }

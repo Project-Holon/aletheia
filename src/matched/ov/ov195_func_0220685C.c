@@ -20,7 +20,7 @@
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   BMP_ConvertToLinear 0x02044F64 arm
  *   func_02061CA4 0x02061CA4 arm
  */
@@ -62,7 +62,7 @@ extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
@@ -91,25 +91,25 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     k = 0;
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 0; j < 8; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }

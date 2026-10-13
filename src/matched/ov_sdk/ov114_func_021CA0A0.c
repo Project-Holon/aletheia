@@ -1,5 +1,5 @@
 /*
- * function: func_021CA0A0
+ * function: DWCi_EncSessionProcess
  * address:  0x021CA0A0
  * packet:   pkt_ov114_021CA0A0
  * region:   ov114
@@ -15,12 +15,12 @@
  * sdk:      DWCi_EncSessionProcess (dwc_encsession.o)
  *
  * symbols:
- *   func_021BF6C4  0x021BF6C4  arm  ov114
- *   func_021BF5B8  0x021BF5B8  arm  ov114
- *   func_021CA06C  0x021CA06C  arm  ov114
- *   func_021C9B64  0x021C9B64  arm  ov114
- *   func_021C9B60  0x021C9B60  arm  ov114
- *   g_021CF7AC     0x021CF7AC  data
+ *   DWC_GetGHTTPDataEx  0x021BF6C4  arm  ov114
+ *   DWC_ProcessGHTTP  0x021BF5B8  arm  ov114
+ *   DWCi_EncSetError  0x021CA06C  arm  ov114
+ *   DWCi_EncSessionCompleteCallback  0x021C9B64  arm  ov114
+ *   DWCi_EncSessionProgressCallback  0x021C9B60  arm  ov114
+ *   gDwcEncSession     0x021CF7AC  data
  */
 
 #include "../include/G_Session.h"
@@ -32,47 +32,47 @@ typedef struct {
     char pad0[0x48];
     char *buf;
 } Session;
-extern struct Session g_021CF7AC;
-extern int func_021BF6C4(char *url, int bufferlen, int buffer_clear, void (*progress)(void), void (*completed)(void), void *param);
-extern int func_021BF5B8(void);
-extern void func_021CA06C(void);
-extern void func_021C9B64(char *buf, int len, int result);
-extern void func_021C9B60(void);
+extern struct Session gDwcEncSession;
+extern int DWC_GetGHTTPDataEx(char *url, int bufferlen, int buffer_clear, void (*progress)(void), void (*completed)(void), void *param);
+extern int DWC_ProcessGHTTP(void);
+extern void DWCi_EncSetError(void);
+extern void DWCi_EncSessionCompleteCallback(char *buf, int len, int result);
+extern void DWCi_EncSessionProgressCallback(void);
 
-int func_021CA0A0(void)
+int DWCi_EncSessionProcess(void)
 {
-    switch (g_021CF7AC.state) {
+    switch (gDwcEncSession.state) {
     case 1:
-        func_021CA06C();
+        DWCi_EncSetError();
         break;
     case 4:
-        g_021CF7AC.reqid = func_021BF6C4(g_021CF7AC.request, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
-        if (g_021CF7AC.reqid >= 0) {
-            g_021CF7AC.state = 5;
+        gDwcEncSession.reqid = DWC_GetGHTTPDataEx(gDwcEncSession.request, 0, 0, DWCi_EncSessionProgressCallback, (void (*)(void))DWCi_EncSessionCompleteCallback, 0);
+        if (gDwcEncSession.reqid >= 0) {
+            gDwcEncSession.state = 5;
         } else {
-            func_021CA06C();
+            DWCi_EncSetError();
         }
         break;
     case 5:
-        if (func_021BF5B8() == 0) {
-            func_021CA06C();
+        if (DWC_ProcessGHTTP() == 0) {
+            DWCi_EncSetError();
         }
         break;
     case 6:
-        g_021CF7AC.reqid = func_021BF6C4(g_021CF7AC.request, 0, 0, func_021C9B60, (void (*)(void))func_021C9B64, 0);
-        if (g_021CF7AC.reqid >= 0) {
-            g_021CF7AC.state = 7;
+        gDwcEncSession.reqid = DWC_GetGHTTPDataEx(gDwcEncSession.request, 0, 0, DWCi_EncSessionProgressCallback, (void (*)(void))DWCi_EncSessionCompleteCallback, 0);
+        if (gDwcEncSession.reqid >= 0) {
+            gDwcEncSession.state = 7;
         } else {
-            func_021CA06C();
+            DWCi_EncSetError();
         }
         break;
     case 7:
-        if (func_021BF5B8() == 0) {
-            func_021CA06C();
+        if (DWC_ProcessGHTTP() == 0) {
+            DWCi_EncSetError();
         }
         break;
     case 8:
         break;
     }
-    return g_021CF7AC.state;
+    return gDwcEncSession.state;
 }

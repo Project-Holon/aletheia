@@ -1,5 +1,5 @@
 /*
- * function: func_021DDB38
+ * function: sakeiValidateRequestFields
  * address:  0x021DDB38
  * packet:   pkt_021DDB38
  * region:   ov175
@@ -14,7 +14,7 @@ typedef struct {
     int len;
 } ReqField;
 
-int func_021DDB38(ReqField *req, int count)
+int sakeiValidateRequestFields(ReqField *req, int count)
 {
     int i;
 

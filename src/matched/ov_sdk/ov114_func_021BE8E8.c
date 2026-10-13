@@ -1,5 +1,5 @@
 /*
- * function: func_021BE8E8
+ * function: NHTTP_SetBasicAuthorization
  * address:  0x021BE8E8
  * packet:   pkt_ov114_021BE8E8
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      NHTTP_SetBasicAuthorization (libnhttp.TWL.HYB.a(d_nhttp.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF58 0x021BEF58 arm ov114
- *   func_021BEC10 0x021BEC10 arm ov114
- *   func_021BA124 0x021BA124 arm ov114
- *   func_021BA13C 0x021BA13C arm ov114
- *   func_021BA100 0x021BA100 arm ov114
- *   func_021BA714 0x021BA714 arm ov114
- *   g_021CE53C 0x021CE53C data
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetMutexInfoP 0x021BEF58 arm ov114
+ *   NHTTPi_GetRequest 0x021BEC10 arm ov114
+ *   NHTTPi_strnlen 0x021BA124 arm ov114
+ *   NHTTPi_memclr 0x021BA13C arm ov114
+ *   NHTTPi_memcpy 0x021BA100 arm ov114
+ *   NHTTPi_Base64Encode 0x021BA714 arm ov114
+ *   sNHTTPBasicAuthColon 0x021CE53C data
  */
 
 typedef struct {
@@ -28,18 +28,18 @@ typedef struct {
     int authLen;
 } Req;
 
-extern char g_021CE53C[];
+extern char sNHTTPBasicAuthColon[];
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(void);
-extern int func_021BEC10(int a, int d);
-extern int func_021BA124(char *s, int max);
-extern void func_021BA13C(int a, int b);
-extern void func_021BA100(void *dst_p, void *src_p, int size);
-extern int func_021BA714(char *dst_p, const char *src_p);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(void);
+extern int NHTTPi_GetRequest(int a, int d);
+extern int NHTTPi_strnlen(char *s, int max);
+extern void NHTTPi_memclr(int a, int b);
+extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern int NHTTPi_Base64Encode(char *dst_p, const char *src_p);
 
-int func_021BE8E8(void *handle, char *username_p, char *password_p)
+int NHTTP_SetBasicAuthorization(void *handle, char *username_p, char *password_p)
 {
     char tmpbuf[65];
     int password_len;
@@ -47,20 +47,20 @@ int func_021BE8E8(void *handle, char *username_p, char *password_p)
     Req *req_p;
     void *mutexInfo_p;
 
-    func_021BEF08();
-    mutexInfo_p = func_021BEF58();
-    req_p = (Req *)func_021BEC10((int)mutexInfo_p, (int)handle);
+    NHTTPi_GetSystemInfoP();
+    mutexInfo_p = NHTTPi_GetMutexInfoP();
+    req_p = (Req *)NHTTPi_GetRequest((int)mutexInfo_p, (int)handle);
     if (req_p == 0 || username_p == 0 || password_p == 0) {
         return -1;
     }
-    username_len = func_021BA124(username_p, 0x21);
-    password_len = func_021BA124(password_p, 0x21);
+    username_len = NHTTPi_strnlen(username_p, 0x21);
+    password_len = NHTTPi_strnlen(password_p, 0x21);
     if (username_len <= 0x20 && password_len <= 0x20) {
-        func_021BA13C((int)tmpbuf, 0x41);
-        func_021BA100(tmpbuf, username_p, username_len);
-        func_021BA100(tmpbuf + username_len, g_021CE53C, 1);
-        func_021BA100(tmpbuf + (username_len + 1), password_p, password_len);
-        req_p->authLen = func_021BA714(req_p->auth, tmpbuf);
+        NHTTPi_memclr((int)tmpbuf, 0x41);
+        NHTTPi_memcpy(tmpbuf, username_p, username_len);
+        NHTTPi_memcpy(tmpbuf + username_len, sNHTTPBasicAuthColon, 1);
+        NHTTPi_memcpy(tmpbuf + (username_len + 1), password_p, password_len);
+        req_p->authLen = NHTTPi_Base64Encode(req_p->auth, tmpbuf);
     } else {
         return -1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02070730
+ * function: NNSi_G3dAnmGetTexSRTData
  * address:  0x02070730
  * packet:   pkt_0207010C
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02070524    0x02070524  arm
- *   func_02070624    0x02070624  arm
+ *   NNSi_G3dAnmGetTexSRTScalarData    0x02070524  arm
+ *   NNSi_G3dAnmGetTexSRTRotData    0x02070624  arm
  *
  * Samples one animated node's six tracks (two scale, one rotation pair, two
  * translation) out of the per-node track descriptor record, writing the
@@ -23,17 +23,17 @@
  * under ../2.0/sp2 the same C is 256 bytes with ZERO concrete mismatches.
  * The one source change from the note was the order of the two translation
  * stores, which the 2.0 diff named directly (+0x0078/+0x007C emitted in
- * source order). Measurement and the probe are in docs/notes/func_02070730.c.txt.
+ * source order). Measurement and the probe are in docs/notes/NNSi_G3dAnmGetTexSRTData.c.txt.
  *
  * Parked at MATCH for lack of WITNESSES, not for lack of bytes: all 5
- * relocation sites (4x func_02070524, 1x func_02070624) are unresolved
+ * relocation sites (4x NNSi_G3dAnmGetTexSRTScalarData, 1x NNSi_G3dAnmGetTexSRTRotData) are unresolved
  * because neither callee is EXACT in a shard and this function is their only
  * caller in the image, so every witness would fall inside 02070730..02070830
  * and no cut can free them. It becomes EXACT once those two are filed EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02070730.c \
- *       --func func_02070730 --addr 0x02070730 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/pending/NNSi_G3dAnmGetTexSRTData.c \
+ *       --func NNSi_G3dAnmGetTexSRTData --addr 0x02070730 --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj02329.h"
 #include "../include/Obj16645.h"
@@ -60,10 +60,10 @@ struct Node70730 {
     u16 h0e;
 };
 
-s32 func_02070524(u32 *base, u32 flags, u32 off, u32 idx);
-int func_02070624(u32 *base, u32 flags, u32 off, u32 idx);
+s32 NNSi_G3dAnmGetTexSRTScalarData(u32 *base, u32 flags, u32 off, u32 idx);
+int NNSi_G3dAnmGetTexSRTRotData(u32 *base, u32 flags, u32 off, u32 idx);
 
-void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
+void NNSi_G3dAnmGetTexSRTData(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 {
     u8 *tbl;
     u32 fl;
@@ -80,8 +80,8 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 
     fl = out->f00;
 
-    a = func_02070524((u32 *)node, r->f18, r->f1c, t);
-    b = func_02070524((u32 *)node, r->f20, r->f24, t);
+    a = NNSi_G3dAnmGetTexSRTScalarData((u32 *)node, r->f18, r->f1c, t);
+    b = NNSi_G3dAnmGetTexSRTScalarData((u32 *)node, r->f20, r->f24, t);
     if (a == 0 && b == 0) {
         fl |= 4;
     } else {
@@ -90,7 +90,7 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
         fl &= ~4u;
     }
 
-    a = func_02070624((u32 *)node, r->f10, r->f14, t);
+    a = NNSi_G3dAnmGetTexSRTRotData((u32 *)node, r->f10, r->f14, t);
     if (a == 0x10000000) {
         fl |= 2;
         goto rot_done;
@@ -105,8 +105,8 @@ void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
 rot_done:
     ;
 
-    a = func_02070524((u32 *)node, r->f00, r->f04, t);
-    b = func_02070524((u32 *)node, r->f08, r->f0c, t);
+    a = NNSi_G3dAnmGetTexSRTScalarData((u32 *)node, r->f00, r->f04, t);
+    b = NNSi_G3dAnmGetTexSRTScalarData((u32 *)node, r->f08, r->f0c, t);
     if (a == 0x1000 && b == 0x1000) {
         fl |= 1;
     } else {

@@ -23,12 +23,12 @@
  *   NHTTPi_SendData                  0x021bc384 arm
  *   NHTTPi_SendPostData              0x021bc160 arm
  *   STR_POST_TYPE_MULTIPART          0x021ce007 data
- *   g_021CE440                       0x021ce440 data
- *   g_021CE4B4                       0x021ce4b4 data
+ *   sNHTTPCrLf                       0x021ce440 data
+ *   sNHTTPContentLengthHeader                       0x021ce4b4 data
  *   STR_POST_DISPOS                  0x021cdfe0 data
- *   g_021CE4C8                       0x021ce4c8 data
+ *   sNHTTPQuoteCrLf                       0x021ce4c8 data
  *   STR_POST_TYPE_BIN                0x021ce068 data
- *   g_021CE4CC                       0x021ce4cc data
+ *   sNHTTPBoundaryEnd                       0x021ce4cc data
  */
 
 typedef unsigned long u32;
@@ -74,12 +74,12 @@ typedef struct {
 } BgnEnd;
 
 extern char STR_POST_TYPE_MULTIPART[];
-extern char g_021CE440[];
-extern char g_021CE4B4[];
+extern char sNHTTPCrLf[];
+extern char sNHTTPContentLengthHeader[];
 extern char STR_POST_DISPOS[];
-extern char g_021CE4C8[];
+extern char sNHTTPQuoteCrLf[];
 extern char STR_POST_TYPE_BIN[];
-extern char g_021CE4CC[];
+extern char sNHTTPBoundaryEnd[];
 
 extern void *NHTTPi_GetSystemInfoP(void);
 extern void *NHTTPi_GetMutexInfoP(void *sysInfo_p);
@@ -147,11 +147,11 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE4B4, 0x10);
+    result = NHTTPi_SendData(threadData_p, sNHTTPContentLengthHeader, 0x10);
     if (result != 0) {
         return result;
     }
@@ -159,11 +159,11 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
@@ -174,7 +174,7 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
             if (result != 0) {
                 return result;
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+            result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
             if (result != 0) {
                 return result;
             }
@@ -186,7 +186,7 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
             if (result != 0) {
                 return result;
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE4C8, 3);
+            result = NHTTPi_SendData(threadData_p, sNHTTPQuoteCrLf, 3);
             if (result != 0) {
                 return result;
             }
@@ -196,7 +196,7 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
                     return result;
                 }
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+            result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
             if (result != 0) {
                 return result;
             }
@@ -211,7 +211,7 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
                     return result;
                 }
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+            result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
             if (result != 0) {
                 return result;
             }
@@ -225,7 +225,7 @@ static int NHTTPi_SendProcPostDataBinary(ThreadData *threadData_p)
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE4CC, 4);
+    result = NHTTPi_SendData(threadData_p, sNHTTPBoundaryEnd, 4);
     if (result != 0) {
         return result;
     }

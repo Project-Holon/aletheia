@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020044FE",
+   "name": "SVC_UncompressLZ8",
    "address": "0x020044FE",
    "kind": "game",
    "region": "arm9",

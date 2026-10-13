@@ -1,5 +1,5 @@
 /*
- * function: func_021BA764
+ * function: WIFICLUBACTOR_GetBlinkColors
  * address:  0x021BA764
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -29,7 +29,7 @@ typedef struct {
     u16 *table;
 } Q;
 
-u16 *func_021BA764(T *t, int i)
+u16 *WIFICLUBACTOR_GetBlinkColors(T *t, int i)
 {
     Q *q = (Q *)*(u32 **)&t->f04;
 

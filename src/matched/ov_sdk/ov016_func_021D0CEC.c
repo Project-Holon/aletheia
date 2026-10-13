@@ -1,5 +1,5 @@
 /*
- * function: func_021D0CEC
+ * function: DWCi_USBAPlEnd
  * address:  0x021D0CEC
  * packet:   pkt_ov016_021D0CEC
  * region:   ov016
@@ -15,7 +15,7 @@
  *           and passes r4 on -- it takes the task pointer as a *second*
  *           argument.  The image keeps `g->task` in r1 across the guard
  *           because the guarded call passes that same value again:
- *           `DWCi_TSKlDeleteByIndex(0, g_021DE654->task)`.  The one-argument spelling
+ *           `DWCi_TSKlDeleteByIndex(0, gUsbapWork->task)`.  The one-argument spelling
  *           lets the dying base coalesce into the load destination, which is
  *           the 2-byte residue.  The general lever is
  *           docs/idioms/a-guard-value-still-in-r1-at-the-call-is-the-callees-second-argument.md.
@@ -58,12 +58,12 @@
  * layout/symbols_sdk.json, so it never gated this function.
  *
  * symbols:
- *   func_0208EBE4  0x0208EBE4  arm
+ *   WM_ReadStatus  0x0208EBE4  arm
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE654     0x021DE654  data
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gUsbapWork     0x021DE654  data
  *   g_021DE654_b   0x021DE654  data
  *   func_021D0DE0  0x021D0DE0  arm  ov016
  */
@@ -83,35 +83,35 @@ typedef struct {
 } M;
 
 struct WMStatus;
-extern int func_0208EBE4(struct WMStatus *statusBuf);
+extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021D6438(void **mem);
-extern M *g_021DE654;
+extern void DWCi_HEAPlFree_(void **mem);
+extern M *gUsbapWork;
 extern M *g_021DE654_b;
 extern void func_021D0DE0(void *);
 
-int func_021D0CEC(void)
+int DWCi_USBAPlEnd(void)
 {
     enum WMErrCode rs;
-    g_021DE654->end = 1;
-    func_0208EBE4((struct WMStatus *)(&g_021DE654->state));
-    if (g_021DE654->state != WM_ERRCODE_OPERATING) {
+    gUsbapWork->end = 1;
+    WM_ReadStatus((struct WMStatus *)(&gUsbapWork->state));
+    if (gUsbapWork->state != WM_ERRCODE_OPERATING) {
         rs = WM_Reset(func_021D0DE0);
         if (rs != WM_ERRCODE_OPERATING)
             return 0;
         do {
-            func_0208EBE4((struct WMStatus *)(&g_021DE654->state));
-        } while (g_021DE654->state != WM_ERRCODE_OPERATING);
+            WM_ReadStatus((struct WMStatus *)(&gUsbapWork->state));
+        } while (gUsbapWork->state != WM_ERRCODE_OPERATING);
     }
     rs = WM_End(func_021D0DE0);
     if (rs != WM_ERRCODE_OPERATING)
         return 0;
-    if (g_021DE654->task != 0)
-        DWCi_TSKlDeleteByIndex(0, g_021DE654->task);
-    while (g_021DE654->end != 2)
+    if (gUsbapWork->task != 0)
+        DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
+    while (gUsbapWork->end != 2)
         ;
-    func_021D6438((void **)(&g_021DE654_b));
+    DWCi_HEAPlFree_((void **)(&g_021DE654_b));
     return 1;
 }

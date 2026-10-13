@@ -1,5 +1,5 @@
 /*
- * function: func_021B61E8
+ * function: COMPATIBLE_IRC_SYS_StepShutdown
  * address:  0x021B61E8
  * packet:   pkt_ov101_021B61E8
  * region:   ov101
@@ -19,9 +19,9 @@
  *   label for it) gives the `matched` class and makes this EXACT.
  *
  * symbols:
- *   func_021B6760  0x021B6760  thumb  ov101
+ *   COMPATIBLE_IRC_SYS_ProfileSyncExit  0x021B6760  thumb  ov101
  *   GFL_NET_Exit  0x0203CEAC  arm
- *   func_021B6674  0x021B6674  thumb  ov101
+ *   COMPATIBLE_IRC_SYS_ExitCallback  0x021B6674  thumb  ov101
  */
 
 typedef struct Obj {
@@ -35,25 +35,25 @@ typedef struct Obj {
     int busy;
 } Obj;
 
-extern void func_021B6760(int *p);
+extern void COMPATIBLE_IRC_SYS_ProfileSyncExit(int *p);
 extern int GFL_NET_Exit(int a0);
-extern void func_021B6674(int *p);
+extern void COMPATIBLE_IRC_SYS_ExitCallback(int *p);
 
-int func_021B61E8(Obj *o)
+int COMPATIBLE_IRC_SYS_StepShutdown(Obj *o)
 {
     if (o->busy != 0)
         return 1;
     switch (o->state) {
     case 0:
         if (o->pending != 0) {
-            func_021B6760((int *)o->sub);
+            COMPATIBLE_IRC_SYS_ProfileSyncExit((int *)o->sub);
             o->pending = 0;
         }
         o->done = 0;
         o->state = 1;
         break;
     case 1:
-        if (GFL_NET_Exit((int)func_021B6674) != 0)
+        if (GFL_NET_Exit((int)COMPATIBLE_IRC_SYS_ExitCallback) != 0)
             o->state = 2;
         else
             o->state = 3;

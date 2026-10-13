@@ -11,31 +11,31 @@
  *
  * symbols:
  *   func_021CA560   0x021CA560  arm
- *   func_021D1568   0x021D1568  arm
- *   func_021CFFAC   0x021CFFAC  arm
- *   func_021D1524   0x021D1524  arm
- *   func_021CE818   0x021CE818  arm
- *   func_021C0E40   0x021C0E40  arm
+ *   DWCi_WINlGet   0x021D1568  arm
+ *   DWCi_SNDlPlay   0x021CFFAC  arm
+ *   DWCi_WINlEnd   0x021D1524  arm
+ *   DWCi_SCREENlSetPalette   0x021CE818  arm
+ *   DWCi_ChangeScene   0x021C0E40  arm
  *
  * Gate on the driver state, then reset the shared block and hand the next state off.
  * Addresses are Black-image addresses.
  */
 
-extern signed char func_021D1568(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021D1524(void);
-extern void func_021CE818(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern signed char DWCi_WINlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_WINlEnd(void);
+extern void DWCi_SCREENlSetPalette(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 
 void func_021CA560(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
 
-    if (func_021D1568() != 0)
+    if (DWCi_WINlGet() != 0)
         return;
-    func_021CFFAC(6);
-    func_021D1524();
-    func_021CE818(*(int *)(*(int *)(g + 8) + 0xc));
-    func_021C0E40(0x021CA5A0);
+    DWCi_SNDlPlay(6);
+    DWCi_WINlEnd();
+    DWCi_SCREENlSetPalette(*(int *)(*(int *)(g + 8) + 0xc));
+    DWCi_ChangeScene(0x021CA5A0);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB2A4
+ * function: CRYPTOi__BN_rshift
  * address:  0x021CB2A4
  * packet:   pkt_ov114_021CB2A4
  * region:   ov114
@@ -11,9 +11,9 @@
  *
  * sdk:      CRYPTOi__BN_rshift (libcrypto.TWL.HYB.a crypto_bobj1.o)
  * symbols:
- *   func_021CAEC8                    0x021caec8 arm ov114
- *   func_021CADAC                    0x021cadac arm ov114
- *   func_021CAC8C                    0x021cac8c arm ov114
+ *   CRYPTOi__BN_set_word                    0x021caec8 arm ov114
+ *   CRYPTOi__bn_expand2                    0x021cadac arm ov114
+ *   CRYPTOi__bn_fix_top                    0x021cac8c arm ov114
  */
 
 typedef unsigned long BN_ULONG;
@@ -27,13 +27,13 @@ typedef struct {
 } BIGNUM;
 
 typedef unsigned char  u8;
-extern int func_021CAEC8(u8 *a, unsigned long w);
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
-extern void func_021CAC8C(BIGNUM *a);
+extern int CRYPTOi__BN_set_word(u8 *a, unsigned long w);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
+extern void CRYPTOi__bn_fix_top(BIGNUM *a);
 
-#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : func_021CADAC((a), (words)))
+#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (words)))
 
-int func_021CB2A4(BIGNUM *r, const BIGNUM *a, int n)
+int CRYPTOi__BN_rshift(BIGNUM *r, const BIGNUM *a, int n)
 {
     int i, j, nw, lb, rb;
     BN_ULONG *t, *f;
@@ -43,7 +43,7 @@ int func_021CB2A4(BIGNUM *r, const BIGNUM *a, int n)
     rb = n % 32;
     lb = 32 - rb;
     if (nw > a->top) {
-        func_021CAEC8((u8 *)r, 0);
+        CRYPTOi__BN_set_word((u8 *)r, 0);
         return 1;
     }
     if (r != a) {
@@ -70,6 +70,6 @@ int func_021CB2A4(BIGNUM *r, const BIGNUM *a, int n)
         *(t++) = l >> rb;
         *t = 0;
     }
-    func_021CAC8C(r);
+    CRYPTOi__bn_fix_top(r);
     return 1;
 }

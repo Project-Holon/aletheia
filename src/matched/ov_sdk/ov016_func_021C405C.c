@@ -12,48 +12,48 @@
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BCB58  0x021BCB58  arm  ov016
- *   func_021D5CA8  0x021D5CA8  arm  ov016
- *   func_021BD138  0x021BD138  arm  ov016
- *   func_021D6090  0x021D6090  arm  ov016
- *   func_021C0E50  0x021C0E50  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C0     0x021DE5C0  data
- *   func_021C2A3C  0x021C2A3C  arm  ov016
- *   func_021C450C  0x021C450C  arm  ov016
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_BTNlIsEnd  0x021BCB58  arm  ov016
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm  ov016
+ *   DWCi_COMMENTlDelete  0x021BD138  arm  ov016
+ *   DWCi_GXlInvisible  0x021D6090  arm  ov016
+ *   DWCi_SetParam_  0x021C0E50  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovFailureWork     0x021DE5C0  data
+ *   DWCi_SceneOptMenu  0x021C2A3C  arm  ov016
+ *   DWCi_SceneOptMovWait  0x021C450C  arm  ov016
  */
 
-extern int func_021D5580();
-extern int func_021BCB58();
-extern void func_021D5CA8(int a);
-extern void func_021BD138();
-extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021C2A3C();
-extern void func_021C450C();
-extern unsigned char g_021DE5C0[];
+extern int DWCi_EFFlCheck();
+extern int DWCi_BTNlIsEnd();
+extern void DWCi_FNTlDeleteBgLcd(int a);
+extern void DWCi_COMMENTlDelete();
+extern void DWCi_GXlInvisible(int lcd, int plane);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_SceneOptMenu();
+extern void DWCi_SceneOptMovWait();
+extern unsigned char gSceneOptMovFailureWork[];
 
 void func_021C405C(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    if (!func_021BCB58())
+    if (!DWCi_BTNlIsEnd())
         return;
-    func_021D5CA8(0);
-    if (!g_021DE5C0[1]) {
-        func_021BD138();
-        func_021D6090(1, 1);
+    DWCi_FNTlDeleteBgLcd(0);
+    if (!gSceneOptMovFailureWork[1]) {
+        DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    func_021D6090(0, 0x15);
-    if (!g_021DE5C0[1]) {
-        func_021C0E50(0, 1);
-        func_021C0E40((unsigned int)func_021C2A3C);
+    DWCi_GXlInvisible(0, 0x15);
+    if (!gSceneOptMovFailureWork[1]) {
+        DWCi_SetParam_(0, 1);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMenu);
     } else {
-        func_021C0E50(0, 1);
-        func_021C0E40((unsigned int)func_021C450C);
+        DWCi_SetParam_(0, 1);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovWait);
     }
 }

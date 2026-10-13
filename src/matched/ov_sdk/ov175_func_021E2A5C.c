@@ -14,20 +14,20 @@
  *   gsXmlReadChildAsStringNT    0x0218372C  arm
  *   gsXmlReadChildAsHexBinary   0x021837A4  arm
  *   gsLargeIntSetFromHexString  0x0217E848  arm
- *   g_021E4A5C                  0x021E4A5C  data
- *   g_021E4A64                  0x021E4A64  data
- *   g_021E4A70                  0x021E4A70  data
- *   g_021E4A7C                  0x021E4A7C  data
- *   g_021E4A88                  0x021E4A88  data
- *   g_021E4B14                  0x021E4B14  data
- *   g_021E4B1C                  0x021E4B1C  data
- *   g_021E4B24                  0x021E4B24  data
- *   g_021E4B30                  0x021E4B30  data
- *   g_021E4B3C                  0x021E4B3C  data
- *   g_021E4B48                  0x021E4B48  data
- *   g_021E4B58                  0x021E4B58  data
- *   g_021E4B68                  0x021E4B68  data
- *   g_021E4B74                  0x021E4B74  data
+ *   sWsTagVersion                  0x021E4A5C  data
+ *   sWsTagPartnerCode                  0x021E4A64  data
+ *   sWsTagNamespaceId                  0x021E4A70  data
+ *   sWsTagProfileNick                  0x021E4A7C  data
+ *   sWsTagUniqueNick                  0x021E4A88  data
+ *   sWsTagLength                  0x021E4B14  data
+ *   sWsTagUserId                  0x021E4B1C  data
+ *   sWsTagProfileId                  0x021E4B24  data
+ *   sWsTagExpireTime                  0x021E4B30  data
+ *   sWsTagCdKeyHash                  0x021E4B3C  data
+ *   sWsTagPeerKeyModulus                  0x021E4B48  data
+ *   sWsTagPeerKeyExponent                  0x021E4B58  data
+ *   sWsTagServerData                  0x021E4B68  data
+ *   sWsTagSignature                  0x021E4B74  data
  *
  * Gamespy (DWC) login profile XML reader: one long conjunction of
  * gsXmlReadChild* calls, so every failure shares the single fallback
@@ -83,42 +83,42 @@ extern int gsXmlReadChildAsStringNT(void *xml, const char *name, char *out, u32 
 extern int gsXmlReadChildAsHexBinary(void *xml, const char *name, void *out, u32 len, int *outLen);
 extern int gsLargeIntSetFromHexString(void *dst, const char *hex);
 
-extern char g_021E4A5C[];
-extern char g_021E4A64[];
-extern char g_021E4A70[];
-extern char g_021E4A7C[];
-extern char g_021E4A88[];
-extern char g_021E4B14[];
-extern char g_021E4B1C[];
-extern char g_021E4B24[];
-extern char g_021E4B30[];
-extern char g_021E4B3C[];
-extern char g_021E4B48[];
-extern char g_021E4B58[];
-extern char g_021E4B68[];
-extern char g_021E4B74[];
+extern char sWsTagVersion[];
+extern char sWsTagPartnerCode[];
+extern char sWsTagNamespaceId[];
+extern char sWsTagProfileNick[];
+extern char sWsTagUniqueNick[];
+extern char sWsTagLength[];
+extern char sWsTagUserId[];
+extern char sWsTagProfileId[];
+extern char sWsTagExpireTime[];
+extern char sWsTagCdKeyHash[];
+extern char sWsTagPeerKeyModulus[];
+extern char sWsTagPeerKeyExponent[];
+extern char sWsTagServerData[];
+extern char sWsTagSignature[];
 
 int func_021E2A5C(GsProfile *p, void *xml)
 {
     char buf[0x101];
     int outLen;
 
-    if (!(gsXmlReadChildAsInt(xml, g_021E4B14, &p->length)
-        && gsXmlReadChildAsInt(xml, g_021E4A5C, &p->version)
-        && gsXmlReadChildAsInt(xml, g_021E4A64, &p->partnercode)
-        && gsXmlReadChildAsInt(xml, g_021E4A70, &p->namespace)
-        && gsXmlReadChildAsInt(xml, g_021E4B1C, &p->userid)
-        && gsXmlReadChildAsInt(xml, g_021E4B24, &p->profileid)
-        && gsXmlReadChildAsInt(xml, g_021E4B30, &p->expiretime)
-        && gsXmlReadChildAsStringNT(xml, g_021E4A7C, p->profile, 0x1f)
-        && gsXmlReadChildAsStringNT(xml, g_021E4A88, p->uniquenick, 0x15)
-        && gsXmlReadChildAsStringNT(xml, g_021E4B3C, p->cdkeyhash, 0x21)
-        && gsXmlReadChildAsStringNT(xml, g_021E4B48, buf, 0x101)
+    if (!(gsXmlReadChildAsInt(xml, sWsTagLength, &p->length)
+        && gsXmlReadChildAsInt(xml, sWsTagVersion, &p->version)
+        && gsXmlReadChildAsInt(xml, sWsTagPartnerCode, &p->partnercode)
+        && gsXmlReadChildAsInt(xml, sWsTagNamespaceId, &p->namespace)
+        && gsXmlReadChildAsInt(xml, sWsTagUserId, &p->userid)
+        && gsXmlReadChildAsInt(xml, sWsTagProfileId, &p->profileid)
+        && gsXmlReadChildAsInt(xml, sWsTagExpireTime, &p->expiretime)
+        && gsXmlReadChildAsStringNT(xml, sWsTagProfileNick, p->profile, 0x1f)
+        && gsXmlReadChildAsStringNT(xml, sWsTagUniqueNick, p->uniquenick, 0x15)
+        && gsXmlReadChildAsStringNT(xml, sWsTagCdKeyHash, p->cdkeyhash, 0x21)
+        && gsXmlReadChildAsStringNT(xml, sWsTagPeerKeyModulus, buf, 0x101)
         && gsLargeIntSetFromHexString(&p->peerkeymodulus, buf)
-        && gsXmlReadChildAsStringNT(xml, g_021E4B58, buf, 0x101)
+        && gsXmlReadChildAsStringNT(xml, sWsTagPeerKeyExponent, buf, 0x101)
         && gsLargeIntSetFromHexString(&p->peerkeyexponent, buf)
-        && gsXmlReadChildAsHexBinary(xml, g_021E4B68, p->serverdata, 0x80, &outLen)
-        && gsXmlReadChildAsHexBinary(xml, g_021E4B74, p->signature, 0x80, &outLen)))
+        && gsXmlReadChildAsHexBinary(xml, sWsTagServerData, p->serverdata, 0x80, &outLen)
+        && gsXmlReadChildAsHexBinary(xml, sWsTagSignature, p->signature, 0x80, &outLen)))
         return 0;
     return 1;
 }

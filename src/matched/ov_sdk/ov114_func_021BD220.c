@@ -1,5 +1,5 @@
 /*
- * function: func_021BD220
+ * function: NHTTPi_ThreadInit
  * address:  0x021BD220
  * packet:   pkt_ov114_021BD220
  * region:   ov114
@@ -12,7 +12,7 @@
  * sdk:      NHTTPi_ThreadInit (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BA13C 0x021BA13C arm ov114
+ *   NHTTPi_memclr 0x021BA13C arm ov114
  */
 
 typedef struct {
@@ -32,13 +32,13 @@ typedef struct {
     int a33c;
 } ThreadData;
 
-extern void func_021BA13C(int a, int b);
+extern void NHTTPi_memclr(int a, int b);
 
-void func_021BD220(ThreadData *threadData_p)
+void NHTTPi_ThreadInit(ThreadData *threadData_p)
 {
     threadData_p->result = -1;
-    func_021BA13C((int)threadData_p->sendBuf, 0x100);
-    func_021BA13C((int)threadData_p->recvBuf, 0x200);
+    NHTTPi_memclr((int)threadData_p->sendBuf, 0x100);
+    NHTTPi_memclr((int)threadData_p->recvBuf, 0x200);
     threadData_p->socket = -1;
     threadData_p->pipe = -1;
     threadData_p->a324 = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189A2C",
+   "name": "TR_AI_GetMoveParam2",
    "address": "0x02189A2C",
    "kind": "game",
    "region": "ov096",

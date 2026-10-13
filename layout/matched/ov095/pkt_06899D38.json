@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06899D38",
+   "name": "BTLV_SCD_Nop",
    "address": "0x06899D38",
    "kind": "game",
    "region": "ov095",

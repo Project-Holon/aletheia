@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206E62C",
+   "name": "NNS_G3dGetResDataByName",
    "address": "0x0206E62C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206E7EC",
+   "name": "NNS_G3dGetResDictIdxByName",
    "address": "0x0206E7EC",
    "kind": "game",
    "region": "arm9",

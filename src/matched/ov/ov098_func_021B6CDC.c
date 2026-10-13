@@ -1,5 +1,5 @@
 /*
- * function: func_021B6CDC
+ * function: PDC_MSG_BlendUpdate
  * address:  0x021B6CDC
  * packet:   pkt_ov098_021B6CDC
  * region:   ov098
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 
-int func_021B6CDC(u8 *p)
+int PDC_MSG_BlendUpdate(u8 *p)
 {
     switch (p[0x14]) {
     case 2:

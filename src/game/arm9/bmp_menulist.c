@@ -37,8 +37,8 @@
  *   BMP_Blit  0x020439A0  arm
  *   BMP_CURSOR_TileData     0x0209E8CC  data
  *   func_0200575C  0x0200575C  thumb
- *   func_020788AC  0x020788AC  arm
- *   func_02078C18  0x02078C18  arm
+ *   FS_InitFile  0x020788AC  arm
+ *   FS_OpenFile  0x02078C18  arm
  *   FILE_UTIL_FILE_NAME     0x020A73B0  data
  *   FS_CloseFile   0x02078A80  arm
  *   FS_SeekFile    0x02078B44  arm
@@ -276,8 +276,8 @@ extern void PRINTSYS_PrintQue(void *printer, struct Bmp *bmp, u32 x, u32 y, void
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
 extern void *func_0200575C(u32 archiveId);
-extern void  func_020788AC(struct FSFile *file);
-extern void  func_02078C18(struct FSFile *file, void *path);
+extern void  FS_InitFile(struct FSFile *file);
+extern void  FS_OpenFile(struct FSFile *file, void *path);
 extern void  FS_CloseFile(struct FSFile *file);
 extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
 extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
@@ -1362,8 +1362,8 @@ void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId)
     void *path;
 
     path = func_0200575C(archiveId);
-    func_020788AC(file);
-    func_02078C18(file, path);
+    FS_InitFile(file);
+    FS_OpenFile(file, path);
 }
 
 

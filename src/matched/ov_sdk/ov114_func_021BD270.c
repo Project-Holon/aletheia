@@ -1,5 +1,5 @@
 /*
- * function: func_021BD270
+ * function: NHTTPi_ThreadReqEnd
  * address:  0x021BD270
  * packet:   pkt_ov114_021BD270
  * region:   ov114
@@ -12,20 +12,20 @@
  * sdk:      NHTTPi_ThreadReqEnd (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF3C  0x021BEF3C  arm  ov114
- *   func_021BEF48  0x021BEF48  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
- *   func_021BEBE0  0x021BEBE0  arm  ov114
- *   func_021B9CFC  0x021B9CFC  arm  ov114
- *   func_021BA874  0x021BA874  arm  ov114
- *   func_021BEFCC  0x021BEFCC  arm  ov114
- *   func_021BA850  0x021BA850  arm  ov114
- *   func_021BEFD8  0x021BEFD8  arm  ov114
- *   func_021BB934  0x021BB934  arm  ov114
- *   func_021BEE1C  0x021BEE1C  arm  ov114
- *   func_021BEA98  0x021BEA98  arm  ov114
- *   func_021BF1B0  0x021BF1B0  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetBgnEndInfoP  0x021BEF3C  arm  ov114
+ *   NHTTPi_GetReqInfoP  0x021BEF48  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
+ *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
+ *   NHTTPi_SocClose  0x021B9CFC  arm  ov114
+ *   NHTTPi_SetError  0x021BA874  arm  ov114
+ *   NHTTPi_lockReqList  0x021BEFCC  arm  ov114
+ *   NHTTPi_free  0x021BA850  arm  ov114
+ *   NHTTPi_unlockReqList  0x021BEFD8  arm  ov114
+ *   NHTTPi_destroyRequestObject  0x021BB934  arm  ov114
+ *   NHTTPi_CompleteCallback  0x021BEE1C  arm  ov114
+ *   NHTTPi_NotifyCompletion  0x021BEA98  arm  ov114
+ *   NHTTPi_DeleteConnection  0x021BF1B0  arm  ov114
  */
 
 typedef struct _NHTTPMutexInfo NHTTPMutexInfo;
@@ -74,23 +74,23 @@ typedef struct _NHTTPConnection {
     int nhttpError;
 } NHTTPConnection;
 
-extern unsigned char *func_021BEF08(void);
-extern NHTTPBgnEndInfo *func_021BEF3C();
+extern unsigned char *NHTTPi_GetSystemInfoP(void);
+extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP();
 typedef unsigned char  u8;
-extern void *func_021BEF48(int p);
-extern void *func_021BEF58(int p);
-extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int func_021B9CFC(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
-extern void func_021BA874(u8 *p, int v);
-extern void func_021BEFCC();
-extern void func_021BA850(int a);
-extern void func_021BEFD8();
-extern int func_021BB934(int a, u8 *b);
-extern void func_021BEE1C(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
-extern void func_021BEA98(u8 *p);
-extern int func_021BF1B0(NHTTPConnection *connection_p);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
+extern int NHTTPi_SocClose(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
+extern void NHTTPi_SetError(u8 *p, int v);
+extern void NHTTPi_lockReqList();
+extern void NHTTPi_free(int a);
+extern void NHTTPi_unlockReqList();
+extern int NHTTPi_destroyRequestObject(int a, u8 *b);
+extern void NHTTPi_CompleteCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
+extern void NHTTPi_NotifyCompletion(u8 *p);
+extern int NHTTPi_DeleteConnection(NHTTPConnection *connection_p);
 
-static void func_021BD270(NHTTPThreadData *threadData_p)
+static void NHTTPi_ThreadReqEnd(NHTTPThreadData *threadData_p)
 {
     NHTTPSysInfo *sysInfo_p;
     NHTTPBgnEndInfo *bgnEndInfo_p;
@@ -100,20 +100,20 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
     NHTTPRes *res_p;
     NHTTPConnection *connection_p;
 
-    sysInfo_p = (NHTTPSysInfo *)func_021BEF08();
-    bgnEndInfo_p = func_021BEF3C(sysInfo_p);
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
-    mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    sysInfo_p = (NHTTPSysInfo *)NHTTPi_GetSystemInfoP();
+    bgnEndInfo_p = NHTTPi_GetBgnEndInfoP(sysInfo_p);
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
+    mutexInfo_p = NHTTPi_GetMutexInfoP((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     res_p = req_p->res_p;
-    connection_p = func_021BEBE0(mutexInfo_p, req_p);
+    connection_p = NHTTPi_Request2Connection(mutexInfo_p, req_p);
 
     if (req_p->doCancel) {
         threadData_p->result = 8;
         threadData_p->isKeepAlive = 0;
     }
     if (threadData_p->isKeepAlive == 0 && bgnEndInfo_p->socket >= 0) {
-        if (func_021B9CFC(mutexInfo_p, req_p, bgnEndInfo_p->socket) < 0)
+        if (NHTTPi_SocClose(mutexInfo_p, req_p, bgnEndInfo_p->socket) < 0)
             threadData_p->result = 10;
         bgnEndInfo_p->socket = -1;
     }
@@ -121,7 +121,7 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
         res_p->isSuccess = 1;
     } else {
         res_p->isSuccess = 0;
-        func_021BA874((u8 *)bgnEndInfo_p, threadData_p->result);
+        NHTTPi_SetError((u8 *)bgnEndInfo_p, threadData_p->result);
         if (res_p->recvBuf_p == threadData_p->tmpBodyBuf) {
             res_p->recvBuf_p = 0;
             res_p->recvBufLen = 0;
@@ -130,15 +130,15 @@ static void func_021BD270(NHTTPThreadData *threadData_p)
     if (connection_p != 0)
         connection_p->nhttpError = threadData_p->result;
 
-    func_021BEFCC(mutexInfo_p);
-    func_021BA850((int)reqInfo_p->reqCurrent);
+    NHTTPi_lockReqList(mutexInfo_p);
+    NHTTPi_free((int)reqInfo_p->reqCurrent);
     reqInfo_p->reqCurrent = 0;
-    func_021BEFD8(mutexInfo_p);
-    func_021BB934((int)mutexInfo_p, (u8 *)req_p);
+    NHTTPi_unlockReqList(mutexInfo_p);
+    NHTTPi_destroyRequestObject((int)mutexInfo_p, (u8 *)req_p);
     if (connection_p != 0 && res_p->isSuccess != 0)
         connection_p->status = 5;
-    func_021BEE1C(mutexInfo_p, connection_p);
+    NHTTPi_CompleteCallback(mutexInfo_p, connection_p);
     if (connection_p != 0)
-        func_021BEA98((u8 *)connection_p);
-    func_021BF1B0(connection_p);
+        NHTTPi_NotifyCompletion((u8 *)connection_p);
+    NHTTPi_DeleteConnection(connection_p);
 }

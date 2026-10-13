@@ -13,7 +13,7 @@
  *   WIH_SetError  0x0217814C  thumb  ov014
  *   WIH_StateOutMeasureChannel  0x02178F8C  thumb  ov014
  *   func_02179010  0x02179010  thumb  ov014
- *   func_0208EE60  0x0208EE60  arm
+ *   WM_GetAllowedChannel  0x0208EE60  arm
  */
 
 typedef unsigned int u32;
@@ -24,11 +24,11 @@ void WIH_ChangeSysState(int a);
 void WIH_SetError(int a);
 void WIH_StateOutMeasureChannel(u8 *m);
 int func_02179010(void *cb, int n);
-u16 func_0208EE60(void);
+u16 WM_GetAllowedChannel(void);
 
 int WIH_StateInMeasureChannel(u16 n)
 {
-    u32 m = func_0208EE60();
+    u32 m = WM_GetAllowedChannel();
 
     if (m == 0x8000) {
         WIH_SetError(3);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9EE4
+ * function: DWCi_EncSessionInitialize
  * address:  0x021C9EE4
  * packet:   pkt_ov114_021C9EE4
  * region:   ov114
@@ -14,13 +14,13 @@
  * symbols:
  *   func_02094860  0x02094860  arm
  *   func_02095EAC  0x02095EAC  arm
- *   func_021C98E0  0x021C98E0  arm  ov114
- *   func_021BF558  0x021BF558  arm  ov114
- *   g_021CF7AC  0x021CF7AC  data
- *   g_021CF7A8  0x021CF7A8  data
- *   g_021CF85C  0x021CF85C  data
- *   g_021CF884  0x021CF884  data
- *   g_021CF8A8  0x021CF8A8  data
+ *   DWCi_EncValidateKey  0x021C98E0  arm  ov114
+ *   DWC_InitGHTTP  0x021BF558  arm  ov114
+ *   gDwcEncSession  0x021CF7AC  data
+ *   gDwcEncServerUrl  0x021CF7A8  data
+ *   sDwcEncSessionHttpGamestatsGsNintendowifiNet  0x021CF85C  data
+ *   sDwcEncSessionHttpSdkdevGamespyComGames  0x021CF884  data
+ *   sDwcEncSessionHttpIshikawaServebeerComGames  0x021CF8A8  data
  */
 
 #include "../include/G_Session.h"
@@ -64,15 +64,15 @@ typedef union {
 
 extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);
-extern int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
-extern int func_021BF558();
-extern struct Session g_021CF7AC;
-extern char *g_021CF7A8;
-extern char g_021CF85C[];
-extern char g_021CF884[];
-extern char g_021CF8A8[];
+extern int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
+extern int DWC_InitGHTTP();
+extern struct Session gDwcEncSession;
+extern char *gDwcEncServerUrl;
+extern char sDwcEncSessionHttpGamestatsGsNintendowifiNet[];
+extern char sDwcEncSessionHttpSdkdevGamespyComGames[];
+extern char sDwcEncSessionHttpIshikawaServebeerComGames[];
 
-void func_021C9EE4(int server, char *initdata)
+void DWCi_EncSessionInitialize(int server, char *initdata)
 {
     u32 randkey_1;
     u32 randkey_2;
@@ -82,22 +82,22 @@ void func_021C9EE4(int server, char *initdata)
     char secretkey[21];
     char buf[9] = {0};
 
-    g_021CF7AC.reqid = -1;
-    g_021CF7AC.request = 0;
-    g_021CF7AC.hash = 0;
-    g_021CF7AC.data = 0;
-    g_021CF7AC.resbuf = 0;
-    g_021CF7AC.resbuflen = 0;
+    gDwcEncSession.reqid = -1;
+    gDwcEncSession.request = 0;
+    gDwcEncSession.hash = 0;
+    gDwcEncSession.data = 0;
+    gDwcEncSession.resbuf = 0;
+    gDwcEncSession.resbuflen = 0;
 
     switch (server) {
     case 0:
-        g_021CF7A8 = g_021CF85C;
+        gDwcEncServerUrl = sDwcEncSessionHttpGamestatsGsNintendowifiNet;
         break;
     case 1:
-        g_021CF7A8 = g_021CF884;
+        gDwcEncServerUrl = sDwcEncSessionHttpSdkdevGamespyComGames;
         break;
     case 2:
-        g_021CF7A8 = g_021CF8A8;
+        gDwcEncServerUrl = sDwcEncSessionHttpIshikawaServebeerComGames;
         break;
     }
 
@@ -108,8 +108,8 @@ void func_021C9EE4(int server, char *initdata)
     randkey_2 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key2, 8), 0, 16);
     randkey_3 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key3, 8), 0, 16);
     randkey_4 = func_02095EAC((u32)func_02094860((u8 *)buf, (const u8 *)ptr->info.key4, 8), 0, 16);
-    func_021C98E0(ptr->info.gamename, secretkey, randkey_1, randkey_2, randkey_3, randkey_4);
-    func_021BF558(0);
-    g_021CF7AC.state = 3;
-    g_021CF7AC.isinitialized = 1;
+    DWCi_EncValidateKey(ptr->info.gamename, secretkey, randkey_1, randkey_2, randkey_3, randkey_4);
+    DWC_InitGHTTP(0);
+    gDwcEncSession.state = 3;
+    gDwcEncSession.isinitialized = 1;
 }

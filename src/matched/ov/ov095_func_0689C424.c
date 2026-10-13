@@ -1,5 +1,5 @@
 /*
- * function: func_0689C424
+ * function: BTL_SICK_GetAddStringId
  * address:  0x0689C424
  * packet:   pkt_ov095_0689C424
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0689E21C   0x0689E21C  data  ov095  a4
+ *   gSickAddStringTable   0x0689E21C  data  ov095  a4
  */
 
 typedef unsigned int u32;
@@ -22,21 +22,21 @@ typedef struct Ent {
     s16 b;
 } Ent;
 
-extern Ent d_0689E21C[17];
+extern Ent gSickAddStringTable[17];
 
-int func_0689C424(u32 key, int flag)
+int BTL_SICK_GetAddStringId(u32 key, int flag)
 {
     u32 i;
     int v;
 
     for (i = 0; i < 17; i++) {
-        if (key == d_0689E21C[i].key) {
+        if (key == gSickAddStringTable[i].key) {
             if (flag != 0)
-                v = d_0689E21C[i].b;
+                v = gSickAddStringTable[i].b;
             else
-                v = d_0689E21C[i].a;
+                v = gSickAddStringTable[i].a;
             if (v < 0)
-                return d_0689E21C[i].a;
+                return gSickAddStringTable[i].a;
             return v;
         }
     }

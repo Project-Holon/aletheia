@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02072EA8",
+   "name": "NNS_SndHandleReleaseSeq",
    "address": "0x02072EA8",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    }
   },
   {
-   "name": "NNS_SndHandleSetSweep",
+   "name": "NNSi_SndHandleSetSeqArc",
    "address": "0x020730DC",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020733DC",
+   "name": "NNSi_SndPlayerFreeSeqPlayer",
    "address": "0x020733DC",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF3BC
+ * function: NHTTP_GetConnectionStatus
  * address:  0x021BF3BC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEC00  0x021BEC00  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
+ *   NHTTPi_GetConnection  0x021BEC00  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
  *
  *
  * Keyed +0x00 read of record `a`; -1 when the key is unknown.
@@ -22,14 +22,14 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(int p);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(int p);
 struct Conn;
-extern struct Conn *func_021BEC00(int a, int b);
+extern struct Conn *NHTTPi_GetConnection(int a, int b);
 
-int func_021BF3BC(int a)
+int NHTTP_GetConnectionStatus(int a)
 {
-    u8 *p = (u8 *)func_021BEC00((int)func_021BEF58((int)func_021BEF08()), a);
+    u8 *p = (u8 *)NHTTPi_GetConnection((int)NHTTPi_GetMutexInfoP((int)NHTTPi_GetSystemInfoP()), a);
     if (p == 0)
         return -1;
     return *(u32 *)p;

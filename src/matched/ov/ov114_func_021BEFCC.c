@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFCC
+ * function: NHTTPi_lockReqList
  * address:  0x021BEFCC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9B58  0x021B9B58  arm  ov114
+ *   NHTTPi_LockMutexThunk  0x021B9B58  arm  ov114
  *
- * unblocked: func_021B9B58 (the ARM veneer `ldr ip,[pc]; bx ip; .word
+ * unblocked: NHTTPi_LockMutexThunk (the ARM veneer `ldr ip,[pc]; bx ip; .word
  *   0x02086028`, printed as a .word run in ov114) was matched as the same
  *   far-tail-call shape and filed as pkt_ov114_021B9B58; the ABS32 site then
  *   attests as `matched, overlay`.
@@ -22,9 +22,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B9B58(void);
+extern void NHTTPi_LockMutexThunk(void);
 
-void func_021BEFCC(void)
+void NHTTPi_lockReqList(void)
 {
-    func_021B9B58();
+    NHTTPi_LockMutexThunk();
 }

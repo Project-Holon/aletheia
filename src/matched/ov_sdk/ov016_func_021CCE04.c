@@ -15,37 +15,37 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE04.c \n *       --func func_021CCE04 --addr 0x021CCE04 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   func_021BCB14  0x021BCB14  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
+ *   DWCi_BTNlGet  0x021BCB14  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
  *   func_021CD108  0x021CD108  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE614     0x021DE614  data
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gFocusState     0x021DE614  data
  *   func_021CCE58  0x021CCE58  arm  ov016
  */
 
 #include "../include/G_FocusState.h"
 
-extern signed char func_021BCB14(void);
-extern void func_021CFFAC(unsigned int v);
+extern signed char DWCi_BTNlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
 extern void func_021CD108(void);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;
-extern struct FocusState g_021DE614;
+extern struct FocusState gFocusState;
 extern void func_021CCE58(void);
 
 void func_021CCE04(void)
 {
-    switch (func_021BCB14()) {
+    switch (DWCi_BTNlGet()) {
     case 0:
-        func_021CFFAC(7);
+        DWCi_SNDlPlay(7);
         break;
     case 1:
-        func_021CFFAC(6);
+        DWCi_SNDlPlay(6);
         func_021CD108();
-        g_021DE614.flag = 1;
+        gFocusState.flag = 1;
         break;
     default:
         return;
     }
-    func_021C0E40((unsigned int)func_021CCE58);
+    DWCi_ChangeScene((unsigned int)func_021CCE58);
 }

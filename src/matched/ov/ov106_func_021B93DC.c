@@ -1,5 +1,5 @@
 /*
- * function: func_021B93DC
+ * function: IRC_RANKING_LabelSetAlign
  * address:  0x021B93DC
  * packet:   pkt_ov106_021B93DC
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B93DC(u8 *p, u32 a, u32 b, u32 c) { ((struct Obj10257 *)p)->fC = a; ((struct Obj10257 *)p)->f10 = b; ((struct Obj10257 *)p)->f14 = c; }
+void IRC_RANKING_LabelSetAlign(u8 *p, u32 a, u32 b, u32 c) { ((struct Obj10257 *)p)->fC = a; ((struct Obj10257 *)p)->f10 = b; ((struct Obj10257 *)p)->f14 = c; }

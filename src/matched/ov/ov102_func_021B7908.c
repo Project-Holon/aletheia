@@ -1,5 +1,5 @@
 /*
- * function: func_021B7908
+ * function: IRC_COMPATIBLE_MENU_InitBackgrounds
  * address: 0x021B7908
  * packet: pkt_ov102_021B7908
  * region: ov102
@@ -22,17 +22,17 @@
  * func_02049740 0x02049740 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_020056A0 0x020056A0 thumb
- * func_021B7AAC 0x021B7AAC thumb ov102
- * d_021B8AC4 0x021B8AC4 data a4
- * d_021B8AEC 0x021B8AEC data a4
- * d_021B8B5C 0x021B8B5C data a4
- * d_021B8B0C 0x021B8B0C data a4
+ * IRC_COMPATIBLE_MENU_BackgroundVBlank 0x021B7AAC thumb ov102
+ * IRC_COMPATIBLE_MENU_BgDisplayConfig 0x021B8AC4 data a4
+ * IRC_COMPATIBLE_MENU_BgLayerIds 0x021B8AEC data a4
+ * IRC_COMPATIBLE_MENU_BgTemplates 0x021B8B5C data a4
+ * IRC_COMPATIBLE_MENU_BgLayerTypes 0x021B8B0C data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 d_021B8AC4[], d_021B8AEC[], d_021B8B0C[];
-extern const u32 d_021B8B5C[][8];
+extern u32 IRC_COMPATIBLE_MENU_BgDisplayConfig[], IRC_COMPATIBLE_MENU_BgLayerIds[], IRC_COMPATIBLE_MENU_BgLayerTypes[];
+extern const u32 IRC_COMPATIBLE_MENU_BgTemplates[][8];
 extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 struct BgTemplate;
@@ -48,19 +48,19 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02040C14(u32,u32,u32,u32);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021B7AAC(void);
+extern void IRC_COMPATIBLE_MENU_BackgroundVBlank(void);
 extern u32 func_020056A0(void (*)(void),void *,u32);
-void func_021B7908(u32 *p,u16 heap)
+void IRC_COMPATIBLE_MENU_InitBackgrounds(u32 *p,u16 heap)
 {
     int i;
     u32 layer;
     void *arc;
     func_0203F8F4(heap);
     BMP_WIN_Init(heap);
-    func_0203FC28((struct DispConfig *)d_021B8AC4);
+    func_0203FC28((struct DispConfig *)IRC_COMPATIBLE_MENU_BgDisplayConfig);
     for(i=0;i<8;i++) {
-        layer=d_021B8AEC[i];
-        func_0203FCA0((u8)layer,(const struct BgTemplate *)d_021B8B5C[i],(u8)d_021B8B0C[i]);
+        layer=IRC_COMPATIBLE_MENU_BgLayerIds[i];
+        func_0203FCA0((u8)layer,(const struct BgTemplate *)IRC_COMPATIBLE_MENU_BgTemplates[i],(u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
         func_020414AC(layer);
         func_02040588(layer,1);
     }
@@ -78,5 +78,5 @@ void func_021B7908(u32 *p,u16 heap)
     func_02040C14(5,0,1,0);
     p[0]=func_02049740(arc,49,5,0,0,heap);
     ARC_TOOL_DeleteHandle(arc);
-    p[1]=func_020056A0(func_021B7AAC,p,0);
+    p[1]=func_020056A0(IRC_COMPATIBLE_MENU_BackgroundVBlank,p,0);
 }

@@ -19,7 +19,7 @@
  *   BACKUP_SYSTEM_FillBlockAreas  0x02033410  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   BACKUP_SYSTEM_GetFooterInfo  0x02031F9C  arm
  *   func_02033BF0  0x02033BF0  arm
  *   BACKUP_SYSTEM_SetBlockArea  0x0203331C  arm
@@ -87,7 +87,7 @@ extern int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void));
 extern void BACKUP_SYSTEM_FillBlockAreas(struct Obj02033410 *p, u32 val);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
-extern void  func_02082A60(const void *src, void *dst, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void BACKUP_SYSTEM_GetFooterInfo(u32 *out, void *p, void *buf, u32 sel);
 extern u32 func_02033BF0(struct Obj02033BF0 *p);
 extern void BACKUP_SYSTEM_SetBlockArea(struct Obj020332FC *p, u32 idx, u32 val);
@@ -132,10 +132,10 @@ int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
     }
     if (okA == 1 && okB == 0) {
         BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 2);
-        func_02082A60(h, buf, self->f30);
+        MIi_CpuCopy16(h, buf, self->f30);
     } else if (okA == 0 && okB == 1) {
         BACKUP_SYSTEM_FillBlockAreas((struct Obj02033410 *)self, 1);
-        func_02082A60(buf, h, self->f30);
+        MIi_CpuCopy16(buf, h, self->f30);
     }
 
     BACKUP_SYSTEM_GetFooterInfo(pairA, self, h, 0);
@@ -152,14 +152,14 @@ int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
         BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 2);
         BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 2);
         off = self->f30 - 0x10 - self->f140;
-        func_02082A60(h + off, buf + off, self->f140 + 0x10);
+        MIi_CpuCopy16(h + off, buf + off, self->f140 + 0x10);
         }
     } else if (pairB[0] == 0) {
         if (pairA[0] != 0) {
         BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
         BACKUP_SYSTEM_SetBlockArea((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
         off = self->f30 - 0x10 - self->f140;
-        func_02082A60(buf + off, h + off, self->f140 + 0x10);
+        MIi_CpuCopy16(buf + off, h + off, self->f140 + 0x10);
         }
     } else {
         if (pairA[0] == 1 || pairB[0] == 1) {
@@ -246,12 +246,12 @@ int BACKUP_SYSTEM_LoadDoubleCopy(Save *self, u32 heap, u32 mode, u32 gen)
     }
 
     off = self->f30 - 0x10 - self->f140;
-    func_02082A60(bufs[k] + off, h + off, self->f140 + 0x10);
+    MIi_CpuCopy16(bufs[k] + off, h + off, self->f140 + 0x10);
     for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
         if (BACKUP_SYSTEM_GetBlockArea((struct Obj020332FC *)self, i) == 1) {
             A = SAVEDATA_GetBlockOffset(self->f2c, i);
             B = SAVEDATA_GetBlockSize(self->f2c, i);
-            func_02082A60(buf + A, h + A, B + 4);
+            MIi_CpuCopy16(buf + A, h + A, B + 4);
         }
     }
     BACKUP_SYSTEM_SetSaveCount((int *)self, gens[k]);

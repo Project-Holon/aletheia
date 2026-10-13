@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAB8
+ * function: WIFICLUB_ShowStreamedMessage
  * address:  0x021BAAB8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA8BC  0x021BA8BC  thumb  ov099
- *   func_021BA978  0x021BA978  thumb  ov099
+ *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
+ *   WIFICLUB_PrintTalkMessage  0x021BA978  thumb  ov099
  *
  * Releases the pointer at +0x19C and re-arms the block with the one-flag.
  */
@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA8BC(void *p);
-extern void func_021BA978(char *p, int a, int b, int c);
+extern int WIFICLUB_DeleteWindow(void *p);
+extern void WIFICLUB_PrintTalkMessage(char *p, int a, int b, int c);
 
-void func_021BAAB8(char *p, int a, int b)
+void WIFICLUB_ShowStreamedMessage(char *p, int a, int b)
 {
-    ((struct Obj13683 *)p)->f19C = (void *)func_021BA8BC(((struct Obj13683 *)p)->f19C);
-    func_021BA978(p, a, b, 1);
+    ((struct Obj13683 *)p)->f19C = (void *)WIFICLUB_DeleteWindow(((struct Obj13683 *)p)->f19C);
+    WIFICLUB_PrintTalkMessage(p, a, b, 1);
 }

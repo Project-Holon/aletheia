@@ -1,5 +1,5 @@
 /*
- * function: func_021B8D20
+ * function: IRC_RHYTHM_UpdateParticle
  * address: 0x021B8D20
  * packet: pkt_ov104_021B8D20
  * region: ov104
@@ -31,7 +31,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B8D20(u8 *p) {
+void IRC_RHYTHM_UpdateParticle(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;
  if(((struct Obj02453 *)p)->f8) {
   func_0207CA00((Vec *)(p+0x18),(Vec *)(p+0xc),&delta);

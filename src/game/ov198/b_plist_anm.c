@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02210F04 0x02210F04 thumb ov198
  *   d_02211A74 0x02211A74 data a4
@@ -58,7 +58,7 @@ typedef struct {u8 low:7,high:1;} Bits_0220BBB4;
 
 typedef struct Item { u8 a,b,c,d,e,f; } Item;
 
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern int func_022110D4(u8 *,int);
 extern u32 func_02210F04(u32,u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -179,7 +179,7 @@ void func_0220B5AC(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  src=func_0220B4B0(p,kind,index,which);
  w=((const u8 *)&d_02211A74[0].w)[kind*4];
  count=w*((const u8 *)&d_02211A74[0].h)[kind*4];
- func_02082D44(src,dst,count*2);
+ MI_CpuCopy8(src,dst,count*2);
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
   n=func_022110D4(p,kind);

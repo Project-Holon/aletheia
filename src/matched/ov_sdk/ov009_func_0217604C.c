@@ -1,5 +1,5 @@
 /*
- * function: func_0217604C
+ * function: DWCi_NodeInfoList_InsertToTop
  * address:  0x0217604C
  * packet:   pkt_ov009_0217604C
  * region:   ov009
@@ -21,7 +21,7 @@ struct node_s {
 
 extern char *func_02175F3C(void);
 
-int func_0217604C(struct node_s *newNode)
+int DWCi_NodeInfoList_InsertToTop(struct node_s *newNode)
 {
     int i;
 

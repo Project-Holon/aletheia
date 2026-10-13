@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0689CD38, func_0689CD40, func_0689CD48, func_0689CD50
+ * function: BTL_POKESET_GetCount, BTL_POKESET_GetCountMax, BTL_POKESET_SetEmptyMarked, BTL_POKESET_IsRemovedAll
  * address:  0x0689CD38
  * packet:   pkt_ov095_0689CD38
  * region:   ov095
@@ -27,22 +27,22 @@ typedef struct {
     u8 f45;
 } S;
 
-int func_0689CD38(S *p)
+int BTL_POKESET_GetCount(S *p)
 {
     return p->n;
 }
 
-int func_0689CD40(S *p)
+int BTL_POKESET_GetCountMax(S *p)
 {
     return p->max;
 }
 
-void func_0689CD48(S *p, u8 v)
+void BTL_POKESET_SetEmptyMarked(S *p, u8 v)
 {
     p->f45 = v;
 }
 
-int func_0689CD50(S *p)
+int BTL_POKESET_IsRemovedAll(S *p)
 {
     if (p->max != 0 || p->f45 != 0) {
         if (p->n == 0)

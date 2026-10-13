@@ -112,7 +112,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   KEY_GetRepeat 0x0203633C arm
  *   func_02049F34  0x02049F34  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   func_02061CA4 0x02061CA4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -172,9 +172,9 @@
  *   func_021BE840 0x021BE840 thumb
  *   func_021BE82C 0x021BE82C thumb
  *   func_021BE844 0x021BE844 thumb
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   func_021BC3A8 0x021BC3A8 thumb
- *   func_0200CA70 0x0200CA70 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   func_021BC3B0 0x021BC3B0 thumb
  *   func_021B9E68 0x021B9E68 thumb ov206
  *   func_021BA7C8 0x021BA7C8 thumb ov206
@@ -198,10 +198,10 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_021C851C 0x021C851C data ov208 a1
  *   CLACT_IsActorAnimActive 0x0204B98C arm
- *   func_0200CC40 0x0200CC40 thumb
- *   func_0200D288 0x0200D288 thumb
- *   func_0200CED4 0x0200CED4 thumb
- *   func_0200D3C0 0x0200D3C0 thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
+ *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
+ *   ZUKAN_SAVE_HasLanguageFlag 0x0200D3C0 thumb
  *   func_021BC3AC 0x021BC3AC thumb ov208
  *   func_021BC560 0x021BC560 thumb ov208
  *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
@@ -1011,7 +1011,7 @@ extern void func_021BE128(struct Ov208Scene *p);
 extern void func_021BE1BC(struct Ov208Scene *e);
 extern u32 KEY_GetRepeat(void);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern s32_021BD574 func_02061CA4(void *p, u32 a, u32 b, s32_021BD574 size);
 extern void func_021BE920(struct Ov208Icon_021BE710 *);
@@ -1065,9 +1065,9 @@ extern int GAME_DATA_CheckSaveFlag(int a, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
 extern void func_021BE844(void *s);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern int func_021BC3A8(int *ctx);
-extern u32 func_0200CA70(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern int func_021BC3B0(int *ctx);
 extern void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
 extern void func_021BA7C8(void *p);
@@ -1088,10 +1088,10 @@ extern void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a
 extern void func_021BA814(void *);
 extern void func_021BA64C(char *p, int mode);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void func_0200CC40(void *, u32, u32 *, u32 *, u32 *, u16);
-extern u32 func_0200D288(struct Blk37 *, u32);
-extern u32 func_0200CED4(struct Blk37 *, u32);
-extern u32 func_0200D3C0(struct Blk37 *, u32, u32);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(void *, u32, u32 *, u32 *, u32 *, u16);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *, u32);
+extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *, u32);
+extern u32 ZUKAN_SAVE_HasLanguageFlag(struct Blk37 *, u32, u32);
 extern int func_021BC3AC(int *p);
 extern u8 func_02012984(const struct BigObj *p);
 extern int TOWNMAP_GRH_LoadTownInfo(int);
@@ -3314,8 +3314,8 @@ void ov208_func_021BE128(u8 *p)
 
     file = (u32)func_02049F34(0x9f, 3, (u32)(&pltt), ((struct Obj14652 *)p)->f0);
     data = pltt->data;
-    func_02082D44(data + 0x20, p + 0xb6, 0x20);
-    func_02082D44(data + 0x60, p + 0xd6, 0x20);
+    MI_CpuCopy8(data + 0x20, p + 0xb6, 0x20);
+    MI_CpuCopy8(data + 0x60, p + 0xd6, 0x20);
     func_020307B0((void *)file);
     ((struct Obj14652 *)p)->f118 = 0;
 }
@@ -4040,9 +4040,9 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BE844(icon);
         }
         func_021BF308((u16 *)h, (char *)p, (int)ctx);
-        t = (int)func_0200CA1C((void *)func_021BC3A4(ctx));
+        t = (int)ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(ctx));
         v40 = func_021BCF4C((char *)func_021BC3A8(ctx));
-        v44 = func_0200CA70((void *)t);
+        v44 = ZUKAN_SAVE_GetViewMode((void *)t);
         func_021BF4FC((const u16 *)h, (u8 *)p, (int *)ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
         p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
         p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
@@ -4479,13 +4479,13 @@ void func_021BF4FC(const u16 *heap, u8 *p, int *key, u16 *out1, u16 *out2, u16 *
     struct Blk37 *ctx;
     u32 id;
     u8 i;
-    ctx = func_0200CA1C((void *)func_021BC3A4(key));
+    ctx = ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(key));
     id = func_021BC3C0(key);
     special = 0;
-    func_0200CC40((u8 *)ctx, id, &b, &c, &a, *heap);
-    if (id == 327) special = func_0200D288(ctx, special);
-    value = func_0200CED4(ctx, id);
-    for (i = 0; i < 6; i++) values[i] = func_0200D3C0(ctx, id, p[i * 20 + 0x28]);
+    ZUKAN_SAVE_GetViewGenderAndForm((u8 *)ctx, id, &b, &c, &a, *heap);
+    if (id == 327) special = ZUKAN_SAVE_GetSpindaPersonality(ctx, special);
+    value = ZUKAN_SAVE_IsCaught(ctx, id);
+    for (i = 0; i < 6; i++) values[i] = ZUKAN_SAVE_HasLanguageFlag(ctx, id, p[i * 20 + 0x28]);
     *out1 = id;
     *out2 = a;
     *out3 = b;
@@ -4506,11 +4506,11 @@ void func_021BF5B8(u16 *heap, u8 *p, int *ctx)
     u8 *data;
     file = (u32)func_02049F34(159, 3, (u32)(&pltt), *heap);
     data = pltt->data;
-    func_02082D44(data + 0x20, p + 0xa8, 32);
-    func_02082D44(data + 0x60, p + 0xc8, 32);
+    MI_CpuCopy8(data + 0x20, p + 0xa8, 32);
+    MI_CpuCopy8(data + 0x60, p + 0xc8, 32);
     func_020307B0((void *)file);
     ((struct Obj25493 *)p)->f108 = 0;
-    func_02082D44(p + 0xa8, p + 0xe8, 32);
+    MI_CpuCopy8(p + 0xa8, p + 0xe8, 32);
     func_02061CA4((void *)14, 192, (u32)(p + 0xe8), 32);
 }
 
@@ -6305,7 +6305,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
-    func_0200CC40(func_0200CA1C((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
+    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
     SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(((struct Obj00081 *)p)->f64), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
@@ -7434,9 +7434,9 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     void *ctx;
     species=func_021BC3C0((void *)key);
     special=0;
-    ctx=func_0200CA1C((void *)func_021BC3A4((int *)key));
-    func_0200CC40(ctx,species,&form,&b,&a,*heap);
-    if(species==327)special=func_0200D288(ctx,special);
+    ctx=ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key));
+    ZUKAN_SAVE_GetViewGenderAndForm(ctx,species,&form,&b,&a,*heap);
+    if(species==327)special=ZUKAN_SAVE_GetSpindaPersonality(ctx,special);
     arc=POKEGRA_OpenHandle(*heap);
     *(u32 *)((u32)p+0x44+slot*4)=POKEGRA_RegisterCgr(arc,species,a,form,b,0,0,special,1,*heap);
     *(u32 *)((u32)p+0x3c+slot*4)=POKEGRA_RegisterPalette(arc,species,a,form,b,0,0,1,(u16)(slot<<5),*heap);

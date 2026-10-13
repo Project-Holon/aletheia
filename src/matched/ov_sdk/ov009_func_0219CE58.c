@@ -1,5 +1,5 @@
 /*
- * function: func_0219CE58
+ * function: send_heartbeat
  * address:  0x0219CE58
  * packet:   pkt_ov009_0219CE58
  * region:   ov009
@@ -24,13 +24,13 @@
  *   g_021A7AFC  0x021A7AFC  data
  *   g_021A7B08  0x021A7B08  data
  *   g_021A7B14  0x021A7B14  data
- *   func_0219BA84  0x0219BA84  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   qr_add_packet_header  0x0219BA84  arm  ov009
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0219B660  0x0219B660  arm  ov009
  *   func_0215FA9C  0x0215FA9C  arm  ov009
  *   func_0219B628  0x0219B628  arm  ov009
  *   func_02092344  0x02092344  arm
- *   func_0219BE80  0x0219BE80  arm  ov009
+ *   qr_build_query_reply  0x0219BE80  arm  ov009
  *   func_0217ECA4  0x0217ECA4  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
@@ -88,13 +88,13 @@ extern char g_021A7AFC[];
 extern char g_021A7B08[];
 extern char g_021A7B14[];
 
-extern void func_0219BA84(qr2_buffer_s *buf, char ptype, char *reqkey);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern void qr_add_packet_header(qr2_buffer_s *buf, char ptype, char *reqkey);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0219B660(qr2_buffer_s *outbuf, char *value);
 extern char *func_0215FA9C(SOCInAddr in);
 extern int func_0219B628(qr2_buffer_s *outbuf, int value);
 extern void *func_02092344(void *dst, const void *src, unsigned int n);
-extern void func_0219BE80(qr2_implementation_s *qrec, qr2_buffer_s *buf, int serverkeycount, unsigned char *serverkeys,
+extern void qr_build_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, int serverkeycount, unsigned char *serverkeys,
                           int playerkeycount, unsigned char *playerkeys, int teamkeycount, unsigned char *teamkeys);
 struct SOCSockAddr;
 extern int func_0217ECA4(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
@@ -102,16 +102,16 @@ extern unsigned int func_0217F264(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 
-void func_0219CE58(qr2_implementation_s *qrec, int statechanged)
+void send_heartbeat(qr2_implementation_s *qrec, int statechanged)
 {
     qr2_buffer_s buf;
     int i;
     char ipkey[20];
 
     buf.len = 0;
-    func_0219BA84(&buf, 3, qrec->instance_key);
+    qr_add_packet_header(&buf, 3, qrec->instance_key);
     for (i = 0; i < g_021AE9A0; i++) {
-        func_02084F40(ipkey, g_021A7AB8, i);
+        OS_SPrintf(ipkey, g_021A7AB8, i);
         func_0219B660(&buf, ipkey);
         func_0219B660(&buf, func_0215FA9C(g_021AE9A4[i]));
     }
@@ -136,10 +136,10 @@ void func_0219CE58(qr2_implementation_s *qrec, int statechanged)
 
         func_02092344(&temp, &buf, buf.len);
         temp.len = buf.len;
-        func_0219BE80(qrec, &temp, 0xff, 0, 0xff, 0, 0xff, 0);
+        qr_build_query_reply(qrec, &temp, 0xff, 0, 0xff, 0, 0xff, 0);
         if (0x578 - temp.len < 1) {
             temp.len = buf.len;
-            func_0219BE80(qrec, &temp, 0xff, 0, 0, 0, 0, 0);
+            qr_build_query_reply(qrec, &temp, 0xff, 0, 0, 0, 0, 0);
         }
         func_02092344(&buf, &temp, temp.len);
         buf.len = temp.len;

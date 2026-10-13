@@ -1,5 +1,5 @@
 /*
- * function: func_0207533C
+ * function: NNSi_SndArcLoadWave
  * address:  0x0207533C
  * packet:   pkt_02074A34
  * region:   arm9
@@ -9,18 +9,18 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0207482C  0x0207482C  arm
+ *   NNS_SndHeapAlloc  0x0207482C  arm
  *   NNS_SndArcReadFile  0x020745A4  arm
  *   SNDi_GetBankWaveArcTable  0x0208A638  arm
  *   func_0208A640  0x0208A640  arm
  *   func_0208A674  0x0208A674  arm
- *   func_020752F4  0x020752F4  arm
+ *   NNSi_SndArcDisposeWave  0x020752F4  arm
  *   DC_StoreRange  0x020862D4  arm
  *
  * Bank-entry loader.  Skip the work if the entry is already resident
  * (func_0208A674), otherwise take the entry's byte range from the object's
- * offset table and stream it in: allocate range+0x20 through func_0207482C
- * with func_020752F4 as the teardown callback, read it with NNS_SndArcReadFile,
+ * offset table and stream it in: allocate range+0x20 through NNS_SndHeapAlloc
+ * with NNSi_SndArcDisposeWave as the teardown callback, read it with NNS_SndArcReadFile,
  * flush it with DC_StoreRange and publish it with func_0208A640.  Returns 1
  * for "resident on exit" (already-resident and success both), 0 for failure.
  *
@@ -54,8 +54,8 @@
  * (`moveq r0,#0` at 0x02075390, 0x020753B4, `movne r0,#0` at 0x020753D4).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0207533C.c \
- *       --func func_0207533C --addr 0x0207533C --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcLoadWave.c \
+ *       --func NNSi_SndArcLoadWave --addr 0x0207533C --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -71,12 +71,12 @@ typedef struct {
 extern u32   func_0208A674(Bank *o, u32 i);
 extern void *SNDi_GetBankWaveArcTable(char *p);
 extern void  func_0208A640(Bank *o, u32 i, void *p);
-extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
-extern void func_020752F4(u32 a, u32 n, u32 x, u32 y);
+extern void NNSi_SndArcDisposeWave(u32 a, u32 n, u32 x, u32 y);
 
-u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
+u32 NNSi_SndArcLoadWave(Bank *o, u32 i, u32 h, u32 *heap)
 {
   u32 n;
   u32 off;
@@ -99,7 +99,7 @@ u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
   len = end - off;
   if (heap == 0)
     return 0;
-  p = (void *)func_0207482C(heap, len + 0x20, (u32) func_020752F4, (u32) o, i);
+  p = (void *)NNS_SndHeapAlloc(heap, len + 0x20, (u32) NNSi_SndArcDisposeWave, (u32) o, i);
   if (p == 0)
     return 0;
   if (NNS_SndArcReadFile(h, p, len, off) != len)

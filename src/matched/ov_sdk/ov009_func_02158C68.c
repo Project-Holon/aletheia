@@ -1,5 +1,5 @@
 /*
- * function: func_02158C68
+ * function: dispatch_arp
  * address:  0x02158C68
  * packet:   pkt_ov009_02158C68
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      dispatch_arp (libcps.TWL.HYB.a network.o)
  *
  * symbols:
- *   func_021579BC            0x021579BC  arm  ov009
- *   func_02157FF8            0x02157FF8  arm  ov009
- *   func_02158BB8            0x02158BB8  arm  ov009
+ *   maccmp            0x021579BC  arm  ov009
+ *   reg_arpcache            0x02157FF8  arm  ov009
+ *   reply_arp            0x02158BB8  arm  ov009
  *   g_021A82D4               0x021A82D4  data
  *   g_021A826C               0x021A826C  data
  */
 
-extern int func_021579BC(unsigned short *a, unsigned short *b);
-extern void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
-extern void func_02158BB8(unsigned char *buf);
+extern int maccmp(unsigned short *a, unsigned short *b);
+extern void reg_arpcache(unsigned char (*mac)[6], unsigned long ip, int new_entry);
+extern void reply_arp(unsigned char *buf);
 extern unsigned char g_021A82D4[6];
 extern unsigned char g_021A826C;
 
@@ -35,7 +35,7 @@ extern unsigned char g_021A826C;
  * is common-subexpression-merged with the later compares and the image's
  * second load of the word disappears.
  */
-void func_02158C68(unsigned char *buf, unsigned long len)
+void dispatch_arp(unsigned char *buf, unsigned long len)
 {
 	unsigned short op;
 	unsigned long ipfrom;
@@ -44,7 +44,7 @@ void func_02158C68(unsigned char *buf, unsigned long len)
 
 	if (len < 0x1c)
 		return;
-	if (func_021579BC((short unsigned int *)(buf + 8), (short unsigned int *)g_021A82D4) == 0 || NV(0x50, long) == 0)
+	if (maccmp((short unsigned int *)(buf + 8), (short unsigned int *)g_021A82D4) == 0 || NV(0x50, long) == 0)
 		return;
 	if (*(unsigned short *)buf != 0x100 || *(unsigned short *)(buf + 2) != 8 || *(unsigned short *)(buf + 4) != 0x406)
 		return;
@@ -55,9 +55,9 @@ void func_02158C68(unsigned char *buf, unsigned long len)
 	from_me = (ipfrom == NV(0x50, unsigned long));
 	to_me = (NV(0x50, unsigned long) == GET32(buf + 0x18));
 	if (!from_me)
-		func_02157FF8((unsigned char (*)[6])(buf + 8), ipfrom, to_me);
+		reg_arpcache((unsigned char (*)[6])(buf + 8), ipfrom, to_me);
 	if (op == 1 && to_me) {
-		func_02158BB8(buf);
+		reply_arp(buf);
 		return;
 	}
 	if (op == 2 && to_me && from_me)

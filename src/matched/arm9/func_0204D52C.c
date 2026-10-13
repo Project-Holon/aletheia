@@ -12,6 +12,6 @@
  */
 
 struct CellAnim;
-extern void func_020643A4(struct CellAnim *anim);
-void CLACT_ResetCellAnim(void *p){ func_020643A4((struct CellAnim *)((char *)p + 0xc)); }
+extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
+void CLACT_ResetCellAnim(void *p){ NNS_G2dRestartCellAnimation((struct CellAnim *)((char *)p + 0xc)); }
 

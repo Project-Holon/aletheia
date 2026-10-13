@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BC544, func_021BC5C0, func_021BC5D4, func_021BC5E8
+ * function: WIFICLUB_ShowScenePrompt, WIFICLUB_StatePickScene4, WIFICLUB_StatePickScene5, WIFICLUB_StatePickScene6
  * address:  0x021BC544
  * packet:   pkt_ov099_021BC544
  * region:   ov099
@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021C37DC     0x021C37DC  data  a4
+ *   gWifiClubSceneMessageIds     0x021C37DC  data  a4
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_021BA874  0x021BA874  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_021BC090  0x021BC090  thumb  ov099
+ *   WIFICLUB_SetPartnerNameWord  0x021BA874  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ResetTimeIcon  0x021BC090  thumb  ov099
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *
@@ -33,51 +33,51 @@ typedef unsigned long  u32;
 typedef struct { u32 a, b, c; } Tri;
 typedef enum { K242 = 0x242 } Off;
 
-extern const Tri d_021C37DC;
+extern const Tri gWifiClubSceneMessageIds;
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_021BA874(char *p, int id);
-extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(char *p);
+extern void WIFICLUB_SetPartnerNameWord(char *p, int id);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
+extern void WIFICLUB_ResetTimeIcon(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 
-int func_021BC544(char *p, int v);
+int WIFICLUB_ShowScenePrompt(char *p, int v);
 
-int func_021BC544(char *p, int v)
+int WIFICLUB_ShowScenePrompt(char *p, int v)
 {
-    Tri t = d_021C37DC;
+    Tri t = gWifiClubSceneMessageIds;
     Off o;
 
     if (GFL_NET_IsParentAid() == 0) {
         o = K242;
-        func_021BA874(p, *(u16 *)(p + o) - 1);
-        func_021BAAB8(p, ((u32 *)&t)[((struct Obj06355 *)p)->f132C - 0x4b], 0);
+        WIFICLUB_SetPartnerNameWord(p, *(u16 *)(p + o) - 1);
+        WIFICLUB_ShowStreamedMessage(p, ((u32 *)&t)[((struct Obj06355 *)p)->f132C - 0x4b], 0);
         *(u32 *)(p + (o - 0x76)) = 0x4f;
     } else {
-        func_021BAAB8(p, 0x4c, 0);
-        func_021BC090(p);
+        WIFICLUB_ShowStreamedMessage(p, 0x4c, 0);
+        WIFICLUB_ResetTimeIcon(p);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
         ((struct Obj06355 *)p)->f1CC = 0x49;
     }
     return v;
 }
 
-int func_021BC5C0(char *p, int v)
+int WIFICLUB_StatePickScene4(char *p, int v)
 {
     ((struct Obj06355 *)p)->f132C = 0x4b;
-    return func_021BC544(p, v);
+    return WIFICLUB_ShowScenePrompt(p, v);
 }
 
-int func_021BC5D4(char *p, int v)
+int WIFICLUB_StatePickScene5(char *p, int v)
 {
     ((struct Obj06355 *)p)->f132C = 0x4c;
-    return func_021BC544(p, v);
+    return WIFICLUB_ShowScenePrompt(p, v);
 }
 
-int func_021BC5E8(char *p, int v)
+int WIFICLUB_StatePickScene6(char *p, int v)
 {
     ((struct Obj06355 *)p)->f132C = 0x4d;
-    return func_021BC544(p, v);
+    return WIFICLUB_ShowScenePrompt(p, v);
 }

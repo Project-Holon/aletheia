@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C10
+ * function: WIFICLUB_IsSlotPanelDismissed
  * address:  0x021C1C10
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -31,7 +31,7 @@ extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 
-int func_021C1C10(Work *w)
+int WIFICLUB_IsSlotPanelDismissed(Work *w)
 {
     if (w->f8ef == 3)
         return 0;

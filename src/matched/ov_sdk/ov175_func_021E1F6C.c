@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F6C
+ * function: DWCi_GdbRequestResultToAsyncResult
  * address:  0x021E1F6C
  * packet:   pkt_021E1F6C
  * region:   ov175
@@ -20,7 +20,7 @@
 
 typedef signed int s32;
 
-s32 func_021E1F6C(s32 a, s32 *st)
+s32 DWCi_GdbRequestResultToAsyncResult(s32 a, s32 *st)
 {
     *st = 0x13;
     switch (a) {

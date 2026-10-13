@@ -17,7 +17,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
@@ -31,7 +31,7 @@
  *   d_02213C58 0x02213C58 data a4 ov199
  *   BATTLE_REC_FreeWork 0x0200B424 thumb
  *   GAME_DATA_Delete 0x02012704 thumb
- *   func_02087BCC 0x02087BCC arm
+ *   OS_ResetSystem 0x02087BCC arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -260,7 +260,7 @@ extern void func_02034714(const char *expr, u32_02212560 line, const char *file)
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32_02212560 size, u32_02212560 heap);
 extern void MI_CpuFill8(void *, int, unsigned);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
 extern struct Party *POKEPARTY_Create(u32_02212560 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
@@ -272,7 +272,7 @@ extern void *func_0200BAF4(int a0, int a1);
 extern u32_02212560 func_020307B0(void *p);
 extern void BATTLE_REC_FreeWork(void);
 extern void GAME_DATA_Delete(u8 *p);
-extern void func_02087BCC(u32_0221268C parameter);
+extern void OS_ResetSystem(u32_0221268C parameter);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32_0221268C);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -384,7 +384,7 @@ int func_02212560(void *a, int unused, u8 *arg)
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
     MI_CpuFill8(p, 0, 0x8b0);
-    func_02082D44(arg, p + 4, 0x14);
+    MI_CpuCopy8(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
         ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
@@ -412,11 +412,11 @@ int func_02212560(void *a, int unused, u8 *arg)
     switch (((struct Obj01177 *)p)->f10) {
     case 0:
         v = func_02012934(((struct Obj01177 *)p)->f4);
-        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
         v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
-        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;
     }
@@ -433,7 +433,7 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
     func_020307B0(((struct Obj03352 *)p)->f34);
     func_020307B0(((struct Obj03352 *)p)->f30);
     if (((struct Obj03352 *)p)->f0) GAME_DATA_Delete(((struct Obj03352 *)p)->f4);
-    if (((struct Obj03352 *)p)->fC != 1) func_02087BCC(0);
+    if (((struct Obj03352 *)p)->fC != 1) OS_ResetSystem(0);
     if (((struct Obj03352 *)p)->f14) func_020307B0(data);
     func_020315D4(sys);
     func_020306F0(0x56);

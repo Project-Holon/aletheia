@@ -1,5 +1,5 @@
 /*
- * function: func_021BF808
+ * function: PMS_INPUT_GetSearchState
  * address:  0x021BF808
  * packet:   pkt_ov110_021BF808
  * region:   ov110
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unblocked by matching func_021BAFDC in ov110 (pkt_ov110_021BAFDC).
+ * Unblocked by matching PMSI_SEARCH_GetInputCount in ov110 (pkt_ov110_021BAFDC).
  *
  * symbols:
- *   func_021BAFDC  0x021BAFDC  thumb  ov110
+ *   PMSI_SEARCH_GetInputCount  0x021BAFDC  thumb  ov110
  */
 #include "../include/Obj22400.h"
 
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 func_021BAFDC(u8 *p);
-int func_021BF808(u8 *p) { return func_021BAFDC((u8 *)(((struct Obj22400 *)p)->f1C)); }
+extern u8 PMSI_SEARCH_GetInputCount(u8 *p);
+int PMS_INPUT_GetSearchState(u8 *p) { return PMSI_SEARCH_GetInputCount((u8 *)(((struct Obj22400 *)p)->f1C)); }

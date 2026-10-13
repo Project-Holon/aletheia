@@ -1,5 +1,5 @@
 /*
- * function: func_021BA448
+ * function: NHTTPi_strToInt
  * address:  0x021BA448
  * packet:   pkt_ov114_021BA448
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BA448(signed char *s, int len)
+int NHTTPi_strToInt(signed char *s, int len)
 {
     int i;
     int acc;

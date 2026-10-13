@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B78D4",
+   "name": "IRC_RESULT_GetScreenActorUnit",
    "address": "0x021B78D4",
    "kind": "game",
    "region": "ov105",

@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_02088234  0x02088234  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_Terminate  0x02088234  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 typedef unsigned long u32;
 
@@ -36,10 +36,10 @@ typedef struct {
 } MBiCacheList;
 
 extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32 state);
-extern void func_02088234(void);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern void OS_Terminate(void);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 void MBi_InitCache(void *pl);
 void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
 int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len);
@@ -59,10 +59,10 @@ void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
     u32 bak_cpsr;
     MBiCacheInfo *pi;
 
-    bak_cpsr = func_02087988();
+    bak_cpsr = OS_DisableInterrupts();
     for (pi = pl->list; ; pi++) {
         if (pi >= &pl->list[4])
-            func_02088234();
+            OS_Terminate();
         if (pi->state == 0) {
             pi->src = src;
             pi->len = len;
@@ -71,7 +71,7 @@ void func_021F6380(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state)
             break;
         }
     }
-    func_0208799C(bak_cpsr);
+    OS_RestoreInterrupts(bak_cpsr);
 }
 
 
@@ -86,7 +86,7 @@ int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
     int ofs;
 
     ret = 0;
-    bak_cpsr = func_02087988();
+    bak_cpsr = OS_DisableInterrupts();
     for (pi = pl->list; pi < &pl->list[4]; pi++) {
         if (pi->state < 2)
             continue;
@@ -95,11 +95,11 @@ int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
             continue;
         if (ofs + len > pi->len)
             continue;
-        func_02082D44((u8 *)pi->ptr + ofs, dst, len);
+        MI_CpuCopy8((u8 *)pi->ptr + ofs, dst, len);
         pl->f0 = 0;
         ret = 1;
         break;
     }
-    func_0208799C(bak_cpsr);
+    OS_RestoreInterrupts(bak_cpsr);
     return ret;
 }

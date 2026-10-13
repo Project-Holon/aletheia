@@ -33,7 +33,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   BMP_GetByteSize 0x020437EC arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   func_0207E780 0x0207E780 arm
  *   func_0207E804 0x0207E804 arm
@@ -67,7 +67,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_020862F0(void *dst, int size);
+extern void DWCi_ScreenDC_FlushRange(void *dst, int size);
 extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 screen);
 extern void func_0207E780(void *dst, void *src, u32 size);
 extern void func_0207E804(void *dst, void *src, u32 size);
@@ -172,7 +172,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     u8 k;
     void (*copy)(void *, void *, u32);
     dst0 = BMP_GetPixels(grid->bmp);
-    func_020862F0(dst0, BMP_GetByteSize(grid->bmp));
+    DWCi_ScreenDC_FlushRange(dst0, BMP_GetByteSize(grid->bmp));
     if (grid->screen == 0) copy = func_0207E780; else copy = func_0207E804;
     wt = (u32)BMP_GetWidth(grid->bmp) >> 3;
     rem = (u32)BMP_GetHeight(grid->bmp) >> 3;

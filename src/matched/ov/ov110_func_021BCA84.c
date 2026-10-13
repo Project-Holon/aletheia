@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA84
+ * function: PMSIV_MENU_Update
  * address: 0x021BCA84
  * packet: pkt_ov110_021BCA84
  * region: ov110
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two bytes zero alignment padding after return.
  * symbols:
- *   func_021BD348 0x021BD348 thumb ov110
+ *   PMSIV_MENU_UpdateBlend 0x021BD348 thumb ov110
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb  arm9
  */
@@ -19,8 +19,8 @@ typedef unsigned int   u32;
 struct Actor;
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void func_021BD348(char *p);
-void func_021BCA84(u8 *p)
+extern void PMSIV_MENU_UpdateBlend(char *p);
+void PMSIV_MENU_Update(u8 *p)
 {
     int i;
     for (i=0;i<3;i++) if (*(void **)(p+0x64+i*4)) APP_TASKMENU_WIN_Update(*(void **)(p+0x64+i*4));
@@ -30,5 +30,5 @@ void func_021BCA84(u8 *p)
     case 2: if (!CLACT_IsActorAnimActive(((struct Obj06388 *)p)->f28)) ((struct Obj06388 *)p)->f2C=3; break;
     case 3: ((struct Obj06388 *)p)->f2C=0; break;
     }
-    func_021BD348((char *)p);
+    PMSIV_MENU_UpdateBlend((char *)p);
 }

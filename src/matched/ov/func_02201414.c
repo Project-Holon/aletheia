@@ -17,8 +17,8 @@
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
- *   func_021C866C  0x021C866C  arm
- *   func_021C86A8  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
  * Switch on the 0x021C86A8 index (case value = index + 15): state
  * 0x22 with the 0x022021F8/0x02008DF0 pair, state 0x2b with the four
@@ -36,7 +36,7 @@
  * entries (layout/function_starts.txt is not this lane's file).
  
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -48,8 +48,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021C866C(u8 *p);
-extern s32 func_021C86A8(void);
+extern u32 DPW_TR_IsAsyncEnd(u8 *p);
+extern s32 DPW_TR_GetAsyncResult(void);
 extern void func_021F513C(u8 *p);
 extern void func_022021F8(u8 *p, int flag);
 struct Sub02008C20Obj;
@@ -63,8 +63,8 @@ int func_02201414(u8 *p)
 {
     s32 n;
 
-    if (func_021C866C(p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd(p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         ((struct Obj02054 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:

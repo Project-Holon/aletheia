@@ -1,5 +1,5 @@
 /*
- * function: func_021BF82C
+ * function: PMS_INPUT_ResetCursor
  * address: 0x021BF82C
  * packet: pkt_ov110_021BF82C
  * region: ov110
@@ -12,7 +12,7 @@
 #include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_021BF82C(u8 *p) {
+void PMS_INPUT_ResetCursor(u8 *p) {
     ((struct Obj00012 *)p)->f4C=0;
     ((struct Obj00012 *)p)->f4E=255;
     ((struct Obj00012 *)p)->f50=253;

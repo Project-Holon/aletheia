@@ -1,5 +1,5 @@
 /*
- * function: func_021BC14C
+ * function: WIFICLUB_StateStartInvite
  * address:  0x021BC14C
  * packet:   pkt_ov099_021BC14C
  * region:   ov099
@@ -23,9 +23,9 @@
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
- *   func_021BA874  0x021BA874  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_021BC090  0x021BC090  thumb  ov099
+ *   WIFICLUB_SetPartnerNameWord  0x021BA874  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ResetTimeIcon  0x021BC090  thumb  ov099
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,11 +36,11 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
 extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
-extern void func_021BA874(char *p, int id);
-extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(char *p);
+extern void WIFICLUB_SetPartnerNameWord(char *p, int id);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
+extern void WIFICLUB_ResetTimeIcon(char *p);
 
-int func_021BC14C(char *p, int v)
+int WIFICLUB_StateStartInvite(char *p, int v)
 {
     int z;
     int off;
@@ -49,16 +49,16 @@ int func_021BC14C(char *p, int v)
     if (GFL_NET_IsParentAid() == 0) {
         *(int *)(p + 0x135C) = 3;
         off = 0x242;
-        func_021BA874(p, *(u16 *)(p + off) - 1);
-        func_021BAAB8(p, 0x5F, z);
+        WIFICLUB_SetPartnerNameWord(p, *(u16 *)(p + off) - 1);
+        WIFICLUB_ShowStreamedMessage(p, 0x5F, z);
         off -= 0x76;
         *(int *)(p + off) = 0x42;
     } else {
         *(int *)(p + 0x135C) = 4;
         off = 0x242;
-        func_021BA874(p, *(u16 *)(p + off) - 1);
-        func_021BAAB8(p, 0x7E, z);
-        func_021BC090(p);
+        WIFICLUB_SetPartnerNameWord(p, *(u16 *)(p + off) - 1);
+        WIFICLUB_ShowStreamedMessage(p, 0x7E, z);
+        WIFICLUB_ResetTimeIcon(p);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0xA);
         off -= 0x76;
         *(int *)(p + off) = 0x49;

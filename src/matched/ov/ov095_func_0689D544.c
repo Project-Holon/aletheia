@@ -1,5 +1,5 @@
 /*
- * function: func_0689D544
+ * function: BTL_POSPOKE_UpdatePosOfPoke
  * address:  0x0689D544
  * packet:   pkt_ov095_0689D544
  * region:   ov095
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0689D544  0x0689D544  thumb
+ *   BTL_POSPOKE_UpdatePosOfPoke  0x0689D544  thumb
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ typedef struct {
     u8 idx[6];
 } T;
 
-void func_0689D544(T *a, int b)
+void BTL_POSPOKE_UpdatePosOfPoke(T *a, int b)
 {
     u32 v;
 

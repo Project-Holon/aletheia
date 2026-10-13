@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207A5C8   0x0207A5C8  arm
+ *   FS_LoadArchiveTables   0x0207A5C8  arm
  *   d_02150DA8      0x02150DA8  data  a4
  *
  * Original (32 bytes):
@@ -24,10 +24,10 @@
  * FS_LoadArchiveTables(&d_02150DA8, p0, p1).
  */
 
-extern void func_0207A5C8(void *arc, void *mem, void *size);
+extern void FS_LoadArchiveTables(void *arc, void *mem, void *size);
 extern char d_02150DA8;
 
 void FS_TryLoadTable(void *a0, void *a1)
 {
-    func_0207A5C8(&d_02150DA8, a0, a1);
+    FS_LoadArchiveTables(&d_02150DA8, a0, a1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBEC0
+ * function: NHTTPi_CheckHeaderEnd
  * address:  0x021BBEC0
  * packet:   pkt_ov114_021BBEC0
  * region:   ov114
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-int func_021BBEC0(char *buf_p, int bufwp)
+int NHTTPi_CheckHeaderEnd(char *buf_p, int bufwp)
 {
     char c = buf_p[(bufwp - 2) & 3];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA928
+ * function: WIFICLUB_UpdateTalkStream
  * address:  0x021BA928
  * packet:   pkt_ov099_021BA928
  * region:   ov099
@@ -36,7 +36,7 @@ typedef struct {
     void *f9b0;
 } W;
 
-int func_021BA928(W *w)
+int WIFICLUB_UpdateTalkStream(W *w)
 {
     int r = 1;
     if (w->f1bc != 0) {

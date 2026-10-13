@@ -13,7 +13,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02030734  0x02030734  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   gStartMenuRowInfo     0x021BD5EC  data  ov088  a2
@@ -30,7 +30,7 @@ extern char d_021BDA00[];
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u16 e);
-extern void func_02082A60(void *srcp, void *destp, unsigned long size);
+extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -44,7 +44,7 @@ void STARTMENU_LoadRowBuffers(char *p)
         void *r;
         *(u32 *)(p + i * 4 + 0xf8) = (u32)func_02030734(0xb, sz, 0, d_021BDA00, 0x7e9);
         r = ARC_UTIL_LoadPaletteDataFromHandle(h, gStartMenuRowInfo[i].a, 1, &out, 0xb);
-        func_02082A60((char *)out + 0xc, *(void **)(p + i * 4 + 0xf8), sz);
+        MIi_CpuCopy16((char *)out + 0xc, *(void **)(p + i * 4 + 0xf8), sz);
         func_020307B0(r);
     }
     ARC_TOOL_DeleteHandle(h);

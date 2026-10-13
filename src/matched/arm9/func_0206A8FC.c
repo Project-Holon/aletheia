@@ -1,5 +1,5 @@
 /*
- * function: func_0206A8FC
+ * function: NNS_G3dGlbFlushWVP
  * address:  0x0206A8FC
  * packet:   pkt_0206A17C
  * region:   arm9
@@ -16,12 +16,12 @@
  *   g_02148BC8       0x02148BC8  data
  *   g_renderStateIdentityMtx       0x02148C08  data
  *   g_02148C44       0x02148C44  data
- *   func_0206DDA4    0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N    0x0206DDA4  arm
  *   func_0207B0A4    0x0207B0A4  arm
  *
  * The "enter this rig mode" entry point of the 0x02148B4C register block, and
- * the big sibling of src/matched/func_0206A884.c: nine registrations against
- * the same table helper func_0206DDA4, one of them (0x10) with a one-word
+ * the big sibling of src/matched/NNS_G3dGlbFlushP.c: nine registrations against
+ * the same table helper NNS_G3dGeBufferOP_N, one of them (0x10) with a one-word
  * out-parameter whose address is taken and one (0x17) reading a twelve-byte
  * record that func_0207B0A4 fills, then bit 0 of the "initialised subsystems"
  * flag word at g_renderState + 0xFC is set and bit 1 cleared.  The 0x34-byte
@@ -29,8 +29,8 @@
  * w[1..12] the record.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md), the
- * same tell and the same family as src/matched/func_0206A700.c and
- * src/matched/func_0206AAD4.c.  The image materialises every call's small
+ * same tell and the same family as src/matched/NNS_G3dGlbInit.c and
+ * src/matched/NNS_G3dGlbGetInvCameraMtx.c.  The image materialises every call's small
  * constants FRESH at each site -- `mov r0, #0x19` / `mov r2, #0xc` at
  * 0x0206A91C/0x0206A920, `mov r2, #0xf` at 0x0206A92C, `mov r2, #1` at
  * 0x0206A944 -- and keeps the frame at a bare `stmdb sp!, {lr}`
@@ -55,8 +55,8 @@
  * `add r1, r1, #4` at 0x0206A974, costing four bytes and shifting the tail.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A8FC.c \
- *       --func func_0206A8FC --addr 0x0206A8FC --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbFlushWVP.c \
+ *       --func NNS_G3dGlbFlushWVP --addr 0x0206A8FC --arm --cc ../2.0/sp2
  */
 
 typedef unsigned int u32;
@@ -67,22 +67,22 @@ extern u32  g_renderStateDrawParams[];
 extern u32  g_02148BC8[];
 extern u32  g_renderStateIdentityMtx[];
 extern u32  g_02148C44[];
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void func_0207B0A4(void *a, void *b);
 
-void func_0206A8FC(void)
+void NNS_G3dGlbFlushWVP(void)
 {
     u32 w[13];
 
-    func_0206DDA4(0x1610, g_02148B50, 0x11);
-    func_0206DDA4(0x19, g_renderStateDrawParams, 0xC);
-    func_0206DDA4(0x1b19, g_renderStateIdentityMtx, 0xF);
+    NNS_G3dGeBufferOP_N(0x1610, g_02148B50, 0x11);
+    NNS_G3dGeBufferOP_N(0x19, g_renderStateDrawParams, 0xC);
+    NNS_G3dGeBufferOP_N(0x1b19, g_renderStateIdentityMtx, 0xF);
     w[0] = 2;
-    func_0206DDA4(0x10, &w[0], 1);
+    NNS_G3dGeBufferOP_N(0x10, &w[0], 1);
     func_0207B0A4(g_renderStateIdentityMtx, &w[1]);
-    func_0206DDA4(0x17, &w[1], 0xC);
-    func_0206DDA4(g_renderState[0x1f], (char *)g_02148BC8 + 4, 0xE);
-    func_0206DDA4(0x15, 0, 0);
-    func_0206DDA4(0x2a, g_02148C44, 1);
+    NNS_G3dGeBufferOP_N(0x17, &w[1], 0xC);
+    NNS_G3dGeBufferOP_N(g_renderState[0x1f], (char *)g_02148BC8 + 4, 0xE);
+    NNS_G3dGeBufferOP_N(0x15, 0, 0);
+    NNS_G3dGeBufferOP_N(0x2a, g_02148C44, 1);
     g_renderState[0x3f] = (g_renderState[0x3f] | 1) & ~2u;
 }

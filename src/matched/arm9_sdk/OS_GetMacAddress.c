@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 
-extern void func_02082D44(void);
+extern void MI_CpuCopy8(void);
 
 asm void OS_GetMacAddress(void)
 {
     mov	r1, r0
     ldr r0, =0x02FFFCF4
-    ldr ip, =func_02082D44
+    ldr ip, =MI_CpuCopy8
     mov	r2, #6
     bx	ip
 }

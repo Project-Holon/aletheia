@@ -1,5 +1,5 @@
 /*
- * function: func_02157F60
+ * function: arprequest
  * address:  0x02157F60
  * packet:   pkt_ov009_02157F60
  * region:   ov009
@@ -12,32 +12,32 @@
  * sdk:      arprequest (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02157E54  0x02157E54  arm  ov009
- *   func_02085A38  0x02085A38  arm
- *   func_02157D8C  0x02157D8C  arm  ov009
+ *   send_arprequest  0x02157E54  arm  ov009
+ *   OS_Sleep  0x02085A38  arm
+ *   inq_arpcache  0x02157D8C  arm  ov009
  *   g_021A1CA8  0x021A1CA8  data
  *   g_021A826C  0x021A826C  data
  */
 
 extern unsigned long g_021A1CA8[];
 extern char g_021A826C[];
-extern void func_02157E54(unsigned long ip);
-extern void func_02085A38(unsigned long msec);
-extern unsigned char *func_02157D8C(unsigned long ip);
+extern void send_arprequest(unsigned long ip);
+extern void OS_Sleep(unsigned long msec);
+extern unsigned char *inq_arpcache(unsigned long ip);
 
-unsigned long func_02157F60(unsigned long ip)
+unsigned long arprequest(unsigned long ip)
 {
     unsigned long retry1;
     unsigned long retry2;
     unsigned long r;
 
     for (retry1 = 0; retry1 < 6; retry1++) {
-        func_02157E54(ip);
+        send_arprequest(ip);
         for (retry2 = 0; retry2 < g_021A1CA8[retry1] / 100; retry2++) {
             if (*(unsigned long *)(g_021A826C + 0x50) == 0)
                 return 0;
-            func_02085A38(100);
-            r = (long unsigned int)func_02157D8C(ip);
+            OS_Sleep(100);
+            r = (long unsigned int)inq_arpcache(ip);
             if (r != 0)
                 return r;
         }

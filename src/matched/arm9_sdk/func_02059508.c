@@ -1,5 +1,5 @@
 /*
- * function: func_02059508
+ * function: DWCi_Acc_CreateUserData
  * address:  0x02059508
  * packet:   pkt_02059508
  * region:   arm9
@@ -45,7 +45,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid);
 extern void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
 
-void func_02059508(struct DWCstAccUserData *userdata, unsigned long gamecode)
+void DWCi_Acc_CreateUserData(struct DWCstAccUserData *userdata, unsigned long gamecode)
 {
     struct MATHCRC32Table table;
 

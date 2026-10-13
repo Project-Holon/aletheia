@@ -13,7 +13,7 @@
  * symbols:
  *   BTL_REC_ResetReader 0x021EE674 thumb ov093
  *   BTL_ADAPTER_ClearRecvHeader 0x021EEBDC thumb ov093
- *   func_021D3F64 0x021D3F64 thumb ov093
+ *   BTL_CLIENT_StartCounterReplay 0x021D3F64 thumb ov093
  *   BTL_CLIENT_SetStepFn 0x021CDA0C thumb ov093
  *   BTL_CLIENT_StepRemote 0x021CDC0C thumb ov093
  */
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void BTL_REC_ResetReader(void *);
 extern void BTL_ADAPTER_ClearRecvHeader(void *);
-extern void func_021D3F64(u8 *,u16);
+extern void BTL_CLIENT_StartCounterReplay(u8 *,u16);
 struct QE;
 extern void BTL_CLIENT_SetStepFn(struct QE *p, u32 v);
 extern int BTL_CLIENT_StepRemote(u8 *);
-void BTL_CLIENT_StartRemoteStep(u8 *p,u16 n) { BTL_REC_ResetReader(((struct Obj07767 *)p)->f14); BTL_ADAPTER_ClearRecvHeader(((struct Obj07767 *)p)->f50); func_021D3F64(p+0x18,n); BTL_CLIENT_SetStepFn((struct QE *)p,(u32)BTL_CLIENT_StepRemote); }
+void BTL_CLIENT_StartRemoteStep(u8 *p,u16 n) { BTL_REC_ResetReader(((struct Obj07767 *)p)->f14); BTL_ADAPTER_ClearRecvHeader(((struct Obj07767 *)p)->f50); BTL_CLIENT_StartCounterReplay(p+0x18,n); BTL_CLIENT_SetStepFn((struct QE *)p,(u32)BTL_CLIENT_StepRemote); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D61F4
+ * function: DWCi_GXlSetWndPlane
  * address:  0x021D61F4
  * packet:   pkt_ov016_021D61F4
  * region:   ov016
@@ -34,7 +34,7 @@ typedef volatile u16 vu16;
         *(vu16 *)(a) = v; \
     } while (0)
 
-void func_021D61F4(int lcd, int wnd, int plane, int effect)
+void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect)
 {
     switch (wnd) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_0208B104
+ * function: TP_GetCalibratedPoint
  * address:  0x0208B104
  * packet:   pkt_0208B104
  * region:   arm9
@@ -67,7 +67,7 @@ extern TpBss g_02152FA4;
 #define tpState g_02152FA4
 typedef long long s64;
 
-void func_0208B104(TPData *disp, const TPData *raw)
+void TP_GetCalibratedPoint(TPData *disp, const TPData *raw)
 {
     TPiCalibrateParam *cal;
 

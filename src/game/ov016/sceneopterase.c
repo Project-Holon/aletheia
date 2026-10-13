@@ -1,7 +1,7 @@
 /*
  * file:     sceneopterase.c
  * unit:     yes
- * function: func_021C1F1C, func_021C1F64, func_021C1FE4, func_021C204C, func_021C2088, DWCi_SceneOptErase_procScene, func_021C20C0, DWCi_SceneOptErase_draw, func_021C2100, func_021C2168, func_021C2188, func_021C21F0, func_021C22AC, func_021C22FC
+ * function: DWCi_SceneOptErase, initGraphics, DWCi_SceneOptEraseProcInit, DWCi_SceneOptEraseProcInit1, DWCi_SceneOptEraseProcInit2, DWCi_SceneOptErase_procScene, input, DWCi_SceneOptErase_draw, button, DWCi_SceneOptEraseEndScene, DWCi_SceneOptEraseEndScene1, endScene2, DWCi_SceneOptEraseProcConfirm, DWCi_SceneOptEraseProcConfirm1
  * address:  0x021C1F1C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,19 +12,22 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Call func_021C20C0, DWCi_SceneOptErase_draw, func_021C2100.
+ * Call input, DWCi_SceneOptErase_draw, button.
  * Addresses are Black-image addresses.
  * Verified with:
  *   python tools/match.py one --src src/matched/DWCi_SceneOptErase_procScene.c \
  *       --func DWCi_SceneOptErase_procScene --addr 0x021C20AC --region ov016 --cc dsi/1.1p1 --arm
- * Two guarded func_021BCB28 calls keyed off func_021D6824.
- *   python tools/match.py one --src src/matched/func_021C20C0.c \
- *       --func func_021C20C0 --addr 0x021C20C0 --region ov016 --cc dsi/1.1p1 --arm
+ * Two guarded DWCi_BTNlSet calls keyed off DWCi_IPTlCheckTrigger.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C20C0 --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneOptErase_draw.c \
  *       --func DWCi_SceneOptErase_draw --addr 0x021C20FC --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_Sceneoptmovconfirm1EndScene2 0x021C3AD0  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_BTNlEnd                     0x021BCAE4  arm
@@ -47,17 +50,27 @@
  *   initGraphics                     0x021C1F64  arm
  *   procScene                        0x021C20AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
- *   func_021BD1D4  0x021BD1D4  arm
- *   func_021D5580  0x021D5580  arm
- *   func_021BCB58  0x021BCB58  arm
- *   func_021D5CA8  0x021D5CA8  arm
- *   func_021BD138  0x021BD138  arm
- *   func_021D6090  0x021D6090  arm
- *   func_021C0E50  0x021C0E50  arm
- *   func_021C0E40  0x021C0E40  arm
- *   g_021DE5A4     0x021DE5A4  data
- *   func_021C2A3C  0x021C2A3C  arm
- *   func_021C231C  0x021C231C  arm
+ *   DWCi_CMNlLoadResource  0x021BD1D4  arm
+ *   DWCi_BTNlIsEnd  0x021BCB58  arm
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm
+ *   DWCi_COMMENTlDelete  0x021BD138  arm
+ *   DWCi_GXlInvisible  0x021D6090  arm
+ *   DWCi_SetParam_  0x021C0E50  arm
+ *   gSceneOptEraseWork     0x021DE5A4  data
+ *   DWCi_SceneOptMenu  0x021C2A3C  arm
+ *   DWCi_SceneOptErase1  0x021C231C  arm
+ *   DWCi_SceneOptErase  0x021C1F1C  arm
+ *   DWCi_SceneOptEraseProcInit  0x021C1FE4  arm
+ *   DWCi_SceneOptEraseProcInit1  0x021C204C  arm
+ *   DWCi_SceneOptEraseProcInit2  0x021C2088  arm
+ *   DWCi_SceneOptErase_procScene  0x021C20AC  arm
+ *   input  0x021C20C0  arm
+ *   DWCi_SceneOptErase_draw  0x021C20FC  arm
+ *   button  0x021C2100  arm
+ *   DWCi_SceneOptEraseEndScene  0x021C2168  arm
+ *   DWCi_SceneOptEraseEndScene1  0x021C2188  arm
+ *   DWCi_SceneOptEraseProcConfirm  0x021C22AC  arm
+ *   DWCi_SceneOptEraseProcConfirm1  0x021C22FC  arm
  */
 #include "../../matched/include/G_SCENEOPTERASE_BSS.h"
 
@@ -95,59 +108,36 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 extern int DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
 extern bool DWCi_WINlIsInit(void);
-void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void func_021C2100(void);
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
-extern int  func_021D5580(int x);
-extern int  func_021BCB58(void);
-extern void func_021D5CA8(int x);
-extern void func_021BD138(void);
-extern void func_021D6090(int a, int b);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021C2A3C(void);
-extern void func_021C231C(void);
+void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
+extern int  DWCi_BTNlIsEnd(void);
+extern void DWCi_FNTlDeleteBgLcd(int x);
+extern void DWCi_COMMENTlDelete(void);
+extern void DWCi_GXlInvisible(int a, int b);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_SceneOptMenu(void);
+extern void DWCi_SceneOptErase1(void);
 void DWCi_SceneOptErase(void);
-void func_021C1F64(void);
 void DWCi_SceneOptErase_procScene(void);
-void func_021C20C0(void);
 void DWCi_SceneOptErase_draw(void);
-void func_021C21F0(void);
 extern SCENEOPTERASE_BSS sceneopterase_bss;
-extern struct SCENEOPTERASE_BSS g_021DE5A4;
-
-
-
-static void initGraphics(void);
-
-
-static void procInit(void);
-
-
-static void procInit1(void);
-
-
-static void procInit2(void);
+extern struct SCENEOPTERASE_BSS gSceneOptEraseWork;
 
 
 static void procScene(void);
 
-
-static void procConfirm(void);
-
-
-static void procConfirm1(void);
-
-
+static void initGraphics(void);
+static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void input(void);
+static void button(void);
 static void endScene(void);
-
-
 static void endScene1(void);
-
-
 static void endScene2(void);
-
+static void procConfirm(void);
+static void procConfirm1(void);
 
 
 void DWCi_SceneOptErase(void)
@@ -161,17 +151,15 @@ void DWCi_SceneOptErase(void)
 }
 
 
-
-void func_021C1F64(void)
+static void initGraphics(void)
 {
-    func_021BD1D4((void *)0x021DB2B4, (void *)0x0207EB78);
+    DWCi_CMNlLoadResource((void *)0x021DB2B4, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;
     ((BgCnt *)0x0400100A)->priority = 3;
     ((BgCnt *)0x04000008)->priority = 3;
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 
 static void procInit(void)
@@ -182,7 +170,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 
 static void procInit1(void)
@@ -196,7 +183,6 @@ static void procInit1(void)
 }
 
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -208,24 +194,23 @@ static void procInit2(void)
 
 void DWCi_SceneOptErase_procScene(void)
 {
-    func_021C20C0();
+    input();
     DWCi_SceneOptErase_draw();
-    func_021C2100();
+    button();
 }
 
 
-void func_021C20C0(void)
+static void input(void)
 {
-    if (func_021D6824(1))
-        func_021BCB28(1);
-    if (func_021D6824(2))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(1))
+        DWCi_BTNlSet(1);
+    if (DWCi_IPTlCheckTrigger(2))
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneOptErase_draw(void)
 {
 }
-
 
 
 static void button(void)
@@ -245,14 +230,12 @@ static void button(void)
 }
 
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 
 static void endScene1(void)
@@ -267,35 +250,33 @@ static void endScene1(void)
 }
 
 
-
 /*
- * Same shape as func_021C3AD0 with a different flag byte and last stage.
+ * Same shape as DWCi_Sceneoptmovconfirm1EndScene2 with a different flag byte and last stage.
  */
-void func_021C21F0(void)
+static void endScene2(void)
 {
-    if (func_021D5580(0) != 0)
+    if (DWCi_EFFlCheck(0) != 0)
         return;
-    if (((u8 *)&g_021DE5A4)[0] == 0) {
-        if (func_021D5580(1) != 0)
+    if (((u8 *)&gSceneOptEraseWork)[0] == 0) {
+        if (DWCi_EFFlCheck(1) != 0)
             return;
     }
-    if (func_021BCB58() == 0)
+    if (DWCi_BTNlIsEnd() == 0)
         return;
-    func_021D5CA8(0);
-    if (((u8 *)&g_021DE5A4)[0] == 0) {
-        func_021BD138();
-        func_021D6090(1, 1);
+    DWCi_FNTlDeleteBgLcd(0);
+    if (((u8 *)&gSceneOptEraseWork)[0] == 0) {
+        DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    func_021D6090(0, 0x15);
-    if (((u8 *)&g_021DE5A4)[0] == 0) {
-        func_021C0E50(0, 1);
-        func_021C0E40((unsigned int)func_021C2A3C);
+    DWCi_GXlInvisible(0, 0x15);
+    if (((u8 *)&gSceneOptEraseWork)[0] == 0) {
+        DWCi_SetParam_(0, 1);
+        DWCi_ChangeScene(DWCi_SceneOptMenu);
     } else {
-        func_021C0E50(0, 1);
-        func_021C0E40((unsigned int)func_021C231C);
+        DWCi_SetParam_(0, 1);
+        DWCi_ChangeScene(DWCi_SceneOptErase1);
     }
 }
-
 
 
 static void procConfirm(void)
@@ -314,7 +295,6 @@ static void procConfirm(void)
     DWCi_WINlEnd();
     DWCi_ChangeScene(procConfirm1);
 }
-
 
 
 static void procConfirm1(void)

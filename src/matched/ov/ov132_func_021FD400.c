@@ -12,14 +12,14 @@
  *   first call's n (n=f()+0x7c) and passed as n. The older draft passed n+0x7c inline and left adds r2/r1 swapped.
  * symbols:
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
@@ -36,7 +36,7 @@ int func_021FD400(const char *p)
         q=*(u32 *)(p+0x128);
         k=i*n;
         n=POKE_TOOL_GetPartyParamSize()+0x7c;
-        func_02082D44(*(void **)(p+i*0x30+0x7c),(void *)(q+k),n);
+        MI_CpuCopy8(*(void **)(p+i*0x30+0x7c),(void *)(q+k),n);
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     n=POKE_TOOL_GetPartyParamSize();

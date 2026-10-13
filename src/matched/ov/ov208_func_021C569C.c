@@ -12,8 +12,8 @@
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb
  *   func_021BC3A4  0x021BC3A4  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200D288  0x0200D288  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetSpindaPersonality  0x0200D288  thumb
  *   ov208_func_021C5128  0x021C5128  thumb
  *   func_021C80AC  0x021C80AC  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
@@ -39,9 +39,9 @@ struct Ov208Mdl {
 
 extern u16  func_021BC3C0(int key);
 extern int func_021BC3A4(int *p);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 struct Blk37;
-extern u32 func_0200D288(struct Blk37 *p, u32 which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 extern void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, u32 sys, u32 species, u32 a4,
                                 u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
 extern void func_021C80AC(int a, int b, int c);
@@ -66,7 +66,7 @@ void ov208_func_021C569C(u16 *heap, u8 *p, int key, int a, int b, int pose, u16 
     f152 = *(p + idx * 16 + 0x152);
     f153 = *(p + idx * 16 + 0x153);
     if (species == 0x147)
-        extra = func_0200D288(func_0200CA1C((void *)func_021BC3A4((int *)key)), extra);
+        extra = ZUKAN_SAVE_GetSpindaPersonality(ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key)), extra);
     if (a != 4) {
         ov208_func_021C5128(MDL(a), *heap, W(8), species, form, f152, f153, 0, 0, extra);
         func_021C80AC((int)MDL(a), pose, (int)(&v));

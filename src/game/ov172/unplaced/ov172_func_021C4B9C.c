@@ -26,7 +26,7 @@
  * spins on func_021C2D24 (RTC string rebuild) with 5-tick sleeps until the
  * RTC is readable, and finally runs the Exif/JPEG encoder func_021C3DF4 with
  * encode_option = (a4 != 0) and thumb data a3/thumb_size a4; a non-1 result is
- * a fatal error (func_02088234).  The tail clears the g_021CADF0 state and
+ * a fatal error (OS_Terminate).  The tail clears the g_021CADF0 state and
  * returns its +4 slot, which the encoder filled with the result.
  *
  * The opening block keeps g_021CAE90 in ip and g_021CADF0 in lr; storing
@@ -42,6 +42,9 @@
  *   func_021C2D9C  0x021C2D9C  arm  ov172
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   OS_Terminate  0x02088234  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -73,9 +76,9 @@ extern u8  g_021CAEC6[];
 
 void MI_CpuFill8(void *dst, int val, u32 n);
 int  OS_IsRunOnTwl(void);
-void func_02082D44(void *src, void *dst, u32 n);
-void func_02087A04(u32 x);
-void func_02088234(void);
+void MI_CpuCopy8(void *src, void *dst, u32 n);
+void OS_SpinWaitSysCycles(u32 x);
+void OS_Terminate(void);
 s16  func_021C3DF4(s16 width, s16 height, u16 encode_option,
                    u8 *thumb_src, u32 thumb_size);
 void func_021C2D9C(const char *s);
@@ -102,22 +105,22 @@ u32 func_021C4B9C(int a0, int a1, int a2, u8 *a3, u32 a4)
     local = 0;
     if (OS_IsRunOnTwl() == 1)
         local = *(u32 *)0x02FFE230;
-    func_02082D44(&local, buf, 4);
+    MI_CpuCopy8(&local, buf, 4);
     buf[4] = 0;
     func_021C2D9C(buf);
 
     if (g_021CADF0.f0 == 0) {
         while (func_021C2D24() == 0)
-            func_02087A04(5);
+            OS_SpinWaitSysCycles(5);
     }
 
     g_021CADF0.f4 = 0;
     if (a4 == 0) {
         if (func_021C3DF4((s16)a1, (s16)a2, 0, a3, a4) != 1)
-            func_02088234();
+            OS_Terminate();
     } else {
         if (func_021C3DF4((s16)a1, (s16)a2, 1, a3, a4) != 1)
-            func_02088234();
+            OS_Terminate();
     }
 
     g_021CADF0.f1c = 0;

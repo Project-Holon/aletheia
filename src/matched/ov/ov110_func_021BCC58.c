@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC58
+ * function: PMSIV_MENU_ShowWordEntries
  * address: 0x021BCC58
  * packet: pkt_ov110_021BCC58
  * region: ov110
@@ -8,27 +8,27 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BCAD8 0x021BCAD8 thumb ov110
+ *   PMSIV_MENU_HideAll 0x021BCAD8 thumb ov110
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BF6DC 0x021BF6DC thumb ov110
- *   func_021BD248 0x021BD248 thumb ov110
- *   func_021BD264 0x021BD264 thumb ov110
+ *   PMS_INPUT_GetBrowseMode 0x021BF6DC thumb ov110
+ *   PMSIV_MENU_ShowBackButton 0x021BD248 thumb ov110
+ *   PMSIV_MENU_ShowListEntries 0x021BD264 thumb ov110
  */
 #include "../include/Obj00295.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021BCAD8(void *);
+extern void PMSIV_MENU_HideAll(void *);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern u8 func_021BF6DC(u8 *);
-extern void func_021BD248(u8 *);
-extern void func_021BD264(void *);
-void func_021BCC58(u8 *p)
+extern u8 PMS_INPUT_GetBrowseMode(u8 *);
+extern void PMSIV_MENU_ShowBackButton(u8 *);
+extern void PMSIV_MENU_ShowListEntries(void *);
+void PMSIV_MENU_ShowWordEntries(u8 *p)
 {
-    func_021BCAD8(p);
+    PMSIV_MENU_HideAll(p);
     CLACT_SetActorDrawEnable(((struct Obj00295 *)p)->f8C, 1);
-    if (func_021BF6DC(*(u8 * *)&((struct Obj00295 *)p)->f4) == 0) func_021BD248(p);
-    else func_021BD264(p);
+    if (PMS_INPUT_GetBrowseMode(*(u8 * *)&((struct Obj00295 *)p)->f4) == 0) PMSIV_MENU_ShowBackButton(p);
+    else PMSIV_MENU_ShowListEntries(p);
 }

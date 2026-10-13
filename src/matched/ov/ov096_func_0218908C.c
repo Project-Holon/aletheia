@@ -1,5 +1,5 @@
 /*
- * function: func_0218908C
+ * function: TR_AI_CompareMoveParam28
  * address: 0x0218908C
  * packet: pkt_ov096_0218908C
  * region: ov096
@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * return: func_0218A378's r0 is consumed by original caller, overriding its void forwarder declaration.
+ * return: TR_AI_GetMoveParam's r0 is consumed by original caller, overriding its void forwarder declaration.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_0218A378 0x0218A378 thumb ov096
- *   func_0218A0F4 0x0218A0F4 thumb ov096
+ *   TR_AI_GetMoveParam 0x0218A378 thumb ov096
+ *   TR_AI_Compare 0x0218A0F4 thumb ov096
  */
 #include "../include/Obj21950.h"
 typedef unsigned char u8;
@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *);
-extern int func_0218A378(int, int, int);
-extern int func_0218A0F4(u8 *, int, int, int, int);
-void func_0218908C(u8 *a, int b, int c)
+extern int TR_AI_GetMoveParam(int, int, int);
+extern int TR_AI_Compare(u8 *, int, int, int, int);
+void TR_AI_CompareMoveParam28(u8 *a, int b, int c)
 {
     int t0, t1;
     t0 = VM_GetU32((struct Cursor *)a);
     t1 = VM_GetU32((struct Cursor *)a);
-    func_0218A0F4(a, c, func_0218A378(b, ((struct Obj21950 *)b)->f2, 28), t0, t1);
+    TR_AI_Compare(a, c, TR_AI_GetMoveParam(b, ((struct Obj21950 *)b)->f2, 28), t0, t1);
 }

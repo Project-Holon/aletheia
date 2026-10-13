@@ -1,5 +1,5 @@
 /*
- * function: func_021B66E0
+ * function: COMPATIBLE_IRC_SYS_ProfileSyncInit
  * address:  0x021B66E0
  * packet:   pkt_ov101_021B66E0
  * region:   ov101
@@ -12,16 +12,16 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
- *   func_021B64F0  0x021B64F0  thumb  ov101
+ *   COMPATIBLE_IRC_SYS_AddCommandTable  0x021B64F0  thumb  ov101
  */
 #include "../include/Obj04420.h"
 
 extern void MI_CpuFill8(int, int, int);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 typedef unsigned int   u32;
-extern void func_021B64F0(u32 p, u32 a, u32 b, u32 c, u32 d);
+extern void COMPATIBLE_IRC_SYS_AddCommandTable(u32 p, u32 a, u32 b, u32 c, u32 d);
 
-void func_021B66E0(int a, int b, int c)
+void COMPATIBLE_IRC_SYS_ProfileSyncInit(int a, int b, int c)
 {
     int r7;
 
@@ -34,5 +34,5 @@ void func_021B66E0(int a, int b, int c)
     MI_CpuFill8(((struct Obj04420 *)a)->f2C, 0, 0x2c);
     ((struct Obj04420 *)a)->f30 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
     MI_CpuFill8(((struct Obj04420 *)a)->f30, 0, 0x2c);
-    func_021B64F0(b, 0x1000, 0x021B741C, 4, a);
+    COMPATIBLE_IRC_SYS_AddCommandTable(b, 0x1000, 0x021B741C, 4, a);
 }

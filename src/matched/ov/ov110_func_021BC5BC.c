@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5BC
+ * function: PMSIV_EDIT_DrawSlotWord
  * address: 0x021BC5BC
  * packet: pkt_ov110_021BC5BC
  * region: ov110
@@ -15,12 +15,12 @@
  *   preserves BAC44 full 32-bit payload. Sentinel returns before any local
  *   read. All other prototypes copied from full own matched bodies/units.
  * symbols:
- *   func_021BAC44 0x021BAC44 thumb ov110
- *   func_021BC564 0x021BC564 thumb ov110
+ *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
+ *   PMSIV_EDIT_SlotPosToBoxOrigin 0x021BC564 thumb ov110
  *   PMSI_PARAM_IsDecoWord 0x02024508 thumb
  *   PMSI_PARAM_GetDecoId 0x02024520 thumb
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   func_021BC6D0 0x021BC6D0 thumb ov110
+ *   PMSIV_EDIT_IsSubScreenLayer 0x021BC6D0 thumb ov110
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -41,12 +41,12 @@ typedef unsigned int u32;
 typedef struct Vec2 { s16 x,y; } Vec2;
 struct Descriptor;
 struct Obj;
-extern u32 func_021BAC44(u8 *);
-extern void func_021BC564(s16 *p, s16 *out);
+extern u32 PMS_INPUT_VIEW_GetFont(u8 *);
+extern void PMSIV_EDIT_SlotPosToBoxOrigin(s16 *p, s16 *out);
 extern u32 PMSI_PARAM_IsDecoWord(u32);
 extern u32 PMSI_PARAM_GetDecoId(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern u32 func_021BC6D0(u32);
+extern u32 PMSIV_EDIT_IsSubScreenLayer(u32);
 extern u8 BMP_WIN_GetPosX(struct Descriptor *);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
@@ -58,19 +58,19 @@ extern void PMS_WORD_LoadString(u32,void *,u32);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,struct Obj *sprite)
+void PMSIV_EDIT_DrawSlotWord(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,struct Obj *sprite)
 {
     Vec2 base;
     Vec2 pos;
     u32 font;
     u32 index;
     u32 layer;
-    font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
+    font=PMS_INPUT_VIEW_GetFont(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
-    func_021BC564((s16 *)input,(s16 *)(&base));
+    PMSIV_EDIT_SlotPosToBoxOrigin((s16 *)input,(s16 *)(&base));
     if(PMSI_PARAM_IsDecoWord(id)!=0) {
         index=PMSI_PARAM_GetDecoId(id)-1;
-        layer=func_021BC6D0(BMP_WIN_GetBgLayer(window));
+        layer=PMSIV_EDIT_IsSubScreenLayer(BMP_WIN_GetBgLayer(window));
         pos.x=base.x+BMP_WIN_GetPosX(window)*8;
         pos.y=base.y+BMP_WIN_GetPosY(window)*8;
         if(layer==1) pos.y+=192;

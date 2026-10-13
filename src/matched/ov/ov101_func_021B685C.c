@@ -1,5 +1,5 @@
 /*
- * function: func_021B685C
+ * function: COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile
  * address: 0x021B685C
  * packet: pkt_ov101_021B685C
  * region: ov101
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef struct R { int words[11]; } R;
-void func_021B685C(int *p,R *out) { *out=*(R *)p[12]; }
+void COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(int *p,R *out) { *out=*(R *)p[12]; }

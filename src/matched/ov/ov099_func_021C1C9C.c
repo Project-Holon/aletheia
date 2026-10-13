@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C9C
+ * function: WIFICLUB_OnSlotButtonEvent
  * address: 0x021C1C9C
  * packet: pkt_ov099_021C1C9C
  * region: ov099
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void func_021C1C9C(u32 a,int b,u32 p){u32 offset;offset=a+(((struct Obj10213 *)p)->f8EC<<3);if(*(u8 *)(p+offset+0x8cc)==2 && ((struct Obj10213 *)p)->f8ED==0 && b==0){((struct Obj10213 *)p)->f8ED=offset+1;GFL_USE_PlaySeDefaultVolume(1356);}}
+void WIFICLUB_OnSlotButtonEvent(u32 a,int b,u32 p){u32 offset;offset=a+(((struct Obj10213 *)p)->f8EC<<3);if(*(u8 *)(p+offset+0x8cc)==2 && ((struct Obj10213 *)p)->f8ED==0 && b==0){((struct Obj10213 *)p)->f8ED=offset+1;GFL_USE_PlaySeDefaultVolume(1356);}}

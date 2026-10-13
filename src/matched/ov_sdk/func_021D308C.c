@@ -1,5 +1,5 @@
 /*
- * function: func_021D308C
+ * function: DWCi_MOV_WH_StateInEndChildKeyShare
  * address:  0x021D308C
  * packet:   pkt_021D308C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D308C 0x021D308C arm
+ *   DWCi_MOV_WH_StateInEndChildKeyShare 0x021D308C arm
  *   WM_EndKeySharing  0x02090BB8  arm  arm9
  *
  * Only in state 6, select port 3 and query the global tail for the ready answer.
@@ -21,7 +21,7 @@ extern int WM_EndKeySharing(int);
 extern int func_021D29C8(int);
 extern int func_021D2A44(void);
 
-int func_021D308C(void)
+int DWCi_MOV_WH_StateInEndChildKeyShare(void)
 {
     int *g = (int *)0x021DE660;
 

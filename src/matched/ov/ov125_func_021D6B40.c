@@ -26,20 +26,20 @@
  *   func_021D885C  0x021D885C  arm  ov125
  *   func_021D88BC  0x021D88BC  arm  ov125
  *   func_021D88F0  0x021D88F0  arm  ov125
- *   func_021B9748  0x021B9748  thumb  ov114
- *   func_021B9774  0x021B9774  thumb  ov114
- *   func_021B9790  0x021B9790  thumb  ov114
- *   func_021B97F4  0x021B97F4  thumb  ov114
- *   func_021B9800  0x021B9800  thumb  ov114
- *   func_021B9838  0x021B9838  thumb  ov114
- *   func_021B98A0  0x021B98A0  thumb  ov114
- *   func_021B98D8  0x021B98D8  thumb  ov114
- *   func_021B98F8  0x021B98F8  thumb  ov114
- *   func_021B99B8  0x021B99B8  thumb  ov114
- *   func_021B99DC  0x021B99DC  thumb  ov114
- *   func_021B99F0  0x021B99F0  thumb  ov114
- *   func_021B99F4  0x021B99F4  thumb  ov114
- *   func_021B9A14  0x021B9A14  thumb  ov114
+ *   NHTTP_RAP_StartConnection  0x021B9748  thumb  ov114
+ *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
+ *   NHTTP_RAP_PollConnection  0x021B9790  thumb  ov114
+ *   NHTTP_RAP_GetRecvBuffer  0x021B97F4  thumb  ov114
+ *   NHTTP_RAP_Create  0x021B9800  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_AllocPostData  0x021B98A0  thumb  ov114
+ *   NHTTP_RAP_AppendPostData  0x021B98D8  thumb  ov114
+ *   NHTTP_RAP_CreatePostRequest  0x021B98F8  thumb  ov114
+ *   NHTTP_RAP_FreePostData  0x021B99B8  thumb  ov114
+ *   NHTTP_RAP_GetResultCode  0x021B99DC  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetCount  0x021B99F0  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetValue  0x021B99F4  thumb  ov114
+ *   NHTTP_RAP_RecordList_GetRecord  0x021B9A14  thumb  ov114
  *   func_0200853C  0x0200853C  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
@@ -49,6 +49,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021D8D28  0x021D8D28  data a4
  *   gSpeciesNameBank  0x020A7370  data
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -74,21 +75,21 @@ extern int func_021D87FC(int value, int n);
 extern int func_021D885C(int value, int n);
 extern int func_021D88BC(u32, u32, u32, u32);
 extern int func_021D88F0(u32, u32, u32);
-extern int func_021B9748(u8 *);
-extern void func_021B9774(u8 *);
-extern int func_021B9790(u8 *);
-extern u8 *func_021B97F4(u8 *);
-extern u8 *func_021B9800(int a, int b, int c);
-extern void func_021B9838(u8 *);
-extern void func_021B98A0(u8 *p, int a, int b, int c);
-extern void func_021B98D8(u8 *p, int a, int n);
-extern int func_021B98F8(u8 *);
-extern void func_021B99B8(u8 *);
-extern int func_021B99DC(u8 *);
-extern int func_021B99F0(u8 *);
-extern u32 func_021B99F4(u32 p, u32 i);
-extern u8 *func_021B9A14(u8 *p, u32 i);
-extern void func_02082D44(const void *, void *, u32);
+extern int NHTTP_RAP_StartConnection(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
+extern u8 *NHTTP_RAP_Create(int a, int b, int c);
+extern void NHTTP_RAP_Destroy(u8 *);
+extern void NHTTP_RAP_AllocPostData(u8 *p, int a, int b, int c);
+extern void NHTTP_RAP_AppendPostData(u8 *p, int a, int n);
+extern int NHTTP_RAP_CreatePostRequest(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
+extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
 extern u8 *BATTLE_REC_GetBody(void);
@@ -132,44 +133,44 @@ int func_021D6B40(u8 *p, int *done)
             base = func_021D7700();
             if (OBJ != 0)
                 func_02034714(d_021D8D28, ret, d_021D8D28);
-            OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)W(0))), W(0x494));
-            func_021B98A0(OBJ, (u16)W(0x13c), 0x540, 3);
+            OBJ = NHTTP_RAP_Create((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)W(0))), W(0x494));
+            NHTTP_RAP_AllocPostData(OBJ, (u16)W(0x13c), 0x540, 3);
             BATTLE_REC_GetModeLayout(*(u16 *)(base + 0xa6), &n, &m);
             B(0x490) = 0;
             for (i = 0; i < n; i++) {
-                func_021B98D8(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
+                NHTTP_RAP_AppendPostData(OBJ, (int)(base + 0xd00 + i * 0x2a4), *(u16 *)(base + i * 0x2a4 + 0xcfe) * 0x70);
                 B(0x490) += (u8)*(u16 *)(base + i * 0x2a4 + 0xcfe);
             }
-            if (!func_021B98F8(OBJ))
+            if (!NHTTP_RAP_CreatePostRequest(OBJ))
                 func_02034714(d_021D8D28, 0, d_021D8D28);
-            if (!(func_021B9748(OBJ) == 0 ? 1 : 0))
+            if (!(NHTTP_RAP_StartConnection(OBJ) == 0 ? 1 : 0))
                 func_02034714(d_021D8D28, 0, d_021D8D28);
             B(0x402)++;
             break;
         case 1:
-            a = func_021B99DC(OBJ);
-            b = func_021B9790(OBJ);
+            a = NHTTP_RAP_GetResultCode(OBJ);
+            b = NHTTP_RAP_PollConnection(OBJ);
             if (a != 200 && b != 15) {
-                switch (func_021B99DC(OBJ)) {
+                switch (NHTTP_RAP_GetResultCode(OBJ)) {
                 case 0x190: B(0x493) = 0x96; break;
                 case 0x191: B(0x493) = 0x97; break;
                 case 0x198: B(0x493) = 0x98; break;
                 default: B(0x493) = 0x99; break;
                 }
-                func_021B99B8(OBJ);
-                func_021B9774(OBJ);
-                func_021B9838(OBJ);
+                NHTTP_RAP_FreePostData(OBJ);
+                NHTTP_RAP_DeleteConnection(OBJ);
+                NHTTP_RAP_Destroy(OBJ);
                 OBJ = 0;
                 *done = 1;
                 return 1;
             }
             if (b == 0) {
-                h = func_021B97F4(OBJ);
-                if (func_021B99F0(h) == 0) {
+                h = NHTTP_RAP_GetRecvBuffer(OBJ);
+                if (NHTTP_RAP_RecordList_GetCount(h) == 0) {
                     B(0x492) = 0;
-                    func_02082D44(func_021B9A14(h, B(0x490)), p + 0x40a, 0x80);
+                    MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(h, B(0x490)), p + 0x40a, 0x80);
                     for (i = 0; i < B(0x490); i++)
-                        W(0x48c) = func_021B99F4((u32)h, i);
+                        W(0x48c) = NHTTP_RAP_RecordList_GetValue((u32)h, i);
                     B(0x402)++;
                 } else {
                     base2 = func_021D7700();
@@ -177,7 +178,7 @@ int func_021D6B40(u8 *p, int *done)
                         B(0x492) = 1;
                     BATTLE_REC_GetModeLayout(*(u16 *)(base2 + 0xa6), &n2, &m2);
                     for (i = 0; i < B(0x490); i++) {
-                        W(0x48c) = func_021B99F4((u32)h, i);
+                        W(0x48c) = NHTTP_RAP_RecordList_GetValue((u32)h, i);
                         if (W(0x48c) != 0 && B(0x403) == 0) {
                             if (!func_021D7154((int)p, i, &idx, &sub))
                                 break;
@@ -196,15 +197,15 @@ int func_021D6B40(u8 *p, int *done)
                         B(0x402)++;
                     }
                 }
-                func_021B99B8(OBJ);
-                func_021B9838(OBJ);
+                NHTTP_RAP_FreePostData(OBJ);
+                NHTTP_RAP_Destroy(OBJ);
                 OBJ = 0;
                 break;
             }
             if (b != 15 && OBJ != 0) {
-                func_021B99B8(OBJ);
-                func_021B9774(OBJ);
-                func_021B9838(OBJ);
+                NHTTP_RAP_FreePostData(OBJ);
+                NHTTP_RAP_DeleteConnection(OBJ);
+                NHTTP_RAP_Destroy(OBJ);
                 OBJ = 0;
                 return 1;
             }

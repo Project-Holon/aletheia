@@ -1,5 +1,5 @@
 /*
- * function: func_021885BC
+ * function: TR_AI_RunScripts
  * address: 0x021885BC
  * packet: pkt_ov096_021885BC
  * region: ov096
@@ -15,9 +15,9 @@
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_MAIN_IsPosInTable 0x021B9A6C thumb ov093
- *   func_0218A494 0x0218A494 thumb ov096
- *   func_0218A528 0x0218A528 thumb ov096
- *   func_0218A384 0x0218A384 thumb ov096
+ *   TR_AI_LoadScript 0x0218A494 thumb ov096
+ *   TR_AI_ReleaseScript 0x0218A528 thumb ov096
+ *   TR_AI_GetMoveFlag 0x0218A384 thumb ov096
  *   VM_Start 0x0201127C thumb
  *   func_02011290 0x02011290 thumb
  *   VM_Control 0x02011298 thumb
@@ -35,14 +35,14 @@ struct QG;
 struct ScriptVm;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern int BTL_MAIN_IsPosInTable(int, u32);
-extern void *func_0218A494(u8 *);
-extern void func_0218A528(u8 *);
-extern int func_0218A384(Obj *, int, int);
+extern void *TR_AI_LoadScript(u8 *);
+extern void TR_AI_ReleaseScript(u8 *);
+extern int TR_AI_GetMoveFlag(Obj *, int, int);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern int VM_Control(struct ScriptVm *vm);
 extern u64 func_020870D0(void);
-void func_021885BC(int a, Obj *b)
+void TR_AI_RunScripts(int a, Obj *b)
 {
     while (b->state != 2 && !(b->flags & 16)) {
         switch (b->state) {
@@ -51,22 +51,22 @@ void func_021885BC(int a, Obj *b)
                 b->move = 0;
             } else {
                 b->move = BTL_POKEPARAM_GetMoveId(b->fbc, b->index);
-                b->script = func_0218A494((u8 *)b);
+                b->script = TR_AI_LoadScript((u8 *)b);
                 VM_Start((struct ScriptVm *)a, b->script);
             }
             b->state++;
         case 1:
-            if (b->mode == 2 && b->move != 0 && BTL_MAIN_IsPosInTable(b->side, b->opp) == 0 && func_0218A384(b, b->move, 11) == 0) {
+            if (b->mode == 2 && b->move != 0 && BTL_MAIN_IsPosInTable(b->side, b->opp) == 0 && TR_AI_GetMoveFlag(b, b->move, 11) == 0) {
                 b->move = 0;
                 func_02011290((struct ScriptVm *)a);
-                func_0218A528((u8 *)b);
+                TR_AI_ReleaseScript((u8 *)b);
                 b->script = 0;
             }
             if (b->move != 0) {
                 VM_Control((struct ScriptVm *)a);
                 if (b->flags & 1) {
                     b->flags &= ~16;
-                    func_0218A528((u8 *)b);
+                    TR_AI_ReleaseScript((u8 *)b);
                     b->script = 0;
                 } else if (func_020870D0() - b->tick > 500) {
                     b->flags |= 16;

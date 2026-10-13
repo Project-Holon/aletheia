@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj18954.h"
 typedef unsigned short u16;
-extern void func_02082D44(void *, void *, unsigned);
+extern void MI_CpuCopy8(void *, void *, unsigned);
 int EVENT_FIELD_PROCLINK_GetReturnSlot(char *p, u16 index, u16 *out)
 {
     int result = 0;
     if (((struct Obj18954 *)p)->f2 & (1 << index)) {
-        func_02082D44(p + 8 + index * 8, out, 8);
+        MI_CpuCopy8(p + 8 + index * 8, out, 8);
         result = 1;
     }
     return result;

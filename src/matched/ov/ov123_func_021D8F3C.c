@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9774  0x021B9774  thumb  ov114
- *   func_021B9838  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *
  * Addresses are Black-image addresses.
  */
@@ -20,14 +20,14 @@
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern void func_021B9774(u8 *p);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 
 void func_021D8F3C(char *p)
 {
     if (*(u32 *)&((struct Obj08115 *)p)->f10 != 0) {
-        func_021B9774(((struct Obj08115 *)p)->f10);
-        func_021B9838(((struct Obj08115 *)p)->f10);
+        NHTTP_RAP_DeleteConnection(((struct Obj08115 *)p)->f10);
+        NHTTP_RAP_Destroy(((struct Obj08115 *)p)->f10);
         *(u32 *)&((struct Obj08115 *)p)->f10 = 0;
     }
 }

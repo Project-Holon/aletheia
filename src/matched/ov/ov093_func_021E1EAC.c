@@ -20,7 +20,7 @@ extern int gChargeHandlers[];
 
 /*
  * Leaf: -40000 - (a * 100 + b), the plain two-term member of the
- *  *  func_021E20B8 family (that one adds the 50-byte header).
+ *  *  DWCi_GdbGetRequestResultErrorCode family (that one adds the 50-byte header).
  */
 int *HAND_WAZA_ChargeGetHandlers(int *p)
 {

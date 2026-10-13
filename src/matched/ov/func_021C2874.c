@@ -1,5 +1,5 @@
 /*
- * function: func_021C2874
+ * function: WIFICLUB_GetStatusChangeCount
  * address:  0x021C2874
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef struct {
     u8 f1C;
 } S;
 
-u8 func_021C2874(S *s)
+u8 WIFICLUB_GetStatusChangeCount(S *s)
 {
     return s->f1C;
 }

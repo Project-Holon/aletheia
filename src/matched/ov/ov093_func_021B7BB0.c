@@ -23,7 +23,7 @@
  *   func_02007B44 0x02007B44 thumb
  *   func_02007B20 0x02007B20 thumb
  *   func_02007B00 0x02007B00 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj07743.h"
 #include "../include/Obj20949.h"
@@ -48,7 +48,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02007B20(u32 heap);
 extern u32 func_02007B00(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 int BTL_MAIN_SeqExchangePerapVoice(u8 *p,u32 *state)
 {
     u8 *q;
@@ -78,7 +78,7 @@ int BTL_MAIN_SeqExchangePerapVoice(u8 *p,u32 *state)
                     src = (void *)BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
                         *(void **)(p + i * 4 + 0x3e0) = func_02007B20(((struct Obj07743 *)p)->f468);
-                        func_02082D44(src, *(void **)(p + i * 4 + 0x3e0),func_02007B00());
+                        MI_CpuCopy8(src, *(void **)(p + i * 4 + 0x3e0),func_02007B00());
                     }
                 }
                 BTL_MAIN_StoreClientVoiceFlag(p,(u8)i);

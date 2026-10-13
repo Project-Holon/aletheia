@@ -10,7 +10,7 @@
  * status:   EXACT
  * blocker:  two unlabelled arm9 thumb leaves (the integrator's), no witness outside the range:
  *   0x02008494 (unresolved site +0034), 0x0202E82C (site +002E). Verified EXACT in scratch:
- *     void MYSTATUS_Copy(void *a, void *b) { func_02082D44(a, b, 0x20); }   (func_02082D44 arm)
+ *     void MYSTATUS_Copy(void *a, void *b) { MI_CpuCopy8(a, b, 0x20); }   (MI_CpuCopy8 arm)
  *     typedef struct { int f00; int f04; } S;
  *     void *COMM_PLAYER_SUPPORT_GetActiveRecord(S *p) { if (p->f04 != 0) return (char *)p + 0x2C; return (char *)p + 0xC; }
  * symbols:

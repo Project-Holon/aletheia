@@ -95,7 +95,7 @@
  *   func_0202762C 0x0202762C thumb
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   POKELIST_ShowMessage  0x021B9788  thumb
  *   POKELIST_GetFieldMoveMenuIndex  0x021B99E4  thumb
  *   POKELIST_CloseMessageToList  0x021B9E20  thumb
@@ -228,7 +228,7 @@ extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082A60(void *, void *, unsigned long);
+extern void MIi_CpuCopy16(void *, void *, unsigned long);
 
 void POKELIST_ShowMessage(PokelistWork *work, int msgId, int waitInput, PokelistFn callback);
 int POKELIST_GetFieldMoveMenuIndex(void *mon, int i);
@@ -1012,7 +1012,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
     /* stand-in: with the timer palette inside a padding view, &tail->timerPalette is
        work + 0x1EC + 0x22 and the compiler does not fold it; it is &work->timerPalette
        (0x20E) once pokelist_types.h names that field. */
-    func_02082A60(TIMER_PALETTE_DST, (u8 *)work + 0x20e, 0x20);
+    MIi_CpuCopy16(TIMER_PALETTE_DST, (u8 *)work + 0x20e, 0x20);
 }
 
 /*

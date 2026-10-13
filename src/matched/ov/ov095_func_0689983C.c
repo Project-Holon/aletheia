@@ -1,5 +1,5 @@
 /*
- * function: func_0689983C
+ * function: HAND_SIDE_RainbowDoubleEffectChance
  * address: 0x0689983C
  * packet: pkt_ov095_0689983C
  * region: ov095
@@ -22,7 +22,7 @@ extern int func_06899864(int);
 extern int func_06899874(u8);
 extern int func_06899884(int);
 extern int func_06899894(int, u16);
-void func_0689983C(int a, int b, int c)
+void HAND_SIDE_RainbowDoubleEffectChance(int a, int b, int c)
 {
     u16 value;
     if (c == func_06899874((u8)func_06899864(3))) {

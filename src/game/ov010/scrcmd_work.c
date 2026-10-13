@@ -31,8 +31,8 @@
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   ZONEDATA_SetDirectLocation 0x02014184 thumb
  *   func_02159F84  0x02159F84  thumb  ov010
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
  *   func_02012964  0x02012964  thumb
  *   sScrcmdWorkFileName     0x021728E0  data  ov010  a4
@@ -102,13 +102,13 @@
  *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *   MAP_REPLACE_CheckFlag  0x02159F54  thumb  ov010
  *   POKE_TOOL_Create  0x020173F0  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
- *   func_0200D064  0x0200D064  thumb
- *   func_0200CED4  0x0200CED4  thumb
- *   func_0200D0CC  0x0200D0CC  thumb
- *   func_0200CF28  0x0200CF28  thumb
- *   func_0200CA28  0x0200CA28  thumb
- *   func_0200CA40  0x0200CA40  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb
+ *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
+ *   ZUKAN_SAVE_CountSeenNational  0x0200D0CC  thumb
+ *   ZUKAN_SAVE_CountCaughtNational  0x0200CF28  thumb
+ *   ZUKAN_SAVE_EnableNationalDex  0x0200CA28  thumb
+ *   ZUKAN_SAVE_SetDexObtained  0x0200CA40  thumb
  *   CONFIG_GetButtonMode  0x02008428  thumb
  *   func_0201293C 0x0201293C thumb
  *   func_02007A68 0x02007A68 thumb
@@ -331,15 +331,15 @@ extern void func_0200C248(struct MiscSave *misc, u32 flagId);
 extern u32 func_0200C258(struct MiscSave *misc);
 extern u8 func_0200C308(struct MiscSave *misc, u32 index);
 extern void func_0200C2F0(struct MiscSave *misc, u32 index, u8 value);
-extern struct ZukanSave *func_0200CA1C(struct GameData *gameData);
-extern struct ZukanSave *func_0200CA28(struct ZukanSave *zukan);
-extern u32 func_0200CA38(struct ZukanSave *zukan);
-extern struct ZukanSave *func_0200CA40(struct ZukanSave *zukan);
-extern void func_0200CFA0(struct ZukanSave *zukan, void *pokemon);
-extern int func_0200D064(struct ZukanSave *zukan, int species);
-extern int func_0200CED4(struct ZukanSave *zukan, int species);
-extern u16 func_0200D0CC(struct ZukanSave *zukan);
-extern u16 func_0200CF28(struct ZukanSave *zukan);
+extern struct ZukanSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+extern struct ZukanSave *ZUKAN_SAVE_EnableNationalDex(struct ZukanSave *zukan);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
+extern struct ZukanSave *ZUKAN_SAVE_SetDexObtained(struct ZukanSave *zukan);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *zukan, void *pokemon);
+extern int ZUKAN_SAVE_IsSeen(struct ZukanSave *zukan, int species);
+extern int ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, int species);
+extern u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *zukan);
+extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *zukan);
 extern int TRCARD_SYS_CountStars(struct GameData *gameData);
 extern int FIELD_CLOCK_GetTimeZone(struct GameData *gameData);
 extern int FIELD_CLOCK_GetWeek(struct GameData *gameData);
@@ -1043,14 +1043,14 @@ int SCRCMD_WORK_CmdRegisterZukanSeen(struct ScriptVm *vm, ScrcmdWork *work)
     int heapId;
     int mode, species;
     void *pokemon;
-    zukan = func_0200CA1C(SCRCMD_WORK_GetGameData(work));
+    zukan = ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work));
     heapId = SCRCMD_WORK_GetHeapId(work);
     mode = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     species = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     pokemon = POKE_TOOL_Create(species, 1, 0xFFFFFFFF00000000ULL, heapId);
     switch (mode) {
     case 0:
-        func_0200CFA0(zukan, pokemon);
+        ZUKAN_SAVE_RegisterSeen(zukan, pokemon);
         break;
     case 1:
         break;
@@ -1064,16 +1064,16 @@ int SCRCMD_WORK_CmdGetZukanSeenCount(struct ScriptVm *vm, ScrcmdWork *work)
     struct ZukanSave *zukan;
     int mode, species;
     u16 *ret;
-    zukan = func_0200CA1C(SCRCMD_WORK_GetGameData(work));
+    zukan = ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work));
     mode = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     species = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     switch (mode) {
     case 0:
-        *ret = func_0200D064(zukan, species);
+        *ret = ZUKAN_SAVE_IsSeen(zukan, species);
         break;
     case 1:
-        *ret = func_0200CED4(zukan, species);
+        *ret = ZUKAN_SAVE_IsCaught(zukan, species);
         break;
     default:
         *ret = 0;
@@ -1087,15 +1087,15 @@ int SCRCMD_WORK_CmdGetZukanGetCount(struct ScriptVm *vm, ScrcmdWork *work)
     struct ZukanSave *zukan;
     int mode;
     u16 *ret;
-    zukan = func_0200CA1C(SCRCMD_WORK_GetGameData(work));
+    zukan = ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work));
     mode = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     switch (mode) {
     case 0:
-        *ret = func_0200D0CC(zukan);
+        *ret = ZUKAN_SAVE_CountSeenNational(zukan);
         break;
     case 1:
-        *ret = func_0200CF28(zukan);
+        *ret = ZUKAN_SAVE_CountCaughtNational(zukan);
         break;
     default:
         *ret = 0;
@@ -1106,20 +1106,20 @@ int SCRCMD_WORK_CmdGetZukanGetCount(struct ScriptVm *vm, ScrcmdWork *work)
 
 int SCRCMD_WORK_CmdSetZukanFlagA(struct ScriptVm *vm, ScrcmdWork *work)
 {
-    func_0200CA28(func_0200CA1C(SCRCMD_WORK_GetGameData(work)));
+    ZUKAN_SAVE_EnableNationalDex(ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work)));
     return 0;
 }
 
 int SCRCMD_WORK_CmdGetZukanNationalFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = func_0200CA38(func_0200CA1C(SCRCMD_WORK_GetGameData(work)));
+    *ret = ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work)));
     return 0;
 }
 
 int SCRCMD_WORK_CmdSetZukanFlagB(struct ScriptVm *vm, ScrcmdWork *work)
 {
-    func_0200CA40(func_0200CA1C(SCRCMD_WORK_GetGameData(work)));
+    ZUKAN_SAVE_SetDexObtained(ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work)));
     return 0;
 }
 

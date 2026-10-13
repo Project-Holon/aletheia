@@ -52,7 +52,7 @@
  *   func_020276B8  0x020276B8  thumb
  *   func_020276BC  0x020276BC  thumb
  *   func_020276C0  0x020276C0  thumb
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  */
 #include "../include/Obj00047.h"
 
@@ -95,7 +95,7 @@ extern u32 func_020276B4(void);
 extern u32 func_020276B8(void);
 extern u32 func_020276BC(u32 a);
 extern u32 func_020276C0(u32 a);
-extern void func_02082A60(void *srcp, void *destp, unsigned long size);
+extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 
 void POKELIST_LoadGraphics(u8 *p)
 {
@@ -144,5 +144,5 @@ void POKELIST_LoadGraphics(u8 *p)
     ((struct Obj00047 *)p)->f1AC = CLACT_RegisterCharacter(h2, func_020276B8(), 0, 0, ((struct Obj00047 *)p)->f0);
     ((struct Obj00047 *)p)->f1C8 = CLACT_RegisterCellAnim(h2, func_020276BC(2), func_020276C0(2), ((struct Obj00047 *)p)->f0);
     ARC_TOOL_DeleteHandle(h2);
-    func_02082A60((void *)0x050000C0, p + 0x40, 0x60);
+    MIi_CpuCopy16((void *)0x050000C0, p + 0x40, 0x60);
 }

@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0216EC84  0xfunc_0216EC84  arm
+ *   DWCi_ProcessMatchSynPacketSub_Hybrid  0x0216EC84  arm
+ *   DWCi_ProcessMatchSynPacketSub_Hybrid  0xfunc_0216EC84  arm
  */
 
-extern void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data);
+extern void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data);
 
 void DWCi_ProcessMatchSynPacketSub(unsigned char aid, unsigned short type, unsigned char *data)
 {
-    func_0216EC84(aid, type, data);
+    DWCi_ProcessMatchSynPacketSub_Hybrid(aid, type, data);
 }

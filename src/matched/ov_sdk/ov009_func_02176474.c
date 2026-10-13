@@ -1,5 +1,5 @@
 /*
- * function: func_02176474
+ * function: DWCi_NodeInfoList_GetFreeAID
  * address:  0x02176474
  * packet:   pkt_ov009_02176474
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-unsigned char func_02176474(void)
+unsigned char DWCi_NodeInfoList_GetFreeAID(void)
 {
     unsigned char i;
     int j;

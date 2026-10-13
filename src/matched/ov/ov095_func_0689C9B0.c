@@ -1,5 +1,5 @@
 /*
- * function: func_0689C9B0
+ * function: BTL_ID_IsAbilityIgnoredByMoldBreaker
  * address: 0x0689C9B0
  * packet: pkt_ov095_0689C9B0
  * region: ov095
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E450 0x0689E450 data a2
- *   func_0689C888 0x0689C888 thumb
+ *   gMoldBreakerIgnoredAbilities 0x0689E450 data a2
+ *   BTL_ID_IsInList 0x0689C888 thumb
  */
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-int func_0689C9B0(unsigned a);
-extern unsigned short d_0689E450[];
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsAbilityIgnoredByMoldBreaker(unsigned a);
+extern unsigned short gMoldBreakerIgnoredAbilities[];
 
-int func_0689C9B0(unsigned a)
+int BTL_ID_IsAbilityIgnoredByMoldBreaker(unsigned a)
 {
-    return func_0689C888(a, d_0689E450, 55);
+    return BTL_ID_IsInList(a, gMoldBreakerIgnoredAbilities, 55);
 }

@@ -16,10 +16,10 @@
  * symbols:
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0200D468  0x0200D468  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryState  0x0200D468  thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200C38C 0x0200C38C thumb
  *   g_BeaconTrainerKeys 0x02172508 data a4
@@ -39,10 +39,10 @@ typedef signed int     s32;
 
 extern void *SCRCMD_WORK_GetGameData(void *scriptCtx);
 extern void *GAME_DATA_GetSaveControl(struct ScriptWorkRef *p);
-extern void *func_0200D418(void *saveSys);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveSys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u8 func_0200D468(struct ScriptSaveBlock *p, u32 i);
+extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct ScriptSaveBlock *p, u32 i);
 extern u32 func_02008530(const struct TrainerRec *obj);
 extern void func_0200C38C(struct BeaconSave *p, s32 i, u32 v);
 extern u32 func_0200C39C(struct BeaconSave *p, s32 i);
@@ -66,7 +66,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
     cmdState = scriptCtxCopy;
     chain = SCRCMD_WORK_GetGameData((void *)cmdState);
     chain = GAME_DATA_GetSaveControl((struct ScriptWorkRef *)chain);
-    saveBlock = func_0200D418(chain);
+    saveBlock = MOVE_POKEMON_SAVE_GetBlock(chain);
     cmdState = cmdStateCopy;
     scriptCtx = scriptCtxCopy;
     cmdState = SCRIPT_WORK_ReadWorkValue((void *)cmdState, (void *)scriptCtx);
@@ -77,7 +77,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
     cmdState = (int)SCRIPT_WORK_ReadWorkPointer((void *)cmdState, (void *)scriptCtx); /* int-typed on purpose: pointer local changes codegen */
     cmdStateCopy = cmdState;
     scriptCtx = index;
-    cmdState = func_0200D468(saveBlock, scriptCtx);
+    cmdState = MOVE_POKEMON_SAVE_GetEntryState(saveBlock, scriptCtx);
     *(u16 *)cmdStateCopy = cmdState;
     cmdState = 0;
     return cmdState;

@@ -1,7 +1,7 @@
 /*
  * file:     scenesetaossbutton.c
  * unit:     yes
- * function: func_021C4904, func_021C4964, func_021C4A0C, procInit1, procInit2, func_021C4AF8, func_021C4BDC, DWCi_SceneSetAossButton_draw, func_021C4C18, func_021C4C60, endScene1, func_021C4D04, func_021C4DE4, func_021C4E00, func_021C4E2C, func_021C4E4C, func_021C4E98
+ * function: DWCi_SceneSetAossButton, initGraphics, DWCi_SceneSetAossButtonProcInit, procInit1, procInit2, procScene, input, DWCi_SceneSetAossButton_draw, button, DWCi_SceneSetAossButtonEndScene, endScene1, endScene2, taskVBlank, procError, DWCi_SceneSetAossButtonProcError1, procWait, procCancel
  * address:  0x021C4904
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,11 +12,11 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Two-stage guard around func_021BCB28.
+ * Two-stage guard around DWCi_BTNlSet.
  * Addresses are Black-image addresses.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C4BDC.c \
- *       --func func_021C4BDC --addr 0x021C4BDC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C4BDC --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneSetAossButton_draw.c \
  *       --func DWCi_SceneSetAossButton_draw --addr 0x021C4C14 --region ov016 --cc dsi/1.1p1 --arm
@@ -31,6 +31,10 @@
  *       --func endScene1 --addr 0x021C4C9C --region ov016 --cc 1.1p1 --arm --lang c99
  *
  * symbols:
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IsFold                    0x021C48E4  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
+ *   DWCi_TSKlAct                   0x021D75D0  arm  ov016
  *   Choose                           0x021DE5CC  data
  *   initGraphics                     0x021C4964  arm
  *   DWCi_HLlLoadSet                  0x021BD6D4  arm
@@ -41,13 +45,13 @@
  *   DWCi_AOSSlInit                   0x021C07A8  arm
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   dat_021DB3E0    0x021DB3E0  data
- *   dat_021DB3F8    0x021DB3F8  data
- *   dat_021DB410    0x021DB410  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_0207EB78    0x0207EB78  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   sSceneSetAossButtonPathJbBgStep3Char    0x021DB3E0  data
+ *   sSceneSetAossButtonPathYbBgStep3Pltt    0x021DB3F8  data
+ *   sSceneSetAossButtonPathXb4MultiScr    0x021DB410  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
@@ -56,19 +60,16 @@
  *   DWCi_TSKlForm                    0x021D7680  arm
  *   taskVBlank                       0x021C4DE4  arm
  *   procScene                        0x021C4AF8  arm
- *   func_021C4C18  0x021C4C18  arm  ov016
- *   func_021C0900  0x021C0900  arm  ov016
+ *   button  0x021C4C18  arm  ov016
+ *   DWCi_AOSSlStart  0x021C0900  arm  ov016
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021D0014  0x021D0014  arm  ov016
- *   func_021D1208  0x021D1208  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021BCB9C  0x021BCB9C  arm  ov016
- *   g_021DE5CC     0x021DE5CC  data
- *   func_021C4E4C  0x021C4E4C  arm  ov016
- *   func_021C4E00  0x021C4E00  arm  ov016
+ *   DWCi_SNDlStop  0x021D0014  arm  ov016
+ *   DWCi_WINlInitEx  0x021D1208  arm  ov016
+ *   DWCi_BTNlDisable  0x021BCB9C  arm  ov016
+ *   gSceneSetAossButtonWork     0x021DE5CC  data
+ *   procWait  0x021C4E4C  arm  ov016
+ *   procError  0x021C4E00  arm  ov016
  *   DWCi_TSKlDelete                  0x021D7724  arm
- *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   procCancel                       0x021C4E98  arm
  *   DWCi_TSKlDeleteEx                0x021D7744  arm
  *   DWCi_EFFlWait                    0x021D5790  arm
@@ -77,25 +78,22 @@
  *   DWCi_HLlLoad                     0x021BD674  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
  *   DWCi_WINlGet                     0x021D1568  arm
- *   DWCi_WINlInitEx                  0x021D1208  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   endScene2                        0x021C4D04  arm
  *   procConfirm                      0x021C22AC  arm
  *   procConfirm1                     0x021C22FC  arm
  *   sceneopterase_bss                0x021DE5CC  data
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BCB58  0x021BCB58  arm  ov016
- *   func_021C08B0  0x021C08B0  arm  ov016
- *   func_021BC8EC  0x021BC8EC  arm  ov016
- *   func_021D5CA8  0x021D5CA8  arm  ov016
- *   func_021BD138  0x021BD138  arm  ov016
- *   func_021D6090  0x021D6090  arm  ov016
- *   func_021C0E50  0x021C0E50  arm  ov016
- *   func_021CC998  0x021CC998  arm  ov016
- *   func_021C4EC8  0x021C4EC8  arm  ov016
+ *   DWCi_BTNlIsEnd  0x021BCB58  arm  ov016
+ *   DWCi_AOSSlEnd  0x021C08B0  arm  ov016
+ *   DWCi_ANIMElEnd  0x021BC8EC  arm  ov016
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm  ov016
+ *   DWCi_COMMENTlDelete  0x021BD138  arm  ov016
+ *   DWCi_GXlInvisible  0x021D6090  arm  ov016
+ *   DWCi_SetParam_  0x021C0E50  arm  ov016
+ *   DWCi_SceneSetSelectWay  0x021CC998  arm  ov016
+ *   DWCi_SceneSetAossComplete  0x021C4EC8  arm  ov016
  *   input                            0x021C4BDC  arm
  *   draw                             0x021C4C14  arm
- *   DWCi_SNDlStop                    0x021D0014  arm
  *   DWCi_IPTlUpdate  0x021D656C  arm
  */
 #include "../../matched/include/G_SCENESETAOSSBUTT_BSS.h"
@@ -124,26 +122,18 @@ extern void DWCi_ANIMElInitEx(int color);
 extern void DWCi_AOSSlInit(void);
 extern void DWCi_SNDlPlay(int no);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_CMNlButton(int kind);
 extern int   DWCi_BTNlGet(void);
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void func_021C4C18();
-extern int func_021C0900();
+extern int DWCi_AOSSlStart();
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021C0E40(unsigned int v);
-extern void func_021D0014();
-extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021BCB9C();
-extern void func_021C4E4C();
-extern void func_021C4E00();
-extern int func_021D6824(unsigned int f);
-extern int func_021C48E4(void);
-extern void func_021BCB28(signed char v);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_IsFold(void);
+extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_TSKlDeleteEx(int kind, void *task);
@@ -155,53 +145,45 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 extern int DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
 extern bool DWCi_WINlIsInit(void);
-extern int func_021D5580();
-extern int func_021BCB58();
-extern void func_021C08B0(int a);
-extern void func_021BC8EC();
-extern void func_021D5CA8(int a);
-extern void func_021BD138();
-extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021CC998();
-extern void func_021C4EC8();
+extern int DWCi_BTNlIsEnd();
+extern void DWCi_AOSSlEnd(int a);
+extern void DWCi_ANIMElEnd();
+extern void DWCi_FNTlDeleteBgLcd(int a);
+extern void DWCi_COMMENTlDelete();
+extern void DWCi_GXlInvisible(int lcd, int plane);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_SceneSetSelectWay();
+extern void DWCi_SceneSetAossComplete();
 extern void DWCi_IPTlUpdate(void);
-extern void func_021D75D0(int);
+extern void DWCi_TSKlAct(int);
 extern void DWCi_SNDlStop(void);
 void DWCi_SceneSetAossButton(void);
-void func_021C4964(void);
-void func_021C4AF8(void);
-void func_021C4BDC(void);
 void DWCi_SceneSetAossButton_draw(void);
-void func_021C4D04(void);
-void func_021C4DE4(void);
-void func_021C4E98(void);
 extern SCENESETAOSSBUTT_BSS Choose;
-extern unsigned short dat_021DB3E0[];
-extern unsigned short dat_021DB3F8[];
-extern unsigned short dat_021DB410[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_0207EB78[];
+extern unsigned short sSceneSetAossButtonPathJbBgStep3Char[];
+extern unsigned short sSceneSetAossButtonPathYbBgStep3Pltt[];
+extern unsigned short sSceneSetAossButtonPathXb4MultiScr[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short GX_LoadBG2Scr[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
-extern struct SCENESETAOSSBUTT_BSS g_021DE5CC;
-
-
-
-
-
+extern struct SCENESETAOSSBUTT_BSS gSceneSetAossButtonWork;
 
 static void initGraphics(void);
-
-
-
-
-
 static void procInit(void);
-
-
-
-
+static void procInit1(void);
+static void procInit2(void);
+static void procScene(void);
+static void input(void);
+static void button(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
+static void taskVBlank(void);
+static void procError(void);
+static void procError1(void);
+static void procWait(void);
+static void procCancel(void);
 
 
 void DWCi_SceneSetAossButton(void)
@@ -219,22 +201,18 @@ void DWCi_SceneSetAossButton(void)
 }
 
 
-
-
-
-
 /*
- * Load three tilemaps through func_021BD1D4, then set the low two bits of five
+ * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.
  */
-void func_021C4964(void)
+static void initGraphics(void)
 {
     u16 *p;
 
-    func_021BD1D4((char *)((int)dat_021DB3E0), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB3F8), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB410), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetAossButtonPathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetAossButtonPathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetAossButtonPathXb4MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -247,17 +225,6 @@ void func_021C4964(void)
 }
 
 
-
-
-
-
-static void procInit1(void);
-
-
-
-
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -266,15 +233,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
-
-
-
-
-static void procInit2(void);
-
-
-
 
 
 static void procInit1(void)
@@ -288,17 +246,6 @@ static void procInit1(void)
 }
 
 
-
-
-static void taskVBlank(void);
-
-
-
-static void procScene(void);
-
-
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -308,13 +255,12 @@ static void procInit2(void)
 }
 
 
-
-void func_021C4AF8(void)
+static void procScene(void)
 {
-    func_021C4BDC();
+    input();
     DWCi_SceneSetAossButton_draw();
-    func_021C4C18();
-    switch (func_021C0900()) {
+    button();
+    switch (DWCi_AOSSlStart()) {
     case 0:
         return;
     case 1:
@@ -323,42 +269,37 @@ void func_021C4AF8(void)
         Choose.Choose = 1;
         DWCi_TSKlDeleteByIndex(1, Choose.Task);
         Choose.Task = 0;
-        func_021C0E40((unsigned int)func_021C4E4C);
+        DWCi_ChangeScene(procWait);
         return;
     case 2:
         if (Choose.Task == 0)
             return;
-        func_021D0014();
-        func_021D1208(0xC, 1, 1, -1, 0);
-        func_021CFFAC(9);
-        func_021BCB9C();
+        DWCi_SNDlStop();
+        DWCi_WINlInitEx(0xC, 1, 1, -1, 0);
+        DWCi_SNDlPlay(9);
+        DWCi_BTNlDisable();
         DWCi_TSKlDeleteByIndex(1, Choose.Task);
         Choose.Task = 0;
-        func_021C0E40((unsigned int)func_021C4E00);
+        DWCi_ChangeScene(procError);
         return;
     }
 }
 
 
-void func_021C4BDC(void)
+static void input(void)
 {
-    if (func_021D6824(2))
+    if (DWCi_IPTlCheckTrigger(2))
     {
-        func_021BCB28(0);
+        DWCi_BTNlSet(0);
         return;
     }
-    if (func_021C48E4())
-        func_021BCB28(0);
+    if (DWCi_IsFold())
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneSetAossButton_draw(void)
 {
 }
-
-
-
-static void procCancel(void);
-
 
 
 static void button(void)
@@ -374,11 +315,6 @@ static void button(void)
 }
 
 
-
-static void endScene1(void);
-
-
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
@@ -391,10 +327,6 @@ static void endScene(void)
 static void procConfirm(void);
 
 static void procConfirm1(void);
-
-static void endScene(void);
-
-static void endScene2(void);
 
 
 static void endScene1(void)
@@ -409,51 +341,44 @@ static void endScene1(void)
 }
 
 
-
 /*
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a scenesetaossbutton.o)
  */
-void func_021C4D04(void)
+static void endScene2(void)
 {
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        if (func_021D5580(1))
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        if (DWCi_EFFlCheck(1))
             return;
     }
-    if (!func_021BCB58())
+    if (!DWCi_BTNlIsEnd())
         return;
-    func_021C08B0((*(unsigned char *)&g_021DE5CC) != 0);
-    func_021BC8EC();
-    func_021D5CA8(0);
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        func_021BD138();
-        func_021D6090(1, 1);
+    DWCi_AOSSlEnd((*(unsigned char *)&gSceneSetAossButtonWork) != 0);
+    DWCi_ANIMElEnd();
+    DWCi_FNTlDeleteBgLcd(0);
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    func_021D6090(0, 0x15);
-    if ((*(unsigned char *)&g_021DE5CC) == 0) {
-        func_021C0E50(2, 1);
-        func_021C0E40((unsigned int)func_021CC998);
+    DWCi_GXlInvisible(0, 0x15);
+    if ((*(unsigned char *)&gSceneSetAossButtonWork) == 0) {
+        DWCi_SetParam_(2, 1);
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
-        func_021C0E50(0, 0);
-        func_021C0E40((unsigned int)func_021C4EC8);
+        DWCi_SetParam_(0, 0);
+        DWCi_ChangeScene(DWCi_SceneSetAossComplete);
     }
 }
 
 
-
-void func_021C4DE4(void)
+static void taskVBlank(void)
 {
     DWCi_IPTlUpdate();
-    func_021D75D0(0);
-    func_021C4BDC();
-    func_021C4C18();
+    DWCi_TSKlAct(0);
+    input();
+    button();
 }
-
-
-
-static void procError1(void);
-
 
 
 static void procError(void)
@@ -466,7 +391,6 @@ static void procError(void)
 }
 
 
-
 static void procError1(void)
 {
     if (DWCi_WINlIsInit())
@@ -475,15 +399,7 @@ static void procError1(void)
 }
 
 
-
-static void input(void);
-
-
 static void draw(void);
-
-
-static void button(void);
-
 
 
 static void procWait(void)
@@ -499,15 +415,14 @@ static void procWait(void)
 }
 
 
-
 /*
  * Tear down the sequence and post the event at 0x021C4C60.
  * Addresses are Black-image addresses.
  */
-void func_021C4E98(void)
+static void procCancel(void)
 {
-    func_021D0014();
-    func_021CFFAC(7);
+    DWCi_SNDlStop();
+    DWCi_SNDlPlay(7);
     *(unsigned char *)0x021DE5CC = 0;
-    func_021C0E40((unsigned int)((void *)0x021C4C60));
+    DWCi_ChangeScene(endScene);
 }

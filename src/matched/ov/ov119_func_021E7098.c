@@ -16,11 +16,11 @@
  *   PALANM_GetTransWork 0x02021730 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
- *   func_0207E51C 0x0207E51C arm
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  */
 #include "../include/Obj13926.h"
 typedef unsigned int u32;
@@ -36,11 +36,11 @@ extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 coun
 extern int PALANM_GetTransWork(char *,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-extern void func_020862F0(void *,u32);
+extern void DWCi_ScreenDC_FlushRange(void *,u32);
 extern void func_0207E5D0(void *,u32,u32);
 extern void func_0207E468(void *,u32,u32);
-extern void func_0207E51C(void *,u32,u32);
-extern void func_0207E3D0(void *,u32,u32);
+extern void GX_LoadOBJPltt(void *,u32,u32);
+extern void GX_LoadBGPltt(void *,u32,u32);
 void func_021E7098(char *p, int bank, int mask)
 {
     Slot *s;
@@ -55,12 +55,12 @@ void func_021E7098(char *p, int bank, int mask)
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
             off=i*32;
-            func_020862F0(buf+off,32);
+            DWCi_ScreenDC_FlushRange(buf+off,32);
             switch(bank) {
             case 3: func_0207E5D0(buf+off,off,32); break;
             case 1: func_0207E468(buf+off,off,32); break;
-            case 2: func_0207E51C(buf+off,off,32); break;
-            case 0: func_0207E3D0(buf+off,off,32); break;
+            case 2: GX_LoadOBJPltt(buf+off,off,32); break;
+            case 0: GX_LoadBGPltt(buf+off,off,32); break;
             }
         }
     }

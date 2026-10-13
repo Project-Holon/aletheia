@@ -1,5 +1,5 @@
 /*
- * function: func_021BC160
+ * function: NHTTPi_SendPostData
  * address:  0x021BC160
  * packet:   pkt_ov114_021BC160
  * region:   ov114
@@ -12,11 +12,11 @@
  * sdk:      NHTTPi_SendPostData (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEBE0  0x021BEBE0  arm  ov114
- *   func_021BEC74  0x021BEC74  arm  ov114
- *   func_021BBF44  0x021BBF44  arm  ov114
- *   func_021BA13C  0x021BA13C  arm  ov114
- *   func_021BA2D0  0x021BA2D0  arm  ov114
+ *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
+ *   NHTTPi_PostSendCallback  0x021BEC74  arm  ov114
+ *   NHTTPi_SaveBuf  0x021BBF44  arm  ov114
+ *   NHTTPi_memclr  0x021BA13C  arm  ov114
+ *   NHTTPi_encodeUrlChar  0x021BA2D0  arm  ov114
  *
  * The DWARF types offset as int. With an int offset, length takes r7 instead of
  * r5 and the two SaveBuf stack stores merge into one stm; declared u32, every
@@ -37,15 +37,15 @@ typedef struct _NHTTPConnection {
     u32 postDataLen;        /* +0x28 */
 } NHTTPConnection;
 
-extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
+extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
 struct Conn;
-extern int func_021BEC74(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
-extern int func_021BBF44(NHTTPReq *req_p, char *commBuf_p, int socket, int *bufwp_p,
+extern int NHTTPi_PostSendCallback(void *mutexInfo_p, struct Conn *connection_p, char *label_p, int offset);
+extern int NHTTPi_SaveBuf(NHTTPReq *req_p, char *commBuf_p, int socket, int *bufwp_p,
                          char *src_p, int srclen);
-extern void func_021BA13C(void *p_p, int size);
-extern int func_021BA2D0(char *dst, int c);
+extern void NHTTPi_memclr(void *p_p, int size);
+extern int NHTTPi_encodeUrlChar(char *dst, int c);
 
-static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *commBuf_p,
+static int NHTTPi_SendPostData(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *commBuf_p,
                          char *label_p, int socket, int *bufwp_p, int sendtype)
 {
     u32 offset = 0;
@@ -57,7 +57,7 @@ static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *com
     int n;
     NHTTPConnection *connection_p;
 
-    connection_p = func_021BEBE0(mutexInfo_p, req_p);
+    connection_p = NHTTPi_Request2Connection(mutexInfo_p, req_p);
     if (connection_p == 0)
         return 3;
     connection_p->postDataBuf = 0;
@@ -66,7 +66,7 @@ static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *com
         if (req_p->doCancel)
             return 3;
         connection_p->postDataLen = 0;
-        if (func_021BEC74(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0)
+        if (NHTTPi_PostSendCallback(mutexInfo_p, (struct Conn *)connection_p, label_p, offset) < 0)
             return 3;
         length = connection_p->postDataLen;
         value_p = connection_p->postDataBuf;
@@ -78,7 +78,7 @@ static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *com
         switch (sendtype) {
         case 0:
         case 1:
-            stat = func_021BBF44(req_p, commBuf_p, socket, bufwp_p, value_p, length);
+            stat = NHTTPi_SaveBuf(req_p, commBuf_p, socket, bufwp_p, value_p, length);
             if (stat < 0)
                 return 1;
             if (stat == 0)
@@ -86,9 +86,9 @@ static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *com
             break;
         case 2:
             for (p = 0; p < length; p++) {
-                func_021BA13C(urlencode, 3);
-                n = func_021BA2D0(urlencode, value_p[p]);
-                stat = func_021BBF44(req_p, commBuf_p, socket, bufwp_p, urlencode, n);
+                NHTTPi_memclr(urlencode, 3);
+                n = NHTTPi_encodeUrlChar(urlencode, value_p[p]);
+                stat = NHTTPi_SaveBuf(req_p, commBuf_p, socket, bufwp_p, urlencode, n);
                 if (stat < 0)
                     return 1;
                 if (stat == 0)

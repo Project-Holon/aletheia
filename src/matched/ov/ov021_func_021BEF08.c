@@ -12,7 +12,7 @@
  * symbols:
  *   FADE_Start  0x0204E720  arm
  *   func_0208068C  0x0208068C  arm
- *   func_02087AE4  0x02087AE4  arm
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0204047C  0x0204047C  arm
@@ -31,7 +31,7 @@ typedef struct { u32 w[4]; } S16;
 typedef signed int     s32;
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
@@ -48,8 +48,8 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(u32 p0, int *st, u8 *q)
         FADE_Start(((struct Obj20152 *)q)->fC, 0, 0x10, 0x10 - 0x11);
         func_0208068C(8);
         *(volatile u32 *)0x04000064 = 0x80330010;
-        func_02087AE4();
-        func_02087AE4();
+        OS_WaitVBlankIntr();
+        OS_WaitVBlankIntr();
         loc = sCaptureDispConfig;
         func_0203FC28((struct DispConfig *)(&loc));
         *(volatile u16 *)0x0400000C = 0x4084 | (*(volatile u16 *)0x0400000C & 0x43);

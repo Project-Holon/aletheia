@@ -1,5 +1,5 @@
 /*
- * function: func_0206BA18
+ * function: NNSi_G3dFuncSbc_MAT_InternalDefault
  * address:  0x0206BA18
  * packet:   pkt_0206BA18
  * region:   arm9
@@ -15,8 +15,8 @@
  * merges the material colours under the global state masks, reads the
  * optional texture-matrix trailer, then sends DIF_AMB/SPE_EMI/POLYGON_ATTR
  * and TEXIMAGE_PARAM/TEXPLTT_BASE as one packed-op buffer through
- * func_0206DDA4 (op word 0x00293130 = cmd[0], second op word 0x2b2a = cmd[4]).
- * Body from docs/notes/func_0206B7D0.c.txt (wave 7, 1164/127) with three
+ * NNS_G3dGeBufferOP_N (op word 0x00293130 = cmd[0], second op word 0x2b2a = cmd[4]).
+ * Body from docs/notes/NNSi_G3dFuncSbc_NODE.c.txt (wave 7, 1164/127) with three
  * corrections that close it:
  *   - the material lookup is the NNS inline pair GetResDataByIdx (dict,
  *     `dict && idx < numEntry`, else 0) and GetMatDataByIdx with the NULL
@@ -28,13 +28,13 @@
  *     what if-converts the flag arm into ldrne/orrne/strne/bne;
  *   - the packed-op buffer: cmd[0] = 0x293130 passed as the op argument,
  *     cmd[4] = 0x2b2a (the old note had these two words swapped for a
- *     pointer to g_020A1954).
+ *     pointer to gMatColorMaskTable).
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
- *   g_02148DB4     0x02148DB4  data
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
+ *   gMatAnmResultScratch     0x02148DB4  data
  *   g_renderState     0x02148B4C  data
- *   g_020A1954     0x020A1954  data
+ *   gMatColorMaskTable     0x020A1954  data
  */
 
 typedef unsigned char  u8;
@@ -159,12 +159,12 @@ struct Obj0206BA18 {
     Rec0206BA18 ff4;
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern u32  g_02148DB4[];
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+extern u32  gMatAnmResultScratch[];
 extern u32  g_renderState[];
-extern u32  g_020A1954[];
+extern u32  gMatColorMaskTable[];
 
-void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
+void NNSi_G3dFuncSbc_MAT_InternalDefault(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
 {
     u32 st;
     u32 flag;
@@ -196,7 +196,7 @@ void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
                 r = base + id;
                 goto done;
             }
-            r = (Rec0206BA18 *)g_02148DB4 + id;
+            r = (Rec0206BA18 *)gMatAnmResultScratch + id;
         } else {
             u16 m;
             const Ent0206BA18 *md;
@@ -206,7 +206,7 @@ void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
                 r = p->f04->f38 + id;
             } else if (kind == 0x40) {
                 p->fbc[id >> 5] |= 1u << (id & 0x1f);
-                r = (Rec0206BA18 *)g_02148DB4 + id;
+                r = (Rec0206BA18 *)gMatAnmResultScratch + id;
             } else {
                 r = &p->ff4;
             }
@@ -219,10 +219,10 @@ void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
                 r->f00 |= 0x20;
             }
 
-            r->f04 = (g_renderState[0x25] & ~g_020A1954[(src->f1e >> 6) & 7])
-                   | (src->f04 & g_020A1954[(src->f1e >> 6) & 7]);
-            r->f08 = (g_renderState[0x26] & ~g_020A1954[(src->f1e >> 9) & 7])
-                   | (src->f08 & g_020A1954[(src->f1e >> 9) & 7]);
+            r->f04 = (g_renderState[0x25] & ~gMatColorMaskTable[(src->f1e >> 6) & 7])
+                   | (src->f04 & gMatColorMaskTable[(src->f1e >> 6) & 7]);
+            r->f08 = (g_renderState[0x26] & ~gMatColorMaskTable[(src->f1e >> 9) & 7])
+                   | (src->f08 & gMatColorMaskTable[(src->f1e >> 9) & 7]);
             r->f0c = (g_renderState[0x27] & ~src->f10) | (src->f0c & src->f10);
             r->f10 = src->f14;
             r->f14 = src->f1c;
@@ -295,7 +295,7 @@ void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
                 pkt[4] = 0x2b2a;
                 pkt[5] = r->f10;
                 pkt[6] = r->f14;
-                func_0206DDA4(pkt[0], &pkt[1], 6);
+                NNS_G3dGeBufferOP_N(pkt[0], &pkt[1], 6);
                 if (r->f00 & 0x18) {
                     p->ff0(r);
                 }

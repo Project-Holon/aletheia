@@ -20,7 +20,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern void func_02082A48(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
 void func_021EDC0C(int **a, int box, u8 *dest)
 {
@@ -66,7 +66,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 t = (u16)(t + 16);
                 t = (u16)((t << 8) | t);
                 for (i = ty; i < ty + 2; i++)
-                    func_02082A48(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
+                    MIi_CpuClear16(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
             POKE_TOOL_EncodeBoxParam(e, sv);
         }

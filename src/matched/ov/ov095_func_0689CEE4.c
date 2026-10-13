@@ -1,5 +1,5 @@
 /*
- * function: func_0689CEE4
+ * function: BTL_POKESET_RemoveFainted
  * address: 0x0689CEE4
  * packet: pkt_ov095_0689CEE4
  * region: ov095
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0689CC84 0x0689CC84 thumb ov095
- *   func_0689CC8C 0x0689CC8C thumb ov095
- *   func_0689CC14 0x0689CC14 thumb ov095
+ *   BTL_POKESET_SeekStart 0x0689CC84 thumb ov095
+ *   BTL_POKESET_SeekNext 0x0689CC8C thumb ov095
+ *   BTL_POKESET_Remove 0x0689CC14 thumb ov095
  *   func_0689CF14 0x0689CF14 thumb ov095
  */
 typedef unsigned char u8;
@@ -35,19 +35,19 @@ struct Cursor {
     u8 _43;
     u8 f44;
 };
-extern void func_0689CC84(char *p);
+extern void BTL_POKESET_SeekStart(char *p);
 struct S;
-extern int func_0689CC8C(struct S *s);
-extern void func_0689CC14(S *p, u32 id);
+extern int BTL_POKESET_SeekNext(struct S *s);
+extern void BTL_POKESET_Remove(S *p, u32 id);
 extern int func_0689CF14(u32 id);
-void func_0689CEE4(S *p)
+void BTL_POKESET_RemoveFainted(S *p)
 {
     u32 id;
-    func_0689CC84((char *)p);
-    id = func_0689CC8C((struct S *)p);
+    BTL_POKESET_SeekStart((char *)p);
+    id = BTL_POKESET_SeekNext((struct S *)p);
     while (id) {
         if (func_0689CF14(id))
-            func_0689CC14(p, id);
-        id = func_0689CC8C((struct S *)p);
+            BTL_POKESET_Remove(p, id);
+        id = BTL_POKESET_SeekNext((struct S *)p);
     }
 }

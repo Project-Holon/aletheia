@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02082D44(const void *,void *,u32);
-void func_021D71CC(const void *src,void *dst,u32 n) {func_02082D44(src,dst,n*2);}
+extern void MI_CpuCopy8(const void *,void *,u32);
+void func_021D71CC(const void *src,void *dst,u32 n) {MI_CpuCopy8(src,dst,n*2);}

@@ -15,6 +15,8 @@
  *   SNDEXi_SetVolumeExAsync  0x027044C0  arm twl
  *   WaitIirFilterSetting  0x02704D74  arm
  *   ResetTempVolume  0x02704E04  arm
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,8 +32,8 @@ typedef struct TwlSyncState {
     u32 waiting;
 } TwlSyncState;
 
-extern void func_02087A04(u32);
-extern void func_02088688(void);
+extern void OS_SpinWaitSysCycles(u32);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u32 SNDEXi_SetVolumeExAsync(u32, u32, u32);
 void WaitIirFilterSetting(void);
 void WaitResetSoundCallback(u32 a0);

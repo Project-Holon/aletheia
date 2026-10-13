@@ -1,5 +1,5 @@
 /*
- * function: func_021DD25C
+ * function: sakeSetGame
  * address:  0x021DD25C
  * packet:   pkt_021DD25C
  * region:   ov175
@@ -18,7 +18,7 @@
 
 extern char *func_02094798(char *dst, const char *src);
 
-void func_021DD25C(char *p, int b, int c, int d)
+void sakeSetGame(char *p, int b, int c, int d)
 {
     func_02094798(p + 4, (const char *)b);
     func_02094798(p + 0x18, (const char *)d);

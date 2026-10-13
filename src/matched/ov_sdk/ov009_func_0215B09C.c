@@ -1,5 +1,5 @@
 /*
- * function: func_0215B09C
+ * function: tcp_write_do
  * address:  0x0215B09C
  * packet:   pkt_ov009_0215B09C
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      tcp_write_do (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02158714  0x02158714  arm  ov009
- *   func_020858D8  0x020858D8  arm
+ *   _send_tcp  0x02158714  arm  ov009
+ *   OS_YieldThread  0x020858D8  arm
  *   g_021A826C  0x021A826C  data
  */
 
@@ -35,11 +35,11 @@ struct NetVars {
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct _CPSSoc;
-extern u32 func_02158714(u8 *data, u32 len, struct _CPSSoc *soc, u8 flag);
-extern void func_020858D8(void);
+extern u32 _send_tcp(u8 *data, u32 len, struct _CPSSoc *soc, u8 flag);
+extern void OS_YieldThread(void);
 extern struct NetVars g_021A826C;
 
-unsigned long func_0215B09C(unsigned char *buf, unsigned long len, struct Soc *soc, int need_probe)
+unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct Soc *soc, int need_probe)
 {
 	unsigned long thislen;
 	unsigned long remote_win;
@@ -73,8 +73,8 @@ unsigned long func_0215B09C(unsigned char *buf, unsigned long len, struct Soc *s
 			thislen = 0;
 		if (thislen == 0)
 			break;
-		thislen = func_02158714(buf, thislen, (struct _CPSSoc *)soc, 0x18);
-		func_020858D8();
+		thislen = _send_tcp(buf, thislen, (struct _CPSSoc *)soc, 0x18);
+		OS_YieldThread();
 		remote_win -= thislen;
 		buf += thislen;
 		len -= thislen;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218883C
+ * function: TR_AI_CmdIfHasMajorStatus
  * address: 0x0218883C
  * packet: pkt_ov096_0218883C
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218885C 0x0218885C thumb ov096
+ *   TR_AI_CompareMajorStatus 0x0218885C thumb ov096
  */
 #include "../include/Obj21924.h"
 struct Cursor;
-extern int func_0218885C(struct Cursor *a, int b, int c);
-int func_0218883C(struct Cursor *a, int b)
+extern int TR_AI_CompareMajorStatus(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfHasMajorStatus(struct Cursor *a, int b)
 {
-    func_0218885C(a, b, 3);
+    TR_AI_CompareMajorStatus(a, b, 3);
     return ((struct Obj21924 *)((unsigned int)b))->fC4;
 }

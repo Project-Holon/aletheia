@@ -18,7 +18,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   func_0208068C  0x0208068C  arm
- *   func_02087AE4  0x02087AE4  arm
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0204047C  0x0204047C  arm
@@ -27,7 +27,7 @@
  *   sCaptureDispConfig     0x021D9F50  data  ov021  a4
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   func_0207D63C  0x0207D63C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  *   SYMBOL_MAP_StopBg2Scale  0x02166B2C  thumb  ov010
  *   FIELDMAP_ResetBgAffineHideMsg  0x02188DF0  thumb  ov021
@@ -173,7 +173,7 @@ enum {
 extern void FADE_Start(u32 fadeKind, s32 startLevel, s32 endLevel, s32 speed);
 extern int FADE_IsActive(void);
 extern void func_0208068C(u32 vramBanks);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 extern void func_0203FC28(const DispConfig *config);
 extern void func_0207FDCC(u32 vramBanks);
 extern void func_0204047C(int index, unsigned short value);
@@ -181,7 +181,7 @@ extern void func_02040588(unsigned char plane, unsigned char enable);
 extern void SYMBOL_MAP_StartBg2Scale(void);
 extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
 extern void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
-extern void func_02082AC0(u32 value, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void func_02080B98(void);
 extern void SYMBOL_MAP_StopBg2Scale(void);
 extern void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
@@ -690,8 +690,8 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFa
         FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         func_0208068C(8);
         REG_DISPCAPCNT = 0x80330010;
-        func_02087AE4();
-        func_02087AE4();
+        OS_WaitVBlankIntr();
+        OS_WaitVBlankIntr();
         dispConfig = sCaptureDispConfig;
         func_0203FC28(&dispConfig);
         REG_BG2CNT = 0x4084 | (REG_BG2CNT & 0x43);
@@ -731,7 +731,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
         }
         func_02040588(2, 0);
         func_0208068C(8);
-        func_02082AC0(0, (void *)0x06800000, 0x20000);
+        MIi_CpuClearFast(0, (void *)0x06800000, 0x20000);
         func_02080B98();
         func_0207FDCC(8);
         SYMBOL_MAP_StopBg2Scale();

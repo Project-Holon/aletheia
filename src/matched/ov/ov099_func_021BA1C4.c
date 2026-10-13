@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1C4
+ * function: WIFICLUBACTOR_SpawnEntity
  * address: 0x021BA1C4
  * packet: pkt_ov099_021BA1C4
  * region: ov099
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short x,y; u16 a,b,c,d; } Params;
 extern void *func_021C4918(void *,Params *);
-void func_021BA1C4(u8 *p,void **out,short *xy,int a,u16 d,u8 c,int b) { Params q; q.x=xy[0]; q.y=xy[1]; q.a=a; q.b=b; q.c=c; q.d=d; *out=func_021C4918(((struct Obj06347 *)p)->f58C,&q); }
+void WIFICLUBACTOR_SpawnEntity(u8 *p,void **out,short *xy,int a,u16 d,u8 c,int b) { Params q; q.x=xy[0]; q.y=xy[1]; q.a=a; q.b=b; q.c=c; q.d=d; *out=func_021C4918(((struct Obj06347 *)p)->f58C,&q); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC724
+ * function: PMSIV_EDIT_NoopA
  * address:  0x021BC724
  * packet:   pkt_ov110_021BC724
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021BC724(u8 *a0) { }
+void PMSIV_EDIT_NoopA(u8 *a0) { }

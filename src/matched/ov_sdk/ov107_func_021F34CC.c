@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef struct {
 } SegmentHeaderInfo;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 
 void func_021F34CC(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
 {
@@ -45,5 +45,5 @@ void func_021F34CC(SegmentHeaderInfo *p, u32 top, u32 bottom, int clean)
         MI_CpuFill8(p->dst + top, 0, bottom - top);
         return;
     }
-    func_02082D44(p->src + top, p->dst + top, bottom - top);
+    MI_CpuCopy8(p->src + top, p->dst + top, bottom - top);
 }

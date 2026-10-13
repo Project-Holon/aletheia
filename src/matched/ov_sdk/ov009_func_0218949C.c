@@ -14,11 +14,11 @@
  *
  * symbols:
  *   func_0218946C  0x0218946C  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   g_021A44D8     0x021A44D8  data
  */
 
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern char g_021A44D8[];
 
@@ -26,6 +26,6 @@ int func_0218949C(int *connection, int *buffer, int value)
 {
     char buf[0x10];
 
-    func_02084F40(buf, g_021A44D8, value);
+    OS_SPrintf(buf, g_021A44D8, value);
     return func_0218946C(connection, buffer, buf);
 }

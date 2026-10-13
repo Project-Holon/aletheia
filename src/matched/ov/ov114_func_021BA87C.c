@@ -1,5 +1,5 @@
 /*
- * function: func_021BA87C
+ * function: NHTTPi_SetSSLError
  * address:  0x021BA87C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BA87C(u8 *p, int v)
+void NHTTPi_SetSSLError(u8 *p, int v)
 {
     ((struct Obj22575 *)p)->f10 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B80AC
+ * function: IRC_RANKING_GetDisplay
  * address:  0x021B80AC
  * packet:   pkt_ov106_021B80AC
  * region:   ov106
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B80AC(void) { }
+void IRC_RANKING_GetDisplay(void) { }

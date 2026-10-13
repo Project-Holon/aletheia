@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7D0
+ * function: PMS_INPUT_GetTasks
  * address:  0x021BF7D0
  * packet:   pkt_ov110_021BF7D0
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021BF7D0(u8 *p) { return ((struct Obj22394 *)p)->f7C; }
+u32 PMS_INPUT_GetTasks(u8 *p) { return ((struct Obj22394 *)p)->f7C; }

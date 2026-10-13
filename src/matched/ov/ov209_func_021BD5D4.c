@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021BD4F4 0x021BD4F4 thumb ov209
- *   func_0200CA70 0x0200CA70 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   func_021BD440 0x021BD440 thumb ov209
  *   func_021BD4DC 0x021BD4DC thumb ov209
  */
@@ -19,13 +19,13 @@ typedef unsigned char  u8;
 extern void func_021BD4F4(u8 *p, unsigned int idx);
 typedef unsigned int   u32;
 struct Blk37;
-extern u32 func_0200CA70(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned);
 extern void func_021BD4DC(void **p);
 void func_021BD5D4(char *p)
 {
     func_021BD4F4((u8 *)p, 0);
-    if (func_0200CA70(((struct Obj25560 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1)
+    if (ZUKAN_SAVE_GetViewMode(((struct Obj25560 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1)
         func_021BD440(p, 0, 1, 0, 4, 0x39e0, 0);
     else
         func_021BD440(p, 0, 0, 0, 4, 0x39e0, 0);

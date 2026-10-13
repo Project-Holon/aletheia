@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAC58",
+   "name": "NHTTPi_AddRequestPostDataAscii",
    "address": "0x021BAC58",
    "kind": "sdk",
    "region": "ov114",

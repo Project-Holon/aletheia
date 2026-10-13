@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OSiHeapInfo           0x0215126C  data
@@ -75,10 +75,12 @@ typedef struct OsAllocData {
 } OsAllocData;
 
 extern unsigned int OS_DisableInterrupts(void);
+
 extern unsigned int OS_RestoreInterrupts(unsigned int state);
+
 extern BOOL OS_IsRunOnTwl(void);
-extern void func_02087988(void);
-extern void func_0208799C(void);
+
+
 Cell *func_020867F4(Cell *r0, Cell *r1);
 Cell *func_02086810(Cell *list, Cell *node);
 Cell *func_02086838(Cell *list, Cell *cell);
@@ -377,8 +379,8 @@ int func_02086B98(OSArenaId id)
 
 long OS_ReferentSize(int id, void *ptr)
 {
-    func_02087988();
-    func_0208799C();
+    OS_DisableInterrupts();
+    ((void (*)(void))OS_RestoreInterrupts)();
     return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }
 

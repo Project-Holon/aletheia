@@ -26,7 +26,7 @@
  *   func_02030734    0x02030734  arm
  *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   comm_player_support_File     0x020A77EC  data
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_Init  0x020084A0  thumb
@@ -44,7 +44,7 @@
  *   func_02087E60  0x02087E60  arm
  *   func_02087DC4  0x02087DC4  arm
  *   func_02087DE0  0x02087DE0  arm
- *   func_02087C88  0x02087C88  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200974C  0x0200974C  thumb
  *   func_0200856C  0x0200856C  thumb
  *   func_0202EC24  0x0202EC24  thumb
@@ -96,7 +96,7 @@
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   func_0207D534    0x0207D534  arm
  *   func_0207D3AC    0x0207D3AC  arm
- *   func_0207D3E4    0x0207D3E4  arm
+ *   GX_VBlankIntr    0x0207D3E4  arm
  *   func_020808F4    0x020808F4  arm
  *   func_020809A0    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
@@ -105,13 +105,13 @@
  *   func_02082A7C    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   func_02062A4C    0x02062A4C  arm
- *   func_020862F0    0x020862F0  arm
- *   func_02082A60    0x02082A60  arm
+ *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
+ *   MIi_CpuCopy16    0x02082A60  arm
  *   func_02062B30    0x02062B30  arm
  *   func_0207DFB4    0x0207DFB4  arm
  *   func_02062AD4    0x02062AD4  arm
  *   func_02062A98    0x02062A98  arm
- *   func_02082A48    0x02082A48  arm
+ *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram    0x02043754  arm
  *   GF_FONT_Create    0x0201D7EC  thumb
  *   func_02045B38    0x02045B38  arm
@@ -236,7 +236,7 @@ struct DeviceInfo {
     u32 bit5:1;
 };
 
-/* Owner info record behind func_02087C88: only bytes 2 and 3 are read. */
+/* Owner info record behind OS_GetOwnerInfo: only bytes 2 and 3 are read. */
 struct OwnerInfo {
     u8 reserved00;
     u8 reserved01;
@@ -281,7 +281,7 @@ struct OverlayLaunchWork {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void MYSTATUS_Init(struct PlayerRecord *record);
 extern u32 func_02012138(const struct PlayerInfo *info);
@@ -299,7 +299,7 @@ extern u32 OS_IsRunOnTwl(void);
 extern struct DeviceInfo *func_02087E60(void);
 extern void func_02087DC4(void);
 extern int func_02087DE0(void);
-extern void func_02087C88(struct OwnerInfo *info);
+extern void OS_GetOwnerInfo(struct OwnerInfo *info);
 extern u8 func_0200856C(const struct PlayerRecord *record);
 extern struct HistoryEntry *func_0200974C(struct HistoryOwner *owner);
 extern u32 func_02008530(const struct PlayerRecord *record);
@@ -350,7 +350,7 @@ extern int func_020351A0(u32 stage);
 extern void GFL_USE_PollPowerExit(void);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern long func_0207D3AC(int enable);
-extern long func_0207D3E4(int enable);
+extern long GX_VBlankIntr(int enable);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void func_0207FDCC(u32 layerMask);
@@ -359,13 +359,13 @@ extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 value, u32 dest, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int memberId, int compressed, int heapId);
 extern s32 func_02062A4C(struct ArchiveRecord *file, void **out);
-extern void func_020862F0(u32 addr, u32 size);
-extern void func_02082A60(u32 src, u32 dest, u32 size);
+extern void DWCi_ScreenDC_FlushRange(u32 addr, u32 size);
+extern void MIi_CpuCopy16(u32 src, u32 dest, u32 size);
 extern int func_02062B30(void *file, void **out);
 extern void *func_0207DFB4(void);
 extern s32 func_02062AD4(struct ArchiveRecord *file, void **out);
 extern s32 func_02062A98(struct ArchiveRecord *file, void **out);
-extern void func_02082A48(u32 value, u32 dest, u32 size);
+extern void MIi_CpuClear16(u32 value, u32 dest, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *GF_FONT_Create(int fontId, int spacingX, int spacingY, int colorMode, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -760,8 +760,8 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
                                    0x84);
     handle = func_02049F78(archive, fileId, (u32)(&file), anm->heapId);
     colors = file->colors;
-    func_02082D44(colors + srcStart * 2, anm->srcColors, (int)((u32)anm->colorCount * 2));
-    func_02082D44(colors + dstStart * 2, anm->dstColors, (int)((u32)anm->colorCount * 2));
+    MI_CpuCopy8(colors + srcStart * 2, anm->srcColors, (int)((u32)anm->colorCount * 2));
+    MI_CpuCopy8(colors + dstStart * 2, anm->dstColors, (int)((u32)anm->colorCount * 2));
     func_020307B0(handle);
 }
 
@@ -914,7 +914,7 @@ void sub_0202EB60(u8 *outFavoriteColor, u8 *outBirthMonth)
 {
     struct OwnerInfo info;
 
-    func_02087C88(&info);
+    OS_GetOwnerInfo(&info);
     *outFavoriteColor = info.favoriteColor;
     *outBirthMonth = info.birthMonth;
 }
@@ -1899,7 +1899,7 @@ void func_0202F7C4(u32 messageId)
     func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, 0xFFFFFFF0);
     func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);
     func_0207D3AC(0);
-    func_0207D3E4(0);
+    GX_VBlankIntr(0);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);
@@ -1920,15 +1920,15 @@ void func_0202F7C4(u32 messageId)
 /*
  * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
  * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
- * on success clear 0x20 bytes of the record's buffer through func_020862F0 and
- * fill it back through func_02082A60 with the current frame-tick from the
+ * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
+ * fill it back through MIi_CpuCopy16 with the current frame-tick from the
  * getter (func_0207E24C / func_0207DFB4).  The handle is released with
  * func_020307B0 after each block.
  *
  * The idiom that makes this EXACT: the word each block reads twice (size of
  * the character data, size of the screen data) is written as an ASSIGNMENT
  * INSIDE the third argument of the second call --
- * `func_02082A60(chars[5], getter(), charSize = chars[4])`.  mwcc evaluates
+ * `MIi_CpuCopy16(chars[5], getter(), charSize = chars[4])`.  mwcc evaluates
  * the arguments of a call right-to-left, so the assignment's load lands
  * before the getter call, and the value it produces is live across that
  * call, which is what puts it in r5 and forces the original's
@@ -1954,21 +1954,21 @@ void func_0202F870(void)
     func_02082A7C(0, (u32)func_0207E24C(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (func_02062A4C((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
-        func_020862F0(chars[5], chars[4]);
-        func_02082A60(chars[5], (u32)func_0207E24C(), charSize = chars[4]);
+        DWCi_ScreenDC_FlushRange(chars[5], chars[4]);
+        MIi_CpuCopy16(chars[5], (u32)func_0207E24C(), charSize = chars[4]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (func_02062B30((void *)res, (void **)(&screen)) != 0) {
-        func_020862F0((u32)screen + 0xc, screen[2]);
-        func_02082A60((u32)screen + 0xc, (u32)func_0207DFB4(), screenSize = screen[2]);
+        DWCi_ScreenDC_FlushRange((u32)screen + 0xc, screen[2]);
+        MIi_CpuCopy16((u32)screen + 0xc, (u32)func_0207DFB4(), screenSize = screen[2]);
     }
     func_020307B0((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     func_02062AD4((struct ArchiveRecord *)res, (void **)(&paletteHeader));
     if (func_02062A98((struct ArchiveRecord *)res, (void **)(&palette)) != 0) {
-        func_020862F0(palette[3], 0x20);
-        func_02082A60(palette[3], 0x05000000, 0x20);
+        DWCi_ScreenDC_FlushRange(palette[3], 0x20);
+        MIi_CpuCopy16(palette[3], 0x05000000, 0x20);
     }
     func_020307B0((void *)res);
 }
@@ -2006,7 +2006,7 @@ void func_0202F940(u32 messageId)
             tile = tile + 1;
         }
     }
-    func_02082A48(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
+    MIi_CpuClear16(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
     msgBank = func_02045B38(0, 2, 2, 7);

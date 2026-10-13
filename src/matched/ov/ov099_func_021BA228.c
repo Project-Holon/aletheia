@@ -1,5 +1,5 @@
 /*
- * function: func_021BA228
+ * function: WIFICLUBACTOR_SetPlayerState
  * address: 0x021BA228
  * packet: pkt_ov099_021BA228
  * region: ov099
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA418 0x021BA418 thumb ov099
- *   func_021BA2D0 0x021BA2D0 thumb ov099
- *   func_021BA5B4 0x021BA5B4 thumb ov099
+ *   WIFICLUBACTOR_UpdatePlayer 0x021BA418 thumb ov099
+ *   WIFICLUBACTOR_NoOpAnim 0x021BA2D0 thumb ov099
+ *   WIFICLUBACTOR_QueueActorMove 0x021BA5B4 thumb ov099
  */
 #include "../include/Obj02800.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021BA418(void *,void *); extern int func_021BA2D0(void *,void *); extern void func_021BA5B4(void *,int,void *);
-void func_021BA228(void *w,u8 *s) { ((struct Obj02800 *)s)->f10=(void *)func_021BA418; ((struct Obj02800 *)s)->f18=(void *)func_021BA2D0; ((struct Obj02800 *)s)->fC=0; func_021BA5B4(w,0,s); }
+extern int WIFICLUBACTOR_UpdatePlayer(void *,void *); extern int WIFICLUBACTOR_NoOpAnim(void *,void *); extern void WIFICLUBACTOR_QueueActorMove(void *,int,void *);
+void WIFICLUBACTOR_SetPlayerState(void *w,u8 *s) { ((struct Obj02800 *)s)->f10=(void *)WIFICLUBACTOR_UpdatePlayer; ((struct Obj02800 *)s)->f18=(void *)WIFICLUBACTOR_NoOpAnim; ((struct Obj02800 *)s)->fC=0; WIFICLUBACTOR_QueueActorMove(w,0,s); }

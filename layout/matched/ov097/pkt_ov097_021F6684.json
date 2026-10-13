@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F6684",
-    "func_021F669C"
+    "VS_MULTI_LIST_StateWaitWipe",
+    "VS_MULTI_LIST_StateWaitFrames"
+   ],
+   "addresses": [
+    "0x021F6684",
+    "0x021F669C"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_0219BED8
+ * function: qr_build_split_query_reply
  * address:  0x0219BED8
  * packet:   pkt_ov009_0219BED8
  * region:   ov009
@@ -61,7 +61,7 @@ extern char g_021A76D8[];
 extern char *g_021A7C90[];
 extern int func_0219B660(qr2_buffer_s *outbuf, char *value);
 
-int func_0219BED8(qr2_implementation_s *qrec, qr2_buffer_s *buf, QRSplitQueryProgress *progress)
+int qr_build_split_query_reply(qr2_implementation_s *qrec, qr2_buffer_s *buf, QRSplitQueryProgress *progress)
 {
     unsigned char *packetNumPos;
     int aRegisteredKeyIndex;

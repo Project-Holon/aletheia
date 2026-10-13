@@ -16,7 +16,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   gOekakiCommandTable 0x02186A6C data ov023 a4
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -26,7 +26,7 @@
  *   OEKAKI_QueueCommand  0x02186860  thumb  ov023
  *   OEKAKI_StoreStroke 0x02186988 thumb ov023
  *   OEKAKI_HandleEvent  0x02185AB0  thumb  ov023
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   UNION_APP_GetMemberCount  0x021841A4  thumb  ov022
  *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
  *   func_02080D24  0x02080D24  arm
@@ -232,14 +232,14 @@ typedef struct BgTemplate { u32 word[8]; } BgTemplate;
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32 firstCommand, const void *commandTable, u32 commandCount, void *work);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_02082B0C(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
 extern void func_020409B4(u32 layer);
-extern void func_02082AC0(int value, void *dst, u32 size);
+extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 extern int UNION_APP_GetMemberCount(UnionAppWork *app);
 extern unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app);
 extern u32 func_02080D24(u32 x);
@@ -569,11 +569,11 @@ void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork 
     if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         offset = chunk->index * 0x3e8;
         if (offset > 0x3840) {
-            func_02082B0C(chunk, work->canvas + offset, 0x190);
+            MIi_CpuCopyFast(chunk, work->canvas + offset, 0x190);
         } else {
-            func_02082B0C(chunk, work->canvas + offset, 0x3e8);
+            MIi_CpuCopyFast(chunk, work->canvas + offset, 0x3e8);
         }
-        func_02082B0C(work->canvas,
+        MIi_CpuCopyFast(work->canvas,
                       BMP_GetPixels(BMP_WIN_GetBmp(work->canvasWindow)),
                       OEKAKI_CANVAS_BYTES);
         window = work->canvasWindow;
@@ -648,7 +648,7 @@ void OEKAKI_RecvStrokes(int netId, int size, const u8 *strokes, OekakiWork *work
 void OEKAKI_RecvReset(int netId, int size, int unused, OekakiWork *work)
 {
     OEKAKI_HandleEvent(work, 3, 0);
-    func_02082AC0(0, work->canvas, OEKAKI_CANVAS_BYTES);
+    MIi_CpuClearFast(0, work->canvas, OEKAKI_CANVAS_BYTES);
     work->baseMemberCount = UNION_APP_GetMemberCount(work->param->app);
     work->baseJoinedBits = UNION_APP_GetJoinedBits(work->param->app);
     work->syncMode = 1;
@@ -784,7 +784,7 @@ u32 OEKAKI_SendCanvasChunk(OekakiWork *work, int chunkIndex, int unused)
     u8 joinedBits;
 
     pixels = BMP_GetPixels(BMP_WIN_GetBmp(work->canvasWindow));
-    func_02082B0C(pixels + chunkIndex * 1000, work->sendChunk.data, 1000);
+    MIi_CpuCopyFast(pixels + chunkIndex * 1000, work->sendChunk.data, 1000);
     words = (u32 *)work->sendChunk.data;
     sum = 0;
     for (i = 0; i < 250; i++)

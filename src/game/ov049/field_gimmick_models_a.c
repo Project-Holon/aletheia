@@ -27,8 +27,8 @@
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
- *   gGimmick49Setup     0x021F3894  data  ov049  a4
- *   gGimmick49ModelPos     0x021F38A4  data  a4
+ *   gModelsASetup     0x021F3894  data  ov049  a4
+ *   gModelsAModelPos     0x021F38A4  data  a4
  */
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_models_a_types.h"
@@ -36,20 +36,20 @@
 void FIELD_GIMMICK_MODELS_A_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_Update(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_MODELS_A_PlaceModels(Gimmick49Work *work, struct FieldMap *fieldMap);
-void FIELD_GIMMICK_MODELS_A_InitExtra(Gimmick49Work *work, struct FieldMap *fieldMap);
-extern void FIELD_GIMMICK_MODELS_A_ExitExtra(Gimmick49Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_MODELS_A_PlaceModels(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_MODELS_A_InitExtra(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
+extern void FIELD_GIMMICK_MODELS_A_ExitExtra(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
 
-extern const G3dUtilSetup gGimmick49Setup;
-extern const VecFx32 gGimmick49ModelPos[FIELD_GIMMICK_MODELS_A_MODEL_COUNT];
+extern const G3dUtilSetup gModelsASetup;
+extern const VecFx32 gModelsAModelPos[FIELD_GIMMICK_MODELS_A_MODEL_COUNT];
 struct FieldMap;
-struct Gimmick49Work;
+struct FieldGimmickModelsAWork;
 
 /* Gimmick setup: allocate the common work, then place the models. */
 void FIELD_GIMMICK_MODELS_A_Init(struct FieldMap *fieldMap)
 {
     u16 heapId;
-    Gimmick49Work *work;
+    FieldGimmickModelsAWork *work;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, 2);
@@ -72,7 +72,7 @@ void FIELD_GIMMICK_MODELS_A_Update(struct FieldMap *fieldMap)
 }
 
 /* Load the unit, place the six models and start the animations of the models whose event flags are set. */
-void FIELD_GIMMICK_MODELS_A_PlaceModels(Gimmick49Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_A_PlaceModels(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap)
 {
     int model2Lit;
     int model3Lit;
@@ -89,12 +89,12 @@ void FIELD_GIMMICK_MODELS_A_PlaceModels(Gimmick49Work *work, struct FieldMap *fi
     model4Lit = ZONEDATA_CheckEventFlag(eventWork, FIELD_GIMMICK_MODELS_A_FLAG_MODEL4);
     model5Lit = ZONEDATA_CheckEventFlag(eventWork, FIELD_GIMMICK_MODELS_A_FLAG_MODEL5);
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gGimmick49Setup, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gModelsASetup, 0);
     for (i = 0; i < FIELD_GIMMICK_MODELS_A_MODEL_COUNT; i++) {
         status = FLD_EXP_OBJ_GetModelStatus(expObj, 0, i);
-        status->trans.x = gGimmick49ModelPos[i].x;
-        status->trans.y = gGimmick49ModelPos[i].y;
-        status->trans.z = gGimmick49ModelPos[i].z;
+        status->trans.x = gModelsAModelPos[i].x;
+        status->trans.y = gModelsAModelPos[i].y;
+        status->trans.z = gModelsAModelPos[i].z;
     }
     if (model2Lit && model3Lit && model4Lit && model5Lit) {
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0, 0, 1);
@@ -121,11 +121,11 @@ void FIELD_GIMMICK_MODELS_A_PlaceModels(Gimmick49Work *work, struct FieldMap *fi
 /*
  * Empty function.
  */
-void FIELD_GIMMICK_MODELS_A_InitExtra(Gimmick49Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_A_InitExtra(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap)
 {
 }
 
 /* Empty function: the gimmick exit hook, called with the common work just before it is released. */
-void FIELD_GIMMICK_MODELS_A_ExitExtra(struct Gimmick49Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_A_ExitExtra(struct FieldGimmickModelsAWork *work, struct FieldMap *fieldMap)
 {
 }

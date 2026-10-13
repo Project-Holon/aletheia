@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB84
+ * function: DWCi_BTNlEnable
  * address:  0x021BCB84
  * packet:   pkt_021BCB84
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCB84 0x021BCB84 arm
+ *   DWCi_BTNlEnable 0x021BCB84 arm
  *
  * Clear the byte at +0x18 of the object behind the global pointer at 0x021DE508.
  * Addresses are Black-image addresses.
  */
 
-void func_021BCB84(void)
+void DWCi_BTNlEnable(void)
 {
     *(unsigned char *)(*(char **)0x021DE508 + 0x18) = 0;
 }

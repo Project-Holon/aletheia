@@ -11,9 +11,9 @@
  *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
  *   BTL_SERVER_CompareFlowOutput 0x021BB570 thumb ov093
  *   BTL_MAIN_SetRecordInvalid 0x021B9184 thumb ov093
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   BTLV_CORE_EndWaitMessage 0x021EA824 thumb ov093
- *   func_021D3F4C 0x021D3F4C thumb ov093
+ *   BTL_CLIENT_IsCounterFadeDone 0x021D3F4C thumb ov093
  *   BTL_SERVER_CMD_ReadNext 0x021CD5E0 thumb ov093
  *   gServerCommandHandlers 0x021F00DC data a4
  */
@@ -29,9 +29,9 @@ extern const Entry gServerCommandHandlers[];
 extern int BTL_ADAPTER_GetRecvData(int, u8 **);
 extern int BTL_SERVER_CompareFlowOutput(u8 *, int, void *, u32);
 extern void BTL_MAIN_SetRecordInvalid(void *);
-extern void func_02082A90(const void *, void *, u32);
+extern void MIi_CpuCopy32(const void *, void *, u32);
 extern void BTLV_CORE_EndWaitMessage(char *p);
-extern int func_021D3F4C(void *);
+extern int BTL_CLIENT_IsCounterFadeDone(void *);
 extern int BTL_SERVER_CMD_ReadNext(Buf *, int *);
 int BTL_CLIENT_StepRunServerCommands(u8 *p, int *state, void *a2)
 {
@@ -54,7 +54,7 @@ again:
         }
         buf = *(Buf * *)&((struct Obj01237 *)p)->f134;
         len = size;
-        func_02082A90(args, buf + 1, len);
+        MIi_CpuCopy32(args, buf + 1, len);
         buf->wpos = len;
         buf->rpos = 0;
         if (p[0x1A9] != 0) {
@@ -68,7 +68,7 @@ again:
             *state = 4;
             return 1;
         }
-        if (func_021D3F4C(p + 0x18) != 0) return 1;
+        if (BTL_CLIENT_IsCounterFadeDone(p + 0x18) != 0) return 1;
         (*state)++;
     case 2:
         code = BTL_SERVER_CMD_ReadNext(*(Buf * *)&((struct Obj01237 *)p)->f134, (int *)(p + 0x138));

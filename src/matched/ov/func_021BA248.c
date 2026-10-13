@@ -1,5 +1,5 @@
 /*
- * function: func_021BA248
+ * function: WIFICLUBACTOR_SetWaitState
  * address:  0x021BA248
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA4C8  0x021BA4C8  thumb
- *   func_021BA2D4  0x021BA2D4  thumb
+ *   WIFICLUBACTOR_UpdateWait  0x021BA4C8  thumb
+ *   WIFICLUBACTOR_AnimateWalkBob  0x021BA2D4  thumb
  *
  * Homes two handlers at +0x10 and +0x18 in the second argument and stamps the two halfwords at +0x08 and +0x0C.
  */
@@ -34,13 +34,13 @@ typedef struct {
     void *f18;
 } S;
 
-extern void func_021BA4C8(void);
-extern void func_021BA2D4(void);
+extern void WIFICLUBACTOR_UpdateWait(void);
+extern void WIFICLUBACTOR_AnimateWalkBob(void);
 
-void func_021BA248(int unused, S *s)
+void WIFICLUBACTOR_SetWaitState(int unused, S *s)
 {
-    s->f10 = (void *)func_021BA4C8;
-    s->f18 = (void *)func_021BA2D4;
+    s->f10 = (void *)WIFICLUBACTOR_UpdateWait;
+    s->f18 = (void *)WIFICLUBACTOR_AnimateWalkBob;
     s->f08 = 0x2D;
     s->f0C = 1;
 }

@@ -82,7 +82,7 @@
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E804 0x0207E804 arm
  *   func_02030CB0 0x02030CB0 arm
@@ -170,7 +170,7 @@
  *   d_021FDE5C 0x021FDE5C data a4
  *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
- *   func_02087C6C 0x02087C6C arm
+ *   OS_GetMacAddress 0x02087C6C arm
  *   d_021FDE4C 0x021FDE4C data a4
  *   d_021FDDEC 0x021FDDEC data a4
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
@@ -207,7 +207,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020084BC 0x020084BC thumb
  *   func_021F9E40  0x021F9E40  thumb  ov132
  *   func_021FADA0  0x021FADA0  thumb  ov132
@@ -390,7 +390,7 @@ extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,u
 extern int ARC_UTIL_LoadMember(int,int,int,int);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
-extern void func_020862F0(void *,u32);
+extern void DWCi_ScreenDC_FlushRange(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
 extern u32 func_02030CB0(u32);
@@ -475,7 +475,7 @@ extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 extern u8 *func_02012944(void *p);
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void MYSTATUS_Copy(void *, void *);
-extern void func_02087C6C(void *);
+extern void OS_GetMacAddress(void *);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_Exit(int);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
@@ -508,7 +508,7 @@ extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned in
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_02082D44(void *,void *,u32);
+extern void MI_CpuCopy8(void *,void *,u32);
 extern int func_020084BC(const u16 *values);
 void func_021F9E40(u8 *p,u32 v);
 u32 func_021F9E44(u8 *p);

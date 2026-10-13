@@ -1,5 +1,5 @@
 /*
- * function: func_02059588
+ * function: DWCi_Acc_CreateTempLoginId
  * address:  0x02059588
  * packet:   pkt_02059588
  * region:   arm9
@@ -70,7 +70,7 @@ extern void DWCi_Acc_SetUserId(struct DWCstAccLoginId *userdata, unsigned long l
 extern void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *userdata, unsigned long playerid);
 extern void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
 
-void func_02059588(struct DWCstAccLoginId *loginid)
+void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid)
 {
     DWCAuthWiFiId authid;
     unsigned long buffer[8];

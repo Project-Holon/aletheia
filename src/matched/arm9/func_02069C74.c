@@ -1,5 +1,5 @@
 /*
- * function: func_02069C74
+ * function: NNS_G3dAnmObjInit
  * address:  0x02069C74
  * packet:   pkt_020694D8
  * region:   arm9
@@ -14,8 +14,8 @@
  *   sHandlerFns    0x020A8244  data
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02069C74.c \
- *       --func func_02069C74 --addr 0x02069C74 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/pending/NNS_G3dAnmObjInit.c \
+ *       --func NNS_G3dAnmObjInit --addr 0x02069C74 --arm --cc ../2.0/sp2
  *
  * BLOCKER: capped at MATCH for lack of an outside witness.  All three ABS32
  * pool words -- 0x020A821C (sHandlerCount), 0x020A8240 (sHandlerKeys) and
@@ -26,7 +26,7 @@
  *
  * Pin: ../2.0/sp2, the "kept branches" tell -- 1.1p1 -O4,p predicates the
  * second key test (`ldrheq`/`cmpeq`) and lands at 148 bytes against the
- * original's 160.  See docs/FRONTEND-PINS.md and docs/notes/func_02069C74.c.txt.
+ * original's 160.  See docs/FRONTEND-PINS.md and docs/notes/NNS_G3dAnmObjInit.c.txt.
  *
  * The handler's arity is (Obj *, Key *, u32): that is what makes `o` and `key`
  * live across the initialisation block and gives the image's five-register
@@ -67,7 +67,7 @@ extern u32 sHandlerCount;
 extern HandlerKey sHandlerKeys[];
 extern u8 sHandlerFns[];
 
-void func_02069C74(Obj *o, Key *key, u32 a2, u32 a3)
+void NNS_G3dAnmObjInit(Obj *o, Key *key, u32 a2, u32 a3)
 {
     u8 tag;
     u32 i;

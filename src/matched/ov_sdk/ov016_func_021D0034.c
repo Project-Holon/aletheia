@@ -14,7 +14,7 @@
  * symbols:
  *   func_02072758  0x02072758  arm
  *
- * Task callback DWCi_SNDlInit (func_021CFEBC) registers: a tail call to
+ * Task callback DWCi_SNDlInit (DWCi_SNDlInit) registers: a tail call to
  * func_02072758.
  */
 

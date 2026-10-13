@@ -19,8 +19,8 @@
  *   _SndArcPath   0x020A7010  data
  *   _SndArc   0x020AA2BC  data
  *   func_020726D0  0x020726D0  arm
- *   func_020746E8  0x020746E8  arm
- *   func_02073FB8  0x02073FB8  arm
+ *   NNS_SndHeapCreate  0x020746E8  arm
+ *   NNS_SndArcInit  0x02073FB8  arm
  *   GFL_USE_ResetSound  0x02005B74  thumb
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02005B6C  0x02005B6C  arm
@@ -47,8 +47,8 @@ extern char _SndArcPath[];
 extern char _SndArc[];
 
 extern void func_020726D0(void);
-extern u32  func_020746E8(u32 off, u32 size);
-extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
+extern u32  NNS_SndHeapCreate(u32 off, u32 size);
+extern void NNS_SndArcInit(char *a, char *b, u32 c, u32 d);
 extern void GFL_USE_ResetSound(int a0);
 extern int  OS_IsRunOnTwl(void);
 extern void func_02005B6C(void);
@@ -58,9 +58,9 @@ void GFL_USE_InitSound(void)
     u32 handle;
 
     func_020726D0();
-    handle = func_020746E8((u32)_SndHeapBuf, 0x95AD0);
+    handle = NNS_SndHeapCreate((u32)_SndHeapBuf, 0x95AD0);
     *(u32 *)(_SndState + 0x10) = handle;
-    func_02073FB8(_SndArc, _SndArcPath, handle, 0);
+    NNS_SndArcInit(_SndArc, _SndArcPath, handle, 0);
     GFL_USE_ResetSound(1);
     if (OS_IsRunOnTwl() == 1) {
         func_02005B6C();

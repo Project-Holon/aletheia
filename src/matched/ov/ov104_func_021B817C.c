@@ -1,5 +1,5 @@
 /*
- * function: func_021B817C
+ * function: IRC_RHYTHM_SetState
  * address: 0x021B817C
  * packet: pkt_ov104_021B817C
  * region: ov104
@@ -13,7 +13,7 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-void func_021B817C(char *p, u32 v) {
+void IRC_RHYTHM_SetState(char *p, u32 v) {
     *(u32 *)(p + 0x804) = v;
     *(u16 *)(p + 0x808) = 0;
 }

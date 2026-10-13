@@ -1,5 +1,5 @@
 /*
- * function: func_0206A700
+ * function: NNS_G3dGlbInit
  * address:  0x0206A700
  * packet:   pkt_0206A700
  * region:   arm9
@@ -48,7 +48,7 @@ extern void func_0207B598(void *);
 extern void func_0207BDB4(void *);
 extern void func_0207ADC4(void *);
 
-void func_0206A700(void)
+void NNS_G3dGlbInit(void)
 {
     u32 *g = data_02148B4C;
     u32 a, b;

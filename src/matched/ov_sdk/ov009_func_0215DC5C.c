@@ -16,8 +16,8 @@
  * block (image keeps it last, right before the tst).
  *
  * symbols:
- *   func_0215B504  0x0215B504  arm  ov009
- *   func_0215AEB0  0x0215AEB0  arm  ov009
+ *   CPS_SocGetLength  0x0215B504  arm  ov009
+ *   CPS_SocRead  0x0215AEB0  arm  ov009
  *   MI_CpuCopy     0x02082EA4  arm
  *   CPS_SocConsume 0x0215B064  arm  ov009
  */
@@ -46,8 +46,8 @@ struct SOCLiCommandRead {
     long buffer_len;
 };
 
-extern long func_0215B504(void);
-extern unsigned char *func_0215AEB0(unsigned long *len);
+extern long CPS_SocGetLength(void);
+extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void CPS_SocConsume(unsigned long len);
 
@@ -80,12 +80,12 @@ static int func_0215DC5C(void *arg)
     consumed = recv_pipe->consumed;
     if (socket->state & 0x80)
         return -15;
-    datalen = func_0215B504();
+    datalen = CPS_SocGetLength();
     if (datalen == 0)
         return -6;
     if (datalen == -1)
         return 0;
-    cpsbuffer = func_0215AEB0(&cpsbuffer_len);
+    cpsbuffer = CPS_SocRead(&cpsbuffer_len);
     if (cpsbuffer != 0 && (long)cpsbuffer_len - consumed <= 0) {
         if (isTcp(socket->flag_mode) && socket->cps_state != 4)
             cpsbuffer = 0;

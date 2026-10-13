@@ -15,14 +15,14 @@
  * symbols:
  *   GFL_NET_GetFriendList  0x0203D610  arm
  *   func_0200F38C  0x0200F38C  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  * blocker:  unresolved relocation(s): 0200F38C (thumb, from header)*/
 
 typedef unsigned int u32;
 
 extern u32 GFL_NET_GetFriendList(void);
 extern int func_0200F38C(void *a, int *out);
-extern void  func_02082D44(void *dst, const void *src, u32 n);
+extern void  MI_CpuCopy8(void *dst, const void *src, u32 n);
 
 int func_0200F4E4(void *o)
 {
@@ -34,7 +34,7 @@ int func_0200F4E4(void *o)
     if (v == 0) {
         /* nothing */
     } else if (v == 1) {
-        func_02082D44(o, (unsigned char *)base + out * 0xc, 0xc);
+        MI_CpuCopy8(o, (unsigned char *)base + out * 0xc, 0xc);
     } else if (v == 2) {
         r = 1;
     }

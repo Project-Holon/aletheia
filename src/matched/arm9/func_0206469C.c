@@ -1,5 +1,5 @@
 /*
- * function: func_0206469C
+ * function: NNS_G2dSetAnimSequenceToMCAnimation
  * address:  0x0206469C
  * packet:   pkt_020640DC
  * region:   arm9
@@ -14,10 +14,10 @@
  * func_020629E8; the frame's kind byte (a word masked with 0xff, not a ldrb)
  * selects the arm: 0 does nothing, 2 is translation-only, anything else is the
  * full SRT form (scale, rotation, translation).  The walk finishes by handing
- * the descriptor and the node's own u16 counter at +0x30 to func_020643CC.
+ * the descriptor and the node's own u16 counter at +0x30 to NNSi_G2dSetMCDataToMCInstanceImpl.
  *
  * PIN ../2.0/sp2: the "kept branches" tell in its CROSS-JUMP form, the same
- * one src/matched/func_02064AB4.c and src/matched/func_0206419C.c carry.  The
+ * one src/matched/NNS_G2dSetMCAnimationCurrentFrame.c and src/matched/NNSi_G2dRefreshCellAnimation.c carry.  The
  * image writes the kind==2 arm's `add r0, r4, #0x48` / `bl func_020640DC` tail
  * out in its own arm although the other arm's LAST call is a byte-identical
  * pair; 1.1p1 -O4,p cross-jumps the two and lands at 176 bytes against the
@@ -33,7 +33,7 @@
  *   func_02064100   0x02064100  arm
  *   func_02064120   0x02064120  arm
  *   NNSi_G2dSrtcInitControl   0x02064140  arm
- *   func_020643CC   0x020643CC  arm
+ *   NNSi_G2dSetMCDataToMCInstanceImpl   0x020643CC  arm
  */
 #include "../include/Obj16437.h"
 typedef unsigned char  u8;
@@ -92,9 +92,9 @@ struct Obj02064100;
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
 extern void func_02064120(struct Srt0206469C *srt, u32 sx, u32 sy);
 struct MCInstance;
-extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
+extern void NNSi_G2dSetMCDataToMCInstanceImpl(struct MCInstance *pMCInst, const struct MultiCellData *pMcData, u16 mcTotalFrame);
 
-void func_0206469C(struct Obj0206469C *o, void *bank)
+void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank)
 {
     struct Node0206469C *p;
     u32 k;
@@ -126,5 +126,5 @@ void func_0206469C(struct Obj0206469C *o, void *bank)
     }
 
 done:
-    func_020643CC((struct MCInstance *)o->unk_34, (const struct MultiCellData *)r, o->unk_30);
+    NNSi_G2dSetMCDataToMCInstanceImpl((struct MCInstance *)o->unk_34, (const struct MultiCellData *)r, o->unk_30);
 }

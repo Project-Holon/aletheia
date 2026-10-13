@@ -14,7 +14,7 @@
  *   func_021C59B0  0x021C59B0  thumb  ov111
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008558  0x02008558  thumb
  *   func_02008A14  0x02008A14  thumb
@@ -95,7 +95,7 @@ struct Sub0200852CObj;
 struct Sub020089A8Obj;
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void *func_020089CC(void *p);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
@@ -121,7 +121,7 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
 
     if (!p->info->f4_5) {
         func_021C59B0(p->pix, p->info->bitmap);
-        func_02082D44(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = GAME_DATA_GetMyStatus(p->args->f4);

@@ -10,6 +10,15 @@
  * isa:      arm
  * sdk:      libfatfs.TWL.HYB.a fatfs_request.o
  * status:   EXACT
+ *
+ * symbols:
+ *   SVC_WaitByLoop  0x02004490  thumb  arm9
+ *   OS_SleepThread  0x020857B0  arm  arm9
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -45,18 +54,18 @@ typedef struct FsRoot {
     Big *cur;
 } FsRoot;
 
-extern void func_020862F0(u32, u32);
-extern int func_02088610(u32, u32, u32);
+extern void DWCi_ScreenDC_FlushRange(u32, u32);
+extern int PXI_SendWordByFifo(u32, u32, u32);
 extern u32 func_020879EC(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);
 extern void OS_LockMutex(void *mutex);
 extern void func_02086078(void *mutex);
-extern u32 func_02087988(void);
-extern void func_02088688(void);
-extern void func_02004490(u32);
-extern void func_020857B0(u32 *);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
+extern void SVC_WaitByLoop(u32);
+extern void OS_SleepThread(u32 *);
+extern void OS_RestoreInterrupts(u32);
 extern u32 data_02150FEC[];
 extern FsRoot data_027343E0;
 extern u32 data_0273442C[];
@@ -72,8 +81,8 @@ void FATFSi_PostRequest(Big *a0);
 void FATFSi_WaitForRequest(Big *a0);
 
 void FATFSi_SendToPXI(Big *a0) {
-    func_020862F0((u32)a0, 0x800);
-    while (func_02088610(0x14, (u32)a0 >> 5, 0) < 0) {
+    DWCi_ScreenDC_FlushRange((u32)a0, 0x800);
+    while (PXI_SendWordByFifo(0x14, (u32)a0 >> 5, 0) < 0) {
     }
 }
 
@@ -154,7 +163,7 @@ void FATFSi_PostRequest(Big *a0)
 void FATFSi_WaitForRequest(Big *a0) {
     u32 busy = 1;
     while ((busy != 0) ? 1 : 0) {
-        u32 ime = func_02087988();
+        u32 ime = OS_DisableInterrupts();
         /* the list is shared: every access rereads it */
         Big * volatile *pp = &DAT_02734428;
         Big *p;
@@ -169,12 +178,12 @@ void FATFSi_WaitForRequest(Big *a0) {
         }
         if (busy != 0) {
             if (func_020879EC() == 0x12) {
-                func_02088688();
-                func_02004490(10000);
+                PXIi_HandlerRecvFifoNotEmpty();
+                SVC_WaitByLoop(10000);
             } else {
-                func_020857B0(DAT_02734420);
+                OS_SleepThread(DAT_02734420);
             }
         }
-        func_0208799C(ime);
+        OS_RestoreInterrupts(ime);
     }
 }

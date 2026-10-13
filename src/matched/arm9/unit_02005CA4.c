@@ -21,7 +21,7 @@
  *   GFL_USE_IsLoaderBusy        0x02005C64  thumb
  *   GFL_USE_CancelBgmChange        0x02005F90  thumb
  *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
- *   func_02072E7C       0x02072E7C  arm
+ *   NNS_SndHandleStopSeq       0x02072E7C  arm
  *
  * A bit-per-channel broadcast and the callback hook that goes with it.
  *
@@ -48,7 +48,7 @@ extern void GFL_USE_UnloadBgmData(void);
 extern int  GFL_USE_IsLoaderBusy(void);
 extern void GFL_USE_CancelBgmChange(void);
 extern void NNS_SndPlayerSetPlayerVolume(u32 idx, u32 val);
-extern void func_02072E7C(void **r0, int fadeFrame);
+extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
 
 void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 void GFL_USE_StopBgm(void);
@@ -91,7 +91,7 @@ void GFL_USE_SetSeqStartFilter(int (*hook)(void *arg))
 
 void GFL_USE_StopBgm(void)
 {
-    func_02072E7C((void **)GFL_USE_GetCurrentSndHandle(), 0);
+    NNS_SndHandleStopSeq((void **)GFL_USE_GetCurrentSndHandle(), 0);
     GFL_USE_UnloadBgmData();
 }
 

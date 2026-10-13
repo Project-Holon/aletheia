@@ -12,6 +12,7 @@
  * Symbols:
  *   g_02150178  0x02150178  data
  *   g_0214EA90  0x0214EA90  data
+ *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  *
  * Two relocation sites stay wildcarded, neither for want of C:
  *   +0064  bl func_02075A2C   `label`: 0x02075A2C's only branch image-wide is
@@ -49,7 +50,7 @@ extern u8  g_02150178[];
 extern u8  g_0214EA90[];
 extern void func_02086028(void *p);
 extern void func_02086078(void *p);
-extern void func_02073AB4(struct Obj75994 *o);
+extern void NNSi_SndStrmStopIfSetup(struct Obj75994 *o);
 struct Obj;
 extern void func_02075A2C(struct Obj *o);
 
@@ -62,7 +63,7 @@ void func_02075994(struct Obj75994 *o)
     if (p != 0)
         func_02086028(p + 0x10c8);
     if (o->b1 != 0)
-        func_02073AB4(o);
+        NNSi_SndStrmStopIfSetup(o);
     if (o->b0 != 0)
         ((void (*)(struct Obj75994 *))o->cb)(o);
     func_02075A2C((struct Obj *)o);

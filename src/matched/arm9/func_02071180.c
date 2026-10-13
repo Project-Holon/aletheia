@@ -1,5 +1,5 @@
 /*
- * function: func_02071180
+ * function: NNSi_G3dTexMtxTrans
  * address:  0x02071180
  * packet:   pkt_02071104
  * region:   arm9
@@ -50,7 +50,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02071180(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxTrans(struct DST *d, struct SRC *s)
 {
     s32 t;
 

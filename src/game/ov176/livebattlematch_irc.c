@@ -47,7 +47,7 @@
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   GFL_NET_SendData 0x0203D3F8 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_02034714 0x02034714 arm
  *   d_0217E64C 0x0217E64C data a1
@@ -126,7 +126,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_02082D44(void *,const void *,u32);
+extern void MI_CpuCopy8(void *,const void *,u32);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern void DELIVERY_IRC_Main(u8 *p);
@@ -383,11 +383,11 @@ int func_0217E258(int unused, int arg)
     return GFL_NET_SendData((int)obj, (unsigned char)flag, (int)0x1F01, n, (int)arg, (int)1, (int)1, (int)1);
 }
 
-int func_0217E298(u8 *p,const void *q) {int v;v=((struct Obj14369 *)p)->f100C;if(v) {((struct Obj14369 *)p)->f100C=0;func_02082D44(p+6,q,POKE_REGULATION_GetDataSize());}return v;}
+int func_0217E298(u8 *p,const void *q) {int v;v=((struct Obj14369 *)p)->f100C;if(v) {((struct Obj14369 *)p)->f100C=0;MI_CpuCopy8(p+6,q,POKE_REGULATION_GetDataSize());}return v;}
 
 u32 func_0217E2C0(int unused,int a) {int flag;int v;v=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()));flag=1;if(v!=0)flag=0;return GFL_NET_SendData((int)GFL_NET_HANDLE_GetCurrentHandle(),(u8)flag,0x1f03,4,(int)a,(int)1,(int)1,(int)1);}
 
-int func_0217E2F8(u8 *p,const void *q) {int v;v=((struct Obj14370 *)p)->f1014;if(v) {((struct Obj14370 *)p)->f1014=0;func_02082D44(p+6,q,4);}return v;}
+int func_0217E2F8(u8 *p,const void *q) {int v;v=((struct Obj14370 *)p)->f1014;if(v) {((struct Obj14370 *)p)->f1014=0;MI_CpuCopy8(p+6,q,4);}return v;}
 
 void func_0217E318(char *p, unsigned value)
 {

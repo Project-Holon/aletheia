@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E7C
+ * function: ghiDoReceivingHeaders
  * address:  0x021C4E7C
  * packet:   pkt_ov114_021C4E7C
  * region:   ov114
@@ -33,16 +33,16 @@
  *   atoi                            0x020964e0 arm
  *   ghiProcessIncomingFileData      0x021c4c50 arm  ov114
  *   GOAGetLastError                 0x0217ed54 arm
- *   g_021CF194                      0x021cf194 data
- *   g_021CF2BC                      0x021cf2bc data
- *   g_021CF2C0                      0x021cf2c0 data
- *   g_021CF2C8                      0x021cf2c8 data
+ *   sGhttpLineEndProcess                      0x021cf194 data
+ *   sGhttpDoubleLf                      0x021cf2bc data
+ *   sGhttpDoubleCrLf                      0x021cf2c0 data
+ *   sGhttpLocation                      0x021cf2c8 data
  *   __ctype_mapC                    0x020a61dc data a2
- *   g_021CF2D4                      0x021cf2d4 data
- *   g_021CF2E4                      0x021cf2e4 data
- *   g_021CE0B8                      0x021ce0b8 data
+ *   sGhttpHttp5                      0x021cf2d4 data
+ *   sGhttpContentLength2                      0x021cf2e4 data
+ *   sGhttpMaxContentLength                      0x021ce0b8 data
  *   @13998                          0x021ce0b8 data
- *   g_021CF2F4                      0x021cf2f4 data
+ *   sGhttpTransferEncodingChunked                      0x021cf2f4 data
  */
 
 typedef unsigned char u8;
@@ -149,20 +149,20 @@ extern int atoi(const char *p);
 extern int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len);
 extern int GOAGetLastError(int socket);
 
-extern char g_021CF194[];
-extern char g_021CF2BC[];
-extern char g_021CF2C0[];
-extern char g_021CF2C8[];
+extern char sGhttpLineEndProcess[];
+extern char sGhttpDoubleLf[];
+extern char sGhttpDoubleCrLf[];
+extern char sGhttpLocation[];
 extern u16 __ctype_mapC[];
-extern char g_021CF2D4[];
-extern char g_021CF2E4[];
-extern char g_021CE0B8[];
-extern char g_021CF2F4[];
+extern char sGhttpHttp5[];
+extern char sGhttpContentLength2[];
+extern char sGhttpMaxContentLength[];
+extern char sGhttpTransferEncodingChunked[];
 
 #define ISSPACE(c) (((unsigned)(c) < 0x80u) ? (__ctype_mapC[c] & 0x100) : 0)
 #define ISSPACE2(c) (((unsigned)(c) < 0x80u) ? (__ctype_mapC[c] & 0x100) : 0)
 
-void func_021C4E7C(GHIConnection *connection)
+void ghiDoReceivingHeaders(GHIConnection *connection)
 {
     int result;
     int hasHeaders;
@@ -217,15 +217,15 @@ void func_021C4E7C(GHIConnection *connection)
 
     headers = connection->recvBuffer.data + connection->headerStringIndex;
     if (connection->statusCode / 100 == 1 &&
-        (strncmp(headers, g_021CF194, 2) == 0 ||
-         strncmp(headers, g_021CF2BC, 2) == 0)) {
+        (strncmp(headers, sGhttpLineEndProcess, 2) == 0 ||
+         strncmp(headers, sGhttpDoubleLf, 2) == 0)) {
         endOfHeaders = headers;
         hasHeaders = 0;
     } else {
-        endOfHeaders = strstr(headers, g_021CF2C0);
+        endOfHeaders = strstr(headers, sGhttpDoubleCrLf);
     }
     if (endOfHeaders == 0)
-        endOfHeaders = strstr(headers, g_021CF2BC);
+        endOfHeaders = strstr(headers, sGhttpDoubleLf);
     if (endOfHeaders != 0) {
         if (hasHeaders == 1)
             endOfHeaders += 2;
@@ -262,7 +262,7 @@ void func_021C4E7C(GHIConnection *connection)
                 ghiFreeTempBuffer(buffer);
                 return;
             }
-            location = strstr(headers, g_021CF2C8);
+            location = strstr(headers, sGhttpLocation);
             if (location != 0) {
                 location += 9;
                 while (ISSPACE(*location))
@@ -277,7 +277,7 @@ void func_021C4E7C(GHIConnection *connection)
                         connection->completed = 1;
                         connection->result = 1;
                     }
-                    OS_SPrintf(connection->redirectURL, g_021CF2D4,
+                    OS_SPrintf(connection->redirectURL, sGhttpHttp5,
                                connection->serverAddress, connection->serverPort, location);
                 } else {
                     connection->redirectURL = goastrdup(location);
@@ -291,7 +291,7 @@ void func_021C4E7C(GHIConnection *connection)
             }
         }
 
-        contentLength = strstr(headers, g_021CF2E4);
+        contentLength = strstr(headers, sGhttpContentLength2);
         if (contentLength != 0) {
             char *pEnd;
             char *pStart;
@@ -318,7 +318,7 @@ void func_021C4E7C(GHIConnection *connection)
             connection->totalSize = atoi(pStart);
         }
 
-        connection->chunkedTransfer = (strstr(headers, g_021CF2F4) != 0) ? 1 : 0;
+        connection->chunkedTransfer = (strstr(headers, sGhttpTransferEncodingChunked) != 0) ? 1 : 0;
         if (connection->chunkedTransfer) {
             connection->chunkHeader[0] = 0;
             connection->chunkHeaderLen = 0;

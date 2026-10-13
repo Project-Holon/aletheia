@@ -1,5 +1,5 @@
 /*
- * function: func_021BD808
+ * function: PMS_INPUT_CheckUiSwitch
  * address: 0x021BD808
  * packet: pkt_ov110_021BD808
  * region: ov110
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 extern int TOUCHPANEL_GetCont(void);
 extern unsigned int KEY_GetCont(void);
-int func_021BD808(u8 *p,void *q) {
+int PMS_INPUT_CheckUiSwitch(u8 *p,void *q) {
  void (*cb)(u8 *,void *);
  if(((struct Obj00012 *)p)->f70==1) {
   if(TOUCHPANEL_GetCont()) return 0;

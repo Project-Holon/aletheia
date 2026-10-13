@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "OAMREND_ResetZOffset",
+   "name": "NNS_G2dResetOamSoftEmuAutoZOffset",
    "address": "0x02066DFC",
    "kind": "game",
    "region": "arm9",

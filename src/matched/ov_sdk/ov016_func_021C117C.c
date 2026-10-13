@@ -12,19 +12,19 @@
  * sdk:      taskEnd (libdwcutil.TWL.HYB.a(move.o))
  *
  * symbols:
- *   func_021D3BF8  0x021D3BF8  arm  ov016
- *   func_021D7724  0x021D7724  arm  ov016
- *   g_021DE590  0x021DE590  data
+ *   DWCi_MOVFinalize  0x021D3BF8  arm  ov016
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
+ *   gMoveWork  0x021DE590  data
  */
 
-extern int func_021D3BF8(void);
-extern void func_021D7724(int kind, void *task);
-extern char *g_021DE590;
+extern int DWCi_MOVFinalize(void);
+extern void DWCi_TSKlDelete(int kind, void *task);
+extern char *gMoveWork;
 
 void func_021C117C(void *task)
 {
-	if (func_021D3BF8() == 0)
+	if (DWCi_MOVFinalize() == 0)
 		return;
-	g_021DE590[0x1e2a1] = 1;
-	func_021D7724(0, task);
+	gMoveWork[0x1e2a1] = 1;
+	DWCi_TSKlDelete(0, task);
 }

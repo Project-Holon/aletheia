@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02066E20
+ * function: NNS_G2dGetOamSoftEmuAutoZOffsetStep
  * address:  0x02066E20
  * packet:   pkt_02066E20
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02066E20(void){ return *(int *)(0x20A8218); }
+int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void){ return *(int *)(0x20A8218); }

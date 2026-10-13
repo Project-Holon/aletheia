@@ -1,5 +1,5 @@
 /*
- * function: func_021C1798
+ * function: PMS_SELECT_GRAPHIC_ExitSceneBgs
  * address: 0x021C1798
  * packet: pkt_ov110_021C1798
  * region: ov110
@@ -15,7 +15,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   d_021C3A74 0x021C3A74 data a4
+ *   gPmsSelectGraphicBgRows 0x021C3A74 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,5 +25,5 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void MI_CpuFill8(void *,int,u32);
 typedef struct {u32 id; u32 rest[10];} Row;
-extern Row d_021C3A74[];
-void func_021C1798(void *p) { const Row *base; unsigned long i; base=d_021C3A74; for(i=0;i<6;i++) func_020403F4((u8)base[i].id); BMP_WIN_Exit(); func_0203F9B4(); MI_CpuFill8(p,0,4); }
+extern Row gPmsSelectGraphicBgRows[];
+void PMS_SELECT_GRAPHIC_ExitSceneBgs(void *p) { const Row *base; unsigned long i; base=gPmsSelectGraphicBgRows; for(i=0;i<6;i++) func_020403F4((u8)base[i].id); BMP_WIN_Exit(); func_0203F9B4(); MI_CpuFill8(p,0,4); }

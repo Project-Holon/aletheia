@@ -1,5 +1,5 @@
 /*
- * function: func_021BEAEC
+ * function: WIFICLUB_StateWatchLogin
  * address: 0x021BEAEC
  * packet: pkt_ov099_021BEAEC
  * region: ov099
@@ -28,44 +28,44 @@
  *   symbols: d_021469DC 0x021469DC data; GFL_NET_STATE_FatalError 0x0203CADC arm.
  *   Leaf's only unresolved site is ARM9 0x0203CADC.
  * symbols:
- *   func_021BA928 0x021BA928 thumb ov099
+ *   WIFICLUB_UpdateTalkStream 0x021BA928 thumb ov099
  *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
- *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
- *   func_021BE6F0 0x021BE6F0 thumb ov099
- *   func_021BE788 0x021BE788 thumb ov099
- *   func_021BE4F0 0x021BE4F0 thumb ov099
+ *   WIFICLUB_BuildOwnStatus 0x021BE6F0 thumb ov099
+ *   WIFICLUB_RefreshVisibleList 0x021BE788 thumb ov099
+ *   WIFICLUB_BeginIdle 0x021BE4F0 thumb ov099
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
- *   func_021BE900 0x021BE900 thumb ov099
+ *   WIFICLUB_OnFatalError 0x021BE900 thumb ov099
  */
-extern int func_021BA928(char *, int);
+extern int WIFICLUB_UpdateTalkStream(char *, int);
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
-extern void func_021BAAB8(char *, int, int);
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
 extern int GFL_NET_STATE_IsWifiLoginState(void);
-extern void func_021BE6F0(char *, int, int);
-extern int func_021BE788(char *);
-extern int func_021BE4F0(char *, int);
+extern void WIFICLUB_BuildOwnStatus(char *, int, int);
+extern int WIFICLUB_RefreshVisibleList(char *);
+extern int WIFICLUB_BeginIdle(char *, int);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int GFL_NET_STATE_GetWifiState(void);
-extern void func_021BE900(char *);
-int func_021BEAEC(char *p, int ret)
+extern void WIFICLUB_OnFatalError(char *);
+int WIFICLUB_StateWatchLogin(char *p, int ret)
 {
-    if (!func_021BA928(p, ret)) return ret;
+    if (!WIFICLUB_UpdateTalkStream(p, ret)) return ret;
     if (DWC_RAP_IsUserDataChanged()) {
         *(int *)(p + 0x1cc) = 0x3c;
-        func_021BAAB8(p, 0x1e, 1);
+        WIFICLUB_ShowStreamedMessage(p, 0x1e, 1);
     }
     if (GFL_NET_STATE_IsWifiLoginState()) {
         if (*(int *)(p + 0x1e8)) {
             *(int *)(p + 0x1cc) = 7;
         } else {
-            func_021BE6F0(p, 1, 2);
-            func_021BE788(p);
-            *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
+            WIFICLUB_BuildOwnStatus(p, 1, 2);
+            WIFICLUB_RefreshVisibleList(p);
+            *(int *)(p + 0x1cc) = WIFICLUB_BeginIdle(p, 0);
         }
     } else {
-        if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) func_021BE900(p);
+        if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) WIFICLUB_OnFatalError(p);
     }
     return ret;
 }

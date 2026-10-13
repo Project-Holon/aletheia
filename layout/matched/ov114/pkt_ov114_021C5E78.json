@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5E78",
+   "name": "DWCi_Ndi_freeAttr",
    "address": "0x021C5E78",
    "kind": "sdk",
    "region": "ov114",

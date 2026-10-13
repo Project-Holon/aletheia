@@ -1,5 +1,5 @@
 /*
- * function: func_021BD5C4
+ * function: PMS_INPUT_Create
  * address: 0x021BD5C4
  * packet: pkt_ov110_021BD5C4
  * region: ov110
@@ -45,19 +45,19 @@
  *   PMSI_PARAM_GetInputMode 0x02024144 thumb
  *   PMSI_PARAM_GetUiInputMode 0x0202421C thumb
  *   PMSI_PARAM_GetResult 0x02024168 thumb
- *   func_021BD690 0x021BD690 thumb ov110
+ *   PMS_INPUT_InitSentenceCursor 0x021BD690 thumb ov110
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_021B95A0 0x021B95A0 thumb ov110
- *   func_021B9A50 0x021B9A50 thumb ov110
+ *   PMS_INPUT_VIEW_Create 0x021B9A50 thumb ov110
  *   BUTTON_MAN_Create 0x02051B84 arm
- *   func_021BD578 0x021BD578 thumb ov110
- *   func_021BAEDC 0x021BAEDC thumb ov110
- *   func_021BF4F8 0x021BF4F8 thumb ov110
- *   func_021BF508 0x021BF508 thumb ov110
- *   d_021C3908 0x021C3908 data a1
- *   d_021C3C78 0x021C3C78 data a1
+ *   PMS_INPUT_OnButton 0x021BD578 thumb ov110
+ *   PMSI_SEARCH_Create 0x021BAEDC thumb ov110
+ *   PMS_INPUT_SetSubHandler 0x021BF4F8 thumb ov110
+ *   PMS_INPUT_SubHandleOpen 0x021BF508 thumb ov110
+ *   gPmsInputButtonRects 0x021C3908 data a1
+ *   gPmsInputFileName 0x021C3C78 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,20 +69,20 @@ extern u32 PMSI_PARAM_GetInputMode(const u8 *);
 extern u32 PMSI_PARAM_GetUiInputMode(void *);
 struct Input;
 extern void PMSI_PARAM_GetResult(const struct Input *p, u16 *a, u16 *b);
-extern void func_021BD690(u8 *,u16 *);
+extern void PMS_INPUT_InitSentenceCursor(u8 *,u16 *);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32,struct Ctx *);
 extern void *func_021B95A0(u32,void *);
-extern void *func_021B9A50(u8 *,void *);
+extern void *PMS_INPUT_VIEW_Create(u8 *,void *);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
-extern void func_021BD578(int,u32,u8 *);
-extern u8 *func_021BAEDC(void *,void *,u16);
-extern void func_021BF4F8(u8 *,u32);
-extern void func_021BF508(u8 *p, int *q);
-extern const u8 d_021C3908[];
-extern const char d_021C3C78[];
-u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
+extern void PMS_INPUT_OnButton(int,u32,u8 *);
+extern u8 *PMSI_SEARCH_Create(void *,void *,u16);
+extern void PMS_INPUT_SetSubHandler(u8 *,u32);
+extern void PMS_INPUT_SubHandleOpen(u8 *p, int *q);
+extern const u8 gPmsInputButtonRects[];
+extern const char gPmsInputFileName[];
+u8 *PMS_INPUT_Create(struct Obj0203159C *owner,u8 *input)
 {
     u8 *p;
     struct Ctx *q;
@@ -91,20 +91,20 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
     *(u32 *)(p+4)=PMSI_PARAM_GetInputMode(input);
     *(u32 *)(p+0x70)=PMSI_PARAM_GetUiInputMode(*(u8 **)p);
     PMSI_PARAM_GetResult((const struct Input *)(*(u8 **)p),(u16 *)(p+0x10),(u16 *)(p+8));
-    if(*(u32 *)(p+4)==2) func_021BD690(p+0x64,(u16 *)(p+8));
-    q=func_02030734(41,func_02030CB0(5),0,d_021C3C78,579);
+    if(*(u32 *)(p+4)==2) PMS_INPUT_InitSentenceCursor(p+0x64,(u16 *)(p+8));
+    q=func_02030734(41,func_02030CB0(5),0,gPmsInputFileName,579);
     *(struct Ctx **)(p+0x78)=q;
     *(struct Ctx **)(p+0x7c)=func_02030CBC(5,q);
     *(void **)(p+0x18)=func_021B95A0(41,*(void **)p);
-    *(void **)(p+0x14)=func_021B9A50(p,*(void **)(p+0x18));
-    *(void **)(p+0x44)=BUTTON_MAN_Create((u8 *)d_021C3908,(int)func_021BD578,(int)p,41);
+    *(void **)(p+0x14)=PMS_INPUT_VIEW_Create(p,*(void **)(p+0x18));
+    *(void **)(p+0x44)=BUTTON_MAN_Create((u8 *)gPmsInputButtonRects,(int)PMS_INPUT_OnButton,(int)p,41);
     p[0x69]=0;
     *(u32 *)(p+0x30)=0;
     *(u32 *)(p+0x2c)=0;
     *(u16 *)(p+0x4a)=0;
     *(u16 *)(p+0x48)=0;
     *(u32 *)(p+0x3c)=1;
-    *(void **)(p+0x1c)=func_021BAEDC(p,*(void **)(p+0x18),41);
-    func_021BF4F8(p,(u32)func_021BF508);
+    *(void **)(p+0x1c)=PMSI_SEARCH_Create(p,*(void **)(p+0x18),41);
+    PMS_INPUT_SetSubHandler(p,(u32)PMS_INPUT_SubHandleOpen);
     return p;
 }

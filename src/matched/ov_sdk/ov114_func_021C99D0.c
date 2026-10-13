@@ -1,5 +1,5 @@
 /*
- * function: func_021C99D0
+ * function: DWCi_EncSessionValidateResponse
  * address:  0x021C99D0
  * packet:   pkt_ov114_021C99D0
  * region:   ov114
@@ -17,9 +17,9 @@
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_020816B8  0x020816B8  arm
  *   func_020949F4  0x020949F4  arm
- *   func_021C9858  0x021C9858  arm  ov114
+ *   b64size  0x021C9858  arm  ov114
  *   func_0217FA90  0x0217FA90  arm  ov009
- *   g_021CF7AC  0x021CF7AC  data
+ *   gDwcEncSession  0x021CF7AC  data
  *   @16077  0x021CE1B8  data
  */
 
@@ -53,13 +53,13 @@ typedef struct {
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
-extern u32 func_021C9858(u32 len);
+extern u32 b64size(u32 len);
 extern void func_020816B8(void *digest, void *data, u32 len);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-extern struct Session g_021CF7AC;
+extern struct Session gDwcEncSession;
 typedef struct { char c[20]; } Key20;
 
-int func_021C99D0(char *buf, int len)
+int DWCi_EncSessionValidateResponse(char *buf, int len)
 {
     int i;
     u8 *tmpbuf;
@@ -69,16 +69,16 @@ int func_021C99D0(char *buf, int len)
 
     if (len <= 40)
         return 0;
-    tmpbuf = func_0205A16C(8, func_021C9858(len - 40u) + 41);
+    tmpbuf = func_0205A16C(8, b64size(len - 40u) + 41);
     if (tmpbuf == 0)
         return 0;
-    *(Key20 *)tmpbuf = *(Key20 *)g_021CF7AC.secretkey;
+    *(Key20 *)tmpbuf = *(Key20 *)gDwcEncSession.secretkey;
     func_0217FA90(buf, (char *)(tmpbuf + 20), len - 40u, 2);
     {
-        Key20 *d = (Key20 *)(tmpbuf + 20 + func_021C9858(len - 40u));
-        *d = *(Key20 *)g_021CF7AC.secretkey;
+        Key20 *d = (Key20 *)(tmpbuf + 20 + b64size(len - 40u));
+        *d = *(Key20 *)gDwcEncSession.secretkey;
     }
-    func_020816B8(hash, tmpbuf, func_021C9858(len - 40u) + 40);
+    func_020816B8(hash, tmpbuf, b64size(len - 40u) + 40);
     func_0205A1B0(8, tmpbuf, 0);
     for (i = 0; i < 20; i++) {
         hashhex[i * 2] = hextbl[hash[i] >> 4];
@@ -87,7 +87,7 @@ int func_021C99D0(char *buf, int len)
     hashhex[40] = '\0';
     if (func_020949F4((const u8 *)(&buf[len - 40]), (const u8 *)hashhex, 40) != 0)
         return 0;
-    g_021CF7AC.decodedbuf = buf;
-    g_021CF7AC.decodedbuflen = len - 40u;
+    gDwcEncSession.decodedbuf = buf;
+    gDwcEncSession.decodedbuflen = len - 40u;
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_06899BE0
+ * function: BTLV_SCD_CreateInput
  * address:  0x06899BE0
  * packet:   pkt_ov095_06899BE0
  * region:   ov095
@@ -16,7 +16,7 @@
  *   func_06899C7C  0x06899C7C  thumb  ov095
  *   func_06899C8C  0x06899C8C  thumb  ov095
  *   func_06899C9C  0x06899C9C  arm    ov095
- *   func_06899D38  0x06899D38  thumb  ov095
+ *   BTLV_SCD_Nop  0x06899D38  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -43,9 +43,9 @@ extern int func_06899C6C(int a);
 extern int func_06899C7C(void);
 extern int func_06899C8C(int a, int b, int c, int d, int e, u8 *f, int g, int h);
 extern void func_06899C9C(int a, int b);
-extern void func_06899D38(Obj *o);
+extern void BTLV_SCD_Nop(Obj *o);
 
-void func_06899BE0(Obj *o)
+void BTLV_SCD_CreateInput(Obj *o)
 {
     int a;
     int b;
@@ -58,5 +58,5 @@ void func_06899BE0(Obj *o)
     d = func_06899C7C();
     o->fb0 = func_06899C8C(a, b, c, d, o->f08, &o->f8f, o->f90, o->fac);
     func_06899C9C(0x10, 1);
-    func_06899D38(o);
+    BTLV_SCD_Nop(o);
 }

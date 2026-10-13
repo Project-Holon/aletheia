@@ -19,11 +19,11 @@
  *
  * symbols:
  *   g_021A1F68  0x021A1F68  data
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   g_021AA828  0x021AA828  data
  *   g_021AA828_b  0x021AA828  data
  */
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 long long func_02167E88(void);
 void *DWCi_Np_GetConsoleIdPrefix(void);
 char *func_02167EA0(void);
@@ -45,7 +45,7 @@ void *DWCi_Np_GetConsoleIdPrefix(void)
 
 char *func_02167EA0(void)
 {
-	func_02082D44((void *)0x02fffe0c, g_021AA828, 4);
+	MI_CpuCopy8((void *)0x02fffe0c, g_021AA828, 4);
 	g_021AA828_b[4] = 0;
 	return g_021AA828;
 }

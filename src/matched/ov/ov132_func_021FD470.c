@@ -12,14 +12,14 @@
  * symbols:
  *   func_020084BC 0x020084BC thumb
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_020084BC(const u16 *);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 /* The callback owner is the 0x1ac-byte allocation in 021FC644. */
 typedef struct {u8 pad[0x128];char *buffer;u8 tail[0x80];} Owner;
 void func_021FD470(int a,int b,int c,const Owner *p)
@@ -36,7 +36,7 @@ void func_021FD470(int a,int b,int c,const Owner *p)
             q=p->buffer;
             k=i*n;
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
-            func_02082D44(q+k,*(void **)(s+0x7c),n);
+            MI_CpuCopy8(q+k,*(void **)(s+0x7c),n);
             q=*(char **)(s+0x7c);
             *(char **)(q+4)=q+0x7c;
             *(int *)(s+0x64)=1;

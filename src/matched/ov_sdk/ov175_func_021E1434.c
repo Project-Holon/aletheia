@@ -1,5 +1,5 @@
 /*
- * function: func_021E1434
+ * function: DWC_GdbGetState
  * address:  0x021E1434
  * packet:   pkt_021E1434
  * region:   ov175
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021E5334  0x021E5334  data
+ *   gDwcGdbEntity  0x021E5334  data
  *
  * Return 4 once 0x02059F38 says the block is live, else the queued count at
  * +8.
@@ -24,12 +24,12 @@
 typedef unsigned long u32;
 
 extern int func_02059F38(void);
-extern u32 g_021E5334[];
+extern u32 gDwcGdbEntity[];
 
-int func_021E1434(void)
+int DWC_GdbGetState(void)
 {
     if (func_02059F38())
         return 4;
-    return g_021E5334[2];
+    return gDwcGdbEntity[2];
 }
 

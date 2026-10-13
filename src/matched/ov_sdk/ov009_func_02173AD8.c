@@ -1,5 +1,5 @@
 /*
- * function: func_02173AD8
+ * function: DWCi_GetNewMatchKey
  * address:  0x02173AD8
  * packet:   pkt_02173AD8
  * region:   ov009
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u8 d_021AAA40[];
 
-u8 func_02173AD8(void)
+u8 DWCi_GetNewMatchKey(void)
 {
     u8 i;
 

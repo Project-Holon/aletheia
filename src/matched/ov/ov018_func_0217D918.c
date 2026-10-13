@@ -18,7 +18,7 @@
  *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   func_02030734  0x02030734  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   d_02183B14     0x02183B14  data   a1
  */
 #include "../include/Obj02676.h"
@@ -38,7 +38,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, unsigned int a1, unsign
 extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern const char d_02183B14[];
 
 void INTRUDE_SUBDISP_ClactResourceLoad(u8 *p, void *bg)
@@ -56,7 +56,7 @@ void INTRUDE_SUBDISP_ClactResourceLoad(u8 *p, void *bg)
     ((struct Obj02676 *)p)->fC8 = ARC_UTIL_LoadBgCharDataFromHandle(bg, 10, 1, (unsigned int)(p + 0xcc), 0x70);
     ((struct Obj02676 *)p)->fD4 = (void *)CLACT_GetCharacterVramAddress((unsigned int)(((struct Obj02676 *)p)->f14), 2);
     ((struct Obj02676 *)p)->fD0 = func_02030734(0x70, 0x200, 1, d_02183B14, 0x495);
-    func_02082A60((void *)0x050006E2, p + 0x120, 8);
-    func_02082A60(p + 0x120, p + 0x130, 8);
-    func_02082A60((void *)0x05000702, p + 0x128, 8);
+    MIi_CpuCopy16((void *)0x050006E2, p + 0x120, 8);
+    MIi_CpuCopy16(p + 0x120, p + 0x130, 8);
+    MIi_CpuCopy16((void *)0x05000702, p + 0x128, 8);
 }

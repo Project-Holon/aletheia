@@ -1,5 +1,5 @@
 /*
- * function: func_021E0504
+ * function: sciSerializeInt16
  * address:  0x021E0504
  * packet:   pkt_021E0504
  * region:   ov175
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u8 *func_021E0504(u8 *dst, unsigned int v)
+u8 *sciSerializeInt16(u8 *dst, unsigned int v)
 {
     u16 t = (u16)v;
     u16 w = ((t >> 8) & 0xff) | ((t << 8) & 0xff00);

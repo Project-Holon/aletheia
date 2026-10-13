@@ -1,5 +1,5 @@
 /*
- * function: func_021D6414
+ * function: DWCi_HEAPlAllocEx
  * address:  0x021D6414
  * packet:   pkt_ov016_021D6414
  * region:   ov016
@@ -12,16 +12,16 @@
  * sdk:      DWCi_HEAPlAllocEx (libdwcutil.TWL.HYB.a heap.o)
  *
  * symbols:
- *   func_021D63C8  0x021D63C8  arm  ov016
+ *   DWCi_HEAPlAlloc  0x021D63C8  arm  ov016
  *   MI_CpuFill8    0x02082BCC  arm
  */
 
-extern void *func_021D63C8(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAlloc(unsigned long size, int alignment);
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 
-void *func_021D6414(unsigned long size, int alignment)
+void *DWCi_HEAPlAllocEx(unsigned long size, int alignment)
 {
-    void *mem = func_021D63C8(size, alignment);
+    void *mem = DWCi_HEAPlAlloc(size, alignment);
     MI_CpuFill8(mem, 0, size);
     return mem;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE384
+ * function: WIFICLUB_FreeBgResources
  * address:  0x021BE384
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,7 +13,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0203FB44  0x0203FB44  arm
  *
- * (0x021BE384 is also a function of ov217, filed as src/matched/func_021BE384.c;
+ * (0x021BE384 is also a function of ov217, filed as src/matched/WIFICLUB_FreeBgResources.c;
  *  this is ov099's byte at that address.)
  *
  * Two guarded releases (each clearing the slot whether or not it was set), then
@@ -33,7 +33,7 @@
  *     register error in one.
  *
  * The listing's extent to the next label is 72 bytes; the last two are the
- * `.byte 0x00, 0x00` alignment before func_021BE3CC, so the code is 70.
+ * `.byte 0x00, 0x00` alignment before WIFICLUB_DrawTileBlock, so the code is 70.
  */
 
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ typedef struct {
     u32 f14;
 } S;
 
-void func_021BE384(S *s)
+void WIFICLUB_FreeBgResources(S *s)
 {
     if (s->f00 != 0) {
         func_020307B0(s->f00);

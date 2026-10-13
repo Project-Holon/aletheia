@@ -1,5 +1,5 @@
 /*
- * function: func_020592D0
+ * function: DWC_Acc_CreateFriendKey
  * address:  0x020592D0
  * packet:   pkt_020592D0
  * region:   arm9
@@ -33,7 +33,7 @@ extern void MATH_MD5Init(struct MATHMD5Context *context);
 extern void MATH_MD5Update(struct MATHMD5Context *context, void *input, unsigned long length);
 extern void MATH_MD5GetHash(struct MATHMD5Context *context, void *digest);
 
-unsigned long long func_020592D0(int gs_profile_id, unsigned long gamecode, int method)
+unsigned long long DWC_Acc_CreateFriendKey(int gs_profile_id, unsigned long gamecode, int method)
 {
     unsigned long code[2];
     int hash;

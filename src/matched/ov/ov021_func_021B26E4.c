@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK42_CallSecondEventU16
+ * function: SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16
  * address:  0x021B26E4
  * packet:   pkt_ov021_021B26E4
  * region:   ov021
@@ -27,7 +27,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern int FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(void *a, u32 b);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK42_CallSecondEventU16(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

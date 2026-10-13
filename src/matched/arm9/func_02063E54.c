@@ -4,11 +4,11 @@
  * packet:   pkt_0206380C
  * status:   EXACT
  * symbols:
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207F47C  0x0207F47C  arm
  *   func_0207F4C4  0x0207F4C4  arm
  *   func_0207F560  0x0207F560  arm
- *   func_0207E51C  0x0207E51C  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_0207F6A8  0x0207F6A8  arm
  *   func_0207F6C0  0x0207F6C0  arm
  *   func_0207F754  0x0207F754  arm
@@ -33,11 +33,11 @@ typedef struct UnkOut02063E54 {
     u32 f4;
 } UnkOut02063E54;
 
-extern void func_020862F0(u32 a, u32 b);
+extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
 extern void func_0207F47C(u32 a);
 extern void func_0207F4C4(u32 a, u32 b, u32 c);
 extern void func_0207F560(void);
-extern void func_0207E51C(u32 a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
 extern void func_0207F6A8(u32 a);
 extern void func_0207F6C0(u32 a, u32 b, u32 c);
 extern void func_0207F754(void);
@@ -52,7 +52,7 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
     u32 a = self->fC;
     u32 b = self->f8;
 
-    func_020862F0(a, b);
+    DWCi_ScreenDC_FlushRange(a, b);
 
     switch (sel) {
     case 1:
@@ -61,7 +61,7 @@ void func_02063E54(UnkSelf02063E54 *self, u32 a1, int sel, UnkOut02063E54 *out)
             func_0207F4C4(a, a1, b);
             func_0207F560();
         } else {
-            func_0207E51C(a, a1, b);
+            GX_LoadOBJPltt(a, a1, b);
         }
         break;
     case 2:

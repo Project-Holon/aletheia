@@ -11,15 +11,15 @@
  *
  * symbols:
  *   OS_SendMessage               0x02085DBC  arm
- *   g_021DCE40                   0x021DCE40  data
+ *   gAosslinkEventQueue                   0x021DCE40  data
 */
 
 #include "../include/G_OSMessageQueue.h"
 
 extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
-extern struct OSMessageQueue g_021DCE40;
+extern struct OSMessageQueue gAosslinkEventQueue;
 
 static void aoss_apc_callback(void *event)
 {
-    OS_SendMessage(&g_021DCE40, event, 0);
+    OS_SendMessage(&gAosslinkEventQueue, event, 0);
 }

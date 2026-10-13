@@ -1,5 +1,5 @@
 /*
- * function: func_02069E88
+ * function: NNS_G3dRenderObjAddAnmObj
  * address:  0x02069E88
  * packet:   pkt_02069D68
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069E20    0x02069E20  arm
- *   func_02069D68    0x02069D68  arm
+ *   NNSi_G3dAnmObjCollectMapDataMask    0x02069E20  arm
+ *   NNSi_G3dAnmObjInsertByPriority    0x02069D68  arm
  *
  * 2026-09-21: unblocked. 128 bytes, zero mismatches, and now 6 of 6
  * relocation sites resolved: the three calls to 0x02069E20 take the
- * `matched` class from src/matched/func_02069E20.c, filed EXACT under the
+ * `matched` class from src/matched/NNSi_G3dAnmObjCollectMapDataMask.c, filed EXACT under the
  * per-file pin `compiler: ../2.0/sp2` (the "kept branches" tell, see
- * docs/FRONTEND-PINS.md and docs/notes/func_02069E20.c.txt). This file
+ * docs/FRONTEND-PINS.md and docs/notes/NNSi_G3dAnmObjCollectMapDataMask.c.txt). This file
  * itself stays on the pinned default 1.1p1; only its callee is pinned.
  *
  * Dispatches on the tag byte at *(item->tag08): 0x4D, 0x4A and 0x56 each
@@ -27,8 +27,8 @@
  * tests 0x4A first because the compiler reorders the tests, not the arms).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02069E88.c \
- *       --func func_02069E88 --addr 0x02069E88 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNS_G3dRenderObjAddAnmObj.c \
+ *       --func NNS_G3dRenderObjAddAnmObj --addr 0x02069E88 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -51,10 +51,10 @@ typedef struct {
     u32 m4C;
 } Owner;
 
-extern void func_02069E20(u32 *mask, Node *n);
-extern void func_02069D68(Node **head, Node *item);
+extern void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, Node *n);
+extern void NNSi_G3dAnmObjInsertByPriority(Node **head, Node *item);
 
-void func_02069E88(Owner *o, Node *item)
+void NNS_G3dRenderObjAddAnmObj(Owner *o, Node *item)
 {
     u8 *tag;
 
@@ -63,16 +63,16 @@ void func_02069E88(Owner *o, Node *item)
     if (tag == 0) return;
     switch (*tag) {
     case 0x4d:
-        func_02069E20(&o->m3C, item);
-        func_02069D68(&o->l08, item);
+        NNSi_G3dAnmObjCollectMapDataMask(&o->m3C, item);
+        NNSi_G3dAnmObjInsertByPriority(&o->l08, item);
         break;
     case 0x4a:
-        func_02069E20(&o->m44, item);
-        func_02069D68(&o->l10, item);
+        NNSi_G3dAnmObjCollectMapDataMask(&o->m44, item);
+        NNSi_G3dAnmObjInsertByPriority(&o->l10, item);
         break;
     case 0x56:
-        func_02069E20(&o->m4C, item);
-        func_02069D68(&o->l18, item);
+        NNSi_G3dAnmObjCollectMapDataMask(&o->m4C, item);
+        NNSi_G3dAnmObjInsertByPriority(&o->l18, item);
         break;
     }
 }

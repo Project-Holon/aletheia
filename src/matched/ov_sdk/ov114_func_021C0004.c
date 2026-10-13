@@ -1,5 +1,5 @@
 /*
- * function: func_021C0004
+ * function: ghiAppendCharToBuffer
  * address:  0x021C0004
  * packet:   pkt_ov114_021C0004
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFB90 0x021BFB90  arm
+ *   ghiResizeBuffer 0x021BFB90  arm
  */
 
 typedef struct Base {
@@ -32,9 +32,9 @@ typedef struct Ctx {
     int f20;
 } Ctx;
 
-extern int func_021BFB90(void *, int);
+extern int ghiResizeBuffer(void *, int);
 
-int func_021C0004(Ctx *ctx, int ch)
+int ghiAppendCharToBuffer(Ctx *ctx, int ch)
 {
     if (ctx == 0)
         return 0;
@@ -46,7 +46,7 @@ int func_021C0004(Ctx *ctx, int ch)
             ctx->f0->f40 = 2;
             return 0;
         }
-        if (func_021BFB90(ctx, ctx->f14) != 0)
+        if (ghiResizeBuffer(ctx, ctx->f14) != 0)
             goto append;
         ctx->f0->f124 = 1;
         ctx->f0->f40 = 1;

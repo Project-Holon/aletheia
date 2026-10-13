@@ -27,9 +27,9 @@
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_HatchEgg 0x02017B24 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CFA0 0x0200CFA0 thumb
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   func_021F6A48 0x021F6A48 thumb ov215
  *   func_021F6A84 0x021F6A84 thumb ov215
  *   func_021F6A98 0x021F6A98 thumb ov215
@@ -96,8 +96,8 @@ extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void POKE_TOOL_HatchEgg(void *,u32,u32,u32);
-extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct Blk37 *,void *),func_0200CDE0(struct Blk37 *,void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *,void *),ZUKAN_SAVE_RegisterCaught(struct Blk37 *,void *);
 extern void func_021F6A48(char *p, int a);
 extern int func_021F6A84(char *),func_021F6AA4(char *);
 extern void func_021F6A98(char *),func_021F6164(void *,char *),func_021F6000(void *,char *);
@@ -146,7 +146,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
         p[4]=7;
         save=GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a[0]);trainer=GAME_DATA_GetMyStatus((void *)a[0]);
         POKE_TOOL_HatchEgg((void *)a[1],(u32)trainer,ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(save)),((struct Obj00186 *)p)->f0);
-        dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
+        dex=ZUKAN_SAVE_GetFromGameData((void *)a[0]);ZUKAN_SAVE_RegisterSeen(dex,(void *)a[1]);ZUKAN_SAVE_RegisterCaught(dex,(void *)a[1]);
         func_021F6A48((char *)p[32],(int)((void *)a[1]));break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;
     case 8:if(func_021F6AA4((char *)p[32])){p[4]=9;func_021F6164(a,(char *)p);func_021F6000(a,(char *)p);}break;

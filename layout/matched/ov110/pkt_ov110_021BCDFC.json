@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BCDFC",
-    "func_021BCE24"
+    "PMSIV_MENU_IsEntry2Done",
+    "PMSIV_MENU_PressBackItem"
+   ],
+   "addresses": [
+    "0x021BCDFC",
+    "0x021BCE24"
    ]
   }
  ]

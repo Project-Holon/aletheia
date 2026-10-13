@@ -21,25 +21,25 @@
  *   sub_02006300_Stack   0x020AA9B4  data
  *   GFL_USE_IsSeSlotBusy         0x02006224  thumb
  *   GFL_USE_StopLoaderThread         0x02006368  thumb
- *   func_02072EE0        0x02072EE0  arm
- *   NNS_SndHandleSetSeqPriority        0x02072F34  arm
+ *   NNS_SndPlayerCountPlayingSeqBySeqNo        0x02072EE0  arm
+ *   NNS_SndHandleSetVolume        0x02072F34  arm
  *   NNS_SndHandleSetTrackPitch        0x02073018  arm
  *   NNS_SndHandleSetTrackPan        0x02073038  arm
  *   NNS_SndHandleStop        0x02073098  arm
- *   func_020853C0        0x020853C0  arm
- *   func_02074AC4        0x02074AC4  arm
- *   func_02085868        0x02085868  arm
+ *   OS_CreateThread        0x020853C0  arm
+ *   NNS_SndArcLoadSeqEx        0x02074AC4  arm
+ *   OS_WakeupThreadDirect        0x02085868  arm
  *
  * The two thread bodies and the routine that starts one.  GFL_USE_LoaderThreadSeqBank and
  * GFL_USE_LoaderThreadWaves carry no label: both are six instructions with no prologue
  * that dereference the thread argument, read one field of the state block
- * and tail call func_02074AC4 with a different constant, and the only
+ * and tail call NNS_SndArcLoadSeqEx with a different constant, and the only
  * references to them in the image are the two pool words of GFL_USE_StartLoaderThread
  * immediately below.  That is why the three have to be one byte range:
  * outside it neither thread body has a witness, and inside it both are
  * `local`.
  *
- * GFL_USE_StartLoaderThread's call to func_020853C0 is an OS thread creation: the thread
+ * GFL_USE_StartLoaderThread's call to OS_CreateThread is an OS thread creation: the thread
  * object at 0x020AA354, the entry point, the argument, the stack at
  * 0x020AA9B4, and 0x400 and 0x11 on the stack for the stack size and the
  * priority.  The argument, 0x020AA26C, is the address of the state block's
@@ -71,16 +71,16 @@ extern u32 sub_02006300_Stack[];
 
 extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern void GFL_USE_StopLoaderThread(void);
-extern int  func_02072EE0(u32 a);
-extern void NNS_SndHandleSetSeqPriority(u32 *req, u32 level);
+extern int  NNS_SndPlayerCountPlayingSeqBySeqNo(u32 a);
+extern void NNS_SndHandleSetVolume(u32 *req, u32 level);
 struct Obj;
 extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 extern void NNS_SndHandleSetTrackPan(struct Obj *o, u32 v, u32 w);
 extern void NNS_SndHandleStop(struct Obj *o, u32 v);
-extern u32 func_02074AC4(u32 a, u32 b, u32 c);
-extern void func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
+extern u32 NNS_SndArcLoadSeqEx(u32 a, u32 b, u32 c);
+extern void OS_CreateThread(u32 *thread, void (*entry)(void *), void *arg,
                           u32 *stack, u32 size, u32 prio);
-extern void func_02085868(u32 *thread);
+extern void OS_WakeupThreadDirect(u32 *thread);
 
 void GFL_USE_LoaderThreadSeqBank(u32 *arg);
 void GFL_USE_LoaderThreadWaves(u32 *arg);
@@ -99,7 +99,7 @@ int GFL_USE_IsAnySeBusy(void)
 
 int GFL_USE_IsSeqPlaying(u32 a)
 {
-    if (func_02072EE0(a) != 0) {
+    if (NNS_SndPlayerCountPlayingSeqBySeqNo(a) != 0) {
         return 1;
     }
     return 0;
@@ -123,17 +123,17 @@ void GFL_USE_SetSeSlotVolume(int i, u32 level)
     if (level > 0x7F) {
         level = 0x7F;
     }
-    NNS_SndHandleSetSeqPriority(&sub_02006238_Table[i].unk04, level);
+    NNS_SndHandleSetVolume(&sub_02006238_Table[i].unk04, level);
 }
 
 void GFL_USE_LoaderThreadSeqBank(u32 *arg)
 {
-    func_02074AC4(*arg, 3, sub_02006300_State.unk10);
+    NNS_SndArcLoadSeqEx(*arg, 3, sub_02006300_State.unk10);
 }
 
 void GFL_USE_LoaderThreadWaves(u32 *arg)
 {
-    func_02074AC4(*arg, 4, sub_02006300_State.unk10);
+    NNS_SndArcLoadSeqEx(*arg, 4, sub_02006300_State.unk10);
 }
 
 void GFL_USE_StartLoaderThread(u32 a, int mode)
@@ -142,16 +142,16 @@ void GFL_USE_StartLoaderThread(u32 a, int mode)
     GFL_USE_StopLoaderThread();
     switch (mode) {
     case 0:
-        func_020853C0(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadSeqBank,
+        OS_CreateThread(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadSeqBank,
                       &sub_02006300_State.unk0C, sub_02006300_Stack,
                       0x400, 0x11);
         break;
     case 1:
-        func_020853C0(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadWaves,
+        OS_CreateThread(sub_02006300_Thread, (void (*)(void *))GFL_USE_LoaderThreadWaves,
                       &sub_02006300_State.unk0C, sub_02006300_Stack,
                       0x400, 0x11);
         break;
     }
-    func_02085868(sub_02006300_Thread);
+    OS_WakeupThreadDirect(sub_02006300_Thread);
     sub_02006300_State.unk14 = (u32)sub_02006300_Thread;
 }

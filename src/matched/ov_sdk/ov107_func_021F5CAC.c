@@ -12,16 +12,16 @@
  * sdk:      MBi_StartParentCore (libmb.TWL.HYB.a(mb_wm_base.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_02082A48  0x02082A48  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F1B3C  0x021F1B3C  arm  ov107
  *   func_021F6804  0x021F6804  arm  ov107
  *   func_021F6830  0x021F6830  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021F3F78  0x021F3F78  arm  ov107
  *   func_021F5BE0  0x021F5BE0  arm  ov107
- *   func_0208799C  0x0208799C  arm
- *   func_020885EC  0x020885EC  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   PXI_IsCallbackReady  0x020885EC  arm
  *   func_021F1D80  0x021F1D80  arm  ov107
  *   func_021F46C8  0x021F46C8  arm  ov107
  *   g_021F6F90     0x021F6F90  data
@@ -35,16 +35,16 @@ typedef unsigned long u32;
 
 extern struct WmBase g_021F6F90;
 
-extern unsigned long func_02087988(void);
-extern void func_02082A48(u16 data, void *destp, u32 size);
+extern unsigned long OS_DisableInterrupts(void);
+extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void func_021F1B3C(void (*callback)(u16, u32, void *));
 extern void func_021F6804(u16 childMaxSize);
 extern void func_021F6830(void *buf);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void func_021F3F78(void);
 extern int func_021F5BE0(void);
-extern unsigned long func_0208799C(unsigned long state);
-extern int func_020885EC(int fifotag, int proc);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern int PXI_IsCallbackReady(int fifotag, int proc);
 extern void func_021F1D80(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 
@@ -58,11 +58,11 @@ int func_021F5CAC(int channel)
     void (*cb_tmp)(u16, u32, void *);
     u32 enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     *(u16 *)(WM + 0x32) = channel;
     *(u32 *)(((unsigned char *)&g_021F6F90) + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
     cb_tmp = *(void (**)(u16, u32, void *))(PBUF + 0x1000 + 0x4e4);
-    func_02082A48(0, PBUF + 0x1340, 0x69c0);
+    MIi_CpuClear16(0, PBUF + 0x1340, 0x69c0);
     func_021F1B3C(cb_tmp);
     *(int *)(PBUF + 0x1000 + 0x318) = *(u16 *)(WM + 0x500) - 6;
     func_021F6804(*(u16 *)(WM + 0x502));
@@ -73,7 +73,7 @@ int func_021F5CAC(int channel)
         *(signed char *)(PBUF + i + 0x1000 + 0x526) = -1;
     }
     *(u8 *)(PBUF + 0x1000 + 0x524) = ret;
-    func_02082A48(ret, PBUF + 0x388 + 0x1400, 0x5d40);
+    MIi_CpuClear16(ret, PBUF + 0x388 + 0x1400, 0x5d40);
     MI_CpuFill8(PBUF + 0x354 + 0x1400, ret, 0x1e);
     ret = 1;
     *(u16 *)(WM + 0x500 + 0x24) = ret;
@@ -85,7 +85,7 @@ int func_021F5CAC(int channel)
     *(u16 *)(WM + 0x500 + 0x1a) = (((*(u16 *)(WM + 0x36) + 0xe) * 15 + 0x29) & ~0x1f) << 1;
     func_021F3F78();
     i = func_021F5BE0();
-    func_0208799C(enabled);
-    *(int *)(PBUF + 0x7000 + 0x4c8) = func_020885EC(0xf, ret);
+    OS_RestoreInterrupts(enabled);
+    *(int *)(PBUF + 0x7000 + 0x4c8) = PXI_IsCallbackReady(0xf, ret);
     return i;
 }

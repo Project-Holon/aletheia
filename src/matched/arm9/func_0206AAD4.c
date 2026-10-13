@@ -1,5 +1,5 @@
 /*
- * function: func_0206AAD4
+ * function: NNS_G3dGlbGetInvCameraMtx
  * address:  0x0206AAD4
  * packet:   pkt_0206AA78
  * region:   arm9
@@ -19,8 +19,8 @@
  * 68 bytes (56 code + three pool words).  dsi/1.1p1 keeps 0x02148B4C live in
  * r4 across the call, grows the frame to `push {r4, lr}` and leaves 24
  * differing bytes; dsi/../2.0/sp2 with this C reproduces all 68 bytes with
- * zero concrete differences.  Same family tell as src/matched/func_0206ADBC.c,
- * src/matched/func_0206ADF4.c and src/pending/func_0206AD64.c.
+ * zero concrete differences.  Same family tell as src/matched/NNS_G3dGlbGetWVMtx.c,
+ * src/matched/NNS_G3dGlbGetInvWVMtx.c and src/pending/NNSi_G3dGlbUpdateWV.c.
  *
  * Rig-slot setup for bit 3: if the flags object's +0xfc word does not already
  * carry the bit, hand the slot pair (0x02148B98, 0x02148C4C) to the matrix
@@ -29,8 +29,8 @@
  * `literal`); only the returned slot address stays wildcarded.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206AAD4.c \
- *       --func func_0206AAD4 --addr 0x0206AAD4 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/pending/NNS_G3dGlbGetInvCameraMtx.c \
+ *       --func NNS_G3dGlbGetInvCameraMtx --addr 0x0206AAD4 --cc ../2.0/sp2 --arm
  *
  * symbols:
  *   g_renderState   0x02148B4C  data
@@ -46,7 +46,7 @@ extern u32 g_renderStateDrawParams[];
 extern u32 g_02148C4C[];
 extern void func_0207B67C(u32 *a, u32 *b);
 
-u32 *func_0206AAD4(void)
+u32 *NNS_G3dGlbGetInvCameraMtx(void)
 {
     if ((g_renderState[0x3f] & 8) == 0) {
         func_0207B67C(g_renderStateDrawParams, g_02148C4C);

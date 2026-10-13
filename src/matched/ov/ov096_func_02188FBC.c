@@ -1,5 +1,5 @@
 /*
- * function: func_02188FBC
+ * function: TR_AI_CmdIfNoPartyMajorStatus
  * address: 0x02188FBC
  * packet: pkt_ov096_02188FBC
  * region: ov096
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188FCC 0x02188FCC thumb ov096
+ *   TR_AI_ComparePartyMajorStatus 0x02188FCC thumb ov096
  */
 #include "../include/Obj21947.h"
 struct Cursor;
-extern void func_02188FCC(struct Cursor *a, int b, int c);
-int func_02188FBC(struct Cursor *a, unsigned char *b) { func_02188FCC(a,(int)b,3); return ((struct Obj21947 *)b)->fC4; }
+extern void TR_AI_ComparePartyMajorStatus(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfNoPartyMajorStatus(struct Cursor *a, unsigned char *b) { TR_AI_ComparePartyMajorStatus(a,(int)b,3); return ((struct Obj21947 *)b)->fC4; }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C866C  0x021C866C  arm  ov114
- *   func_021C86A8  0x021C86A8  arm  ov114
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
  *   func_022024DC  0x022024DC  thumb
  *   func_021F4FC4  0x021F4FC4  thumb
  *   func_021F90A0  0x021F90A0  thumb
@@ -63,8 +63,8 @@ typedef struct {
     u32 f12F8;
 } Work;
 
-extern int func_021C866C(void);
-extern int func_021C86A8(void);
+extern int DPW_TR_IsAsyncEnd(void);
+extern int DPW_TR_GetAsyncResult(void);
 extern int func_022024DC(Work *p, void *mon);
 extern void func_021F4FC4(u8 *p);
 extern void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -93,8 +93,8 @@ int func_0220189C(Work *p)
     int r;
     void *mon;
 
-    if (func_021C866C() != 0) {
-        r = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd() != 0) {
+        r = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (r) {
         case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021597F8
+ * function: dt_synack
  * address:  0x021597F8
  * packet:   pkt_ov009_021597F8
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      dt_synack (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02159244  0x02159244  arm  ov009
- *   func_021594A4  0x021594A4  arm  ov009
- *   func_020858D8  0x020858D8  arm
- *   func_021592A8  0x021592A8  arm  ov009
- *   func_02159404  0x02159404  arm  ov009
- *   func_02085868  0x02085868  arm
+ *   find_socket  0x02159244  arm  ov009
+ *   _tcp_send_rst  0x021594A4  arm  ov009
+ *   OS_YieldThread  0x020858D8  arm
+ *   parse_mss  0x021592A8  arm  ov009
+ *   _tcp_send_ack  0x02159404  arm  ov009
+ *   OS_WakeupThreadDirect  0x02085868  arm
  */
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
@@ -35,31 +35,31 @@ struct _CPSSoc {
 	unsigned long ackrcvd;
 };
 
-extern struct _CPSSoc *func_02159244(unsigned char *iphdr, unsigned char *tcphdr);
-extern void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
-extern void func_020858D8(void);
-extern void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc);
-extern void func_02159404(struct _CPSSoc *soc, int flush);
-extern void func_02085868(void *thread);
+extern struct _CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr);
+extern void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len);
+extern void OS_YieldThread(void);
+extern void parse_mss(unsigned char *tcphdr, struct _CPSSoc *soc);
+extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
+extern void OS_WakeupThreadDirect(void *thread);
 
-void func_021597F8(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
+void dt_synack(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
 {
 	struct _CPSSoc *soc;
 
-	soc = func_02159244(iphdr, tcphdr);
+	soc = find_socket(iphdr, tcphdr);
 	if (soc == 0 || soc->state != 2) {
-		func_021594A4(iphdr, tcphdr, len);
+		_tcp_send_rst(iphdr, tcphdr, len);
 		return;
 	}
-	func_020858D8();
+	OS_YieldThread();
 	soc->ackno = BE32(tcphdr, 4) + 1;
 	soc->ackrcvd = BE32(tcphdr, 8);
 	soc->remote_win = SWAP16(*(unsigned short *)(tcphdr + 0xe));
-	func_021592A8(tcphdr, soc);
-	func_02159404(soc, 2);
+	parse_mss(tcphdr, soc);
+	_tcp_send_ack(soc, 2);
 	soc->state = 4;
 	if (soc->waiting == 1) {
 		soc->waiting = 0;
-		func_02085868(soc->thread);
+		OS_WakeupThreadDirect(soc->thread);
 	}
 }

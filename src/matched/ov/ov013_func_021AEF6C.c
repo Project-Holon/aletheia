@@ -22,9 +22,9 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   VCT_MAIN_InitAudio  0x021AEB20  thumb  ov013
  *   func_0202EB0C  0x0202EB0C  thumb
- *   func_02073838  0x02073838  arm
- *   func_02073AD0  0x02073AD0  arm
- *   func_020738C0  0x020738C0  arm
+ *   NNS_SndStrmAllocChannel  0x02073838  arm
+ *   NNS_SndStrmSetVolume  0x02073AD0  arm
+ *   NNS_SndStrmSetup  0x020738C0  arm
  *   VCT_MAIN_StreamCallback  0x021AEB7C  thumb  ov013
  *   func_02034714  0x02034714  arm
  *   DWC_GetMyAID  0x0216B838  arm  ov009
@@ -84,11 +84,11 @@ extern u32 DWC_RAPCOMMON_Alloc(u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *p, int v, u32 n);
 extern void VCT_MAIN_InitAudio(void);
 extern u32 func_0202EB0C(void);
-extern int func_02073838(u8 *o, int n, u8 *src);
+extern int NNS_SndStrmAllocChannel(u8 *o, int n, u8 *src);
 typedef signed int     s32;
 struct Slot;
-extern void func_02073AD0(struct Slot *s, s32 v);
-extern int func_020738C0(void *ch, int fmt, void *buf, u32 len, int rate,
+extern void NNS_SndStrmSetVolume(struct Slot *s, s32 v);
+extern int NNS_SndStrmSetup(void *ch, int fmt, void *buf, u32 len, int rate,
                          int x, void (*cb)(void), void *arg);
 extern void VCT_MAIN_StreamCallback(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -124,9 +124,9 @@ void VCT_MAIN_Start(void *heap, int arg1, int mode)
     gVctWork->mic.callback = 0;
     gVctWork->mic.arg = 0;
     gVctWork->f1A4B = 1;
-    func_02073838(gVctWork->f19B8, 1, vals);
-    func_02073AD0((struct Slot *)gVctWork->f19B8, 0);
-    if (func_020738C0(gVctWork->f19B8, 1, gVctWork->f884, 0x880,
+    NNS_SndStrmAllocChannel(gVctWork->f19B8, 1, vals);
+    NNS_SndStrmSetVolume((struct Slot *)gVctWork->f19B8, 0);
+    if (NNS_SndStrmSetup(gVctWork->f19B8, 1, gVctWork->f884, 0x880,
                       func_0202EB0C() ? 0x40 : 0x41, 2, (void (*)(void))VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
         func_02034714((void *)0x021B3C20, 0, (void *)0x021B3C20);

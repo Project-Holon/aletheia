@@ -1,5 +1,5 @@
 /*
- * function: func_021BA594
+ * function: WIFICLUBACTOR_QueueMoveCommand
  * address:  0x021BA594
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -28,7 +28,7 @@ typedef int BOOL;
 
 extern void func_021C5F44(void *a, void *b);
 
-void func_021BA594(char *p, int a, int b, int c)
+void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c)
 {
     struct S { u16 a; u8 b; u8 c; } s;
 

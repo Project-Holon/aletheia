@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D90
+ * function: BTL_CLIENT_GetPointCounter
  * address:  0x021D3D90
  * packet:   pkt_021D3D90
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3D90   0x021D3D90  thumb ov093
+ *   BTL_CLIENT_GetPointCounter   0x021D3D90  thumb ov093
  *
  * ldrb at #0x1ab (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021D3D90(u8 *p)
+u8 BTL_CLIENT_GetPointCounter(u8 *p)
 {
     return ((struct Obj18397 *)p)->f1AB;
 }

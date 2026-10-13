@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: callee of func_021BF050 (ov099) +0002. Coherent
+ * Recursive MATCH unblocker: callee of WIFICLUB_HasNewClientAid (ov099) +0002. Coherent
  * Thumb code only in ov009 (ov010 holds the tail of another function), so the
  * ov009 shard makes that site attest as `matched`.
  *

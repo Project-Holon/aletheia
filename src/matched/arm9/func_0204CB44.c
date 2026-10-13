@@ -16,11 +16,11 @@
  * now closed and the file is at 4 of 6 relocation sites resolved:
  *
  *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
- *   func_02065BD0  0x02065BD0  168 bytes  -- OPEN, docs/notes/func_02065BD0.c.txt
+ *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
  *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
- *   func_02065C78  0x02065C78  108 bytes  -- closed, resolves `matched`
+ *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
  * func_02066748 is not decompilable and never will be.  It is a twelve-byte
  * ARM linker veneer, `ldr ip, [pc]; bx ip; .word 0x02067AA0`, and the
@@ -33,7 +33,7 @@
  * docs/idioms/a-veneer-attests-nothing-while-its-target-is-an-unlabelled-leaf.md
  * predicted.
  *
- * What remains is func_02065BD0, a 24-byte codegen near miss over one
+ * What remains is NNS_G2dBeginRendering, a 24-byte codegen near miss over one
  * zero-register allocation (the note names every spelling tried), and
  * CLACT_ApplyActorTransform, 584 bytes of soft-float record publishing that nobody has
  * attempted yet.  This function is itself the sole blocker for
@@ -49,11 +49,11 @@
  *
  * symbols:
  *   func_02066748  0x02066748  arm
- *   func_02065BD0  0x02065BD0  arm
+ *   NNS_G2dBeginRendering  0x02065BD0  arm
  *   CLACT_SetupActorDraw  0x0204CBB0  arm
  *   CLACT_SetOamOffsets  0x0204BA7C  arm
  *   CLACT_ApplyActorTransform  0x0204CC6C  arm
- *   func_02065C78  0x02065C78  arm
+ *   NNS_G2dEndRendering  0x02065C78  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/CLACT_DrawActor.c \
@@ -78,11 +78,11 @@ struct Elem {
 typedef unsigned short u16;
 struct Rec;
 extern void func_02066748(int *a0, int a1, int a2);
-extern void func_02065BD0(void *obj);
+extern void NNS_G2dBeginRendering(void *obj);
 extern void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r);
 extern void CLACT_SetOamOffsets(u32 set, u16 bias, u32 v);
 extern u32  CLACT_ApplyActorTransform(struct Elem *e);
-extern void func_02065C78(u32 a);
+extern void NNS_G2dEndRendering(u32 a);
 
 void CLACT_DrawActor(struct Elem *e, u32 arg)
 {
@@ -90,8 +90,8 @@ void CLACT_DrawActor(struct Elem *e, u32 arg)
         return;
 
     func_02066748((int *)arg, (int)e->unk1c, (int)e->unk40);
-    func_02065BD0((void *)arg);
+    NNS_G2dBeginRendering((void *)arg);
     CLACT_SetupActorDraw(e, (struct Rec *)arg);
     CLACT_SetOamOffsets((u32)e->unk40, (u8)e->unk60_c, e->unk60_1f);
-    func_02065C78(CLACT_ApplyActorTransform(e));
+    NNS_G2dEndRendering(CLACT_ApplyActorTransform(e));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CFC
+ * function: NHTTPi_SocClose
  * address:  0x021B9CFC
  * packet:   pkt_ov114_021B9CFC
  * region:   ov114
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   SOC_Close 0x0215F644 arm
- *   func_02085A38 0x02085A38 arm
+ *   OS_Sleep 0x02085A38 arm
  *   func_0215EBB4 0x0215EBB4 arm
- *   func_021BA850 0x021BA850 arm ov114
+ *   NHTTPi_free 0x021BA850 arm ov114
  */
 
 typedef struct {
@@ -24,11 +24,11 @@ typedef struct {
 } Req;
 
 extern int SOC_Close(int socket);
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 extern void func_0215EBB4(void);
-extern void func_021BA850(int a);
+extern void NHTTPi_free(int a);
 
-int func_021B9CFC(int unused, Req *req_p, int socket)
+int NHTTPi_SocClose(int unused, Req *req_p, int socket)
 {
     int error;
     int elapsed;
@@ -36,12 +36,12 @@ int func_021B9CFC(int unused, Req *req_p, int socket)
     error = SOC_Close(socket);
     if (error == 0 || error == -26) {
         for (elapsed = 0; (error = SOC_Close(socket)) == -26 && elapsed <= 10000; elapsed += 500) {
-            func_02085A38(500);
+            OS_Sleep(500);
             func_0215EBB4();
         }
     }
     if (error != -26 && req_p != 0 && req_p->pSslCon != 0) {
-        func_021BA850((int)req_p->pSslCon);
+        NHTTPi_free((int)req_p->pSslCon);
         req_p->pSslCon = 0;
     }
     return error;

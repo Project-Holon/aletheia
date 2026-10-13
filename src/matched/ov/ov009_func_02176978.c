@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_0217603C  0xfunc_0217603C  arm
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm
+ *   DWCi_NodeInfoList_GetCount  0xfunc_0217603C  arm
  */
 
-extern int func_0217603C(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 
 int DWCi_GetNodeInfoCount(void)
 {
-    return func_0217603C();
+    return DWCi_NodeInfoList_GetCount();
 }

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_StartSession 0x0203CBAC arm
- *   func_02087C6C 0x02087C6C arm
+ *   OS_GetMacAddress 0x02087C6C arm
  *   d_021FDE4C 0x021FDE4C data a4
  *   d_021FDDEC 0x021FDDEC data a4
  *   func_021FCAA0 0x021FCAA0 thumb ov132
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Req;
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void MYSTATUS_Copy(void *, void *);
-extern void func_02087C6C(void *);
+extern void OS_GetMacAddress(void *);
 extern void func_021FCAA0(char *p);
 extern char d_021FDE4C[];
 extern char d_021FDDEC[];
@@ -37,7 +37,7 @@ void *func_021FC694(int a,char *p)
         GFL_NET_StartSession((struct Req *)d_021FDDEC,(u32)func_021FCAA0,(u32)p);
     }
     MYSTATUS_Copy(((struct Obj06493 *)p)->f5C,p+0x20);
-    func_02087C6C(p+0x40);
+    OS_GetMacAddress(p+0x40);
     ((struct Obj06493 *)p)->f46=0x3a0b;
     return p;
 }

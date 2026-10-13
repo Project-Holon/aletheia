@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_GIMMICK45_SetState",
+   "name": "SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState",
    "address": "0x021B271C",
    "kind": "game",
    "region": "ov021",

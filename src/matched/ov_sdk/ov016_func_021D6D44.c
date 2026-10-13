@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D44
+ * function: DWCi_LSTlForm
  * address:  0x021D6D44
  * packet:   pkt_ov016_021D6D44
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_LSTlForm (libdwcutil.TWL.HYB.a list.o)
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  */
 
 typedef struct ListNode {
@@ -27,11 +27,11 @@ typedef struct ListCB {
     void *fc;
 } ListCB;
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 
-ListCB *func_021D6D44(void)
+ListCB *DWCi_LSTlForm(void)
 {
-    ListCB *list = func_021D6414(0x10, 4);
+    ListCB *list = DWCi_HEAPlAllocEx(0x10, 4);
     list->f0 = 0;
     list->f4 = &list->f8;
     list->f8 = list;

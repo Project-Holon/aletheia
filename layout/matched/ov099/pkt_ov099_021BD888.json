@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BD888",
-    "func_021BD8C0"
+    "WIFICLUB_StatePollRuleChoicePrompt",
+    "WIFICLUB_StateShowMenuReject"
+   ],
+   "addresses": [
+    "0x021BD888",
+    "0x021BD8C0"
    ]
   }
  ]

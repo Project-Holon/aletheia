@@ -1,5 +1,5 @@
 /*
- * function: func_020746E8
+ * function: NNS_SndHeapCreate
  * address:  0x020746E8
  * packet:   pkt_020737C0
  * region:   arm9
@@ -12,12 +12,12 @@
  * Carves one sub-allocation out of an (offset, size) window: round the offset
  * up to four, refuse the window if the rounded offset already ran past its end
  * or if fewer than 0x10 bytes remain, then allocate through func_020610E0 with
- * a 0x10-byte header reserved and register the block with func_020749C4. A
+ * a 0x10-byte header reserved and register the block with NNSi_SndHeapInit. A
  * failed registration frees the block again and answers 0; success answers the
  * aligned offset.
  *
- * PINNED ../2.0/sp2, the pin five cluster siblings carry (func_020737C0,
- * func_02073AD0, func_02073B3C, func_02073CA0, func_02074894).
+ * PINNED ../2.0/sp2, the pin five cluster siblings carry (NNS_SndStrmInit,
+ * NNS_SndStrmSetVolume, NNS_SndStrmStop, NNSi_SndStrmAlarmHandler, NNS_SndHeapSaveState).
  * docs/notes/pkt_020746E8.c.txt recorded this body as 116 bytes against 112
  * with 77 concrete bytes out under dsi/1.1p1, which pools the constant 0 into
  * a callee-saved register and shifts every subsequent register by one
@@ -38,22 +38,22 @@
  *
  * symbols:
  *   func_020610E0  0x020610E0  arm
- *   func_020749C4  0x020749C4  arm
+ *   NNSi_SndHeapInit  0x020749C4  arm
  *   func_02061118  0x02061118  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020746E8.c \
- *       --func func_020746E8 --addr 0x020746E8 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndHeapCreate.c \
+ *       --func NNS_SndHeapCreate --addr 0x020746E8 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned int u32;
 
 struct Table;
 extern void *func_020610E0(void *mem, u32 size, u32 opt);
-extern int func_020749C4(struct Table *t, void *heap);
+extern int NNSi_SndHeapInit(struct Table *t, void *heap);
 extern void  func_02061118(void *p);
 
-u32 func_020746E8(u32 off, u32 size)
+u32 NNS_SndHeapCreate(u32 off, u32 size)
 {
     u32 end;
     u32 aligned;
@@ -69,7 +69,7 @@ u32 func_020746E8(u32 off, u32 size)
 
     p = func_020610E0((void *)(aligned + 0x10), rest - 0x10, 0);
     if (p == 0) return 0;
-    if (func_020749C4((struct Table *)aligned, p) != 0) return aligned;
+    if (NNSi_SndHeapInit((struct Table *)aligned, p) != 0) return aligned;
 
     func_02061118(p);
     return 0;

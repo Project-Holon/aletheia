@@ -1,5 +1,5 @@
 /*
- * function: func_021BE900
+ * function: WIFICLUB_OnFatalError
  * address:  0x021BE900
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021BE900(char *p)
+void WIFICLUB_OnFatalError(char *p)
 {
 }

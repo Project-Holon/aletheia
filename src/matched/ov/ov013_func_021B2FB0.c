@@ -10,22 +10,22 @@
  * status: EXACT
  * symbols:
  *   gVoiceFramePool 0x021B4C24 data a4
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  */
 typedef struct Node Node;
 struct Node { Node *next; int f4,f8; };
 extern Node *gVoiceFramePool;
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 Node *VCT_POOL_AllocFrame(void)
 {
     Node *result=0;
-    int irq=func_02087988();
+    int irq=OS_DisableInterrupts();
     if(gVoiceFramePool != 0) {
         result=gVoiceFramePool;
         gVoiceFramePool=gVoiceFramePool->next;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return result;
 }

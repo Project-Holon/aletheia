@@ -1,5 +1,5 @@
 /*
- * function: func_0206C0C4
+ * function: NNSi_G3dFuncSbc_NODEDESC
  * address:  0x0206C0C4
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -29,8 +29,8 @@
  * DISCRIMINATING PIN: dsi/1.1p1 compiles the same C to DIFF.
  *
  * symbols:
- *   g_020A1974     0x020A1974  data  a1
- *   func_0206DDA4  0x0206DDA4  arm
+ *   gPivotAxisTable     0x020A1974  data  a1
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   func_020834A8  0x020834A8  thumb
  */
 
@@ -106,9 +106,9 @@ struct RS {
     JntAnmResult tmpJntAnmResult;
 };
 
-extern const u8 g_020A1974[][4];
+extern const u8 gPivotAxisTable[][4];
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void func_020834A8(void *p);
 
 static inline void *GetResDataByIdx(const Dict *dict, u32 idx)
@@ -167,7 +167,7 @@ static inline u32 CallBackCheck_C(RS *rs, u32 cmd, u32 timing)
     return 0;
 }
 
-void func_0206C0C4(RS *rs, u32 opt)
+void NNSi_G3dFuncSbc_NODEDESC(RS *rs, u32 opt)
 {
     u32 cmdLen = 4;
     u32 idxNode = rs->c[1];
@@ -184,7 +184,7 @@ void func_0206C0C4(RS *rs, u32 opt)
             cmdLen++;
             if (!(rs->flag & 0x100)) {
                 u32 arg = rs->c[4];
-                func_0206DDA4(0x14, &arg, 1);
+                NNS_G3dGeBufferOP_N(0x14, &arg, 1);
             }
         }
         rs->c += cmdLen;
@@ -199,7 +199,7 @@ void func_0206C0C4(RS *rs, u32 opt)
             arg = rs->c[5];
         cmdLen++;
         if (!(rs->flag & 0x100))
-            func_0206DDA4(0x14, &arg, 1);
+            NNS_G3dGeBufferOP_N(0x14, &arg, 1);
     }
 
     rs->pJntAnmResult = &rs->tmpJntAnmResult;
@@ -243,10 +243,10 @@ void func_0206C0C4(RS *rs, u32 opt)
                     B = ((const fx16 *)p)[1];
                     func_020834A8(&pResult->rot);
                     pResult->rot.a[idxPivot] = (nd->flag & 0x100) ? -0x1000 : 0x1000;
-                    pResult->rot.a[g_020A1974[idxPivot][0]] = A;
-                    pResult->rot.a[g_020A1974[idxPivot][1]] = B;
-                    pResult->rot.a[g_020A1974[idxPivot][2]] = (nd->flag & 0x200) ? -B : B;
-                    pResult->rot.a[g_020A1974[idxPivot][3]] = (nd->flag & 0x400) ? -A : A;
+                    pResult->rot.a[gPivotAxisTable[idxPivot][0]] = A;
+                    pResult->rot.a[gPivotAxisTable[idxPivot][1]] = B;
+                    pResult->rot.a[gPivotAxisTable[idxPivot][2]] = (nd->flag & 0x200) ? -B : B;
+                    pResult->rot.a[gPivotAxisTable[idxPivot][3]] = (nd->flag & 0x400) ? -A : A;
                     p++;
                 } else {
                     const fx16 *q = (const fx16 *)p;
@@ -277,7 +277,7 @@ void func_0206C0C4(RS *rs, u32 opt)
         cmdLen++;
         if (!cbFlag && !(rs->flag & 0x100)) {
             u32 arg = rs->c[4];
-            func_0206DDA4(0x13, &arg, 1);
+            NNS_G3dGeBufferOP_N(0x13, &arg, 1);
         }
     }
     rs->c += cmdLen;

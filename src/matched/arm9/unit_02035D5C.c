@@ -16,10 +16,10 @@
  * symbols:
  *   func_02035224  0x02035224  arm
  *   TOUCHPANEL_GetWork  0x02035750  arm
- *   func_0208AC0C  0x0208AC0C  arm
- *   func_0208AD14  0x0208AD14  arm
- *   func_0208B220  0x0208B220  arm
- *   func_0208B238  0x0208B238  arm
+ *   TP_RequestAutoSamplingStartAsync  0x0208AC0C  arm
+ *   TP_RequestAutoSamplingStopAsync  0x0208AD14  arm
+ *   TP_WaitBusy  0x0208B220  arm
+ *   TP_CheckError  0x0208B238  arm
  *
  * The open/close pair of the 0x02035000 block's link layer, plus their
  * no-context wrappers.  TOUCHPANEL_AutoSamplingStopSys brings the link up (state word at +0x5a
@@ -53,10 +53,10 @@ struct Sio {
 struct UiCtx;
 extern struct UiCtx *func_02035224(void);
 extern int TOUCHPANEL_GetWork(void);
-extern void func_0208AC0C(u32 a, u32 b, void *c, u32 d);
-extern void func_0208AD14(void);
-extern void func_0208B220(u32 slot);
-extern u32 func_0208B238(u32 slot);
+extern void TP_RequestAutoSamplingStartAsync(u32 a, u32 b, void *c, u32 d);
+extern void TP_RequestAutoSamplingStopAsync(void);
+extern void TP_WaitBusy(u32 slot);
+extern u32 TP_CheckError(u32 slot);
 
 u32 TOUCHPANEL_RequestAutoSamplingStop(struct Sio *p);
 u32 TOUCHPANEL_RequestAutoSamplingStart(struct Sio *p);
@@ -68,9 +68,9 @@ u32 TOUCHPANEL_RequestAutoSamplingStop(struct Sio *p)
     if (p->unk58 == 0) {
         return 1;
     }
-    func_0208AD14();
-    func_0208B220(4);
-    if (func_0208B238(4) != 0) {
+    TP_RequestAutoSamplingStopAsync();
+    TP_WaitBusy(4);
+    if (TP_CheckError(4) != 0) {
         return 2;
     }
     return 1;
@@ -110,10 +110,10 @@ u32 TOUCHPANEL_RequestAutoSamplingStart(struct Sio *p)
 {
     u32 ret;
 
-    func_0208AC0C(0, p->unk75, p->buf, 9);
+    TP_RequestAutoSamplingStartAsync(0, p->unk75, p->buf, 9);
     ret = 2;
-    func_0208B220(2);
-    if (func_0208B238(2) == 0) {
+    TP_WaitBusy(2);
+    if (TP_CheckError(2) == 0) {
         ret = 1;
     }
     return ret;

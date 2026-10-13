@@ -11,21 +11,21 @@
  *
  * symbols:
  *   g_02153B80     0x02153B80  data
- *   func_0200421A  0x0200421A  thumb
- *   func_02084EB8  0x02084EB8  arm
+ *   SVC_CpuSet  0x0200421A  thumb
+ *   OS_GetLockID  0x02084EB8  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern unsigned char g_02153B80[];
-extern void func_0200421A(u32 *out, unsigned char *p, u32 v);
-extern u16 func_02084EB8(void);
+extern void SVC_CpuSet(u32 *out, unsigned char *p, u32 v);
+extern u16 OS_GetLockID(void);
 
 void func_02090F18(void)
 {
     u32 tmp = 0;
 
-    func_0200421A(&tmp, g_02153B80 + 4, 0x05000001);
-    *(u16 *)(g_02153B80 + 6) = func_02084EB8();
+    SVC_CpuSet(&tmp, g_02153B80 + 4, 0x05000001);
+    *(u16 *)(g_02153B80 + 6) = OS_GetLockID();
 }

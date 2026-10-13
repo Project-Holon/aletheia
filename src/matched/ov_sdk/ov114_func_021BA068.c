@@ -1,5 +1,5 @@
 /*
- * function: func_021BA068
+ * function: NHTTPi_SocCancel
  * address:  0x021BA068
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEFCC  0x021BEFCC  arm  ov114
- *   func_021BEFD8  0x021BEFD8  arm  ov114
+ *   NHTTPi_lockReqList  0x021BEFCC  arm  ov114
+ *   NHTTPi_unlockReqList  0x021BEFD8  arm  ov114
  *   SOC_Shutdown  0x0215F638  arm  ov009
  *
  *
@@ -20,14 +20,14 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BEFCC(void);
-extern void func_021BEFD8(int);
+extern void NHTTPi_lockReqList(void);
+extern void NHTTPi_unlockReqList(int);
 extern void SOC_Shutdown(int, int);
 
-void func_021BA068(int a, int b, int c)
+void NHTTPi_SocCancel(int a, int b, int c)
 {
-    func_021BEFCC();
+    NHTTPi_lockReqList();
     if (c >= 0)
         SOC_Shutdown(c, 2);
-    func_021BEFD8(a);
+    NHTTPi_unlockReqList(a);
 }

@@ -11,8 +11,9 @@
  *
  * symbols:
  *   DWC_RAPUTIL_ResetSystem   0x021B6184  thumb
+ *   OS_ResetSystem  0x02087BCC  arm  arm9
  *
- * Call func_02087BCC with 0, then return 1.
+ * Call OS_ResetSystem with 0, then return 1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,10 +21,10 @@
  *       --func DWC_RAPUTIL_ResetSystem --addr 0x021B6184 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_02087BCC(unsigned int);
+extern void OS_ResetSystem(unsigned int);
 
 int DWC_RAPUTIL_ResetSystem(void)
 {
-    func_02087BCC(0);
+    OS_ResetSystem(0);
     return 1;
 }

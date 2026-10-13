@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: score declared before id gives score r4 and id r5; reverse gives 23-byte DIFF.
  * symbols:
- *   func_0216CB30 0x0216CB30 arm ov009
+ *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -18,7 +18,7 @@
 #include "../include/Obj10386.h"
 #include "../include/Obj22828.h"
 typedef unsigned char u8;
-extern int func_0216CB30(int, int, int);
+extern int DWC_GetMatchIntValue(int, int, int);
 extern void *func_02009EC8(void *);
 typedef unsigned int   u32;
 struct Sub02009D9CObj;
@@ -37,11 +37,11 @@ int func_021D4A20(int a, u8 *p)
     int group;
     int i;
     u8 *q = *(u8 * *)&((struct Obj10386 *)p)->f48;
-    mode = func_0216CB30(a, (int)(p + 0x76), -1);
-    x = func_0216CB30(a, (int)(p + 0x8e), -1);
-    y = func_0216CB30(a, (int)(p + 0x82), -1);
-    id = func_0216CB30(a, (int)(p + 0x5e), 0);
-    group = func_0216CB30(a, (int)(p + 0xb2), 0);
+    mode = DWC_GetMatchIntValue(a, (int)(p + 0x76), -1);
+    x = DWC_GetMatchIntValue(a, (int)(p + 0x8e), -1);
+    y = DWC_GetMatchIntValue(a, (int)(p + 0x82), -1);
+    id = DWC_GetMatchIntValue(a, (int)(p + 0x5e), 0);
+    group = DWC_GetMatchIntValue(a, (int)(p + 0xb2), 0);
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {

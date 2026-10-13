@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689B7FC",
+   "name": "BTL_SICK_ProcTurnEnd",
    "address": "0x0689B7FC",
    "kind": "game",
    "region": "ov095",

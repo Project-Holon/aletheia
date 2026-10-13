@@ -1,5 +1,5 @@
 /*
- * function: func_021B9198
+ * function: IRC_RANKING_InertiaIsActive
  * address: 0x021B9198
  * packet: pkt_ov106_021B9198
  * region: ov106
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021B9198(int *p) { if(p[2]) return 1; else return 0; }
+int IRC_RANKING_InertiaIsActive(int *p) { if(p[2]) return 1; else return 0; }

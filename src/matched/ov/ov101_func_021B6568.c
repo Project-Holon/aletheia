@@ -1,5 +1,5 @@
 /*
- * function: func_021B6568
+ * function: COMPATIBLE_IRC_SYS_StepSendProfile
  * address: 0x021B6568
  * packet: pkt_ov101_021B6568
  * region: ov101
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B67F8 0x021B67F8 thumb ov101
+ *   COMPATIBLE_IRC_SYS_ProfileSyncStepSend 0x021B67F8 thumb ov101
  */
-extern int func_021B67F8(int *,int);
-int func_021B6568(int *p,int resource) { if(p[30]) return 1; return func_021B67F8(p+1,resource); }
+extern int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(int *,int);
+int COMPATIBLE_IRC_SYS_StepSendProfile(int *p,int resource) { if(p[30]) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncStepSend(p+1,resource); }

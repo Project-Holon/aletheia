@@ -1,5 +1,5 @@
 /*
- * function: func_021D71C0
+ * function: DWCi_OVRlFree
  * address:  0x021D71C0
  * packet:   pkt_ov016_021D71C0
  * region:   ov016
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_021D6D8C  0x021D6D8C  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
- *   g_021DE6AC  0x021DE6AC  data
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
+ *   gObjvramWork  0x021DE6AC  data
  */
 
 typedef struct {
@@ -25,15 +25,15 @@ typedef struct {
 } OvrInfo;
 
 extern void func_021D6D8C(void *ob);
-extern void func_021D546C(void *que, void *data);
-extern OvrInfo *g_021DE6AC;
+extern void DWCi_QUElPushBack(void *que, void *data);
+extern OvrInfo *gObjvramWork;
 
-void func_021D71C0(void *ovram)
+void DWCi_OVRlFree(void *ovram)
 {
 	int lcd = 0;
 
 	func_021D6D8C(ovram);
-	if ((char *)ovram >= (char *)g_021DE6AC + 0x1a0)
+	if ((char *)ovram >= (char *)gObjvramWork + 0x1a0)
 		lcd = 1;
-	func_021D546C(g_021DE6AC[lcd].que, ovram);
+	DWCi_QUElPushBack(gObjvramWork[lcd].que, ovram);
 }

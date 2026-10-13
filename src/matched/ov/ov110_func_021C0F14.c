@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F14
+ * function: PMS_SELECT_GRAPHIC_UpdateInput
  * address: 0x021C0F14
  * packet: pkt_ov110_021C0F14
  * region: ov110
@@ -13,11 +13,11 @@
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021C0C50 0x021C0C50 thumb ov110
- *   func_021C0D34 0x021C0D34 thumb ov110
- *   func_021C0EB0 0x021C0EB0 thumb ov110
- *   func_021C0DE4 0x021C0DE4 thumb ov110
- *   func_021C12F8 0x021C12F8 thumb ov110
+ *   PMS_SELECT_GRAPHIC_RedrawRowsAfterInput 0x021C0C50 thumb ov110
+ *   PMS_SELECT_GRAPHIC_PlaceScrollThumb 0x021C0D34 thumb ov110
+ *   PMS_SELECT_GRAPHIC_UpdateThumbDrag 0x021C0EB0 thumb ov110
+ *   PMS_SELECT_GRAPHIC_StartThumbDrag 0x021C0DE4 thumb ov110
+ *   PMS_SELECT_GRAPHIC_GetTouchedRow 0x021C12F8 thumb ov110
  */
 #include "../include/Obj00217.h"
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef struct { u8 lo:1; u8 hi:7; } Flags;
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_021C0C50(u8 *);
-extern void func_021C0D34(char *,int);
-extern int func_021C0EB0(char *);
-extern int func_021C0DE4(char *);
-extern int func_021C12F8(void);
-int func_021C0F14(u8 *p)
+extern void PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(u8 *);
+extern void PMS_SELECT_GRAPHIC_PlaceScrollThumb(char *,int);
+extern int PMS_SELECT_GRAPHIC_UpdateThumbDrag(char *);
+extern int PMS_SELECT_GRAPHIC_StartThumbDrag(char *);
+extern int PMS_SELECT_GRAPHIC_GetTouchedRow(void);
+int PMS_SELECT_GRAPHIC_UpdateInput(u8 *p)
 {
     int result=0;
     int proceed=1;
@@ -48,7 +48,7 @@ int func_021C0F14(u8 *p)
             proceed=0;
             ((struct Obj00217 *)p)->fA8=0;
             GFL_USE_PlaySeDefaultVolume(1352);
-            func_021C0C50(p);
+            PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
         }
     }
     if(proceed && p[0x95]!=255 && !((Flags *)(p+0x99))->lo) {
@@ -61,8 +61,8 @@ int func_021C0F14(u8 *p)
                 p[0x94]=p[0x95];
                 p[0x95]--;
                 if(p[0x95]+1==p[0x96]) p[0x96]--;
-                func_021C0D34((char *)p,0);
-                func_021C0C50(p);
+                PMS_SELECT_GRAPHIC_PlaceScrollThumb((char *)p,0);
+                PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
             proceed=0;
@@ -72,8 +72,8 @@ int func_021C0F14(u8 *p)
                 p[0x94]=p[0x95];
                 p[0x95]++;
                 if(p[0x95]==p[0x96]+3) p[0x96]++;
-                func_021C0D34((char *)p,0);
-                func_021C0C50(p);
+                PMS_SELECT_GRAPHIC_PlaceScrollThumb((char *)p,0);
+                PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
             proceed=0;
@@ -82,27 +82,27 @@ int func_021C0F14(u8 *p)
     }
     if(proceed) {
         if(((Flags *)(p+0x99))->lo) {
-            if(func_021C0EB0((char *)p)) {
-                func_021C0C50(p);
+            if(PMS_SELECT_GRAPHIC_UpdateThumbDrag((char *)p)) {
+                PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
             ((struct Obj00217 *)p)->fA8=1;
         } else {
-            hit=func_021C12F8();
+            hit=PMS_SELECT_GRAPHIC_GetTouchedRow();
             if(hit!=-1 && hit>p[0x98]-1) hit=-1;
             if(hit!=-1) {
                 p[0x94]=p[0x95];
                 p[0x95]=p[0x96]+hit;
-                func_021C0C50(p);
+                PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
                 result=1;
                 ((struct Obj00217 *)p)->fA8=1;
             } else {
-                if(!((Flags *)(p+0x99))->lo) func_021C0DE4((char *)p);
+                if(!((Flags *)(p+0x99))->lo) PMS_SELECT_GRAPHIC_StartThumbDrag((char *)p);
                 if(((Flags *)(p+0x99))->lo==1) {
-                    if(func_021C0EB0((char *)p) || p[0x95]!=255) {
+                    if(PMS_SELECT_GRAPHIC_UpdateThumbDrag((char *)p) || p[0x95]!=255) {
                         p[0x94]=p[0x95];
                         p[0x95]=255;
-                        func_021C0C50(p);
+                        PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(p);
                     }
                     GFL_USE_PlaySeDefaultVolume(1352);
                     ((struct Obj00217 *)p)->fA8=1;

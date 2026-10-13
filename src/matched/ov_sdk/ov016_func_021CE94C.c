@@ -1,5 +1,5 @@
 /*
- * function: func_021CE94C
+ * function: DWCi_SBlEnd
  * address:  0x021CE94C
  * packet:   pkt_ov016_021CE94C
  * region:   ov016
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   func_021D4F60  0x021D4F60  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE63C  0x021DE63C  data
+ *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gScrollBar  0x021DE63C  data
  */
 
 typedef struct {
@@ -26,13 +26,13 @@ typedef struct {
 
 typedef unsigned char  u8;
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021D4F60(u8 *p);
-extern void func_021D6438(void **mem);
-extern SB *g_021DE63C;
+extern void DWCi_CELLlDelete(u8 *p);
+extern void DWCi_HEAPlFree_(void **mem);
+extern SB *gScrollBar;
 
-void func_021CE94C(void)
+void DWCi_SBlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(0, g_021DE63C->task);
-	func_021D4F60(g_021DE63C->cell);
-	func_021D6438((void **)0x021DE63C);
+	DWCi_TSKlDeleteByIndex(0, gScrollBar->task);
+	DWCi_CELLlDelete(gScrollBar->cell);
+	DWCi_HEAPlFree_((void **)0x021DE63C);
 }

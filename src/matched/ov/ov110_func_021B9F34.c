@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F34
+ * function: PMS_INPUT_VIEW_RegisterSpriteResources
  * address: 0x021B9F34
  * packet: pkt_ov110_021B9F34
  * region: ov110
@@ -21,7 +21,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-void func_021B9F34(u8 *p, void *archive) {
+void PMS_INPUT_VIEW_RegisterSpriteResources(u8 *p, void *archive) {
     u8 *q = *(u8 * *)&((struct Obj22328 *)p)->f0;
     int i;
     for (i=0; i<2; ++i) {

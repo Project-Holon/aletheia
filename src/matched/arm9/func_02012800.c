@@ -11,6 +11,7 @@
  *
  * symbols:
  *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GAME_DATA_TakeUnionInfo.c \
@@ -23,11 +24,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void func_02082D44(void *dst, const void *src, u32 n);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 n);
 extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
 
 void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst)
 {
-    func_02082D44(dst, obj + 0x214, 0x1e8);
+    MI_CpuCopy8(dst, obj + 0x214, 0x1e8);
     EVENT_FIELD_PROCLINK_CheckZoneFlag((int)(obj + 0x214));
 }

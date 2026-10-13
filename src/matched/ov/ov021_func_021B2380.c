@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK39_CallEvent
+ * function: SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent
  * address:  0x021B2380
  * packet:   pkt_ov021_021B2380
  * region:   ov021
@@ -28,7 +28,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern int FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(void *a, u32 b);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK39_CallEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

@@ -12,7 +12,7 @@
  * symbols:
  *   MCSS_GetAnimCtrl  0x02015EE8  thumb
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
- *   func_02064CBC  0x02064CBC  arm
+ *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  */
 
 typedef unsigned int u32;
@@ -32,7 +32,7 @@ struct Ov208Anm {
 extern void *MCSS_GetAnimCtrl(void *p);
 extern void MCSS_SetAnmStopFlag(void *p);
 struct Obj;
-extern void func_02064CBC(struct Obj *x);
+extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 
 void ov208_func_021C5214(struct Ov208Anm *p)
 {
@@ -42,7 +42,7 @@ void ov208_func_021C5214(struct Ov208Anm *p)
         anm = MCSS_GetAnimCtrl((void *)p->obj);
         if (p->state->active != 0) {
             MCSS_SetAnmStopFlag((void *)p->obj);
-            func_02064CBC(anm);
+            NNS_G2dRestartMCAnimation(anm);
             p->state->active = 0;
         }
     }

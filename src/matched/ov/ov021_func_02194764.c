@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   TALKMSGWIN_SetupCamera  0x021953D4  thumb  ov021
  *   TALKMSGWIN_DrawEntry  0x02194CE8  thumb  ov021
  * Addresses are Black-image addresses.
@@ -24,7 +24,7 @@ typedef signed char    s8;
 
 typedef struct { u16 kind; u8 f2; u8 rest[97]; } Ent;
 typedef struct { u8 pad[0x18]; Ent ents[32]; } Top;
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void TALKMSGWIN_SetupCamera(u8 *p, int m);
 extern void TALKMSGWIN_DrawEntry(int a, u16 *b);
 
@@ -32,7 +32,7 @@ void TALKMSGWIN_Draw(Top *a)
 {
     int i;
 
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     TALKMSGWIN_SetupCamera((u8 *)a, 1);
     for (i = 0; i < 32; i++) {
         if (a->ents[i].f2 == 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA884
+ * function: NHTTPi_GetSSLError
  * address:  0x021BA884
  * packet:   pkt_021B9500
  * region:   ov114
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021BA884(u8 *p)
+u32 NHTTPi_GetSSLError(u8 *p)
 {
     return ((struct Obj22576 *)p)->f10;
 }

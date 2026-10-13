@@ -1,5 +1,5 @@
 /*
- * function: func_0205BFEC
+ * function: DWCi_AC_InsertApInfo
  * address:  0x0205BFEC
  * packet:   pkt_0205BFEC
  * region:   arm9
@@ -32,7 +32,7 @@ typedef struct tagACWORK {
 extern void *func_0205C214(unsigned long name);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 
-void func_0205BFEC(int no, NCFGApInfo *info)
+void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
 {
     tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
 

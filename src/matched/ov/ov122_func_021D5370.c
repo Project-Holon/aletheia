@@ -15,7 +15,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -59,7 +59,7 @@ struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
 extern void func_0204363C(u32);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
@@ -106,7 +106,7 @@ int func_021D5370(void *owner, void *unused, char *args)
     ((struct Obj00073 *)p)->f354 = ((struct Obj13967 *)args)->f0;
     func_0204363C(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(((struct Obj00073 *)p)->fC);
     BMP_WIN_Init(((struct Obj00073 *)p)->fC);
     func_0201DD60();

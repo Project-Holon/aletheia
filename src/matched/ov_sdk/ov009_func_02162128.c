@@ -14,10 +14,10 @@
  * symbols:
  *   func_02162248  0x02162248  arm  ov009
  *   func_02163C9C  0x02163C9C  arm  ov009
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_02163CF0  0x02163CF0  arm  ov009
  *   func_02163E10  0x02163E10  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA648  0x021AA648  data
  *   g_021A82E4  0x021A82E4  data
  *   g_021AA650  0x021AA650  data
@@ -39,10 +39,10 @@ typedef struct {
 
 extern void func_02162248(void *random_seed, unsigned long len);
 extern void func_02163C9C(CPSSha1Ctx *ctx);
-extern unsigned long func_02087988(void);
+extern unsigned long OS_DisableInterrupts(void);
 extern void func_02163CF0(CPSSha1Ctx *ctx, void *data0, int datalen);
 extern void func_02163E10(void *ctx, unsigned char *digest);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 extern unsigned char g_021AA648;
 extern Rand32Ctx g_021A82E4;
@@ -68,7 +68,7 @@ static void func_02162128(unsigned char *d, int len)
     for (i = 0; i < len;) {
         if (r == 20) {
             func_02163C9C(&ctx);
-            enabled = func_02087988();
+            enabled = OS_DisableInterrupts();
             func_02163CF0(&ctx, g_021AA650, 20);
             func_02163E10(&ctx, x);
             carry = 1;
@@ -77,7 +77,7 @@ static void func_02162128(unsigned char *d, int len)
                 g_021AA650[j] = (unsigned char)tmp;
                 carry = tmp >> 8;
             }
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             r = 0;
         }
         {

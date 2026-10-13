@@ -1,5 +1,5 @@
 /*
- * function: func_021C1350
+ * function: WIFICLUB_RecvPeerChoice
  * address:  0x021C1350
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCC58  0x021BCC58  thumb  ov099
+ *   WIFICLUB_ApplyRuleId  0x021BCC58  thumb  ov099
  *
  * Stamps the record of slot a from the three lead fields of h.
  */
@@ -29,11 +29,11 @@ typedef struct {
     u32 f4;
 } H;
 
-extern void func_021BCC58(char *p, u32 x);
+extern void WIFICLUB_ApplyRuleId(char *p, u32 x);
 
-void func_021C1350(int a, int b, H *h, char *d)
+void WIFICLUB_RecvPeerChoice(int a, int b, H *h, char *d)
 {
     *(u16 *)(d + a * 2 + 0x1F4) = h->f0;
     *(u8 *)(*(char **)(d + 0x1F4 + 0x54) + a + 0x44) = h->f2;
-    func_021BCC58(d, h->f4);
+    WIFICLUB_ApplyRuleId(d, h->f4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02188284
+ * function: TR_AI_ThinkMulti
  * address:  0x02188284
  * packet:   pkt_ov096_02188284
  * region:   ov096
@@ -14,12 +14,12 @@
  *   That makes the hi zero before the n test and keeps the result in r0, as at both original sites.
  *
  * symbols:
- *   func_0218A2FC 0x0218A2FC thumb ov096
- *   func_0218A310 0x0218A310 thumb ov096
- *   func_0218A324 0x0218A324 thumb ov096
- *   func_0218A378 0x0218A378 thumb ov096
- *   func_0218A384 0x0218A384 thumb ov096
- *   func_021885BC 0x021885BC thumb ov096
+ *   TR_AI_GetPoke 0x0218A2FC thumb ov096
+ *   TR_AI_ResetScores 0x0218A310 thumb ov096
+ *   TR_AI_RememberLastMove 0x0218A324 thumb ov096
+ *   TR_AI_GetMoveParam 0x0218A378 thumb ov096
+ *   TR_AI_GetMoveFlag 0x0218A384 thumb ov096
+ *   TR_AI_RunScripts 0x021885BC thumb ov096
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
@@ -56,12 +56,12 @@ typedef struct {
     u8 pc8[8];
     u64 tick;
 } Obj;
-extern u8 *func_0218A2FC(u8 *, u8);
-extern void func_0218A310(unsigned int a);
-extern void func_0218A324(u8 *);
-extern int func_0218A378(Obj *, int, int);
-extern int func_0218A384(Obj *, int, int);
-extern void func_021885BC(int, u8 *);
+extern u8 *TR_AI_GetPoke(u8 *, u8);
+extern void TR_AI_ResetScores(unsigned int a);
+extern void TR_AI_RememberLastMove(u8 *);
+extern int TR_AI_GetMoveParam(Obj *, int, int);
+extern int TR_AI_GetMoveFlag(Obj *, int, int);
+extern void TR_AI_RunScripts(int, u8 *);
 struct QG;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
@@ -79,7 +79,7 @@ inline static u32 draw_below(u32 n)
         r = (random * n) >> 32;
     return r;
 }
-int func_02188284(int a, Obj *b)
+int TR_AI_ThinkMulti(int a, Obj *b)
 {
     int limit;
     int scores[4];
@@ -100,8 +100,8 @@ int func_02188284(int a, Obj *b)
     if (!(b->flags & 16))
         b->opp = 0;
     while (b->opp < limit) {
-        b->fbc = func_0218A2FC((u8 *)b, b->side);
-        b->fc0 = func_0218A2FC((u8 *)b, b->opp);
+        b->fbc = TR_AI_GetPoke((u8 *)b, b->side);
+        b->fc0 = TR_AI_GetPoke((u8 *)b, b->opp);
         if (!(b->flags & 16)) {
             if (b->fc0 == 0) {
                 b->s30[b->opp] = -1;
@@ -113,8 +113,8 @@ int func_02188284(int a, Obj *b)
                 b->h24[b->opp] = -1;
                 goto next;
             }
-            func_0218A310((unsigned int)((u8 *)b));
-            func_0218A324((u8 *)b);
+            TR_AI_ResetScores((unsigned int)((u8 *)b));
+            TR_AI_RememberLastMove((u8 *)b);
             b->entry = 0;
             mask = b->all;
             b->index = 0;
@@ -129,7 +129,7 @@ int func_02188284(int a, Obj *b)
                     if (!(b->flags & 16)) b->state = 0;
                     *flagsPtr &= ~16;
                     b->tick = func_020870D0();
-                    func_021885BC(a, (u8 *)b);
+                    TR_AI_RunScripts(a, (u8 *)b);
                     if (b->flags & 16) return 1;
                 }
                 next = *entryPtr + 1;
@@ -187,10 +187,10 @@ int func_02188284(int a, Obj *b)
     }
     b->target = ids2[draw_below(n)];
     b->slot = b->s30[b->target];
-    if (func_0218A378(b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
+    if (TR_AI_GetMoveParam(b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
         b->target = b->side;
     v = BTL_POKEPARAM_GetMoveId(b->fbc, b->slot);
-    if (b->mode == 2 && BTL_MAIN_IsPosInTable(b->side, b->target) == 0 && func_0218A384(b, v, 11) == 0)
+    if (b->mode == 2 && BTL_MAIN_IsPosInTable(b->side, b->target) == 0 && TR_AI_GetMoveFlag(b, v, 11) == 0)
         b->target = (b->target & 1) + 2;
     return 0;
 }

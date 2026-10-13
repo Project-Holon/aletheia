@@ -1,5 +1,5 @@
 /*
- * function: func_021573C4
+ * function: CPS_Startup
  * address:  0x021573C4
  * packet:   pkt_ov009_021573C4
  * region:   ov009
@@ -155,7 +155,7 @@ extern u8 dacktimer_stack[0x800];
 extern u8 scavenger_stack[0x800];
 extern u8 tcpip_stack[0x800];
 
-void func_021573C4(CPSConfig *config)
+void CPS_Startup(CPSConfig *config)
 {
     OSi_ReferSymbol(id_string);
     if (config->random_seed != 0)

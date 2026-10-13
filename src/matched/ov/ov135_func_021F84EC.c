@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_020307B0  0x020307B0  arm
  *   g_02203C00     0x02203C00  data  ov135
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern u8 g_02203C00[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(u32 value, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
 
@@ -39,7 +39,7 @@ u8 *func_021F84EC(u32 id)
     u32 n;
 
     buf = func_02030734(0x48, 0x28A, 0, (const char *)g_02203C00, 0x796);
-    func_02082AC0(0, buf, 0x28A);
+    MIi_CpuClearFast(0, buf, 0x28A);
     tbl = (u16 *)ARC_UTIL_LoadMemberWithSize(0x62, 4, 0, (u16)id, &size);
     n = size / 2;
     for (i = 0; i < n; i++) {

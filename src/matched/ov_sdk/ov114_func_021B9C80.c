@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C80
+ * function: NHTTPi_SetSSLseed
  * address:  0x021B9C80
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021CF964  0x021CF964  data
+ *   gNHTTPSslSeed  0x021CF964  data
  *
  *
  * Overlay init hook: open then size the 0x021CF964 work block.
@@ -20,10 +20,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, int);
-extern u8 g_021CF964[];
+extern u8 gNHTTPSslSeed[];
 
-void func_021B9C80(void)
+void NHTTPi_SetSSLseed(void)
 {
-    func_02088168((u32 *)g_021CF964);
-    func_02162248(g_021CF964, 0x20);
+    func_02088168((u32 *)gNHTTPSslSeed);
+    func_02162248(gNHTTPSslSeed, 0x20);
 }

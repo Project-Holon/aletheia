@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0200D488  0x0200D488  thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D4B8  0x0200D4B8  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryField  0x0200D4B8  thumb
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 struct Blk38;
 struct GdsEnt;
 
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
+extern struct GdsEnt *MOVE_POKEMON_SAVE_GetEntry(struct Blk38 *p, u32 i);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct GdsEnt *e, u32 i);
 
 struct GdsEnt *MOVE_POKEMON_FindEntryBySpecies(int a0, int a1)
 {
@@ -39,16 +39,16 @@ t4 = 0;
 loc_0215E80C:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_0200D488((struct Blk38 *)a0, a1);
+    a0 = MOVE_POKEMON_SAVE_IsEntryActive((struct Blk38 *)a0, a1);
 loc_0215E814:
     if (a0 == 0) goto loc_0215E830;
 loc_0215E818:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    t7 = func_0200D4AC((struct Blk38 *)a0, a1);
+    t7 = MOVE_POKEMON_SAVE_GetEntry((struct Blk38 *)a0, a1);
 loc_0215E820:
 a1 = 4;
-    a0 = func_0200D4B8(t7, a1);
+    a0 = MOVE_POKEMON_SAVE_GetEntryField(t7, a1);
 loc_0215E828:
     if (t6 != a0) goto loc_0215E830;
 loc_0215E82C:

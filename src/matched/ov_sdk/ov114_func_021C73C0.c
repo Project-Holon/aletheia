@@ -1,5 +1,5 @@
 /*
- * function: func_021C73C0
+ * function: DWCi_NdGetFileAsync
  * address:  0x021C73C0
  * packet:   pkt_ov114_021C73C0
  * region:   ov114
@@ -12,16 +12,16 @@
  * sdk:      DWCi_NdGetFileAsync (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_021C659C  0x021C659C  arm  ov114
- *   func_021C7A18  0x021C7A18  arm  ov114
- *   func_021C60AC  0x021C60AC  arm  ov114
- *   func_021C6C0C  0x021C6C0C  arm  ov114
- *   func_021C60C8  0x021C60C8  arm  ov114
- *   func_021BE748  0x021BE748  arm  ov114
- *   func_021C70D4  0x021C70D4  arm  ov114
- *   func_021C6BEC  0x021C6BEC  arm  ov114
- *   g_021D3B9C  0x021D3B9C  data
- *   g_021CE0D7  0x021CE0D7  data
+ *   DWCi_NdSetError  0x021C659C  arm  ov114
+ *   DWCi_Ndi_strlen  0x021C7A18  arm  ov114
+ *   DWCi_Ndi_getEncodeLenBASE64  0x021C60AC  arm  ov114
+ *   setupHttp  0x021C6C0C  arm  ov114
+ *   DWCi_Ndi_encodeBASE64  0x021C60C8  arm  ov114
+ *   NHTTP_AddPostDataAscii  0x021BE748  arm  ov114
+ *   runHttp  0x021C70D4  arm  ov114
+ *   freeHttp  0x021C6BEC  arm  ov114
+ *   gDwciNdStatics  0x021D3B9C  data
+ *   sDwciNdYUdgvudhm  0x021CE0D7  data
  *   @17442  0x021CF51C  data
  *
  * The file statics of dwci_nd.o sit in one block based at DWCi_Ndi_dlcallback
@@ -65,21 +65,21 @@ typedef struct DWCi_Ndi_HTTPREQ {
     } param;
 } DWCi_Ndi_HTTPREQ;
 
-extern NdStatics g_021D3B9C;
-extern char g_021CE0D7[13];
+extern NdStatics gDwciNdStatics;
+extern char sDwciNdYUdgvudhm[13];
 
-extern void func_021C659C(int err, int servererror);
+extern void DWCi_NdSetError(int err, int servererror);
 typedef unsigned char  u8;
-extern u32 func_021C7A18(const u8 *a0);
-extern int func_021C60AC(int len);
-extern int func_021C6C0C(DWCi_Ndi_HTTPREQ **phrq, void **preq, char *strAction, char *recvbuf,
+extern u32 DWCi_Ndi_strlen(const u8 *a0);
+extern int DWCi_Ndi_getEncodeLenBASE64(int len);
+extern int setupHttp(DWCi_Ndi_HTTPREQ **phrq, void **preq, char *strAction, char *recvbuf,
                          unsigned int recvbufLen, char *opt);
-extern int func_021C60C8(char *encstr, char *srcbin, int length);
-extern int func_021BE748(void *handle, char *label_p, char *value_p);
-extern int func_021C70D4(int unused, void *req);
-extern void func_021C6BEC(void *a, int b);
+extern int DWCi_Ndi_encodeBASE64(char *encstr, char *srcbin, int length);
+extern int NHTTP_AddPostDataAscii(void *handle, char *label_p, char *value_p);
+extern int runHttp(int unused, void *req);
+extern void freeHttp(void *a, int b);
 
-int func_021C73C0(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char *opt)
+int DWCi_NdGetFileAsync(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char *opt)
 {
     DWCi_Ndi_HTTPREQ *hrq;
     void *req;
@@ -88,43 +88,43 @@ int func_021C73C0(DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char
     int n;
 
     if (bufsize < filelist->size) {
-        func_021C659C(5, 0);
+        DWCi_NdSetError(5, 0);
         return 0;
     }
-    fnameLen = func_021C7A18((const u8 *)filelist->name);
+    fnameLen = DWCi_Ndi_strlen((const u8 *)filelist->name);
     if (fnameLen > 32) {
-        func_021C659C(5, 0);
+        DWCi_NdSetError(5, 0);
         return 0;
     }
     if (fnameLen > 0)
-        n = func_021C60AC(fnameLen);
+        n = DWCi_Ndi_getEncodeLenBASE64(fnameLen);
     else
         n = 0;
-    encName = g_021D3B9C.alloc(n + 1, 4);
+    encName = gDwciNdStatics.alloc(n + 1, 4);
     if (encName == 0) {
-        func_021C659C(1, 0);
+        DWCi_NdSetError(1, 0);
         return 0;
     }
-    if (!func_021C6C0C(&hrq, &req, g_021CE0D7, buf, filelist->size, opt)) {
-        g_021D3B9C.free(encName);
+    if (!setupHttp(&hrq, &req, sDwciNdYUdgvudhm, buf, filelist->size, opt)) {
+        gDwciNdStatics.free(encName);
         return 0;
     }
     if (n > 0) {
-        encName[func_021C60C8(encName, filelist->name, fnameLen)] = 0;
-        if (func_021BE748(req, "contents", encName) == -1)
+        encName[DWCi_Ndi_encodeBASE64(encName, filelist->name, fnameLen)] = 0;
+        if (NHTTP_AddPostDataAscii(req, "contents", encName) == -1)
             goto error;
     }
     hrq->reason = 3;
     hrq->param.getfile.encName = encName;
     hrq->param.getfile.size = filelist->size;
-    if (func_021C70D4((int)hrq, req))
+    if (runHttp((int)hrq, req))
         return 1;
-    g_021D3B9C.free(encName);
+    gDwciNdStatics.free(encName);
     return 0;
 
 error:
-    func_021C6BEC(hrq, (int)req);
-    g_021D3B9C.free(encName);
-    func_021C659C(1, 0);
+    freeHttp(hrq, (int)req);
+    gDwciNdStatics.free(encName);
+    DWCi_NdSetError(1, 0);
     return 0;
 }

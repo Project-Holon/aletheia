@@ -1,5 +1,5 @@
 /*
- * function: func_0216F0A0
+ * function: DWCi_ProcessMatchClosing
  * address:  0x0216F0A0
  * packet:   pkt_ov009_0216F0A0
  * region:   ov009
@@ -14,11 +14,11 @@
  * symbols:
  *   DWC_GetState                0x0216B994 arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_0216EB68                0x0216EB68 arm   ov009
+ *   DWCi_StopMatch                0x0216EB68 arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
  *   func_02195DE4                0x02195DE4 arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   func_020870D0                0x020870D0 arm
  *   func_02172BB8                0x02172BB8 arm   ov009
  */
@@ -46,15 +46,15 @@ struct DWCstMatchControl {
 
 extern int DWC_GetState(void);
 extern int func_02175F3C(void);
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 extern void NNCancel(int cookie);
-extern int func_0217603C(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 extern void func_02195DE4(int *p);
-extern void func_02175F4C(int state);
+extern void DWCi_SetMatchStatus(int state);
 extern u64 func_020870D0(void);
 extern void func_02172BB8(int level);
 
-int func_0216F0A0(int error, int errorCode)
+int DWCi_ProcessMatchClosing(int error, int errorCode)
 {
     u64 tick;
 
@@ -63,7 +63,7 @@ int func_0216F0A0(int error, int errorCode)
     if (((struct DWCstMatchControl *)func_02175F3C())->f14 == 2)
         return 1;
     if (error != 0) {
-        func_0216EB68(error, errorCode - 80000);
+        DWCi_StopMatch(error, errorCode - 80000);
         return 1;
     }
     if (((struct DWCstMatchControl *)func_02175F3C())->f62a == 1 || ((struct DWCstMatchControl *)func_02175F3C())->f629 == 1)
@@ -72,15 +72,15 @@ int func_0216F0A0(int error, int errorCode)
         NNCancel(((struct DWCstMatchControl *)func_02175F3C())->f618);
         ((struct DWCstMatchControl *)func_02175F3C())->f618 = 0;
     }
-    if (func_0217603C() > 1) {
+    if (DWCi_NodeInfoList_GetCount() > 1) {
         if (((struct DWCstMatchControl *)func_02175F3C())->f629 == 0) {
             ((struct DWCstMatchControl *)func_02175F3C())->f629 = 2;
             func_02195DE4((int *)(*((struct DWCstMatchControl *)func_02175F3C())->gt2Socket));
         }
     } else if (((struct DWCstMatchControl *)func_02175F3C())->f15 == 3) {
-        func_0216EB68(0x16, -80430);
+        DWCi_StopMatch(0x16, -80430);
     } else if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 1) {
-        func_02175F4C(0x15);
+        DWCi_SetMatchStatus(0x15);
         tick = func_020870D0();
         ((struct DWCstMatchControl *)func_02175F3C())->f668 = tick;
     } else {

@@ -76,7 +76,6 @@ typedef unsigned int u32;
 
 extern void GSMD5Transform(unsigned int * state, unsigned char * block);
 extern void Encode(unsigned char * output, unsigned int * input, unsigned int len);
-extern void *GSMD5_memset_Alt(void *p, int c, u32 n);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void *func_020923B0(void *p, int c, u32 n);
 extern void GSMD5Init(struct GSMD5_CTX * context);
@@ -243,7 +242,7 @@ void func_02184AB4(u32 state[4], const u8 block[64])
     state[2] += c;
     state[3] += d;
 
-    GSMD5_memset_Alt(x, 0, 64);
+    GSMD5_memset(x, 0, 64);
 }
 
 

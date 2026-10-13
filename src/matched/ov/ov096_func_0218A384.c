@@ -1,5 +1,5 @@
 /*
- * function: func_0218A384
+ * function: TR_AI_GetMoveFlag
  * address:  0x0218A384
  * packet:   pkt_ov096_0218A384
  * region:   ov096
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void WAZA_TOOL_GetFlag(int, int);
-void func_0218A384(int a, int b, int c) { WAZA_TOOL_GetFlag(b, c); }
+void TR_AI_GetMoveFlag(int a, int b, int c) { WAZA_TOOL_GetFlag(b, c); }

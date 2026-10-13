@@ -87,7 +87,7 @@
  *   func_02046EFC  0x02046EFC  arm
  *   G3D_SYSTEM_GetLookAt  0x02046AFC  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_0206AAD4  0x0206AAD4  arm
+ *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
  *   func_02082B60  0x02082B60  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   func_0206E394  0x0206E394  arm
@@ -147,7 +147,7 @@
  *   FADE_IsActive  0x0204E804  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   gPleasureBoatFileName     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
  *   PLEASURE_BOAT_GetTimeEvent  0x021C87E0  thumb  ov021
@@ -492,7 +492,7 @@ extern void G3D_SYSTEM_DeleteObject(void *object);
 extern void *G3D_SYSTEM_GetObjectRender(void *object);
 extern void G3D_SYSTEM_GetLookAt(G3dLookAt *dst);
 extern void VEC_Normalize(VecFx32 *src, VecFx32 *dst);
-extern u32 *func_0206AAD4(void);
+extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 extern void func_02082B60(Mtx43 *src, Mtx33 *dst);
 extern G3dRenderRef *G3D_SYSTEM_GetRenderObj(void *render);
 extern void func_0206E394(void *mdl, int a, int b);
@@ -550,7 +550,7 @@ extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern int FADE_IsActive(void);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(int overlayId);
-extern void GIMMICK_INIT_SetGimmick39Flags(PleasureBoatWork *work);
+extern void GIMMICK_INIT_SetCartLanesFlags(PleasureBoatWork *work);
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, int a, int b, int scriptId);
 
@@ -1620,7 +1620,7 @@ void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
     status.scale.x = size;
     status.scale.y = (int)(((long long)size * viewY + 0x800) >> 12);
     status.scale.z = 0x4000;
-    func_02082B60((Mtx43 *)func_0206AAD4(), &status.rotate);
+    func_02082B60((Mtx43 *)NNS_G3dGlbGetInvCameraMtx(), &status.rotate);
     mdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj->object))->rndObj;
     func_0206E394(mdl, 0, 0);
     func_0206E4FC(mdl, 0, 0);
@@ -1919,7 +1919,7 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[3] = 0;
     work->locked = 0;
     func_02034AC4((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
-    GIMMICK_INIT_SetGimmick39Flags(work);
+    GIMMICK_INIT_SetCartLanesFlags(work);
     func_02034A5C((int)d_00000024);
     return work;
 }

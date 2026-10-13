@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA928",
+   "name": "WIFICLUB_UpdateTalkStream",
    "address": "0x021BA928",
    "kind": "game",
    "region": "ov099",

@@ -11,8 +11,8 @@
  * extent: The store-and-return follower at 0x021CDD34 is included here;
  * the larger lookup follower at 0x021CDD50 has its own verified shard.
  * symbols:
- *   func_021D3FDC 0x021D3FDC thumb ov093
- *   func_021D3F98 0x021D3F98 thumb ov093
+ *   BTL_CLIENT_TickCounter 0x021D3FDC thumb ov093
+ *   BTL_CLIENT_IsCounterReplayDone 0x021D3F98 thumb ov093
  *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
  *   BTL_CLIENT_FindCommandStepFn 0x021CDD50 thumb ov093
  *   BTL_CLIENT_ResetSendWord 0x021CDD34 thumb ov093
@@ -25,7 +25,7 @@
  *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
  *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   func_021D3FA8 0x021D3FA8 thumb ov093
+ *   BTL_CLIENT_GetCounterTarget 0x021D3FA8 thumb ov093
  *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
  *   BTL_MAIN_StartClientMainSteps 0x021BA7F8 thumb ov093
  */
@@ -36,8 +36,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int (*Callback)(u8 *,int *);
 struct Q;
-extern void func_021D3FDC(u8 *p, struct Q *q);
-extern int func_021D3F98(u8 *);
+extern void BTL_CLIENT_TickCounter(u8 *p, struct Q *q);
+extern int BTL_CLIENT_IsCounterReplayDone(u8 *);
 extern u8 BTL_ADAPTER_GetRecvCommand(void *);
 extern Callback BTL_CLIENT_FindCommandStepFn(u8 *,u32,int *);
 extern void BTL_CLIENT_ResetSendWord(u8 *);
@@ -50,7 +50,7 @@ extern void *func_021F8678(void);
 extern int BTL_ADAPTER_SetRecvTarget(void *,void *,u32);
 extern int BTLV_CORE_GetWaitState(u8 *p);
 extern int GFL_USE_IsBgmFading(void);
-extern u16 func_021D3FA8(u8 *p);
+extern u16 BTL_CLIENT_GetCounterTarget(u8 *p);
 extern void BTLV_CORE_SetCounterDisplay(char *p, u32 a, u32 b);
 extern void BTL_MAIN_StartClientMainSteps(char *p);
 int BTL_CLIENT_StepRemote(u8 *p)
@@ -58,12 +58,12 @@ int BTL_CLIENT_StepRemote(u8 *p)
     u32 id;
     u16 n;
     int zero;
-    func_021D3FDC(p,(struct Q *)(p+0x18));
+    BTL_CLIENT_TickCounter(p,(struct Q *)(p+0x18));
     switch (p[0x1a8]) {
     case 0:
         p[0x1a8] = 1;
     case 1:
-        if (!func_021D3F98(p+0x18)) {
+        if (!BTL_CLIENT_IsCounterReplayDone(p+0x18)) {
             id = BTL_ADAPTER_GetRecvCommand(((struct Obj00818 *)p)->f50);
             if (id) {
                 zero = 0;
@@ -103,7 +103,7 @@ int BTL_CLIENT_StepRemote(u8 *p)
         if (((struct Obj00818 *)p)->f54) {
             if (BTLV_CORE_GetWaitState(((struct Obj00818 *)p)->f54)) {
                 if (!GFL_USE_IsBgmFading()) {
-                    n = (int)func_021D3FA8(p+0x18);
+                    n = (int)BTL_CLIENT_GetCounterTarget(p+0x18);
                     BTLV_CORE_SetCounterDisplay(((struct Obj00818 *)p)->f54,n,n);
                     BTL_MAIN_StartClientMainSteps(((struct Obj00818 *)p)->f0);
                 }

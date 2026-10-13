@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088234 0x02088234 arm
+ *   OS_Terminate 0x02088234 arm
  *   func_0209C2B0 0x0209C2B0 arm
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   CARDi_TouchRomHashBlock 0x0272EE98 arm twl
  *   CARDi_StartLoading 0x0272ED4C arm twl
  */
@@ -48,10 +48,10 @@ struct Obj {
     struct Node *used_b;
     struct Node *cache_b;
 };
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern u32 func_0209C2B0(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern struct Node *CARDi_TouchRomHashBlock(struct Obj *, u32);
 extern void CARDi_StartLoading(struct Obj *);
 u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 addr)
@@ -69,7 +69,7 @@ u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 addr)
         if (off < obj->fc) {
             off += size;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
     }
     key = func_0209C2B0(off, obj->f20);
@@ -84,7 +84,7 @@ u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 addr)
             break;
         }
         if (n->next == 0) {
-            u32 irq = func_02087988();
+            u32 irq = OS_DisableInterrupts();
             struct Node *t = *pp;
             struct Node *l;
             struct Node *q;
@@ -98,7 +98,7 @@ u32 CARDi_TouchRomHashSector(struct Obj *obj, u32 addr)
             l->next = t;
             t->f4 = key;
             t->f8 = addr & ~(obj->f20 - 1);
-            func_0208799C(irq);
+            OS_RestoreInterrupts(irq);
             CARDi_TouchRomHashBlock(obj, key);
             CARDi_StartLoading(obj);
             break;

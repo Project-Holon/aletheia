@@ -12,35 +12,35 @@
  * sdk:      procWait (libdwcutil.TWL.HYB.a(sceneinit.o))
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021C0ED8  0x021C0ED8  arm  ov016
- *   func_021C0E50  0x021C0E50  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021C1984  0x021C1984  arm  ov016
- *   func_021CBC90  0x021CBC90  arm  ov016
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_Entry  0x021C0ED8  arm  ov016
+ *   DWCi_SetParam_  0x021C0E50  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   DWCi_SceneMenu  0x021C1984  arm  ov016
+ *   DWCi_SceneSetSelectAp  0x021CBC90  arm  ov016
  */
 
-extern int func_021D5580(int lcd);
-extern unsigned int func_021C0ED8(void);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021C1984(void);
-extern void func_021CBC90(void);
+extern int DWCi_EFFlCheck(int lcd);
+extern unsigned int DWCi_Entry(void);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_SceneMenu(void);
+extern void DWCi_SceneSetSelectAp(void);
 
 void func_021C1908(void)
 {
-	if (func_021D5580(1))
+	if (DWCi_EFFlCheck(1))
 		return;
-	if (func_021D5580(0))
+	if (DWCi_EFFlCheck(0))
 		return;
-	switch (func_021C0ED8()) {
+	switch (DWCi_Entry()) {
 	case 0:
-		func_021C0E50(0, (unsigned int)((void *)1));
-		func_021C0E40((unsigned int)func_021C1984);
+		DWCi_SetParam_(0, (unsigned int)((void *)1));
+		DWCi_ChangeScene((unsigned int)DWCi_SceneMenu);
 		break;
 	case 1:
-		func_021C0E50((unsigned int)((void *)1), (unsigned int)((void *)1));
-		func_021C0E40((unsigned int)func_021CBC90);
+		DWCi_SetParam_((unsigned int)((void *)1), (unsigned int)((void *)1));
+		DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectAp);
 		break;
 	}
 }

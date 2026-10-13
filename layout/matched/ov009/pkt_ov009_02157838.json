@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157838",
+   "name": "check_tcpudpsum",
    "address": "0x02157838",
    "kind": "sdk",
    "region": "ov009",

@@ -1,5 +1,5 @@
 /*
- * function: func_020643C4
+ * function: NNS_G2dSetCellAnimationSpeed
  * address:  0x020643C4
  * packet:   pkt_02064364
  * region:   arm9
@@ -13,7 +13,7 @@
  * Stores the multi-cell animation's user callback/context word at +0x14.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020643C4.c  *       --func func_020643C4 --addr 0x020643C4 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationSpeed.c  *       --func NNS_G2dSetCellAnimationSpeed --addr 0x020643C4 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -27,7 +27,7 @@ struct MultiCellAnim {
     u32 unk14;
 };
 
-void func_020643C4(struct MultiCellAnim *mca, u32 value)
+void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value)
 {
     mca->unk14 = value;
 }

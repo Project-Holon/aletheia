@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_021DCE00 0x021DCE00 thumb ov137
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj14205.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
 extern int func_021DCE00(char *,int);
-extern void func_02082D44(void *,int,u32);
-void func_021DCBCC(int i,int unused,void *q,char *p) {((struct Obj14205 *)p)->f46=((struct Obj14205 *)p)->f46|(s16)(1<<i);func_02082D44(q,func_021DCE00(p,i),1428);}
+extern void MI_CpuCopy8(void *,int,u32);
+void func_021DCBCC(int i,int unused,void *q,char *p) {((struct Obj14205 *)p)->f46=((struct Obj14205 *)p)->f46|(s16)(1<<i);MI_CpuCopy8(q,func_021DCE00(p,i),1428);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5098
+ * function: DWCi_CELLlSetPalette
  * address:  0x021D5098
  * packet:   pkt_021D5098
  * region:   ov016
@@ -20,7 +20,7 @@ typedef struct {
     u16 pad;
 } Slot;
 
-void func_021D5098(u8 *obj, int idx, u32 v, u32 w)
+void DWCi_CELLlSetPalette(u8 *obj, int idx, u32 v, u32 w)
 {
     Slot *arr = *(Slot **)(obj + 8);
 

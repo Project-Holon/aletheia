@@ -1,5 +1,5 @@
 /*
- * function: func_0200D2C4
+ * function: ZUKAN_SAVE_IsRegionalSeenComplete
  * address:  0x0200D2C4
  * packet:   pkt_0200D144
  * region:   arm9
@@ -8,13 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   ZUKAN_SAVE_CountSeenRegionalCounted  0x0200D368  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Blk37;
-extern u16 func_0200D368(struct Blk37 *p, u32 heap);
-int func_0200D2C4(void *p, unsigned int heap)
+extern u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap);
+int ZUKAN_SAVE_IsRegionalSeenComplete(void *p, unsigned int heap)
 {
-    return func_0200D368(p, heap) >= 0x96;
+    return ZUKAN_SAVE_CountSeenRegionalCounted(p, heap) >= 0x96;
 }

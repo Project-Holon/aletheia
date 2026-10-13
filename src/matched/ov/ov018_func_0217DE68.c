@@ -15,7 +15,7 @@
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  */
 
@@ -56,7 +56,7 @@ extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
 void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
@@ -85,7 +85,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
         CLACT_SetActorDrawEnable(p->f7c, 1);
     }
     for (i = 6; i <= 8; i++) {
-        func_02082A60((void *)(0x05000602 + (p->fd8 + 1) * 32), (void *)(0x0500060C + i * 32), 2);
+        MIi_CpuCopy16((void *)(0x05000602 + (p->fd8 + 1) * 32), (void *)(0x0500060C + i * 32), 2);
     }
     if (p->f114 == 1) {
         if (p->f115 % 2 == 0) {

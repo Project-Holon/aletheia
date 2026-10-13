@@ -21,6 +21,8 @@
  *   NWMi_ForceExit  0x02702D7C  arm
  *   PM_GetExitFactor  0x0273153C  arm
  *   NWMi_ForceUnloadDeviceCallback  0x02702D68  arm
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -32,8 +34,8 @@ extern void func_020862B8(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32);
 extern u32 PM_GetExitFactor(void);
-extern void func_02087A04(u32);
-extern void func_02088688(void);
+extern void OS_SpinWaitSysCycles(u32);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u32 NWM_GetState(void);
 void NWMi_ForceUnloadDeviceCallback(void);
 extern u8 d_027341C8;

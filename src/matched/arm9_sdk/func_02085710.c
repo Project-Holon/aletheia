@@ -1,5 +1,5 @@
 /*
- * function: func_02085710
+ * function: OS_JoinThread
  * address:  0x02085710
  * packet:   pkt_02085710
  * region:   arm9
@@ -15,6 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_SleepThread        0x020857B0  arm
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -138,14 +139,14 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OS_SleepThread(OSThreadQueue *queue);
 
-void func_02085710(OSThread *thread)
+void OS_JoinThread(OSThread *thread)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 

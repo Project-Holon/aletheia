@@ -1,5 +1,5 @@
 /*
- * function: func_02070A24
+ * function: NNSi_G3dAnmSetTexParam
  * address:  0x02070A24
  * packet:   pkt_0207010C
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E62C  0x0206E62C  arm
+ *   NNS_G3dGetResDataByName  0x0206E62C  arm
  *   func_0207C768  0x0207C768  arm
  *
  * NitroSystem g3d, the texture-parameter setter of the texture-pattern
  * animation: look the texture up by index in the texture block's dictionary
- * (func_0206E62C, at +0x3c of the texture resource), rebase its TEXIMAGE_PARAM
+ * (NNS_G3dGetResDataByName, at +0x3c of the texture resource), rebase its TEXIMAGE_PARAM
  * on the VRAM address of the plain or the 4x4-compressed texture slot (format
  * field == 5, 0x14000000), store the original width/height (two 11-bit fields
  * of the extra parameter) and derive the magnification factors with FX_Div
@@ -23,15 +23,15 @@
  *
  * The earlier DIFF 60 (a mask/value register swap throughout) came from
  * three misreadings, all fixed here: the second parameter is the dictionary
- * INDEX forwarded untouched to func_0206E62C (the caller func_02070B64 passes
+ * INDEX forwarded untouched to NNS_G3dGetResDataByName (the caller NNSi_G3dAnmCalcNsBtp passes
  * a dictionary lookup's result there); the `lsl #16 / lsr #16 / bic
  * #0xe0000000` triple is NNS_GfdGetTexKeyAddr(vramKey) >> 3, i.e.
  * ((key & 0xffff) << 3) >> 3, not a 16-bit bitfield; and the prmTexImage
  * update is `&=` then `|=`.  1.1p1 is 28 bytes out on this source.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070A24.c \
- *       --func func_02070A24 --addr 0x02070A24 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmSetTexParam.c \
+ *       --func NNSi_G3dAnmSetTexParam --addr 0x02070A24 --arm --cc ../2.0/sp2
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -63,12 +63,12 @@ typedef struct {
     u16  origWidth, origHeight;  /* 0x2c */
     fx32 magW, magH;         /* 0x30 */
 } MatAnmResult;
-extern void *func_0206E62C(const ResDict *dict, u32 idx);
+extern void *NNS_G3dGetResDataByName(const ResDict *dict, u32 idx);
 extern u32 func_0207C768(u32 a, u32 b);
 #define GetTexKeyAddr(key) ((u32)(((key) & 0x0000FFFF) << 3))
-void func_02070A24(const ResTex *pTex, u32 idx, MatAnmResult *pResult)
+void NNSi_G3dAnmSetTexParam(const ResTex *pTex, u32 idx, MatAnmResult *pResult)
 {
-    const DictTexData *pData = (const DictTexData *)(pTex ? func_0206E62C(&pTex->dict, idx) : 0);
+    const DictTexData *pData = (const DictTexData *)(pTex ? NNS_G3dGetResDataByName(&pTex->dict, idx) : 0);
     u32 offset;
     if ((pData->texImageParam & 0x1c000000) != 0x14000000)
         offset = GetTexKeyAddr(pTex->texInfo.vramKey) >> 3;

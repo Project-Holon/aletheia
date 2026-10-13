@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020853C0",
+   "name": "OS_CreateThread",
    "address": "0x020853C0",
    "kind": "sdk",
    "region": "arm9",

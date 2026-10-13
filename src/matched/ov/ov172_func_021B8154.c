@@ -17,7 +17,7 @@
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
  *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   func_021C2B74 0x021C2B74 arm ov172
  *   func_021BDFDC 0x021BDFDC thumb ov172
  *   func_021B7740 0x021B7740 thumb ov172
@@ -46,7 +46,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
 extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
-extern void func_02082A90(const void *, void *, u32);
+extern void MIi_CpuCopy32(const void *, void *, u32);
 extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 func_021BDFDC(void *);
 extern void func_021B7740(void *, char *, int, int);
@@ -121,7 +121,7 @@ void func_021B8154(void *a, char *b)
                         r7 = func_021BDFDC(a);
                         s18 = func_021B7818(a, (void *)r7);
                         s1c = func_021B785C(a, r7);
-                        func_02082A90((void *)s18, (void *)W(0x18c), s1c);
+                        MIi_CpuCopy32((void *)s18, (void *)W(0x18c), s1c);
                         s20 = func_021B77B8(a, r7);
                         s24 = func_021B77E8(a, r7);
                         res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);

@@ -38,13 +38,13 @@
  *   NHTTPi_SendProcPostDataAscii     0x021bcf24 arm
  *   NHTTPi_SocSend                   0x021ba020 arm
  *   NHTTPi_memclr                    0x021ba13c arm
- *   g_021CE4DC                       0x021ce4dc data
- *   g_021CE4E4                       0x021ce4e4 data
- *   g_021CE4EC                       0x021ce4ec data
- *   g_021CE4F4                       0x021ce4f4 data
- *   g_021CE46C                       0x021ce46c data
- *   g_021CE478                       0x021ce478 data
- *   g_021CE440                       0x021ce440 data
+ *   sNHTTPMethodGet                       0x021ce4dc data
+ *   sNHTTPMethodPost                       0x021ce4e4 data
+ *   sNHTTPMethodHead                       0x021ce4ec data
+ *   sNHTTPSlash                       0x021ce4f4 data
+ *   sNHTTPHttpVersionLine                       0x021ce46c data
+ *   sNHTTPHostHeader                       0x021ce478 data
+ *   sNHTTPCrLf                       0x021ce440 data
  */
 
 typedef unsigned long u32;
@@ -100,13 +100,13 @@ typedef struct {
     int socket;
 } BgnEnd;
 
-extern char g_021CE4DC[];
-extern char g_021CE4E4[];
-extern char g_021CE4EC[];
-extern char g_021CE4F4[];
-extern char g_021CE46C[];
-extern char g_021CE478[];
-extern char g_021CE440[];
+extern char sNHTTPMethodGet[];
+extern char sNHTTPMethodPost[];
+extern char sNHTTPMethodHead[];
+extern char sNHTTPSlash[];
+extern char sNHTTPHttpVersionLine[];
+extern char sNHTTPHostHeader[];
+extern char sNHTTPCrLf[];
 
 extern void *NHTTPi_GetSystemInfoP(void);
 extern void *NHTTPi_GetMutexInfoP(void *sysInfo_p);
@@ -160,13 +160,13 @@ static int NHTTPi_ThreadSendProc(ThreadData *threadData_p)
     threadData_p->sendBufwp = 0;
     switch (req_p->f1c) {
     case 0:
-        sendStatus = NHTTPi_SendData(threadData_p, g_021CE4DC, 4);
+        sendStatus = NHTTPi_SendData(threadData_p, sNHTTPMethodGet, 4);
         break;
     case 1:
-        sendStatus = NHTTPi_SendData(threadData_p, g_021CE4E4, 5);
+        sendStatus = NHTTPi_SendData(threadData_p, sNHTTPMethodPost, 5);
         break;
     case 2:
-        sendStatus = NHTTPi_SendData(threadData_p, g_021CE4EC, 5);
+        sendStatus = NHTTPi_SendData(threadData_p, sNHTTPMethodHead, 5);
         break;
     }
     if (sendStatus != 0) {
@@ -184,13 +184,13 @@ static int NHTTPi_ThreadSendProc(ThreadData *threadData_p)
                 return sendStatus;
             }
         } else {
-            sendStatus = NHTTPi_SendData(threadData_p, g_021CE4F4, 1);
+            sendStatus = NHTTPi_SendData(threadData_p, sNHTTPSlash, 1);
             if (sendStatus != 0) {
                 return sendStatus;
             }
         }
     }
-    sendStatus = NHTTPi_SendData(threadData_p, g_021CE46C, 0xb);
+    sendStatus = NHTTPi_SendData(threadData_p, sNHTTPHttpVersionLine, 0xb);
     if (sendStatus != 0) {
         return sendStatus;
     }
@@ -198,7 +198,7 @@ static int NHTTPi_ThreadSendProc(ThreadData *threadData_p)
     if (req_p->f08 == 0) {
         stat = 7;
     }
-    sendStatus = NHTTPi_SendData(threadData_p, g_021CE478, 6);
+    sendStatus = NHTTPi_SendData(threadData_p, sNHTTPHostHeader, 6);
     if (sendStatus != 0) {
         return sendStatus;
     }
@@ -206,7 +206,7 @@ static int NHTTPi_ThreadSendProc(ThreadData *threadData_p)
     if (sendStatus != 0) {
         return sendStatus;
     }
-    sendStatus = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    sendStatus = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (sendStatus != 0) {
         return sendStatus;
     }
@@ -267,7 +267,7 @@ static int NHTTPi_ThreadSendProc(ThreadData *threadData_p)
             return postResult;
         }
     } else {
-        sendStatus = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+        sendStatus = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
         if (sendStatus != 0) {
             return sendStatus;
         }

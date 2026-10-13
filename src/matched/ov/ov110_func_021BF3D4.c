@@ -1,5 +1,5 @@
 /*
- * function: func_021BF3D4
+ * function: PMS_WORDLIST_JumpDown
  * address: 0x021BF3D4
  * packet: pkt_ov110_021BF3D4
  * region: ov110
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BAD20 0x021BAD20 thumb ov110
- *   func_021BEDD0 0x021BEDD0 thumb ov110
+ *   PMS_INPUT_VIEW_GetWordwinItem 0x021BAD20 thumb ov110
+ *   PMS_WORDLIST_GetSelectedIndex 0x021BEDD0 thumb ov110
  */
 #include "../include/Obj04450.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_021BAD20(u8 *,unsigned);
-extern unsigned func_021BEDD0(u8 *);
-int func_021BF3D4(u8 *p,u8 *q) {
+extern unsigned PMS_INPUT_VIEW_GetWordwinItem(u8 *,unsigned);
+extern unsigned PMS_WORDLIST_GetSelectedIndex(u8 *);
+int PMS_WORDLIST_JumpDown(u8 *p,u8 *q) {
  if(((struct Obj04450 *)q)->f0<((struct Obj04450 *)q)->f2) {
-  ((struct Obj04450 *)q)->f0=func_021BAD20(p,((struct Obj04450 *)q)->f2);
+  ((struct Obj04450 *)q)->f0=PMS_INPUT_VIEW_GetWordwinItem(p,((struct Obj04450 *)q)->f2);
   ((struct Obj04450 *)q)->f8=0;
-  if((int)func_021BEDD0(q)<((struct Obj04450 *)q)->f4-2) return 2;
+  if((int)PMS_WORDLIST_GetSelectedIndex(q)<((struct Obj04450 *)q)->f4-2) return 2;
   q[6]=0; return 3;
  }
  return 4;

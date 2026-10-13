@@ -1,5 +1,5 @@
 /*
- * function: func_021C3B8C
+ * function: DWCi_SceneOptMovDisconnect
  * address:  0x021C3B8C
  * packet:   pkt_021C3B8C
  * region:   ov016
@@ -10,20 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3B8C 0x021C3B8C arm
+ *   DWCi_SceneOptMovDisconnect 0x021C3B8C arm
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
  *
  * Clear the counter, reset the sub-state and post the event at 0x021C3C28.
  * Addresses are Black-image addresses.
  */
 
 extern void func_021C3BBC(void);
-extern void func_021BD29C(int);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw(int);
+extern void DWCi_ChangeScene(unsigned int v);
 
-void func_021C3B8C(void)
+void DWCi_SceneOptMovDisconnect(void)
 {
     *(unsigned char *)0x021DE5BC = 0;
     func_021C3BBC();
-    func_021BD29C(0x21);
-    func_021C0E40((unsigned int)((void *)0x021C3C28));
+    DWCi_CMNlMsgDraw(0x21);
+    DWCi_ChangeScene((unsigned int)((void *)0x021C3C28));
 }

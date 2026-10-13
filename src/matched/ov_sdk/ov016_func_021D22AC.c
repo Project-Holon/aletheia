@@ -1,5 +1,5 @@
 /*
- * function: func_021D22AC
+ * function: DWCi_MOV_MBP_IsBootableAll
  * address:  0x021D22AC
  * packet:   pkt_ov016_021D22AC
  * region:   ov016
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MB_CommIsBootable                0x021F1BE0  arm
- *   g_021DE65C                       0x021DE65C  data
+ *   gDwcMovMbpWork                       0x021DE65C  data
  */
 
 typedef unsigned short u16;
@@ -23,16 +23,16 @@ typedef struct {
     u16 bmp;
 } Wb;
 
-extern Wb *g_021DE65C;
+extern Wb *gDwcMovMbpWork;
 extern int MB_CommIsBootable(u16 child_aid);
 
-int func_021D22AC(void)
+int DWCi_MOV_MBP_IsBootableAll(void)
 {
     u16 i;
-    if (g_021DE65C->bmp == 0)
+    if (gDwcMovMbpWork->bmp == 0)
         return 0;
     for (i = 1; i < 16; i++) {
-        if ((g_021DE65C->bmp & (1 << i)) && !MB_CommIsBootable(i))
+        if ((gDwcMovMbpWork->bmp & (1 << i)) && !MB_CommIsBootable(i))
             return 0;
     }
     return 1;

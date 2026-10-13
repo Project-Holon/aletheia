@@ -17,7 +17,7 @@
  *   gVctSendState     0x021B3C84  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   gVctSendBuffer     0x021B42C0  data  ov013  a4
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
 
@@ -63,7 +63,7 @@ typedef struct
 extern Ctx3C84 gVctSendState;
 extern Req * const gVctMembers[3];
 extern struct Ctx42C0 gVctSendBuffer;
-extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
 #pragma opt_propagation off
 int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
@@ -106,11 +106,11 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   ctx = &gVctSendState;
   if (ctx->f1C >= 2)
   {
-    func_02082B0C(src, ((u8 *) hdr) + 0x10, n);
+    MIi_CpuCopyFast(src, ((u8 *) hdr) + 0x10, n);
   }
   else
   {
-    func_02082B0C(src, ((u8 *) hdr) + 0xC, n);
+    MIi_CpuCopyFast(src, ((u8 *) hdr) + 0xC, n);
   }
   divisor = 0x40;
   hdr->f4 = divisor;

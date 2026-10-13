@@ -13,7 +13,7 @@
  *   func_02066AE0  0x02066AE0  arm
  *   func_020627D8  0x020627D8  arm
  *   func_020637B4  0x020637B4  arm
- *   func_020642C8  0x020642C8  arm
+ *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
  *
  * Record builder in clact.c.  Wave 15 (register-tie lane): the last 10
  * bytes (the image sinks `mov sb, r0` above the two a->f0c/a->f10 loads)
@@ -60,7 +60,7 @@ struct AnimBank;
 struct AnimSequence;
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern int func_020637B4(int *p, int i);
-extern void func_020642C8(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
+extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, char *c, int d, int e, int f, int g, int h, int i, int j);
 
 void CLACT_InitMultiCellAnimCtl(struct P *p, const struct A *a)
 {
@@ -81,7 +81,7 @@ void CLACT_InitMultiCellAnimCtl(struct P *p, const struct A *a)
     h1 = func_020637B4((int *)a->f04, 1);
     two = 2;
     h2 = func_020637B4((int *)a->f04, two);
-    func_020642C8((char *)((u8 *)p + 0xc), h0, (char *)p->f04, p->f64,
+    NNS_G2dInitCellAnimationVramTransfered((char *)((u8 *)p + 0xc), h0, (char *)p->f04, p->f64,
                   two - 3, h1, h2, r->f14, zero, r->f10);
 }
 

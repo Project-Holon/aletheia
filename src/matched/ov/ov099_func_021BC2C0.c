@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2C0
+ * function: WIFICLUB_StateMainMenu
  * address: 0x021BC2C0
  * packet: pkt_ov099_021BC2C0
  * region: ov099
@@ -14,14 +14,14 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  *   func_0202EB14 0x0202EB14 thumb
  *   func_0202EB0C 0x0202EB0C thumb
- *   func_021BDDD0 0x021BDDD0 thumb ov099
+ *   WIFICLUB_HasEnoughPartyMembers 0x021BDDD0 thumb ov099
  */
 #include "../include/Obj00467.h"
 #include "../include/Obj22023.h"
@@ -40,15 +40,15 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
-extern void func_021BA8EC(char *);
-extern int func_021BA8BC(void *p);
+extern void WIFICLUB_ClearTalkWindow(char *);
+extern int WIFICLUB_DeleteWindow(void *p);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_021BAAB8(char *,int,int);
+extern void WIFICLUB_ShowStreamedMessage(char *,int,int);
 extern int func_0202EB14(void);
 extern u32 func_0202EB0C(void);
-extern int func_021BDDD0(char *);
-int func_021BC2C0(char *p,int v)
+extern int WIFICLUB_HasEnoughPartyMembers(char *);
+int WIFICLUB_StateMainMenu(char *p,int v)
 {
     int r;
     void *q;
@@ -65,7 +65,7 @@ int func_021BC2C0(char *p,int v)
         if (((struct Obj22023 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f46==0) return v;
         break;
     }
-    if (r!=-1) func_021BA8EC(p);
+    if (r!=-1) WIFICLUB_ClearTalkWindow(p);
     switch(r) {
     case -1: return v;
     case -2:
@@ -74,7 +74,7 @@ int func_021BC2C0(char *p,int v)
         break;
     case 4:
         if (((struct Obj22024 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f45==0) {
-            func_021BAAB8(p,0x8c,0);
+            WIFICLUB_ShowStreamedMessage(p,0x8c,0);
             ((struct Obj00467 *)p)->f1CC=0x47;
         } else {
             ((struct Obj00467 *)p)->f1353=0x4b;
@@ -83,10 +83,10 @@ int func_021BC2C0(char *p,int v)
         break;
     case 5:
         if (((struct Obj22025 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f45==0) {
-            func_021BAAB8(p,0x8c,0);
+            WIFICLUB_ShowStreamedMessage(p,0x8c,0);
             ((struct Obj00467 *)p)->f1CC=0x47;
         } else if (func_0202EB14()==0 && func_0202EB0C()!=0) {
-            func_021BAAB8(p,0x95,0);
+            WIFICLUB_ShowStreamedMessage(p,0x95,0);
             ((struct Obj00467 *)p)->f1CC=0xa4;
         } else {
             ((struct Obj00467 *)p)->f1353=0x4c;
@@ -94,8 +94,8 @@ int func_021BC2C0(char *p,int v)
         }
         break;
     case 6:
-        if (func_021BDDD0(p)==0) {
-            func_021BAAB8(p,0x79,0);
+        if (WIFICLUB_HasEnoughPartyMembers(p)==0) {
+            WIFICLUB_ShowStreamedMessage(p,0x79,0);
             ((struct Obj00467 *)p)->f1CC=0x47;
         } else if (((struct Obj22026 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f44!=((struct Obj22027 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f45) {
             ((struct Obj00467 *)p)->f1352=6;
@@ -107,7 +107,7 @@ int func_021BC2C0(char *p,int v)
         break;
     case 7: ((struct Obj00467 *)p)->f1CC=0x4e; break;
     }
-    ((struct Obj00467 *)p)->f1A4=(void *)func_021BA8BC(((struct Obj00467 *)p)->f1A4);
+    ((struct Obj00467 *)p)->f1A4=(void *)WIFICLUB_DeleteWindow(((struct Obj00467 *)p)->f1A4);
     BMP_MENULIST_Delete(((struct Obj00467 *)p)->fBC,0,(u16 *)(p+0x23c));
     BMP_MENUWORK_Delete(((struct Obj00467 *)p)->fB8);
     return v;

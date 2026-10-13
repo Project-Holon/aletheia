@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02176410",
+   "name": "DWCi_NodeInfoList_GetNodeInfoForAID",
    "address": "0x02176410",
    "kind": "sdk",
    "region": "ov009",

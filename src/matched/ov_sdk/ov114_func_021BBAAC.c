@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAAC
+ * function: NHTTPi_cancelAllRequests
  * address:  0x021BBAAC
  * packet:   pkt_ov114_021BBAAC
  * region:   ov114
@@ -12,13 +12,13 @@
  * sdk:      NHTTPi_cancelAllRequests (libnhttp.TWL.HYB.a(nhttp_request.o))
  *
  * symbols:
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BEF40 0x021BEF40 arm ov114
- *   func_021BEF58 0x021BEF58 arm ov114
- *   func_021BEFCC 0x021BEFCC arm ov114
- *   func_021BA068 0x021BA068 arm ov114
- *   func_021BAE90 0x021BAE90 arm ov114
- *   func_021BEFD8 0x021BEFD8 arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_GetListInfoP 0x021BEF40 arm ov114
+ *   NHTTPi_GetMutexInfoP 0x021BEF58 arm ov114
+ *   NHTTPi_lockReqList 0x021BEFCC arm ov114
+ *   NHTTPi_SocCancel 0x021BA068 arm ov114
+ *   NHTTPi_allFreeReqQueue 0x021BAE90 arm ov114
+ *   NHTTPi_unlockReqList 0x021BEFD8 arm ov114
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -37,33 +37,33 @@ typedef struct {
     ReqList *reqCurrent;
 } ReqInfo;
 
-extern void *func_021BEF48(int p);
+extern void *NHTTPi_GetReqInfoP(int p);
 typedef unsigned int   u32;
-extern void *func_021BEF40(int p);
-extern void *func_021BEF58(int p);
-extern void func_021BEFCC(void);
-extern void func_021BA068(int a, int b, int c);
-extern void func_021BAE90(u32 **p, int v);
-extern void func_021BEFD8(void *mutexInfo_p);
+extern void *NHTTPi_GetListInfoP(int p);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern void NHTTPi_lockReqList(void);
+extern void NHTTPi_SocCancel(int a, int b, int c);
+extern void NHTTPi_allFreeReqQueue(u32 **p, int v);
+extern void NHTTPi_unlockReqList(void *mutexInfo_p);
 
-void func_021BBAAC(void *sysInfo_p)
+void NHTTPi_cancelAllRequests(void *sysInfo_p)
 {
     ReqInfo *reqInfo_p;
     void *listInfo_p;
     void *mutexInfo_p;
     ReqList *reqCurrent_p;
 
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
-    listInfo_p = func_021BEF40((int)sysInfo_p);
-    mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
+    listInfo_p = NHTTPi_GetListInfoP((int)sysInfo_p);
+    mutexInfo_p = NHTTPi_GetMutexInfoP((int)sysInfo_p);
     reqCurrent_p = reqInfo_p->reqCurrent;
-    func_021BEFCC();
+    NHTTPi_lockReqList();
     if (reqCurrent_p) {
         if (reqCurrent_p->req_p->doCancel == 0) {
             reqCurrent_p->req_p->doCancel = 1;
-            func_021BA068((int)mutexInfo_p, (int)reqCurrent_p->req_p, reqCurrent_p->arg);
+            NHTTPi_SocCancel((int)mutexInfo_p, (int)reqCurrent_p->req_p, reqCurrent_p->arg);
         }
     }
-    func_021BAE90(listInfo_p, (int)mutexInfo_p);
-    func_021BEFD8(mutexInfo_p);
+    NHTTPi_allFreeReqQueue(listInfo_p, (int)mutexInfo_p);
+    NHTTPi_unlockReqList(mutexInfo_p);
 }

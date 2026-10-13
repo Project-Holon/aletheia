@@ -1,7 +1,7 @@
 /*
  * file:     sceneopterase1.c
  * unit:     yes
- * function: func_021C231C, func_021C2340, func_021C23C0, func_021C23FC, func_021C2428, DWCi_SceneOptErase1_procScene, func_021C2460, DWCi_SceneOptErase1_draw, func_021C2484, func_021C24AC, func_021C24CC, func_021C2528
+ * function: DWCi_SceneOptErase1, initGraphics, DWCi_SceneOptErase1ProcInit, DWCi_SceneOptErase1ProcInit1, DWCi_SceneOptErase1ProcInit2, DWCi_SceneOptErase1_procScene, input, DWCi_SceneOptErase1_draw, button, DWCi_SceneOptErase1EndScene, DWCi_SceneOptErase1EndScene1, endScene2
  * address:  0x021C231C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,19 +12,23 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Call func_021C2460, DWCi_SceneOptErase1_draw, func_021C2484.
+ * Call input, DWCi_SceneOptErase1_draw, button.
  * Addresses are Black-image addresses.
  * Verified with:
  *   python tools/match.py one --src src/matched/DWCi_SceneOptErase1_procScene.c \
  *       --func DWCi_SceneOptErase1_procScene --addr 0x021C244C --region ov016 --cc dsi/1.1p1 --arm
- * Guard: if (func_021D6824(1)) call func_021D6824.
- *   python tools/match.py one --src src/matched/func_021C2460.c \
- *       --func func_021C2460 --addr 0x021C2460 --region ov016 --cc dsi/1.1p1 --arm
+ * Guard: if (DWCi_IPTlCheckTrigger(1)) call DWCi_IPTlCheckTrigger.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C2460 --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneOptErase1_draw.c \
  *       --func DWCi_SceneOptErase1_draw --addr 0x021C2480 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
+ *   OS_SpinWaitSysCycles           0x02087A04  arm  arm9
+ *   PM_ForceToPowerOff             0x0208BEA4  arm  arm9
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
@@ -40,7 +44,7 @@
  *   endScene2                        0x021C2528  arm
  *   initGraphics                     0x021C2340  arm
  *   procScene                        0x021C244C  arm
- *   func_021BD1D4  0x021BD1D4  arm
+ *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  */
 typedef _Bool bool;
 
@@ -63,48 +67,27 @@ extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_SNDlPlay(int no);
-void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void func_021C2484(void);
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
-extern int func_021D5580(int);
-extern void func_02087A04(int);
-extern void func_0208BEA4(void);
+void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
+extern void OS_SpinWaitSysCycles(int);
+extern void PM_ForceToPowerOff(void);
 void DWCi_SceneOptErase1(void);
-void func_021C2340(void);
 void DWCi_SceneOptErase1_procScene(void);
-void func_021C2460(void);
 void DWCi_SceneOptErase1_draw(void);
-void func_021C2528(void);
-
-
-
-static void initGraphics(void);
-
-
-static void procInit(void);
-
-
-static void procInit1(void);
-
-
-static void procInit2(void);
 
 
 static void procScene(void);
 
-
+static void initGraphics(void);
+static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void input(void);
 static void button(void);
-
-
 static void endScene(void);
-
-
 static void endScene1(void);
-
-
 static void endScene2(void);
-
 
 
 void DWCi_SceneOptErase1(void)
@@ -116,17 +99,15 @@ void DWCi_SceneOptErase1(void)
 }
 
 
-
-void func_021C2340(void)
+static void initGraphics(void)
 {
-    func_021BD1D4((void *)0x021DB2C8, (void *)0x0207EB78);
+    DWCi_CMNlLoadResource((void *)0x021DB2C8, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;
     ((BgCnt *)0x0400100A)->priority = 3;
     ((BgCnt *)0x04000008)->priority = 3;
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 
 static void procInit(void)
@@ -137,7 +118,6 @@ static void procInit(void)
 }
 
 
-
 static void procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
@@ -145,7 +125,6 @@ static void procInit1(void)
     DWCi_CMNlButton(5);
     DWCi_ChangeScene(procInit2);
 }
-
 
 
 static void procInit2(void)
@@ -159,22 +138,21 @@ static void procInit2(void)
 
 void DWCi_SceneOptErase1_procScene(void)
 {
-    func_021C2460();
+    input();
     DWCi_SceneOptErase1_draw();
-    func_021C2484();
+    button();
 }
 
 
-void func_021C2460(void)
+static void input(void)
 {
-    if (func_021D6824(1))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(1))
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneOptErase1_draw(void)
 {
 }
-
 
 
 static void button(void)
@@ -186,14 +164,12 @@ static void button(void)
 }
 
 
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 
 static void endScene1(void)
@@ -206,21 +182,20 @@ static void endScene1(void)
 }
 
 
-
 /*
- * Bail out on two func_021D5580 probes, then arm timer 0x800000 and kick func_0208BEA4.
+ * Bail out on two DWCi_EFFlCheck probes, then arm timer 0x800000 and kick PM_ForceToPowerOff.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C2528.c \
- *       --func func_021C2528 --addr 0x021C2528 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/endScene2.c \
+ *       --func endScene2 --addr 0x021C2528 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C2528(void)
+static void endScene2(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    func_02087A04(0x800000);
-    func_0208BEA4();
+    OS_SpinWaitSysCycles(0x800000);
+    PM_ForceToPowerOff();
 }

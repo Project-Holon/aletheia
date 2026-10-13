@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9774  0x021B9774  thumb  ov114
- *   func_021B9838  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   DWC_RAPCOMMON_DestroySubHeap  0x02156ED0  thumb  ov009
  */
 
 typedef unsigned char  u8;
-extern void func_021B9774(u8 *p);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 
 void func_021DEEFC(void **p)
 {
     if (*p != 0) {
-        func_021B9774(*p);
-        func_021B9838(*p);
+        NHTTP_RAP_DeleteConnection(*p);
+        NHTTP_RAP_Destroy(*p);
         *p = 0;
         DWC_RAPCOMMON_DestroySubHeap();
     }

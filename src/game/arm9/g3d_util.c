@@ -16,14 +16,14 @@
  * symbols:
  *   func_02030734      0x02030734  arm
  *   func_020307B0   0x020307B0  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   DC_FlushRange  0x020862F0  arm
  *   g3d_util_file  0x020A7EB8  data
  *   g3d_camera_file     0x020A7EC4  data
  *   g3d_light_file  0x020A7ED4  data
  *   ARC_TOOL_gArchiveTable     0x02146A68  data
- *   func_02078A80  0x02078A80  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_CloseFile  0x02078A80  arm
+ *   FS_ReadFile  0x02078B70  arm
  *   arc_tool_file  0x020A7EE0  data
  *   FS_InitFile             0x020788AC  arm
  *   FS_OpenFile     0x02078C18  arm
@@ -84,7 +84,7 @@
  *   func_02062670  0x02062670  arm
  *   func_02062920  0x02062920  arm
  *   func_0206267C  0x0206267C  arm
- *   func_020834C0  0x020834C0  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
  *   arc_util_file   0x020A7F30  data
  *   MI_UncompressLZ8 0x020834C0 arm
  *   arc_util_file     0x020A7F30 data
@@ -350,18 +350,15 @@ typedef void (*GfxLoadFn)(u32 data, u32 dest, u32 size);
 
 extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
 extern u32 func_020307B0(void *p);
-extern void func_020862F0(int a, int b);
+extern void DWCi_ScreenDC_FlushRange(int a, int b);
 extern void  DC_FlushRange(void *addr, u32 size);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void func_02078A80(void *p);
+extern void FS_ReadFile(struct ArcHandle *arc, void *dst, u32 size);
+extern void FS_CloseFile(void *p);
 extern void FS_InitFile(void *file);
 extern void FS_OpenFile(struct ArcFile *arc, u32 value);
 extern void FS_CreateFileFromMemory(void *file, void *src, u32 size);
 extern void FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
-extern void FS_ReadFile(struct ArcHandle *arc, void *dst, u32 size);
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
-extern void func_020788AC(struct ArcFile *f);
-extern void func_02078C18(struct ArcFile *f, const char *path);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern u32 func_0204968C(void *buf, u32 a1, u32 a2, u32 a3, u32 unused);
 extern void *sub_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
@@ -396,7 +393,6 @@ extern int func_02062820(int a, int *out);
 extern int   func_02062670(void *ptr, u32 val);
 extern int func_02062920(u32 a, u32 *out);
 extern int   func_0206267C(void *ptr, u32 val);
-extern int         func_020834C0(int a0, int a1);
 extern void MI_UncompressLZ8(const void *src, void *dest);
 void G3D_SYSTEM_SetProjection(const u32 *src);
 void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
@@ -1765,7 +1761,7 @@ void ARC_TOOL_SetTable(u32 entries, u32 count)
  * archive handle is a 0x48 byte stack local: ARC_TOOL_OpenArchive binds it to the
  * archive named by `archive_id` (it indexes the 235-entry a/x/y/z name table
  * at 0x020A6C58), ARC_TOOL_SeekMember seeks the member and returns its byte size,
- * func_02078B70 is the read and func_02078A80 closes the handle again.
+ * FS_ReadFile is the read and FS_CloseFile closes the handle again.
  *
  * Nothing survives the call, so this is the one-shot form: a caller that wants
  * the archive to stay open uses func_020490F4 instead.
@@ -1782,8 +1778,8 @@ void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archiveID, u32 memberIdx, u32 o
     struct ArcFile h;
 
     ARC_TOOL_OpenArchive(&h, archiveID);
-    func_02078B70((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size));
-    func_02078A80(&h);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size));
+    FS_CloseFile(&h);
 }
 
 
@@ -1823,8 +1819,8 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
     ARC_TOOL_OpenArchive(&h, archiveID);
     memberSize = ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size);
     buf = func_02030734(heapID, memberSize, 0, arc_tool_file, 0xbb);
-    func_02078B70((struct FSFile *)(&h), buf, memberSize);
-    func_02078A80(&h);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), buf, memberSize);
+    FS_CloseFile(&h);
     return buf;
 }
 
@@ -2130,12 +2126,12 @@ void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 memberIdx, u16 heapID)
     void *p;
     u32 size;
 
-    func_020788AC(&file);
-    func_02078C18(&file, path);
+    FS_InitFile(&file);
+    ((void (*)(struct ArcFile *f, const char *path))FS_OpenFile)(&file, path);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), memberIdx, 0, 0);
     p = func_02030734(heapID, size, 0, arc_tool_file, 0x182);
-    func_02078B70((struct FSFile *)(&file), p, size);
-    func_02078A80(&file);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&file), p, size);
+    FS_CloseFile(&file);
     return p;
 }
 
@@ -2154,10 +2150,10 @@ u32 ARC_TOOL_GetArchiveFileCount(u32 archiveID)
     headerSize = 0;
     ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
     func_02078B44((struct FSFile *)buf, 0xc, 0);
-    func_02078B70((struct FSFile *)buf, &headerSize, 2);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, &headerSize, 2);
     func_02078B44((struct FSFile *)buf, headerSize + 4, 0);
-    func_02078B70((struct FSFile *)buf, header, 6);
-    func_02078A80(buf);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, header, 6);
+    FS_CloseFile(buf);
     return header[2];
 }
 
@@ -2174,7 +2170,7 @@ u32 ARC_TOOL_GetMemberSize(u32 archiveID, u32 memberIdx)
 
     ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)buf, memberIdx, 0, 0);
-    func_02078A80(buf);
+    FS_CloseFile(buf);
     return size;
 }
 
@@ -2255,13 +2251,13 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
 
     arc->fatOffset = 0;
     func_02078B44((struct FSFile *)arc, 0xc, 0);
-    func_02078B70((struct FSFile *)arc, &arc->fatOffset, 2);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &arc->fatOffset, 2);
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 4, 0);
-    func_02078B70((struct FSFile *)arc, &scan, 6);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan, 6);
     arc->count = scan.fileCount;
     off = arc->fatOffset + scan.fatSize;
     func_02078B44((struct FSFile *)arc, off + 4, 0);
-    func_02078B70((struct FSFile *)arc, &scan.nameTableSize, 4);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan.nameTableSize, 4);
     arc->imageBase = off + scan.nameTableSize;
 }
 
@@ -2272,7 +2268,7 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
 
 void ARC_TOOL_DeleteHandle(void *handle)
 {
-    func_02078A80(handle);
+    FS_CloseFile(handle);
     func_020307B0(handle);
 }
 
@@ -2320,12 +2316,12 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, range, 8);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
 
     buf = func_02030734(heapID, range[1] - range[0], 0, arc_tool_file, 619);
     if (buf != 0) {
-        func_02078B70((struct FSFile *)arc, buf, range[1] - range[0]);
+        ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, buf, range[1] - range[0]);
     }
     return buf;
 }
@@ -2356,9 +2352,9 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst)
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, range, 8);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     func_02078B44((struct FSFile *)arc, arc->imageBase + 8 + range[0], 0);
-    func_02078B70((struct FSFile *)arc, dst, range[1] - range[0]);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, range[1] - range[0]);
 }
 
 
@@ -2387,7 +2383,7 @@ u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx)
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, range, 8);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     return range[1] - range[0];
 }
 
@@ -2424,9 +2420,9 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 of
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, &start, 4);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
     func_02078B44((struct FSFile *)arc, offset + (arc->imageBase + 8 + start), 0);
-    func_02078B70((struct FSFile *)arc, dst, size);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
 }
 
 
@@ -2456,7 +2452,7 @@ void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, &start, 4);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
     *out = arc->imageBase + 8 + start;
 }
 
@@ -2486,7 +2482,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    func_02078B70((struct FSFile *)arc, &start, 4);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
     return arc->imageBase + 8 + start;
 }
 
@@ -2508,7 +2504,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
  */
 void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst)
 {
-    func_02078B70((struct FSFile *)arc, dst, size);
+    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
 }
 
 
@@ -3088,7 +3084,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
                 size = *pmcp * (pltt->fmt == 3 ? 0x20 : 0x200);
             size -= offset;
         }
-        func_020862F0(pltt->data, size);
+        DWCi_ScreenDC_FlushRange(pltt->data, size);
         switch (kind) {
         case 2:
             func_0207F308();
@@ -3397,7 +3393,7 @@ int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID
     ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
         outBuf = (int)func_02030734(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, arc_util_file, 1611);
-        func_020834C0(buf, outBuf);
+        ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
         func_020307B0((void *)buf);
         buf = outBuf;
     }
@@ -3427,7 +3423,7 @@ int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u1
     if (decompress != 0) {
         *out = ((struct LzHeader *)buf)->sizeAndType >> 8;
         outBuf = (int)func_02030734(heapID, *out, 0, arc_util_file, 1656);
-        func_020834C0(buf, outBuf);
+        ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
         func_020307B0((void *)buf);
         buf = outBuf;
     }

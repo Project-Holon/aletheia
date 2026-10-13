@@ -18,7 +18,7 @@
  *   func_021CB134 0x021CB134 thumb ov093
  *   func_021CB144 0x021CB144 thumb ov093
  *   func_021CB154 0x021CB154 thumb ov093
- *   func_021CB164 0x021CB164 thumb ov093
+ *   DWCi_SceneSetRakuCompleteProcInit 0x021CB164 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_MAIN_IsPokeSamePair 0x021B9A24 thumb ov093
@@ -36,7 +36,7 @@ extern u32 BTL_CALC_GetFightersPerSide(u32);
 extern u32 func_021CB134(void *);
 extern void *func_021CB144(void *, int);
 extern void func_021CB154(void *, void *);
-extern void func_021CB164(void *, void *);
+extern void DWCi_SceneSetRakuCompleteProcInit(void *, void *);
 extern int BTL_POKEPARAM_IsFainted(void *);
 struct Unk021B8CB0;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -94,7 +94,7 @@ int BTL_SERVER_FLOW_RetargetFaintedMoveTarget(u8 *p, u32 mode, void *m, const u1
         else if (d1 < d0) choice = 1;
         else choice = BTL_CALC_Random(2);
     }
-    if (members[choice]) { func_021CB164(out, (void *)members[choice]); return 1; }
+    if (members[choice]) { DWCi_SceneSetRakuCompleteProcInit(out, (void *)members[choice]); return 1; }
 fail:
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     obj.c
  * unit:     yes
- * function: func_021D6E14, func_021D6EA4, func_021D6EEC, func_021D6F18, func_021D6F38, func_021D6F84
+ * function: DWCi_OBJlInit, taskTransfer, DWCi_OBJlEnd, DWCi_OBJlFormGx, DWCi_OBJlDelete, DWCi_OBJlGetOam
  * address:  0x021D6E14
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,98 +13,100 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_02082AC0  0x02082AC0  arm
- *   func_021D5410  0x021D5410  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
- *   g_021DE6A8  0x021DE6A8  data
- *   func_020862F0  0x020862F0  arm
- *   func_0207E684  0x0207E684  arm
- *   func_0207E708  0x0207E708  arm
+ *   DWCi_QUElPopBack               0x021D54C4  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   MIi_CpuClearFast  0x02082AC0  arm
+ *   DWCi_QUElFormEx  0x021D5410  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
+ *   gObjWork  0x021DE6A8  data
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GX_LoadOAM  0x0207E684  arm
+ *   GXS_LoadOAM  0x0207E708  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
  */
-extern void *func_021D6414(unsigned long size, int align);
-extern void func_02082AC0(unsigned long data, void *dst, unsigned long size);
-extern void *func_021D5410(long size, void *data, long dsize);
-extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void func_020862F0(void *start, unsigned long n);
-extern void func_0207E684(void *src, unsigned long off, unsigned long sz);
-extern void func_0207E708(void *src, unsigned long off, unsigned long sz);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
+extern void MIi_CpuClearFast(unsigned long data, void *dst, unsigned long size);
+extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+extern void DWCi_ScreenDC_FlushRange(void *start, unsigned long n);
+extern void GX_LoadOAM(void *src, unsigned long off, unsigned long sz);
+extern void GXS_LoadOAM(void *src, unsigned long off, unsigned long sz);
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021D6438(void **mem);
-extern void *func_021D54C4(void *queue);
-extern void func_021D546C(void *que, void *elem);
-void func_021D6E14(void);
-void func_021D6EA4(void);
-void func_021D6EEC(void);
-void func_021D6F18(unsigned int i);
-void func_021D6F38(unsigned int *obj);
-char *func_021D6F84(unsigned int a, unsigned int b);
-extern char *g_021DE6A8;
+extern void DWCi_HEAPlFree_(void **mem);
+extern void *DWCi_QUElPopBack(void *queue);
+extern void DWCi_QUElPushBack(void *que, void *elem);
+void DWCi_OBJlInit(void);
+void DWCi_OBJlEnd(void);
+void DWCi_OBJlFormGx(unsigned int i);
+void DWCi_OBJlDelete(unsigned int *obj);
+char *DWCi_OBJlGetOam(unsigned int a, unsigned int b);
+extern char *gObjWork;
 
 
 /*
  * sdk:      DWCi_OBJlInit (libdwcutil.TWL.HYB.a(obj.o))
  */
-void func_021D6E14(void)
+
+static void taskTransfer(void);
+void DWCi_OBJlInit(void)
 {
 	int i;
 
-	g_021DE6A8 = func_021D6414(0x80c, 4);
-	func_02082AC0(0x200, g_021DE6A8, 0x800);
+	gObjWork = DWCi_HEAPlAllocEx(0x80c, 4);
+	MIi_CpuClearFast(0x200, gObjWork, 0x800);
 	for (i = 0; i < 2; i++)
-		*(void **)(g_021DE6A8 + i * 4 + 0x800) = func_021D5410(0x40, g_021DE6A8 + i * 0x400, 8);
-	*(void **)(g_021DE6A8 + 0x808) = func_021D7680(1, (void (*)(void *, void *))func_021D6EA4, 0, 0xc8);
+		*(void **)(gObjWork + i * 4 + 0x800) = DWCi_QUElFormEx(0x40, gObjWork + i * 0x400, 8);
+	*(void **)(gObjWork + 0x808) = DWCi_TSKlForm(1, (void (*)(void *, void *))taskTransfer, 0, 0xc8);
 }
 
 
-void func_021D6EA4(void)
+static void taskTransfer(void)
 {
-	func_020862F0(g_021DE6A8, 0x800);
-	func_0207E684(g_021DE6A8, 0, 0x400);
-	func_0207E708(g_021DE6A8 + 0x400, 0, 0x400);
+	DWCi_ScreenDC_FlushRange(gObjWork, 0x800);
+	GX_LoadOAM(gObjWork, 0, 0x400);
+	GXS_LoadOAM(gObjWork + 0x400, 0, 0x400);
 }
 
 
 /*
  * sdk:      DWCi_OBJlEnd (libdwcutil.TWL.HYB.a(obj.o))
  */
-void func_021D6EEC(void)
+void DWCi_OBJlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(1, *(void **)(g_021DE6A8 + 0x808));
-	func_021D6438((void *)0x021DE6A8);
+	DWCi_TSKlDeleteByIndex(1, *(void **)(gObjWork + 0x808));
+	DWCi_HEAPlFree_((void *)0x021DE6A8);
 }
 
 
 /*
- * Tail-call func_021D54C4 with an indexed pointer out of the global table.
+ * Tail-call DWCi_QUElPopBack with an indexed pointer out of the global table.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D6F18.c \
- *       --func func_021D6F18 --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_OBJlFormGx.c \
+ *       --func DWCi_OBJlFormGx --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D6F18(unsigned int i)
+void DWCi_OBJlFormGx(unsigned int i)
 {
     char *p = *(char **)0x021DE6A8;
-    func_021D54C4(*(void **)(p + (i << 2) + 0x800));
+    DWCi_QUElPopBack(*(void **)(p + (i << 2) + 0x800));
 }
 
 
 /*
  * sdk:      DWCi_OBJlDelete (libdwcutil.TWL.HYB.a(obj.o))
  */
-void func_021D6F38(unsigned int *obj)
+void DWCi_OBJlDelete(unsigned int *obj)
 {
 	int lcd;
 
 	*obj = (*obj & 0xc1fffcff) | 0x200;
 	lcd = 0;
-	if ((char *)obj >= g_021DE6A8 + 0x400)
+	if ((char *)obj >= gObjWork + 0x400)
 		lcd = 1;
-	func_021D546C(*(void **)(g_021DE6A8 + 0x800 + lcd * 4), obj);
+	DWCi_QUElPushBack(*(void **)(gObjWork + 0x800 + lcd * 4), obj);
 }
 
 /*
@@ -112,10 +114,10 @@ void func_021D6F38(unsigned int *obj)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D6F84.c \
- *       --func func_021D6F84 --addr 0x021D6F84 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_OBJlGetOam.c \
+ *       --func DWCi_OBJlGetOam --addr 0x021D6F84 --region ov016 --cc dsi/1.1p1 --arm
  */
-char *func_021D6F84(unsigned int a, unsigned int b)
+char *DWCi_OBJlGetOam(unsigned int a, unsigned int b)
 {
     return *(char **)0x021DE6A8 + (a << 10) + (b << 3);
 }

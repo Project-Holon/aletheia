@@ -19,7 +19,7 @@
  *   func_02030734      0x02030734  arm
  *   NNS_G3dInit      0x0206DF14  arm
  *   G3X_InitMtxStack   0x0207DB1C  arm
- *   func_0206A700      0x0206A700  arm
+ *   NNS_G3dGlbInit      0x0206A700  arm
  *   func_02030BBC      0x02030BBC  arm
  *   NNS_G3dGeSetBuffer      0x0206DB40  arm
  *   func_020307C8      0x020307C8  arm
@@ -92,7 +92,7 @@ extern const struct Setup36 _DefaultLookAt;
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void  NNS_G3dInit(void);
 extern void  G3X_InitMtxStack(void);
-extern void  func_0206A700(void);
+extern void  NNS_G3dGlbInit(void);
 extern void *func_02030BBC(u32 a0);
 extern void  NNS_G3dGeSetBuffer(u32 *p);
 extern void  func_020307C8(void *p, u16 heap, u32 n);
@@ -124,7 +124,7 @@ void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
 
     NNS_G3dInit();
     G3X_InitMtxStack();
-    func_0206A700();
+    NNS_G3dGlbInit();
 
     if (fifoSize != 0)
         NNS_G3dGeSetBuffer(func_02030BBC(fifoSize > 0x1800 ? 0x1800 : fifoSize));

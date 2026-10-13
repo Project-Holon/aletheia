@@ -1,5 +1,5 @@
 /*
- * function: func_0689C990
+ * function: BTL_ID_IsGenesectDrive
  * address: 0x0689C990
  * packet: pkt_ov095_0689C990
  * region: ov095
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E2BC 0x0689E2BC data a2
- *   func_0689C888 0x0689C888 thumb
+ *   gGenesectDriveItems 0x0689E2BC data a2
+ *   BTL_ID_IsInList 0x0689C888 thumb
  */
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-int func_0689C990(unsigned a);
-extern unsigned short d_0689E2BC[];
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsGenesectDrive(unsigned a);
+extern unsigned short gGenesectDriveItems[];
 
-int func_0689C990(unsigned a)
+int BTL_ID_IsGenesectDrive(unsigned a)
 {
-    return func_0689C888(a, d_0689E2BC, 4);
+    return BTL_ID_IsInList(a, gGenesectDriveItems, 4);
 }

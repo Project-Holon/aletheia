@@ -12,8 +12,8 @@
  * symbols:
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
- *   func_02087988  0x02087988  arm twl a2
- *   func_0208799C  0x0208799C  arm twl a2
+ *   OS_DisableInterrupts  0x02087988  arm twl a2
+ *   OS_RestoreInterrupts  0x0208799C  arm twl a2
  *   CameraCallCallbackAndUnlock  0x02701FE8  arm twl a2
  *   CAMERA_GoReboot  0x027001F0  arm twl a2
  */
@@ -53,8 +53,8 @@ typedef struct CamPxiState {
     s32 value;
 } CamPxiState;
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void CameraCallCallbackAndUnlock(u32);
 extern void CAMERA_GoReboot(void);
 extern CamPxiCmd data_02732FC8;
@@ -94,9 +94,9 @@ void CameraPxiCallback(int tag, u32 data, int err)
         return;
     }
     if (data_02732FC8.pend2 != 0 || (data_02732FC8.pend1 == 0 && data_02732FC8.pend0 == 0)) {
-        u32 irq = func_02087988();
+        u32 irq = OS_DisableInterrupts();
         reg_04004004 = reg_04004004 & ~0x100;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
     }
     result = 0;
     data_02732FC8.pend1 = result;

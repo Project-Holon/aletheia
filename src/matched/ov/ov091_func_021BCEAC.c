@@ -29,7 +29,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,7 +56,7 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082A60(void *, void *, unsigned long);
+extern void MIi_CpuCopy16(void *, void *, unsigned long);
 #define H (*(u16 *)p)
 #define W(o) (*(u32 *)(p + (o)))
 #define F(o) (*(int *)(W(0x280) + (o)))
@@ -89,5 +89,5 @@ void PLIST_MENU_LoadResources(u8 *p)
     h = func_020490F4(7, H);
     W(0x194) = CLACT_RegisterPaletteCompressed((void *)((u32)h), func_0201BC3C(), 1, 0xc0, H);
     ARC_TOOL_DeleteHandle(h);
-    func_02082A60((void *)0x05000440, p + 0x20e, 0x20);
+    MIi_CpuCopy16((void *)0x05000440, p + 0x20e, 0x20);
 }

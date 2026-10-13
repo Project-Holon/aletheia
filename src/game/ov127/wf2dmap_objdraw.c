@@ -336,7 +336,7 @@ void func_021C57F4(u8 *p) { func_021C5944(p,func_021C58F8(*(char * *)&((struct O
 
 /*
  * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C41DC with the
- * pointer at +4.  Blocker of ov099 func_021BA2D4 / func_021BA36C.
+ * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  */
 void func_021C5814(char *p, P2 v)
 {
@@ -422,7 +422,7 @@ int func_021C5878(int a,int b) { if(b==1) return 250-a/4; else return 251-a/4; }
 
 /*
  * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C428C with the
- * pointer at +4.  Blocker of ov099 func_021BA2D4 / func_021BA36C.
+ * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  */
 void func_021C5898(char *p, P2 v)
 {

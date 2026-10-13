@@ -28,7 +28,7 @@
  *   DWCi_Ndi_memcpy                0x021C7A44  arm  ov114
  *   DWCi_Ndi_getDecodeLenBASE64    0x021C60A0  arm  ov114
  *   DWCi_Ndi_decodeBASE64          0x021C61C0  arm  ov114
- *   g_021CF528                     0x021CF528  data  ov114
+ *   sDwciNdContentLength                     0x021CF528  data  ov114
  */
 
 typedef unsigned char u8;
@@ -64,7 +64,7 @@ extern int DWCi_Ndi_strToInt(char *p, int len);
 extern void DWCi_Ndi_memcpy(void *dst, void *src, int size);
 extern int DWCi_Ndi_getDecodeLenBASE64(int len);
 extern int DWCi_Ndi_decodeBASE64(char *decbin, char *str, int length);
-extern char g_021CF528[];
+extern char sDwciNdContentLength[];
 
 int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
 {
@@ -85,7 +85,7 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
 
     isComplete = 0;
     DWCi_Ndi_memclr(hrq->param.getfile.encName, hrq->param.getfile.size * 0xb0);
-    if (NHTTP_GetHeaderField(res, g_021CF528, &contentlen) > 0) {
+    if (NHTTP_GetHeaderField(res, sDwciNdContentLength, &contentlen) > 0) {
         if (contentlen[0] == '0' && contentlen[1] == 0)
             return 1;
     }

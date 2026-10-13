@@ -24,7 +24,7 @@
  *   data_02700824  0x02700824  arm twl a2
  *   data_027340EC  0x027340EC  data twl a2
  *   PXI_Init  0x02088498  arm twl a2
- *   func_020885EC  0x020885EC  arm twl a2
+ *   PXI_IsCallbackReady  0x020885EC  arm twl a2
  *   func_020885A0  0x020885A0  arm twl a2
  *   CAMERA_ResetCore  0x02702080  arm twl a2
  *   CAMERA_StopCaptureCore  0x0270212C  arm twl a2
@@ -35,10 +35,10 @@
  *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm twl a2
  *   CAMERA_SetMasterInterruptCore  0x02702208  arm twl a2
  *   func_02084774  0x02084774  arm twl a2
- *   func_02084968  0x02084968  arm twl a2
+ *   OS_EnableIrqMask  0x02084968  arm twl a2
  *   func_02085D94  0x02085D94  arm twl a2
- *   func_020853C0  0x020853C0  arm twl a2
- *   func_02085868  0x02085868  arm twl a2
+ *   OS_CreateThread  0x020853C0  arm twl a2
+ *   OS_WakeupThreadDirect  0x02085868  arm twl a2
  *   CameraPxiCallback  0x02701AA0  arm twl a2
  *   CameraStandbyCallback  0x02702070  arm twl a2
  *   CAMERA_CameraIntr  0x02700078  arm twl a2
@@ -129,7 +129,7 @@ extern u32 data_0273302C[];
 extern u32 data_027340EC[];
 
 extern void PXI_Init(void);
-extern u32 func_020885EC(u32, u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CameraPxiCallback(int, u32, int);
 extern void CAMERA_ResetCore(void);
@@ -142,10 +142,10 @@ extern void CAMERA_SetVsyncInterruptCore(u32);
 extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, TwlFn);
-extern void func_02084968(u32);
+extern void OS_EnableIrqMask(u32);
 extern void func_02085D94(u32*, u32*, u32);
-extern void func_020853C0(u32*, void (*)(void), u32, u32*, u32, u32);
-extern void func_02085868(u32*);
+extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
+extern void OS_WakeupThreadDirect(u32*);
 extern void CAMERA_CameraIntr(void);
 extern void CAMERA_MonitorThread(void);
 
@@ -165,7 +165,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f1AC = 0;
     data_02733FC8.f1B0 = 0;
     PXI_Init();
-    if (func_020885EC(0x15, 1) == 0) {
+    if (PXI_IsCallbackReady(0x15, 1) == 0) {
         return 7;
     }
     func_020885A0(0x15, CameraPxiCallback);
@@ -182,7 +182,7 @@ u32 CAMERA_InitCore(void) {
     CAMERA_SetBufferErrorInterruptCore(1);
     CAMERA_SetMasterInterruptCore(1);
     func_02084774(0x02000000, CAMERA_CameraIntr);
-    func_02084968(0x02000000);
+    OS_EnableIrqMask(0x02000000);
     data_02733FC8.f128 = 5;
     data_02733FC8.f12C = 0;
     data_02733FC8.f130 = 0;
@@ -214,7 +214,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f198 = 1;
     data_02733FC8.f19C = 0;
     func_02085D94(data_0273417C, data_0273419C, 1);
-    func_020853C0(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
-    func_02085868(data_0273302C);
+    OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
+    OS_WakeupThreadDirect(data_0273302C);
     return 0;
 }

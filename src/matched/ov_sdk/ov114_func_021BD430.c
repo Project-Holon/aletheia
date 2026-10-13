@@ -1,5 +1,5 @@
 /*
- * function: func_021BD430
+ * function: NHTTPi_ThreadHostAddrProc
  * address:  0x021BD430
  * packet:   pkt_ov114_021BD430
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      NHTTPi_ThreadHostAddrProc (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BA118 0x021BA118 arm ov114
- *   func_021BA130 0x021BA130 arm ov114
- *   func_021BA098 0x021BA098 arm ov114
- *   func_021BA13C 0x021BA13C arm ov114
- *   func_021BA124 0x021BA124 arm ov114
- *   func_021BA100 0x021BA100 arm ov114
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_strlen 0x021BA118 arm ov114
+ *   NHTTPi_strcmp 0x021BA130 arm ov114
+ *   NHTTPi_resolveHostname 0x021BA098 arm ov114
+ *   NHTTPi_memclr 0x021BA13C arm ov114
+ *   NHTTPi_strnlen 0x021BA124 arm ov114
+ *   NHTTPi_memcpy 0x021BA100 arm ov114
  */
 
 typedef unsigned long u32;
@@ -69,31 +69,31 @@ typedef struct {
 } ReqInfo;
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF48(int p);
-extern int func_021BA118(char *s);
-extern int func_021BA130(char *a, char *b);
-extern unsigned long func_021BA098(int unused, char *hostname_p);
-extern void func_021BA13C(int a, int b);
-extern int func_021BA124(char *s, int max);
-extern void func_021BA100(void *dst, void *src, int n);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern int NHTTPi_strlen(char *s);
+extern int NHTTPi_strcmp(char *a, char *b);
+extern unsigned long NHTTPi_resolveHostname(int unused, char *hostname_p);
+extern void NHTTPi_memclr(int a, int b);
+extern int NHTTPi_strnlen(char *s, int max);
+extern void NHTTPi_memcpy(void *dst, void *src, int n);
 
-static int func_021BD430(ThreadData *threadData_p)
+static int NHTTPi_ThreadHostAddrProc(ThreadData *threadData_p)
 {
     void *sysInfo_p;
     ReqInfo *reqInfo_p;
     Req *req_p;
     char *hostname_p;
 
-    sysInfo_p = func_021BEF08();
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
+    sysInfo_p = NHTTPi_GetSystemInfoP();
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     hostname_p = req_p->hostname_p;
     if (req_p->isProxy) {
         hostname_p = req_p->proxyAddr;
     }
-    if (func_021BA118(hostname_p) == 0 || func_021BA130(hostname_p, threadData_p->preHostname) != 0) {
-        threadData_p->hostaddr = func_021BA098((int)req_p, hostname_p);
+    if (NHTTPi_strlen(hostname_p) == 0 || NHTTPi_strcmp(hostname_p, threadData_p->preHostname) != 0) {
+        threadData_p->hostaddr = NHTTPi_resolveHostname((int)req_p, hostname_p);
         if (threadData_p->hostaddr == 0) {
             if (req_p->isProxy) {
                 threadData_p->result = 12;
@@ -106,8 +106,8 @@ static int func_021BD430(ThreadData *threadData_p)
     } else {
         threadData_p->hostaddr = threadData_p->preHostaddr;
     }
-    func_021BA13C((int)threadData_p->preHostname, 256);
-    func_021BA100(threadData_p->preHostname, hostname_p, func_021BA124(hostname_p, 255));
+    NHTTPi_memclr((int)threadData_p->preHostname, 256);
+    NHTTPi_memcpy(threadData_p->preHostname, hostname_p, NHTTPi_strnlen(hostname_p, 255));
     threadData_p->port = req_p->port;
     if (req_p->isProxy) {
         threadData_p->port = req_p->proxyPort;

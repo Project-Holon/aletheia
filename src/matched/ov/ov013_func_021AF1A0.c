@@ -14,8 +14,8 @@
  *   func_0202EB0C  0x0202EB0C  thumb
  *   func_0208B480  0x0208B480  arm
  *   func_0208B528  0x0208B528  arm
- *   func_02073AB4  0x02073AB4  arm
- *   func_02073898  0x02073898  arm
+ *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
+ *   NNS_SndStrmFreeChannel  0x02073898  arm
  *   VCT_Exit  0x021B3844  arm  ov013
  *   func_0208BEF0  0x0208BEF0  arm
  *   DWC_RAPCOMMON_Free  0x02156FDC  thumb  ov009
@@ -32,9 +32,9 @@ typedef unsigned int   u32;
 extern u32 func_0202EB0C(void);
 extern int func_0208B480(void);
 extern int func_0208B528(void);
-extern void func_02073AB4(void *p);
+extern void NNSi_SndStrmStopIfSetup(void *p);
 struct X;
-extern void func_02073898(struct X *x);
+extern void NNS_SndStrmFreeChannel(struct X *x);
 extern void VCT_Exit(void);
 extern unsigned int func_0208BEF0(unsigned int status);
 extern void DWC_RAPCOMMON_Free(u32 a, void *p, int b);
@@ -52,8 +52,8 @@ void VCT_MAIN_Exit(void)
     } else {
         func_0208B528();
     }
-    func_02073AB4(gVctWork->f19B8);
-    func_02073898((struct X *)gVctWork->f19B8);
+    NNSi_SndStrmStopIfSetup(gVctWork->f19B8);
+    NNS_SndStrmFreeChannel((struct X *)gVctWork->f19B8);
     VCT_Exit();
     func_0208BEF0(0);
     DWC_RAPCOMMON_Free(0, gVctWork->f880, 0);

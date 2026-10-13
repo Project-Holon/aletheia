@@ -1,5 +1,5 @@
 /*
- * function: func_02067998
+ * function: NNSi_G2dDrawCellToSurface3D
  * address:  0x02067998
  * packet:   pkt_02066E30
  * region:   arm9
@@ -12,20 +12,20 @@
  * OAM affine composer, list driver.  Walks the u16-counted list at `lst`,
  * copying each six-byte row into the global rig's +0x38..+0x3c scratch
  * triple, invoking the caller's optional pre hook (+0x20) and post hook
- * (+0x24) around the composer func_0206775C, which runs only while the
+ * (+0x24) around the composer NNSi_G2dDrawOam3D, which runs only while the
  * rig's +0x30 gate is still set.  The gate is re-armed to 1 at the top of
  * every iteration, so a hook may clear it to skip one row.
  *
  * BYTE-CORRECT: 200 bytes, 0 concrete mismatches.  PARKED, not filed.
  * blocking: label, no outside witness.  The sole wildcard is the +0x0088
- *   PC24 to func_0206775C, whose ONLY branch anywhere in the image is the
+ *   PC24 to NNSi_G2dDrawOam3D, whose ONLY branch anywhere in the image is the
  *   `bl` at 0x02067A20 inside this very function (verified by grep over
  *   asm/arm9/).  No cut helps: the site is inside the one function.  It
  *   converts with no edit the moment 0x0206775C has a `matched` entry;
  *   docs/notes/pkt_02066E30.c.txt records how close that row now is.
  *
  * Two levers, both needed:
- *   - the gate store `sOamSoftEmuContext->gate = 1;` must precede the read of
+ *   - the gate store `sRndCoreInstance->gate = 1;` must precede the read of
  *     `lst->rows`, or the row base is loaded first and the first 0x10
  *     bytes of the loop body permute.
  *   - the entry test is `lst->count <= i` on the ZERO counter, not
@@ -33,8 +33,8 @@
  *     loop's own pre-test, hoisted, and `== 0` gives `popeq`.
  *
  * symbols:
- *   sOamSoftEmuContext    0x02148B48  data
- *   func_0206775C 0x0206775C  arm
+ *   sRndCoreInstance    0x02148B48  data
+ *   NNSi_G2dDrawOam3D 0x0206775C  arm
  */
 
 typedef unsigned short u16;
@@ -59,13 +59,13 @@ struct Hooks {
     void (*post)(struct Rig *, struct List *, u32);  /* 0x24 */
 };
 
-extern struct Rig *sOamSoftEmuContext;
+extern struct Rig *sRndCoreInstance;
 
-extern void func_0206775C(u16 *row);
+extern void NNSi_G2dDrawOam3D(u16 *row);
 
-void func_02067998(struct Hooks *h, struct List *lst)
+void NNSi_G2dDrawCellToSurface3D(struct Hooks *h, struct List *lst)
 {
-    struct Rig *rig = sOamSoftEmuContext;
+    struct Rig *rig = sRndCoreInstance;
     u32 i = 0;
 
     if (lst->count <= i)
@@ -74,20 +74,20 @@ void func_02067998(struct Hooks *h, struct List *lst)
     do {
         u16 *row;
 
-        sOamSoftEmuContext->gate = 1;
+        sRndCoreInstance->gate = 1;
         row = (u16 *)((char *)lst->rows + i * 6);
         rig->row[0] = row[0];
         rig->row[1] = row[1];
         rig->row[2] = row[2];
 
         if (h->pre != 0)
-            h->pre(sOamSoftEmuContext, lst, i);
+            h->pre(sRndCoreInstance, lst, i);
 
-        if (sOamSoftEmuContext->gate != 0)
-            func_0206775C(&rig->row[0]);
+        if (sRndCoreInstance->gate != 0)
+            NNSi_G2dDrawOam3D(&rig->row[0]);
 
         if (h->post != 0)
-            h->post(sOamSoftEmuContext, lst, i);
+            h->post(sRndCoreInstance, lst, i);
 
         i = (u16)(i + 1);
     } while (lst->count > i);

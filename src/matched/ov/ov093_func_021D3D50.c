@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D50
+ * function: BTL_CLIENT_StepSetWeight
  * address: 0x021D3D50
  * packet: pkt_ov093_021D3D50
  * region: ov093
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 typedef unsigned int   u32;
 extern void BTL_POKEPARAM_SetWeight(u8 *p, u32 n);
-int func_021D3D50(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepSetWeight(char *p, int unused, unsigned int *a)
 {
     u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21205 *)p)->f4, (u8)a[0]);
     BTL_POKEPARAM_SetWeight(obj, (u16)a[1]);

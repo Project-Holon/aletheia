@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4830",
+   "name": "ghiParseStatus",
    "address": "0x021C4830",
    "kind": "sdk",
    "region": "ov114",

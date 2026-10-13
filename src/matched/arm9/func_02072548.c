@@ -15,7 +15,7 @@
  * low three bits of the object's flag word through a pointer table, then
  * applies the object's f30/f34 scales to the two rows -- each through the
  * family's `>> 12` on an s64 product, which folds to `lsr #0xc` +
- * `orr ..., lsl #20` -- and hands the record to func_0206DDA4.
+ * `orr ..., lsl #20` -- and hands the record to NNS_G3dGeBufferOP_N.
  *
  * Each scale is skipped outright when it is already the unit 0x1000, so
  * both are guarded compares against 0x1000 rather than multiplies by one.
@@ -46,19 +46,19 @@
  *     at all are both insensitive.
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   data_020A8478  0x020A8478  data
  *
- * Derived from src/matched/func_02071F20.c, its sibling and the other caller of
+ * Derived from src/matched/NNSi_G3dSendTexMtx.c, its sibling and the other caller of
  * the 0x02071CDC constructor family (docs/notes/pkt_02071DD4.c.txt, "NOT
  * ATTEMPTED").  Same 0x4c-byte stack record, same two header constants
  * (0x00101610 / 0x00101810), same 2x3 fill dispatched through the low three
- * flag bits -- through data_020A8478 here rather than data_020A8458 -- and the
+ * flag bits -- through data_020A8478 here rather than gNNSiG3dTexMtxFuncTable -- and the
  * same two f30/f34 scale blocks.  L1, L2 and L3 above all transferred
  * unchanged, including the `volatile` f30/f34 with the guard's own load bound
  * to `s`, and were not re-derived.
  *
- * What this one adds over func_02071F20: three flag-guarded writes back into
+ * What this one adds over NNSi_G3dSendTexMtx: three flag-guarded writes back into
  * the OBJECT, ahead of the dispatch -- bit 0 sets f1c and f18 to the unit
  * scale, bit 1 sets h22 to 0x1000 and h20 to 0, bit 2 clears f28 and f24.  The
  * store order inside each pair is high field first, and each guard re-reads
@@ -123,7 +123,7 @@ typedef struct Rec {
 
 typedef void (*Fill)(s32 *out, Obj *o);
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern Fill data_020A8478[];
 
 void func_02072548(Obj *o)
@@ -187,6 +187,6 @@ void func_02072548(Obj *o)
 
     {
         s32 *base = (s32 *)&r;
-        func_0206DDA4(r.hdr, base + 1, 0x12);
+        NNS_G3dGeBufferOP_N(r.hdr, base + 1, 0x12);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C940C",
+   "name": "DPW_BT_GetAsyncResult",
    "address": "0x021C940C",
    "kind": "sdk",
    "region": "ov114",

@@ -12,16 +12,16 @@
  * sdk:      SOCL_InetAtoH (libsoc.TWL.HYB.a(socl_resolve.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0215C910  0x0215C910  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   CPS_Resolve  0x0215C910  arm  ov009
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A82DC     0x021A82DC  data
  */
 
 extern unsigned long g_021A82DC[2];
-extern unsigned long func_02087988(void);
-extern unsigned long func_0215C910(char *name);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long CPS_Resolve(char *name);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 unsigned long func_0215EE98(char *hostname)
 {
@@ -30,14 +30,14 @@ unsigned long func_0215EE98(char *hostname)
     unsigned long dns0;
     unsigned long dns1;
 
-    enable = func_02087988();
+    enable = OS_DisableInterrupts();
     dns0 = g_021A82DC[0];
     dns1 = g_021A82DC[1];
     g_021A82DC[0] = 0;
     g_021A82DC[1] = 0;
-    hostip = func_0215C910(hostname);
+    hostip = CPS_Resolve(hostname);
     g_021A82DC[0] = dns0;
     g_021A82DC[1] = dns1;
-    func_0208799C(enable);
+    OS_RestoreInterrupts(enable);
     return hostip;
 }

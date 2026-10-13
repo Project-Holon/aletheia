@@ -1,5 +1,5 @@
 /*
- * function: func_0207292C
+ * function: NNSi_SndWaveOutLockChannels
  * address:  0x0207292C
  * packet:   pkt_0207292C
  * region:   arm9
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020895D8  0x020895D8  arm
- *   g_0214DEC0     0x0214DEC0  data
+ *   gNNSSndWaveOutState     0x0214DEC0  data
  *
  * Channel allocator, claim-by-mask.  Refuses an empty mask (returns 1), refuses
- * a mask that overlaps the in-use word at g_0214DEC0+8 (returns 0), otherwise
+ * a mask that overlaps the in-use word at gNNSSndWaveOutState+8 (returns 0), otherwise
  * locks it through func_020895D8 and ORs it in.  Matched SND_CHANNEL_UnlockChannels is the
  * matching release and reads the same +0x08 word.
  *
@@ -31,21 +31,21 @@
  * exactly what the pin reproduces.  Under ../2.0/sp2: 72 bytes, 0 mismatches.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0207292C.c \
- *       --func func_0207292C --addr 0x0207292C --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_SndWaveOutLockChannels.c \
+ *       --func NNSi_SndWaveOutLockChannels --addr 0x0207292C --cc ../2.0/sp2 --arm
  */
 
 #include "../include/G_Global0214DEC0.h"
 
-extern struct Global0214DEC0 g_0214DEC0;
+extern struct Global0214DEC0 gNNSSndWaveOutState;
 typedef unsigned int   u32;
 extern void func_020895D8(u32 chBitMask, u32 flags);
 
-int func_0207292C(int mask)
+int NNSi_SndWaveOutLockChannels(int mask)
 {
     if (mask == 0) return 1;
-    if ((mask & g_0214DEC0.flags8) != 0) return 0;
+    if ((mask & gNNSSndWaveOutState.flags8) != 0) return 0;
     func_020895D8(mask, 0);
-    g_0214DEC0.flags8 |= mask;
+    gNNSSndWaveOutState.flags8 |= mask;
     return 1;
 }

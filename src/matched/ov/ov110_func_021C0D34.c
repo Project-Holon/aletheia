@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D34
+ * function: PMS_SELECT_GRAPHIC_PlaceScrollThumb
  * address: 0x021C0D34
  * packet: pkt_ov110_021C0D34
  * region: ov110
@@ -27,7 +27,7 @@ struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-void func_021C0D34(char *p,int force) {
+void PMS_SELECT_GRAPHIC_PlaceScrollThumb(char *p,int force) {
     int n,index,y,a,b,t;
     short pos;
     if(!CLACT_GetActorDrawEnable(((struct Obj05300 *)p)->f8)) return;

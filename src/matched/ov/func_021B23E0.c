@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK39_TransferSound
+ * function: SCRCMD_FIELD_GIMMICK_CART_LANES_TransferSound
  * address:  0x021B23E0
  * packet:   pkt_021B23E0
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void FIELD_GIMMICK_CART_LANES_TransferSound(u32 a);
 
-int SCRCMD_GIMMICK39_TransferSound(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_TransferSound(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_GIMMICK_CART_LANES_TransferSound((u32)SCRCMD_WORK_GetGameSystem((void *)b));
 return 0;

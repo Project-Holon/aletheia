@@ -1,5 +1,5 @@
 /*
- * function: func_06899E68
+ * function: BTLV_SCD_RunTask
  * address:  0x06899E68
  * packet:   pkt_ov095_06899E68
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Slot table of four 16-byte entries at +0x20 with a count at +0x60 (see
- * func_06899E48, which pushes an entry, and func_06899E2C, which clears
+ * BTLV_SCD_PushTask, which pushes an entry, and BTLV_SCD_ClearTasks, which clears
  * them).  Services the newest entry.
  */
 
@@ -31,7 +31,7 @@ typedef struct Q {
     int n;
 } Q;
 
-int func_06899E68(Q *q)
+int BTLV_SCD_RunTask(Q *q)
 {
     Slot *e;
     int done;

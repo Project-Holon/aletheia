@@ -35,7 +35,7 @@
  *   WIH_End 0x02179570 thumb ov014
  *   func_021EFC10 0x021EFC10 thumb ov107
  *   func_021EFCA8 0x021EFCA8 thumb ov107
- *   func_0208EE9C 0x0208EE9C arm
+ *   WM_GetLinkLevel 0x0208EE9C arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   GFL_NET_WM_ICON_EasyMain 0x02037154 arm
  *   d_021F6EA0 0x021F6EA0 data a4
@@ -66,7 +66,7 @@ extern void func_021F1B38(u8 *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int WIH_End(void (*cb)(int));
 extern int func_021EFC10(void);
-extern int func_0208EE9C(void);
+extern int WM_GetLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void GFL_NET_WM_ICON_EasyMain(void);
 extern struct Counter d_021F6EA0;
@@ -111,5 +111,5 @@ int func_021EF79C(u8 *p)
  case 6:*(int *)(((u8 *)&d_021F6EA0)+8)=0;WIH_End((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
  case 7:if(*(int *)(((u8 *)&d_021F6EA0)+8)==1){func_020351F8(0,0);WIH_FreeWork();return 1;}break;
  }
- GFL_NET_WM_ICON_EasySetLevel(3-func_0208EE9C());GFL_NET_WM_ICON_EasyMain();return 0;
+ GFL_NET_WM_ICON_EasySetLevel(3-WM_GetLinkLevel());GFL_NET_WM_ICON_EasyMain();return 0;
 }

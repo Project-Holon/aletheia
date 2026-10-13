@@ -1,5 +1,5 @@
 /*
- * function: func_021C3834
+ * function: ghiPostDoPosting
  * address:  0x021C3834
  * packet:   pkt_ov114_021C3834
  * region:   ov114
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   func_02184200  0x02184200  arm  ov009
- *   func_021C011C  0x021C011C  arm  ov114
- *   func_021C00FC  0x021C00FC  arm  ov114
+ *   ghiSendBufferedData  0x021C011C  arm  ov114
+ *   ghiResetBuffer  0x021C00FC  arm  ov114
  *   func_0209477C  0x0209477C  arm
- *   func_021C07B8  0x021C07B8  arm  ov114
+ *   ghiTrySendThenBuffer  0x021C07B8  arm  ov114
  *   func_02184208  0x02184208  arm  ov009
- *   func_021C3218  0x021C3218  arm  ov114
- *   func_021BFDEC  0x021BFDEC  arm  ov114
- *   g_021CEFAC     0x021CEFAC  data
- *   g_021CEFB0     0x021CEFB0  data
+ *   ghiPostStateDoPosting  0x021C3218  arm  ov114
+ *   ghiEncryptDataToBuffer  0x021BFDEC  arm  ov114
+ *   sGhttpPostLineEnd     0x021CEFAC  data
+ *   sGhttpQrGSDD4     0x021CEFB0  data
  */
 
 typedef struct {
@@ -67,17 +67,17 @@ extern int func_02184200(const int *p);
 typedef unsigned char  u8;
 struct GHIBuffer;
 struct GHIConnection;
-extern int func_021C011C(struct GHIConnection *connection);
-extern void func_021C00FC(GHIBuffer *buffer);
+extern int ghiSendBufferedData(struct GHIConnection *connection);
+extern void ghiResetBuffer(GHIBuffer *buffer);
 extern int func_0209477C(const u8 *s);
-extern int func_021C07B8(struct GHIConnection *connection, char *buffer, int len);
+extern int ghiTrySendThenBuffer(struct GHIConnection *connection, char *buffer, int len);
 extern void *func_02184208(void *array, int n);
-extern int func_021C3218(GHIPostState *state, GHIConnection *connection, int first, int last);
-extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
-extern char g_021CEFAC[];
-extern char g_021CEFB0[];
+extern int ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection, int first, int last);
+extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
+extern char sGhttpPostLineEnd[];
+extern char sGhttpQrGSDD4[];
 
-int func_021C3834(GHIConnection *connection)
+int ghiPostDoPosting(GHIConnection *connection)
 {
 
     GHIPostState *postState;
@@ -88,11 +88,11 @@ int func_021C3834(GHIConnection *connection)
 
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
     {
-        if (!func_021C011C((struct GHIConnection *)connection))
+        if (!ghiSendBufferedData((struct GHIConnection *)connection))
             return 0;
         if (connection->sendBuffer.pos < connection->sendBuffer.len)
             return 2;
-        func_021C00FC(&connection->sendBuffer);
+        ghiResetBuffer(&connection->sendBuffer);
         if (connection->postingState.waitPostContinue)
             return 3;
         if (connection->postingState.index == len)
@@ -103,7 +103,7 @@ int func_021C3834(GHIConnection *connection)
     {
         if (connection->post->hasFiles || connection->post->useDIME)
         {
-            result = func_021C07B8((struct GHIConnection *)connection, g_021CEFAC, func_0209477C((const u8 *)g_021CEFAC));
+            result = ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpPostLineEnd, func_0209477C((const u8 *)sGhttpPostLineEnd));
             if (result == 0)
                 return 0;
             if (result == 2)
@@ -120,7 +120,7 @@ int func_021C3834(GHIConnection *connection)
     for (; connection->postingState.index < len; connection->postingState.index++)
     {
         postState = func_02184208(connection->postingState.states, connection->postingState.index);
-        result = func_021C3218(postState, connection, (connection->postingState.index == 0) ? 1 : 0,
+        result = ghiPostStateDoPosting(postState, connection, (connection->postingState.index == 0) ? 1 : 0,
                                (connection->postingState.index == func_02184200(connection->postingState.states) - 1) ? 1 : 0);
         if (result == 0)
             return 0;
@@ -130,14 +130,14 @@ int func_021C3834(GHIConnection *connection)
 
     if (connection->encryptEngine != 0 && connection->encodeBuffer.len > 0)
     {
-        if (!func_021BFDEC((struct GHIBuffer *)(&connection->sendBuffer), connection->encodeBuffer.data, connection->encodeBuffer.len))
+        if (!ghiEncryptDataToBuffer((struct GHIBuffer *)(&connection->sendBuffer), connection->encodeBuffer.data, connection->encodeBuffer.len))
             return 0;
-        func_021C00FC(&connection->encodeBuffer);
+        ghiResetBuffer(&connection->encodeBuffer);
     }
 
     if (connection->post->hasFiles && !connection->post->hasSoap)
     {
-        if (!func_021C07B8((struct GHIConnection *)connection, g_021CEFB0, func_0209477C((const u8 *)g_021CEFB0)))
+        if (!ghiTrySendThenBuffer((struct GHIConnection *)connection, sGhttpQrGSDD4, func_0209477C((const u8 *)sGhttpQrGSDD4)))
             return 0;
     }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021B92D4
+ * function: IRC_RANKING_LabelCreate
  * address: 0x021B92D4
  * packet: pkt_ov106_021B92D4
  * region: ov106
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021B9680 0x021B9680 data ov106 a1
+ *   gIrcRankingFileName 0x021B9680 data ov106 a1
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef struct { void *bmp; s16 x,y; int f8,fc;u8 f10,f11;u16 f12;int f14; } Param;
-extern const char d_021B9680[];
+extern const char gIrcRankingFileName[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void *STRBUF_Create(int,u16);
@@ -32,9 +32,9 @@ struct Grid;
 struct Param;
 struct Sys;
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-void *func_021B92D4(const u8 *pos, u8 a, u8 b, int c, u8 d, int e, void *sys, void *owner, u16 heap) {
+void *IRC_RANKING_LabelCreate(const u8 *pos, u8 a, u8 b, int c, u8 d, int e, void *sys, void *owner, u16 heap) {
  u8 *p; Param cfg;
- p=func_02030734(heap,36,0,d_021B9680,3402);
+ p=func_02030734(heap,36,0,gIrcRankingFileName,3402);
  MI_CpuFill8(p,0,36);
  ((struct Obj06376 *)p)->f20=owner;
  ((struct Obj06376 *)p)->f18=STRBUF_Create(128,heap);

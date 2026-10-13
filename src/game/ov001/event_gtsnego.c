@@ -51,7 +51,7 @@
  *   MI_CpuFill8   0x02082BCC  arm
  *   MYSTATUS_GetSize   0x02008468  thumb
  *   func_02012944   0x02012944  thumb
- *   func_02082D44   0x02082D44  arm
+ *   MI_CpuCopy8   0x02082D44  arm
  *   func_020122C0  0x020122C0  thumb
  */
 struct GameSystem;
@@ -170,7 +170,7 @@ struct Party *POKEPARTY_Create(u32 heapId);
 void MI_CpuFill8(void *dst, int value, int size);
 int MYSTATUS_GetSize(void);
 u8 *func_02012944(void *gameData);
-void func_02082D44(u32 src, void *dst, u32 size);
+void MI_CpuCopy8(u32 src, void *dst, u32 size);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 extern char ov115_id[];
 extern char ov120_id[];
@@ -346,7 +346,7 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
     work->dispParam.gameData = func_020120F4(gameSystem);
     work->dispParam.myStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     work->dispParam.partnerStatusCopy = func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
-    func_02082D44((u32)func_02012944(func_020120F4(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
+    MI_CpuCopy8((u32)func_02012944(func_020120F4(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
     MI_CpuFill8(&work->login, 0, 0x28);
     work->login.gameData = func_020120F4(gameSystem);
     work->login.loginType = 0;

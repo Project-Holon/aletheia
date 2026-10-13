@@ -1,5 +1,5 @@
 /*
- * function: func_020043D0
+ * function: SVC_UnpackBits
  * address:  0x020043D0
  * packet:   pkt_020043D0
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_UnpackBits), `swi N; bx lr` in the BIOS call table */
 
-asm void func_020043D0(void)
+asm void SVC_UnpackBits(void)
 {
     swi 0x10
     bx lr

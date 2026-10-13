@@ -28,7 +28,7 @@
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb  ov010
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   sPalaceZoneFlags    0x021DD944 data
@@ -81,7 +81,7 @@ extern int INTRUDE_COMM_GetAreaOwnerVersionClass(struct GameComm *gameComm, stru
 extern int INTRUDE_COMM_GetAreaSlotFlag(struct GameComm *gameComm);
 extern u32 ZONEDATA_GetAreaId(u32 zoneId);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, void *fieldMap, u16 zoneId);
 void FIELD_PALACE_SYS_Delete(FieldPalaceSys *sys);
 u8 *FIELD_PALACE_SYS_GetPalTable(FieldPalaceSys *sys);
@@ -191,7 +191,7 @@ void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, 
         i = 0;
     }
     sys->palTable = func_02030734(heapId, _PALACE_PAL_TABLE_SIZE, 0, d_021DE6D4, 0xd4);
-    func_02082D44(records[i].palTable, sys->palTable, _PALACE_PAL_TABLE_SIZE);
+    MI_CpuCopy8(records[i].palTable, sys->palTable, _PALACE_PAL_TABLE_SIZE);
     func_020307B0(records);
     ARC_TOOL_DeleteHandle(arc);
 }

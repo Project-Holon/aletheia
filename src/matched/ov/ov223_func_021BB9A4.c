@@ -11,9 +11,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj00084.h"
-extern void func_02082D44(const void *,void *,unsigned);
-void func_021BB9A4(unsigned char *p,int value){if(p[2161]!=value){((struct Obj00084 *)p)->f86C=1;p[2160]=0;p[2161]=value;func_02082D44(p+1898,p+1642,256);}}
+extern void MI_CpuCopy8(const void *,void *,unsigned);
+void func_021BB9A4(unsigned char *p,int value){if(p[2161]!=value){((struct Obj00084 *)p)->f86C=1;p[2160]=0;p[2161]=value;MI_CpuCopy8(p+1898,p+1642,256);}}
 int func_021BB9DC(void){return 1;}

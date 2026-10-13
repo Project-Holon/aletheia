@@ -1,5 +1,5 @@
 /*
- * function: func_0217695C
+ * function: DWCi_IsFullMesh
  * address:  0x0217695C
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_0217695C(void)
+int DWCi_IsFullMesh(void)
 {
     return *(int *)(func_02175F3C() + 0x7b0) == 2;
 }

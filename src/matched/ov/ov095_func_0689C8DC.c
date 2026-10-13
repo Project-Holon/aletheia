@@ -1,5 +1,5 @@
 /*
- * function: func_0689C8DC
+ * function: BTL_ID_IsPressureNoExtraPpMove
  * address: 0x0689C8DC
  * packet: pkt_ov095_0689C8DC
  * region: ov095
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E2C4 0x0689E2C4 data a2
- *   func_0689C888 0x0689C888 thumb
+ *   gPressureNoExtraPpMoves 0x0689E2C4 data a2
+ *   BTL_ID_IsInList 0x0689C888 thumb
  */
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-int func_0689C8DC(unsigned a);
-extern unsigned short d_0689E2C4[];
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsPressureNoExtraPpMove(unsigned a);
+extern unsigned short gPressureNoExtraPpMoves[];
 
-int func_0689C8DC(unsigned a)
+int BTL_ID_IsPressureNoExtraPpMove(unsigned a)
 {
-    return func_0689C888(a, d_0689E2C4, 5);
+    return BTL_ID_IsInList(a, gPressureNoExtraPpMoves, 5);
 }

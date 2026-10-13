@@ -21,7 +21,7 @@
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_02184144  0x02184144  arm  ov009
- *   func_021C1FF8  0x021C1FF8  arm  ov114
+ *   ghttpStartup  0x021C1FF8  arm  ov114
  *   func_0217CA2C  0x0217CA2C  arm  ov009
  */
 
@@ -45,7 +45,7 @@ extern u32 func_020912A8(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void func_021C1FF8(void);
+extern void ghttpStartup(void);
 extern void func_0217CA2C(void);
 
 void func_0217CA40(void)
@@ -65,7 +65,7 @@ void func_0217CA40(void)
         while (aCore->mIsShuttingDown)
             msleep(100);
         aCore->mTaskArray = func_02184144(4, 10, 0);
-        func_021C1FF8();
+        ghttpStartup();
         aCore->mIsInitialized = 1;
     } else {
         while (!aCore->mIsStaticInitComplete)

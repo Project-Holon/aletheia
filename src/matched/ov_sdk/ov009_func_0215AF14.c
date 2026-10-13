@@ -1,5 +1,5 @@
 /*
- * function: func_0215AF14
+ * function: CPSi_SocConsumeRaw
  * address:  0x0215AF14
  * packet:   pkt_ov009_0215AF14
  * region:   ov009
@@ -17,7 +17,7 @@
  *   MI_CpuFill8              0x02082BCC  arm
  *   OS_Terminate             0x02088234  arm
  *   OS_RestoreInterrupts     0x0208799C  arm
- *   func_02159404            0x02159404  arm  ov009
+ *   _tcp_send_ack            0x02159404  arm  ov009
  */
 
 struct _CPSRwin {
@@ -42,9 +42,9 @@ extern void MI_CpuMove(void *srcp, void *destp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_Terminate(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02159404(struct _CPSSoc *soc, int flush);
+extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
 
-void func_0215AF14(unsigned long len, struct _CPSSoc *soc)
+void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc)
 {
 	unsigned char *d;
 	unsigned char *s;
@@ -82,6 +82,6 @@ void func_0215AF14(unsigned long len, struct _CPSSoc *soc)
 	OS_RestoreInterrupts(enabled);
 	if (soc->state != 0xa && soc->state != 0xb) {
 		if (soc->rcvlen == 0 || was_full)
-			func_02159404(soc, 0);
+			_tcp_send_ack(soc, 0);
 	}
 }

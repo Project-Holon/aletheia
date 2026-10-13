@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C5B80 0x021C5B80 arm ov114
+ *   DWC_NdCleanupAsync 0x021C5B80 arm ov114
  *   d_021E4B80 0x021E4B80 data a4
  */
 #include "../include/Obj10691.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_021E4B80[];
-extern int func_021C5B80(void);
-void func_021DC6A4(u8 *p,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; ((struct Obj10691 *)p)->f130=state; ((struct Obj10691 *)p)->f12C=200; if(func_021C5B80()==0) ((struct Obj10691 *)p)->f130=state; }
+extern int DWC_NdCleanupAsync(void);
+void func_021DC6A4(u8 *p,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; ((struct Obj10691 *)p)->f130=state; ((struct Obj10691 *)p)->f12C=200; if(DWC_NdCleanupAsync()==0) ((struct Obj10691 *)p)->f130=state; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DB0
+ * function: WIFICLUBACTOR_ExitLayer
  * address:  0x021B9DB0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern void func_021C5A4C(u8 *p);
 
-void func_021B9DB0(char *p)
+void WIFICLUBACTOR_ExitLayer(char *p)
 {
     func_021C5A4C(((struct Obj18155 *)p)->f598);
 }

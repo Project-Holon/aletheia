@@ -1,5 +1,5 @@
 /*
- * function: func_021BF824
+ * function: PMS_INPUT_CanConfirm
  * address:  0x021BF824
  * packet:   pkt_ov110_021BF824
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF680  0x021BF680  thumb  ov110
+ *   PMS_INPUT_IsComplete  0x021BF680  thumb  ov110
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_021BF680(u8 *p);
-int func_021BF824(u8 *a0) { return func_021BF680(a0); }
+extern int PMS_INPUT_IsComplete(u8 *p);
+int PMS_INPUT_CanConfirm(u8 *a0) { return PMS_INPUT_IsComplete(a0); }

@@ -127,7 +127,7 @@ typedef struct GPIPeer {
     GPIBuffer inputBuffer;            /* 0x1C */
     GPIBuffer outputBuffer;           /* 0x2C */
     void *messages;                   /* 0x3C */
-    int ptype;                        /* 0x40 */
+    GPIPeerOp *queueHead;             /* 0x40 */
     GPIPeerOp *firstOp;               /* 0x44 */
     GPIPeerOp *lastOp;                /* 0x48 */
     struct GPIPeer *pnext;            /* 0x4C */

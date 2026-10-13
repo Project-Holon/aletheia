@@ -1,5 +1,5 @@
 /*
- * function: func_021B8358
+ * function: IRC_COMPATIBLE_TOUCH_TEST_SetFinished
  * address:  0x021B8358
  * packet:   pkt_ov103_021B8358
  * region:   ov103
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B8358(u8 *p) { ((struct Obj22191 *)p)->f730 = 1; }
+void IRC_COMPATIBLE_TOUCH_TEST_SetFinished(u8 *p) { ((struct Obj22191 *)p)->f730 = 1; }

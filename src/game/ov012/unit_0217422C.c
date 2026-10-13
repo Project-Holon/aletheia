@@ -67,8 +67,8 @@
  *   PLIST_COMM_End  0x021B6108  thumb  ov090
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   POKEPARTY_Init  0x0201A948  thumb
@@ -207,8 +207,8 @@ extern void PLIST_COMM_Start(PartyListParam *listParam);
 extern void PLIST_COMM_End(PartyListParam *listParam);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u32   POKEPARTY_GetCount(struct Party *party);
-extern void *func_0200CA1C(struct GameData *gameData);
-extern u32 func_0200CA38(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *a);
 extern struct Party *POKEPARTY_Create(u32 heapId);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void POKEPARTY_Init(struct Party *party);
@@ -654,7 +654,7 @@ int UNION_MAIN_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoomW
         statusParam->page = 0;
         statusParam->cursor = listParam->cursor;
         statusParam->result = 0;
-        statusParam->trainerRecord = func_0200CA38(func_0200CA1C(statusParam->gameData));
+        statusParam->trainerRecord = ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(statusParam->gameData));
         GAMESYSTEM_CallProc(gameSystem, (u32)ov131_id, gPokeStatusProcData, statusParam);
         (*step)++;
         break;

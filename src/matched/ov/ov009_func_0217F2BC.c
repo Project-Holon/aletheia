@@ -14,12 +14,13 @@
  * address has to come from a pool.
  *
  * symbols:
- *   func_02085A38  0xfunc_02085A38  arm
+ *   OS_Sleep  0x02085A38  arm  arm9
+ *   OS_Sleep  0xfunc_02085A38  arm
  */
 
-extern void func_02085A38(unsigned int msec);
+extern void OS_Sleep(unsigned int msec);
 
 void msleep(unsigned int msec)
 {
-    func_02085A38(msec);
+    OS_Sleep(msec);
 }

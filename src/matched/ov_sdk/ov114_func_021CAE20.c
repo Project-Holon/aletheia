@@ -1,5 +1,5 @@
 /*
- * function: func_021CAE20
+ * function: CRYPTOi__BN_copy
  * address:  0x021CAE20
  * packet:   pkt_ov114_021CAE20
  * region:   ov114
@@ -13,24 +13,24 @@
  * extra:    callee of CRYPTOi__BN_RECP_CTX_set
  *
  * symbols:
- *   func_021CADAC  0x021CADAC  arm  ov114
- *   func_02082D44  0x02082D44  arm
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021CADAC(u8 *a, int n);
-extern void func_02082D44(void *, void *, unsigned long);
+extern u8 *CRYPTOi__bn_expand2(u8 *a, int n);
+extern void MI_CpuCopy8(void *, void *, unsigned long);
 
-u8 *func_021CAE20(u8 *a, u8 *b)
+u8 *CRYPTOi__BN_copy(u8 *a, u8 *b)
 {
     u8 *A;
     if (a == b)
         return a;
-    A = (*(int *)(b + 4) <= *(int *)(a + 8)) ? a : func_021CADAC(a, *(int *)(b + 4));
+    A = (*(int *)(b + 4) <= *(int *)(a + 8)) ? a : CRYPTOi__bn_expand2(a, *(int *)(b + 4));
     if (A == 0)
         return 0;
-    func_02082D44(*(void **)b, *(void **)a, *(int *)(b + 4) * 4);
+    MI_CpuCopy8(*(void **)b, *(void **)a, *(int *)(b + 4) * 4);
     {
         int t = *(int *)(b + 4);
         *(int *)(a + 4) = t;

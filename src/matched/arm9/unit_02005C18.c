@@ -15,7 +15,7 @@
  *
  * symbols:
  *   sub_02005C18_State  0x020AA260  data
- *   func_02074758       0x02074758  arm
+ *   NNS_SndHeapDestroy       0x02074758  arm
  *
  * Sixteen bytes with no prologue that disasm.py does not label, because a
  * tail call saves nothing and its prologue sweep only recognises a function
@@ -38,9 +38,9 @@ struct Sub02005C18State {
 
 extern struct Sub02005C18State sub_02005C18_State;
 
-extern void func_02074758(void **a0);
+extern void NNS_SndHeapDestroy(void **a0);
 
 void GFL_USE_ClearSndHeap(void)
 {
-    func_02074758((void **)sub_02005C18_State.unk10);
+    NNS_SndHeapDestroy((void **)sub_02005C18_State.unk10);
 }

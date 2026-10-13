@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E60
+ * function: WIFICLUB_StateRequestJoinPartner
  * address: 0x021C0E60
  * packet: pkt_ov099_021C0E60
  * region: ov099
@@ -11,35 +11,35 @@
  * prototype: C23B8 forwards the visible index to 56860 and returns its pointer.
  * symbols:
  *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
- *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_021C23B8 0x021C23B8 thumb ov099
- *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_021BDD54 0x021BDD54 thumb ov099
- *   func_021C27E0 0x021C27E0 thumb ov099
- *   func_021BA874 0x021BA874 thumb ov099
- *   func_021C23C0 0x021C23C0 thumb ov099
- *   func_021C23C8 0x021C23C8 thumb ov099
- *   func_021BDE30 0x021BDE30 thumb ov099
- *   func_021C18C8 0x021C18C8 thumb ov099
- *   func_021BAADC 0x021BAADC thumb ov099
- *   func_021BC090 0x021BC090 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
+ *   WIFICLUB_GetFriendStatus 0x021C23B8 thumb ov099
+ *   WIFICLUB_GetStatusKind 0x021BDD48 thumb ov099
+ *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
+ *   WIFICLUB_GetStatusSeatFlag 0x021C27E0 thumb ov099
+ *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
+ *   WIFICLUB_GetFriendConnectionStatus 0x021C23C0 thumb ov099
+ *   WIFICLUB_AddNetCommandsAndCheckFriend 0x021C23C8 thumb ov099
+ *   WIFICLUB_ChangeNetMode 0x021BDE30 thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
+ *   WIFICLUB_ShowMessage 0x021BAADC thumb ov099
+ *   WIFICLUB_ResetTimeIcon 0x021BC090 thumb ov099
  */
 #include "../include/Obj03224.h"
 typedef unsigned short u16;
 extern unsigned POKEPARTY_GetAliveNonEggCount(void *);
-extern void func_021BAAB8(char *, int, int);
-extern int func_021C23B8(int i);
-extern unsigned char func_021BDD48(char *, void *);
-extern int func_021BDD54(char *, void *);
-extern unsigned char func_021C27E0(void *);
-extern void func_021BA874(char *, int);
-extern unsigned char func_021C23C0(void *a);
-extern int func_021C23C8(void *a, void *b);
-extern void func_021BDE30(void *, int, int);
-extern void func_021C18C8(char *, int, int);
-extern void func_021BAADC(char *, int, int);
-extern void func_021BC090(void *);
-int func_021C0E60(char *p, int ret)
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+extern int WIFICLUB_GetFriendStatus(int i);
+extern unsigned char WIFICLUB_GetStatusKind(char *, void *);
+extern int WIFICLUB_GetStatusPhase(char *, void *);
+extern unsigned char WIFICLUB_GetStatusSeatFlag(void *);
+extern void WIFICLUB_SetPartnerNameWord(char *, int);
+extern unsigned char WIFICLUB_GetFriendConnectionStatus(void *a);
+extern int WIFICLUB_AddNetCommandsAndCheckFriend(void *a, void *b);
+extern void WIFICLUB_ChangeNetMode(void *, int, int);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *, int, int);
+extern void WIFICLUB_ShowMessage(char *, int, int);
+extern void WIFICLUB_ResetTimeIcon(void *);
+int WIFICLUB_StateRequestJoinPartner(char *p, int ret)
 {
     int index;
     void *state;
@@ -47,34 +47,34 @@ int func_021C0E60(char *p, int ret)
     index = ((struct Obj03224 *)p)->f242;
     POKEPARTY_GetAliveNonEggCount(((struct Obj03224 *)p)->fC8);
     if (((struct Obj03224 *)p)->f242 == 0) {
-        func_021BAAB8(p, 0x4a, 0);
+        WIFICLUB_ShowStreamedMessage(p, 0x4a, 0);
         ((struct Obj03224 *)p)->f1CC = 21;
     }
-    state = (void *)func_021C23B8(index - 1);
-    kind = func_021BDD48(p, state);
-    value = func_021BDD54(p, state);
-    flag = func_021C27E0(state);
-    if (kind != func_021BDD48(p, p + 0x24c) ||
-        value != func_021BDD54(p, p + 0x24c) ||
-        flag != func_021C27E0(p + 0x24c) || kind == 6) {
-        func_021BA874(p, index - 1);
-        func_021BAAB8(p, 13, 0);
+    state = (void *)WIFICLUB_GetFriendStatus(index - 1);
+    kind = WIFICLUB_GetStatusKind(p, state);
+    value = WIFICLUB_GetStatusPhase(p, state);
+    flag = WIFICLUB_GetStatusSeatFlag(state);
+    if (kind != WIFICLUB_GetStatusKind(p, p + 0x24c) ||
+        value != WIFICLUB_GetStatusPhase(p, p + 0x24c) ||
+        flag != WIFICLUB_GetStatusSeatFlag(p + 0x24c) || kind == 6) {
+        WIFICLUB_SetPartnerNameWord(p, index - 1);
+        WIFICLUB_ShowStreamedMessage(p, 13, 0);
         ((struct Obj03224 *)p)->f1CC = 21;
         return ret;
     }
-    func_021C23C0((void *)(index - 1));
-    if (func_021C23C8(p, (void *)(index - 1))) {
+    WIFICLUB_GetFriendConnectionStatus((void *)(index - 1));
+    if (WIFICLUB_AddNetCommandsAndCheckFriend(p, (void *)(index - 1))) {
         ((struct Obj03224 *)p)->f1C4 = 0xe10;
-        func_021BDE30(p, 3, value);
-        func_021C18C8(p, 3, value);
-        func_021BA874(p, index - 1);
-        func_021BAADC(p, 14, 0);
-        func_021BC090(p);
+        WIFICLUB_ChangeNetMode(p, 3, value);
+        WIFICLUB_SetOwnStatusAndPublish(p, 3, value);
+        WIFICLUB_SetPartnerNameWord(p, index - 1);
+        WIFICLUB_ShowMessage(p, 14, 0);
+        WIFICLUB_ResetTimeIcon(p);
         ((struct Obj03224 *)p)->f242 = index;
         ((struct Obj03224 *)p)->f1CC = 37;
     } else {
-        func_021BA874(p, index - 1);
-        func_021BAAB8(p, 13, 0);
+        WIFICLUB_SetPartnerNameWord(p, index - 1);
+        WIFICLUB_ShowStreamedMessage(p, 13, 0);
         ((struct Obj03224 *)p)->f1CC = 21;
     }
     return ret;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9634
+ * function: DPW_BT_CancelAsync
  * address: 0x021C9634
  * packet: pkt_ov114_021C9634
  * region: ov114
@@ -8,18 +8,18 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   func_021CA188 0x021CA188 arm ov114
- *   g_021D4084 0x021D4084 data a4
+ *   DWCi_EncSessionCancel 0x021CA188 arm ov114
+ *   gDpwBtWork 0x021D4084 data a4
  */
-extern void func_021CA188(void);
-extern unsigned g_021D4084;
-void func_021C9634(void)
+extern void DWCi_EncSessionCancel(void);
+extern unsigned gDpwBtWork;
+void DPW_BT_CancelAsync(void)
 {
-    switch (g_021D4084) {
-    case 2: func_021CA188(); g_021D4084 = 3; break;
-    case 4: func_021CA188(); g_021D4084 = 5; break;
-    case 6: func_021CA188(); g_021D4084 = 7; break;
-    case 8: func_021CA188(); g_021D4084 = 9; break;
-    case 10: func_021CA188(); g_021D4084 = 11; break;
+    switch (gDpwBtWork) {
+    case 2: DWCi_EncSessionCancel(); gDpwBtWork = 3; break;
+    case 4: DWCi_EncSessionCancel(); gDpwBtWork = 5; break;
+    case 6: DWCi_EncSessionCancel(); gDpwBtWork = 7; break;
+    case 8: DWCi_EncSessionCancel(); gDpwBtWork = 9; break;
+    case 10: DWCi_EncSessionCancel(); gDpwBtWork = 11; break;
     }
 }

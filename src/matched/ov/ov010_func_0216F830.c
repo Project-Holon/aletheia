@@ -24,8 +24,8 @@
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200D298  0x0200D298  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
  *   func_0200A73C  0x0200A73C  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
@@ -45,8 +45,8 @@ extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
-extern void *func_0200CA1C(void *save);
-extern int func_0200D298(void *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *save);
+extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 extern u32 func_0200A73C(struct Big *p);
 extern u16 func_0200BDF8(struct Rec1B0 *p);
@@ -65,7 +65,7 @@ int TRCARD_SYS_CountStars(void *save)
     c = GAME_DATA_GetLastBattleRecSlot(save);
     if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 0x960))
         n++;
-    if (func_0200D298(func_0200CA1C(save)))
+    if (ZUKAN_SAVE_IsNationalCaughtComplete(ZUKAN_SAVE_GetFromGameData(save)))
         n++;
     if (func_0200DBA0(a, 7, 0) && func_0200DBA0(a, 8, 0))
         n++;

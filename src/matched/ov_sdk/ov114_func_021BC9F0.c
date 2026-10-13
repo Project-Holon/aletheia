@@ -1,5 +1,5 @@
 /*
- * function: func_021BC9F0
+ * function: NHTTPi_SendProcPostDataRaw
  * address:  0x021BC9F0
  * packet:   pkt_ov114_021BC9F0
  * region:   ov114
@@ -12,17 +12,17 @@
  * sdk:      NHTTPi_SendProcPostDataRaw (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF58 0x021BEF58 arm ov114
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BEF50 0x021BEF50 arm ov114
- *   func_021BEF3C 0x021BEF3C arm ov114
- *   func_021BC098 0x021BC098 arm ov114
- *   func_021BA4E4 0x021BA4E4 arm ov114
- *   func_021BC384 0x021BC384 arm ov114
- *   func_021BC160 0x021BC160 arm ov114
- *   g_021CE4B4 0x021CE4B4 data
- *   g_021CE440 0x021CE440 data
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetMutexInfoP 0x021BEF58 arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_GetThreadInfoP 0x021BEF50 arm ov114
+ *   NHTTPi_GetBgnEndInfoP 0x021BEF3C arm ov114
+ *   NHTTPi_GetPostContentlength 0x021BC098 arm ov114
+ *   NHTTPi_intToStr 0x021BA4E4 arm ov114
+ *   NHTTPi_SendData 0x021BC384 arm ov114
+ *   NHTTPi_SendPostData 0x021BC160 arm ov114
+ *   sNHTTPContentLengthHeader 0x021CE4B4 data
+ *   sNHTTPCrLf 0x021CE440 data
  */
 
 typedef unsigned long u32;
@@ -57,21 +57,21 @@ typedef struct {
     int socket;
 } BgnEnd;
 
-extern char g_021CE4B4[];
-extern char g_021CE440[];
+extern char sNHTTPContentLengthHeader[];
+extern char sNHTTPCrLf[];
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(int p);
-extern void *func_021BEF48(int p);
-extern void *func_021BEF50(int p);
-extern BgnEnd *func_021BEF3C(void *sysInfo);
-extern int func_021BC098(void *mutex, Req *req, int a, u32 *len_p, int b);
-extern int func_021BA4E4(char *buf, u32 v);
-extern int func_021BC384(ThreadData *td, char *buf, int len);
-extern int func_021BC160(void *mutex, Req *req, char *commBuf, int a, int socket, int *bufwp, int b);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern void *NHTTPi_GetThreadInfoP(int p);
+extern BgnEnd *NHTTPi_GetBgnEndInfoP(void *sysInfo);
+extern int NHTTPi_GetPostContentlength(void *mutex, Req *req, int a, u32 *len_p, int b);
+extern int NHTTPi_intToStr(char *buf, u32 v);
+extern int NHTTPi_SendData(ThreadData *td, char *buf, int len);
+extern int NHTTPi_SendPostData(void *mutex, Req *req, char *commBuf, int a, int socket, int *bufwp, int b);
 
-static int func_021BC9F0(ThreadData *threadData_p)
+static int NHTTPi_SendProcPostDataRaw(ThreadData *threadData_p)
 {
     void *sysInfo_p;
     ThreadInfo *threadInfo_p;
@@ -86,45 +86,45 @@ static int func_021BC9F0(ThreadData *threadData_p)
     int sendStatus;
     int result;
 
-    sysInfo_p = func_021BEF08();
-    mutexInfo_p = func_021BEF58((int)sysInfo_p);
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
+    sysInfo_p = NHTTPi_GetSystemInfoP();
+    mutexInfo_p = NHTTPi_GetMutexInfoP((int)sysInfo_p);
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
-    threadInfo_p = func_021BEF50((int)sysInfo_p);
-    bgnEndInfo_p = func_021BEF3C(sysInfo_p);
+    threadInfo_p = NHTTPi_GetThreadInfoP((int)sysInfo_p);
+    bgnEndInfo_p = NHTTPi_GetBgnEndInfoP(sysInfo_p);
     contentLength = 0;
     if (req_p->rawPostData_p == 0) {
-        if (func_021BC098(mutexInfo_p, req_p, 0, &contentLength, 0) == 0) {
+        if (NHTTPi_GetPostContentlength(mutexInfo_p, req_p, 0, &contentLength, 0) == 0) {
             return 3;
         }
     } else {
         contentLength = req_p->rawPostDataLen;
     }
-    contentLengthBufLen = func_021BA4E4(contentLengthBuf, contentLength);
-    result = func_021BC384(threadData_p, g_021CE4B4, 16);
+    contentLengthBufLen = NHTTPi_intToStr(contentLengthBuf, contentLength);
+    result = NHTTPi_SendData(threadData_p, sNHTTPContentLengthHeader, 16);
     if (result != 0) {
         return result;
     }
-    result = func_021BC384(threadData_p, contentLengthBuf, contentLengthBufLen);
+    result = NHTTPi_SendData(threadData_p, contentLengthBuf, contentLengthBufLen);
     if (result != 0) {
         return result;
     }
-    result = func_021BC384(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
-    result = func_021BC384(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
     if (req_p->rawPostData_p == 0) {
         commBuf_p = threadInfo_p->commBuf;
-        sendStatus = func_021BC160(mutexInfo_p, req_p, commBuf_p, 0, bgnEndInfo_p->socket, &threadData_p->sendBufwp, 0);
+        sendStatus = NHTTPi_SendPostData(mutexInfo_p, req_p, commBuf_p, 0, bgnEndInfo_p->socket, &threadData_p->sendBufwp, 0);
         if (sendStatus != 0) {
             return sendStatus;
         }
     } else {
-        result = func_021BC384(threadData_p, req_p->rawPostData_p, req_p->rawPostDataLen);
+        result = NHTTPi_SendData(threadData_p, req_p->rawPostData_p, req_p->rawPostDataLen);
         if (result != 0) {
             return result;
         }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Size of the payload described by (tag, node): dispatches on the tag byte
- * *tag (same 0x4D/0x4A/0x56 tag alphabet as func_02069E88 in the
+ * *tag (same 0x4D/0x4A/0x56 tag alphabet as NNS_G3dRenderObjAddAnmObj in the
  * neighbouring list module) and returns the node's element count scaled by
  * two, plus the 0x1C header, rounded down to a word. 0x4D counts from the
  * byte at +0x18, 0x4A and 0x56 share the byte at +0x17.

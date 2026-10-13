@@ -1,5 +1,5 @@
 /*
- * function: func_021CE668
+ * function: DWCi_SCREENlInit
  * address:  0x021CE668
  * packet:   pkt_ov016_021CE668
  * region:   ov016
@@ -12,11 +12,11 @@
  * sdk:      DWCi_SCREENlInit (libdwcutil.TWL.HYB.a(screen.o))
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_021D7680  0x021D7680  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
  *   func_021CE760  0x021CE760  arm  ov016
- *   g_021DE630  0x021DE630  data
+ *   gScreenWork  0x021DE630  data
  */
 
 typedef struct {
@@ -24,15 +24,15 @@ typedef struct {
 	unsigned short data[1];
 } SCR;
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
-extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void func_021CE760(void);
-extern SCR *g_021DE630;
+extern SCR *gScreenWork;
 
-void func_021CE668(void *scr)
+void DWCi_SCREENlInit(void *scr)
 {
-	g_021DE630 = (SCR *)func_021D6414(0x608, 4);
-	MIi_CpuCopyFast(scr, g_021DE630->data, 0x600);
-	g_021DE630->task = func_021D7680(1, (void (*)(void *))func_021CE760, 0, 0x78);
+	gScreenWork = (SCR *)DWCi_HEAPlAllocEx(0x608, 4);
+	MIi_CpuCopyFast(scr, gScreenWork->data, 0x600);
+	gScreenWork->task = DWCi_TSKlForm(1, (void (*)(void *))func_021CE760, 0, 0x78);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA660
+ * function: WIFICLUBACTOR_TickBlinkAll
  * address:  0x021BA660
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA674  0x021BA674  thumb
- *   func_021BA6DC  0x021BA6DC  thumb
+ *   WIFICLUBACTOR_TickBlinkFrame  0x021BA674  thumb
+ *   WIFICLUBACTOR_TickBlinkScript  0x021BA6DC  thumb
  *
  * Runs the two arm9 setup routines on the second argument.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BA674(void *a);
-extern void func_021BA6DC(void *a);
+extern void WIFICLUBACTOR_TickBlinkFrame(void *a);
+extern void WIFICLUBACTOR_TickBlinkScript(void *a);
 
-void func_021BA660(int unused, void *p)
+void WIFICLUBACTOR_TickBlinkAll(int unused, void *p)
 {
-    func_021BA674(p);
-    func_021BA6DC(p);
+    WIFICLUBACTOR_TickBlinkFrame(p);
+    WIFICLUBACTOR_TickBlinkScript(p);
 }

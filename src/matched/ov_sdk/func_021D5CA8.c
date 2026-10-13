@@ -1,5 +1,5 @@
 /*
- * function: func_021D5CA8
+ * function: DWCi_FNTlDeleteBgLcd
  * address:  0x021D5CA8
  * packet:   pkt_021D5CA8
  * region:   ov016
@@ -10,15 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5CA8 0x021D5CA8 arm
+ *   DWCi_FNTlDeleteBgLcd 0x021D5CA8 arm
+ *   DWCi_FNTlDeleteBg  0x021D5C48  arm
  *
- * Tail-call func_021D5C48 with the argument scaled by 0x30 into the table at 0x021DE680 + 0x610.
+ * Tail-call DWCi_FNTlDeleteBg with the argument scaled by 0x30 into the table at 0x021DE680 + 0x610.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D5C48(void *);
+extern void DWCi_FNTlDeleteBg(void *);
 
-void func_021D5CA8(int a)
+void DWCi_FNTlDeleteBgLcd(int a)
 {
-    func_021D5C48((void *)(*(int *)0x021DE680 + 0x610 + a * 0x30));
+    DWCi_FNTlDeleteBg((void *)(*(int *)0x021DE680 + 0x610 + a * 0x30));
 }

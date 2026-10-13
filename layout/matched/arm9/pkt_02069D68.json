@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02069D68",
+   "name": "NNSi_G3dAnmObjInsertByPriority",
    "address": "0x02069D68",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069E20",
+   "name": "NNSi_G3dAnmObjCollectMapDataMask",
    "address": "0x02069E20",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069E88",
+   "name": "NNS_G3dRenderObjAddAnmObj",
    "address": "0x02069E88",
    "kind": "game",
    "region": "arm9",
@@ -54,7 +54,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02069F08"
+    "NNSi_G3dAnmObjUnlink"
+   ],
+   "addresses": [
+    "0x02069F08"
    ]
   }
  ]

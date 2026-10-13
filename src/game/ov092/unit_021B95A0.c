@@ -24,7 +24,7 @@
  *   PROCSYS_Main 0x02031330 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKERUS_TryInfectParty 0x0201B038 thumb
@@ -48,11 +48,11 @@
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   func_0202F190 0x0202F190 thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   func_0200CED4 0x0200CED4 thumb
- *   func_0200CFA0 0x0200CFA0 thumb
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
@@ -248,7 +248,7 @@ extern void func_020306F0(unsigned int heapId);
 extern u32 PROCSYS_Main(struct ProcSys *procSys);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatus(const struct GameData *gameData);
-extern struct ZukanSave *func_0200CA1C(const struct GameData *gameData);
+extern struct ZukanSave *ZUKAN_SAVE_GetFromGameData(const struct GameData *gameData);
 extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 extern void POKEPARTY_Copy(const struct PokeParty *src, struct PokeParty *dst);
 extern void POKERUS_TryInfectParty(struct PokeParty *party);
@@ -272,11 +272,11 @@ extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameD
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void func_0202F190(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
-extern u32 func_0200CA38(struct ZukanSave *zukan);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 unused);
-extern u32 func_0200CED4(struct ZukanSave *zukan, u16 species);
-extern void func_0200CFA0(struct ZukanSave *zukan, struct PokemonParam *mon);
-extern void func_0200CDE0(struct ZukanSave *zukan, struct PokemonParam *mon);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, u16 species);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *zukan, struct PokemonParam *mon);
+extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *zukan, struct PokemonParam *mon);
 extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, const struct SubProcTable *procTable, void *args);
 extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
@@ -387,7 +387,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
     case 0:
         party = GAME_DATA_GetMyParty(args->gameData);
         myStatus = GAME_DATA_GetMyStatus(args->gameData);
-        zukan = func_0200CA1C(args->gameData);
+        zukan = ZUKAN_SAVE_GetFromGameData(args->gameData);
         boxManager = GAME_DATA_GetBoxManager(args->gameData);
         work->scanIndex = 0;
         work->levelUpMask = 0;
@@ -420,10 +420,10 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             }
             func_0202F190(work->caughtMon, 0, myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(args->gameData))), work->heapId);
             isNewSpecies = 0;
-            dexMode = func_0200CA38(zukan);
-            if (func_0200CED4(zukan, POKE_TOOL_GetPartyValue(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;
-            func_0200CFA0(zukan, work->caughtMon);
-            func_0200CDE0(zukan, work->caughtMon);
+            dexMode = ZUKAN_SAVE_IsNationalDexEnabled(zukan);
+            if (ZUKAN_SAVE_IsCaught(zukan, POKE_TOOL_GetPartyValue(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;
+            ZUKAN_SAVE_RegisterSeen(zukan, work->caughtMon);
+            ZUKAN_SAVE_RegisterCaught(zukan, work->caughtMon);
             work->catchArgs.dexMode = dexMode;
             work->catchArgs.mon = work->caughtMon;
             work->catchArgs.boxFullMsg = work->boxFullMsg;
@@ -663,7 +663,7 @@ void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args
             if (args->battleParam->participated[i] != 0) {
                 mon = POKEPARTY_GetMember(party, i);
                 if (POKE_TOOL_GetPartyValue(mon, MON_PARAM_SPECIES, 0) == SPECIES_SHAYMIN) {
-                    func_0200CFA0(func_0200CA1C(args->gameData), mon);
+                    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(args->gameData), mon);
                 }
             }
         }

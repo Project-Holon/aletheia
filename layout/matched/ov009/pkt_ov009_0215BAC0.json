@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215BAC0",
+   "name": "dacktimer_reschedule",
    "address": "0x0215BAC0",
    "kind": "sdk",
    "region": "ov009",

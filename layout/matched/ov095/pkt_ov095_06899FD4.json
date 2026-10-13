@@ -18,12 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_06899FD4",
-    "func_06899FDC",
-    "func_06899FE8",
-    "func_0689A008",
-    "func_0689A020",
-    "func_0689A028"
+    "BTLV_SCD_WaitMoveMenu",
+    "BTLV_SCD_ReopenMenu",
+    "BTLV_SCD_StartMoveInfoMenu",
+    "BTLV_SCD_StartTargetMenu",
+    "BTLV_SCD_WaitTargetMenu",
+    "BTLV_SCD_CancelMenus"
+   ],
+   "addresses": [
+    "0x06899FD4",
+    "0x06899FDC",
+    "0x06899FE8",
+    "0x0689A008",
+    "0x0689A020",
+    "0x0689A028"
    ]
   }
  ]

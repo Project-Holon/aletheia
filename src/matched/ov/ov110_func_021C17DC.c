@@ -1,5 +1,5 @@
 /*
- * function: func_021C17DC
+ * function: PMS_SELECT_GRAPHIC_InitSceneActors
  * address: 0x021C17DC
  * packet: pkt_ov110_021C17DC
  * region: ov110
@@ -14,9 +14,9 @@
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   d_021C3A28 0x021C3A28 data a4
+ *   gPmsSelectGraphicActorInit 0x021C3A28 data a4
  */
-extern const unsigned d_021C3A28[];
+extern const unsigned gPmsSelectGraphicActorInit[];
 extern void MI_CpuFill8(void *, int, unsigned);
 struct Cfg;
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
@@ -27,9 +27,9 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-void func_021C17DC(void **p, unsigned arg, unsigned heap) {
+void PMS_SELECT_GRAPHIC_InitSceneActors(void **p, unsigned arg, unsigned heap) {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)d_021C3A28, arg, heap);
+    CLACT_InitSystem((const struct Cfg *)gPmsSelectGraphicActorInit, arg, heap);
     *p = CLACT_CreateUnit(128, 0, heap);
     CLACT_SetUnitDefaultRenderer(*p);
     BG_SYS_SetMainPlaneVisible(16, 1);

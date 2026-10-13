@@ -16,7 +16,7 @@
  *   func_02030734  0x02030734  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   sUnionAppFile     0x021841C0  data  a1
@@ -31,7 +31,7 @@
  *   UNION_COMMAND_SendAppQuitAccept 0x02173E68 thumb ov012
  *   UNION_COMMAND_SendAppData 0x02174010 thumb ov012
  *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02008550  0x02008550  thumb
  *   func_02008554  0x02008554  thumb
  *   UNION_COMM_AddMember  0x0217357C  thumb  ov012
@@ -55,7 +55,7 @@ struct Sub0200852CObj;
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 GFL_NET_IsParentAid(void);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern u32 func_020307B0(void *p);
@@ -69,7 +69,7 @@ extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
 extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
 extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
 extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
-extern void func_02082D44(const void *src, void *dst, u32 len);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
@@ -126,7 +126,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     app->quitAcceptTarget = UNION_APP_NO_MEMBER;
     MI_CpuFill8(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
-    func_02087C6C(entry.mac);
+    OS_GetMacAddress(entry.mac);
     UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
     UNION_APP_Close(app);
     UNION_APP_SetReady(app);
@@ -388,7 +388,7 @@ void UNION_APP_AddSettingTarget(UnionAppWork *app, u8 netId)
 
 void UNION_APP_SetSetting(UnionAppWork *app, const void *setting)
 {
-    func_02082D44(setting, app, 4);
+    MI_CpuCopy8(setting, app, 4);
 }
 
 /*

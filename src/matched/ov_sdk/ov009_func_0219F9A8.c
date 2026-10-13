@@ -19,7 +19,7 @@
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_020946C8  0x020946C8  arm
  *   SocketStartUp  0x0217F25C  arm  ov009
- *   g_021ACEF8  0x021ACEF8  data
+ *   gGsAvailabilityState  0x021ACEF8  data
  *   g_021A8230  0x021A8230  data
  */
 
@@ -69,7 +69,7 @@ extern void SBServerListSetLastError(int *p, int v);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
 extern void SocketStartUp(void);
-extern int g_021ACEF8;
+extern int gGsAvailabilityState;
 extern volatile unsigned char g_021A8230[];
 
 
@@ -77,7 +77,7 @@ void func_0219F9A8(SBServerList *slist, char *queryForGamename, char *queryFromG
                    int queryFromVersion, int lanBrowse, void (*callback)(SBServerList *, int, void *, void *),
                    void *instance)
 {
-    if (!lanBrowse && g_021ACEF8 != 1)
+    if (!lanBrowse && gGsAvailabilityState != 1)
         return;
     slist->state = 1;
     func_0219F888(slist);

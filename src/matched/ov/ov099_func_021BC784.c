@@ -1,5 +1,5 @@
 /*
- * function: func_021BC784
+ * function: WIFICLUB_StateExitDeclined
  * address: 0x021BC784
  * packet: pkt_ov099_021BC784
  * region: ov099
@@ -14,9 +14,9 @@
 
 typedef unsigned char u8;
 typedef unsigned long  u32;
-int func_021BC784(u8 *p, int b);
+int WIFICLUB_StateExitDeclined(u8 *p, int b);
 
-int func_021BC784(u8 *p, int b)
+int WIFICLUB_StateExitDeclined(u8 *p, int b)
 {
     p[0x1353] = 0x4a;
     *(u32 *)(p + 0x1cc) = 0x8a;

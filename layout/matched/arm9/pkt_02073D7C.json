@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02073D7C",
+   "name": "NNS_SndMain",
    "address": "0x02073D7C",
    "kind": "game",
    "region": "arm9",

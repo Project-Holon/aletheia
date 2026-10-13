@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AAD4",
+   "name": "NNS_G3dGlbGetInvCameraMtx",
    "address": "0x0206AAD4",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    }
   },
   {
-   "name": "func_0206AD20",
+   "name": "NNS_G3dGlbGetInvProjectionMtx",
    "address": "0x0206AD20",
    "kind": "game",
    "region": "arm9",
@@ -65,7 +65,7 @@
    }
   },
   {
-   "name": "func_0206AD64",
+   "name": "NNSi_G3dGlbUpdateWV",
    "address": "0x0206AD64",
    "kind": "game",
    "region": "arm9",
@@ -82,7 +82,7 @@
    }
   },
   {
-   "name": "func_0206ADBC",
+   "name": "NNS_G3dGlbGetWVMtx",
    "address": "0x0206ADBC",
    "kind": "game",
    "region": "arm9",
@@ -94,7 +94,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206ADF4",
+   "name": "NNS_G3dGlbGetInvWVMtx",
    "address": "0x0206ADF4",
    "kind": "game",
    "region": "arm9",
@@ -106,7 +106,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AE2C",
+   "name": "NNS_G3dGlbGetInvVPMtx",
    "address": "0x0206AE2C",
    "kind": "game",
    "region": "arm9",
@@ -123,7 +123,7 @@
    }
   },
   {
-   "name": "func_0206AE94",
+   "name": "NNS_G3dGlbGetViewPort",
    "address": "0x0206AE94",
    "kind": "game",
    "region": "arm9",

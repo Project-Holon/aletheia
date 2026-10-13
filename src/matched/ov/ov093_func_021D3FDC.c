@@ -1,5 +1,5 @@
 /*
- * function: func_021D3FDC
+ * function: BTL_CLIENT_TickCounter
  * address: 0x021D3FDC
  * packet: pkt_ov093_021D3FDC
  * region: ov093
@@ -42,7 +42,7 @@ extern void PM_VOICE_SetMasterVolume(u8);
 extern int func_021F8B10(void);
 extern void BTL_MAIN_SetKeepBgm(u8 *p);
 extern int BTLV_CORE_PollFadeInDone(u32 *p);
-void func_021D3FDC(u8 *p, struct Q *q)
+void BTL_CLIENT_TickCounter(u8 *p, struct Q *q)
 {
     int changed, adjusted, input;
     if (p[0x1a7] != 2 || q->flag4 || q->flag5 || !q->maximum) goto done;

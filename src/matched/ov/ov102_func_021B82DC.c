@@ -1,5 +1,5 @@
 /*
- * function: func_021B82DC
+ * function: IRC_COMPATIBLE_MENU_HandleFinish
  * address: 0x021B82DC
  * packet: pkt_ov102_021B82DC
  * region: ov102
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7F18 0x021B7F18 thumb ov102
+ *   IRC_COMPATIBLE_MENU_SetFinished 0x021B7F18 thumb ov102
  */
 #include "../include/Obj10235.h"
 #include "../include/Obj22151.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B7F18(u8 *);
-void func_021B82DC(u8 *p, u16 *state)
+extern void IRC_COMPATIBLE_MENU_SetFinished(u8 *);
+void IRC_COMPATIBLE_MENU_HandleFinish(u8 *p, u16 *state)
 {
     switch (*state) {
     case 0:
@@ -30,7 +30,7 @@ void func_021B82DC(u8 *p, u16 *state)
         }
         break;
     case 1:
-        func_021B7F18(p);
+        IRC_COMPATIBLE_MENU_SetFinished(p);
         break;
     }
 }

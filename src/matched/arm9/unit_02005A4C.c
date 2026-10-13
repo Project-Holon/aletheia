@@ -17,12 +17,12 @@
  *   _SndStack    0x020AA1AC  data
  *   _SndSlots  0x020AA1B8  data
  *   GFL_USE_EndSndSlot        0x02005858  thumb
- *   func_02074894       0x02074894  arm
- *   func_02074AC4       0x02074AC4  arm
+ *   NNS_SndHeapSaveState       0x02074894  arm
+ *   NNS_SndArcLoadSeqEx       0x02074AC4  arm
  *
  * Pop one slot off the stack of connection slots that src/matched/
  * unit_020057DC.c pushes onto.  It is its own byte range rather than part
- * of that unit for an evidence reason and not a source one: func_02074AC4
+ * of that unit for an evidence reason and not a source one: NNS_SndArcLoadSeqEx
  * is reached from exactly three `blx` sites image wide, 0x0200593A,
  * 0x02005958 and 0x02005A7A, and the first two are inside
  * unit_020057DC.c's range.  Splitting here leaves each file a witness for
@@ -59,8 +59,8 @@ extern struct Sub02005A4CSlot _SndSlots[];
 
 extern void GFL_USE_EndSndSlot(void);
 struct S;
-extern int  func_02074894(struct S *a);
-extern u32 func_02074AC4(u32 a, u32 b, u32 c);
+extern int  NNS_SndHeapSaveState(struct S *a);
+extern u32 NNS_SndArcLoadSeqEx(u32 a, u32 b, u32 c);
 
 int GFL_USE_PopSndSlot(void)
 {
@@ -77,8 +77,8 @@ int GFL_USE_PopSndSlot(void)
     v = slot->unk04;
     _SndStack.index = i;
     if (v != 0xFFFF) {
-        func_02074AC4(v, 6, (u32)(*_SndStack.unk08));
-        slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
+        NNS_SndArcLoadSeqEx(v, 6, (u32)(*_SndStack.unk08));
+        slot->unk18 = NNS_SndHeapSaveState((struct S *)*_SndStack.unk08);
     }
     return 1;
 }

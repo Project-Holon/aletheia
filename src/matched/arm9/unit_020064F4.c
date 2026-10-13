@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_USE_GetCurrentSndHandle   0x0200590C  thumb
  *   GFL_USE_UnloadBgmData   0x020059C8  thumb
- *   func_02072E7C  0x02072E7C  arm
+ *   NNS_SndHandleStopSeq  0x02072E7C  arm
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNS_SndArcGetBankInfo  0x020743EC  arm
  *   NNS_SndArcSetFileAddress  0x02074694  arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern u32 *GFL_USE_GetCurrentSndHandle(void);
 extern void GFL_USE_UnloadBgmData(void);
-extern void func_02072E7C(void **r0, int fadeFrame);
+extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
 extern u32 *NNS_SndArcGetSeqInfo(u32 a);
 extern u32 *NNS_SndArcGetBankInfo(u32 a);
 extern void NNS_SndArcSetFileAddress(u32 a, u32 b);
@@ -49,7 +49,7 @@ void GFL_USE_StartSeq(u32 a)
 
 void GFL_USE_StopSeqAndUnload(void)
 {
-    func_02072E7C((void **)GFL_USE_GetCurrentSndHandle(), 0);
+    NNS_SndHandleStopSeq((void **)GFL_USE_GetCurrentSndHandle(), 0);
     GFL_USE_UnloadBgmData();
 }
 

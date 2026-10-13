@@ -1,5 +1,5 @@
 /*
- * function: func_0206EE60
+ * function: NNSi_G3dAnmCalcJntAnmNode
  * address:  0x0206EE60
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -12,13 +12,13 @@
  * The per-node channel decoder of the animation player (docs/families/
  * cluster_0206EB00.h, the driver).  Finds the node's record through the
  * u16 table at root+0x14, then walks the record's flag groups: the three
- * scalar channels (func_0206F214 / func_0206F36C) or the rotation-less
- * flags, the rotation (func_0206F844 / func_0206FC5C, or one packed key
- * through func_0206FFA0 with row 2 rebuilt by the cross product), and the
- * three vector-2 channels (func_0206F4C8 / func_0206F6B0) into the result
+ * scalar channels (NNSi_G3dAnmGetTransData / NNSi_G3dAnmGetTransDataEx) or the rotation-less
+ * flags, the rotation (NNSi_G3dAnmGetRotData / NNSi_G3dAnmGetRotDataEx, or one packed key
+ * through NNSi_G3dAnmDecodeRotKey with row 2 rebuilt by the cross product), and the
+ * three vector-2 channels (NNSi_G3dAnmGetScaleData / NNSi_G3dAnmGetScaleDataEx) into the result
  * block, then emits through the stash's four-argument hook.  A dead node
  * (flags bit 0) emits with out->f00 = 7; the 0x600-guarded "stash" arm
- * hands off to func_0206EC50, which emits on its own.
+ * hands off to NNSi_G3dGetNodeScaleFromMdl, which emits on its own.
  *
  * The 2026-09-21 source (docs/notes/pkt_0206EB00.c.txt) was 948/63, a
  * p/lerp register swap at 22 sites.  Two levers closed it (wave 10):
@@ -34,21 +34,21 @@
  * compiles identically).  Every group puts the call arm first.
  *
  * symbols:
- *   g_02148DB0       0x02148DB0  data  a4
- *   func_0206EBB8    0x0206EBB8  arm
- *   func_0206EC50    0x0206EC50  arm
- *   func_0206ECE0    0x0206ECE0  arm
- *   func_0206F214    0x0206F214  arm
- *   func_0206F36C    0x0206F36C  arm
- *   func_0206F4C8    0x0206F4C8  arm
- *   func_0206F6B0    0x0206F6B0  arm
- *   func_0206F844    0x0206F844  arm
- *   func_0206FC5C    0x0206FC5C  arm
- *   func_0206FFA0    0x0206FFA0  arm
+ *   gCurrentRS       0x02148DB0  data  a4
+ *   NNSi_G3dGetNodeTransFromMdl    0x0206EBB8  arm
+ *   NNSi_G3dGetNodeScaleFromMdl    0x0206EC50  arm
+ *   NNSi_G3dGetNodeRotFromMdl    0x0206ECE0  arm
+ *   NNSi_G3dAnmGetTransData    0x0206F214  arm
+ *   NNSi_G3dAnmGetTransDataEx    0x0206F36C  arm
+ *   NNSi_G3dAnmGetScaleData    0x0206F4C8  arm
+ *   NNSi_G3dAnmGetScaleDataEx    0x0206F6B0  arm
+ *   NNSi_G3dAnmGetRotData    0x0206F844  arm
+ *   NNSi_G3dAnmGetRotDataEx    0x0206FC5C  arm
+ *   NNSi_G3dAnmDecodeRotKey    0x0206FFA0  arm
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206EE60.c \
- *       --func func_0206EE60 --addr 0x0206EE60 --arm --cc ../2.0/sp2p2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmCalcJntAnmNode.c \
+ *       --func NNSi_G3dAnmCalcJntAnmNode --addr 0x0206EE60 --arm --cc ../2.0/sp2p2
  */
 
 #include "../include/G_Root.h"
@@ -88,21 +88,21 @@ typedef struct {
     void (*hook)(Out *, u32 *, u32, u32);
 } Disp;
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 
 typedef signed short   s16;
-extern void func_0206EBB8(u32 *out);
-extern void func_0206EC50(void *arg);
-extern void func_0206ECE0(Out *o);
-extern void func_0206F214(u32 *out, u32 t, u32 *rec, Root *base);
-extern void func_0206F36C(u32 *out, u32 t, u32 *rec, Root *base);
-extern void func_0206F4C8(u32 *out, u32 t, u32 *rec, Root *base);
-extern void func_0206F6B0(u32 *out, u32 t, u32 *rec, Root *base);
-extern void func_0206F844(u32 *out, u32 t, u32 *rec, Root *base);
-extern void func_0206FC5C(u32 *out, u32 t, u32 *rec, Root *base);
-extern int func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
+extern void NNSi_G3dGetNodeTransFromMdl(u32 *out);
+extern void NNSi_G3dGetNodeScaleFromMdl(void *arg);
+extern void NNSi_G3dGetNodeRotFromMdl(Out *o);
+extern void NNSi_G3dAnmGetTransData(u32 *out, u32 t, u32 *rec, Root *base);
+extern void NNSi_G3dAnmGetTransDataEx(u32 *out, u32 t, u32 *rec, Root *base);
+extern void NNSi_G3dAnmGetScaleData(u32 *out, u32 t, u32 *rec, Root *base);
+extern void NNSi_G3dAnmGetScaleDataEx(u32 *out, u32 t, u32 *rec, Root *base);
+extern void NNSi_G3dAnmGetRotData(u32 *out, u32 t, u32 *rec, Root *base);
+extern void NNSi_G3dAnmGetRotDataEx(u32 *out, u32 t, u32 *rec, Root *base);
+extern int NNSi_G3dAnmDecodeRotKey(int *out, s16 *a, s16 *b, u32 id);
 
-void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
+void NNSi_G3dAnmCalcJntAnmNode(Root *root, u32 idx, u32 t, Out *out)
 {
     u32 *p;
     u32 f;
@@ -123,27 +123,27 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
         if ((f & 6) == 0) {
             if ((f & 8) == 0) {
                 if (lerp != 0)
-                    func_0206F36C(&out->f4c, t, p, root);
+                    NNSi_G3dAnmGetTransDataEx(&out->f4c, t, p, root);
                 else
-                    func_0206F214(&out->f4c, t, p, root);
+                    NNSi_G3dAnmGetTransData(&out->f4c, t, p, root);
                 p = p + 2;
             } else {
                 out->f4c = *p++;
             }
             if ((f & 0x10) == 0) {
                 if (lerp != 0)
-                    func_0206F36C(&out->f50, t, p, root);
+                    NNSi_G3dAnmGetTransDataEx(&out->f50, t, p, root);
                 else
-                    func_0206F214(&out->f50, t, p, root);
+                    NNSi_G3dAnmGetTransData(&out->f50, t, p, root);
                 p = p + 2;
             } else {
                 out->f50 = *p++;
             }
             if ((f & 0x20) == 0) {
                 if (lerp != 0)
-                    func_0206F36C(&out->f54, t, p, root);
+                    NNSi_G3dAnmGetTransDataEx(&out->f54, t, p, root);
                 else
-                    func_0206F214(&out->f54, t, p, root);
+                    NNSi_G3dAnmGetTransData(&out->f54, t, p, root);
                 p = p + 2;
             } else {
                 out->f54 = *p++;
@@ -151,20 +151,20 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
         } else if ((f & 2) != 0) {
             out->f00 = out->f00 | 4;
         } else {
-            func_0206EBB8((u32 *)out);
+            NNSi_G3dGetNodeTransFromMdl((u32 *)out);
         }
 
         if ((f & 0xc0) == 0) {
             if ((f & 0x100) == 0) {
                 if (lerp != 0)
-                    func_0206FC5C((u32 *)&out->f28, t, p, root);
+                    NNSi_G3dAnmGetRotDataEx((u32 *)&out->f28, t, p, root);
                 else
-                    func_0206F844((u32 *)&out->f28, t, p, root);
+                    NNSi_G3dAnmGetRotData((u32 *)&out->f28, t, p, root);
                 p = p + 2;
             } else {
                 u32 *axis = (u32 *)((u8 *)root + root->f0c);
                 u32 *rows = (u32 *)((u8 *)root + root->f10);
-                if (func_0206FFA0((int *)((u32 *)&out->f28), (s16 *)axis, (s16 *)rows, *p) != 0) {
+                if (NNSi_G3dAnmDecodeRotKey((int *)((u32 *)&out->f28), (s16 *)axis, (s16 *)rows, *p) != 0) {
                     int a, b, c;
                     a = (out->f2c * out->f3c - out->f30 * out->f38) >> 12;
                     b = (out->f30 * out->f34 - out->f28 * out->f3c) >> 12;
@@ -178,15 +178,15 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
         } else if ((f & 0x40) != 0) {
             out->f00 = out->f00 | 2;
         } else {
-            func_0206ECE0(out);
+            NNSi_G3dGetNodeRotFromMdl(out);
         }
 
         if ((f & 0x600) == 0) {
             if ((f & 0x800) == 0) {
                 if (lerp != 0)
-                    func_0206F6B0(&tmp[4], t, p, root);
+                    NNSi_G3dAnmGetScaleDataEx(&tmp[4], t, p, root);
                 else
-                    func_0206F4C8(&tmp[4], t, p, root);
+                    NNSi_G3dAnmGetScaleData(&tmp[4], t, p, root);
                 res[0] = tmp[4];
                 res[3] = tmp[5];
             } else {
@@ -195,9 +195,9 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
             }
             if ((f & 0x1000) == 0) {
                 if (lerp != 0)
-                    func_0206F6B0(&tmp[2], t, p + 2, root);
+                    NNSi_G3dAnmGetScaleDataEx(&tmp[2], t, p + 2, root);
                 else
-                    func_0206F4C8(&tmp[2], t, p + 2, root);
+                    NNSi_G3dAnmGetScaleData(&tmp[2], t, p + 2, root);
                 res[1] = tmp[2];
                 res[4] = tmp[3];
             } else {
@@ -206,9 +206,9 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
             }
             if ((f & 0x2000) == 0) {
                 if (lerp != 0)
-                    func_0206F6B0(&tmp[0], t, p + 4, root);
+                    NNSi_G3dAnmGetScaleDataEx(&tmp[0], t, p + 4, root);
                 else
-                    func_0206F4C8(&tmp[0], t, p + 4, root);
+                    NNSi_G3dAnmGetScaleData(&tmp[0], t, p + 4, root);
                 res[2] = tmp[0];
                 res[5] = tmp[1];
             } else {
@@ -218,14 +218,14 @@ void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
         } else if ((f & 0x200) != 0) {
             out->f00 = out->f00 | 1;
         } else {
-            func_0206EC50(out);
+            NNSi_G3dGetNodeScaleFromMdl(out);
             return;
         }
     }
 
     {
         u32 k = (out->f00 & 1) ? 4 : 0;
-        Disp *d = ((Disp *)g_02148DB0);
+        Disp *d = ((Disp *)gCurrentRS);
         d->hook(out, &res[0], d->first, k);
     }
 }

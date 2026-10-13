@@ -18,7 +18,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02034714  0x02034714  arm
  *   sEmptyTextA     0x02183B4C  data   a1
@@ -57,7 +57,7 @@ extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, int workSize);
 extern EventCommMsgWork *func_020124E8(struct GameEvent *event);
-extern void func_02082D44(const void *src, void *dst, int size);
+extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, void *myStatus);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, int msgId);
@@ -99,7 +99,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommMsgWork *
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgEventMain, 0xAC);
     work = func_020124E8(event);
-    func_02082D44(src, work, 0x98);
+    MI_CpuCopy8(src, work, 0x98);
     if (sys != 0) {
         work->msgId = msgIds[src->msgIndex];
         func_0201F02C(src->msgBox.wordSet, 0, src->myStatus);
@@ -207,7 +207,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommMsg
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_MsgScriptEventMain, 0xA0);
     work = func_020124E8(event);
-    func_02082D44(src, work, 0x98);
+    MI_CpuCopy8(src, work, 0x98);
     if (sys != 0) {
         facing = 0;
         work->msgId = sMsgIds125[src->msgIndex];

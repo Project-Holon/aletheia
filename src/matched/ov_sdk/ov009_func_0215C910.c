@@ -1,5 +1,5 @@
 /*
- * function: func_0215C910
+ * function: CPS_Resolve
  * address:  0x0215C910
  * packet:   pkt_ov009_0215C910
  * region:   ov009
@@ -25,11 +25,11 @@
  * sdk:      CPS_Resolve (libcps.TWL.HYB.a network.o)
  *
  * symbols:
- *   func_0215C814            0x0215C814  arm  ov009
- *   func_021578C8            0x021578C8  arm  ov009
- *   func_02157D8C            0x02157D8C  arm  ov009
- *   func_02157F60            0x02157F60  arm  ov009
- *   func_0215C8B4            0x0215C8B4  arm  ov009
+ *   rawip            0x0215C814  arm  ov009
+ *   get_targetip            0x021578C8  arm  ov009
+ *   inq_arpcache            0x02157D8C  arm  ov009
+ *   arprequest            0x02157F60  arm  ov009
+ *   resolve_sub            0x0215C8B4  arm  ov009
  *   wfailed                  0x021A826C  data
  *   CPSDnsIp                 0x021A82DC  data
  *
@@ -88,11 +88,11 @@ typedef struct {
 	unsigned long long add;
 } RandCtx;
 
-extern unsigned long func_0215C814(unsigned char *name, unsigned long *pip);
-extern unsigned long func_021578C8(unsigned long ip);
-extern unsigned char (*func_02157D8C(unsigned long ip))[6];
-extern unsigned char (*func_02157F60(unsigned long ip))[6];
-extern unsigned long func_0215C8B4(unsigned char *name, unsigned long dnsip, unsigned short id);
+extern unsigned long rawip(unsigned char *name, unsigned long *pip);
+extern unsigned long get_targetip(unsigned long ip);
+extern unsigned char (*inq_arpcache(unsigned long ip))[6];
+extern unsigned char (*arprequest(unsigned long ip))[6];
+extern unsigned long resolve_sub(unsigned char *name, unsigned long dnsip, unsigned short id);
 extern unsigned long CPSDnsIp[2];
 static unsigned char ip_conflict = 0;
 static unsigned char wfailed = 0;
@@ -134,7 +134,7 @@ static inline unsigned long rand32(RandCtx *context, unsigned long max)
 	return (unsigned long)(max ? (((context->x >> 32) * max) >> 32) : (context->x >> 32));
 }
 
-unsigned long func_0215C910(char *name)
+unsigned long CPS_Resolve(char *name)
 {
 	unsigned long ip;
 	int retries;
@@ -147,7 +147,7 @@ unsigned long func_0215C910(char *name)
 	retries = 0;
 	id[0] = (unsigned short)rand32(&CPSiRand32ctx, 0x10000);
 	id[1] = (unsigned short)rand32(&CPSiRand32ctx, 0x10000);
-	if (func_0215C814((unsigned char *)name, &ip))
+	if (rawip((unsigned char *)name, &ip))
 		return ip;
 	ask_this[0] = 1;
 	ask_this[1] = 1;
@@ -155,15 +155,15 @@ unsigned long func_0215C910(char *name)
 		for (server = 0; server < 2; server++) {
 			if (!ask_this[server])
 				continue;
-			if (CPSDnsIp[server] == 0 || (t = func_021578C8(CPSDnsIp[server])) == 0) {
+			if (CPSDnsIp[server] == 0 || (t = get_targetip(CPSDnsIp[server])) == 0) {
 				ask_this[server] = 0;
 				continue;
 			}
-			if (func_02157D8C(t) == 0 && func_02157F60(t) == 0) {
+			if (inq_arpcache(t) == 0 && arprequest(t) == 0) {
 				ask_this[server] = 0;
 				continue;
 			}
-			ip = func_0215C8B4((unsigned char *)name, CPSDnsIp[server], id[server]);
+			ip = resolve_sub((unsigned char *)name, CPSDnsIp[server], id[server]);
 			if (ip != 0 && ip != 0xffffffff)
 				goto done;
 			if (ip == 0xffffffff)

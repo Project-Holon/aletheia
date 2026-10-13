@@ -34,6 +34,7 @@
  *   MI_CpuCopy8                      0x02082d44 arm
  *   CRYPTOi__bn_fix_top              0x021cac8c arm
  *   CRYPTOi__BN_MONT_CTX_free        0x021cca24 arm
+ *   sCryptoBnNumBitsWordBits  0x021CE202  data
  *
  */
 
@@ -91,7 +92,7 @@ extern void CRYPTOi__BN_MONT_CTX_free(BN_MONT_CTX *);
 #define BN_is_one(x) (((x)->top == 1) && ((x)->d[0] == 1))
 #define bn_wexpand(a, words) (((words) <= (a)->max) ? (a) : CRYPTOi__bn_expand2((a), (words)))
 
-#define GET_RUN(c, cnt, bits)     c = *bits++;     cnt = *bits++;     if (cnt == 0xff && c == 0) {         for (c = *bits++; *bits == 0xff && c == 0; c = *bits++) {             cnt += 0x100;             bits++;         }         cnt += *bits++ + 1;     }
+#define GET_RUN(c, cnt, sCryptoBnNumBitsWordBits)     c = *sCryptoBnNumBitsWordBits++;     cnt = *sCryptoBnNumBitsWordBits++;     if (cnt == 0xff && c == 0) {         for (c = *sCryptoBnNumBitsWordBits++; *sCryptoBnNumBitsWordBits == 0xff && c == 0; c = *sCryptoBnNumBitsWordBits++) {             cnt += 0x100;             sCryptoBnNumBitsWordBits++;         }         cnt += *sCryptoBnNumBitsWordBits++ + 1;     }
 
 int CRYPTOi__BN_mod_exp_mont(BIGNUM *rr_in, BIGNUM *a_in, BIGNUM *p,
                              BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)

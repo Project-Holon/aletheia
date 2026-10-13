@@ -1,5 +1,5 @@
 /*
- * function: func_021BBDFC
+ * function: NHTTPi_GetResponseHeaderAll
  * address:  0x021BBDFC
  * packet:   pkt_ov114_021BBDFC
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      NHTTPi_GetResponseHeaderAll (libnhttp.TWL.HYB.a(nhttp_response.o))
  *
  * symbols:
- *   func_021BA820 0x021BA820 arm ov114
- *   func_021BA874 0x021BA874 arm ov114
- *   func_021BB210 0x021BB210 arm ov114
+ *   NHTTPi_alloc 0x021BA820 arm ov114
+ *   NHTTPi_SetError 0x021BA874 arm ov114
+ *   NHTTPi_loadFromHdrRecvBuf 0x021BB210 arm ov114
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
  */
@@ -29,12 +29,12 @@ typedef struct {
     char hdrBuf[0x400];
 } Res;
 
-extern int func_021BA820(int a, int b);
+extern int NHTTPi_alloc(int a, int b);
 typedef unsigned char  u8;
-extern void func_021BA874(u8 *p, int v);
-extern int func_021BB210(Res *res_p, char *dst_p, int pos, int len);
+extern void NHTTPi_SetError(u8 *p, int v);
+extern int NHTTPi_loadFromHdrRecvBuf(Res *res_p, char *dst_p, int pos, int len);
 
-int func_021BBDFC(void *bgnEndInfo_p, Res *res_p, char **value_pp)
+int NHTTPi_GetResponseHeaderAll(void *bgnEndInfo_p, Res *res_p, char **value_pp)
 {
     if (res_p->isHeaderParse == 0 || res_p->headerLen == 0) {
         return -1;
@@ -43,12 +43,12 @@ int func_021BBDFC(void *bgnEndInfo_p, Res *res_p, char **value_pp)
         *value_pp = res_p->hdrBuf;
     } else {
         if (res_p->allHeader_p == 0) {
-            res_p->allHeader_p = (char *)func_021BA820(res_p->headerLen, 4);
+            res_p->allHeader_p = (char *)NHTTPi_alloc(res_p->headerLen, 4);
             if (res_p->allHeader_p == 0) {
-                func_021BA874(bgnEndInfo_p, 1);
+                NHTTPi_SetError(bgnEndInfo_p, 1);
                 return -1;
             }
-            func_021BB210(res_p, res_p->allHeader_p, 0, res_p->headerLen);
+            NHTTPi_loadFromHdrRecvBuf(res_p, res_p->allHeader_p, 0, res_p->headerLen);
         }
         *value_pp = res_p->allHeader_p;
     }

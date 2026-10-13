@@ -1,7 +1,7 @@
 /*
  * file:     dwc_ac.c
  * unit:     yes
- * function: func_0205B98C, func_0205BC78, func_0205BD64, func_0205BDD0, func_0205BE00, func_0205BE58, func_0205BE6C, func_0205BEA8, func_0205BF1C, func_0205BFD4, func_0205BFEC, func_0205C018, func_0205C038, func_0205C080, func_0205C0EC, func_0205C214, func_0205C25C, func_0205C2C4, func_0205C2E4, func_0205C308, func_0205C31C, func_0205C3B0, func_0205C4C8, func_0205C528, func_0205C55C, func_0205C600, func_0205C670
+ * function: DWC_AC_Create, DWC_AC_Process, DWC_AC_GetStatus, func_0205BDD0, func_0205BE00, func_0205BE58, DWC_AC_Destroy, func_0205BEA8, func_0205BF1C, func_0205BFD4, DWCi_AC_InsertApInfo, func_0205C018, func_0205C038, func_0205C080, func_0205C0EC, func_0205C214, func_0205C25C, func_0205C2C4, func_0205C2E4, func_0205C308, func_0205C31C, func_0205C3B0, func_0205C4C8, func_0205C528, func_0205C55C, func_0205C600, func_0205C670
  * address:  0x0205B98C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -222,17 +222,17 @@ extern u8 OS_GetAgreedEULAVersion(void);
 extern u8 OS_GetROMHeaderEULAVersion(void);
 extern BOOL OS_IsAvailableWireless(void);
 extern BOOL OS_IsForceDisableWireless(void);
-BOOL func_0205B98C(DWCACConfig *config);
-int func_0205BC78(void);
-int func_0205BD64(void);
+BOOL DWC_AC_Create(DWCACConfig *config);
+int DWC_AC_Process(void);
+int DWC_AC_GetStatus(void);
 u8 func_0205BDD0(void);
 BOOL func_0205BE00(u8 *apSpotInfo);
 unsigned int DWC_AC_GetSecuritySetting(void);
-BOOL func_0205BE6C(void);
+BOOL DWC_AC_Destroy(void);
 void func_0205BEA8(void *ssid, void *wep, int wepMode, u16 mtu, char *apSpotInfo, int overrideType);
 void func_0205BF1C(void *ssid, void *wep, int wepMode);
 int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
-void func_0205BFEC(int no, NCFGApInfo *info);
+void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info);
 void func_0205C018(void);
 void *func_0205C038(u32 name, s32 size);
 void func_0205C080(u32 name, void *ptr, s32 size);
@@ -260,7 +260,7 @@ static ACMem s_ac_work;
 /*
  * sdk:      DWC_AC_Create (dwc_ac.o)
  */
-BOOL func_0205B98C(DWCACConfig *config)
+BOOL DWC_AC_Create(DWCACConfig *config)
 {
     int result;
     ACHOLD *hd;
@@ -347,7 +347,7 @@ BOOL func_0205B98C(DWCACConfig *config)
 /*
  * sdk:      DWC_AC_Process (dwc_ac.o)
  */
-int func_0205BC78(void)
+int DWC_AC_Process(void)
 {
     int ret;
     u32 irq;
@@ -400,7 +400,7 @@ int func_0205BC78(void)
 /*
  * sdk:      DWC_AC_GetStatus (dwc_ac.o)
  */
-int func_0205BD64(void)
+int DWC_AC_GetStatus(void)
 {
     u8 phase = DWCi_AC_GetPhase();
 
@@ -474,7 +474,7 @@ unsigned int DWC_AC_GetSecuritySetting(void)
 /*
  * sdk:      DWC_AC_Destroy (dwc_ac.o)
  */
-BOOL func_0205BE6C(void)
+BOOL DWC_AC_Destroy(void)
 {
     u8 phase = DWCi_AC_GetPhase();
 
@@ -563,7 +563,7 @@ int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len)
 /*
  * sdk:      DWCi_AC_InsertApInfo (dwc_ac.o)
  */
-void func_0205BFEC(int no, NCFGApInfo *info)
+void DWCi_AC_InsertApInfo(int no, NCFGApInfo *info)
 {
     ACWORK *wk = func_0205C214(0x10);
 

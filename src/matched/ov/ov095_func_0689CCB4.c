@@ -1,5 +1,5 @@
 /*
- * function: func_0689CCB4
+ * function: BTL_POKESET_GetTotalDamage
  * address:  0x0689CCB4
  * packet:   pkt_0689CC8C
  * region:   ov095
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * notes:    unlabelled Thumb function after func_0689CC8C (its listing extent
+ * notes:    unlabelled Thumb function after BTL_POKESET_SeekNext (its listing extent
  *           ran past it); seeded in layout/function_starts.txt.
  *
  * symbols:
@@ -17,6 +17,21 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   MI_CpuFill8  0x02082BCC  arm
+ *   BTL_POKESET_Clear  0x0689CB3C  thumb
+ *   BTL_POKESET_Add  0x0689CB48  thumb
+ *   BTL_POKESET_AddWithDamage  0x0689CBB8  thumb
+ *   BTL_POKESET_Remove  0x0689CC14  thumb
+ *   BTL_POKESET_Get  0x0689CC70  thumb
+ *   BTL_POKESET_SeekStart  0x0689CC84  thumb
+ *   BTL_POKESET_SeekNext  0x0689CC8C  thumb
+ *   BTL_POKESET_GetPlainDamage  0x0689CCF8  thumb
+ *   BTL_POKESET_GetCount  0x0689CD38  thumb
+ *   BTL_POKESET_GetCountMax  0x0689CD40  thumb
+ *   BTL_POKESET_SetEmptyMarked  0x0689CD48  thumb
+ *   BTL_POKESET_IsRemovedAll  0x0689CD50  thumb
+ *   BTL_POKESET_CopyAlive  0x0689CD78  thumb
+ *   BTL_POKESET_CopyFriends  0x0689CDCC  thumb
+ *   BTL_POKESET_CopyEnemies  0x0689CE58  thumb
  */
 
 typedef unsigned char u8;
@@ -49,25 +64,25 @@ void MI_CpuFill8(void *p, int v, int n);
 int BTL_POKEPARAM_IsFainted(u32 x);
 int BTL_POKEPARAM_GetPokeId();
 int func_021B9A24(int a, int b);
-void func_0689CB3C(void *p);
-void func_0689CB48(S *p, u32 id);
-void func_0689CBB8(S *p, u32 id, u16 amt, int flag);
-void func_0689CC14(S *p, u32 id);
-u32 func_0689CC70(S *p, u32 i);
-void func_0689CC84(char *p);
-int func_0689CC8C(struct S *s);
+void BTL_POKESET_Clear(void *p);
+void BTL_POKESET_Add(S *p, u32 id);
+void BTL_POKESET_AddWithDamage(S *p, u32 id, u16 amt, int flag);
+void BTL_POKESET_Remove(S *p, u32 id);
+u32 BTL_POKESET_Get(S *p, u32 i);
+void BTL_POKESET_SeekStart(char *p);
+int BTL_POKESET_SeekNext(struct S *s);
 #pragma opt_common_subs off
-int func_0689CCB4(S *p, u32 id, u32 *out);
-int func_0689CCF8(S *p, u32 id, u32 *out);
-int func_0689CD38(S *p);
-int func_0689CD40(S *p);
-void func_0689CD48(S *p, u8 v);
-int func_0689CD50(S *p);
-int func_0689CD78(S *p, S *q);
-int func_0689CDCC(S *p, int a, S *q);
-int func_0689CE58(S *p, int a, S *q);
+int BTL_POKESET_GetTotalDamage(S *p, u32 id, u32 *out);
+int BTL_POKESET_GetPlainDamage(S *p, u32 id, u32 *out);
+int BTL_POKESET_GetCount(S *p);
+int BTL_POKESET_GetCountMax(S *p);
+void BTL_POKESET_SetEmptyMarked(S *p, u8 v);
+int BTL_POKESET_IsRemovedAll(S *p);
+int BTL_POKESET_CopyAlive(S *p, S *q);
+int BTL_POKESET_CopyFriends(S *p, int a, S *q);
+int BTL_POKESET_CopyEnemies(S *p, int a, S *q);
 
-int func_0689CCB4(S *p, u32 id, u32 *out)
+int BTL_POKESET_GetTotalDamage(S *p, u32 id, u32 *out)
 {
     u32 i;
     u32 t;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9800
+ * function: NHTTP_RAP_Create
  * address:  0x021B9800
  * packet:   pkt_021B9500
  * region:   ov114
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-u8 *func_021B9800(int a, int b, int c)
+u8 *NHTTP_RAP_Create(int a, int b, int c)
 {
     u8 *p = func_02030734(a, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
 

@@ -10,14 +10,14 @@
  * status:   EXACT
  * symbols:
  *   g_02146A80     0x02146A80  data
- *   func_020862F0  0x020862F0  arm
- *   func_0207E708  0x0207E708  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GXS_LoadOAM  0x0207E708  arm
  *
  * double3Ddisp.c, second function (the TU starts at func_0204E8C0).  Builds
  * the twelve sub-engine sprites that carry the doubled 3D image, a 4 x 3
  * grid of 64 x 64 cells over 256 x 192, then flushes the OAM copy
- * (func_020862F0, DC_FlushRange) and loads it at OAM offset 0x3A0
- * (func_0207E708, GXS_LoadOAM).
+ * (DWCi_ScreenDC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
+ * (GXS_LoadOAM, GXS_LoadOAM).
  *
  * The lever that closed it (wave 17, from 15 bytes out): the inner loop
  * takes a pointer to the ENTRY, `oam = &g_02146A80->oam[k]`, and stores both
@@ -45,8 +45,8 @@ struct Double3Ddisp {
 };
 
 extern struct Double3Ddisp *g_02146A80;
-extern void func_020862F0(void *p, u32 n);
-extern void func_0207E708(void *p, u32 off, u32 n);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 
 #define REG32(a) (*(volatile u32 *)(a))
 
@@ -76,6 +76,6 @@ void func_0204E914(void)
         }
     }
 
-    func_020862F0(g_02146A80->oam, 0x60);
-    func_0207E708(g_02146A80->oam, 0x3a0, 0x60);
+    DWCi_ScreenDC_FlushRange(g_02146A80->oam, 0x60);
+    GXS_LoadOAM(g_02146A80->oam, 0x3a0, 0x60);
 }

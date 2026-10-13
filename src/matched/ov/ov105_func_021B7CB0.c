@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CB0
+ * function: IRC_RESULT_InitMessageWindow
  * address: 0x021B7CB0
  * packet: pkt_ov105_021B7CB0
  * region: ov105
@@ -36,7 +36,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021B7CB0(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g)
+void IRC_RESULT_InitMessageWindow(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g)
 {
     int q;
     MI_CpuFill8(p, 0, 20);

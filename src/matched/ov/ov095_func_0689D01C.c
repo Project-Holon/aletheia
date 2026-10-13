@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_0689D01C,func_0689D050,func_0689D064,func_0689D098,func_0689D0C8
+ * function: BTL_WAZAREC_Add,BTL_WAZAREC_SetEffectiveLast,BTL_WAZAREC_IsUsedWaza,BTL_WAZAREC_GetUsedWazaCount,BTL_WAZAREC_GetEffectiveWaza
  * address: 0x0689D01C
  * packet: pkt_ov095_0689D01C
  * region: ov095
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 value; u16 kind; u8 data, flag; } Rec;
 typedef struct { u32 pos; Rec r[120]; } O;
-void func_0689D01C(O *p, u32 kind, u32 value, u32 data)
+void BTL_WAZAREC_Add(O *p, u32 kind, u32 value, u32 data)
 {
     p->r[p->pos].kind = kind;
     p->r[p->pos].value = value;
@@ -26,14 +26,14 @@ void func_0689D01C(O *p, u32 kind, u32 value, u32 data)
     if (p->pos >= 120)
         p->pos = 0;
 }
-void func_0689D050(O *p)
+void BTL_WAZAREC_SetEffectiveLast(O *p)
 {
     int i;
     i = p->pos - 1;
     if (i < 0) i = 119;
     p->r[i].flag = 1;
 }
-int func_0689D064(O *p, u32 kind, u32 value)
+int BTL_WAZAREC_IsUsedWaza(O *p, u32 kind, u32 value)
 {
     int i;
     int end;
@@ -49,7 +49,7 @@ int func_0689D064(O *p, u32 kind, u32 value)
     }
     return 0;
 }
-int func_0689D098(O *p, u32 kind, u32 value)
+int BTL_WAZAREC_GetUsedWazaCount(O *p, u32 kind, u32 value)
 {
     int i;
     int count;
@@ -67,7 +67,7 @@ int func_0689D098(O *p, u32 kind, u32 value)
     }
     return count;
 }
-u16 func_0689D0C8(O *p, u32 value)
+u16 BTL_WAZAREC_GetEffectiveWaza(O *p, u32 value)
 {
     int i;
     int end;

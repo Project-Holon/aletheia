@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE20
+ * function: scCleanupServiceUrl
  * address:  0x021DFE20
  * packet:   pkt_021DFE20
  * region:   ov175
@@ -10,15 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DF968  0x_021DF968  arm  ov175
+ *   sciGetServiceUrl  0x021DF968  arm
+ *   sciGetServiceUrl  0x_021DF968  arm  ov175
  *
- * ARM tail jump to func_021DF968, the ov175 +0x5c/+0x84 string writer.
+ * ARM tail jump to sciGetServiceUrl, the ov175 +0x5c/+0x84 string writer.
  */
 
-extern char *func_021DF968(void);
+extern char *sciGetServiceUrl(void);
 
-void func_021DFE20(void)
+void scCleanupServiceUrl(void)
 {
-    func_021DF968();
+    sciGetServiceUrl();
 }
 

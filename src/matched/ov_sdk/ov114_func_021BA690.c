@@ -1,5 +1,5 @@
 /*
- * function: func_021BA690
+ * function: NHTTPi_memfind
  * address:  0x021BA690
  * packet:   pkt_ov114_021BA690
  * region:   ov114
@@ -24,7 +24,7 @@
  * docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  */
 
-int func_021BA690(signed char *hay, int len1, signed char *needle, int len2)
+int NHTTPi_memfind(signed char *hay, int len1, signed char *needle, int len2)
 {
     int i;
     int j;

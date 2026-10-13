@@ -14,7 +14,7 @@
  * symbols:
  *   strlen         0x0209477C  arm
  *   func_02059CBC  0x02059CBC  arm
- *   func_021702A0  0x021702A0  arm  ov009
+ *   DWCi_ProcessRecvMatchCommand  0x021702A0  arm  ov009
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -40,5 +40,5 @@ extern void func_0216EAB8(int unused, int profileID, char *message)
             return;
         dataLen = len / 4;
     }
-    func_021702A0(*(unsigned char *)message, profileID, 0, 0, data, dataLen);
+    DWCi_ProcessRecvMatchCommand(*(unsigned char *)message, profileID, 0, 0, data, dataLen);
 }

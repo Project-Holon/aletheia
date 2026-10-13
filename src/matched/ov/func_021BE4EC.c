@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4EC
+ * function: WIFICLUB_GetIconPalette
  * address:  0x021BE4EC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -12,7 +12,7 @@
  * Returns the constant 8.
  */
 
-int func_021BE4EC(int a)
+int WIFICLUB_GetIconPalette(int a)
 {
     return 8;
 }

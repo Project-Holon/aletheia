@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5F0
+ * function: WIFICLUBACTOR_ApplyActorMode
  * address:  0x021BA5F0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA264  0x021BA264  thumb  ov099
- *   func_021BA2A4  0x021BA2A4  thumb  ov099
+ *   WIFICLUBACTOR_SetIdleState  0x021BA264  thumb  ov099
+ *   WIFICLUBACTOR_SetBounceState  0x021BA2A4  thumb  ov099
  *
- * Dispatches on the class byte: case 0 runs func_021BA264, case 1 runs
- * func_021BA2A4, then the class is recorded at +0x0B of the object.  The pair
+ * Dispatches on the class byte: case 0 runs WIFICLUBACTOR_SetIdleState, case 1 runs
+ * WIFICLUBACTOR_SetBounceState, then the class is recorded at +0x0B of the object.  The pair
  * is a switch, not an if/else-if chain: only the switch form lays the case
  * bodies out of line the way the image does.
  */
@@ -26,17 +26,17 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021BA264(void *a, void *b);
-extern void func_021BA2A4(void *w, u8 *s);
+extern void WIFICLUBACTOR_SetIdleState(void *a, void *b);
+extern void WIFICLUBACTOR_SetBounceState(void *w, u8 *s);
 
-void func_021BA5F0(void *a, char *b, u8 c)
+void WIFICLUBACTOR_ApplyActorMode(void *a, char *b, u8 c)
 {
     switch (c) {
     case 0:
-        func_021BA264(a, b);
+        WIFICLUBACTOR_SetIdleState(a, b);
         break;
     case 1:
-        func_021BA2A4(a, (u8 *)b);
+        WIFICLUBACTOR_SetBounceState(a, (u8 *)b);
         break;
     }
 

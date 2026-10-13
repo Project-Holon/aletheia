@@ -1,5 +1,5 @@
 /*
- * function: func_021BC320
+ * function: PMSIV_EDIT_GetSlotRect
  * address:  0x021BC320
  * packet:   pkt_ov110_021BC320
  * region:   ov110
@@ -13,7 +13,7 @@
  * (32 bytes).  Packs two s16 coordinates from a[n] into b.
  */
 
-void func_021BC320(void *a, unsigned char *b, int n)
+void PMSIV_EDIT_GetSlotRect(void *a, unsigned char *b, int n)
 {
     int i = n * 4;
 

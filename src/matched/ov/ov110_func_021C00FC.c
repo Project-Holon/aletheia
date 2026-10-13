@@ -1,5 +1,5 @@
 /*
- * function: func_021C00FC
+ * function: PMSIV_WORDWIN_IsPickAnimDone
  * address: 0x021C00FC
  * packet: pkt_ov110_021C00FC
  * region: ov110
@@ -24,4 +24,4 @@ extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-int func_021C00FC(u8 *p) { if(CLACT_GetActorAnimSeq(((struct Obj05298 *)p)->f14)!=28) return 1; if(!CLACT_IsActorAnimActive(((struct Obj05298 *)p)->f14)) { CLACT_SetActorDrawEnable(((struct Obj05298 *)p)->f14,((struct Obj05298 *)p)->f18); CLACT_SetActorAnimSeq(((struct Obj05298 *)p)->f14,8); ((struct Obj05298 *)p)->f18=0; return 1; } return 0; }
+int PMSIV_WORDWIN_IsPickAnimDone(u8 *p) { if(CLACT_GetActorAnimSeq(((struct Obj05298 *)p)->f14)!=28) return 1; if(!CLACT_IsActorAnimActive(((struct Obj05298 *)p)->f14)) { CLACT_SetActorDrawEnable(((struct Obj05298 *)p)->f14,((struct Obj05298 *)p)->f18); CLACT_SetActorAnimSeq(((struct Obj05298 *)p)->f14,8); ((struct Obj05298 *)p)->f18=0; return 1; } return 0; }

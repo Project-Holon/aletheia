@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   BSUBWAY_RECORD_LIST_CreateActors  0x021B9B44  thumb  ov069
  *   BSUBWAY_RECORD_LIST_CreateWindows  0x021B9C44  thumb  ov069
@@ -183,7 +183,7 @@ struct BgTemplateSet {
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heap);
-extern void  func_02082AC0(u32 val, void *dst, u32 size);
+extern void  MIi_CpuClearFast(u32 val, void *dst, u32 size);
 extern void  WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void BSUBWAY_RECORD_LIST_CreateActors(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_CreateWindows(BsubwayRecordListWork *work);
@@ -412,7 +412,7 @@ int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *a
 
     GFL_HEAP_CreateChildHeap(1, 0x80, 0x20000);
     work = PROCSYS_AllocProcWork(proc, sizeof(BsubwayRecordListWork), 0x80);
-    func_02082AC0(0, work, sizeof(BsubwayRecordListWork));
+    MIi_CpuClearFast(0, work, sizeof(BsubwayRecordListWork));
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     BSUBWAY_RECORD_LIST_InitWork(work, args);

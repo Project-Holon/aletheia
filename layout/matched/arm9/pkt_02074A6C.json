@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02074A6C",
+   "name": "NNS_SndArcLoadSeq",
    "address": "0x02074A6C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074A98",
+   "name": "NNS_SndArcLoadWaveArc",
    "address": "0x02074A98",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074BEC",
+   "name": "NNSi_SndArcLoadSeq",
    "address": "0x02074BEC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074C70",
+   "name": "NNSi_SndArcLoadSeqArc",
    "address": "0x02074C70",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074F3C",
+   "name": "NNSi_SndArcLoadSeqFile",
    "address": "0x02074F3C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074FA8",
+   "name": "NNSi_SndArcLoadSeqArcFile",
    "address": "0x02074FA8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02075080",
+   "name": "NNSi_SndArcLoadWaveArcFile",
    "address": "0x02075080",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020751F4",
+   "name": "NNSi_SndArcForgetFileAddress",
    "address": "0x020751F4",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020752A4",
+   "name": "NNSi_SndArcDisposeWaveArc",
    "address": "0x020752A4",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020752D4",
+   "name": "NNSi_SndArcDisposeWaveArcTable",
    "address": "0x020752D4",
    "kind": "game",
    "region": "arm9",

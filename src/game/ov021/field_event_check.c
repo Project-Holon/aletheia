@@ -139,7 +139,7 @@
  *   SCRCMD_ShowStepMilestoneMessage  0x021D220C  thumb
  *   func_02008990  0x02008990  thumb
  *   func_02008988  0x02008988  thumb
- *   func_0200D564  0x0200D564  thumb
+ *   MOVE_POKEMON_SAVE_TickCooldown  0x0200D564  thumb
  *   EFFECT_ENCOUNT_TriggerSpot  0x021AA944  thumb
  *   EFFECT_ENCOUNT_OnPlayerStep  0x021AA80C  thumb
  *   GPOWER_GetExpiringPowerId  0x02010F18  thumb
@@ -222,6 +222,7 @@
  *   GPOWER_ApplyHatchRate  0x02010FF4  thumb  arm9
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb  arm9
  *   NATSUKI_CalcWalk  0x0201B7EC  thumb  arm9
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb  arm9
  */
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
@@ -520,8 +521,8 @@ extern void NATSUKI_CalcWalk(void *mon, int a, int b);
 extern int SCRCMD_ShowStepMilestoneMessage(void *gameSystem, FieldMap *fieldMap);
 extern u16 func_02008990(const void *obj);
 extern void func_02008988(void *obj, u16 value);
-extern void *func_0200D418(void *p);
-extern u32 func_0200D564(void *p);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
+extern u32 MOVE_POKEMON_SAVE_TickCooldown(void *p);
 extern int EFFECT_ENCOUNT_TriggerSpot(void *self);
 extern void EFFECT_ENCOUNT_OnPlayerStep(void *ctx);
 extern u8 GPOWER_GetExpiringPowerId(void);
@@ -1501,7 +1502,7 @@ int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap,
 
 int FIELD_EVENT_CHECK_CheckSaveFlagMessage(FieldMap *fieldMap, void *gameSystem, void *gameData)
 {
-    if ((u8)func_0200D564(func_0200D418(GAME_DATA_GetSaveControl(gameData))))
+    if ((u8)MOVE_POKEMON_SAVE_TickCooldown(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData))))
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)gameSystem, 0x2792, 0, FIELDMAP_GetHeapId(fieldMap));
     return 0;
 }

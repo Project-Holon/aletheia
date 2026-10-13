@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020733DC
+ * function: NNSi_SndPlayerFreeSeqPlayer
  * address:  0x020733DC
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -9,8 +9,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNSi_SndSeqPlayerRelease  0x0207368C  arm
  */
 
 struct Voice;
-extern void func_0207368C(struct Voice *v);
-void func_020733DC(void *h){ func_0207368C(h); }
+extern void NNSi_SndSeqPlayerRelease(struct Voice *v);
+void NNSi_SndPlayerFreeSeqPlayer(void *h){ NNSi_SndSeqPlayerRelease(h); }

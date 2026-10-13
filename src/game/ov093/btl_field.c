@@ -44,7 +44,7 @@
  *   func_02030734  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   func_020307B0   0x020307B0  arm arm9
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4

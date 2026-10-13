@@ -1,5 +1,5 @@
 /*
- * function: func_021C2270
+ * function: ghttpThink
  * address:  0x021C2270
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0DF8  0x021C0DF8  arm  ov114
+ *   ghiEnumConnections  0x021C0DF8  arm  ov114
  *
  *
- * Tail call of func_021C0DF8 on the 0x021C1DEC record.
+ * Tail call of ghiEnumConnections on the 0x021C1DEC record.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C0DF8(void *);
+extern void ghiEnumConnections(void *);
 
-void func_021C2270(void)
+void ghttpThink(void)
 {
-    func_021C0DF8((void *)0x021C1DEC);
+    ghiEnumConnections((void *)0x021C1DEC);
 }

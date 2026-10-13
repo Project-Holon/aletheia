@@ -1,5 +1,5 @@
 /*
- * function: func_021BE79C
+ * function: NHTTP_AddPostDataRaw
  * address:  0x021BE79C
  * packet:   pkt_ov114_021BE79C
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      NHTTP_AddPostDataRaw (libnhttp.TWL.HYB.a(d_nhttp.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF58 0x021BEF58 arm ov114
- *   func_021BEC10 0x021BEC10 arm ov114
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetMutexInfoP 0x021BEF58 arm ov114
+ *   NHTTPi_GetRequest 0x021BEC10 arm ov114
  */
 
 typedef struct {
@@ -30,18 +30,18 @@ typedef struct {
 } Req;
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(void);
-extern int func_021BEC10(int a, int d);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(void);
+extern int NHTTPi_GetRequest(int a, int d);
 
-int func_021BE79C(void *handle, void *value_p, unsigned long length)
+int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length)
 {
     Req *req_p;
     void *mutexInfo_p;
 
-    func_021BEF08();
-    mutexInfo_p = func_021BEF58();
-    req_p = (Req *)func_021BEC10((int)mutexInfo_p, (int)handle);
+    NHTTPi_GetSystemInfoP();
+    mutexInfo_p = NHTTPi_GetMutexInfoP();
+    req_p = (Req *)NHTTPi_GetRequest((int)mutexInfo_p, (int)handle);
     if (req_p == 0) {
         return -1;
     }

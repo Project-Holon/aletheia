@@ -1,5 +1,5 @@
 /*
- * function: func_021C08B0
+ * function: ghiFindFreeSlot
  * address:  0x021C08B0
  * packet:   pkt_ov114_021C08B0
  * region:   ov114
@@ -35,7 +35,7 @@ extern void *gsirealloc(void *ptr, unsigned long size);
 extern void *gsimalloc(unsigned long size);
 extern void gsifree(void *ptr);
 
-int func_021C08B0(void)
+int ghiFindFreeSlot(void)
 {
     int newLen;
     GHIConnection **tempPtr;

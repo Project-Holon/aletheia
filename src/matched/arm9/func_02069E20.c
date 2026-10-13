@@ -1,5 +1,5 @@
 /*
- * function: func_02069E20
+ * function: NNSi_G3dAnmObjCollectMapDataMask
  * address:  0x02069E20
  * packet:   pkt_02069D68
  * region:   arm9
@@ -17,7 +17,7 @@
  * orrne/strne for 100 bytes against the original's 104. No C spelling under
  * the pinned front end can restore the branch; ../2.0/sp2 keeps it, giving
  * 104 bytes and 0 mismatches. Evidence and the ruled-out spellings are in
- * docs/notes/func_02069E20.c.txt.
+ * docs/notes/NNSi_G3dAnmObjCollectMapDataMask.c.txt.
  *
  * Walk the linked list from `n`, and for each entry set bit i of `mask`
  * for every tab1A[i] (i < cnt19) whose 0x100 flag is set.
@@ -36,7 +36,7 @@ typedef struct Node {
     u16 tab1A[1];
 } Node;
 
-void func_02069E20(u32 *mask, Node *n)
+void NNSi_G3dAnmObjCollectMapDataMask(u32 *mask, Node *n)
 {
     s32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02066B84
+ * function: NNSi_G2dCalcSpriteParams
  * address:  0x02066B84
  * packet:   pkt_02066740
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   tbl_020A17F0    0x020A17F0  data
- *   tbl_020A17D8    0x020A17D8  data
- *   tbl_020A1824    0x020A1824  data
- *   tbl_020A1844    0x020A1844  data
- *   tbl_020A1874    0x020A1874  data
- *   tbl_020A181C    0x020A181C  data
- *   g_02148B2C      0x02148B2C  data
+ *   NNSi_objSizeWTbl    0x020A17F0  data
+ *   NNSi_objSizeHTbl    0x020A17D8  data
+ *   sTexCharCountTbl    0x020A1824  data
+ *   sGxTexSizeSTbl    0x020A1844  data
+ *   sGxTexSizeTTbl    0x020A1874  data
+ *   sPltFmtTbl    0x020A181C  data
+ *   sUVFlipState      0x02148B2C  data
  *
  * NitroSystem g2d CalcSpriteParams_ (g2d_OamSoftwareSpriteDraw.c): the
  * software-sprite texture setup for one OAM.  Writes TEXIMAGE_PARAM for the
@@ -92,13 +92,13 @@ typedef struct SpriteParams {
 
 typedef void (*UVFlipCorrectFunc)(fx32 *pU0, fx32 *pV0, fx32 *pU1, fx32 *pV1, BOOL bFlipH, BOOL bFlipV);
 
-extern struct G_02148B2C g_02148B2C;           /* s_pUVFlipCorrectFunc */
-extern const u16 tbl_020A17F0[3][4];           /* NNSi_objSizeWTbl */
-extern const u16 tbl_020A17D8[3][4];           /* NNSi_objSizeHTbl */
-extern const u32 tbl_020A1824[8];              /* GetNumTexChar_::texSize_ */
-extern const GXTexSizeS tbl_020A1844[3][4];    /* gxTexSizeSTbl */
-extern const GXTexSizeT tbl_020A1874[3][4];    /* gxTexSizeTTbl */
-extern const GXTexFmt tbl_020A181C[2];         /* pltFmtTbl */
+extern struct G_02148B2C sUVFlipState;           /* s_pUVFlipCorrectFunc */
+extern const u16 NNSi_objSizeWTbl[3][4];           /* NNSi_objSizeWTbl */
+extern const u16 NNSi_objSizeHTbl[3][4];           /* NNSi_objSizeHTbl */
+extern const u32 sTexCharCountTbl[8];              /* GetNumTexChar_::texSize_ */
+extern const GXTexSizeS sGxTexSizeSTbl[3][4];    /* gxTexSizeSTbl */
+extern const GXTexSizeT sGxTexSizeTTbl[3][4];    /* gxTexSizeTTbl */
+extern const GXTexFmt sPltFmtTbl[2];         /* pltFmtTbl */
 
 #define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr) \
     ((u32)(((addr) >> 3) | \
@@ -122,11 +122,11 @@ static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *oamAttr)
 }
 static inline int NNS_G2dGetOamSizeX(const GXOamShape *oamShape)
 {
-    return tbl_020A17F0[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
+    return NNSi_objSizeWTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
 static inline int NNS_G2dGetOamSizeY(const GXOamShape *oamShape)
 {
-    return tbl_020A17D8[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
+    return NNSi_objSizeHTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
 static inline BOOL NNSi_G2dGetOamFlipH(const GXOamAttr *oamAttr)
 {
@@ -139,7 +139,7 @@ static inline BOOL NNSi_G2dGetOamFlipV(const GXOamAttr *oamAttr)
 
 static inline u32 GetNumTexChar_(GXTexSizeS texSize)
 {
-    return tbl_020A1824[texSize];
+    return sTexCharCountTbl[texSize];
 }
 
 static inline void DoFlip_(BOOL bFlipH, BOOL bFlipV, fx32 *pRetU0, fx32 *pRetU1, fx32 *pRetV0, fx32 *pRetV1)
@@ -158,8 +158,8 @@ static inline void DoFlip_(BOOL bFlipH, BOOL bFlipV, fx32 *pRetU0, fx32 *pRetU1,
             *pRetV1 = temp;
         }
 
-        if ((*(UVFlipCorrectFunc *)&g_02148B2C)) {
-            (*(*(UVFlipCorrectFunc *)&g_02148B2C))(pRetU0, pRetV0, pRetU1, pRetV1, bFlipH, bFlipV);
+        if ((*(UVFlipCorrectFunc *)&sUVFlipState)) {
+            (*(*(UVFlipCorrectFunc *)&sUVFlipState))(pRetU0, pRetV0, pRetU1, pRetV1, bFlipH, bFlipV);
         }
     }
 }
@@ -216,8 +216,8 @@ static inline void SetTextureParamsFor3DDirect1DMap_(const NNSG2dImageAttr *pTex
         reg_G3_TEXIMAGE_PARAM
             = GX_PACK_TEXIMAGE_PARAM(pTexImageAttr->fmt,
                                      1,
-                                     tbl_020A1844[shapeBit][sizeBit],
-                                     tbl_020A1874[shapeBit][sizeBit],
+                                     sGxTexSizeSTbl[shapeBit][sizeBit],
+                                     sGxTexSizeTTbl[shapeBit][sizeBit],
                                      0,
                                      0,
                                      pTexImageAttr->plttUse,
@@ -243,7 +243,7 @@ static inline void SetTextureParamsFor3DDirect2DMap_(const NNSG2dImageAttr *pTex
 static inline void SetPaletteParamsFor3DDirect_(const NNSG2dImageAttr *pTexImageAttr, u32 pltBaseAddr, const GXOamAttr *pOam)
 {
     {
-        const GXTexFmt pltFmt = tbl_020A181C[pOam->colorMode];
+        const GXTexFmt pltFmt = sPltFmtTbl[pOam->colorMode];
 
         const u32 pltOffs
             = GetOffsetByteSizeOfPlt_(pltFmt,
@@ -254,7 +254,7 @@ static inline void SetPaletteParamsFor3DDirect_(const NNSG2dImageAttr *pTexImage
     }
 }
 
-void func_02066B84(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult)
+void NNSi_G2dCalcSpriteParams(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult)
 {
     const GXOamShape shapeOam = NNS_G2dGetOAMSize(pOam);
     const u16 charName = (u16)pOam->charNo;

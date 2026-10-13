@@ -1,7 +1,7 @@
 /*
  * file:     irc_appbar.c
  * unit:     yes
- * function: func_021B70DC, func_021B71C0, func_021B71E4, func_021B7250, func_021B7254, func_021B7264, func_021B727C, func_021B728C, func_021B72A0, func_021B72A8, func_021B732C, func_021B7384, func_021B739C
+ * function: IRC_APPBAR_Create, IRC_APPBAR_Delete, IRC_APPBAR_Update, IRC_APPBAR_GetResult, IRC_APPBAR_IsPressed, IRC_APPBAR_Reset, IRC_APPBAR_IsBusy, IRC_APPBAR_SetEnabled, IRC_APPBAR_SetActive, IRC_APPBAR_SetLabel, IRC_APPBAR_LoadResources, IRC_APPBAR_ReleaseResources, IRC_APPBAR_CreateActor, IRC_APPBAR_DeleteActors
  * address:  0x021B70DC
  * region:   ov101
  * compiler: dsi/1.1p1
@@ -13,10 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021B73E8 0x021B73E8 thumb ov101
+ *   IRC_APPBAR_DeleteActors 0x021B73E8 thumb ov101
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
@@ -27,7 +28,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   d_021B7550 0x021B7550 data a1
+ *   gIrcAppBarFileName 0x021B7550 data a1
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
@@ -39,17 +40,7 @@
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  */
-#include "../../matched/include/Obj03227.h"
-#include "../../matched/include/Obj06364.h"
-#include "../../matched/include/Obj02158.h"
-#include "../../matched/include/Obj10232.h"
-#include "../../matched/include/Obj13722.h"
-#include "../../matched/include/Obj13723.h"
-#include "../../matched/include/Obj22132.h"
-#include "../../matched/include/Obj03228.h"
-
 struct MsgBank;
-struct R;
 struct Rec;
 struct U16Vec;
 struct TaskMenuState;
@@ -62,17 +53,38 @@ typedef unsigned int u32;
 
 typedef enum { SIDE_ZERO, SIDE_ONE } Side;
 
-typedef struct { void *str; u16 color,pad; u32 flag; } Desc_021B70DC;
+typedef struct { void *str; u16 color,pad; u32 flag; } MsgDesc;
 
 typedef short s16;
 
-typedef struct { unsigned data; u16 tag,pad; unsigned flag; } Desc_021B72A8;
+typedef struct { unsigned data; u16 tag,pad; unsigned flag; } LabelDesc;
 
-typedef struct { u16 x,y,z; u8 pad,n; } Desc_021B739C;
+typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
+
+/* Single-button bar of the infrared screens (96 bytes, heap allocated). */
+typedef struct IrcAppBar {
+    u8 *taskMenuWin;                   /* 0x00 button window */
+    struct TaskMenuState *taskMenuRes; /* 0x04 button resources */
+    struct Obj *actors[7];             /* 0x08 cell actors; slot 0 is the bar icon */
+    u8 reserved[12];                   /* 0x24 */
+    int paletteId;                     /* 0x30 */
+    int charId;                        /* 0x34 */
+    int cellAnimId;                    /* 0x38 */
+    u32 layer;                         /* 0x3C screen layer */
+    u8 unused40[4];                    /* 0x40 */
+    int result;                        /* 0x44 -1 none, 1 button pressed */
+    int prevResult;                    /* 0x48 */
+    u8 unused4C[4];                    /* 0x4C */
+    int state;                         /* 0x50 0 idle, 1 pressed, 2 done */
+    u32 labelIndex;                    /* 0x54 */
+    u16 heapId;                        /* 0x58 */
+    u8 pad5A[2];                       /* 0x5A */
+    int enabled;                       /* 0x5C */
+} IrcAppBar;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
-extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern u8 func_020416D4(u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -82,7 +94,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void APP_TASKMENU_WIN_Delete(unsigned char *);
 extern void APP_TASKMENU_RES_Delete(struct TaskMenuState *);
 extern void func_020307B0(void *);
-extern void func_021B73E8(void *);
+extern void IRC_APPBAR_DeleteActors(void *);
 extern unsigned int APP_TASKMENU_WIN_IsTouch(void **p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
@@ -100,128 +112,129 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 heap);
-void func_021B71C0(void *p);
-void func_021B71E4(int a);
-int func_021B7250(int *p);
-int func_021B7254(int *p);
-void func_021B7264(int p);
-int func_021B727C(int p);
-void func_021B728C(int p,int b);
-void func_021B72A0(int p,int b);
-void func_021B72A8(unsigned *p,unsigned b);
-void func_021B732C(int *p,unsigned b,int c,int unused,int unused2,u8 d,unsigned e);
-void func_021B7384(unsigned p);
-void func_021B739C(unsigned *p,unsigned b,int c,unsigned d,u8 e,u16 f);
-extern char d_021B7550[];
+extern void CLACT_DeleteActor(struct Obj *);
+void *IRC_APPBAR_Create(u32 unusedArg,u32 clactUnit,u16 layer,u16 x,u8 paletteSlot,u32 unusedExtra,u32 resArg0,u32 resArg1,u16 heapId);
+void IRC_APPBAR_Delete(IrcAppBar *bar);
+void IRC_APPBAR_Update(IrcAppBar *bar);
+int IRC_APPBAR_GetResult(IrcAppBar *bar);
+int IRC_APPBAR_IsPressed(IrcAppBar *bar);
+void IRC_APPBAR_Reset(IrcAppBar *bar);
+int IRC_APPBAR_IsBusy(IrcAppBar *bar);
+void IRC_APPBAR_SetEnabled(IrcAppBar *bar,int enable);
+void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable);
+void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex);
+void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoice,int unusedExtra,int unusedX,u8 paletteSlot,unsigned heapId);
+void IRC_APPBAR_ReleaseResources(IrcAppBar *bar);
+void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId);
+extern char gIrcAppBarFileName[];
 
 /*
  * lever: distinct enum first/choice values preserve branch-local setup and saved-register allocation.
  * prototype: own 27F60 fixes layer/x/heap as u16; stack x/heap forward unchanged without truncation.
  * func_02030734 0x02030734 arm
  * MI_CpuFill8 0x02082BCC arm
- * func_021B732C 0x021B732C thumb ov101
+ * IRC_APPBAR_LoadResources 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
  * func_020416D4 0x020416D4 arm
- * func_021B739C 0x021B739C thumb ov101
+ * IRC_APPBAR_CreateActor 0x021B739C thumb ov101
  * func_02045B38 0x02045B38 arm
  * func_02045EC0 0x02045EC0 arm
  * APP_TASKMENU_WIN_Create 0x02027FEC thumb
  * STRBUF_Delete 0x02045808 arm
  * MSGDATA_Delete 0x02045C04 arm
- * d_021B7550 0x021B7550 data a1
+ * gIrcAppBarFileName 0x021B7550 data a1
  */
-void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 heap)
+void *IRC_APPBAR_Create(u32 unusedArg,u32 clactUnit,u16 layer,u16 x,u8 paletteSlot,u32 unusedExtra,u32 resArg0,u32 resArg1,u16 heapId)
 {
     Side side=SIDE_ZERO;
-    Desc_021B70DC desc;
-    char *p;
+    MsgDesc desc;
+    IrcAppBar *bar;
     void *bank;
     Side choice,first;
-    p=func_02030734(heap,96,0,d_021B7550,125);
-    MI_CpuFill8(p,0,96);
-    ((struct Obj03227 *)p)->f3C=layer;
-    ((struct Obj03227 *)p)->f44=side-1;
-    ((struct Obj03227 *)p)->f48=side-1;
-    ((struct Obj03227 *)p)->f54=side;
-    ((struct Obj03227 *)p)->f58=heap;
-    ((struct Obj03227 *)p)->f5C=1;
+    bar=func_02030734(heapId,96,0,gIrcAppBarFileName,125);
+    MI_CpuFill8(bar,0,96);
+    bar->layer=layer;
+    bar->result=side-1;
+    bar->prevResult=side-1;
+    bar->labelIndex=side;
+    bar->heapId=heapId;
+    bar->enabled=1;
     if(layer>=4) { side=1; first=1; choice=4; }
     else { first=0; choice=0; }
-    func_021B732C((int *)p,first,choice,extra,x,y,heap);
-    ((struct Obj03227 *)p)->f4=APP_TASKMENU_RES_Create(layer,x,c,d,heap);
-    func_021B739C((unsigned int *)p,b,a,side,func_020416D4(layer),heap);
-    bank=func_02045B38(0,2,49,heap);
+    IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
+    bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,resArg0,resArg1,heapId);
+    IRC_APPBAR_CreateActor(bar,clactUnit,unusedArg,side,func_020416D4(layer),heapId);
+    bank=func_02045B38(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
-    ((struct Obj03227 *)p)->f0=APP_TASKMENU_WIN_Create((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
+    bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((u32)bar->taskMenuRes,(u32)(&desc),19,21,13,heapId);
     STRBUF_Delete(desc.str);
     MSGDATA_Delete(bank);
-    return p;
+    return bar;
 }
 
-void func_021B71C0(void *p) { APP_TASKMENU_WIN_Delete(*(unsigned char * *)&((struct Obj06364 *)p)->f0); func_021B73E8(p); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj06364 *)p)->f4); func_021B7384((unsigned)p); func_020307B0(p); }
+void IRC_APPBAR_Delete(IrcAppBar *bar) { APP_TASKMENU_WIN_Delete(bar->taskMenuWin); IRC_APPBAR_DeleteActors(bar); APP_TASKMENU_RES_Delete(bar->taskMenuRes); IRC_APPBAR_ReleaseResources(bar); func_020307B0(bar); }
 
 
-void func_021B71E4(int a)
+void IRC_APPBAR_Update(IrcAppBar *bar)
 {
-    if (((struct Obj02158 *)a)->f5C != 0) {
-        switch (((struct Obj02158 *)a)->f50) {
+    if (bar->enabled != 0) {
+        switch (bar->state) {
         case 0:
-            ((struct Obj02158 *)a)->f44 = -1;
-            if (APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj02158 *)a)->f0))) {
+            bar->result = -1;
+            if (APP_TASKMENU_WIN_IsTouch((void **)bar->taskMenuWin)) {
                 GFL_USE_PlaySeDefaultVolume(0x551);
-                APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj02158 *)a)->f0), 1);
-                ((struct Obj02158 *)a)->f50 = 1;
+                APP_TASKMENU_WIN_SetDecide((char *)bar->taskMenuWin, 1);
+                bar->state = 1;
             }
             break;
         case 1:
-            if (APP_TASKMENU_WIN_IsFinish((u8 *)(((struct Obj02158 *)a)->f0))) {
-                APP_TASKMENU_WIN_ResetDecide((struct Obj *)(((struct Obj02158 *)a)->f0));
-                APP_TASKMENU_WIN_SetActive((struct Obj *)(((struct Obj02158 *)a)->f0), 0);
-                ((struct Obj02158 *)a)->f50 = 2;
+            if (APP_TASKMENU_WIN_IsFinish(bar->taskMenuWin)) {
+                APP_TASKMENU_WIN_ResetDecide((struct Obj *)bar->taskMenuWin);
+                APP_TASKMENU_WIN_SetActive((struct Obj *)bar->taskMenuWin, 0);
+                bar->state = 2;
             }
             break;
         case 2:
-            ((struct Obj02158 *)a)->f44 = 1;
+            bar->result = 1;
             break;
         }
-        APP_TASKMENU_WIN_Update((u8 *)(((struct Obj02158 *)a)->f0));
+        APP_TASKMENU_WIN_Update(bar->taskMenuWin);
     }
 }
 
-int func_021B7250(int *p) { return p[17]; }
+int IRC_APPBAR_GetResult(IrcAppBar *bar) { return bar->result; }
 
 /*
  * note: Parent-cleared leaf for ov102 021B81B0. Getter starts immediately after separately filed 4-byte 021B7250; 14 bytes of code followed by two zero alignment bytes before 021B7264.
  */
-int func_021B7254(int *p) { if(p[20]>0) return 1; return 0; }
+int IRC_APPBAR_IsPressed(IrcAppBar *bar) { if(bar->state>0) return 1; return 0; }
 
 /*
  * APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
  * APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  */
-void func_021B7264(int p) {
- APP_TASKMENU_WIN_ResetDecide((struct Obj *)(((struct Obj10232 *)p)->f0));
- APP_TASKMENU_WIN_SetActive((struct Obj *)(((struct Obj10232 *)p)->f0),0);
- ((struct Obj10232 *)p)->f50=0;
+void IRC_APPBAR_Reset(IrcAppBar *bar) {
+ APP_TASKMENU_WIN_ResetDecide((struct Obj *)bar->taskMenuWin);
+ APP_TASKMENU_WIN_SetActive((struct Obj *)bar->taskMenuWin,0);
+ bar->state=0;
 }
 
-int func_021B727C(int p) { if(((struct Obj22132 *)p)->f50) return 1; return 0; }
+int IRC_APPBAR_IsBusy(IrcAppBar *bar) { if(bar->state) return 1; return 0; }
 
 /*
  * func_02040588 0x02040588 arm
  */
-void func_021B728C(int p,int b) {
- ((struct Obj13722 *)p)->f5C=b;
- func_02040588((u8)(((struct Obj13722 *)p)->f3C),(u8)b);
+void IRC_APPBAR_SetEnabled(IrcAppBar *bar,int enable) {
+ bar->enabled=enable;
+ func_02040588((u8)bar->layer,(u8)enable);
 }
 
-void func_021B72A0(int p,int b) {
- ((struct Obj13723 *)p)->f5C=b;
- ((struct Obj13723 *)p)->f50=0;
+void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable) {
+ bar->enabled=enable;
+ bar->state=0;
 }
 
 /*
@@ -233,20 +246,20 @@ void func_021B72A0(int p,int b) {
  * STRBUF_Delete 0x02045808 arm
  * MSGDATA_Delete 0x02045C04 arm
  */
-void func_021B72A8(unsigned *p,unsigned b) {
- unsigned q;
- Desc_021B72A8 t;
- if(b==p[21]) return;
- APP_TASKMENU_WIN_Delete((u8 *)p[0]);
- q=(unsigned int)func_02045B38(0,2,0x31,((struct Obj03228 *)p)->f58);
- MI_CpuFill8(&t,0,12);
- t.tag=0x39e3;
- t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
- t.flag=1;
- p[0]=APP_TASKMENU_WIN_Create(p[1],(u32)(&t),0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
- STRBUF_Delete((struct U16Vec *)t.data);
- MSGDATA_Delete((struct Rec *)q);
- p[21]=b; p[20]=0; p[17]=-1;
+void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
+ unsigned bank;
+ LabelDesc desc;
+ if(labelIndex==bar->labelIndex) return;
+ APP_TASKMENU_WIN_Delete(bar->taskMenuWin);
+ bank=(unsigned int)func_02045B38(0,2,0x31,bar->heapId);
+ MI_CpuFill8(&desc,0,12);
+ desc.tag=0x39e3;
+ desc.data=(unsigned int)func_02045EC0((struct MsgBank *)bank,labelIndex+8);
+ desc.flag=1;
+ bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((u32)bar->taskMenuRes,(u32)(&desc),0x13,0x15,0xd,bar->heapId);
+ STRBUF_Delete((struct U16Vec *)desc.data);
+ MSGDATA_Delete((struct Rec *)bank);
+ bar->labelIndex=labelIndex; bar->state=0; bar->result=-1;
 }
 
 /*
@@ -256,20 +269,34 @@ void func_021B72A8(unsigned *p,unsigned b) {
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  */
-void func_021B732C(int *p,unsigned b,int c,int unused,int unused2,u8 d,unsigned e) {
- void *q;
- q=func_020490F4(0x5e,e);
- p[12]=CLACT_RegisterPaletteEx(q,0x29,b,d<<5,0,1,e);
- p[13]=CLACT_RegisterCharacter(q,0x28,0,b,e);
- p[14]=CLACT_RegisterCellAnim(q,0x27,0x26,e);
- ARC_TOOL_DeleteHandle(q);
+void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoice,int unusedExtra,int unusedX,u8 paletteSlot,unsigned heapId) {
+ void *arc;
+ arc=func_020490F4(0x5e,heapId);
+ bar->paletteId=CLACT_RegisterPaletteEx(arc,0x29,charOffset,paletteSlot<<5,0,1,heapId);
+ bar->charId=CLACT_RegisterCharacter(arc,0x28,0,charOffset,heapId);
+ bar->cellAnimId=CLACT_RegisterCellAnim(arc,0x27,0x26,heapId);
+ ARC_TOOL_DeleteHandle(arc);
 }
 
-void func_021B7384(unsigned p) { CLACT_ReleaseCellAnim(((struct Obj06364 *)p)->f38); CLACT_ReleaseCharacter(((struct Obj06364 *)p)->f34); CLACT_ReleasePalette(((struct Obj06364 *)p)->f30); }
+void IRC_APPBAR_ReleaseResources(IrcAppBar *bar) { CLACT_ReleaseCellAnim(bar->cellAnimId); CLACT_ReleaseCharacter(bar->charId); CLACT_ReleasePalette(bar->paletteId); }
 
-void func_021B739C(unsigned *p,unsigned b,int c,unsigned d,u8 e,u16 f) {
- Desc_021B739C t;
- MI_CpuFill8(&t,0,8);
- t.x=128; t.y=96; t.z=0; t.n=e+1;
- p[2]=(unsigned)CLACT_CreateActor((void *)b,p[13],p[12],p[14],&t,d,f);
+void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId) {
+ ActorTemplate tmpl;
+ MI_CpuFill8(&tmpl,0,8);
+ tmpl.x=128; tmpl.y=96; tmpl.z=0; tmpl.n=priority+1;
+ bar->actors[0]=CLACT_CreateActor((void *)clactUnit,bar->charId,bar->paletteId,bar->cellAnimId,&tmpl,anim,heapId);
+}
+
+/*
+ * Deletes every actor of the bar's actor array.
+ * CLACT_DeleteActor 0x0204B3B4 arm
+ */
+void IRC_APPBAR_DeleteActors(void *bar)
+{
+    int i;
+
+    for (i = 0; i < 7; i++) {
+        if (*(void **)((char *)bar + i * 4 + 8))
+            CLACT_DeleteActor(*(void **)((char *)bar + i * 4 + 8));
+    }
 }

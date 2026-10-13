@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC0C
+ * function: WIFICLUB_DeletePartyListWindow
  * address:  0x021BBC0C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -36,7 +36,7 @@ typedef struct {
     void *f1A0;
 } S;
 
-void func_021BBC0C(S *s)
+void WIFICLUB_DeletePartyListWindow(S *s)
 {
     if (s->f1A0 != 0) {
         BMP_WIN_ClearScreen(s->f1A0);

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207DEA4  0x0207DEA4  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeFlushBuffer(void);
 typedef signed int     s32;
 extern int func_0207DEA4(s32 *in);
 
@@ -30,12 +30,12 @@ u32 FIELD_G3D_MAP_RunBoxTest(u32 a)
 
     x = 1;
     y = 0x30C1;
-    func_0206DDA4(0x29, &y, 1);
+    NNS_G3dGeBufferOP_N(0x29, &y, 1);
     z = 0;
-    func_0206DDA4(0x40, &z, 1);
-    func_0206DDA4(0x41, 0, 0);
-    func_0206DDA4(0x70, (void *)a, 3);
-    func_0206DB80();
+    NNS_G3dGeBufferOP_N(0x40, &z, 1);
+    NNS_G3dGeBufferOP_N(0x41, 0, 0);
+    NNS_G3dGeBufferOP_N(0x70, (void *)a, 3);
+    NNS_G3dGeFlushBuffer();
     while (func_0207DEA4((s32 *)(&x)) != 0)
         ;
     return x;

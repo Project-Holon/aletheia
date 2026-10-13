@@ -1,5 +1,5 @@
 /*
- * function: func_0205BE6C
+ * function: DWC_AC_Destroy
  * address:  0x0205BE6C
  * packet:   pkt_0205BE6C
  * region:   arm9
@@ -24,7 +24,7 @@ extern void DWCi_AC_FreeAll(void);
 extern int DWCi_AC_CloseNetwork(u8 *phase);
 extern void DWCi_AC_SetPhase(u8 phase);
 
-BOOL func_0205BE6C(void)
+BOOL DWC_AC_Destroy(void)
 {
     u8 phase = DWCi_AC_GetPhase();
 

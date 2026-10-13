@@ -1,5 +1,5 @@
 /*
- * function: func_021BD864
+ * function: WIFICLUB_StateOpenRuleChoicePrompt
  * address:  0x021BD864
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
- *   func_021BA828  0x021BA828  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
+ *   WIFICLUB_OpenYesNoMenu  0x021BA828  thumb  ov099
  *
  * Early-returns the selector when the guard is false, else runs the setup and stamps 0x7F.
  */
@@ -25,16 +25,16 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA928(void *p);
-extern void func_021BA828(char *p);
+extern int WIFICLUB_UpdateTalkStream(void *p);
+extern void WIFICLUB_OpenYesNoMenu(char *p);
 
-int func_021BD864(char *p, int v)
+int WIFICLUB_StateOpenRuleChoicePrompt(char *p, int v)
 {
-    if (func_021BA928(p) == 0) {
+    if (WIFICLUB_UpdateTalkStream(p) == 0) {
         return v;
     }
 
-    func_021BA828(p);
+    WIFICLUB_OpenYesNoMenu(p);
     *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x7F;
     return v;
 }

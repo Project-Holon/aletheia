@@ -1,5 +1,5 @@
 /*
- * function: func_021B8624
+ * function: IRC_COMPATIBLE_MENU_UpdateButtons
  * address: 0x021B8624
  * packet: pkt_ov102_021B8624
  * region: ov102
@@ -40,7 +40,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 #pragma opt_propagation off
-void func_021B8624(State *p)
+void IRC_COMPATIBLE_MENU_UpdateButtons(State *p)
 {
     switch(p->phase) {
     case 0:

@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087C88  0x02087C88  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *
  * Fills an 0x54-byte structure on the stack from an ARM SDK getter and
  * copies two of its bytes out through the two pointer parameters. The
@@ -37,13 +37,13 @@ struct Info0202EB60 {
 };
 
 struct OSOwnerInfo;
-extern void func_02087C88(struct OSOwnerInfo *info);
+extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 
 void sub_0202EB60(u8 *a, u8 *b)
 {
     struct Info0202EB60 info;
 
-    func_02087C88((struct OSOwnerInfo *)(&info));
+    OS_GetOwnerInfo((struct OSOwnerInfo *)(&info));
     *a = info.unk02;
     *b = info.unk03;
 }

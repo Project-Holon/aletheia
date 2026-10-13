@@ -45,10 +45,10 @@
  *   d_02148B54  0x02148B54  data  a4
  *   func_0207D7C4  0x0207D7C4  arm
  *   func_0207D760  0x0207D760  arm
- *   func_0206A700  0x0206A700  arm
+ *   NNS_G3dGlbInit  0x0206A700  arm
  *   func_0207BCA0  0x0207BCA0  arm
  *   func_0207C554  0x0207C554  arm
- *   func_0206A854  0x0206A854  arm
+ *   NNS_G3dGlbFlush  0x0206A854  arm
  *   func_021C0E64  0x021C0E64  thumb  ov217
  *   func_021C0E4C  0x021C0E4C  thumb  ov217
  *   func_021C0E54  0x021C0E54  thumb  ov217
@@ -83,7 +83,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   PALANM_BlendColors 0x02021F64 thumb
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   d_021C408C 0x021C408C data ov217 a1
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
@@ -369,10 +369,10 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0207D7C4(V *a, V *b, V *c, int d, int e);
 extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
-extern void func_0206A700(void);
+extern void NNS_G3dGlbInit(void);
 extern void func_0207BCA0(V *a, V *b, V *c, V *d);
 extern void func_0207C554(int a, int b, int c, int d, int e, int f, int g, V *h);
-extern void func_0206A854(void);
+extern void NNS_G3dGlbFlush(void);
 extern u32 func_021C0E64();
 extern void func_021C0E4C(u32, u32);
 extern u32 func_021C0E54(struct Ring *r);
@@ -400,7 +400,7 @@ extern int _s32_div_f(int, int);
 extern void func_021C2E20(char *p);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
 extern u32 func_0209C2B0(u32 a, u32 b);
-extern int func_02082D44(int, int, int);
+extern int MI_CpuCopy8(int, int, int);
 extern void MI_CpuFill8(void *, int, int);
 struct Record *func_021C0EF4(const struct Config *config, u32 a, u32 b, u32 heap);
 void func_021C0F48(u8 *p);
@@ -1468,7 +1468,7 @@ void func_021C14DC(u8 *p)
     c.z = 0;
     func_0207D7C4(&a, &b, &c, 1, 0);
     func_0207D760(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, 1, 0);
-    func_0206A700();
+    NNS_G3dGlbInit();
     d_02148D8C = a;
     d_02148D98 = b;
     d_02148DA4 = c;
@@ -1476,7 +1476,7 @@ void func_021C14DC(u8 *p)
     d_02148BCC.flag &= ~0xE8;
     func_0207C554(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
     d_02148BCC.flag &= ~0x50;
-    func_0206A854();
+    NNS_G3dGlbFlush();
 }
 
 
@@ -3882,7 +3882,7 @@ void func_021C2D68(void *p)
 
 int func_021C2D88(char *p)
 {
-    return func_02082D44(((struct Obj10968 *)p)->fC, ((struct Obj10968 *)p)->f8,
+    return MI_CpuCopy8(((struct Obj10968 *)p)->fC, ((struct Obj10968 *)p)->f8,
                          ((struct Obj10968 *)p)->f10 << 1);
 }
 

@@ -13,7 +13,7 @@
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_02030734 0x02030734 arm
- *   func_0207EB78 0x0207EB78 arm
+ *   GX_LoadBG2Scr 0x0207EB78 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   func_020307B0 0x020307B0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -26,7 +26,7 @@ struct Mtx22;
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,const Mtx *,int,int,int,int);
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,unsigned short);
-extern void func_0207EB78(void *,int,int);
+extern void GX_LoadBG2Scr(void *,int,int);
 extern void func_0207ECF0(void *,int,int);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
@@ -43,6 +43,6 @@ void func_021B616C(char *unused)
  func_0207D59C((void *)0x04000020,&m,0,0,0,0);
  func_0207D59C((void *)0x04000030,&m,0,0,0,0);
  p=func_02030734(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);
- func_0207EB78(p,0,0x18000);func_0207ECF0(p,0,0x18000);func_020307B0(p);
+ GX_LoadBG2Scr(p,0,0x18000);func_0207ECF0(p,0,0x18000);func_020307B0(p);
  BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);
 }

@@ -9,14 +9,14 @@
  * status: EXACT*
  * Padding: two zero bytes at 0x021F51E2, then a function prologue.
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 void func_021F51A4(const char *src, char *dst, unsigned *a, unsigned *b, unsigned n, unsigned step)
 {
     int i;
     for (i = 0; i < 8; i++) {
-        func_02082D44(src + *a, dst + *b, n);
+        MI_CpuCopy8(src + *a, dst + *b, n);
         *a += step;
         *b += n;
     }

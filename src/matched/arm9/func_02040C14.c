@@ -16,7 +16,7 @@
  *   sub_02030734   0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020341F0  0x020341F0  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_020425B4  0x020425B4  arm
  *
  * TU: bg_sys.c.
@@ -72,7 +72,7 @@ extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 struct AreaMan;
 extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
-extern void  func_02082AC0(u32 value, void *dst, u32 size);
+extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 
 void func_02040C14(u32 layer, u32 value, u32 count, u32 index)
@@ -131,7 +131,7 @@ void func_02040C14(u32 layer, u32 value, u32 count, u32 index)
         value = value | (value << 8 | (value << 24 | value << 16));
     }
 
-    func_02082AC0(value, buf, size);
+    MIi_CpuClearFast(value, buf, size);
     func_020425B4((u8)layer, buf, index * g_02146A44->slots[layer].depth,
                   size);
     func_020307B0(buf);

@@ -11,12 +11,12 @@
  * symbols:
  *   GFL_NET_GetInitParam 0x0203D798 arm
  *   GFL_NET_GetScanResultMac 0x0203CF3C arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj13965.h"
 #include "../include/Obj22932.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *GFL_NET_GetInitParam(void);extern void *GFL_NET_GetScanResultMac(u32);extern void func_02082D44(const void *,void *,u32);
-void func_021D50B4(char *p,u32 n) {void *q;GFL_NET_GetInitParam();q=GFL_NET_GetScanResultMac(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;func_02082D44(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}
+extern void *GFL_NET_GetInitParam(void);extern void *GFL_NET_GetScanResultMac(u32);extern void MI_CpuCopy8(const void *,void *,u32);
+void func_021D50B4(char *p,u32 n) {void *q;GFL_NET_GetInitParam();q=GFL_NET_GetScanResultMac(n);((struct Obj22932 *)(*(char * *)&((struct Obj13965 *)p)->f344))->f10=2;MI_CpuCopy8(q,*(char * *)&((struct Obj13965 *)p)->f344+20,6);}

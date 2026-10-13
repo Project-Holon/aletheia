@@ -1,5 +1,5 @@
 /*
- * function: func_021C1488
+ * function: DWCi_RAKUlInit
  * address:  0x021C1488
  * packet:   pkt_ov016_021C1488
  * region:   ov016
@@ -12,29 +12,29 @@
  * sdk:      DWCi_RAKUlInit (libdwcutil.TWL.HYB.a(rakuraku.o))
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  *   func_021BC63C  0x021BC63C  thumb  ov016
  *   OS_Terminate  0x02088234  arm
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  *   gRakuStatus  0x021DE594  data
  *   DWCi_RAKUl_memFree  0x021C1624  arm  ov016
- *   func_021C15FC  0x021C15FC  arm  ov016
- *   func_021C1614  0x021C1614  arm  ov016
+ *   DWCi_RakurakuCbConfig  0x021C15FC  arm  ov016
+ *   DWCi_RakurakuMemAlloc  0x021C1614  arm  ov016
  */
 
-extern void *func_021D6414(unsigned long size, int align);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern int func_021BC63C(int prio, int maxap, void (*notify)(void *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stack);
 extern void OS_Terminate(void);
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 extern void DWCi_RAKUl_memFree(void *ptr);
-extern void func_021C15FC(void *arg);
-extern void *func_021C1614(unsigned long size);
+extern void DWCi_RakurakuCbConfig(void *arg);
+extern void *DWCi_RakurakuMemAlloc(unsigned long size);
 extern void *gRakuStatus;
 
-void func_021C1488(void)
+void DWCi_RAKUlInit(void)
 {
-	gRakuStatus = func_021D6414(0xc, -4);
-	if (func_021BC63C(0xf, 0x40, func_021C15FC, func_021C1614, DWCi_RAKUl_memFree, 0x800) != 1)
+	gRakuStatus = DWCi_HEAPlAllocEx(0xc, -4);
+	if (func_021BC63C(0xf, 0x40, DWCi_RakurakuCbConfig, DWCi_RakurakuMemAlloc, DWCi_RAKUl_memFree, 0x800) != 1)
 		OS_Terminate();
-	func_02085A38(10);
+	OS_Sleep(10);
 }

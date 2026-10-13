@@ -15,7 +15,7 @@
  *   DWCi_MOV_WH_EndScan  0x021788FC  thumb  ov014
  *   NET_WHPIPE_SetTask  0x0217727C  thumb
  *   NET_WHPIPE_TaskConnectChild  0x02177DB0  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ int WIH_GetSysState(void);
 int DWCi_MOV_WH_EndScan(void);
 void NET_WHPIPE_SetTask(u32 *p, u32 v);
 void NET_WHPIPE_TaskConnectChild(void);
-void func_02082D44(void *d, void *s, u32 n);
+void MI_CpuCopy8(void *d, void *s, u32 n);
 
 int NET_WHPIPE_StartChild(u32 a, u8 *b, u32 c, u32 d)
 {
@@ -41,9 +41,9 @@ int NET_WHPIPE_StartChild(u32 a, u8 *b, u32 c, u32 d)
     }
     NET_WHPIPE_SetTask((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskConnectChild);
     if (b != 0)
-        func_02082D44(b, g_pWhPipeWork + 0xCDE, 6);
+        MI_CpuCopy8(b, g_pWhPipeWork + 0xCDE, 6);
     else
-        func_02082D44(g_pWhPipeWork + 0xC + c * 0xC0, g_pWhPipeWork + 0xCDE, 6);
+        MI_CpuCopy8(g_pWhPipeWork + 0xC + c * 0xC0, g_pWhPipeWork + 0xCDE, 6);
     *(u32 *)(g_pWhPipeWork + 0xC60) = d;
     return 1;
 }

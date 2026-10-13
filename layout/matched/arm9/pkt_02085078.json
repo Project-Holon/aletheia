@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02085078",
+   "name": "OSi_RemoveSpecifiedLinkFromQueue",
    "address": "0x02085078",
    "kind": "sdk",
    "region": "arm9",

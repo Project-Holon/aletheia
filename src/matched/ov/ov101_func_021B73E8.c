@@ -1,5 +1,5 @@
 /*
- * function: func_021B73E8
+ * function: IRC_APPBAR_DeleteActors
  * address:  0x021B73E8
  * packet:   pkt_021B73E8
  * region:   ov101
@@ -21,7 +21,7 @@ typedef unsigned int  u32;
 struct Obj;
 void CLACT_DeleteActor(struct Obj *p);
 
-void func_021B73E8(void *p)
+void IRC_APPBAR_DeleteActors(void *p)
 {
     int i;
 

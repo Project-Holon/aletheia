@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6DC
+ * function: PMSIV_EDIT_GetSlotCount
  * address:  0x021BC6DC
  * packet:   pkt_ov110_021BC6DC
  * region:   ov110
@@ -15,7 +15,7 @@
  */
 #include "../include/Obj22375.h"
 
-unsigned int func_021BC6DC(void *p)
+unsigned int PMSIV_EDIT_GetSlotCount(void *p)
 {
     return ((struct Obj22375 *)p)->f44;
 }

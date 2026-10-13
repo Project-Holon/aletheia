@@ -16,7 +16,7 @@
  *   ZONEDATA_GetAreaId  0x02013B38  thumb
  *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   func_02030734  0x02030734  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   _u32_div_f     0x0209C2B0  arm
@@ -39,7 +39,7 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 ZONEDATA_GetAreaId(u32 id);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
@@ -68,7 +68,7 @@ void FIELD_PALACE_SYS_LoadPalTable(u8 *a, u32 id, int c, int d, u16 heap)
         i = 0;
     }
     ((struct Obj07605 *)a)->f8 = func_02030734(heap, 0x20, 0, (const char *)0x021DE6D4, 0xd4);
-    func_02082D44(p[i].data, ((struct Obj07605 *)a)->f8, 0x20);
+    MI_CpuCopy8(p[i].data, ((struct Obj07605 *)a)->f8, 0x20);
     func_020307B0(p);
     ARC_TOOL_DeleteHandle(h);
 }

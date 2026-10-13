@@ -1,5 +1,5 @@
 /*
- * function: func_02071F20
+ * function: NNSi_G3dSendTexMtx
  * address:  0x02071F20
  * packet:   pkt_02071F20
  * region:   arm9
@@ -15,7 +15,7 @@
  * low three bits of the object's flag word through a pointer table, then
  * applies the object's f30/f34 scales to the two rows -- each through the
  * family's `>> 12` on an s64 product, which folds to `lsr #0xc` +
- * `orr ..., lsl #20` -- and hands the record to func_0206DDA4.
+ * `orr ..., lsl #20` -- and hands the record to NNS_G3dGeBufferOP_N.
  *
  * Each scale is skipped outright when it is already the unit 0x1000, so
  * both are guarded compares against 0x1000 rather than multiplies by one.
@@ -42,8 +42,8 @@
  *     at all are both insensitive.
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
- *   data_020A8458  0x020A8458  data
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
+ *   gNNSiG3dTexMtxFuncTable  0x020A8458  data
  */
 
 typedef unsigned char u8;
@@ -82,10 +82,10 @@ typedef struct Rec {
 
 typedef void (*Fill)(s32 *out, Obj *o);
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern Fill data_020A8458[];
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+extern Fill gNNSiG3dTexMtxFuncTable[];
 
-void func_02071F20(Obj *o)
+void NNSi_G3dSendTexMtx(Obj *o)
 {
     Rec r;
     s32 z;
@@ -112,7 +112,7 @@ void func_02071F20(Obj *o)
     r.f14 = z;
     r.f10 = z;
 
-    data_020A8458[o->f00 & 7](&r.f08, o);
+    gNNSiG3dTexMtxFuncTable[o->f00 & 7](&r.f08, o);
 
     {
         s32 s = o->f30;
@@ -133,6 +133,6 @@ void func_02071F20(Obj *o)
 
     {
         s32 *base = (s32 *)&r;
-        func_0206DDA4(r.hdr, base + 1, 0x12);
+        NNS_G3dGeBufferOP_N(r.hdr, base + 1, 0x12);
     }
 }

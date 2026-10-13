@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1F4
+ * function: PMSI_SEARCH_GetKeyCount
  * address:  0x021BB1F4
  * packet:   pkt_ov110_021BB1F4
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-int func_021BB1F4(void) { return 0x1b; }
+int PMSI_SEARCH_GetKeyCount(void) { return 0x1b; }

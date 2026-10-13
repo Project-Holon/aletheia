@@ -1,5 +1,5 @@
 /*
- * function: func_021B95C0
+ * function: NHTTP_RAP_ConnectionCallback
  * address: 0x021B95C0
  * packet: pkt_ov114_021B95C0
  * region: ov114
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021B95C0(int a, int b, unsigned int *p)
+int NHTTP_RAP_ConnectionCallback(int a, int b, unsigned int *p)
 {
     switch (b) {
     case 1: break;

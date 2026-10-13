@@ -1,5 +1,5 @@
 /*
- * function: func_021BF880
+ * function: DWC_CancelGHTTPRequest
  * address:  0x021BF880
  * packet:   pkt_ov114_021BF880
  * region:   ov114
@@ -12,35 +12,35 @@
  * sdk:      DWC_CancelGHTTPRequest (dwc_ghttp.o)
  *
  * symbols:
- *   func_021C22A4  0x021C22A4  arm  ov114
- *   func_021BFAF0  0x021BFAF0  arm  ov114
+ *   ghttpCancelRequest  0x021C22A4  arm  ov114
+ *   DWCi_FindDWCGHTTPParamEntryByReq  0x021BFAF0  arm  ov114
  *   DWC_Free       0x0205A1B0  arm
- *   func_021BFA70  0x021BFA70  arm  ov114
+ *   DWCi_RemoveDWCGHTTPParamEntry  0x021BFA70  arm  ov114
  */
 
 typedef struct {
     char pad[0x14];
     void *data;
 } Entry;
-extern void func_021C22A4(int request);
+extern void ghttpCancelRequest(int request);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Node;
-extern u8 *func_021BFAF0(u32 key);
+extern u8 *DWCi_FindDWCGHTTPParamEntryByReq(u32 key);
 extern void DWC_Free(int name, void *ptr, int size);
-extern void func_021BFA70(struct Node *x);
+extern void DWCi_RemoveDWCGHTTPParamEntry(struct Node *x);
 
-void func_021BF880(int req)
+void DWC_CancelGHTTPRequest(int req)
 {
     Entry *entry;
 
-    func_021C22A4(req);
-    entry = (Entry *)func_021BFAF0(req);
+    ghttpCancelRequest(req);
+    entry = (Entry *)DWCi_FindDWCGHTTPParamEntryByReq(req);
     if (entry == 0) {
         return;
     }
     if (entry->data != 0) {
         DWC_Free(6, entry->data, 0);
     }
-    func_021BFA70((struct Node *)entry);
+    DWCi_RemoveDWCGHTTPParamEntry((struct Node *)entry);
 }

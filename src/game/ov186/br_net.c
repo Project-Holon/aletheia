@@ -112,7 +112,7 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   d_02200CD0 0x02200CD0 data a1
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   d_02200C94 0x02200C94 data a4
  */
 #include "../../matched/include/Obj02527.h"
@@ -314,7 +314,7 @@ extern void func_021FCC80(char *);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 void func_021FEEF4(char *p,u32 owner,char *resources,const Config_a *config,u16 heap);
 void func_021FF004(u8 *p);
 void func_021FF01C(u8 *p);
@@ -1286,7 +1286,7 @@ int func_022000F0(char *p)
 /*
  * lever: unsigned table indices preserve load scheduling; raw address casts differ by 12 bytes.
  */
-int func_0220014C(void *p,u32 n,const u16 *ids) { u32 i; u32 end; int found; end=d_02200C94[n+1];found=0;for(i=d_02200C94[n];i<end;i++) { if(func_0200D064(p,*(const u16 *)((u32)ids+i*2)))found=1; }return found; }
+int func_0220014C(void *p,u32 n,const u16 *ids) { u32 i; u32 end; int found; end=d_02200C94[n+1];found=0;for(i=d_02200C94[n];i<end;i++) { if(ZUKAN_SAVE_IsSeen(p,*(const u16 *)((u32)ids+i*2)))found=1; }return found; }
 
 
 
@@ -1304,7 +1304,7 @@ u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
     count = 0;
     start = d_02200C94[index];
     for (filled = start; filled < end; filled++) {
-        if (func_0200D064(p, table[filled])) {
+        if (ZUKAN_SAVE_IsSeen(p, table[filled])) {
             count++;
         }
     }
@@ -1313,7 +1313,7 @@ u16 *func_02200188(void *p, u32 index, const u16 *table, u32 *out, u16 heap)
     filled = 0;
     MI_CpuFill8(dst, 0, bytes);
     for (; start < end; start++) {
-        if (func_0200D064(p, table[start])) {
+        if (ZUKAN_SAVE_IsSeen(p, table[start])) {
             dst[filled] = table[start];
             filled++;
         }

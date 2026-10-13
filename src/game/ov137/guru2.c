@@ -30,7 +30,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021E1A68 0x021E1A68 data a4
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE08C 0x021DE08C thumb ov137
@@ -87,7 +87,7 @@
  *   func_021DE37C 0x021DE37C thumb ov137
  *   func_021DD380 0x021DD380 thumb ov137
  *   func_020306F0 0x020306F0 arm
- *   func_0207E51C 0x0207E51C arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
  *   d_021E1AEE 0x021E1AEE data a1
  *   d_021E1AEF 0x021E1AEF data a1
  *   CLACT_VBlankSystem  0x0204A648  arm
@@ -106,6 +106,8 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
  */
 #include "ov137_types.h"
 struct Guru2Ctx;
@@ -202,11 +204,11 @@ extern u32 POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern u8 *func_02012944(void *p);
-extern void *func_0200CA1C(void *);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DE08C(char *p, int state, int player);
@@ -261,7 +263,7 @@ extern int func_021DE354(void *p);
 extern u32 func_021DE37C(void *);
 extern void func_021DD380(u8 *p);
 extern void func_020306F0(unsigned int);
-extern void func_0207E51C(void *, int, int);
+extern void GX_LoadOBJPltt(void *, int, int);
 extern void CLACT_VBlankSystem(void);
 extern void func_020419E4(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -424,7 +426,7 @@ int func_021DC9F4(u32 *p)
     func_020307B0(v);
     if(mode==1) {
         func_02012944((void *)p[4]);
-        q=func_0200CA1C((void *)p[4]);
+        q=ZUKAN_SAVE_GetFromGameData((void *)p[4]);
         p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
         MI_CpuFill8((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
@@ -436,7 +438,7 @@ int func_021DC9F4(u32 *p)
         *(u8 *)(p[7]+13)=1;
         *(u16 *)(p[7]+20)=0;
         *(u8 *)(p[7]+16)=0;
-        *(u32 *)(p[7]+24)=func_0200CA38(q);
+        *(u32 *)(p[7]+24)=ZUKAN_SAVE_IsNationalDexEnabled(q);
         p[1]=sel;
         *(u8 *)(p[7]+15)=sel;
         PROCSYS_Push((void *)p[8],(int)d_00000083,gPokeStatusProcData,(void *)p[7]);
@@ -567,7 +569,7 @@ void func_021DCB90(void *p) { }
  * lever: separate q=(u8 *)((u32)p+4) keeps the updated buffer base;
  *   assigning p+=4 or retaining an integer parameter gave 50 bytes/DIFF.
  */
-void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);func_02082D44(data,q+4,size);GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}
+void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}
 
 
 
@@ -601,7 +603,7 @@ void func_021DCBC4(void *p,u32 a,const void *b,u32 c) {func_021DCB94(p,a,b,c);}
 
 
 
-void func_021DCBCC(int i,int unused,void *q,struct Guru2MainCtx2 *p) {p->f46=p->f46|(s16)(1<<i);func_02082D44(q, (void *)(func_021DCE00(p,i)), 1428);}
+void func_021DCBCC(int i,int unused,void *q,struct Guru2MainCtx2 *p) {p->f46=p->f46|(s16)(1<<i);MI_CpuCopy8(q, (void *)(func_021DCE00(p,i)), 1428);}
 
 
 
@@ -1087,7 +1089,7 @@ void func_021DD14C(void *unused, u8 *p)
             v->index = i + 1;
             v->counter = 0;
             if (d_021E1AEF[v->index * 2] == 255) v->index = 0;
-            func_0207E51C(*(u8 **)(v->object + 12) + (d_021E1AEF[v->index * 2] << 5), 0, 32);
+            GX_LoadOBJPltt(*(u8 **)(v->object + 12) + (d_021E1AEF[v->index * 2] << 5), 0, 32);
             return;
         }
         *(u32 *)(p + 32) += 1;

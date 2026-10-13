@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157C7C",
+   "name": "receive_packet",
    "address": "0x02157C7C",
    "kind": "sdk",
    "region": "ov009",

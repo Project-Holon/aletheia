@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD18
+ * function: scReportEnd
  * address:  0x021DFD18
  * packet:   pkt_021DFD18
  * region:   ov175
@@ -10,15 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0098  0x_021E0098  arm  ov175
+ *   sciReportEnd  0x021E0098  arm
+ *   sciReportEnd  0x_021E0098  arm  ov175
  *
- * ARM tail jump to func_021E0098, the ov175 byte-read path.
+ * ARM tail jump to sciReportEnd, the ov175 byte-read path.
  */
 
-extern void func_021E0098(void);
+extern void sciReportEnd(void);
 
-void func_021DFD18(void)
+void scReportEnd(void)
 {
-    func_021E0098();
+    sciReportEnd();
 }
 

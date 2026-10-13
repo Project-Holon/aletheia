@@ -1,7 +1,7 @@
 /*
  * file:     os_ownerinfo.c
  * unit:     yes
- * function: func_02087C6C, func_02087C88, func_02087D08
+ * function: OS_GetMacAddress, OS_GetOwnerInfo, func_02087D08
  * address:  0x02087C6C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   MIi_CpuCopy16  0x02082A60  arm
  */
 typedef unsigned long u32;
@@ -60,11 +60,11 @@ typedef struct OSiNvramOwner {
     u16 rsv7 : 13;
 } OSiNvramOwner;
 
-extern void func_02082D44(void);
+extern void MI_CpuCopy8(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 asm void OS_GetMacAddress(void);
-void func_02087C88(OSOwnerInfo *info);
+void OS_GetOwnerInfo(OSOwnerInfo *info);
 asm void OS_GetOwnerRtcOffset(void);
 
 
@@ -72,7 +72,7 @@ asm void OS_GetMacAddress(void)
 {
     mov	r1, r0
     ldr r0, =0x02FFFCF4
-    ldr ip, =func_02082D44
+    ldr ip, =MI_CpuCopy8
     mov	r2, #6
     bx	ip
 }
@@ -84,7 +84,7 @@ asm void OS_GetMacAddress(void)
 /*
  * sdk:      OS_GetOwnerInfo (os_ownerinfo.o)
  */
-void func_02087C88(OSOwnerInfo *info)
+void OS_GetOwnerInfo(OSOwnerInfo *info)
 {
     OSiNvramOwner *src = OSi_NVRAM_OWNER;
 

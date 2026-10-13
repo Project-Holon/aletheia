@@ -1,5 +1,5 @@
 /*
- * function: func_021BE904
+ * function: WIFICLUB_StateWaitIntroMessage
  * address:  0x021BE904
  * packet:   pkt_ov099_021BE904
  * region:   ov099
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA8BC  0x021BA8BC  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *   KEY_GetTrg  0x020362DC  arm
  */
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
-extern int func_021BA8BC(void *p);
-extern void func_021BAAB8(char *p, int a, int b);
+extern int WIFICLUB_DeleteWindow(void *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021BE904(char *p, int v)
+int WIFICLUB_StateWaitIntroMessage(char *p, int v)
 {
     int n = *(int *)(p + 0x1E0);
     if (n > 0) {
@@ -27,8 +27,8 @@ int func_021BE904(char *p, int v)
         return v;
     }
     if (KEY_GetTrg() & 3) {
-        *(int *)(p + 0x19C) = func_021BA8BC((void *)(*(int *)(p + 0x19C)));
-        func_021BAAB8(p, 0x37, 0);
+        *(int *)(p + 0x19C) = WIFICLUB_DeleteWindow((void *)(*(int *)(p + 0x19C)));
+        WIFICLUB_ShowStreamedMessage(p, 0x37, 0);
         *(int *)(p + 0x1CC) = 2;
     }
     return v;

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 void func_021DC66C(const char *p,void *out)
 {
-    func_02082D44(p+0x1230,out,0x160);
+    MI_CpuCopy8(p+0x1230,out,0x160);
 }

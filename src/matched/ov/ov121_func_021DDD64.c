@@ -23,7 +23,7 @@
  *   func_021DBF70 0x021DBF70 thumb ov121
  *   func_021DC024 0x021DC024 thumb ov121
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
@@ -32,7 +32,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_TransferPalette 0x0204ADEC arm
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   CLACT_SetActorRotation 0x0204B5F4 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_0207D63C 0x0207D63C arm
@@ -49,7 +49,7 @@ extern u32 func_021DBF70(void *);
 extern int func_021DC024(void *);
 struct Obj;
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
@@ -60,7 +60,7 @@ struct Actor;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_TransferPalette(u32,void *,u32);
-extern void func_02082A48(u32,void *,u32);
+extern void MIi_CpuClear16(u32,void *,u32);
 extern void CLACT_SetActorRotation(struct Actor *actor, u16 value);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void func_0207D63C(void *,int,int,int,int);
@@ -83,7 +83,7 @@ void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
     arc=func_021DBF10(p,heap);
     allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)func_021DBF40(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
     offset=*(u32 *)(q+0xb0)*32;
-    func_02082D44(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
+    MI_CpuCopy8(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
     func_020307B0(allocation);
     allocation2=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
     CLACT_TransferCharacterPart(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
@@ -96,8 +96,8 @@ void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
     CLACT_SetActorDrawEnable(*(void **)(q+28),1);
     if (func_021DC024(p)==1) {
         CLACT_TransferPalette(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
-        func_02082D44(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
-        func_02082A48(0,q+0x44,32);
+        MI_CpuCopy8(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
+        MIi_CpuClear16(0,q+0x44,32);
         CLACT_TransferCharacterPart(*(int *)(q+20),*(void **)(*(char **)(p+0x138)+20),0x1200,0,*(int *)(q+0x98));
         CLACT_SetActorRotation(*(void **)(q+32),0);
         CLACT_SetActorDrawEnable(*(void **)(q+32),1);

@@ -1,5 +1,5 @@
 /*
- * function: func_0215B504
+ * function: CPS_SocGetLength
  * address:  0x0215B504
  * packet:   pkt_ov009_0215B504
  * region:   ov009
@@ -12,24 +12,24 @@
  * sdk:      CPS_SocGetLength (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02159404  0x02159404  arm  ov009
+ *   _tcp_send_ack  0x02159404  arm  ov009
  *   func_02162C28  0x02162C28  arm  ov009
  *   g_02150FEC  0x02150FEC  data
  */
 
 extern char g_02150FEC[];
-extern void func_02159404(void *soc, int flush);
+extern void _tcp_send_ack(void *soc, int flush);
 struct CPSSoc;
 extern long func_02162C28(struct CPSSoc *soc);
 
-long func_0215B504(void)
+long CPS_SocGetLength(void)
 {
     long count;
     char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
 
     if (soc != 0) {
         if (*(unsigned char *)(soc + 8) == 4)
-            func_02159404(soc, 1);
+            _tcp_send_ack(soc, 1);
         if (*(unsigned char *)(soc + 9) != 0)
             return func_02162C28((struct CPSSoc *)soc);
         count = *(long *)(soc + 0x50);

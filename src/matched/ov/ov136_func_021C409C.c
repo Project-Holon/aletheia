@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02008F80 0x02008F80 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C7EEC[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(unsigned, void *, unsigned);
+extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 typedef unsigned int   u32;
 struct Sub02008F80Obj;
 extern u32 func_02008F80(const struct Sub02008F80Obj *obj);
@@ -49,7 +49,7 @@ void *func_021C409C(void *a, unsigned heap)
     u16 i;
     i = 0;
     p = func_02030734((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
-    func_02082AC0(0, p, 0x34);
+    MIi_CpuClearFast(0, p, 0x34);
     ((struct Obj03834 *)p)->f0 = i;
     ((struct Obj03834 *)p)->f4 = func_02008F80(a);
     ((struct Obj03834 *)p)->fC = STRBUF_Create(0x10, heap);

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082AC0    0x02082AC0  arm
+ *   MIi_CpuClearFast    0x02082AC0  arm
  *
  * Row-by-row twin of func_02068A18: the same pixel expansion, then one
- * func_02082AC0 (MIi_CpuClearFast) per row of w * tile-size bytes, stepping
+ * MIi_CpuClearFast (MIi_CpuClearFast) per row of w * tile-size bytes, stepping
  * the destination by stride * tile-size.  The row count is re-read from +0x08
  * each iteration (the call may alias it) and compared signed.
  *
@@ -35,7 +35,7 @@ struct Surface {
     int   stride; /* +0x10 */
 };
 
-extern void func_02082AC0(u32 data, void *dst, int size);
+extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
 void func_02068A68(struct Surface *s, u32 arg)
 {
@@ -57,7 +57,7 @@ void func_02068A68(struct Surface *s, u32 arg)
     n = tsz * s->w;
     dst = s->base;
     for (i = 0; i < s->h; i++) {
-        func_02082AC0(arg, dst, n);
+        MIi_CpuClearFast(arg, dst, n);
         dst += adv;
     }
 }

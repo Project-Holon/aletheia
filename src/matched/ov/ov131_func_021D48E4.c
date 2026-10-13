@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/func_02061C30.c
+ * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/NNS_GfdResetVramTransferTaskQueue.c
  *   (the tail-call stub matches under ../2.0/sp2; see its header).
  * extent: Two zero padding bytes at 0x021D493E.
  * symbols:
- *   func_02061C30 0x02061C30 arm
+ *   NNS_GfdResetVramTransferTaskQueue 0x02061C30 arm
  *   MCSS_Exit 0x02014BA8 thumb
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
@@ -22,7 +22,7 @@
  *   func_0203F9B4 0x0203F9B4 arm
  */
 #include "../include/Obj10503.h"
-extern void func_02061C30(void);
+extern void NNS_GfdResetVramTransferTaskQueue(void);
 typedef unsigned char  u8;
 struct Bank;
 extern void MCSS_Exit(u8 *a0);
@@ -36,7 +36,7 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 void P_STATUS_ExitGraphics(char *p)
 {
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
     MCSS_Exit(((struct Obj10503 *)p)->f78);
     G3D_CAMERA_Delete(((struct Obj10503 *)p)->f70);
     G3D_SYSTEM_Exit();

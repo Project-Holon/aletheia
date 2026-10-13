@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206B94C",
+   "name": "NNSi_G3dFuncSbc_MTX",
    "address": "0x0206B94C",
    "kind": "game",
    "region": "arm9",

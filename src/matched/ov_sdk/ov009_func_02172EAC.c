@@ -12,16 +12,16 @@
  * sdk:      DWCi_CloseShutdownClientSC (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
  * symbols:
- *   func_0217603C  0x0217603C  arm  ov009
- *   func_0217637C  0x0217637C  arm  ov009
- *   func_02176554  0x02176554  arm  ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
+ *   DWCi_TempNewNodeInfo_IsValid  0x02176554  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_021763AC  0x021763AC  arm  ov009
- *   func_0216FF2C  0x0216FF2C  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
+ *   DWCi_SendMatchCommand  0x0216FF2C  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
  *   DWCi_CloseConnectionHard  0x0216BEA4  arm  ov009
- *   func_0217653C  0x0217653C  arm  ov009
- *   func_02173C84  0x02173C84  arm  ov009
+ *   DWCi_TempNewNodeInfo_Clear  0x0217653C  arm  ov009
+ *   DWCi_GetAIDFromProfileID  0x02173C84  arm  ov009
  *
  * The DWARF declares DWCi_GetAIDFromProfileID with one parameter; the call site
  * loads r1 = 0, so the file passes it. The list stores index first and increment
@@ -56,16 +56,16 @@ typedef struct DWCstMatchControl {
     u8 closeState;              /* +0x629 */
 } DWCstMatchControl;
 
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern int func_02176554(void);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern int DWCi_TempNewNodeInfo_IsValid(void);
 extern int func_02175F3C(void);
-extern char *func_021763AC(int pid);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
-extern int func_021719A4(int error);
+extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
+extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern int DWCi_HandleMatchCommandError(int error);
 extern int DWCi_CloseConnectionHard(u8 aid);
-extern void func_0217653C(void);
-extern u8 func_02173C84(int profileID, int arg);
+extern void DWCi_TempNewNodeInfo_Clear(void);
+extern u8 DWCi_GetAIDFromProfileID(int profileID, int arg);
 
 static int func_02172EAC(u32 bitmap)
 {
@@ -85,8 +85,8 @@ static int func_02172EAC(u32 bitmap)
     bShutdownNewNode = 0;
     bRet = 1;
 
-    for (i = 1; i < func_0217603C(); i++) {
-        DWCstNodeInfo *nodeInfo = (DWCstNodeInfo *)func_0217637C(i);
+    for (i = 1; i < DWCi_NodeInfoList_GetCount(); i++) {
+        DWCstNodeInfo *nodeInfo = (DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
         if (nodeInfo) {
             if (bitmap & (1 << nodeInfo->aid)) {
@@ -99,7 +99,7 @@ static int func_02172EAC(u32 bitmap)
         }
     }
 
-    if (func_02176554()) {
+    if (DWCi_TempNewNodeInfo_IsValid()) {
         DWCstNodeInfo *nodeInfo = &((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo;
 
         if (bitmap & (1 << nodeInfo->aid)) {
@@ -113,14 +113,14 @@ static int func_02172EAC(u32 bitmap)
     }
 
     for (i = 0; i < validPidLen; i++) {
-        nodeInfo = (DWCstNodeInfo *)func_021763AC(validPid[i]);
-        if (func_02176554() && nodeInfo == 0 &&
+        nodeInfo = (DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForProfileID(validPid[i]);
+        if (DWCi_TempNewNodeInfo_IsValid() && nodeInfo == 0 &&
             validPid[i] == ((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.profileID)
             nodeInfo = &((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo;
         if (nodeInfo) {
-            result = func_0216FF2C(0x10, validPid[i], nodeInfo->publicInetAddress,
+            result = DWCi_SendMatchCommand(0x10, validPid[i], nodeInfo->publicInetAddress,
                                    nodeInfo->publicQueryPort, (const unsigned int *)senddata, senddataLen);
-            if (func_021719A4(result))
+            if (DWCi_HandleMatchCommandError(result))
                 bRet = 0;
         }
     }
@@ -128,10 +128,10 @@ static int func_02172EAC(u32 bitmap)
     ((DWCstMatchControl *)func_02175F3C())->closeState = 1;
     if (bShutdownNewNode) {
         DWCi_CloseConnectionHard(((DWCstMatchControl *)func_02175F3C())->tempNewNodeInfo.aid);
-        func_0217653C();
+        DWCi_TempNewNodeInfo_Clear();
     }
     for (i = 0; i < senddataLen; i++) {
-        aid = func_02173C84(senddata[i], 0);
+        aid = DWCi_GetAIDFromProfileID(senddata[i], 0);
         if (aid != 0xff)
             DWCi_CloseConnectionHard(aid);
     }

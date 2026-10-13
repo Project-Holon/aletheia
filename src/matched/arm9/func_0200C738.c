@@ -1,5 +1,5 @@
 /*
- * function: func_0200C738
+ * function: ZUKAN_SAVE_SetLanguageFlag
  * address:  0x0200C738
  * packet:   pkt_0200C738
  * region:   arm9
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0200C738(u8 *p, u32 a1, u32 a2)
+void ZUKAN_SAVE_SetLanguageFlag(u8 *p, u32 a1, u32 a2)
 {
     u16 v;
     u8 *q;

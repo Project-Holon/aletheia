@@ -20,7 +20,7 @@
  *   GFL_USE_GetSeSlot        0x02006148  thumb
  *   GFL_USE_SetSeSlotVolume        0x020062BC  thumb
  *   func_020755A8       0x020755A8  arm
- *   func_02072E7C       0x02072E7C  arm
+ *   NNS_SndHandleStopSeq       0x02072E7C  arm
  *   func_02075560       0x02075560  arm
  *
  * Registering and tearing down the five entries of the table at 0x020AA294,
@@ -43,7 +43,7 @@ extern int  GFL_USE_IsSeqStartAllowed(void *arg);
 extern int  GFL_USE_GetSeSlot(u32 a);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 b);
 extern u32 func_020755A8(u32 a, int b, int c, int d, u32 e);
-extern void func_02072E7C(void **r0, int fadeFrame);
+extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
 extern u32 func_02075560(u32 a, u32 b);
 
 void GFL_USE_PlaySe(u32 a, u32 b);
@@ -90,7 +90,7 @@ void GFL_USE_PlaySeWithVolume(u32 a, u32 b)
 
 void GFL_USE_StopSeSlot(int i)
 {
-    func_02072E7C((void **)(&sub_0200616C_Table[i].unk04), 0);
+    NNS_SndHandleStopSeq((void **)(&sub_0200616C_Table[i].unk04), 0);
 }
 
 void GFL_USE_StopAllSe(void)

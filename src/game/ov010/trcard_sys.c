@@ -14,7 +14,7 @@
  * Split from trcard_sys.c (it held four originals); __FILE__ anchors: event_battle.c 0x0216E95C, trcard_sys.c 0x0216F0AC, waza_oshie.c 0x0216F918.
  *
  * symbols:
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02030734  0x02030734  arm
@@ -74,7 +74,7 @@
  *   func_0200BF94  0x0200BF94  thumb
  *   func_0201296C  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   func_0200D0AC  0x0200D0AC  thumb
+ *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   func_020089D0  0x020089D0  thumb
  *   func_020089CC  0x020089CC  thumb
  *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
@@ -84,7 +84,7 @@
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   GAME_DATA_GetSaveBlock3A  0x02012EF0  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_0200D298  0x0200D298  thumb
+ *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
  *   func_0200A73C  0x0200A73C  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
@@ -207,7 +207,7 @@ typedef struct EditWork {
     u32 reserved14;                 /* 0x14 */
 } EditWork;
 
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern void *func_020120F4(const struct GameSystem *p);
 extern void *func_0201210C(const struct GameSystem *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
@@ -269,7 +269,7 @@ extern u8 func_020090E0(const struct GameClearSave *obj);
 extern unsigned long long func_0200BF94(struct BattleRecSave *p);
 extern u32 func_0201296C(const struct BtlSetup *p);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
-extern u32 func_0200D0AC(struct ZukanSave *p, u32 heapId);
+extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *p, u32 heapId);
 extern int func_020089D0(const struct TrainerCardSignature *obj);
 extern void *func_020089CC(void *p);
 extern int TOWN_MAP_SPOT_CountVisited(void *tbl, void *pos, u8 *flags);
@@ -279,7 +279,7 @@ extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 extern u16 STRBUF_GetEosChar(void);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *GAME_DATA_GetSaveBlock2A(void *save);
-extern int func_0200D298(void *p);
+extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
 extern u32 func_0200DBA0(struct FlagSave *p, s32 i, u32 op);
 extern u32 func_0200A73C(struct PlayerSave *p);
 extern u16 func_0200BDF8(struct BattleRecSave *p);
@@ -645,7 +645,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     saveClock = (SaveClock *)func_02008B14(playerSave);
     records = func_02008C58(playerSave);
     beaconData = func_0200E6E8((u32)playerSave);
-    zukan = func_0200CA1C(save);
+    zukan = ZUKAN_SAVE_GetFromGameData(save);
 
     if (func_020084BC(myStatus) == 0) {
         MIi_CpuCopy16(func_020084F4(myStatus), out->name, 16);
@@ -738,7 +738,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
         out->hasEventFlag2402 = 1;
     else
         out->hasEventFlag2402 = 0;
-    out->pokedexCount = func_0200D0AC(zukan, heap);
+    out->pokedexCount = ZUKAN_SAVE_CountSeen(zukan, heap);
     out->hasSignature = (u32)func_020089D0(signature);
     MI_CpuCopy8(func_020089CC(signature), out->signatureBitmap, 0x600);
     out->flagFromParam = flag;
@@ -803,7 +803,7 @@ int TRCARD_SYS_CountStars(void *save)
     c = GAME_DATA_GetLastBattleRecSlot(save);
     if (ZONEDATA_CheckEventFlag((void *)func_0201296C(save), 0x960))
         n++;
-    if (func_0200D298(func_0200CA1C(save)))
+    if (ZUKAN_SAVE_IsNationalCaughtComplete(ZUKAN_SAVE_GetFromGameData(save)))
         n++;
     if (func_0200DBA0(a, 7, 0) && func_0200DBA0(a, 8, 0))
         n++;

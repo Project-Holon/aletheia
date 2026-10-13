@@ -24,7 +24,7 @@
  *   func_021DEB14 0x021DEB14 thumb ov170
  *   func_021EB874 0x021EB874 thumb ov170
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021DEDCC 0x021DEDCC thumb ov170
  *   g_021EFCEC  0x021EFCEC  data  ov170
@@ -35,7 +35,7 @@
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021EC01C 0x021EC01C thumb
  *   d_021EFCD8 0x021EFCD8 data a2
  *   BMP_OAM_SetEnabled 0x02025774 thumb
@@ -195,7 +195,7 @@ extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EB874(char **, unsigned, int);
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern int func_021DEDCC(char *p, int box);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
@@ -207,7 +207,7 @@ extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern void func_02082A48(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 extern u32 func_021EC01C(char *p, int i);
 extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 extern void func_021EB85C(unsigned char *p, int i);
@@ -559,7 +559,7 @@ void func_021EDAB0(char *p, int i)
 {
     void *t;
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
-    func_02082D44(((struct Obj24024 *)t)->f14, *(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
+    MI_CpuCopy8(((struct Obj24024 *)t)->f14, *(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
     func_020307B0(q);
     func_021EDBE8((int)p, (unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400), func_021DEDCC((char *)p, i), 8, 0x400);
     func_021EDC0C((int **)p, i, (unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400));
@@ -691,7 +691,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 t = (u16)(t + 16);
                 t = (u16)((t << 8) | t);
                 for (i = ty; i < ty + 2; i++)
-                    func_02082A48(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
+                    MIi_CpuClear16(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
             POKE_TOOL_EncodeBoxParam(e, sv);
         }

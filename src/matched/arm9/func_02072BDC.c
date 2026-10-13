@@ -1,5 +1,5 @@
 /*
- * function: func_02072BDC
+ * function: NNS_SndWaveOutStop
  * address:  0x02072BDC
  * packet:   pkt_02072A44
  * region:   arm9
@@ -23,15 +23,15 @@
  * object to r5 and grows the push to {r3, r4, r5, lr} -- 23 concrete bytes of
  * diff, and the same residue ../1.2/sp2 gives 39 bytes of.  ../2.0/sp2
  * reproduces the image byte for byte.  Same tell and family as
- * src/matched/func_02074A6C.c and src/pending/func_0206B6A4.c.
+ * src/matched/NNS_SndArcLoadSeq.c and src/pending/NNS_G3dDraw.c.
  *
  * Evidence recorded in docs/notes/pkt_02072A44.c.txt.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072BDC.c \
- *       --func func_02072BDC --addr 0x02072BDC --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutStop.c \
+ *       --func NNS_SndWaveOutStop --addr 0x02072BDC --arm --cc ../2.0/sp2
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ typedef struct {
 
 extern void func_020894DC(u32 chan, u32 a, u32 b, u32 c);
 
-void func_02072BDC(Slot02072BDC *s)
+void NNS_SndWaveOutStop(Slot02072BDC *s)
 {
     if (s->unk08 == 0) {
         return;

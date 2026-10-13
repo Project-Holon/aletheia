@@ -1,5 +1,5 @@
 /*
- * function: func_021BCAD8
+ * function: PMSIV_MENU_HideAll
  * address: 0x021BCAD8
  * packet: pkt_ov110_021BCAD8
  * region: ov110
@@ -24,7 +24,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_020409B4(u32 index);
-void func_021BCAD8(Object *p) {
+void PMSIV_MENU_HideAll(Object *p) {
     int i;
     for(i=0;i<3;i++) {
         if(p->records[i].s) { STRBUF_Delete(p->records[i].s); p->records[i].s=0; }

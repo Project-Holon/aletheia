@@ -18,7 +18,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   COMM_ENTRY_StartNetCommands  0x021CF164  thumb  ov021
  *   GFL_NET_GetInitParam  0x0203D798  arm
@@ -83,7 +83,7 @@ extern struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void COMM_ENTRY_StartNetCommands(u32 a);
 extern void *GFL_NET_GetInitParam(void);
@@ -120,7 +120,7 @@ Work *COMM_ENTRY_MENU_Create(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u
     w->f574 = 0xffff;
     MYSTATUS_Copy((void *)a0, w->f30);
     if (a7 != 0) {
-        func_02082D44(a7, w->f554, 6);
+        MI_CpuCopy8(a7, w->f554, 6);
     }
     GFL_NET_SetLoginOption(0);
     COMM_ENTRY_StartNetCommands((u32)w);

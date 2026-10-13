@@ -1,5 +1,5 @@
 /*
- * function: func_0216E4C0
+ * function: DWCi_GT2UnrecognizedMessageCallback
  * address:  0x0216E4C0
  * packet:   pkt_ov009_0216E4C0
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02175F3C   0x02175F3C  arm  ov009
- *   func_0219C7C0   0x0219C7C0  arm  ov009
+ *   qr2_parse_queryA   0x0219C7C0  arm  ov009
  *   func_020923F0   0x020923F0  arm
  *   func_0219AB8C   0x0219AB8C  arm  ov009
  *   g_021A5A7C      0x021A5A7C  data
@@ -36,14 +36,14 @@ typedef struct MatchCnt {
 
 extern void MIi_CpuClear32(int v, void *p, int size);
 extern int func_02175F3C(void);
-extern void func_0219C7C0(void *qr2, unsigned char *message, int len, SockAddrIn *saddr);
+extern void qr2_parse_queryA(void *qr2, unsigned char *message, int len, SockAddrIn *saddr);
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 struct SOCSockAddrIn;
 extern void func_0219AB8C(char *data, int len, struct SOCSockAddrIn *fromaddr);
 extern struct Magic6 g_021A5A7C;
 
-int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len)
+int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len)
 {
     SockAddrIn saddr;
 
@@ -56,7 +56,7 @@ int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned cha
     ip = message[0];
     if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
         if (((MatchCnt *)func_02175F3C())->f10 != 0)
-            func_0219C7C0(((MatchCnt *)func_02175F3C())->f10, message, len, &saddr);
+            qr2_parse_queryA(((MatchCnt *)func_02175F3C())->f10, message, len, &saddr);
     } else if (func_020923F0(message, (const u8 *)((char *)&g_021A5A7C), 6) == 0) {
         func_0219AB8C((char *)message, len, (struct SOCSockAddrIn *)(&saddr));
     } else {

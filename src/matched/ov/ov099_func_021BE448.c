@@ -1,5 +1,5 @@
 /*
- * function: func_021BE448
+ * function: WIFICLUB_GetPhaseIconTile
  * address: 0x021BE448
  * packet: pkt_ov099_021BE448
  * region: ov099
@@ -10,10 +10,10 @@
  * extent: two zero padding bytes at 0x021BE4BA.
  * lever: case 0 assigns 15 between cases 2 and 3, reusing case 2's break.
  * symbols:
- *   func_021BDD60 0x021BDD60 thumb ov099
+ *   WIFICLUB_IsBusyPhase 0x021BDD60 thumb ov099
  */
-extern int func_021BDD60(int x);
-int func_021BE448(unsigned int a, int b)
+extern int WIFICLUB_IsBusyPhase(int x);
+int WIFICLUB_GetPhaseIconTile(unsigned int a, int b)
 {
     int r = 15;
     switch (a) {
@@ -33,7 +33,7 @@ int func_021BE448(unsigned int a, int b)
     case 0: r = 15; break;
     case 3: r = 1; break;
     default:
-        if (func_021BDD60(a) != 0) {
+        if (WIFICLUB_IsBusyPhase(a) != 0) {
             if (b == 2) r = 8;
             else r = 7;
         } else if (a >= 15) {

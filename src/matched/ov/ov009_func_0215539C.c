@@ -20,8 +20,8 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_AllocAligned  0x0203D7C8  arm
  *   func_02034714  0x02034714  arm
- *   func_020597C8  0x020597C8  arm
- *   func_02059760  0x02059760  arm
+ *   DWC_CheckHasProfile  0x020597C8  arm
+ *   DWC_CheckValidConsole  0x02059760  arm
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  */
 
@@ -72,8 +72,8 @@ void *GFL_NET_GetInitParam(void);
 void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
 struct DWCstAccUserData;
-int func_020597C8(struct DWCstAccUserData *userdata);
-int func_02059760(struct DWCstAccUserData *userdata);
+int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
+int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 void DWC_RAP_SetState(int v);
 
 int DWC_RAP_CreateWork(int a0, int a1)
@@ -102,9 +102,9 @@ int DWC_RAP_CreateWork(int a0, int a1)
     _pRapWork->b7A1 = 1;
     for (i = 0; i < 32; i++)
         _pRapWork->bytes[i] = 0;
-    if (func_020597C8((struct DWCstAccUserData *)_pRapWork->w108) == 0)
+    if (DWC_CheckHasProfile((struct DWCstAccUserData *)_pRapWork->w108) == 0)
         return 1;
-    if (func_02059760((struct DWCstAccUserData *)_pRapWork->w108) == 0)
+    if (DWC_CheckValidConsole((struct DWCstAccUserData *)_pRapWork->w108) == 0)
         return 2;
     return 0;
 }

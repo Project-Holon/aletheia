@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B20
+ * function: PMS_INPUT_VIEW_Delete
  * address: 0x021B9B20
  * packet: pkt_ov110_021B9B20
  * region: ov110
@@ -10,7 +10,7 @@
  * symbols:
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_021BCA30 0x021BCA30 thumb ov110
+ *   PMSIV_MENU_Delete 0x021BCA30 thumb ov110
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -27,7 +27,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 struct Bank;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021BCA30(u8 *p);
+extern void PMSIV_MENU_Delete(u8 *p);
 extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ReleasePalette(unsigned int);
 extern void CLACT_ReleaseCharacter(unsigned int);
@@ -37,7 +37,7 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B9B20(u8 *p) {
+void PMS_INPUT_VIEW_Delete(u8 *p) {
     int i, j;
     if (p) {
         ARC_TOOL_DeleteHandle(((struct Obj06380 *)p)->f8C);
@@ -47,7 +47,7 @@ void func_021B9B20(u8 *p) {
         }
         func_02030EAC(((struct Obj06380 *)p)->f0);
         func_02030EAC(((struct Obj06380 *)p)->f4);
-        func_021BCA30(((struct Obj06380 *)p)->f64);
+        PMSIV_MENU_Delete(((struct Obj06380 *)p)->f64);
         CLACT_DeleteUnit(((struct Obj06380 *)p)->f20);
         for (j=0; j<2; ++j) {
             u8 *r = p+j*12;

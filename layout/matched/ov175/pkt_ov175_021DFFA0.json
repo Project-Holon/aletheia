@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFFA0",
+   "name": "sciReportSetPlayerTeamIndex",
    "address": "0x021DFFA0",
    "kind": "sdk",
    "region": "ov175",

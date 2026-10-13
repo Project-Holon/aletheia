@@ -1,5 +1,5 @@
 /*
- * function: func_0216F014
+ * function: DWCi_CheckDeadAIDBitmap
  * address:  0x0216F014
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int DWC_GetAIDBitmap(void);
 extern int DWCi_CloseConnectionHard(unsigned char aid);
 
-void func_0216F014(unsigned int bitmap)
+void DWCi_CheckDeadAIDBitmap(unsigned int bitmap)
 {
     unsigned int cur = DWC_GetAIDBitmap();
     unsigned int diff = cur & (cur ^ bitmap);

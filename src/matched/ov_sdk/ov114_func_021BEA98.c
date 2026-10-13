@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA98
+ * function: NHTTPi_NotifyCompletion
  * address:  0x021BEA98
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEA20  0x021BEA20  arm  ov114
+ *   NHTTPi_GetStaticResource  0x021BEA20  arm  ov114
+ *   OS_WakeupThread  0x02085800  arm  arm9
  *
  *
  * Clears the +0x0c queue of `p` and re-arms the +0x1c resource.
@@ -20,12 +21,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEA20(void);
-extern void func_02085800(void *, int);
+extern u8 *NHTTPi_GetStaticResource(void);
+extern void OS_WakeupThread(void *, int);
 
-void func_021BEA98(u8 *p)
+void NHTTPi_NotifyCompletion(u8 *p)
 {
-    u8 *q = func_021BEA20();
+    u8 *q = NHTTPi_GetStaticResource();
     *(u32 *)(p + 0xc) = 0;
-    func_02085800(q + 0x1c, 0);
+    OS_WakeupThread(q + 0x1c, 0);
 }

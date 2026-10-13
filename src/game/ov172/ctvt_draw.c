@@ -19,9 +19,9 @@
  *   func_021B6A18  0x021B6A18  thumb  ov172
  *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
  *   func_02034714  0x02034714  arm
- *   func_02072A88  0x02072A88  arm
- *   func_02072AA0  0x02072AA0  arm
- *   func_02072BDC 0x02072BDC arm
+ *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
+ *   NNS_SndWaveOutStart  0x02072AA0  arm
+ *   NNS_SndWaveOutStop 0x02072BDC arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
@@ -114,11 +114,11 @@
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_021B85D0  0x021B85D0  thumb  ov172
  *   ZONEDATA_IsZone117  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   COMM_PLAYER_SUPPORT_GetRecordFieldPtr  0x0202E930  thumb
@@ -207,7 +207,7 @@
  *   func_02027620 0x02027620 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -640,10 +640,10 @@ extern void func_02082A7C(int v, void *p, unsigned n);
 extern int func_021B6A18(int a, int b, int c);
 extern int  NNS_SndWaveOutAllocChannel(int size);
 extern void func_02034714(const char *expr, u32_021BA1B4 line, const char *file);
-extern void func_02072A88(u32_021BA1D8 *p);
-extern int func_02072AA0(void *s, int fmt, void *data, int loop,
+extern void NNSi_SndWaveOutUnlockChannel(u32_021BA1D8 *p);
+extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
                          int start, int end, int rate, int vol, int freq, int e);
-extern void func_02072BDC(Slot02072BDC *s);
+extern void NNS_SndWaveOutStop(Slot02072BDC *s);
 extern u32_021BA254 func_0209C2B0(u32_021BA254 a, u32_021BA254 b);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u32_021BA2B8 func_020307B0(void *p);
@@ -734,11 +734,11 @@ extern u8 NET_WHPIPE_GetEntryBeaconKind(int i);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32_021BC7FC func_02008530(const struct Sub0200852CObj *obj);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern int func_021B85D0(unsigned char *p, unsigned char *q);
 extern u32_021BC7FC ZONEDATA_IsZone117(u32_021BC7FC id);
 extern u32_021BC7FC ZONEDATA_IsZoneGroup118To120(u32_021BC7FC id);
-extern void func_02082D44(const void *src, void *dst, u32_021BC7FC n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32_021BC7FC n);
 extern struct WordSet *func_0201EC64(u32_021BCC40 heap);
 extern struct U16Vec *STRBUF_Create(u32_021BCC40 capacity, u32_021BCC40 heapId);
 extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *p);
@@ -815,7 +815,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
@@ -1034,7 +1034,7 @@ void func_021BA1B4(char *p, u32_021BA1B4 a1)
 
 void func_021BA1D8(void *p)
 {
-    func_02072A88((u32_021BA1D8 *)((struct Obj24096 *)p)->f20);
+    NNSi_SndWaveOutUnlockChannel((u32_021BA1D8 *)((struct Obj24096 *)p)->f20);
 }
 
 
@@ -1055,7 +1055,7 @@ void func_021BA1E4(void *a0)
 int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq)
 {
     if (n > 0x20) {
-        int r = func_02072AA0((void *)self[8], 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
+        int r = NNS_SndWaveOutStart((void *)self[8], 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
         self[3] = r;
         self[5] = 0;
         self[6] = (int)n;
@@ -1070,7 +1070,7 @@ int func_021BA1E8(int *self, char *buf, unsigned n, int vol, int freq)
 void func_021BA234(void *p)
 {
     ((struct Obj04555 *)p)->fC = 0;
-    func_02072BDC(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);
+    NNS_SndWaveOutStop(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);
 }
 
 
@@ -2747,7 +2747,7 @@ void func_021BC7FC(void *ctx, u8 *list)
                 a = (u32_021BC7FC)func_020084F4(p);
                 b = func_02008550((const struct Sub0200852CObj *)p);
                 c = func_02008530((const struct Sub0200852CObj *)p);
-                func_02087C6C(buf);
+                OS_GetMacAddress(buf);
                 if (p->f21_1 == 0 || func_021B85D0((u8 *)p, buf) == 1)
                     ok = func_021BD0A4(ctx, (u32_021BC7FC)list, a, c, b);
             } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
@@ -2804,10 +2804,10 @@ void func_021BC7FC(void *ctx, u8 *list)
                 e[m + 0x1fd] = mac[m];
             if (kind == 0x20) {
                 ((struct List *)list)->slots[slot].kind = 0x20;
-                func_02082D44(p, ((struct List *)list)->slots[slot].buf, 0x34);
+                MI_CpuCopy8(p, ((struct List *)list)->slots[slot].buf, 0x34);
             } else {
                 ((struct List *)list)->slots[slot].kind = 3;
-                func_02082D44(p, ((struct List *)list)->slots[slot].buf, 0x64);
+                MI_CpuCopy8(p, ((struct List *)list)->slots[slot].buf, 0x64);
             }
             if (diff == 0) {
                 for (r = 0; r < 15; r++) {
@@ -3646,7 +3646,7 @@ void func_021BD844(u8 *p)
     } else {
         dev = func_02049F78(BG, 6, (u32)(&pal), HEAP);
     }
-    func_02082A90(pal->raw + 0xc0, p + 0x3c, 0x140);
+    MIi_CpuCopy32(pal->raw + 0xc0, p + 0x3c, 0x140);
     func_020307B0(dev);
 }
 

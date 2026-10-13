@@ -1,5 +1,5 @@
 /*
- * function: func_021C0998
+ * function: ghiNewConnection
  * address:  0x021C0998
  * packet:   pkt_ov114_021C0998
  * region:   ov114
@@ -12,12 +12,12 @@
  * sdk:      ghiNewConnection (ghttpconnection.o)
  *
  * symbols:
- *   func_021C0370                    0x021c0370 arm  ov114
- *   func_021C08B0                    0x021c08b0 arm  ov114
- *   func_021C0374                    0x021c0374 arm  ov114
+ *   ghiLock                    0x021c0370 arm  ov114
+ *   ghiFindFreeSlot                    0x021c08b0 arm  ov114
+ *   ghiUnlock                    0x021c0374 arm  ov114
  *   func_020923B0                    0x020923b0 arm
- *   func_021BFBD0                    0x021bfbd0 arm  ov114
- *   func_021C0D40                    0x021c0d40 arm  ov114
+ *   ghiInitBuffer                    0x021bfbd0 arm  ov114
+ *   ghiFreeConnection                    0x021c0d40 arm  ov114
  *   g_021D3B30                       0x021d3b30 data
  */
 
@@ -84,25 +84,25 @@ typedef struct GHIConnection {
     char pad1D4[0x0];
 } GHIConnection;
 
-extern void func_021C0370(void);
-extern int func_021C08B0(void);
-extern void func_021C0374(void);
+extern void ghiLock(void);
+extern int ghiFindFreeSlot(void);
+extern void ghiUnlock(void);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
-extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
-extern int func_021C0D40(GHIConnection *connection);
+extern int ghiInitBuffer(unsigned int a0, unsigned int *a1, int a2, int a3);
+extern int ghiFreeConnection(GHIConnection *connection);
 extern struct GHIGlobals g_021D3B30;
 
-GHIConnection *func_021C0998(void)
+GHIConnection *ghiNewConnection(void)
 {
     int bResult;
     GHIConnection *connection;
     int slot;
 
-    func_021C0370();
+    ghiLock();
 
-    slot = func_021C08B0();
+    slot = ghiFindFreeSlot();
     if (slot == -1) {
-        func_021C0374();
+        ghiUnlock();
         return 0;
     }
 
@@ -152,20 +152,20 @@ GHIConnection *func_021C0998(void)
     connection->f1D0 = 0;
     connection->f1CC = 0;
 
-    bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->sendBuffer, 0x800, 0x1000);
+    bResult = ghiInitBuffer((unsigned int)connection, (unsigned int *)connection->sendBuffer, 0x800, 0x1000);
     if (bResult)
-        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->encodeBuffer, 0x800, 0x400);
+        bResult = ghiInitBuffer((unsigned int)connection, (unsigned int *)connection->encodeBuffer, 0x800, 0x400);
     if (bResult)
-        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->recvBuffer, 0x800, 0x800);
+        bResult = ghiInitBuffer((unsigned int)connection, (unsigned int *)connection->recvBuffer, 0x800, 0x800);
     if (bResult)
-        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->decodeBuffer, 0x800, 0x400);
+        bResult = ghiInitBuffer((unsigned int)connection, (unsigned int *)connection->decodeBuffer, 0x800, 0x400);
     if (!bResult) {
-        func_021C0D40(connection);
-        func_021C0374();
+        ghiFreeConnection(connection);
+        ghiUnlock();
         return 0;
     }
 
     g_021D3B30.numConnections++;
-    func_021C0374();
+    ghiUnlock();
     return connection;
 }

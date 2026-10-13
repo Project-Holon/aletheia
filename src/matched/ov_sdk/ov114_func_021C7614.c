@@ -1,5 +1,5 @@
 /*
- * function: func_021C7614
+ * function: DWCi_Ndi_response_contents
  * address:  0x021C7614
  * packet:   pkt_ov114_021C7614
  * region:   ov114
@@ -22,7 +22,7 @@ typedef struct HTTPREQ {
 
 extern int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p);
 
-int func_021C7614(void *res, HTTPREQ *hrq)
+int DWCi_Ndi_response_contents(void *res, HTTPREQ *hrq)
 {
     char *body;
     int bodyLen;

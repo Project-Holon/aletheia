@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C9D54   0x021C9D54  arm
- *   func_0207C958   0x0207C958  arm
+ *   FX_DivS32   0x0207C958  arm
  *
  * Scale the shared halfword counter by 1/0x1d and bias by the argument.
  * Every concrete byte matches the image (36 bytes, no register or constant
@@ -32,12 +32,12 @@
  *       --func func_021C9D54 --addr 0x021C9D54 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_0207C958(int, int);
+extern int FX_DivS32(int, int);
 
 int func_021C9D54(int a)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
-    int v = func_0207C958(*(unsigned short *)(g + 4), 0x1d);
+    int v = FX_DivS32(*(unsigned short *)(g + 4), 0x1d);
 
     return v + a;
 }

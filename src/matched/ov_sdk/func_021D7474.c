@@ -1,5 +1,5 @@
 /*
- * function: func_021D7474
+ * function: DWCi_SetLedNormal
  * address:  0x021D7474
  * packet:   pkt_021D7474
  * region:   ov016
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7474   0x021D7474  arm
+ *   DWCi_SetLedNormal   0x021D7474  arm
  *
  * Tail-call func_0208C6A4 with the constant 1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D7474.c \
- *       --func func_021D7474 --addr 0x021D7474 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SetLedNormal.c \
+ *       --func DWCi_SetLedNormal --addr 0x021D7474 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern unsigned int func_0208C6A4(unsigned int pattern);
 
-void func_021D7474(void)
+void DWCi_SetLedNormal(void)
 {
     func_0208C6A4(1);
 }

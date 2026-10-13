@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02064B68",
+   "name": "NNS_G2dSetMCAnimationSpeed",
    "address": "0x02064B68",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064CBC",
+   "name": "NNS_G2dRestartMCAnimation",
    "address": "0x02064CBC",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020651B8",
+   "name": "NNSi_G2dRendererPreDrawOam",
    "address": "0x020651B8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020653A4",
+   "name": "NNSi_G2dRendererCallSurfaceOamFunc",
    "address": "0x020653A4",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02065438",
+   "name": "NNSi_G2dRendererDrawCellToSurfaces",
    "address": "0x02065438",
    "kind": "game",
    "region": "arm9",
@@ -120,7 +120,7 @@
    }
   },
   {
-   "name": "func_02065878",
+   "name": "NNSi_G2dRendererDrawCellTransformed",
    "address": "0x02065878",
    "kind": "game",
    "region": "arm9",
@@ -132,7 +132,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02065B74",
+   "name": "NNS_G2dInitRenderSurface",
    "address": "0x02065B74",
    "kind": "game",
    "region": "arm9",
@@ -144,7 +144,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02065BD0",
+   "name": "NNS_G2dBeginRendering",
    "address": "0x02065BD0",
    "kind": "game",
    "region": "arm9",
@@ -156,7 +156,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02065CE4",
+   "name": "NNSi_G2dRendererDrawCellZOffset",
    "address": "0x02065CE4",
    "kind": "game",
    "region": "arm9",
@@ -168,7 +168,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02065DB4",
+   "name": "NNS_G2dDrawMultiCell",
    "address": "0x02065DB4",
    "kind": "game",
    "region": "arm9",
@@ -180,7 +180,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02066080",
+   "name": "NNSi_G2dRendererDrawMultiCellTransformed",
    "address": "0x02066080",
    "kind": "game",
    "region": "arm9",
@@ -192,7 +192,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206615C",
+   "name": "NNS_G2dPushMtx",
    "address": "0x0206615C",
    "kind": "game",
    "region": "arm9",
@@ -204,7 +204,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02066380",
+   "name": "NNS_G2dPopMtx",
    "address": "0x02066380",
    "kind": "game",
    "region": "arm9",
@@ -216,7 +216,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020663D0",
+   "name": "NNS_G2dTranslate",
    "address": "0x020663D0",
    "kind": "game",
    "region": "arm9",
@@ -228,7 +228,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020664CC",
+   "name": "NNS_G2dScale",
    "address": "0x020664CC",
    "kind": "game",
    "region": "arm9",
@@ -240,7 +240,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02066620",
+   "name": "NNS_G2dRotZ",
    "address": "0x02066620",
    "kind": "game",
    "region": "arm9",

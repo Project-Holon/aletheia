@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02173F54",
+   "name": "DWCi_HandleNNResult",
    "address": "0x02173F54",
    "kind": "sdk",
    "region": "ov009",

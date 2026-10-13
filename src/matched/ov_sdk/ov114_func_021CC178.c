@@ -1,5 +1,5 @@
 /*
- * function: func_021CC178
+ * function: CRYPTOi__BN_sqr
  * address:  0x021CC178
  * packet:   pkt_ov114_021CC178
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      CRYPTOi__BN_sqr (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CADAC  0x021CADAC  arm  ov114
- *   func_021CC2B0  0x021CC2B0  arm  ov114
- *   func_021CAE20  0x021CAE20  arm  ov114
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
+ *   CRYPTOi__bn_sqr_normal  0x021CC2B0  arm  ov114
+ *   CRYPTOi__BN_copy  0x021CAE20  arm  ov114
  */
 
 typedef unsigned int BN_ULONG;
@@ -36,14 +36,14 @@ typedef struct
     int depth;
 } BN_CTX;
 
-extern BIGNUM *func_021CADAC(BIGNUM *, int);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *, int);
 typedef unsigned char  u8;
-extern void func_021CC2B0(unsigned long *r, unsigned long *a, int n, unsigned long *tmp);
-extern u8 *func_021CAE20(u8 *a, u8 *b);
+extern void CRYPTOi__bn_sqr_normal(unsigned long *r, unsigned long *a, int n, unsigned long *tmp);
+extern u8 *CRYPTOi__BN_copy(u8 *a, u8 *b);
 
-#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : func_021CADAC((a), (w)))
+#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (w)))
 
-int func_021CC178(BIGNUM *r, const BIGNUM *a, BN_CTX *ctx)
+int CRYPTOi__BN_sqr(BIGNUM *r, const BIGNUM *a, BN_CTX *ctx)
 {
     int max, al;
     BIGNUM *tmp, *rr;
@@ -68,22 +68,22 @@ int func_021CC178(BIGNUM *r, const BIGNUM *a, BN_CTX *ctx)
     rr->neg = 0;
     if (al == 4)
     {
-        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, 4, (long unsigned int *)t2);
+        CRYPTOi__bn_sqr_normal((long unsigned int *)rr->d, (long unsigned int *)a->d, 4, (long unsigned int *)t2);
     }
     else if (al == 8)
     {
-        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, 8, (long unsigned int *)t);
+        CRYPTOi__bn_sqr_normal((long unsigned int *)rr->d, (long unsigned int *)a->d, 8, (long unsigned int *)t);
     }
     else
     {
         if (bn_wexpand(tmp, max) == 0)
             return 0;
-        func_021CC2B0((long unsigned int *)rr->d, (long unsigned int *)a->d, al, (long unsigned int *)tmp->d);
+        CRYPTOi__bn_sqr_normal((long unsigned int *)rr->d, (long unsigned int *)a->d, al, (long unsigned int *)tmp->d);
     }
 
     if (max > 0 && rr->d[max - 1] == 0)
         rr->top--;
     if (rr != r)
-        func_021CAE20((u8 *)r, (u8 *)rr);
+        CRYPTOi__BN_copy((u8 *)r, (u8 *)rr);
     return 1;
 }

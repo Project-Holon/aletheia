@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B99B8  0x021B99B8  thumb  ov114
- *   func_021B9774  0x021B9774  thumb  ov114
- *   func_021B9838  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_FreePostData  0x021B99B8  thumb  ov114
+ *   NHTTP_RAP_DeleteConnection  0x021B9774  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  */
 
 typedef unsigned char u8;
 
-extern void func_021B99B8(u8 *p);
-extern void func_021B9774(u8 *p);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_FreePostData(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 
 void func_021D7124(char *p, int unused, int k, int a3)
 {
     if ((k == 3 || k == 6) && *(u8 **)(p + 0x404) != 0) {
-        func_021B99B8(*(u8 **)(p + 0x404));
-        func_021B9774(*(u8 **)(p + 0x404));
-        func_021B9838(*(u8 **)(p + 0x404));
+        NHTTP_RAP_FreePostData(*(u8 **)(p + 0x404));
+        NHTTP_RAP_DeleteConnection(*(u8 **)(p + 0x404));
+        NHTTP_RAP_Destroy(*(u8 **)(p + 0x404));
         *(int *)(p + 0x404) = 0;
     }
 }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   MIi_Wait 0x0272FD40 arm twl
  *   MIi_GetControlData 0x0272F804 arm twl
  */
@@ -22,8 +22,8 @@ struct Cfg {
     int unk8;
     int unkC;
 };
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void MIi_Wait(int);
 extern u32 MIi_GetControlData(u32);
 
@@ -47,7 +47,7 @@ void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 s
     if (size == 0) {
         return;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     MIi_Wait(ch);
     if (mode != 0) {
         NDMA[ch].src = src;
@@ -72,5 +72,5 @@ void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 s
     ctrl |= MIi_GetControlData(mode);
     NDMA[ch].ctrl = ctrl | (words == -1 ? 0x10000000 : words);
     MIi_Wait(ch);
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

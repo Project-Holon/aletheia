@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  * Live r0 from 020399A8 is the Link input of 0203D1A4.
  */
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ struct Link;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 void UNION_COMMAND_RecvPartnerMac(u32 a, int b, void *c, u8 *p)
 {
     u8 *q = p + 0x2830;
-    if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) func_02082D44(c, q + 0x24, 8);
+    if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(c, q + 0x24, 8);
 }

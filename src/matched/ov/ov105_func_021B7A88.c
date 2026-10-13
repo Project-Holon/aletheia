@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A88
+ * function: IRC_RESULT_InitActorSystem
  * address: 0x021B7A88
  * packet: pkt_ov105_021B7A88
  * region: ov105
@@ -54,7 +54,7 @@ extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern const u8 gClActorInitParam[];
-void func_021B7A88(void **p,const void *config,int heap)
+void IRC_RESULT_InitActorSystem(void **p,const void *config,int heap)
 {
     u16 pos[4],pos2[4];
     void *archive;

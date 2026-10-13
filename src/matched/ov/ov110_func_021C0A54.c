@@ -1,5 +1,5 @@
 /*
- * function: func_021C0A54
+ * function: PMS_SELECT_GRAPHIC_CreateTouchBar
  * address: 0x021C0A54
  * packet: pkt_ov110_021C0A54
  * region: ov110
@@ -10,16 +10,16 @@
  * symbols:
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   TOUCHBAR_SetButtonBgPriority 0x021B6588 thumb ov067
- *   data_021C39F8 0x021C39F8 data a4
+ *   gPmsSelectGraphicScrollBarButton 0x021C39F8 data a4
  */
 typedef struct { unsigned v[8]; } Table;
 typedef struct { Table *table; unsigned count; void *p; unsigned mode,a,b,c,d; } Descriptor;
-extern const Table data_021C39F8;
+extern const Table gPmsSelectGraphicScrollBarButton;
 extern void *TOUCHBAR_Create(Descriptor *,int);
 extern void TOUCHBAR_SetButtonBgPriority(unsigned char *p, unsigned int id, unsigned int v);
-void *func_021C0A54(int unused,void *p,int heap) {
+void *PMS_SELECT_GRAPHIC_CreateTouchBar(int unused,void *p,int heap) {
     Descriptor desc={0};
-    Table table=data_021C39F8;
+    Table table=gPmsSelectGraphicScrollBarButton;
     void *out;
     desc.count=1;
     desc.mode=1;

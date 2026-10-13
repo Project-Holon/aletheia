@@ -1,5 +1,5 @@
 /*
- * function: func_021B63D0
+ * function: COMPATIBLE_IRC_SYS_UpdateValueSync
  * address: 0x021B63D0
  * packet: pkt_ov101_021B63D0
  * region: ov101
@@ -11,7 +11,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry 0x02039468 arm
- *   func_021B6424 0x021B6424 thumb ov101
+ *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,8 +21,8 @@ struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
-extern int func_021B6424(int);
-int func_021B63D0(Obj *p)
+extern int COMPATIBLE_IRC_SYS_SendOwnValue(int);
+int COMPATIBLE_IRC_SYS_UpdateValueSync(Obj *p)
 {
     u16 old;
     if (p->busy) return 1;
@@ -31,7 +31,7 @@ int func_021B63D0(Obj *p)
     if (old > 180) {
         p->counter = 0;
         if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle())))
-            return func_021B6424((int)p);
+            return COMPATIBLE_IRC_SYS_SendOwnValue((int)p);
     }
     return 0;
 }

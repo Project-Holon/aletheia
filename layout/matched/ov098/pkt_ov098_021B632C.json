@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B632C",
+   "name": "PDC_MAIN_Delete",
    "address": "0x021B632C",
    "kind": "game",
    "region": "ov098",

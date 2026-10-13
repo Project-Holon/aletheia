@@ -1,5 +1,5 @@
 /*
- * function: func_021C1848
+ * function: PMS_SELECT_GRAPHIC_ReadPointer
  * address:  0x021C1848
  * packet:   pkt_ov110_021C1848
  * region:   ov110
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021C1848(u32 *p)
+u32 PMS_SELECT_GRAPHIC_ReadPointer(u32 *p)
 {
     return *p;
 }

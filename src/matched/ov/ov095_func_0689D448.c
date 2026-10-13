@@ -1,5 +1,5 @@
 /*
- * function: func_0689D448
+ * function: BTL_POSPOKE_RegisterFoughtPokes
  * address:  0x0689D448
  * packet:   pkt_ov095_0689D448
  * region:   ov095
@@ -36,7 +36,7 @@ extern int func_0689D4C0(int, int);
 extern int func_0689D4D0(int, int);
 extern int func_0689D4E0(int, int);
 
-void func_0689D448(T *a, int b, int c)
+void BTL_POSPOKE_RegisterFoughtPokes(T *a, int b, int c)
 {
     u32 k;
     u32 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A30
+ * function: WIFICLUB_ClosePanelIfTouchActive
  * address:  0x021C1A30
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C19DC  0x021C19DC  thumb  ov099
+ *   WIFICLUB_ClosePartnerPanel  0x021C19DC  thumb  ov099
  *
  * When the byte 0x8EF bytes in is set, hands the block and the selector to
- * func_021C19DC.  The selector is live into the call, which is why the image
+ * WIFICLUB_ClosePartnerPanel.  The selector is live into the call, which is why the image
  * materialises the 0x8EF constant in r2 rather than r1.
  */
 
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021C19DC(char *p, int v);
+extern void WIFICLUB_ClosePartnerPanel(char *p, int v);
 
-void func_021C1A30(u8 *p, int v)
+void WIFICLUB_ClosePanelIfTouchActive(u8 *p, int v)
 {
     if (p[0x8EF] != 0) {
-        func_021C19DC((char *)p, v);
+        WIFICLUB_ClosePartnerPanel((char *)p, v);
     }
 }

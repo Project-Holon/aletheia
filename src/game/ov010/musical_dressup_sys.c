@@ -124,7 +124,7 @@
  *   func_021F4F40  0x021F4F40  thumb  ov112
  *   func_0203F4E4  0x0203F4E4  arm
  *   STRBUF_ToChars  0x02045A38  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -665,7 +665,7 @@ extern unsigned char func_021F5140(void *table, int propId);
 extern void func_021F4F40(void **table);
 extern void func_0203F4E4(RtcDate *date);
 extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(void *msgData, u32 index);
 extern void MSGDATA_Delete(void *msgData);
@@ -1633,7 +1633,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         else if (work->linkMode == 1)
             peerName = func_021FCE28(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
         if (peerName != 0) {
-            func_02082D44(peerName, record->performers[i].name, 0x10);
+            MI_CpuCopy8(peerName, record->performers[i].name, 0x10);
         } else {
             u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, MUSICAL_EVENT_GetPlayerOfSlot(work, i)));
 

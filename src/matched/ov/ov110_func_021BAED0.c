@@ -1,5 +1,5 @@
 /*
- * function: func_021BAED0
+ * function: PMS_INPUT_VIEW_UpdateWordwinFocus
  * address:  0x021BAED0
  * packet:   pkt_ov110_021BAED0
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFC20  0x021BFC20  thumb  ov110
+ *   PMSIV_WORDWIN_SetVisible  0x021BFC20  thumb  ov110
  */
 #include "../include/Obj22352.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021BFC20(u8 *p, unsigned visible);
-void func_021BAED0(u8 *p, u8 *a1, void *a2) { func_021BFC20((u8 *)(((struct Obj22352 *)p)->f5C), 1); }
+extern void PMSIV_WORDWIN_SetVisible(u8 *p, unsigned visible);
+void PMS_INPUT_VIEW_UpdateWordwinFocus(u8 *p, u8 *a1, void *a2) { PMSIV_WORDWIN_SetVisible((u8 *)(((struct Obj22352 *)p)->f5C), 1); }

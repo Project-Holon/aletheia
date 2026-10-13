@@ -1,5 +1,5 @@
 /*
- * function: func_02085264
+ * function: OS_InitThread
  * address:  0x02085264
  * packet:   pkt_02085264
  * region:   arm9
@@ -22,7 +22,7 @@
  *   OS_SetSwitchThreadCallback    0x02085AF8  arm
  *   OS_CreateThread               0x020853C0  arm
  *   OSi_IdleThreadProc            0x02085B20  arm
- *   g_02150FD0                    0x02150FD0  data
+ *   gOsThreadBss                    0x02150FD0  data
  *   OSi_ThreadInfo                0x02150FEC  data
  *   OSi_IdleThread                0x02150FFC  data
  *   OSi_LauncherThread            0x021510BC  data
@@ -154,7 +154,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -172,16 +172,16 @@ extern char SDK_IRQ_STACKSIZE[];
 extern char SDK_AUTOLOAD_DTCM_START[];
 extern char SDK_SECTION_ARENA_DTCM_START[];
 
-void func_02085264(void)
+void OS_InitThread(void)
 {
     u32 stackBottom;
     u32 stackTop;
 
-    if (g_02150FD0.OSi_IsThreadInitialized) {
+    if (gOsThreadBss.OSi_IsThreadInitialized) {
         return;
     }
-    g_02150FD0.OSi_IsThreadInitialized = 1;
-    g_02150FD0.OSi_CurrentThreadPtr = &OSi_ThreadInfo.current;
+    gOsThreadBss.OSi_IsThreadInitialized = 1;
+    gOsThreadBss.OSi_CurrentThreadPtr = &OSi_ThreadInfo.current;
 
     OSi_LauncherThread.priority = 16;
     OSi_LauncherThread.id = 0;
@@ -189,8 +189,8 @@ void func_02085264(void)
     OSi_LauncherThread.next = 0;
     OSi_LauncherThread.profiler = 0;
 
-    g_02150FD0.OSi_ThreadInfo.list = &OSi_LauncherThread;
-    g_02150FD0.OSi_ThreadInfo.current = &OSi_LauncherThread;
+    gOsThreadBss.OSi_ThreadInfo.list = &OSi_LauncherThread;
+    gOsThreadBss.OSi_ThreadInfo.current = &OSi_LauncherThread;
 
     stackTop = ((s32)SDK_SYS_STACKSIZE <= 0)
         ? (u32)SDK_SECTION_ARENA_DTCM_START - (s32)SDK_SYS_STACKSIZE
@@ -206,8 +206,8 @@ void func_02085264(void)
 
     OSi_LauncherThread.joinQueue.head = OSi_LauncherThread.joinQueue.tail = 0;
 
-    g_02150FD0.OSi_ThreadInfo.isNeedRescheduling = 0;
-    g_02150FD0.OSi_ThreadInfo.irqDepth = 0;
+    gOsThreadBss.OSi_ThreadInfo.isNeedRescheduling = 0;
+    gOsThreadBss.OSi_ThreadInfo.irqDepth = 0;
 
     *(OSThreadInfo **)0x02FFFFA0 = &OSi_ThreadInfo;
 

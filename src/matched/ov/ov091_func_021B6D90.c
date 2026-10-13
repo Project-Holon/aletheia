@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Byte-correct; 36 of 37 sites resolve.  The one wildcard is the arm9 call
- * at +013C to func_02061C30, which has no witness outside this range.
+ * at +013C to NNS_GfdResetVramTransferTaskQueue, which has no witness outside this range.
  * blocker:
- *   func_02061C30  0x02061C30  arm  (arm9, the integrator's leaf; unlabelled ARM
+ *   NNS_GfdResetVramTransferTaskQueue  0x02061C30  arm  (arm9, the integrator's leaf; unlabelled ARM
  *   tail-call stub `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C;
  *   .word 0x02146B80`).  No verified C exists: src/pending/arm9_sdk/
- *   func_02061C30.c (`OS_WakeupThreadDirect(&dacktimer_thread);`) is DIFF,
+ *   NNS_GfdResetVramTransferTaskQueue.c (`OS_WakeupThreadDirect(&dacktimer_thread);`) is DIFF,
  *   network.o is a 3.0.0.139 object no available mwcc build reproduces.
  *   Same blocker as src/pending/ov/ov091_func_021B6FEC.c.
  *
@@ -40,7 +40,7 @@
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_02061C30  0x02061C30  arm
+ *   NNS_GfdResetVramTransferTaskQueue  0x02061C30  arm
  *   d_021BEC3C     0x021BEC3C  data  a4
  *   d_021BEAEC     0x021BEAEC  data  a4
  *   d_021BEAFC     0x021BEAFC  data  a4
@@ -95,7 +95,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_02061C30(void);
+extern void NNS_GfdResetVramTransferTaskQueue(void);
 
 #define reg_GX_DISPCNT (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT (*(volatile u32 *)0x04001000)
@@ -159,5 +159,5 @@ void POKELIST_SetupDisplay(u8 *p)
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), *(u16 *)p);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
 }

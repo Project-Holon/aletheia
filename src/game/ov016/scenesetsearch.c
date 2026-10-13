@@ -1,7 +1,7 @@
 /*
  * file:     scenesetsearch.c
  * unit:     yes
- * function: DWCi_SceneSetSearch, func_021CB7EC, func_021CB894, func_021CB8FC, func_021CB93C, func_021CB960, func_021CB978, func_021CBAA0, DWCi_SceneSetSearch_draw, button, endScene, endScene1, func_021CBB70, func_021CBC44, procError1
+ * function: DWCi_SceneSetSearch, initGraphics, DWCi_SceneSetSearchProcInit, DWCi_SceneSetSearchProcInit1, DWCi_SceneSetSearchProcInit2, procScene, isEnd, input, DWCi_SceneSetSearch_draw, button, endScene, endScene1, DWCi_SceneSetSearchEndScene2, DWCi_SceneSetSearchProcError, procError1
  * address:  0x021CB780
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -47,13 +47,13 @@
  *   DWCi_SNDlPlay                    0x021cffac arm
  *   DWCi_ChangeScene                 0x021c0e40 arm
  *   scenesetsearch_bss               0x021de608 data
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   dat_021DB6C4    0x021DB6C4  data
- *   dat_021DB6DC    0x021DB6DC  data
- *   dat_021DB6F4    0x021DB6F4  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_0207EB78    0x0207EB78  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   sSceneSetSearchPathJbBgStep3Char    0x021DB6C4  data
+ *   sSceneSetSearchPathYbBgStep3Pltt    0x021DB6DC  data
+ *   sSceneSetSearchPathXb4MultiScr    0x021DB6F4  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
@@ -65,7 +65,7 @@
  *   DWCi_SEARCHlGetApInfo            0x021CF114  arm
  *   DWCi_WINlInitEx                  0x021D1208  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
- *   g_021DE608                       0x021DE608  data
+ *   gSceneSetSearchWork                       0x021DE608  data
  *   DWCi_IPTlCheckTrigger            0x021d6824 arm
  *   DWCi_BTNlSet                     0x021bcb28 arm
  *   DWCi_EFFlWait                    0x021D5790  arm
@@ -130,16 +130,13 @@ extern void DWCi_SEARCHlInit(void);
 extern bool DWCi_SEARCHlBegin(void);
 extern void DWCi_SNDlPlay(int no);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_CMNlButton(int kind);
 extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
-extern void func_021CBAA0(void);
-extern void func_021CBAC8(void);
-extern void func_021CB978(void);
 extern void DWCi_SNDlStop(void);
 extern int DWCi_SEARCHlGetApInfo(void *info);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
@@ -157,33 +154,40 @@ extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SEARCHlEnd(void);
 extern SETTINGINFO *DWCi_SETTIGNlGet(void);
 extern void DWCi_SETTINGlSetSetting(int idx);
-extern void DWCi_SetParam_(void *param0, void *param1);
-extern void DWCi_SetParam2_(void *param2, void *param3);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern int DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
 extern void DWCi_HLlLoad(int idx);
 extern bool DWCi_WINlIsInit(void);
 void DWCi_SceneSetSearch(void);
-void func_021CB7EC(void);
-void func_021CB960(void);
 void DWCi_SceneSetSearch_draw(void);
 extern SCENESETSEARCH_BSS scenesetsearch_bss;
-extern unsigned short dat_021DB6C4[];
-extern unsigned short dat_021DB6DC[];
-extern unsigned short dat_021DB6F4[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_0207EB78[];
-extern struct SearchBss g_021DE608;
+extern unsigned short sSceneSetSearchPathJbBgStep3Char[];
+extern unsigned short sSceneSetSearchPathYbBgStep3Pltt[];
+extern unsigned short sSceneSetSearchPathXb4MultiScr[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short GX_LoadBG2Scr[];
+extern struct SearchBss gSceneSetSearchWork;
 extern unsigned char Choose;
 extern int DWCi_SceneSetSelectWay;
 extern int DWCi_SceneSetApList;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
-
 static void initGraphics(void);
-
 static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void procScene(void);
+static void isEnd(void);
+static void input(void);
+static void button(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
+static void procError(void);
+static void procError1(void);
 
 
 void DWCi_SceneSetSearch(void)
@@ -203,19 +207,18 @@ void DWCi_SceneSetSearch(void)
 }
 
 
-
 /*
- * Load three tilemaps through func_021BD1D4, then set the low two bits of five
+ * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.
  */
-void func_021CB7EC(void)
+static void initGraphics(void)
 {
     u16 *p;
 
-    func_021BD1D4((char *)((int)dat_021DB6C4), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB6DC), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB6F4), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetSearchPathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetSearchPathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetSearchPathXb4MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -228,11 +231,6 @@ void func_021CB7EC(void)
 }
 
 
-
-static void procInit1(void);
-
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -241,11 +239,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
-
-
-static void procInit2(void);
-
 
 
 static void procInit1(void)
@@ -259,11 +252,6 @@ static void procInit1(void)
 }
 
 
-
-static void procScene(void);
-
-
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) {
@@ -274,30 +262,21 @@ static void procInit2(void)
 }
 
 
-
 /*
- * Call func_021CBAA0, DWCi_SceneSetSearch_draw, func_021CBAC8, func_021CB978.
+ * Call input, DWCi_SceneSetSearch_draw, button, isEnd.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CB960.c \
- *       --func func_021CB960 --addr 0x021CB960 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CB960 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021CB960(void)
+static void procScene(void)
 {
-    func_021CBAA0();
+    input();
     DWCi_SceneSetSearch_draw();
-    func_021CBAC8();
-    func_021CB978();
+    button();
+    isEnd();
 }
-
-
-
-static void procError(void);
-
-
-static void endScene(void);
-
 
 
 static void isEnd(void)
@@ -306,13 +285,13 @@ static void isEnd(void)
     int num;
     int i;
 
-    g_021DE608.Count++;
-    if (g_021DE608.Count < 300)
+    gSceneSetSearchWork.Count++;
+    if (gSceneSetSearchWork.Count < 300)
         return;
     DWCi_SNDlStop();
     num = DWCi_SEARCHlGetApInfo(&info);
     if (num == 0) {
-        g_021DE608.Choose = 2;
+        gSceneSetSearchWork.Choose = 2;
         DWCi_WINlInitEx(15, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
@@ -324,18 +303,17 @@ static void isEnd(void)
             break;
     }
     if (i == num) {
-        g_021DE608.Choose = 3;
+        gSceneSetSearchWork.Choose = 3;
         DWCi_WINlInitEx(14, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
         DWCi_ChangeScene(procError);
         return;
     }
-    g_021DE608.Choose = 1;
+    gSceneSetSearchWork.Choose = 1;
     DWCi_SNDlPlay(15);
     DWCi_ChangeScene(endScene);
 }
-
 
 
 static void input(void)
@@ -362,18 +340,12 @@ static void button(void)
 }
 
 
-static void endScene1(void);
-
-
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
-
-static void endScene2(void);
 
 
 static void endScene1(void)
@@ -385,7 +357,6 @@ static void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 
 static void endScene2(void)
@@ -406,19 +377,14 @@ static void endScene2(void)
     if (Choose != 1) {
         DWCi_SEARCHlEnd();
         DWCi_SETTINGlSetSetting(DWCi_SETTIGNlGet()->setting);
-        DWCi_SetParam_((void *)2, (void *)1);
+        DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectWay);
     } else {
-        DWCi_SetParam_(0, (void *)1);
+        DWCi_SetParam_(0, 1);
         DWCi_SetParam2_(0, 0);
         DWCi_ChangeScene((void (*)())&DWCi_SceneSetApList);
     }
 }
-
-
-
-static void procError1(void);
-
 
 
 static void procError(void)

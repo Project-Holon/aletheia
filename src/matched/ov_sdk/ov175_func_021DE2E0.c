@@ -26,22 +26,22 @@
  *   gsXmlReadChildAsDateTimeElement 0x02183BA4 arm ov009
  *   gsXmlReadChildAsBase64Binary  0x02183918 arm ov009
  *   gsifree                       0x0217EAE0 arm ov009
- *   g_021E3E28                    0x021E3E28 data ov175
- *   g_021E3E30                    0x021E3E30 data ov175
- *   g_021E3E44                    0x021E3E44 data ov175
- *   g_021E3E50                    0x021E3E50 data ov175
- *   g_021E3E5C                    0x021E3E5C data ov175
- *   g_021E3E64                    0x021E3E64 data ov175
- *   g_021E3E70                    0x021E3E70 data ov175
- *   g_021E3E7C                    0x021E3E7C data ov175
- *   g_021E3E88                    0x021E3E88 data ov175
- *   g_021E3E94                    0x021E3E94 data ov175
- *   g_021E3EA8                    0x021E3EA8 data ov175
- *   g_021E3EAC                    0x021E3EAC data ov175
- *   g_021E3EC0                    0x021E3EC0 data ov175
- *   g_021E3ED0                    0x021E3ED0 data ov175
- *   g_021E3ED8                    0x021E3ED8 data ov175
- *   g_021E3EEC                    0x021E3EEC data ov175
+ *   sReadTagValues                    0x021E3E28 data ov175
+ *   sReadTagArrayOfRecordValue                    0x021E3E30 data ov175
+ *   sReadTagRecordValue                    0x021E3E44 data ov175
+ *   sReadTagByteValue                    0x021E3E50 data ov175
+ *   sReadTagValue                    0x021E3E5C data ov175
+ *   sReadTagShortValue                    0x021E3E64 data ov175
+ *   sReadTagIntValue                    0x021E3E70 data ov175
+ *   sReadTagInt64Value                    0x021E3E7C data ov175
+ *   sReadTagFloatValue                    0x021E3E88 data ov175
+ *   sReadTagAsciiStringValue                    0x021E3E94 data ov175
+ *   sReadEmptyString                    0x021E3EA8 data ov175
+ *   sReadTagUnicodeStringValue                    0x021E3EAC data ov175
+ *   sReadTagBooleanValue                    0x021E3EC0 data ov175
+ *   sReadTagTrue                    0x021E3ED0 data ov175
+ *   sReadTagDateAndTimeValue                    0x021E3ED8 data ov175
+ *   sReadTagBinaryDataValue                    0x021E3EEC data ov175
  */
 
 typedef unsigned char u8;
@@ -73,22 +73,22 @@ typedef struct SAKERequestInternal {
     void *stream;
 } SAKERequestInternal;
 
-extern char g_021E3E28[];
-extern char g_021E3E30[];
-extern char g_021E3E44[];
-extern char g_021E3E50[];
-extern char g_021E3E5C[];
-extern char g_021E3E64[];
-extern char g_021E3E70[];
-extern char g_021E3E7C[];
-extern char g_021E3E88[];
-extern char g_021E3E94[];
-extern char g_021E3EA8[];
-extern char g_021E3EAC[];
-extern char g_021E3EC0[];
-extern char g_021E3ED0[];
-extern char g_021E3ED8[];
-extern char g_021E3EEC[];
+extern char sReadTagValues[];
+extern char sReadTagArrayOfRecordValue[];
+extern char sReadTagRecordValue[];
+extern char sReadTagByteValue[];
+extern char sReadTagValue[];
+extern char sReadTagShortValue[];
+extern char sReadTagIntValue[];
+extern char sReadTagInt64Value[];
+extern char sReadTagFloatValue[];
+extern char sReadTagAsciiStringValue[];
+extern char sReadEmptyString[];
+extern char sReadTagUnicodeStringValue[];
+extern char sReadTagBooleanValue[];
+extern char sReadTagTrue[];
+extern char sReadTagDateAndTimeValue[];
+extern char sReadTagBinaryDataValue[];
 
 extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int gsXmlCountChildren(void *stream, char *matchtag);
@@ -116,10 +116,10 @@ static int sakeiReadOutputRecords(SAKERequestInternal *request,
     int recordIndex;
     unsigned long size;
 
-    if (!gsXmlMoveToChild(request->stream, g_021E3E28))
+    if (!gsXmlMoveToChild(request->stream, sReadTagValues))
         return 5;
 
-    *numRecords = gsXmlCountChildren(request->stream, g_021E3E30);
+    *numRecords = gsXmlCountChildren(request->stream, sReadTagArrayOfRecordValue);
     if (*numRecords == 0) {
         *outputRecordsPtr = 0;
         return 0;
@@ -135,7 +135,7 @@ static int sakeiReadOutputRecords(SAKERequestInternal *request,
     for (recordIndex = 0; recordIndex < *numRecords; recordIndex++) {
         size = numFields << 4;
         {
-            if (!gsXmlMoveToNext(request->stream, g_021E3E30))
+            if (!gsXmlMoveToNext(request->stream, sReadTagArrayOfRecordValue))
                 return 5;
 
             outputRecord = (SAKEField *)gsimalloc(size);
@@ -144,101 +144,101 @@ static int sakeiReadOutputRecords(SAKERequestInternal *request,
             memset(outputRecord, 0, size);
             outputRecords[recordIndex] = outputRecord;
 
-            if (gsXmlCountChildren(request->stream, g_021E3E44) != numFields)
+            if (gsXmlCountChildren(request->stream, sReadTagRecordValue) != numFields)
                 return 5;
 
             for (fieldIndex = 0; fieldIndex < numFields; fieldIndex++) {
                 outputField = &outputRecord[fieldIndex];
                 outputField->name = fieldNames[fieldIndex];
-                if (!gsXmlMoveToNext(request->stream, g_021E3E44))
+                if (!gsXmlMoveToNext(request->stream, sReadTagRecordValue))
                     return 5;
 
-                if (gsXmlMoveToChild(request->stream, g_021E3E50)) {
+                if (gsXmlMoveToChild(request->stream, sReadTagByteValue)) {
                     int value;
-                    if (!gsXmlReadChildAsInt(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsInt(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 0;
                     outputField->value.byte = (u8)value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3E64)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagShortValue)) {
                     int value;
-                    if (!gsXmlReadChildAsInt(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsInt(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 1;
                     outputField->value.sshort = (u16)value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3E70)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagIntValue)) {
                     int value;
-                    if (!gsXmlReadChildAsInt(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsInt(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 2;
                     outputField->value.ival = value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3E7C)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagInt64Value)) {
                     long long value;
-                    if (!gsXmlReadChildAsInt64(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsInt64(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 9;
                     outputField->value.i64 = value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3E88)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagFloatValue)) {
                     float value;
-                    if (!gsXmlReadChildAsFloat(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsFloat(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 3;
                     outputField->value.fval = value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3E94)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagAsciiStringValue)) {
                     char *value;
                     int len;
-                    if (!gsXmlReadChildAsString(request->stream, g_021E3E5C, &value, &len))
+                    if (!gsXmlReadChildAsString(request->stream, sReadTagValue, &value, &len))
                         return 5;
                     if (value != 0)
                         value[len] = 0;
                     else
-                        value = g_021E3EA8;
+                        value = sReadEmptyString;
                     outputField->type = 4;
                     outputField->value.str = value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3EAC)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagUnicodeStringValue)) {
                     char *value;
                     int len;
                     unsigned short *valueUnicode;
-                    if (!gsXmlReadChildAsString(request->stream, g_021E3E5C, &value, &len))
+                    if (!gsXmlReadChildAsString(request->stream, sReadTagValue, &value, &len))
                         return 5;
                     if (value != 0)
                         value[len] = 0;
                     else
-                        value = g_021E3EA8;
+                        value = sReadEmptyString;
                     valueUnicode = UTF8ToUCS2StringAlloc(value);
                     if (valueUnicode == 0)
                         return 6;
                     outputField->type = 5;
                     outputField->value.ustr = valueUnicode;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3EC0)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagBooleanValue)) {
                     char *value;
                     int len;
                     int boolval;
-                    if (!gsXmlReadChildAsString(request->stream, g_021E3E5C, &value, &len))
+                    if (!gsXmlReadChildAsString(request->stream, sReadTagValue, &value, &len))
                         return 5;
                     if (value != 0) {
                         value[len] = 0;
-                        boolval = (strcmp(value, g_021E3ED0) == 0);
+                        boolval = (strcmp(value, sReadTagTrue) == 0);
                     } else {
                         boolval = 0;
                     }
                     outputField->type = 6;
                     outputField->value.bval = boolval;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3ED8)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagDateAndTimeValue)) {
                     long value;
-                    if (!gsXmlReadChildAsDateTimeElement(request->stream, g_021E3E5C, &value))
+                    if (!gsXmlReadChildAsDateTimeElement(request->stream, sReadTagValue, &value))
                         return 5;
                     outputField->type = 7;
                     outputField->value.date = value;
-                } else if (gsXmlMoveToChild(request->stream, g_021E3EEC)) {
+                } else if (gsXmlMoveToChild(request->stream, sReadTagBinaryDataValue)) {
                     unsigned char *value;
                     int len;
-                    if (!gsXmlReadChildAsBase64Binary(request->stream, g_021E3E5C, 0, &len))
+                    if (!gsXmlReadChildAsBase64Binary(request->stream, sReadTagValue, 0, &len))
                         return 5;
                     if (len > 0) {
                         value = (unsigned char *)gsimalloc(len);
                         if (value == 0)
                             return 6;
-                        if (!gsXmlReadChildAsBase64Binary(request->stream, g_021E3E5C, value, &len)) {
+                        if (!gsXmlReadChildAsBase64Binary(request->stream, sReadTagValue, value, &len)) {
                             gsifree(value);
                             return 5;
                         }

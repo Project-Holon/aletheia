@@ -1,5 +1,5 @@
 /*
- * function: func_021BA780
+ * function: IRCBATTLEMATCH_InitScreen
  * address: 0x021BA780
  * packet: pkt_ov100_021BA780
  * region: ov100
@@ -13,8 +13,8 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_0201EC74 0x0201EC74 thumb
- *   func_021BA624 0x021BA624 thumb ov100
- *   func_021BA028 0x021BA028 thumb ov100
+ *   IRCBATTLEMATCH_InitWindowSystem 0x021BA624 thumb ov100
+ *   IRCBATTLEMATCH_SetupDisplay 0x021BA028 thumb ov100
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
@@ -25,31 +25,31 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   FADE_Start 0x0204E720 arm
- *   func_021BA668 0x021BA668 thumb ov100
+ *   IRCBATTLEMATCH_PrintWaitingMessage 0x021BA668 thumb ov100
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_021BA1C8 0x021BA1C8 thumb ov100
+ *   IRCBATTLEMATCH_VBlankTask 0x021BA1C8 thumb ov100
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   func_021B96EC 0x021B96EC thumb ov100
- *   func_021B974C 0x021B974C thumb ov100
+ *   IRCBATTLEMATCH_LoadActorResources 0x021B96EC thumb ov100
+ *   IRCBATTLEMATCH_CreateActor 0x021B974C thumb ov100
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BAA9C 0x021BAA9C thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitFadeIn 0x021BAA9C thumb ov100
  *   gClActorInitParam 0x020A1448 data a4
- *   d_021BB6F0 0x021BB6F0 data a4
+ *   gIrcBattleMatchVramBanks 0x021BB6F0 data a4
  */
 #include "../include/Obj00178.h"
 #include "../include/Obj22083.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern const u32 gClActorInitParam[],d_021BB6F0[];
+extern const u32 gClActorInitParam[],gIrcBattleMatchVramBanks[];
 struct Bank;
 struct GfFont;
 struct MsgBank;
@@ -57,14 +57,14 @@ struct R;
 struct U16Vec;
 struct Cfg;
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void func_021BA624(unsigned a);
-extern void func_021BA028(char *);
-extern void func_021BA668(int a);
-extern void func_021BA1C8(void);
-extern void func_021BAA9C(int a);
-extern void func_021B96EC(char *);
-extern void func_021B974C(int,int,int,int,int);
-extern void func_021B95B8(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_InitWindowSystem(unsigned a);
+extern void IRCBATTLEMATCH_SetupDisplay(char *);
+extern void IRCBATTLEMATCH_PrintWaitingMessage(int a);
+extern void IRCBATTLEMATCH_VBlankTask(void);
+extern void IRCBATTLEMATCH_StepWaitFadeIn(int a);
+extern void IRCBATTLEMATCH_LoadActorResources(char *);
+extern void IRCBATTLEMATCH_CreateActor(int,int,int,int,int);
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
 struct WordSet;
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -85,16 +85,16 @@ extern void FADE_Start(u32,int,int,int);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
-void func_021BA780(char *p) {
+void IRCBATTLEMATCH_InitScreen(char *p) {
  void *owner;
  void *raw;
  void *resource;
  int i;
  GF_FONT_SetDefaultTextColor();
  ((struct Obj00178 *)p)->f28C=(int)func_0201EC74(11,200,((struct Obj00178 *)p)->f278);
- func_021BA624((unsigned int)p);func_021BA028(p);
+ IRCBATTLEMATCH_InitWindowSystem((unsigned int)p);IRCBATTLEMATCH_SetupDisplay(p);
  ((struct Obj00178 *)p)->f298=(int)STRBUF_Create(200,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f294=(int)STRBUF_Create(200,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f290=(int)GF_FONT_Create(23,0,0,0,((struct Obj00178 *)p)->f278);
@@ -110,23 +110,23 @@ void func_021BA780(char *p) {
  ((struct Obj00178 *)p)->f308=(int)func_02049740(owner,4,4,0,0,((struct Obj00178 *)p)->f278);
  ARC_UTIL_UploadBgPaletteAddFromHandle(owner,9,4,0,(u16)(((struct Obj00178 *)p)->f308),0,0,((struct Obj00178 *)p)->f278);ARC_TOOL_DeleteHandle(owner);
  ((struct Obj00178 *)p)->f304=(int)func_0201F5DC((void *)5,14,0,((struct Obj00178 *)p)->f278);
- FADE_Start(3,16,0,2);func_021BA668((int)p);
- CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021BB6F0,((struct Obj00178 *)p)->f278);
+ FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage((int)p);
+ CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)gIrcBattleMatchVramBanks,((struct Obj00178 *)p)->f278);
  ((struct Obj00178 *)p)->f2B4=(int)CLACT_CreateUnit(40,0,((struct Obj00178 *)p)->f278);
- ((struct Obj00178 *)p)->f2B0=func_020056A0((u32)func_021BA1C8,(u32)p,0);
+ ((struct Obj00178 *)p)->f2B0=func_020056A0((u32)IRCBATTLEMATCH_VBlankTask,(u32)p,0);
  ((struct Obj00178 *)p)->fCB8=PRINTSYS_QUE_Create((void *)(((struct Obj00178 *)p)->f278));
  ((struct Obj00178 *)p)->fCC4=(int)APP_TASKMENU_RES_Create(6,9,((struct Obj00178 *)p)->f290,((struct Obj00178 *)p)->fCB8,((struct Obj00178 *)p)->f278);
- func_021B96EC(p);
+ IRCBATTLEMATCH_LoadActorResources(p);
  if(((struct Obj00178 *)p)->f24C!=5) {
-  func_021B974C((int)p,57,154,2,10);func_021B974C((int)p,128,113,4,2);func_021B974C((int)p,200,38,0,11);func_021B974C((int)p,128,77,5,3);
+  IRCBATTLEMATCH_CreateActor((int)p,57,154,2,10);IRCBATTLEMATCH_CreateActor((int)p,128,113,4,2);IRCBATTLEMATCH_CreateActor((int)p,200,38,0,11);IRCBATTLEMATCH_CreateActor((int)p,128,77,5,3);
  } else {
-  func_021B974C((int)p,57,154,0,4);func_021B974C((int)p,198,154,1,5);func_021B974C((int)p,200,38,2,6);func_021B974C((int)p,55,38,3,7);func_021B974C((int)p,152,146,6,0);func_021B974C((int)p,103,146,7,1);func_021B974C((int)p,152,46,4,0);func_021B974C((int)p,103,46,5,1);
+  IRCBATTLEMATCH_CreateActor((int)p,57,154,0,4);IRCBATTLEMATCH_CreateActor((int)p,198,154,1,5);IRCBATTLEMATCH_CreateActor((int)p,200,38,2,6);IRCBATTLEMATCH_CreateActor((int)p,55,38,3,7);IRCBATTLEMATCH_CreateActor((int)p,152,146,6,0);IRCBATTLEMATCH_CreateActor((int)p,103,146,7,1);IRCBATTLEMATCH_CreateActor((int)p,152,46,4,0);IRCBATTLEMATCH_CreateActor((int)p,103,46,5,1);
  }
  BG_SYS_SetMainVisiblePlanes((int)19);BG_SYS_SetSubVisiblePlanes((int)23);
  ((struct Obj00178 *)p)->f242=((struct Obj00178 *)p)->f278;
  owner=func_020490F4(28,((struct Obj00178 *)p)->f242);
  raw=ARC_UTIL_LoadPaletteBlockFromHandle(owner,2,(u32)(&resource),((struct Obj00178 *)p)->f242);
- func_02082D44(((struct Obj22083 *)resource)->fC,p,0x120);
- for(i=0;i<9;i++) func_02082D44(p+(8-i)*32,p+(i+9)*32,32);
- func_020307B0(raw);ARC_TOOL_DeleteHandle(owner);func_021B95B8((u8 *)p,(u32)func_021BAA9C);
+ MI_CpuCopy8(((struct Obj22083 *)resource)->fC,p,0x120);
+ for(i=0;i<9;i++) MI_CpuCopy8(p+(8-i)*32,p+(i+9)*32,32);
+ func_020307B0(raw);ARC_TOOL_DeleteHandle(owner);IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepWaitFadeIn);
 }

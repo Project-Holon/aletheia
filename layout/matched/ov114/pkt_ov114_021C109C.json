@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C109C",
+   "name": "ghttpSetRequestEncryptionEngine",
    "address": "0x021C109C",
    "kind": "sdk",
    "region": "ov114",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02176594",
+   "name": "DWCi_GetNextMeshMakeTryTick",
    "address": "0x02176594",
    "kind": "sdk",
    "region": "ov009",

@@ -12,9 +12,9 @@
  *
  * symbols:
  *   func_02005728  0x02005728  thumb
- *   func_0200D488  0x0200D488  thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D4B8  0x0200D4B8  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryField  0x0200D4B8  thumb
  *   FIELD_ENCOUNT_IsRepelled  0x021A996C  thumb
  * Addresses are Black-image addresses.
  */
@@ -33,9 +33,9 @@ struct Unit {
 
 struct Blk38;
 struct GdsEnt;
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
+extern struct GdsEnt *MOVE_POKEMON_SAVE_GetEntry(struct Blk38 *p, u32 i);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct GdsEnt *e, u32 i);
 extern int FIELD_ENCOUNT_IsRepelled(struct Unit *u, u8 n);
 extern u32 func_02005728(u32 v);
 
@@ -47,12 +47,12 @@ void *FIELD_ENCOUNT_PickRoamer(void *a0, struct Unit *u, u32 want)
     void *m;
 
     for (i = 0; i < 2; i++) {
-        if (func_0200D488(u->f04, i) == 0)
+        if (MOVE_POKEMON_SAVE_IsEntryActive(u->f04, i) == 0)
             continue;
-        m = func_0200D4AC(u->f04, i);
-        if (func_0200D4B8(m, 1) != want)
+        m = MOVE_POKEMON_SAVE_GetEntry(u->f04, i);
+        if (MOVE_POKEMON_SAVE_GetEntryField(m, 1) != want)
             continue;
-        if (FIELD_ENCOUNT_IsRepelled(u, func_0200D4B8(m, 6)) != 0)
+        if (FIELD_ENCOUNT_IsRepelled(u, MOVE_POKEMON_SAVE_GetEntryField(m, 6)) != 0)
             continue;
         buf[n++] = m;
     }

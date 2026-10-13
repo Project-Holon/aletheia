@@ -16,10 +16,10 @@
  *
  * symbols:
  *   func_0215F3D0  0x0215F3D0  arm  ov009
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F080  0x0215F080  arm  ov009
  *   func_0215E2C0  0x0215E2C0  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef struct {
@@ -32,10 +32,10 @@ typedef struct {
 } Socket;
 
 extern int func_0215F3D0(Socket *socket);
-extern unsigned long func_02087988(void);
+extern unsigned long OS_DisableInterrupts(void);
 extern int func_0215F080(char *p);
 extern long func_0215E2C0(Socket *socket);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 static inline int IsStream(Socket *socket)
 {
@@ -61,14 +61,14 @@ int func_0215EFB0(int s)
 			result |= 0x20;
 		}
 		if (socket->flag_mode == 1 || (socket->state & 4)) {
-			enable = func_02087988();
+			enable = OS_DisableInterrupts();
 			if (func_0215F080((char *)socket) > 0) {
 				result |= 1;
 			}
 			if (func_0215E2C0(socket) > 0) {
 				result |= 8;
 			}
-			func_0208799C(enable);
+			OS_RestoreInterrupts(enable);
 		}
 		if (IsStream(socket)) {
 			if ((socket->state & 4) && socket->type != 4) {

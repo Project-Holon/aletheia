@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FA0
+ * function: IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock
  * address: 0x021B8FA0
  * packet: pkt_ov103_021B8FA0
  * region: ov103
@@ -29,7 +29,7 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a
 extern void func_020413B0(u8,u8,u8,u8,u8,u8);
 extern void func_020409B4(u8);
 extern u32 func_020307B0(void *p);
-void func_021B8FA0(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8 l,u8 m,int n,u16 o) {
+void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8 l,u8 m,int n,u16 o) {
  void *handle;
  int t;
  u8 *data;

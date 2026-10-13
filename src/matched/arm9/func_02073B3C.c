@@ -1,5 +1,5 @@
 /*
- * function: func_02073B3C
+ * function: NNS_SndStrmStop
  * address:  0x02073B3C
  * packet:   pkt_02073AD0
  * region:   arm9
@@ -12,13 +12,13 @@
  * Teardown guarded on bit 1 of the flags word at +0x2C: releases the slot
  * mask built from +0x48, tears down the two sub-objects at +0x08 and +0x18,
  * clears the bit, then brackets func_02089B38(1) with the save/restore pair
- * func_02089D40 / func_02089CD4. The unguarded tail call to func_02073BB0
+ * func_02089D40 / func_02089CD4. The unguarded tail call to NNSi_SndStrmReleaseTimer
  * runs either way.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, per the 2026-09-19
  * correction at the top of
  * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md,
- * and the same pin its packet sibling func_02073AD0 carries. The literal 1 is
+ * and the same pin its packet sibling NNS_SndStrmSetVolume carries. The literal 1 is
  * live twice here (the `1 << o->f48` shift argument and the func_02089B38
  * argument). Under dsi/1.1p1 -O4,p that is exactly the wall the idiom
  * describes: 1.1p1 pools the 1 into a callee-saved register, giving
@@ -38,7 +38,7 @@
  * CAPPED AT MATCH for lack of outside witnesses, not for codegen. Two PC24
  * sites are unattested, and each target has exactly one branch reference
  * anywhere in the image, which is the call inside this function, so no cut
- * frees either: +0040 func_0208C884 and +006C func_02073BB0.
+ * frees either: +0040 func_0208C884 and +006C NNSi_SndStrmReleaseTimer.
  *
  * symbols:
  *   func_020894DC  0x020894DC  arm
@@ -47,11 +47,11 @@
  *   func_02089D40  0x02089D40  arm
  *   func_02089B38  0x02089B38  arm
  *   func_02089CD4  0x02089CD4  arm
- *   func_02073BB0  0x02073BB0  arm
+ *   NNSi_SndStrmReleaseTimer  0x02073BB0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02073B3C.c \
- *       --func func_02073B3C --addr 0x02073B3C --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/pending/NNS_SndStrmStop.c \
+ *       --func NNS_SndStrmStop --addr 0x02073B3C --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char  u8;
@@ -77,9 +77,9 @@ extern u32  func_02089D40(void);
 extern void func_02089B38(u32 a);
 extern void func_02089CD4(u32 a);
 struct X;
-extern void func_02073BB0(struct X *x);
+extern void NNSi_SndStrmReleaseTimer(struct X *x);
 
-void func_02073B3C(struct Obj *o)
+void NNS_SndStrmStop(struct Obj *o)
 {
     if (o->b1) {
         u32 saved;
@@ -92,5 +92,5 @@ void func_02073B3C(struct Obj *o)
         func_02089B38(1);
         func_02089CD4(saved);
     }
-    func_02073BB0((struct X *)o);
+    NNSi_SndStrmReleaseTimer((struct X *)o);
 }

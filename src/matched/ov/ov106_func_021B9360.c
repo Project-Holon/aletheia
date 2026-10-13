@@ -1,5 +1,5 @@
 /*
- * function: func_021B9360
+ * function: IRC_RANKING_LabelDelete
  * address: 0x021B9360
  * packet: pkt_ov106_021B9360
  * region: ov106
@@ -23,4 +23,4 @@ extern void BMP_OAM_Delete(struct Grid *g);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021B9360(u8 *p) { BMP_OAM_Delete(((struct Obj10256 *)p)->f1C); BMP_Delete(((struct Obj10256 *)p)->f0); STRBUF_Delete(((struct Obj10256 *)p)->f18); func_020307B0(p); }
+void IRC_RANKING_LabelDelete(u8 *p) { BMP_OAM_Delete(((struct Obj10256 *)p)->f1C); BMP_Delete(((struct Obj10256 *)p)->f0); STRBUF_Delete(((struct Obj10256 *)p)->f18); func_020307B0(p); }

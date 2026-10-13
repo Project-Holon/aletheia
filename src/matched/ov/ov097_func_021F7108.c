@@ -1,5 +1,5 @@
 /*
- * function: func_021F7108
+ * function: VS_MULTI_LIST_ReleaseIconResources
  * address:  0x021F7108
  * packet:   pkt_ov097_021F7108
  * region:   ov097
@@ -20,7 +20,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void func_021F7108(char *p)
+void VS_MULTI_LIST_ReleaseIconResources(char *p)
 {
     unsigned i;
 

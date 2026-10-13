@@ -24,6 +24,18 @@
  *   PM_DeletePostExitCallback  0x02731590  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *   PXI_Init  0x02088498  arm  arm9
+ *   OS_EnableIrqMask  0x02084968  arm  arm9
+ *   OS_DisableIrqMask  0x02084998  arm  arm9
+ *   OS_CreateThread  0x020853C0  arm  arm9
+ *   OS_KillThread  0x02085638  arm  arm9
+ *   OS_WakeupThreadDirect  0x02085868  arm  arm9
+ *   OS_Sleep  0x02085A38  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PXI_IsCallbackReady  0x020885EC  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -110,29 +122,29 @@ extern u16 data_04000208;
 extern u32 OS_IsRunOnTwl(void);
 extern u64 func_020870D0(void);
 extern void func_02085DBC(u32*, u32, u32);
-extern u32 func_02087988(void);
-extern void func_02085A38(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_Sleep(u32);
 extern u32 func_02085E50(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void PXI_Init(void);
-extern u32 func_020885EC(u32, u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void func_0208C848(u32*, u32);
 extern void PMi_InsertPostExitCallbackEx(u32*, u32);
 extern void func_02084774(u32, TwlFn);
-extern void func_02084968(u32);
+extern void OS_EnableIrqMask(u32);
 extern void func_02085D94(u32*, u32*, u32);
-extern void func_020853C0(u32*, void (*)(void), u32, u32*, u32, u32);
-extern void func_02085868(u32*);
+extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
+extern void OS_WakeupThreadDirect(u32*);
 extern void func_0208C86C(u32*);
 extern void PM_DeletePostExitCallback(u32*);
-extern void func_02084998(u32);
-extern void func_02085638(u32*, u32);
-extern void func_02087A04(u32);
-extern void func_0208799C(u32);
-extern int func_02088610(u32, u32, u32);
+extern void OS_DisableIrqMask(u32);
+extern void OS_KillThread(u32*, u32);
+extern void OS_SpinWaitSysCycles(u32);
+extern void OS_RestoreInterrupts(u32);
+extern int PXI_SendWordByFifo(u32, u32, u32);
 extern u32 func_020879E0(void);
-extern void func_02088688(void);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 
 /* camera.o */
 extern s32 CAMERA_GetErrorStatusCore(void);
@@ -484,9 +496,9 @@ void CAMERA_MonitorThread(void) {
     u32 msg;
     TwlCb cb;
     s32 d;
-    func_02087988();
+    OS_DisableInterrupts();
     for (;;) {
-        func_02085A38(100);
+        OS_Sleep(100);
         if (func_02085E50(data_0273417C, &msg, 0) != 0) {
             goto handle;
         }
@@ -521,7 +533,7 @@ handle:
         }
         func_02087974();
         CAMERA_ResetCore();
-        func_02087988();
+        OS_DisableInterrupts();
         data_02732FC8.busy = 0;
         CAMERA_Reboot(0, 0);
     }
@@ -544,7 +556,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f1ac = 0;
     data_02733FC8.f1b0 = 0;
     PXI_Init();
-    if (func_020885EC(0x15, 1) == 0) {
+    if (PXI_IsCallbackReady(0x15, 1) == 0) {
         return 7;
     }
     func_020885A0(0x15, CameraPxiCallback);
@@ -561,7 +573,7 @@ u32 CAMERA_InitCore(void) {
     CAMERA_SetBufferErrorInterruptCore(1);
     CAMERA_SetMasterInterruptCore(1);
     func_02084774(0x02000000, CAMERA_CameraIntr);
-    func_02084968(0x02000000);
+    OS_EnableIrqMask(0x02000000);
     data_02733FC8.f128 = 5;
     data_02733FC8.f12c = 0;
     data_02733FC8.f130 = 0;
@@ -593,8 +605,8 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.f198 = 1;
     data_02733FC8.f19c = 0;
     func_02085D94(data_0273417C, data_0273419C, 1);
-    func_020853C0(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
-    func_02085868(data_0273302C);
+    OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
+    OS_WakeupThreadDirect(data_0273302C);
     return 0;
 }
 
@@ -613,8 +625,8 @@ void CAMERA_EndCore(void) {
     CAMERA_SetBufferErrorInterruptCore(0);
     CAMERA_SetMasterInterruptCore(0);
     func_02084774(0x02000000, 0);
-    func_02084998(0x02000000);
-    func_02085638(data_0273302C, 0);
+    OS_DisableIrqMask(0x02000000);
+    OS_KillThread(data_0273302C, 0);
 }
 
 
@@ -624,7 +636,7 @@ void CAMERA_StopCore(void) {
     CAMERA_StopCaptureCore();
     goto entry;
     do {
-        func_02087A04(r4);
+        OS_SpinWaitSysCycles(r4);
 entry:
         if (r5-- <= 0) break;
     } while (CAMERA_IsBusyCore() != 0);
@@ -644,9 +656,9 @@ u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
     if (a0 != 1 && a0 != 2 && a0 != 3) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (st != 6) {
             ret = 2;
@@ -654,7 +666,7 @@ u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a1;
     ret = 0;
     data_02732FC8.arg = a2;
@@ -689,9 +701,9 @@ u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
     if (a0 != 0 && a0 != 1 && a0 != 2) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (status != 6) {
             ret = 2;
@@ -699,7 +711,7 @@ u32 CAMERA_I2CActivateAsyncCore(u32 a0, CamPxiCallback a1, u32 a2)
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a1;
     data_02732FC8.arg = a2;
     if (a0 == 0) {
@@ -743,9 +755,9 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
     if (a1 != 1 && a1 != 2) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (status != 6) {
             ret = 2;
@@ -753,7 +765,7 @@ u32 CAMERA_I2CContextSwitchAsyncCore(u32 a0, u32 a1, CamPxiCallback a2, u32 a3)
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -796,9 +808,9 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (status != 6) {
             ret = 2;
@@ -806,7 +818,7 @@ u32 CAMERA_I2CSizeExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a4)
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a3;
     data_02732FC8.arg = a4;
     buf[0] = a0;
@@ -863,9 +875,9 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (status != 6) {
             ret = 2;
@@ -873,7 +885,7 @@ u32 CAMERA_I2CFrameRateAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3)
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -915,9 +927,9 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (status != 6) {
             ret = 2;
@@ -925,7 +937,7 @@ u32 CAMERA_I2CEffectExAsyncCore(u32 a0, u32 a1, u32 a2, CamPxiCallback a3, u32 a
         return ret;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a3;
     data_02732FC8.arg = a4;
     buf[0] = a0;
@@ -974,13 +986,13 @@ u32 CAMERA_I2CFlipExAsyncCore(u32 a0, u32 a1, s32 a2, CamPxiCallback a3, u32 a4)
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a3;
     data_02732FC8.arg = a4;
     buf[0] = a0;
@@ -1017,13 +1029,13 @@ u32 CAMERA_I2CPhotoModeAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1059,13 +1071,13 @@ u32 CAMERA_I2CWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     default:
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1093,13 +1105,13 @@ u32 CAMERA_I2CExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     if (a1 < -5 || a1 > 5) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1127,13 +1139,13 @@ u32 CAMERA_I2CSharpnessAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     if (a1 < -3 || a1 > 5) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1158,13 +1170,13 @@ u32 CAMERA_I2CAutoExposureAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a3) {
     if (a0 != 1 && a0 != 2 && a0 != 3) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1205,13 +1217,13 @@ u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a
     if ((a0 & 2) && data_02733FC8.f180 != 0) {
         return 5;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;
@@ -1237,13 +1249,13 @@ u32 CAMERA_I2CAutoWhiteBalanceCore(u32 a0, u32 a1) {
 
 
 int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = callback;
     data_02732FC8.arg = arg;
     data_02733FC8.value = command;
@@ -1256,21 +1268,21 @@ int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
 
 int CameraSendPxiCommand(u32 a0, u32 a1, u32 a2) {
     u32 word = ((a0 << 8) & 0x7f00) | 0x2000000 | ((a1 << 16) & 0xff0000) | (a2 & 0xff);
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u16 old = reg_04004004;
     s32 had;
     reg_04004004 = old | 0x100;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     had = old & 0x100;
     if (had == 0) {
-        func_02087A04(0x14);
+        OS_SpinWaitSysCycles(0x14);
     }
     data_02732FC8.pend0 = had >> 8;
-    if (func_02088610(0x15, word, 0) < 0) {
+    if (PXI_SendWordByFifo(0x15, word, 0) < 0) {
         if (data_02732FC8.pend0 == 0) {
-            u32 irq2 = func_02087988();
+            u32 irq2 = OS_DisableInterrupts();
             reg_04004004 = reg_04004004 & ~0x100;
-            func_0208799C(irq2);
+            OS_RestoreInterrupts(irq2);
         }
         return 0;
     }
@@ -1281,7 +1293,7 @@ int CameraSendPxiCommand(u32 a0, u32 a1, u32 a2) {
 void CameraSendPxiData(const u8 *ptr) {
     u32 word = (ptr[0] << 16) | (ptr[1] << 8) | ptr[2];
     do {
-    } while (func_02088610(0x15, word, 0) < 0);
+    } while (PXI_SendWordByFifo(0x15, word, 0) < 0);
 }
 
 
@@ -1319,9 +1331,9 @@ void CameraPxiCallback(int tag, u32 data, int err)
         return;
     }
     if (data_02732FC8.pend2 != 0 || (data_02732FC8.pend1 == 0 && data_02732FC8.pend0 == 0)) {
-        u32 irq = func_02087988();
+        u32 irq = OS_DisableInterrupts();
         reg_04004004 = reg_04004004 & ~0x100;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
     }
     result = 0;
     data_02732FC8.pend1 = result;
@@ -1509,7 +1521,7 @@ void CameraWaitBusy(void) {
     do {
         u32 mode = func_020879E0();
         if (mode == 0x80 || data_04000208 == 0) {
-            func_02088688();
+            PXIi_HandlerRecvFifoNotEmpty();
         }
     } while (data_02732FC8.busy != 0);
 }

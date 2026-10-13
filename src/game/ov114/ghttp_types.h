@@ -42,6 +42,12 @@ typedef int (*GHIDecryptFunc)(struct GHIConnection *connection, void *encryptor,
 
 typedef void (*GHICleanupFunc)(struct GHIConnection *connection, void *encryptor);
 
+/* Receive throttle settings (global at 0x021CE5AC). */
+typedef struct GHIThrottle {
+    unsigned int timeDelay;             /* 0x00: minimum time between receives */
+    int bufferSize;                     /* 0x04: maximum bytes per receive */
+} GHIThrottle;
+
 /* Growable byte buffer (0x24 bytes). */
 typedef struct GHIBuffer {
     struct GHIConnection *connection;   /* 0x00 */
@@ -64,6 +70,7 @@ typedef struct GHIPostData {
             char *string;               /* 0x08 */
             int len;                    /* 0x0c */
             int encode;                 /* 0x10 */
+            int escapedCount;           /* 0x14: characters needing a %XX escape (guess) */
         } string;
         struct {
             char *filename;             /* 0x08 */

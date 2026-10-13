@@ -1,5 +1,5 @@
 /*
- * function: func_0218A3F4
+ * function: TR_AI_GetItemField
  * address:  0x0218A3F4
  * packet:   pkt_ov096_0218A3F4
  * region:   ov096
@@ -34,7 +34,7 @@ struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
 
-int func_0218A3F4(int a, int b, int c) {
+int TR_AI_GetItemField(int a, int b, int c) {
     u16 h;
     int p;
     int q;

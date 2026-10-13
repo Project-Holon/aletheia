@@ -12,13 +12,13 @@
  * sdk:      taskEnd3 (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
- *   func_021D4F60  0x021D4F60  arm  ov016
- *   func_021D5A2C  0x021D5A2C  arm  ov016
- *   func_021D7724  0x021D7724  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE658     0x021DE658  data
+ *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
+ *   DWCi_FNTlDelete  0x021D5A2C  arm  ov016
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gWindowWork     0x021DE658  data
  *   g_021DE658_b   0x021DE658  data
- *   g_021DA9A6     0x021DA9A6  data
+ *   sWindowTable2     0x021DA9A6  data
  */
 
 #include "../include/G_MemWinT.h"
@@ -40,26 +40,26 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void func_021D4F60(u8 *p);
-extern void func_021D5A2C(char *a);
-extern void func_021D7724();
-extern void func_021D6438(void **mem);
-extern struct MemWinT *g_021DE658;
+extern void DWCi_CELLlDelete(u8 *p);
+extern void DWCi_FNTlDelete(char *a);
+extern void DWCi_TSKlDelete();
+extern void DWCi_HEAPlFree_(void **mem);
+extern struct MemWinT *gWindowWork;
 extern struct MemWinT *g_021DE658_b;
-extern u8 g_021DA9A6[6];
+extern u8 sWindowTable2[6];
 
 void func_021D1C5C(void *task)
 {
     int i;
 
     *(volatile unsigned int *)0x04000000 &= ~0xE000;
-    func_021D4F60(g_021DE658->cellWin);
-    func_021D4F60(g_021DE658->cellChar);
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        if (g_021DE658->button[i] != 0)
-            func_021D4F60(g_021DE658->button[i]);
+    DWCi_CELLlDelete(gWindowWork->cellWin);
+    DWCi_CELLlDelete(gWindowWork->cellChar);
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        if (gWindowWork->button[i] != 0)
+            DWCi_CELLlDelete(gWindowWork->button[i]);
     }
-    func_021D5A2C(g_021DE658->canv);
-    func_021D7724(1, task);
-    func_021D6438((void **)(&g_021DE658_b));
+    DWCi_FNTlDelete(gWindowWork->canv);
+    DWCi_TSKlDelete(1, task);
+    DWCi_HEAPlFree_((void **)(&g_021DE658_b));
 }

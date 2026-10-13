@@ -11,7 +11,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   d_021FDE5C 0x021FDE5C data a4
@@ -25,7 +25,7 @@ extern u32 func_020307B0(void *p);
 struct Entry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(void *,void *,u32);
+extern void MI_CpuCopy8(void *,void *,u32);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern const char d_021FDE5C[];
@@ -40,10 +40,10 @@ int func_021FD350(char *p, char *src)
     q=func_02030734(((struct Obj06494 *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
     ((struct Obj06494 *)p)->f124=q;
-    func_02082D44(src,q,0x7c);
+    MI_CpuCopy8(src,q,0x7c);
     n=POKE_TOOL_GetPartyParamSize();
     q+=0x7c;
-    func_02082D44(((struct Obj23284 *)src)->f4,q,n);
+    MI_CpuCopy8(((struct Obj23284 *)src)->f4,q,n);
     h=GFL_NET_HANDLE_GetCurrentHandle();
     n=POKE_TOOL_GetPartyParamSize();
     return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);

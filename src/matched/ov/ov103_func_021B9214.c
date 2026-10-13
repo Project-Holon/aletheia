@@ -1,5 +1,5 @@
 /*
- * function: func_021B9214
+ * function: IRC_COMPATIBLE_TOUCH_TEST_IsStrokeFinished
  * address:  0x021B9214
  * packet:   pkt_021B9214
  * region:   ov103
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj22213.h"
 
-int func_021B9214(void *p)
+int IRC_COMPATIBLE_TOUCH_TEST_IsStrokeFinished(void *p)
 {
     return ((struct Obj22213 *)p)->f5C;
 }

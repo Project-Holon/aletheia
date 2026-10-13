@@ -1,5 +1,5 @@
 /*
- * function: func_021D7484
+ * function: DWCi_TSKlInit
  * address:  0x021D7484
  * packet:   pkt_ov016_021D7484
  * region:   ov016
@@ -12,14 +12,14 @@
  * sdk:      DWCi_TSKlInit (libdwcutil.TWL.HYB.a task.o)
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5410  0x021D5410  arm  ov016
- *   func_021D53DC  0x021D53DC  arm  ov016
- *   func_021D6D44  0x021D6D44  arm  ov016
- *   func_021D6E04  0x021D6E04  arm  ov016
- *   func_021D6DF4  0x021D6DF4  arm  ov016
- *   g_021DE6E4  0x021DE6E4  data
- *   g_021DAA84  0x021DAA84  data
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_QUElFormEx  0x021D5410  arm  ov016
+ *   DWCi_QUElForm  0x021D53DC  arm  ov016
+ *   DWCi_LSTlForm  0x021D6D44  arm  ov016
+ *   DWCi_LSTlPushFront  0x021D6E04  arm  ov016
+ *   DWCi_LSTlPushBack  0x021D6DF4  arm  ov016
+ *   gMemTask  0x021DE6E4  data
+ *   sTaskTable  0x021DAA84  data
  */
 
 typedef struct {
@@ -38,32 +38,32 @@ typedef struct {
     void *mem;
 } MemTaskT;
 
-extern void *func_021D6414(unsigned long size, int alignment);
-extern void *func_021D5410(long size, void *data, long dataSize);
-extern void *func_021D53DC(long size);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
+extern void *DWCi_QUElForm(long size);
 struct ListCB;
-extern struct ListCB *func_021D6D44(void);
-extern void func_021D6E04(char *p, void *ob);
-extern void func_021D6DF4(char *p, void *ob);
-extern MemTaskT *g_021DE6E4;
-extern unsigned char g_021DAA84[2];
+extern struct ListCB *DWCi_LSTlForm(void);
+extern void DWCi_LSTlPushFront(char *p, void *ob);
+extern void DWCi_LSTlPushBack(char *p, void *ob);
+extern MemTaskT *gMemTask;
+extern unsigned char sTaskTable[2];
 
-void func_021D7484(void)
+void DWCi_TSKlInit(void)
 {
     int i;
 
-    g_021DE6E4 = func_021D6414(0x80, 4);
+    gMemTask = DWCi_HEAPlAllocEx(0x80, 4);
     for (i = 0; i < 2; i++) {
-        int num = g_021DAA84[i];
-        g_021DE6E4[i].num = num;
-        g_021DE6E4[i].mem = func_021D6414(num * 0x14, 4);
-        g_021DE6E4[i].que = func_021D5410(num, g_021DE6E4[i].mem, 0x14);
-        g_021DE6E4[i].que2 = func_021D53DC(num);
-        g_021DE6E4[i].list = func_021D6D44();
-        g_021DE6E4[i].b1c = 0;
-        g_021DE6E4[i].b30 = 0xff;
-        func_021D6E04(g_021DE6E4[i].list, g_021DE6E4[i].node0);
-        func_021D6DF4(g_021DE6E4[i].list, g_021DE6E4[i].node1);
-        g_021DE6E4[i].b38 = 1;
+        int num = sTaskTable[i];
+        gMemTask[i].num = num;
+        gMemTask[i].mem = DWCi_HEAPlAllocEx(num * 0x14, 4);
+        gMemTask[i].que = DWCi_QUElFormEx(num, gMemTask[i].mem, 0x14);
+        gMemTask[i].que2 = DWCi_QUElForm(num);
+        gMemTask[i].list = DWCi_LSTlForm();
+        gMemTask[i].b1c = 0;
+        gMemTask[i].b30 = 0xff;
+        DWCi_LSTlPushFront(gMemTask[i].list, gMemTask[i].node0);
+        DWCi_LSTlPushBack(gMemTask[i].list, gMemTask[i].node1);
+        gMemTask[i].b38 = 1;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0206B458
+ * function: NNSi_G3dSbcRun
  * address:  0x0206B458
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -16,10 +16,10 @@
  * with the top three bits as the second argument, and repeat until bit 5 of
  * the flag word is set.  2.0/sp2 pin: under dsi/1.1p1 the same source is 72
  * bytes with 9 concrete bytes out (the state pointer takes r0 and the object
- * argument is deferred); see docs/notes/func_0206B458.c.txt.
+ * argument is deferred); see docs/notes/NNSi_G3dSbcRun.c.txt.
  *
  * symbols:
- *   g_020A83B8  0x020A83B8  data
+ *   gSbcFuncTable  0x020A83B8  data
  */
 
 typedef unsigned char u8;
@@ -34,15 +34,15 @@ struct Ctx0206B458 {
 
 typedef void (*Cb0206B458)(Ctx0206B458 *ctx, u32 arg);
 
-extern Cb0206B458 g_020A83B8[];
+extern Cb0206B458 gSbcFuncTable[];
 
-void func_0206B458(Ctx0206B458 *ctx)
+void NNSi_G3dSbcRun(Ctx0206B458 *ctx)
 {
     u32 cmd;
 
     do {
         ctx->f08 &= ~0x40u;
         cmd = *ctx->f00;
-        g_020A83B8[cmd & 0x1f](ctx, cmd & 0xe0u);
+        gSbcFuncTable[cmd & 0x1f](ctx, cmd & 0xe0u);
     } while ((ctx->f08 & 0x20u) == 0);
 }

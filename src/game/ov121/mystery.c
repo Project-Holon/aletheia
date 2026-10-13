@@ -39,7 +39,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_02087BCC 0x02087BCC arm
+ *   OS_ResetSystem 0x02087BCC arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
  *   func_021DE300 0x021DE300 thumb ov121
@@ -63,7 +63,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -167,7 +167,7 @@
  *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   func_02020E60 0x02020E60 thumb
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   d_021DF4F2 0x021DF4F2 data a2
  *   d_021DF4FC 0x021DF4FC data a4
@@ -357,7 +357,7 @@ extern void MYSTERY_DATA_Delete(void *);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
-extern void func_02087BCC(u32 parameter);
+extern void OS_ResetSystem(u32 parameter);
 extern void func_02034A5C(int);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021DE300(char *p);
@@ -382,7 +382,7 @@ extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -488,7 +488,7 @@ extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern u32 func_02020E60(u32 item, u32 which);
-extern void func_02082A48(u32,void *,u32);
+extern void MIi_CpuClear16(u32,void *,u32);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
@@ -641,7 +641,7 @@ int func_021D67D4(void *a, int b, int c, char *p)
     GAME_DATA_Delete(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
     func_020306F0(29);
-    func_02087BCC(0);
+    OS_ResetSystem(0);
     func_02034A5C((int)ov_id);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
@@ -762,9 +762,9 @@ void func_021D6AEC(char *p, void *owner, u16 heap)
     *(int *)&((struct Obj01403 *)p)->f4=CLACT_RegisterCharacter(arc,16,0,2,heap);
     allocation=func_02049F78(arc,8,(u32)(&res),heap);
     data=*(char * *)&((struct Obj22851 *)res)->fC;
-    func_02082D44(data,p+0xda,32);
+    MI_CpuCopy8(data,p+0xda,32);
     data+=32;
-    func_02082D44(data,p+0xba,32);
+    MI_CpuCopy8(data,p+0xba,32);
     func_020307B0(allocation);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&point,0,8);
@@ -1834,8 +1834,8 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     else palette=d_021DF4F2[desc[179]];
     buf=func_02049F34(34,2,(u32)&work.resdesc,heap);
     base=*(u8 **)((u8 *)work.resdesc+12);
-    func_02082D44(base,out+146,32);
-    func_02082D44(base+palette*32,out+114,32);
+    MI_CpuCopy8(base,out+146,32);
+    MI_CpuCopy8(base+palette*32,out+114,32);
     func_020307B0(buf);
     for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(func_021D6C58(list,i+1),(u8)palette,0);
     switch(desc[179]) {
@@ -1944,9 +1944,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         break;
     }
     if(desc[714]) {
-        func_02082D44(PALETTE,out+242,32);
-        func_02082A48(32767,PALETTE,32);
-        func_02082D44(PALETTE,out+210,32);
+        MI_CpuCopy8(PALETTE,out+242,32);
+        MIi_CpuClear16(32767,PALETTE,32);
+        MI_CpuCopy8(PALETTE,out+210,32);
     }
     MI_CpuFill8(&work.point,0,8);
     work.point.x=*(s16 *)(out+298)+128;work.point.y=-96;work.point.b=2;

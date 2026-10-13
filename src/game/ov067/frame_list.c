@@ -34,12 +34,12 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   BGWINFRM_Delete       0x0202CA0C  thumb
  *   func_0202EA20       0x0202EA20  thumb
  *   PRINTSYS_QUE_Delete       0x0201C4C0  thumb
  *   func_02049EF4 0x02049EF4 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   BLINK_PALANM_LoadPalettes 0x0202E9AC thumb
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
@@ -89,12 +89,12 @@ extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
 extern struct BgWinFrm *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
 extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 index, u32 bgLayer, u32 width, u32 height);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 extern u32 func_0202EA20(struct BlinkPalAnm *anim);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
 extern void *func_02049EF4(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
-extern void func_02082A60(const void *src, void *dst, int size);
+extern void MIi_CpuCopy16(const void *src, void *dst, int size);
 extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 firstColor, u32 srcOffset, u32 byteSize);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
@@ -225,7 +225,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
         }
         list->hitRects = func_02030734(list->heapId, (entryCount + 1) * 4, 0, gFrameListSourceFile, 0x13e);
         for (index = 0; index < entryCount + 1; index++)
-            func_02082A90(&list->params.hitEntries[index], &list->hitRects[index], 4);
+            MIi_CpuCopy32(&list->params.hitEntries[index], &list->hitRects[index], 4);
     }
     return list;
 }
@@ -270,7 +270,7 @@ void FRAME_LIST_CopyMapToBuffer(FrameList *list, void *source, u32 fileIndex, u3
     void *data;
     void *handle;
     handle = func_02049EF4(source, fileIndex, memberIndex, &data, list->heapId);
-    func_02082A60((u8 *)data + 0xc, list->maps[mapSlot], list->params.tileWidth * list->params.rowHeight * 2);
+    MIi_CpuCopy16((u8 *)data + 0xc, list->maps[mapSlot], list->params.tileWidth * list->params.rowHeight * 2);
     func_020307B0(handle);
 }
 
@@ -1248,7 +1248,7 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
     tiles = BMP_GetPixels(BMP_WIN_GetBmp(window));
     for (tileRow = 0; tileRow < winH; tileRow++) {
         for (tileCol = 0; tileCol < winW; tileCol++) {
-            func_02082A90(vramBase + (tileMap[winX + tileCol + (tileRow + winY) * mapStride] & 0x3ff) * 32,
+            MIi_CpuCopy32(vramBase + (tileMap[winX + tileCol + (tileRow + winY) * mapStride] & 0x3ff) * 32,
                           tiles + (tileCol + tileRow * winW) * 32, 0x20);
         }
     }

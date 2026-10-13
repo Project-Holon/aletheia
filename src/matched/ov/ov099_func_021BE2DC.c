@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2DC
+ * function: WIFICLUB_LoadBgResources
  * address: 0x021BE2DC
  * packet: pkt_ov099_021BE2DC
  * region: ov099
@@ -21,7 +21,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-void func_021BE2DC(char *p, int a, int b)
+void WIFICLUB_LoadBgResources(char *p, int a, int b)
 {
     func_02049B68((void *)a, 4, 0, 0x100, 0x80, b);
     func_02049B68((void *)a, 4, 4, 0x100, 0x80, b);

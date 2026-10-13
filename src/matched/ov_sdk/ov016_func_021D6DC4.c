@@ -1,5 +1,5 @@
 /*
- * function: func_021D6DC4
+ * function: DWCi_LSTlInsert
  * address:  0x021D6DC4
  * packet:   pkt_ov016_021D6DC4
  * region:   ov016
@@ -24,7 +24,7 @@ typedef struct ListNode {
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 
-void func_021D6DC4(void *pos, void *ob)
+void DWCi_LSTlInsert(void *pos, void *ob)
 {
     ListNode *tgt = pos;
     ListNode *ln = ob;

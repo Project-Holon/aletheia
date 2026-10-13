@@ -1,5 +1,5 @@
 /*
- * function: func_021768EC
+ * function: DWCi_SuspendComplete
  * address:  0x021768EC
  * packet:   pkt_ov009_021768EC
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_02175F3C(void);
 extern void func_0219B490(int status);
 
-void func_021768EC(int result)
+void DWCi_SuspendComplete(int result)
 {
     if (*(void (**)(int, int, int))(func_02175F3C() + 0x34) != 0)
         (*(void (**)(int, int, int))(func_02175F3C() + 0x34))(result, *(int *)(func_02175F3C() + 0x2c), *(int *)(func_02175F3C() + 0x38));

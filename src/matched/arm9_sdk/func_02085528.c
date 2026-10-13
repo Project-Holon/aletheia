@@ -1,5 +1,5 @@
 /*
- * function: func_02085528
+ * function: OSi_ExitThread
  * address:  0x02085528
  * packet:   pkt_02085528
  * region:   arm9
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts    0x02087988  arm
  *   OSi_ExitThread_Destroy  0x02085560  arm
- *   g_02150FD0              0x02150FD0  data
+ *   gOsThreadBss              0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -138,16 +138,16 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OSi_ExitThread_Destroy(void);
 
-void func_02085528(void *arg)
+void OSi_ExitThread(void *arg)
 {
-    OSThread *currentThread = *g_02150FD0.OSi_CurrentThreadPtr;
+    OSThread *currentThread = *gOsThreadBss.OSi_CurrentThreadPtr;
     void (*destructor)(void *) = currentThread->destructor;
 
     if (destructor) {

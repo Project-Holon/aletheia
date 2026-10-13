@@ -1,5 +1,5 @@
 /*
- * function: func_0206AFE4
+ * function: NNSi_G3dAnmBlendJnt
  * address:  0x0206AFE4
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The WEIGHTED BLEND of the node list src/matched/func_0206AF08.c walks.
+ * The WEIGHTED BLEND of the node list src/matched/NNSi_G3dAnmBlendMat.c walks.
  * Each node contributes a 0x58-byte transform (position triple at +0x04,
  * two more triples at +0x10/+0x1c, two 3-vectors at +0x28/+0x34, another at
  * +0x40 and a scaled triple at +0x4c) weighted by its own +0x04 field,
@@ -50,7 +50,7 @@
  *   FX_Div      0x0207C768  arm
  *   VEC_CrossProduct  0x0207CAE8  arm
  *   VEC_Normalize     0x0207CCA4  arm
- *   func_0206AF74     0x0206AF74  arm
+ *   NNSi_G3dAnmBlendJntVec     0x0206AF74  arm
  */
 
 typedef unsigned char  u8;
@@ -98,9 +98,9 @@ extern void MIi_CpuCopy32(const void *src, void *dst, u32 len);
 extern s32  FX_Div(s32 num, s32 den);
 extern void VEC_CrossProduct(const s32 *a, const s32 *b, s32 *c);
 extern void VEC_Normalize(const s32 *a, s32 *b);
-extern void func_0206AF74(volatile s32 *dst, s32 *src, s32 v, int flag);
+extern void NNSi_G3dAnmBlendJntVec(volatile s32 *dst, s32 *src, s32 v, int flag);
 
-int func_0206AFE4(Acc0206AFE4 *out, Node0206AFE4 *n, u32 idx)
+int NNSi_G3dAnmBlendJnt(Acc0206AFE4 *out, Node0206AFE4 *n, u32 idx)
 {
     Work0206AFE4 w;
     s32 b[3];
@@ -177,9 +177,9 @@ int func_0206AFE4(Acc0206AFE4 *out, Node0206AFE4 *n, u32 idx)
             } else {
                 wgt = FX_Div(p->f04, total);
             }
-            func_0206AF74(out->f04, w.f04, wgt, w.f00 & 1);
-            func_0206AF74(out->f10, w.f10, wgt, w.f00 & 8);
-            func_0206AF74(out->f1c, w.f1c, wgt, w.f00 & 0x10);
+            NNSi_G3dAnmBlendJntVec(out->f04, w.f04, wgt, w.f00 & 1);
+            NNSi_G3dAnmBlendJntVec(out->f10, w.f10, wgt, w.f00 & 8);
+            NNSi_G3dAnmBlendJntVec(out->f1c, w.f1c, wgt, w.f00 & 0x10);
             if (!(w.f00 & 4)) {
                 out->f4c[0] += (s32)(((long long)wgt * w.f4c[0]) >> 12);
                 out->f4c[1] += (s32)(((long long)wgt * w.f4c[1]) >> 12);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA1C
+ * function: addHdrList
  * address:  0x021BAA1C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA590  0x021BA590  arm  ov114
- *   func_021BA820  0x021BA820  arm  ov114
- *   func_021BA874  0x021BA874  arm  ov114
+ *   NHTTPi_compareToken  0x021BA590  arm  ov114
+ *   NHTTPi_alloc  0x021BA820  arm  ov114
+ *   NHTTPi_SetError  0x021BA874  arm  ov114
  *
  *
  * Keyed insert into the circular node ring: reuses the node whose key string
@@ -38,11 +38,11 @@ typedef struct Node {
     int b;                  /* +0x14 */
 } Node;
 
-int func_021BA590(char *p1_p, char *p2_p);
-int func_021BA820(int a, int b);
-void func_021BA874(u8 *p, int v);
+int NHTTPi_compareToken(char *p1_p, char *p2_p);
+int NHTTPi_alloc(int a, int b);
+void NHTTPi_SetError(u8 *p, int v);
 
-int func_021BAA1C(Node **head, int b, int c, int d)
+int addHdrList(Node **head, int b, int c, int d)
 {
     Node *n = *head;
     int found = 0;
@@ -51,10 +51,10 @@ int func_021BAA1C(Node **head, int b, int c, int d)
 
     if (n != 0) {
         q = n;
-        if (func_021BA590((char *)c, (char *)q->key) != 0) {
+        if (NHTTPi_compareToken((char *)c, (char *)q->key) != 0) {
             q = q->next;
             while (q != *head) {
-                if (func_021BA590((char *)c, (char *)q->key) == 0) {
+                if (NHTTPi_compareToken((char *)c, (char *)q->key) == 0) {
                     found = 1;
                     break;
                 }
@@ -68,9 +68,9 @@ int func_021BAA1C(Node **head, int b, int c, int d)
     if (found != 0) {
         q->val = d;
     } else {
-        p = (Node *)func_021BA820(0x18, 4);
+        p = (Node *)NHTTPi_alloc(0x18, 4);
         if (p == 0) {
-            func_021BA874((u8 *)b, 1);
+            NHTTPi_SetError((u8 *)b, 1);
             return 0;
         }
         p->key = (const char *)c;

@@ -14,7 +14,7 @@
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   BTLV_GAUGE_CalcTileFill 0x02208034 thumb ov094
  *   func_0202D034 0x0202D034 thumb
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   BTLV_GAUGE_DrawHpLoss 0x0220868C thumb ov094
  */
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern u8 BTLV_GAUGE_CalcTileFill(u32, int, int, u32 *, u8 *, u8);
 extern int func_0202D034(u32, u32);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void BTLV_GAUGE_DrawHpLoss(O *, E *, int);
 void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
 {
@@ -68,7 +68,7 @@ void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
         }
         for (i = 0; i < 6; i++) {
             base = VRAM;
-            func_02082A60(o->f14 + (color + a[i] * 32), (void *)(buf.w[1] + (base + (i + 1) * 32)), 32);
+            MIi_CpuCopy16(o->f14 + (color + a[i] * 32), (void *)(buf.w[1] + (base + (i + 1) * 32)), 32);
         }
         if (e->f68 > 0) BTLV_GAUGE_DrawHpLoss(o, e, n);
         break;
@@ -82,7 +82,7 @@ void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
         i = 0;
         base = VRAM;
         for (; i < 10; i++) {
-            func_02082A60(o->f14 + (a[i] * 32 + 0x400), (void *)(buf.w[1] + (base + (i + 1) * 32)), 32);
+            MIi_CpuCopy16(o->f14 + (a[i] * 32 + 0x400), (void *)(buf.w[1] + (base + (i + 1) * 32)), 32);
         }
         break;
     }

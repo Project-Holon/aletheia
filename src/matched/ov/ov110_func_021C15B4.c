@@ -1,5 +1,5 @@
 /*
- * function: func_021C15B4
+ * function: PMS_SELECT_GRAPHIC_StepCloseEditScreen
  * address: 0x021C15B4
  * packet: pkt_ov110_021C15B4
  * region: ov110
@@ -29,7 +29,7 @@ struct Obj02024838;
 extern void PMSI_PARAM_GetSentence(char *a, void *b);
 extern void PMS_WORD_SetSaveEntry(const struct Obj02024838 *p, s32 idx, void *dest);
 extern void PMSI_PARAM_Delete(void *);
-int func_021C15B4(int *state, u8 *p) {
+int PMS_SELECT_GRAPHIC_StepCloseEditScreen(int *state, u8 *p) {
     unsigned pair[2];
     switch (*state) {
     case 0:

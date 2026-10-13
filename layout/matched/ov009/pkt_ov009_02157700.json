@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157700",
+   "name": "calc_checksum_do",
    "address": "0x02157700",
    "kind": "sdk",
    "region": "ov009",

@@ -16,12 +16,12 @@ typedef struct VecFx32 {
 } VecFx32;
 
 /* Field map common work (0x14 bytes), allocated in the setup function. */
-typedef struct Gimmick44Work {
+typedef struct FieldGimmickLiftWork {
     int curY;               /* 0x00 current lift height (fx32) */
     int goalY;              /* 0x04 height the lift moves to */
     int stepY;              /* 0x08 height change per frame, signed toward goalY */
     int savedCameraTarget;  /* 0x0C camera trace target saved while the camera is detached */
     int isDescending;       /* 0x10 nonzero: lift goes down and the camera stays behind */
-} Gimmick44Work;
+} FieldGimmickLiftWork;
 
 #endif

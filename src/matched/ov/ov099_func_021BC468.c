@@ -1,5 +1,5 @@
 /*
- * function: func_021BC468
+ * function: WIFICLUB_StateNoticeYesNo
  * address:  0x021BC468
  * packet:   pkt_ov099_021BC468
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA858  0x021BA858  thumb  ov099
- *   func_021B9B64  0x021B9B64  thumb  ov099
+ *   WIFICLUB_PollYesNoMenu  0x021BA858  thumb  ov099
+ *   WIFICLUBACTOR_TickBlink  0x021B9B64  thumb  ov099
  *
  * Levers: the 0x274 offset is an enum-typed local (keeps r4 = 0x274 live and
  * derives 0x1CC as `o - 0xa8`); the two stores are written out in each arm.
@@ -24,17 +24,17 @@ typedef unsigned long  u32;
 
 typedef enum { K274 = 0x274 } Off;
 
-extern u32 func_021BA858(char *p);
-extern void func_021B9B64(char *p);
+extern u32 WIFICLUB_PollYesNoMenu(char *p);
+extern void WIFICLUBACTOR_TickBlink(char *p);
 
-int func_021BC468(char *p, int v)
+int WIFICLUB_StateNoticeYesNo(char *p, int v)
 {
     int r;
     Off o;
 
-    r = func_021BA858(p);
+    r = WIFICLUB_PollYesNoMenu(p);
     o = K274;
-    func_021B9B64(p + o);
+    WIFICLUBACTOR_TickBlink(p + o);
     if (r == -1) {
         return v;
     }

@@ -12,8 +12,8 @@
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   POKEPARTY_InitEx 0x0201A954 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   func_020076A4 0x020076A4 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -43,8 +43,8 @@ struct Party;
 struct PartyMon;
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void *func_0200CA1C(void *);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u8 func_020076A4(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
@@ -73,7 +73,7 @@ void func_021E0980(char *p)
     }
     POKEPARTY_InitEx(((struct Obj22764 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,6);
     POKEPARTY_Add(((struct Obj22765 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,mon);
-    func_0200CDE0(func_0200CA1C(((struct Obj01537 *)p)->f82C),mon);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(((struct Obj01537 *)p)->f82C),mon);
     t=*(char * *)&((struct Obj01537 *)p)->f8;
     if(((struct Obj13908 *)t)->f28!=func_020076A4(((struct Obj01537 *)p)->f828)) {
         z=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C34
+ * function: PDC_MSG_InitBlend
  * address:  0x021B6C34
  * packet:   pkt_ov098_021B6C34
  * region:   ov098
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The handed extent runs on into the unlabelled leaf func_021B6C60
+ * The handed extent runs on into the unlabelled leaf PDC_MSG_BlendStartFadeIn
  * (filed as ov098_func_021B6C60.c).
  *
  * symbols:
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern void func_0207D63C(int, int, int, int, int);
 
-void func_021B6C34(char *p, int a)
+void PDC_MSG_InitBlend(char *p, int a)
 {
     ((struct Obj07937 *)p)->f0 = a;
     ((struct Obj07937 *)p)->f14 = 0;

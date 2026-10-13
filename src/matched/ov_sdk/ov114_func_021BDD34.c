@@ -21,12 +21,12 @@
  *   NHTTPi_findNextLineHdrRecvBuf    0x021bafa0 arm
  *   NHTTPi_getHeaderValue            0x021bbbc8 arm
  *   NHTTPi_compareTokenN_HdrRecvBuf  0x021bb12c arm
- *   g_021CE4A8                       0x021ce4a8 data
- *   g_021CE4F8                       0x021ce4f8 data
- *   g_021CE508                       0x021ce508 data
- *   g_021CE514                       0x021ce514 data
- *   g_021CE520                       0x021ce520 data
- *   g_021CE534                       0x021ce534 data
+ *   sNHTTPHttpPrefix                       0x021ce4a8 data
+ *   sNHTTPContentLength                       0x021ce4f8 data
+ *   sNHTTPConnection                       0x021ce508 data
+ *   sNHTTPKeepAlive                       0x021ce514 data
+ *   sNHTTPTransferEncoding                       0x021ce520 data
+ *   sNHTTPChunked                       0x021ce534 data
  */
 
 typedef struct
@@ -90,12 +90,12 @@ extern int NHTTPi_findNextLineHdrRecvBuf(NHTTPRes *res_p, int pos, int limit,
 extern int NHTTPi_getHeaderValue(NHTTPRes *res_p, char *label_p, int *pos_p);
 extern int NHTTPi_compareTokenN_HdrRecvBuf(NHTTPRes *res_p, int pos, int limit,
                                            char *str_p, char extdeli);
-extern char g_021CE4A8[];
-extern char g_021CE4F8[];
-extern char g_021CE508[];
-extern char g_021CE514[];
-extern char g_021CE520[];
-extern char g_021CE534[];
+extern char sNHTTPHttpPrefix[];
+extern char sNHTTPContentLength[];
+extern char sNHTTPConnection[];
+extern char sNHTTPKeepAlive[];
+extern char sNHTTPTransferEncoding[];
+extern char sNHTTPChunked[];
 
 int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
 {
@@ -121,7 +121,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
         threadData_p->result = 7;
         return 0;
     }
-    if (NHTTPi_strnicmp(threadData_p->tmpHeaderBuf, g_021CE4A8, 5) != 0)
+    if (NHTTPi_strnicmp(threadData_p->tmpHeaderBuf, sNHTTPHttpPrefix, 5) != 0)
     {
         threadData_p->result = 7;
         return 0;
@@ -145,7 +145,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
         return 0;
     }
 
-    threadData_p->contentLength = NHTTPi_getHeaderValue(res_p, g_021CE4F8, &n);
+    threadData_p->contentLength = NHTTPi_getHeaderValue(res_p, sNHTTPContentLength, &n);
     if (threadData_p->contentLength == 0)
     {
         threadData_p->result = 0;
@@ -184,7 +184,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
     }
     else
     {
-        connectionHeaderStrLen = NHTTPi_getHeaderValue(res_p, g_021CE508, &n);
+        connectionHeaderStrLen = NHTTPi_getHeaderValue(res_p, sNHTTPConnection, &n);
         if (connectionHeaderStrLen == 0)
         {
             threadData_p->result = 7;
@@ -201,7 +201,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
             {
                 if (NHTTPi_compareTokenN_HdrRecvBuf(res_p, n,
                                                    n + connectionHeaderStrLen,
-                                                   g_021CE514, 0) == 0)
+                                                   sNHTTPKeepAlive, 0) == 0)
                     threadData_p->isKeepAlive = 1;
                 else
                     threadData_p->isKeepAlive = 0;
@@ -213,7 +213,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
         }
     }
 
-    threadData_p->isChunked = NHTTPi_getHeaderValue(res_p, g_021CE520, &n);
+    threadData_p->isChunked = NHTTPi_getHeaderValue(res_p, sNHTTPTransferEncoding, &n);
     if (threadData_p->isChunked == 0)
     {
         threadData_p->result = 7;
@@ -229,7 +229,7 @@ int NHTTPi_ThreadParseHeaderProc(ThreadData *threadData_p)
             (threadData_p->isChunked > 0)
                 ? (NHTTPi_compareTokenN_HdrRecvBuf(res_p, n,
                                                    n + threadData_p->isChunked,
-                                                   g_021CE534, 0x3b) == 0)
+                                                   sNHTTPChunked, 0x3b) == 0)
                 : 0;
     }
 

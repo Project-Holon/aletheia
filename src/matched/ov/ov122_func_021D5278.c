@@ -10,7 +10,7 @@
  * extent: zero padding at 0x021D530E; next function at 0x021D5310.
  * symbols:
  *   func_0203EFC8 0x0203EFC8 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned short u16;
 typedef struct { char f00[8]; u16 f08, f0a; } Entry;
@@ -19,7 +19,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_02082D44(const void *, void *, int);
+extern void MI_CpuCopy8(const void *, void *, int);
 void func_021D5278(Object *p, const char *data, int value, int tag)
 {
     int i;
@@ -33,7 +33,7 @@ void func_021D5278(Object *p, const char *data, int value, int tag)
         }
         for (i = 0; i < 16; i++) {
             if (!p->f64[i].f08) {
-                func_02082D44(data + 4, p->f64[i].f00, 6);
+                MI_CpuCopy8(data + 4, p->f64[i].f00, 6);
                 p->f64[i].f08 = 600;
                 p->f64[i].f0a = tag;
                 return;

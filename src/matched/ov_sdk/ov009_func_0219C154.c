@@ -1,5 +1,5 @@
 /*
- * function: func_0219C154
+ * function: qr_process_query
  * address:  0x0219C154
  * packet:   pkt_ov009_0219C154
  * region:   ov009
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_0219BED8  0x0219BED8  arm  ov009
+ *   qr_build_split_query_reply  0x0219BED8  arm  ov009
  *   func_0217ECA4  0x0217ECA4  arm  ov009
- *   func_0219BE80  0x0219BE80  arm  ov009
+ *   qr_build_query_reply  0x0219BE80  arm  ov009
  *   g_021A76E4     0x021A76E4  data
  *   g_021A7720     0x021A7720  data
  *   g_021A775C     0x021A775C  data
@@ -85,9 +85,9 @@ typedef struct QRSplitQueryProgress {
 } QRSplitQueryProgress;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_0219BED8(qr2_t qrec, qr2_buffer_t buf, QRSplitQueryProgress *progress);
+extern int qr_build_split_query_reply(qr2_t qrec, qr2_buffer_t buf, QRSplitQueryProgress *progress);
 extern int func_0217ECA4(int sock, char *buf, int len, int flags, SOCSockAddr *addr, int tolen);
-extern void func_0219BE80(qr2_t qrec, qr2_buffer_t buf, int serverkeycount, unsigned char *serverkeys,
+extern void qr_build_query_reply(qr2_t qrec, qr2_buffer_t buf, int serverkeycount, unsigned char *serverkeys,
                           int playerkeycount, unsigned char *playerkeys, int teamkeycount,
                           unsigned char *teamkeys);
 
@@ -99,7 +99,7 @@ extern char g_021A77D4[];
 extern char g_021A7804[];
 extern char g_021A7830[];
 
-void func_0219C154(qr2_t qrec, qr2_buffer_t buf, unsigned char *qdata, int len, SOCSockAddr *sender)
+void qr_process_query(qr2_t qrec, qr2_buffer_t buf, unsigned char *qdata, int len, SOCSockAddr *sender)
 {
     unsigned char serverkeycount;
     unsigned char playerkeycount;
@@ -163,7 +163,7 @@ void func_0219C154(qr2_t qrec, qr2_buffer_t buf, unsigned char *qdata, int len, 
         progress.mKeyBuffer.numkeys = 0;
 
         func_0217D254(3, 0, 0x10, g_021A77D4);
-        while (func_0219BED8(qrec, buf, &progress) == 1) {
+        while (qr_build_split_query_reply(qrec, buf, &progress) == 1) {
             func_0217ECA4(qrec->hbsock, buf->buffer, buf->len, 0, sender, 8);
             buf->len = 5;
             if (progress.mCurPacketNum > 7)
@@ -174,6 +174,6 @@ void func_0219C154(qr2_t qrec, qr2_buffer_t buf, unsigned char *qdata, int len, 
     }
 
     func_0217D254(3, 0, 0x10, g_021A7830);
-    func_0219BE80(qrec, buf, serverkeycount, serverkeys, playerkeycount, playerkeys, teamkeycount, teamkeys);
+    qr_build_query_reply(qrec, buf, serverkeycount, serverkeys, playerkeycount, playerkeys, teamkeycount, teamkeys);
     func_0217ECA4(qrec->hbsock, buf->buffer, buf->len, 0, sender, 8);
 }

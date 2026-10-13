@@ -32,7 +32,7 @@
  *   Table_0209FEE4  0x0209FEE4  data
  *   func_0202A3D8   0x0202A3D8  thumb
  *   func_0202A3AC  0x0202A3AC  thumb
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  */
 #include "../../matched/include/Obj15808.h"
@@ -117,7 +117,7 @@ u8 func_0202A3CC(u32 idx);
 u8 func_0202A3D8(u32 key);
 u8 func_0202A3FC(u32 key);
 u32 func_0202A420(u32 key);
-extern void  func_02082A60(const void *src, void *dest, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 Tpoke *func_0202A128(int heap);
 void TPOKE_Delete(Tpoke *tpoke);

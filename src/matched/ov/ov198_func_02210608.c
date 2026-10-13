@@ -18,7 +18,7 @@
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PALANM_GetDefaultWork 0x02021728 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  */
@@ -43,7 +43,7 @@ extern u32 func_020307B0(void *p);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int PALANM_GetDefaultWork(char *,int);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
 void func_02210608(char *p)
@@ -60,7 +60,7 @@ void func_02210608(char *p)
     func_020307B0(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
-    func_02082D44((void *)(PALANM_GetDefaultWork(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
+    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
     func_0201F5BC(4,1,14,0,((struct Obj25252 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,1,0xe0,32);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,23,5,((struct Obj25253 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,32,0xd0);

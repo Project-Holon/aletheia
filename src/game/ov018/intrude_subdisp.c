@@ -110,7 +110,7 @@
  *   func_02012AC8  0x02012AC8  thumb
  *   str_02183B14   0x02183B14  data  a1
  *   func_02030EAC  0x02030EAC  arm
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOff  0x02037190  arm
  *   func_0201283C            0x0201283C  thumb
@@ -133,7 +133,7 @@
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
  *   func_02158378  0x02158378  thumb  ov010
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E5D0  0x0207E5D0  arm
  *   func_0207E804  0x0207E804  arm
  *   CLACT_CreateUnit  0x0204B100  arm
@@ -179,7 +179,7 @@
  *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   func_02049DF4  0x02049DF4  arm
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
@@ -429,7 +429,7 @@ struct TcbTask *func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
 u8 *func_020120F8(const void *p);
 u16 func_02012AC8(const void *p);
 extern void func_02030EAC(void *n);
-extern void func_02082A48();
+extern void MIi_CpuClear16();
 extern u32 func_020307B0(void *p);
 extern void GFL_NET_WM_ICON_EasyObjWindowOff();
 u32 func_0201283C(const void *p);
@@ -451,7 +451,7 @@ u32 ZONEDATA_IsZone117(u32 id);
 int INTRUDE_COMM_HasResult(void *p);
 int INTRUDE_COMM_IsSessionAccepted(void *p);
 int func_02158378(void *);
-extern void func_020862F0();
+extern void DWCi_ScreenDC_FlushRange();
 extern void func_0207E5D0();
 extern void func_0207E804();
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -494,7 +494,6 @@ extern struct ClactRes *CLACT_RegisterCellAnim(void *owner, unsigned int first, 
 extern struct ClactRes *CLACT_RegisterPaletteCompressed(void *a0, unsigned int a1, unsigned int a2, unsigned int a3, u16 a4);
 extern struct ClactRes *func_02049DF4(void *a0, unsigned int a1, unsigned int a2, void *out, u16 a4);
 extern u32 CLACT_GetCharacterVramAddress(struct ClactRes *res, unsigned int flag);
-extern void func_02082A60(const void *, void *, int);
 extern void CLACT_ReleasePalette(struct ClactRes *);
 extern void CLACT_ReleaseCharacter(struct ClactRes *);
 extern void CLACT_ReleaseCellAnim(struct ClactRes *);
@@ -1223,7 +1222,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work)
 {
     func_02030EAC(work->vblankTask);
-    func_02082A48(0, 0x05000400, 2);
+    MIi_CpuClear16(0, 0x05000400, 2);
     INTRUDE_SUBDISP_DeleteButtonBmpOam(work);
     INTRUDE_SUBDISP_ClactActorDelete(work);
     INTRUDE_SUBDISP_ClactResourceUnload(work);
@@ -1415,12 +1414,12 @@ void INTRUDE_SUBDISP_VBlankTask(void *tcb, void *taskWork)
     work->vblankPhase ^= 1;
     if (work->vblankPhase != 0) {
         if (work->paletteDirty != 0) {
-            func_020862F0(work->palOut, 8);
+            DWCi_ScreenDC_FlushRange(work->palOut, 8);
             func_0207E5D0(work->palOut, 0x102, 8);
             work->paletteDirty = 0;
         }
         if (work->digitsDirty != 0) {
-            func_020862F0(work->numberBuf, 0x200);
+            DWCi_ScreenDC_FlushRange(work->numberBuf, 0x200);
             func_0207E804(work->numberBuf, work->numberVram, 0x200);
             work->digitsDirty = 0;
         }
@@ -1557,9 +1556,9 @@ void INTRUDE_SUBDISP_ClactResourceLoad(IntrudeSubdispWork *work, void *bg)
     work->numberRes = func_02049DF4(bg, 10, 1, &work->numberGfx, 0x70);
     work->numberVram = CLACT_GetCharacterVramAddress(work->infoCharRes, 2);
     work->numberBuf = func_02030734(0x70, 0x200, 1, str_02183B14, 0x495);
-    func_02082A60((void *)0x050006E2, work->palBase, 8);
-    func_02082A60(work->palBase, work->palOut, 8);
-    func_02082A60((void *)0x05000702, work->palTarget, 8);
+    MIi_CpuCopy16((void *)0x050006E2, work->palBase, 8);
+    MIi_CpuCopy16(work->palBase, work->palOut, 8);
+    MIi_CpuCopy16((void *)0x05000702, work->palTarget, 8);
 }
 
 
@@ -1759,7 +1758,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
         CLACT_SetActorDrawEnable(work->actors[8], 1);
     }
     for (i = 6; i <= 8; i++) {
-        func_02082A60((void *)(0x05000602 + (work->town.homeSlot + 1) * 32), (void *)(0x0500060C + i * 32), 2);
+        MIi_CpuCopy16((void *)(0x05000602 + (work->town.homeSlot + 1) * 32), (void *)(0x0500060C + i * 32), 2);
     }
     if (work->blinkActive == 1) {
         if (work->blinkCount % 2 == 0) {
@@ -1988,9 +1987,9 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(IntrudeSubdispWork *work)
             CLACT_SetActorPaletteOffset(work->actors[v + 12], (u8)(v + 1), (int)1);
         }
         if (work->lastPeer != sel) {
-            func_02082A60((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
+            MIi_CpuCopy16((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
             PALANM_BlendColors(buf, buf, 0x10, 8, 0x7fff);
-            func_02082A60(buf, (void *)0x05000720, 0x20);
+            MIi_CpuCopy16(buf, (void *)0x05000720, 0x20);
             work->lastPeer = sel;
         }
         work->peerBlinkCount++;

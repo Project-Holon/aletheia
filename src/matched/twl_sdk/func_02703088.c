@@ -16,7 +16,7 @@
  *   MI_CpuFill8  0x02082BCC  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_SetCallbackTable  0x02703A34  arm twl
- *   func_02082D44  0x02082D44  arm twl
+ *   MI_CpuCopy8  0x02082D44  arm twl
  *   NWMi_SendCommandDirect  0x02703B24  arm twl
  *   NWM_GetInfoElements  0x02703208  arm
  *   NWM_GetVenderInfoElements  0x02703250  arm
@@ -58,7 +58,7 @@ extern void func_020862B8(u32, u32);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void func_020862D4(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
 extern u32 func_02082E74(void *, void *, u32);
 u8 *NWM_GetInfoElements(u8 *a0, u8 a1);
@@ -110,8 +110,8 @@ u32 NWM_StartScanEx(u32 a0, const ApInfo *a1) {
     cmd.f0C = a1->f0A;
     cmd.ssidLen = a1->ssidLen;
     cmd.f10 = a1->f34;
-    func_02082D44(a1->ssid, cmd.ssid, 0x20);
-    func_02082D44(a1->mac, cmd.mac, 6);
+    MI_CpuCopy8(a1->ssid, cmd.ssid, 0x20);
+    MI_CpuCopy8(a1->mac, cmd.mac, 6);
     r = NWMi_SendCommandDirect(&cmd, 0x38);
     if (r == 0 || r == 2) {
         r = 2;

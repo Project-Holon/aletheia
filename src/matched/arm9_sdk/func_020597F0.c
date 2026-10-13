@@ -1,5 +1,5 @@
 /*
- * function: func_020597F0
+ * function: DWCi_Acc_SetLoginIdToUserData
  * address:  0x020597F0
  * packet:   pkt_020597F0
  * region:   arm9
@@ -38,7 +38,7 @@ struct DWCstAccUserData {
 extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
 extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
 
-void func_020597F0(struct DWCstAccUserData *userdata, struct DWCstAccLoginId *loginid, int gs_profile_id)
+void DWCi_Acc_SetLoginIdToUserData(struct DWCstAccUserData *userdata, struct DWCstAccLoginId *loginid, int gs_profile_id)
 {
     struct MATHCRC32Table table;
 

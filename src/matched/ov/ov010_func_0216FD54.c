@@ -54,7 +54,7 @@
  *   WAZA_OSHIE_ConvertToTileOrder  0x0216FCA0  thumb  ov010
  *   BMP_GetPixels  0x020437D4  arm
  *   func_0207F7A0  0x0207F7A0  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207F7FC  0x0207F7FC  arm
  *   func_0207F9B4  0x0207F9B4  arm
  *   BMP_Delete  0x020437AC  arm
@@ -79,7 +79,7 @@ struct Bmp;
 struct Obj020437AC;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_0207F7A0(void);
-extern void func_020862F0(void *p, int n);
+extern void DWCi_ScreenDC_FlushRange(void *p, int n);
 extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -108,7 +108,7 @@ void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     off = (u16)*(int *)(a + 4) << 3;
     n = ((int)(wi * h) / 8) << 5;
     func_0207F7A0();
-    func_020862F0(vram, n);
+    DWCi_ScreenDC_FlushRange(vram, n);
     func_0207F7FC(vram, base + off, n);
     func_0207F9B4();
     BMP_Delete(buf);

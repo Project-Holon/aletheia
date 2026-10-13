@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215AD3C",
+   "name": "CPS_TcpClose",
    "address": "0x0215AD3C",
    "kind": "sdk",
    "region": "ov009",

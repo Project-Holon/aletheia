@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA18
+ * function: get_seqno
  * address:  0x0215AA18
  * packet:   pkt_ov009_0215AA18
  * region:   ov009
@@ -24,7 +24,7 @@ struct net_vars {
 
 extern struct net_vars g_021A826C;
 
-unsigned long func_0215AA18(void)
+unsigned long get_seqno(void)
 {
     g_021A826C.seed = g_021A826C.mul * g_021A826C.seed + g_021A826C.add;
     return (unsigned long)(g_021A826C.seed >> 32);

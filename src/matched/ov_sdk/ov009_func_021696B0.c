@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02168FF0  0x02168FF0  arm  ov009
- *   func_020591CC  0x020591CC  arm
+ *   DWCi_Acc_GetFlagDataTypeThunk  0x020591CC  arm
  *   DWC_SetGsProfileId  0x02059A10  arm
  *   func_0205915C  0x0205915C  arm
- *   func_02059214  0x02059214  arm
- *   func_0205912C  0x0205912C  arm
- *   func_02059270  0x02059270  arm
+ *   DWCi_SetBuddyFriendData  0x02059214  arm
+ *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWCi_SetExpIsBuddyFriendFlag  0x02059270  arm
  *   func_0216959C  0x0216959C  arm  ov009
  *   g_021AA860     0x021AA860  data
  */
@@ -36,12 +36,12 @@ struct Work {
 extern struct FriendGlobal g_021AA860;
 
 extern int func_02168FF0(int index);
-extern int func_020591CC(void *friendData);
+extern int DWCi_Acc_GetFlagDataTypeThunk(void *friendData);
 extern void DWC_SetGsProfileId(void *friendData, int pid);
 extern int func_0205915C(void *friendData);
-extern void func_02059214(void *friendData);
-extern int func_0205912C(void *friendData);
-extern void func_02059270(void *friendData, int flag);
+extern void DWCi_SetBuddyFriendData(void *friendData);
+extern int CTRDG_IsBitID(void *friendData);
+extern void DWCi_SetExpIsBuddyFriendFlag(void *friendData, int flag);
 extern void func_0216959C(void *friendList, int deleteIndex, int otherIndex);
 
 int func_021696B0(u8 *friendList, int friendListLen, int profileID)
@@ -60,12 +60,12 @@ int func_021696B0(u8 *friendList, int friendListLen, int profileID)
         for (j = i + 1; j < friendListLen; j++) {
             if (pid_i != func_02168FF0(j))
                 continue;
-            if (func_020591CC(friendList + i * 12) == 2 && func_020591CC(friendList + j * 12) == 3)
+            if (DWCi_Acc_GetFlagDataTypeThunk(friendList + i * 12) == 2 && DWCi_Acc_GetFlagDataTypeThunk(friendList + j * 12) == 3)
                 DWC_SetGsProfileId(friendList + i * 12, pid_i);
             if (func_0205915C(friendList + j * 12)) {
-                func_02059214(friendList + i * 12);
-                if (func_0205912C(g_021AA860.ctl->friendList + i * 12))
-                    func_02059270(g_021AA860.ctl->friendList + i * 12, 1);
+                DWCi_SetBuddyFriendData(friendList + i * 12);
+                if (CTRDG_IsBitID(g_021AA860.ctl->friendList + i * 12))
+                    DWCi_SetExpIsBuddyFriendFlag(g_021AA860.ctl->friendList + i * 12, 1);
             }
             func_0216959C(friendList, j, i);
             g_021AA860.ctl->flag = 1;

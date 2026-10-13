@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BD4
+ * function: NHTTPi_destroyCommThread
  * address:  0x021B9BD4
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9C08  0x021B9C08  arm  ov114
+ *   NHTTPi_kickCommThread  0x021B9C08  arm  ov114
+ *   OS_JoinThread  0x02085710  arm  arm9
  *
  *
  * Seeds a work record at +0x18, registers it, then arms the +0x2c timer.
@@ -18,12 +19,12 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B9C08(int);
-extern void func_02085710(void *);
+extern void NHTTPi_kickCommThread(int);
+extern void OS_JoinThread(void *);
 
-void func_021B9BD4(int a, u8 *p)
+void NHTTPi_destroyCommThread(int a, u8 *p)
 {
     *(u32 *)(p + 0x18) = 1;
-    func_021B9C08(a);
-    func_02085710((char *)a + 0x2c);
+    NHTTPi_kickCommThread(a);
+    OS_JoinThread((char *)a + 0x2c);
 }

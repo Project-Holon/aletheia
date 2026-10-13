@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B7DE0, func_021B7DE4, func_021B7DE8, func_021B7DEC
+ * function: IRC_RHYTHM_GetFont, IRC_RHYTHM_GetPrintQueue, IRC_RHYTHM_GetMessages, IRC_RHYTHM_GetWordSet
  * address:  0x021B7DE0
  * packet:   pkt_021B7DE0
  * region:   ov104
@@ -17,22 +17,22 @@
 #include "../include/Obj22222.h"
 #include "../include/Obj22223.h"
 
-int func_021B7DE0(void *p)
+int IRC_RHYTHM_GetFont(void *p)
 {
     return ((struct Obj22220 *)p)->f0;
 }
 
-int func_021B7DE4(void *p)
+int IRC_RHYTHM_GetPrintQueue(void *p)
 {
     return ((struct Obj22221 *)p)->f8;
 }
 
-int func_021B7DE8(void *p)
+int IRC_RHYTHM_GetMessages(void *p)
 {
     return ((struct Obj22222 *)p)->f4;
 }
 
-int func_021B7DEC(void *p)
+int IRC_RHYTHM_GetWordSet(void *p)
 {
     return ((struct Obj22223 *)p)->fC;
 }

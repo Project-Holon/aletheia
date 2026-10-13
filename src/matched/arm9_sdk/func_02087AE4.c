@@ -1,5 +1,5 @@
 /*
- * function: func_02087AE4
+ * function: OS_WaitVBlankIntr
  * address:  0x02087AE4
  * packet:   pkt_02087AE4
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02004490    0x02004490  thumb
+ *   SVC_WaitByLoop    0x02004490  thumb
  */
 
-extern void func_02004490(int v);
+extern void SVC_WaitByLoop(int v);
 typedef unsigned int   u32;
 extern void func_0208459C(int clear, u32 irqFlags);
-void func_02087AE4(void)
+void OS_WaitVBlankIntr(void)
 {
-    func_02004490(1);
+    SVC_WaitByLoop(1);
     func_0208459C(1, 1);
 }

@@ -12,9 +12,9 @@
  * symbols:
  *   (none)
  *
- * Untraced ARM accessor that sits in the tail of func_021DFA6C's extent (the
+ * Untraced ARM accessor that sits in the tail of scThink's extent (the
  * +0x84 half of the pair at 0x021DFA98/0x021DFAA0).  It is reached only by the
- * `bx ip` at the end of the func_021DF224 thunk, so disasm.py never labelled it
+ * `bx ip` at the end of the DWC_ScGetConnectionId thunk, so disasm.py never labelled it
  * a start; per the brief's rule 10 the TARGET is filed first and the `matched`
  * class then attests the thunk's pool word that names it.
  */

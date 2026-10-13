@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DB8
+ * function: IRCBATTLEMATCH_StepCompareModes
  * address: 0x021B9DB8
  * packet: pkt_ov100_021B9DB8
  * region: ov100
@@ -11,8 +11,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021B9D6C 0x021B9D6C thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepSendMyStatus 0x021B9D6C thumb ov100
  */
 #include "../include/Obj13709.h"
 struct Entry;
@@ -23,9 +23,9 @@ typedef unsigned char  u8;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021B9D6C(int a);
-void func_021B9DB8(int a) {
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_StepSendMyStatus(int a);
+void IRCBATTLEMATCH_StepCompareModes(int a) {
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7c,12)!=0) {
   int i=GFL_NET_SYSTEM_GetCurrentAid();
   int n=((struct Obj13709 *)a)->f24C;
@@ -36,6 +36,6 @@ void func_021B9DB8(int a) {
    break;
   }
   }
-  func_021B95B8((u8 *)a,(u32)func_021B9D6C);
+  IRCBATTLEMATCH_SetStep((u8 *)a,(u32)IRCBATTLEMATCH_StepSendMyStatus);
  }
 }

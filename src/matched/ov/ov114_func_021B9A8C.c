@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A8C
+ * function: NHTTP_RAP_EvilCheckFreeArray
  * address: 0x021B9A8C
  * packet: pkt_ov114_021B9A8C
  * region: ov114
@@ -14,7 +14,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B9A8C(void *buf)
+void NHTTP_RAP_EvilCheckFreeArray(void *buf)
 {
     func_020307B0(buf);
 }

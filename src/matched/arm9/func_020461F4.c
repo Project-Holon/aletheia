@@ -15,11 +15,11 @@
  *   func_020461F4_File 0x020A7E98  data
  *   func_02030734      0x02030734  arm
  *   SYSTEMFONT_SetColors      0x020463E0  arm
- *   func_020788AC      0x020788AC  arm
- *   func_02078C18      0x02078C18  arm
+ *   FS_InitFile      0x020788AC  arm
+ *   FS_OpenFile      0x02078C18  arm
  *   FS_GetLength      0x02078C28  arm
- *   func_02078B70      0x02078B70  arm
- *   func_02078A80      0x02078A80  arm
+ *   FS_ReadFile      0x02078B70  arm
+ *   FS_CloseFile      0x02078A80  arm
  *   OS_Terminate       0x02088234  arm
  *
  * One-time load of the module's 16-byte record.  Returns at once if the
@@ -79,14 +79,14 @@ extern struct Rec02046300 *g_02146A58;
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  SYSTEMFONT_SetColors(u32 a, u32 b);
-extern void  func_020788AC(struct File020461F4 *f);
-extern u32   func_02078C18(struct File020461F4 *f, u32 id);
+extern void  FS_InitFile(struct File020461F4 *f);
+extern u32   FS_OpenFile(struct File020461F4 *f, u32 id);
 struct FSFile;
 extern u32 FS_GetLength(struct FSFile *a0);
 typedef signed int     s32;
 struct FSFile;
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void  func_02078A80(struct File020461F4 *f);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern void  FS_CloseFile(struct File020461F4 *f);
 extern void  OS_Terminate(void);
 
 void SYSTEMFONT_Load(u32 id)
@@ -101,13 +101,13 @@ void SYSTEMFONT_Load(u32 id)
     g_02146A58 = func_02030734(0, 0x10, 0, func_020461F4_File, 68);
 
     if (id != 0) {
-        func_020788AC(&file);
-        if (func_02078C18(&file, id) == 1) {
+        FS_InitFile(&file);
+        if (FS_OpenFile(&file, id) == 1) {
             size = FS_GetLength((struct FSFile *)(&file));
             g_02146A58->data = func_02030734(0, size, 0, func_020461F4_File,
                                              77);
-            func_02078B70((struct FSFile *)(&file), g_02146A58->data, size);
-            func_02078A80(&file);
+            FS_ReadFile((struct FSFile *)(&file), g_02146A58->data, size);
+            FS_CloseFile(&file);
         } else {
             OS_Terminate();
         }

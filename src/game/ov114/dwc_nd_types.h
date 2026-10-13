@@ -1,0 +1,45 @@
+#ifndef OV114_DWC_ND_TYPES_H
+#define OV114_DWC_ND_TYPES_H
+/* Types of the DWC download (nd) front end (dwc_nd.o). */
+
+#include "dwci_nd_types.h"
+
+#ifndef OV114_BASIC_TYPES
+#define OV114_BASIC_TYPES
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+#endif
+
+/* Result of the service locator (SVL) token request: host and token for the download server. */
+typedef struct DWCSvlResult {
+    int reserved;               /* +0x00 */
+    char svlHost[0x41];         /* +0x04 */
+    char svlToken[0x12f];       /* +0x45 */
+} DWCSvlResult;
+
+/* Heap block of one nd session: credentials, SVL result and the token wait thread with its stack. */
+typedef struct NdParam {
+    char gameCode[0x20];        /* +0x000 */
+    char password[0x20];        /* +0x020 */
+    int status;                 /* +0x040, 1 once the download server is started */
+    DWCSvlResult svl;           /* +0x044 */
+    u8 stack[0x800];            /* +0x1b8 */
+    u8 thread[0xc0];            /* +0x9b8, OSThread */
+} NdParam;
+
+/* File statics of dwc_nd.o. */
+typedef struct NdState {
+    NdCallback callback;        /* +0x00 */
+    int errorReported;          /* +0x04, set once the error callback was issued */
+    int serverError;            /* +0x08 */
+    int error;                  /* +0x0c */
+    int reason;                 /* +0x10 */
+    int state;                  /* +0x14, 0 idle, 1 ready, 2 busy, 3 token ready, 4 failed */
+    NdParam *param;             /* +0x18 */
+} NdState;
+
+extern NdState gDwcNdState;
+extern char gDwcNdMutex[];
+
+#endif

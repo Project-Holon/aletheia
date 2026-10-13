@@ -16,7 +16,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
- *   func_02082D44  0x02082D44  arm  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   func_020409B4  0x020409B4  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -222,7 +222,7 @@
  *   FLDMMDL_SysGetTcbSys  0x0216D514  thumb  ov010
  *   func_02030DA8  0x02030DA8  arm
  *   d_021DDBE0     0x021DDBE0  data  a4
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   d_021D4A50     0x021D4A50  data  a4
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -459,7 +459,7 @@ struct PartyInfo;
 
 extern struct ArcHandle *func_020490F4(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020409B4(u32 bgId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void DC_FlushRange(void *p, u32 size);
@@ -684,8 +684,8 @@ void IRCBATTLEMENU_FadePaletteBank(IrcBattleMenuWork *work, u32 bank, u32 rows)
 void IRCBATTLEMENU_SetSubPaletteActive(IrcBattleMenuWork *work, int isActive)
 {
     if (isActive) {
-        func_02082D44((void *)0x05000600, work->subObjPlttCopy, 0x200);
-        func_02082D44((void *)0x05000400, work->subBgPlttCopy, 0x200);
+        MI_CpuCopy8((void *)0x05000600, work->subObjPlttCopy, 0x200);
+        MI_CpuCopy8((void *)0x05000400, work->subBgPlttCopy, 0x200);
         IRCBATTLEMENU_FadePaletteBank(work, 3, 0xE);
         IRCBATTLEMENU_FadePaletteBank(work, 1, 9);
     } else {
@@ -852,8 +852,8 @@ void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work)
     arc = func_020490F4(0x1D, work->heapId);
     func_02049B68(arc, 2, 4, 0, 0, work->heapId);
     plttRes = func_02049F78(arc, 2, &plttData, work->heapId);
-    func_02082D44(plttData->rawData, work->menuPltt, 0x100);
-    func_02082D44(plttData->rawData, work->menuPlttBright, 0x100);
+    MI_CpuCopy8(plttData->rawData, work->menuPltt, 0x100);
+    MI_CpuCopy8(plttData->rawData, work->menuPlttBright, 0x100);
     IRCBATTLEMENU_BrightenPalette(work->menuPlttBright, sMenuPlttRowOffsets, 8);
     func_020307B0(plttRes);
     func_02049B68(arc, 0, 0, 0, 0, work->heapId);

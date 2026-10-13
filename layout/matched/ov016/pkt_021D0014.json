@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D0014",
+   "name": "DWCi_SNDlStop",
    "address": "0x021D0014",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D0DC8",
+   "name": "DWCi_USBAPlSetCallback",
    "address": "0x021D0DC8",
    "kind": "sdk",
    "region": "ov016",

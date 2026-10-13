@@ -11,7 +11,7 @@
  *
  * symbols:
  *   g_02146BC8     0x02146BC8  data  a4
- *   g_020A84C0     0x020A84C0  data  a4
+ *   GXi_DmaId     0x020A84C0  data  a4
  *   func_020862B8  0x020862B8  arm
  *   func_020821C0  0x020821C0  arm
  *   func_02082A7C  0x02082A7C  arm
@@ -24,7 +24,7 @@
  * reports GX_DMA_NOT_USE; otherwise ResetOam_ writes 0xC0 into attr0 of
  * each entry.  Both cursors are then rewound to fromIdx.
  *
- * g_020A84C0 is GXi_DmaId; this build's GX_GetDefaultDMA clamps it,
+ * GXi_DmaId is GXi_DmaId; this build's GX_GetDefaultDMA clamps it,
  * `id > 3 ? GX_DMA_NOT_USE : id` (the image's `cmp #3 / mvnhi`), so the
  * register-held -1 the wave-10 notes chased is the SDK's own sentinel.
  * Closed in wave 13 on the first compile of the library body and inlines
@@ -137,14 +137,14 @@ static inline BOOL HasEnoughCapacity_(const NNSG2dOAMManageArea *pArea, u16 num)
     return (BOOL)(GetCapacity_(pArea) >= num);
 }
 
-extern u32 g_020A84C0;                  /* GXi_DmaId */
+extern u32 GXi_DmaId;                  /* GXi_DmaId */
 extern void func_020862B8(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
 extern void func_020821C0(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
 extern void func_02082A7C(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
 
 static inline u32 GX_GetDefaultDMA(void)
 {
-    return (g_020A84C0 > 3) ? (u32)~0 : g_020A84C0;
+    return (GXi_DmaId > 3) ? (u32)~0 : GXi_DmaId;
 }
 
 static inline void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size)

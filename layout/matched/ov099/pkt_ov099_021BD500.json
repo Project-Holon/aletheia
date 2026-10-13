@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD500",
+   "name": "WIFICLUB_StateShowBoxPartyViolations",
    "address": "0x021BD500",
    "kind": "game",
    "region": "ov099",

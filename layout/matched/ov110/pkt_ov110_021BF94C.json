@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF94C",
+   "name": "PMSIV_WORDWIN_CreateActors",
    "address": "0x021BF94C",
    "kind": "game",
    "region": "ov110",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02172E18",
+   "name": "DWCi_CloseCancelHostAsync",
    "address": "0x02172E18",
    "kind": "sdk",
    "region": "ov009",

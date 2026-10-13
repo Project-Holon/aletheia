@@ -1,5 +1,5 @@
 /*
- * function: func_0218A2FC
+ * function: TR_AI_GetPoke
  * address:  0x0218A2FC
  * packet:   pkt_ov096_0218A2FC
  * region:   ov096
@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
-u8 *func_0218A2FC(u8 *p, u8 i) { return BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }
+u8 *TR_AI_GetPoke(u8 *p, u8 i) { return BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj00067 *)p)->fB8, i); }

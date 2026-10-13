@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C16EC",
+   "name": "WIFICLUB_StateCountdownToLobby",
    "address": "0x021C16EC",
    "kind": "game",
    "region": "ov099",

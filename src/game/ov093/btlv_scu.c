@@ -1,7 +1,7 @@
 /*
  * file:     btlv_scu.c
  * unit:     yes
- * function: func_021EAF00, func_021EAF18, func_021EAF50, func_021EAF78, BTLV_SCU_Create, BTLV_SCU_SetupDisplay, BTLV_SCU_LoadArcTiles, BTLV_SCU_Delete, BTLV_SCU_ReloadGraphics, func_021EB318, BTLV_SCU_StartEntryScene, BTLV_SCU_RunProc, BTLV_SCU_StartBrightnessFade, BTLV_SCU_ProcQuickEntry, BTLV_SCU_ProcQuickEntrySingle, BTLV_SCU_ProcQuickEntryDouble, BTLV_SCU_ProcQuickEntryTriple, BTLV_SCU_ProcEntrySingleWild, BTLV_SCU_GetEntryMessageId, BTLV_SCU_ProcEntrySingleTrainer, BTLV_SCU_ProcEntrySingleLink, BTLV_SCU_ProcEntryDoubleWild, BTLV_SCU_ProcEntryDoubleTrainerLocal, BTLV_SCU_ProcEntryDoubleTrainerComm, BTLV_SCU_ProcEntryDoubleLinkLocal, BTLV_SCU_ProcEntryDoubleLinkComm, BTLV_SCU_ProcEntryTriple, BTLV_SCU_ProcEntryTripleLink, BTLV_SCU_PhaseTrainerIntro, BTLV_SCU_PhaseTrainerIntroComm, BTLV_SCU_RunTrainerIntroOne, BTLV_SCU_RunTrainerIntroTwo, BTLV_SCU_PhaseOpponentSendOutSingle, BTLV_SCU_PhaseOpponentSendOutDouble, BTLV_SCU_RunOpponentSendOutDoubleOneTrainer, BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers, BTLV_SCU_PhaseOpponentSendOutTriple, BTLV_SCU_PhaseOwnSendOutSingle, BTLV_SCU_PhaseOwnSendOutDouble, BTLV_SCU_RunOwnSendOutDoubleSolo, BTLV_SCU_RunOwnSendOutDoublePartner, BTLV_SCU_PhaseOwnSendOutTriple, BTLV_SCU_GetSendOutMessageId, BTLV_SCU_PrintMessageInstant, BTLV_SCU_StartMessage, BTLV_SCU_ConsumeMessageEnded, BTLV_SCU_UpdateMessage, BTLV_SCU_StartWazaEffect, BTLV_SCU_ProcWazaEffect, BTLV_SCU_RunWazaProc, BTLV_SCU_StartMonDamageAnim, BTLV_SCU_IsMonDamageAnimDone, BTLV_SCU_StartMonMotion, BTLV_SCU_IsMonMotionDone, BTLV_SCU_StartMonExit, BTLV_SCU_IsMonExitDone, BTLV_SCU_LoadAndShowMon, BTLV_SCU_IsMonLoadDone, BTLV_SCU_StartMonWithdraw, BTLV_SCU_IsMonWithdrawDone, BTLV_SCU_TaskMonWithdraw, BTLV_SCU_StartMonSendOut, BTLV_SCU_IsMonSendOutDone, BTLV_SCU_TaskMonSendOut, BTLV_SCU_StartHpGaugeUpdate, BTLV_SCU_IsHpGaugeIdle, BTLV_SCU_HideMonPair, BTLV_SCU_ShowMonPair, BTLV_SCU_HideMon, BTLV_SCU_ShowMon, BTLV_SCU_StartPosCueEffect, BTLV_SCU_IsPosCueEffectDone, BTLV_SCU_StartMonFormChange, BTLV_SCU_IsMonFormChangeDone, BTLV_SCU_TaskMonFormChange, BTLV_SCU_StartMonGraphicSwapFrom, BTLV_SCU_StartMonGraphicSwap, BTLV_SCU_IsMonGraphicSwapDone, BTLV_SCU_TaskMonGraphicSwap, BTLV_SCU_InitMsgWinFade, BTLV_SCU_StartMsgWinFadeOut, BTLV_SCU_StartMsgWinFadeIn, BTLV_SCU_UpdateMsgWinFade, BTLV_SCU_StartMsgWinFadeOutTask, BTLV_SCU_IsMsgWinFadeOutTaskDone, BTLV_SCU_TaskMsgWinFadeOut, BTLV_SCU_InitMonSlots, BTLV_SCU_ResetMonSlots, BTLV_SCU_InitMonSlot, BTLV_SCU_ResetMonSlot, BTLV_SCU_HideMonSlot, BTLV_SCU_ShowMonSlot, BTLV_SCU_GetNamePlateSide, BTLV_SCU_StartNamePlate, BTLV_SCU_ProcNamePlateAt, BTLV_SCU_HideNamePlateAt, BTLV_SCU_IsNamePlateHiddenAt, BTLV_SCU_RefreshNamePlateAt, BTLV_SCU_ProcNamePlateMosaicAt, BTLV_SCU_InitNamePlates, BTLV_SCU_FreeNamePlates, BTLV_SCU_PrepareNamePlate, BTLV_SCU_ProcNamePlate, BTLV_SCU_DrawNamePlate, BTLV_SCU_HideNamePlate, BTLV_SCU_IsNamePlateHidden, BTLV_SCU_RefreshNamePlate, BTLV_SCU_ProcNamePlateMosaic
+ * function: func_021EAF00, func_021EAF18, func_021EAF50, func_021EAF78, BTLV_SCU_Create, BTLV_SCU_SetupDisplay, BTLV_SCU_LoadArcTiles, BTLV_SCU_Delete, BTLV_SCU_ReloadGraphics, func_021EB318, BTLV_SCU_StartEntryScene, BTLV_SCU_RunProc, BTLV_SCU_StartBrightnessFade, BTLV_SCU_ProcQuickEntry, BTLV_SCU_ProcQuickEntrySingle, BTLV_SCU_ProcQuickEntryDouble, BTLV_SCU_ProcQuickEntryTriple, BTLV_SCU_ProcEntrySingleWild, BTLV_SCU_GetEntryMessageId, BTLV_SCU_ProcEntrySingleTrainer, BTLV_SCU_ProcEntrySingleLink, BTLV_SCU_ProcEntryDoubleWild, BTLV_SCU_ProcEntryDoubleTrainerLocal, BTLV_SCU_ProcEntryDoubleTrainerComm, BTLV_SCU_ProcEntryDoubleLinkLocal, BTLV_SCU_ProcEntryDoubleLinkComm, BTLV_SCU_ProcEntryTriple, BTLV_SCU_ProcEntryTripleLink, BTLV_SCU_PhaseTrainerIntro, BTLV_SCU_PhaseTrainerIntroComm, BTLV_SCU_RunTrainerIntroOne, BTLV_SCU_RunTrainerIntroTwo, BTLV_SCU_PhaseOpponentSendOutSingle, BTLV_SCU_PhaseOpponentSendOutDouble, BTLV_SCU_RunOpponentSendOutDoubleOneTrainer, BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers, BTLV_SCU_PhaseOpponentSendOutTriple, BTLV_SCU_PhaseOwnSendOutSingle, BTLV_SCU_PhaseOwnSendOutDouble, BTLV_SCU_RunOwnSendOutDoubleSolo, BTLV_SCU_RunOwnSendOutDoublePartner, BTLV_SCU_PhaseOwnSendOutTriple, BTLV_SCU_GetSendOutMessageId, BTLV_SCU_PrintMessageInstant, BTLV_SCU_StartMessage, BTLV_SCU_ConsumeMessageEnded, BTLV_SCU_UpdateMessage, BTLV_SCU_StartWazaEffect, BTLV_SCU_ProcWazaEffect, BTLV_SCU_RunWazaProc, BTLV_SCU_StartMonDamageAnim, BTLV_SCU_IsMonDamageAnimDone, BTLV_SCU_StartMonMotion, BTLV_SCU_IsMonMotionDone, BTLV_SCU_StartMonExit, BTLV_SCU_IsMonExitDone, BTLV_SCU_LoadAndShowMon, BTLV_SCU_IsMonLoadDone, BTLV_SCU_StartMonWithdraw, BTLV_SCU_IsMonWithdrawDone, BTLV_SCU_TaskMonWithdraw, BTLV_SCU_StartMonSendOut, BTLV_SCU_IsMonSendOutDone, BTLV_SCU_TaskMonSendOut, BTLV_SCU_StartHpGaugeUpdate, BTLV_SCU_IsHpGaugeIdle, BTLV_SCU_HideMonPair, BTLV_SCU_ShowMonPair, BTLV_SCU_HideMon, BTLV_SCU_ShowMon, BTLV_SCU_StartPosCueEffect, BTLV_SCU_IsPosCueEffectDone, BTLV_SCU_StartMonFormChange, BTLV_SCU_IsMonFormChangeDone, BTLV_SCU_TaskMonFormChange, BTLV_SCU_StartMonGraphicSwapFrom, BTLV_SCU_StartMonGraphicSwap, BTLV_SCU_IsMonGraphicSwapDone, BTLV_SCU_TaskMonGraphicSwap, BTLV_SCU_InitMsgWinFade, BTLV_SCU_StartMsgWinFadeOut, BTLV_SCU_StartMsgWinFadeIn, BTLV_SCU_UpdateMsgWinFade, BTLV_SCU_StartMsgWinFadeOutTask, BTLV_SCU_IsMsgWinFadeOutTaskDone, BTLV_SCU_TaskMsgWinFadeOut, BTLV_SCU_InitMonSlots, BTLV_SCU_ResetMonSlots, BTLV_SCU_InitMonSlot, BTLV_SCU_ResetMonSlot, BTLV_SCU_HideMonSlot, BTLV_SCU_ShowMonSlot, BTLV_SCU_GetNamePlateSide, BTLV_SCU_StartNamePlate, BTLV_SCU_ProcNamePlateAt, BTLV_SCU_HideNamePlateAt, BTLV_SCU_IsNamePlateHiddenAt, BTLV_SCU_RefreshNamePlateAt, BTLV_SCU_ProcNamePlateMosaicAt, BTLV_SCU_InitNamePlates, BTLV_SCU_FreeNamePlates, BTLV_SCU_PrepareNamePlate, BTLV_SCU_ProcNamePlate, BTLV_SCU_DrawNamePlate, BTLV_SCU_HideNamePlate, BTLV_SCU_IsNamePlateHidden, BTLV_SCU_RefreshNamePlate, BTLV_SCU_ProcNamePlateMosaic, BTLV_SCU_GetBallStates, BTLV_SCU_PrintWaitMessage, BTLV_SCU_UpdateWaitMessage, BTLV_SCU_NoOp, BTLV_SCU_StartFadeIn, BTLV_SCU_ClearWaitWindow, BTLV_SCU_GetWaitState, BTLV_SCU_StartBallWindowOpen, BTLV_SCU_UpdateBallWindowOpen, BTLV_SCU_StartBallWindowRefresh, BTLV_SCU_UpdateBallWindowRefresh, BTLV_SCU_StartBallWindowClose, BTLV_SCU_UpdateBallWindowClose, BTLV_SCU_StepBallWindowOpen, BTLV_SCU_StepBallWindowRefresh, BTLV_SCU_StepBallWindowClose
  * address:  0x021EAF00
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -70,7 +70,6 @@
  *   BTL_MAIN_GetSlotClientIdThunk 0x021B8DE4 thumb ov093
  *   BTL_MAIN_GetTrainerType 0x021BA020 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
- *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   BTL_MAIN_GetOwnClientId 0x021B8FF4 thumb ov093
  *   func_021F8260 0x021F8260 thumb ov094
@@ -146,10 +145,92 @@
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   BMP_GetByteSize 0x020437EC arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   PALANM_RequestFade  0x0202173C  thumb  arm9
+ *   HAND_FIELD_AddFactor  0x06898020  thumb
+ *   MI_CpuFill8 0x02082BCC arm
+ *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
+ *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
+ *   BMP_WIN_GetBgLayer 0x02045730 arm
+ *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
+ *   BMP_WIN_GetPosX  0x02045758  arm
+ *   BMP_WIN_GetPosY  0x02045760  arm
+ *   BMP_WIN_GetWidth  0x02045738  arm
+ *   BMP_WIN_GetHeight  0x02045740  arm
+ *   gBtlRecFileName  0x021F3ADC  data  a4
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
+ *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   gBtlAdapterSlots  0x021F6388  data  a4
+ *   gBtlAdapterMode  0x021F6384  data  a4
+ *   sub_02030734   0x02030734  arm
+ *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
+ *   BTL_NET_ExpectReplies   0x021D4C58  thumb
+ *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
+ *   BTL_NET_AreAllRepliesReceived  0x021D4B98  thumb  ov093
+ *   BTL_NET_GetClientReply  0x021D4BD4  thumb  ov093
+ *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
+ *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
+ *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
+ *   func_0201EC64  0x0201EC64  thumb
+ *   func_02045B38  0x02045B38  arm
+ *   gBtlMsgState     0x021F6398  data  ov093  a4
+ *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
+ *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
+ *   func_0201ED04  0x0201ED04  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
+ *   func_0201EEF4  0x0201EEF4  thumb
+ *   func_0201EE84  0x0201EE84  thumb
+ *   func_0201F0F8  0x0201F0F8  thumb
+ *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
+ *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
+ *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
+ *   BTL_MAIN_UpdateCommPlayerSupport  0x021BA080  thumb  ov093
+ *   func_0202A3CC  0x0202A3CC  thumb
+ *   func_0201EE0C  0x0201EE0C  thumb
+ *   func_0201F02C  0x0201F02C  thumb
+ *   func_0201F134  0x0201F134  thumb
+ *   d_021F63C8     0x021F63C8  data  a4
+ *   sBtlMsgSidePairIds     0x021F39A0  data  a2
+ *   func_02045CAC  0x02045CAC  arm
+ *   func_0201F250  0x0201F250  thumb
+ *   sBtlMsgBuilders  0x021F39D8  data  a4
+ *   d_021F39DC  0x021F39DC  data  a4
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   func_0201D5C4  0x0201D5C4  thumb
+ *   func_0201D5CC  0x0201D5CC  thumb
+ *   func_0201D670  0x0201D670  thumb
+ *   func_0201D5F4  0x0201D5F4  thumb
+ *   func_0201D658  0x0201D658  thumb
+ *   func_0201D688  0x0201D688  thumb
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201EF8C 0x0201EF8C thumb
+ *   func_0201EF34 0x0201EF34 thumb
+ *   func_0201EF40 0x0201EF40 thumb
+ *   func_0201F020 0x0201F020 thumb
+ *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
+ *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
+ *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
+ *   BTL_FIELD_RemoveSlot  0x021EFA94  thumb  ov093
+ *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
+ *   BTL_FIELD_RemoveHolderFromSlots  0x021EFB34  thumb  ov093
+ *   BTL_FIELD_IsMoveSealedBySlot  0x021EFC1C  thumb  ov093
+ *   BTL_FIELD_TickSlots  0x021EFC78  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
+ *   gBtlFieldFileName  0x021F3AF8  data  a4
+ *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb
+ *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
+ *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
  */
 #include "btlv_scu_types.h"
+#include "btlv_core_types.h"
 
 #define BTLV_SCU_SE_PLATE_SLIDE 0x573
 #define BTLV_SCU_SE_PLATE_FADE 0x54d
@@ -159,21 +240,6 @@
 struct PalAnmSlot;
 struct BgTemplate;
 struct PrintStream;
-/* Message record built for the view (home file not known, see misplaced). */
-struct BtlvMessage {
-    u16 msgId;
-    u8 param;
-    u8 kind : 4;
-    u8 argCount : 4;
-    u32 args[8];
-};
-
-/* First words of the battle view core (btlv_core.c owns the full layout). */
-struct BtlvCoreHead {
-    u32 reserved0;
-    u8 *client;
-};
-
 /* Task procedure of the task system: (task, work). */
 typedef void (*TcblTaskFn)(void *task, void *work);
 
@@ -229,7 +295,7 @@ struct BtlvScuFadeTask {
     u8 *counter;
 };
 
-extern u32 BTL_CLIENT_IsMainStepActive(u8 *);
+extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern struct MsgBuf *STRBUF_Create(int, int);
@@ -278,7 +344,6 @@ extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlContext *, int mask);
 extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlContext *, int i);
 extern u16 BTL_MAIN_GetTrainerType(struct BtlContext *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void BTLV_SCU_GetBallStates(BtlvScu *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
 extern u8 BTL_MAIN_GetOwnClientId(struct BtlContext *);
 extern void func_021F8260(u32);
@@ -348,11 +413,26 @@ extern void *func_021F86D4(void);
 extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end, u8 wait, u16 color, void *ctx);
 extern u32 PALANM_GetFadeRequestBits(const char *slots);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_0201D33C(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
 extern u32 func_0201D304(struct MsgBuf *buf, void *font, u32 start);
 extern u32 func_0201D37C(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
-void func_021EAF00(struct BtlvCoreHead *core, int a);
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+extern void *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
+extern u8 BTL_SLOT_GetCount(void *party);
+extern void *BTL_SLOT_GetPokeParam(void *party, u32 index);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(void *mon);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *mon);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+extern void BTL_POKEPARAM_ReadStatsFromMon(void **source, u16 *out);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
+void BTL_MSG_GetUiString(struct MsgBuf *textBuf, u32 msgId);
+void BTL_MSG_BuildBallStatusOpen(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void BTL_MSG_BuildBallStatusRefresh(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void func_021EAF00(struct BtlvCore *core, int a);
 void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
 void func_021EAF50(struct BtlvMessage *msg, u32 val);
 void func_021EAF78(struct BtlvMessage *msg, u8 param);
@@ -460,6 +540,22 @@ void BTLV_SCU_HideNamePlate(BtlvScuNamePlate *plate);
 int BTLV_SCU_IsNamePlateHidden(BtlvScuNamePlate *plate);
 void BTLV_SCU_RefreshNamePlate(BtlvScuNamePlate *plate, u8 viewPos);
 int BTLV_SCU_ProcNamePlateMosaic(BtlvScuNamePlate *plate);
+void BTLV_SCU_GetBallStates(BtlvScu *scu, u32 *outStates, u32 clientA, u32 clientB, u32 sideFlag);
+void BTLV_SCU_PrintWaitMessage(BtlvScu *scu);
+int BTLV_SCU_UpdateWaitMessage(BtlvScu *scu);
+void BTLV_SCU_NoOp(char *unused);
+void BTLV_SCU_StartFadeIn(void);
+void BTLV_SCU_ClearWaitWindow(BtlvScu *scu);
+int BTLV_SCU_GetWaitState(void);
+void BTLV_SCU_StartBallWindowOpen(BtlvScu *scu, void **partySource, BtlvBallStates *states);
+int BTLV_SCU_UpdateBallWindowOpen(BtlvScu *scu);
+void BTLV_SCU_StartBallWindowRefresh(BtlvScu *scu);
+int BTLV_SCU_UpdateBallWindowRefresh(BtlvScu *scu);
+void BTLV_SCU_StartBallWindowClose(BtlvScu *scu);
+int BTLV_SCU_UpdateBallWindowClose(BtlvScu *scu);
+int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu);
+int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvScu *scu);
+int BTLV_SCU_StepBallWindowClose(int *state, BtlvScu *scu);
 extern u8 gBtlvScuFileName[];
 extern const struct BgTemplate gBtlvScuBgTemplateMsg, gBtlvScuBgTemplateName, gBtlvScuBgTemplateBack;
 extern u8 gBtlvScuQuickSidesSingle[];
@@ -468,25 +564,33 @@ extern u8 gBtlvScuQuickSidesTriple[];
 extern const BtlvScuPhaseProc gBtlvScuEntryTriplePhases[];
 
 
+
 /* Master brightness register of the main engine. */
 #define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006c)
 
+
 extern int (*const gBtlvScuSingleLinkPhases[][2])(BtlvScu *, int *);
+
 
 extern int (*const gBtlvScuDoubleTrainerLocalPhases[])(BtlvScu *, int *);
 
+
 extern int (*const gBtlvScuDoubleTrainerCommPhases[])(BtlvScu *, int *);
 
+
 extern int (*const gBtlvScuDoubleLinkLocalPhases[][2])(BtlvScu *, int *);
+
 
 extern int (*const gBtlvScuDoubleLinkCommPhases[])(BtlvScu *, int *);
 
 
-void func_021EAF00(struct BtlvCoreHead *core, int a)
+
+void func_021EAF00(struct BtlvCore *core, int a)
 {
     if (BTL_CLIENT_IsMainStepActive(core->client) == 0)
         GFL_USE_PlaySeDefaultVolume(a);
 }
+
 
 
 void func_021EAF18(struct BtlvMessage *msg, int kind, int id)
@@ -501,6 +605,7 @@ void func_021EAF18(struct BtlvMessage *msg, int kind, int id)
 }
 
 
+
 void func_021EAF50(struct BtlvMessage *msg, u32 val)
 {
     u32 n = msg->argCount;
@@ -512,11 +617,13 @@ void func_021EAF50(struct BtlvMessage *msg, u32 val)
 
 
 
+
 /* 021EAF78  strb r1,[r0,#2] */
 /*
  * Stores the second argument (a u8) into the param field at #2.
  */
 void func_021EAF78(struct BtlvMessage *msg, u8 param) { msg->param = param; }
+
 
 
 
@@ -544,6 +651,7 @@ BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, stru
     scu->lineIndex = 0;
     return scu;
 }
+
 
 
 
@@ -588,6 +696,7 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
 
 
 
+
 u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
 {
     void *handle = func_020490F4(arcId, (u16)((scu->heapId & 0x7fff) | 0x8000));
@@ -596,6 +705,7 @@ u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
     ARC_TOOL_DeleteHandle(handle);
     return (u16)tileOffset;
 }
+
 
 
 
@@ -632,6 +742,7 @@ void BTLV_SCU_Delete(BtlvScu *scu)
 
 
 
+
 /*
  * Lever: the parameter is const BtlvScu *; without const the ldrh of the heap
  * halfword schedules after the second zero stack store (DIFF, 19 lines).
@@ -649,10 +760,12 @@ void BTLV_SCU_ReloadGraphics(const BtlvScu *scu)
 
 
 
+
 /*
  * Calls the ARM9 predicate FADE_IsActive and returns its negation.  Filed here because it is the only witness available for BTLV_SCU_GetWaitState's pool word: no branch anywhere in the image targets 0x021EB318, so `label` and `sole-ref/code` both refuse it.  18 bytes against a 20-byte listing extent (the last two are alignment), so the entry is EXACT*.
  */
 u32 func_021EB318(void) { if (FADE_IsActive() == 0) return 1; return 0; }
+
 
 
 static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
@@ -662,6 +775,7 @@ static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
     scu->procScu = scu;
     scu->procState = 0;
 }
+
 
 
 void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode)
@@ -702,6 +816,7 @@ void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode)
 
 
 
+
 int BTLV_SCU_RunProc(BtlvScu *scu)
 {
     if (scu->preProc != 0) {
@@ -722,6 +837,7 @@ int BTLV_SCU_RunProc(BtlvScu *scu)
 }
 
 
+
 void BTLV_SCU_StartBrightnessFade(int speed)
 {
     if (func_0207D55C(REG_MASTER_BRIGHT_MAIN) <= 0)
@@ -729,6 +845,7 @@ void BTLV_SCU_StartBrightnessFade(int speed)
     else
         FADE_Start(0xc, 0x10, 0, speed);
 }
+
 
 
 int BTLV_SCU_ProcQuickEntry(BtlvScu *scu, int *state, u8 *sides, u8 count)
@@ -762,10 +879,12 @@ int BTLV_SCU_ProcQuickEntry(BtlvScu *scu, int *state, u8 *sides, u8 count)
 }
 
 
+
 int BTLV_SCU_ProcQuickEntrySingle(BtlvScu *scu, int *state)
 {
     return BTLV_SCU_ProcQuickEntry(scu, state, gBtlvScuQuickSidesSingle, 2);
 }
+
 
 
 int BTLV_SCU_ProcQuickEntryDouble(BtlvScu *scu, int *state)
@@ -774,10 +893,12 @@ int BTLV_SCU_ProcQuickEntryDouble(BtlvScu *scu, int *state)
 }
 
 
+
 int BTLV_SCU_ProcQuickEntryTriple(BtlvScu *scu, int *state)
 {
     return BTLV_SCU_ProcQuickEntry(scu, state, gBtlvScuQuickSidesTriple, 6);
 }
+
 
 
 int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
@@ -856,6 +977,7 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
 
 
 
+
 int BTLV_SCU_GetEntryMessageId(BtlvScu *scu)
 {
     if (BTL_MAIN_CheckSetupStatusFlag(scu->context, 4) != 0) {
@@ -872,6 +994,7 @@ int BTLV_SCU_GetEntryMessageId(BtlvScu *scu)
     }
     return 1;
 }
+
 
 
 int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
@@ -981,6 +1104,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
 
 
 
+
 int BTLV_SCU_ProcEntrySingleLink(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
@@ -994,6 +1118,7 @@ int BTLV_SCU_ProcEntrySingleLink(int *state, BtlvScu *scu)
     }
     return 1;
 }
+
 
 
 /*
@@ -1098,6 +1223,7 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
 
 
 
+
 int BTLV_SCU_ProcEntryDoubleTrainerLocal(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
@@ -1111,6 +1237,7 @@ int BTLV_SCU_ProcEntryDoubleTrainerLocal(int *state, BtlvScu *scu)
     }
     return 1;
 }
+
 
 
 
@@ -1132,6 +1259,7 @@ int BTLV_SCU_ProcEntryDoubleTrainerComm(int *state, BtlvScu *scu)
 
 
 
+
 int BTLV_SCU_ProcEntryDoubleLinkLocal(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
@@ -1145,6 +1273,7 @@ int BTLV_SCU_ProcEntryDoubleLinkLocal(int *state, BtlvScu *scu)
     }
     return 1;
 }
+
 
 
 
@@ -1165,6 +1294,7 @@ int BTLV_SCU_ProcEntryDoubleLinkComm(int *state, BtlvScu *scu)
 
 
 
+
 int BTLV_SCU_ProcEntryTriple(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
@@ -1180,8 +1310,10 @@ int BTLV_SCU_ProcEntryTriple(int *state, BtlvScu *scu)
 }
 
 
+
 /* Phase table of the triple link entry, indexed [phase][own client id]. */
 extern int (*const gBtlvScuEntryTripleLinkPhases[][2])(BtlvScu *, int *);
+
 
 
 /*
@@ -1204,11 +1336,13 @@ int BTLV_SCU_ProcEntryTripleLink(int *state, BtlvScu *scu)
 }
 
 
+
 /* Trainer intro against the first opponent client (single trainer). */
 int BTLV_SCU_PhaseTrainerIntro(BtlvScu *scu, int *state)
 {
     return BTLV_SCU_RunTrainerIntroOne(scu, state, BTL_MAIN_GetOwnOpponentClient(scu->context, 0));
 }
+
 
 
 /* Trainer intro against two opponent clients, or one when both are the same client. */
@@ -1220,6 +1354,7 @@ int BTLV_SCU_PhaseTrainerIntroComm(BtlvScu *scu, int *state)
         return BTLV_SCU_RunTrainerIntroTwo(scu, state, clientA, clientB);
     return BTLV_SCU_RunTrainerIntroOne(scu, state, clientA);
 }
+
 
 
 int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
@@ -1265,6 +1400,7 @@ int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
     }
     return 0;
 }
+
 
 
 int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u16 trainerClientB)
@@ -1314,6 +1450,7 @@ int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u1
 }
 
 
+
 /* Opponent sends out one monster (single battle, link). */
 int BTLV_SCU_PhaseOpponentSendOutSingle(BtlvScu *scu, int *state)
 {
@@ -1354,6 +1491,7 @@ int BTLV_SCU_PhaseOpponentSendOutSingle(BtlvScu *scu, int *state)
 }
 
 
+
 /* Opponent sends out two monsters: one trainer, or two when the opponent clients differ. */
 int BTLV_SCU_PhaseOpponentSendOutDouble(BtlvScu *scu, int *state)
 {
@@ -1363,6 +1501,7 @@ int BTLV_SCU_PhaseOpponentSendOutDouble(BtlvScu *scu, int *state)
         return BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers(scu, state, clientA, clientB);
     return BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(scu, state, clientA);
 }
+
 
 
 int BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(BtlvScu *scu, int *state, u8 trainerClient)
@@ -1410,6 +1549,7 @@ int BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(BtlvScu *scu, int *state, u8 tra
     }
     return 0;
 }
+
 
 
 /*
@@ -1469,6 +1609,7 @@ int BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers(BtlvScu *scu, int *state, u16 c
 }
 
 
+
 /* Opponent sends out three monsters (triple battle, link). */
 int BTLV_SCU_PhaseOpponentSendOutTriple(BtlvScu *scu, int *state)
 {
@@ -1518,6 +1659,7 @@ int BTLV_SCU_PhaseOpponentSendOutTriple(BtlvScu *scu, int *state)
     }
     return 0;
 }
+
 
 
 /* Own side sends out one monster (single battle, link): ball display, then "Go!" message. */
@@ -1572,6 +1714,7 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
 }
 
 
+
 /* Own side sends out two monsters: alone, or with a partner client when one exists. */
 int BTLV_SCU_PhaseOwnSendOutDouble(BtlvScu *scu, int *state)
 {
@@ -1581,6 +1724,7 @@ int BTLV_SCU_PhaseOwnSendOutDouble(BtlvScu *scu, int *state)
         return BTLV_SCU_RunOwnSendOutDoubleSolo(scu, state, ownClient);
     return BTLV_SCU_RunOwnSendOutDoublePartner(scu, state, ownClient, partnerClient);
 }
+
 
 
 /*
@@ -1646,6 +1790,7 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient)
     }
     return 0;
 }
+
 
 
 int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient, u8 partnerClient)
@@ -1722,6 +1867,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
 }
 
 
+
 /* Own side sends out three monsters (triple battle, link). */
 int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
 {
@@ -1789,6 +1935,7 @@ int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
 
 
 
+
 /*
  * Message id for an opponent send-out, by battle type and number of monsters:
  * wild 1/2, trainer 14..16, link 17..19.
@@ -1821,24 +1968,30 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 }
 
 
+
 /* Sound effects played by the battle view. */
 #define BTLV_SCU_SE_MSG_ADVANCE 0x547
+
 
 
 /* Effects started through the battle effect player. */
 #define BTLV_SCU_EFFECT_POS_CUE 0x25f
 
 
+
 /* Hardware registers of the main engine. */
 #define REG_MOSAIC (*(volatile u8 *)0x0400004c)
+
 
 
 /* Slot number meaning no monster slot. */
 #define BTLV_SCU_SLOT_NONE 6
 
 
+
 /* Blend control register of the main engine. */
 #define REG_BLDCNT 0x04000050
+
 
 
 /* Prints a message into the message window at once. */
@@ -1855,6 +2008,7 @@ void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct MsgBuf *str)
     scu->msgKeepText = 1;
     scu->msgEnded = 0;
 }
+
 
 
 /* Starts a streamed message; wait 0xFF means the default 0x50 frames. */
@@ -1884,12 +2038,14 @@ void BTLV_SCU_StartMessage(BtlvScu *scu, struct MsgBuf *str, u16 wait, u32 callb
 }
 
 
+
 /*
  * Mid-stream entry point (reached only through bx r3 tail thunks). Reads the
  * stream-finished flag at 0x141: returns 1 and clears it when set. The index
  * is too wide for a Thumb ldrb immediate, so it comes from a pool word.
  */
 u32 BTLV_SCU_ConsumeMessageEnded(BtlvScu *scu) { if (scu->msgEnded) { scu->msgEnded = 0; return 1; } return 0; }
+
 
 
 /*
@@ -1983,6 +2139,7 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
 }
 
 
+
 /* Starts a move effect: the message window fades out first. */
 void BTLV_SCU_StartWazaEffect(BtlvScu *scu, int attackerPos, int defenderPos, u32 wazaId, u32 effectSeq, int turnCount, u8 continueCount)
 {
@@ -1998,6 +2155,7 @@ void BTLV_SCU_StartWazaEffect(BtlvScu *scu, int attackerPos, int defenderPos, u3
     scu->procScu = scu;
     scu->procState = 0;
 }
+
 
 
 /* Procedure of the move effect: fade out the window, start the effect, wait for it. */
@@ -2028,6 +2186,7 @@ int BTLV_SCU_ProcWazaEffect(int *state, BtlvScu *scu)
 }
 
 
+
 /* Runs the pre procedure, else the main procedure; returns 1 when none is left (same code as BTLV_SCU_RunProc). */
 int BTLV_SCU_RunWazaProc(BtlvScu *scu)
 {
@@ -2052,6 +2211,7 @@ int BTLV_SCU_RunWazaProc(BtlvScu *scu)
 }
 
 
+
 /* Starts the damage motion of a slot; the HP gauge update is animated unless instant. */
 void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int instant)
 {
@@ -2068,6 +2228,7 @@ void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int ins
 }
 
 
+
 /* Both the effect player and the gauge are idle. */
 int BTLV_SCU_IsMonDamageAnimDone(void)
 {
@@ -2078,11 +2239,13 @@ int BTLV_SCU_IsMonDamageAnimDone(void)
 }
 
 
+
 /* Starts a motion on the monster of a slot. */
 void BTLV_SCU_StartMonMotion(BtlvScu *scu, u8 slotIdx, u32 motionId)
 {
     func_021F7C2C(BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx), motionId);
 }
+
 
 
 /* The effect player is idle. */
@@ -2092,6 +2255,7 @@ int BTLV_SCU_IsMonMotionDone(BtlvScu *scu)
         return 1;
     return 0;
 }
+
 
 
 /* Hides the sprite of a slot and starts its exit motion (flag selects the variant). */
@@ -2106,6 +2270,7 @@ void BTLV_SCU_StartMonExit(BtlvScu *scu, int slotIdx, u32 flag)
 }
 
 
+
 /* The effect player is idle. */
 int BTLV_SCU_IsMonExitDone(void)
 {
@@ -2113,6 +2278,7 @@ int BTLV_SCU_IsMonExitDone(void)
         return 1;
     return 0;
 }
+
 
 
 /* Loads the sprite of the monster in a slot and shows the slot. */
@@ -2124,6 +2290,7 @@ void BTLV_SCU_LoadAndShowMon(BtlvScu *scu, u8 slotIdx)
 }
 
 
+
 /* The effect player is idle. */
 int BTLV_SCU_IsMonLoadDone(void)
 {
@@ -2131,6 +2298,7 @@ int BTLV_SCU_IsMonLoadDone(void)
         return 1;
     return 0;
 }
+
 
 
 /* Withdraws the sprite at a view position, with a recall effect unless instant. */
@@ -2155,8 +2323,10 @@ void BTLV_SCU_StartMonWithdraw(BtlvScu *scu, u16 viewPos, u16 effectId, int inst
 }
 
 
+
 /* No withdraw task is running. */
 u32 BTLV_SCU_IsMonWithdrawDone(BtlvScu *scu) { if (scu->withdrawTaskCount == 0) return 1; return 0; }
+
 
 
 /* Task: plays the withdraw effect, then hides the sprite. */
@@ -2183,6 +2353,7 @@ void BTLV_SCU_TaskMonWithdraw(void *task, void *workPtr)
 }
 
 
+
 /*
  * Starts the send-out of a monster into a slot (plays the send-out effect unless quiet).
  * Lever: the record from TCBL_GetWork is a struct pointer, not u8 *: the
@@ -2207,8 +2378,10 @@ void BTLV_SCU_StartMonSendOut(BtlvScu *scu, u8 slotIdx, int clientId, u8 partyId
 }
 
 
+
 /* No send-out task is running (adds #0x41, ldrb, cmp #0: a 16-byte leaf with no calls and no pool). */
 int BTLV_SCU_IsMonSendOutDone(BtlvScu *scu) { return scu->sendOutTaskCount == 0; }
+
 
 
 /* Task: waits for the effect, then shows the slot. */
@@ -2230,6 +2403,7 @@ void BTLV_SCU_TaskMonSendOut(void *task, void *workPtr)
 }
 
 
+
 /* Starts the HP gauge update of a slot (animated unless instant). */
 void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant)
 {
@@ -2242,6 +2416,7 @@ void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant)
 }
 
 
+
 /* The gauge is idle. */
 int BTLV_SCU_IsHpGaugeIdle(void)
 {
@@ -2251,6 +2426,7 @@ int BTLV_SCU_IsHpGaugeIdle(void)
 }
 
 
+
 /* Hides two slots. */
 void BTLV_SCU_HideMonPair(BtlvScu *scu, int slotA, int slotB)
 {
@@ -2258,6 +2434,7 @@ void BTLV_SCU_HideMonPair(BtlvScu *scu, int slotA, int slotB)
     BTLV_SCU_HideMonSlot(&scu->monSlots[slotB]);
     func_021F87D4(1);
 }
+
 
 
 /* Shows two slots; returns 1 (step procedure form). */
@@ -2270,12 +2447,14 @@ int BTLV_SCU_ShowMonPair(BtlvScu *scu, int slotA, int slotB)
 }
 
 
+
 /* Hides one slot. */
 void BTLV_SCU_HideMon(BtlvScu *scu, int slotIdx)
 {
     BTLV_SCU_HideMonSlot(&scu->monSlots[slotIdx]);
     func_021F87D4(1);
 }
+
 
 
 /* Shows one slot; returns 1 (step procedure form). */
@@ -2287,11 +2466,13 @@ int BTLV_SCU_ShowMon(BtlvScu *scu, int slotIdx)
 }
 
 
+
 /* Starts the cue effect at a view position. */
 void BTLV_SCU_StartPosCueEffect(int unused, int viewPos)
 {
     func_021F7A28(viewPos, BTLV_SCU_EFFECT_POS_CUE);
 }
+
 
 
 /* The effect player is idle. */
@@ -2301,6 +2482,7 @@ int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos)
         return 1;
     return 0;
 }
+
 
 
 /* Starts the form change of the monster in a slot (slot 6 means none). */
@@ -2320,8 +2502,10 @@ void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag)
 }
 
 
+
 /* No form change or window fade task is running. */
 u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu) { if (scu->monTaskCount == 0) return 1; return 0; }
+
 
 
 /* Task: swaps the graphic of the monster, hides it, then shows it again. */
@@ -2351,6 +2535,7 @@ void BTLV_SCU_TaskMonFormChange(void *task, void *workPtr)
 }
 
 
+
 /* Starts a graphic swap at destPos using the monster found at srcPos. */
 void BTLV_SCU_StartMonGraphicSwapFrom(BtlvScu *scu, u32 destPos, u32 srcPos, u32 flag)
 {
@@ -2365,6 +2550,7 @@ void BTLV_SCU_StartMonGraphicSwapFrom(BtlvScu *scu, u32 destPos, u32 srcPos, u32
     work->step = 0;
     (*work->counter)++;
 }
+
 
 
 /* Starts a graphic swap of the monster at a view position. */
@@ -2383,8 +2569,10 @@ void BTLV_SCU_StartMonGraphicSwap(BtlvScu *scu, u32 viewPos, u32 flag)
 }
 
 
+
 /* No graphic swap or window fade task is running. */
 u32 BTLV_SCU_IsMonGraphicSwapDone(BtlvScu *scu) { if (scu->monTaskCount == 0) return 1; return 0; }
+
 
 
 /* Task: swaps the graphic and waits for the effect player. */
@@ -2409,6 +2597,7 @@ void BTLV_SCU_TaskMonGraphicSwap(void *task, void *workPtr)
 }
 
 
+
 /* Sets up the message window fade: window shown, blend registers set. */
 void BTLV_SCU_InitMsgWinFade(BtlvScuWinSlide *fade, struct BmpWin *win)
 {
@@ -2418,6 +2607,7 @@ void BTLV_SCU_InitMsgWinFade(BtlvScuWinSlide *fade, struct BmpWin *win)
     fade->evB = 0x7000;
     func_0207D63C(REG_BLDCNT, 2, 0x3d, 0x1f, 7);
 }
+
 
 
 /* Starts fading the window out (only from shown or fading in). */
@@ -2433,6 +2623,7 @@ void BTLV_SCU_StartMsgWinFadeOut(BtlvScuWinSlide *fade)
         fade->state = 1;
     }
 }
+
 
 
 /* Requests fading the window back in; the text is erased unless keepText. */
@@ -2451,6 +2642,7 @@ void BTLV_SCU_StartMsgWinFadeIn(BtlvScuWinSlide *fade, int keepText)
         fade->state = 4;
     }
 }
+
 
 
 /*
@@ -2498,6 +2690,7 @@ int BTLV_SCU_UpdateMsgWinFade(BtlvScuWinSlide *fade)
 }
 
 
+
 /* Starts a task that fades the message window out. */
 void BTLV_SCU_StartMsgWinFadeOutTask(BtlvScu *scu)
 {
@@ -2510,8 +2703,10 @@ void BTLV_SCU_StartMsgWinFadeOutTask(BtlvScu *scu)
 }
 
 
+
 /* Mid-stream entry point, same shape as BTLV_SCU_IsMonWithdrawDone with the offset 0x40. */
 u32 BTLV_SCU_IsMsgWinFadeOutTaskDone(BtlvScu *scu) { if (scu->monTaskCount == 0) return 1; return 0; }
+
 
 
 /* Task: fades the message window out and waits for it. */
@@ -2531,6 +2726,7 @@ void BTLV_SCU_TaskMsgWinFadeOut(void *task, void *workPtr)
         break;
     }
 }
+
 
 
 /*
@@ -2557,6 +2753,7 @@ void BTLV_SCU_InitMonSlots(BtlvScu *scu)
 }
 
 
+
 /* Resets all six monster slots. */
 void BTLV_SCU_ResetMonSlots(BtlvScu *scu)
 {
@@ -2564,6 +2761,7 @@ void BTLV_SCU_ResetMonSlots(BtlvScu *scu)
     for (i = 0; i < 6; i++)
         BTLV_SCU_ResetMonSlot(&scu->monSlots[i]);
 }
+
 
 
 /* Initialises one monster slot. */
@@ -2576,6 +2774,7 @@ void BTLV_SCU_InitMonSlot(BtlvScuMonSlot *slot, BtlvScu *owner, u8 slotIdx)
     slot->isActive = 1;
     slot->mon = 0;
 }
+
 
 
 /* Resets one monster slot: hides its sprite and marks it unused. */
@@ -2592,6 +2791,7 @@ void BTLV_SCU_ResetMonSlot(BtlvScuMonSlot *slot)
 }
 
 
+
 /* Hides the sprite of a slot when it is shown. */
 void BTLV_SCU_HideMonSlot(BtlvScuMonSlot *slot)
 {
@@ -2600,6 +2800,7 @@ void BTLV_SCU_HideMonSlot(BtlvScuMonSlot *slot)
         slot->isShown = 0;
     }
 }
+
 
 
 /* Shows the sprite of the monster standing at the slot, unless it fainted. */
@@ -2613,6 +2814,7 @@ void BTLV_SCU_ShowMonSlot(BtlvScuMonSlot *slot)
         }
     }
 }
+
 
 
 /*
@@ -2629,6 +2831,7 @@ BtlvScuPlateSide BTLV_SCU_GetNamePlateSide(struct BtlContext *ctx, u32 viewPos)
 }
 
 
+
 /* Shows the name plate of the monster at a view position. */
 void BTLV_SCU_StartNamePlate(BtlvScu *scu, u8 viewPos, int closeLater)
 {
@@ -2640,11 +2843,13 @@ void BTLV_SCU_StartNamePlate(BtlvScu *scu, u8 viewPos, int closeLater)
 }
 
 
+
 /* Steps the slide-in of the name plate of a view position. */
 void BTLV_SCU_ProcNamePlateAt(BtlvScu *scu, u32 viewPos)
 {
     BTLV_SCU_ProcNamePlate(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
 }
+
 
 
 /* Starts hiding the name plate of a view position. */
@@ -2657,12 +2862,14 @@ void BTLV_SCU_HideNamePlateAt(BtlvScu *scu, u32 viewPos)
 }
 
 
+
 /* Checks the name plate of a view position (always 1). */
 void BTLV_SCU_IsNamePlateHiddenAt(BtlvScu *scu, u32 viewPos)
 {
     u8 side = BTLV_SCU_GetNamePlateSide(scu->context, viewPos);
     BTLV_SCU_IsNamePlateHidden(&scu->namePlates[side]);
 }
+
 
 
 /* Redraws the name plate of a view position for its current monster. */
@@ -2672,11 +2879,13 @@ void BTLV_SCU_RefreshNamePlateAt(BtlvScu *scu, u8 viewPos)
 }
 
 
+
 /* Steps the mosaic change of the name plate of a view position. */
 void BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos)
 {
     BTLV_SCU_ProcNamePlateMosaic(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
 }
+
 
 
 /* Loads the plate graphics and creates the two name plates. */
@@ -2698,6 +2907,7 @@ void BTLV_SCU_InitNamePlates(BtlvScu *scu, u32 tile)
 }
 
 
+
 /* Frees the plate bitmaps and the plate graphics. */
 void BTLV_SCU_FreeNamePlates(BtlvScu *scu)
 {
@@ -2713,6 +2923,7 @@ void BTLV_SCU_FreeNamePlates(BtlvScu *scu)
         scu->nameGfxFile = 0;
     }
 }
+
 
 
 /*
@@ -2745,6 +2956,7 @@ void BTLV_SCU_PrepareNamePlate(BtlvScuNamePlate *plate, u8 viewPos, int closeLat
     plate->phase = 0;
     func_021F8AE8(viewPos, speciesId);
 }
+
 
 
 /*
@@ -2824,6 +3036,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
 }
 
 
+
 /* Draws the text of a plate: the template, then one or two lines of message 0x67. */
 void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 {
@@ -2842,7 +3055,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
     scu = plate->scu;
     size = BMP_GetByteSize(plate->bmp);
     pixels = BMP_GetPixels(plate->bmp);
-    func_02082A90(plate->scu->nameGfx->pixels + plate->sideIdx * 0x900, pixels, size);
+    MIi_CpuCopy32(plate->scu->nameGfx->pixels + plate->sideIdx * 0x900, pixels, size);
     GF_FONT_SetTextColor(1, 2, 0);
     BTL_MSG_FormatArgs(scu->wordBuf0, 0x67, 2, plate->pokeId, plate->speciesId);
     if ((u8)func_0201D33C(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
@@ -2873,6 +3086,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 }
 
 
+
 /* Scrolls the plate back out and marks it hidden. */
 void BTLV_SCU_HideNamePlate(BtlvScuNamePlate *plate)
 {
@@ -2884,8 +3098,10 @@ void BTLV_SCU_HideNamePlate(BtlvScuNamePlate *plate)
 }
 
 
+
 /* Returns the constant 1 (movs r0, #1). */
 int BTLV_SCU_IsNamePlateHidden(BtlvScuNamePlate *plate) { return 1; }
+
 
 
 /* Redraws the plate when the monster at the view position changed. */
@@ -2907,6 +3123,7 @@ void BTLV_SCU_RefreshNamePlate(BtlvScuNamePlate *plate, u8 viewPos)
 }
 
 
+
 static inline void G2_BG2Mosaic(int enable)
 {
     if (enable) *(volatile u16 *)0x0400000c |= 0x40;
@@ -2914,11 +3131,13 @@ static inline void G2_BG2Mosaic(int enable)
 }
 
 
+
 static inline void G2_BG3Mosaic(int enable)
 {
     if (enable) *(volatile u16 *)0x0400000e |= 0x40;
     else *(volatile u16 *)0x0400000e &= ~0x40;
 }
+
 
 
 /* Plate mosaic procedure: ramps the mosaic up, reloads the pixels, ramps it down. Returns 1 when done. */
@@ -2968,6 +3187,263 @@ int BTLV_SCU_ProcNamePlateMosaic(BtlvScuNamePlate *plate)
         if (GFL_USE_IsSeqPlaying(BTLV_SCU_SE_PLATE_MOSAIC) == 0) plate->phase++;
         break;
     default:
+        return 1;
+    }
+    return 0;
+}
+
+
+/* Fill the ball states of up to two clients (a double battle shows three
+   balls per client). outStates[0] is the side flag, then six ball states. */
+void BTLV_SCU_GetBallStates(BtlvScu *scu, u32 *outStates, u32 clientA, u32 clientB, u32 sideFlag)
+{
+    void *partyLists[2] = {0, 0};
+    int partyCounts[2] = {0, 0};
+    int i;
+    int side;
+    s8 slot;
+    void *mon;
+    MI_CpuFill8(outStates, 0, 28);
+    partyLists[0] = BTL_SIDE_GetSlotOfClientThunk(scu->monTable, clientA);
+    partyCounts[0] = BTL_SLOT_GetCount(partyLists[0]);
+    if (clientB < 4) {
+        partyLists[1] = BTL_SIDE_GetSlotOfClientThunk(scu->monTable, clientB);
+        partyCounts[1] = BTL_SLOT_GetCount(partyLists[1]);
+        if (partyCounts[0] > 3) partyCounts[0] = 3;
+        if (partyCounts[1] > 3) partyCounts[1] = 3;
+    }
+    outStates[0] = sideFlag;
+    for (i = 0; i < 6; i++) {
+        if (i < partyCounts[0] + partyCounts[1]) {
+            if (i < partyCounts[0]) { side = 0; slot = i; }
+            else { side = 1; slot = i - partyCounts[0]; }
+            mon = BTL_SLOT_GetPokeParam(partyLists[side], (u8)slot);
+            if (BTL_POKEPARAM_IsFainted(mon)) outStates[side * 3 + slot + 1] = 2;
+            else if (BTL_POKEPARAM_GetMajorStatusIndex(mon)) outStates[side * 3 + slot + 1] = 3;
+            else if (!BTL_POKEPARAM_IsAbleToBattle(mon)) outStates[side * 3 + slot + 1] = 0;
+            else outStates[side * 3 + slot + 1] = 1;
+        }
+    }
+}
+
+
+/* Print the wait message (message id 0xF) in the message window. */
+void BTLV_SCU_PrintWaitMessage(BtlvScu *scu)
+{
+    BTL_MSG_GetUiString(scu->textBuf, 0xf);
+    BTLV_SCU_StartMessage(scu, scu->textBuf, 0, 0);
+}
+
+
+/*
+ * Untraced mid-stream entry point: a plain tail thunk (ldr r3,=T; bx r3) whose pool word names BTLV_SCU_UpdateMessage.
+ */
+int BTLV_SCU_UpdateWaitMessage(BtlvScu *scu) { return BTLV_SCU_UpdateMessage(scu); }
+
+
+void BTLV_SCU_NoOp(char *unused)
+{
+}
+
+
+/* Fade the screen in from black. */
+void BTLV_SCU_StartFadeIn(void)
+{
+    int x = 0x10;
+    FADE_Start(1, 0, x, x - 0x13);
+}
+
+
+/* Clear the message window and fade the screen out. */
+void BTLV_SCU_ClearWaitWindow(BtlvScu *scu)
+{
+    BMP_Clear(scu->msgWinChars, 12);
+    BMP_WIN_TransferChars(scu->msgWin);
+    FADE_Start(1, 16, 0, -3);
+}
+
+
+int BTLV_SCU_GetWaitState(void)
+{
+    return func_021EB318();
+}
+
+
+/* Start the ball window: arm the open step with the party source and states. */
+void BTLV_SCU_StartBallWindowOpen(BtlvScu *scu, void **partySource, BtlvBallStates *states)
+{
+    scu->partySource = partySource;
+    scu->ballStates = *states;
+    scu->preProc = 0;
+    scu->mainProc = BTLV_SCU_StepBallWindowOpen;
+    scu->procScu = scu;
+    scu->procState = 0;
+}
+
+
+/* Run the ball window steps; returns 1 when no step is left. */
+int BTLV_SCU_UpdateBallWindowOpen(BtlvScu *scu)
+{
+    if (scu->preProc != 0) {
+        if (scu->preProc(&scu->procState, scu->procScu) != 0) {
+            scu->preProc = 0;
+            scu->procState = 0;
+        }
+        return 0;
+    }
+    if (scu->mainProc != 0) {
+        if (scu->mainProc(&scu->procState, scu->procScu) != 0) {
+            scu->mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+void BTLV_SCU_StartBallWindowRefresh(BtlvScu *scu)
+{
+    scu->preProc = 0;
+    scu->mainProc = BTLV_SCU_StepBallWindowRefresh;
+    scu->procScu = scu;
+    scu->procState = 0;
+}
+
+
+int BTLV_SCU_UpdateBallWindowRefresh(BtlvScu *scu)
+{
+    if (scu->preProc != 0) {
+        if (scu->preProc(&scu->procState, scu->procScu) != 0) {
+            scu->preProc = 0;
+            scu->procState = 0;
+        }
+        return 0;
+    }
+    if (scu->mainProc != 0) {
+        if (scu->mainProc(&scu->procState, scu->procScu) != 0) {
+            scu->mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+void BTLV_SCU_StartBallWindowClose(BtlvScu *scu)
+{
+    scu->preProc = 0;
+    scu->mainProc = BTLV_SCU_StepBallWindowClose;
+    scu->procScu = scu;
+    scu->procState = 0;
+}
+
+
+int BTLV_SCU_UpdateBallWindowClose(BtlvScu *scu)
+{
+    if (scu->preProc != 0) {
+        if (scu->preProc(&scu->procState, scu->procScu) != 0) {
+            scu->preProc = 0;
+            scu->procState = 0;
+        }
+        return 0;
+    }
+    if (scu->mainProc != 0) {
+        if (scu->mainProc(&scu->procState, scu->procScu) != 0) {
+            scu->mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+/* Open step: draw the frame, print the ball line, scroll the window in. */
+int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu)
+{
+    switch (*state) {
+    case 0:
+        GF_FONT_SetTextColor(1, 9, 12);
+        BMP_WIN_MakeScreen(scu->nameWin);
+        BMP_WIN_DrawFrame(scu->nameWin, scu->nameTile, 3);
+        BMP_Clear(scu->nameWinChars, 12);
+        func_020409B4(BMP_WIN_GetBgLayer(scu->nameWin));
+        (*state)++;
+        break;
+    case 1:
+        BTL_MSG_BuildBallStatusOpen(scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
+        PRINTSYS_Print(scu->nameWinChars, 0, 0, scu->textBuf, scu->fontMain);
+        (*state)++;
+        break;
+    case 2:
+        BMP_WIN_TransferChars(scu->nameWin);
+        (*state)++;
+        break;
+    case 3:
+        func_02040618(3, 0, 0);
+        func_02040618(3, 3, 0x100);
+        GFL_USE_PlaySeDefaultVolume(0x547);
+        (*state)++;
+        break;
+    case 4:
+        return 1;
+    }
+    return 0;
+}
+
+
+/* Refresh step: re-read the party and reprint the ball line. */
+int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvScu *scu)
+{
+    switch (*state) {
+    case 0:
+        BTL_POKEPARAM_ReadStatsFromMon(scu->partySource, &scu->ballStates.sideFlag);
+        BTL_MSG_BuildBallStatusRefresh(scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
+        BMP_Clear(scu->nameWinChars, 12);
+        PRINTSYS_Print(scu->nameWinChars, 0, 0, scu->textBuf, scu->fontMain);
+        (*state)++;
+        break;
+    case 1:
+        BMP_WIN_TransferChars(scu->nameWin);
+        GFL_USE_PlaySeDefaultVolume(0x547);
+        (*state)++;
+        break;
+    case 2:
+        return 1;
+    }
+    return 0;
+}
+
+
+/* Close step: erase the frame and scroll the window out. */
+int BTLV_SCU_StepBallWindowClose(int *state, BtlvScu *scu)
+{
+    int left;
+    int top;
+    int width;
+    int height;
+    u8 index;
+
+    switch (*state) {
+    case 0:
+        left = BMP_WIN_GetPosX(scu->nameWin) - 1;
+        top = BMP_WIN_GetPosY(scu->nameWin) - 1;
+        width = BMP_WIN_GetWidth(scu->nameWin) + 2;
+        height = BMP_WIN_GetHeight(scu->nameWin) + 2;
+        index = BMP_WIN_GetBgLayer(scu->nameWin);
+        func_02041300(index, 0, (u8)left, (u8)top, (u8)width, (u8)height, 0);
+        func_020409B4(index);
+        GFL_USE_PlaySeDefaultVolume(0x547);
+        (*state)++;
+        break;
+    case 1:
+        func_02040618(3, 0, -0x90);
+        func_02040618(3, 3, 0);
+        (*state)++;
+        break;
+    case 2:
         return 1;
     }
     return 0;

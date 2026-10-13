@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB08
+ * function: IRCBATTLEMATCH_StepStartSession
  * address: 0x021BAB08
  * packet: pkt_ov100_021BAB08
  * region: ov100
@@ -21,15 +21,15 @@
  *   sole function; zero viable pieces. Do not file overlay leaves while capped.
  * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_SetSessionParam (veneer to 0x0203DA68) still has no witness; GFL_NET_IRC_WIRELESS_SetSessionParamValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_SetSessionParamValue.c, integrator must regenerate labels so the veneer resolves.
  * symbols:
- *   d_021BB83C 0x021BB83C data a4
+ *   gIrcBattleMatchSessionReq 0x021BB83C data a4
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
  *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
- *   func_021BAAEC 0x021BAAEC thumb ov100
- *   func_021BA290 0x021BA290 thumb ov100
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BAC80 0x021BAC80 thumb ov100
+ *   IRCBATTLEMATCH_IsCompatibleGameKind 0x021BAAEC thumb ov100
+ *   IRCBATTLEMATCH_OpenWaitMenu 0x021BA290 thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepStartChangeover 0x021BAC80 thumb ov100
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,20 +40,20 @@ struct Req {
     u32 word68;
     u16 value,limit;
 };
-extern const struct Req d_021BB83C;
+extern const struct Req gIrcBattleMatchSessionReq;
 extern void GFL_NET_StartSession(struct Req *,u32,u32);
 extern void GFL_NET_IRC_WIRELESS_SetSessionParam(u32);
 extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
-extern int func_021BAAEC(int,int);
-extern void func_021BA290(int,int);
-extern void func_021B95B8(u8 *,u32);
-extern void func_021BAC80(int);
-void func_021BAB08(int p)
+extern int IRCBATTLEMATCH_IsCompatibleGameKind(int,int);
+extern void IRCBATTLEMATCH_OpenWaitMenu(int,int);
+extern void IRCBATTLEMATCH_SetStep(u8 *,u32);
+extern void IRCBATTLEMATCH_StepStartChangeover(int);
+void IRCBATTLEMATCH_StepStartSession(int p)
 {
     struct Req req;
     int zero,q;
-    req=d_021BB83C;
+    req=gIrcBattleMatchSessionReq;
     req.mode=4;
     switch(*(u32 *)(p+0x24c)) {
     case 1:case 2:case 3:case 4:
@@ -97,12 +97,12 @@ void func_021BAB08(int p)
     GFL_NET_StartSession(&req,0,p);
     switch(*(int *)(p+0x24c)) {
     case 10:
-        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(1);
         GFL_NET_SetGameKindOverride(17);
         break;
     case 9:
-        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((u32)IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(zero);
         GFL_NET_SetGameKindOverride(17);
         break;
@@ -110,6 +110,6 @@ void func_021BAB08(int p)
         GFL_NET_SetGameKindOverride(37);
         break;
     }
-    func_021BA290(p,0);
-    func_021B95B8((u8 *)p,(u32)func_021BAC80);
+    IRCBATTLEMATCH_OpenWaitMenu(p,0);
+    IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepStartChangeover);
 }

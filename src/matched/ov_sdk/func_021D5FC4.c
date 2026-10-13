@@ -1,5 +1,5 @@
 /*
- * function: func_021D5FC4
+ * function: DWCi_FNTlRenewBg
  * address:  0x021D5FC4
  * packet:   pkt_021D5FC4
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5FC4 0x021D5FC4 arm
+ *   DWCi_FNTlRenewBg 0x021D5FC4 arm
  *
  * Set one of two flags in the global object depending on the pointer argument.
  * Addresses are Black-image addresses.
  */
 
-void func_021D5FC4(int x)
+void DWCi_FNTlRenewBg(int x)
 {
     unsigned char *p = *(unsigned char **)0x021DE680;
     int v = 1;

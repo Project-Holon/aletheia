@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F6684, func_021F669C
+ * function: VS_MULTI_LIST_StateWaitWipe, VS_MULTI_LIST_StateWaitFrames
  * address: 0x021F6684
  * packet: pkt_ov097_021F6684
  * region: ov097
@@ -17,5 +17,5 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 WIPE_SYS_EndCheck(void);
-int func_021F6684(u8 *p) { if(WIPE_SYS_EndCheck()==1) return ((struct Obj21989 *)p)->f118; return 2; }
-int func_021F669C(u8 *p) { if(((struct Obj10193 *)p)->f11C==0) return ((struct Obj10193 *)p)->f114; (((struct Obj10193 *)p)->f11C)--; return 3; }
+int VS_MULTI_LIST_StateWaitWipe(u8 *p) { if(WIPE_SYS_EndCheck()==1) return ((struct Obj21989 *)p)->f118; return 2; }
+int VS_MULTI_LIST_StateWaitFrames(u8 *p) { if(((struct Obj10193 *)p)->f11C==0) return ((struct Obj10193 *)p)->f114; (((struct Obj10193 *)p)->f11C)--; return 3; }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067AA0",
+   "name": "NNS_G2dSetRndCoreImageProxy",
    "address": "0x02067AA0",
    "kind": "game",
    "region": "arm9",

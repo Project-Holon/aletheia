@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C0C
+ * function: IRC_RESULT_VBlankActorSystem
  * address: 0x021B7C0C
  * packet: pkt_ov105_021B7C0C
  * region: ov105
@@ -12,4 +12,4 @@
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021B7C0C(void) { CLACT_VBlankSystem(); }
+void IRC_RESULT_VBlankActorSystem(void) { CLACT_VBlankSystem(); }

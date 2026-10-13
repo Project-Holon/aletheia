@@ -1,5 +1,5 @@
 /*
- * function: func_021702A0
+ * function: DWCi_ProcessRecvMatchCommand
  * address:  0x021702A0
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -272,7 +272,7 @@ static inline u32 DWCi_LEtoHl(u32 x) { return x; }
 static inline u64 DWCi_Np_GetTick(void) { return OS_GetTick(); }
 #define SOC_HtoNs(s) ((u16)((((s) >> 8) & 0x00ff) | (((s) << 8) & 0xff00)))
 
-int func_021702A0(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len)
+int DWCi_ProcessRecvMatchCommand(u8 command, int srcPid, u32 srcIP, u16 srcPort, u32 *data, int len)
 {
     u8 sendCommand;
     u8 aid;

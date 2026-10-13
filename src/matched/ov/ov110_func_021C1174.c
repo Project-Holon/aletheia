@@ -1,5 +1,5 @@
 /*
- * function: func_021C1174
+ * function: PMS_SELECT_GRAPHIC_FlushRowWindow
  * address: 0x021C1174
  * packet: pkt_ov110_021C1174
  * region: ov110
@@ -28,7 +28,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
-int func_021C1174(unsigned owner, void *p, int *state) {
+int PMS_SELECT_GRAPHIC_FlushRowWindow(unsigned owner, void *p, int *state) {
     unsigned q = (unsigned)BMP_WIN_GetBmp(p);
     if (*state == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)owner, (void *)q) == 0) {
         BMP_WIN_TransferChars(p);

@@ -11,21 +11,21 @@
  *
  * sdk:      procInit (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
  * symbols:
- *   func_021D55A4  0x021D55A4  arm
- *   func_021D603C  0x021D603C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm
+ *   DWCi_EFFlFade  0x021D55A4  arm
+ *   DWCi_GXlVisible  0x021D603C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm
  *   func_021C3954  0x021C3954  arm
  */
-extern void func_021D55A4(int a, int b, int c, int d);
-extern void func_021D603C(int a, int b);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_EFFlFade(int a, int b, int c, int d);
+extern void DWCi_GXlVisible(int a, int b);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3954(void);
 
 void func_021C38EC(void)
 {
-    func_021D55A4(2, 1, 1, 8);
-    func_021D55A4(2, 0, 0x15, 8);
-    func_021D603C(1, 1);
-    func_021D603C(0, 0x15);
-    func_021C0E40((unsigned int)func_021C3954);
+    DWCi_EFFlFade(2, 1, 1, 8);
+    DWCi_EFFlFade(2, 0, 0x15, 8);
+    DWCi_GXlVisible(1, 1);
+    DWCi_GXlVisible(0, 0x15);
+    DWCi_ChangeScene((unsigned int)func_021C3954);
 }

@@ -17,8 +17,8 @@
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   d_021E80B0 0x021E80B0 data a4
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   func_021DC538 0x021DC538 thumb ov119
  *   func_021DC5F0 0x021DC5F0 thumb ov119
  *   func_021DC3EC 0x021DC3EC thumb ov119
@@ -61,11 +61,11 @@ extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern const char d_021E80B0[];
 extern char d_021E7614[];
-extern void *func_0200CA1C(void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
 typedef unsigned int   u32;
 struct Bank;
 struct Blk37;
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void func_021DC538(char *,void *,u16),func_021DC5F0(char *),func_021DC3EC(char *),func_021DC458(char *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,unsigned);
@@ -95,7 +95,7 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     I(0x5e0)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0x110c);
     I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
     I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
-    ((struct Obj03256 *)p)->f11F6=func_0200CA38(func_0200CA1C(((struct Obj04478 *)q)->f14));
+    ((struct Obj03256 *)p)->f11F6=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct Obj04478 *)q)->f14));
     if(q) func_021DC538(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
     func_021DC5F0(p);func_021DC3EC(p);func_021DC458(p);
     I(0x9c4)=(int)CLACT_CreateUnit(0x154,0,H(0x5f4));

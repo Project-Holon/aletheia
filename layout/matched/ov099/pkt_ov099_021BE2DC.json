@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE2DC",
+   "name": "WIFICLUB_LoadBgResources",
    "address": "0x021BE2DC",
    "kind": "game",
    "region": "ov099",

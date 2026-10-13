@@ -15,24 +15,24 @@
  *   default changes the bytes (the previous lane's DIFF32); see
  *   docs/idioms/switch-arms-tail-merge.md for the same no-default shape.
  * symbols:
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CA78 0x0200CA78 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_SetLastViewedSpecies 0x0200CA78 thumb
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
-extern void *func_0200CA1C(void *a);
-extern void func_0200CA78(struct Blk37 *p, u32 v);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_SetLastViewedSpecies(struct Blk37 *p, u32 v);
 extern u32 func_020307B0(void *p);
 int func_021C9244(char *p)
 {
     struct Blk37 *save;
     char *q;
     int result;
-    save = func_0200CA1C(*(void **)*(char **)p);
+    save = ZUKAN_SAVE_GetFromGameData(*(void **)*(char **)p);
     q = *(char **)(p + 0x28);
-    func_0200CA78(save, (*(u16 **)(q + 8))[*(u16 *)(q + 14)]);
+    ZUKAN_SAVE_SetLastViewedSpecies(save, (*(u16 **)(q + 8))[*(u16 *)(q + 14)]);
     switch (*(int *)(q + 0x10)) {
     case 0:
         *(u16 *)(*(char **)p + 14) = 1;

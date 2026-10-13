@@ -12,7 +12,7 @@
  * sdk:      gsiSoapTaskThink (gssoap.o)
  *
  * symbols:
- *   func_021C2284                  0x021C2284  arm
+ *   ghttpRequestThink                  0x021C2284  arm
  */
 
 typedef struct GSSoapTask {
@@ -22,13 +22,13 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 
-extern int func_021C2284(int request);
+extern int ghttpRequestThink(int request);
 
 int func_0217FF70(void *theTask)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     if (aSoapTask->completed != 0)
         return 4;
-    func_021C2284(aSoapTask->request);
+    ghttpRequestThink(aSoapTask->request);
     return 1;
 }

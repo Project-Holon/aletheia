@@ -18,7 +18,7 @@
  *   gColosseumAssertText2 0x0217563C data a4
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
@@ -29,7 +29,7 @@
  *   func_02012934  0x02012934  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
  *   gColosseumAllocFile   0x02175630  data  ov012
  *   func_020307B0  0x020307B0  arm
@@ -99,7 +99,7 @@ typedef struct ColosseumBattleInfo {
 extern void func_02034714(const char *file, u32 line, const char *msg);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 extern u32 GFL_NET_IsParentAid(void);
 extern int POKE_REGULATION_GetDataSize(void);
@@ -110,7 +110,7 @@ extern struct Party *POKEPARTY_Create(u32 heapId);
 extern struct Party *func_02012934(const struct GameData *gameData);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void MYSTATUS_Copy(const struct MyStatus *src, void *dst);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, const struct GameData *gameData, u32 mode, u32 flag, u32 heapId);
 extern u32 func_020307B0(void *p);
 extern void COMM_PLAYER_Delete(void *gameSystem, void *commPlayer);
@@ -196,7 +196,7 @@ void COLOSSEUM_RecvPlayerEntry(u32 netId, u32 size, void *data, UnionRoomWork *u
     ColosseumWork *colosseum = unionWork->colosseum;
     if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) return;
     if (colosseum == 0 || colosseum->commPlayer == 0) return;
-    func_02082D44(data, &colosseum->player[netId], size);
+    MI_CpuCopy8(data, &colosseum->player[netId], size);
 }
 
 
@@ -228,7 +228,7 @@ void COLOSSEUM_RecvTrainerCard(u32 netId, u32 size, void *data, UnionRoomWork *u
     if (colosseum->trainerCard[netId] == 0) {
         return;
     }
-    func_02082D44(data, colosseum->trainerCard[netId], size);
+    MI_CpuCopy8(data, colosseum->trainerCard[netId], size);
     colosseum->trainerCardReceived[netId] = 1;
 }
 
@@ -319,7 +319,7 @@ void COLOSSEUM_RecvParty(u32 netId, u32 size, void *data, UnionRoomWork *unionWo
     ColosseumWork *colosseum = unionWork->colosseum;
     if (colosseum == 0) return;
     if (colosseum->party[netId] == 0) return;
-    func_02082D44(data, colosseum->party[netId], size);
+    MI_CpuCopy8(data, colosseum->party[netId], size);
     colosseum->partyReceived[netId] = 1;
 }
 
@@ -343,7 +343,7 @@ void COLOSSEUM_RecvBattlePositions(int netId, u32 size, void *data, UnionRoomWor
 {
     ColosseumWork *colosseum = unionWork->colosseum;
     if (colosseum) {
-        func_02082D44(data,colosseum->battlePosition,size);
+        MI_CpuCopy8(data,colosseum->battlePosition,size);
         colosseum->positionsReceived = 1;
     }
 }
@@ -463,7 +463,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     POKEPARTY_Copy(func_02012934(gameData), work->party[selfNetId]);
     self = &work->player[selfNetId];
     MYSTATUS_Copy(myStatus, self);
-    func_02087C6C(self->statusExtra);
+    OS_GetMacAddress(self->statusExtra);
     self->isEntered = 1;
     flag = 1;
     if (modeFlag == 1) {

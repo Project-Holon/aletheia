@@ -18,7 +18,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb
  *   gColosseumAllocFile   0x02175630  data  ov012
  */
@@ -59,7 +59,7 @@ struct Rec534;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern void TRCARD_SYS_BuildProfile(void *a, u32 b, u32 c, u32 d, u32 e);
 
 Work *COLOSSEUM_Create(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
@@ -86,7 +86,7 @@ Work *COLOSSEUM_Create(const struct Obj *obj, u32 a1, u32 a2, u32 a3)
     POKEPARTY_Copy(GAME_DATA_GetMyParty((const struct BigObj *)obj), w->f148[idx]);
     s = w->slot[idx];
     MYSTATUS_Copy((void *)a2, s);
-    func_02087C6C(s + 0x20);
+    OS_GetMacAddress(s + 0x20);
     s[0x26] = 1;
     v = 1;
     if (a3 == 1) {

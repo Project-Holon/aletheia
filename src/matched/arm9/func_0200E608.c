@@ -19,7 +19,7 @@
  *   func_02030734  0x02030734  arm
  *   data_020A721C  0x020A721C  data
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
  *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   OS_WaitIrq     0x0208459C  arm
@@ -35,7 +35,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_020A721C[];
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 typedef unsigned char u8;
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
 extern int GAME_DATA_PartSaveMain(char *p, int a1);
@@ -50,7 +50,7 @@ void func_0200E608(void *sys, void *dst, u32 heap)
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
 
     SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
-    func_02082D44(dst, buf, 0x5C8);
+    MI_CpuCopy8(dst, buf, 0x5C8);
     GAME_DATA_PartSaveStart(sys, 5);
     for (;;) {
         if (GAME_DATA_PartSaveMain(sys, 5) == 2) {

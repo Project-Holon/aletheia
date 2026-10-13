@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCE48",
+   "name": "PMSIV_MENU_FinishBackItem",
    "address": "0x021BCE48",
    "kind": "game",
    "region": "ov110",

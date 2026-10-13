@@ -12,7 +12,7 @@
  * sdk:      stepBar (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   g_021DE63C  0x021DE63C  data
+ *   gScrollBar  0x021DE63C  data
  */
 
 typedef struct {
@@ -21,10 +21,10 @@ typedef struct {
 	unsigned char b;
 } SB;
 
-extern SB *g_021DE63C;
+extern SB *gScrollBar;
 
 void func_021CEC9C(int idx)
 {
-	g_021DE63C->a = idx;
-	g_021DE63C->b = (idx == 2) ? 4 : 6;
+	gScrollBar->a = idx;
+	gScrollBar->b = (idx == 2) ? 4 : 6;
 }

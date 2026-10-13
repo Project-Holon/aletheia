@@ -1,5 +1,5 @@
 /*
- * function: func_021BD6B4
+ * function: PMS_INPUT_NextSentence
  * address: 0x021BD6B4
  * packet: pkt_ov110_021BD6B4
  * region: ov110
@@ -19,7 +19,7 @@ typedef struct { s16 a; s8 b; s8 c; } State;
 typedef unsigned int   u32;
 extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
 extern void PMSI_PARAM_SetSentenceId(void *, int, int);
-void func_021BD6B4(State *p, void *out) {
+void PMS_INPUT_NextSentence(State *p, void *out) {
     p->b++;
     if (p->b >= p->c) {
         p->b = 0;

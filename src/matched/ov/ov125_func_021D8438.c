@@ -12,13 +12,13 @@
  * ARM tail call: ldr ip, =target; bx ip (the form mwcc emits, as in ov009 DWCi_ProcessMatchSynPacketSub.c).
  *
  * symbols:
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  */
 
 typedef unsigned long u32;
-extern void func_02085A38(u32 msec);
+extern void OS_Sleep(u32 msec);
 
 void func_021D8438(int msec)
 {
-    func_02085A38(msec);
+    OS_Sleep(msec);
 }

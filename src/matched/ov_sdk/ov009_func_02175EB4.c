@@ -1,5 +1,5 @@
 /*
- * function: func_02175EB4
+ * function: DWCi_IsServerSuspendEnabled
  * address:  0x02175EB4
  * packet:   pkt_ov009_02175EB4
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
 
-int func_02175EB4(void)
+int DWCi_IsServerSuspendEnabled(void)
 {
     if (DWC_IsServerMyself()) {
         if (*(int *)(func_02175F3C() + 0x61c) == 13 || *(int *)(func_02175F3C() + 0x61c) == 22)

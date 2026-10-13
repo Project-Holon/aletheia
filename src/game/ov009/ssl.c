@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_020923F0  0x020923F0  arm
- *   func_02082D44  0x02082D44  arm
- *   func_0208799C  0x0208799C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA664  0x021AA664  data
  *   func_020870D0  0x020870D0  arm
  *   OS_DisableInterrupts  0x02087988  arm
@@ -27,7 +27,7 @@
  *   func_0208890C  0x0208890C  arm
  *   func_02089004  0x02089004  arm
  *   OS_GetThreadPriority  0x02085A30  arm
- *   func_02085988  0x02085988  arm
+ *   OS_SetThreadPriority  0x02085988  arm
  *   g_021A1D40  0x021A1D40  data
  *   OS_SetThreadPriority  0x02085988  arm
  *   OSi_ThreadInfo        0x02150FEC  data
@@ -81,8 +81,8 @@
  *   func_02163EB8  0x02163EB8  arm  ov009
  *   MI_CpuFill8                     0x02082BCC  arm
  *   CPSi_rc4_crypt   0x02163EB8  arm  ov009
- *   func_0215AE18  0x0215AE18  arm  ov009
- *   func_0215AF14  0x0215AF14  arm  ov009
+ *   CPSi_TcpReadRaw  0x0215AE18  arm  ov009
+ *   CPSi_SocConsumeRaw  0x0215AF14  arm  ov009
  *   client_hello             0x02160EE0  arm  ov009
  *   rcv_server_hello         0x02160C9C  arm  ov009
  *   rcv_certificate          0x02160A7C  arm  ov009
@@ -98,7 +98,7 @@
  *   pool  0x021AA650  data
  *   func_02161C54  0x02161C54  arm  ov009
  *   func_021619CC  0x021619CC  arm  ov009
- *   func_0215B198  0x0215B198  arm  ov009
+ *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *   CPSi_TcpWrite2Raw   0x0215B198 arm ov009
  *   set_random          0x02162128 arm ov009
  *   enter_computebound  0x0216009C arm ov009
@@ -110,32 +110,28 @@
  *   func_021625B8  0x021625B8  arm  ov009
  *   func_02161264  0x02161264  arm  ov009
  *   func_0215FEE0  0x0215FEE0  arm  ov009
- *   func_0215ABB0  0x0215ABB0  arm  ov009
+ *   CPSi_TcpConnectRaw  0x0215ABB0  arm  ov009
  *   func_02161C80  0x02161C80  arm  ov009
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   id_string        0x020050F0  data
- *   func_02085868  0x02085868  arm
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   g_02150FEC     0x02150FEC  data
  */
 #include "cps_ssl_types.h"
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 
 #define NELEMS(a) (sizeof(a) / sizeof((a)[0]))
-extern unsigned long func_02087988(void);
-extern int func_020923F0(const u8 *a, const u8 *b, int n);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
-extern unsigned long func_0208799C(unsigned long state);
-extern unsigned long long func_020870D0(void);
 extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long long OS_GetTick(void);
+extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern unsigned long long func_020870D0(void);
+extern unsigned long long OS_GetTick(void);
 extern int func_02088864(struct RTCDate *date);
 extern int func_0208890C(struct RTCTime *time);
 extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
 extern void *OS_GetThreadPriority(OSThread *p);
-extern int func_02085988(void *thread, unsigned long prio);
-extern void OS_SetThreadPriority(OSThread *thread, u32 prio);
+extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern int func_020948E0(const char *s1, const char *s2);
 extern int cert_item_len(unsigned char **ps);
 extern void make_dn(char *d, char *s, int len);
@@ -173,23 +169,19 @@ extern void CPSi_md5_calc(void *ctx, void *data0, int datalen);
 extern void CPSi_md5_result(void *ctx, unsigned char *digest);
 extern void CPSi_rc4_init(CPSCipherCtx *ctx, unsigned char *key, int len);
 extern void CPSi_rc4_crypt(CPSCipherCtx *ctx, unsigned char *data, int len);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern unsigned char *func_0215AE18(unsigned long *len, CPSSoc *soc);
-extern void func_0215AF14(unsigned long len, CPSSoc *soc);
+extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc);
+extern void CPSi_SocConsumeRaw(unsigned long len, CPSSoc *soc);
 extern void client_hello(CPSSslConnection *con, unsigned char *s);
 extern void rcv_server_hello(CPSSslConnection *con, unsigned char *s);
 extern void rcv_certificate(CPSSslConnection *con, unsigned char *s);
 extern void rcv_finished(CPSSslConnection *con, unsigned char *s);
-extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc);
-extern void CPSi_SocConsumeRaw(unsigned long len, CPSSoc *soc);
 extern int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc);
 extern void client_hello_v2(void *con, unsigned char *s);
 extern void func_02162248(void *random_seed, unsigned long len);
 extern void func_02163E10(void *ctx, unsigned char *digest);
 extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
 extern int func_021619CC(CPSSslConnection *con, unsigned char *s);
-extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, CPSSoc *soc);
-extern unsigned long CPSi_TcpWrite2Raw(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, CPSSoc *soc);
+extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, CPSSoc *soc);
 extern void set_random(unsigned char *d, int len);
 extern unsigned long enter_computebound(void);
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits, unsigned short *n);
@@ -199,10 +191,10 @@ extern int func_0216286C(CPSSoc *soc);
 extern void func_021625B8(CPSSoc *soc);
 extern void func_02161264(CPSSslConnection *con);
 extern void func_0215FEE0(CPSSslConnection *con, unsigned long ip, unsigned short port);
-extern unsigned long func_0215ABB0(CPSSoc *soc);
+extern unsigned long CPSi_TcpConnectRaw(CPSSoc *soc);
 extern void func_02161C80(CPSSslConnection *con, unsigned char *buf);
 extern void OSi_ReferSymbol(const char *symbol);
-extern void func_02085868(OSThread *thread);
+extern void OS_WakeupThreadDirect(OSThread *thread);
 unsigned long func_0216003C(void);
 unsigned long CPS_GetSslHandshakePriority(void);
 void CPS_SetSslHandshakePriority(int len);
@@ -253,18 +245,18 @@ static void func_0215FDA4(CPSSslConnection *con)
     CPSSslSession *p;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
         p = &g_021AA664[i];
         if (p->valid != 0 && p->ip == 0 && p->port == 0 &&
             func_020923F0((const u8 *)p, con->common1.session_id, 0x20) == 0) {
-            func_02082D44(p->master, con, 0x30);
+            MI_CpuCopy8(p->master, con, 0x30);
             con->cache = 1;
             break;
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 }
 
 
@@ -277,19 +269,19 @@ static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned shor
     CPSSslSession *p;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     con->cache = 0;
     for (i = 0; i < 4; i++) {
         p = &g_021AA664[i];
         if (p->valid != 0 && p->ip == ip && p->port == port) {
-            func_02082D44(p, con->common1.session_id, 0x20);
-            func_02082D44(p->master, con, 0x30);
+            MI_CpuCopy8(p, con->common1.session_id, 0x20);
+            MI_CpuCopy8(p->master, con, 0x30);
             p->last_used = (unsigned long)(func_020870D0() >> 16);
             con->cache = 1;
             break;
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 }
 
 
@@ -349,7 +341,7 @@ static void func_0215FFD0(CPSSslConnection *con)
     CPSSslSession *p;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
         p = &g_021AA664[i];
         if (p->valid != 0) {
@@ -359,7 +351,7 @@ static void func_0215FFD0(CPSSslConnection *con)
             }
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 }
 
 
@@ -404,7 +396,7 @@ unsigned long func_0216009C(void)
 	}
 	thread = OSi_ThreadInfo.current;
 	old_priority = (long unsigned int)OS_GetThreadPriority(thread);
-	func_02085988(thread, g_021A1D40.priority);
+	OS_SetThreadPriority(thread, g_021A1D40.priority);
 	return old_priority;
 }
 
@@ -918,7 +910,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
     int session_id_len;
     unsigned char cached;
 
-    func_02082D44(s + 2, con->server_random, 0x20);
+    MI_CpuCopy8(s + 2, con->server_random, 0x20);
     cached = con->cache;
     session_id_len = s[0x22];
     s += 0x23;
@@ -929,7 +921,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
         if (cached != 0)
             func_0215FFD0(con);
         if (session_id_len != 0) {
-            func_02082D44(s, con->common1.session_id, 0x20);
+            MI_CpuCopy8(s, con->common1.session_id, 0x20);
             con->cache = 1;
         } else {
             con->cache = 0;
@@ -1029,10 +1021,10 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     con->cache = 0;
     offset = pairlist_len + 8 + sessionID_len;
     if (random_len >= 0x20) {
-        func_02082D44(s + offset, con->client_random, 0x20);
+        MI_CpuCopy8(s + offset, con->client_random, 0x20);
     } else {
         MI_CpuFill8(con->client_random, 0, 0x20 - random_len);
-        func_02082D44(s + offset, con->client_random + 0x20 - random_len, random_len);
+        MI_CpuCopy8(s + offset, con->client_random + 0x20 - random_len, random_len);
     }
     con->state = 1;
 }
@@ -1049,13 +1041,13 @@ static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
     if (!func_02160E0C(s[0], s[1]))
         return;
     s += 2;
-    func_02082D44(s, con->client_random, 0x20);
+    MI_CpuCopy8(s, con->client_random, 0x20);
     s += 0x20;
     sessionID_len = *s++;
     if (sessionID_len != 0x20) {
         con->cache = 0;
     } else {
-        func_02082D44(s, con->common1.session_id, 0x20);
+        MI_CpuCopy8(s, con->common1.session_id, 0x20);
         func_0215FDA4(con);
     }
     s += sessionID_len;
@@ -1272,16 +1264,16 @@ static void func_02161678(CPSSslConnection *con, unsigned char *s)
 {
     unsigned char tmp[20];
 
-    func_02082D44(&con->md5_hash, &con->md5_hash_tmp, 0x58);
+    MI_CpuCopy8(&con->md5_hash, &con->md5_hash_tmp, 0x58);
     func_021614BC(con, tmp, 1);
-    func_02082D44(&con->md5_hash_tmp, &con->md5_hash, 0x58);
+    MI_CpuCopy8(&con->md5_hash_tmp, &con->md5_hash, 0x58);
     if (func_020923F0(s, tmp, 0x10) != 0) {
         con->state = 9;
         return;
     }
-    func_02082D44(&con->sha1_hash, &con->sha1_hash_tmp, 0x5c);
+    MI_CpuCopy8(&con->sha1_hash, &con->sha1_hash_tmp, 0x5c);
     func_02161598(con, tmp, 1);
-    func_02082D44(&con->sha1_hash_tmp, &con->sha1_hash, 0x5c);
+    MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5c);
     if (func_020923F0(s + 0x10, tmp, 0x14) != 0)
         con->state = 9;
     else
@@ -1438,13 +1430,13 @@ static int func_02161BE8(unsigned char *d, int len, CPSSoc *soc)
     unsigned char *s;
 
     do {
-        s = func_0215AE18(&thislen, soc);
+        s = CPSi_TcpReadRaw(&thislen, soc);
         if (thislen == 0)
             return -1;
         if (thislen > len)
             thislen = len;
-        func_02082D44(s, d, thislen);
-        func_0215AF14(thislen, soc);
+        MI_CpuCopy8(s, d, thislen);
+        CPSi_SocConsumeRaw(thislen, soc);
         len -= thislen;
         d += thislen;
     } while (len > 0);
@@ -1665,7 +1657,7 @@ static void func_02162128(unsigned char *d, int len)
     for (i = 0; i < len;) {
         if (r == 20) {
             func_02163C9C(&ctx);
-            enabled = func_02087988();
+            enabled = OS_DisableInterrupts();
             func_02163CF0(&ctx, pool, 20);
             func_02163E10(&ctx, x);
             carry = 1;
@@ -1674,7 +1666,7 @@ static void func_02162128(unsigned char *d, int len)
                 pool[j] = (unsigned char)tmp;
                 carry = tmp >> 8;
             }
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             r = 0;
         }
         {
@@ -1739,7 +1731,7 @@ void func_021622C0(CPSSoc *soc)
     func_02161598(con, buf + 31, 0);
     MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5C);
     func_02161C54(con, buf + 11, 40);
-    func_0215B198(buf, func_021619CC(con, buf + 6) + 6, 0, 0, soc);
+    CPSi_TcpWrite2Raw(buf, func_021619CC(con, buf + 6) + 6, 0, 0, soc);
     CPSiFree(buf);
 }
 
@@ -1799,7 +1791,7 @@ static void func_02162418(CPSSoc *soc)
     buf[6] = (i - 4) >> 16;
     buf[7] = (i - 4) >> 8;
     buf[8] = i - 4;
-    func_0215B198(buf, i + 5, 0, 0, soc);
+    CPSi_TcpWrite2Raw(buf, i + 5, 0, 0, soc);
     func_02161C54(con, buf + 5, i);
     CPSiFree(buf);
 }
@@ -1946,7 +1938,7 @@ unsigned long func_02162968(CPSSoc *soc)
 
     con = soc->con;
     if (soc->state != 4) {
-        if (func_0215ABB0(soc) != 0)
+        if (CPSi_TcpConnectRaw(soc) != 0)
             return 1;
     }
     con->state = 0;
@@ -2016,7 +2008,7 @@ void func_02162AE4(CPSSoc *soc)
 
     if (con->buf == 0) {
         if (soc->rcvbufp < 5) return;
-        s = func_0215AE18(&len, soc);
+        s = CPSi_TcpReadRaw(&len, soc);
         len = (s[3] << 8) + s[4] + 5;
         if (len > 0x4805) {
             con->state = 9;
@@ -2033,7 +2025,7 @@ void func_02162AE4(CPSSoc *soc)
     } else if (soc->rcvbufp == 0) {
         return;
     }
-    s = func_0215AE18(&len, soc);
+    s = CPSi_TcpReadRaw(&len, soc);
     if (len >= (con->end - con->pos)) {
         len = con->end - con->pos;
         got_all = 1;
@@ -2041,7 +2033,7 @@ void func_02162AE4(CPSSoc *soc)
         got_all = 0;
     }
     MI_CpuCopy8(s, con->buf + con->pos, len);
-    func_0215AF14(len, soc);
+    CPSi_SocConsumeRaw(len, soc);
     if (got_all) {
         func_02161C80(con, con->buf);
         if (con->have_record == 0) con->buf = 0;
@@ -2105,7 +2097,7 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
         buf2 += part2_len;
         tmp[4] = this_len;
         this_sent_len = func_021619CC(con, tmp);
-        if (func_0215B198(tmp, this_sent_len, 0, 0, soc) < (unsigned long)this_sent_len) this_len = 0;
+        if (CPSi_TcpWrite2Raw(tmp, this_sent_len, 0, 0, soc) < (unsigned long)this_sent_len) this_len = 0;
         CPSiFree(tmp);
         total_sent_len += this_len;
         total_len -= this_len;
@@ -2119,7 +2111,7 @@ unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char
  * Flush a queued request when the object reached through +0xc is in state 8:
  * a 7-byte header is laid down on the stack, func_021619CC fills the rest of
  * the buffer and returns its length, and that buffer (plus the length) is
- * handed to func_0215B198 along with the two zero flags and this object.  The
+ * handed to CPSi_TcpWrite2Raw along with the two zero flags and this object.  The
  * state byte is cleared either way.
  */
 void func_02162DD8(CPSSoc *p)
@@ -2136,7 +2128,7 @@ void func_02162DD8(CPSSoc *p)
         buf[4] = 2;
         buf[5] = 1;
         buf[6] = 0;
-        func_0215B198(buf, func_021619CC(q, buf), 0, 0, p);
+        CPSi_TcpWrite2Raw(buf, func_021619CC(q, buf), 0, 0, p);
     }
     q->state = 0;
 }
@@ -2176,13 +2168,13 @@ void func_02162EC4(unsigned long now)
     OSThread *t;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
         struct CPSSslSession *p = &g_021AA664[i];
         if (p->valid && (long)(now - p->last_used) > 957)
             p->valid = 0;
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 
     for (t = OSi_ThreadInfo.list; t != 0; t = t->next) {
         soc = (CPSSoc *)t->specific[0];
@@ -2191,7 +2183,7 @@ void func_02162EC4(unsigned long now)
             (long)(now - soc->when) > 239 && soc->block_type == 2) {
             soc->state = 0;
             soc->block_type = 0;
-            func_02085868(soc->thread);
+            OS_WakeupThreadDirect(soc->thread);
         }
     }
 }

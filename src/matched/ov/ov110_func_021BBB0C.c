@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB0C
+ * function: PMSIV_CATEGORY_IsListReady
  * address: 0x021BBB0C
  * packet: pkt_ov110_021BBB0C
  * region: ov110
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAC4C 0x021BAC4C thumb ov110
+ *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_021BC7DC 0x021BC7DC thumb ov110
+ *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
  *   func_02040588 0x02040588 arm
  */
 #include "../include/Obj05289.h"
 typedef unsigned char u8;
-extern unsigned func_021BAC4C(u8 *);
+extern unsigned PMS_INPUT_VIEW_GetPrintQue(u8 *);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned int   u32;
@@ -25,14 +25,14 @@ struct PrintSys;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern int func_021BC7DC(u8 *p);
+extern int PMSIV_BGSCROLL_Step(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
-int func_021BBB0C(u8 *p, int a)
+int PMSIV_CATEGORY_IsListReady(u8 *p, int a)
 {
     unsigned owner;
     int ready;
     int result;
-    owner = func_021BAC4C(*(u8 * *)&((struct Obj05289 *)p)->f0);
+    owner = PMS_INPUT_VIEW_GetPrintQue(*(u8 * *)&((struct Obj05289 *)p)->f0);
     ready = 1;
     if (a) {
         if (p[0xa0]) {
@@ -43,7 +43,7 @@ int func_021BBB0C(u8 *p, int a)
         }
         ready = p[0xa0] == 0 ? 1 : 0;
     }
-    result = func_021BC7DC(p + 0x38);
+    result = PMSIV_BGSCROLL_Step(p + 0x38);
     if (ready && result) {
         if (a == 0) func_02040588(6, 0);
         return 1;

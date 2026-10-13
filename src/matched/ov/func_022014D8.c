@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021F513C  0x021F513C  thumb  ov135
- *   func_021C866C  0x021C866C  arm
- *   func_021C86A8  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
  * Switch on the 0x021C86A8 index (case value = index + 15): state 0x25
  * with the u16 at +0x36 cleared, state 0x2d with the index archived at
@@ -30,7 +30,7 @@
  * entries (layout/function_starts.txt is not this lane's file).
  
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -42,16 +42,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021C866C(u8 *p);
-extern s32 func_021C86A8(void);
+extern u32 DPW_TR_IsAsyncEnd(u8 *p);
+extern s32 DPW_TR_GetAsyncResult(void);
 extern void func_021F513C(u8 *p);
 
 int func_022014D8(u8 *p)
 {
     s32 n;
 
-    if (func_021C866C(p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd(p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         ((struct Obj04908 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:

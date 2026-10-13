@@ -16,8 +16,8 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   func_021C0C00  0x021C0C00  thumb  ov208
  *   func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CC40  0x0200CC40  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm  0x0200CC40  thumb
  *   func_021C0B6C  0x021C0B6C  thumb  ov208
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -59,8 +59,8 @@ struct MsgBank;
 struct PrintSys;
 extern void func_021C0C00(void *a, void *b);
 extern int func_021BC3A4(int *p);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form, u32 gender, u32 isEgg, u8 x, u8 y);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 struct Descriptor;
@@ -111,7 +111,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
-    func_0200CC40(func_0200CA1C((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
+    ZUKAN_SAVE_GetViewGenderAndForm(ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
     SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(((struct Obj00081 *)p)->f64), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;

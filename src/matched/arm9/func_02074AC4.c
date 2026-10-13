@@ -1,5 +1,5 @@
 /*
- * function: func_02074AC4
+ * function: NNS_SndArcLoadSeqEx
  * address:  0x02074AC4
  * packet:   pkt_02074AC4
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02074BEC  0x02074BEC  arm
+ *   NNSi_SndArcLoadSeq  0x02074BEC  arm
  *
- * Three-argument sibling of src/matched/func_02074A6C.c / func_02074A98.c:
+ * Three-argument sibling of src/matched/NNS_SndArcLoadSeq.c / NNS_SndArcLoadWaveArc.c:
  * forward a, b, c to the byte-stream reader with d=1, out=0, and invert the
  * result.  Same "kept constants" tell and the same ../2.0/sp2 pin as both of
  * those; docs/FRONTEND-PINS.md's closing paragraph names this very address as
@@ -24,9 +24,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadSeq(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
-u32 func_02074AC4(u32 a, u32 b, u32 c)
+u32 NNS_SndArcLoadSeqEx(u32 a, u32 b, u32 c)
 {
-    return func_02074BEC(a, b, c, 1, 0) == 0;
+    return NNSi_SndArcLoadSeq(a, b, c, 1, 0) == 0;
 }

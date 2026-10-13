@@ -12,7 +12,7 @@
  * sdk:      MBi_CommParentSendData (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F276C  0x021F276C  arm  ov107
  *   func_021F27A8  0x021F27A8  arm  ov107
  *   func_021F2A44  0x021F2A44  arm  ov107
@@ -38,7 +38,7 @@ struct bitmap {
 
 extern MBiParam *g_021F6FA0;
 
-extern void func_02082A48(u16 data, void *destp, u32 size);
+extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
 extern int func_021F27A8(void);
 extern int func_021F2A44(void);
@@ -49,7 +49,7 @@ static int func_021F2CBC(void)
     u16 child;
     struct bitmap bmp;
 
-    func_02082A48(0, &bmp, sizeof(bmp));
+    MIi_CpuClear16(0, &bmp, sizeof(bmp));
 
     for (child = 1; child <= 15; child++) {
         switch (g_021F6FA0->p_comm_state[child]) {

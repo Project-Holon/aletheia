@@ -13,6 +13,8 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
  */
 #include "../include/Obj01742.h"
 #include "../include/Obj02198.h"
@@ -23,18 +25,18 @@ struct Big;
 struct Blk37;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *func_0200CA1C(void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 POKEPARTY_GetCount(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 void func_021DCC48(u8 *p, void *unused, u8 *out)
 {
     void *a;
     void *b;
     a = GAME_DATA_GetSaveControl(((struct Obj02198 *)p)->f14);
     GAME_DATA_GetMyStatus(((struct Obj02198 *)p)->f14);
-    b = func_0200CA1C(((struct Obj02198 *)p)->f14);
+    b = ZUKAN_SAVE_GetFromGameData(((struct Obj02198 *)p)->f14);
     ((struct Obj01742 *)out)->f0 = *(u32 *)&((struct Obj02198 *)p)->f4;
     ((struct Obj01742 *)out)->f8 = *(u32 *)&((struct Obj02198 *)p)->f14;
     ((struct Obj01742 *)out)->f4 = (u32)func_0200873C(a);
@@ -46,7 +48,7 @@ void func_021DCC48(u8 *p, void *unused, u8 *out)
     out[17] = 0;
     out[18] = 0;
     ((struct Obj01742 *)out)->f14 = 0;
-    ((struct Obj01742 *)out)->f18 = func_0200CA38(b);
+    ((struct Obj01742 *)out)->f18 = ZUKAN_SAVE_IsNationalDexEnabled(b);
     ((struct Obj01742 *)out)->f20 = 0;
     ((struct Obj01742 *)out)->f24 = 0;
 }

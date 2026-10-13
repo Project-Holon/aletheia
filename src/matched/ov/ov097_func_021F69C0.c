@@ -1,5 +1,5 @@
 /*
- * function: func_021F69C0
+ * function: VS_MULTI_LIST_DeleteTextResources
  * address: 0x021F69C0
  * packet: pkt_ov097_021F69C0
  * region: ov097
@@ -24,4 +24,4 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-void func_021F69C0(u8 *p) { MSGDATA_Delete(((struct Obj06345 *)p)->f14); GF_FONT_Delete(((struct Obj06345 *)p)->fC); GF_FONT_Delete(((struct Obj06345 *)p)->f10); func_0201ED04(((struct Obj06345 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj06345 *)p)->f1C); }
+void VS_MULTI_LIST_DeleteTextResources(u8 *p) { MSGDATA_Delete(((struct Obj06345 *)p)->f14); GF_FONT_Delete(((struct Obj06345 *)p)->fC); GF_FONT_Delete(((struct Obj06345 *)p)->f10); func_0201ED04(((struct Obj06345 *)p)->f18); PRINTSYS_QUE_Delete(((struct Obj06345 *)p)->f1C); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE5B4
+ * function: WIFICLUB_TaskHook
  * address:  0x021BE5B4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021BE5B4(void *a0)
+void WIFICLUB_TaskHook(void *a0)
 {
 }

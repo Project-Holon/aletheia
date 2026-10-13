@@ -16,7 +16,7 @@
  *   g_ProcSys 0x02146990 data
  *   ProcSys_AllocSiteName  0x020A783C  data
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_020882D0       0x020882D0  arm
+ *   OS_Halt       0x020882D0  arm
  *   func_02030734       0x02030734  arm
  *   ProcNew_AllocSiteName  0x020A783C  data
  *   func_020307B0  0x020307B0  arm
@@ -69,7 +69,7 @@ typedef struct {
 } ProcSys;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020882D0(void *p);
+extern void OS_Halt(void *p);
 extern void ENV_SetResourceSet(void *p);
 extern u32 func_020307B0(void *p);
 extern int func_02034AC4(s32 handle);
@@ -280,7 +280,7 @@ u32 PROCSYS_MainInternal(ProcSys *sys)
 void PROCSYS_DeleteInternal(ProcSys *sys)
 {
     if (sys->current != 0) {
-        func_020882D0(sys->current);
+        OS_Halt(sys->current);
     }
     ENV_SetResourceSet(sys);
 }

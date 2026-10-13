@@ -26,14 +26,14 @@ typedef struct VecFx32 {
 } VecFx32;
 
 /* Gimmick block of the field save (one word). */
-typedef struct Gimmick65Save {
+typedef struct FieldGimmickTimeEffectSave {
     int isEffectPending;   /* nonzero: effect model shown and its animations enabled */
-} Gimmick65Save;
+} FieldGimmickTimeEffectSave;
 
 /* Field map common work (8 bytes), allocated in the setup function. */
-typedef struct Gimmick65Work {
+typedef struct FieldGimmickTimeEffectWork {
     int isPlaying;   /* the effect runs; cleared when animation 0 stops */
     int isNight;     /* night model set and sound effects */
-} Gimmick65Work;
+} FieldGimmickTimeEffectWork;
 
 #endif

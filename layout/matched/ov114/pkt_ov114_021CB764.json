@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CB764",
+   "name": "CRYPTOi__BN_usub",
    "address": "0x021CB764",
    "kind": "sdk",
    "region": "ov114",

@@ -21,7 +21,7 @@
  *   g_021AD008     0x021AD008  data
  *   g_021AD020     0x021AD020  data
  *   func_020923B0                  0x020923B0  arm
- *   func_02084F40                  0x02084F40  arm
+ *   OS_SPrintf                  0x02084F40  arm
  *   g_020A61DC                     0x020A61DC  data
  *   g_021A3710                     0x021A3710  data
  *   g_021A3718                     0x021A3718  data
@@ -39,7 +39,7 @@ extern void gsiInitializeCriticalSection(void *mutex);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void *func_020923B0(void *p, int c, unsigned long n);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 void func_0217D188(int a, int b, int c, int d, int e);
 void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args);
 void func_0217D254(int cat, int type, int level, const char *fmt, ...);
@@ -118,7 +118,7 @@ static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61D
  * Closed 2026-10-01 (ov SDK lane 01): the long-standing r6/r7 tie between
  * aTextOutStream and aChar was the isgraph spelling. Written as a
  * `static inline int isgraph(int c)` function (the DS GameSpy ctype form, as
- * in ov114 func_021C4830) the inline's int parameter is a separate web and the
+ * in ov114 ghiParseStatus) the inline's int parameter is a separate web and the
  * allocator hands aTextOutStream r6 as in the image; the same test as a macro
  * or open-coded ternary gives r7. DWARF has no aRowWidth/aReplaceChar/
  * aTextOffSet locals, so they are literals; theInStream is plain `char *`.
@@ -132,7 +132,7 @@ void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
     while (theInLen--) {
         unsigned char aChar = (unsigned char)(*theInStream++);
 
-        func_02084F40(theOutStream, g_021A3710, aChar);
+        OS_SPrintf(theOutStream, g_021A3710, aChar);
         if (isgraph(aChar))
             *(aTextOutStream++) = (char)aChar;
         else

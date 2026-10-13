@@ -1,5 +1,5 @@
 /*
- * function: func_021B80F8
+ * function: IRC_RHYTHM_ExitCountdown
  * address:  0x021B80F8
  * packet:   pkt_ov104_021B80F8
  * region:   ov104
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B80F8(void *p) { MI_CpuFill8(p, 0, 0x1c); }
+void IRC_RHYTHM_ExitCountdown(void *p) { MI_CpuFill8(p, 0, 0x1c); }

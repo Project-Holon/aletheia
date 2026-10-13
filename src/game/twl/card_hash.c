@@ -14,19 +14,19 @@
  * symbols:
  *   data_02732E98  0x02732E98  data twl
  *   data_02732E34  0x02732E34  data twl
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02091200  0x02091200  thumb
  *   func_02091230  0x02091230  thumb
  *   func_02087B04  0x02087B04  arm
  *   func_020774B0  0x020774B0  arm
  *   func_02082C60  0x02082C60  arm
- *   func_02088234  0x02088234  arm
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02085868  0x02085868  arm
+ *   OS_Terminate  0x02088234  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   data_02150FEC  0x02150FEC  data
- *   func_020857B0  0x020857B0  arm
+ *   OS_SleepThread  0x020857B0  arm
  *   func_020848EC  0x020848EC  arm
  *   MIi_GetControlData  0x0272F804  arm twl
  */
@@ -102,7 +102,7 @@ typedef struct {
 extern IdSrc data_02150FEC;
 extern u32 data_02732E98[], data_02732E34[];
 extern u8 data_0272EB9C[];
-extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void func_02082A7C(u32 v, void *dst, u32 n);
 extern void func_02091200(void *ctx, void *data, u32 len);
 extern void func_02091230(void *ctx, void *out);
@@ -110,12 +110,12 @@ extern void func_020911D8(void *ctx);
 extern int func_02087B04(void);
 extern void *func_020774B0(void);
 extern void func_02082C60(void *p, int v, u32 n);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern u32 func_0209C2B0(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern void func_02085868(u32);
-extern void func_020857B0(int);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
+extern void OS_WakeupThreadDirect(u32);
+extern void OS_SleepThread(int);
 
 u32 CARD_CalcRomHashBufferLength(void *p);
 void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
@@ -149,10 +149,10 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
     unsigned char ctx[0x64];
     u32 diff = 0;
 
-    func_02082D44(data_02732E98, ctx, 0x64);
+    MI_CpuCopy8(data_02732E98, ctx, 0x64);
     func_02091200(ctx, data, len);
     func_02091230(ctx, digest);
-    func_02082D44(data_02732E34, ctx, 0x64);
+    MI_CpuCopy8(data_02732E34, ctx, 0x64);
     func_02091200(ctx, digest, 0x14);
     func_02091230(ctx, digest);
     diff |= expect[0] ^ digest[0];
@@ -166,7 +166,7 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
         func_02082C60(data, 0, len);
         return;
     }
-    func_02088234();
+    OS_Terminate();
 }
 
 void CARDi_StartLoading(CardHash *p)
@@ -174,7 +174,7 @@ void CARDi_StartLoading(CardHash *p)
     void *a = 0;
     u32 b = 0;
     u32 c = 0;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     if (p->cur == 0) {
         Node *q = p->free_b;
@@ -196,7 +196,7 @@ void CARDi_StartLoading(CardHash *p)
             }
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     if (a != 0) {
         if (p->f38(p->f30, a, b, c) != 0) {
             return;
@@ -208,7 +208,7 @@ void CARDi_StartLoading(CardHash *p)
 
 void CARD_NotifyRomHashReadAsync(CardHash *p)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     Node *n = p->free_a;
 
     if (p->cur == n) {
@@ -222,8 +222,8 @@ void CARD_NotifyRomHashReadAsync(CardHash *p)
         p->used_b = n;
     }
     p->cur = 0;
-    func_0208799C(irq);
-    func_02085868(p->id);
+    OS_RestoreInterrupts(irq);
+    OS_WakeupThreadDirect(p->id);
     CARDi_StartLoading(p);
 }
 
@@ -243,7 +243,7 @@ Node *CARDi_TouchRomHashBlock(CardHash *obj, u32 a)
             obj->cache_b = tail;
             break;
         } else if (tail->next == 0) {
-            u32 irq = func_02087988();
+            u32 irq = OS_DisableInterrupts();
             Node *n = obj->used_b;
             Node *link;
             while (n != 0) {
@@ -273,7 +273,7 @@ Node *CARDi_TouchRomHashBlock(CardHash *obj, u32 a)
                     tail->f8 = key * (obj->f24 * 0x14) + obj->f10;
                 }
             }
-            func_0208799C(irq);
+            OS_RestoreInterrupts(irq);
             if (tail != 0) {
                 CARDi_StartLoading(obj);
             }
@@ -300,7 +300,7 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
         if (off < obj->fc) {
             off += size;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
     }
     key = func_0209C2B0(off, obj->f20);
@@ -315,7 +315,7 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
             break;
         }
         if (n->next == 0) {
-            u32 irq = func_02087988();
+            u32 irq = OS_DisableInterrupts();
             Node *t = *pp;
             Node *l;
             Node *q;
@@ -329,7 +329,7 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
             l->next = t;
             t->f4 = key;
             t->f8 = addr & ~(obj->f20 - 1);
-            func_0208799C(irq);
+            OS_RestoreInterrupts(irq);
             CARDi_TouchRomHashBlock(obj, key);
             CARDi_StartLoading(obj);
             break;
@@ -364,7 +364,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
     l3 = l2 + 0x200;
     obj->l3 = (Node *)l3;
     if ((u32)(l3 + 0x60) > size) {
-        func_02088234();
+        OS_Terminate();
         return;
     }
     func_02082A7C(0, start, l3 + 0x60 - start);
@@ -437,7 +437,7 @@ void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len)
         if (a < obj->fc) {
             a += size;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
     }
     key = func_0209C2B0(a, obj->f20);
@@ -455,15 +455,15 @@ void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len)
 
             for (; idx < per && n >= psz; idx++, key++) {
                 if (node != obj->cache_b) {
-                    u32 irq = func_02087988();
+                    u32 irq = OS_DisableInterrupts();
 
                     while (obj->free_b != 0) {
-                        func_020857B0(0);
+                        OS_SleepThread(0);
                     }
                     if (node == obj->used_b) {
                         obj->used_b = node->next;
                     }
-                    func_0208799C(irq);
+                    OS_RestoreInterrupts(irq);
                     CARDi_CompareHash((u32 *)(obj->hash + node->f4 * 0x14), (void *)node->fc, per * 0x14);
                     node->next = obj->cache_b;
                     obj->cache_b = node;
@@ -489,7 +489,7 @@ void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
             if (len <= n) {
                 n = len;
             }
-            func_02082D44((u8 *)page + pos, buf, n);
+            MI_CpuCopy8((u8 *)page + pos, buf, n);
             len -= n;
             buf += n;
             off += n;
@@ -508,10 +508,10 @@ void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
                 CARDi_TouchRomHashSector(obj, a);
             }
             for (;;) {
-                irq = func_02087988();
+                irq = OS_DisableInterrupts();
                 na = 0;
                 while ((obj->free_a != 0 && obj->used_a == 0) || (obj->free_b != 0 && obj->used_b == 0)) {
-                    func_020857B0(0);
+                    OS_SleepThread(0);
                 }
                 nb = obj->used_b;
                 if (nb != 0) {
@@ -522,7 +522,7 @@ void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len)
                         obj->used_a = na->next;
                     }
                 }
-                func_0208799C(irq);
+                OS_RestoreInterrupts(irq);
                 if (nb != 0) {
                     CARDi_CompareHash((u32 *)(obj->hash + nb->f4 * 0x14), (void *)nb->fc, obj->f24 * 0x14);
                     nb->next = obj->cache_b;

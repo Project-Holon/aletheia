@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0206EA00",
-    "func_0206EA2C"
+    "NNSi_G3dGetTexPatAnmTexNameByIdx",
+    "NNSi_G3dGetTexPatAnmPlttNameByIdx"
+   ],
+   "addresses": [
+    "0x0206EA00",
+    "0x0206EA2C"
    ]
   }
  ]

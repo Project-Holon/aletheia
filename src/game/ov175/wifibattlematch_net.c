@@ -68,7 +68,7 @@
  *   func_02009448 0x02009448 thumb
  *   func_020092EC 0x020092EC thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_ToChars 0x02045A38 arm
@@ -115,10 +115,10 @@
  *   func_020173EC 0x020173EC thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
- *   func_021B9A64 0x021B9A64 thumb ov114
- *   func_021B9A94 0x021B9A94 thumb ov114
- *   func_021B9A1C 0x021B9A1C thumb ov114
- *   func_021B9A8C 0x021B9A8C thumb ov114
+ *   NHTTP_RAP_EvilCheckAllocArray 0x021B9A64 thumb ov114
+ *   NHTTP_RAP_EvilCheckSetElement 0x021B9A94 thumb ov114
+ *   NHTTP_RAP_VerifySignature 0x021B9A1C thumb ov114
+ *   NHTTP_RAP_EvilCheckFreeArray 0x021B9A8C thumb ov114
  *   KEY_GetTrg                0x020362DC  arm
  *   func_0200FB24                0x0200FB24  thumb
  *   GFL_NET_GetRunState                0x0203CD98  arm
@@ -208,27 +208,27 @@
  *   d_021E2E10          0x021E2E10  data
  *   DWC_GetMatchIntValue  0x0216CB30  arm
  *   _s32_div_f            0x0209C0A4  arm
- *   func_021DEE3C 0x021DEE3C arm ov175
- *   func_021DF490 0x021DF490 arm ov175
- *   func_021DF018 0x021DF018 arm ov175
- *   func_021DF20C 0x021DF20C arm ov175
- *   func_021DEFDC 0x021DEFDC arm ov175
- *   func_021DF224 0x021DF224 arm ov175
+ *   DWC_ScInitialize 0x021DEE3C arm ov175
+ *   DWC_ScGetLoginCertificate 0x021DF490 arm ov175
+ *   DWC_ScCreateSessionAsync 0x021DF018 arm ov175
+ *   DWC_ScGetSessionId 0x021DF20C arm ov175
+ *   DWC_ScProcess 0x021DEFDC arm ov175
+ *   DWC_ScGetConnectionId 0x021DF224 arm ov175
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_021DF1C8 0x021DF1C8 arm ov175
- *   func_021DF09C 0x021DF09C arm ov175
- *   func_021DF130 0x021DF130 arm ov175
+ *   DWC_ScSetSessionId 0x021DF1C8 arm ov175
+ *   DWC_ScSetReportIntentionAsync 0x021DF09C arm ov175
+ *   DWC_ScSubmitReportAsync 0x021DF130 arm ov175
  *   DWC_ScDestroyReport  0x021DF458  arm
  *   DWC_ScShutdown       0x021DEF58  arm
- *   func_021DF23C  0x021DF23C  arm
- *   func_021DF298  0x021DF298  arm
- *   func_021DF2C8  0x021DF2C8  arm
- *   func_021DF2F8  0x021DF2F8  arm
- *   func_021DF328  0x021DF328  arm
- *   func_021DF358  0x021DF358  arm
- *   func_021DF3B0  0x021DF3B0  arm
+ *   DWC_ScCreateReport  0x021DF23C  arm
+ *   DWC_ScReportBeginGlobalData  0x021DF298  arm
+ *   DWC_ScReportBeginPlayerData  0x021DF2C8  arm
+ *   DWC_ScReportBeginTeamData  0x021DF2F8  arm
+ *   DWC_ScReportBeginNewPlayer  0x021DF328  arm
+ *   DWC_ScReportSetPlayerData  0x021DF358  arm
+ *   DWC_ScReportEnd  0x021DF3B0  arm
  *   func_021DF420 0x021DF420 arm ov175
- *   func_021DF3E8 0x021DF3E8 arm ov175
+ *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
  *   DWC_ScReportAddByteValue  0x021DF3E8  arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_02012950 0x02012950 thumb
@@ -255,52 +255,52 @@
  *   d_021E2F8C 0x021E2F8C data a4
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E2DF8 0x021E2DF8 data a4
- *   func_021E10CC 0x021E10CC arm ov175
- *   func_021E1540 0x021E1540 arm ov175
- *   func_021E1414 0x021E1414 arm ov175
- *   func_021E1434 0x021E1434 arm ov175
- *   func_021E1454 0x021E1454 arm ov175
- *   func_021E11F0 0x021E11F0 arm ov175
- *   func_021E1464 0x021E1464 arm ov175
+ *   DWC_GdbInitialize 0x021E10CC arm ov175
+ *   DWC_GdbUpdateRecordAsync 0x021E1540 arm ov175
+ *   DWC_GdbProcess 0x021E1414 arm ov175
+ *   DWC_GdbGetState 0x021E1434 arm ov175
+ *   DWC_GdbGetAsyncResult 0x021E1454 arm ov175
+ *   DWC_GdbCancelRequest 0x021E11F0 arm ov175
+ *   DWC_GdbCreateRecordAsync 0x021E1464 arm ov175
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   func_0208D7E0 0x0208D7E0 arm
  *   d_021E2FA4 0x021E2FA4 data a1
- *   func_021C5928 0x021C5928 arm ov114
- *   func_021C5C04 0x021C5C04 arm ov114
- *   func_021C5C38 0x021C5C38 arm ov114
- *   func_021C5CFC 0x021C5CFC arm ov114
- *   func_021C5B80 0x021C5B80 arm ov114
- *   func_021C5AB8 0x021C5AB8 arm ov114
- *   func_021C5E14 0x021C5E14 arm ov114
+ *   DWC_NdInitAsync 0x021C5928 arm ov114
+ *   DWC_NdSetAttr 0x021C5C04 arm ov114
+ *   DWC_NdGetFileListAsync 0x021C5C38 arm ov114
+ *   DWC_NdGetFileAsync 0x021C5CFC arm ov114
+ *   DWC_NdCleanupAsync 0x021C5B80 arm ov114
+ *   DWC_NdProcess 0x021C5AB8 arm ov114
+ *   DWC_NdGetProgress 0x021C5E14 arm ov114
  *   d_021E4B80 0x021E4B80 data a4
  *   d_021E2FA8 0x021E2FA8 data a4
  *   d_021E2FB0 0x021E2FB0 data a4
  *   d_021E2FC4 0x021E2FC4 data a4
- *   func_021B9774   0x021B9774  thumb  ov114
- *   func_021B9838   0x021B9838  thumb  ov114
- *   func_021C5DB4 0x021C5DB4 arm ov114
- *   func_021B9800 0x021B9800 thumb ov114
- *   func_021B95D4 0x021B95D4 thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_DeleteConnection   0x021B9774  thumb  ov114
+ *   NHTTP_RAP_Destroy   0x021B9838  thumb  ov114
+ *   DWC_NdCancelAsync 0x021C5DB4 arm ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
+ *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
- *   func_021B973C 0x021B973C thumb ov114
- *   func_021BE79C 0x021BE79C arm ov114
+ *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
+ *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   func_02008510              0x02008510  thumb
  *   STRBUF_GetChars              0x02045A90  arm
  *   STRBUF_GetLength              0x020458F8  arm
  *   DWC_CheckProfanityExAsync  0x0217BC44  arm  ov009
  *   DWC_CheckProfanityProcess  0x0217BC90  arm  ov009
  *   func_020084E4  0x020084E4  thumb
- *   func_021B98A0 0x021B98A0 thumb ov114
- *   func_021B98D8 0x021B98D8 thumb ov114
- *   func_021B98F8 0x021B98F8 thumb ov114
- *   func_021B99B8 0x021B99B8 thumb ov114
- *   func_021B99F0 0x021B99F0 thumb ov114
- *   func_021B99F4 0x021B99F4 thumb ov114
- *   func_021B9A14 0x021B9A14 thumb ov114
+ *   NHTTP_RAP_AllocPostData 0x021B98A0 thumb ov114
+ *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
+ *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
+ *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
+ *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
+ *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
+ *   NHTTP_RAP_RecordList_GetRecord 0x021B9A14 thumb ov114
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   d_021E3270  0x021E3270  data
  *   d_021E3250  0x021E3250  data
@@ -1079,7 +1079,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern struct Sub02009448Obj *func_02009448(void *);
 extern u8 func_020092EC(const struct Sub02009210Obj *);
 extern int POKE_REGULATION_GetDataSize();
-extern void func_02082D44(const void *, void *, u32_021D4B3C);
+extern void MI_CpuCopy8(const void *src, void *dst, u32_021D7E18 size);
 extern u16 STRBUF_GetEosChar(void);
 extern void *func_02045EC0(struct MsgBank *, u32_021D4B3C);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
@@ -1124,10 +1124,10 @@ extern int func_02009CC0(void *a0);
 extern u32_021D67BC func_020173EC(void);
 extern u32_021D67BC POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32_021D67BC idx);
-extern u8 *func_021B9A64(int a, int b, int c);
-extern void func_021B9A94(int p, int a, u32_021D67BC b, int n);
-extern int func_021B9A1C(void *a, int b, int c, char *d, u16 e);
-extern void func_021B9A8C(void *);
+extern u8 *NHTTP_RAP_EvilCheckAllocArray(int a, int b, int c);
+extern void NHTTP_RAP_EvilCheckSetElement(int p, int a, u32_021D67BC b, int n);
+extern int NHTTP_RAP_VerifySignature(void *a, int b, int c, char *d, u16 e);
+extern void NHTTP_RAP_EvilCheckFreeArray(void *);
 extern u32_021D6854 KEY_GetTrg(void);
 extern u32_021D6854 func_0200FB24(void);
 extern int GFL_NET_GetRunState(void);
@@ -1151,7 +1151,6 @@ extern u32 func_0200B1A8(struct Reg2 *p);
 extern u32 func_0200BBFC(void *p, u32 mask);
 extern void func_0200BBD8(void *p, int v);
 extern void func_0200B1F8(struct Rec1E *);
-extern void MI_CpuCopy8(const void *src, void *dst, u32_021D7E18 size);
 extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32_021D7E18 n);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
@@ -1212,26 +1211,26 @@ extern int DWC_RAP_IsStateInSession(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32_021DA434 b, u32_021DA434 c, u32_021DA434 d);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, const char *keyString, const int *valueSrc);
 extern int DWC_GetMatchIntValue(int index, const char *key, int idefault);
-extern int func_021DEE3C(int theGameId, int ssl_type);
-extern int func_021DF490(void **p);
-extern int func_021DF018(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2);
-extern void *func_021DF20C(void);
-extern s32 func_021DEFDC(void);
-extern void *func_021DF224(void);
-extern u32_021D9A50 func_021DF1C8(u32_021D9A50 a);
-extern int func_021DF09C(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2, u32_021D9A50 a3);
-extern int func_021DF130(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2, u32_021D9A50 a3, char *a4);
+extern int DWC_ScInitialize(int theGameId, int ssl_type);
+extern int DWC_ScGetLoginCertificate(void **p);
+extern int DWC_ScCreateSessionAsync(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2);
+extern void *DWC_ScGetSessionId(void);
+extern s32 DWC_ScProcess(void);
+extern void *DWC_ScGetConnectionId(void);
+extern u32_021D9A50 DWC_ScSetSessionId(u32_021D9A50 a);
+extern int DWC_ScSetReportIntentionAsync(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2, u32_021D9A50 a3);
+extern int DWC_ScSubmitReportAsync(u32_021D9A50 a0, u32_021D9A50 a1, u32_021D9A50 a2, u32_021D9A50 a3, char *a4);
 extern void DWC_ScDestroyReport(u32_021DAE18 report);
 extern void DWC_ScShutdown(void);
-extern int func_021DF23C(u32_021DAE54 a0, u32_021DAE54 a1, u32_021DAE54 a2, u32_021DAE54 a3);
-extern int func_021DF298(u32_021DAE54 *a0);
-extern int func_021DF2C8(u32_021DAE54 *a0);
-extern int func_021DF2F8(u32_021DAE54 *a0);
-extern int func_021DF328(u8 *a0);
-extern s32 func_021DF358(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
-extern int func_021DF3B0(u32_021DAE54 h, u32_021DAE54 a, int flag);
+extern int DWC_ScCreateReport(u32_021DAE54 a0, u32_021DAE54 a1, u32_021DAE54 a2, u32_021DAE54 a3);
+extern int DWC_ScReportBeginGlobalData(u32_021DAE54 *a0);
+extern int DWC_ScReportBeginPlayerData(u32_021DAE54 *a0);
+extern int DWC_ScReportBeginTeamData(u32_021DAE54 *a0);
+extern int DWC_ScReportBeginNewPlayer(u8 *a0);
+extern s32 DWC_ScReportSetPlayerData(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6);
+extern int DWC_ScReportEnd(u32_021DAE54 h, u32_021DAE54 a, int flag);
 extern int func_021DF420(int,int,int);
-extern int func_021DF3E8(int,int,int);
+extern int DWC_ScReportAddIntValue(int,int,int);
 extern int DWC_ScReportAddByteValue(u32_021DB218 report, u16 keyId, s8 value);
 extern u32_021DB258 GFL_NET_GetHandleNetID(struct Link *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32_021DB294 i);
@@ -1244,35 +1243,30 @@ extern int DWC_GdbGetAsyncResult(void);
 extern int DWC_GdbCancelRequest(void);
 extern void DWC_GdbShutdown(void);
 extern int func_0203F028(const char *s1, const char *s2);
-extern int func_021E10CC(int,DWCstAccUserData *,int);
-extern int func_021E1540(char *,int,void *,int);
-extern void func_021E1414(void);
-extern int func_021E1434(void);
-extern u32_021DBDAC func_021E1454(void);
-extern int func_021E11F0(void);
-extern int func_021E1464(char *,void *,int,int *);
+extern int DWC_GdbUpdateRecordAsync(char *,int,void *,int);
+extern int DWC_GdbCreateRecordAsync(char *,void *,int,int *);
 extern u32_021DC1A0 GFL_NET_SendData(u32_021DC1A0 a, u32_021DC1A0 b, u32_021DC1A0 c, u32_021DC1A0 d, u32_021DC1A0 e, u32_021DC1A0 f, u32_021DC1A0 g, u32_021DC1A0 h);
 extern int func_0208D7E0(char *,const char *,...);
-extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
-extern int func_021C5C04(char *,char *,char *);
-extern int func_021C5C38(void *,unsigned int,unsigned int);
-extern int func_021C5CFC(void *,char *,unsigned int);
-extern int func_021C5B80(void);
-extern void func_021C5AB8(void);
-extern int func_021C5E14(u32_021DC338 *,u32_021DC338 *);
+extern int DWC_NdInitAsync(void (*callback)(int, int, int), char *gamecd, char *passwd);
+extern int DWC_NdSetAttr(char *,char *,char *);
+extern int DWC_NdGetFileListAsync(void *,unsigned int,unsigned int);
+extern int DWC_NdGetFileAsync(void *,char *,unsigned int);
+extern int DWC_NdCleanupAsync(void);
+extern void DWC_NdProcess(void);
+extern int DWC_NdGetProgress(u32_021DC338 *,u32_021DC338 *);
 extern u32_021DC338 _u32_div_f(u32_021DC338,u32_021DC338);
-extern void func_021B9774(u8 *p);
-extern void func_021B9838(u8 *p);
-extern int func_021C5DB4(void);
-extern u8 *func_021B9800(int a, int b, int c);
-extern int func_021B95D4(int,u8 *);
-extern int func_021B9748(u8 *);
-extern int func_021B99DC(u8 *);
-extern int func_021B9790(u8 *);
-extern u8 *func_021B97F4(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
+extern int DWC_NdCancelAsync(void);
+extern u8 *NHTTP_RAP_Create(int a, int b, int c);
+extern int NHTTP_RAP_CreateRequest(int,u8 *);
+extern int NHTTP_RAP_StartConnection(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
-extern int func_021B973C(char *);
-extern int func_021BE79C(void *handle, void *value_p, unsigned int length);
+extern int NHTTP_RAP_GetConnection(char *);
+extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned int length);
 extern void *func_02008510(void *a, int tag);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
@@ -1280,13 +1274,13 @@ extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, 
                                      char *result, int *badwordsnum, int region);
 extern int DWC_CheckProfanityProcess(void);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
-extern void func_021B98A0(u8 *,int,int,int);
-extern void func_021B98D8(u8 *,int,int);
-extern int func_021B98F8(u8 *);
-extern void func_021B99B8(u8 *);
-extern int func_021B99F0(u8 *p);
-extern u32_021DCC28 func_021B99F4(u32_021DCC28 p, u32_021DCC28 i);
-extern u8 *func_021B9A14(u8 *,u32_021DCC28);
+extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
+extern void NHTTP_RAP_AppendPostData(u8 *,int,int);
+extern int NHTTP_RAP_CreatePostRequest(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern u32_021DCC28 NHTTP_RAP_RecordList_GetValue(u32_021DCC28 p, u32_021DCC28 i);
+extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *,u32_021DCC28);
 extern void GFL_NET_RestartWithDefaultTimeout(u32_021DD008 a, u32_021DD008 b);
 int func_021D4240(int a,int b,int *p,int d);
 int func_021D429C(int a,int b,int *p,int d);
@@ -1998,7 +1992,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
         if (func_021DC1E4((char *)P(0x30), &incoming)) {
             data = (char *)Q(0x18);
             size = POKE_REGULATION_GetDataSize() + 0xd4;
-            func_02082D44(incoming, data, size);
+            MI_CpuCopy8(incoming, data, size);
             fixed = 0;
             empty = 1;
             for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
@@ -2929,7 +2923,7 @@ void func_021D5908(unsigned sys, int *state, char *p)
         if (func_021DC1E4((char *)P(0x30), &incoming)) {
             data = (char *)Q(0x18);
             size = POKE_REGULATION_GetDataSize() + 0xd4;
-            func_02082D44(incoming, data, size);
+            MI_CpuCopy8(incoming, data, size);
             empty = 1;
             for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
             if (empty) {
@@ -3404,7 +3398,7 @@ void func_021D61F0(u32_021D61F0 sys,int *state,char *p)
         break;
     case 3:
         if(((struct Obj03317 *)p)->f44==0) {
-            func_02082D44(p+0x60,base+0x54,0x80);
+            MI_CpuCopy8(p+0x60,base+0x54,0x80);
             ((struct Obj03317 *)p)->f3C=0; *state=4;
         } else { ((struct Obj03317 *)p)->f3C=1; *state=4; }
         break;
@@ -3809,7 +3803,7 @@ void func_021D6698(u32_021D6698 *p,u32_021D6698 *q)
     u32_021D6698 *ctx;
     p[17]=100;
     blob=(u32_021D6698)func_02012944((void *)save);
-    func_02082D44((void *)blob,p,MYSTATUS_GetSize());
+    MI_CpuCopy8((void *)blob,p,MYSTATUS_GetSize());
     func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32_021D6698 *)q[16];
     if(ctx[0]==0) {
@@ -3906,7 +3900,7 @@ u32_021D679C func_021D679C(char *obj)
  * lever: `int i` declared before the list pointer gives i r4 and list r5
  * (declaration-order-decides-which-register-a-local-gets.md); the earlier
  * DIFF was that r4/r5 swap alone.
- * leaf: +008A func_021B9A8C resolves as matched through
+ * leaf: +008A NHTTP_RAP_EvilCheckFreeArray resolves as matched through
  *   src/matched/ov/ov114_func_021B9A8C.c (pkt_ov114_021B9A8C), the
  *   unlabelled ov114 tail-call stub to 0x020307B0.
  */
@@ -3919,14 +3913,14 @@ int func_021D67BC(char *p, u16 heapId)
     void *buf;
     u32_021D67BC ret;
     size=func_020173EC();
-    buf=func_021B9A64(size,POKEPARTY_GetCount(list),(u16)heap);
+    buf=NHTTP_RAP_EvilCheckAllocArray(size,POKEPARTY_GetCount(list),(u16)heap);
     for(i=0;i<(int)POKEPARTY_GetCount(list);i++) {
         void *entry=POKEPARTY_GetMember(list,i);
-        func_021B9A94((int)buf,(int)entry,func_020173EC(),i);
+        NHTTP_RAP_EvilCheckSetElement((int)buf,(int)entry,func_020173EC(),i);
     }
     size=func_020173EC();
-    ret=func_021B9A1C(buf,size,POKEPARTY_GetCount(list),p+0x54,heap);
-    func_021B9A8C(buf);
+    ret=NHTTP_RAP_VerifySignature(buf,size,POKEPARTY_GetCount(list),p+0x54,heap);
+    NHTTP_RAP_EvilCheckFreeArray(buf);
     return ret;
 }
 
@@ -4266,7 +4260,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 43:
         saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
         item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
-        func_02082D44(p+0x10c,(void *)W(0x108),0x160);
+        MI_CpuCopy8(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
         BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
         func_0200B1F8((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;
@@ -5890,7 +5884,7 @@ void func_021D9A50(char *dest, char *ctx)
     void *records;
     MI_CpuFill8(dest, 0, 212);
     records = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
-    func_02082D44(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
+    MI_CpuCopy8(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);
     ((struct Obj24310 *)dest)->f44 = 100;
 }
@@ -5935,7 +5929,7 @@ void func_021D9A9C(char *dst, char *obj)
  */
 void func_021D9B18(char *save, char *response)
 {
-    func_02082D44(response + 0x1c, save + 0x54, 128);
+    MI_CpuCopy8(response + 0x1c, save + 0x54, 128);
 }
 
 
@@ -5947,17 +5941,17 @@ u32_021D9B2C func_021D9B2C(char *obj, void *list, u32_021D9B2C heapId)
 {
     int heap = (heapId & 0x7fff) | 0x8000;
     u32_021D9B2C size = func_020173EC();
-    void *buf = func_021B9A64(size, POKEPARTY_GetCount(list), (u16)heap);
+    void *buf = NHTTP_RAP_EvilCheckAllocArray(size, POKEPARTY_GetCount(list), (u16)heap);
     int i;
     u32_021D9B2C ret;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(list); i++) {
         void *e = POKEPARTY_GetMember(list, i);
-        func_021B9A94((int)buf, (int)e, func_020173EC(), i);
+        NHTTP_RAP_EvilCheckSetElement((int)buf, (int)e, func_020173EC(), i);
     }
     size = func_020173EC();
-    ret = func_021B9A1C(buf, size, POKEPARTY_GetCount(list), obj + 0x54, (u16)heap);
-    func_021B9A8C(buf);
+    ret = NHTTP_RAP_VerifySignature(buf, size, POKEPARTY_GetCount(list), obj + 0x54, (u16)heap);
+    NHTTP_RAP_EvilCheckFreeArray(buf);
     return ret;
 }
 
@@ -6824,7 +6818,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
     case 4:
         *(u32_021D9A50 *)(p + 0x134) = 0;
         *(u32_021D9A50 *)(p + 0x170) = 1;
-        r = func_021DEE3C(0xb5f, 0);
+        r = DWC_ScInitialize(0xb5f, 0);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x751);
             func_021DAE18(p);
@@ -6833,7 +6827,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         *(u32_021D9A50 *)(p + 0x12c) = 5;
         break;
     case 5:
-        r = func_021DF490((void **)(*(char **)(p + 0x1464) + 4));
+        r = DWC_ScGetLoginCertificate((void **)(*(char **)(p + 0x1464) + 4));
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x761);
             func_021DAE18(p);
@@ -6844,7 +6838,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
     case 6:
         if (GFL_NET_IsParentAid() != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
         (*(u32_021D9A50 *)(p + 0x134))++;
-        r = func_021DF018((u32_021D9A50)func_021DADB4, 100, (u32_021D9A50)p);
+        r = DWC_ScCreateSessionAsync((u32_021D9A50)func_021DADB4, 100, (u32_021D9A50)p);
         *(u32_021D9A50 *)(p + 0x164) = 1;
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x773);
@@ -6859,8 +6853,8 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
     case 7:
         if (*(u32_021D9A50 *)(p + 0x134) == 0) {
             dst = *(char **)(p + 0x1464) + 0xc;
-            src = func_021DF20C();
-            func_02082D44(src, dst, 0x28);
+            src = DWC_ScGetSessionId();
+            MI_CpuCopy8(src, dst, 0x28);
             *(u32_021D9A50 *)(p + 0x12c) = 8;
             break;
         }
@@ -6869,7 +6863,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32_021D9A50 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32_021D9A50 *)(p + 0x15c), 0x797);
             func_021DAE18(p);
@@ -6882,8 +6876,8 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             break;
         }
         dst = *(char **)(p + 0x1464) + 0x34;
-        src = func_021DF224();
-        func_02082D44(src, dst, 0x28);
+        src = DWC_ScGetConnectionId();
+        MI_CpuCopy8(src, dst, 0x28);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 9;
         break;
@@ -6897,10 +6891,10 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
                 *(u32_021D9A50 *)(p + 0x12c) = 0xb;
         } else if (*(u32_021D9A50 *)(p + 0x138) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
             *(u32_021D9A50 *)(p + 0x138) = 0;
-            r = func_021DF1C8((u32_021D9A50)(*(char **)(p + 0x1464) + 0x74));
+            r = DWC_ScSetSessionId((u32_021D9A50)(*(char **)(p + 0x1464) + 0x74));
             dst = *(char **)(p + 0x1464) + 0xc;
-            src = func_021DF20C();
-            func_02082D44(src, dst, 0x28);
+            src = DWC_ScGetSessionId();
+            MI_CpuCopy8(src, dst, 0x28);
             if (r != 0) {
                 func_021DCE24(p + 0x18, r, 0x7cd);
                 func_021DAE18(p);
@@ -6911,7 +6905,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         break;
     case 11:
         (*(u32_021D9A50 *)(p + 0x134))++;
-        r = func_021DF09C(*(u32_021D9A50 *)(p + 0x1a8), (u32_021D9A50)func_021DADCC, 100, (u32_021D9A50)p);
+        r = DWC_ScSetReportIntentionAsync(*(u32_021D9A50 *)(p + 0x1a8), (u32_021D9A50)func_021DADCC, 100, (u32_021D9A50)p);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x7dd);
             func_021DAE18(p);
@@ -6930,7 +6924,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32_021D9A50 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32_021D9A50 *)(p + 0x15c), 0x7fa);
             func_021DAE18(p);
@@ -6991,7 +6985,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         break;
     case 20:
         (*(u32_021D9A50 *)(p + 0x134))++;
-        r = func_021DF130(*(u32_021D9A50 *)(*(char **)(p + 0x1464) + 8), *(u32_021D9A50 *)(p + 0x1a8), (u32_021D9A50)func_021DAE00, 100, p);
+        r = DWC_ScSubmitReportAsync(*(u32_021D9A50 *)(*(char **)(p + 0x1464) + 8), *(u32_021D9A50 *)(p + 0x1a8), (u32_021D9A50)func_021DAE00, 100, p);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x87c);
             func_021DAE18(p);
@@ -7010,7 +7004,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32_021D9A50 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32_021D9A50 *)(p + 0x15c), 0x898);
             func_021DAE18(p);
@@ -7082,7 +7076,7 @@ void func_021DADCC(int result, char *obj)
     char *p = *(char * *)&((struct Obj10685 *)obj)->f1464 + 4;
 
     if (result == 0)
-        MI_CpuCopy8(func_021DF224(), p + 0x30, 0x28);
+        MI_CpuCopy8(DWC_ScGetConnectionId(), p + 0x30, 0x28);
     else
         ((struct Obj10685 *)obj)->f15C = result;
     (((struct Obj10685 *)obj)->f134)--;
@@ -7145,13 +7139,13 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32_021DAE54 a3, RoundFn c
     int mode;
     int mode2;
 
-    if ((r = func_021DF23C(1, 2, 0, (u32_021DAE54)(ctx + 4))) != 0)
+    if ((r = DWC_ScCreateReport(1, 2, 0, (u32_021DAE54)(ctx + 4))) != 0)
         return r;
-    if ((r = func_021DF298((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
+    if ((r = DWC_ScReportBeginGlobalData((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
-    if ((r = func_021DF2C8((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
+    if ((r = DWC_ScReportBeginPlayerData((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
-    if ((r = func_021DF328((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
+    if ((r = DWC_ScReportBeginNewPlayer((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
 
     if (flag != 0 || have == 0) {
@@ -7174,11 +7168,11 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32_021DAE54 a3, RoundFn c
             break;
         }
     }
-    if ((r = func_021DF358(((struct Obj02887 *)ctx)->f4, 0, (s32)(ctx + 0x30), 0, mode, (char *)(((struct Obj02887 *)ctx)->f0), (s32)(ctx + 0x58))) != 0)
+    if ((r = DWC_ScReportSetPlayerData(((struct Obj02887 *)ctx)->f4, 0, (s32)(ctx + 0x30), 0, mode, (char *)(((struct Obj02887 *)ctx)->f0), (s32)(ctx + 0x58))) != 0)
         return r;
     if ((r = cb(ctx, peer, 1, flag)) != 0)
         return r;
-    if ((r = func_021DF328((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
+    if ((r = DWC_ScReportBeginNewPlayer((u8 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
 
     if (twoway == 1) {
@@ -7204,16 +7198,16 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32_021DAE54 a3, RoundFn c
                 break;
             }
         }
-        if ((r = func_021DF358(((struct Obj02887 *)ctx)->f4, 1, (s32)(other + 0x30), 0, mode2, (char *)(((struct Obj24332 *)other)->f0), (s32)(other + 0x58))) != 0)
+        if ((r = DWC_ScReportSetPlayerData(((struct Obj02887 *)ctx)->f4, 1, (s32)(other + 0x30), 0, mode2, (char *)(((struct Obj24332 *)other)->f0), (s32)(other + 0x58))) != 0)
             return r;
         if ((r = cb(ctx, peer, 0, flag)) != 0)
             return r;
     }
-    if ((r = func_021DF2F8((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
+    if ((r = DWC_ScReportBeginTeamData((u32_021DAE54 *)(((struct Obj02887 *)ctx)->f4))) != 0)
         return r;
     if (flag != 0)
-        return func_021DF3B0(((struct Obj02887 *)ctx)->f4, a3, 1);
-    return func_021DF3B0(((struct Obj02887 *)ctx)->f4, a3, 0);
+        return DWC_ScReportEnd(((struct Obj02887 *)ctx)->f4, a3, 1);
+    return DWC_ScReportEnd(((struct Obj02887 *)ctx)->f4, a3, 0);
 }
 
 
@@ -7237,33 +7231,33 @@ void func_021DAFB8(int *ctx,const u32_021DAFB8 *record,int invert) {
     switch(record[0]) {
     case 0:
         if(!skip && func_021DF420(ctx[1],15,1)) return;
-        if(func_021DF3E8(ctx[1],5,first)) return;
-        if(func_021DF3E8(ctx[1],6,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],5,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],6,second)) return;
         break;
     case 1:
         if(!skip && func_021DF420(ctx[1],16,1)) return;
-        if(func_021DF3E8(ctx[1],8,first)) return;
-        if(func_021DF3E8(ctx[1],7,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],8,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],7,second)) return;
         break;
     case 2:
         if(!skip && func_021DF420(ctx[1],18,1)) return;
-        if(func_021DF3E8(ctx[1],11,first)) return;
-        if(func_021DF3E8(ctx[1],12,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],11,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],12,second)) return;
         break;
     case 3:
         if(!skip && func_021DF420(ctx[1],17,1)) return;
-        if(func_021DF3E8(ctx[1],9,first)) return;
-        if(func_021DF3E8(ctx[1],10,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],9,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],10,second)) return;
         break;
     case 4:
         if(!skip && func_021DF420(ctx[1],19,1)) return;
-        if(func_021DF3E8(ctx[1],13,first)) return;
-        if(func_021DF3E8(ctx[1],14,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],13,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],14,second)) return;
         break;
     default: func_02034714(d_021E2EF8,0,d_021E2EF8); break;
     }
-    if(func_021DF3E8(ctx[1],20,present!=0)) return;
-    func_021DF3E8(ctx[1],27,-1);
+    if(DWC_ScReportAddIntValue(ctx[1],20,present!=0)) return;
+    DWC_ScReportAddIntValue(ctx[1],27,-1);
 }
 
 
@@ -7291,10 +7285,10 @@ void func_021DB160(int *ctx, int *input, int invert)
     }
     if (!invert && flip) { first ^= 1; second ^= 1; }
     if (!skip && func_021DF420(ctx[1], 0x15, 1)) return;
-    if (func_021DF3E8(ctx[1], 0x16, first)) return;
-    if (func_021DF3E8(ctx[1], 0x17, second)) return;
-    if (func_021DF3E8(ctx[1], 0x18, present != 0)) return;
-    func_021DF3E8(ctx[1], 0x1c, -1);
+    if (DWC_ScReportAddIntValue(ctx[1], 0x16, first)) return;
+    if (DWC_ScReportAddIntValue(ctx[1], 0x17, second)) return;
+    if (DWC_ScReportAddIntValue(ctx[1], 0x18, present != 0)) return;
+    DWC_ScReportAddIntValue(ctx[1], 0x1c, -1);
 }
 
 
@@ -7370,7 +7364,7 @@ int func_021DB248(u32_021DB248 *ctx)
 
 
 
-void func_021DB258(int index,int unused,const void *src,u8 *p,int owner) { if(owner==(int)GFL_NET_HANDLE_GetCurrentHandle() && index!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) { func_02082D44(src,*(u8 * *)&((struct Obj14338 *)p)->f1464+0x6c,0x68); ((struct Obj14338 *)p)->f138=1; } }
+void func_021DB258(int index,int unused,const void *src,u8 *p,int owner) { if(owner==(int)GFL_NET_HANDLE_GetCurrentHandle() && index!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) { MI_CpuCopy8(src,*(u8 * *)&((struct Obj14338 *)p)->f1464+0x6c,0x68); ((struct Obj14338 *)p)->f138=1; } }
 
 
 
@@ -7384,7 +7378,7 @@ void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
     record = func_02012950(((struct Obj14339 *)ctx)->f8, index);
-    func_02082D44(dest, record, MYSTATUS_GetSize());
+    MI_CpuCopy8(dest, record, MYSTATUS_GetSize());
     if (owner == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (index != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())))
             ((struct Obj14339 *)ctx)->f13C = 1;
@@ -7784,7 +7778,7 @@ void func_021DBA00(int count,struct Field_021DBA00 **fields,u8 *p,int n)
             else if(func_0203F028(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
             else if(func_0203F028(f->name,d_021E2F8C)==0) {
                 const struct Blob *blob=&f->payload.blob;
-                func_02082D44(blob->data,p+24,blob->size);
+                MI_CpuCopy8(blob->data,p+24,blob->size);
             }
         }
     }
@@ -7821,7 +7815,7 @@ void func_021DBB54(int count,struct Field_021DBB54 **recs,void *dst,int nfields)
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
             if(func_0203F028(f->name,d_021E2F8C)==0)
-                func_02082D44(f->value,dst,f->size);
+                MI_CpuCopy8(f->value,dst,f->size);
         }
     }
 }
@@ -7837,7 +7831,7 @@ void func_021DBBAC(int count,struct Field **recs,void *dst,int nfields)
         for(j=0;j<nfields;j++){
             f=&recs[i][j];
             if(func_0203F028(f->name,d_021E2F38)==0)
-                func_02082D44(f->value,dst,f->size);
+                MI_CpuCopy8(f->value,dst,f->size);
         }
     }
 }
@@ -7911,22 +7905,22 @@ int func_021DBDAC(char *p)
     long r;
     switch(((struct Obj00999 *)p)->f12C) {
     case 0:
-        r=func_021E10CC(0xb5f,*(DWCstAccUserData * *)&((struct Obj00999 *)p)->f0,0);
+        r=((int (*)(int,DWCstAccUserData *,int))DWC_GdbInitialize)(0xb5f,*(DWCstAccUserData * *)&((struct Obj00999 *)p)->f0,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1161);func_021DB6A0(p);return 2;}
         ((struct Obj00999 *)p)->f12C=1;break;
     case 1:
         if(((struct Obj00999 *)p)->f198>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
-        r=func_021E1540((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
+        r=DWC_GdbUpdateRecordAsync((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
         if(r!=0) {func_021DCE40(p+0x18,r,0x116e);func_021DB6A0(p);return 2;}
         ((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=2;break;
     case 2:
         if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x117b);((struct Obj00999 *)p)->f12C=6;break;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DCE48(p+0x18,r,0x1186);((struct Obj00999 *)p)->f12C=6;}
         else if(r==1)((struct Obj00999 *)p)->f12C=3;
         break;
     case 3:
-        r=func_021E1454();
+        r=DWC_GdbGetAsyncResult();
         if(r==0) {func_021DCE50(p+0x18,r,0x1199);((struct Obj00999 *)p)->f12C=6;}
         else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x11a0);return 2;}
         else ((struct Obj00999 *)p)->f12C=4;
@@ -7935,13 +7929,13 @@ int func_021DBDAC(char *p)
         func_021DB6A0(p);((struct Obj00999 *)p)->f12C=5;
     case 5:return 1;
     case 6:
-        r=func_021E11F0();
+        r=DWC_GdbCancelRequest();
         if(r==0) {((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=7;}
         else {func_021DCE40(p+0x18,r,0x11be);func_021DB6A0(p);return 2;}
         break;
     case 7:
         if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x11ca);func_021DB6A0(p);return 2;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
         if(r==1)((struct Obj00999 *)p)->f12C=8;
         break;
@@ -7978,21 +7972,21 @@ int func_021DBFB4(char *p)
     long r;
     switch(((struct Obj00629 *)p)->f12C) {
     case 0:
-        r=func_021E10CC(0xb5f,*(DWCstAccUserData * *)&((struct Obj00629 *)p)->f0,0);
+        r=((int (*)(int,DWCstAccUserData *,int))DWC_GdbInitialize)(0xb5f,*(DWCstAccUserData * *)&((struct Obj00629 *)p)->f0,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1215);return 2;}
         ((struct Obj00629 *)p)->f12C=1;break;
     case 1:
-        r=func_021E1464((char *)d_021E2F1C,((struct Obj00629 *)p)->f190,((struct Obj00629 *)p)->f198,*(int * *)&((struct Obj00629 *)p)->f1464);
+        r=DWC_GdbCreateRecordAsync((char *)d_021E2F1C,((struct Obj00629 *)p)->f190,((struct Obj00629 *)p)->f198,*(int * *)&((struct Obj00629 *)p)->f1464);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1223);return 2;}
         ((struct Obj00629 *)p)->f1A0=0;((struct Obj00629 *)p)->f12C=2;break;
     case 2:
         if((((struct Obj00629 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x122f);((struct Obj00629 *)p)->f12C=4;break;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DCE48(p+0x18,r,0x123b);((struct Obj00629 *)p)->f12C=4;}
         else if(r==1)((struct Obj00629 *)p)->f12C=3;
         break;
     case 3:
-        r=func_021E1454();
+        r=DWC_GdbGetAsyncResult();
         if(r==0) {func_021DCE50(p+0x18,r,0x124f);((struct Obj00629 *)p)->f12C=4;}
         else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x1256);return 2;}
         else {
@@ -8001,13 +7995,13 @@ int func_021DBFB4(char *p)
         }
         break;
     case 4:
-        r=func_021E11F0();
+        r=DWC_GdbCancelRequest();
         if(r==0) {((struct Obj00629 *)p)->f1A0=0;((struct Obj00629 *)p)->f12C=5;}
         else {func_021DCE40(p+0x18,r,0x126f);func_021DB6A0(p);return 2;}
         break;
     case 5:
         if((((struct Obj00629 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x127b);func_021DB6A0(p);return 2;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
         if(r==1)((struct Obj00629 *)p)->f12C=6;
         break;
@@ -8101,7 +8095,7 @@ u32_021DC240 func_021DC240(char *obj, u32_021DC240 arg)
 
     if (v != 0) {
         ((struct Obj14345 *)obj)->f144 = 0;
-        func_02082D44(obj + 0x218, (void *)arg, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(obj + 0x218, (void *)arg, POKE_REGULATION_GetDataSize());
     }
     return v;
 }
@@ -8149,7 +8143,7 @@ u32_021DC2A0 func_021DC2A0(char *obj, u32_021DC2A0 arg)
 
     if (v != 0) {
         ((struct Obj14346 *)obj)->f148 = 0;
-        func_02082D44(obj + 0x218, (void *)arg, 4);
+        MI_CpuCopy8(obj + 0x218, (void *)arg, 4);
     }
     return v;
 }
@@ -8217,32 +8211,32 @@ int func_021DC338(u8 *p)
     u32_021DC338 count,percent;
     switch(((struct Obj00841 *)p)->f12C) {
     case 0:
-        if(func_021C5928((void (*)(int,  int,  int))func_021DC6FC,d_021E2FA8,d_021E2FB0)==0)return 3;
+        if(DWC_NdInitAsync((void (*)(int,  int,  int))func_021DC6FC,d_021E2FA8,d_021E2FB0)==0)return 3;
         ((struct Obj00841 *)p)->f1458=1;
         func_021DC680(p,1);break;
     case 1:
-        if(func_021C5C04(d_021E2FC4,(char *)(p+0x144c),(char *)d_021E2EF8)==0){func_021DC6A4(p,8);break;}
+        if(DWC_NdSetAttr(d_021E2FC4,(char *)(p+0x144c),(char *)d_021E2EF8)==0){func_021DC6A4(p,8);break;}
         ((struct Obj00841 *)p)->f12C=2;break;
     case 2:
-        if(func_021C5C38(p+0x1390,0,1)==0){func_021DC6A4(p,8);break;}
+        if(DWC_NdGetFileListAsync(p+0x1390,0,1)==0){func_021DC6A4(p,8);break;}
         func_021DC680(p,3);break;
     case 3:
         count=0xb0;
         if(func_021DC5AC((const unsigned int *)(p+0x1390),0xb0)==0) {
             count+=0xb0;
-            if(func_021C5CFC(p+0x1390,(char *)(p+0x1230),count)==0){func_021DC6A4(p,8);break;}
+            if(DWC_NdGetFileAsync(p+0x1390,(char *)(p+0x1230),count)==0){func_021DC6A4(p,8);break;}
             d_021E4B80[0]=0;*(u32_021DC338 *)(d_021E4B80+4)=0;
             ((struct Obj00841 *)p)->f12C=4;
         } else {
-            if(func_021C5B80()==0) {((struct Obj00841 *)p)->f1458=0;return 2;}
+            if(DWC_NdCleanupAsync()==0) {((struct Obj00841 *)p)->f1458=0;return 2;}
             func_021DC680(p,7);
         }
         break;
     case 4:
-        func_021C5AB8();
+        DWC_NdProcess();
         if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(d_021E4B80[0]==0) {
-            if(func_021C5E14((u32_021DC338 *)(p+0x1444),(u32_021DC338 *)(p+0x1448))==1) {
+            if(DWC_NdGetProgress((u32_021DC338 *)(p+0x1444),(u32_021DC338 *)(p+0x1448))==1) {
                 percent=_u32_div_f(((struct Obj00841 *)p)->f1444*100,((struct Obj00841 *)p)->f1448);
                 if(((struct Obj00841 *)p)->f1440!=percent)((struct Obj00841 *)p)->f1440=percent;
             }
@@ -8251,7 +8245,7 @@ int func_021DC338(u8 *p)
                 if(*(u32_021DC338 *)(d_021E4B80+4)==8)func_0200FA84();
                 else func_021DC6A4(p,8);
             } else {
-                if(func_021C5B80()==0) {((struct Obj00841 *)p)->f1458=0;return 3;}
+                if(DWC_NdCleanupAsync()==0) {((struct Obj00841 *)p)->f1458=0;return 3;}
                 func_021DC680(p,5);
             }
         }
@@ -8263,7 +8257,7 @@ int func_021DC338(u8 *p)
     case 7:((struct Obj00841 *)p)->f1458=0;return 2;
     case 8:((struct Obj00841 *)p)->f1458=0;return 3;
     case 100:
-        func_021C5AB8();
+        DWC_NdProcess();
         if((((struct Obj00841 *)p)->f1A0)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f7);func_021DC6D0(p,8);}
         if(*(u32_021DC338 *)(d_021E4B80+4)!=0) {
             if(*(u32_021DC338 *)(d_021E4B80+4)==8)func_0200FA84();
@@ -8275,11 +8269,11 @@ int func_021DC338(u8 *p)
         }
         break;
     case 200:
-        func_021C5AB8();
+        DWC_NdProcess();
         if(d_021E4B80[1]!=0) {d_021E4B80[1]=0;((struct Obj00841 *)p)->f12C=((struct Obj00841 *)p)->f130;}
         break;
     case 300:
-        func_021C5AB8();
+        DWC_NdProcess();
         if(d_021E4B80[0]!=0) {d_021E4B80[0]=0;func_021DC6A4(p,((struct Obj00841 *)p)->f130);}
         break;
     }
@@ -8319,8 +8313,8 @@ void func_021DC5C8(void *p, int unused, int kind)
     if (kind != 3 && kind != 6)
         return;
     if (((struct Obj03320 *)p)->f121C != 0) {
-        func_021B9774((u8 *)(((struct Obj03320 *)p)->f121C));
-        func_021B9838((u8 *)(((struct Obj03320 *)p)->f121C));
+        NHTTP_RAP_DeleteConnection((u8 *)(((struct Obj03320 *)p)->f121C));
+        NHTTP_RAP_Destroy((u8 *)(((struct Obj03320 *)p)->f121C));
         ((struct Obj03320 *)p)->f121C = 0;
     }
     func_021DAE18(p);
@@ -8388,7 +8382,7 @@ int func_021DC610(unsigned int a)
 
 void func_021DC66C(const char *p,void *out)
 {
-    func_02082D44(p+0x1230,out,0x160);
+    MI_CpuCopy8(p+0x1230,out,0x160);
 }
 
 
@@ -8413,14 +8407,14 @@ void func_021DC680(u8 *p,int state)
 
 
 
-void func_021DC6A4(u8 *p,int state) { d_021E4B80[0]=0; *(u32_021DC6A4 *)(d_021E4B80+4)=0; ((struct Obj10691 *)p)->f130=state; ((struct Obj10691 *)p)->f12C=200; if(func_021C5B80()==0) ((struct Obj10691 *)p)->f130=state; }
+void func_021DC6A4(u8 *p,int state) { d_021E4B80[0]=0; *(u32_021DC6A4 *)(d_021E4B80+4)=0; ((struct Obj10691 *)p)->f130=state; ((struct Obj10691 *)p)->f12C=200; if(DWC_NdCleanupAsync()==0) ((struct Obj10691 *)p)->f130=state; }
 
 
 
 
 
 
-void func_021DC6D0(u8 *p,int state) { d_021E4B80[0]=0; *(u32_021DC6D0 *)(d_021E4B80+4)=0; ((struct Obj10692 *)p)->f130=state; ((struct Obj10692 *)p)->f12C=300; if(func_021C5DB4()==0) ((struct Obj10692 *)p)->f130=state; }
+void func_021DC6D0(u8 *p,int state) { d_021E4B80[0]=0; *(u32_021DC6D0 *)(d_021E4B80+4)=0; ((struct Obj10692 *)p)->f130=state; ((struct Obj10692 *)p)->f12C=300; if(DWC_NdCancelAsync()==0) ((struct Obj10692 *)p)->f130=state; }
 
 
 
@@ -8438,7 +8432,7 @@ void func_021DC738(char *p,unsigned heap)
 {
     if(*(int *)&((struct Obj06575 *)p)->f121C!=0) func_02034714(d_021E2EF8,0,d_021E2EF8);
     ((struct Obj06575 *)p)->f12C=0;
-    ((struct Obj06575 *)p)->f121C=func_021B9800(heap,func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj06575 *)p)->f8)),((struct Obj06575 *)p)->f10);
+    ((struct Obj06575 *)p)->f121C=NHTTP_RAP_Create(heap,func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj06575 *)p)->f8)),((struct Obj06575 *)p)->f10);
 }
 
 
@@ -8458,17 +8452,17 @@ int func_021DC77C(u8 *p)
     if(*(u8 **)(p+0x121c)==0)return 2;
     switch(*(u32_021DC77C *)(p+0x12c)) {
     case 0:
-        if(func_021B95D4(5,*(u8 **)(p+0x121c))!=0)*(u32_021DC77C *)(p+0x12c)=1;
+        if(NHTTP_RAP_CreateRequest(5,*(u8 **)(p+0x121c))!=0)*(u32_021DC77C *)(p+0x12c)=1;
         break;
     case 1:
-        if(func_021B9748(*(u8 **)(p+0x121c))==0) {*(u32_021DC77C *)(p+0x12c)=2;break;}
-        if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
+        if(NHTTP_RAP_StartConnection(*(u8 **)(p+0x121c))==0) {*(u32_021DC77C *)(p+0x12c)=2;break;}
+        if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
         return 2;
     case 2:
-        query=func_021B99DC(*(u8 **)(p+0x121c));
-        status=func_021B9790(*(u8 **)(p+0x121c));
+        query=NHTTP_RAP_GetResultCode(*(u8 **)(p+0x121c));
+        status=NHTTP_RAP_PollConnection(*(u8 **)(p+0x121c));
         if(status==0) {
-            r=func_021B97F4(*(u8 **)(p+0x121c));
+            r=NHTTP_RAP_GetRecvBuffer(*(u8 **)(p+0x121c));
             if(query!=0x1f6) {
                 if(query==0x1f7) {*(u32_021DC77C *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(62);return 0;}
             } else {*(u32_021DC77C *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(63);return 0;}
@@ -8476,18 +8470,18 @@ int func_021DC77C(u8 *p)
             if(*(u32_021DC77C *)r==0)*(u32_021DC77C *)(p+0x12c)=3;
             else {GFL_NET_ERR_RaiseFatal(func_021DC610(*(u32_021DC77C *)r));*(u32_021DC77C *)(p+0x12c)=4;}
         } else if(status!=15) {
-            if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
+            if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
             return 2;
         }
         break;
     case 4:
         MI_CpuFill8(p+0x1220,0,8);
         if(*(u8 **)(p+0x121c)!=0) {
-            func_021B9774(*(u8 **)(p+0x121c));func_021B9838(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;
+            NHTTP_RAP_DeleteConnection(*(u8 **)(p+0x121c));NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;
         }
         return 3;
     case 3:
-        if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
+        if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32_021DC77C *)(p+0x121c)=0;}
         return 1;
     }
     return 0;
@@ -8516,7 +8510,7 @@ void func_021DC8B4(u8 *p, const W *src, int x)
 {
     if (*(u32_021DC8B4 *)(p + 0x121C) != 0)
         func_02034714(d_021E2EF8, 0, d_021E2EF8);
-    *(u8 **)(p + 0x121C) = func_021B9800(x, func_0200853C((const struct Sub0200852CObj *)func_02012944(*(void **)(p + 8))), *(int *)(p + 0x10));
+    *(u8 **)(p + 0x121C) = NHTTP_RAP_Create(x, func_0200853C((const struct Sub0200852CObj *)func_02012944(*(void **)(p + 8))), *(int *)(p + 0x10));
     *(W *)(p + 0x1228) = *src;
     *(u32_021DC8B4 *)(p + 0x12C) = 0;
 }
@@ -8534,23 +8528,23 @@ int func_021DC908(char *p)
     if(*(u8 **)(p+0x121c)==0) return 2;
     switch(*(u32_021DC908 *)(p+0x12c)) {
     case 0:
-        if(func_021B95D4(6,*(u8 **)(p+0x121c))) {
-            func_021BE79C((void *)func_021B973C(*(char **)(p+0x121c)),(void *)((u32_021DC908)(p+0x1228)),8);
+        if(NHTTP_RAP_CreateRequest(6,*(u8 **)(p+0x121c))) {
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(char **)(p+0x121c)),(void *)((u32_021DC908)(p+0x1228)),8);
             *(u32_021DC908 *)(p+0x12c)=1;
         }
         break;
     case 1:
-        if(!func_021B9748(*(u8 **)(p+0x121c))) *(u32_021DC908 *)(p+0x12c)=2;
+        if(!NHTTP_RAP_StartConnection(*(u8 **)(p+0x121c))) *(u32_021DC908 *)(p+0x12c)=2;
         else {
-            if(*(u8 **)(p+0x121c)) {func_021B9838(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
+            if(*(u8 **)(p+0x121c)) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
             return 2;
         }
         break;
     case 2:
-        result=func_021B99DC(*(u8 **)(p+0x121c));
-        status=func_021B9790(*(u8 **)(p+0x121c));
+        result=NHTTP_RAP_GetResultCode(*(u8 **)(p+0x121c));
+        status=NHTTP_RAP_PollConnection(*(u8 **)(p+0x121c));
         if(status==0) {
-            data=(u32_021DC908 *)func_021B97F4(*(u8 **)(p+0x121c));
+            data=(u32_021DC908 *)NHTTP_RAP_GetRecvBuffer(*(u8 **)(p+0x121c));
             switch(result) {
             case 0x1f7: *(u32_021DC908 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3e);return 0;
             case 0x1f6: *(u32_021DC908 *)(p+0x12c)=3;GFL_NET_ERR_RaiseFatal(0x3f);return 0;
@@ -8561,19 +8555,19 @@ int func_021DC908(char *p)
             }
         } else if(status!=15) {
             func_021DCE58(p+0x18,status,0x16a0);
-            if(*(u8 **)(p+0x121c)) {func_021B9838(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
+            if(*(u8 **)(p+0x121c)) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
             return 2;
         }
         break;
     case 3:
         if(*(u8 **)(p+0x121c)) {
-            func_021B9774(*(u8 **)(p+0x121c));
-            func_021B9838(*(u8 **)(p+0x121c));
+            NHTTP_RAP_DeleteConnection(*(u8 **)(p+0x121c));
+            NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));
             *(u8 **)(p+0x121c)=0;
         }
         return 3;
     case 4:
-        if(*(u8 **)(p+0x121c)) {func_021B9838(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
+        if(*(u8 **)(p+0x121c)) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
         return 1;
     }
     return 0;
@@ -8652,19 +8646,19 @@ void func_021DCB58(char *p,void *q,int mode)
     void *mon;
     i=0;
     ((struct Obj01956 *)p)->f12C=0;
-    *(u8 * *)&((struct Obj01956 *)p)->f121C=func_021B9800(((struct Obj01956 *)p)->f124,(int)func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj01956 *)p)->f8)),((struct Obj01956 *)p)->f10);
+    *(u8 * *)&((struct Obj01956 *)p)->f121C=NHTTP_RAP_Create(((struct Obj01956 *)p)->f124,(int)func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj01956 *)p)->f8)),((struct Obj01956 *)p)->f10);
     switch(mode) {
     case 0:
-        func_021B98A0(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,func_020173EC(),0);
-        func_021B98D8(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)q,func_020173EC());
+        NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,func_020173EC(),0);
+        NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)q,func_020173EC());
         ((struct Obj01956 *)p)->f174=1;
         break;
     case 1:
         size=func_020173EC();
-        func_021B98A0(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,size*POKEPARTY_GetCount(q),0);
+        NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,size*POKEPARTY_GetCount(q),0);
         for(i=0;i<(int)POKEPARTY_GetCount(q);i++) {
             mon=POKEPARTY_GetMember(q,i);
-            func_021B98D8(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)mon,func_020173EC());
+            NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)mon,func_020173EC());
         }
         ((struct Obj01956 *)p)->f174=POKEPARTY_GetCount(q);
         break;
@@ -8679,7 +8673,7 @@ void func_021DCB58(char *p,void *q,int mode)
 static inline void clear(char *p)
 {
     if(*(u8 **)(p+0x121c)) {
-        func_021B9838(*(u8 **)(p+0x121c));
+        NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));
         *(u8 **)(p+0x121c)=0;
         *(u32_021DCC28 *)(p+0x12c)=0;
     }
@@ -8693,9 +8687,9 @@ static inline void clear(char *p)
 static inline void release(char *p)
 {
     if(*(u8 **)(p+0x121c)) {
-        func_021B99B8(*(u8 **)(p+0x121c));
-        func_021B9838(*(u8 **)(p+0x121c));
-        func_021B9774(*(u8 **)(p+0x121c));
+        NHTTP_RAP_FreePostData(*(u8 **)(p+0x121c));
+        NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));
+        NHTTP_RAP_DeleteConnection(*(u8 **)(p+0x121c));
         *(u8 **)(p+0x121c)=0;
         *(u32_021DCC28 *)(p+0x12c)=0;
     }
@@ -8727,14 +8721,14 @@ int func_021DCC28(char *p,u8 *out)
     u8 *data;
     switch(*(u32_021DCC28 *)(p+0x12c)) {
     case 0:
-        if(func_021B98F8(*(u8 **)(p+0x121c))) {
-            if(!func_021B9748(*(u8 **)(p+0x121c))) (*(u32_021DCC28 *)(p+0x12c))++;
+        if(NHTTP_RAP_CreatePostRequest(*(u8 **)(p+0x121c))) {
+            if(!NHTTP_RAP_StartConnection(*(u8 **)(p+0x121c))) (*(u32_021DCC28 *)(p+0x12c))++;
             else {clear(p);return 2;}
         } else {clear(p);return 2;}
         break;
     case 1:
-        result=func_021B99DC(*(u8 **)(p+0x121c));
-        status=func_021B9790(*(u8 **)(p+0x121c));
+        result=NHTTP_RAP_GetResultCode(*(u8 **)(p+0x121c));
+        status=NHTTP_RAP_PollConnection(*(u8 **)(p+0x121c));
         if(status==0) {
             switch(result) {
             case 400: GFL_NET_ERR_RaiseFatal(0x41);release(p);return 3;
@@ -8745,18 +8739,18 @@ int func_021DCC28(char *p,u8 *out)
             }
         } else if(status!=15) {
             func_021DCE58(p+0x18,status,0x17a4);
-            func_021B99B8(*(u8 **)(p+0x121c));
+            NHTTP_RAP_FreePostData(*(u8 **)(p+0x121c));
             clear(p);
             return 2;
         }
         break;
     case 2:
-        data=func_021B97F4(*(u8 **)(p+0x121c));
-        *out=func_021B99F0(data);
-        for(i=0;i<*(u32_021DCC28 *)(p+0x174);i++) *(u32_021DCC28 *)(out+4+i*4)=func_021B99F4((u32_021DCC28)data,i);
-        if(*out==0) func_02082D44(func_021B9A14(data,*(u32_021DCC28 *)(p+0x174)),out+0x1c,128);
-        func_021B99B8(*(u8 **)(p+0x121c));
-        if(*(u8 **)(p+0x121c)) {func_021B9838(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
+        data=NHTTP_RAP_GetRecvBuffer(*(u8 **)(p+0x121c));
+        *out=NHTTP_RAP_RecordList_GetCount(data);
+        for(i=0;i<*(u32_021DCC28 *)(p+0x174);i++) *(u32_021DCC28 *)(out+4+i*4)=NHTTP_RAP_RecordList_GetValue((u32_021DCC28)data,i);
+        if(*out==0) MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(data,*(u32_021DCC28 *)(p+0x174)),out+0x1c,128);
+        NHTTP_RAP_FreePostData(*(u8 **)(p+0x121c));
+        if(*(u8 **)(p+0x121c)) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u8 **)(p+0x121c)=0;}
         return 1;
     }
     return 0;

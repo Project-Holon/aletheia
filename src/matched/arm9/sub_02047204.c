@@ -11,7 +11,7 @@
  *
  * symbols:
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_0206A00C  0x0206A00C  arm
+ *   NNS_G3dTexLoad  0x0206A00C  arm
  *   NNS_G3dPlttLoad  0x0206A12C  arm
  *   DC_FlushRange  0x020862F0  arm
  *
@@ -53,7 +53,7 @@ struct BufHdr {
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 struct Up;
-extern void func_0206A00C(struct Up *u, u32 wrap);
+extern void NNS_G3dTexLoad(struct Up *u, u32 wrap);
 extern void  NNS_G3dPlttLoad(void *rec, u32 flag);
 extern void  DC_FlushRange(void *addr, u32 size);
 
@@ -66,7 +66,7 @@ u32 G3D_SYSTEM_TransAllocatedTexture(struct Tagged *p)
         return 0;
     }
     DC_FlushRange(buf, buf->size);
-    func_0206A00C(last, 1);
+    NNS_G3dTexLoad(last, 1);
     NNS_G3dPlttLoad(last, 1);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA78C
+ * function: WIFICLUBACTOR_RequestBlinkRestart
  * address:  0x021BA78C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef struct {
     u8 f10;
 } S;
 
-void func_021BA78C(S *s)
+void WIFICLUBACTOR_RequestBlinkRestart(S *s)
 {
     s->f10 = 1;
 }

@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200CA70 0x0200CA70 thumb
- *   func_0200D0CC 0x0200D0CC thumb
- *   func_0200CF28 0x0200CF28 thumb
- *   func_0200D0F8 0x0200D0F8 thumb
- *   func_0200CF54 0x0200CF54 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
+ *   ZUKAN_SAVE_CountSeenNational 0x0200D0CC thumb
+ *   ZUKAN_SAVE_CountCaughtNational 0x0200CF28 thumb
+ *   ZUKAN_SAVE_CountSeenRegional 0x0200D0F8 thumb
+ *   ZUKAN_SAVE_CountCaughtRegional 0x0200CF54 thumb
  *   func_021BD4F4 0x021BD4F4 thumb ov209
  *   func_021BD440 0x021BD440 thumb ov209
  *   func_021BD488 0x021BD488 thumb ov209
@@ -29,11 +29,11 @@ typedef unsigned short u16;
 typedef struct WordSet WordSet;
 typedef unsigned int   u32;
 struct Blk37;
-extern u32 func_0200CA70(struct Blk37 *p);
-extern u16 func_0200D0CC(struct Blk37 *p);
-extern u16 func_0200CF28(struct Blk37 *p);
-extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
-extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountCaughtNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap);
+extern u16 ZUKAN_SAVE_CountCaughtRegional(struct Blk37 *p, u32 heap);
 typedef unsigned char  u8;
 extern void func_021BD4F4(u8 *p, u32 idx);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
@@ -43,12 +43,12 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021BD628(char *p)
 {
     unsigned a, b;
-    if (func_0200CA70(((struct Obj25561 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1) {
-        a = func_0200D0CC(((struct Obj25562 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
-        b = func_0200CF28(((struct Obj25563 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
+    if (ZUKAN_SAVE_GetViewMode(((struct Obj25561 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1) {
+        a = ZUKAN_SAVE_CountSeenNational(((struct Obj25562 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
+        b = ZUKAN_SAVE_CountCaughtNational(((struct Obj25563 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
     } else {
-        a = func_0200D0F8(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
-        b = func_0200CF54(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
+        a = ZUKAN_SAVE_CountSeenRegional(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
+        b = ZUKAN_SAVE_CountCaughtRegional(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
     }
     func_021BD4F4((u8 *)p, 1);
     func_021BD4F4((u8 *)p, 2);

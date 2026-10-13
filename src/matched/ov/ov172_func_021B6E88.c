@@ -14,7 +14,7 @@
  * symbols:
  *   func_021B6EC4  0x021B6EC4  thumb  ov172
  *   func_021B6ECC  0x021B6ECC  thumb  ov172
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -27,10 +27,10 @@ typedef signed int     s32;
 
 extern u8 *func_021B6EC4(void *p, int i);
 extern void func_021B6ECC(void *o, u16 *c);
-extern void  func_02082D44(void *a, void *b, int c);
+extern void  MI_CpuCopy8(void *a, void *b, int c);
 
 void func_021B6E88(char *p, void *q)
 {
-    func_02082D44(q, func_021B6EC4(p, ((struct Obj04549 *)p)->f4), 8);
+    MI_CpuCopy8(q, func_021B6EC4(p, ((struct Obj04549 *)p)->f4), 8);
     func_021B6ECC(p, (u16 *)(p + 4));
 }

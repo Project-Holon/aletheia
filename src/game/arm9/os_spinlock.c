@@ -1,7 +1,7 @@
 /*
  * file:     os_spinlock.c
  * unit:     yes
- * function: func_02084AB0, func_02084B90, func_02084C1C, func_02084C68, func_02084C78, func_02084CEC, func_02084CFC, func_02084D68, func_02084D78, OS_UnLockCartridge, func_02084DA4, func_02084DC4, func_02084DDC, func_02084DF4, func_02084E10, OS_UnLockCard, func_02084E38, func_02084E54, func_02084E98, OS_ReadOwnerOfLockWord, func_02084EB8, func_02084F10
+ * function: func_02084AB0, func_02084B90, func_02084C1C, func_02084C68, func_02084C78, func_02084CEC, func_02084CFC, func_02084D68, func_02084D78, OS_UnLockCartridge, func_02084DA4, func_02084DC4, func_02084DDC, func_02084DF4, func_02084E10, OS_UnLockCard, func_02084E38, func_02084E54, func_02084E98, OS_ReadOwnerOfLockWord, OS_GetLockID, func_02084F10
  * address:  0x02084AB0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *           tail call spends ip in ARM, never r1), wave 17 lane untried_small
  *
  * symbols:
- *   func_02004490  0x02004490  thumb
+ *   SVC_WaitByLoop  0x02004490  thumb
  *   MIi_CpuClear32         0x02082A7C  arm
  *   OSi_SyncWithOtherProc  0x02084AB0  arm
  *   FSi_HasEnoughSpaceInFreeArea  0x02084C1C  arm
@@ -61,7 +61,7 @@ typedef long s32_02084E38;
 
 typedef long s32_02084EB8;
 
-extern void func_02004490(int v);
+extern void SVC_WaitByLoop(int v);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
@@ -93,7 +93,7 @@ s32_02084E38 OS_TryLockCard(u16 lockID);
 void func_02084E54(void);
 void func_02084E98(void);
 unsigned short OS_ReadOwnerOfLockWord(char *lock);
-asm s32_02084EB8 func_02084EB8(void);
+asm s32_02084EB8 OS_GetLockID(void);
 asm void func_02084F10(u16 lockID);
 
 
@@ -124,7 +124,7 @@ void func_02084AB0(int a0, volatile u8 *p)
         do {
             p[0] = (u8)((i & 0xf) | 0x80);
             while (p[0] != p[1] && p[2] == 0) {
-                func_02004490(0x400);
+                SVC_WaitByLoop(0x400);
             }
             i++;
         } while (p[2] == 0);
@@ -138,13 +138,13 @@ void func_02084AB0(int a0, volatile u8 *p)
                 p[1] = p[0];
                 sum += p[1];
             } else {
-                func_02004490(0x400);
+                SVC_WaitByLoop(0x400);
             }
         }
         p[3] = 0;
         p[2] = 1;
         while (p[3] == 0) {
-            func_02004490(0x400);
+            SVC_WaitByLoop(0x400);
         }
     }
 }
@@ -194,7 +194,7 @@ void func_02084C1C(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL 
     if (func_02084CFC(lockID, lockp, ctrlFuncp, disableFIQ) <= 0)
         return;
     do {
-        func_02004490(0x400);
+        SVC_WaitByLoop(0x400);
     } while (func_02084CFC(lockID, lockp, ctrlFuncp, disableFIQ) > 0);
 }
 
@@ -418,7 +418,7 @@ unsigned short OS_ReadOwnerOfLockWord(char *lock)
  *           strictly increasing line (836..898), the asm-function pattern.
  */
 /* hand-written in the original: clz and a lock-bit scan across two words, the asm OS_GetLockID shape */
-asm s32_02084EB8 func_02084EB8(void)
+asm s32_02084EB8 OS_GetLockID(void)
 {
     ldr     r3, =0x02FFFFB0
     ldr     r1, [r3, #0]

@@ -158,6 +158,7 @@ typedef struct HandExChangeType {
     u32 header;
     u16 typePair;
     u8 pokeId;
+    u8 showMessage;
 } HandExChangeType;
 
 /* Constants named by several handler files. */

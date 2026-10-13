@@ -13,10 +13,10 @@
  * Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
  * symbols:
  *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
- *   func_06899D3C 0x06899D3C thumb ov095
+ *   BTLV_SCD_CloseInputIfOpen 0x06899D3C thumb ov095
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 f0; u8 pad[60]; } E64;
-extern void func_06899D3C(u32);
-void BTLV_CORE_CloseMenu(E64 *p) { func_06899D3C(p[0x6].f0); }
+extern void BTLV_SCD_CloseInputIfOpen(u32);
+void BTLV_CORE_CloseMenu(E64 *p) { BTLV_SCD_CloseInputIfOpen(p[0x6].f0); }

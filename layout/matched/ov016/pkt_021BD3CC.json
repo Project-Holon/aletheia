@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD3CC",
+   "name": "DWCi_CMNlFontFlag",
    "address": "0x021BD3CC",
    "kind": "sdk",
    "region": "ov016",

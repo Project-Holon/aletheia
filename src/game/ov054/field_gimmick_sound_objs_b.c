@@ -18,7 +18,7 @@
  *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   ISS_3DS_SYS_SetVolume  0x0202B914  thumb
- *   sGimmick54UnitSetup     0x021F39A0  data  a4
+ *   sSoundObjsBUnitSetup     0x021F39A0  data  a4
  *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   SOUND_OBJ_Delete 0x021C4DA8 thumb ov021
@@ -37,7 +37,7 @@
  *   func_021C4D14  0x021C4D14  thumb  ov021
  *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   sGimmick54WaitMembers 0x021F394C data a4
+ *   sSoundObjsBWaitMembers 0x021F394C data a4
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
@@ -51,14 +51,14 @@
 void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_SOUND_OBJS_B_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_SOUND_OBJS_B_Update(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(Gimmick54Work *work, struct FieldMap *fieldMap);
-void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(Gimmick54Work *work);
-void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(Gimmick54Work *work, struct FieldMap *fieldMap);
-void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(Gimmick54Work *work, struct FieldMap *fieldMap);
-void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(Gimmick54Work *work, int index);
+void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(FieldGimmickSoundObjsBWork *work);
+void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(FieldGimmickSoundObjsBWork *work, int index);
 
-extern G3dUtilSetup sGimmick54UnitSetup;
-extern Gimmick54WaitMembers sGimmick54WaitMembers;
+extern G3dUtilSetup sSoundObjsBUnitSetup;
+extern FieldGimmickSoundObjsBWaitMembers sSoundObjsBWaitMembers;
 /* Sound object and gimmick work of field_gimmick_sound_objs_b.c; only the fields used here. */
 struct SoundObj;
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, int frame);
@@ -67,11 +67,11 @@ extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, int frame);
 void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap)
 {
     unsigned heapId;
-    Gimmick54Work *work;
+    FieldGimmickSoundObjsBWork *work;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    FLD_EXP_OBJ_AddUnit(FIELDMAP_GetExpObj(fieldMap), &sGimmick54UnitSetup, 0);
-    work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(Gimmick54Work));
+    FLD_EXP_OBJ_AddUnit(FIELDMAP_GetExpObj(fieldMap), &sSoundObjsBUnitSetup, 0);
+    work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(FieldGimmickSoundObjsBWork));
     FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(work, fieldMap);
     FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(work, fieldMap);
     ISS_3DS_SYS_SetVolume(work->iss3ds, 0x7f);
@@ -81,7 +81,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap)
 void FIELD_GIMMICK_SOUND_OBJS_B_Exit(struct FieldMap *fieldMap)
 {
     int i;
-    Gimmick54Work *work = FIELDMAP_GetCommonWork(fieldMap, 0);
+    FieldGimmickSoundObjsBWork *work = FIELDMAP_GetCommonWork(fieldMap, 0);
 
     ISS_3DS_SYS_SetVolume(work->iss3ds, 0);
     FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(work, fieldMap);
@@ -94,7 +94,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_Exit(struct FieldMap *fieldMap)
 void FIELD_GIMMICK_SOUND_OBJS_B_Update(struct FieldMap *fieldMap)
 {
     int i;
-    Gimmick54Work *work;
+    FieldGimmickSoundObjsBWork *work;
     struct G3dCamera *camera;
     VecFx32 eye;
     VecFx32 target;
@@ -116,7 +116,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_Update(struct FieldMap *fieldMap)
 }
 
 /* Creates the two sound objects on the models of the unit; their parameters come from the sound archive. */
-void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(Gimmick54Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
     int i;
     FldExpObjCnt *expObj;
@@ -144,9 +144,9 @@ void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(Gimmick54Work *work, struct Fiel
 }
 
 /* Reads the wait limits of each object from the sound archive. */
-void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(Gimmick54Work *work)
+void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(FieldGimmickSoundObjsBWork *work)
 {
-    Gimmick54WaitMembers members = sGimmick54WaitMembers;
+    FieldGimmickSoundObjsBWaitMembers members = sSoundObjsBWaitMembers;
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++) {
@@ -158,9 +158,9 @@ void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(Gimmick54Work *work)
 }
 
 /* Saves the animation frame of each sound object in the gimmick work. */
-void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(Gimmick54Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    Gimmick54Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++) {
@@ -170,9 +170,9 @@ void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(Gimmick54Work *work, struct Fiel
 }
 
 /* Sets the animation of each sound object to the saved frame. */
-void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(Gimmick54Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    Gimmick54Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++)
@@ -180,14 +180,14 @@ void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(Gimmick54Work *work, struct FieldM
 }
 
 /* Starts the wait before the next play of one sound object: a random time between its limits. */
-void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(Gimmick54Work *work, int index)
+void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(FieldGimmickSoundObjsBWork *work, int index)
 {
     work->waitFrames[index] = work->minWait[index] +
         func_02005728(work->maxWait[index] - work->minWait[index] + 1);
 }
 
 /* Restarts the animation of one sound object at its first frame. */
-void FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(Gimmick54Work *work, int index)
+void FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(FieldGimmickSoundObjsBWork *work, int index)
 {
     SOUND_OBJ_SetAnimeFrame(work->soundObj[index], 0);
 }

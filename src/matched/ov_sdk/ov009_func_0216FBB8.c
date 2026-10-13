@@ -1,5 +1,5 @@
 /*
- * function: func_0216FBB8
+ * function: IsPrivateAddr
  * address:  0x0216FBB8
  * packet:   pkt_ov009_0216FBB8
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-int func_0216FBB8(unsigned long addr_in_netorder)
+int IsPrivateAddr(unsigned long addr_in_netorder)
 {
     unsigned long addr_in_hostorder;
     unsigned char a, b;

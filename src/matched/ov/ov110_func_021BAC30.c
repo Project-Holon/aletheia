@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC30
+ * function: PMS_INPUT_VIEW_SetMenuItemMode
  * address: 0x021BAC30
  * packet: pkt_ov110_021BAC30
  * region: ov110
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BCF18 0x021BCF18 thumb ov110
+ *   PMSIV_MENU_SelectItem 0x021BCF18 thumb ov110
  */
 #include "../include/Obj22339.h"
 typedef unsigned char u8;
-extern void func_021BCF18(void *,int);
-void func_021BAC30(u8 *p,int mode)
+extern void PMSIV_MENU_SelectItem(void *,int);
+void PMS_INPUT_VIEW_SetMenuItemMode(u8 *p,int mode)
 {
-    func_021BCF18(((struct Obj22339 *)p)->f64,mode);
+    PMSIV_MENU_SelectItem(((struct Obj22339 *)p)->f64,mode);
 }

@@ -19,7 +19,7 @@
  *   closesocketsure             0x0217EB40  arm
  *   ghiUnlock                   0x021C0374  arm
  *   ghiConnectionsLen           0x021D3B30  data
- *   g_021CE620                  0x021CE620  data
+ *   sGhttpCancellingThreadAndFreeingMemory                  0x021CE620  data
  */
 
 typedef struct GHIConnection {
@@ -46,7 +46,7 @@ extern void gsiCancelResolvingHostname(void *host);
 extern int shutdown(int sock, int how);
 extern int closesocketsure(int sock, int *notInCloseSocket);
 extern void ghiUnlock(void);
-extern char g_021CE620[];
+extern char sGhttpCancellingThreadAndFreeingMemory[];
 
 int ghiCloseConnection(GHIConnection *connection)
 {
@@ -61,7 +61,7 @@ int ghiCloseConnection(GHIConnection *connection)
     ghiLock();
     if (connection->field1cc != 0)
     {
-        gsDebugFormat(8, 3, 0x10, g_021CE620);
+        gsDebugFormat(8, 3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->field1cc);
         connection->field1cc = 0;
     }

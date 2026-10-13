@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA7CC",
+   "name": "PMS_INPUT_VIEW_TaskWordwinToEdit",
    "address": "0x021BA7CC",
    "kind": "game",
    "region": "ov110",

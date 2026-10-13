@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DAC
+ * function: IRC_RHYTHM_ExitTextSystem
  * address: 0x021B7DAC
  * packet: pkt_ov104_021B7DAC
  * region: ov104
@@ -26,4 +26,4 @@ struct PrintSys;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void MI_CpuFill8(void *,int,int);
-void func_021B7DAC(u8 *p) { func_0201ED04(*(struct WordSet * *)&((struct Obj07988 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07988 *)p)->f4); PRINTSYS_QUE_Delete(((struct Obj07988 *)p)->f8); GF_FONT_Delete(((struct Obj07988 *)p)->f0); MI_CpuFill8(p,0,16); }
+void IRC_RHYTHM_ExitTextSystem(u8 *p) { func_0201ED04(*(struct WordSet * *)&((struct Obj07988 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07988 *)p)->f4); PRINTSYS_QUE_Delete(((struct Obj07988 *)p)->f8); GF_FONT_Delete(((struct Obj07988 *)p)->f0); MI_CpuFill8(p,0,16); }

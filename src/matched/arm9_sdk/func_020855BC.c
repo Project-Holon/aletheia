@@ -1,5 +1,5 @@
 /*
- * function: func_020855BC
+ * function: OS_DestroyThread
  * address:  0x020855BC
  * packet:   pkt_020855BC
  * region:   arm9
@@ -23,7 +23,7 @@
  *   OS_WakeupThread                   0x02085800  arm
  *   OS_EnableScheduler                0x02085B60  arm
  *   OS_RescheduleThread               0x020858BC  arm
- *   g_02150FD0                        0x02150FD0  data
+ *   gOsThreadBss                        0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -147,7 +147,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -162,11 +162,11 @@ extern void OSi_RemoveThreadFromList(OSThread *thread);
 extern void OS_WakeupThread(OSThreadQueue *queue);
 extern void OS_RescheduleThread(void);
 
-void func_020855BC(OSThread *thread)
+void OS_DestroyThread(OSThread *thread)
 {
     OSIntrMode enabled = OS_DisableInterrupts();
 
-    if (g_02150FD0.OSi_ThreadInfo.current == thread) {
+    if (gOsThreadBss.OSi_ThreadInfo.current == thread) {
         OSi_ExitThread_Destroy();
     }
 

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020663D0
+ * function: NNS_G2dTranslate
  * address:  0x020663D0
  * packet:   pkt_02064B68
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * Matrix translate.  With the manager's mode word (+0x04) set, the current
  * slot's tx/ty are bumped in place; otherwise the translate matrix
- * (1, 0, 0, 1, x, y) is concatenated by func_02066754 into the slot of both
+ * (1, 0, 0, 1, x, y) is concatenated by NNSi_G2dMtxConcat32 into the slot of both
  * matrix tables, g_02147D18 and g_02148018.  z accumulates into the u32
  * per-slot table g_02147B98 either way.
  *
@@ -36,7 +36,7 @@
  *   g_02147B98     0x02147B98  data  a4
  *   g_02147D18     0x02147D18  data  a4
  *   g_02148018     0x02148018  data  a4
- *   func_02066754  0x02066754  arm
+ *   NNSi_G2dMtxConcat32  0x02066754  arm
  */
 
 #include "../include/G_Mtx.h"
@@ -60,9 +60,9 @@ extern fx32 g_02147B98[];
 extern struct Mtx g_02147D18[];
 extern struct G_02148018 g_02148018[];
 
-extern void func_02066754(const Mtx *a, const Mtx *b, Mtx *out);
+extern void NNSi_G2dMtxConcat32(const Mtx *a, const Mtx *b, Mtx *out);
 
-void func_020663D0(fx32 x, fx32 y, fx32 z)
+void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z)
 {
     Mtx m;
 
@@ -79,7 +79,7 @@ void func_020663D0(fx32 x, fx32 y, fx32 z)
     m.m11 = 0x1000;
     m.tx = x;
     m.ty = y;
-    func_02066754(&m, &((Mtx *)g_02147D18)[g_02147B88.slot], &((Mtx *)g_02147D18)[g_02147B88.slot]);
-    func_02066754(&m, &((Mtx *)g_02148018)[g_02147B88.slot], &((Mtx *)g_02148018)[g_02147B88.slot]);
+    NNSi_G2dMtxConcat32(&m, &((Mtx *)g_02147D18)[g_02147B88.slot], &((Mtx *)g_02147D18)[g_02147B88.slot]);
+    NNSi_G2dMtxConcat32(&m, &((Mtx *)g_02148018)[g_02147B88.slot], &((Mtx *)g_02148018)[g_02147B88.slot]);
     g_02147B98[g_02147B88.slot] += z;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB5A0
+ * function: CRYPTOi__BN_add
  * address:  0x021CB5A0
  * packet:   pkt_ov114_021CB5A0
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      CRYPTOi__BN_add (libcrypto.TWL.HYB.a(crypto_bobj1.o))
  *
  * symbols:
- *   func_021CB078  0x021CB078  arm  ov114
- *   func_021CB764  0x021CB764  arm  ov114
- *   func_021CB664  0x021CB664  arm  ov114
+ *   CRYPTOi__BN_ucmp  0x021CB078  arm  ov114
+ *   CRYPTOi__BN_usub  0x021CB764  arm  ov114
+ *   CRYPTOi__BN_uadd  0x021CB664  arm  ov114
  */
 
 typedef struct {
@@ -25,11 +25,11 @@ typedef struct {
 	int flags;
 } BIGNUM;
 
-extern int func_021CB078(BIGNUM *a, BIGNUM *b);
-extern int func_021CB764(BIGNUM *r, BIGNUM *a, BIGNUM *b);
-extern int func_021CB664(BIGNUM *r, BIGNUM *a, BIGNUM *b);
+extern int CRYPTOi__BN_ucmp(BIGNUM *a, BIGNUM *b);
+extern int CRYPTOi__BN_usub(BIGNUM *r, BIGNUM *a, BIGNUM *b);
+extern int CRYPTOi__BN_uadd(BIGNUM *r, BIGNUM *a, BIGNUM *b);
 
-int func_021CB5A0(BIGNUM *r, BIGNUM *a, BIGNUM *b)
+int CRYPTOi__BN_add(BIGNUM *r, BIGNUM *a, BIGNUM *b)
 {
 	BIGNUM *tmp;
 	int a_neg = a->neg;
@@ -40,12 +40,12 @@ int func_021CB5A0(BIGNUM *r, BIGNUM *a, BIGNUM *b)
 			a = b;
 			b = tmp;
 		}
-		if (func_021CB078(a, b) < 0) {
-			if (func_021CB764(r, b, a) == 0)
+		if (CRYPTOi__BN_ucmp(a, b) < 0) {
+			if (CRYPTOi__BN_usub(r, b, a) == 0)
 				return 0;
 			r->neg = 1;
 		} else {
-			if (func_021CB764(r, a, b) == 0)
+			if (CRYPTOi__BN_usub(r, a, b) == 0)
 				return 0;
 			r->neg = 0;
 		}
@@ -55,7 +55,7 @@ int func_021CB5A0(BIGNUM *r, BIGNUM *a, BIGNUM *b)
 		r->neg = 1;
 	else
 		r->neg = 0;
-	if (func_021CB664(r, a, b) == 0)
+	if (CRYPTOi__BN_uadd(r, a, b) == 0)
 		return 0;
 	return 1;
 }

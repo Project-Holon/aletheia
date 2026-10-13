@@ -1,5 +1,5 @@
 /*
- * function: func_021D3BF8
+ * function: DWCi_MOVFinalize
  * address:  0x021D3BF8
  * packet:   pkt_ov016_021D3BF8
  * region:   ov016
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MB_EndToIdle                     0x021F5F74  arm
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -53,33 +53,33 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern void MB_EndToIdle(void);
 
-int func_021D3BF8(void)
+int DWCi_MOVFinalize(void)
 {
-    u8 stt = g_021DE668->mov_stt;
+    u8 stt = gDwcMoveidWork->mov_stt;
     if (stt == 1 || stt == 20 || stt == 23 || stt == 26 || stt == 29) {
-        g_021DE668->mov_stt = 34;
-        g_021DE668->reset_kind = 0;
+        gDwcMoveidWork->mov_stt = 34;
+        gDwcMoveidWork->reset_kind = 0;
         return 1;
     }
     if (stt == 4 || stt == 5 || stt == 6 || stt == 13) {
         if (stt == 4) {
-            if (g_021DE668->start_wait_child_cnt < 6)
+            if (gDwcMoveidWork->start_wait_child_cnt < 6)
                 return 0;
         }
         MB_EndToIdle();
-        g_021DE668->mov_stt = 16;
-        g_021DE668->reset_kind = 2;
+        gDwcMoveidWork->mov_stt = 16;
+        gDwcMoveidWork->reset_kind = 2;
         return 1;
     }
     if (stt == 9 || stt == 10) {
-        g_021DE668->mov_stt = 32;
+        gDwcMoveidWork->mov_stt = 32;
         return 1;
     }
     if (stt == 12) {
-        g_021DE668->mov_stt = 34;
+        gDwcMoveidWork->mov_stt = 34;
         return 1;
     }
     return 0;

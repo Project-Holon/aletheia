@@ -14,6 +14,7 @@
  * symbols:
  *   FLD3D_CI_CopyName  0x021C2F50  thumb  ov021
  *   FLD3D_CI_GetPlttDataOffset  0x021C2ECC  thumb  ov021
+ *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
  */
 #include "../include/Obj12922.h"
 
@@ -24,7 +25,7 @@ typedef unsigned int u32;
 typedef struct { u32 v[4]; } T;
 
 extern void FLD3D_CI_CopyName(char *dst, const char *src);
-extern int func_0206E62C(void *a, T *t);
+extern int NNS_G3dGetResDataByName(void *a, T *t);
 extern int FLD3D_CI_GetPlttDataOffset(u32 a, u32 b);
 
 int FLD3D_CI_FindPalette(u8 *p, const char *name)
@@ -34,7 +35,7 @@ int FLD3D_CI_FindPalette(u8 *p, const char *name)
 
     FLD3D_CI_CopyName((char *)&t, name);
     if (p != 0 && ((struct Obj12922 *)p)->f34 != 0)
-        r = func_0206E62C(p + ((struct Obj12922 *)p)->f34, &t);
+        r = NNS_G3dGetResDataByName(p + ((struct Obj12922 *)p)->f34, &t);
     else
         r = 0;
     if (r == 0)

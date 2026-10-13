@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE94
+ * function: WIFICLUB_StateHandleNetError
  * address: 0x021BEE94
  * packet: pkt_ov099_021BEE94
  * region: ov099
@@ -40,7 +40,7 @@
 typedef unsigned int u32;
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int GFL_NET_STATE_IsWifiLoginOrConnected(void);
-int func_021BEE94(u32 p, int a) {
+int WIFICLUB_StateHandleNetError(u32 p, int a) {
     if (!GFL_NET_STATE_IsFatalError() && !GFL_NET_STATE_IsWifiLoginOrConnected()) return a;
     *(u32 *)(p+460) = 10;
     return a;

@@ -1,5 +1,5 @@
 /*
- * function: func_0689D1D4
+ * function: BTL_DEADREC_GetLastPokeId
  * address: 0x0689D1D4
  * packet: pkt_ov095_0689D1D4
  * region: ov095
@@ -22,7 +22,7 @@ typedef struct {
     u8 b[24];
 } Slot;
 
-u8 func_0689D1D4(Slot *s)
+u8 BTL_DEADREC_GetLastPokeId(Slot *s)
 {
     u32 i;
 

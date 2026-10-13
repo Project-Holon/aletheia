@@ -18,7 +18,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
- *   func_02082AC0    0x02082AC0  arm
+ *   MIi_CpuClearFast    0x02082AC0  arm
  *   func_021C54FC 0x021C54FC thumb
  *   func_021C5508 0x021C5508 thumb
  *   func_021C5518 0x021C5518 thumb
@@ -49,7 +49,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(u32, void *, u32);
+extern void MIi_CpuClearFast(u32, void *, u32);
 extern void func_021C5B40(u8 *);
 extern void func_021C5508(void);
 extern void func_021C5518(u8 *);
@@ -80,7 +80,7 @@ int func_021C6984(u8 *p)
     BG_SYS_SetLcdSwap(0);
     GFL_HEAP_CreateChildHeap(1, 0x66, 0x60000);
     ((struct Obj03836 *)p)->f8 = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
-    func_02082AC0(0, ((struct Obj03836 *)p)->f8, 0x370);
+    MIi_CpuClearFast(0, ((struct Obj03836 *)p)->f8, 0x370);
     func_021C5B40(p);
     func_021C5508();
     func_021C5518(p);

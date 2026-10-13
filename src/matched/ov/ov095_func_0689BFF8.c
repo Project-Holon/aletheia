@@ -1,5 +1,5 @@
 /*
- * function: func_0689BFF8
+ * function: BTL_SICK_StartYawnSleep
  * address:  0x0689BFF8
  * packet:   pkt_ov095_0689BFF8
  * region:   ov095
@@ -37,7 +37,7 @@ extern Rec *func_0689C078(void *, int, int);
 extern int func_0689C088(u8);
 extern void func_0689C098(void *, Rec *);
 
-void func_0689BFF8(void *a, void *b)
+void BTL_SICK_StartYawnSleep(void *a, void *b)
 {
     int n;
     int k;

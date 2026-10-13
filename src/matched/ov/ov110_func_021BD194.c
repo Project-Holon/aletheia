@@ -1,5 +1,5 @@
 /*
- * function: func_021BD194
+ * function: PMSIV_MENU_CreateBackButton
  * address: 0x021BD194
  * packet: pkt_ov110_021BD194
  * region: ov110
@@ -19,7 +19,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BAC40 0x021BAC40 thumb ov110
+ *   PMS_INPUT_VIEW_GetClactUnit 0x021BAC40 thumb ov110
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -42,11 +42,11 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern u32 func_021BAC40(u8 *p);
+extern u32 PMS_INPUT_VIEW_GetClactUnit(u8 *p);
 extern struct Obj *CLACT_CreateActor(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021BD194(u8 *p) {
+void PMSIV_MENU_CreateBackButton(u8 *p) {
     void *h;
     int a;
     Params t;
@@ -58,7 +58,7 @@ void func_021BD194(u8 *p) {
     ARC_TOOL_DeleteHandle(h);
     MI_CpuFill8(&t,0,8);
     t.x=232; t.y=168; t.z=1; t.a=0; t.b=3;
-    ((struct Obj02462 *)p)->f28=CLACT_CreateActor((void *)func_021BAC40(((struct Obj02462 *)p)->f0),(u32)((struct Obj02462 *)p)->f20,(u32)((struct Obj02462 *)p)->f1C,(u32)((struct Obj02462 *)p)->f24,&t,0,42);
+    ((struct Obj02462 *)p)->f28=CLACT_CreateActor((void *)PMS_INPUT_VIEW_GetClactUnit(((struct Obj02462 *)p)->f0),(u32)((struct Obj02462 *)p)->f20,(u32)((struct Obj02462 *)p)->f1C,(u32)((struct Obj02462 *)p)->f24,&t,0,42);
     CLACT_SetActorAutoAnim(((struct Obj02462 *)p)->f28,1);
     CLACT_SetActorDrawEnable(((struct Obj02462 *)p)->f28,0);
     ((struct Obj02462 *)p)->f2C=0;

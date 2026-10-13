@@ -1,5 +1,5 @@
 /*
- * function: func_021B85D8
+ * function: IRC_RHYTHM_InitRecord
  * address:  0x021B85D8
  * packet:   pkt_ov104_021B85D8
  * region:   ov104
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B85D8(void *p) { MI_CpuFill8(p, 0, 0x84); }
+void IRC_RHYTHM_InitRecord(void *p) { MI_CpuFill8(p, 0, 0x84); }

@@ -1,5 +1,5 @@
 /*
- * function: func_02159A80
+ * function: dt_ack
  * address:  0x02159A80
  * packet:   pkt_ov009_02159A80
  * region:   ov009
@@ -16,19 +16,19 @@
  * sdk:      dt_ack (libcps.TWL.HYB.a network.o, static)
  *
  * symbols:
- *   func_02159244  0x02159244  arm  ov009
- *   func_021594A4  0x021594A4  arm  ov009
- *   func_02087988  0x02087988  arm
+ *   find_socket  0x02159244  arm  ov009
+ *   _tcp_send_rst  0x021594A4  arm  ov009
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_02082EA4  0x02082EA4  arm
- *   func_021598EC  0x021598EC  arm  ov009
- *   func_0215993C  0x0215993C  arm  ov009
- *   func_02159A30  0x02159A30  arm  ov009
- *   func_0208799C  0x0208799C  arm
- *   func_02159404  0x02159404  arm  ov009
- *   func_02085868  0x02085868  arm
- *   func_021599EC  0x021599EC  arm  ov009
- *   func_02159494  0x02159494  arm  ov009
- *   func_020858D8  0x020858D8  arm
+ *   mark_rwin_chunk  0x021598EC  arm  ov009
+ *   merge_rwin_chunks  0x0215993C  arm  ov009
+ *   push_rwin_chunks  0x02159A30  arm  ov009
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   _tcp_send_ack  0x02159404  arm  ov009
+ *   OS_WakeupThreadDirect  0x02085868  arm
+ *   pull_rwin_chunks  0x021599EC  arm  ov009
+ *   _tcp_send_finack  0x02159494  arm  ov009
+ *   OS_YieldThread  0x020858D8  arm
  *
  * notes (w5_o2): same size as the object (1384 B), control flow and block
  * order match; residue is register allocation, 820 concrete bytes. The object
@@ -107,28 +107,28 @@ typedef struct _CPSSoc {
     CPSSocRcvBuf chunks[4];   /* 0x70 */
 } CPSSoc;
 
-extern CPSSoc *func_02159244(u8 *iphdr, u8 *tcphdr);
-extern void func_021594A4(u8 *iphdr, u8 *tcphdr, u32 len);
-extern u32 func_02087988(void);
+extern CPSSoc *find_socket(u8 *iphdr, u8 *tcphdr);
+extern void _tcp_send_rst(u8 *iphdr, u8 *tcphdr, u32 len);
+extern u32 OS_DisableInterrupts(void);
 extern void func_02082EA4(void *srcp, void *destp, u32 size);
 struct Soc;
 struct soc;
-extern void func_021598EC(struct soc *soc, long chunk);
-extern void func_0215993C(struct Soc *soc);
-extern void func_02159A30(CPSSoc *soc, long chunk);
-extern u32 func_0208799C(u32 state);
-extern void func_02159404(CPSSoc *soc, int flush);
-extern void func_02085868(void *thread);
-extern void func_021599EC(char *p);
-extern void func_02159494(int a);
-extern void func_020858D8(void);
+extern void mark_rwin_chunk(struct soc *soc, long chunk);
+extern void merge_rwin_chunks(struct Soc *soc);
+extern void push_rwin_chunks(CPSSoc *soc, long chunk);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern void _tcp_send_ack(CPSSoc *soc, int flush);
+extern void OS_WakeupThreadDirect(void *thread);
+extern void pull_rwin_chunks(char *p);
+extern void _tcp_send_finack(int a);
+extern void OS_YieldThread(void);
 
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
 #define GET16(p) HTONS(*(u16 *)(p))
 #define GET32(p) (((u32)GET16(p) << 16) | GET16((p) + 2))
 #define TCPDATA(p) ((p) + (((p)[12] & 0xF0u) >> 2))
 
-void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
+void dt_ack(u8 *iphdr, u8 *tcphdr, u32 len)
 {
     CPSSoc *soc;
     u8 flag;
@@ -144,10 +144,10 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
     long ci;
 
     dup = 0;
-    soc = func_02159244(iphdr, tcphdr);
+    soc = find_socket(iphdr, tcphdr);
     if (soc == 0)
     {
-        func_021594A4(iphdr, tcphdr, len);
+        _tcp_send_rst(iphdr, tcphdr, len);
         return;
     }
 
@@ -157,7 +157,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
         soc->remote_ackno = remote_ackno;
     remote_seqno = GET32(tcphdr + 4);
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     if (soc->state == 4 && soc->ackno != remote_seqno)
     {
         if ((long)(remote_seqno - soc->ackno) < 0)
@@ -187,8 +187,8 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
                                     soc->chunks[ci].len = len;
-                                    func_021598EC((struct soc *)soc, ci);
-                                    func_0215993C((struct Soc *)soc);
+                                    mark_rwin_chunk((struct soc *)soc, ci);
+                                    merge_rwin_chunks((struct Soc *)soc);
                                     goto done;
                                 }
                                 reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
@@ -197,31 +197,31 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);
                                     soc->chunks[ci].len += soc->chunks[ci].start - disconp;
                                     soc->chunks[ci].start = disconp;
-                                    func_021598EC((struct soc *)soc, ci);
-                                    func_0215993C((struct Soc *)soc);
+                                    mark_rwin_chunk((struct soc *)soc, ci);
+                                    merge_rwin_chunks((struct Soc *)soc);
                                     goto done;
                                 }
                                 if (disconp <= reorder_nextp && reorder_nextp < wend)
                                 {
                                     func_02082EA4(TCPDATA(tcphdr) + reorder_nextp - disconp, soc->rcvbuf.data + reorder_nextp, wend - reorder_nextp);
                                     soc->chunks[ci].len += wend - reorder_nextp;
-                                    func_0215993C((struct Soc *)soc);
-                                    func_021598EC((struct soc *)soc, ci);
+                                    merge_rwin_chunks((struct Soc *)soc);
+                                    mark_rwin_chunk((struct soc *)soc, ci);
                                     goto done;
                                 }
                                 if (soc->chunks[ci].start <= disconp && wend <= reorder_nextp)
                                     goto done;
                                 if (disconp >= soc->chunks[ci].start)
                                     break;
-                                func_02159A30(soc, ci);
+                                push_rwin_chunks(soc, ci);
                             }
                         }
                     }
                 }
             }
         done:
-            func_0208799C(enabled);
-            func_02159404(soc, 2);
+            OS_RestoreInterrupts(enabled);
+            _tcp_send_ack(soc, 2);
             return;
         }
     }
@@ -235,19 +235,19 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
     {
     case 0:
     case 2:
-        func_0208799C(enabled);
-        func_021594A4(iphdr, tcphdr, len);
+        OS_RestoreInterrupts(enabled);
+        _tcp_send_rst(iphdr, tcphdr, len);
         break;
     case 3:
         soc->state = 4;
         if (soc->block_type == 1)
         {
             soc->block_type = 0;
-            func_02085868(soc->thread);
+            OS_WakeupThreadDirect(soc->thread);
         }
         if (len == 0)
         {
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             break;
         }
         /* fall through */
@@ -276,7 +276,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                     func_02082EA4(TCPDATA(tcphdr) + dup, soc->rcvbuf.data + soc->rcvbufp, len);
                 }
                 soc->chunks[0].start = 0;
-                func_021599EC((char *)soc);
+                pull_rwin_chunks((char *)soc);
             }
             else
             {
@@ -284,30 +284,30 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
             }
             soc->rcvbufp += len;
             soc->ackno += len;
-            func_0215993C((struct Soc *)soc);
+            merge_rwin_chunks((struct Soc *)soc);
             if (soc->block_type == 2)
             {
                 soc->block_type = 0;
-                func_02085868(soc->thread);
+                OS_WakeupThreadDirect(soc->thread);
             }
         }
         if (bufok && (flag & 1))
         {
             soc->ackno++;
             soc->state = 6;
-            func_0208799C(enabled);
-            func_02159494((int)soc);
+            OS_RestoreInterrupts(enabled);
+            _tcp_send_finack((int)soc);
             if (len == 0 && soc->block_type == 2)
             {
                 soc->block_type = 0;
-                func_02085868(soc->thread);
+                OS_WakeupThreadDirect(soc->thread);
             }
         }
         else
         {
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             if (len != 0)
-                func_02159404(soc, 0);
+                _tcp_send_ack(soc, 0);
         }
         break;
     case 7:
@@ -315,42 +315,42 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
         if (flag & 1)
         {
             soc->ackno += len + 1;
-            func_0208799C(enabled);
-            func_02159404(soc, 2);
+            OS_RestoreInterrupts(enabled);
+            _tcp_send_ack(soc, 2);
             soc->state = 0;
             if (soc->block_type == 2)
             {
                 soc->block_type = 0;
-                func_02085868(soc->thread);
+                OS_WakeupThreadDirect(soc->thread);
             }
         }
         else
         {
             soc->state = 8;
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             if (len != 0)
             {
                 soc->ackno += len;
-                func_02159404(soc, 2);
+                _tcp_send_ack(soc, 2);
             }
         }
         break;
     case 6:
     case 9:
         soc->state = 0;
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         if (soc->block_type == 2)
         {
             soc->block_type = 0;
-            func_02085868(soc->thread);
+            OS_WakeupThreadDirect(soc->thread);
         }
         break;
     default:
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         if (flag & 1)
             soc->ackno++;
-        func_02159404(soc, 2);
+        _tcp_send_ack(soc, 2);
         break;
     }
-    func_020858D8();
+    OS_YieldThread();
 }

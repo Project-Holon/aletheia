@@ -60,8 +60,8 @@
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   func_0202F190  0x0202F190  thumb
  *   sub_02008DF0   0x02008DF0  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   sub_02009EB0   0x02009EB0  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   POKEPARTY_SetMember   0x0201AB48  thumb
@@ -140,8 +140,8 @@ extern void sub_020094D8(struct Sub02009470Obj *obj, int row, int col, int value
 extern void POKE_TOOL_HealFull(void *mon);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void *func_0200CA1C(void *sys);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void sub_02009EB0(struct Sub02009D9CObj *obj);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
@@ -282,12 +282,12 @@ void func_021E049C(char *p)
         sub_02008DF0(obj, 0x24);
         break;
     }
-    func_0200CDE0(func_0200CA1C(I(p, 0x82C)), mon);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
     if (W(p, 0x118C) == 3)
         sub_02009EB0(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)));
     if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1EC && POKE_TOOL_GetPartyValue(mon, 0x6F, 0) == 1) {
         POKE_TOOL_ChangeForm(mon, 0);
-        func_0200CDE0(func_0200CA1C(I(p, 0x82C)), mon);
+        ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
     }
     {
         Trade *t = T(p);

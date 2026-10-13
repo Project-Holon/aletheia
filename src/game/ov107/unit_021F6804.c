@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   g_021F7008     0x021F7008  data
  *   func_021F6AA4  0x021F6AA4  arm    ov107
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../../matched/include/G_piece.h"
 #include "../../matched/include/G_piece.h"
@@ -54,7 +54,7 @@ typedef struct {
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern int func_021F6AA4(int a);
-extern void func_02082D44(void *src, void *dst, unsigned long size);
+extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 void MBi_SetChildMPMaxSize(u16 childMaxSize);
 void MBi_SetParentPieceBuffer(void *buf);
 void func_021F6850(u16 child_aid);
@@ -160,7 +160,7 @@ u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
         *((u8 *)hdr + 2) = idx;
         if (idx > g_021F7008.max)
             return 0;
-        func_02082D44(recvbuf + 2, (u8 *)hdr + 3, g_021F7008.size);
+        MI_CpuCopy8(recvbuf + 2, (u8 *)hdr + 3, g_021F7008.size);
         ptr = func_021F6A24((ChildBlockHeader *)hdr, child_id);
         break;
     case 8:
@@ -172,7 +172,7 @@ u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
         ptr = recvbuf + 3;
         hdr->h2 = recvbuf[1];
         hdr->h2 |= (recvbuf[2] << 8) & 0xFF00;
-        func_02082D44(ptr, (u8 *)hdr + 4, g_021F7008.size);
+        MI_CpuCopy8(ptr, (u8 *)hdr + 4, g_021F7008.size);
         ptr += g_021F7008.size;
         break;
     default:
@@ -191,7 +191,7 @@ u8 *func_021F6A24(ChildBlockHeader *hdr, u16 child)
     piece = hdr->piece;
     if (piece > g_021F7008.max)
         return 0;
-    func_02082D44((u8 *)hdr + 3,
+    MI_CpuCopy8((u8 *)hdr + 3,
                   ((u8 *)g_021F7008.buf) + (child - 1) * 32 + piece * g_021F7008.size,
                   g_021F7008.size);
     *(u32 *)(((u8 *)g_021F7008.buf) + 0x1E0 + (child - 1) * 4) |= 1 << piece;

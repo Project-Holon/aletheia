@@ -14,6 +14,7 @@
  *   data_02732E98 0x02732E98 data twl
  *   data_02732E34 0x02732E34 data twl
  *   CARDi_CompareHash  0x0272EC38  arm
+ *   OS_Terminate  0x02088234  arm  arm9
  *
  * Built with IRO common-subexpression elimination off for this function
  * (#pragma opt_common_subs off ... reset). With CSE on, m + i * 20 in the
@@ -66,7 +67,7 @@ struct Obj {
     struct Node *l3;
 };
 
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void func_02082A7C(u32 v, void *dst, u32 n);
 extern void func_020911D8(void *ctx);
 extern void func_02091200(void *ctx, void *data, u32 len);
@@ -99,7 +100,7 @@ void CARD_InitRomHashContext(struct Obj *obj, const struct Hdr *hdr, u32 base, u
     l3 = l2 + 0x200;
     obj->l3 = (struct Node *)l3;
     if ((u32)(l3 + 0x60) > size) {
-        func_02088234();
+        OS_Terminate();
         return;
     }
     func_02082A7C(0, start, l3 + 0x60 - start);

@@ -10,16 +10,16 @@
  * lever: branch-local calls retain the original boolean polarity and hoist
  * the shared output-address setup; initializing selected follows the call.
  * symbols:
- *   func_0200CA70 0x0200CA70 thumb
- *   func_0200CED4 0x0200CED4 thumb
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   func_021C976C 0x021C976C thumb ov212
  */
 typedef unsigned short u16;
 struct Blk37;
-extern unsigned func_0200CA70(struct Blk37 *);
-extern unsigned func_0200CED4(struct Blk37 *,u16);
-extern unsigned func_0200D064(struct Blk37 *,u16);
+extern unsigned ZUKAN_SAVE_GetViewMode(struct Blk37 *);
+extern unsigned ZUKAN_SAVE_IsCaught(struct Blk37 *,u16);
+extern unsigned ZUKAN_SAVE_IsSeen(struct Blk37 *,u16);
 typedef unsigned int   u32;
 extern u32 func_021C976C(u32 mode, int heap, u16 **out);
 u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap)
@@ -27,11 +27,11 @@ u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap)
     u16 *list;
     unsigned count,i;
     u16 selected;
-    if(func_0200CA70(save)==1)count=func_021C976C(0,heap,&list);
+    if(ZUKAN_SAVE_GetViewMode(save)==1)count=func_021C976C(0,heap,&list);
     else count=func_021C976C(1,heap,&list);
     selected=0;
     for(i=0;i<count;i++){
-        if(func_0200CED4(save,list[i])==1||func_0200D064(save,list[i])==1)selected=i+1;
+        if(ZUKAN_SAVE_IsCaught(save,list[i])==1||ZUKAN_SAVE_IsSeen(save,list[i])==1)selected=i+1;
     }
     *out=list;
     return selected;

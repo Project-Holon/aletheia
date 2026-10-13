@@ -14,7 +14,7 @@
  *   d_02172978     0x02172978  data  a1
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012A30  0x02012A30  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
@@ -33,7 +33,7 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 
 extern u8 d_02172978[];
 extern void MI_CpuFill8();
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u8 *func_02012944(void *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
@@ -50,7 +50,7 @@ T *EVENT_FIELD_PROCLINK_CreateZukanParam(int *a0, int a1)
     MI_CpuFill8(p, 0, 0x10);
     sys = func_020120F4((const struct Ctx *)*(int *)a0[6]);
     p->a = sys;
-    p->b = func_0200CA1C(sys);
+    p->b = ZUKAN_SAVE_GetFromGameData(sys);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, GAMESYSTEM_GetIssSystem((u32 *)(*(int *)a0[6])));

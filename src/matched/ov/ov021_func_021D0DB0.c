@@ -25,7 +25,7 @@
  *   func_02030734  0x02030734  arm
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0200734C  0x0200734C  thumb
  *   func_02008C58  0x02008C58  thumb
@@ -66,7 +66,7 @@ extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern u32 func_020307B0(void *p);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
@@ -155,7 +155,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(u32 a, u8 *w, u16 *outRank, u16 *outScore)
         h2 = (u32)GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)a));
         buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x277);
         if (SAVE_CONTROL_LoadExtraSaveWithBuffer(h2, 5, 0x8004, buf, 0x8004 >> 3) == 1) {
-            func_02082D44(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
+            MI_CpuCopy8(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
         }
         func_020307B0(buf);
         func_0200734C((struct Sub02007324Ctrl *)h2, 5);

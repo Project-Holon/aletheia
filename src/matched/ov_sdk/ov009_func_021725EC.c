@@ -1,5 +1,5 @@
 /*
- * function: func_021725EC
+ * function: DWCi_PostProcessConnectionSYNFinishFullmesh
  * address:  0x021725EC
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 extern void func_0217253C(void);
 extern int func_02175F3C(void);
 
-void func_021725EC(void)
+void DWCi_PostProcessConnectionSYNFinishFullmesh(void)
 {
     func_0217253C();
 

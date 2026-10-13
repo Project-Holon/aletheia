@@ -1,5 +1,5 @@
 /*
- * function: func_02171FD4
+ * function: DWCi_CancelPreConnectedServerProcessWithResetLevel
  * address:  0x02171FD4
  * packet:   pkt_ov009_02171FD4
  * region:   ov009
@@ -12,18 +12,18 @@
  * sdk:      DWCi_CancelPreConnectedServerProcessWithResetLevel (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_02176554                0x02176554 arm   ov009
- *   func_0217653C                0x0217653C arm   ov009
+ *   DWCi_TempNewNodeInfo_IsValid                0x02176554 arm   ov009
+ *   DWCi_TempNewNodeInfo_Clear                0x0217653C arm   ov009
  *   func_02175F3C                0x02175F3C arm   ov009
  *   NNCancel                     0x02199FB4 arm   ov009
  *   func_02175FB8                0x02175FB8 arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
- *   func_02172E18                0x02172E18 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
- *   func_02173614                0x02173614 arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
+ *   DWCi_CloseCancelHostAsync                0x02172E18 arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
+ *   DWCi_SendCancelMatchSynCommand                0x02173614 arm   ov009
  *   func_02172BB8                0x02172BB8 arm   ov009
- *   func_02176674                0x02176674 arm   ov009
+ *   DWCi_StopMeshMaking                0x02176674 arm   ov009
  */
 
 typedef unsigned char u8;
@@ -45,26 +45,26 @@ struct DWCstMatchControl {
     u8 f6d8;
 };
 struct DWCstNodeInfo { int profileID; };
-extern int func_02176554(void);
-extern void func_0217653C(void);
+extern int DWCi_TempNewNodeInfo_IsValid(void);
+extern void DWCi_TempNewNodeInfo_Clear(void);
 extern int func_02175F3C(void);
 extern void NNCancel(int cookie);
 extern unsigned char func_02175FB8(void);
-extern void func_02175F4C(int state);
-extern int func_02172E18(int profileID);
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern int func_02173614(int profileID, unsigned char command);
+extern void DWCi_SetMatchStatus(int state);
+extern int DWCi_CloseCancelHostAsync(int profileID);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern int DWCi_SendCancelMatchSynCommand(int profileID, unsigned char command);
 extern void func_02172BB8(int level);
-extern int func_02176674(void);
+extern int DWCi_StopMeshMaking(void);
 
-int func_02171FD4(int clientPid, int resetLevel)
+int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetLevel)
 {
     struct DWCstNodeInfo *pNodeInfo;
     int i;
 
-    if (func_02176554())
-        func_0217653C();
+    if (DWCi_TempNewNodeInfo_IsValid())
+        DWCi_TempNewNodeInfo_Clear();
     ((struct DWCstMatchControl *)func_02175F3C())->f6d8 = 0xff;
     if (((struct DWCstMatchControl *)func_02175F3C())->f618 != 0) {
         NNCancel(((struct DWCstMatchControl *)func_02175F3C())->f618);
@@ -74,19 +74,19 @@ int func_02171FD4(int clientPid, int resetLevel)
     if (func_02175FB8() == 2) {
         ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
         ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
-        func_02175F4C(0x11);
+        DWCi_SetMatchStatus(0x11);
         ((struct DWCstMatchControl *)func_02175F3C())->f654 = 0;
         ((struct DWCstMatchControl *)func_02175F3C())->f632 = 0;
-        func_02172E18(clientPid);
-        for (i = 1; i < func_0217603C(); i++) {
-            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
-            if (!func_02173614(pNodeInfo->profileID, 0xd))
+        DWCi_CloseCancelHostAsync(clientPid);
+        for (i = 1; i < DWCi_NodeInfoList_GetCount(); i++) {
+            pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
+            if (!DWCi_SendCancelMatchSynCommand(pNodeInfo->profileID, 0xd))
                 return 0;
         }
-        if (func_0217603C() == 1)
+        if (DWCi_NodeInfoList_GetCount() == 1)
             func_02172BB8(resetLevel);
     } else {
-        func_02176674();
+        DWCi_StopMeshMaking();
     }
     return 1;
 }

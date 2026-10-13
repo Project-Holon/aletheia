@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAEC
+ * function: IRCBATTLEMATCH_IsCompatibleGameKind
  * address: 0x021BAAEC
  * packet: pkt_ov100_021BAAEC
  * region: ov100
@@ -10,7 +10,7 @@
  * symbols:
 
  */
-int func_021BAAEC(int a,int b) {
+int IRCBATTLEMATCH_IsCompatibleGameKind(int a,int b) {
  if(a==19 && b==18) return 1;
  if(b==19 && a==18) return 1;
  return 0;

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088610 0x02088610  arm
- *   func_02004490 0x02004490  thumb
+ *   PXI_SendWordByFifo 0x02088610  arm
+ *   SVC_WaitByLoop 0x02004490  thumb
  *
  * The verdict is EXACT*: 0x02077568 is the last labelled function in the
  * block and its follower has no label (it is the unlabelled save at
@@ -26,16 +26,16 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02088610(u32, u32, u32);
-extern void func_02004490(u32);
+extern u32  PXI_SendWordByFifo(u32, u32, u32);
+extern void SVC_WaitByLoop(u32);
 
 void func_02077568(u32 a, u32 b)
 {
     u32 n = 0xe;
     u32 z = 0;
 
-    if (func_02088610(n, a, z) == 0) return;
+    if (PXI_SendWordByFifo(n, a, z) == 0) return;
     do {
-        func_02004490(b);
-    } while (func_02088610(n, a, z) != 0);
+        SVC_WaitByLoop(b);
+    } while (PXI_SendWordByFifo(n, a, z) != 0);
 }

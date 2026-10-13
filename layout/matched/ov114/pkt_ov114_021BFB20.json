@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFB20",
+   "name": "DWCi_RemoveAllDWCGHTTPParamEntry",
    "address": "0x021BFB20",
    "kind": "sdk",
    "region": "ov114",

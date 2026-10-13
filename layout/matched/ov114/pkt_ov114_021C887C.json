@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C887C",
+   "name": "DPW_TR_ReturnAsync",
    "address": "0x021C887C",
    "kind": "game",
    "region": "ov114",

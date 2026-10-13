@@ -25,7 +25,7 @@ typedef struct VecFx32 {
 } VecFx32;
 
 /* Field map common work (0x38 bytes), allocated in the setup function. */
-typedef struct Gimmick64Work {
+typedef struct FieldGimmickArcEffectWork {
     int fadeTarget;         /* 0x00 screen argument of the fades, 4 */
     int fadeWait;           /* 0x04 frames left between fade out and fade in */
     int seDone[4];          /* 0x08 sounds already played in the player effect */
@@ -34,6 +34,6 @@ typedef struct Gimmick64Work {
     int arcHeight;          /* 0x30 arc effect: extra height at the middle */
     u16 arcFrameCount;      /* 0x34 arc effect: frames of the whole flight */
     u16 arcFrame;           /* 0x36 arc effect: frames done */
-} Gimmick64Work;
+} FieldGimmickArcEffectWork;
 
 #endif

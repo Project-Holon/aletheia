@@ -1,5 +1,5 @@
 /*
- * function: func_0208B220
+ * function: TP_WaitBusy
  * address:  0x0208B220
  * packet:   pkt_0208B220
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
 
 extern TPState tpState;
 
-void func_0208B220(unsigned int command_flgs)
+void TP_WaitBusy(unsigned int command_flgs)
 {
     while (tpState.command_flg & command_flgs) {
     }

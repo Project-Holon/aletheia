@@ -30,9 +30,9 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   POKE_REGULATION_LoadInto 0x0201A364 thumb
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -113,7 +113,7 @@
  *   func_02088F58  0x02088F58  arm
  *   func_0201296C  0x0201296C  thumb
  *   ZONEDATA_ClearTimeFlags  0x020143F0  thumb
- *   func_0200D440  0x0200D440  thumb
+ *   MOVE_POKEMON_SAVE_RollStartLocation  0x0200D440  thumb
  *   POKERUS_DecreaseDays  0x0201B100  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008E30  0x02008E30  thumb
@@ -444,9 +444,9 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void POKE_REGULATION_LoadInto(int regulationId, Regulation *dest);
-extern ZukanSave *func_0200CA1C(GameData *gameData);
+extern ZukanSave *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u32 POKEPARTY_GetCount(Party *party);
-extern u32 func_0200CA38(ZukanSave *zukan);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(ZukanSave *zukan);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
@@ -521,7 +521,7 @@ extern long long func_02089004(RTCDate *date, RTCTime *time);
 extern int func_02088F58(RTCDate *date);
 extern u32 func_0201296C(GameData *gameData);
 extern void ZONEDATA_ClearTimeFlags(u32 eventWork);
-extern void func_0200D440(SaveControl *saveControl);
+extern void MOVE_POKEMON_SAVE_RollStartLocation(SaveControl *saveControl);
 extern void POKERUS_DecreaseDays(Party *party, int days);
 extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern void func_02008E30(void *trainerRecord);
@@ -631,7 +631,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     listParam->listMode = listMode;
     statusParam = &work->statusParam;
     gameData = func_020120F4(gameSystem);
-    zukan = func_0200CA1C(gameData);
+    zukan = ZUKAN_SAVE_GetFromGameData(gameData);
     MI_CpuFill8(statusParam, 0, 0x28);
     statusParam->ppd = party;
     statusParam->ppt = 1;
@@ -640,7 +640,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePokeListEvent(GameSystem *gameSystem, int lis
     statusParam->mode = 0;
     statusParam->page = 0;
     statusParam->config = gameData;
-    statusParam->isNationalDex = func_0200CA38(zukan);
+    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled(zukan);
     return event;
 }
 
@@ -1744,7 +1744,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     FIELD_CLOCK_GetCounter(gameData);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     ZONEDATA_ClearTimeFlags(func_0201296C(gameData));
-    func_0200D440(saveControl);
+    MOVE_POKEMON_SAVE_RollStartLocation(saveControl);
     POKERUS_DecreaseDays(func_02012934(gameData), days);
     func_02008E30(GAME_DATA_GetTrainerRecord(gameData));
     func_0200952C(func_02009470(saveControl));

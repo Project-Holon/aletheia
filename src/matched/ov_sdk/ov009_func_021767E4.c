@@ -1,5 +1,5 @@
 /*
- * function: func_021767E4
+ * function: DWCi_IsFirstServer
  * address:  0x021767E4
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_021767E4(void)
+int DWCi_IsFirstServer(void)
 {
     return *(int *)(func_02175F3C() + 0x7c4);
 }

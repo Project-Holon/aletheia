@@ -14,7 +14,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02163F24  0x02163F24  arm  ov009
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021644A0  0x021644A0  arm  ov009
  *   func_02164490  0x02164490  arm  ov009
  *   func_02164484  0x02164484  arm  ov009
@@ -32,7 +32,7 @@ typedef unsigned long long u64;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, u32 size);
 extern int func_02163F24(const unsigned short *p, int n);
-extern void func_02082D44(const void *srcp, void *dstp, u32 size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern u64 func_021644A0(u16 *s);
 extern u64 func_02164490(u16 *s);
 extern u64 func_02164484(u16 *s);
@@ -60,9 +60,9 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
     if (digits_a > 0 && digits_b > 0) {
         i = digits_b + (digits - digits_a) - 1;
         if (i >= digits) {
-            func_02082D44(a, cca, digits * 2);
+            MI_CpuCopy8(a, cca, digits * 2);
         } else {
-            func_02082D44(a, ca + i, digits_a * 2);
+            MI_CpuCopy8(a, ca + i, digits_a * 2);
             if (digits_b > 2)
                 msd = func_021644A0(b + digits_b - 1);
             else if (digits_b > 1)
@@ -86,7 +86,7 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
         }
     }
     if (c)
-        func_02082D44(ca, c, digits * 2);
+        MI_CpuCopy8(ca, c, digits * 2);
     if (r)
-        func_02082D44(cca, r, digits * 2);
+        MI_CpuCopy8(cca, r, digits * 2);
 }

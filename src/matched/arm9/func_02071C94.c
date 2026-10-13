@@ -15,7 +15,7 @@
  * source's f24/f2c and f28/f2e pairs, the first of the two negated.
  *
  * Pin evidence (2.0), measured 2026-09-21: the "kept constants" tell in
- * exactly the stm-merge form its family-mate src/matched/func_02071180.c
+ * exactly the stm-merge form its family-mate src/matched/NNSi_G3dTexMtxTrans.c
  * already carries.  The image materialises the zero LATE, `mov ip, #0`
  * (`00 c0 a0 e3`) at 0x02071CA0, AFTER both `str r2, [r0]` at 0x02071C98
  * and `str r2, [r0, #0x14]` at 0x02071C9C have retired, which is what keeps

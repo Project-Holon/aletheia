@@ -1,5 +1,5 @@
 /*
- * function: func_0206E7EC
+ * function: NNS_G3dGetResDictIdxByName
  * address:  0x0206E7EC
  * packet:   pkt_0206E62C
  * region:   arm9
@@ -51,7 +51,7 @@ static inline const ResName *GetResNameByIdx(const ResDict *dict, u32 idx)
     }
 }
 
-s32 func_0206E7EC(const ResDict *dict, const ResName *name)
+s32 NNS_G3dGetResDictIdxByName(const ResDict *dict, const ResName *name)
 {
     if (name == 0)
         return -1;

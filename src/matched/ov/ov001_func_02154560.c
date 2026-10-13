@@ -22,7 +22,7 @@
  *   MYSTATUS_GetSize   0x02008468  thumb
  *   func_02030734   0x02030734  arm
  *   func_02012944   0x02012944  thumb
- *   func_02082D44   0x02082D44  arm
+ *   MI_CpuCopy8   0x02082D44  arm
  *   d_021546A0      0x021546A0  data  ov001  a4
  */
 #include "../include/Obj01477.h"
@@ -46,7 +46,7 @@ void MI_CpuFill8(void *p, int c, int n);
 int MYSTATUS_GetSize(void);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u8 *func_02012944(void *p);
-void func_02082D44(u32 a, void *p, u32 b);
+void MI_CpuCopy8(u32 a, void *p, u32 b);
 
 extern char d_021546A0[];
 
@@ -65,7 +65,7 @@ void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b)
     ((struct Obj01477 *)obj)->f184 = (int)func_020120F4(p);
     ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
-    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, MYSTATUS_GetSize());
+    MI_CpuCopy8((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, MYSTATUS_GetSize());
     MI_CpuFill8((char *)obj + 0x368, 0, 0x28);
     ((struct Obj01477 *)obj)->f368 = (int)func_020120F4(p);
     ((struct Obj01477 *)obj)->f36C = 0;

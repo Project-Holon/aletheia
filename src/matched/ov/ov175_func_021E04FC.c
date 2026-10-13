@@ -1,5 +1,5 @@
 /*
- * function: func_021E04FC
+ * function: sciSerializeInt8
  * address:  0x021E04FC
  * packet:   pkt_021E04FC
  * region:   ov175
@@ -15,7 +15,7 @@
  * variant w2
  */
 
-char *func_021E04FC(char *dst, int value)
+char *sciSerializeInt8(char *dst, int value)
 {
     *dst++ = value;
     return dst;

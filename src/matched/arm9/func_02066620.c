@@ -1,5 +1,5 @@
 /*
- * function: func_02066620
+ * function: NNS_G2dRotZ
  * address:  0x02066620
  * packet:   pkt_02064B68
  * region:   arm9
@@ -12,11 +12,11 @@
  * symbols:
  *   g_02147B88     0x02147B88  data  a4
  *   g_020A81F8     0x020A81F8  data  a2
- *   func_02066754  0x02066754  arm
+ *   NNSi_G2dMtxConcat32  0x02066754  arm
  *
  * NitroSystem g2d_Renderer.c NNS_G2dRotZ(sin, cos): NNSi_G2dRotate (the
  * rotation MtxFx32 concatenated onto mtxStack_[stackPos_] and
- * mtxStackFor2DHW_[stackPos_] through NNSi_G2dMtxConcat32 = func_02066754),
+ * mtxStackFor2DHW_[stackPos_] through NNSi_G2dMtxConcat32 = NNSi_G2dMtxConcat32),
  * then the SR-transformed latch and NNSi_G2dMCMSetCurrentMtxSRChanged.
  * Written as the library writes it (g2di_RendererMtxStack.hpp,
  * g2di_RendererMtxState.h, g2di_Mtx32.h inlines).
@@ -67,7 +67,7 @@ struct RendererBss {
 
 extern struct RendererBss g_02147B88;
 extern struct Scr g_020A81F8;
-extern void func_02066754(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
+extern void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 
 static inline void NNSi_G2dSetRotate(MtxFx32 *m, fx32 sin, fx32 cos)
 {
@@ -90,8 +90,8 @@ static inline void NNSi_G2dRotate(fx32 sin, fx32 cos)
         MtxFx32 temp;
         NNSi_G2dSetRotate(&temp, sin, cos);
 
-        func_02066754(&temp, &g_02147B88.mtxStack_[g_02147B88.stackPos_], &g_02147B88.mtxStack_[g_02147B88.stackPos_]);
-        func_02066754(&temp, &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_], &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_]);
+        NNSi_G2dMtxConcat32(&temp, &g_02147B88.mtxStack_[g_02147B88.stackPos_], &g_02147B88.mtxStack_[g_02147B88.stackPos_]);
+        NNSi_G2dMtxConcat32(&temp, &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_], &g_02147B88.mtxStackFor2DHW_[g_02147B88.stackPos_]);
     }
 }
 
@@ -140,7 +140,7 @@ static inline void NNSi_G2dMCMSetCurrentMtxSRChanged(void)
     }
 }
 
-void func_02066620(fx32 sin, fx32 cos)
+void NNS_G2dRotZ(fx32 sin, fx32 cos)
 {
     NNSi_G2dRotate(sin, cos);
 

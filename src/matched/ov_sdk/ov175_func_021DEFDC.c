@@ -1,5 +1,5 @@
 /*
- * function: func_021DEFDC
+ * function: DWC_ScProcess
  * address:  0x021DEFDC
  * packet:   pkt_021DEFDC
  * region:   ov175
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DFA6C  0x021DFA6C  arm
- *   func_021DF644  0x021DF644  arm
+ *   scThink  0x021DFA6C  arm
+ *   DWCi_ScGetRequestErrorCode  0x021DF644  arm
  *   func_02059F54  0x02059F54  arm
- *   g_021E4D08     0x021E4D08  data
+ *   gDwcScControl     0x021E4D08  data
  *
- * Same post shape as the func_021DF3B0 triplet, driven by the head of the
+ * Same post shape as the DWC_ScReportEnd triplet, driven by the head of the
  * 0x021E4D08 control block instead of an incoming handle.
  */
 
 typedef int s32;
 typedef unsigned int u32;
 
-extern int func_021DFA6C(int *p);
-extern s32 func_021DF644(s32, s32);
+extern int scThink(int *p);
+extern s32 DWCi_ScGetRequestErrorCode(s32, s32);
 extern void func_02059F54(s32, s32);
-extern u32 g_021E4D08[];
+extern u32 gDwcScControl[];
 
-s32 func_021DEFDC(void)
+s32 DWC_ScProcess(void)
 {
-    s32 v = func_021DFA6C((int *)g_021E4D08[1]);
+    s32 v = scThink((int *)gDwcScControl[1]);
 
     if (v != 0)
-        func_02059F54(8, func_021DF644(4, v));
+        func_02059F54(8, DWCi_ScGetRequestErrorCode(4, v));
     return v;
 }

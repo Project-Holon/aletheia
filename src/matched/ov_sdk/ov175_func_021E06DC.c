@@ -1,5 +1,5 @@
 /*
- * function: func_021E06DC
+ * function: sciWsInit
  * address:  0x021E06DC
  * packet:   pkt_021E06DC
  * region:   ov175
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern s32 func_0217CE1C(void);
 
-s32 func_021E06DC(char *p, u32 v)
+s32 sciWsInit(char *p, u32 v)
 {
     u32 z = 0;
 

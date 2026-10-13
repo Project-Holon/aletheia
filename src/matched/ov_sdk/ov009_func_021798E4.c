@@ -12,14 +12,14 @@
  * Tail call on the word at +0x1124 of the object.
  *
  * symbols:
- *   func_0215C910  0x0215C910  arm
+ *   CPS_Resolve  0x0215C910  arm
  */
 
-extern unsigned long func_0215C910(char *name);
+extern unsigned long CPS_Resolve(char *name);
 
 typedef unsigned int   u32;
 u32 func_021798E4(const char *p)
 {
-    return func_0215C910((char *)(*(const int *)(p + 0x1124)));
+    return CPS_Resolve((char *)(*(const int *)(p + 0x1124)));
 }
 

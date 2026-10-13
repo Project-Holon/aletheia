@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A17C",
+   "name": "NNS_G3dPlttReleasePlttKey",
    "address": "0x0206A17C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A5B4",
+   "name": "NNS_G3dBindMdlPlttEx",
    "address": "0x0206A5B4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A884",
+   "name": "NNS_G3dGlbFlushP",
    "address": "0x0206A884",
    "kind": "game",
    "region": "arm9",

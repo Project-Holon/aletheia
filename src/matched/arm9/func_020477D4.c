@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069F7C   0x02069F7C  arm
+ *   NNS_G3dRenderObjRemoveAnmObj   0x02069F7C  arm
  *
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * Hand the indexed sub-record's +4 word to func_02069F7C, along with the
+ * Hand the indexed sub-record's +4 word to NNS_G3dRenderObjRemoveAnmObj, along with the
  * owner's own +4 record's +4 word: the pointer chain is two `ldr`s deep on
  * the owner side and one on the sub-record side, and nothing is loaded until
  * the null test has passed, because the failure path is a predicated
@@ -49,7 +49,7 @@ struct Owner {
     struct Sub **unk_08;
 };
 
-extern void func_02069F7C(u32 a, u32 b);
+extern void NNS_G3dRenderObjRemoveAnmObj(u32 a, u32 b);
 
 int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index)
 {
@@ -58,6 +58,6 @@ int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index)
     if (sub == 0)
         return 0;
 
-    func_02069F7C(owner->unk_04->unk_04, sub->unk_04);
+    NNS_G3dRenderObjRemoveAnmObj(owner->unk_04->unk_04, sub->unk_04);
     return 1;
 }

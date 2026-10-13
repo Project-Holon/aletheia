@@ -66,7 +66,7 @@
  * sdk:      readKey (libdwcutil.TWL.HYB.a input.o)
  *
  * symbols:
- *   g_021DE688     0x021DE688 data
+ *   gInputStatics     0x021DE688 data
  *   _ZZ13func_021D657CvE5count 0x021DE690 data
  */
 
@@ -83,7 +83,7 @@ struct keyfold {
     struct keystate *ks;
 };
 
-extern struct keyfold g_021DE688;
+extern struct keyfold gInputStatics;
 
 void func_021D657C(void)
 {
@@ -94,21 +94,21 @@ void func_021D657C(void)
 
     input = (unsigned short *)0x04000130;
     bit = ((*input | *(unsigned short *)0x02FFFFA8) ^ 0x2FFF) & 0x2FFF;
-    input = &g_021DE688.ks->cont;
+    input = &gInputStatics.ks->cont;
     bit = bit & ~((bit & 0x40) << 1) & ~((bit & 0x20) >> 1);
-    g_021DE688.ks->trg = (*input ^ bit) & bit;
-    g_021DE688.ks->release = (*input ^ bit) & *input;
-    g_021DE688.ks->cont = bit;
-    g_021DE688.ks->repeat = g_021DE688.ks->trg;
+    gInputStatics.ks->trg = (*input ^ bit) & bit;
+    gInputStatics.ks->release = (*input ^ bit) & *input;
+    gInputStatics.ks->cont = bit;
+    gInputStatics.ks->repeat = gInputStatics.ks->trg;
     for (i = 0; i < 14; i++) {
         if (!(bit & (unsigned short)(1 << i))) {
             count[i] = 0;
         } else {
             count[i]++;
             if (count[i] == 40) {
-                g_021DE688.ks->repeat |= (unsigned short)(1 << i);
+                gInputStatics.ks->repeat |= (unsigned short)(1 << i);
             } else if (count[i] == 47) {
-                g_021DE688.ks->repeat |= (unsigned short)(1 << i);
+                gInputStatics.ks->repeat |= (unsigned short)(1 << i);
                 count[i] = 40;
             }
         }

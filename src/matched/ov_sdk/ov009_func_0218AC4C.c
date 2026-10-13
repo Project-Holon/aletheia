@@ -25,7 +25,7 @@
  *   g_021A4980     0x021A4980  data
  *   g_021A4914     0x021A4914  data
  *   g_021A4920     0x021A4920  data
- *   g_021ACEFC     0x021ACEFC  data
+ *   gGsAvailabilityGameName     0x021ACEFC  data
  *   g_021A492C     0x021A492C  data
  *   g_021A48B4     0x021A48B4  data
  *   g_021A4990     0x021A4990  data
@@ -77,7 +77,7 @@ extern char g_021A4978[];
 extern char g_021A4980[];
 extern char g_021A4914[];
 extern char g_021A4920[];
-extern char g_021ACEFC[];
+extern char gGsAvailabilityGameName[];
 extern char g_021A492C[];
 extern char g_021A48B4[];
 extern char g_021A4990[];
@@ -107,7 +107,7 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021ACEFC);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), gGsAvailabilityGameName);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48B4);

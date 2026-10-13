@@ -42,8 +42,8 @@
  *   SDK_LTDAUTOLOAD_LTDMAIN_BSS_END  0x02735B40  data
  *   SDK_OVERLAY_DIGEST_END  0x020A9E64  data
  *   SDK_OVERLAY_DIGEST  0x020A8BE0  data
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021542B8     0x021542B8  data
  */
 typedef unsigned char u8;
@@ -153,14 +153,13 @@ extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
-extern void func_02082D44(u32, void *, u32);
 extern void func_0209125C(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern u32 func_0208139C(u32);
 extern void func_020816FC(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern void OS_Terminate(void);
 extern void MIi_UncompressBackward(void *bottom);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 e);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 e);
 extern const u8 fsi_def_digest_key[64];
 extern const char fsi_str_rom[];
 extern u8 SDK_OVERLAY_NUMBER[];
@@ -493,7 +492,7 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
         lo = (u32)p_ovi->header.ram_address;
         hi = lo + (p_ovi->header.ram_size + p_ovi->header.bss_size);
 
-        e = func_02087988();
+        e = OS_DisableInterrupts();
 
         list = g_021542B8;
         prev = 0;
@@ -523,7 +522,7 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
             cur = next;
         }
 
-        func_0208799C(e);
+        OS_RestoreInterrupts(e);
 
         if (head == 0) {
             return;

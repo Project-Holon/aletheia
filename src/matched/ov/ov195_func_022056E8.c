@@ -24,9 +24,9 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   MAIL_Create 0x02008F08 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CFA0 0x0200CFA0 thumb
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
  *   func_02030734 0x02030734 arm
@@ -66,9 +66,9 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *MAIL_Create(int a0);
 extern u32 func_020307B0(void *p);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
@@ -106,9 +106,9 @@ void func_022056E8(u32 *a, char *b)
     POKEPARTY_Add((void *)a[1], (void *)p);
     func_02007F1C(save, 4, 1, ((struct Obj06644 *)b)->f0);
     func_020307B0((void *)p);
-    q = (u32)func_0200CA1C((void *)a[0]);
-    func_0200CFA0((struct Blk37 *)q, (void *)p);
-    func_0200CDE0((struct Blk37 *)q, (void *)p);
+    q = (u32)ZUKAN_SAVE_GetFromGameData((void *)a[0]);
+    ZUKAN_SAVE_RegisterSeen((struct Blk37 *)q, (void *)p);
+    ZUKAN_SAVE_RegisterCaught((struct Blk37 *)q, (void *)p);
     q = (u32)GAME_DATA_GetTrainerRecord((int *)a[0]);
     func_02008DF0((struct Sub02008C20Obj *)q, 10);
     func_02008DF0((struct Sub02008C20Obj *)q, 0x58);

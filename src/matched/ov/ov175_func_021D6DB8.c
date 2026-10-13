@@ -70,7 +70,7 @@
  *   func_0200BBFC 0x0200BBFC thumb
  *   func_021D97A4 0x021D97A4 thumb
  *   func_021D97C4 0x021D97C4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0200BBD8 0x0200BBD8 thumb
  *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
  *   func_0200B1F8 0x0200B1F8 thumb
@@ -148,7 +148,7 @@ extern void func_021D9090(u32 sys, int *state, char *p);
 extern u32 func_0200BBFC(struct Obj *p, u32 mask);
 extern void func_021D97A4(char *);
 extern int func_021D97C4(char *);
-extern void func_02082D44(const void *,void *,unsigned);
+extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void BSUBWAY_SAVEDATA_SetStat(unsigned,unsigned,unsigned,unsigned);
 struct Rec1E;
@@ -259,7 +259,7 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 43:
         saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
         item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
-        func_02082D44(p+0x10c,(void *)W(0x108),0x160);
+        MI_CpuCopy8(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
         BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
         func_0200B1F8((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;

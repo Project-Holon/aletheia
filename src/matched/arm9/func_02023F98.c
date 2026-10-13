@@ -13,7 +13,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   g_brightnessMain    0x0214691C  data
  *   g_brightnessSub   0x021468FC  data
- *   g_brightnessSub  0x021468FC  data
+ *   g_brightnessSubRecord  0x021468FC  data
  *
  * The teardown counterpart of BRIGHTNESS_ChangeRequest: given the same two-bit engine
  * mask, it zeroes each selected engine's 0x20-byte blend record and clears
@@ -41,7 +41,7 @@
  * What reproduces it is TWO distinct externs at 0x021468FC, split along the
  * image's own sharing: `g_brightnessSub` names the object both arms' flag stores
  * reach (+0x3c for main, +0x1c for sub, one slot between them) and
- * `g_brightnessSub` names the one arm 2 memsets (its own slot).  Whether the
+ * `g_brightnessSubRecord` names the one arm 2 memsets (its own slot).  Whether the
  * original really had two objects at one address or one object the compiler
  * saw through two declarations is not decidable from the bytes; what the
  * bytes do fix is that three source-level names were in play, not two.
@@ -57,7 +57,7 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 extern u32 g_brightnessMain[];
 extern u32 g_brightnessSub[];
-extern u32 g_brightnessSub[];
+extern u32 g_brightnessSubRecord[];
 
 void BRIGHTNESS_ChangeReset(u32 mask)
 {
@@ -66,7 +66,7 @@ void BRIGHTNESS_ChangeReset(u32 mask)
         g_brightnessSub[0x3c / 4] = 0;
     }
     if (mask & 2) {
-        MI_CpuFill8(g_brightnessSub, 0, 0x20);
+        MI_CpuFill8(g_brightnessSubRecord, 0, 0x20);
         g_brightnessSub[0x1c / 4] = 0;
     }
 }

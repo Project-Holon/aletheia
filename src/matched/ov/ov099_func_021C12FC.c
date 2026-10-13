@@ -1,5 +1,5 @@
 /*
- * function: func_021C12FC
+ * function: WIFICLUB_RecvResumeState
  * address: 0x021C12FC
  * packet: pkt_ov099_021C12FC
  * region: ov099
@@ -19,4 +19,4 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
-void func_021C12FC(int a,int b,u8 *data,char *p,int handle){if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()){if(((struct Obj10210 *)p)->f1CC==0x48){((struct Obj10210 *)p)->f1357=*data;GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x1a,10);}else ((struct Obj10210 *)p)->f1CC=21;}}
+void WIFICLUB_RecvResumeState(int a,int b,u8 *data,char *p,int handle){if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()){if(((struct Obj10210 *)p)->f1CC==0x48){((struct Obj10210 *)p)->f1357=*data;GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x1a,10);}else ((struct Obj10210 *)p)->f1CC=21;}}

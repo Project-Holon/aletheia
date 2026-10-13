@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F6A98",
+   "name": "VS_MULTI_LIST_CreateWindows",
    "address": "0x021F6A98",
    "kind": "game",
    "region": "ov097",

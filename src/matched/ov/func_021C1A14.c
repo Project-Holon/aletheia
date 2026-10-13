@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A14
+ * function: WIFICLUB_ClosePanelIfSlotSelected
  * address:  0x021C1A14
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C1C64  0x021C1C64  thumb  ov099
- *   func_021C19DC  0x021C19DC  thumb  ov099
+ *   WIFICLUB_GetSelectedSlotPlusOne  0x021C1C64  thumb  ov099
+ *   WIFICLUB_ClosePartnerPanel  0x021C19DC  thumb  ov099
  *
  * When the byte 0x8ED bytes in matches, hands the block and the third argument on.
  */
@@ -24,12 +24,12 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u8 func_021C1C64(char *p);
-extern void func_021C19DC(char *p, int v);
+extern u8 WIFICLUB_GetSelectedSlotPlusOne(char *p);
+extern void WIFICLUB_ClosePartnerPanel(char *p, int v);
 
-void func_021C1A14(char *p, int b, void *c)
+void WIFICLUB_ClosePanelIfSlotSelected(char *p, int b, void *c)
 {
-    if (b == func_021C1C64(p)) {
-        func_021C19DC(p, (int)c);
+    if (b == WIFICLUB_GetSelectedSlotPlusOne(p)) {
+        WIFICLUB_ClosePartnerPanel(p, (int)c);
     }
 }

@@ -17,7 +17,7 @@
  *   sub_02005C4C_State  0x020AA260  data
  *   sub_02005C64_Obj    0x020AA354  data
  *   GFL_USE_GetCurrentBgmId        0x020058D0  thumb
- *   func_0208574C       0x0208574C  arm
+ *   OS_IsThreadTerminated       0x0208574C  arm
  *
  * Three predicates.  GFL_USE_IsCardIrqEnabled carries no label, because it saves
  * nothing: it reads the DS interrupt enable register at 0x04000210 and
@@ -50,7 +50,7 @@ extern struct Sub02005C4CState sub_02005C4C_State;
 extern u8 sub_02005C64_Obj[];
 
 extern u16 GFL_USE_GetCurrentBgmId(void);
-extern int func_0208574C(u8 *obj);
+extern int OS_IsThreadTerminated(u8 *obj);
 
 u32 GFL_USE_GetTargetBgmNo(void)
 {
@@ -65,7 +65,7 @@ int GFL_USE_IsLoaderBusy(void)
     if (sub_02005C4C_State.unk14 == 0) {
         return 0;
     }
-    if (func_0208574C(sub_02005C64_Obj) != 0) {
+    if (OS_IsThreadTerminated(sub_02005C64_Obj) != 0) {
         return 0;
     }
     return 1;

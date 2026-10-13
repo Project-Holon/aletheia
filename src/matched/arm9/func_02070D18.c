@@ -1,5 +1,5 @@
 /*
- * function: func_02070D18
+ * function: NNSi_G3dSendJointSRTMaya
  * address:  0x02070D18
  * packet:   pkt_02070C5C
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * The wide sibling of func_02070C5C (docs/notes/pkt_02070C5C.c.txt): the same
- * flag-driven fan-out of func_0206DDA4 commands over one object, with a
+ * The wide sibling of NNSi_G3dSendJointSRTBasic (docs/notes/pkt_02070C5C.c.txt): the same
+ * flag-driven fan-out of NNS_G3dGeBufferOP_N commands over one object, with a
  * leading bit-5/bit-3 block and a `first` latch.
  *
  * PIN ../2.0/sp2, the "kept branches" tell (docs/FRONTEND-PINS.md).  The image
@@ -24,16 +24,16 @@
  * same C is 196 bytes, 0 mismatches.
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  */
 #include "../include/Obj08939.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_02070D18(u8 *a)
+void NNSi_G3dSendJointSRTMaya(u8 *a)
 {
     u32 f;
     u32 first;
@@ -44,22 +44,22 @@ void func_02070D18(u8 *a)
         first = 1;
     if ((f & 0x20) != 0 && (f & 8) == 0) {
         if (first != 0) {
-            func_0206DDA4(0x1c, a + 0x4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, a + 0x4c, 3);
             first = 0;
         }
-        func_0206DDA4(0x1b, a + 0x10, 3);
+        NNS_G3dGeBufferOP_N(0x1b, a + 0x10, 3);
     }
     f = ((struct Obj08939 *)a)->f0;
     if ((f & 2) == 0) {
         if (first != 0)
-            func_0206DDA4(0x19, a + 0x28, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, a + 0x28, 0xc);
         else
-            func_0206DDA4(0x1a, a + 0x28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, a + 0x28, 9);
     } else {
         if (first != 0)
-            func_0206DDA4(0x1c, a + 0x4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, a + 0x4c, 3);
     }
     f = ((struct Obj08939 *)a)->f0;
     if ((f & 1) == 0)
-        func_0206DDA4(0x1b, a + 4, 3);
+        NNS_G3dGeBufferOP_N(0x1b, a + 4, 3);
 }

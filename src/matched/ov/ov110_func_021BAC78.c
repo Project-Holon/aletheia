@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC78
+ * function: PMS_INPUT_VIEW_CreateActor
  * address: 0x021BAC78
  * packet: pkt_ov110_021BAC78
  * region: ov110
@@ -29,7 +29,7 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 struct Actor;
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-struct Obj *func_021BAC78(char *p, u32 *r, short x, short y, u32 a, int mode)
+struct Obj *PMS_INPUT_VIEW_CreateActor(char *p, u32 *r, short x, short y, u32 a, int mode)
 {
     Position pos;
     struct Obj *o;

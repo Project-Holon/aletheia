@@ -1,5 +1,5 @@
 /*
- * function: func_021B838C
+ * function: IRC_RANKING_ListUpdate
  * address: 0x021B838C
  * packet: pkt_ov106_021B838C
  * region: ov106
@@ -9,15 +9,15 @@
  * status: EXACT
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021B8524 0x021B8524 thumb ov106
+ *   IRC_RANKING_ListDrawRows 0x021B8524 thumb ov106
  */
 #include "../include/Obj02814.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_021B8524(u8 *);
-void func_021B838C(u8 *p) {
+extern void IRC_RANKING_ListDrawRows(u8 *);
+void IRC_RANKING_ListUpdate(u8 *p) {
     int value;
     if(((struct Obj02814 *)p)->f594==0)return;
     ((struct Obj02814 *)p)->f594=0;
@@ -27,7 +27,7 @@ void func_021B838C(u8 *p) {
         ((struct Obj02814 *)p)->f55C=((struct Obj02814 *)p)->f556/24;
         ((struct Obj02814 *)p)->f564=-40;
         ((struct Obj02814 *)p)->f566=24;
-        func_021B8524(p);
+        IRC_RANKING_ListDrawRows(p);
         ((struct Obj02814 *)p)->f590=1;
     } else ((struct Obj02814 *)p)->f598=1;
 }

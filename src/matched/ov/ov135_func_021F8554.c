@@ -20,6 +20,7 @@
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
+ *   MIi_CpuCopyFast  0x02082B0C  arm  arm9
  */
 
 typedef signed char s8;
@@ -48,7 +49,7 @@ extern int func_021F6B34(int v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 struct Sub0200852CObj;
 struct Sub02009470Obj;
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
@@ -73,7 +74,7 @@ void func_021F8554(u8 *dst, Work *p)
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);
         }
-        func_02082B0C(p->mon, dst, POKE_TOOL_GetPartyParamSize());
+        MIi_CpuCopyFast(p->mon, dst, POKE_TOOL_GetPartyParamSize());
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {

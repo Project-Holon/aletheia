@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE30
+ * function: WIFICLUB_StateRuleTextKey
  * address:  0x021BCE30
  * packet:   pkt_ov099_021BCE30
  * region:   ov099
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC06C  0x021BC06C  thumb  ov099
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_DeleteRuleWindow  0x021BC06C  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  *   KEY_GetTrg  0x020362DC  arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
-extern void func_021BC06C(char *p);
-extern void func_021BA8EC(char *p);
+extern void WIFICLUB_DeleteRuleWindow(char *p);
+extern void WIFICLUB_ClearTalkWindow(char *p);
 
-int func_021BCE30(char *p, int v)
+int WIFICLUB_StateRuleTextKey(char *p, int v)
 {
     if (KEY_GetTrg() != 0) {
-        func_021BC06C(p);
-        func_021BA8EC(p);
+        WIFICLUB_DeleteRuleWindow(p);
+        WIFICLUB_ClearTalkWindow(p);
         switch (*(int *)(p + 0x135C)) {
         case 3:
             *(int *)(p + 0x1CC) = 0x4E;

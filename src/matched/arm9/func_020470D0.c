@@ -19,8 +19,8 @@
  * ANOTHER PACKET (the pair lives in pkt_0206A12C and above, which this lane
  * does not own):
  *
- *   +0x40  bl func_0206A0C4   the reader, called (p, &x, &y)
- *   +0x8C  bl func_0206A17C   reached only through the callback below
+ *   +0x40  bl NNS_G3dTexReleaseTexKey   the reader, called (p, &x, &y)
+ *   +0x8C  bl NNS_G3dPlttReleasePlttKey   reached only through the callback below
  *
  * Neither address is matched, parked or labelled outside this range, so both
  * sites stay wildcarded.  Nothing in this C changes when they are filed.
@@ -31,8 +31,8 @@
  *    and set to 1 in the body, NOT as `f = (x & 1) != 0`.  The boolean form
  *    makes mwcc emit a movne/moveq pair per local and loses the original's
  *    `movs r5, #0 / movs r6, r5` up front; the explicit init keeps them.
- *  - The closing callback takes func_0206A17C's RETURN value as its
- *    argument: `(*(void (**)(u32))0x020A814C)(func_0206A17C(r))`.  Spelled as
+ *  - The closing callback takes NNS_G3dPlttReleasePlttKey's RETURN value as its
+ *    argument: `(*(void (**)(u32))0x020A814C)(NNS_G3dPlttReleasePlttKey(r))`.  Spelled as
  *    a bare `(...)()` call mwcc uses r0 for the loaded pointer and blx r0;
  *    the original loads into r1 and blx r1 precisely because r0 is already
  *    holding the argument.  Passing the call's result is what forces r1.
@@ -43,6 +43,8 @@
  *
  * symbols:
  *   NNS_G3dGetTex  0x0206E964  arm
+ *   NNS_G3dTexReleaseTexKey  0x0206A0C4  arm
+ *   NNS_G3dPlttReleasePlttKey  0x0206A17C  arm
  */
 #include "../include/Obj03459.h"
 
@@ -52,8 +54,8 @@ typedef unsigned char  u8;
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 struct Tex;
-extern void func_0206A0C4(struct Tex *t, u32 *a, u32 *b);
-extern u32   func_0206A17C(u8 *p);
+extern void NNS_G3dTexReleaseTexKey(struct Tex *t, u32 *a, u32 *b);
+extern u32   NNS_G3dPlttReleasePlttKey(u8 *p);
 
 int G3D_SYSTEM_FreeVramTexture(u32 *p)
 {
@@ -70,12 +72,12 @@ int G3D_SYSTEM_FreeVramTexture(u32 *p)
         f1 = 1;
     if (((struct Obj03459 *)r)->f20 & 1)
         f2 = 1;
-    func_0206A0C4((struct Tex *)r, &x, &y);
+    NNS_G3dTexReleaseTexKey((struct Tex *)r, &x, &y);
     if (f1)
         (*(void (**)(u32))0x020A8144)(x);
     if (f2)
         (*(void (**)(u32))0x020A8144)(y);
     if ((((struct Obj03459 *)r)->f32 & 1) != 0 && ((struct Obj03459 *)r)->f30 != 0)
-        (*(void (**)(u32))0x020A814C)(func_0206A17C(r));
+        (*(void (**)(u32))0x020A814C)(NNS_G3dPlttReleasePlttKey(r));
     return 1;
 }

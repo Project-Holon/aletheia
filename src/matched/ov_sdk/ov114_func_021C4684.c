@@ -1,5 +1,5 @@
 /*
- * function: func_021C4684
+ * function: ghiDoPosting
  * address:  0x021C4684
  * packet:   pkt_ov114_021C4684
  * region:   ov114
@@ -14,11 +14,11 @@
  * symbols:
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_0217ED64  0x0217ED64  arm   ov009
- *   func_021C3834  0x021C3834  arm   ov114
- *   func_021C2BB0  0x021C2BB0  arm   ov114
- *   func_021C02C8  0x021C02C8  arm   ov114
- *   func_021C0318  0x021C0318  arm   ov114
- *   g_021CF1F8     0x021CF1F8  data  ov114
+ *   ghiPostDoPosting  0x021C3834  arm   ov114
+ *   ghiPostCleanupState  0x021C2BB0  arm   ov114
+ *   ghiCallProgressCallback  0x021C02C8  arm   ov114
+ *   ghiCallPostCallback  0x021C0318  arm   ov114
+ *   sGhttpPosting     0x021CF1F8  data  ov114
  */
 
 typedef struct GHIConnection {
@@ -35,32 +35,32 @@ typedef struct GHIConnection {
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0217ED64(int, int *, int *, int *);
-extern int func_021C3834(GHIConnection *);
-extern void func_021C2BB0(GHIConnection *);
-extern void func_021C02C8(GHIConnection *, char *, int);
-extern void func_021C0318(GHIConnection *);
-extern char g_021CF1F8[];
+extern int ghiPostDoPosting(GHIConnection *);
+extern void ghiPostCleanupState(GHIConnection *);
+extern void ghiCallProgressCallback(GHIConnection *, char *, int);
+extern void ghiCallPostCallback(GHIConnection *);
+extern char sGhttpPosting[];
 
-void func_021C4684(GHIConnection *connection)
+void ghiDoPosting(GHIConnection *connection)
 {
     int result;
     int oldBytesPosted;
     int rcode;
     int readFlag;
 
-    func_0217D254(8, (char *)3, 16, g_021CF1F8);
+    func_0217D254(8, (char *)3, 16, sGhttpPosting);
     oldBytesPosted = connection->f170;
-    result = func_021C3834(connection);
+    result = ghiPostDoPosting(connection);
     if (result == 0) {
         readFlag = 0;
-        func_021C2BB0(connection);
+        ghiPostCleanupState(connection);
         rcode = func_0217ED64(connection->f50, &readFlag, 0, 0);
         if (rcode != 1)
             return;
         if (readFlag == 0)
             return;
         connection->f10 = 8;
-        func_021C02C8(connection, 0, 0);
+        ghiCallProgressCallback(connection, 0, 0);
         return;
     }
     if (result == 3) {
@@ -68,11 +68,11 @@ void func_021C4684(GHIConnection *connection)
         return;
     }
     if (oldBytesPosted != connection->f170)
-        func_021C0318(connection);
+        ghiCallPostCallback(connection);
     if (result != 1)
         return;
-    func_021C2BB0(connection);
+    ghiPostCleanupState(connection);
     connection->f184 = 1;
     connection->f10 = 7;
-    func_021C02C8(connection, 0, 0);
+    ghiCallProgressCallback(connection, 0, 0);
 }

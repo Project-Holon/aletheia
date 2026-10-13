@@ -15,7 +15,7 @@
  *   func_0217D254  0x0217D254  arm  ov009
  *   strlen  0x0209477C  arm
  *   OS_SPrintf  0x02084F40  arm
- *   func_0219DEE8  0x0219DEE8  arm  ov009
+ *   SBQueryEngineAddQueryKey  0x0219DEE8  arm  ov009
  *   func_0219FFD4  0x0219FFD4  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
  *   func_0219EFD0  0x0219EFD0  arm  ov009
@@ -39,7 +39,7 @@ extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...)
 extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 struct SBServerList;
-extern void func_0219DEE8(char *p, int v);
+extern void SBQueryEngineAddQueryKey(char *p, int v);
 extern int func_0219FFD4(struct SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void msleep(unsigned int msec);
 extern int func_0219EFD0(char *p);
@@ -69,7 +69,7 @@ int func_0219ED80(ServerBrowser *sb, int async, int disconnectOnComplete, unsign
         if (listLen + keylen + 1 >= 256)
             break;
         listLen += OS_SPrintf(keyList + listLen, g_021A8218, key);
-        func_0219DEE8((char *)sb, basicFields[i]);
+        SBQueryEngineAddQueryKey((char *)sb, basicFields[i]);
     }
     err = func_0219FFD4((struct SBServerList *)(&sb->liststate), keyList, serverFilter, updateOptions, maxServers);
     if (err != 0 || async)

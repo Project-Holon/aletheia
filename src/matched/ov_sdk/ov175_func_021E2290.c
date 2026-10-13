@@ -1,5 +1,5 @@
 /*
- * function: func_021E2290
+ * function: wsiServiceAvailable
  * address:  0x021E2290
  * packet:   pkt_021E2290
  * region:   ov175
@@ -13,8 +13,8 @@
  *   func_02084F80  0x02084F80  arm
  *   g_021ACEF8     0x021ACEF8  data
  *   g_021ACEFC     0x021ACEFC  data
- *   g_021E49D0     0x021E49D0  data
- *   g_021E53BC     0x021E53BC  data
+ *   sWsAuthUrlFormat     0x021E49D0  data
+ *   gWsAuthServiceUrl     0x021E53BC  data
  *
  * Session gate: only in state 1, and only while the 0x021E53BC flag byte is
  * clear, hand the 0x021E49D0 table to func_02084F80 with the 0x021ACEFC base.
@@ -26,15 +26,15 @@ typedef signed char s8;
 
 extern u32 g_021ACEF8;
 extern u32 g_021ACEFC[];
-extern u32 g_021E49D0[];
-extern s8 g_021E53BC[];
+extern u32 sWsAuthUrlFormat[];
+extern s8 gWsAuthServiceUrl[];
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 
-s32 func_021E2290(void)
+s32 wsiServiceAvailable(void)
 {
     if (g_021ACEF8 == 1) {
-        if (g_021E53BC[0] == 0)
-            func_02084F80((char *)g_021E53BC, 0x80, (const char *)g_021E49D0, g_021ACEFC);
+        if (gWsAuthServiceUrl[0] == 0)
+            func_02084F80((char *)gWsAuthServiceUrl, 0x80, (const char *)sWsAuthUrlFormat, g_021ACEFC);
         return 1;
     }
     return 0;

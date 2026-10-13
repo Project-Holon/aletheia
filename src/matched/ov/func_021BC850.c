@@ -1,5 +1,5 @@
 /*
- * function: func_021BC850
+ * function: WIFICLUB_StateOpenRuleMenu
  * address:  0x021BC850
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB954  0x021BB954  thumb  ov099
+ *   WIFICLUB_SetupRuleMenu  0x021BB954  thumb  ov099
  *
  * Runs the setup for selector 0x54 with the true flag and stamps it 0x1CC bytes in.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BB954(char *p, int flag);
+extern void WIFICLUB_SetupRuleMenu(char *p, int flag);
 
-int func_021BC850(char *p, int v)
+int WIFICLUB_StateOpenRuleMenu(char *p, int v)
 {
-    func_021BB954(p, 1);
+    WIFICLUB_SetupRuleMenu(p, 1);
     ((struct Obj18192 *)p)->f1CC = 0x54;
     return v;
 }

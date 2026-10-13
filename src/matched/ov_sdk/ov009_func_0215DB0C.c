@@ -12,10 +12,10 @@
  * sdk:      SOCLi_ReadCallBack (socl_read.o)
  *
  * symbols:
- *   func_0215AEB0  0x0215AEB0  arm  ov009
- *   func_02085A38  0x02085A38  arm
+ *   CPS_SocRead  0x0215AEB0  arm  ov009
+ *   OS_Sleep  0x02085A38  arm
  *   func_02082EA4  0x02082EA4  arm
- *   func_0215B064  0x0215B064  arm  ov009
+ *   CPS_SocConsume  0x0215B064  arm  ov009
  *   func_0215D92C  0x0215D92C  arm  ov009
  *   func_0215DD88  0x0215DD88  arm  ov009
  */
@@ -50,10 +50,10 @@ struct SOCLiCommandRead {
     unsigned long *remote_ip;
 };
 
-extern unsigned char *func_0215AEB0(unsigned long *len);
-extern void func_02085A38(unsigned long msec);
+extern unsigned char *CPS_SocRead(unsigned long *len);
+extern void OS_Sleep(unsigned long msec);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
-extern void func_0215B064(unsigned long len);
+extern void CPS_SocConsume(unsigned long len);
 extern int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip);
 extern int func_0215DD88(struct SOCLSocket *socket);
@@ -88,7 +88,7 @@ static int func_0215DB0C(void *arg)
     remote_ip = cpacket->remote_ip;
     consumed = recv_pipe->consumed;
     for (;;) {
-        cpsbuffer = func_0215AEB0(&cpsbuffer_len);
+        cpsbuffer = CPS_SocRead(&cpsbuffer_len);
         if (cpsbuffer == 0)
             break;
         if ((long)cpsbuffer_len - consumed > 0)
@@ -97,7 +97,7 @@ static int func_0215DB0C(void *arg)
             cpsbuffer = 0;
             break;
         }
-        func_02085A38(10);
+        OS_Sleep(10);
     }
     if (socket->state & 0x80)
         return -0xf;
@@ -107,7 +107,7 @@ static int func_0215DB0C(void *arg)
         if (buffer_len > cpsbuffer_len)
             buffer_len = cpsbuffer_len;
         func_02082EA4(cpsbuffer, buffer, buffer_len);
-        func_0215B064(buffer_len);
+        CPS_SocConsume(buffer_len);
         return buffer_len;
     }
     if (cpsbuffer != 0)

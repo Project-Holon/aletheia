@@ -1,5 +1,5 @@
 /*
- * function: func_021B84C4
+ * function: IRC_RANKING_ListGetScrollPos
  * address:  0x021B84C4
  * packet:   pkt_ov106_021B84C4
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-s16 func_021B84C4(u8 *p) { return ((struct Obj22262 *)p)->f556; }
+s16 IRC_RANKING_ListGetScrollPos(u8 *p) { return ((struct Obj22262 *)p)->f556; }

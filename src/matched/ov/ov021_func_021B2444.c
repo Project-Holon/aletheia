@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK40_CallEvent
+ * function: SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CallEvent
  * address:  0x021B2444
  * packet:   pkt_ov021_021B2444
  * region:   ov021
@@ -28,7 +28,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern void *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(void *p, u32 i);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK40_CallEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CallEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

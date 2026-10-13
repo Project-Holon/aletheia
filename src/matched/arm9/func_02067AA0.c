@@ -1,5 +1,5 @@
 /*
- * function: func_02067AA0
+ * function: NNS_G2dSetRndCoreImageProxy
  * address:  0x02067AA0
  * packet:   pkt_02067AA0
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067AA0.c \
- *       --func func_02067AA0 --addr 0x02067AA0 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetRndCoreImageProxy.c \
+ *       --func NNS_G2dSetRndCoreImageProxy --addr 0x02067AA0 --arm --cc 1.1p1
  */
 
-void func_02067AA0(int *p, int a, int b)
+void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b)
 {
     p[2] = a;
     p[3] = b;

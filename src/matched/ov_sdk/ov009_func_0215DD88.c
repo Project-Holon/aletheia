@@ -12,9 +12,9 @@
  * sdk:      SOCLi_ConsumeCPSBuffer (libsoc.TWL.HYB.a(socl_read.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   CPS_SocConsume  0x0215B064  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef struct {
@@ -27,9 +27,9 @@ typedef struct {
     RecvPipe *recv_pipe;
 } Socket;
 
-extern unsigned long func_02087988(void);
+extern unsigned long OS_DisableInterrupts(void);
 extern void CPS_SocConsume(unsigned long len);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 long func_0215DD88(Socket *socket)
 {
@@ -38,12 +38,12 @@ long func_0215DD88(Socket *socket)
     long consumed;
 
     recv_pipe = socket->recv_pipe;
-    enable = func_02087988();
+    enable = OS_DisableInterrupts();
     consumed = recv_pipe->consumed;
     if (consumed != 0) {
         recv_pipe->consumed = 0;
         CPS_SocConsume(consumed);
     }
-    func_0208799C(enable);
+    OS_RestoreInterrupts(enable);
     return consumed;
 }

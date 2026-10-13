@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B4C
+ * function: PMS_SELECT_GRAPHIC_UpdateRowMenu
  * address:  0x021C0B4C
  * packet:   pkt_ov110_021C0B4C
  * region:   ov110
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void APP_TASKMENU_UpdateMenu(void);
-void func_021C0B4C(void *a0) { APP_TASKMENU_UpdateMenu(); }
+void PMS_SELECT_GRAPHIC_UpdateRowMenu(void *a0) { APP_TASKMENU_UpdateMenu(); }

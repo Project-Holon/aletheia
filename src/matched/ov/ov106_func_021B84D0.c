@@ -1,5 +1,5 @@
 /*
- * function: func_021B84D0
+ * function: IRC_RANKING_ListFindLatestScrollPos
  * address: 0x021B84D0
  * packet: pkt_ov106_021B84D0
  * region: ov106
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-int func_021B84D0(u8 *p) {
+int IRC_RANKING_ListFindLatestScrollPos(u8 *p) {
     int i;
     int found;
     found=0;

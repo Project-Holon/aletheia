@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   WIH_DWC_GetAlertLevel 0x02010848 thumb
- *   func_0208EE9C 0x0208EE9C arm
+ *   WM_GetLinkLevel 0x0208EE9C arm
  *   DWCi_MOV_WH_GetLastError  0x02178E68  thumb  ov014
  *   NET_WHPIPE_SetAcceptChild  0x02177EDC  thumb  ov014
  *   NET_WHPIPE_StartAutoSearch  0x02178034  thumb  ov014
@@ -29,7 +29,7 @@
  *   WIH_SetGgid  0x02178E1C  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8 0x02082BCC arm
  *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
@@ -38,7 +38,7 @@
  *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
  *   sEmptyString   0x02179790  data   a4
  *   func_02034714  0x02034714  arm
@@ -58,7 +58,7 @@ typedef int BOOL;
 
 extern u32 GFL_NET_GetGameKind(void);
 extern u16 WIH_DWC_GetAlertLevel(void);
-extern int func_0208EE9C(void);
+extern int WM_GetLinkLevel(void);
 int DWCi_MOV_WH_GetLastError(void);
 extern void NET_WHPIPE_SetAcceptChild(int a);
 extern int NET_WHPIPE_StartAutoSearch(void);
@@ -70,7 +70,7 @@ extern int WIH_Initialize(u32 heap, int a, int b);
 extern void WIH_SetGgid(u32 v);
 u16 func_0203F1FC(const u8 *src, u32 len);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void MI_CpuFill8(void *, u32, u32);
 extern void DWCi_MOV_WH_SetReceiver(void *cb);
 extern int WIH_GetSysState(void);
@@ -79,7 +79,7 @@ extern int WIH_Finalize(void);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern u32 func_020307B0(void *p);
 extern int GFL_NET_GetRunState(void);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 unsigned short WIH_GetOwnAid(void);
@@ -144,7 +144,7 @@ extern u8 sEmptyString[];
 int GFL_NET_DEVWIRELESS_GetSignalLevel(void)
 {
     if (GFL_NET_GetGameKind() == 3) return 3 - WIH_DWC_GetAlertLevel();
-    return 3 - func_0208EE9C();
+    return 3 - WM_GetLinkLevel();
 }
 
 
@@ -298,7 +298,7 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
     for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
         if (work->entryAge[i] != 0 && func_0203EFC8(work->entry[i].bssid, entry->bssid, 6) == 0) {
             work->entryAge[i] = WHPIPE_ENTRY_LIFETIME;
-            func_02082D44(entry, &work->entry[i], 0xC0);
+            MI_CpuCopy8(entry, &work->entry[i], 0xC0);
             return 1;
         }
     }
@@ -309,7 +309,7 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
     if (i >= WHPIPE_ENTRY_MAX)
         return 0;
     work->entryAge[i] = WHPIPE_ENTRY_LIFETIME;
-    func_02082D44(entry, &work->entry[i], 0xC0);
+    MI_CpuCopy8(entry, &work->entry[i], 0xC0);
     work->entryListChanged = 1;
     return 1;
 }
@@ -509,7 +509,7 @@ void NET_WHPIPE_PublishBeacon(void)
         return;
     size = getSize(work->userData);
     if (size >= WHPIPE_BEACON_DATA_SIZE) {
-        func_02088234();
+        OS_Terminate();
         return;
     }
     beacon = &work->beacon;
@@ -517,7 +517,7 @@ void NET_WHPIPE_PublishBeacon(void)
     beacon->ggid = init->ggid;
     beacon->reserved = 0;
     beacon->status = work->beaconStatus;
-    func_02082D44((void *)init->getBeaconData(work->userData), beacon->data, size);
+    MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
     NET_WHPIPE_SetBeaconGameInfo((u8 *)&work->beacon, 0x70);
 }
 
@@ -535,7 +535,7 @@ void NET_WHPIPE_RefreshBeacon(void)
         size = getSize(work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
             func_02034714((const char *)sEmptyString, 0, (const char *)sEmptyString);
-        func_02082D44((void *)init->getBeaconData(work->userData), beacon->data, size);
+        MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {
         work->beaconRefreshCountdown = 0;

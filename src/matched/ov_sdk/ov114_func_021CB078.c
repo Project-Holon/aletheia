@@ -1,5 +1,5 @@
 /*
- * function: func_021CB078
+ * function: CRYPTOi__BN_ucmp
  * address:  0x021CB078
  * packet:   pkt_ov114_021CB078
  * region:   ov114
@@ -22,7 +22,7 @@ typedef struct
     int top;
 } BIGNUM;
 
-int func_021CB078(BIGNUM *a, BIGNUM *b)
+int CRYPTOi__BN_ucmp(BIGNUM *a, BIGNUM *b)
 {
     unsigned int *ap, *bp;
     int i;

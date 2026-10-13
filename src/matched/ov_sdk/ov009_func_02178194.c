@@ -12,8 +12,8 @@
  * sdk:      DWC_Auth_Join (libdwcauth.TWL.HYB.a(dwc_auth.o))
  *
  * symbols:
- *   func_0208574C  0x0208574C  arm
- *   func_02085710  0x02085710  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
+ *   OS_JoinThread  0x02085710  arm
  *   g_021AB184     0x021AB184  data
  */
 
@@ -36,14 +36,14 @@ struct DWCAuthCtx {
 
 extern struct DWCAuthGlobal g_021AB184;
 
-extern int func_0208574C(void *thread);
-extern void func_02085710(void *thread);
+extern int OS_IsThreadTerminated(void *thread);
+extern void OS_JoinThread(void *thread);
 
 void func_02178194(void)
 {
 	if (g_021AB184.ctx->started == 0)
 		return;
-	if (func_0208574C(g_021AB184.ctx->thread) != 0)
+	if (OS_IsThreadTerminated(g_021AB184.ctx->thread) != 0)
 		return;
-	func_02085710(g_021AB184.ctx->thread);
+	OS_JoinThread(g_021AB184.ctx->thread);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD028
+ * function: PMSIV_MENU_IsBackButtonDone
  * address: 0x021BD028
  * packet: pkt_ov110_021BD028
  * region: ov110
@@ -19,7 +19,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj;
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
-int func_021BD028(u8 *p)
+int PMSIV_MENU_IsBackButtonDone(u8 *p)
 {
     if(CLACT_GetActorDrawEnable(((struct Obj13786 *)p)->f28) && ((struct Obj13786 *)p)->f2C!=3) return 0;
     return 1;

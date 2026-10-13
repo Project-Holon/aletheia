@@ -20,7 +20,7 @@
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
- *   func_0206DB80 0x0206DB80 arm
+ *   NNS_G3dGeFlushBuffer 0x0206DB80 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
  *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
  *   func_02207510 0x02207510 thumb ov195
@@ -78,7 +78,7 @@ extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 struct Grid;
@@ -108,7 +108,7 @@ void func_02206664(Owner *o)
     }
     G3D_CAMERA_Reset(w->tex);
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
     REG_MTX_MODE = 2;
@@ -123,5 +123,5 @@ void func_02206664(Owner *o)
     G3D_SYSTEM_SetProjection((const u32 *)save0);
     G3D_SYSTEM_SetLookAt(save1);
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
 }

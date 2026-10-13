@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C1C
+ * function: IRC_COMPATIBLE_MENU_SpriteSetGetUnit
  * address: 0x021B7C1C
  * packet: pkt_ov102_021B7C1C
  * region: ov102
@@ -8,6 +8,6 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * extent: Four-byte getter, followed by existing func_021B7C20.
+ * extent: Four-byte getter, followed by existing IRC_COMPATIBLE_MENU_InitText.
  */
-unsigned func_021B7C1C(unsigned *p) { return *p; }
+unsigned IRC_COMPATIBLE_MENU_SpriteSetGetUnit(unsigned *p) { return *p; }

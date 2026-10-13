@@ -1,5 +1,5 @@
 /*
- * function: func_02171884
+ * function: DWCi_ProcessResvOK
  * address:  0x02171884
  * packet:   pkt_ov009_02171884
  * region:   ov009
@@ -14,11 +14,11 @@
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
  *   qr2_send_statechanged        0x0219B490 arm   ov009
- *   func_02176474                0x02176474 arm   ov009
- *   func_02176344                0x02176344 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
- *   func_0216FF2C                0x0216FF2C arm   ov009
+ *   DWCi_NodeInfoList_GetFreeAID                0x02176474 arm   ov009
+ *   DWCi_NodeInfoList_GetMyNodeInfo                0x02176344 arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
+ *   DWCi_SendMatchCommand                0x0216FF2C arm   ov009
  */
 
 typedef unsigned char u8;
@@ -55,13 +55,13 @@ struct DWCstNodeInfo {
 
 extern int func_02175F3C(void);
 extern void qr2_send_statechanged(void *qrec);
-extern u8 func_02176474(void);
-extern char *func_02176344(void);
-extern int func_0217603C(void);
-extern char *func_0217637C(int index);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern u8 DWCi_NodeInfoList_GetFreeAID(void);
+extern char *DWCi_NodeInfoList_GetMyNodeInfo(void);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 
-int func_02171884(int profileID)
+int DWCi_ProcessResvOK(int profileID)
 {
     u32 senddata[16];
     int result;
@@ -78,16 +78,16 @@ int func_02171884(int profileID)
     ((struct DWCstMatchControl *)func_02175F3C())->f644 = 0;
     qr2_send_statechanged(((struct DWCstMatchControl *)func_02175F3C())->qr2Obj);
     ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
-    aid = func_02176474();
+    aid = DWCi_NodeInfoList_GetFreeAID();
     ((struct DWCstMatchControl *)func_02175F3C())->aid = aid;
     if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 == 0) {
         senddata[0] = ((struct DWCstMatchControl *)func_02175F3C())->f554;
         senddata[1] = ((struct DWCstMatchControl *)func_02175F3C())->aid;
-        pMyNodeInfo = (struct DWCstNodeInfo *)func_02176344();
-        for (i = 0; i < func_0217603C(); i++) {
-            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
+        pMyNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetMyNodeInfo();
+        for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
+            pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
             if (pMyNodeInfo->profileID != pNodeInfo->profileID) {
-                result = func_0216FF2C(7, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)senddata, 2);
+                result = DWCi_SendMatchCommand(7, pNodeInfo->profileID, pNodeInfo->ip, pNodeInfo->port, (const unsigned int *)senddata, 2);
                 if (result != 0)
                     return result;
             }

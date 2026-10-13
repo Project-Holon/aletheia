@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB50
+ * function: PMSIV_MENU_ShowEditEntries
  * address: 0x021BCB50
  * packet: pkt_ov110_021BCB50
  * region: ov110
@@ -16,16 +16,16 @@
  *   8-byte target returns byte03 bit2 (0/1), consumed by original CB50.
  *   27FEC fourth argument explicitly truncated to u8 by original caller.
  * symbols:
- *   func_021BCAD8 0x021BCAD8 thumb ov110
+ *   PMSIV_MENU_HideAll 0x021BCAD8 thumb ov110
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   APP_TASKMENU_WIN_ChangePalette 0x020282AC thumb
- *   func_021BCD44 0x021BCD44 thumb ov110
+ *   PMSIV_MENU_UpdateEntryPalette 0x021BCD44 thumb ov110
  *   func_020409B4 0x020409B4 arm
- *   func_021BF7C4 0x021BF7C4 thumb ov110
- *   func_021BF6D8 0x021BF6D8 thumb ov110
+ *   PMS_INPUT_HasInitialSentence 0x021BF7C4 thumb ov110
+ *   PMS_INPUT_GetInputMode 0x021BF6D8 thumb ov110
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BCCA8 0x021BCCA8 thumb ov110
+ *   PMSIV_MENU_UpdateItemHighlight 0x021BCCA8 thumb ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,21 +45,21 @@ typedef struct Object {
     struct Obj *items[8];
     struct Obj *other[2];
 } Object;
-extern void func_021BCAD8(Object *);
+extern void PMSIV_MENU_HideAll(Object *);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void APP_TASKMENU_WIN_ChangePalette(struct T *,u16 *,u32,u32,u16);
-extern void func_021BCD44(u8 *p);
+extern void PMSIV_MENU_UpdateEntryPalette(u8 *p);
 extern void func_020409B4(u32);
-extern u32 func_021BF7C4(u8 *);
-extern u32 func_021BF6D8(u8 *);
+extern u32 PMS_INPUT_HasInitialSentence(u8 *);
+extern u32 PMS_INPUT_GetInputMode(u8 *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern void func_021BCCA8(Object *);
-void func_021BCB50(Object *p)
+extern void PMSIV_MENU_UpdateItemHighlight(Object *);
+void PMSIV_MENU_ShowEditEntries(Object *p)
 {
     int i;
     Record *records;
-    func_021BCAD8(p);
+    PMSIV_MENU_HideAll(p);
     i=0;
     records=p->records;
     for(;i<2;i++) {
@@ -69,9 +69,9 @@ void func_021BCB50(Object *p)
         p->menus[i]=(struct T *)APP_TASKMENU_WIN_Create((u32)p->windows[i],(u32)&records[i],23,(u8)(i*3+18),9,42);
         APP_TASKMENU_WIN_ChangePalette(p->menus[i],p->windows[i],8,0x3545,0x7b2c);
     }
-    func_021BCD44((u8 *)p);
+    PMSIV_MENU_UpdateEntryPalette((u8 *)p);
     func_020409B4(0);
-    if(func_021BF7C4(p->f04)==0 && func_021BF6D8(p->f04)==2) {
+    if(PMS_INPUT_HasInitialSentence(p->f04)==0 && PMS_INPUT_GetInputMode(p->f04)==2) {
         CLACT_SetActorDrawEnable(p->items[0],1);
         CLACT_SetActorDrawEnable(p->items[1],1);
         CLACT_SetActorDrawEnable(p->items[2],1);
@@ -81,5 +81,5 @@ void func_021BCB50(Object *p)
         CLACT_SetActorDrawEnable(p->items[6],1);
         for(i=0;i<2;i++) CLACT_SetActorDrawEnable(p->other[i],1);
     }
-    func_021BCCA8(p);
+    PMSIV_MENU_UpdateItemHighlight(p);
 }

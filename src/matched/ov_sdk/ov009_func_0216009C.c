@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OS_GetThreadPriority  0x02085A30  arm
- *   func_02085988  0x02085988  arm
+ *   OS_SetThreadPriority  0x02085988  arm
  *   g_021A1D40  0x021A1D40  data
  *   g_02150FEC  0x02150FEC  data
  */
@@ -24,7 +24,7 @@ typedef struct {
 } ThreadInfo;
 
 extern void *OS_GetThreadPriority(char *p);
-extern int func_02085988(void *thread, unsigned long prio);
+extern int OS_SetThreadPriority(void *thread, unsigned long prio);
 extern unsigned long g_021A1D40[2];
 extern ThreadInfo g_02150FEC;
 
@@ -38,6 +38,6 @@ unsigned long func_0216009C(void)
 	}
 	thread = g_02150FEC.current;
 	old_priority = (long unsigned int)OS_GetThreadPriority(thread);
-	func_02085988(thread, g_021A1D40[1]);
+	OS_SetThreadPriority(thread, g_021A1D40[1]);
 	return old_priority;
 }

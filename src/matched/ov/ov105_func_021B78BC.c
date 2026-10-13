@@ -1,5 +1,5 @@
 /*
- * function: func_021B78BC
+ * function: IRC_RESULT_DrawScreen
  * address:  0x021B78BC
  * packet:   pkt_ov105_021B78BC
  * region:   ov105
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7C04  0x021B7C04  thumb  ov105
+ *   IRC_RESULT_DrawActorSystem  0x021B7C04  thumb  ov105
  *
- * evidence: func_021B7C04 is ov105's own code ("ldr r3, =0x0204A600; bx r3"
+ * evidence: IRC_RESULT_DrawActorSystem is ov105's own code ("ldr r3, =0x0204A600; bx r3"
  * after the pop at 0x021B7C00), inside ov105's window, so only ov105 can be
  * resident there when this pool word is used.  Its start is seeded in
  * layout/function_starts.txt from this pointer word, the only reference;
@@ -27,5 +27,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021B7C04(void *);
-void func_021B78BC(u8 *p) { func_021B7C04(p + 4); }
+extern void IRC_RESULT_DrawActorSystem(void *);
+void IRC_RESULT_DrawScreen(u8 *p) { IRC_RESULT_DrawActorSystem(p + 4); }

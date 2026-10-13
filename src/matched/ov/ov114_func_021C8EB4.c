@@ -1,5 +1,5 @@
 /*
- * function: func_021C8EB4
+ * function: DPW_TR_ConvertDwcError
  * address:  0x021C8EB4
  * packet:   pkt_ov114_021C8EB4
  * region:   ov114
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Non-SDK callee of func_021C7C1C (ov114 dependency tree).  Switch on the
+ * Non-SDK callee of DPW_TR_Main (ov114 dependency tree).  Switch on the
  * request kind maps to a DWC result code; DWC_UpdateConnection failing
  * demotes -13 to -14; DWC_ClearError always runs on the non--13 path.
  *
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern int DWC_UpdateConnection(void);
 extern void DWC_ClearError(void);
 
-int func_021C8EB4(u32 type)
+int DPW_TR_ConvertDwcError(u32 type)
 {
     int r;
 

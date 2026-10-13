@@ -11,7 +11,7 @@
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02061CA4 0x02061CA4 arm
@@ -26,7 +26,7 @@ extern const struct Ent d_021BC73C[3];
 extern const u8 d_021BC6FC[];
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
@@ -37,10 +37,10 @@ void func_021BB540(u8 *p)
     for (i = 0; i < 3; i++) {
         u8 *out;
         void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].b, (u32)&out, *(u16 *)p);
-        func_02082D44(*(u8 **)(out + 0xC), p + 0x74 + i * 0x94, 0x20);
+        MI_CpuCopy8(*(u8 **)(out + 0xC), p + 0x74 + i * 0x94, 0x20);
         func_020307B0(buffer);
         buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].e, (u32)&out, *(u16 *)p);
-        func_02082D44(*(u8 **)(out + 0xC), p + 0x94 + i * 0x94, 0x20);
+        MI_CpuCopy8(*(u8 **)(out + 0xC), p + 0x94 + i * 0x94, 0x20);
         func_020307B0(buffer);
     }
     ARC_TOOL_DeleteHandle(object);
@@ -49,7 +49,7 @@ void func_021BB540(u8 *p)
         *(u16 *)(p + 0xD6 + i * 0x94) = 0x10;
     }
     for (i = 0; i < 3; i++) {
-        func_02082D44(p + 0x94 + i * 0x94, p + 0xB4 + i * 0x94, 0x20);
+        MI_CpuCopy8(p + 0x94 + i * 0x94, p + 0xB4 + i * 0x94, 0x20);
         func_02061CA4((void *)0x1E, d_021BC6FC[i] << 5, (u32)(p + 0xB4 + i * 0x94), 0x20);
     }
 }

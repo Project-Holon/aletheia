@@ -1,5 +1,5 @@
 /*
- * function: func_021C0140
+ * function: WIFICLUB_StateCountdownThenConfirm
  * address: 0x021C0140
  * packet: pkt_ov099_021C0140
  * region: ov099
@@ -10,15 +10,15 @@
  * status: EXACT
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
- *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  */
 #include "../include/Obj07959.h"
 extern unsigned int KEY_GetTrg(void);
-extern void func_021BAAB8(char *,int,int);
-int func_021C0140(char *p,int ret) {
+extern void WIFICLUB_ShowStreamedMessage(char *,int,int);
+int WIFICLUB_StateCountdownThenConfirm(char *p,int ret) {
  if (((struct Obj07959 *)p)->f1E0>0) { --((struct Obj07959 *)p)->f1E0; return ret; }
  if (KEY_GetTrg()&3) {
-  func_021BAAB8(p,26,1);
+  WIFICLUB_ShowStreamedMessage(p,26,1);
   ((struct Obj07959 *)p)->f1CC=51;
   ((struct Obj07959 *)p)->f1E0=1;
  }

@@ -1,5 +1,5 @@
 /*
- * function: func_02067B78
+ * function: NNS_G2dSetRndCoreFlipMode
  * address:  0x02067B78
  * packet:   pkt_02067AAC
  * region:   arm9
@@ -17,8 +17,8 @@
  * first half just stored.  The NITRO 2.0 compiler keeps it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067B78.c \
- *       --func func_02067B78 --addr 0x02067B78 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_G2dSetRndCoreFlipMode.c \
+ *       --func NNS_G2dSetRndCoreFlipMode --addr 0x02067B78 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ struct G2dOamState {
     u32 flip;   /* 0x24: bit0 flip-H, bit1 flip-V */
 };
 
-void func_02067B78(struct G2dOamState *p, u32 h, u32 v)
+void NNS_G2dSetRndCoreFlipMode(struct G2dOamState *p, u32 h, u32 v)
 {
     if (h) p->flip |= 1;
     else   p->flip &= ~1u;

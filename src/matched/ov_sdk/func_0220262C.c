@@ -11,6 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *
 
  *
@@ -22,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(u32 a, u32 b, u32 c);
+extern void MI_CpuCopy8(u32 a, u32 b, u32 c);
 
 void func_0220262C(u32 a, u32 b)
 {
-    func_02082D44(a, b, POKE_TOOL_GetPartyParamSize());
+    MI_CpuCopy8(a, b, POKE_TOOL_GetPartyParamSize());
 }

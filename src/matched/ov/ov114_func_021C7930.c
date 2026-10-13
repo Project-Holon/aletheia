@@ -1,5 +1,5 @@
 /*
- * function: func_021C7930
+ * function: DWCi_Ndi_freeHttpCallback
  * address:  0x021C7930
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,6 +15,6 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021C7930(void)
+void DWCi_Ndi_freeHttpCallback(void)
 {
 }

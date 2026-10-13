@@ -17,7 +17,7 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   g_021DE608                       0x021DE608  data
+ *   gSceneSetSearchWork                       0x021DE608  data
  *   procError                        0x021CBC44  arm   ov016
  *   endScene                         0x021CBAF4  arm   ov016
  */
@@ -34,7 +34,7 @@ typedef struct {
     u8 pad1[1];
 } tagAPINFO;
 
-extern struct SearchBss g_021DE608;
+extern struct SearchBss gSceneSetSearchWork;
 
 extern void DWCi_SNDlStop(void);
 extern int DWCi_SEARCHlGetApInfo(void *info);
@@ -52,13 +52,13 @@ static void isEnd(void)
     int num;
     int i;
 
-    g_021DE608.Count++;
-    if (g_021DE608.Count < 300)
+    gSceneSetSearchWork.Count++;
+    if (gSceneSetSearchWork.Count < 300)
         return;
     DWCi_SNDlStop();
     num = DWCi_SEARCHlGetApInfo(&info);
     if (num == 0) {
-        g_021DE608.Choose = 2;
+        gSceneSetSearchWork.Choose = 2;
         DWCi_WINlInitEx(15, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
@@ -70,14 +70,14 @@ static void isEnd(void)
             break;
     }
     if (i == num) {
-        g_021DE608.Choose = 3;
+        gSceneSetSearchWork.Choose = 3;
         DWCi_WINlInitEx(14, 1, 1, -1, 0);
         DWCi_SNDlPlay(18);
         DWCi_BTNlDisable();
         DWCi_ChangeScene(procError);
         return;
     }
-    g_021DE608.Choose = 1;
+    gSceneSetSearchWork.Choose = 1;
     DWCi_SNDlPlay(15);
     DWCi_ChangeScene(endScene);
 }

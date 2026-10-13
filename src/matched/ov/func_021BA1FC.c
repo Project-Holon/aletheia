@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1FC
+ * function: WIFICLUBACTOR_IsPickable
  * address:  0x021BA1FC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef struct {
     u16 f0C;
 } S;
 
-BOOL func_021BA1FC(S *s)
+BOOL WIFICLUBACTOR_IsPickable(S *s)
 {
     switch (s->f0C) {
     case 0:

@@ -139,7 +139,7 @@
  *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  *   BTL_MAIN_StoreClientVoiceFlag 0x021BA698 thumb ov093
  *   func_02007B00 0x02007B00 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   BTL_SERVER_CreateClientAdapter 0x021BAACC thumb ov093
  *   BTL_SERVER_SetClientWithoutAdapter 0x021BAB10 thumb ov093
  *   BTL_CLIENT_SetRequestParam 0x021CD960 thumb ov093
@@ -156,10 +156,10 @@
  *   func_02034A5C 0x02034A5C arm
  *   func_021809D8 0x021809D8 thumb ov231
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
- *   func_0200CED4 0x0200CED4 thumb
- *   func_0200CF28 0x0200CF28 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
+ *   ZUKAN_SAVE_CountCaughtNational 0x0200CF28 thumb
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
- *   func_0200CFA0 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
  *   BTL_MAIN_MapPosForRule 0x021B8CB0 thumb ov093
  *   BTL_MAIN_IsBackRowPos 0x021B99F0 thumb ov093
  *   gClientFirstPokeIds  0x021EFCF0  data  ov093
@@ -224,7 +224,7 @@
  *   NATSUKI_CalcParty 0x0201B818 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   BTL_CALC_IsBossTrainer 0x021D7F60 thumb ov093
- *   func_021D805C 0x021D805C thumb ov093
+ *   BTL_CALC_GetItemParam 0x021D805C thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   _u32_div_f 0x0209C2B0 arm
  *   BTL_CLIENT_SET_GetCount  0x021D826C  thumb  ov093
@@ -402,7 +402,7 @@ extern void BTL_NET_ResetAfterPerapVoice(void);
 extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, int slot);
 extern void BTL_MAIN_StoreClientVoiceFlag(struct BtlMain *main, int client);
 extern u32 func_02007B00(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void BTL_SERVER_CreateClientAdapter(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
 extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, int slotCount);
 extern void BTL_CLIENT_SetRequestParam(struct BtlClient *client, struct BtlServer *server);
@@ -418,10 +418,10 @@ extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
 extern int func_021809D8(void);
 extern u16 BTL_POKEPARAM_GetSpecies(void *mon);
-extern int func_0200CED4(void *,unsigned int);
-extern u16 func_0200CF28(void *zukanWork);
+extern int ZUKAN_SAVE_IsCaught(void *,unsigned int);
+extern u16 ZUKAN_SAVE_CountCaughtNational(void *zukanWork);
 extern void *BTL_POKEPARAM_GetMon(void *);
-extern void func_0200CFA0(void *zukanWork, void *mon);
+extern void ZUKAN_SAVE_RegisterSeen(void *zukanWork, void *mon);
 extern u8 ov231_id[];
 extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 #include "btl_server_types.h"
@@ -488,7 +488,7 @@ extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 extern int BTL_CALC_IsBossTrainer(u32);
 extern void NATSUKI_CalcParty(void *a0, int a1, int a2);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_021D805C(void *p, u32 n);
+extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *poke);
 extern u32 _u32_div_f(u32, u32);
 extern u32 BTL_CLIENT_SET_GetCount(u32 *set);
@@ -1783,7 +1783,7 @@ int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
                     src = (void *)BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
                         main->voices[i] = func_02007B20(main->heapId);
-                        func_02082D44(src, main->voices[i], func_02007B00());
+                        MI_CpuCopy8(src, main->voices[i], func_02007B00());
                     }
                 }
                 BTL_MAIN_StoreClientVoiceFlag(main, (u8)i);
@@ -2257,12 +2257,12 @@ int BTL_MAIN_GetPlayerStatus(struct BtlMain *main)
 }
 
 
-int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int species=BTL_POKEPARAM_GetSpecies(mon); return func_0200CED4(main->setup->zukanWork,species); }
+int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int species=BTL_POKEPARAM_GetSpecies(mon); return ZUKAN_SAVE_IsCaught(main->setup->zukanWork,species); }
 
 
 u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
 {
-    return func_0200CF28((struct Blk37 *)(main->setup->zukanWork));
+    return ZUKAN_SAVE_CountCaughtNational((struct Blk37 *)(main->setup->zukanWork));
 }
 
 
@@ -2273,7 +2273,7 @@ u32 BTL_MAIN_GetGameData(struct BtlMain *main)
 }
 
 
-void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) func_0200CFA0(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
+void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) ZUKAN_SAVE_RegisterSeen(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
 
 
 
@@ -4899,7 +4899,7 @@ void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTra
         slot->trainerType = src->trainerType;
         slot->name = STRBUF_Clone(src->name, 0x12);
         slot->aiFlags = src->aiFlags;
-        func_02082D44(src->itemIds, slot->itemIds, 8);
+        MI_CpuCopy8(src->itemIds, slot->itemIds, 8);
         PMSI_PARAM_Copy(slot->winWord, src->winWord);
         PMSI_PARAM_Copy(slot->loseWord, src->loseWord);
     } else {
@@ -4949,7 +4949,7 @@ void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct B
         slot->name = nameBuf;
         STRBUF_SetChars(nameBuf, src->nameChars, nameLength);
         slot->aiFlags = src->aiFlags;
-        func_02082D44((void *)src->itemIds, slot->itemIds, 8);
+        MI_CpuCopy8((void *)src->itemIds, slot->itemIds, 8);
         PMSI_PARAM_Copy(slot->winWord, src->winWord);
         PMSI_PARAM_Copy(slot->loseWord, src->loseWord);
     } else {
@@ -5628,7 +5628,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
                 old = POKEPARTY_GetMember(main->setup->party[0], i0);
                 mon = POKEPARTY_GetMember(party, i0);
                 move = (u16)func_02017E1C(old, 6, 0);
-                if (!func_021D805C((void *)move, 0x10))
+                if (!BTL_CALC_GetItemParam((void *)move, 0x10))
                     POKE_TOOL_SetPartyValue(mon, 6, move);
                 else if (move != func_02017E1C(mon, 6, 0))
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
@@ -5935,7 +5935,7 @@ void BTL_MAIN_StoreRecorderEntry(struct BtlMain *main)
     if (BTL_MAIN_IsRecordingActive(main)) {
         src = BTL_CLIENT_ReadRecorderEntry(main->clients[main->ownClientId], (u32 *)(&size));
         if (src) {
-            func_02082D44(src, main->setup->recordBuffer, size);
+            MI_CpuCopy8(src, main->setup->recordBuffer, size);
             main->setup->recordSize = size;
             main->setup->rng = main->rng;
         }

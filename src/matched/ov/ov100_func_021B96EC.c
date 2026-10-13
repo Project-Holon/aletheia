@@ -1,5 +1,5 @@
 /*
- * function: func_021B96EC
+ * function: IRCBATTLEMATCH_LoadActorResources
  * address: 0x021B96EC
  * packet: pkt_ov100_021B96EC
  * region: ov100
@@ -24,7 +24,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B96EC(char *p)
+void IRCBATTLEMATCH_LoadActorResources(char *p)
 {
     void *owner;
     owner = func_020490F4(28, ((struct Obj04419 *)p)->f278);

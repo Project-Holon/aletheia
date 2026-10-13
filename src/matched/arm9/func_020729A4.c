@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214DEC0  0x0214DEC0  data
+ *   gNNSSndWaveOutState  0x0214DEC0  data
  *
  * Clears a mask out of the FIRST word of the channel-allocator global
- * (g_0214DEC0+0), a different word from SND_CHANNEL_UnlockChannels's +0x08 and from
+ * (gNNSSndWaveOutState+0), a different word from SND_CHANNEL_UnlockChannels's +0x08 and from
  * NNS_SndWaveOutFreeChannel's +0x04.
  *
  * The parameter is already a MASK, not an index: the image complements the
@@ -28,7 +28,7 @@
  * docs/families/cluster_020726D0.h.
  *
  * This file was parked in src/pending at MATCH only because the `symbols:`
- * block was missing its g_0214DEC0 line, so the single ABS32 site had no
+ * block was missing its gNNSSndWaveOutState line, so the single ABS32 site had no
  * address to resolve; the C was always byte-correct.  Adding the line resolves
  * the site as `literal x25` (e.g. the pool word at 0x02072970, outside this
  * range) and the verdict is EXACT.
@@ -40,9 +40,9 @@
 
 typedef unsigned int u32;
 
-extern u32 g_0214DEC0;
+extern u32 gNNSSndWaveOutState;
 
 void SND_CHANNEL_ClearClaimedMask(u32 mask)
 {
-    g_0214DEC0 &= ~mask;
+    gNNSSndWaveOutState &= ~mask;
 }

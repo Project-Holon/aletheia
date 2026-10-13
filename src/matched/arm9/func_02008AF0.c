@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02008B9C  0x02008B9C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02082AC0(u32 val, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 val, void *dst, u32 size);
 struct Sub02008AECSession;
 extern void func_02008B9C(struct Sub02008AECSession *s);
 
 void func_02008AF0(void *obj)
 {
-    func_02082AC0(0, obj, 0x5C);
+    MIi_CpuClearFast(0, obj, 0x5C);
     func_02008B9C((struct Sub02008AECSession *)((u8 *)obj + 0x10));
 }

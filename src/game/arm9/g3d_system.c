@@ -39,35 +39,35 @@
  *   func_02062114      0x02062114  arm
  *   func_0206246C      0x0206246C  arm
  *   func_02062474      0x02062474  arm
- *   func_02069C74      0x02069C74  arm
- *   func_02069D14      0x02069D14  arm
- *   func_02069E88      0x02069E88  arm
- *   func_02069F7C      0x02069F7C  arm
- *   func_02069FD0      0x02069FD0  arm
- *   func_02069FE4      0x02069FE4  arm
- *   func_02069FF8      0x02069FF8  arm
- *   func_0206A00C      0x0206A00C  arm
- *   func_0206A0C4      0x0206A0C4  arm
+ *   NNS_G3dAnmObjInit      0x02069C74  arm
+ *   NNS_G3dRenderObjInit      0x02069D14  arm
+ *   NNS_G3dRenderObjAddAnmObj      0x02069E88  arm
+ *   NNS_G3dRenderObjRemoveAnmObj      0x02069F7C  arm
+ *   NNS_G3dTexGetRequiredSize      0x02069FD0  arm
+ *   NNS_G3dTex4x4GetRequiredSize      0x02069FE4  arm
+ *   NNS_G3dTexSetTexKey      0x02069FF8  arm
+ *   NNS_G3dTexLoad      0x0206A00C  arm
+ *   NNS_G3dTexReleaseTexKey      0x0206A0C4  arm
  *   NNS_G3dPlttGetRequiredSize      0x0206A110  arm
  *   NNS_G3dPlttSetPlttKey      0x0206A124  arm
  *   NNS_G3dPlttLoad      0x0206A12C  arm
- *   func_0206A17C      0x0206A17C  arm
- *   func_0206A2CC      0x0206A2CC  arm
- *   func_0206A4AC      0x0206A4AC  arm
- *   func_0206A700      0x0206A700  arm
- *   func_0206A854      0x0206A854  arm
- *   func_0206A884      0x0206A884  arm
- *   func_0206A8FC      0x0206A8FC  arm
+ *   NNS_G3dPlttReleasePlttKey      0x0206A17C  arm
+ *   NNS_G3dBindMdlTex      0x0206A2CC  arm
+ *   NNS_G3dBindMdlPltt      0x0206A4AC  arm
+ *   NNS_G3dGlbInit      0x0206A700  arm
+ *   NNS_G3dGlbFlush      0x0206A854  arm
+ *   NNS_G3dGlbFlushP      0x0206A884  arm
+ *   NNS_G3dGlbFlushWVP      0x0206A8FC  arm
  *   NNS_G3dGlbBaseTrans      0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale      0x0206AA0C  arm
  *   NNS_G3dGlbLightVector      0x0206AA3C  arm
  *   NNS_G3dGlbLightColor      0x0206AA78  arm
- *   func_0206B6A4      0x0206B6A4  arm
+ *   NNS_G3dDraw      0x0206B6A4  arm
  *   func_0206DB24      0x0206DB24  arm
  *   NNS_G3dGeSetBuffer      0x0206DB40  arm
  *   NNS_G3dGeReleaseBuffer      0x0206DB60  arm
- *   func_0206DB80      0x0206DB80  arm
- *   func_0206DDA4      0x0206DDA4  arm
+ *   NNS_G3dGeFlushBuffer      0x0206DB80  arm
+ *   NNS_G3dGeBufferOP_N      0x0206DDA4  arm
  *   NNS_G3dInit      0x0206DF14  arm
  *   NNS_G3dAllocRenderObj      0x0206E348  arm
  *   NNS_G3dFreeRenderObj      0x0206E358  arm
@@ -309,35 +309,35 @@ extern int   func_0206210C(int numBlocks);
 extern void  func_02062114(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
 extern int   func_0206246C(int numBlocks);
 extern void  func_02062474(u32 size, u32 work, u32 workSize, u32 useAsDefault);
-extern void  func_02069C74(NNSG3dAnmObj *anmObj, void *anm, NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
-extern void  func_02069D14(NNSG3dRenderObj *rndObj, void *resMdl);
-extern void  func_02069E88(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
-extern void  func_02069F7C(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
-extern u32   func_02069FD0(NNSG3dResTex *tex);
-extern u32   func_02069FE4(NNSG3dResTex *tex);
-extern void  func_02069FF8(NNSG3dResTex *tex, u32 texKey, u32 tex4x4Key);
-extern void  func_0206A00C(NNSG3dResTex *tex, BOOL exec);
-extern void  func_0206A0C4(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key);
+extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
+extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, void *resMdl);
+extern void  NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
+extern void  NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
+extern u32   NNS_G3dTexGetRequiredSize(NNSG3dResTex *tex);
+extern u32   NNS_G3dTex4x4GetRequiredSize(NNSG3dResTex *tex);
+extern void  NNS_G3dTexSetTexKey(NNSG3dResTex *tex, u32 texKey, u32 tex4x4Key);
+extern void  NNS_G3dTexLoad(NNSG3dResTex *tex, BOOL exec);
+extern void  NNS_G3dTexReleaseTexKey(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key);
 extern u32   NNS_G3dPlttGetRequiredSize(NNSG3dResTex *tex);
 extern void  NNS_G3dPlttSetPlttKey(NNSG3dResTex *tex, u32 plttKey);
 extern void  NNS_G3dPlttLoad(NNSG3dResTex *tex, BOOL exec);
-extern u32   func_0206A17C(NNSG3dResTex *tex);
-extern void  func_0206A2CC(void *resMdl, NNSG3dResTex *tex);
-extern void  func_0206A4AC(void *resMdl, NNSG3dResTex *tex);
-extern void  func_0206A700(void);
-extern void  func_0206A854(void);
-extern void  func_0206A884(void);
-extern void  func_0206A8FC(void);
+extern u32   NNS_G3dPlttReleasePlttKey(NNSG3dResTex *tex);
+extern void  NNS_G3dBindMdlTex(void *resMdl, NNSG3dResTex *tex);
+extern void  NNS_G3dBindMdlPltt(void *resMdl, NNSG3dResTex *tex);
+extern void  NNS_G3dGlbInit(void);
+extern void  NNS_G3dGlbFlush(void);
+extern void  NNS_G3dGlbFlushP(void);
+extern void  NNS_G3dGlbFlushWVP(void);
 extern void  NNS_G3dGlbBaseTrans(VecFx32 *trans);
 extern void  NNS_G3dGlbBaseScale(VecFx32 *scale);
 extern void  NNS_G3dGlbLightVector(int lightIdx, s16 x, s16 y, s16 z);
 extern void  NNS_G3dGlbLightColor(int lightIdx, u32 color);
-extern void  func_0206B6A4(NNSG3dRenderObj *rndObj);
+extern void  NNS_G3dDraw(NNSG3dRenderObj *rndObj);
 extern u32   func_0206DB24(void);
 extern void  NNS_G3dGeSetBuffer(void *buffer);
 extern void *NNS_G3dGeReleaseBuffer(void);
-extern void  func_0206DB80(void);
-extern void  func_0206DDA4(u32 cmd, const void *params, u32 numParams);
+extern void  NNS_G3dGeFlushBuffer(void);
+extern void  NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 numParams);
 extern void  NNS_G3dInit(void);
 extern NNSG3dRenderObj *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
 extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *allocator, NNSG3dRenderObj *rndObj);
@@ -465,7 +465,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
 
     NNS_G3dInit();
     G3X_InitMtxStack();
-    func_0206A700();
+    NNS_G3dGlbInit();
 
     if (geBufSize != 0)
         NNS_G3dGeSetBuffer(func_02030BBC(geBufSize > 0x1800 ? 0x1800 : geBufSize));
@@ -707,17 +707,17 @@ void G3D_SYSTEM_SetGlbFlushMode(u32 mode)
         _G3dSystem.work->glbFlushFunc = G3D_SYSTEM_FlushGlbDefault;
         break;
     case 1:
-        _G3dSystem.work->glbFlushFunc = func_0206A884;
+        _G3dSystem.work->glbFlushFunc = NNS_G3dGlbFlushP;
         break;
     case 2:
-        _G3dSystem.work->glbFlushFunc = func_0206A8FC;
+        _G3dSystem.work->glbFlushFunc = NNS_G3dGlbFlushWVP;
         break;
     }
 }
 
 void G3D_SYSTEM_FlushGlbDefault(void)
 {
-    func_0206A854();
+    NNS_G3dGlbFlush();
 }
 
 u32 G3D_SYSTEM_GetResourceSize(void)
@@ -876,10 +876,10 @@ BOOL G3D_SYSTEM_TransVramTexture(G3dResource *res)
         return 0;
     if (G3D_SYSTEM_AllocPlttVramKey(tex, &plttKey) == 0)
         return 0;
-    func_02069FF8(tex, texKey, tex4x4Key);
+    NNS_G3dTexSetTexKey(tex, texKey, tex4x4Key);
     NNS_G3dPlttSetPlttKey(tex, plttKey);
     DC_FlushRange(file, file->fileSize);
-    func_0206A00C(tex, 1);
+    NNS_G3dTexLoad(tex, 1);
     NNS_G3dPlttLoad(tex, 1);
     return 1;
 fail:
@@ -917,13 +917,13 @@ BOOL G3D_SYSTEM_FreeVramTexture(G3dResource *res)
         texLoaded = 1;
     if (tex->tex4x4Info.flag & 1)
         tex4x4Loaded = 1;
-    func_0206A0C4(tex, &texKey, &tex4x4Key);
+    NNS_G3dTexReleaseTexKey(tex, &texKey, &tex4x4Key);
     if (texLoaded)
         NNS_GfdDefaultFuncFreeTexVram(texKey);
     if (tex4x4Loaded)
         NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
     if ((tex->plttInfo.flag & 1) != 0 && tex->plttInfo.sizePltt != 0)
-        NNS_GfdDefaultFuncFreePlttVram(func_0206A17C(tex));
+        NNS_GfdDefaultFuncFreePlttVram(NNS_G3dPlttReleasePlttKey(tex));
     return 1;
 }
 
@@ -942,7 +942,7 @@ BOOL G3D_SYSTEM_AllocVramTexture(G3dResource *res)
         return 0;
     if (G3D_SYSTEM_AllocPlttVramKey(tex, &plttKey) == 0)
         return 0;
-    func_02069FF8(tex, texKey, tex4x4Key);
+    NNS_G3dTexSetTexKey(tex, texKey, tex4x4Key);
     NNS_G3dPlttSetPlttKey(tex, plttKey);
     return 1;
 fail:
@@ -959,7 +959,7 @@ BOOL G3D_SYSTEM_TransAllocatedTexture(G3dResource *res)
         return 0;
     }
     DC_FlushRange(file, file->fileSize);
-    func_0206A00C(tex, 1);
+    NNS_G3dTexLoad(tex, 1);
     NNS_G3dPlttLoad(tex, 1);
     return 1;
 }
@@ -975,8 +975,8 @@ NNSG3dResTex *G3D_SYSTEM_GetResourceTex(G3dResource *res)
  */
 BOOL G3D_SYSTEM_AllocTexVramKeys(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key)
 {
-    u32 texSize = func_02069FD0(tex);
-    u32 tex4x4Size = func_02069FE4(tex);
+    u32 texSize = NNS_G3dTexGetRequiredSize(tex);
+    u32 tex4x4Size = NNS_G3dTex4x4GetRequiredSize(tex);
 
     if (texSize != 0) {
         *texKey = NNS_GfdDefaultFuncAllocTexVram(texSize, 0, 0);
@@ -1101,10 +1101,10 @@ have:
     render->texRes = texRes;
     render->rndObj = NNS_G3dAllocRenderObj(&_G3dSystem.work->allocator);
     if (tex != 0) {
-        func_0206A2CC(resMdl, tex);
-        func_0206A4AC(resMdl, tex);
+        NNS_G3dBindMdlTex(resMdl, tex);
+        NNS_G3dBindMdlPltt(resMdl, tex);
     }
-    func_02069D14(render->rndObj, resMdl);
+    NNS_G3dRenderObjInit(render->rndObj, resMdl);
     return render;
 }
 
@@ -1158,7 +1158,7 @@ G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, u
     if (G3D_SYSTEM_GetRenderTexRes(render) != 0)
         tex = NNS_G3dGetTex(render->texRes->file);
     anime->anmObj = NNS_G3dAllocAnmObj(&_G3dSystem.work->allocator, anm, resMdl);
-    func_02069C74(anime->anmObj, anm, resMdl, tex);
+    NNS_G3dAnmObjInit(anime->anmObj, anm, resMdl, tex);
     return anime;
 }
 
@@ -1241,7 +1241,7 @@ BOOL G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx)
         return 0;
     }
 
-    func_02069E88(obj->render->rndObj, anime->anmObj);
+    NNS_G3dRenderObjAddAnmObj(obj->render->rndObj, anime->anmObj);
     return 1;
 }
 
@@ -1253,7 +1253,7 @@ BOOL G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 anmIdx)
     if (anime == 0)
         return 0;
 
-    func_02069F7C(obj->render->rndObj, anime->anmObj);
+    NNS_G3dRenderObjRemoveAnmObj(obj->render->rndObj, anime->anmObj);
     return 1;
 }
 
@@ -1380,7 +1380,7 @@ void G3D_SYSTEM_DrawStart(void)
 /* End a frame of 3D drawing: flush the command buffer and request the buffer swap. */
 void G3D_SYSTEM_DrawEnd(void)
 {
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     _G3dSystem.work->swapRequest = 1;
 }
 
@@ -1474,19 +1474,19 @@ BOOL G3D_SYSTEM_CheckObjectCulling(G3dObject *obj)
     box.width = info->boxW;
     box.height = info->boxH;
     box.depth = info->boxD;
-    func_0206DDA4(G3OP_PUSH_MTX, 0, 0);
+    NNS_G3dGeBufferOP_N(G3OP_PUSH_MTX, 0, 0);
 
     scale[0] = info->boxPosScale;
     scale[1] = scale[0];
     scale[2] = scale[0];
-    func_0206DDA4(G3OP_SCALE, scale, 3);
+    NNS_G3dGeBufferOP_N(G3OP_SCALE, scale, 3);
 
     if (G3D_SYSTEM_BoxTest(&box) == 0) {
         visible = 0;
     }
 
     popCount = 1;
-    func_0206DDA4(G3OP_POP_MTX, &popCount, 1);
+    NNS_G3dGeBufferOP_N(G3OP_POP_MTX, &popCount, 1);
     return visible;
 }
 
@@ -1499,12 +1499,12 @@ BOOL G3D_SYSTEM_BoxTest(const GXBoxTestParam *box)
 
     result = 1;
     polygonAttr = 0x30C1;
-    func_0206DDA4(G3OP_POLYGON_ATTR, &polygonAttr, 1);
+    NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &polygonAttr, 1);
     primitive = 0;
-    func_0206DDA4(G3OP_BEGIN_VTXS, &primitive, 1);
-    func_0206DDA4(G3OP_END_VTXS, 0, 0);
-    func_0206DDA4(G3OP_BOX_TEST, box, 3);
-    func_0206DB80();
+    NNS_G3dGeBufferOP_N(G3OP_BEGIN_VTXS, &primitive, 1);
+    NNS_G3dGeBufferOP_N(G3OP_END_VTXS, 0, 0);
+    NNS_G3dGeBufferOP_N(G3OP_BOX_TEST, box, 3);
+    NNS_G3dGeFlushBuffer();
     while (func_0207DEA4(&result) != 0) {
         ;
     }
@@ -1518,7 +1518,7 @@ void G3D_SYSTEM_DrawRenderObj(NNSG3dRenderObj *rndObj)
     _G3dSystem.vertexCount += rndObj->resMdl->info.numVertex;
     if (_G3dSystem.work->drawCallback != 0)
         _G3dSystem.work->drawCallback(rndObj, _G3dSystem.work->drawCallbackArg);
-    func_0206B6A4(rndObj);
+    NNS_G3dDraw(rndObj);
 }
 
 void G3D_SYSTEM_ResetDrawCounts(void)

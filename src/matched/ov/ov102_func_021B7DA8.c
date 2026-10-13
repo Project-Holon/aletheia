@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DA8
+ * function: IRC_COMPATIBLE_MENU_ExitWindow
  * address: 0x021B7DA8
  * packet: pkt_ov102_021B7DA8
  * region: ov102
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj13726.h"
 struct U16Vec; struct Descriptor; extern void STRBUF_Delete(struct U16Vec *); extern void BMP_WIN_Delete(struct Descriptor *); extern void MI_CpuFill8(void *,int,unsigned);
-void func_021B7DA8(void *p) { STRBUF_Delete(*(struct U16Vec * *)&((struct Obj13726 *)p)->fC); BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj13726 *)p)->f0); MI_CpuFill8(p,0,20); }
+void IRC_COMPATIBLE_MENU_ExitWindow(void *p) { STRBUF_Delete(*(struct U16Vec * *)&((struct Obj13726 *)p)->fC); BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj13726 *)p)->f0); MI_CpuFill8(p,0,20); }

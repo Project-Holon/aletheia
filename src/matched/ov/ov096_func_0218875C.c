@@ -1,5 +1,5 @@
 /*
- * function: func_0218875C
+ * function: TR_AI_CompareRandom
  * address:  0x0218875C
  * packet:   pkt_ov096_0218875C
  * region:   ov096
@@ -16,7 +16,7 @@
  *   twice-called helper is 0x0201134C, not the 0x02011324 the old name
  *   implied.
  * symbols:
- *   func_0218A0F4  0x0218A0F4  thumb  ov096
+ *   TR_AI_Compare  0x0218A0F4  thumb  ov096
  *   VM_GetU32  0x0201134C  thumb
  */
 
@@ -32,9 +32,9 @@ typedef enum { Z0 } E;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern u32 func_0203F0A8(void);
-extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
+extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 
-int func_0218875C(struct Cursor *a, int unused, int c) {
+int TR_AI_CompareRandom(struct Cursor *a, int unused, int c) {
     u8 *p;
     u32 v;
     int r;
@@ -43,5 +43,5 @@ int func_0218875C(struct Cursor *a, int unused, int c) {
     r = (int)VM_GetU32(a);
     v = func_0203F0A8();
     z = Z0;
-    return func_0218A0F4((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);
+    return TR_AI_Compare((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE6F0",
+   "name": "DWCi_SCREENlRenew",
    "address": "0x021CE6F0",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CE998",
+   "name": "DWCi_SBlGetState",
    "address": "0x021CE998",
    "kind": "sdk",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CE9B8",
+   "name": "DWCi_SBlEnable",
    "address": "0x021CE9B8",
    "kind": "sdk",
    "region": "ov016",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CE9D0",
+   "name": "DWCi_SBlDisable",
    "address": "0x021CE9D0",
    "kind": "sdk",
    "region": "ov016",

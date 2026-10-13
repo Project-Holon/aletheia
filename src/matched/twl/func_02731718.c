@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   data_02732FA8 0x02732FA8 data
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 state);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 state);
 extern u32 data_02732FA8;
 
 int PMi_TryLockForReset(void)
 {
-    u32 state = func_02087988();
+    u32 state = OS_DisableInterrupts();
     if (data_02732FA8 != 0) {
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         return 0;
     }
     data_02732FA8 = 1;
-    func_0208799C(state);
+    OS_RestoreInterrupts(state);
     return 1;
 }

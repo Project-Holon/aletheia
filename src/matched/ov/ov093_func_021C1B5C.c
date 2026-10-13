@@ -11,7 +11,7 @@
  *   func_021C1C48 0x021C1C48 thumb ov093
  *   func_021C1C58 0x021C1C58 thumb ov093
  *   func_021C1C68 0x021C1C68 thumb ov093
- *   func_021C1C78 0x021C1C78 thumb ov093
+ *   ghiEncryptorSslSendFunc 0x021C1C78 thumb ov093
  *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern u32 func_021C1C48(u8 *);
 extern u8 *func_021C1C58(u8 *, u32);
 extern int func_021C1C68(u8 *, u8 *, u32 *);
-extern int func_021C1C78(u8 *, u8 *, u32 *);
+extern int ghiEncryptorSslSendFunc(u8 *, u8 *, u32 *);
 extern void BTL_EVENT_PushVarFrame(int);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_EVENT_SetVarReadOnly(int, u32);
@@ -55,7 +55,7 @@ void BTL_SERVER_FLOW_RunMoveDamageGroupEvent(u8 *p, u8 *a, u8 *b, u8 *c, u32 d, 
     for (i = 0; i < n; i++) {
         x = func_021C1C58(b, i);
         if (e) ok = func_021C1C68(b, x, &v);
-        else ok = func_021C1C78(b, x, &v);
+        else ok = ghiEncryptorSslSendFunc(b, x, &v);
         if (ok) {
             sum += v;
             BTL_EVENT_SetVarReadOnly(got + 6, BTL_POKEPARAM_GetPokeId(x));

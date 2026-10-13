@@ -1,5 +1,5 @@
 /*
- * function: func_021D28B4
+ * function: DWCi_MOV_MBP_GetChildInfo
  * address:  0x021D28B4
  * packet:   pkt_ov016_021D28B4
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_MOV_MBP_GetChildInfo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
  * symbols:
- *   g_021DE65C  0x021de65c  data
+ *   gDwcMovMbpWork  0x021de65c  data
  */
 
 typedef unsigned char u8;
@@ -40,11 +40,11 @@ typedef struct {
     DWCi_MOV_MBPChildInfo childInfo[1];
 } DWCi_MOV_WPB_WORK;
 
-extern DWCi_MOV_WPB_WORK *g_021DE65C;
+extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 
-DWCi_MOV_MBPChildInfo *func_021D28B4(u16 child_aid)
+DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid)
 {
-    if (g_021DE65C->mbpState.connectedBmp & (1 << child_aid))
-        return &g_021DE65C->childInfo[child_aid - 1];
+    if (gDwcMovMbpWork->mbpState.connectedBmp & (1 << child_aid))
+        return &gDwcMovMbpWork->childInfo[child_aid - 1];
     return 0;
 }

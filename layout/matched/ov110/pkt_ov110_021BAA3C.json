@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BAA3C",
-    "func_021BAA5C",
-    "func_021BAA68",
-    "func_021BAA74",
-    "func_021BAA80"
+    "PMS_INPUT_VIEW_TaskResetEditCursor",
+    "PMS_INPUT_VIEW_TaskEndOnly2",
+    "PMS_INPUT_VIEW_TaskEndOnly3",
+    "PMS_INPUT_VIEW_TaskEndOnly4",
+    "PMS_INPUT_VIEW_TaskEndOnly5"
+   ],
+   "addresses": [
+    "0x021BAA3C",
+    "0x021BAA5C",
+    "0x021BAA68",
+    "0x021BAA74",
+    "0x021BAA80"
    ]
   }
  ]

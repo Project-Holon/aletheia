@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF4C
+ * function: IRCBATTLEMATCH_StepOpenCancelConfirm
  * address: 0x021BAF4C
  * packet: pkt_ov100_021BAF4C
  * region: ov100
@@ -8,32 +8,32 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021BB688 0x021BB688 data a4
+ *   gIrcBattleMatchMsgCancelConfirmAlt 0x021BB688 data a4
  *   func_02049B40 0x02049B40 arm
- *   func_021BA3A4 0x021BA3A4 thumb ov100
- *   func_021BA1D0 0x021BA1D0 thumb ov100
+ *   IRCBATTLEMATCH_PrintMainMessage 0x021BA3A4 thumb ov100
+ *   IRCBATTLEMATCH_OpenQuitMenu 0x021BA1D0 thumb ov100
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BAE5C 0x021BAE5C thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitCancelChoice 0x021BAE5C thumb ov100
  */
 #include "../include/Obj00060.h"
 struct Word { int x; };
-extern const struct Word d_021BB688;
+extern const struct Word gIrcBattleMatchMsgCancelConfirmAlt;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_021BA3A4(struct Word *,int);
-extern void func_021BA1D0(int),GF_FONT_SetDefaultTextColor(void);
+extern void IRCBATTLEMATCH_PrintMainMessage(struct Word *,int);
+extern void IRCBATTLEMATCH_OpenQuitMenu(int),GF_FONT_SetDefaultTextColor(void);
 typedef unsigned char  u8;
-extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021BAE5C(int a);
-void func_021BAF4C(int a) {
- struct Word x=d_021BB688;
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_StepWaitCancelChoice(int a);
+void IRCBATTLEMATCH_StepOpenCancelConfirm(int a) {
+ struct Word x=gIrcBattleMatchMsgCancelConfirmAlt;
  int v=((struct Obj00060 *)a)->fCB0;
  func_02049B40(23,5,4,0x180,32,((struct Obj00060 *)a)->f278);
- func_021BA3A4(&x,a);
+ IRCBATTLEMATCH_PrintMainMessage(&x,a);
  ((struct Obj00060 *)a)->fCB0=v;
- func_021BA1D0(a);
+ IRCBATTLEMATCH_OpenQuitMenu(a);
  GF_FONT_SetDefaultTextColor();
- func_021B95B8((u8 *)a,(u32)func_021BAE5C);
+ IRCBATTLEMATCH_SetStep((u8 *)a,(u32)IRCBATTLEMATCH_StepWaitCancelChoice);
 }

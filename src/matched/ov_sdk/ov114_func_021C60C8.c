@@ -1,5 +1,5 @@
 /*
- * function: func_021C60C8
+ * function: DWCi_Ndi_encodeBASE64
  * address:  0x021C60C8
  * packet:   pkt_ov114_021C60C8
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Three levers, all required:
- *   1. `const` on the read-only extern table g_021CE0F4.  Without it the
+ *   1. `const` on the read-only extern table sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz.  Without it the
  *      hoisted `ldr <tbl>, [pc]` grabbed r4 (the lowest free callee-saved)
  *      and the WHOLE callee-saved set rotated one register high
  *      (95 concrete diffs).  With it the allocation matches the image
@@ -27,14 +27,14 @@
  * sdk:      DWCi_Ndi_encodeBASE64 (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_021C6004  0x021C6004  arm  ov114
- *   g_021CE0F4  0x021CE0F4  data
+ *   getNchar  0x021C6004  arm  ov114
+ *   sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz  0x021CE0F4  data
  */
 
-extern int func_021C6004(unsigned char *dst, char *p, int n);
-extern const char g_021CE0F4[];
+extern int getNchar(unsigned char *dst, char *p, int n);
+extern const char sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz[];
 
-int func_021C60C8(char *encstr, char *srcbin, int length)
+int DWCi_Ndi_encodeBASE64(char *encstr, char *srcbin, int length)
 {
 	unsigned char c[3];
 	unsigned char base2;
@@ -43,7 +43,7 @@ int func_021C60C8(char *encstr, char *srcbin, int length)
 	unsigned char base0;
 	int n;
 	int len = 0;
-	n = func_021C6004(c, srcbin, length > 3 ? 3 : length);
+	n = getNchar(c, srcbin, length > 3 ? 3 : length);
 	while (n > 0) {
 		if (length < 3)
 			c[2] = 0;
@@ -53,17 +53,17 @@ int func_021C60C8(char *encstr, char *srcbin, int length)
 		base0 = ((c[0] << 4) | (c[1] >> 4)) & 0x3f;
 		base2 = ((c[1] << 2) | (c[2] >> 6)) & 0x3f;
 		base3 = c[2] & 0x3f;
-		encstr[0] = g_021CE0F4[base1];
-		encstr[1] = g_021CE0F4[base0];
-		encstr[2] = n > 1 ? g_021CE0F4[base2] : '*';
-		encstr[3] = n > 2 ? g_021CE0F4[base3] : '*';
+		encstr[0] = sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz[base1];
+		encstr[1] = sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz[base0];
+		encstr[2] = n > 1 ? sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz[base2] : '*';
+		encstr[3] = n > 2 ? sDwciNdAbcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz[base3] : '*';
 		srcbin += n;
 		encstr += 4;
 		len += 4;
 		length -= n;
 		if (length == 0)
 			break;
-		n = func_021C6004(c, srcbin, length > 3 ? 3 : length);
+		n = getNchar(c, srcbin, length > 3 ? 3 : length);
 	}
 	*encstr = 0;
 	return len;

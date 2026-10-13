@@ -1,7 +1,7 @@
 /*
  * file:     wm_sync.c
  * unit:     yes
- * function: WM_SetIndCallback, WM_SetPortCallback, func_0208EBE4, func_0208EC34, func_0208ECA4, func_0208ED70, func_0208EE60, func_0208EE9C, WM_GetDispersionBeaconPeriod, func_0208EFC4, func_0208F05C, func_0208F1B4
+ * function: WM_SetIndCallback, WM_SetPortCallback, WM_ReadStatus, func_0208EC34, func_0208ECA4, func_0208ED70, WM_GetAllowedChannel, WM_GetLinkLevel, WM_GetDispersionBeaconPeriod, func_0208EFC4, WM_GetOtherElements, func_0208F1B4
  * address:  0x0208EAC8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -196,15 +196,15 @@ extern void RTC_Init(void);
 extern int RTC_GetTime(RTCTime *time);
 WMErrCode WM_SetIndCallback(WMCallbackFunc callback);
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);
-WMErrCode func_0208EBE4(struct WMStatus *statusBuf);
+WMErrCode WM_ReadStatus(struct WMStatus *statusBuf);
 int func_0208EC34(void);
 int func_0208ECA4(void);
 WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid);
-u16 func_0208EE60(void);
-WMLinkLevel func_0208EE9C(void);
+u16 WM_GetAllowedChannel(void);
+WMLinkLevel WM_GetLinkLevel(void);
 u16 WM_GetDispersionBeaconPeriod(void);
 u16 func_0208EFC4(void);
-WMOtherElements func_0208F05C(WMBssDesc *bssDesc);
+WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
 u16 func_0208F1B4(void);
 extern u32 g_020A872C;
 
@@ -289,7 +289,7 @@ WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg)
  * sdk:      WM_ReadStatus (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMErrCode func_0208EBE4(struct WMStatus *statusBuf)
+WMErrCode WM_ReadStatus(struct WMStatus *statusBuf)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();
@@ -420,7 +420,7 @@ WMMpRecvData *func_0208ED70(const WMMpRecvHeader *header, u16 aid)
  * sdk:      WM_GetAllowedChannel (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-u16 func_0208EE60(void)
+u16 WM_GetAllowedChannel(void)
 {
     WMErrCode result;
 
@@ -443,7 +443,7 @@ u16 func_0208EE60(void)
  * sdk:      WM_GetLinkLevel (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMLinkLevel func_0208EE9C(void)
+WMLinkLevel WM_GetLinkLevel(void)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();
@@ -516,7 +516,7 @@ u16 func_0208EFC4(void)
  * sdk:      WM_GetOtherElements (libwm.TWL.HYB.a(wm_sync.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
  */
-WMOtherElements func_0208F05C(WMBssDesc *bssDesc)
+WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc)
 {
     WMOtherElements elems;
     u8 *p_elem;

@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200CC20
+ * function: ZUKAN_SAVE_GetFormCount
  *
  * 32 bytes, 0x0200CC20..0x0200CC40, one function, which carries a label in the
  * generated listing.
  *
  * The table at 0x0209DE4C is a run of `{u16 form; u16 count;}` pairs: this
- * function returns the count for a form group and func_0200CA98 walks the same
+ * function returns the count for a form group and ZUKAN_SAVE_UpdateViewFlags walks the same
  * array looking for the first pair whose first halfword matches.  The stride is
- * four, which is the `lsls #2` here and in func_0200CA98, so the two halfwords
+ * four, which is the `lsls #2` here and in ZUKAN_SAVE_UpdateViewFlags, so the two halfwords
  * are one record and not two parallel arrays; the pool word for the second
  * field is the symbol plus two rather than a second symbol.
  *
@@ -32,7 +32,7 @@
  * Two near misses in the same original file, recorded here because this is the
  * matched file next to them.
  *
- * func_0200CA98, 376 bytes at 0x0200CA98, the bit-array maintenance this
+ * ZUKAN_SAVE_UpdateViewFlags, 376 bytes at 0x0200CA98, the bit-array maintenance this
  * table drives.  It comes out four bytes short of 392 with the right control
  * flow throughout: mwccarm hoists the two loop-invariant bitmap pointers above
  * the loop's own entry test, where the original computes them in the loop
@@ -47,7 +47,7 @@
  * the row index through a `u8 (*)[0x54]` local, through the struct member and
  * through a flat offset.
  *
- * func_0200CC40, 402 bytes at 0x0200CC40, the query that reads the same three
+ * ZUKAN_SAVE_GetViewGenderAndForm, 402 bytes at 0x0200CC40, the query that reads the same three
  * bitmap groups back.  Its first half reproduces instruction for instruction;
  * its second half, four independent `if`s that each test one bitmap and write
  * two out-parameters, does not, because the original recomputes the shift, the
@@ -57,7 +57,8 @@
  * expressions out in full in each block does not restore them.
  *
  * symbols:
- *   func_0200CA98_Table  0x0209DE4C  data
+ *   sZukanFormTable  0x0209DE4C  data
+ *   ZUKAN_SAVE_GetFormTableIndex  0x0200C7F4  thumb
  */
 
 typedef unsigned short u16;
@@ -69,16 +70,16 @@ struct FormCount {
     u16 unk02;
 };
 
-extern const struct FormCount func_0200CA98_Table[];
+extern const struct FormCount sZukanFormTable[];
 
-extern u32 func_0200C7F4(u32 id);
+extern u32 ZUKAN_SAVE_GetFormTableIndex(u32 id);
 
-u16 func_0200CC20(u32 a)
+u16 ZUKAN_SAVE_GetFormCount(u32 a)
 {
-    s32 i = func_0200C7F4(a);
+    s32 i = ZUKAN_SAVE_GetFormTableIndex(a);
 
     if (i != -1) {
-        return func_0200CA98_Table[i].unk02;
+        return sZukanFormTable[i].unk02;
     }
     return 1;
 }

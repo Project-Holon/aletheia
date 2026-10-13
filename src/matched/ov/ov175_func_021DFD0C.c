@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD0C
+ * function: scReportBeginNewPlayer
  * address:  0x021DFD0C
  * packet:   pkt_021DFD0C
  * region:   ov175
@@ -10,16 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0000  0x_021E0000  arm  ov175
+ *   sciReportBeginNewPlayer  0x021E0000  arm
+ *   sciReportBeginNewPlayer  0x_021E0000  arm  ov175
  *
- * ARM tail jump to the ov175 block copy func_021E0000.
+ * ARM tail jump to the ov175 block copy sciReportBeginNewPlayer.
  */
 
 typedef unsigned char  u8;
-extern int func_021E0000(u8 *p);
+extern int sciReportBeginNewPlayer(u8 *p);
 
-int func_021DFD0C(u8 *a0)
+int scReportBeginNewPlayer(u8 *a0)
 {
-    return func_021E0000(a0);
+    return sciReportBeginNewPlayer(a0);
 }
 

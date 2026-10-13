@@ -170,8 +170,8 @@
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BB58  0x0200BB58  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_0201293C  0x0201293C  thumb
  *   func_02012934  0x02012934  thumb
@@ -204,8 +204,8 @@
  *   EVENT_BATTLE_GetKindFlag  0x0216EFCC  thumb  ov010
  *   EVENT_BATTLE_CreateCatchTutorial  0x0216E95C  thumb  ov010
  *   EFFECT_ENCOUNT_GetItemId  0x021AAB48  thumb  ov021
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D488  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   MOVE_POKEMON_SpawnEntry  0x0215E440  thumb  ov010
  *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
  *   func_02012984  0x02012984  thumb
@@ -228,7 +228,7 @@
  *   FIELD_CAMERA_StartMoveToSetting  0x0218FA40  thumb  ov021
  *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb  ov021
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   FIELD_CAMERA_SetSetting  0x0218E17C  thumb  ov021
  *   FIELD_FK_DEMO_GetCameraSettingId  0x021F36C8  thumb  ov056
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
@@ -510,8 +510,8 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void func_0200BB58(u8 *a0, u8 *a1);
 extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
-extern void *func_0200CA1C(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_0201293C(const struct BigObj *p);
 extern void *func_02012934(const struct BigObj *p);
@@ -539,8 +539,8 @@ extern u32 func_02012A44(const struct BigObj *p);
 extern u8 EVENT_BATTLE_GetKindFlag(int i);
 extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
 extern u16 EFFECT_ENCOUNT_GetItemId(char *p);
-extern void *func_0200D418(void *sys);
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
 extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
 extern u8 func_02012984(const struct BigObj *p);
@@ -561,7 +561,7 @@ extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v);
 extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
-extern void *GIMMICK_INIT_SetGimmick39Flags(void *a, u8 *b, u32 c);
+extern void *GIMMICK_INIT_SetCartLanesFlags(void *a, u8 *b, u32 c);
 extern u32 FIELD_FK_DEMO_GetCameraSettingId(u32 idx);
 extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
 extern u32 FIELDMAP_GetMapFunc(u8 *p);
@@ -2161,7 +2161,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = func_020120F4(gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    saveStateSource = func_0200CA1C(gameData);
+    saveStateSource = ZUKAN_SAVE_GetFromGameData(gameData);
     fieldMap = func_0201210C(gameSystem);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     kind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -2173,7 +2173,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     work->myItem = (u32)func_0201292C(gameData);
     work->myStatus = func_02012944(gameData);
     work->saveStateA = (u32)func_0200873C(saveControl);
-    work->saveStateB = func_0200CA38(saveStateSource);
+    work->saveStateB = ZUKAN_SAVE_IsNationalDexEnabled(saveStateSource);
     work->kind = kind;
     work->extraData = 0;
     if (kind == 4) {
@@ -2383,10 +2383,10 @@ int SCRCMD_PROC_FLD_StoreCameraValue(struct ScriptVm *vm, struct ScrcmdWork *cmd
 int SCRCMD_PROC_FLD_SetFlagIfClear(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    u32 flagBlock = (u32)func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    u32 flagBlock = (u32)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     u8 flagIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    if (func_0200D488((struct Blk38 *)flagBlock, flagIndex) == 0) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive((struct Blk38 *)flagBlock, flagIndex) == 0) {
         MOVE_POKEMON_SpawnEntry(gameData, flagIndex);
     }
     return 0;
@@ -2692,7 +2692,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     u8 *fieldMap = func_0201210C(gameSystem);
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetGimmick39Flags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
+    SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetCartLanesFlags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
     return 1;
 }
 

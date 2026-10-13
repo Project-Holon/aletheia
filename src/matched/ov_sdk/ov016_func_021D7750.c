@@ -10,7 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021DE6E4 0x021DE6E4 data
+ *   gMemTask 0x021DE6E4 data
+ *   DWCi_QUElPushBack  0x021D546C  arm
+ *   DWCi_HEAPlFree_  0x021D6438  arm
  *
  * note: the parked header declared g_021E66E4 (0x021E66E4); the ov016 pool
  * word at 0x021D7790 is 0x021DE6E4, so the wildcarded ABS32 hid the wrong
@@ -28,16 +30,16 @@ struct StructR4 {
     u8 field11;
 };
 
-extern void func_021D6438(void **mem);
+extern void DWCi_HEAPlFree_(void **mem);
 extern void func_021D6D8C(void *);
-extern void func_021D546C(void *, void *);
-extern void *g_021DE6E4;
+extern void DWCi_QUElPushBack(void *, void *);
+extern void *gMemTask;
 
 void func_021D7750(u32 idx, struct StructR4 *r4)
 {
     if (r4->field11 != 0) {
-        func_021D6438((void **)(&r4->fieldC));
+        DWCi_HEAPlFree_((void **)(&r4->fieldC));
     }
     func_021D6D8C(r4);
-    func_021D546C(*(void **)((char *)g_021DE6E4 + idx * 64), r4);
+    DWCi_QUElPushBack(*(void **)((char *)gMemTask + idx * 64), r4);
 }

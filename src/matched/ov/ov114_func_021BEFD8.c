@@ -1,5 +1,5 @@
 /*
- * function: func_021BEFD8
+ * function: NHTTPi_unlockReqList
  * address:  0x021BEFD8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02086078(void);
 
-void func_021BEFD8(void)
+void NHTTPi_unlockReqList(void)
 {
     func_02086078();
 }

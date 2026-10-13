@@ -12,8 +12,8 @@
  * sdk:      disp (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   func_021D5118  0x021D5118  arm  ov016
- *   g_021DE63C  0x021DE63C  data
+ *   DWCi_CELLlSetPosition  0x021D5118  arm  ov016
+ *   gScrollBar  0x021DE63C  data
  */
 
 typedef struct {
@@ -25,11 +25,11 @@ typedef struct {
 	unsigned char pos;
 } SB;
 
-extern void func_021D5118(void *cell, int idx, int x, int y);
-extern SB *g_021DE63C;
+extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
+extern SB *gScrollBar;
 
 void func_021CEEE8(int pos)
 {
-	func_021D5118(g_021DE63C->cell, -1, g_021DE63C->x, pos + g_021DE63C->y);
-	g_021DE63C->pos = pos;
+	DWCi_CELLlSetPosition(gScrollBar->cell, -1, gScrollBar->x, pos + gScrollBar->y);
+	gScrollBar->pos = pos;
 }

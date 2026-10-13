@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   FRAME_LIST_GetPrinter 0x021B9394 thumb ov067
- *   func_0200CA70 0x0200CA70 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
@@ -24,7 +24,7 @@ struct WordSet;
 struct U16Vec;
 typedef unsigned short u16;
 extern unsigned FRAME_LIST_GetPrinter(char *);
-extern unsigned func_0200CA70(struct Blk37 *);
+extern unsigned ZUKAN_SAVE_GetViewMode(struct Blk37 *);
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern void func_0201EFA4(struct WordSet *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void func_0201F250(struct WordSet *, void *, void *);
@@ -37,7 +37,7 @@ void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
     unsigned ps;
     void *text;
     ps = FRAME_LIST_GetPrinter(*(char * *)&((struct Obj02924 *)p)->fC2C);
-    if (func_0200CA70(*(struct Blk37 * *)&((struct Obj25567 *)(*(char * *)&((struct Obj02924 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_GetViewMode(*(struct Blk37 * *)&((struct Obj25567 *)(*(char * *)&((struct Obj02924 *)p)->f0))->f4) == 0)
         index = (*(u16 **)(p + 0xc38))[index];
     text = func_02045EC0(*(struct MsgBank * *)&((struct Obj02924 *)p)->f3C, 8);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, 0, index, 3, 2, 1);

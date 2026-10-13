@@ -1,5 +1,5 @@
 /*
- * function: func_021BA590
+ * function: NHTTPi_compareToken
  * address:  0x021BA590
  * packet:   pkt_ov114_021BA590
  * region:   ov114
@@ -23,7 +23,7 @@
 
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
-int func_021BA590(char *p1_p, char *p2_p)
+int NHTTPi_compareToken(char *p1_p, char *p2_p)
 {
     while (NHTTPi_TOLOWER(*p1_p) == NHTTPi_TOLOWER(*p2_p)) {
         if (*p1_p == '\0' || *p1_p == ' ')

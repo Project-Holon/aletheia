@@ -14,7 +14,7 @@
  *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021D9468 0x021D9468 thumb ov119
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021D8F60 0x021D8F60 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DDAD4 0x021DDAD4 thumb ov119
@@ -27,7 +27,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D9468(void *,int,void *);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(void *,const void *,int);
+extern void MI_CpuCopy8(void *,const void *,int);
 extern void func_021D8F60(void *,int,int);
 extern void func_021D8E84(void *,int);
 extern void func_021DDAD4(char *p);
@@ -54,7 +54,7 @@ int func_021DE754(char *p,int idx)
         func_021D8E84(p,(int)func_021DDAD4);
     } else {
         func_021D9468(p,row,mon);
-        func_02082D44(mon,((struct Obj00251 *)p)->f106C,POKE_TOOL_GetPartyParamSize());
+        MI_CpuCopy8(mon,((struct Obj00251 *)p)->f106C,POKE_TOOL_GetPartyParamSize());
         func_021D8F60(p,0,value);
         func_021D8E84(p,(int)func_021DE70C);
     }

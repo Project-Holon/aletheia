@@ -1,5 +1,5 @@
 /*
- * function: func_021CF684
+ * function: DWCi_SETTINGlGetSsid
  * address:  0x021CF684
  * packet:   pkt_021CF440
  * region:   ov016
@@ -10,19 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CF684   0x021CF684  arm
+ *   DWCi_SETTINGlGetSsid   0x021CF684  arm
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *
- * Tail-call func_02082D44 with the global object +0x440, v and 0x20.
+ * Tail-call MI_CpuCopy8 with the global object +0x440, v and 0x20.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CF684.c \
- *       --func func_021CF684 --addr 0x021CF684 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SETTINGlGetSsid.c \
+ *       --func DWCi_SETTINGlGetSsid --addr 0x021CF684 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02082D44(char *, unsigned int, unsigned int);
+extern void MI_CpuCopy8(char *, unsigned int, unsigned int);
 
-void func_021CF684(unsigned int v)
+void DWCi_SETTINGlGetSsid(unsigned int v)
 {
-    func_02082D44(*(char **)0x021DE644 + 0x440, v, 0x20);
+    MI_CpuCopy8(*(char **)0x021DE644 + 0x440, v, 0x20);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216EB48
+ * function: DWCi_StopResendingMatchCommand
  * address:  0x0216EB48
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-void func_0216EB48(void)
+void DWCi_StopResendingMatchCommand(void)
 {
     *(unsigned char *)(func_02175F3C() + 0x6d8) = 0xff;
     *(unsigned char *)(func_02175F3C() + 0x6d9) = 0;

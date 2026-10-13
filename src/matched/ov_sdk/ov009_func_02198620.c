@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215FA9C  0x0215FA9C  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   g_021AE41C  0x021AE41C  data
  *   g_021AE420  0x021AE420  data
  *   g_021A594C  0x021A594C  data
@@ -26,7 +26,7 @@ typedef struct SOCInAddr {
 } SOCInAddr;
 
 extern char *func_0215FA9C(SOCInAddr in);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int g_021AE41C;
 extern char g_021AE420[][22];
 extern char g_021A594C[];
@@ -46,14 +46,14 @@ char *func_02198620(unsigned int ip, unsigned short port, char *string)
 		inAddr.addr = ip;
 		if (port != 0) {
 			strAddress = func_0215FA9C(inAddr);
-			func_02084F40(string, g_021A594C, strAddress, port);
+			OS_SPrintf(string, g_021A594C, strAddress, port);
 		} else {
 			strAddress = func_0215FA9C(inAddr);
-			func_02084F40(string, g_021A5954, strAddress);
+			OS_SPrintf(string, g_021A5954, strAddress);
 		}
 	} else {
 		if (port != 0)
-			func_02084F40(string, g_021A5958, port);
+			OS_SPrintf(string, g_021A5958, port);
 		else
 			string[0] = 0;
 	}

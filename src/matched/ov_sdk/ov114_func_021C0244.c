@@ -1,5 +1,5 @@
 /*
- * function: func_021C0244
+ * function: ghiCallCompletedCallback
  * address:  0x021C0244
  * packet:   pkt_ov114_021C0244
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021CE598    0x021CE598  data  a4
+ *   sGhttpSocketError    0x021CE598  data  a4
  *   func_0217D254 0x0217D254  arm
  */
 
@@ -34,13 +34,13 @@ typedef struct Ctx {
     int f128;
 } Ctx;
 
-extern int d_021CE598[];
+extern int sGhttpSocketError[];
 extern int func_0217D254(int, int, int, void *, int);
 
-void func_021C0244(Ctx *ctx)
+void ghiCallCompletedCallback(Ctx *ctx)
 {
     if (ctx->f40 != 0)
-        func_0217D254(8, 0, 2, d_021CE598, ctx->f54);
+        func_0217D254(8, 0, 2, sGhttpSocketError, ctx->f54);
     if (ctx->f48 != 0) {
         int r5 = ctx->fC == 0 ? ctx->fEC : 0;
         int res = ((int (*)(void *, int, int, int, int))ctx->f48)

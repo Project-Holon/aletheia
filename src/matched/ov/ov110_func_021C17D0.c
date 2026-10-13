@@ -1,5 +1,5 @@
 /*
- * function: func_021C17D0
+ * function: PMS_SELECT_GRAPHIC_UpdateSceneNothing
  * address:  0x021C17D0
  * packet:   pkt_ov110_021C17D0
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021C17D0(void *a0) { }
+void PMS_SELECT_GRAPHIC_UpdateSceneNothing(void *a0) { }

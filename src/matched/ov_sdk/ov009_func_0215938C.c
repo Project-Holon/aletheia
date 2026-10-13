@@ -1,5 +1,5 @@
 /*
- * function: func_0215938C
+ * function: no_need_inq
  * address:  0x0215938C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,19 +12,19 @@
  * One when the test fails, else the second call.
  *
  * symbols:
- *   func_021578C8  0x021578C8  arm  ov009
- *   func_02157D8C  0x02157D8C  arm  ov009
+ *   get_targetip  0x021578C8  arm  ov009
+ *   inq_arpcache  0x02157D8C  arm  ov009
  */
 
-extern int func_021578C8(void);
-extern int func_02157D8C(void);
+extern int get_targetip(void);
+extern int inq_arpcache(void);
 
-int func_0215938C(void)
+int no_need_inq(void)
 {
-    if (func_021578C8() == 0) {
+    if (get_targetip() == 0) {
         return 1;
     }
 
-    return func_02157D8C();
+    return inq_arpcache();
 }
 

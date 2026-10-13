@@ -1,5 +1,5 @@
 /*
- * function: func_021CAB94
+ * function: CRYPTOi__BN_num_bits
  * address:  0x021CAB94
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CAB34  0x021CAB34  arm  ov114
+ *   CRYPTOi__BN_num_bits_word  0x021CAB34  arm  ov114
  *
  *
  * Last element of the pointer table at p: resolves entry n-1 and offsets by n-1 records.
@@ -20,14 +20,14 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021CAB34(unsigned long l);
+extern int CRYPTOi__BN_num_bits_word(unsigned long l);
 
-char *func_021CAB94(u8 *p)
+char *CRYPTOi__BN_num_bits(u8 *p)
 {
     u32 n = *(u32 *)(p + 4);
     u32 i;
     if (n == 0)
         return 0;
     i = n - 1;
-    return (char *)(func_021CAB34(*(u32 *)(*(u8 **)p + i * 4)) + i * 0x20);
+    return (char *)(CRYPTOi__BN_num_bits_word(*(u32 *)(*(u8 **)p + i * 4)) + i * 0x20);
 }

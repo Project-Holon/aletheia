@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02073898  0x02073898  arm
+ *   NNS_SndStrmFreeChannel  0x02073898  arm
  */
 
 struct SndObj2 {
@@ -19,13 +19,13 @@ struct SndObj2 {
 };
 
 struct X;
-extern void func_02073898(struct X *x);
+extern void NNS_SndStrmFreeChannel(struct X *x);
 
 void func_02075A94(struct SndObj2 *obj)
 {
     if (obj->ref_count != 0) {
         if (--obj->ref_count == 0) {
-            func_02073898((struct X *)obj);
+            NNS_SndStrmFreeChannel((struct X *)obj);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B99B8
+ * function: NHTTP_RAP_FreePostData
  * address:  0x021B99B8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void GFL_NET_FreeAligned(void *);
 
-void func_021B99B8(u8 *p)
+void NHTTP_RAP_FreePostData(u8 *p)
 {
     if (p != 0) {
         if (((struct Obj08036 *)p)->f0 != 0)

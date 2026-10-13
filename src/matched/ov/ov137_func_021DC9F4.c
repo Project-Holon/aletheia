@@ -17,6 +17,8 @@
  * d_021E1A44 0x021E1A44 data a4
  * d_00000083 0x00000083 data a1
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,10 +29,10 @@ extern void MI_CpuFill8(void *,int,u32);
 struct BigObj;
 struct Blk37;
 extern u8 *func_02012944(void *p);
-extern void *func_0200CA1C(void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void *func_02012934(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void PROCSYS_Push(void *,int,const void *,void *);
 extern const u8 d_021E2260[],gPokeStatusProcData[],d_021E1A44[],d_00000083[];
 int func_021DC9F4(u32 *p)
@@ -42,7 +44,7 @@ int func_021DC9F4(u32 *p)
     func_020307B0(v);
     if(mode==1) {
         func_02012944((void *)p[4]);
-        q=func_0200CA1C((void *)p[4]);
+        q=ZUKAN_SAVE_GetFromGameData((void *)p[4]);
         p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
         MI_CpuFill8((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
@@ -54,7 +56,7 @@ int func_021DC9F4(u32 *p)
         *(u8 *)(p[7]+13)=1;
         *(u16 *)(p[7]+20)=0;
         *(u8 *)(p[7]+16)=0;
-        *(u32 *)(p[7]+24)=func_0200CA38(q);
+        *(u32 *)(p[7]+24)=ZUKAN_SAVE_IsNationalDexEnabled(q);
         p[1]=sel;
         *(u8 *)(p[7]+15)=sel;
         PROCSYS_Push((void *)p[8],(int)d_00000083,gPokeStatusProcData,(void *)p[7]);

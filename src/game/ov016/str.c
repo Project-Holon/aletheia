@@ -1,7 +1,7 @@
 /*
  * file:     str.c
  * unit:     yes
- * function: func_021D7200, func_021D722C
+ * function: DWCi_STRlNLen, DWCi_STRlConvertStringAsciiToUnicode
  * address:  0x021D7200
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,10 +12,11 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-int func_021D7200(unsigned char *s, int maxlen);
-int func_021D722C(unsigned short *dst, unsigned char *src, int len);
+int DWCi_STRlNLen(unsigned char *s, int maxlen);
+int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len);
 
-int func_021D7200(unsigned char *s, int maxlen)
+
+int DWCi_STRlNLen(unsigned char *s, int maxlen)
 {
 	int i;
 
@@ -29,7 +30,7 @@ int func_021D7200(unsigned char *s, int maxlen)
 /*
  * sdk:      DWCi_STRlConvertStringAsciiToUnicode (libdwcutil.TWL.HYB.a(str.o))
  */
-int func_021D722C(unsigned short *dst, unsigned char *src, int len)
+int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len)
 {
 	int i;
 

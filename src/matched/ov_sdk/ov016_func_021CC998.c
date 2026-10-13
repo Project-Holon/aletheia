@@ -20,9 +20,9 @@
  *   DWCi_Flag                        0x021C0EF0  arm
  *   DWCi_FOCUSlDisp4                 0x021BD4C8  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   g_021DE614                       0x021DE614  data
- *   g_021DA7D8                       0x021DA7D8  data
- *   g_021DA858                       0x021DA858  data
+ *   gFocusState                       0x021DE614  data
+ *   sSceneSetSelectWayMessageByLanguage                       0x021DA7D8  data
+ *   sSceneSetSelectWayFocusRects                       0x021DA858  data
  *   g_021DA85C                       0x021DA85C  data
  *   g_021DA85A                       0x021DA85A  data
  *   g_021DA85E                       0x021DA85E  data
@@ -44,9 +44,9 @@ struct tagSETTINGINFO {
     u8 page;
 };
 
-extern struct FocusState g_021DE614;
-extern s8 g_021DA7D8[7];
-extern struct tagRECT4 g_021DA858[4][4];
+extern struct FocusState gFocusState;
+extern s8 sSceneSetSelectWayMessageByLanguage[7];
+extern struct tagRECT4 sSceneSetSelectWayFocusRects[4][4];
 extern struct G_021DA85C g_021DA85C[4][4];
 extern struct tagRECT4 g_021DA85A[4][4];
 extern struct G_021DA85E g_021DA85E[4][4];
@@ -68,22 +68,22 @@ void DWCi_SceneSetSelectWay(void)
     struct tagSETTINGINFO *info;
 
     info = DWCi_SETTIGNlGet();
-    g_021DE614.flag = 0;
-    if (g_021DE614.last == 0)
-        g_021DE614.last = 1;
+    gFocusState.flag = 0;
+    if (gFocusState.last == 0)
+        gFocusState.last = 1;
     if (DWCi_Language() != 0) {
-        if (g_021DE614.cur == 2)
-            g_021DE614.cur = 0;
-        if (g_021DE614.last == 2)
-            g_021DE614.last = 1;
+        if (gFocusState.cur == 2)
+            gFocusState.cur = 0;
+        if (gFocusState.last == 2)
+            gFocusState.last = 1;
     }
     initGraphics();
     DWCi_HLlLoadSet();
-    DWCi_COMMENTlDispEx(0x32, g_021DA7D8[DWCi_Language()], info->page + 1);
+    DWCi_COMMENTlDispEx(0x32, sSceneSetSelectWayMessageByLanguage[DWCi_Language()], info->page + 1);
     DWCi_CMNlStep(1);
-    DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                     g_021DA85C[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                     g_021DA85A[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                     g_021DA85E[DWCi_Flag(1)][g_021DE614.cur].v[0]);
+    DWCi_FOCUSlDisp4(sSceneSetSelectWayFocusRects[DWCi_Flag(1)][gFocusState.cur].v[0],
+                     g_021DA85C[DWCi_Flag(1)][gFocusState.cur].v[0],
+                     g_021DA85A[DWCi_Flag(1)][gFocusState.cur].v[0],
+                     g_021DA85E[DWCi_Flag(1)][gFocusState.cur].v[0]);
     DWCi_ChangeScene(procInit);
 }

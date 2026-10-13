@@ -1,5 +1,5 @@
 /*
- * function: func_02085638
+ * function: OS_KillThread
  * address:  0x02085638
  * packet:   pkt_02085638
  * region:   arm9
@@ -18,7 +18,7 @@
 int OS_GetThreadPriority(const void *thread);
 void OS_KillThreadWithPriority(void *thread, void *arg, int priority);
 
-void func_02085638(void *thread, void *arg)
+void OS_KillThread(void *thread, void *arg)
 {
     OS_KillThreadWithPriority(thread, arg, OS_GetThreadPriority(thread));
 }

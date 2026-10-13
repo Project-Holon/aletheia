@@ -1,5 +1,5 @@
 /*
- * function: func_021BB4EC
+ * function: WIFICLUB_LoadPanelGraphics
  * address:  0x021BB4EC
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *o);
 
-void func_021BB4EC(Work *w)
+void WIFICLUB_LoadPanelGraphics(Work *w)
 {
     void *o = func_020490F4(0x21, 0x21);
 

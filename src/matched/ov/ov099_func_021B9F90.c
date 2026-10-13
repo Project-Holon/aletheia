@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F90
+ * function: WIFICLUBACTOR_ShowMarker
  * address:  0x021B9F90
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -32,7 +32,7 @@ struct Obj;
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_021B9F90(Obj *o, Pos pos, int c)
+void WIFICLUBACTOR_ShowMarker(Obj *o, Pos pos, int c)
 {
     Pos t;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02189800
+ * function: TR_AI_CmdIfAnyPartyHpRatio
  * address:  0x02189800
  * packet:   pkt_ov096_02189800
  * region:   ov096
@@ -10,10 +10,10 @@
  * status:   EXACT*
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_0218A308  0x0218A308  thumb  ov096
- *   func_0218A0F4  0x0218A0F4  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetSlotPoke  0x0218A308  thumb  ov096
+ *   TR_AI_Compare  0x0218A0F4  thumb  ov096
  *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
  *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
  *   BTL_MAIN_GetPositionsPerClientThunk  0x021B99B8  thumb  ov093
@@ -32,10 +32,10 @@ typedef int s32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern u8 *func_0218A308(void *, u32);
-extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
+extern u8 *TR_AI_GetSlotPoke(void *, u32);
+extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
 extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
 extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
@@ -45,7 +45,7 @@ extern int BTL_POKEPARAM_IsFainted(void *);
 struct Rat;
 extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
 
-int func_02189800(struct Cursor *a, int b) {
+int TR_AI_CmdIfAnyPartyHpRatio(struct Cursor *a, int b) {
     int r4;
     int x;
     u8 y;
@@ -53,14 +53,14 @@ int func_02189800(struct Cursor *a, int b) {
     int t;
     r4 = VM_GetU32(a);
     x = VM_GetU32(a);
-    y = func_0218A160((u8 *)b, r4);
+    y = TR_AI_GetPosition((u8 *)b, r4);
     r5 = BTL_MAIN_GetSlotClientIdThunk((char *)(((struct Obj07925 *)b)->fB0), y);
     r4 = (int)BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj07925 *)b)->fB8, r5);
     r5 = BTL_MAIN_GetPositionsPerClientThunk((void *)(((struct Obj07925 *)b)->fB0), r5);
     for (; r5 < BTL_SLOT_GetCount((struct Q1 *)r4); r5++) {
-        if (BTL_POKEPARAM_IsFainted(func_0218A308((void *)r4, (u8)r5)) == 0) {
-            t = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)func_0218A2FC((u8 *)b, y));
-            if (func_0218A0F4((u8 *)a, 0, t, 100, x) != 0) {
+        if (BTL_POKEPARAM_IsFainted(TR_AI_GetSlotPoke((void *)r4, (u8)r5)) == 0) {
+            t = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)TR_AI_GetPoke((u8 *)b, y));
+            if (TR_AI_Compare((u8 *)a, 0, t, 100, x) != 0) {
                 break;
             }
         }

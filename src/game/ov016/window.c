@@ -1,7 +1,7 @@
 /*
  * file:     window.c
  * unit:     yes
- * function: func_021D1208, func_021D1524, func_021D1568, func_021D157C, func_021D1598, func_021D15F0, func_021D16B0, func_021D17FC, func_021D1868, func_021D19F4, func_021D1A80, func_021D1B3C, func_021D1B78, func_021D1C04, func_021D1C5C
+ * function: DWCi_WINlInitEx, DWCi_WINlEnd, DWCi_WINlGet, DWCi_WINlIsInit, taskV, taskMove, taskMain, taskMain1, disp, dispCell, pushButton, DWCi_WindowTaskEnd, taskEnd1, taskEnd2, taskEnd3
  * address:  0x021D1208
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -28,48 +28,43 @@
  *   DWCi_GXlSetWndPosition           0x021d60ec arm
  *   disp                             0x021d1868 arm
  *   DWCi_TSKlForm                    0x021d7680 arm
- *   g_021DAA58                       0x021daa58 data
- *   g_021DE598                       0x021de598 data
- *   g_021DE658                       0x021de658 data
- *   g_021DA9A0                       0x021da9a0 data
- *   g_021DA9A6                       0x021da9a6 data
- *   g_021DA9C8                       0x021da9c8 data
- *   g_021DA9E6                       0x021da9e6 data
- *   g_021DA9E8                       0x021da9e8 data
- *   g_021DA9AC                       0x021da9ac data
+ *   sWindowTable15                       0x021daa58 data
+ *   gCommentWork                       0x021de598 data
+ *   gWindowWork                       0x021de658 data
+ *   sWindowTable1                       0x021da9a0 data
+ *   sWindowTable2                       0x021da9a6 data
+ *   sWindowTable7                       0x021da9c8 data
+ *   sWindowTable9                       0x021da9e6 data
+ *   sWindowTable10                       0x021da9e8 data
+ *   sWindowTable3                       0x021da9ac data
  *   taskV                            0x021d1598 arm  ov016
  *   taskMove                         0x021d15f0 arm  ov016
  *   DWCi_TSKlDelete   0x021D7724 arm
  *   MemWin            0x021DE658 data
- *   func_0207D6C0  0x0207D6C0  arm
+ *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
- *   func_021D5250  0x021D5250  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
- *   func_021D7724  0x021D7724  arm  ov016
- *   g_021DA9FE     0x021DA9FE  data
- *   func_021D600C  0x021D600C  arm  ov016
- *   func_021D696C  0x021D696C  arm  ov016
- *   func_021D6824  0x021D6824  arm  ov016
- *   g_021DAA2E  0x021DAA2E  data
- *   g_021DA9B4  0x021DA9B4  data
- *   g_021DA9D2  0x021DA9D2  data
- *   g_021DA9BE  0x021DA9BE  data
- *   g_021DA9BF  0x021DA9BF  data
- *   func_021D5118  0x021D5118  arm  ov016
- *   func_021D5FF4  0x021D5FF4  arm  ov016
- *   func_021D60EC  0x021D60EC  arm  ov016
- *   g_021DAA18  0x021DAA18  data
- *   g_021DAA16  0x021DAA16  data
+ *   DWCi_CELLlGetPosition  0x021D5250  arm  ov016
+ *   sWindowTable11     0x021DA9FE  data
+ *   DWCi_Coord2Rect  0x021D600C  arm  ov016
+ *   DWCi_TPlCheckTrigger  0x021D696C  arm  ov016
+ *   DWCi_IPTlCheckTrigger  0x021D6824  arm  ov016
+ *   sWindowTable14  0x021DAA2E  data
+ *   sWindowTable4  0x021DA9B4  data
+ *   sWindowTable8  0x021DA9D2  data
+ *   sWindowTable5  0x021DA9BE  data
+ *   sWindowTable6  0x021DA9BF  data
+ *   DWCi_InputRect  0x021D5FF4  arm  ov016
+ *   sWindowTable13  0x021DAA18  data
+ *   sWindowTable12  0x021DAA16  data
  *   DWCi_CELLlGetState  0x021D4FEC  arm  ov016
- *   func_021D4FF4  0x021D4FF4  arm  ov016
- *   func_021D4FE0  0x021D4FE0  arm  ov016
- *   func_021D52D4  0x021D52D4  arm  ov016
- *   func_021D51F0  0x021D51F0  arm  ov016
+ *   DWCi_CELLlSetEffect  0x021D4FF4  arm  ov016
+ *   DWCi_CELLlGetObj  0x021D4FE0  arm  ov016
+ *   DWCi_CEINlSet  0x021D52D4  arm  ov016
  *   DWCi_TSKlChangeFunc 0x021D771C arm
  *   taskEnd1           0x021D1B78 arm
- *   func_021D4F60  0x021D4F60  arm  ov016
- *   func_021D5A2C  0x021D5A2C  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
+ *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
+ *   DWCi_FNTlDelete  0x021D5A2C  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   g_021DE658_b   0x021DE658  data
  */
 #include "../../matched/include/G_MemWinT.h"
@@ -135,68 +130,47 @@ extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int colo
 extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
 extern void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, bool effect);
 extern void DWCi_GXlSetWndPosition(int lcd, int wnd, void *r);
-extern void disp(int y);
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void taskV(void *task);
-extern void taskMove(void *task);
 void DWCi_TSKlDelete(int kind, void *task);
-extern void func_0207D6C0(u32_021D1598 addr, int brightness);
+extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32_021D1598 addr, int brightness);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
-extern void func_021D5250(void *cell, int idx, int *x, int *y);
-extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void func_021D7724(int kind, void *task);
-extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
-extern int func_021D696C(u16 *a);
-extern int func_021D6824(unsigned int f);
-extern void func_021D5118(void *cell, int idx, int x, int y);
-extern void func_021D5FF4(int x0, int y0, int x1, int y1, RectT *r);
-extern void func_021D60EC(int a, int b, RectT *r);
+extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
+extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
+extern int DWCi_TPlCheckTrigger(u16 *a);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_InputRect(int x0, int y0, int x1, int y1, RectT *r);
 extern unsigned char DWCi_CELLlGetState(char *p);
-extern void func_021D4FF4(void *cell, int idx, Eff eff, int affine);
-extern char *func_021D4FE0(char *p, unsigned int i);
-extern void func_021D52D4();
-extern void func_021D51F0(void *cell, int idx, int priority);
-void taskEnd1(void *task);
+extern void DWCi_CELLlSetEffect(void *cell, int idx, Eff eff, int affine);
+extern char *DWCi_CELLlGetObj(char *p, unsigned int i);
+extern void DWCi_CEINlSet();
 void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
-extern void func_021D4F60(u8 *p);
-extern void func_021D5A2C(char *a);
-extern void func_021D6438(void **mem);
-void func_021D1208(int msg, int type, bool dark, int n, int num);
+extern void DWCi_CELLlDelete(u8 *p);
+extern void DWCi_FNTlDelete(char *a);
+extern void DWCi_HEAPlFree_(void **mem);
+void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_WINlEnd(void);
-signed char func_021D1568(void);
-int func_021D157C(void);
-void func_021D1598(void *task);
-void func_021D15F0(void *task);
-void func_021D16B0(void *task, void *work);
-void func_021D17FC(void *task, void *work);
-void func_021D1868(int y);
-void func_021D19F4(void *cell, int y);
-void func_021D1A80(int idx);
+signed char DWCi_WINlGet(void);
+int DWCi_WINlIsInit(void);
 void taskEnd(void *task, void *work);
-void func_021D1B78(void *task);
-void func_021D1C04(void *task);
-void func_021D1C5C(void *task);
-extern u8 g_021DAA58[6];
-extern void *g_021DE598;
-extern struct MemWinT *g_021DE658;
-extern const u8 g_021DA9A0[6];
-extern const u8 g_021DA9A6[6];
-extern const u8 g_021DA9C8[][2];
-extern u16 g_021DA9E6[];
-extern u16 g_021DA9E8[];
-extern u16 g_021DA9AC[4];
+extern u8 sWindowTable15[6];
+extern void *gCommentWork;
+extern struct MemWinT *gWindowWork;
+extern const u8 sWindowTable1[6];
+extern const u8 sWindowTable2[6];
+extern const u8 sWindowTable7[][2];
+extern u16 sWindowTable9[];
+extern u16 sWindowTable10[];
+extern u16 sWindowTable3[4];
 extern struct tagMEMWIN *MemWin;
-extern struct CoordT g_021DA9FE[];
-extern struct G_021DAA2E g_021DAA2E[][2];
-extern u8 g_021DA9B4[][2];
-extern CoordT g_021DA9D2[];
-extern signed char g_021DA9BE[][2];
-extern signed char g_021DA9BF[][2];
-extern u16 g_021DAA18[][2];
-extern u16 g_021DAA16[][2];
+extern struct CoordT sWindowTable11[];
+extern struct G_021DAA2E sWindowTable14[][2];
+extern u8 sWindowTable4[][2];
+extern CoordT sWindowTable8[];
+extern signed char sWindowTable5[][2];
+extern signed char sWindowTable6[][2];
+extern u16 sWindowTable13[][2];
+extern u16 sWindowTable12[][2];
 extern struct MemWinT *g_021DE658_b;
-
-
 
 
 /*
@@ -210,57 +184,66 @@ extern struct MemWinT *g_021DE658_b;
  *
  * sdk:      DWCi_WINlInitEx (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1208(int msg, int type, bool dark, int n, int num)
+
+static void taskV(void *task);
+static void taskMove(void *task);
+static void taskMain(void *task, void *work);
+static void taskMain1(void *task, void *work);
+static void disp(int y);
+static void dispCell(void *cell, int y);
+static void pushButton(int idx);
+static void taskEnd1(void *task);
+static void taskEnd2(void *task);
+static void taskEnd3(void *task);
+void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
 {
     u8 EFF[6];
     int obj;
     int i;
     u16 *ms;
 
-    EFF[0] = g_021DAA58[0];
-    EFF[1] = g_021DAA58[1];
-    EFF[2] = g_021DAA58[2];
-    EFF[3] = g_021DAA58[3];
-    EFF[4] = g_021DAA58[4];
-    EFF[5] = g_021DAA58[5];
+    EFF[0] = sWindowTable15[0];
+    EFF[1] = sWindowTable15[1];
+    EFF[2] = sWindowTable15[2];
+    EFF[3] = sWindowTable15[3];
+    EFF[4] = sWindowTable15[4];
+    EFF[5] = sWindowTable15[5];
 
-    ms = DWCi_MSGlGetEx(g_021DE598, msg, n, num);
-    g_021DE658 = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
-    g_021DE658->type = type;
-    g_021DE658->input = -2;
-    g_021DE658->dark = dark;
+    ms = DWCi_MSGlGetEx(gCommentWork, msg, n, num);
+    gWindowWork = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
+    gWindowWork->type = type;
+    gWindowWork->input = -2;
+    gWindowWork->dark = dark;
     G2x_SetBlendBrightness_(0x04000050, 0x1f, 0);
 
-    g_021DE658->cellWin = DWCi_CEINlSetExCell(0, g_021DA9A0[type], 0);
-    DWCi_CELLlSetPosition(g_021DE658->cellWin, -1, 0x100, 0);
-    DWCi_CELLlSetPriority(g_021DE658->cellWin, -1, 0);
+    gWindowWork->cellWin = DWCi_CEINlSetExCell(0, sWindowTable1[type], 0);
+    DWCi_CELLlSetPosition(gWindowWork->cellWin, -1, 0x100, 0);
+    DWCi_CELLlSetPriority(gWindowWork->cellWin, -1, 0);
 
-    for (i = 0; i < g_021DA9A6[type]; i++) {
-        g_021DE658->button[i] = DWCi_CEINlSetExCell(0, g_021DA9C8[type][i], 0);
-        DWCi_CELLlSetPosition(g_021DE658->button[i], -1, 0x100, 0);
-        DWCi_CELLlSetPriority(g_021DE658->button[i], -1, 0);
+    for (i = 0; i < sWindowTable2[type]; i++) {
+        gWindowWork->button[i] = DWCi_CEINlSetExCell(0, sWindowTable7[type][i], 0);
+        DWCi_CELLlSetPosition(gWindowWork->button[i], -1, 0x100, 0);
+        DWCi_CELLlSetPriority(gWindowWork->button[i], -1, 0);
     }
 
-    g_021DE658->canv = DWCi_FNTlFormEx(0, 0x20, 0xc, 1, &obj, 0);
-    g_021DE658->cellChar = DWCi_CELLlForm(0, obj, 0);
-    DWCi_FNTlDrawRect(g_021DE658->canv, 0, 0, g_021DA9E6[type * 2], g_021DA9E8[type * 2], 2, DWCi_CMNlFontFlag(), ms);
-    DWCi_FNTlDisp(g_021DE658->canv, 0x100, 0, g_021DE658->cellChar, 0);
+    gWindowWork->canv = DWCi_FNTlFormEx(0, 0x20, 0xc, 1, &obj, 0);
+    gWindowWork->cellChar = DWCi_CELLlForm(0, obj, 0);
+    DWCi_FNTlDrawRect(gWindowWork->canv, 0, 0, sWindowTable9[type * 2], sWindowTable10[type * 2], 2, DWCi_CMNlFontFlag(), ms);
+    DWCi_FNTlDisp(gWindowWork->canv, 0x100, 0, gWindowWork->cellChar, 0);
 
     DWCi_GXlSetWndPlane(0, 0, 0x1f, 0);
-    DWCi_GXlSetWndPlane(0, 1, 0x1f, EFF[g_021DE658->type]);
+    DWCi_GXlSetWndPlane(0, 1, 0x1f, EFF[gWindowWork->type]);
     DWCi_GXlSetWndPlane(0, 3, 0x1f, 1);
-    DWCi_GXlSetWndPosition(0, 1, g_021DA9AC);
+    DWCi_GXlSetWndPosition(0, 1, sWindowTable3);
 
     disp(0xc0);
     *(volatile u32_021D1208 *)0x04000000 = (*(volatile u32_021D1208 *)0x04000000 & ~0xE000) | 0x6000;
 
     if (dark)
-        g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
     else
-        g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
 }
-
-
 
 
 void DWCi_WINlEnd(void)
@@ -270,20 +253,18 @@ void DWCi_WINlEnd(void)
 }
 
 
-
 /*
  * Signed byte at +0x1b of the object behind the global pointer.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D1568.c \
- *       --func func_021D1568 --addr 0x021D1568 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_WINlGet.c \
+ *       --func DWCi_WINlGet --addr 0x021D1568 --region ov016 --cc dsi/1.1p1 --arm
  */
-signed char func_021D1568(void)
+signed char DWCi_WINlGet(void)
 {
     return *(signed char *)(*(char **)0x021DE658 + 0x1b);
 }
-
 
 
 /*
@@ -291,30 +272,26 @@ signed char func_021D1568(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D157C.c \
- *       --func func_021D157C --addr 0x021D157C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_WINlIsInit.c \
+ *       --func DWCi_WINlIsInit --addr 0x021D157C --region ov016 --cc dsi/1.1p1 --arm
  */
-int func_021D157C(void)
+int DWCi_WINlIsInit(void)
 {
     return *(void **)0x021DE658 != 0;
 }
 
 
-
-
 /*
  * sdk:      taskV (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1598(void *task)
+static void taskV(void *task)
 {
-    g_021DE658->count--;
-    func_0207D6C0(0x04000050, g_021DE658->count);
-    if (g_021DE658->count > -12)
+    gWindowWork->count--;
+    DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
+    if (gWindowWork->count > -12)
         return;
-    DWCi_TSKlSetParam(task, (unsigned int)func_021D15F0);
+    DWCi_TSKlSetParam(task, (unsigned int)taskMove);
 }
-
-
 
 
 /*
@@ -336,80 +313,74 @@ void func_021D1598(void *task)
  * leading `fn = B` plus one if, as a switch, and with the call duplicated in
  * each arm: every spelling re-folds to 180 B, and no pin/flag cell matches.
  * U26: the object's `mov r4,#0` is the constant 0 held in a callee-saved register across the
- * func_021D5250 call (it is `mov r1,r4` for the idx argument and `mov r0,r4`/`mov r2,r4` for the
- * two zero arguments of func_021D7680).  Spelling that zero as a live local (`int z = 0;`, `z`
+ * DWCi_CELLlGetPosition call (it is `mov r1,r4` for the idx argument and `mov r0,r4`/`mov r2,r4` for the
+ * two zero arguments of DWCi_TSKlForm).  Spelling that zero as a live local (`int z = 0;`, `z`
  * for all three) is folded straight back to immediate 0 by 1.1p1 - same 184 B / 130 diffs - so
  * the difference is mwcc 4.0.0.1025's rematerialisation policy, not a source shape.  Referencing
  * the same 0 through a helper or a cast does not survive either.
  */
-void func_021D15F0(void *task)
+static void taskMove(void *task)
 {
     int x;
     int y;
 
-    func_021D5250(g_021DE658->cellWin, 0, &x, &y);
+    DWCi_CELLlGetPosition(gWindowWork->cellWin, 0, &x, &y);
     y -= 12;
-    if (y > g_021DA9FE[g_021DE658->type].y) {
-        func_021D1868(y);
+    if (y > sWindowTable11[gWindowWork->type].y) {
+        disp(y);
         return;
     }
-    func_021D1868(g_021DA9FE[g_021DE658->type].y);
-    if (g_021DE658->type == 5)
-        g_021DE658->task = func_021D7680(0, func_021D17FC, 0, 0x78);
+    disp(sWindowTable11[gWindowWork->type].y);
+    if (gWindowWork->type == 5)
+        gWindowWork->task = DWCi_TSKlForm(0, taskMain1, 0, 0x78);
     else
-        g_021DE658->task = func_021D7680(0, func_021D16B0, 0, 0x78);
-    func_021D7724(1, task);
+        gWindowWork->task = DWCi_TSKlForm(0, taskMain, 0, 0x78);
+    DWCi_TSKlDelete(1, task);
 }
-
-
 
 
 /*
  * sdk:      taskMain (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D16B0(void *task, void *work)
+static void taskMain(void *task, void *work)
 {
     RectT r;
     int i;
 
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        func_021D600C((const struct tagCOORD *)(&g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][i]]),
-                      (const struct tagCOORD *)(&g_021DA9D2[g_021DE658->type]), (struct tagRECT *)(&r));
-        if (func_021D696C((u16 *)(&r))) {
-            g_021DE658->input = i;
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        DWCi_Coord2Rect((const struct tagCOORD *)(&sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][i]]),
+                      (const struct tagCOORD *)(&sWindowTable8[gWindowWork->type]), (struct tagRECT *)(&r));
+        if (DWCi_TPlCheckTrigger((u16 *)(&r))) {
+            gWindowWork->input = i;
             break;
         }
     }
-    if (func_021D6824(1))
-        g_021DE658->input = g_021DA9BE[g_021DE658->type][0];
-    if (func_021D6824(2))
-        g_021DE658->input = g_021DA9BF[g_021DE658->type][0];
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        if (i == g_021DE658->input) {
-            func_021D1A80(i);
+    if (DWCi_IPTlCheckTrigger(1))
+        gWindowWork->input = sWindowTable5[gWindowWork->type][0];
+    if (DWCi_IPTlCheckTrigger(2))
+        gWindowWork->input = sWindowTable6[gWindowWork->type][0];
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        if (i == gWindowWork->input) {
+            pushButton(i);
             return;
         }
     }
-    g_021DE658->input = -1;
+    gWindowWork->input = -1;
 }
-
-
 
 
 /*
  * sdk:      taskMain1 (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D17FC(void *task, void *work)
+static void taskMain1(void *task, void *work)
 {
-    g_021DE658->input = -1;
-    g_021DE658->countWait++;
-    if (g_021DE658->countWait < 0x78)
+    gWindowWork->input = -1;
+    gWindowWork->countWait++;
+    if (gWindowWork->countWait < 0x78)
         return;
-    func_021D7724(0, task);
-    g_021DE658->task = func_021D7680(1, taskEnd, 0, 0x78);
+    DWCi_TSKlDelete(0, task);
+    gWindowWork->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
 }
-
-
 
 
 /*
@@ -420,9 +391,9 @@ void func_021D17FC(void *task, void *work)
  * cmp ahead of the pair of ldrh, giving 10 reordered instructions at +0128.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D1868.c \n *       --func func_021D1868 --addr 0x021D1868 --region ov016 --arm --cc 1.1p1 --lang c99
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D1868.c \n *       --func disp --addr 0x021D1868 --region ov016 --arm --cc 1.1p1 --lang c99
  */
-void func_021D1868(int y)
+static void disp(int y)
 {
     RectT r;
     int y0;
@@ -430,39 +401,37 @@ void func_021D1868(int y)
     int i;
     u16 x1, x2;
 
-    func_021D5118(g_021DE658->cellWin, -1, g_021DA9FE[g_021DE658->type].x, y);
-    func_021D5118(g_021DE658->cellChar, -1, g_021DA9FE[g_021DE658->type].x + 8, y + 8);
-    func_021D19F4(g_021DE658->cellWin, y);
-    func_021D19F4(g_021DE658->cellChar, y);
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        int idx = g_021DA9B4[g_021DE658->type][i];
-        func_021D5118(g_021DE658->button[i], -1,
-                      g_021DAA2E[g_021DE658->type][idx].x,
-                      y + g_021DAA2E[g_021DE658->type][idx].y - g_021DA9FE[g_021DE658->type].y);
-        func_021D19F4(g_021DE658->button[i], y);
+    DWCi_CELLlSetPosition(gWindowWork->cellWin, -1, sWindowTable11[gWindowWork->type].x, y);
+    DWCi_CELLlSetPosition(gWindowWork->cellChar, -1, sWindowTable11[gWindowWork->type].x + 8, y + 8);
+    dispCell(gWindowWork->cellWin, y);
+    dispCell(gWindowWork->cellChar, y);
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        int idx = sWindowTable4[gWindowWork->type][i];
+        DWCi_CELLlSetPosition(gWindowWork->button[i], -1,
+                      sWindowTable14[gWindowWork->type][idx].x,
+                      y + sWindowTable14[gWindowWork->type][idx].y - sWindowTable11[gWindowWork->type].y);
+        dispCell(gWindowWork->button[i], y);
     }
     y0 = (u8)y;
     if (y0 >= 0xc0) {
         y1 = 0;
         y0 = y1;
     } else {
-        y1 = y0 + g_021DAA18[g_021DE658->type][0];
+        y1 = y0 + sWindowTable13[gWindowWork->type][0];
     }
-    x1 = g_021DA9FE[g_021DE658->type].x;
-    x2 = g_021DAA16[g_021DE658->type][0];
+    x1 = sWindowTable11[gWindowWork->type].x;
+    x2 = sWindowTable12[gWindowWork->type][0];
     if (y1 > 0xc0)
         y1 = 0xc0;
-    func_021D5FF4(x1, y0, x1 + x2, y1, &r);
-    func_021D60EC(0, 0, &r);
+    DWCi_InputRect(x1, y0, x1 + x2, y1, &r);
+    DWCi_GXlSetWndPosition(0, 0, &r);
 }
-
-
 
 
 /*
  * sdk:      dispCell (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D19F4(void *cell, int y)
+static void dispCell(void *cell, int y)
 {
     Eff eff;
     int num;
@@ -472,34 +441,30 @@ void func_021D19F4(void *cell, int y)
 
     num = DWCi_CELLlGetState(cell);
     for (i = 0; i < num; i++) {
-        func_021D5250(cell, i, &x, &cy);
+        DWCi_CELLlGetPosition(cell, i, &x, &cy);
         if (cy >= y && cy < 192)
             eff = EFF_NONE;
         else
             eff = EFF_HIDE;
-        func_021D4FF4(cell, i, eff, 0);
+        DWCi_CELLlSetEffect(cell, i, eff, 0);
     }
 }
-
-
 
 
 /*
  * sdk:      pushButton (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1A80(int idx)
+static void pushButton(int idx)
 {
     void *obj;
 
-    obj = func_021D4FE0(g_021DE658->button[idx], 0);
-    func_021D52D4(0, g_021DA9C8[g_021DE658->type][idx] + 1, obj);
-    func_021D5118(g_021DE658->button[idx], -1,
-                  g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][idx]].x,
-                  g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][idx]].y);
-    func_021D51F0(g_021DE658->button[idx], -1, 0);
+    obj = DWCi_CELLlGetObj(gWindowWork->button[idx], 0);
+    DWCi_CEINlSet(0, sWindowTable7[gWindowWork->type][idx] + 1, obj);
+    DWCi_CELLlSetPosition(gWindowWork->button[idx], -1,
+                  sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][idx]].x,
+                  sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][idx]].y);
+    DWCi_CELLlSetPriority(gWindowWork->button[idx], -1, 0);
 }
-
-
 
 
 void taskEnd(void *task, void *work)
@@ -511,60 +476,54 @@ void taskEnd(void *task, void *work)
 }
 
 
-
-
 /*
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1B78(void *task)
+static void taskEnd1(void *task)
 {
     int x;
     int y;
 
-    func_021D5250(g_021DE658->cellWin, 0, &x, &y);
+    DWCi_CELLlGetPosition(gWindowWork->cellWin, 0, &x, &y);
     y += 12;
-    func_021D1868(y);
+    disp(y);
     if (y < 192)
         return;
-    if (g_021DE658->dark != 0)
-        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C04);
+    if (gWindowWork->dark != 0)
+        DWCi_TSKlSetParam(task, (unsigned int)taskEnd2);
     else
-        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
+        DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
 }
-
-
 
 
 /*
  * sdk:      taskEnd2 (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1C04(void *task)
+static void taskEnd2(void *task)
 {
-    g_021DE658->count++;
-    func_0207D6C0(0x04000050, g_021DE658->count);
-    if (g_021DE658->count < 0)
+    gWindowWork->count++;
+    DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
+    if (gWindowWork->count < 0)
         return;
-    DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
+    DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
 }
-
-
 
 
 /*
  * sdk:      taskEnd3 (libdwcutil.TWL.HYB.a window.o)
  */
-void func_021D1C5C(void *task)
+static void taskEnd3(void *task)
 {
     int i;
 
     *(volatile unsigned int *)0x04000000 &= ~0xE000;
-    func_021D4F60(g_021DE658->cellWin);
-    func_021D4F60(g_021DE658->cellChar);
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        if (g_021DE658->button[i] != 0)
-            func_021D4F60(g_021DE658->button[i]);
+    DWCi_CELLlDelete(gWindowWork->cellWin);
+    DWCi_CELLlDelete(gWindowWork->cellChar);
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        if (gWindowWork->button[i] != 0)
+            DWCi_CELLlDelete(gWindowWork->button[i]);
     }
-    func_021D5A2C(g_021DE658->canv);
-    func_021D7724(1, task);
-    func_021D6438((void **)(&g_021DE658_b));
+    DWCi_FNTlDelete(gWindowWork->canv);
+    DWCi_TSKlDelete(1, task);
+    DWCi_HEAPlFree_((void **)(&g_021DE658_b));
 }

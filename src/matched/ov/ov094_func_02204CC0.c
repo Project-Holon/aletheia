@@ -110,6 +110,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
+ *   MIi_CpuCopy16  0x02082A60  arm  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -157,7 +158,7 @@ extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern u32 func_020307B0(void *p);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
@@ -245,7 +246,7 @@ void func_02204CC0(Work *p, const Slots *q)
             CLACT_SetActorPaletteOffset(p->obj[i], func_020275EC((u8)k), 1);
             CLACT_GetActorImageProxy(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
-            func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
+            MIi_CpuCopy16(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);

@@ -20,7 +20,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_0207D4B0 0x0207D4B0 arm
  *   func_0208068C 0x0208068C arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   TCBL_DeleteTask 0x02031194 arm
  *   func_02030EAC 0x02030EAC arm
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
@@ -28,7 +28,6 @@
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
- *   TCBL_AddTask_Alt 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021BF7AC 0x021BF7AC thumb
@@ -87,7 +86,7 @@ extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0208068C(int);
-extern void func_02082AC0(unsigned,void *,unsigned);
+extern void MIi_CpuClearFast(unsigned,void *,unsigned);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern void func_02030EAC(struct Node *n);
 extern void GFL_USE_PlaySeInSlot(void *,int);
@@ -96,7 +95,6 @@ extern int GFL_USE_GetSeSlot(unsigned);
 extern void GFL_USE_SetSeSlotVolume(int,unsigned);
 extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 extern void GFL_USE_StopSeSlot(int);
-extern struct TcblNode *TCBL_AddTask_Alt(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *,u32,u32);
 extern int func_021BF7AC(char *p, int v);
@@ -159,10 +157,10 @@ void func_021BEA48(int *s,unsigned a,unsigned b,unsigned c)
 {
     func_0207D4B0(a,b,c);func_0208068C(s[0]);
     switch(s[1]){
-    case 2:func_02082AC0(0,(void *)0x06800000,0x20000);break;
-    case 6:func_02082AC0(0,(void *)0x06820000,0x20000);break;
-    case 10:func_02082AC0(0,(void *)0x06840000,0x20000);break;
-    case 14:func_02082AC0(0,(void *)0x06860000,0x20000);break;
+    case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;
+    case 6:MIi_CpuClearFast(0,(void *)0x06820000,0x20000);break;
+    case 10:MIi_CpuClearFast(0,(void *)0x06840000,0x20000);break;
+    case 14:MIi_CpuClearFast(0,(void *)0x06860000,0x20000);break;
     default:func_0208068C(0);break;
     }
     TCBL_DeleteTask((struct TcblNode *)s[13]);
@@ -203,10 +201,10 @@ void func_021BEAF8(void *node,int *s)
 void func_021BEB48(CaptureConfig *s)
 {
     switch(s->bank){
-    case 2:func_02082AC0(0,(void *)0x06800000,0x20000);break;
-    case 6:func_02082AC0(0,(void *)0x06820000,0x20000);break;
-    case 10:func_02082AC0(0,(void *)0x06840000,0x20000);break;
-    case 14:func_02082AC0(0,(void *)0x06860000,0x20000);break;
+    case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;
+    case 6:MIi_CpuClearFast(0,(void *)0x06820000,0x20000);break;
+    case 10:MIi_CpuClearFast(0,(void *)0x06840000,0x20000);break;
+    case 14:MIi_CpuClearFast(0,(void *)0x06860000,0x20000);break;
     }
     GX_SetCapture(s->size,s->mode,s->a,s->b,s->dest,16,0);
 }
@@ -261,7 +259,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     struct Work *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask_Alt(owner->manager,(void (*)(struct TcblNode *, void *))func_021BED94,0x1c,0));
+    work=TCBL_GetWork((struct S02030FB4 *)TCBL_AddTask(owner->manager,(void (*)(void *, void *))func_021BED94,0x1c,0));
     MI_CpuFill8(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;

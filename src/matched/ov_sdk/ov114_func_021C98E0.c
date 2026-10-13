@@ -1,5 +1,5 @@
 /*
- * function: func_021C98E0
+ * function: DWCi_EncValidateKey
  * address:  0x021C98E0
  * packet:   pkt_ov114_021C98E0
  * region:   ov114
@@ -20,7 +20,7 @@
  * symbols:
  *   func_0209477C  0x0209477C  arm
  *   func_02094860  0x02094860  arm
- *   g_021CF7AC     0x021CF7AC  data
+ *   gDwcEncSession     0x021CF7AC  data
  *   g_021CF7BC     0x021CF7BC  data
  *   g_021CF7DC     0x021CF7DC  data
  */
@@ -37,19 +37,19 @@ typedef struct {
     unsigned long key3;
     unsigned long key4;
 } Session;
-extern Session g_021CF7AC;
+extern Session gDwcEncSession;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 
-int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
+int DWCi_EncValidateKey(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
 {
     int bitcount = 0;
     int i;
     unsigned int n;
 
-    g_021CF7AC.valid = 0;
+    gDwcEncSession.valid = 0;
     if ((unsigned long)func_0209477C((const u8 *)gamename) >= 0x20) {
         return 0;
     }
@@ -70,9 +70,9 @@ int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, uns
     if (bitcount != 1) {
         return 0;
     }
-    func_02094860((u8 *)g_021CF7AC.gamename, (const u8 *)gamename, 0x20);
+    func_02094860((u8 *)gDwcEncSession.gamename, (const u8 *)gamename, 0x20);
     {
-        unsigned char *d = g_021CF7AC.secretkey;
+        unsigned char *d = gDwcEncSession.secretkey;
         unsigned char *s = (unsigned char *)secretkey;
         for (n = 10; n != 0; n--) {
             unsigned char x0;
@@ -85,10 +85,10 @@ int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, uns
             d += 2;
         }
     }
-    g_021CF7AC.key1 = key1;
-    g_021CF7AC.key2 = key2;
-    g_021CF7AC.key3 = key3;
-    g_021CF7AC.key4 = key4;
-    g_021CF7AC.valid = 1;
+    gDwcEncSession.key1 = key1;
+    gDwcEncSession.key2 = key2;
+    gDwcEncSession.key3 = key3;
+    gDwcEncSession.key4 = key4;
+    gDwcEncSession.valid = 1;
     return 1;
 }

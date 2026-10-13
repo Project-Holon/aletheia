@@ -12,11 +12,11 @@
  * sdk:      isCorrect (libdwcutil.TWL.HYB.a(sceneseteditaddr))
  *
  * symbols:
- *   func_021CFE18 0x021CFE18 arm ov016
- *   func_021C0EA0 0x021C0EA0 arm ov016
+ *   DWCi_SETTINGlConvAddress 0x021CFE18 arm ov016
+ *   DWCi_GetParam2_ 0x021C0EA0 arm ov016
  *   func_020588D0 0x020588D0 arm
- *   g_021DA5CC 0x021DA5CC data
- *   g_021DE5E4 0x021DE5E4 data
+ *   sSceneSetEditAddressMaxOctet 0x021DA5CC data
+ *   gMemSsea 0x021DE5E4 data
  */
 
 typedef unsigned char u8;
@@ -28,16 +28,16 @@ typedef struct {
 
 typedef struct { char c[4]; } Val;
 
-extern Val g_021DA5CC;
-extern MemSsea *g_021DE5E4;
+extern Val sSceneSetEditAddressMaxOctet;
+extern MemSsea *gMemSsea;
 
-extern void func_021CFE18(char *adr, u8 *buf);
-extern void func_021C0EA0(unsigned int *a, unsigned int *b);
+extern void DWCi_SETTINGlConvAddress(char *adr, u8 *buf);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern int func_020588D0(u8 *address);
 
 int func_021C7B34(void)
 {
-    Val VAL = g_021DA5CC;
+    Val VAL = sSceneSetEditAddressMaxOctet;
     u8 *c;
     int prm;
     int i;
@@ -46,7 +46,7 @@ int func_021C7B34(void)
     int b;
 
     for (i = 0; i < 4; i++) {
-        c = (u8 *)g_021DE5E4->addr[i];
+        c = (u8 *)gMemSsea->addr[i];
         if (c[0] == ' ')
             continue;
         for (j = 0; j < 3; j++) {
@@ -56,9 +56,9 @@ int func_021C7B34(void)
                 break;
         }
     }
-    func_021CFE18(g_021DE5E4->addr[0], buf);
+    DWCi_SETTINGlConvAddress(gMemSsea->addr[0], buf);
     b = 0;
-    func_021C0EA0((unsigned int *)((void **)&prm), 0);
+    DWCi_GetParam2_((unsigned int *)((void **)&prm), 0);
     if (prm == 1) {
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 8; j++) {

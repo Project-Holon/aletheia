@@ -1,5 +1,5 @@
 /*
- * function: func_02175F1C
+ * function: DWCi_SetMatchCnt
  * address:  0x02175F1C
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 extern struct NNThinkGlobal g_021AAA20;
 extern unsigned long long func_020870D0(int a);
 
-void func_02175F1C(int a)
+void DWCi_SetMatchCnt(int a)
 {
     unsigned long long v;
 

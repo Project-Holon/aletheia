@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200C738",
+   "name": "ZUKAN_SAVE_SetLanguageFlag",
    "address": "0x0200C738",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200C780",
+   "name": "ZUKAN_SAVE_IsCountedForNationalCompletion",
    "address": "0x0200C780",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_0200C7A0",
+   "name": "ZUKAN_SAVE_IsCountedForRegionalCompletion",
    "address": "0x0200C7A0",
    "kind": "game",
    "region": "arm9",

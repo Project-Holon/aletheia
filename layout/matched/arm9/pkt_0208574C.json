@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208574C",
+   "name": "OS_IsThreadTerminated",
    "address": "0x0208574C",
    "kind": "sdk",
    "region": "arm9",

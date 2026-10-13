@@ -1,5 +1,5 @@
 /*
- * function: func_021D6090
+ * function: DWCi_GXlInvisible
  * address:  0x021D6090
  * packet:   pkt_ov016_021D6090
  * region:   ov016
@@ -21,7 +21,7 @@
 
 #define REG_DISPCNT(base) (*(volatile unsigned long *)(base))
 
-void func_021D6090(int lcd, int plane)
+void DWCi_GXlInvisible(int lcd, int plane)
 {
     if (lcd == 1) {
         unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;

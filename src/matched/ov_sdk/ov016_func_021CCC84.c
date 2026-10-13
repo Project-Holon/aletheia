@@ -18,10 +18,10 @@
  *   DWCi_IPTlCheckTrigger            0x021D6824  arm
  *   DWCi_IPTlCheckRepeat             0x021D6864  arm
  *   moveFocus                        0x021CD018  arm   ov016
- *   g_021DA818                       0x021DA818  data
- *   g_021DE614                       0x021DE614  data
+ *   sSceneSetSelectWayTouchRects                       0x021DA818  data
+ *   gFocusState                       0x021DE614  data
  *   g_021DA85C                       0x021DA85C  data
- *   g_021DA858                       0x021DA858  data
+ *   sSceneSetSelectWayFocusRects                       0x021DA858  data
  *   g_021DA85A                       0x021DA85A  data
  *   g_021DA85E                       0x021DA85E  data
  */
@@ -35,9 +35,9 @@ typedef _Bool bool;
 typedef signed char s8;
 typedef unsigned short u16;
 
-extern struct tagRECT4 g_021DA818[4][4];
-extern struct FocusState g_021DE614;
-extern struct tagRECT4 g_021DA858[4][4];
+extern struct tagRECT4 sSceneSetSelectWayTouchRects[4][4];
+extern struct FocusState gFocusState;
+extern struct tagRECT4 sSceneSetSelectWayFocusRects[4][4];
 extern struct G_021DA85C g_021DA85C[4][4];
 extern struct tagRECT4 g_021DA85A[4][4];
 extern struct G_021DA85E g_021DA85E[4][4];
@@ -56,13 +56,13 @@ static void input(void)
     unsigned int i;
 
     for (i = 0; i < 4; i++) {
-        if (DWCi_TPlCheckTrigger(&g_021DA818[DWCi_Flag(1)][i])) {
+        if (DWCi_TPlCheckTrigger(&sSceneSetSelectWayTouchRects[DWCi_Flag(1)][i])) {
             DWCi_BTNlSet(1);
-            g_021DE614.cur = i;
-            DWCi_FOCUSlDisp4(g_021DA858[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                             g_021DA85C[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                             g_021DA85A[DWCi_Flag(1)][g_021DE614.cur].v[0],
-                             g_021DA85E[DWCi_Flag(1)][g_021DE614.cur].v[0]);
+            gFocusState.cur = i;
+            DWCi_FOCUSlDisp4(sSceneSetSelectWayFocusRects[DWCi_Flag(1)][gFocusState.cur].v[0],
+                             g_021DA85C[DWCi_Flag(1)][gFocusState.cur].v[0],
+                             g_021DA85A[DWCi_Flag(1)][gFocusState.cur].v[0],
+                             g_021DA85E[DWCi_Flag(1)][gFocusState.cur].v[0]);
             return;
         }
     }

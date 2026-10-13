@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C64
+ * function: PMS_SELECT_GRAPHIC_DrawRows
  * address: 0x021C0C64
  * packet: pkt_ov110_021C0C64
  * region: ov110
@@ -22,11 +22,11 @@
  *   func_02041570 0x02041570 arm
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
- *   func_021C09E8 0x021C09E8 thumb ov110
+ *   PMS_SELECT_GRAPHIC_ColorTitleBg 0x021C09E8 thumb ov110
  *   sub_0202DCC4 0x0202DCC4 thumb
  *   PMS_DRAW_Clear 0x0202DC9C thumb
- *   func_021C124C 0x021C124C thumb ov110
- *   func_021C11B8 0x021C11B8 thumb ov110
+ *   PMS_SELECT_GRAPHIC_DrawSavedRow 0x021C124C thumb ov110
+ *   PMS_SELECT_GRAPHIC_DrawNewRow 0x021C11B8 thumb ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,18 +37,18 @@ extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 extern void func_02041570(int,u16);
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
-extern void func_021C09E8(char *p, int pal);
+extern void PMS_SELECT_GRAPHIC_ColorTitleBg(char *p, int pal);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *p, u32 i);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
-extern void func_021C124C(u8 *p, int index, u8 which, int flag);
-extern void func_021C11B8(u8 *p, int index, int unused, int flag);
-void func_021C0C64(u8 *p,int flag)
+extern void PMS_SELECT_GRAPHIC_DrawSavedRow(u8 *p, int index, u8 which, int flag);
+extern void PMS_SELECT_GRAPHIC_DrawNewRow(u8 *p, int index, int unused, int flag);
+void PMS_SELECT_GRAPHIC_DrawRows(u8 *p,int flag)
 {
     int i;
     if(flag && !PMS_DRAW_IsPrintEnd(*(void **)(p+0x8c))) return;
     func_02041570(2,0);
     if(p[0x96]) {
-        func_021C09E8((char *)(p+0x24),PMSI_PARAM_GetSentenceType(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),(u8)(p[0x96]-1))));
+        PMS_SELECT_GRAPHIC_ColorTitleBg((char *)(p+0x24),PMSI_PARAM_GetSentenceType(PMS_WORD_GetSaveEntry(*(void **)(p+0x20),(u8)(p[0x96]-1))));
     }
     for(i=0;i<4;i++) {
         if(sub_0202DCC4(*(void **)(p+0x8c),(u8)i)) PMS_DRAW_Clear(*(void **)(p+0x8c),(u8)i,0);
@@ -56,11 +56,11 @@ void func_021C0C64(u8 *p,int flag)
     for(i=0;p[0x96]+i<p[0x97] && i<4;i++) {
         u8 which;
         which=p[0x96]+i;
-        func_021C124C(p,(u8)i,which,which==p[0x95]);
+        PMS_SELECT_GRAPHIC_DrawSavedRow(p,(u8)i,which,which==p[0x95]);
     }
     if(p[0x97]<20 && i<4) {
         u8 which;
         which=p[0x96]+i;
-        func_021C11B8(p,(u8)i,0,which==p[0x95]);
+        PMS_SELECT_GRAPHIC_DrawNewRow(p,(u8)i,0,which==p[0x95]);
     }
 }

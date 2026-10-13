@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9AA8",
-    "func_021B9AF8"
+    "NHTTP_RAP_EvilCheckCryptoAlloc",
+    "NHTTP_RAP_EvilCheckCryptoFree"
+   ],
+   "addresses": [
+    "0x021B9AA8",
+    "0x021B9AF8"
    ],
    "evidence": {
     "sole-ref": [

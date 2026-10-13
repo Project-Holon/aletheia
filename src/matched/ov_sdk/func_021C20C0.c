@@ -11,8 +11,10 @@
  *
  * symbols:
  *   func_021C20C0   0x021C20C0  arm
+ *   DWCi_BTNlSet  0x021BCB28  arm
+ *   DWCi_IPTlCheckTrigger  0x021D6824  arm
  *
- * Two guarded func_021BCB28 calls keyed off func_021D6824.
+ * Two guarded DWCi_BTNlSet calls keyed off DWCi_IPTlCheckTrigger.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,13 +22,13 @@
  *       --func func_021C20C0 --addr 0x021C20C0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
 
 void func_021C20C0(void)
 {
-    if (func_021D6824(1))
-        func_021BCB28(1);
-    if (func_021D6824(2))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(1))
+        DWCi_BTNlSet(1);
+    if (DWCi_IPTlCheckTrigger(2))
+        DWCi_BTNlSet(0);
 }

@@ -24,7 +24,7 @@
  * is missing.
  *
  * The other four calls resolve through `label` with plenty of outside
- * witnesses.  func_02004632 had to be declared at 0x02004632 (thumb), not
+ * witnesses.  SVC_GetCRC16 had to be declared at 0x02004632 (thumb), not
  * 0x02004630: the target is a BLX, and match.py rewrites BL against BLX from
  * the declared ISA, so a wrong address leaves the H bit wrong and reports a
  * concrete one-byte DIFF (0xFB vs 0xEB in byte 3 of the branch) rather than
@@ -32,8 +32,8 @@
  *
  * symbols:
  *   func_02088150  0x02088150  arm
- *   func_02082D44  0x02082D44  arm
- *   func_02004632  0x02004632  thumb
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   SVC_GetCRC16  0x02004632  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02088118  0x02088118  arm
  */
@@ -43,8 +43,8 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 
 extern int  func_02088150(void);
-extern void func_02082D44(u32 bus, u32 p, u32 n);
-extern u32  func_02004632(u32 a, u32 p, u32 n);
+extern void MI_CpuCopy8(u32 bus, u32 p, u32 n);
+extern u32  SVC_GetCRC16(u32 a, u32 p, u32 n);
 extern void MI_CpuFill8(u32 p, u32 c, u32 n);
 extern void func_02088118(void);
 
@@ -60,11 +60,11 @@ int func_0208806C(void)
     if (base[2] == 0)
         return -1;
 
-    func_02082D44(0x02000000, base[2], 0x300);
+    MI_CpuCopy8(0x02000000, base[2], 0x300);
 
     old = *(u16 *)(base[2] + 0x10);
     *(u16 *)(base[2] + 0x10) = 0;
-    *(u16 *)(base[2] + 0x10) = func_02004632(0xffff, base[2], 0x300);
+    *(u16 *)(base[2] + 0x10) = SVC_GetCRC16(0xffff, base[2], 0x300);
 
     if (old != *(u16 *)(base[2] + 0x10)) {
         MI_CpuFill8(base[2], 0, 0x300);

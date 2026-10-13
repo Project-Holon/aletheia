@@ -1,5 +1,5 @@
 /*
- * function: func_021B8734
+ * function: IRC_RESULT_BlendPaletteEntry
  * address: 0x021B8734
  * packet: pkt_ov105_021B8734
  * region: ov105
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * extent: two-byte zero padding before func_021B87E8
+ * extent: two-byte zero padding before IRC_RESULT_GetScoreRank
  * lever: u8 div and offset pin their home stores to the prologue
  * symbols:
  *   func_02061CA4 0x02061CA4 arm
@@ -16,7 +16,7 @@ typedef unsigned char u8; typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-void func_021B8734(u16 *p,int n,u8 div,u8 offset,u8 index,u16 a,u16 b)
+void IRC_RESULT_BlendPaletteEntry(u16 *p,int n,u8 div,u8 offset,u8 index,u16 a,u16 b)
 {
  u8 r,g,blue; int dr,dg,db;
  g=(a&0x3E0)>>5;

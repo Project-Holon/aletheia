@@ -29,7 +29,7 @@
  *   d_021BED58 0x021BED58 data ov091 a4
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
@@ -68,7 +68,7 @@ extern void PARTICLE_SetupSystem(void *system, u32 handle, u32 a, u32 b);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_DeleteSystem(void *system);
 extern void GFL_NET_FreeAligned(void *);
-extern void func_0200CDE0(void *zukanSave, void *mon);
+extern void ZUKAN_SAVE_RegisterCaught(void *zukanSave, void *mon);
 extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 extern void func_0203F4CC(struct RtcTime *time);
 extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
@@ -154,7 +154,7 @@ int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused)
 void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
-    func_0200CDE0(work->arg->zukanSave, mon);
+    ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
 
 int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
@@ -175,7 +175,7 @@ int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *unused)
 void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 0);
-    func_0200CDE0(work->arg->zukanSave, mon);
+    ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
 
 int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
@@ -202,7 +202,7 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
 void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *mon)
 {
     POKE_TOOL_ChangeForm(mon, 1);
-    func_0200CDE0(work->arg->zukanSave, mon);
+    ZUKAN_SAVE_RegisterCaught(work->arg->zukanSave, mon);
 }
 
 int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)

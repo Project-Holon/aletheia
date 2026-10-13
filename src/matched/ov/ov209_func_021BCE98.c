@@ -29,8 +29,8 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0200CA70 0x0200CA70 thumb
- *   func_0200CA5C 0x0200CA5C thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
+ *   ZUKAN_SAVE_SetViewMode 0x0200CA5C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,8 +57,8 @@ extern void func_021BE43C(char *p);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern u32 func_0200CA70(struct Blk37 *p);
-extern void func_0200CA5C(struct Blk37 *p, u32 v);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
+extern void ZUKAN_SAVE_SetViewMode(struct Blk37 *p, u32 v);
 int func_021BCE98(struct Context *p)
 {
     int result=4;
@@ -98,7 +98,7 @@ int func_021BCE98(struct Context *p)
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,9,4,8);
         case 9:
             GFL_USE_PlaySeDefaultVolume(1356);
-            if(func_0200CA70(p->in->save)==1)func_0200CA5C(p->in->save,0);else func_0200CA5C(p->in->save,1);
+            if(ZUKAN_SAVE_GetViewMode(p->in->save)==1)ZUKAN_SAVE_SetViewMode(p->in->save,0);else ZUKAN_SAVE_SetViewMode(p->in->save,1);
             p->in->state=2;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,8,5,8);
         case 10:GFL_USE_PlaySeDefaultVolume(1606);func_021BD354((char *)p);break;

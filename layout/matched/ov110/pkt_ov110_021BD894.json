@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BD894",
-    "func_021BD8A8",
-    "func_021BD8B8",
-    "func_021BD8C8"
+    "PMS_INPUT_HandleMenu",
+    "PMS_INPUT_UiSwitchMenu",
+    "PMS_INPUT_UiSwitchBrowse",
+    "PMS_INPUT_UiSwitchWordList"
+   ],
+   "addresses": [
+    "0x021BD894",
+    "0x021BD8A8",
+    "0x021BD8B8",
+    "0x021BD8C8"
    ],
    "evidence": {
     "sole-ref": [

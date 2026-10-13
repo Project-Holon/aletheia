@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B630C,func_021B63BC,func_021B63C4,func_021B63CC
+ * function: COMPATIBLE_IRC_SYS_StepShareValue,COMPATIBLE_IRC_SYS_ResetStep,COMPATIBLE_IRC_SYS_ClearValues,COMPATIBLE_IRC_SYS_SetOwnValue
  * address: 0x021B630C
  * packet: pkt_ov101_021B630C
  * region: ov101
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6494 0x021B6494 thumb ov101
+ *   COMPATIBLE_IRC_SYS_SendToHandle 0x021B6494 thumb ov101
  *   GFL_NET_IsParentAid 0x0203D378 arm
  */
-extern int func_021B6494(unsigned int p, unsigned int a, unsigned int b, unsigned int c);
+extern int COMPATIBLE_IRC_SYS_SendToHandle(unsigned int p, unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 extern u32 GFL_NET_IsParentAid(void);
-int func_021B630C(int *p,int value)
+int COMPATIBLE_IRC_SYS_StepShareValue(int *p,int value)
 {
     int i;
     if(p[30]) return 1;
     switch(p[17]) {
     case 0:
         p[28]=0;
-        if(func_021B6494((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
+        if(COMPATIBLE_IRC_SYS_SendToHandle((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
         break;
     case 1:
         if(GFL_NET_IsParentAid()) {
@@ -31,7 +31,7 @@ int func_021B630C(int *p,int value)
         } else p[17]=3;
         break;
     case 2:
-        if(func_021B6494((unsigned int)p,0xD01,4,(unsigned int)(&value))) p[17]=4;
+        if(COMPATIBLE_IRC_SYS_SendToHandle((unsigned int)p,0xD01,4,(unsigned int)(&value))) p[17]=4;
         break;
     case 3:
         if(p[28]) p[17]=4;
@@ -42,6 +42,6 @@ int func_021B630C(int *p,int value)
     }
     return 0;
 }
-void func_021B63BC(int *p) { p[17]=0; }
-void func_021B63C4(int *p) { p[15]=0; p[14]=0; }
-void func_021B63CC(int *p,int n) { p[14]=n; }
+void COMPATIBLE_IRC_SYS_ResetStep(int *p) { p[17]=0; }
+void COMPATIBLE_IRC_SYS_ClearValues(int *p) { p[15]=0; p[14]=0; }
+void COMPATIBLE_IRC_SYS_SetOwnValue(int *p,int n) { p[14]=n; }

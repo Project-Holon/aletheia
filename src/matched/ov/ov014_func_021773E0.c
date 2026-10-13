@@ -13,7 +13,7 @@
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   NET_WHPIPE_IsBeaconAcceptable  0x0217731C  thumb  ov014
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ extern int NET_WHPIPE_IsBeaconAcceptable(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 
 int NET_WHPIPE_StoreScannedEntry(u8 *p)
 {
@@ -53,7 +53,7 @@ int NET_WHPIPE_StoreScannedEntry(u8 *p)
     for (i = 0; i < 16; i++) {
         if (base->age[i] != 0 && func_0203EFC8(base->ent[i].mac, p + 4, 6) == 0) {
             base->age[i] = 600;
-            func_02082D44(p, &base->ent[i], 0xC0);
+            MI_CpuCopy8(p, &base->ent[i], 0xC0);
             return 1;
         }
     }
@@ -64,7 +64,7 @@ int NET_WHPIPE_StoreScannedEntry(u8 *p)
     if (i >= 16)
         return 0;
     base->age[i] = 600;
-    func_02082D44(p, &base->ent[i], 0xC0);
+    MI_CpuCopy8(p, &base->ent[i], 0xC0);
     base->flag = 1;
     return 1;
 }

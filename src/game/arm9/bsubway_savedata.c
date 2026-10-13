@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8         0x02082BCC  arm
  *   sFileName_bsubway_savedata  0x020A71F8  data
  *   func_0203F2FC  0x0203F2FC  arm
@@ -121,7 +121,6 @@ struct SymbolRec {
 };
 
 extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
-extern void func_02082D44(void *dst, const void *src, u32 n);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0203F2FC(const void *p, u32 len);
@@ -260,11 +259,11 @@ void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExpo
 
     out->trainer_id = 0xffff;
     out->gender = trainer->gender;
-    func_02082D44(trainer->trainer_name, out->trainer_name, 0x10);
-    func_02082D44(trainer->greeting, out->greeting, 8);
-    func_02082D44(trainer->win_message, out->win_message, 8);
-    func_02082D44(trainer->lose_message, out->lose_message, 8);
-    func_02082D44(trainer->pokemon, out->pokemon, 0xb4);
+    MI_CpuCopy8(trainer->trainer_name, out->trainer_name, 0x10);
+    MI_CpuCopy8(trainer->greeting, out->greeting, 8);
+    MI_CpuCopy8(trainer->win_message, out->win_message, 8);
+    MI_CpuCopy8(trainer->lose_message, out->lose_message, 8);
+    MI_CpuCopy8(trainer->pokemon, out->pokemon, 0xb4);
 }
 
 
@@ -609,7 +608,7 @@ void func_0200E124(u32 *records, u32 index)
     u32 *base = records;
 
     if (index < hi)
-        func_02082D44(base + (index + 1), base + index, (hi - (index + 1)) * 4);
+        MI_CpuCopy8(base + (index + 1), base + index, (hi - (index + 1)) * 4);
     base[hi - 1] &= 0xfffff800;
 }
 

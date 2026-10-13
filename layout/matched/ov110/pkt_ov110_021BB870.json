@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB870",
-    "func_021BB8AC"
+    "PMSIV_CATEGORY_StartBlendIn",
+    "PMSIV_CATEGORY_IsBlendInDone"
+   ],
+   "addresses": [
+    "0x021BB870",
+    "0x021BB8AC"
    ]
   }
  ]

@@ -16,7 +16,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
@@ -46,7 +46,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u16 data_021D5870[];
 extern void func_021D4644(u16 *, const u16 *, int);
 extern u32 func_020307B0(void *p);
@@ -74,8 +74,8 @@ void func_021D48D8(char *p)
     func_02049B68((void *)arc, 0, 0, 0, 0, ((struct Obj00073 *)p)->fC);
     func_02049B68((void *)arc, 1, 4, 0, 0, ((struct Obj00073 *)p)->fC);
     resource = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc, 1, (u32)&palette, ((struct Obj00073 *)p)->fC);
-    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
-    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
+    MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
+    MI_CpuCopy8(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
     func_021D4644((u16 *)(p + 0x20c), data_021D5870, 7);
     func_020307B0(resource);
     ((struct Obj00073 *)p)->f60 = func_02049740((void *)arc, 4, 4, 0, 0, ((struct Obj00073 *)p)->fC);

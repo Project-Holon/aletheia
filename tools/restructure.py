@@ -289,7 +289,8 @@ def classify(text, msk):
     if t.startswith('typedef'):
         nm = re.findall(r'([A-Za-z_]\w*)\s*(?:\[[^\]]*\])*\s*;$', t)
         fp = re.search(r'\(\s*\*\s*([A-Za-z_]\w*)\s*\)', t)
-        key = fp.group(1) if fp else (nm[-1] if nm else t)
+        bm = re.match(r'^typedef\s+(?:struct|union|enum).*\}\s*([A-Za-z_]\w*)\s*;$', t)
+        key = bm.group(1) if bm else (fp.group(1) if fp else (nm[-1] if nm else t))
         return Item('type', 'typedef ' + key, text)
     sm = re.match(r'^(?:(?:const|volatile)\s+)?(struct|union|enum)\s+([A-Za-z_]\w*)\s*(\{|;)', t)
     if sm and (sm.group(3) == ';' or t.endswith('};')):

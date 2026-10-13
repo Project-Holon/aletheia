@@ -1,5 +1,5 @@
 /*
- * function: func_021DFBB8
+ * function: scSubmitReport
  * address:  0x021DFBB8
  * packet:   pkt_ov175_021DFBB8
  * region:   ov175
@@ -20,7 +20,7 @@
  *   func_02184938  0x02184938  arm  ov009
  *   func_0218497C  0x0218497C  arm  ov009
  *   func_02184A34  0x02184A34  arm  ov009
- *   func_021E0DB8  0x021E0DB8  arm  ov175
+ *   sciWsSubmitReport  0x021E0DB8  arm  ov175
  */
 
 typedef struct {
@@ -56,11 +56,11 @@ struct GSMD5_CTX;
 extern void func_02184938(struct GSMD5_CTX *context);
 extern void func_0218497C(GSMD5_CTX *ctx, unsigned char *input, unsigned int len);
 extern void func_02184A34(unsigned char *digest, struct GSMD5_CTX *context);
-extern int func_021E0DB8(void *ws, unsigned int gameId, char *sessionId, char *connectionId,
+extern int sciWsSubmitReport(void *ws, unsigned int gameId, char *sessionId, char *connectionId,
                          struct SCIReport *report, int isAuth, void *cert, void *priv,
                          void *cb, unsigned int timeout, void *userData);
 
-int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritative, void *theCertificate,
+int scSubmitReport(void *theInterface, void *theReport, int isAuthoritative, void *theCertificate,
                   void *thePrivateData, void *theCallback, unsigned int theTimeoutMs, void *theUserData)
 {
     unsigned int n;
@@ -89,7 +89,7 @@ int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritative, void
     func_02184938((struct GSMD5_CTX *)(&md5));
     func_0218497C(&md5, (unsigned char *)aReport->mData, aReport->mLength);
     func_02184A34(header->mChecksum, (struct GSMD5_CTX *)(&md5));
-    return func_021E0DB8(anInterface, anInterface->mGameId, (char *)anInterface->mSessionId,
+    return sciWsSubmitReport(anInterface, anInterface->mGameId, (char *)anInterface->mSessionId,
                          (char *)anInterface->mConnectionId, aReport, isAuthoritative,
                          theCertificate, thePrivateData, theCallback, theTimeoutMs, theUserData);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6F8
+ * function: PMSIV_EDIT_PressCursor
  * address:  0x021BC6F8
  * packet:   pkt_ov110_021BC6F8
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC69C  0x021BC69C  thumb  ov110
+ *   PMSIV_EDIT_SetCursorPressed  0x021BC69C  thumb  ov110
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021BC69C(u8 *p, int flag);
-void func_021BC6F8(void *p) { func_021BC69C(p, 1); }
+extern void PMSIV_EDIT_SetCursorPressed(u8 *p, int flag);
+void PMSIV_EDIT_PressCursor(void *p) { PMSIV_EDIT_SetCursorPressed(p, 1); }

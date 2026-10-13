@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6E0
+ * function: PMSIV_EDIT_GetSlotWordId
  * address:  0x021BC6E0
  * packet:   pkt_ov110_021BC6E0
  * region:   ov110
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-u16 func_021BC6E0(u8 *p, int i)
+u16 PMSIV_EDIT_GetSlotWordId(u8 *p, int i)
 {
     return *(u16 *)(p + i * 2 + 0x40);
 }

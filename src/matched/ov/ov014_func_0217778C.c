@@ -12,8 +12,8 @@
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02088234  0x02088234  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_Terminate  0x02088234  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
  */
 #include "../include/Obj07354.h"
@@ -28,8 +28,8 @@ typedef unsigned int u32;
 extern struct W *g_pWhPipeWork;
 extern int GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
-extern void func_02088234(void);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void OS_Terminate(void);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 
 typedef int (*SizeFn)(u32 a);
@@ -52,7 +52,7 @@ void NET_WHPIPE_PublishBeacon(void)
         return;
     n = sfn(((struct Obj09381 *)w)->fC64);
     if (n >= 0x68) {
-        func_02088234();
+        OS_Terminate();
         return;
     }
     e = w + 0xC6E;
@@ -60,6 +60,6 @@ void NET_WHPIPE_PublishBeacon(void)
     ((struct Obj07354 *)e)->f2 = ((struct Obj09380 *)st)->f50;
     e[5] = 0;
     e[7] = w[0xCEA];
-    func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj09381 *)w)->fC64), e + 8, n);
+    MI_CpuCopy8((void *)(*(DataFn *)(st + 0x18))(((struct Obj09381 *)w)->fC64), e + 8, n);
     NET_WHPIPE_SetBeaconGameInfo(w + 0xC6E, 0x70);
 }

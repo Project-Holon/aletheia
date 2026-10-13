@@ -1,5 +1,5 @@
 /*
- * function: func_021D7200
+ * function: DWCi_STRlNLen
  * address:  0x021D7200
  * packet:   pkt_ov016_021D7200
  * region:   ov016
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-int func_021D7200(unsigned char *s, int maxlen)
+int DWCi_STRlNLen(unsigned char *s, int maxlen)
 {
 	int i;
 

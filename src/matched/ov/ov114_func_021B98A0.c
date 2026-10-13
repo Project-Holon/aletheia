@@ -1,5 +1,5 @@
 /*
- * function: func_021B98A0
+ * function: NHTTP_RAP_AllocPostData
  * address:  0x021B98A0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B984C  0x021B984C  thumb  ov114
+ *   NHTTP_RAP_WritePostHeader  0x021B984C  thumb  ov114
  *   GFL_NET_AllocAligned  0x0203D7C8  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *GFL_NET_AllocAligned(unsigned int a, unsigned int size, const char *c, unsigned short d);
 extern void MI_CpuFill8(int, int, int);
-extern void func_021B984C(u8 *, int);
+extern void NHTTP_RAP_WritePostHeader(u8 *, int);
 
-void func_021B98A0(u8 *p, int a, int b, int c)
+void NHTTP_RAP_AllocPostData(u8 *p, int a, int b, int c)
 {
     void *q;
 
@@ -35,5 +35,5 @@ void func_021B98A0(u8 *p, int a, int b, int c)
     q = GFL_NET_AllocAligned(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
     ((struct Obj03250 *)p)->f0 = (u32)q;
     MI_CpuFill8((int)q, 0, b + 0x130);
-    func_021B984C(p, c);
+    NHTTP_RAP_WritePostHeader(p, c);
 }

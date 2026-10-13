@@ -1,5 +1,5 @@
 /*
- * function: func_021BD348
+ * function: PMSIV_MENU_UpdateBlend
  * address: 0x021BD348
  * packet: pkt_ov110_021BD348
  * region: ov110
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * lever: the RGB555 lerp is a static inline helper (u16 colour params, as ov105 func_021B8734)
+ * lever: the RGB555 lerp is a static inline helper (u16 colour params, as ov105 IRC_RESULT_BlendPaletteEntry)
  * symbols:
  *   func_02061CA4 0x02061CA4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -32,7 +32,7 @@ static inline void lerp(u16 *p, int n, u16 a, u16 b)
  dg=((u8)((b&0x3E0)>>5)-g)*n>>12;
  *p=(u8)(r+dr)|((u8)(g+dg)<<5)|((u8)(blue+db)<<10);
 }
-void func_021BD348(char *p)
+void PMSIV_MENU_UpdateBlend(char *p)
 {
     int j;
     s16 t;

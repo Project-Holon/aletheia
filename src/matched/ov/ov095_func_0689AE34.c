@@ -1,5 +1,5 @@
 /*
- * function: func_0689AE34
+ * function: BTLV_SCD_ShowTargetMenu
  * address: 0x0689AE34
  * packet: pkt_ov095_0689AE34
  * region: ov095
@@ -52,7 +52,7 @@ extern int func_0689B058(void *);
 extern u32 func_0689B068(void *);
 extern int func_0689B078(void *);
 extern void func_0689B088(char *, int, int);
-void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
+void BTLV_SCD_ShowTargetMenu(u8 *list, u8 n, int unused, u8 *s)
 {
     Desc desc;
     u16 key;

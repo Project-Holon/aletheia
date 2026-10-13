@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5B8
+ * function: DWC_ProcessGHTTP
  * address:  0x021BF5B8
  * packet:   pkt_021BF5B8
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2270  0x021C2270  arm  ov114
+ *   ghttpThink  0x021C2270  arm  ov114
  *
  * Starts the 0x021C22xx job when the engine is idle; 0 when it is busy.
  *
@@ -22,12 +22,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_02059F38(void);
-extern void func_021C2270(void);
+extern void ghttpThink(void);
 
-int func_021BF5B8(void)
+int DWC_ProcessGHTTP(void)
 {
     if (func_02059F38() != 0)
         return 0;
-    func_021C2270();
+    ghttpThink();
     return 1;
 }

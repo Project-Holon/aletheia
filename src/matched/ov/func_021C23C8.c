@@ -1,5 +1,5 @@
 /*
- * function: func_021C23C8
+ * function: WIFICLUB_AddNetCommandsAndCheckFriend
  * address:  0x021C23C8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA7D8  0x021BA7D8  thumb
+ *   WIFICLUBACTOR_AddNetCommands  0x021BA7D8  thumb
  *   sub_0203C2B0  0x0203C2B0  arm
  *
  * Two arm9/overlay calls, the first on the first argument and the second on the second.
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BA7D8(void *a);
+extern void WIFICLUBACTOR_AddNetCommands(void *a);
 extern int sub_0203C2B0(int a);
 
-int func_021C23C8(void *a, void *b)
+int WIFICLUB_AddNetCommandsAndCheckFriend(void *a, void *b)
 {
-    func_021BA7D8(a);
+    WIFICLUBACTOR_AddNetCommands(a);
     return sub_0203C2B0((int)b);
 }

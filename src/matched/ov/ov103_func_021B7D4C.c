@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D4C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_Get3DModel
  * address:  0x021B7D4C
  * packet:   pkt_ov103_021B7D4C
  * region:   ov103
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 *func_021B7D4C(u8 *p, u16 i) { return p + 4 + i * 0x60; }
+u8 *IRC_COMPATIBLE_TOUCH_TEST_Get3DModel(u8 *p, u16 i) { return p + 4 + i * 0x60; }

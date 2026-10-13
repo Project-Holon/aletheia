@@ -1,5 +1,5 @@
 /*
- * function: func_0215C814
+ * function: rawip
  * address:  0x0215C814
  * packet:   pkt_ov009_0215C814
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      rawip (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_0215C7E0  0x0215C7E0  arm  ov009
+ *   strtol10  0x0215C7E0  arm  ov009
  */
 
-extern unsigned long func_0215C7E0(unsigned char *s, unsigned char **end);
+extern unsigned long strtol10(unsigned char *s, unsigned char **end);
 
-unsigned long func_0215C814(unsigned char *name, unsigned long *pip)
+unsigned long rawip(unsigned char *name, unsigned long *pip)
 {
     unsigned long ip = 0;
     int i = 0;
@@ -25,7 +25,7 @@ unsigned long func_0215C814(unsigned char *name, unsigned long *pip)
     unsigned char *next;
 
     do {
-        field = func_0215C7E0(name, &next);
+        field = strtol10(name, &next);
         if (name == next)
             return 0;
         name = next;

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B99B8 0x021B99B8 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
+ *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   func_021D85B4 0x021D85B4 arm ov125
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -22,8 +22,8 @@ typedef unsigned char  u8;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_021B99B8(u8 *p);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_FreePostData(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 extern void func_021D85B4(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int func_0201ED04(struct WordSet *p);
@@ -35,8 +35,8 @@ extern char ov114_id[];
 void func_021D6770(char *p)
 {
     if (((struct Obj03805 *)p)->f404) {
-        func_021B99B8(((struct Obj03805 *)p)->f404);
-        func_021B9838(((struct Obj03805 *)p)->f404);
+        NHTTP_RAP_FreePostData(((struct Obj03805 *)p)->f404);
+        NHTTP_RAP_Destroy(((struct Obj03805 *)p)->f404);
     }
     func_021D85B4();
     ((struct Obj03805 *)p)->f3B4 = 0;

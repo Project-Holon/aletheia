@@ -1,5 +1,5 @@
 /*
- * function: func_020834C0
+ * function: MI_UncompressLZ8
  * address:  0x020834C0
  * packet:   pkt_020834C0
  * region:   arm9
@@ -15,7 +15,7 @@
  * void MI_UncompressLZ8(const void *srcp, void *destp).
  */
 
-asm void func_020834C0(void)
+asm void MI_UncompressLZ8(void)
 {
     stmfd sp!, {r4, r5, r6, r7, lr}
     ldr r5, [r0], #4

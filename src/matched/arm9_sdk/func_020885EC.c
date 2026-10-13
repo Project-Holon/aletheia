@@ -1,5 +1,5 @@
 /*
- * function: func_020885EC
+ * function: PXI_IsCallbackReady
  * address:  0x020885EC
  * packet:   pkt_020885EC
  * region:   arm9
@@ -25,7 +25,7 @@ static inline OSSystemWork *OS_GetSystemWork(void)
     return (OSSystemWork *)0x02FFFC00;
 }
 
-BOOL func_020885EC(int fifotag, int proc)
+BOOL PXI_IsCallbackReady(int fifotag, int proc)
 {
     OSSystemWork *w = OS_GetSystemWork();
 

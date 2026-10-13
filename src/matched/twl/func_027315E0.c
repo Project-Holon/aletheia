@@ -14,10 +14,10 @@
  * symbols:
  *   PMi_PostExitCallbackList 0x02732FAC data
  *   PMi_ExecuteList 0x0208C7E0 arm
- *   func_0207D42C 0x0207D42C arm
- *   func_02087A04 0x02087A04 arm
+ *   GX_DispOff 0x0207D42C arm
+ *   OS_SpinWaitSysCycles 0x02087A04 arm
  *   func_0208BC8C 0x0208BC8C arm
- *   func_02087988 0x02087988 arm
+ *   OS_DisableInterrupts 0x02087988 arm
  *   func_02082658 0x02082658 arm
  *   MI_StopAllNDma 0x0272FD18 arm
  *   PMi_FinalizeDebugger 0x02731500 arm
@@ -31,10 +31,10 @@ typedef unsigned int u32;
 
 /* power-off sequence (callbacks, wait three ticks, request until the status word reads zero, shutdown calls) */
 typedef unsigned short u16;
-void func_0207D42C(void);
-void func_02087A04(u32 n);
+void GX_DispOff(void);
+void OS_SpinWaitSysCycles(u32 n);
 int func_0208BC8C(u32 cmd, u32 a, u16 *buf);
-void func_02087988(void);
+void OS_DisableInterrupts(void);
 void func_02082658(void);
 void MI_StopAllNDma(void);
 void PMi_FinalizeDebugger(void);
@@ -48,13 +48,13 @@ void PMi_CallPostExitCallbackAndReset(int flag)
     u16 buf;
 
     PMi_ExecuteList(PMi_PostExitCallbackList);
-    func_0207D42C();
+    GX_DispOff();
     *(volatile u32 *)0x04001000 &= ~0x10000;
     *(volatile u16 *)0x04000204 |= 0x8000;
     for (i = 0; i < 3; i++) {
         u32 t = *(volatile u32 *)0x02FFFC3C;
         while (t == *(volatile u32 *)0x02FFFC3C)
-            func_02087A04(0x32);
+            OS_SpinWaitSysCycles(0x32);
     }
     sel = (flag != 0);
     for (;;) {
@@ -65,14 +65,14 @@ void PMi_CallPostExitCallbackAndReset(int flag)
         }
         if (func_0208BC8C(cmd, 0, &buf) != 0) {
             do {
-                func_02087A04(0x51D23);
+                OS_SpinWaitSysCycles(0x51D23);
             } while (func_0208BC8C(cmd, 0, &buf) != 0);
         }
         if (buf == 0)
             break;
-        func_02087A04(0x51D23);
+        OS_SpinWaitSysCycles(0x51D23);
     }
-    func_02087988();
+    OS_DisableInterrupts();
     func_02082658();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();

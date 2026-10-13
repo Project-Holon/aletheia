@@ -1,5 +1,5 @@
 /*
- * function: func_021592A8
+ * function: parse_mss
  * address:  0x021592A8
  * packet:   pkt_ov009_021592A8
  * region:   ov009
@@ -22,7 +22,7 @@ struct _CPSSoc {
 	unsigned short mss;
 };
 
-void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc)
+void parse_mss(unsigned char *tcphdr, struct _CPSSoc *soc)
 {
 	long len;
 	unsigned char *p;

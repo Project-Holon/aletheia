@@ -1,5 +1,5 @@
 /*
- * function: func_021BF8C0
+ * function: DWCi_HandleGHTTPError
  * address:  0x021BF8C0
  * packet:   pkt_ov114_021BF8C0
  * region:   ov114
@@ -17,7 +17,7 @@
 
 extern void func_02059F54(int error, int errorCode);
 
-int func_021BF8C0(int result)
+int DWCi_HandleGHTTPError(int result)
 {
     int errorCode;
     int dwcError;

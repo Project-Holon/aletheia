@@ -1,5 +1,5 @@
 /*
- * function: func_021D5A2C
+ * function: DWCi_FNTlDelete
  * address:  0x021D5A2C
  * packet:   pkt_021D5A2C
  * region:   ov016
@@ -10,17 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5A2C 0x021D5A2C arm
+ *   DWCi_FNTlDelete 0x021D5A2C arm
+ *   DWCi_QUElPushBack  0x021D546C  arm
+ *   DWCi_OVRlFree  0x021D71C0  arm
  *
  * Release the word at +0x28 then hand the record to the queue at +0x670.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D71C0(void *ovram);
-extern void func_021D546C(void *queue, void *data);
+extern void DWCi_OVRlFree(void *ovram);
+extern void DWCi_QUElPushBack(void *queue, void *data);
 
-void func_021D5A2C(char *a)
+void DWCi_FNTlDelete(char *a)
 {
-    func_021D71C0((void *)(*(int *)(a + 0x28)));
-    func_021D546C((void *)(*(int *)(*(char **)0x021DE680 + 0x670)), a);
+    DWCi_OVRlFree((void *)(*(int *)(a + 0x28)));
+    DWCi_QUElPushBack((void *)(*(int *)(*(char **)0x021DE680 + 0x670)), a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F60
+ * function: BTL_CLIENT_GetCounterMode
  * address: 0x021D3F60
  * packet: pkt_ov093_021D3F60
  * region: ov093
@@ -12,7 +12,7 @@
  * no follower is included in this source.
  */
 typedef unsigned char u8;
-u8 func_021D3F60(u8 *p)
+u8 BTL_CLIENT_GetCounterMode(u8 *p)
 {
     return p[1];
 }

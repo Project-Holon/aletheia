@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sub_02064B68  0x02064B68  arm
+ *   NNS_G2dSetMCAnimationSpeed  0x02064B68  arm
  *
  * The third handler of the row that src/matched/unit_0204D4C4.c dispatches
  * through: step the pointer past the object's 0xc-byte header and tail-call
@@ -24,7 +24,7 @@
  * nothing outside this range.  The one route left is an EXACT entry for
  * 0x02064B68 itself acting as a `matched` witness; that function is a
  * 168-byte two-armed cell/node walk which is four transposed instructions
- * away from matching, recorded in docs/notes/sub_02064B68.c.txt.
+ * away from matching, recorded in docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt.
  *
  * Kept out of unit_0204D4C4.c for exactly this reason: folding it back in
  * would cap that whole range at MATCH for one unattestable word.
@@ -43,9 +43,9 @@ struct Obj {
     u8  unk_0c;
 };
 
-extern void sub_02064B68(struct Obj *o, void *arg);
+extern void NNS_G2dSetMCAnimationSpeed(struct Obj *o, void *arg);
 
 void CLACT_UpdateVramAnim(struct Obj *o, u32 arg)
 {
-    sub_02064B68((struct Obj *)(&o->unk_0c), (void *)arg);
+    NNS_G2dSetMCAnimationSpeed((struct Obj *)(&o->unk_0c), (void *)arg);
 }

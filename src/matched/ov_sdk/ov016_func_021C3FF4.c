@@ -12,28 +12,28 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BCAE4  0x021BCAE4  arm  ov016
- *   func_021D55A4  0x021D55A4  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C0     0x021DE5C0  data
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_BTNlEnd  0x021BCAE4  arm  ov016
+ *   DWCi_EFFlFade  0x021D55A4  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovFailureWork     0x021DE5C0  data
  *   func_021C405C  0x021C405C  arm  ov016
  */
 
-extern int func_021D5580();
-extern void func_021BCAE4();
-extern void func_021D55A4();
-extern void func_021C0E40(unsigned int v);
+extern int DWCi_EFFlCheck();
+extern void DWCi_BTNlEnd();
+extern void DWCi_EFFlFade();
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C405C();
-extern unsigned char g_021DE5C0[];
+extern unsigned char gSceneOptMovFailureWork[];
 
 void func_021C3FF4(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    func_021BCAE4();
-    if (!g_021DE5C0[1])
-        func_021D55A4(3, 1, 1, 8);
-    func_021D55A4(3, 0, 0x15, 8);
-    func_021C0E40((unsigned int)func_021C405C);
+    DWCi_BTNlEnd();
+    if (!gSceneOptMovFailureWork[1])
+        DWCi_EFFlFade(3, 1, 1, 8);
+    DWCi_EFFlFade(3, 0, 0x15, 8);
+    DWCi_ChangeScene((unsigned int)func_021C405C);
 }

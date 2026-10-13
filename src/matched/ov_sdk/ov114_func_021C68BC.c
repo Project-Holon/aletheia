@@ -35,8 +35,8 @@
  *   DWCi_Ndi_unprepareHttpCallback  0x021C797C  arm  ov114
  *   DWCi_Ndi_kickThread             0x021C79AC  arm  ov114
  *   DWCi_NdSetError                 0x021C659C  arm  ov114
- *   g_021CF47C                      0x021CF47C  data  ov114
- *   g_021CF48C                      0x021CF48C  data  ov114
+ *   sDwciNdHttpstatuscode                      0x021CF47C  data  ov114
+ *   sDwciNdReturncd                      0x021CF48C  data  ov114
  */
 
 typedef unsigned char u8;
@@ -63,8 +63,8 @@ extern void freeHttpParam(tagDWCi_Ndi_HTTPREQ *hrq);
 extern void DWCi_Ndi_unprepareHttpCallback(void);
 extern void DWCi_Ndi_kickThread(void *threadEvent);
 extern void DWCi_NdSetError(int err, int servererror);
-extern char g_021CF47C[];
-extern char g_021CF48C[];
+extern char sDwciNdHttpstatuscode[];
+extern char sDwciNdReturncd[];
 
 int req_callback(void *res, int event, void *arg)
 {
@@ -94,7 +94,7 @@ int req_callback(void *res, int event, void *arg)
     case 4:
         if (NHTTP_GetConnectionError(res) == 8) {
             result = 6;
-        } else if (NHTTP_GetHeaderField(res, g_021CF47C, &strHttpStatus) != 3) {
+        } else if (NHTTP_GetHeaderField(res, sDwciNdHttpstatuscode, &strHttpStatus) != 3) {
             result = 3;
         } else {
             httpStatus = DWCi_Ndi_strToInt(strHttpStatus, 3);
@@ -112,7 +112,7 @@ int req_callback(void *res, int event, void *arg)
                         len = pos - bgn;
                         pos++;
                         if (len == 8)
-                            isCode = DWCi_Ndi_strncmp(v + bgn, g_021CF48C, 8) == 0;
+                            isCode = DWCi_Ndi_strncmp(v + bgn, sDwciNdReturncd, 8) == 0;
                         bgn = pos;
                         while (v[pos] != '&' && v[pos] != '\r' && v[pos] != '\0' && pos < n)
                             pos++;

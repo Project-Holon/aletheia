@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D488  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   MOVE_POKEMON_GetEntryZoneId  0x0215E3E4  thumb  ov010
  */
 
@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 struct Big;
 struct Blk38;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *p);
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern u32 MOVE_POKEMON_GetEntryZoneId(void *p, u32 slot);
 
 int MOVE_POKEMON_FindEntryByZone(void *a, int x)
@@ -31,13 +31,13 @@ int MOVE_POKEMON_FindEntryByZone(void *a, int x)
     u8 i;
     void *p;
 
-    p = func_0200D418(GAME_DATA_GetSaveControl(a));
+    p = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a));
     i = 0;
-    if (func_0200D488(p, 0) != 0 && x == MOVE_POKEMON_GetEntryZoneId(p, i)) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive(p, 0) != 0 && x == MOVE_POKEMON_GetEntryZoneId(p, i)) {
         return 6;
     }
     i = 1;
-    if (func_0200D488(p, 1) != 0 && x == MOVE_POKEMON_GetEntryZoneId(p, i)) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive(p, 1) != 0 && x == MOVE_POKEMON_GetEntryZoneId(p, i)) {
         return 7;
     }
     return 0xffff;

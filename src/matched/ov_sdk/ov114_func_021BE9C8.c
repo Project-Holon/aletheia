@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9C8
+ * function: NHTTP_SetRootCA
  * address:  0x021BE9C8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE9F8  0x021BE9F8  arm  ov114
- *   func_021BEC10  0x021BEC10  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
+ *   NHTTP_SetRequestRootCA  0x021BE9F8  arm  ov114
+ *   NHTTPi_GetRequest  0x021BEC10  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
  *
  *
  * Keyed post of the b/c pair onto record `a`.
@@ -23,12 +23,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(int p);
-extern int func_021BEC10(int, int);
-extern int func_021BE9F8(u8 *, int, int);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern int NHTTPi_GetRequest(int, int);
+extern int NHTTP_SetRequestRootCA(u8 *, int, int);
 
-int func_021BE9C8(int a, int b, int c)
+int NHTTP_SetRootCA(int a, int b, int c)
 {
-    return func_021BE9F8((u8 *)func_021BEC10((int)func_021BEF58((int)func_021BEF08()), a), b, c);
+    return NHTTP_SetRequestRootCA((u8 *)NHTTPi_GetRequest((int)NHTTPi_GetMutexInfoP((int)NHTTPi_GetSystemInfoP()), a), b, c);
 }

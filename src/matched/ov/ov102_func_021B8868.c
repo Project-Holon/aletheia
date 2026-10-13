@@ -1,5 +1,5 @@
 /*
- * function: func_021B8868
+ * function: IRC_COMPATIBLE_MENU_ExitFloater
  * address:  0x021B8868
  * packet:   pkt_ov102_021B8868
  * region:   ov102
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B8868(void *p) { MI_CpuFill8(p, 0, 0x1c); }
+void IRC_COMPATIBLE_MENU_ExitFloater(void *p) { MI_CpuFill8(p, 0, 0x1c); }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
- *   func_0206E7EC  0x0206E7EC  arm
+ *   NNS_G3dGetResDictIdxByName  0x0206E7EC  arm
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ typedef struct Res {
 } Res;
 
 extern Res *G3D_SYSTEM_GetResourceTex(void *p);
-extern int func_0206E7EC(const Dict *d, const void *name);
+extern int NNS_G3dGetResDictIdxByName(const Dict *d, const void *name);
 
 static inline void *DictGetByIdx(const Dict *d, u32 idx)
 {
@@ -72,7 +72,7 @@ int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *a, void *b, u32 idx)
     rb = G3D_SYSTEM_GetResourceTex(b);
     name = rb ? DictGetNameByIdx(&rb->dict, idx) : 0;
     if (ra) {
-        k = func_0206E7EC(&ra->dict, name);
+        k = NNS_G3dGetResDictIdxByName(&ra->dict, name);
     } else {
         k = -1;
     }

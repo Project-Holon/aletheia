@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A38
+ * function: ghiParseURL
  * address:  0x021C3A38
  * packet:   pkt_ov114_021C3A38
  * region:   ov114
@@ -17,10 +17,10 @@
  *   func_02094A28  0x02094A28  arm
  *   func_020964E0  0x020964E0  arm
  *   func_0217F1E0  0x0217F1E0  arm   ov009
- *   g_021CEFDC     0x021CEFDC  data
- *   g_021CEFE4     0x021CEFE4  data
- *   g_021CEFF0     0x021CEFF0  data
- *   g_021CEFF4     0x021CEFF4  data
+ *   sGhttpHttp2     0x021CEFDC  data
+ *   sGhttpHttps3     0x021CEFE4  data
+ *   sGhttpUrlServerTerminators     0x021CEFF0  data
+ *   sGhttpRootPath     0x021CEFF4  data
  */
 
 typedef struct GHIConnection {
@@ -41,14 +41,14 @@ extern char *func_02094A28(const char *, int);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
 extern char *func_0217F1E0(char *);
-extern char g_021CEFDC[];
-extern char g_021CEFE4[];
-extern char g_021CEFF0[];
-extern char g_021CEFF4[];
+extern char sGhttpHttp2[];
+extern char sGhttpHttps3[];
+extern char sGhttpUrlServerTerminators[];
+extern char sGhttpRootPath[];
 
 typedef enum { GHI_FALSE, GHI_TRUE } GHIBool;
 
-GHIBool func_021C3A38(GHIConnection *connection)
+GHIBool ghiParseURL(GHIConnection *connection)
 {
     char *URL;
     int nIndex;
@@ -61,16 +61,16 @@ GHIBool func_021C3A38(GHIConnection *connection)
     URL = connection->url;
     if (URL == 0)
         return GHI_FALSE;
-    if (func_020949F4((const unsigned char *)URL, (const unsigned char *)g_021CEFDC, 7) == 0) {
+    if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttp2, 7) == 0) {
         connection->ssl = 0;
         URL += 7;
-    } else if (func_020949F4((const unsigned char *)URL, (const unsigned char *)g_021CEFE4, 8) == 0) {
+    } else if (func_020949F4((const unsigned char *)URL, (const unsigned char *)sGhttpHttps3, 8) == 0) {
         connection->ssl = 1;
         URL += 8;
     } else {
         return GHI_FALSE;
     }
-    nIndex = func_02094A60((const u8 *)URL, (const u8 *)g_021CEFF0);
+    nIndex = func_02094A60((const u8 *)URL, (const u8 *)sGhttpUrlServerTerminators);
     tempChar = URL[nIndex];
     URL[nIndex] = 0;
     connection->server = func_0217F1E0(URL);
@@ -91,7 +91,7 @@ GHIBool func_021C3A38(GHIConnection *connection)
         connection->port = 80;
     }
     if (*URL == 0)
-        URL = g_021CEFF4;
+        URL = sGhttpRootPath;
     path = func_0217F1E0(URL);
     connection->path = path;
     while ((p = func_02094A28(path, ' ')) != 0) {

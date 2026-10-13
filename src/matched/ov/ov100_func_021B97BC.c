@@ -1,5 +1,5 @@
 /*
- * function: func_021B97BC
+ * function: IRCBATTLEMATCH_NudgeActor
  * address: 0x021B97BC
  * packet: pkt_ov100_021B97BC
  * region: ov100
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B97BC(int a,int b,int c,int d)
+void IRCBATTLEMATCH_NudgeActor(int a,int b,int c,int d)
 {
  struct Point p;
  if(*(int *)(a+0x2c8+d*4) != 0) {

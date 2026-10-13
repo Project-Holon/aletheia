@@ -1,5 +1,5 @@
 /*
- * function: func_021BA640
+ * function: IRCBATTLEMATCH_ExitWindowSystem
  * address:  0x021BA640
  * packet:   pkt_ov100_021BA640
  * region:   ov100
@@ -22,4 +22,4 @@ typedef int s32;
 
 extern void func_0203F9B4(void);
 extern void BMP_WIN_Exit(void);
-void func_021BA640(int a0) { func_0203F9B4(); BMP_WIN_Exit(); }
+void IRCBATTLEMATCH_ExitWindowSystem(int a0) { func_0203F9B4(); BMP_WIN_Exit(); }

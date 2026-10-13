@@ -25,14 +25,14 @@
  *   func_02008B08  0x02008B08  thumb
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   func_0201293C  0x0201293C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_02009470  0x02009470  thumb
  *   func_02008730  0x02008730  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_0201292C  0x0201292C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_02009CC0  0x02009CC0  thumb
  *   EVENT_WORLDTRADE_Main  0x02154390  thumb  ov004
  */
@@ -95,14 +95,14 @@ void *func_0200AD6C(void *saveControl);
 void *func_02008B08(void *saveControl);
 void *POKEPARTY_GetSaveData(void *saveControl);
 struct BoxManager *func_0201293C(const struct GameData *gameData);
-struct WorldTradeSave *func_0200CA1C(void *gameData);
+struct WorldTradeSave *ZUKAN_SAVE_GetFromGameData(void *gameData);
 u32 func_0201283C(const struct GameData *gameData);
 void *func_02009470(void *saveControl);
 void *func_02008730(void *saveControl);
 struct Config *func_0200873C(void *saveControl);
 void *func_02008C58(void *saveControl);
 struct MyItem *func_0201292C(const struct GameData *gameData);
-u32 func_0200CA38(struct WorldTradeSave *worldTradeSave);
+u32 ZUKAN_SAVE_IsNationalDexEnabled(struct WorldTradeSave *worldTradeSave);
 int func_02009CC0(void *battleRecordData);
 u32 EVENT_WORLDTRADE_Main(void *event, u32 *seq, WorldTradeEventWork *work);
 int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request);
@@ -135,7 +135,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.trainerCardData = func_02008B08(work->saveControl);
     work->param.mailBoxData = POKEPARTY_GetSaveData(work->saveControl);
     work->param.boxManager = func_0201293C((const struct GameData *)gameData);
-    work->param.worldTradeSave = func_0200CA1C((void *)gameData);
+    work->param.worldTradeSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);
     work->param.battleRecordData = func_0201283C((const struct GameData *)gameData);
     work->param.wifiFriendData = func_02009470(work->saveControl);
     work->param.myStatus = func_02008730(work->saveControl);
@@ -143,7 +143,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.pokedexData = func_02008C58(work->saveControl);
     work->param.myItem = func_0201292C((const struct GameData *)gameData);
     work->paramGameSystem = (struct GameSystem *)gameSystem;
-    work->param.worldTradeState = func_0200CA38(work->param.worldTradeSave);
+    work->param.worldTradeState = ZUKAN_SAVE_IsNationalDexEnabled(work->param.worldTradeSave);
     work->param.battleRecordValue = func_02009CC0((void *)work->param.battleRecordData);
     work->param.reserved = 0;
     work->param.reserved2 = 0;

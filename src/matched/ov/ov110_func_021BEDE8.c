@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDE8
+ * function: PMS_WORDLIST_GetMaxTopRow
  * address: 0x021BEDE8
  * packet: pkt_ov110_021BEDE8
  * region: ov110
@@ -11,4 +11,4 @@
 #include "../include/Obj22383.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021BEDE8(u8 *p) { return ((struct Obj22383 *)p)->f2; }
+u16 PMS_WORDLIST_GetMaxTopRow(u8 *p) { return ((struct Obj22383 *)p)->f2; }

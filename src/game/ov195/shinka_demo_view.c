@@ -74,7 +74,7 @@
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
  *   MCSS_CheckPaletteFade 0x0201600C thumb
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
- *   func_02064CBC 0x02064CBC arm
+ *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
@@ -116,7 +116,7 @@
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
  *   func_02082B60 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
- *   func_0206DB80 0x0206DB80 arm
+ *   NNS_G3dGeFlushBuffer 0x0206DB80 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
  *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
  *   BMP_Create 0x02043678 arm
@@ -127,7 +127,7 @@
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02082A7C 0x02082A7C arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   BMP_ConvertToLinear 0x02044F64 arm
  *   func_02061CA4 0x02061CA4 arm
  *   BMP_Delete 0x020437AC arm
@@ -135,7 +135,6 @@
  *   _ll_mul 0x0209C054 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   func_0207C768 0x0207C768 arm
- *   FX_SinCosTable__Alt 0x020A1B38 data
  *   func_0207B640 0x0207B640 thumb
  *   MTX_MultVec43 0x0207BC08 arm
  *   func_0207C7E8 0x0207C7E8 arm
@@ -608,7 +607,7 @@ extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 ste
 extern void MCSS_SetAnmStopFlag(void *);
 extern int MCSS_CheckPaletteFade(void *);
 extern void *MCSS_GetAnimCtrl(void *);
-extern void func_02064CBC(struct Obj *);
+extern void NNS_G2dRestartMCAnimation(struct Obj *);
 extern void MCSS_ResetVanishFlag(void *);
 extern void MCSS_SetVanishFlag(void *);
 extern void MCSS_ResetAnmStopFlag(void *);
@@ -637,7 +636,7 @@ extern void func_0207ADC4(MtxFx33 *m);
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -648,7 +647,7 @@ extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void BMP_Delete(struct Obj020437AC *p);
@@ -799,7 +798,6 @@ extern const VecFx32 d_02208E80;
 extern const s16 FX_SinCosTable_[];
 extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
-extern const SC FX_SinCosTable__Alt[];
 extern const s16 d_02208E4C[];
 extern const u8 d_02208E38[];
 extern char d_02208F7C[];
@@ -1241,7 +1239,7 @@ void func_02205D50(char *p)
         func_022063AC(p,0x100000);
         func_02206768(p,0,0xfffff800,0);
         W(0x5c)=0;
-        func_02064CBC((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
+        NNS_G2dRestartMCAnimation((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
         break;
     case 7:
         if(W(0x18)>=1){W(0x14)=8;W(0x18)=0;}
@@ -1829,7 +1827,7 @@ void func_02206664(Owner *o)
     }
     G3D_CAMERA_Reset((struct Light *)w->camera);
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
     REG_MTX_MODE = 2;
@@ -1844,7 +1842,7 @@ void func_02206664(Owner *o)
     G3D_SYSTEM_SetProjection((const u32 *)save0);
     G3D_SYSTEM_SetLookAt(save1);
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
 }
 
 
@@ -2020,25 +2018,25 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     k = 0;
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 0; j < 8; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + 0x440 + (i + j * 16) * 32, 32);
             k++;
         }
     }
@@ -2151,8 +2149,8 @@ void func_02206A5C(Grid *p, u16 heap)
             t = (float)e->f54 / 4096.0f;
             s = 10.0f + 2.0f * (2.0f * (t * (10.0f * t) / 44.0f / 44.0f));
             e->f50 = FX_F32_TO_FX32(s);
-            e->f58 = FX_Mul(e->f50, FX_SinCosTable__Alt[e->f4c >> 4].c);
-            e->f60 = FX_Mul(e->f50, FX_SinCosTable__Alt[e->f4c >> 4].s);
+            e->f58 = FX_Mul(e->f50, ((const SC *)FX_SinCosTable_)[e->f4c >> 4].c);
+            e->f60 = FX_Mul(e->f50, ((const SC *)FX_SinCosTable_)[e->f4c >> 4].s);
             e->f5c = e->f54;
             dx = e->f58 - e->cur.x;
             dy = e->f5c - e->cur.y;

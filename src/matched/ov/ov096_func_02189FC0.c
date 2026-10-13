@@ -1,5 +1,5 @@
 /*
- * function: func_02189FC0
+ * function: TR_AI_CmdJumpIfMoveParam28
  * address:  0x02189FC0
  * packet:   pkt_ov096_02189FC0
  * region:   ov096
@@ -12,8 +12,8 @@
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
- *   func_021895AC  0x021895AC  thumb  ov096
- *   func_0218A378  0x0218A378  thumb  ov096
+ *   TR_AI_CmdEnd  0x021895AC  thumb  ov096
+ *   TR_AI_GetMoveParam  0x0218A378  thumb  ov096
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj13669.h"
@@ -29,10 +29,10 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
-extern int func_021895AC(u8 *, u8 *);
-extern int func_0218A378(u8 *, int, int);
+extern int TR_AI_CmdEnd(u8 *, u8 *);
+extern int TR_AI_GetMoveParam(u8 *, int, int);
 
-int func_02189FC0(struct Cursor *a, u8 *b)
+int TR_AI_CmdJumpIfMoveParam28(struct Cursor *a, u8 *b)
 {
     int t;
     int u;
@@ -46,14 +46,14 @@ int func_02189FC0(struct Cursor *a, u8 *b)
     base = (u16 *)(*(u8 * *)&((struct Obj00005 *)a)->f14 + w);
     flag = 0;
     if (t == 0) {
-        m = func_0218A378(b, ((struct Obj13669 *)b)->f2, 0x1c) * 2;
+        m = TR_AI_GetMoveParam(b, ((struct Obj13669 *)b)->f2, 0x1c) * 2;
         if (m / 2 > u)
             flag = 1;
     } else {
         flag = 1;
     }
     if (flag == 1)
-        return func_021895AC((u8 *)a, b);
+        return TR_AI_CmdEnd((u8 *)a, b);
     VM_Jump((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
     return ((struct Obj13669 *)b)->fC4;
 }

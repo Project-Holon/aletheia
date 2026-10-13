@@ -1,5 +1,5 @@
 /*
- * function: func_02059718
+ * function: DWC_CheckUserData
  * address:  0x02059718
  * packet:   pkt_02059718
  * region:   arm9
@@ -38,7 +38,7 @@ struct DWCstAccUserData {
 extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
 extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
 
-int func_02059718(struct DWCstAccUserData *userdata)
+int DWC_CheckUserData(struct DWCstAccUserData *userdata)
 {
     struct MATHCRC32Table table;
     unsigned long crc32;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6A28
+ * function: VS_MULTI_LIST_InitMons
  * address:  0x021F6A28
  * packet:   pkt_ov097_021F6A28
  * region:   ov097
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
-void func_021F6A28(int *p)
+void VS_MULTI_LIST_InitMons(int *p)
 {
     int *s;
     int a;

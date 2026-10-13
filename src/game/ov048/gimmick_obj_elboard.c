@@ -52,7 +52,7 @@
  *   gElboardPlaceTable     0x021F4E5C  data  a2
  *   gElboardPlaceKinds     0x021F4E5E  data  a1
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   MOVE_POKEMON_HasActiveEntry  0x0215E404  thumb  ov010
  *   MOVE_POKEMON_GetEntryZoneId  0x0215E3E4  thumb  ov010
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
@@ -268,7 +268,7 @@ extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
 extern int FIELDMAP_QueryIssSwitch(struct FieldMap *fieldMap, int placeId);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct EncounterState *func_0200D418(void *saveControl);
+extern struct EncounterState *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 extern int MOVE_POKEMON_HasActiveEntry(struct EncounterState *state);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern u32 MOVE_POKEMON_GetEntryZoneId(struct EncounterState *state, u32 slot);
@@ -895,7 +895,7 @@ void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(GateWork *work, ElboardHighlight
     int kind;
     int placeId;
 
-    encounter = func_0200D418(GAME_DATA_GetSaveControl(work->gameData));
+    encounter = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     GIMMICK_OBJ_ELBOARD_ClearHighlights(out);
     if (MOVE_POKEMON_HasActiveEntry(encounter)) {
         placeId = GPOWER_GetSpecialPowerId();

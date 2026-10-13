@@ -1,5 +1,5 @@
 /*
- * function: func_021BF71C
+ * function: PMS_INPUT_GetCancelSelected
  * address:  0x021BF71C
  * packet:   pkt_ov110_021BF71C
  * region:   ov110
@@ -21,4 +21,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u16 func_021BF71C(u8 *p) { return ((struct Obj22389 *)p)->f48; }
+u16 PMS_INPUT_GetCancelSelected(u8 *p) { return ((struct Obj22389 *)p)->f48; }

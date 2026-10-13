@@ -1,5 +1,5 @@
 /*
- * function: func_021B8860
+ * function: IRC_RESULT_GiveReward
  * address: 0x021B8860
  * packet: pkt_ov105_021B8860
  * region: ov105
@@ -53,7 +53,7 @@ extern u8 func_0200AA68(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern void *GAME_DATA_GetTrainerRecord(int *);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 #define ARG (*(u8 **)(p+0x1a4))
-int func_021B8860(u8 *p)
+int IRC_RESULT_GiveReward(u8 *p)
 {
     u8 *detail;
     void *record;

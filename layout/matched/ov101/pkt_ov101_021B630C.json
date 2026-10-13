@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B630C",
-    "func_021B63BC",
-    "func_021B63C4",
-    "func_021B63CC"
+    "COMPATIBLE_IRC_SYS_StepShareValue",
+    "COMPATIBLE_IRC_SYS_ResetStep",
+    "COMPATIBLE_IRC_SYS_ClearValues",
+    "COMPATIBLE_IRC_SYS_SetOwnValue"
+   ],
+   "addresses": [
+    "0x021B630C",
+    "0x021B63BC",
+    "0x021B63C4",
+    "0x021B63CC"
    ]
   }
  ]

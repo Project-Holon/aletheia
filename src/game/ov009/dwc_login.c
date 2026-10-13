@@ -29,20 +29,20 @@
  *   func_02084F80  0x02084F80  arm
  *   func_02185CB4  0x02185CB4  arm  ov009
  *   func_02178F00  0x02178F00  arm  ov009
- *   func_02059408  0x02059408  arm
+ *   DWCi_Acc_U64ToString32  0x02059408  arm
  *   func_02167EA0  0x02167EA0  arm  ov009
- *   func_0216F20C  0x0216F20C  arm  ov009
+ *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
  *   DWCi_GT2Startup  0x0216BA4C  arm  ov009
- *   func_02176AA8  0x02176AA8  arm  ov009
- *   func_02176ABC  0x02176ABC  arm  ov009
+ *   DWCi_SetMatchmakeProfileId  0x02176AA8  arm  ov009
+ *   DWCi_RegisterMatchmakeKeys  0x02176ABC  arm  ov009
  *   func_02185BD8  0x02185BD8  arm  ov009
  *   func_021859C0  0x021859C0  arm  ov009
  *   func_020596C8  0x020596C8  arm
- *   func_02059474  0x02059474  arm
+ *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
  *   func_02059084  0x02059084  arm
- *   func_020596B0  0x020596B0  arm
- *   func_02059644  0x02059644  arm
- *   func_02059588  0x02059588  arm
+ *   DWCi_Acc_IsValidLoginId  0x020596B0  arm
+ *   DWCi_Acc_CheckConsoleUserId  0x02059644  arm
+ *   DWCi_Acc_CreateTempLoginId  0x02059588  arm
  *   OS_GetTick     0x020870D0  arm
  *   DWCi_Acc_SetPlayerId  0x020590F0  arm
  *   func_02178D14  0x02178D14  arm  ov009
@@ -55,7 +55,7 @@
  *   func_02178E90  0x02178E90  arm  ov009
  *   func_02185ACC  0x02185ACC  arm  ov009
  *   strcmp         0x020948E0  arm
- *   func_020597F0  0x020597F0  arm
+ *   DWCi_Acc_SetLoginIdToUserData  0x020597F0  arm
  *   @16552  0x021A201C  data
  *   func_02186618  0x02186618  arm  ov009
  */
@@ -312,7 +312,7 @@ void func_0216A4D4(void **pconnection, void *argp, void *unused)
     if (func_0216A460(gpResult))
         return;
 
-    func_02059408(func_02178F00(), 43, aimname);
+    DWCi_Acc_U64ToString32(func_02178F00(), 43, aimname);
     gpResult = func_02185CB4(pconnection, 0x717, aimname);
     if (func_0216A460(gpResult))
         return;
@@ -325,14 +325,14 @@ void func_0216A4D4(void **pconnection, void *argp, void *unused)
         if (g_021AA874->state == 2) {
             if (g_021AA874->userdata->gs_profile_id == arg->profile) {
                 g_021AA874->state = 5;
-                gpResult = func_0216F20C(1);
+                gpResult = DWCi_GPSetServerStatus(1);
                 if (func_0216A460(gpResult))
                     return;
                 g_021AA874->callback(0, arg->profile, g_021AA874->param);
                 if (DWCi_GT2Startup())
                     return;
-                func_02176AA8(arg->profile);
-                func_02176ABC();
+                DWCi_SetMatchmakeProfileId(arg->profile);
+                DWCi_RegisterMatchmakeKeys();
             } else {
                 func_0216A3B8(6, -60000);
             }
@@ -373,18 +373,18 @@ int func_0216A6F4(void)
 {
     u64 userid;
     if (func_020596C8(g_021AA874->userdata)) {
-        func_02059474(&g_021AA874->userdata->authentic, g_021AA874->userdata->gamecode, g_021AA874->username);
+        DWCi_Acc_LoginIdToUserName(&g_021AA874->userdata->authentic, g_021AA874->userdata->gamecode, g_021AA874->username);
         userid = func_02059084(&g_021AA874->userdata->authentic);
     } else {
-        if (!func_020596B0(&g_021AA874->loginId)) {
-            if (func_02059644(&g_021AA874->userdata->pseudo))
+        if (!DWCi_Acc_IsValidLoginId(&g_021AA874->loginId)) {
+            if (DWCi_Acc_CheckConsoleUserId(&g_021AA874->userdata->pseudo))
                 g_021AA874->loginId = g_021AA874->userdata->pseudo;
             else
-                func_02059588(&g_021AA874->loginId);
+                DWCi_Acc_CreateTempLoginId(&g_021AA874->loginId);
         } else {
             DWCi_Acc_SetPlayerId(&g_021AA874->loginId, (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
-        func_02059474(&g_021AA874->loginId, g_021AA874->gamecode, g_021AA874->username);
+        DWCi_Acc_LoginIdToUserName(&g_021AA874->loginId, g_021AA874->gamecode, g_021AA874->username);
         userid = 0;
     }
     return func_02178D14(g_021AA874->playerName, g_021AA874->gsbrcd, userid, func_0205A16C, func_0205A1B0);
@@ -434,7 +434,7 @@ void func_0216A8F4(void **pconnection, void *argp, void *unused)
         return;
     if (g_021AA874->state == 3) {
         if (arg->nick[0] == 0) {
-            func_02059474(&g_021AA874->userdata->pseudo, g_021AA874->gamecode, pseudo_name2);
+            DWCi_Acc_LoginIdToUserName(&g_021AA874->userdata->pseudo, g_021AA874->gamecode, pseudo_name2);
             gpResult = func_02185CB4(pconnection, 0x705, pseudo_name2);
             if (func_0216A460(gpResult))
                 return;
@@ -447,10 +447,10 @@ void func_0216A8F4(void **pconnection, void *argp, void *unused)
             g_021AA874->state = 1;
         }
     } else if (g_021AA874->state == 4) {
-        func_02059474(&g_021AA874->userdata->pseudo, g_021AA874->gamecode, pseudo_name);
+        DWCi_Acc_LoginIdToUserName(&g_021AA874->userdata->pseudo, g_021AA874->gamecode, pseudo_name);
         if (strcmp(arg->nick, pseudo_name) == 0) {
-            func_02059474(&g_021AA874->loginId, g_021AA874->gamecode, username);
-            func_020597F0(g_021AA874->userdata, &g_021AA874->loginId, arg->profile);
+            DWCi_Acc_LoginIdToUserName(&g_021AA874->loginId, g_021AA874->gamecode, username);
+            DWCi_Acc_SetLoginIdToUserData(g_021AA874->userdata, &g_021AA874->loginId, arg->profile);
             func_02185ACC(pconnection);
             func_0216A68C(func_0216A4D4, 2);
         } else {

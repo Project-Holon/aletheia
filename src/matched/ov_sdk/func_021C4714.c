@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm
- *   func_021C11B8  0x021C11B8  arm
- *   func_021BCAE4  0x021BCAE4  arm
- *   func_021D55A4  0x021D55A4  arm
- *   func_021C0E40  0x021C0E40  arm
+ *   DWCi_EFFlCheck  0x021D5580  arm
+ *   DWCi_MOVlIsEnd  0x021C11B8  arm
+ *   DWCi_BTNlEnd  0x021BCAE4  arm
+ *   DWCi_EFFlFade  0x021D55A4  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
  *   func_021C4794  0x021C4794  arm
- *   g_021DE5C8     0x021DE5C8  data
+ *   gSceneOptMovWaitWork     0x021DE5C8  data
  */
 
 typedef unsigned char u8;
 
-extern int  func_021D5580(int x);
-extern int  func_021C11B8(void);
-extern void func_021BCAE4(void);
-extern void func_021D55A4(int a, int b, int c, int d);
-extern void func_021C0E40(unsigned int v);
+extern int  DWCi_EFFlCheck(int x);
+extern int  DWCi_MOVlIsEnd(void);
+extern void DWCi_BTNlEnd(void);
+extern void DWCi_EFFlFade(int a, int b, int c, int d);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C4794(void);
-extern u8   g_021DE5C8[];
+extern u8   gSceneOptMovWaitWork[];
 
 void func_021C4714(void)
 {
-    if (func_021D5580(1) != 0)
+    if (DWCi_EFFlCheck(1) != 0)
         return;
-    if (g_021DE5C8[0] == 0) {
-        if (func_021C11B8() == 0)
+    if (gSceneOptMovWaitWork[0] == 0) {
+        if (DWCi_MOVlIsEnd() == 0)
             return;
     }
-    func_021BCAE4();
-    if (g_021DE5C8[0] == 0)
-        func_021D55A4(3, 1, 1, 8);
-    func_021D55A4(3, 0, 0x15, 8);
-    func_021C0E40((unsigned int)func_021C4794);
+    DWCi_BTNlEnd();
+    if (gSceneOptMovWaitWork[0] == 0)
+        DWCi_EFFlFade(3, 1, 1, 8);
+    DWCi_EFFlFade(3, 0, 0x15, 8);
+    DWCi_ChangeScene((unsigned int)func_021C4794);
 }

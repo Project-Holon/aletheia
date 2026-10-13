@@ -1,5 +1,5 @@
 /*
- * function: func_0689D174
+ * function: BTL_DEADREC_GetCount
  * address: 0x0689D174
  * packet: pkt_ov095_0689D174
  * region: ov095
@@ -22,7 +22,7 @@ typedef struct {
     u8 b[24];
 } Slot;
 
-u8 func_0689D174(Slot *s, u32 i)
+u8 BTL_DEADREC_GetCount(Slot *s, u32 i)
 {
     if (i < 4)
         return s[i].n;

@@ -36,7 +36,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
- *   func_02082B0C 0x02082B0C arm
+ *   MIi_CpuCopyFast 0x02082B0C arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201F5BC 0x0201F5BC thumb
@@ -45,7 +45,7 @@
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_SetFrameDataArc 0x0202CAE4 thumb
  *   BGWINFRM_GetFrameBuffer 0x0202CF84 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_02045B38 0x02045B38 arm
@@ -111,7 +111,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082B0C(void *, const void *, u32);
+extern void MIi_CpuCopyFast(void *, const void *, u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -120,7 +120,7 @@ extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
-extern void func_02082D44(void *,void *,u32);
+extern void MI_CpuCopy8(void *,void *,u32);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -253,8 +253,8 @@ void func_021C574C(struct MbSeqCtx *p)
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
     buf = ARC_UTIL_LoadBgCharDataFromHandle(h, 0x26, 1, (u32)(&out), 0x66);
     dst = *(u8 * *)&((struct MbUnitACtx *)out)->f14;
-    func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 4, 0x20);
-    func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 0x24, 0x20);
+    MIi_CpuCopyFast(dst + 0x100, *(u8 * *)&p->f8 + 4, 0x20);
+    MIi_CpuCopyFast(dst + 0x100, *(u8 * *)&p->f8 + 0x24, 0x20);
     func_020307B0(buf);
     ARC_TOOL_DeleteHandle(h);
 }
@@ -276,7 +276,7 @@ void func_021C587C(struct MbSeqCtx *p)
     BGWINFRM_AddFrame(**(void ** *)&p->f8,10,1,14,4);
     BGWINFRM_SetFrameDataArc(**(void ** *)&p->f8,0,155,40,1);
     first = (void *)BGWINFRM_GetFrameBuffer(**(void ** *)&p->f8,0);
-    for(i=1;i<=10;i++) func_02082D44(first,(void *)BGWINFRM_GetFrameBuffer(**(void ** *)&p->f8,i),112);
+    for(i=1;i<=10;i++) MI_CpuCopy8(first,(void *)BGWINFRM_GetFrameBuffer(**(void ** *)&p->f8,i),112);
     for(i=0;i<10;i++) BGWINFRM_PutFrame(**(void ** *)&p->f8,i,(i%2)*16+1,(i/2)*4);
 }
 

@@ -15,8 +15,8 @@
  *   func_06899BB8  0x06899BB8  thumb  ov095
  *   func_06899BC8  0x06899BC8  arm    ov095
  *   func_06899BD0  0x06899BD0  thumb  ov095
- *   func_06899E2C  0x06899E2C  thumb  ov095
- *   g_0689E7B8     0x0689E7B8  data    ov095  a4
+ *   BTLV_SCD_ClearTasks  0x06899E2C  thumb  ov095
+ *   gBtlvScdFileName     0x0689E7B8  data    ov095  a4
  */
 
 typedef unsigned char u8;
@@ -50,20 +50,20 @@ typedef struct Obj {
     u16 fac;
 } Obj;
 
-extern u8 g_0689E7B8[];
+extern u8 gBtlvScdFileName[];
 
 extern Obj *func_06899BA0(u16 a, int b, int c, u8 *d, int e);
 extern int func_06899BA8(void);
 extern int func_06899BB8(int a, int b);
 extern int func_06899BC8(int a, u16 b);
 extern int func_06899BD0(u16 a);
-extern void func_06899E2C(unsigned char *p);
+extern void BTLV_SCD_ClearTasks(unsigned char *p);
 
 Obj *BTLV_SCD_Create(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
 {
     Obj *o;
 
-    o = func_06899BA0(e7, 0xb4, 1, g_0689E7B8, 0xc8);
+    o = func_06899BA0(e7, 0xb4, 1, gBtlvScdFileName, 0xc8);
     o->f9c = a;
     o->fa0 = b;
     o->fa4 = c;
@@ -79,6 +79,6 @@ Obj *BTLV_SCD_Create(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
     o->f92.b.hi = 0;
     o->f8f = 0;
     o->f14 = func_06899BD0(o->fac);
-    func_06899E2C((unsigned char *)o);
+    BTLV_SCD_ClearTasks((unsigned char *)o);
     return o;
 }

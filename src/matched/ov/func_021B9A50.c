@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A50
+ * function: WIFICLUBACTOR_GetActorId
  * address:  0x021B9A50
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern int func_021C49A4(u8 *p, unsigned int i);
 
-u8 func_021B9A50(char *p)
+u8 WIFICLUBACTOR_GetActorId(char *p)
 {
     return (u8)func_021C49A4(((struct Obj18147 *)p)->f0, 4);
 }

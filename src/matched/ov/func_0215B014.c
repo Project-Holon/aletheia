@@ -11,8 +11,8 @@
  *
  * symbols:
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA40  0x0200CA40  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_SetDexObtained  0x0200CA40  thumb
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *SCRCMD_WORK_GetGameData(void *a0);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 struct Blk37;
-extern struct Blk37 *func_0200CA40(struct Blk37 *p);
+extern struct Blk37 *ZUKAN_SAVE_SetDexObtained(struct Blk37 *p);
 
 int SCRCMD_WORK_CmdSetZukanFlagB(int a0, int a1)
 {
@@ -32,9 +32,9 @@ int SCRCMD_WORK_CmdSetZukanFlagB(int a0, int a1)
 a0 = a1 + 0;
     v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215B01C:
-    p = func_0200CA1C(v0);
+    p = ZUKAN_SAVE_GetFromGameData(v0);
 loc_0215B020:
-    a0 = (int)func_0200CA40(p);
+    a0 = (int)ZUKAN_SAVE_SetDexObtained(p);
 loc_0215B024:
 a0 = 0;
     return a0;}

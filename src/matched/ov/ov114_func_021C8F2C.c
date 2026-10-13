@@ -1,5 +1,5 @@
 /*
- * function: func_021C8F2C
+ * function: DPW_BT_Init
  * address: 0x021C8F2C
  * packet: pkt_ov114_021C8F2C
  * region: ov114
@@ -8,22 +8,22 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021D4084 0x021D4084 data a4
- *   d_021D3EFC 0x021D3EFC data a4
+ *   gDpwBtWork 0x021D4084 data a4
+ *   gDpwBtServerIndex 0x021D3EFC data a4
  */
-extern unsigned d_021D4084[];
-extern unsigned d_021D3EFC;
-void func_021C8F2C(unsigned a, unsigned b, unsigned c, unsigned mode)
+extern unsigned gDpwBtWork[];
+extern unsigned gDpwBtServerIndex;
+void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode)
 {
-    d_021D4084[0] = 1;
-    d_021D4084[1] = 0;
-    d_021D4084[2] = a;
-    d_021D4084[3] = b;
-    d_021D4084[4] = c;
+    gDpwBtWork[0] = 1;
+    gDpwBtWork[1] = 0;
+    gDpwBtWork[2] = a;
+    gDpwBtWork[3] = b;
+    gDpwBtWork[4] = c;
     switch (mode) {
-    case 0: d_021D3EFC = 0; break;
-    case 1: d_021D3EFC = 1; break;
-    case 2: d_021D3EFC = 2; break;
-    default: d_021D3EFC = 1; break;
+    case 0: gDpwBtServerIndex = 0; break;
+    case 1: gDpwBtServerIndex = 1; break;
+    case 2: gDpwBtServerIndex = 2; break;
+    default: gDpwBtServerIndex = 1; break;
     }
 }

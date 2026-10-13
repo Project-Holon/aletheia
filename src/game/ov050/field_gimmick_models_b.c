@@ -27,8 +27,8 @@
  *   FLD_EXP_OBJ_SetModelHidden 0x021BE4B4 thumb ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
- *   gGimmick50Setup     0x021F38A4  data  a4
- *   gGimmick50ModelPos     0x021F38B4  data  a4
+ *   gModelsBSetup     0x021F38A4  data  a4
+ *   gModelsBModelPos     0x021F38B4  data  a4
  */
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_models_b_types.h"
@@ -42,20 +42,20 @@ int FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_B_HideModel1(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_B_ShowModel1(struct FieldMap *fieldMap);
 int FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_MODELS_B_InitModels(Gimmick50Work *work, struct FieldMap *fieldMap);
-void FIELD_GIMMICK_MODELS_B_InitExtra(Gimmick50Work *work, struct FieldMap *fieldMap);
-extern void FIELD_GIMMICK_MODELS_B_ExitExtra(Gimmick50Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_MODELS_B_InitModels(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_MODELS_B_InitExtra(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
+extern void FIELD_GIMMICK_MODELS_B_ExitExtra(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
 
-extern const G3dUtilSetup gGimmick50Setup;
-extern const VecFx32 gGimmick50ModelPos[FIELD_GIMMICK_MODELS_B_MODEL_COUNT];
+extern const G3dUtilSetup gModelsBSetup;
+extern const VecFx32 gModelsBModelPos[FIELD_GIMMICK_MODELS_B_MODEL_COUNT];
 struct FieldMap;
-struct Gimmick50Work;
+struct FieldGimmickModelsBWork;
 
 /* Gimmick setup: allocate the common work, then place the models. */
 void FIELD_GIMMICK_MODELS_B_Init(struct FieldMap *fieldMap)
 {
     u16 heapId;
-    Gimmick50Work *work;
+    FieldGimmickModelsBWork *work;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
     work = FIELDMAP_AllocCommonWork(fieldMap, 1, heapId, 2);
@@ -151,7 +151,7 @@ int FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(struct FieldMap *fieldMap)
 }
 
 /* Load the unit, place the two models, then switch off model 0 and hide model 1. */
-void FIELD_GIMMICK_MODELS_B_InitModels(Gimmick50Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_B_InitModels(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
     int i;
@@ -159,10 +159,10 @@ void FIELD_GIMMICK_MODELS_B_InitModels(Gimmick50Work *work, struct FieldMap *fie
     const VecFx32 *pos;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gGimmick50Setup, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gModelsBSetup, 0);
     for (i = 0; i < FIELD_GIMMICK_MODELS_B_MODEL_COUNT; i++) {
         status = FLD_EXP_OBJ_GetModelStatus(expObj, 0, i);
-        pos = &gGimmick50ModelPos[i];
+        pos = &gModelsBModelPos[i];
         status->trans.x = pos->x;
         status->trans.y = pos->y;
         status->trans.z = pos->z;
@@ -174,11 +174,11 @@ void FIELD_GIMMICK_MODELS_B_InitModels(Gimmick50Work *work, struct FieldMap *fie
 /*
  * Empty function.
  */
-void FIELD_GIMMICK_MODELS_B_InitExtra(Gimmick50Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_B_InitExtra(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap)
 {
 }
 
 /* Empty function: the gimmick exit hook, called with the common work just before it is released. */
-void FIELD_GIMMICK_MODELS_B_ExitExtra(struct Gimmick50Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_MODELS_B_ExitExtra(struct FieldGimmickModelsBWork *work, struct FieldMap *fieldMap)
 {
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02173B74
+ * function: DWCi_IsFriendByIdxList
  * address:  0x02173B74
  * packet:   pkt_ov009_02173B74
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char *func_02175F3C(void);
 extern int func_02168FF0(int idx);
 
-int func_02173B74(int profileID)
+int DWCi_IsFriendByIdxList(int profileID)
 {
     int i;
     int id;

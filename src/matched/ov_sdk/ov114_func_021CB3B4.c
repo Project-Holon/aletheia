@@ -1,5 +1,5 @@
 /*
- * function: func_021CB3B4
+ * function: CRYPTOi__BN_add_word
  * address:  0x021CB3B4
  * packet:   pkt_ov114_021CB3B4
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      CRYPTOi__BN_add_word (libcrypto.TWL.HYB.a(crypto_bobj1.o))
  *
  * symbols:
- *   func_021CB494  0x021CB494  arm  ov114
- *   func_021CADAC  0x021CADAC  arm  ov114
+ *   CRYPTOi__BN_sub_word  0x021CB494  arm  ov114
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
  *
  * BN_add_word: negative-a path either delegates to BN_sub_word (>1 word) or
  * inlines the single-word subtract, else expands and ripple-adds w.
@@ -28,7 +28,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov114_func_021CB3B4.c \
- *       --func func_021CB3B4 --addr 0x021CB3B4 --region ov114 --arm --cc 1.1p1 \
+ *       --func CRYPTOi__BN_add_word --addr 0x021CB3B4 --region ov114 --arm --cc 1.1p1 \
  *       --lang c99
  */
 
@@ -40,10 +40,10 @@ typedef struct {
 	int flags;
 } BIGNUM;
 
-extern int func_021CB494(BIGNUM *a, unsigned long w);
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
+extern int CRYPTOi__BN_sub_word(BIGNUM *a, unsigned long w);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
 
-int func_021CB3B4(BIGNUM *a, unsigned long w)
+int CRYPTOi__BN_add_word(BIGNUM *a, unsigned long w)
 {
 	unsigned long l;
 	int i;
@@ -53,7 +53,7 @@ int func_021CB3B4(BIGNUM *a, unsigned long w)
 	if (a->neg) {
 		if (a->top > 1) {
 			a->neg = 0;
-			i = func_021CB494(a, w);
+			i = CRYPTOi__BN_sub_word(a, w);
 			a->neg = 1;
 			return i;
 		}
@@ -69,7 +69,7 @@ int func_021CB3B4(BIGNUM *a, unsigned long w)
 		}
 		return 1;
 	}
-	if (((a->top + 1 > a->dmax) ? func_021CADAC(a, a->top + 1) : a) == 0)
+	if (((a->top + 1 > a->dmax) ? CRYPTOi__bn_expand2(a, a->top + 1) : a) == 0)
 		return 0;
 	a->d[a->top] = 0;
 	i = 0;

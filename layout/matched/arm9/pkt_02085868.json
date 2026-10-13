@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02085868",
+   "name": "OS_WakeupThreadDirect",
    "address": "0x02085868",
    "kind": "sdk",
    "region": "arm9",

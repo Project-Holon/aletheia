@@ -21,7 +21,7 @@
  *   func_02030734  0x02030734  arm
  *   g_Field3dbgSourceName     0x021DDE5C  data
  *   func_020307B0  0x020307B0  arm
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207D8C4  0x0207D8C4  arm
  *   g_DefaultProjectionMtx     0x02148B54  data  a4
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
@@ -86,7 +86,7 @@ typedef enum { GX_TEXPLTTCOLOR0_USE = 0, GX_TEXPLTTCOLOR0_TRNS = 1 } GXTexPlttCo
 extern void *ov035_func_021EFEC0(void *work, void *gameSystem, u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 func_020307B0(void *p);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207D8C4(ProjectionMtx *m);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void *ARC_TOOL_LoadHandleMember(void *archive, u32 fileId, u16 heapId);
@@ -157,7 +157,7 @@ void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard)
 {
     ProjectionMtx proj;
     if (billboard != 0 && billboard->isVisible != 0 && FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0) {
-        func_0206DB80();
+        NNS_G3dGeFlushBuffer();
         REG_MTX_MODE = 0;
         proj = g_DefaultProjectionMtx;
         func_0207D8C4(&proj);

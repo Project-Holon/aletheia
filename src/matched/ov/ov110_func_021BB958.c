@@ -1,5 +1,5 @@
 /*
- * function: func_021BB958
+ * function: PMSIV_CATEGORY_DrawTitle
  * address: 0x021BB958
  * packet: pkt_ov110_021BB958
  * region: ov110
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BAC44 0x021BAC44 thumb ov110
- *   func_021BF7D4 0x021BF7D4 thumb ov110
+ *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
+ *   PMS_INPUT_SetSearchArg 0x021BF7D4 thumb ov110
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -28,8 +28,8 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct U16Vec;
-extern u32 func_021BAC44(u8 *p);
-extern void func_021BF7D4(u8 *p, void *q);
+extern u32 PMS_INPUT_VIEW_GetFont(u8 *p);
+extern void PMS_INPUT_SetSearchArg(u8 *p, void *q);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
@@ -39,12 +39,12 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
-void func_021BB958(char *p)
+void PMSIV_CATEGORY_DrawTitle(char *p)
 {
-    u32 r7 = func_021BAC44((u8 *)(*(u32 *)p));
+    u32 r7 = PMS_INPUT_VIEW_GetFont((u8 *)(*(u32 *)p));
     void *r4 = *(void **)(p + 0x94);
     void *r6 = STRBUF_Create(14, 42);
-    func_021BF7D4((u8 *)(*(u32 *)(p + 4)), r6);
+    PMS_INPUT_SetSearchArg((u8 *)(*(u32 *)(p + 4)), r6);
     BMP_Clear(BMP_WIN_GetBmp(r4), 1);
     GF_FONT_SetTextColor(15, 14, 1);
     PRINTSYS_Print(BMP_WIN_GetBmp(r4), 0, 0, r6, (void *)r7);

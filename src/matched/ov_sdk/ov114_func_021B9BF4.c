@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BF4
+ * function: NHTTPi_idleCommThread
  * address:  0x021B9BF4
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02085E50(int, int *, int);
 
-void func_021B9BF4(int a)
+void NHTTPi_idleCommThread(int a)
 {
     int tmp;
 

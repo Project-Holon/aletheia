@@ -1,5 +1,5 @@
 /*
- * function: func_021C6048
+ * function: decodeChar
  * address:  0x021C6048
  * packet:   pkt_ov114_021C6048
  * region:   ov114
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_021C6048(unsigned char c)
+int decodeChar(unsigned char c)
 {
 	if (c >= 'A' && c <= 'Z')
 		return c - 'A';

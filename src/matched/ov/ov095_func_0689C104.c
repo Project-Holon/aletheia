@@ -1,5 +1,5 @@
 /*
- * function: func_0689C104
+ * function: BTL_SICK_ShowPerishCount
  * address:  0x0689C104
  * packet:   pkt_ov095_0689C104
  * region:   ov095
@@ -32,7 +32,7 @@ extern void func_0689C174(void *, int);
 extern void func_0689C184(void *, int);
 extern void func_0689C194(void *, Rec *);
 
-void func_0689C104(void *a, void *b, u8 c)
+void BTL_SICK_ShowPerishCount(void *a, void *b, u8 c)
 {
     int k;
     Rec *r;

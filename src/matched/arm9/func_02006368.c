@@ -12,11 +12,11 @@
  * symbols:
  *   _SndState     0x020AA260  data
  *   _WorkerThread     0x020AA354  data
- *   func_0208574C  0x0208574C  arm
- *   func_020855BC  0x020855BC  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
+ *   OS_DestroyThread  0x020855BC  arm
  *
  * Deactivates background task: checks _SndState.active, verifies status
- * via func_0208574C(&_WorkerThread), terminates via func_020855BC, and resets active flag.
+ * via OS_IsThreadTerminated(&_WorkerThread), terminates via OS_DestroyThread, and resets active flag.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_USE_StopLoaderThread.c \
@@ -34,14 +34,14 @@ struct StructA {
 extern struct StructA _SndState;
 extern u8 _WorkerThread[];
 
-extern int func_0208574C(void *arg);
-extern void func_020855BC(void *arg);
+extern int OS_IsThreadTerminated(void *arg);
+extern void OS_DestroyThread(void *arg);
 
 void GFL_USE_StopLoaderThread(void)
 {
     if (_SndState.active != 0) {
-        if (func_0208574C(_WorkerThread) == 0) {
-            func_020855BC(_WorkerThread);
+        if (OS_IsThreadTerminated(_WorkerThread) == 0) {
+            OS_DestroyThread(_WorkerThread);
             _SndState.active = 0;
         }
     }

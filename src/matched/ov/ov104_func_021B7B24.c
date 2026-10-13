@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B24
+ * function: IRC_RHYTHM_VBlankBackgrounds
  * address:  0x021B7B24
  * packet:   pkt_ov104_021B7B24
  * region:   ov104
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_020419E4(void);
-void func_021B7B24(void *a0) { func_020419E4(); }
+void IRC_RHYTHM_VBlankBackgrounds(void *a0) { func_020419E4(); }

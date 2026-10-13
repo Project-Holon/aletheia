@@ -1,5 +1,5 @@
 /*
- * function: func_0206AD64
+ * function: NNSi_G3dGlbUpdateWV
  * address:  0x0206AD64
  * packet:   pkt_0206AA78
  * region:   arm9
@@ -20,7 +20,7 @@
  *   docs/FRONTEND-PINS.md.  dsi/../2.0/sp2 with this C compiles to the
  *   original's 88 bytes with zero concrete mismatches; dsi/1.1p1 gives 78
  *   differing bytes and dsi/../1.2/sp2 gives 76 across 100 bytes.  Same tell
- *   and same family as src/pending/func_0206B6A4.c, already pinned.
+ *   and same family as src/pending/NNS_G3dDraw.c, already pinned.
  *
  * Rig-slot teardown for the flags object at 0x02148B4C: release the two
  * scratch buffers, hand the three power-of-two state words to the matrix
@@ -45,8 +45,8 @@
  *   func_0207B67C  0x0207B67C  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206AD64.c \
- *       --func func_0206AD64 --addr 0x0206AD64 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/pending/NNSi_G3dGlbUpdateWV.c \
+ *       --func NNSi_G3dGlbUpdateWV --addr 0x0206AD64 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned int u32;
@@ -61,7 +61,7 @@ extern void func_0207B9F0(void *a, void *b, void *c);
 extern void func_0207B60C(void *a, void *b, u32 c, u32 d, u32 e);
 extern void func_0207B67C(void *a, void *b);
 
-void func_0206AD64(void)
+void NNSi_G3dGlbUpdateWV(void)
 {
     func_0207B9F0(g_renderStateIdentityMtx, g_renderStateDrawParams, g_02148C7C);
     func_0207B60C(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],

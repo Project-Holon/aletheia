@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6874",
+   "name": "COMPATIBLE_IRC_SYS_RecvRequestHandler",
    "address": "0x021B6874",
    "kind": "game",
    "region": "ov101",

@@ -17,7 +17,7 @@
  *   func_020355C4 0x020355C4 arm
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02030EAC 0x02030EAC arm
@@ -68,7 +68,7 @@
  *   ClactSysDefaultSetup 0x020A1448 data
  *   _CameraVecs 0x021DBFC0 data ov131
  *   _EdgeColorTable 0x021DBFE4 data ov131
- *   func_02061C30 0x02061C30 arm
+ *   NNS_GfdResetVramTransferTaskQueue 0x02061C30 arm
  *   MCSS_Exit 0x02014BA8 thumb
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
@@ -281,7 +281,7 @@ static inline u32 OS_GetVBlankCount(void) { return *(volatile u32 *)HW_VBLANK_CO
 extern u8 func_020355C4(void);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_02082A60(const void *,void *,u32);
+extern void MIi_CpuCopy16(const void *,void *,u32);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void func_02030EAC(struct Tcb *n);
@@ -322,7 +322,7 @@ extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),func_0204044C(u32);
 extern void *MCSS_Init(u32,void *);
 extern void MCSS_SetTextureTransAdrs(void *,u32);
 extern void MCSS_SetGlobalScale(char *p, unsigned int v);
-extern void func_02061C30(void);
+extern void NNS_GfdResetVramTransferTaskQueue(void);
 extern void MCSS_Exit(u8 *a0);
 extern unsigned int G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
@@ -578,10 +578,10 @@ int P_STATUS_InitWork(PStatusWork *wk)
     P_STATUS_CreateButtonActors(wk);
     wk->vblankTask=func_020056A0((u32)P_STATUS_VBlankTask,(u32)wk,8);
     wk->blinkAngle=0;
-    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
-    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
-    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPal,32);
-    func_02082A60((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPalBase,32);
+    MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
+    MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
+    MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPal,32);
+    MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x1a0),wk->markPalBase,32);
     P_STATUS_LoadPokemonState(wk);
     if (wk->param->mode==2) {
         wk->page=3;
@@ -870,13 +870,13 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
 
 
 /*
- * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/func_02061C30.c
+ * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/NNS_GfdResetVramTransferTaskQueue.c
  *   (the tail-call stub matches under ../2.0/sp2; see its header).
  * extent: Two zero padding bytes at 0x021D493E.
  */
 void P_STATUS_ExitGraphics(PStatusWork *wk)
 {
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
     MCSS_Exit(wk->mcssSys);
     G3D_CAMERA_Delete(wk->camera);
     G3D_SYSTEM_Exit();

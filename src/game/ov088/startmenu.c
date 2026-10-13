@@ -218,8 +218,8 @@
  *   func_02008748  0x02008748  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
- *   func_0200CA10  0x0200CA10  thumb
- *   func_0200D0AC  0x0200D0AC  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
+ *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   func_0200C258  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -237,7 +237,7 @@
  *   func_020071EC  0x020071EC  thumb
  *   func_0200C308  0x0200C308  thumb
  *   func_02049EF4  0x02049EF4  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
@@ -337,7 +337,7 @@
  *   SAVE_CONTROL_EraseExtraSave  0x02007400  thumb
  *   func_020072A4  0x020072A4  thumb
  *   func_0200566C  0x0200566C  thumb
- *   func_02087BCC  0x02087BCC  arm
+ *   OS_ResetSystem  0x02087BCC  arm
  *   d_021BD9B0     0x021BD9B0  data  a4
  *   d_021BD980     0x021BD980  data  a4
  *   d_021BD990     0x021BD990  data  a4
@@ -660,8 +660,8 @@ extern void ZONEDATA_Exit(void);
 extern struct PlayTime *func_02008748(void *sys);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
-extern void *func_0200CA10(void *);
-extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern void *ZUKAN_SAVE_GetBlock(void *);
+extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
 extern u32 func_0200C258(struct Blk34 *p);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactActor *p);
@@ -673,7 +673,7 @@ extern void func_0207D63C(void *reg, int a, int b, int c, int d);
 extern u8 func_020071EC(const struct Sub020071E4Ctrl *ctrl);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
 extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
-extern void func_02082A60(void *srcp, void *destp, unsigned long size);
+extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern u32 func_020307B0(void *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *delta, u32 which);
@@ -896,7 +896,7 @@ extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void SAVE_CONTROL_EraseExtraSave(char *a0, u32 a1, u32 a2);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
-extern void func_02087BCC(u32 parameter);
+extern void OS_ResetSystem(u32 parameter);
 extern u8 func_020461E4(void);
 extern void func_020461D4(u8);
 extern signed char func_02013080(u32 idx);
@@ -2563,7 +2563,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
 
     if (ZONEDATA_CheckEventFlag(work->eventWork, 0x962) == 1) {
         msgStr = func_02045EC0(work->msgBank, 10);
-        func_0201EFA4(work->wordSet, 0, func_0200D0AC(func_0200CA10(work->saveData), 11), 3, 0, 1);
+        func_0201EFA4(work->wordSet, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(work->saveData), 11), 3, 0, 1);
         func_0201F250(work->wordSet, work->stringBuf, msgStr);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[4].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
@@ -2830,7 +2830,7 @@ void STARTMENU_LoadRowBuffers(StartMenuWork *work)
         void *fileHandle;
         work->rowBuffers[i] = (void *)func_02030734(0xb, rowBytes, 0, d_021BDA00, 0x7e9);
         fileHandle = func_02049EF4(archive, gStartMenuRowInfo[i].frameId, 1, &fileData, 0xb);
-        func_02082A60((char *)fileData + 0xc, work->rowBuffers[i], rowBytes);
+        MIi_CpuCopy16((char *)fileData + 0xc, work->rowBuffers[i], rowBytes);
         func_020307B0(fileHandle);
     }
     ARC_TOOL_DeleteHandle(archive);
@@ -4139,7 +4139,7 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
             func_020072A4(saveControl, slot);
         }
         func_0200566C();
-        func_02087BCC(0);
+        OS_ResetSystem(0);
     }
 }
 

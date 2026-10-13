@@ -19,7 +19,7 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   func_0200A640 0x0200A640 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
  *   func_021F4804 0x021F4804 thumb ov112
@@ -61,7 +61,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void *func_0200A640(void *);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
 extern void func_021F4804(u8 *,u32);
@@ -105,7 +105,7 @@ void func_021F4350(u8 *p)
         if(APP_TASKMENU_IsFinish(((struct Obj00226 *)p)->f3C)==1) {
             v=APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj00226 *)p)->f3C);
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
-            if(v==0) func_02082D44(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
+            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
                 func_021FCDEC(*(int *)&((struct Obj00226 *)p)->f44,71);

@@ -1,7 +1,7 @@
 /*
  * file:     btl_client.c
  * unit:     yes
- * function: BTL_CLIENT_Create, BTL_CLIENT_Delete, BTL_CLIENT_MarkCommandIssued, BTL_CLIENT_ReadRecorderEntry, BTL_CLIENT_AttachRemoteLink, BTL_CLIENT_SetView, BTL_CLIENT_SetRequestParam, BTL_CLIENT_GetNetChannel, BTL_CLIENT_RunTick, BTL_CLIENT_StartRemoteStep, BTL_CLIENT_StartMainStep, BTL_CLIENT_IsRemote, BTL_CLIENT_GetQueuedCommandWord, BTL_CLIENT_IsMainStepActive, BTL_CLIENT_AddPoints, BTL_CLIENT_SetStepFn, BTL_CLIENT_StepMain, BTL_CLIENT_StepRemote, BTL_CLIENT_ResetSendWord, BTL_CLIENT_FindCommandStepFn, BTL_CLIENT_GetCursor, BTL_CLIENT_IsWindowWaiting, BTL_CLIENT_IsWindowDone, BTL_CLIENT_StepOpenBattleWindow, BTL_CLIENT_PollWindowStep, BTL_CLIENT_StoreMonParam, BTL_CLIENT_HasMonParamDropped, BTL_CLIENT_GetLeadPartyMon, BTL_CLIENT_StepWindowModeSelect, BTL_CLIENT_PickWindowMode, BTL_CLIENT_ReturnTrue, BTL_CLIENT_StartWindowModeSend, BTL_CLIENT_StartTimeLimit, BTL_CLIENT_PollTimeLimitReady, BTL_CLIENT_PollTimeLimitAndSetSub, BTL_CLIENT_StopTimeLimit, BTL_CLIENT_BuildActionPromptMessage, BTL_CLIENT_SetSubFn, BTL_CLIENT_RunSubFn, BTL_CLIENT_StepStartActionSelection, BTL_CLIENT_StepPlaybackRecordedAction, BTL_CLIENT_ResetActionCursor, BTL_CLIENT_InitActionSelection, BTL_CLIENT_ShowMessage, BTL_CLIENT_StepAutoSelectActions, BTL_CLIENT_StepSelectAction, BTL_CLIENT_StepShowSupportItemMessage, BTL_CLIENT_FindSupportItem, BTL_CLIENT_StepSelectMove, BTL_CLIENT_BuildMoveUsableTable, BTL_CLIENT_StepMoveHighlight, BTL_CLIENT_StepSelectSwitchTarget, BTL_CLIENT_StepSelectItem, BTL_CLIENT_IsLoneFoeSemiInvulnerable, BTL_CLIENT_StepSelectRun, BTL_CLIENT_StepAdvanceSlot, BTL_CLIENT_StepSendActions, BTL_CLIENT_ClearSlotLinkWords, BTL_CLIENT_SetSlotLinkWord, BTL_CLIENT_FlushSlotLinkWord, BTL_CLIENT_FlushSlotLinkWords, BTL_CLIENT_ClearSlotFlags, BTL_CLIENT_SetSlotFlag, BTL_CLIENT_SumSlotFlagsBeforeCurrent, BTL_CLIENT_IsActionForced, BTL_CLIENT_SetStruggleIfNoMoves, BTL_CLIENT_SetStruggleAction, BTL_CLIENT_IsMoveSelectionBlocked, BTL_CLIENT_BuildUsableMoveMask, BTL_CLIENT_IsHeldItemEffective, BTL_CLIENT_GetEscapeBlocker, BTL_CLIENT_GetEscapeBlockerForSide, BTL_CLIENT_FindTrapper, BTL_CLIENT_CanShadowTagTrap, BTL_CLIENT_CanArenaTrapTrap, BTL_CLIENT_CanMagnetPullTrap, BTL_CLIENT_ClearSlotOrder, BTL_CLIENT_HasSlotInOrder, BTL_CLIENT_SetSlotOrder, BTL_CLIENT_ChooseAiSwitchTarget, BTL_CLIENT_PickRandomFoe, BTL_CLIENT_IsCountdownEndingNext, BTL_CLIENT_ShouldSwitchVsWonderGuard, BTL_CLIENT_ShouldSwitchNoEffectiveMove, BTL_CLIENT_ShouldSwitchWhileLocked, BTL_CLIENT_FindSwitchFromHitHistory, BTL_CLIENT_FindNaturalCureSwitch, BTL_CLIENT_FindSwitchByTypeMatchup, BTL_CLIENT_FindMemberWithAbility, BTL_CLIENT_AnyMemberHasMoveVsTarget, BTL_CLIENT_FindMemberResistingType, BTL_CLIENT_HasMoveWithAffinityVsTarget, BTL_CLIENT_PickRotationPosition, BTL_CLIENT_StepAutoChooseActions, BTL_CLIENT_ListAbleMons, BTL_CLIENT_SortMonsByMovePower, BTL_CLIENT_BuildSlotChoices, BTL_CLIENT_SetChangeActionsFromChoice, BTL_CLIENT_SetChangeActionsFirstAble, BTL_CLIENT_CollectOwnReceivedIds, BTL_CLIENT_StepAskYesNo, BTL_CLIENT_StepChoiceMode2, BTL_CLIENT_StepChoiceMode1, BTL_CLIENT_ChooseReplacementsAuto, BTL_CLIENT_StepChooseReplacement, BTL_CLIENT_IsDoubleBattleLeadAlive, BTL_CLIENT_TrySetRotateAction, BTL_CLIENT_StepAskSwitchBeforeSendOut, BTL_CLIENT_RecordReceivedPacket, BTL_CLIENT_StepShowResultIfView, BTL_CLIENT_StepShowResultMessage, BTL_CLIENT_GetOutcomeForClient, BTL_CLIENT_StepShowTrainerResultIfView, BTL_CLIENT_StepShowTrainerResult, BTL_CLIENT_StepShowEndSpeechIfView, BTL_CLIENT_StepShowEndSpeech, BTL_CLIENT_ShowEndSpeech, BTL_CLIENT_StepShowPrizeMoneyMessage, BTL_CLIENT_StepShowBlackoutMessages, BTL_CLIENT_StepShowFixedMessage, BTL_CLIENT_StepRunServerCommandsIfView, BTL_CLIENT_StepRunServerCommands, BTL_CLIENT_StepShowRecallMessage, BTL_CLIENT_PickRecallMessageId, BTL_CLIENT_StepPlayRecallAnim, BTL_CLIENT_StepSendOutMon, BTL_CLIENT_PickSendOutMessageId, BTL_CLIENT_StepShowSideMessage, BTL_CLIENT_StepShowSideMessageWithSound, BTL_CLIENT_StepShowTaggedMessage, BTL_CLIENT_StepShowTaggedMessageWithSound, BTL_CLIENT_StepShowItemUseMessage, BTL_CLIENT_GetMoveAnimTarget, BTL_CLIENT_StepPlayMoveAnim, BTL_CLIENT_StepSetMonVisibility, BTL_CLIENT_StepPlayMonTaskAnim, BTL_CLIENT_StepPlayMultiMonAnim, BTL_CLIENT_StepUpdateMonGaugeThenMessage, BTL_CLIENT_StepStartEffectForMon, BTL_CLIENT_StepPlaySubstituteAnim, BTL_CLIENT_StepFaintMon, BTL_CLIENT_StepReviveMon, BTL_CLIENT_StepPlayMonEffect262, BTL_CLIENT_StepPlayMonEffect261, BTL_CLIENT_StepStartWeather, BTL_CLIENT_StepEndWeather, BTL_CLIENT_StepUpdateMonGauge, BTL_CLIENT_StepPlayMonAnim, BTL_CLIENT_StepUpdateMonGaugeCopy, BTL_CLIENT_StepRotatePositions, BTL_CLIENT_StepRotatePositionsTwice, BTL_CLIENT_StepPlayEffectOnMon, BTL_CLIENT_StepPlayEffectOnMonFast, BTL_CLIENT_StepTransformMon, BTL_CLIENT_StepPlayHitEffect, BTL_CLIENT_StepChangeBgm, BTL_CLIENT_StepPlayViewSequence, BTL_CLIENT_StepAddEffortValues, BTL_CLIENT_StepGiveExp, BTL_CLIENT_ForgetMoveSoundCallback, BTL_CLIENT_StepLearnLevelUpMoves, BTL_CLIENT_StepThrowBall, BTL_CLIENT_StepShowBallBlocked, BTL_CLIENT_StepClearSidePosition, BTL_CLIENT_StepSetAbilityWithPopup, BTL_CLIENT_StepSwapAbilitiesWithPopup, BTL_CLIENT_StepClearIllusion, BTL_CLIENT_StepPlayEffectById, BTL_CLIENT_StepPlayMonSimpleEffect
+ * function: BTL_CLIENT_Create, BTL_CLIENT_Delete, BTL_CLIENT_MarkCommandIssued, BTL_CLIENT_ReadRecorderEntry, BTL_CLIENT_AttachRemoteLink, BTL_CLIENT_SetView, BTL_CLIENT_SetRequestParam, BTL_CLIENT_GetNetChannel, BTL_CLIENT_RunTick, BTL_CLIENT_StartRemoteStep, BTL_CLIENT_StartMainStep, BTL_CLIENT_IsRemote, BTL_CLIENT_GetQueuedCommandWord, BTL_CLIENT_IsMainStepActive, BTL_CLIENT_AddPoints, BTL_CLIENT_SetStepFn, BTL_CLIENT_StepMain, BTL_CLIENT_StepRemote, BTL_CLIENT_ResetSendWord, BTL_CLIENT_FindCommandStepFn, BTL_CLIENT_GetCursor, BTL_CLIENT_IsWindowWaiting, BTL_CLIENT_IsWindowDone, BTL_CLIENT_StepOpenBattleWindow, BTL_CLIENT_PollWindowStep, BTL_CLIENT_StoreMonParam, BTL_CLIENT_HasMonParamDropped, BTL_CLIENT_GetLeadPartyMon, BTL_CLIENT_StepWindowModeSelect, BTL_CLIENT_PickWindowMode, BTL_CLIENT_ReturnTrue, BTL_CLIENT_StartWindowModeSend, BTL_CLIENT_StartTimeLimit, BTL_CLIENT_PollTimeLimitReady, BTL_CLIENT_PollTimeLimitAndSetSub, BTL_CLIENT_StopTimeLimit, BTL_CLIENT_BuildActionPromptMessage, BTL_CLIENT_SetSubFn, BTL_CLIENT_RunSubFn, BTL_CLIENT_StepStartActionSelection, BTL_CLIENT_StepPlaybackRecordedAction, BTL_CLIENT_ResetActionCursor, BTL_CLIENT_InitActionSelection, BTL_CLIENT_ShowMessage, BTL_CLIENT_StepAutoSelectActions, BTL_CLIENT_StepSelectAction, BTL_CLIENT_StepShowSupportItemMessage, BTL_CLIENT_FindSupportItem, BTL_CLIENT_StepSelectMove, BTL_CLIENT_BuildMoveUsableTable, BTL_CLIENT_StepMoveHighlight, BTL_CLIENT_StepSelectSwitchTarget, BTL_CLIENT_StepSelectItem, BTL_CLIENT_IsLoneFoeSemiInvulnerable, BTL_CLIENT_StepSelectRun, BTL_CLIENT_StepAdvanceSlot, BTL_CLIENT_StepSendActions, BTL_CLIENT_ClearSlotLinkWords, BTL_CLIENT_SetSlotLinkWord, BTL_CLIENT_FlushSlotLinkWord, BTL_CLIENT_FlushSlotLinkWords, BTL_CLIENT_ClearSlotFlags, BTL_CLIENT_SetSlotFlag, BTL_CLIENT_SumSlotFlagsBeforeCurrent, BTL_CLIENT_IsActionForced, BTL_CLIENT_SetStruggleIfNoMoves, BTL_CLIENT_SetStruggleAction, BTL_CLIENT_IsMoveSelectionBlocked, BTL_CLIENT_BuildUsableMoveMask, BTL_CLIENT_IsHeldItemEffective, BTL_CLIENT_GetEscapeBlocker, BTL_CLIENT_GetEscapeBlockerForSide, BTL_CLIENT_FindTrapper, BTL_CLIENT_CanShadowTagTrap, BTL_CLIENT_CanArenaTrapTrap, BTL_CLIENT_CanMagnetPullTrap, BTL_CLIENT_ClearSlotOrder, BTL_CLIENT_HasSlotInOrder, BTL_CLIENT_SetSlotOrder, BTL_CLIENT_ChooseAiSwitchTarget, BTL_CLIENT_PickRandomFoe, BTL_CLIENT_IsCountdownEndingNext, BTL_CLIENT_ShouldSwitchVsWonderGuard, BTL_CLIENT_ShouldSwitchNoEffectiveMove, BTL_CLIENT_ShouldSwitchWhileLocked, BTL_CLIENT_FindSwitchFromHitHistory, BTL_CLIENT_FindNaturalCureSwitch, BTL_CLIENT_FindSwitchByTypeMatchup, BTL_CLIENT_FindMemberWithAbility, BTL_CLIENT_AnyMemberHasMoveVsTarget, BTL_CLIENT_FindMemberResistingType, BTL_CLIENT_HasMoveWithAffinityVsTarget, BTL_CLIENT_PickRotationPosition, BTL_CLIENT_StepAutoChooseActions, BTL_CLIENT_ListAbleMons, BTL_CLIENT_SortMonsByMovePower, BTL_CLIENT_BuildSlotChoices, BTL_CLIENT_SetChangeActionsFromChoice, BTL_CLIENT_SetChangeActionsFirstAble, BTL_CLIENT_CollectOwnReceivedIds, BTL_CLIENT_StepAskYesNo, BTL_CLIENT_StepChoiceMode2, BTL_CLIENT_StepChoiceMode1, BTL_CLIENT_ChooseReplacementsAuto, BTL_CLIENT_StepChooseReplacement, BTL_CLIENT_IsDoubleBattleLeadAlive, BTL_CLIENT_TrySetRotateAction, BTL_CLIENT_StepAskSwitchBeforeSendOut, BTL_CLIENT_RecordReceivedPacket, BTL_CLIENT_StepShowResultIfView, BTL_CLIENT_StepShowResultMessage, BTL_CLIENT_GetOutcomeForClient, BTL_CLIENT_StepShowTrainerResultIfView, BTL_CLIENT_StepShowTrainerResult, BTL_CLIENT_StepShowEndSpeechIfView, BTL_CLIENT_StepShowEndSpeech, BTL_CLIENT_ShowEndSpeech, BTL_CLIENT_StepShowPrizeMoneyMessage, BTL_CLIENT_StepShowBlackoutMessages, BTL_CLIENT_StepShowFixedMessage, BTL_CLIENT_StepRunServerCommandsIfView, BTL_CLIENT_StepRunServerCommands, BTL_CLIENT_StepShowRecallMessage, BTL_CLIENT_PickRecallMessageId, BTL_CLIENT_StepPlayRecallAnim, BTL_CLIENT_StepSendOutMon, BTL_CLIENT_PickSendOutMessageId, BTL_CLIENT_StepShowSideMessage, BTL_CLIENT_StepShowSideMessageWithSound, BTL_CLIENT_StepShowTaggedMessage, BTL_CLIENT_StepShowTaggedMessageWithSound, BTL_CLIENT_StepShowItemUseMessage, BTL_CLIENT_GetMoveAnimTarget, BTL_CLIENT_StepPlayMoveAnim, BTL_CLIENT_StepSetMonVisibility, BTL_CLIENT_StepPlayMonTaskAnim, BTL_CLIENT_StepPlayMultiMonAnim, BTL_CLIENT_StepUpdateMonGaugeThenMessage, BTL_CLIENT_StepStartEffectForMon, BTL_CLIENT_StepPlaySubstituteAnim, BTL_CLIENT_StepFaintMon, BTL_CLIENT_StepReviveMon, BTL_CLIENT_StepPlayMonEffect262, BTL_CLIENT_StepPlayMonEffect261, BTL_CLIENT_StepStartWeather, BTL_CLIENT_StepEndWeather, BTL_CLIENT_StepUpdateMonGauge, BTL_CLIENT_StepPlayMonAnim, BTL_CLIENT_StepUpdateMonGaugeCopy, BTL_CLIENT_StepRotatePositions, BTL_CLIENT_StepRotatePositionsTwice, BTL_CLIENT_StepPlayEffectOnMon, BTL_CLIENT_StepPlayEffectOnMonFast, BTL_CLIENT_StepTransformMon, BTL_CLIENT_StepPlayHitEffect, BTL_CLIENT_StepChangeBgm, BTL_CLIENT_StepPlayViewSequence, BTL_CLIENT_StepAddEffortValues, BTL_CLIENT_StepGiveExp, BTL_CLIENT_ForgetMoveSoundCallback, BTL_CLIENT_StepLearnLevelUpMoves, BTL_CLIENT_StepThrowBall, BTL_CLIENT_StepShowBallBlocked, BTL_CLIENT_StepClearSidePosition, BTL_CLIENT_StepSetAbilityWithPopup, BTL_CLIENT_StepSwapAbilitiesWithPopup, BTL_CLIENT_StepClearIllusion, BTL_CLIENT_StepPlayEffectById, BTL_CLIENT_StepPlayMonSimpleEffect, BTL_CLIENT_CmdSwapViewPositions, BTL_CLIENT_CmdChangeForm, BTL_CLIENT_CmdShowStatusPanel, BTL_CLIENT_CmdHideStatusPanel, BTL_CLIENT_CmdHpMinus, BTL_CLIENT_CmdHpPlus, BTL_CLIENT_CmdPpMinusOriginal, BTL_CLIENT_CmdPpMinusWorking, BTL_CLIENT_CmdMarkMoveUsed, BTL_CLIENT_CmdHpZero, BTL_CLIENT_CmdPpPlusOriginal, BTL_CLIENT_CmdPpPlusWorking, BTL_CLIENT_CmdStatStageUp, BTL_CLIENT_CmdStatStageDown, BTL_CLIENT_CmdSetStatStages, BTL_CLIENT_CmdRecoverStatStages, BTL_CLIENT_CmdResetStatStages, BTL_CLIENT_CmdAddCritStage, BTL_CLIENT_CmdSetSick, BTL_CLIENT_CmdCureMajorSick, BTL_CLIENT_CmdCureSick, BTL_CLIENT_CmdMemberIn, BTL_CLIENT_CmdSetPokeType, BTL_CLIENT_CmdCureSickMulti, BTL_CLIENT_StepConsumeHeldItem, BTL_CLIENT_StepRecordMoveUse, BTL_CLIENT_StepSetContFlag, BTL_CLIENT_StepClearContFlag, BTL_CLIENT_StepSetTurnFlag, BTL_CLIENT_StepClearTurnFlag, BTL_CLIENT_StepSetAbility, BTL_CLIENT_StepSetItem, BTL_CLIENT_StepReplaceMove, BTL_CLIENT_StepResetEffectsOnSwitchOut, BTL_CLIENT_StepRegisterFieldSlot, BTL_CLIENT_StepAddFieldSlotHolder, BTL_CLIENT_StepRemoveFieldHolder, BTL_CLIENT_StepRemoveFieldSlot, BTL_CLIENT_StepSetPokeCounter, BTL_CLIENT_StepPassEffects, BTL_CLIENT_StepSetSubstituteHp, BTL_CLIENT_StepClearSubstitute, BTL_CLIENT_StepAddClientPoints, BTL_CLIENT_StepUpdateIllusion, BTL_CLIENT_StepClearConsumedItem, BTL_CLIENT_StepCureSickBySource, BTL_CLIENT_StepAddHitRecord, BTL_CLIENT_StepAdvanceTurn, BTL_CLIENT_StepTickFieldSlots, BTL_CLIENT_StepSetStat, BTL_CLIENT_StepSetWeight, BTL_CLIENT_GetClientId, BTL_CLIENT_GetSideData, BTL_CLIENT_GetPointCounter, BTL_CLIENT_LoadTrainerItems, BTL_CLIENT_TakeTrainerItemToUse, BTL_CLIENT_IsStatItemUsable, BTL_CLIENT_IsSickItemUsable, BTL_CLIENT_ResetCounter, BTL_CLIENT_SetCounterMaximum, BTL_CLIENT_IsCounterFadeDone, BTL_CLIENT_RequestCounterAdvance, BTL_CLIENT_GetCounterMode, BTL_CLIENT_StartCounterReplay, BTL_CLIENT_StopCounterReplay, BTL_CLIENT_IsCounterReplayDone, BTL_CLIENT_GetCounterTarget, BTL_CLIENT_TryLockCounter, BTL_CLIENT_UnlockCounter, BTL_CLIENT_DisableCounter, BTL_CLIENT_TickCounter
  * address:  0x021CD6F0
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * Split from btl_server.c (lane L189): __FILE__ anchor 021CD8CC (gBtlClientFileName "btl_client.c") used by the 0x1b8-byte BtlClient constructor 021CD6F0, which is the first function of the file.
  *
  * symbols:
@@ -67,7 +68,7 @@
  *   func_02008510  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetChars  0x02045A00  arm
@@ -81,7 +82,7 @@
  *   NATSUKI_CalcParty 0x0201B818 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   BTL_CALC_IsBossTrainer 0x021D7F60 thumb ov093
- *   func_021D805C 0x021D805C thumb ov093
+ *   BTL_CALC_GetItemParam 0x021D805C thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   _u32_div_f 0x0209C2B0 arm
  *   BTL_CLIENT_SET_GetCount  0x021D826C  thumb  ov093
@@ -125,26 +126,26 @@
  *   gFlowSourceFileName 0x021F3A70 data a4
  *   BTL_EVENT_InitFactorList 0x021D6EAC thumb ov093
  *   BTL_FIELD_ResetStatic 0x021EF874 thumb ov093
- *   func_0689CFF0 0x0689CFF0 thumb ov095
- *   func_0689D118 0x0689D118 thumb ov095
- *   func_0689D1FC 0x0689D1FC thumb ov095
+ *   BTL_WAZAREC_Init 0x0689CFF0 thumb ov095
+ *   BTL_DEADREC_Init 0x0689D118 thumb ov095
+ *   BTL_POSPOKE_Init 0x0689D1FC thumb ov095
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
  *   HAND_SIDE_InitTable 0x06898BFC thumb ov095
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BTL_MAIN_RegisterZukanSeen 0x021B8750 thumb ov093
- *   func_0689D134 0x0689D134 thumb ov095
+ *   BTL_DEADREC_StartTurn 0x0689D134 thumb ov095
  *   BTL_EVENT_ClearSuspendedFlags  0x021D6EE8  thumb  ov093
  *   BTL_EVENT_ResetVarStackIfUsed  0x021D74E4  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
- *   func_0689D174 0x0689D174 thumb ov095
+ *   BTL_DEADREC_GetCount 0x0689D174 thumb ov095
  *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
- *   func_0689D558 0x0689D558 thumb ov095
+ *   BTL_POSPOKE_GetEmptyPosList 0x0689D558 thumb ov095
  *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
  *   HAND_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
- *   func_0689D338 0x0689D338 thumb ov095
+ *   BTL_POSPOKE_RotateInPoke 0x0689D338 thumb ov095
  *   HAND_WAZA_AddMoveHandler  0x021E02DC  thumb  ov093
  *   HAND_WAZA_RemoveMoveHandlerUnlessKept  0x021E0394  thumb  ov093
  *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
@@ -159,7 +160,7 @@
  *   BTL_EVENT_SetVarRanged  0x021D7674  thumb  ov093
  *   BTL_CALC_MulRatio  0x021D7B10  thumb  ov093
  *   BTL_ACTION_GetFightMove  0x021D8340  thumb  ov093
- *   func_0689D588 0x0689D588 thumb ov095
+ *   BTL_POSPOKE_IsPokeInside 0x0689D588 thumb ov095
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   func_021D69AC 0x021D69AC thumb ov093
  *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
@@ -168,28 +169,28 @@
  *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
- *   func_0689D5C8 0x0689D5C8 thumb ov095
+ *   BTL_POSPOKE_SearchPosByPokeId 0x0689D5C8 thumb ov095
  *   func_021D82FC  0x021D82FC  thumb  ov093
- *   func_0689CD40 0x0689CD40 thumb ov095
- *   func_0689CD38 0x0689CD38 thumb ov095
- *   func_0689CC70 0x0689CC70 thumb ov095
- *   func_0689D4F0 0x0689D4F0 thumb ov095
+ *   BTL_POKESET_GetCountMax 0x0689CD40 thumb ov095
+ *   BTL_POKESET_GetCount 0x0689CD38 thumb ov095
+ *   BTL_POKESET_Get 0x0689CC70 thumb ov095
+ *   BTL_POSPOKE_SwapPos 0x0689D4F0 thumb ov095
  *   func_021D58A8  0x021D58A8  thumb  ov093
  *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
- *   func_0689C68C 0x0689C68C thumb ov095
+ *   BTL_SICK_ForceGroundedByTrap 0x0689C68C thumb ov095
  *   HAND_TOKUSEI_AddAbilityHandlers 0x021D8484 thumb ov093
  *   HAND_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
  *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
  *   BTL_POKEPARAM_ReloadAndResetEffects 0x021D6580 thumb ov093
- *   func_0689D320 0x0689D320 thumb ov095
- *   func_0689CB3C 0x0689CB3C thumb ov095
- *   func_0689CB48 0x0689CB48 thumb ov095
- *   func_0689CF24 0x0689CF24 thumb ov095
- *   func_0689CC84 0x0689CC84 thumb ov095
- *   func_0689CC8C 0x0689CC8C thumb ov095
+ *   BTL_POSPOKE_SetPoke 0x0689D320 thumb ov095
+ *   BTL_POKESET_Clear 0x0689CB3C thumb ov095
+ *   BTL_POKESET_Add 0x0689CB48 thumb ov095
+ *   BTL_POKESET_SortBySpeed 0x0689CF24 thumb ov095
+ *   BTL_POKESET_SeekStart 0x0689CC84 thumb ov095
+ *   BTL_POKESET_SeekNext 0x0689CC8C thumb ov095
  *   BTL_EVENT_DispatchEventToType 0x021D70FC thumb ov093
  *   BTL_POKEPARAM_ResetEffectsOnSwitchOut  0x021D64F0  thumb  ov093
- *   func_0689D2F8 0x0689D2F8 thumb ov095
+ *   BTL_POSPOKE_RemovePoke 0x0689D2F8 thumb ov095
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
  *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
@@ -197,10 +198,10 @@
  *   BTL_CALC_DecideMoveTarget 0x021D80BC thumb ov093
  *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
- *   func_0689CEE4 0x0689CEE4 thumb ov095
- *   func_0689CD78 0x0689CD78 thumb ov095
- *   func_0689CD48 0x0689CD48 thumb ov095
- *   func_0689D01C 0x0689D01C thumb ov095
+ *   BTL_POKESET_RemoveFainted 0x0689CEE4 thumb ov095
+ *   BTL_POKESET_CopyAlive 0x0689CD78 thumb ov095
+ *   BTL_POKESET_SetEmptyMarked 0x0689CD48 thumb ov095
+ *   BTL_WAZAREC_Add 0x0689D01C thumb ov095
  *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
@@ -211,11 +212,11 @@
  *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
  *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
- *   func_0689CD50 0x0689CD50 thumb ov095
- *   func_0689D050 0x0689D050 thumb ov095
- *   func_0689CC14 0x0689CC14 thumb ov095
+ *   BTL_POKESET_IsRemovedAll 0x0689CD50 thumb ov095
+ *   BTL_WAZAREC_SetEffectiveLast 0x0689D050 thumb ov095
+ *   BTL_POKESET_Remove 0x0689CC14 thumb ov095
  *   BTL_POKEPARAM_HasSubstitute  0x021D6D7C  thumb  ov093
- *   func_0689D59C 0x0689D59C thumb ov095
+ *   BTL_POSPOKE_GetFieldPos 0x0689D59C thumb ov095
  *   BTL_POKEPARAM_GetSickParam  0x021D62D8  thumb  ov093
  *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  *   BTL_CALC_ApplyAccuracyStage 0x021D7908 thumb ov093
@@ -231,13 +232,13 @@
  *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
  *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
- *   func_021D69A0  0x021D69A0  thumb  ov093
+ *   BTL_POKEPARAM_SetCounter  0x021D69A0  thumb  ov093
  *   BTL_POKEPARAM_DecrementMovePP  0x021D5608  thumb  ov093
  *   BTL_POKEPARAM_MarkMoveUsed  0x021D56CC  thumb  ov093
- *   func_0689CDCC 0x0689CDCC thumb ov095
- *   func_0689CE58 0x0689CE58 thumb ov095
+ *   BTL_POKESET_CopyFriends 0x0689CDCC thumb ov095
+ *   BTL_POKESET_CopyEnemies 0x0689CE58 thumb ov095
  *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
- *   func_0689CBB8 0x0689CBB8 thumb ov095
+ *   BTL_POKESET_AddWithDamage 0x0689CBB8 thumb ov095
  *   sDamageEffectiveness  0x021F3B2C  data  ov093  a4
  *   sDamageCriticalFlags  0x021F3B20  data  ov093  a4
  *   sDamageTargets  0x021F3B38  data  a4
@@ -245,11 +246,9 @@
  *   sDamageAftereffects  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
  *   BTL_POKEPARAM_AddHitRecord  0x021D6848  thumb  ov093
- *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   func_0689CCF8 0x0689CCF8 thumb ov095
- *   func_0689CCB4 0x0689CCB4 thumb ov095
- *   WAZA_TOOL_GetParam   0x0201BD28  thumb
+ *   BTL_POKESET_GetPlainDamage 0x0689CCF8 thumb ov095
+ *   BTL_POKESET_GetTotalDamage 0x0689CCB4 thumb ov095
  *   BTL_CALC_MulPercent  0x021D7B3C  thumb  ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   BTL_CALC_CalcBaseDamage 0x021D7A44 thumb ov093
@@ -262,7 +261,7 @@
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
- *   func_0689C364 0x0689C364 thumb ov095
+ *   BTL_SICK_BuildCureMessage 0x0689C364 thumb ov095
  *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
  *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
@@ -275,14 +274,14 @@
  *   BTL_CALC_SummarizeTypeAffinity 0x021D7AD4 thumb ov093
  *   BTL_POKEPARAM_ZeroHp  0x021D5FB8  thumb  ov093
  *   BTL_POKEPARAM_GetSubstituteHp  0x021D6D90  thumb  ov093
- *   func_0689C7A4 0x0689C7A4 thumb ov095
+ *   BTL_SICK_ShowIngrainRoots 0x0689C7A4 thumb ov095
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
  *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
  *   func_021EF8A4 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
- *   func_0689C954 0x0689C954 thumb ov095
+ *   BTL_ID_IsAbilitySkillSwapBlocked 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   HAND_TOKUSEI_SwapAbilityHandlers 0x021D8564 thumb ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
@@ -297,29 +296,29 @@
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
  *   COMM_PLAYER_SUPPORT_SavePreviousAndSuspend 0x0202E7E4 thumb
- *   func_0689C9F8 0x0689C9F8 thumb ov095
- *   func_0689B7A8 0x0689B7A8 thumb ov095
+ *   BTL_ID_GetTurnCheckSick 0x0689C9F8 thumb ov095
+ *   BTL_SICK_ProcAddedOrTurnEnd 0x0689B7A8 thumb ov095
  *   BTL_POKEPARAM_TickSickCont 0x021D6064 thumb ov093
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
- *   func_0689B8CC 0x0689B8CC thumb ov095
+ *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
  *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
  *   func_021C4C40 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
- *   func_0689D15C 0x0689D15C thumb ov095
+ *   BTL_DEADREC_Add 0x0689D15C thumb ov095
  *   BTL_POKEPARAM_ResetAllEffects 0x021D646C thumb ov093
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
- *   func_0689D5FC 0x0689D5FC thumb ov095
+ *   BTL_POSPOKE_GetPokeIdAtPos 0x0689D5FC thumb ov095
  *   HAND_TOKUSEI_DisableAbilityHandlers 0x021D8538 thumb ov093
  *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
  *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
- *   func_0689D1A0 0x0689D1A0 thumb ov095
- *   func_0689D184 0x0689D184 thumb ov095
- *   func_0689D1BC 0x0689D1BC thumb ov095
+ *   BTL_DEADREC_IsReported 0x0689D1A0 thumb ov095
+ *   BTL_DEADREC_GetPokeId 0x0689D184 thumb ov095
+ *   BTL_DEADREC_SetReported 0x0689D1BC thumb ov095
  *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
  *   BTL_POKEPARAM_ClearMajorStatus  0x021D61F0  thumb  ov093
  *   BTL_POKEPARAM_CureSick  0x021D6238  thumb  ov093
@@ -335,7 +334,6 @@
  *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
  *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
  *   WAZA_TOOL_GetType   0x0201C1C8  thumb
- *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
@@ -345,8 +343,8 @@
  *   BTLV_CORE_BytesEqual 0x021E8DA8 thumb ov093
  *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
- *   func_0689C6E4 0x0689C6E4 thumb ov095
- *   func_0689C540 0x0689C540 thumb ov095
+ *   BTL_SICK_ForceGroundedOrFloating 0x0689C6E4 thumb ov095
+ *   BTL_SICK_OverrideGroundImmunity 0x0689C540 thumb ov095
  *   BTL_CALC_GetTypeAffinity  0x021D794C  thumb  ov093
  *   BTL_CALC_RollHitCount  0x021D7BA4  thumb  ov093
  *   WAZA_TOOL_GetPower  0x0201C1D8  thumb
@@ -354,7 +352,7 @@
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   BTL_CALC_MulRatioMin1  0x021D7B2C  thumb  ov093
  *   BTL_MAIN_CheckFrontPos 0x021B86A0 thumb ov093
- *   func_0689D5F4 0x0689D5F4 thumb ov095
+ *   BTL_POSPOKE_GetPosByPokeId 0x0689D5F4 thumb ov095
  *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
@@ -362,19 +360,19 @@
  *   func_068982AC  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
- *   func_0689C464 0x0689C464 thumb ov095
+ *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
  *   BTL_POKEPARAM_SetStatStage  0x021D5EA8  thumb  ov093
  *   BTL_POKEPARAM_RaiseLoweredStatStages 0x021D5EFC thumb ov093
  *   BTL_POKEPARAM_ResetStatStages  0x021D5F08  thumb  ov093
  *   BTL_POKEPARAM_SetStat 0x021D5970 thumb ov093
- *   func_0689C9C0 0x0689C9C0 thumb ov095
+ *   BTL_ID_IsArceusSpecies 0x0689C9C0 thumb ov095
  *   BTL_POKEPARAM_SetTypes  0x021D66B0  thumb  ov093
  *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   HAND_SIDE_AddFactor 0x06898C10 thumb ov095
  *   HAND_SIDE_Remove 0x06898D10 thumb ov095
  *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
  *   HAND_POS_AddFactor 0x068981F0 thumb ov095
- *   func_0689C974 0x0689C974 thumb ov095
+ *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
  *   HAND_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
  *   HAND_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
@@ -411,7 +409,7 @@
  *   _ll_mul 0x0209C054 arm
  *   BTL_MAIN_GetZukanSeenCount  0x021B873C  thumb  ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
- *   func_0689C9A0 0x0689C9A0 thumb ov095
+ *   BTL_ID_IsBallWithCatchBonus 0x0689C9A0 thumb ov095
  *   _fflt 0x0209BDBC arm
  *   _s32_div_f 0x0209C0A4 arm
  *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
@@ -419,43 +417,31 @@
  *   func_021D5450  0x021D5450  thumb  ov093
  *   BTL_POKEPARAM_GetRealMovePPLost  0x021D5568  thumb  ov093
  *   BTL_POKEPARAM_GetRealMoveId  0x021D54D0  thumb  ov093
- *   func_0689C9E4 0x0689C9E4 thumb ov095
- *   func_0689C8FC 0x0689C8FC thumb ov095
+ *   BTL_ID_GetItemCuredSick 0x0689C9E4 thumb ov095
+ *   BTL_ID_IsHeldItemUseBlocked 0x0689C8FC thumb ov095
  *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
- *   func_0689D1D4 0x0689D1D4 thumb ov095
+ *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
  *   func_02034714 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
- *   func_021D3F04 0x021D3F04 thumb ov093
- *   func_021D3D9C 0x021D3D9C thumb ov093
- *   func_02187F00 0x02187F00 thumb ov096
+ *   TR_AI_Create 0x02187F00 thumb ov096
  *   BTL_REC_CreateBuffer 0x021EE5E4 thumb ov093
  *   BTL_REC_DeleteBuffer 0x021EE600 thumb ov093
- *   func_02188080 0x02188080 thumb ov096
+ *   TR_AI_Delete 0x02188080 thumb ov096
  *   BTL_REC_ReadEntry 0x021EE63C thumb ov093
  *   BTL_REC_CountFlaggedRecords 0x021EE830 thumb ov093
- *   func_021D3F48 0x021D3F48 thumb ov093
  *   BTL_REC_ResetReader 0x021EE674 thumb ov093
  *   BTL_ADAPTER_ClearRecvHeader 0x021EEBDC thumb ov093
- *   func_021D3F64 0x021D3F64 thumb ov093
- *   func_021D3F88 0x021D3F88 thumb ov093
- *   func_021D3FDC 0x021D3FDC thumb ov093
  *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
  *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
- *   func_021D3FAC 0x021D3FAC thumb ov093
- *   func_021D3FC4 0x021D3FC4 thumb ov093
- *   func_021D3F4C 0x021D3F4C thumb ov093
  *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
- *   func_021D3F60 0x021D3F60 thumb ov093
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   func_021D3FA8 0x021D3FA8 thumb ov093
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
- *   func_021D3F98 0x021D3F98 thumb ov093
  *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_021F88BC 0x021F88BC thumb ov094
@@ -470,7 +456,6 @@
  *   func_021F8504  0x021F8504  thumb  ov094
  *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
- *   func_021D3F54  0x021D3F54  thumb  ov093
  *   BTLV_CORE_InitInputWork  0x021EAA00  thumb  ov093
  *   BTLV_CORE_CancelWindowModeSelect  0x021EAA5C  thumb  ov093
  *   BTLV_CORE_PollWindowModeSelect  0x021EAA34  thumb  ov093
@@ -478,7 +463,6 @@
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
  *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
- *   func_021D3FD0 0x021D3FD0 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
@@ -491,7 +475,7 @@
  *   BTLV_CORE_AbortActionMenu 0x021E979C thumb ov093
  *   BTLV_CORE_PollActionMenu 0x021E97A4 thumb ov093
  *   BTLV_CORE_CloseMenuToReselect 0x021E9964 thumb ov093
- *   func_0689CB08 0x0689CB08 thumb ov095
+ *   BTL_PICK_Pop 0x0689CB08 thumb ov095
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
@@ -521,8 +505,8 @@
  *   BTLV_CORE_LockPartyChoice  0x021E9B14  thumb  ov093
  *   BTLV_CORE_PollPartyMenu  0x021E9B20  thumb  ov093
  *   BTLV_CORE_StartPartyMenu 0x021E9A78 thumb ov093
- *   func_0689CB14 0x0689CB14 thumb ov095
- *   func_0689CB1C 0x0689CB1C thumb ov095
+ *   BTL_PICK_GetLocked 0x0689CB14 thumb ov095
+ *   BTL_PICK_GetLast 0x0689CB1C thumb ov095
  *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   BTLV_CORE_StartBagMenu 0x021E9D04 thumb ov093
  *   BTLV_CORE_SkipBagPartyPrompt 0x021E9E70 thumb ov093
@@ -546,20 +530,18 @@
  *   BTL_FIELD_IsMoveSealedBySlot 0x021EFC1C thumb ov093
  *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
  *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
- *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
  *   gBtlClientAiHitKindRows 0x021EFFC2 data ov093 a2
  *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
  *   BTL_CALC_GetScanStartIndex 0x021D7F2C thumb ov093
- *   func_021D3DC4 0x021D3DC4 thumb ov093
- *   func_021880BC 0x021880BC thumb ov096
- *   func_02187FB0 0x02187FB0 thumb ov096
- *   func_02188134 0x02188134 thumb ov096
- *   func_02188140 0x02188140 thumb ov096
- *   func_0689CA98 0x0689CA98 thumb ov095
- *   func_0689CAB0 0x0689CAB0 thumb ov095
- *   func_0689CAE0 0x0689CAE0 thumb ov095
+ *   TR_AI_Start 0x021880BC thumb ov096
+ *   TR_AI_Think 0x02187FB0 thumb ov096
+ *   TR_AI_GetChosenMove 0x02188134 thumb ov096
+ *   TR_AI_GetChosenTarget 0x02188140 thumb ov096
+ *   BTL_PICK_InitSlotChoices 0x0689CA98 thumb ov095
+ *   BTL_PICK_MarkSlotsSelectable 0x0689CAB0 thumb ov095
+ *   BTL_PICK_InitList 0x0689CAE0 thumb ov095
  *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
  *   BTL_REC_AppendPacket  0x021EE608  thumb  ov093
  *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
@@ -569,9 +551,8 @@
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   BTLV_CORE_CopyMessageBuffer  0x021EA5E4  thumb  ov093
- *   STRBUF_Delete   0x02045808  arm
  *   BTLV_CORE_BuildMessageToBuffer  0x021EA5F0  thumb  ov093
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   BTLV_CORE_EndWaitMessage 0x021EA824 thumb ov093
  *   gServerCommandHandlers 0x021F00DC data a4
  *   BTLV_CORE_StartMonEffectTask  0x021EA458  thumb  ov093
@@ -656,7 +637,7 @@
  *   BTLV_CORE_UpdatePortraitMosaic  0x021EA7B8  thumb  ov093
  *   BTLV_CORE_StartMonSpriteLoad  0x021EA868  thumb  ov093
  *   BTLV_CORE_WaitMonSpriteLoad  0x021EA878  thumb  ov093
- *   func_0689C9D4 0x0689C9D4 thumb ov095
+ *   BTL_ID_IsSimpleEffectId 0x0689C9D4 thumb ov095
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_CollectLivingPokeIds  0x021B8D38  thumb  ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
@@ -715,15 +696,84 @@
  *   BTL_SERVER_CompareFlowOutput  0x021BB570  thumb  ov093
  *   BTL_SERVER_CMD_ReadNext  0x021CD5E0  thumb  ov093
  *   BTL_SERVER_CMD_ReadU8Wrapper  0x021CD644  thumb  ov093
+ *   BTLV_CORE_StartViewEffectEx  0x021EA3E8  thumb  ov093
+ *   BTLV_CORE_WaitViewEffectEx  0x021EA3F8  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteChange  0x021EA888  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteChange  0x021EA8A4  thumb  ov093
+ *   BTLV_CORE_StartPortraitSlideOut  0x021EA788  thumb  ov093
+ *   BTLV_CORE_WaitPortraitSlideOut  0x021EA798  thumb  ov093
+ *   BTL_POKEPARAM_DecrementRealMovePP 0x021D5640 thumb ov093
+ *   BTL_SLOT_GetPoke  0x021B9BF0  thumb  ov093
+ *   BTL_CALC_UnpackPokeIds  0x021D8090  thumb  ov093
+ *   BTL_FIELD_RegisterSlot 0x021EF9F4 thumb ov093
+ *   BTL_FIELD_AddSlotHolder 0x021EFAD8 thumb ov093
+ *   BTL_FIELD_RemoveHolderFromSlots 0x021EFB34 thumb ov093
+ *   BTL_FIELD_RemoveSlot 0x021EFA94 thumb ov093
+ *   BTL_MAIN_AddClientPoints 0x021B9B10 thumb ov093
+ *   BTL_SLOT_UpdateIllusion 0x021B9D10 thumb ov093
+ *   BTL_FIELD_TickSlots   0x021EFC78  thumb
+ *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
+ *   BTL_MAIN_GetTrainerItem 0x021B9F84 thumb ov093
+ *   gBtlClientItemSlotLimits  0x021EFF74  data  a1
+ *   gBtlClientItemStatChecks  0x021EFF94  data  ov093  a1
+ *   gBtlClientItemSickChecks 0x021EFFA0 data a1
+ *   BTLV_CORE_PollCounterInput 0x021EAE64 thumb ov093
+ *   BTLV_CORE_StartFadeIn 0x021EAE04 thumb ov093
+ *   BTLV_CORE_SetCounterValueMode 0x021EAECC thumb ov093
+ *   func_021F8B10 0x021F8B10 thumb ov094
+ *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
+ *   gBtlNet 0x021F3B88 data ov093 a4
+ *   gBtlNetSourceName 0x021F3A98 data ov093 a4
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   func_0200FB24 0x0200FB24 thumb
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
+ *   sub_02030734   0x02030734  arm
+ *   func_02007B00  0x02007B00  thumb
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   MYSTATUS_GetSize 0x02008468 thumb
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   MIi_CpuClear16 0x02082A48  arm
+ *   STRBUF_GetLength   0x020458F8  arm
+ *   STRBUF_GetChars   0x02045A90  arm
+ *   sub_0201F41C   0x0201F41C  thumb
+ *   GFL_NET_HANDLE_SetUserInfo 0x0203A424 arm
+ *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
+ *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
+ *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
+ *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
+ *   func_021D6DC4  0x021D6DC4  thumb  ov093
+ *   gBtlPokeparamFileName     0x021F3AA4  data  a1
+ *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
+ *   POKE_TOOL_GetGender  0x02017F00  thumb
+ *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
+ *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
+ *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
+ *   _dflt   0x0209B750  arm
+ *   _dfltu  0x0209B790  arm
+ *   _ddiv   0x0209D1E0  arm
+ *   _dgr    0x0209B864  arm
+ *   _dmul   0x0209B2E8  arm
+ *   _dadd   0x0209AC04  arm
+ *   _dsub   0x0209AF34  arm
+ *   _dfix   0x0209C508  arm
  */
 #include "btl_server_types.h"
 #include "../../matched/include/G_StateData.h"
+typedef unsigned long long u64;
+#include "btl_client_types.h"
+#include "btl_main_types.h"
+#include "btl_pokeparam_types.h"
+#include "../../matched/include/Obj13430.h"
+#include "btl_net_types.h"
+#include "btl_field_types.h"
 
 #define ENTRY(i) (&e[i])
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 struct Unk021B8CB0;
-struct R4;
 struct S2;
 struct Q1;
 struct S_021B8CB0;
@@ -732,7 +782,6 @@ struct U16Vec;
 struct Rec8;
 struct Buf;
 struct Sub02008C20Obj;
-struct Unk021D62A8;
 struct Flags;
 struct T;
 struct QA;
@@ -742,7 +791,6 @@ struct Q6;
 struct Q4;
 struct UtilWork;
 struct Unk021D82FC;
-struct Arr;
 struct Msg;
 struct O;
 struct Out64B4;
@@ -754,12 +802,11 @@ struct QI;
 struct S_p12;
 struct Q_021C0CB4;
 struct Q_021C0CE8;
-struct QJ;
 struct Entry_p11;
 struct Obj;
 struct Result;
 struct Pack;
-struct Rec;
+struct Rec_021CD6F0;
 struct Q9;
 struct Cmd;
 struct Q10;
@@ -770,7 +817,6 @@ struct Unk021EFD70;
 struct Sav;
 struct Q2;
 struct QE;
-struct Qd;
 struct Q3;
 struct L;
 struct H;
@@ -780,13 +826,14 @@ struct G;
 struct Rat;
 struct G_021CFD50;
 struct S;
+struct BtlvCore;
+struct BtlPokeContainer;
+struct BtlPokeParam;
+struct Link;
+struct Entry;
 struct Unk021B8CB0 { u32 f0; u32 mode; };
 
 typedef struct { u8 pad[0xC1]; unsigned char flag:1; unsigned char rest:7; } Flags_021B9184;
-
-typedef unsigned long long u64;
-
-#include "btl_client_types.h"
 
 struct Unk021EFD70 { u16 n0; volatile u16 n1; u8 b[6]; };
 
@@ -796,8 +843,6 @@ struct Q1 { u32 items[6]; u8 count; };
 
 /* 021B9BF0  ldrb r2,[r0,#0x18]; cmp r1,r2; bhs; lsls r1,#2; ldr r0,[r0,r1] */
 struct S2 { u8 *items[6]; u8 count; };
-
-struct Arr { void *e[6]; u8 n; };
 
 struct H {
     u16 a, b, c, d;
@@ -860,9 +905,9 @@ struct Buf { u32 wpos, rpos; };
 
 struct S { u32 id[6]; u16 a[6], b[6]; u8 c[6]; u16 d[6]; u8 n, max, f44, f45; };
 
-struct Rec { u32 value; u16 kind; u8 data, flag; };
+struct Rec_021CD6F0 { u32 value; u16 kind; u8 data, flag; };
 
-struct O { u32 pos; struct Rec r[120]; };
+struct O { u32 pos; struct Rec_021CD6F0 r[120]; };
 
 struct Entry { u16 value; u16 id:5; u16 mode:4; u16 type:4; u16 marked:1; u16 special:1; u16 error:1; };
 
@@ -1020,14 +1065,37 @@ struct StateDataL { u8 pad0[8]; int counter; u32 remaining; u32 pad10; u8 result
 
 union DView { struct StateDataL s; u32 w[9]; };
 
+/* Trainer item effect checks of the AI: the item parameter that must be set
+   and the stat stage or sick condition it applies to. */
+typedef struct {
+    u8 itemParam;
+    u8 statIndex;
+} BtlClientItemStatCheck;
+
+typedef struct {
+    u8 itemParam;
+    u8 sickId;
+} BtlClientItemSickCheck;
+
+typedef struct {
+    u8 pad00[0x28];
+    u8 f28[0x40];
+    u32 f68;
+} Out;
+
+typedef struct {
+    u32 type : 8;
+    u32 size : 24;
+} Hdr_021D4CB8;
+
 extern int BTL_POKEPARAM_IsFainted(void *m);
-extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *p);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
 extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern void *BTL_POKEPARAM_GetMon(void *m);
-extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
-extern int func_021D59B4(u8 *p, int k);
+extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *p);
+extern int func_021D59B4(void *p, int k);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void POKEPARTY_Init(struct Party *p);
 extern u32 BTL_MAIN_GetRule(void **p);
@@ -1037,7 +1105,7 @@ extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
 extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_021D805C(void *p, u32 n);
+extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern u32 _u32_div_f(u32, u32);
 extern void *func_02030734(u16, unsigned int, int, const char *, u16);
 extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
@@ -1051,7 +1119,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern void MI_CpuFill8(void *, int, u32);
 extern void BTL_CLIENT_SET_Clear(u8 *p);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *p, int i);
 extern u32 WAZA_TOOL_GetParam(u32 v, u32 n);
 extern u32 BTL_ACTION_GetFightMove(Action *m);
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
@@ -1060,7 +1128,6 @@ extern u16 BTLV_CORE_GetSlotValue(union Slot v);
 extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
 extern int WAZA_TOOL_GetFlag(void *bag, int item);
-extern u32 WAZA_TOOL_GetCategory(u16);
 extern u16 BTL_POKEPARAM_GetSickParam(struct UtilSlots *p, int i);
 extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
 extern u32 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
@@ -1074,46 +1141,33 @@ extern int WAZA_TOOL_GetDamageType(int a);
 extern u16 BTL_POKEPARAM_GetTypePair(void *);
 extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern int BTL_CALC_SummarizeTypeAffinity(int);
-extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
+extern void BTL_POKEPARAM_SetAbility(struct BtlPokeParam *p, u32 ability);
 extern u32 func_0203F0A8(void);
-extern void BTL_POKEPARAM_ResetAllEffects(u8 *);
+extern void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *);
 extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
 extern u8 WAZA_TOOL_GetType(void *p);
-extern int WAZA_TOOL_GetDamageType(int a);
 extern int BTL_POKEPARAM_HasType(void *p, int k);
 extern u16 WAZA_TOOL_GetPower(void *p);
 unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
-extern int BTL_POKEPARAM_Transform(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
+extern int BTL_POKEPARAM_Transform(struct BtlPokeParam *a, struct BtlPokeParam *b);
 extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern void func_021D3F04(u8 *);
-extern void func_021D3D9C(u8 *);
-extern void *func_02187F00(void **, u32, u32, u32, u16);
+extern void *TR_AI_Create(void **, u32, u32, u32, u16);
 extern void *BTL_REC_CreateBuffer(u32);
 extern void BTL_REC_DeleteBuffer(void *);
-extern void func_02188080(void *);
+extern void TR_AI_Delete(void *);
 extern u16 *BTL_REC_ReadEntry(u16 *, u32 *);
 extern u32 BTL_REC_CountFlaggedRecords(void *);
-extern void func_021D3F48(u8 *,u32);
 extern void BTL_REC_ResetReader(void *);
 extern void BTL_ADAPTER_ClearRecvHeader(void *);
-extern void func_021D3F64(u8 *,u16);
-extern void func_021D3F88(void *p);
-extern void func_021D3FDC(u8 *p, struct Qd *q);
 extern u8 BTL_ADAPTER_GetRecvCommand(void *);
 extern int BTL_ADAPTER_GetRecvData(int, void *);
-extern int func_021D3FAC(u8 *);
-extern void func_021D3FC4(u8 *);
-extern int func_021D3F4C(void *);
 extern int BTL_ADAPTER_SetRecvTarget(void *,void *,u32);
-extern u8 func_021D3F60(u8 *);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern int GFL_USE_IsBgmFading(void);
-extern u16 func_021D3FA8(u8 *p);
 extern void PM_VOICE_SetMasterVolume(u8);
-extern int func_021D3F98(u8 *);
 extern void BTLV_CORE_ClearWaitWindow(u8 *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void func_021F88BC(int);
@@ -1127,7 +1181,6 @@ extern void func_021F84E8(int a, int b);
 extern void func_021F8504(u32 a, u32 b, u32 c);
 extern void BTLV_CORE_ShowCounterValue(u8 *p, int v);
 extern int BTL_REC_ReadSkipFlag(int, int);
-extern void func_021D3F54(u8 *p);
 extern void BTLV_CORE_InitInputWork(u8 *p, u8 v);
 extern void BTLV_CORE_CancelWindowModeSelect(u8 *o);
 extern int BTLV_CORE_PollWindowModeSelect(u8 *o, u8 *out);
@@ -1135,7 +1188,6 @@ extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *o, u8 v);
 extern u32 *BTL_REC_ReadRecord(void *,u8,u8 *,u8 *);
-extern void func_021D3FD0(unsigned char *p);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, void *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_CALC_ActionSetNone(u32 *p);
@@ -1148,7 +1200,7 @@ extern void BTLV_CORE_StartActionMenu(char *, u8 *, int, int);
 extern void BTLV_CORE_AbortActionMenu(char *p);
 extern int BTLV_CORE_PollActionMenu(char *p);
 extern void BTLV_CORE_CloseMenuToReselect(u32);
-extern void func_0689CB08(u8 *);
+extern void BTL_PICK_Pop(u8 *);
 extern int BTLV_CORE_IsMenuClosed(u32);
 extern void BTLV_CORE_CloseMenu(void *);
 extern void func_021F7F58(int, u32, u32, u32, u32);
@@ -1177,8 +1229,8 @@ extern void BTLV_CORE_StartMoveHighlight(u8 *p, u8 a, u8 b);
 extern void BTLV_CORE_LockPartyChoice(unsigned int *p);
 extern int BTLV_CORE_PollPartyMenu(u8 *p);
 extern void BTLV_CORE_StartPartyMenu(char *, const u8 *, int, int, u8 *);
-extern int func_0689CB14(void *);
-extern u8 func_0689CB1C(void *);
+extern int BTL_PICK_GetLocked(void *);
+extern u8 BTL_PICK_GetLast(void *);
 extern void BTL_ACTION_SetChange(void *, u8, u8);
 extern void BTLV_CORE_StartBagMenu(void *, int, int, int, u32, u32);
 extern void BTLV_CORE_SkipBagPartyPrompt(u8 *p);
@@ -1202,19 +1254,17 @@ extern void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
 extern int BTL_FIELD_IsMoveSealedBySlot(int, int, void *, u32);
 extern u8 BTLV_CORE_GetSlotLow(union Slot);
 extern u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i);
-extern u8 WAZA_TOOL_GetType(void *p);
 extern int BTL_CALC_GetTypeAffinityVsPair(int, u16);
 extern int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out);
 extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
 extern u8 BTL_CALC_GetScanStartIndex(u32 a, u8 b);
-extern u32 func_021D3DC4(u8 *, void *, void *);
-extern void func_021880BC(int, u8 *, int);
-extern int func_02187FB0(u8 *);
-extern u8 func_02188134(u8 *);
-extern u8 func_02188140(u8 *);
-extern void func_0689CA98(void *, u32, u32, u32);
-extern void func_0689CAB0(void *, u32);
-extern void func_0689CAE0(void *, void *);
+extern void TR_AI_Start(int, u8 *, int);
+extern int TR_AI_Think(u8 *);
+extern u8 TR_AI_GetChosenMove(u8 *);
+extern u8 TR_AI_GetChosenTarget(u8 *);
+extern void BTL_PICK_InitSlotChoices(void *, u32, u32, u32);
+extern void BTL_PICK_MarkSlotsSelectable(void *, u32);
+extern void BTL_PICK_InitList(void *, void *);
 extern void BTL_ACTION_SetChangeDepleted(u32 *p);
 extern void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n);
 extern u8 BTL_REC_GetPacketId(u8 *p);
@@ -1226,7 +1276,7 @@ extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
 extern void BTLV_CORE_CopyMessageBuffer(unsigned char *p, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BTLV_CORE_BuildMessageToBuffer(char *p, void *h);
-extern void func_02082A90(const void *, void *, u32);
+extern void MIi_CpuCopy32(const void *, void *, u32);
 extern void BTLV_CORE_EndWaitMessage(char *p);
 extern void BTLV_CORE_StartMonEffectTask(char *ctx, u16 a, u16 b);
 extern int BTLV_CORE_WaitMonEffectTask(u32 *p);
@@ -1305,7 +1355,7 @@ extern void BTLV_CORE_ReloadPortrait(u32 *p, u32 a2);
 extern int BTLV_CORE_UpdatePortraitMosaic(u32 *p, u32 a2);
 extern void BTLV_CORE_StartMonSpriteLoad(u32 *p, u32 a2, u32 a3);
 extern int BTLV_CORE_WaitMonSpriteLoad(u32 *p);
-extern int func_0689C9D4(u16);
+extern int BTL_ID_IsSimpleEffectId(u16);
 int BTL_MAIN_IsOpposingPos(int a, int b, int c);
 u8 BTL_MAIN_CollectLivingPokeIds(void *p, int a, int k, u8 *out);
 u8 BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
@@ -1328,11 +1378,11 @@ u32 BTL_MAIN_GetBonusMoney(u8 *p);
 u32 BTL_MAIN_CalcPenaltyMoney(char *p);
 void BTL_MAIN_SetKeepBgm(u8 *p);
 void BTL_MAIN_CopyLiveToSnapshotPoke(char *p, int i);
-u8 *BTL_MAIN_ResolveIllusionPoke(void *a, char *b, u8 *c);
-u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
+struct BtlPokeParam *BTL_MAIN_ResolveIllusionPoke(void *a, char *b, struct BtlPokeParam *c);
+struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
-u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
-u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
+struct BtlPokeParam *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
+struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
 u8 BTL_MAIN_GetViewPositionsPerClient(void **p, u32 b);
 int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
@@ -1364,6 +1414,83 @@ void BTL_SERVER_LoadRecorderReplies(Obj_td *p, void *src, int n);
 int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n);
 int BTL_SERVER_CMD_ReadNext(Buf_021CC768 *r, s32 *a);
 u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
+extern void BTLV_CORE_StartViewEffectEx(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
+extern int BTLV_CORE_WaitViewEffectEx(struct BtlvCore *view);
+extern void BTL_POKEPARAM_ChangeForm(struct BtlPokeParam *pokeParam, u8 form);
+extern void BTLV_CORE_StartMonSpriteChange(struct BtlvCore *view, int viewPos);
+extern int BTLV_CORE_WaitMonSpriteChange(struct BtlvCore *view);
+extern void BTLV_CORE_StartPortraitSlideOut(struct BtlvCore *view, u32 position);
+extern int BTLV_CORE_WaitPortraitSlideOut(struct BtlvCore *view, u32 position);
+extern void BTL_POKEPARAM_SubHp(struct BtlPokeParam *pokeParam, u16 damage);
+extern void BTL_POKEPARAM_AddHp(struct BtlPokeParam *pokeParam, u16 amount);
+extern void BTL_POKEPARAM_DecrementMovePP(struct BtlPokeParam *pokeParam, u8 slot, u8 amount);
+extern void BTL_POKEPARAM_DecrementRealMovePP(struct BtlPokeParam *pokeParam, u32 slot, u32 amount);
+extern void BTL_POKEPARAM_MarkMoveUsed(struct BtlPokeParam *pokeParam, u8 slot);
+extern void BTL_POKEPARAM_ZeroHp(struct BtlPokeParam *pokeParam);
+extern u16 BTL_POKEPARAM_RestoreMovePP(struct BtlPokeParam *pokeParam, u32 slot, u8 amount);
+extern u16 BTL_POKEPARAM_RestoreRealMovePP(struct BtlPokeParam *pokeParam, u32 slot, u8 amount);
+extern u8 BTL_POKEPARAM_RaiseStatStage(struct BtlPokeParam *pokeParam, int statIndex, u8 steps);
+extern u8 BTL_POKEPARAM_LowerStatStage(struct BtlPokeParam *pokeParam, int statIndex, u8 steps);
+extern void BTL_POKEPARAM_SetStatStage(struct BtlPokeParam *pokeParam, int statIndex, u8 stage);
+extern int BTL_POKEPARAM_RaiseLoweredStatStages(struct BtlPokeParam *pokeParam);
+extern void BTL_POKEPARAM_ResetStatStages(struct BtlPokeParam *pokeParam);
+extern int BTL_POKEPARAM_AddCritStage(struct BtlPokeParam *pokeParam, int delta);
+extern void BTL_POKEPARAM_SetSickCont(struct BtlPokeParam *pokeParam, int sickIndex, union SickCont cont);
+extern void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *pokeParam);
+extern void BTL_POKEPARAM_CureSick(struct BtlPokeParam *pokeParam, int sickIndex);
+extern struct BtlPokeParam *BTL_SLOT_GetPoke(void *party, u32 index);
+extern void BTL_POKEPARAM_StartTurnThreshold(struct BtlPokeParam *pokeParam, u16 threshold);
+extern void BTL_POKEPARAM_ReloadAndResetEffects(struct BtlPokeParam *pokeParam);
+extern void BTL_POKEPARAM_SetTypes(struct BtlPokeParam *pokeParam, int species);
+extern void BTL_CALC_UnpackPokeIds(u32 packed, u8 *out);
+extern u32 BTL_ID_GetTurnCheckSick(u32 index);
+extern int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *pokeParam, u32 sickIndex, union SickCont *outCont, int *outCured);
+extern void BTL_POKEPARAM_ConsumeHeldItem(struct BtlPokeParam *p, u16 v);
+extern void BTL_POKEPARAM_RecordMoveUse(struct BtlPokeParam *p, u8 a, int f, u8 b, u16 c, u16 d);
+extern void BTL_POKEPARAM_SetContFlag(struct BtlPokeParam *, u32);
+extern void BTL_POKEPARAM_ClearContFlag(struct BtlPokeParam *, u32);
+extern void BTL_POKEPARAM_SetTurnFlag(struct BtlPokeParam *, u32);
+extern void BTL_POKEPARAM_ClearTurnFlag(struct BtlPokeParam *, u32);
+extern void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *p);
+extern int BTL_FIELD_RegisterSlot(BtlFieldState *, u32, BtlFieldSlotKey, int);
+extern int BTL_FIELD_AddSlotHolder(BtlFieldState *state, u32 slot, u32 pokeId);
+extern void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId);
+extern int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot);
+extern void BTL_POKEPARAM_SetCounter(struct BtlPokeParam *, int, u8);
+extern void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *, struct BtlPokeParam *);
+extern void BTL_POKEPARAM_SetSubstituteHp(struct BtlPokeParam *, u16);
+extern void BTL_POKEPARAM_ClearSubstitute(struct BtlPokeParam *p);
+extern void BTL_MAIN_AddClientPoints(struct BtlMain *, u8, u8);
+extern void BTL_SLOT_UpdateIllusion(struct BtlMain *, struct BtlSideSlot *, int);
+extern void BTL_POKEPARAM_ClearConsumedItem(struct BtlPokeParam *p);
+extern void BTL_POKEPARAM_CureSickBySource(struct BtlPokeParam *p, int sourceId);
+extern void BTL_POKEPARAM_AddHitRecord(struct BtlPokeParam *p, struct BtlHitRecord *r);
+extern void BTL_POKEPARAM_AdvanceTurn(struct BtlPokeParam *);
+extern void BTL_EVENT_ClearClientReservedChoice(struct BtlPokeParam *);
+extern void BTL_POKEPARAM_SetWeight(struct BtlPokeParam *p, u32 weight);
+extern u8 BTL_FIELD_GetCountdownByte(void *);
+extern u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index);
+extern u8 BTL_POKEPARAM_GetCritStage(struct BtlPokeParam *p);
+extern int BTLV_CORE_PollCounterInput(void *);
+extern void BTLV_CORE_StartFadeIn(u32 *p);
+extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
+extern int func_021F8B10(void);
+extern int BTLV_CORE_PollFadeInDone(u32 *p);
+extern int POKE_REGULATION_GetDataSize(void);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
+extern u32 POKE_TOOL_GetStatusCondition(void *);
+extern u32 WAZA_TOOL_GetMaxPP(u32, u32);
+extern u8 POKE_TOOL_GetGender(void *h);
+void BTL_POKEPARAM_ReplaceMove(struct BtlPokeParam *p, u8 i, u16 a, u8 b, u32 c);
+void BTL_POKEPARAM_SetStat(struct BtlPokeParam *p, int valueId, u16 v);
+void BTL_POKEPARAM_SetItem(struct BtlPokeParam *p, u16 v);
+int func_021D5D14(struct BtlPokeParam *p, int i, int sign);
 BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId);
 void BTL_CLIENT_Delete(BtlClient *client);
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
@@ -1383,16 +1510,16 @@ void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v);
 int BTL_CLIENT_StepMain(BtlClient *client);
 int BTL_CLIENT_StepRemote(BtlClient *client);
 void BTL_CLIENT_ResetSendWord(BtlClient *client);
-BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *out);
-void BTL_CLIENT_GetCursor(BtlClient *client, int *o);
+BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *outFlag);
+void BTL_CLIENT_GetCursor(BtlClient *client, int *outCursor);
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
-int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *st);
+int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state);
 int BTL_CLIENT_PollWindowStep(BtlClient *client, int b);
 void BTL_CLIENT_StoreMonParam(BtlClient *client);
 u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client);
 void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client);
-int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *st);
+int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *state);
 u32 BTL_CLIENT_PickWindowMode(u32 mode);
 int BTL_CLIENT_ReturnTrue(void);
 void BTL_CLIENT_StartWindowModeSend(BtlClient *client);
@@ -1400,18 +1527,18 @@ void BTL_CLIENT_StartTimeLimit(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitReady(BtlClient *client);
 int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q);
 void BTL_CLIENT_StopTimeLimit(BtlClient *client);
-void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, u8 *q, u8 *o);
+void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, struct BtlPokeParam *mon, u8 *outMessage);
 void BTL_CLIENT_SetSubFn(BtlClient *client, void *q);
 u32 BTL_CLIENT_RunSubFn(BtlClient *client);
-u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *st);
+u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *state);
 int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state);
 void BTL_CLIENT_ResetActionCursor(BtlClient *client);
 u32 BTL_CLIENT_InitActionSelection(BtlClient *client);
 void BTL_CLIENT_ShowMessage(BtlClient *client, void *q);
 int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state);
-int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *st);
-u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *st);
-u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *out);
+int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state);
+u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state);
+u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey);
 int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state);
 void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out);
 u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st);
@@ -1429,112 +1556,184 @@ void BTL_CLIENT_ClearSlotFlags(BtlClient *client);
 void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 v);
 u8 BTL_CLIENT_GetSlotFlag(BtlClient *client, u32 i);
 u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client);
-u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o);
-u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *q, u32 y);
-void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, BtlClient *client, void *q);
-int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *m, u32 move, void *out);
-u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *q, u8 *out);
-int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *q);
-u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *q, u8 *a, u16 *b);
-u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *a, u16 *b);
-u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *m, u8 *a, u16 *b);
-int BTL_CLIENT_CanShadowTagTrap(void *p, void *q);
-int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *m);
-int BTL_CLIENT_CanMagnetPullTrap(void *p, void *q);
+u32 BTL_CLIENT_IsActionForced(u8 *client, void *mon, u8 *outAction);
+u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *mon, u32 outAction);
+void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, BtlClient *client, void *mon);
+int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, void *outMessage);
+u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *mon, u8 *out);
+int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *mon);
+u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility);
+u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *outBlockerPokeId, u16 *outBlockerAbility);
+u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility);
+int BTL_CLIENT_CanShadowTagTrap(void *client, void *mon);
+int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *mon);
+int BTL_CLIENT_CanMagnetPullTrap(void *client, void *mon);
 void BTL_CLIENT_ClearSlotOrder(BtlClient *client);
 int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v);
 void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v);
-int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *m, u32 slot, u8 *out);
-u8 *BTL_CLIENT_PickRandomFoe(BtlClient *client, int k);
-int BTL_CLIENT_IsCountdownEndingNext(void *p, void *q);
-int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *a, void *b);
-int BTL_CLIENT_ShouldSwitchNoEffectiveMove(BtlClient *client, void *a, void *b);
+int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot, u8 *outMember);
+struct BtlPokeParam *BTL_CLIENT_PickRandomFoe(BtlClient *client, int positionId);
+int BTL_CLIENT_IsCountdownEndingNext(void *client, void *mon);
+int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *mon, void *foe);
+int BTL_CLIENT_ShouldSwitchNoEffectiveMove(BtlClient *client, void *mon, void *foe);
 int BTL_CLIENT_ShouldSwitchWhileLocked(BtlClient *client, void *mon, void *target);
 int BTL_CLIENT_FindSwitchFromHitHistory(BtlClient *client, void *mon, void *target, u8 *out);
-int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *m, u8 *out);
+int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *mon, u8 *out);
 int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *target, u8 *out);
-int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 a, u8 *out);
-int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *a, int b);
-int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 a, int b, u8 *out);
-int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *m, void *a, int b);
+int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 ability, u8 *outMember);
+int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *target, int minAffinity);
+int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 attackType, int maxAffinity, u8 *outMember);
+int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *mon, void *target, int minAffinity);
 u8 BTL_CLIENT_PickRotationPosition(BtlClient *client);
 int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state);
-u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *out);
-void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *order, u8 count, void *target);
+u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *ableIndexes);
+void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *partyOrder, u8 orderCount, void *targetMon);
 void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out);
-void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *s);
+void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *choice);
 void BTL_CLIENT_SetChangeActionsFirstAble(BtlClient *client);
-u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *out);
+u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *ownIds);
 int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state);
 int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state);
 int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state);
 int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client);
 int BTL_CLIENT_StepForwardToSubFn(BtlClient *client, int *state);
-int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 param);
+int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 choiceMode);
 int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client);
-int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *q);
+int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *action);
 int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state);
 int BTL_CLIENT_RecordReceivedPacket(BtlClient *client);
 int BTL_CLIENT_StepShowResultIfView(BtlClient *client, int *state);
-int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *a2);
+int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *view);
 int BTL_CLIENT_GetOutcomeForClient(BtlClient *client);
 int BTL_CLIENT_StepShowTrainerResultIfView(BtlClient *client, int *state);
-int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *q);
+int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view);
 int BTL_CLIENT_StepShowEndSpeechIfView(BtlClient *client, int *state);
-int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *a2);
-void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int a, int b);
+int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view);
+void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int outcome, int trainerSide);
 int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state);
 int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state);
 int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state);
 int BTL_CLIENT_StepRunServerCommandsIfView(BtlClient *client, int *state);
-int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *a2);
-int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *pp);
-int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 x, int *out);
-int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *pp);
+int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *view);
+int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *args);
+int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 targetClient, int *addTrainerName);
+int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *args);
 int BTL_CLIENT_StepSendOutMon(BtlClient *client, int *state, const u32 *params);
 int BTL_CLIENT_PickSendOutMessageId(BtlClient *client);
-int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *a);
-u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 k, u8 b);
-int BTL_CLIENT_StepPlayMoveAnim(BtlClient *client, int *state, const u32 *a);
-int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *a);
-int BTL_CLIENT_StepFaintMon(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepReviveMon(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepStartWeather(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepEndWeather(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *q);
-int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepTransformMon(BtlClient *client, int *st, u32 *c);
-int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepChangeBgm(int a, int b, int *c);
+int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *args);
+u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 moveId, u8 attackerId);
+int BTL_CLIENT_StepPlayMoveAnim(BtlClient *client, int *state, const u32 *args);
+int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepFaintMon(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepReviveMon(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepEndWeather(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *args);
+int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepTransformMon(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepChangeBgm(int unusedClient, int unusedState, int *bgmId);
 int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state);
-int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int b, u32 *c);
+int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args);
 int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args);
-int BTL_CLIENT_ForgetMoveSoundCallback(int n);
+int BTL_CLIENT_ForgetMoveSoundCallback(int step);
 int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon);
-int BTL_CLIENT_StepThrowBall(BtlClient *client, int *b, const u32 *c);
-int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepClearSidePosition(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *b, u32 *c);
-int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *q);
-int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *b, u32 *c);
+int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args);
+int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearSidePosition(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *args);
+int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_CmdSwapViewPositions(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdChangeForm(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdShowStatusPanel(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdHideStatusPanel(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdHpMinus(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdHpPlus(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdPpMinusOriginal(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdPpMinusWorking(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdMarkMoveUsed(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdHpZero(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdPpPlusOriginal(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdPpPlusWorking(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdStatStageUp(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdStatStageDown(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdSetStatStages(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdRecoverStatStages(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdResetStatStages(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdAddCritStage(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdSetSick(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdCureMajorSick(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdCureSick(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdMemberIn(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdSetPokeType(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_CmdCureSickMulti(struct BtlClient *client, int *seq, u32 *args);
+int BTL_CLIENT_StepConsumeHeldItem(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRecordMoveUse(BtlClient *client, int *state, const u32 *args);
+int BTL_CLIENT_StepSetContFlag(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearContFlag(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetTurnFlag(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearTurnFlag(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetAbility(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetItem(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepReplaceMove(BtlClient *client, int *state, const u32 *args);
+int BTL_CLIENT_StepResetEffectsOnSwitchOut(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRegisterFieldSlot(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepAddFieldSlotHolder(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRemoveFieldHolder(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepRemoveFieldSlot(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetPokeCounter(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepPassEffects(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetSubstituteHp(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearSubstitute(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepAddClientPoints(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepUpdateIllusion(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepClearConsumedItem(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepCureSickBySource(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepAddHitRecord(BtlClient *client, int *state, const u32 *args);
+int BTL_CLIENT_StepAdvanceTurn(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepTickFieldSlots(BtlClient *client);
+int BTL_CLIENT_StepSetStat(BtlClient *client, int *state, u32 *args);
+int BTL_CLIENT_StepSetWeight(BtlClient *client, int *state, u32 *args);
+u8 BTL_CLIENT_GetClientId(BtlClient *client);
+void *BTL_CLIENT_GetSideData(BtlClient *client);
+u8 BTL_CLIENT_GetFieldCountdownByte(BtlClient *client);
+u8 BTL_CLIENT_GetPointCounter(BtlClient *client);
+void BTL_CLIENT_LoadTrainerItems(BtlClient *client);
+u32 BTL_CLIENT_TakeTrainerItemToUse(BtlClient *client, struct BtlPokeParam *mon, void *party);
+int BTL_CLIENT_IsStatItemUsable(u32 itemId, struct BtlPokeParam *mon);
+int BTL_CLIENT_IsSickItemUsable(u32 itemId, struct BtlPokeParam *mon);
+void BTL_CLIENT_ResetCounter(BtlClientCounter *counter);
+void BTL_CLIENT_SetCounterMaximum(BtlClientCounter *counter, u32 v);
+int BTL_CLIENT_IsCounterFadeDone(BtlClientCounter *counter);
+void BTL_CLIENT_RequestCounterAdvance(BtlClientCounter *counter);
+u8 BTL_CLIENT_GetCounterMode(BtlClientCounter *counter);
+void BTL_CLIENT_StartCounterReplay(BtlClientCounter *counter, u16 v);
+void BTL_CLIENT_StopCounterReplay(BtlClientCounter *counter);
+int BTL_CLIENT_IsCounterReplayDone(BtlClientCounter *counter);
+u16 BTL_CLIENT_GetCounterTarget(BtlClientCounter *counter);
+int BTL_CLIENT_TryLockCounter(BtlClientCounter *counter);
+void BTL_CLIENT_UnlockCounter(BtlClientCounter *counter);
+void BTL_CLIENT_DisableCounter(BtlClientCounter *counter);
+void BTL_CLIENT_TickCounter(BtlClient *client, BtlClientCounter *counter);
 extern struct Unk021EFD70 gBtlPosTables[];
 extern struct T6 gEffortValueStatTable[];
 extern struct SizeEntry gHandExRecordSizeTable[0x3B];
@@ -1548,6 +1747,12 @@ extern u16 gEffortValueParams[];
 extern union DView gExpGainWork;
 extern struct StateData sLevelUpMoveScan;
 extern const u16 gCatchShakeMessages[];
+extern u8 gBtlClientItemSlotLimits[];
+extern BtlClientItemStatCheck gBtlClientItemStatChecks[];
+extern BtlClientItemSickCheck gBtlClientItemSickChecks[];
+extern const char gBtlNetSourceName[];
+extern const char gBtlPokeparamFileName[];
+extern const u32 gSemiInvulnerableContFlags[4];
 
 BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId)
 {
@@ -1589,12 +1794,12 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     *(u32 *)&client->battleField = BTL_MAIN_GetField(battleMain);
     client->isComm = isCommBattle;
     BTL_CLIENT_SET_Clear((u8 *)&client->cursor);
-    func_021D3F04(client->commandQueue);
-    func_021D3D9C((u8 *)client);
+    BTL_CLIENT_ResetCounter(&client->counter);
+    BTL_CLIENT_LoadTrainerItems(client);
     client->rng = *rngInit;
     if (client->kind == 1 && isReplay == 0) {
         recordKey = BTL_MAIN_GetTrainerAiFlags(client->main, client->clientId);
-        client->recorder = func_02187F00(client->main, BTL_MAIN_GetServerFlow(client->main), (u32)client->side, recordKey, client->heapId);
+        client->recorder = TR_AI_Create(client->main, BTL_MAIN_GetServerFlow(client->main), (u32)client->side, recordKey, client->heapId);
     } else {
         client->recorder = 0;
     }
@@ -1607,196 +1812,51 @@ BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int ne
     return client;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_Delete(BtlClient *client) {
  if(client->timeLimitTimer)BTL_REC_DeleteBuffer(client->timeLimitTimer);
- if(client->recorder)func_02188080(client->recorder);
+ if(client->recorder)TR_AI_Delete(client->recorder);
  func_020307B0(client->workBuffer);
  BTL_ADAPTER_Delete(client->netChannel);
  func_020307B0(client);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_MarkCommandIssued(BtlClient *client) {*(u8 *)&client->flags|=2;}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 u16 *BTL_CLIENT_ReadRecorderEntry(BtlClient *client, u32 *out) { if (client->timeLimitTimer) return BTL_REC_ReadEntry(client->timeLimitTimer,out); return 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Prototype: 021D3F48 stores only r1 low16; caller forwards full getter
  * result without truncation, so its extern argument is widened to u32.
  */
-void BTL_CLIENT_AttachRemoteLink(BtlClient *client, void *a) { client->kind=2; client->remoteLink=a; func_021D3F48(client->commandQueue,BTL_REC_CountFlaggedRecords(a)); }
-
-
-
-
-
-
-
-
-
-
-
-
-
+void BTL_CLIENT_AttachRemoteLink(BtlClient *client, void *a) { client->kind=2; client->remoteLink=a; BTL_CLIENT_SetCounterMaximum(&client->counter,BTL_REC_CountFlaggedRecords(a)); }
 
 /*
  * Stores the second argument (a u32) into the field at #0x54.
  */
 void BTL_CLIENT_SetView(BtlClient *client, u32 v) { *(u32 *)&client->view = v; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_SetRequestParam(BtlClient *client, u32 v) {
     client->requestParam = v;
     *(u8 *)&client->flags |= 8;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Reads the u32 field at #0x50 of the argument and returns it.
  */
 u32 BTL_CLIENT_GetNetChannel(BtlClient *client) { return (u32)client->netChannel; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: push {r3, lr}; ldr r1, [r0, #0x28]; blx r1; pop {r3, pc}.
  */
 void BTL_CLIENT_RunTick(BtlClient *client) { client->tickFn(client); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Prototype: 021CDA0C stores its r1 payload unchanged at +0x28; caller
  * passes a callback address. Pointer replaces legacy u32 for that payload.
  */
-void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n) { BTL_REC_ResetReader(client->remoteLink); BTL_ADAPTER_ClearRecvHeader(client->netChannel); func_021D3F64(client->commandQueue,n); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepRemote); }
+void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n) { BTL_REC_ResetReader(client->remoteLink); BTL_ADAPTER_ClearRecvHeader(client->netChannel); BTL_CLIENT_StartCounterReplay(&client->counter,n); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepRemote); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void BTL_CLIENT_StartMainStep(BtlClient *client) { func_021D3F88(client->commandQueue); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepMain); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void BTL_CLIENT_StartMainStep(BtlClient *client) { BTL_CLIENT_StopCounterReplay(&client->counter); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepMain); }
 
 /* 021CD9C8  byte field 0x1a7 == 2 */
 /*
@@ -1807,37 +1867,10 @@ u32 BTL_CLIENT_IsRemote(BtlClient *client)
     return (client->kind == 2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Reads the u16 field at #0x22 of the argument and returns it.
  */
-u16 BTL_CLIENT_GetQueuedCommandWord(BtlClient *client) { return *(u16 *)&client->commandQueue[10]; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+u16 BTL_CLIENT_GetQueuedCommandWord(BtlClient *client) { return client->counter.maximum; }
 
 /* 021CD9E0  function-pointer slot 0x28 compared with 0x021CDC0D */
 /*
@@ -1848,36 +1881,11 @@ u32 BTL_CLIENT_IsMainStepActive(BtlClient *client)
     return ((unsigned int)client->tickFn == 0x021CDC0D);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * u8 step preserves the low-byte result for every incoming word; no
  * signed int addition overflow. Wide step emits an extra narrowing pair.
  */
 void BTL_CLIENT_AddPoints(BtlClient *client, u8 n) { client->pointCounter+=n; if(client->pointCounter>14) client->pointCounter=14; }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v)
 {
@@ -1885,24 +1893,12 @@ void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v)
     client->stepPhase = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepMain(BtlClient *client)
 {
     u32 id, *pair, x, y;
     int flag;
     u16 n;
-    func_021D3FDC((u8 *)client,(struct Qd *)client->commandQueue);
+    BTL_CLIENT_TickCounter(client,&client->counter);
     switch (client->stepPhase) {
     case 0:
         id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
@@ -1918,8 +1914,8 @@ int BTL_CLIENT_StepMain(BtlClient *client)
         } else if (id) {
             client->stepFn = BTL_CLIENT_FindCommandStepFn(client,id,&flag);
             if (flag) {
-                if (!func_021D3FAC(client->commandQueue)) { client->stepPhase = 6; break; }
-            } else func_021D3FC4(client->commandQueue);
+                if (!BTL_CLIENT_TryLockCounter(&client->counter)) { client->stepPhase = 6; break; }
+            } else BTL_CLIENT_UnlockCounter(&client->counter);
             if (client->stepFn) {
                 client->stepPhase = 1;
                 client->stepState = 0;
@@ -1932,7 +1928,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
     case 1:
         if ((client->stepFn)(client,&client->stepState)) {
             if (client->flags.bit.commandIssued) return 1;
-            if (func_021D3F4C(client->commandQueue)) client->stepPhase = 4;
+            if (BTL_CLIENT_IsCounterFadeDone(&client->counter)) client->stepPhase = 4;
             else client->stepPhase = 2;
         }
         break;
@@ -1945,10 +1941,10 @@ int BTL_CLIENT_StepMain(BtlClient *client)
         if (client->flags.bit.commandIssued) return 1;
         break;
     case 6:
-        if (func_021D3F4C(client->commandQueue)) client->stepPhase = 4;
+        if (BTL_CLIENT_IsCounterFadeDone(&client->counter)) client->stepPhase = 4;
         break;
     case 4:
-        if (func_021D3F60(client->commandQueue) == 1) client->stepPhase = 7;
+        if (BTL_CLIENT_GetCounterMode(&client->counter) == 1) client->stepPhase = 7;
         else {
             if (client->view) { GFL_USE_SetPlayersAudible(1,62); PM_VOICE_ResetMasterVolume(); }
             client->stepPhase = 5;
@@ -1956,7 +1952,7 @@ int BTL_CLIENT_StepMain(BtlClient *client)
         break;
     case 5:
         if (!GFL_USE_IsBgmFading()) {
-            n = func_021D3FA8(client->commandQueue);
+            n = BTL_CLIENT_GetCounterTarget(&client->counter);
             GFL_USE_SetPlayersAudible(0,1);
             BTL_MAIN_RestartBattle(client->main,n);
             PM_VOICE_SetMasterVolume(0);
@@ -1968,18 +1964,6 @@ int BTL_CLIENT_StepMain(BtlClient *client)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * extent: The store-and-return follower at 0x021CDD34 is included here;
  * the larger lookup follower at 0x021CDD50 has its own verified shard.
@@ -1989,12 +1973,12 @@ int BTL_CLIENT_StepRemote(BtlClient *client)
     u32 id;
     u16 n;
     int zero;
-    func_021D3FDC((u8 *)client,(struct Qd *)client->commandQueue);
+    BTL_CLIENT_TickCounter(client,&client->counter);
     switch (client->stepPhase) {
     case 0:
         client->stepPhase = 1;
     case 1:
-        if (!func_021D3F98(client->commandQueue)) {
+        if (!BTL_CLIENT_IsCounterReplayDone(&client->counter)) {
             id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
             if (id) {
                 zero = 0;
@@ -2034,7 +2018,7 @@ int BTL_CLIENT_StepRemote(BtlClient *client)
         if (client->view) {
             if (BTLV_CORE_GetWaitState(client->view)) {
                 if (!GFL_USE_IsBgmFading()) {
-                    n = (int)func_021D3FA8(client->commandQueue);
+                    n = (int)BTL_CLIENT_GetCounterTarget(&client->counter);
                     BTLV_CORE_SetCounterDisplay(client->view,n,n);
                     BTL_MAIN_StartClientMainSteps(client->main);
                 }
@@ -2046,36 +2030,12 @@ int BTL_CLIENT_StepRemote(BtlClient *client)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_ResetSendWord(BtlClient *client)
 {
     client->sendFlag = 0;
     client->sendData = (u8 *)&client->sendFlag;
     client->sendSize = 4;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *outFlag)
 {
@@ -2089,35 +2049,10 @@ BtlClientStepFn BTL_CLIENT_FindCommandStepFn(BtlClient *client, u32 id, int *out
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_GetCursor(BtlClient *client, int *outCursor)
 {
     *(BtlClientPoint *)outCursor = client->cursor;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * unresolved THM_CALL at +0x14. Region hint ov094 does not supply a witness.
@@ -2125,37 +2060,13 @@ void BTL_CLIENT_GetCursor(BtlClient *client, int *outCursor)
  */
 int BTL_CLIENT_IsWindowWaiting(BtlClient *client) { if(client->kind!=2) { if(client->timeElapsed) return func_021F8524(0); return 0; } return client->flags.bit.windowOpen; }
 
-
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_IsWindowDone(BtlClient *client) { return client->flags.bit.windowDone; }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Levers (from the DIFF note): case 0 is the call written in each arm, `!= 4` arm first
  * (a-boolean-argument-is-a-call-in-each-arm.md; a flag value hoists `movs r1,#1`);
  * func_021F84E8 takes two arguments as its own file says, the second being the 0xe4
- * halfword still live in r1 from the || test; func_021D3FA8 is declared u32 here because
+ * halfword still live in r1 from the || test; BTL_CLIENT_GetCounterTarget is declared u32 here because
  * the original narrows its result before the u16 parameter of BTLV_CORE_ShowCounterValue.
  */
 int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
@@ -2183,24 +2094,12 @@ int BTL_CLIENT_StepOpenBattleWindow(BtlClient *client, int *state)
         }
         BTL_CLIENT_StoreMonParam(client);
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
-            BTLV_CORE_ShowCounterValue(client->view, (u16)((u32)func_021D3FA8(client->commandQueue)));
+            BTLV_CORE_ShowCounterValue(client->view, (u16)((u32)BTL_CLIENT_GetCounterTarget(&client->counter)));
         }
         return 1;
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
 {
@@ -2209,7 +2108,7 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
         r4 = BTL_CLIENT_StepOpenBattleWindow(client, (int *)b);
         if (r4 != 0) {
             if (BTL_REC_ReadSkipFlag((int)client->remoteLink, client->clientId) != 0)
-                func_021D3F54(client->commandQueue);
+                BTL_CLIENT_RequestCounterAdvance(&client->counter);
         }
         return r4;
     }
@@ -2217,58 +2116,15 @@ int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
 
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=BTL_CLIENT_GetLeadPartyMon(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Prototype: original narrows getter result to u8 before 021B9920;
  * caller extern has u8 second argument; named u8 local keeps shift in r0.
  */
 void *BTL_CLIENT_GetLeadPartyMon(BtlClient *client) { u8 side; if(BTL_MAIN_GetRule(client->main)==0 && BTL_MAIN_GetCommPos(client->main)==0) { side=BTL_MAIN_GetOpponentClient(client->main,client->clientId,0); return BTL_SIDE_GetClientPoke(client->side,side,0); } return 0; }
-
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *state)
 {
@@ -2304,15 +2160,6 @@ int BTL_CLIENT_StepWindowModeSelect(BtlClient *client, int *state)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * Lever: each switch arm writes its own `mode = (u8)t;` before `break`. The copies are
@@ -2354,87 +2201,25 @@ u32 BTL_CLIENT_PickWindowMode(u32 mode)
     return mode;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_ReturnTrue(void)
 {
     return 1;
 }
 
-
-
-
-
-
-
-
-
 void BTL_CLIENT_StartWindowModeSend(BtlClient *client) { client->windowMode=BTL_CLIENT_PickWindowMode(client->windowMode); client->sendData=&client->windowMode; client->sendSize=1; }
 
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_StartTimeLimit(BtlClient *client) { if(client->timeLimit) { func_021F8504(1,1,1); client->limitReady=0; } }
-
-
-
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Same blocker as 021CDDA0: ov094 0x021F8524 needs a label/witness.
  */
 int BTL_CLIENT_PollTimeLimitReady(BtlClient *client) { if(client->timeLimit!=0) { if(client->limitReady==0) { if(func_021F8524(1)) client->limitReady=1; } return client->limitReady; } return 0; }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q) { if(BTL_CLIENT_PollTimeLimitReady(client)) { if(q) BTL_CLIENT_SetSubFn(client,q); return 1; } return 0; }
-
-
-
-
-
-
-
-
-
 
 void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) func_021F8504(1,0,0); }
 
-
-
-
-
-
-
-
-
-
-
-void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, u8 *mon, u8 *outMessage)
+void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, struct BtlPokeParam *mon, u8 *outMessage)
 {
     if (BTL_MAIN_GetRule(client->main) != 3) {
         func_021EAF18((struct L *)outMessage, 1, 0x45);
@@ -2447,26 +2232,7 @@ void BTL_CLIENT_BuildActionPromptMessage(BtlClient *client, u8 *mon, u8 *outMess
     }
 }
 
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_SetSubFn(BtlClient *client, void *q) { client->subFn=q; client->subState=0; }
-
-
-
-
-
-
-
-
-
-
 
 /* 021CE160  the receiver pointer is also the FIRST argument: the image keeps
  * r0 = p, puts p+0xd4 in r1 and the slot from [p+0xd0] in r2. */
@@ -2477,15 +2243,6 @@ u32 BTL_CLIENT_RunSubFn(BtlClient *client)
 {
     return client->subFn(client, &client->subState);
 }
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *state)
 {
@@ -2505,14 +2262,6 @@ u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *state)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
 {
     u8 wordCount;
@@ -2525,11 +2274,11 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
             return 1;
         }
         record = BTL_REC_ReadRecord(client->remoteLink,client->clientId,&wordCount,&skipFlag);
-        if (skipFlag) func_021D3F54(client->commandQueue);
+        if (skipFlag) BTL_CLIENT_RequestCounterAdvance(&client->counter);
         *(u32 * *)&client->sendData = record;
         client->sendSize = wordCount * 4;
         if (((Command *)record)->kind == 8) {
-            func_021D3FD0(client->commandQueue);
+            BTL_CLIENT_DisableCounter(&client->counter);
             if (client->view) {
                 func_021EAF18((struct L *)&client->messageA,1,0xb7);
                 BTLV_CORE_BuildAndPrintMessage(client->view,&client->messageA);
@@ -2541,7 +2290,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
             }
         } else if (((Command *)record)->kind == 9) {
             *(u8 *)&client->flags |= 0x20;
-            func_021D3FD0(client->commandQueue);
+            BTL_CLIENT_DisableCounter(&client->counter);
             if (client->view) {
                 func_021EAF18((struct L *)&client->messageA,1,0xb8);
                 BTLV_CORE_BuildAndPrintMessage(client->view,&client->messageA);
@@ -2569,24 +2318,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=(u8 *)client->actions; BTL_CALC_ActionSetNone(client->actions); client->sendData=client->actionCursor; client->sendSize=4; }
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
 {
@@ -2613,23 +2345,7 @@ u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void BTL_CLIENT_ShowMessage(BtlClient *client, void *q) { BTLV_CORE_BuildAndPrintMessage(client->view,q); client->redrawRequest=1; }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
 {
@@ -2666,12 +2382,6 @@ int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
     }
     return 0;
 }
-
-
-
-
-
-
 
 /*
  * note 2026-10-05 (wave P26 lane 2): byte-identical to the original except that two call
@@ -2765,7 +2475,7 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
                 if (!BTL_CLIENT_IsActionForced((u8 *)client, BTL_SIDE_GetClientPokeParam((client->side), ((struct L *)client)->sel, ((struct L *)client)->idx), 0)) {
                     client->pointCounter += BTL_CLIENT_GetSlotFlag(client, client->slotIndex);
                     if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 3)
-                        func_0689CB08(client->choiceFlags);
+                        BTL_PICK_Pop(client->choiceFlags);
                     if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 2)
                         BTL_CLIENT_FlushSlotLinkWord(client, client->slotIndex);
                     BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
@@ -2793,15 +2503,6 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
 {
@@ -2847,27 +2548,11 @@ u32 BTL_CLIENT_StepShowSupportItemMessage(BtlClient *client, int *state)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 static inline void initOffset(Off *value)
 {
     *value = OFFSET;
     *value -= 0x88;
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: Six ordinary int offsets each receive 0x19a then 0x112;
@@ -2942,14 +2627,6 @@ u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
 fail:
     return 0;
 }
-
-
-
-
-
-
-
-
 
 /*
  * witnesses: four ov093 blocker leaves 021E98AC, 021E98B4,
@@ -3061,13 +2738,6 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
     return 0;
 }
 
-
-
-
-
-
-
-
 void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out)
 {
     u32 memberIndex;
@@ -3095,13 +2765,6 @@ void BTL_CLIENT_BuildMoveUsableTable(BtlClient *client, Ent_021CECB4 *out)
         }
     }
 }
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st)
 {
@@ -3131,13 +2794,6 @@ u32 BTL_CLIENT_StepMoveHighlight(BtlClient *client, s32 *st)
     return 0;
 }
 
-
-
-
-
-
-
-
 u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st)
 {
     u8 trapperPokeId;
@@ -3160,8 +2816,8 @@ u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st)
             return canCancel;
         }
         if (BTLV_CORE_PollPartyMenu((u8 *)(client->view))) {
-            if (func_0689CB14(client->choiceFlags) == 0) {
-                chosenMember = func_0689CB1C(client->choiceFlags);
+            if (BTL_PICK_GetLocked(client->choiceFlags) == 0) {
+                chosenMember = BTL_PICK_GetLast(client->choiceFlags);
                 if (chosenMember < 6) {
                     BTL_ACTION_SetChange(client->actionCursor, client->slotIndex, chosenMember);
                     BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
@@ -3178,32 +2834,10 @@ u32 BTL_CLIENT_StepSelectSwitchTarget(BtlClient *client, int *st)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 static inline u8 isSameSlotIndex(BtlClient *client)
 {
     return client->slotIndex == client->slotsDone ? 1 : 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: u16 b/d retain the spilled reload and narrow only at the u8 call;
@@ -3244,7 +2878,7 @@ u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st)
                 BTL_CLIENT_SetSlotFlag(client, client->slotIndex, pointCost);
                 BTL_ACTION_SetItem((void *)client->actionCursor, itemId, (u8)itemPocket, (u8)itemTarget);
                 BTLV_CORE_SaveBagCursors(client->view);
-                if (func_021D805C((void *)itemId, 0xf) == 4) *(u8 *)&client->flags |= 4;
+                if (BTL_CALC_GetItemParam((void *)itemId, 0xf) == 4) *(u8 *)&client->flags |= 4;
                 BTL_CLIENT_SetSlotLinkWord(client, client->slotIndex, itemId);
                 BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             } else BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepSelectAction));
@@ -3256,17 +2890,6 @@ u32 BTL_CLIENT_StepSelectItem(BtlClient *client, int *st)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_IsLoneFoeSemiInvulnerable(BtlClient *client)
 {
@@ -3301,16 +2924,6 @@ u32 BTL_CLIENT_IsLoneFoeSemiInvulnerable(BtlClient *client)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
 {
@@ -3390,16 +3003,6 @@ u32 BTL_CLIENT_StepSelectRun(BtlClient *client, u32 *st)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_StepAdvanceSlot(BtlClient *client, int *st)
 {
     u8 actionCount;
@@ -3437,17 +3040,6 @@ u32 BTL_CLIENT_StepAdvanceSlot(BtlClient *client, int *st)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st)
 {
     switch (*st) {
@@ -3479,39 +3071,9 @@ u32 BTL_CLIENT_StepSendActions(BtlClient *client, s32 *st)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client) { u32 i; for(i=0;i<3;i++) client->slotLinkWords[i]=0; }
 
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==BTL_MAIN_GetOwnClientId(client->main)) { client->slotLinkWords[i]=v; BTL_MAIN_AddItemToBag(client->main,client->clientId,v); } } }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: BTL_MAIN_SubItemFromBag consumes the live r2 halfword as its third argument;
@@ -3531,38 +3093,9 @@ void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_FlushSlotLinkWords(BtlClient *client) { u32 i; if(client->isComm==0) for(i=0;i<3;i++) BTL_CLIENT_FlushSlotLinkWord(client,(u8)i); }
 
-
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { MI_CpuFill8(client->slotFlags,0,3); }
-
-
-
-
-
-
-
-
-
 
 /*
  * follower: unlabelled byte accessor at 0x021CF43C.
@@ -3572,28 +3105,10 @@ void BTL_CLIENT_SetSlotFlag(BtlClient *client, u32 i, u32 v)
     client->slotFlags[i] = v;
 }
 
-
-
-
-
-
-
-
-
-
 u8 BTL_CLIENT_GetSlotFlag(BtlClient *client, u32 i)
 {
     return client->slotFlags[i];
 }
-
-
-
-
-
-
-
-
-
 
 u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client)
 {
@@ -3606,16 +3121,6 @@ u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client)
     for (; i < n; i++) sum += client->slotFlags[i];
     return sum;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_IsActionForced(u8 *client, void *mon, u8 *outAction)
 {
@@ -3657,16 +3162,6 @@ u32 BTL_CLIENT_IsActionForced(u8 *client, void *mon, u8 *outAction)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *mon, u32 outAction)
 {
     u32 moveCount = BTL_POKEPARAM_GetMoveCount(mon);
@@ -3686,30 +3181,12 @@ u32 BTL_CLIENT_SetStruggleIfNoMoves(BtlClient *client, void *mon, u32 outAction)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, BtlClient *client, void *mon)
 {
     u32 target;
     target = BTL_CALC_PeekMoveTarget(client->main, client->side, mon, 165, client->actionResult);
     BTL_ACTION_SetFight(out, 165, target);
 }
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, void *outMessage)
 {
@@ -3791,16 +3268,6 @@ int BTL_CLIENT_IsMoveSelectionBlocked(BtlClient *client, void *mon, u32 move, vo
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *mon, u8 *out)
 {
     u8 moveCount = BTL_POKEPARAM_GetMoveCount(mon);
@@ -3822,15 +3289,6 @@ u32 BTL_CLIENT_BuildUsableMoveMask(BtlClient *client, void *mon, u8 *out)
     return firstUsable;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *mon)
 {
     if (BTL_FIELD_IsSlotInUse(client->battleField, 7)) return 0;
@@ -3838,16 +3296,6 @@ int BTL_CLIENT_IsHeldItemEffective(BtlClient *client, void *mon)
     if (func_021D59B4(mon, 17) != 103) return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
@@ -3865,16 +3313,6 @@ u32 BTL_CLIENT_GetEscapeBlocker(BtlClient *client, void *mon, u8 *outBlockerPoke
     }
     return result;
 }
-
-
-
-
-
-
-
-
-
-
 
 u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
@@ -3899,21 +3337,12 @@ u32 BTL_CLIENT_GetEscapeBlockerForSide(BtlClient *client, u8 *outBlockerPokeId, 
     return 4;
 }
 
-
-
-
-
-
-
-
-
-
 u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u16 *outBlockerAbility)
 {
     u8 foeSlots[4];
     u8 foeCount;
     u8 i;
-    u8 *foe;
+    struct BtlPokeParam *foe;
     u16 foeAbility;
     foeCount = BTL_MAIN_CollectLivingPokeIds(client->main, (int)client->side, (u16)(BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_POKEPARAM_GetPokeId(mon)) | 0x100), foeSlots);
     for (i = 0; i < foeCount; i++) {
@@ -3944,30 +3373,11 @@ u32 BTL_CLIENT_FindTrapper(BtlClient *client, void *mon, u8 *outBlockerPokeId, u
     return 4;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_CanShadowTagTrap(void *client, void *mon)
 {
     if (func_021D59B4(mon, 17) != 23) return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *mon)
 {
@@ -3995,15 +3405,6 @@ int BTL_CLIENT_CanArenaTrapTrap(BtlClient *client, void *mon)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * extent: follower 0x021CFBA4 already has its own matched source/shard.
  */
@@ -4012,15 +3413,6 @@ int BTL_CLIENT_CanMagnetPullTrap(void *client, void *mon)
     if (BTL_POKEPARAM_HasType(mon, 8)) return 1;
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * semantic: signed byte -1 has the original stored bits 0xff. The body
@@ -4033,14 +3425,6 @@ void BTL_CLIENT_ClearSlotOrder(BtlClient *client)
     for (; i < 6; i++) client->slotOrder[i] = fill;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v)
 {
     u32 i = 0;
@@ -4050,26 +3434,10 @@ int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v)
 {
     if (i < 6) client->slotOrder[i] = v;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot, u8 *outMember)
 {
@@ -4077,7 +3445,7 @@ int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot,
     u8 trapperPokeId;
     u16 trapperAbility;
     u8 candidates[6];
-    u8 *foe;
+    struct BtlPokeParam *foe;
     u32 candidateCount;
     u32 i;
     u8 shouldSwitch;
@@ -4086,7 +3454,7 @@ int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot,
     if (BTL_SLOT_CountLiving(client->sideData) <= client->slotCount) return 0;
     foe = BTL_CLIENT_PickRandomFoe(client, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, BTL_POKEPARAM_GetPokeId(mon)));
     if (!foe) return 0;
-    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)foe))
+    if (BTL_POKEPARAM_IsIllusionActive(foe))
         foe = BTL_MAIN_ResolveIllusionPoke(client->main, client->side, foe);
     if (BTL_CLIENT_IsCountdownEndingNext(client, mon)) shouldSwitch = 1;
     else if (BTL_CLIENT_ShouldSwitchVsWonderGuard(client, mon, foe)) shouldSwitch = 1;
@@ -4113,15 +3481,7 @@ int BTL_CLIENT_ChooseAiSwitchTarget(BtlClient *client, void *mon, u32 orderSlot,
     return 1;
 }
 
-
-
-
-
-
-
-
-
-u8 *BTL_CLIENT_PickRandomFoe(BtlClient *client, int positionId)
+struct BtlPokeParam *BTL_CLIENT_PickRandomFoe(BtlClient *client, int positionId)
 {
     u8 foeSlots[4];
     u8 foeCount;
@@ -4139,13 +3499,6 @@ u8 *BTL_CLIENT_PickRandomFoe(BtlClient *client, int positionId)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * lever: explicit aggregate return local reserves the original eight-byte frame;
@@ -4166,14 +3519,6 @@ int BTL_CLIENT_IsCountdownEndingNext(void *client, void *mon)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *mon, void *foe)
 {
     if (BTL_MAIN_GetRule(client->main) != 0)
@@ -4187,13 +3532,6 @@ int BTL_CLIENT_ShouldSwitchVsWonderGuard(BtlClient *client, void *mon, void *foe
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 /*
  * extent: two zero padding bytes at 0x021CFFAA, followed by labelled BTL_CLIENT_ShouldSwitchWhileLocked.
@@ -4229,12 +3567,6 @@ int BTL_CLIENT_ShouldSwitchNoEffectiveMove(BtlClient *client, void *mon, void *f
     return 0;
 }
 
-
-
-
-
-
-
 int BTL_CLIENT_ShouldSwitchWhileLocked(BtlClient *client, void *mon, void *target)
 {
     u32 id;
@@ -4265,12 +3597,6 @@ int BTL_CLIENT_ShouldSwitchWhileLocked(BtlClient *client, void *mon, void *targe
     }
     return 0;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_FindSwitchFromHitHistory(BtlClient *client, void *mon, void *target, u8 *out)
 {
@@ -4304,13 +3630,6 @@ int BTL_CLIENT_FindSwitchFromHitHistory(BtlClient *client, void *mon, void *targ
     return 0;
 }
 
-
-
-
-
-
-
-
 int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *mon, u8 *out)
 {
     u16 hitRecord[4];
@@ -4333,12 +3652,6 @@ int BTL_CLIENT_FindNaturalCureSwitch(BtlClient *client, void *mon, u8 *out)
     }
     return 0;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *target, u8 *out)
 {
@@ -4383,13 +3696,6 @@ int BTL_CLIENT_FindSwitchByTypeMatchup(BtlClient *client, void *mon, void *targe
     return 0;
 }
 
-
-
-
-
-
-
-
 int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 ability, u8 *outMember)
 {
     u32 n;
@@ -4410,13 +3716,6 @@ int BTL_CLIENT_FindMemberWithAbility(BtlClient *client, u16 ability, u8 *outMemb
     return 0;
 }
 
-
-
-
-
-
-
-
 int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *target, int minAffinity)
 {
     u32 n;
@@ -4432,13 +3731,6 @@ int BTL_CLIENT_AnyMemberHasMoveVsTarget(BtlClient *client, void *target, int min
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 attackType, int maxAffinity, u8 *outMember)
 {
@@ -4459,13 +3751,6 @@ int BTL_CLIENT_FindMemberResistingType(BtlClient *client, u8 attackType, int max
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *mon, void *target, int minAffinity)
 {
@@ -4488,13 +3773,6 @@ int BTL_CLIENT_HasMoveWithAffinityVsTarget(BtlClient *client, void *mon, void *t
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 u8 BTL_CLIENT_PickRotationPosition(BtlClient *client)
 {
@@ -4521,12 +3799,6 @@ u8 BTL_CLIENT_PickRotationPosition(BtlClient *client)
     }
     return 1;
 }
-
-
-
-
-
-
 
 /*
  * lever: nested one-word aggregate return removes its extra frame word;
@@ -4563,7 +3835,7 @@ int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
             goto complete;
         }
         if (BTL_CLIENT_IsActionForced((u8 *)client,(client->activeMon),(client->actionCursor))) goto complete;
-        moveOrItem = func_021D3DC4((u8 *)client,(client->activeMon),client->sideData);
+        moveOrItem = BTL_CLIENT_TakeTrainerItemToUse(client,(client->activeMon),client->sideData);
         if (moveOrItem) {
             BTL_ACTION_SetItem((u32 *)(client->actionCursor),moveOrItem,client->slotIndex,0);
             goto complete;
@@ -4593,7 +3865,7 @@ int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
         moveSlot = BTL_CLIENT_BuildUsableMoveMask(client,(client->activeMon),moveAvailability);
         if (moveSlot != 4) {
             target = BTL_MAIN_GetTrainerSlotOfPoke(client->main,client->side,BTL_POKEPARAM_GetPokeId((client->activeMon)));
-            func_021880BC((int)client->recorder,moveAvailability,target);
+            TR_AI_Start((int)client->recorder,moveAvailability,target);
             *state = 2;
         } else {
             BTL_CLIENT_SetStruggleAction((struct Unk021D82D0 *)((u32)(client->actionCursor)),client,(client->activeMon));
@@ -4601,10 +3873,10 @@ int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
         }
         break;
     case 2:
-        if (func_02187FB0(client->recorder)) break;
-        moveSlot = func_02188134(client->recorder);
+        if (TR_AI_Think(client->recorder)) break;
+        moveSlot = TR_AI_GetChosenMove(client->recorder);
         if (moveSlot != 4) {
-            targetOrPosition = func_02188140(client->recorder);
+            targetOrPosition = TR_AI_GetChosenTarget(client->recorder);
             moveOrItem = BTL_POKEPARAM_GetMoveId((client->activeMon),moveSlot);
             BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),moveOrItem,targetOrPosition);
         } else func_021D8414((u32 *)(client->actionCursor));
@@ -4627,13 +3899,6 @@ complete:
     return 0;
 }
 
-
-
-
-
-
-
-
 u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *ableIndexes)
 {
     u32 partySize;
@@ -4652,10 +3917,6 @@ u8 BTL_CLIENT_ListAbleMons(BtlClient *client, u8 *ableIndexes)
     }
     return ableCount;
 }
-
-
-
-
 
 /*
  * pass 6 2026-10-06 P6L01: EXACT* (302 B code plus 2 B pad), also EXACT* under -lang c99. The
@@ -4722,22 +3983,12 @@ void BTL_CLIENT_SortMonsByMovePower(BtlClient *client, u8 *partyOrder, u8 orderC
     }
 }
 
-
-
-
-
 void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out)
 {
-    func_0689CA98(q, (unsigned int)client->sideData, b, a);
-    func_0689CAB0(q, client->slotCount);
-    func_0689CAE0(out, q);
+    BTL_PICK_InitSlotChoices(q, (unsigned int)client->sideData, b, a);
+    BTL_PICK_MarkSlotsSelectable(q, client->slotCount);
+    BTL_PICK_InitList(out, q);
 }
-
-
-
-
-
-
 
 void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *choice)
 {
@@ -4748,11 +3999,6 @@ void BTL_CLIENT_SetChangeActionsFromChoice(BtlClient *client, u8 *choice)
     client->sendData = (u8 *)client->actions;
     client->sendSize = choice[6] << 2;
 }
-
-
-
-
-
 
 void BTL_CLIENT_SetChangeActionsFirstAble(BtlClient *client)
 {
@@ -4779,12 +4025,6 @@ void BTL_CLIENT_SetChangeActionsFirstAble(BtlClient *client)
     client->sendSize = actionCount * 4;
 }
 
-
-
-
-
-
-
 u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *ownIds)
 {
     u8 *receivedIds;
@@ -4803,12 +4043,6 @@ u8 BTL_CLIENT_CollectOwnReceivedIds(BtlClient *client, u8 *ownIds)
     }
     return ownCount;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state)
 {
@@ -4839,28 +4073,15 @@ int BTL_CLIENT_StepAskYesNo(BtlClient *client, int *state)
     return 0;
 }
 
-
-
-
-
 int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state)
 {
     return BTL_CLIENT_StepChooseReplacement(client, state, 2);
 }
 
-
-
-
-
 int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state)
 {
     return BTL_CLIENT_StepChooseReplacement(client, state, 1);
 }
-
-
-
-
-
 
 /*
  * lever: separate order[6] then pair[2] stack arrays keep the order base
@@ -4876,7 +4097,7 @@ int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client)
     u8 changeCount;
     u8 ableCount;
     u8 i;
-    u8 *targetMon;
+    struct BtlPokeParam *targetMon;
     int rotateSize;
     client->pairCount = BTL_CLIENT_CollectOwnReceivedIds(client, client->pairs);
     if (client->pairCount) {
@@ -4923,20 +4144,10 @@ int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client)
     return 1;
 }
 
-
-
-
-
-
 int BTL_CLIENT_StepForwardToSubFn(BtlClient *client, int *state)
 {
     return BTL_CLIENT_StepPlaybackRecordedAction(client,state);
 }
-
-
-
-
-
 
 /*
  * lever: the state-0 fallbacks and single-mon path set state 4, not 6;
@@ -5033,11 +4244,6 @@ int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 choiceMod
     return 0;
 }
 
-
-
-
-
-
 /*
  * extent: compiled 42 bytes followed by two zero alignment bytes.
  */
@@ -5046,12 +4252,6 @@ int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client)
     if (BTL_MAIN_GetRule(client->main) == 3 && BTL_POKEPARAM_IsFainted(BTL_SLOT_GetPokeParam(client->sideData, 0)) != 0) return 1;
     return 0;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *action)
 {
@@ -5069,8 +4269,6 @@ int BTL_CLIENT_TrySetRotateAction(BtlClient *client, void *action)
     }
     return 0;
 }
-
-
 
 int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state)
 {
@@ -5111,8 +4309,8 @@ int BTL_CLIENT_StepAskSwitchBeforeSendOut(BtlClient *client, int *state)
         break;
     case 3:
         if (BTLV_CORE_PollPartyMenu(client->view) != 0) {
-            if (func_0689CB14(client->choiceFlags) == 0) {
-                chosenIndex = func_0689CB1C(client->choiceFlags);
+            if (BTL_PICK_GetLocked(client->choiceFlags) == 0) {
+                chosenIndex = BTL_PICK_GetLast(client->choiceFlags);
                 if (chosenIndex != 0 && chosenIndex < 6) {
                     BTL_ACTION_SetChange(client->actions, 0, chosenIndex);
                     *state = 5;
@@ -5134,16 +4332,6 @@ invalid:
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_RecordReceivedPacket(BtlClient *client)
 {
     u8 *packet;
@@ -5157,15 +4345,6 @@ int BTL_CLIENT_RecordReceivedPacket(BtlClient *client)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
 /*
  * extent: compiled 18 bytes followed by two zero alignment bytes.
  * interface: r2 loads p+0x54 before bl; retained as third argument even where callee does not read it.
@@ -5177,14 +4356,6 @@ int BTL_CLIENT_StepShowResultIfView(BtlClient *client, int *state)
     if (q != 0) return BTL_CLIENT_StepShowResultMessage(client, state, q);
     return 1;
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: the 0x1B2 bit5 test is a byte bitfield, not a shifted integer mask.
@@ -5240,14 +4411,6 @@ int BTL_CLIENT_StepShowResultMessage(BtlClient *client, int *state, void *view)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_GetOutcomeForClient(BtlClient *client)
 {
     u16 *result;
@@ -5266,12 +4429,6 @@ int BTL_CLIENT_GetOutcomeForClient(BtlClient *client)
     return result[1];
 }
 
-
-
-
-
-
-
 int BTL_CLIENT_StepShowTrainerResultIfView(BtlClient *client, int *state)
 {
     void *q;
@@ -5279,16 +4436,6 @@ int BTL_CLIENT_StepShowTrainerResultIfView(BtlClient *client, int *state)
     if (q != 0) return BTL_CLIENT_StepShowTrainerResult(client, state, q);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
 {
@@ -5424,16 +4571,6 @@ int BTL_CLIENT_StepShowTrainerResult(BtlClient *client, int *state, void *view)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * extent: compiled 18 bytes followed by two zero alignment bytes.
  * interface: r2 loads p+0x54 before bl; retained as third argument even where callee does not read it.
@@ -5445,16 +4582,6 @@ int BTL_CLIENT_StepShowEndSpeechIfView(BtlClient *client, int *state)
     if (q != 0) return BTL_CLIENT_StepShowEndSpeech(client, state, q);
     return 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * lever: the 0x1B2 bit5 test is a byte bitfield, preserving the shift pair.
@@ -5514,16 +4641,6 @@ int BTL_CLIENT_StepShowEndSpeech(BtlClient *client, int *state, void *view)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
  * Verified C for it (match.py one --thumb, no --region, EXACT, 20 bytes):
  *   int PMSI_PARAM_IsEnabled(u16 *p) { return *p != 0xffff; }
@@ -5552,16 +4669,6 @@ void BTL_CLIENT_ShowEndSpeech(BtlClient *client, int outcome, int trainerSide)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state)
 {
     int a;
@@ -5587,16 +4694,6 @@ int BTL_CLIENT_StepShowPrizeMoneyMessage(BtlClient *client, int *state)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
 {
@@ -5639,16 +4736,6 @@ int BTL_CLIENT_StepShowBlackoutMessages(BtlClient *client, int *state)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state)
 {
     switch (*state) {
@@ -5667,14 +4754,6 @@ int BTL_CLIENT_StepShowFixedMessage(BtlClient *client, int *state)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepRunServerCommandsIfView(BtlClient *client, int *state)
 {
     void *q;
@@ -5682,14 +4761,6 @@ int BTL_CLIENT_StepRunServerCommandsIfView(BtlClient *client, int *state)
     if (q != 0) return BTL_CLIENT_StepRunServerCommands(client, state, q);
     return 1;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepRunServerCommands(BtlClient *client, int *state, void *view)
 {
@@ -5712,7 +4783,7 @@ again:
         }
         commandBuffer = client->workBuffer;
         packetLen = packetSize;
-        func_02082A90(packet, commandBuffer->buf, packetLen);
+        MIi_CpuCopy32(packet, commandBuffer->buf, packetLen);
         commandBuffer->wpos = packetLen;
         commandBuffer->rpos = 0;
         if (client->viewLocked != 0) {
@@ -5726,10 +4797,10 @@ again:
             *state = 4;
             return 1;
         }
-        if (func_021D3F4C(client->commandQueue) != 0) return 1;
+        if (BTL_CLIENT_IsCounterFadeDone(&client->counter) != 0) return 1;
         (*state)++;
     case 2:
-        commandCode = BTL_SERVER_CMD_ReadNext(client->workBuffer, (s32 *)client->seqCursorBuf);
+        commandCode = BTL_SERVER_CMD_ReadNext(client->workBuffer, (s32 *)client->seqArgs);
         client->seqCode = commandCode;
         if (commandCode == 0x5E) return 1;
         for (tableIndex = 0; tableIndex < 0x5D; tableIndex++) {
@@ -5743,7 +4814,7 @@ again:
         client->seqState = 0;
         (*state)++;
     case 3:
-        if ((client->seqFn)(client, &client->seqState, (s32 *)client->seqCursorBuf) != 0) {
+        if ((client->seqFn)(client, &client->seqState, (s32 *)client->seqArgs) != 0) {
             *state = 1;
             goto again;
         }
@@ -5753,13 +4824,6 @@ again:
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *args)
 {
@@ -5781,16 +4845,6 @@ int BTL_CLIENT_StepShowRecallMessage(BtlClient *client, int *state, int *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 targetClient, int *addTrainerName)
 {
@@ -5818,16 +4872,6 @@ int BTL_CLIENT_PickRecallMessageId(BtlClient *client, u8 targetClient, int *addT
     return 0x1f;
 }
 
-
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *args)
 {
     switch (*state) {
@@ -5843,14 +4887,6 @@ int BTL_CLIENT_StepPlayRecallAnim(BtlClient *client, int *state, int *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 static inline void showMessageWithIds(BtlClient *client, int code, u32 value, u32 id)
 {
     func_021EAF18((struct L *)&client->messageA, 1, code);
@@ -5858,14 +4894,6 @@ static inline void showMessageWithIds(BtlClient *client, int code, u32 value, u3
     func_021EAF50((struct L *)&client->messageA, id);
     BTLV_CORE_BuildAndPrintMessage(client->view, &client->messageA);
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: append-id and send are written in every message arm; the inline
@@ -5914,17 +4942,9 @@ int BTL_CLIENT_StepSendOutMon(BtlClient *client, int *state, const u32 *params)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_PickSendOutMessageId(BtlClient *client)
 {
-    u8 *leadMon;
+    struct BtlPokeParam *leadMon;
     u8 position;
     int hpRatio;
 
@@ -5947,14 +4967,6 @@ int BTL_CLIENT_PickSendOutMessageId(BtlClient *client)
     return 0xb;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -5973,14 +4985,6 @@ int BTL_CLIENT_StepShowSideMessage(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *args)
 {
@@ -6004,14 +5008,6 @@ int BTL_CLIENT_StepShowSideMessageWithSound(BtlClient *client, int *state, u32 *
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6030,14 +5026,6 @@ int BTL_CLIENT_StepShowTaggedMessage(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32 *args)
 {
@@ -6061,13 +5049,6 @@ int BTL_CLIENT_StepShowTaggedMessageWithSound(BtlClient *client, int *state, u32
     return 0;
 }
 
-
-
-
-
-
-
-
 int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6087,19 +5068,12 @@ int BTL_CLIENT_StepShowItemUseMessage(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * Unlabelled leaf (filed for the blocker of BTL_CLIENT_StepPlayMoveAnim, lane S15).
  */
 u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 moveId, u8 attackerId)
 {
-    u8 *attacker;
+    struct BtlPokeParam *attacker;
 
     if (moveId != 0xAE) {
         return WAZA_TOOL_GetParam(moveId, 0x1B);
@@ -6110,14 +5084,6 @@ u32 BTL_CLIENT_GetMoveAnimTarget(BtlClient *client, u32 moveId, u8 attackerId)
     }
     return WAZA_TOOL_GetParam(moveId, 0x1B);
 }
-
-
-
-
-
-
-
-
 
 /*
  * lever: word locals with casts at the four descriptor loads, t2 before v
@@ -6158,15 +5124,6 @@ int BTL_CLIENT_StepPlayMoveAnim(BtlClient *client, int *state, const u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *args)
 {
     u32 t;
@@ -6186,15 +5143,6 @@ int BTL_CLIENT_StepSetMonVisibility(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *args)
 {
     int t;
@@ -6213,15 +5161,6 @@ int BTL_CLIENT_StepPlayMonTaskAnim(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *args)
 {
@@ -6251,15 +5190,6 @@ int BTL_CLIENT_StepPlayMultiMonAnim(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6282,15 +5212,6 @@ int BTL_CLIENT_StepUpdateMonGaugeThenMessage(BtlClient *client, int *state, u32 
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *args)
 {
     int t;
@@ -6306,14 +5227,6 @@ int BTL_CLIENT_StepStartEffectForMon(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *args)
 {
@@ -6346,14 +5259,6 @@ int BTL_CLIENT_StepPlaySubstituteAnim(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepFaintMon(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6371,14 +5276,6 @@ int BTL_CLIENT_StepFaintMon(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepReviveMon(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6393,14 +5290,6 @@ int BTL_CLIENT_StepReviveMon(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *state, u32 *args)
 {
@@ -6423,14 +5312,6 @@ int BTL_CLIENT_StepPlayMonEffect262(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *state, u32 *args)
 {
     u32 t = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)(*args)));
@@ -6451,14 +5332,6 @@ int BTL_CLIENT_StepPlayMonEffect261(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args)
 {
@@ -6486,14 +5359,6 @@ int BTL_CLIENT_StepStartWeather(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepEndWeather(BtlClient *client, int *state, u32 *args)
 {
@@ -6530,14 +5395,6 @@ int BTL_CLIENT_StepEndWeather(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
@@ -6552,14 +5409,6 @@ int BTL_CLIENT_StepUpdateMonGauge(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *state, u32 *args)
 {
@@ -6582,14 +5431,6 @@ int BTL_CLIENT_StepPlayMonAnim(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *state, u32 *args)
 {
     u8 id = *args;
@@ -6606,14 +5447,6 @@ int BTL_CLIENT_StepUpdateMonGaugeCopy(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *state, u32 *args)
 {
@@ -6638,13 +5471,6 @@ int BTL_CLIENT_StepRotatePositions(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args)
 {
@@ -6686,13 +5512,6 @@ int BTL_CLIENT_StepRotatePositionsTwice(BtlClient *client, int *state, u32 *args
     return 0;
 }
 
-
-
-
-
-
-
-
 /*
  * evidence: Thumb 01 49 02 4b 18 47 c0 46; pools 0x26e and 0x021F7A29. No ARM9/SDK blocker work.
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F7E94 is an ov094 Thumb tail stub (pool 0x26E, 0x021F7A29); other overlay, not filed. Integrator: seed label.
@@ -6710,14 +5529,6 @@ int BTL_CLIENT_StepPlayEffectOnMon(BtlClient *client, int *state, unsigned int *
     }
     return 0;
 }
-
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *state, u32 *args)
 {
@@ -6741,23 +5552,15 @@ int BTL_CLIENT_StepPlayEffectOnMonFast(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
-
 int BTL_CLIENT_StepTransformMon(BtlClient *client, int *state, u32 *args)
 {
     switch (*state) {
     case 0: {
-        u8 *sourceMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
-        u8 *targetMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[1]);
+        struct BtlPokeParam *sourceMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+        struct BtlPokeParam *targetMon = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[1]);
         int sourceSlot = (int)BTL_MAIN_GetViewPosOfPoke(client->main, client->side, (u8)args[0]);
         int targetSlot = (int)BTL_MAIN_GetViewPosOfPoke(client->main, client->side, (u8)args[1]);
-        BTL_POKEPARAM_Transform((struct Unk021D6C50 *)sourceMon, (struct Unk021D6C50 *)targetMon);
+        BTL_POKEPARAM_Transform(sourceMon, targetMon);
         BTLV_CORE_StartMonSpriteChangeAt(client->view, sourceSlot, targetSlot);
         (*state)++;
         break;
@@ -6769,13 +5572,6 @@ int BTL_CLIENT_StepTransformMon(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *state, u32 *args)
 {
@@ -6799,24 +5595,11 @@ int BTL_CLIENT_StepPlayHitEffect(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
-
-
 int BTL_CLIENT_StepChangeBgm(int unusedClient, int unusedState, int *bgmId)
 {
     func_021F878C(*bgmId);
     return 1;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state)
 {
@@ -6831,12 +5614,6 @@ int BTL_CLIENT_StepPlayViewSequence(BtlClient *client, int *state)
     }
     return 0;
 }
-
-
-
-
-
-
 
 int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args)
 {
@@ -6858,11 +5635,6 @@ int BTL_CLIENT_StepAddEffortValues(BtlClient *client, int unusedState, u32 *args
     }
     return 1;
 }
-
-
-
-
-
 
 /*
  * evidence: 43/43 relocations resolved after parent-coordinated overlay
@@ -6980,10 +5752,6 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
 int BTL_CLIENT_ForgetMoveSoundCallback(int step)
 {
     switch (step) {
@@ -6996,11 +5764,6 @@ int BTL_CLIENT_ForgetMoveSoundCallback(int step)
     }
     return 0;
 }
-
-
-
-
-
 
 int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
 {
@@ -7146,10 +5909,6 @@ int BTL_CLIENT_StepLearnLevelUpMoves(BtlClient *client, int *state, void *mon)
     return 0;
 }
 
-
-
-
-
 /*
  * lever: const on the read-only descriptor schedules c[1] before the
  * stack-argument store in the first arm.
@@ -7164,7 +5923,7 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
     case 1:
         if (!func_021F7EB4()) {
             if (args[2]) {
-                u8 *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
+                struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x41);
                 func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 func_021F883C(0x518);
@@ -7192,7 +5951,7 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
             GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
             BTL_MAIN_SetKeepBgm(client->main);
             if (args[3]) {
-                u8 *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
+                struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeAtPos((char *const *)client->side, (u8)args[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x42);
                 func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(pokeParam));
                 BTLV_CORE_BuildAndPrintMessage(client->view, ((u8 *)&client->messageA));
@@ -7208,11 +5967,6 @@ int BTL_CLIENT_StepThrowBall(BtlClient *client, int *state, const u32 *args)
     }
     return 0;
 }
-
-
-
-
-
 
 int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
 {
@@ -7237,11 +5991,6 @@ int BTL_CLIENT_StepShowBallBlocked(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
 static inline u16 selectSideEndMessageId(u32 u, u32 k)
 {
     if (u == 3) {
@@ -7249,11 +5998,6 @@ static inline u16 selectSideEndMessageId(u32 u, u32 k)
     }
     return (k != 0) ? 0x28 : 0x29;
 }
-
-
-
-
-
 
 /*
  * Levers: the 0x26..0x29 selection is a `static inline u16` helper returning nested
@@ -7298,11 +6042,6 @@ int BTL_CLIENT_StepClearSidePosition(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
-
 int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args)
 {
     u32 pokeId;
@@ -7313,7 +6052,7 @@ int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args)
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
+            BTL_POKEPARAM_SetAbility(BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
             return 1;
         }
         BTLV_CORE_ShowPortrait(client->view, monSlot, 0);
@@ -7321,7 +6060,7 @@ int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args)
         break;
     case 1:
         if (BTLV_CORE_UpdatePortraitSlideIn(client->view, monSlot) != 0) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
+            BTL_POKEPARAM_SetAbility(BTL_SIDE_GetPokeByIdThunk(client->side, pokeId), args[1]);
             BTLV_CORE_ReloadPortrait(client->view, monSlot);
             (*state)++;
         }
@@ -7336,10 +6075,6 @@ int BTL_CLIENT_StepSetAbilityWithPopup(BtlClient *client, int *state, u32 *args)
     }
     return 0;
 }
-
-
-
-
 
 /*
  * pass 6 2026-10-06 P6L08: EXACT (364 B), also EXACT under -lang c99. The closing change is u16 x, y
@@ -7356,7 +6091,7 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
     u32 pokeIdA, pokeIdB;
     u16 abilityA, abilityB;
     int slotA, slotB;
-    u8 *pokeParamA, *pokeParamB;
+    struct BtlPokeParam *pokeParamA, *pokeParamB;
     pokeIdA = (u8)args[0];
     pokeIdB = (u8)args[1];
     abilityA = (u16)args[2];
@@ -7368,13 +6103,13 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
     switch (*state) {
     case 0:
         if (BTL_CLIENT_IsMainStepActive(client)) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
-            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
+            BTL_POKEPARAM_SetAbility(pokeParamA, abilityA);
+            BTL_POKEPARAM_SetAbility(pokeParamB, abilityB);
             return 1;
         }
         if (BTL_MAIN_IsPokeSamePair(pokeIdA, pokeIdB)) {
-            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
-            BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
+            BTL_POKEPARAM_SetAbility(pokeParamA, abilityA);
+            BTL_POKEPARAM_SetAbility(pokeParamB, abilityB);
             return 1;
         }
         BTLV_CORE_ShowPortrait((u32 *)(client->view), slotA, 0);
@@ -7397,8 +6132,8 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
         break;
     }
     case 3:
-        BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamA, abilityA);
-        BTL_POKEPARAM_SetAbility((struct QJ *)pokeParamB, abilityB);
+        BTL_POKEPARAM_SetAbility(pokeParamA, abilityA);
+        BTL_POKEPARAM_SetAbility(pokeParamB, abilityB);
         gExpGainWork.w[1] = 0;
         (*state)++;
         break;
@@ -7424,16 +6159,11 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(BtlClient *client, int *state, u32 *ar
     return 0;
 }
 
-
-
-
-
-
 int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *state, u32 *args)
 {
     u32 pokeId;
     int monSlot;
-    u8 *pokeParam;
+    struct BtlPokeParam *pokeParam;
     int mainStepActive;
 
     switch (*state) {
@@ -7457,10 +6187,6 @@ int BTL_CLIENT_StepClearIllusion(BtlClient *client, int *state, u32 *args)
     return 0;
 }
 
-
-
-
-
 /*
  * extent: compiled 54 bytes followed by two zero alignment bytes.
  */
@@ -7476,11 +6202,6 @@ int BTL_CLIENT_StepPlayEffectById(BtlClient *client, int *state, unsigned int *a
     return 0;
 }
 
-
-
-
-
-
 int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *state, u32 *args)
 {
     u8 monSlot;
@@ -7491,7 +6212,7 @@ int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *state, u32 *args)
             return 1;
         }
         if (BTL_MAIN_CheckSceneOff((unsigned char *)client->main) == 0) {
-            if (func_0689C9D4((u16)args[1]) != 0) {
+            if (BTL_ID_IsSimpleEffectId((u16)args[1]) != 0) {
                 return 1;
             }
         }
@@ -7503,4 +6224,852 @@ int BTL_CLIENT_StepPlayMonSimpleEffect(BtlClient *client, int *state, u32 *args)
         }
     }
     return 0;
+}
+
+/* Command 0x4F. Two battle positions swap places in the view; args: positionA, positionB, animation. */
+int BTL_CLIENT_CmdSwapViewPositions(struct BtlClient *client, int *seq, u32 *args)
+{
+    int viewPosA;
+    int viewPosB;
+
+    if (*seq == 0) {
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) {
+            return 1;
+        }
+        viewPosA = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]);
+        viewPosB = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[1]);
+        BTLV_CORE_StartViewEffectEx(client->view, viewPosA, viewPosB, (u16)args[2]);
+        (*seq)++;
+    } else {
+        if (BTLV_CORE_WaitViewEffectEx(client->view) != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* Command 0x50. A Pokemon changes form; args: pokeId, form. */
+int BTL_CLIENT_CmdChangeForm(struct BtlClient *client, int *seq, u32 *args)
+{
+    int viewPos;
+
+    switch (*seq) {
+    case 0:
+        viewPos = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]));
+        BTL_POKEPARAM_ChangeForm((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]), (u8)args[1]);
+        BTLV_CORE_StartMonSpriteChange(client->view, viewPos);
+        (*seq)++;
+        break;
+    case 1:
+        if (BTLV_CORE_WaitMonSpriteChange(client->view) != 0) {
+            (*seq)++;
+        }
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
+
+/* Command 0x58. Show the status panel of a Pokemon; args: pokeId. */
+int BTL_CLIENT_CmdShowStatusPanel(struct BtlClient *client, int *seq, u32 *args)
+{
+    int position;
+
+    position = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+    switch (*seq) {
+    case 0:
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) {
+            return 1;
+        }
+        BTLV_CORE_ShowPortrait(client->view, position, 1);
+        (*seq)++;
+        break;
+    case 1:
+        if (BTLV_CORE_UpdatePortraitSlideIn(client->view, position) != 0) {
+            (*seq)++;
+        }
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
+
+/* Command 0x01. Hide the status panel of a Pokemon; args: pokeId. */
+int BTL_CLIENT_CmdHideStatusPanel(struct BtlClient *client, int *seq, u32 *args)
+{
+    int position;
+
+    position = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->side, (u8)args[0]);
+    switch (*seq) {
+    case 0:
+        BTLV_CORE_StartPortraitSlideOut(client->view, position);
+        (*seq)++;
+        break;
+    case 1:
+        if (BTLV_CORE_WaitPortraitSlideOut(client->view, position) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+/*
+ * Command 0x02. Subtract HP; args: pokeId, damage.
+ * extent: compiled 30 bytes followed by two zero alignment bytes.
+ */
+int BTL_CLIENT_CmdHpMinus(struct BtlClient *client, int *seq, u32 *args)
+{
+    BTL_POKEPARAM_SubHp((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]), args[1]);
+    return 1;
+}
+
+/* Command 0x03. Add HP up to the maximum; args: pokeId, amount. */
+int BTL_CLIENT_CmdHpPlus(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_AddHp(pokeParam, args[1]);
+    return 1;
+}
+
+/* Command 0x05. Subtract PP of a move in both the original and the working copy; args: pokeId, moveSlot, amount. */
+int BTL_CLIENT_CmdPpMinusOriginal(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot, amount;
+    moveSlot = args[1];
+    amount = args[2];
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_DecrementMovePP(pokeParam, moveSlot, amount);
+    return 1;
+}
+
+/* Command 0x06. Subtract PP of a move in the working copy only; args: pokeId, moveSlot, amount. */
+int BTL_CLIENT_CmdPpMinusWorking(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot, amount;
+    moveSlot = args[1];
+    amount = args[2];
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_DecrementRealMovePP(pokeParam, moveSlot, amount);
+    return 1;
+}
+
+/* Command 0x07. Mark a move slot as used; args: pokeId, moveSlot. */
+int BTL_CLIENT_CmdMarkMoveUsed(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    u8 moveSlot;
+    moveSlot = args[1];
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_MarkMoveUsed(pokeParam, moveSlot);
+    return 1;
+}
+
+/* Command 0x04. Set HP to 0; args: pokeId. */
+int BTL_CLIENT_CmdHpZero(struct BtlClient *client, int *seq, u32 *args)
+{
+    BTL_POKEPARAM_ZeroHp((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* Command 0x08. Restore PP of the original move; args: pokeId, moveSlot, amount. */
+int BTL_CLIENT_CmdPpPlusOriginal(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_RestoreMovePP(pokeParam, (u8)args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x09. Restore PP of the working move copy; args: pokeId, moveSlot, amount. */
+int BTL_CLIENT_CmdPpPlusWorking(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_RestoreRealMovePP(pokeParam, (u8)args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x0A. Raise one stat stage; args: pokeId, statIndex, steps. */
+int BTL_CLIENT_CmdStatStageUp(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_RaiseStatStage(pokeParam, args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x0B. Lower one stat stage; args: pokeId, statIndex, steps. */
+int BTL_CLIENT_CmdStatStageDown(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_LowerStatStage(pokeParam, args[1], args[2]);
+    return 1;
+}
+
+/* Command 0x0C. Set all seven stat stages; args: pokeId, then one stage per stat. */
+int BTL_CLIENT_CmdSetStatStages(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 1, args[1]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 2, args[2]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 3, args[3]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 4, args[4]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 5, args[5]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 6, args[6]);
+    BTL_POKEPARAM_SetStatStage(pokeParam, 7, args[7]);
+    return 1;
+}
+
+/* Command 0x0D. Recover lowered stat stages; args: pokeId. */
+int BTL_CLIENT_CmdRecoverStatStages(struct BtlClient *client, int *seq, u32 *args)
+{
+    BTL_POKEPARAM_RaiseLoweredStatStages((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* Command 0x0E. Reset all stat stages to neutral; args: pokeId. */
+int BTL_CLIENT_CmdResetStatStages(struct BtlClient *client, int *seq, u32 *args)
+{
+    BTL_POKEPARAM_ResetStatStages((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* Command 0x0F. Change the critical hit stage; args: pokeId, delta. */
+int BTL_CLIENT_CmdAddCritStage(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_AddCritStage(pokeParam, args[1]);
+    return 1;
+}
+
+/*
+ * Command 0x10. Store a status condition; args: pokeId, sickIndex, condition.
+ * lever: A declared one-word local assigned from args[2] preserves all 32
+ * bits and emits the otherwise unused frame word. A cast lvalue at
+ * args+2 compiled 30 bytes with the wrong frame and redundant address add.
+ */
+int BTL_CLIENT_CmdSetSick(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    union SickCont cont;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    cont.raw = args[2];
+    BTL_POKEPARAM_SetSickCont(pokeParam, args[1], cont);
+    return 1;
+}
+
+/* Command 0x11. Clear the major status; args: pokeId. */
+int BTL_CLIENT_CmdCureMajorSick(struct BtlClient *client, int *seq, u32 *args)
+{
+    BTL_POKEPARAM_ClearMajorStatus((struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* Command 0x12. Clear one status condition; args: pokeId, sickIndex. */
+int BTL_CLIENT_CmdCureSick(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_CureSick(pokeParam, args[1]);
+    return 1;
+}
+
+/*
+ * Command 0x13. A party member comes into battle: swap the two party
+ * entries, reload the incoming Pokemon and arm its turn threshold; args[3]
+ * is the threshold. The indices and the client come from the client work.
+ */
+int BTL_CLIENT_CmdMemberIn(struct BtlClient *client, int *seq, u32 *args)
+{
+    u8 indexFrom;
+    u8 indexTo;
+    void *party;
+    struct BtlPokeParam *incoming;
+
+    indexFrom = client->seqArgs[1];
+    indexTo = client->seqArgs[2];
+    party = BTL_SIDE_GetSlotOfClient(client->side, (u8)client->seqArgs[0]);
+    if (indexFrom != indexTo)
+        BTL_SLOT_Swap(party, indexFrom, indexTo);
+    incoming = BTL_SLOT_GetPoke(party, indexFrom);
+    BTL_POKEPARAM_StartTurnThreshold(incoming, args[3]);
+    BTL_POKEPARAM_ReloadAndResetEffects(incoming);
+    return 1;
+}
+
+/* Command 0x15. Set the two types of a Pokemon from a species; args: pokeId, species. */
+int BTL_CLIENT_CmdSetPokeType(struct BtlClient *client, int *seq, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+
+    pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetTypes(pokeParam, (u16)args[1]);
+    return 1;
+}
+
+/*
+ * Command 0x17. Clear status conditions on several Pokemon; args:
+ * pokeCount, sickCount, packed poke ids (six 5-bit values). Each sick index
+ * comes from BTL_ID_GetTurnCheckSick; a zero index ends the list.
+ */
+int BTL_CLIENT_CmdCureSickMulti(struct BtlClient *client, int *seq, u32 *args)
+{
+    u8 pokeIds[6];
+    u32 i;
+    u32 sickCount;
+    u32 pokeCount;
+    u32 j;
+    u32 sickIndex;
+    struct BtlPokeParam *pokeParam;
+
+    sickCount = args[1];
+    pokeCount = args[0];
+    BTL_CALC_UnpackPokeIds(args[2], pokeIds);
+    for (i = 0; i < sickCount; i++) {
+        sickIndex = BTL_ID_GetTurnCheckSick(i);
+        if (sickIndex == 0)
+            break;
+        for (j = 0; j < pokeCount; j++) {
+            pokeParam = (struct BtlPokeParam *)BTL_SIDE_GetPokeByIdThunk(client->side, pokeIds[j]);
+            if (BTL_POKEPARAM_IsFainted(pokeParam) == 0)
+                BTL_POKEPARAM_TickSickCont(pokeParam, sickIndex, 0, 0);
+        }
+    }
+    return 1;
+}
+
+/* Command steps 0x021D3A20 to 0x021D3D50. Every step takes the client, the
+   step state and the command arguments; args[0] is the id of the Pokemon the
+   command is about. The steps finish at once and return 1. */
+int BTL_CLIENT_StepConsumeHeldItem(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_ConsumeHeldItem(pokeParam, args[1]);
+    return 1;
+}
+
+/* args: pokeId, move slot, keep streak, target position, used move, selected move. */
+int BTL_CLIENT_StepRecordMoveUse(BtlClient *client, int *state, const u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_RecordMoveUse(pokeParam, args[1], args[2], args[3], args[4], args[5]);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetContFlag(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetContFlag(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepClearContFlag(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_ClearContFlag(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetTurnFlag(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetTurnFlag(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepClearTurnFlag(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_ClearTurnFlag(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetAbility(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetAbility(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetItem(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetItem(pokeParam, args[1]);
+    return 1;
+}
+
+/* args: pokeId, move slot, pp cap, to-real flag, new move id. */
+int BTL_CLIENT_StepReplaceMove(BtlClient *client, int *state, const u32 *args)
+{
+    struct BtlPokeParam *pokeParam;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_ReplaceMove(pokeParam, args[1], args[4], args[2], args[3]);
+    return 1;
+}
+
+int BTL_CLIENT_StepResetEffectsOnSwitchOut(BtlClient *client, int *state, u32 *args)
+{
+    BTL_POKEPARAM_ResetEffectsOnSwitchOut(BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* args: field slot, slot key. */
+int BTL_CLIENT_StepRegisterFieldSlot(BtlClient *client, int *state, u32 *args)
+{
+    BtlFieldSlotKey key;
+    key.word = args[1];
+    BTL_FIELD_RegisterSlot(client->battleField, args[0], key, 0);
+    return 1;
+}
+
+/* args: field slot, pokeId. */
+int BTL_CLIENT_StepAddFieldSlotHolder(BtlClient *client, int *state, u32 *args)
+{
+    BTL_FIELD_AddSlotHolder(client->battleField, args[0], (u8)args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepRemoveFieldHolder(BtlClient *client, int *state, u32 *args)
+{
+    BTL_FIELD_RemoveHolderFromSlots(client->battleField, (u8)args[0]);
+    return 1;
+}
+
+int BTL_CLIENT_StepRemoveFieldSlot(BtlClient *client, int *state, u32 *args)
+{
+    BTL_FIELD_RemoveSlot(client->battleField, args[0]);
+    return 1;
+}
+
+/* args: pokeId, counter index, value. */
+int BTL_CLIENT_StepSetPokeCounter(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetCounter(pokeParam, args[1], args[2]);
+    return 1;
+}
+
+/* args: pokeId of the one passing its effects, pokeId of the one receiving them. */
+int BTL_CLIENT_StepPassEffects(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *source = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    struct BtlPokeParam *target = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[1]);
+    BTL_POKEPARAM_PassEffects(target, source);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetSubstituteHp(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetSubstituteHp(pokeParam, args[1]);
+    return 1;
+}
+
+int BTL_CLIENT_StepClearSubstitute(BtlClient *client, int *state, u32 *args)
+{
+    BTL_POKEPARAM_ClearSubstitute(BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* args: client id, points. The points go to this client or to the battle main. */
+int BTL_CLIENT_StepAddClientPoints(BtlClient *client, int *state, u32 *args)
+{
+    u8 clientId = args[0];
+    u8 points = args[1];
+    if (clientId == client->clientId)
+        BTL_CLIENT_AddPoints(client, points);
+    else
+        BTL_MAIN_AddClientPoints(client->main, clientId, points);
+    return 1;
+}
+
+int BTL_CLIENT_StepUpdateIllusion(BtlClient *client, int *state, u32 *args)
+{
+    u8 clientId = args[0];
+    struct BtlSideSlot *slot = (struct BtlSideSlot *)BTL_SIDE_GetSlotOfClient(client->side, clientId);
+    BTL_SLOT_UpdateIllusion(client->main, slot, clientId);
+    return 1;
+}
+
+int BTL_CLIENT_StepClearConsumedItem(BtlClient *client, int *state, u32 *args)
+{
+    BTL_POKEPARAM_ClearConsumedItem(BTL_SIDE_GetPokeByIdThunk(client->side, (u8)*args));
+    return 1;
+}
+
+/* args: pokeId, sick source. */
+int BTL_CLIENT_StepCureSickBySource(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_CureSickBySource(pokeParam, (u8)args[1]);
+    return 1;
+}
+
+/* args: pokeId, attacker id, hit flags, move type, move id, damage.
+ * The const source pointer restores the five-load acquisition order. The hit
+ * flags are stored as a byte, so the record keeps its high flag byte
+ * uninitialized, as in the original. */
+int BTL_CLIENT_StepAddHitRecord(BtlClient *client, int *state, const u32 *args)
+{
+    struct BtlHitRecord record;
+    struct BtlPokeParam *pokeParam;
+    u16 moveId, damage;
+    u8 moveType, hitFlags, attackerId;
+    pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    moveId = args[4];
+    damage = args[5];
+    moveType = args[3];
+    hitFlags = args[2];
+    attackerId = args[1];
+    record.moveId = moveId;
+    record.damage = damage;
+    record.moveType = moveType;
+    record.attackerId = attackerId;
+    *(u8 *)&record.hitFlags = hitFlags;
+    BTL_POKEPARAM_AddHitRecord(pokeParam, &record);
+    return 1;
+}
+
+int BTL_CLIENT_StepAdvanceTurn(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_AdvanceTurn(pokeParam);
+    BTL_EVENT_ClearClientReservedChoice(pokeParam);
+    return 1;
+}
+
+/* Tick every field slot without an expiry callback. */
+int BTL_CLIENT_StepTickFieldSlots(BtlClient *client)
+{
+    BTL_FIELD_TickSlots(client->battleField, 0, 0);
+    return 1;
+}
+
+/* args: pokeId, value index, value. */
+int BTL_CLIENT_StepSetStat(BtlClient *client, int *state, u32 *args)
+{
+    int valueId = args[1];
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetStat(pokeParam, valueId, args[2]);
+    return 1;
+}
+
+int BTL_CLIENT_StepSetWeight(BtlClient *client, int *state, u32 *args)
+{
+    struct BtlPokeParam *pokeParam = BTL_SIDE_GetPokeByIdThunk(client->side, (u8)args[0]);
+    BTL_POKEPARAM_SetWeight(pokeParam, (u16)args[1]);
+    return 1;
+}
+
+u8 BTL_CLIENT_GetClientId(BtlClient *client)
+{
+    return client->clientId;
+}
+
+void *BTL_CLIENT_GetSideData(BtlClient *client)
+{
+    return client->sideData;
+}
+
+u8 BTL_CLIENT_GetFieldCountdownByte(BtlClient *client)
+{
+    return BTL_FIELD_GetCountdownByte(client->battleField);
+}
+
+u8 BTL_CLIENT_GetPointCounter(BtlClient *client)
+{
+    return client->pointCounter;
+}
+
+/* Fill the trainer item list of the client from the battle main. */
+void BTL_CLIENT_LoadTrainerItems(BtlClient *client)
+{
+    u32 i;
+    for (i = 0; i < 4; i++)
+        client->trainerItems[i] = BTL_MAIN_GetTrainerItem(client->main, client->clientId, (u8)i);
+}
+
+/* Choose a trainer item for the AI to use on the Pokemon, or return 0. The
+   item is removed from the list when chosen. */
+u32 BTL_CLIENT_TakeTrainerItemToUse(BtlClient *client, struct BtlPokeParam *mon, void *party)
+{
+    u32 i;
+    u32 usable;
+    u32 itemId;
+    u32 limit;
+    u32 off;
+    u8 *items;
+
+    limit = BTL_SLOT_GetCount(party);
+    if (BTL_POKEPARAM_HasSick(mon, 0x13) != 0)
+        return 0;
+    for (i = 0; i < 4; i++) {
+        if (gBtlClientItemSlotLimits[i] < limit)
+            break;
+        off = i * 2;
+        if (*(u16 *)((u8 *)client + off + 0xe8) != 0) {
+            usable = 0;
+            if (BTL_CALC_GetItemParam((void *)(u32)*(u16 *)((u8 *)client + off + 0xe8), 0x29) != 0) {
+                usable = func_021D59B4(mon, 0xd);
+                if (usable > BTL_CALC_DivideMaxHp(mon, 4))
+                    continue;
+                usable = 1;
+            } else {
+                if (BTL_CLIENT_IsStatItemUsable((u32)*(u16 *)((u8 *)client + off + 0xe8), mon) != 0)
+                    usable = 1;
+                else if (BTL_CLIENT_IsSickItemUsable((u32)*(u16 *)((u8 *)client + off + 0xe8), mon) != 0)
+                    usable = 1;
+            }
+            if (usable != 0) {
+                items = (u8 *)client + 0xe8;
+                itemId = *(u16 *)(items + off);
+                *(u16 *)(items + off) = 0;
+                return itemId;
+            }
+        }
+    }
+    return 0;
+}
+
+/* Whether the item raises a stat stage of the Pokemon that is not yet raised. */
+int BTL_CLIENT_IsStatItemUsable(u32 itemId, struct BtlPokeParam *mon)
+{
+    u32 i;
+
+    for (i = 0; i < 6; i++) {
+        if (BTL_CALC_GetItemParam((void *)itemId, gBtlClientItemStatChecks[i].itemParam) != 0 && func_021D5D14(mon, gBtlClientItemStatChecks[i].statIndex, 1) != 0)
+            return 1;
+    }
+    if (BTL_CALC_GetItemParam((void *)itemId, 0x24) != 0 && BTL_POKEPARAM_GetCritStage(mon) == 0)
+        return 1;
+    return 0;
+}
+
+/* Whether the item cures a sick condition the Pokemon has. */
+int BTL_CLIENT_IsSickItemUsable(u32 itemId, struct BtlPokeParam *mon)
+{
+    u32 i;
+    for (i = 0; i < 7; i++)
+        if (BTL_CALC_GetItemParam((void *)itemId, gBtlClientItemSickChecks[i].itemParam) && BTL_POKEPARAM_HasSick(mon, gBtlClientItemSickChecks[i].sickId))
+            return 1;
+    return 0;
+}
+
+void BTL_CLIENT_ResetCounter(BtlClientCounter *counter)
+{
+    counter->mode = 0;
+    counter->advancePending = 0;
+    counter->state = 0;
+    counter->fadeStarted = 0;
+    counter->current = 0;
+    counter->fadeDone = 0;
+    counter->target = 0;
+    counter->replaying = 0;
+    counter->maximum = 0;
+    counter->locked = 0;
+    counter->disabled = 0;
+    counter->tick = 0;
+    counter->confirmDelay = 0;
+}
+
+/*
+ * strh v at #0xa
+ */
+void BTL_CLIENT_SetCounterMaximum(BtlClientCounter *counter, u32 v)
+{
+    counter->maximum = v;
+}
+
+int BTL_CLIENT_IsCounterFadeDone(BtlClientCounter *counter)
+{
+    return counter->fadeDone;
+}
+
+/*
+ * Extent follower 021D3F60 is already filed separately.
+ */
+void BTL_CLIENT_RequestCounterAdvance(BtlClientCounter *counter)
+{
+    counter->advancePending = 1;
+}
+
+/*
+ * extent: Parent approved only the bounded four-byte accessor. Unapproved
+ * followers 021D3F64 and 021D3F88, matched 021D3F98 and code 021D3FA8 follow;
+ * no follower is included in this source.
+ */
+u8 BTL_CLIENT_GetCounterMode(BtlClientCounter *counter)
+{
+    return counter->mode;
+}
+
+/*
+ * note 2026-10-05: object is the same 14-byte record as BTL_CLIENT_ResetCounter (bit flags in byte 2).
+ *   Sets h8 = v, bit0 = 1, h12 = 0, clears bits 1 and 2. Source order h12 = 0 before h8 = v:
+ *   the scheduler hoists the strh, and r1 (v) stays live so the zero takes r2.
+ */
+void BTL_CLIENT_StartCounterReplay(BtlClientCounter *counter, u16 v)
+{
+    counter->replaying = 1;
+    counter->tick = 0;
+    counter->target = v;
+    counter->fadeStarted = 0;
+    counter->fadeDone = 0;
+}
+
+/*
+ * Extent follower 021D3F98 is already filed separately; bitfield clear produces bics.
+ */
+void BTL_CLIENT_StopCounterReplay(BtlClientCounter *counter)
+{
+    counter->state = 0;
+    counter->replaying = 0;
+}
+
+int BTL_CLIENT_IsCounterReplayDone(BtlClientCounter *counter)
+{
+    if (counter->tick == counter->target) return 1;
+    return 0;
+}
+
+/*
+ * ldrh at #0x8
+ */
+u16 BTL_CLIENT_GetCounterTarget(BtlClientCounter *counter)
+{
+    return counter->target;
+}
+
+/*
+ * extent: Twenty-two code bytes plus two zero padding bytes at 021D3FC2;
+ * the approved separate 021D3FC4 leaf and existing 021D3FD0 follow.
+ */
+int BTL_CLIENT_TryLockCounter(BtlClientCounter *counter)
+{
+    if (counter->fadeStarted) return 0;
+    counter->locked = 1;
+    return 1;
+}
+
+/*
+ * match-note: Clearing the unsigned-char bitfield emits bics #0x10;
+ * raw p[2] &= ~0x10 emits ands #0xef and was four bytes out.
+ * extent: Ten bytes of code, two zero padding bytes at 021D3FCE, then
+ * existing matched BTL_CLIENT_DisableCounter at 021D3FD0; no follower included.
+ */
+void BTL_CLIENT_UnlockCounter(BtlClientCounter *counter)
+{
+    counter->locked = 0;
+}
+
+void BTL_CLIENT_DisableCounter(BtlClientCounter *counter)
+{
+    counter->disabled = 1;
+}
+
+/*
+ * note 2026-10-05: now verifies EXACT (func_021F8B10 resolves).
+ * match-note: A goto to the bottom epilogue reproduces the entry guards;
+ * input is called before adjusted=0, preserving the original scheduling.
+ */
+void BTL_CLIENT_TickCounter(BtlClient *client, BtlClientCounter *counter)
+{
+    int changed, adjusted, input;
+    if (client->kind != 2 || counter->locked || counter->disabled || !counter->maximum) goto done;
+    changed = 0;
+    if (counter->advancePending) {
+        counter->advancePending = 0;
+        if (!counter->replaying) {
+            if (counter->current < counter->maximum && counter->state == 0) {
+                ++counter->current;
+                if (!counter->confirmDelay) counter->target = counter->current;
+                changed = 1;
+            }
+        } else {
+            if (counter->tick < counter->target) {
+                ++counter->tick;
+                if (counter->tick == counter->target) {
+                    counter->current = counter->target;
+                    if (client->view) BTLV_CORE_SetCounterDisplay(client->view,counter->current,counter->target);
+                }
+            }
+            return;
+        }
+    }
+    if (!counter->current || !client->view) return;
+    switch (counter->state) {
+    case 0:
+        input = BTLV_CORE_PollCounterInput(client->view);
+        adjusted = 0;
+        switch (input) {
+        case 2:
+            counter->mode = 1;
+            BTLV_CORE_StartFadeIn(client->view);
+            counter->fadeStarted = 1;
+            counter->state = 1;
+            BTLV_CORE_SetCounterValueMode(client->view,counter->current,1);
+            GFL_USE_FadeOutBgm(30);
+            GFL_USE_SetPlayersAudible(0,62);
+            PM_VOICE_SetMasterVolume(0);
+            func_021F8B10();
+            BTL_MAIN_SetKeepBgm((u8 *)client->main);
+            break;
+        case 0:
+            if (counter->target > 1) { --counter->target; adjusted = 1; }
+            counter->confirmDelay = 45;
+            break;
+        case 1:
+            if (counter->target < counter->maximum) { ++counter->target; adjusted = 1; }
+            counter->confirmDelay = 45;
+            break;
+        }
+        if (adjusted || changed) BTLV_CORE_SetCounterDisplay(client->view,counter->current,counter->target);
+        if (counter->confirmDelay) {
+            --counter->confirmDelay;
+            if (!counter->confirmDelay) {
+                counter->mode = 2;
+                BTLV_CORE_StartFadeIn(client->view);
+                counter->fadeStarted = 1;
+                counter->state = 1;
+                GFL_USE_FadeOutBgm(30);
+                GFL_USE_SetPlayersAudible(0,62);
+                PM_VOICE_SetMasterVolume(0);
+                func_021F8B10();
+            }
+        }
+        break;
+    case 1:
+        if (BTLV_CORE_PollFadeInDone(client->view)) { counter->fadeDone = 1; counter->state = 2; }
+        break;
+    case 2:
+        break;
+    }
+done:
+    return;
 }

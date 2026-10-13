@@ -15,6 +15,13 @@
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *   PXI_Init  0x02088498  arm  arm9
+ *   SVC_WaitByLoop  0x02004490  thumb  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PXI_IsCallbackReady  0x020885EC  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,23 +57,23 @@ typedef struct {
     u8 f58;
 } State;
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
-extern u32 func_020885EC(u32, u32);
-extern void func_02004490(u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
+extern void SVC_WaitByLoop(u32);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
 
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
 extern void func_0208C848(u32 *, u32);
 extern u32 OS_IsRunOnTwl(void);
 extern u32 func_02087B20(void);
-extern void func_02087A04(u32);
+extern void OS_SpinWaitSysCycles(u32);
 extern void func_02085D94(void *, void *, u32);
 extern void func_02085E50(void *, void *, u32);
 extern void func_02085DBC(void *, u32, u32);
-extern int func_02088610(u32, u32, u32);
-extern void func_02088688(void);
+extern int PXI_SendWordByFifo(u32, u32, u32);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern State DAT_02734450;
 extern u32 DAT_0273446c[];
 extern u32 DAT_0273448c[];
@@ -92,17 +99,17 @@ void WaitResetSoundCallback(u32 a0, void *a1);
 void ResetTempVolume(void);
 
 void SNDEXi_Init(void) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     if (DAT_02734450.state != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return;
     }
     DAT_02734450.state = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     SetSndexWork(0, 0, 0, 0);
     PXI_Init();
-    while (func_020885EC(0x18, 1) == 0) {
-        func_02004490(10);
+    while (PXI_IsCallbackReady(0x18, 1) == 0) {
+        SVC_WaitByLoop(10);
     }
     func_020885A0(0x18, (void (*)(u32, u32, u32))CommonCallback);
     DAT_02734450.f1c = SndexSleepAndExitCallback;
@@ -140,9 +147,9 @@ u32 SNDEXi_SetVolumeExAsync(u32 a0, Cb a1, void *a2) {
 
 #define WAIT_IDLE() \
     do { \
-        func_02087A04(0x82dc); \
+        OS_SpinWaitSysCycles(0x82dc); \
         while (CheckState() != 0) { \
-            func_02087A04(0x82dc); \
+            OS_SpinWaitSysCycles(0x82dc); \
         } \
     } while (0)
 
@@ -345,53 +352,53 @@ void SyncCallback(u32 a0, void *a1) {
 }
 
 u32 SendCommand(u32 a0, u8 a1) {
-    u32 irq = func_02087988();
-    int r = func_02088610(0x18, ((a0 << 16) & 0xff0000) | (a1 & 0xff), 0);
+    u32 irq = OS_DisableInterrupts();
+    int r = PXI_SendWordByFifo(0x18, ((a0 << 16) & 0xff0000) | (a1 & 0xff), 0);
     if (r < 0) {
         DAT_02734450.state = 2;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 0;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 1;
 }
 
 u32 SendCommandEx(u32 a0, u32 a1) {
-    u32 irq = func_02087988();
-    int r = func_02088610(0x18, ((a0 << 16) & 0xff0000) | (u16)a1, 0);
+    u32 irq = OS_DisableInterrupts();
+    int r = PXI_SendWordByFifo(0x18, ((a0 << 16) & 0xff0000) | (u16)a1, 0);
     if (r < 0) {
         DAT_02734450.state = 2;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 0;
     }
     if (a0 == 0xc7) {
         DAT_02734450.waiting = 1;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 1;
 }
 
 u32 CheckState(void) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     switch (DAT_02734450.state) {
     case 0:
     case 1:
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 1;
     case 3:
     case 4:
     case 5:
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 3;
     default:
         DAT_02734450.state = 3;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 0;
     }
 }
 
 void ReplyCallback(u32 a0) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u8 cmd = DAT_02734450.f58;
     Cb cb = DAT_02734450.f4c;
     void *arg = DAT_02734450.f50;
@@ -405,7 +412,7 @@ void ReplyCallback(u32 a0) {
     } else {
         DAT_02734450.state = 2;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     if (cb != 0) {
         cb(a0, arg);
     }
@@ -425,8 +432,8 @@ void SndexSleepAndExitCallback(void) {
 
 void WaitIirFilterSetting(void) {
     while (DAT_02734450.waiting != 0) {
-        func_02087A04(0x82dc);
-        func_02088688();
+        OS_SpinWaitSysCycles(0x82dc);
+        PXIi_HandlerRecvFifoNotEmpty();
     }
 }
 
@@ -445,8 +452,8 @@ void ResetTempVolume(void) {
             DAT_02734450.retries++;
         }
         while (DAT_02734450.active != 0) {
-            func_02087A04(0x82dc);
-            func_02088688();
+            OS_SpinWaitSysCycles(0x82dc);
+            PXIi_HandlerRecvFifoNotEmpty();
         }
     }
 }

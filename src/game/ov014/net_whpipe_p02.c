@@ -22,11 +22,11 @@
  *   NET_WHPIPE_SetTask  0x0217727C  thumb  ov014
  *   NET_WHPIPE_ForwardEvent  0x021775AC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_02178E28  0x02178E28  thumb  ov014
  *   g_ChildConnectModes     0x02179680  data  ov014  a2
  *   NET_WHPIPE_NotifyEntryAcceptable  0x0217771C  thumb  ov014
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   NET_WHPIPE_Destroy 0x02177704 thumb ov014
  *   g_SearchChannels     0x02179678  data  a1
  *   NET_WHPIPE_IsIdle  0x02177AA8  thumb  ov014
@@ -63,10 +63,10 @@ extern void NET_WHPIPE_PublishBeacon(void);
 extern void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task);
 int NET_WHPIPE_ForwardEvent(int a, int b, int c);
 u16 func_0203F1FC(const u8 *src, u32 len);
-void func_020862F0(void *p, u32 n);
+void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 void func_02178E28(void *p, u32 n);
 int NET_WHPIPE_NotifyEntryAcceptable(u8 *obj);
-void func_02082D44(void *d, void *s, u32 n);
+void MI_CpuCopy8(void *d, void *s, u32 n);
 extern void NET_WHPIPE_Destroy(void);
 int NET_WHPIPE_IsIdle(void);
 u32 func_020056EC(u32 n);
@@ -200,7 +200,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
     WhPipeNetInit *net = GFL_NET_GetInitParam();
     if (work != 0 && net != 0) {
         ((WhPipeBeacon *)buf)->checksum = func_0203F1FC(buf + 2, len - 2);
-        func_020862F0(buf, len);
+        DWCi_ScreenDC_FlushRange(buf, len);
         if (WIH_GetSysState() == 1) {
             func_02178E28(buf, (u16)len);
             return;
@@ -235,9 +235,9 @@ int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnec
     }
     NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskConnectChild);
     if (bssid != 0)
-        func_02082D44(bssid, g_pWhPipeWork->targetBssid, 6);
+        MI_CpuCopy8(bssid, g_pWhPipeWork->targetBssid, 6);
     else
-        func_02082D44(g_pWhPipeWork->entry[entryIndex].bssid, g_pWhPipeWork->targetBssid, 6);
+        MI_CpuCopy8(g_pWhPipeWork->entry[entryIndex].bssid, g_pWhPipeWork->targetBssid, 6);
     g_pWhPipeWork->onConnected = onConnected;
     return 1;
 }

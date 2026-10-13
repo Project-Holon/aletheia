@@ -1,5 +1,5 @@
 /*
- * function: func_020856F8
+ * function: OSi_CancelThreadAlarmForSleep
  * address:  0x020856F8
  * packet:   pkt_020856F8
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
 
 void OS_CancelAlarm(void *alarm);
 
-void func_020856F8(OSThread *thread)
+void OSi_CancelThreadAlarmForSleep(OSThread *thread)
 {
     void *alarm = thread->alarmForSleep;
 

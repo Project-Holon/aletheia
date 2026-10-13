@@ -1,5 +1,5 @@
 /*
- * function: func_0689ACCC
+ * function: BTLV_SCD_ClearTargetSet
  * address:  0x0689ACCC
  * packet:   pkt_0689ACCC
  * region:   ov095
@@ -15,7 +15,7 @@
 
 void MI_CpuFill8(void *p, int v, int n);
 
-void func_0689ACCC(void *p)
+void BTLV_SCD_ClearTargetSet(void *p)
 {
     MI_CpuFill8(p, 0, 9);
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B7FFC, func_021B8000, func_021B8004, func_021B8008
+ * function: IRC_COMPATIBLE_TOUCH_TEST_TextGetFont, IRC_COMPATIBLE_TOUCH_TEST_TextGetPrintQueue, IRC_COMPATIBLE_TOUCH_TEST_TextGetMsgData, IRC_COMPATIBLE_TOUCH_TEST_TextGetWordSet
  * address:  0x021B7FFC
  * packet:   pkt_021B7FFC
  * region:   ov103
@@ -17,22 +17,22 @@
 #include "../include/Obj22188.h"
 #include "../include/Obj22189.h"
 
-int func_021B7FFC(void *p)
+int IRC_COMPATIBLE_TOUCH_TEST_TextGetFont(void *p)
 {
     return ((struct Obj22186 *)p)->f0;
 }
 
-int func_021B8000(void *p)
+int IRC_COMPATIBLE_TOUCH_TEST_TextGetPrintQueue(void *p)
 {
     return ((struct Obj22187 *)p)->f8;
 }
 
-int func_021B8004(void *p)
+int IRC_COMPATIBLE_TOUCH_TEST_TextGetMsgData(void *p)
 {
     return ((struct Obj22188 *)p)->f4;
 }
 
-int func_021B8008(void *p)
+int IRC_COMPATIBLE_TOUCH_TEST_TextGetWordSet(void *p)
 {
     return ((struct Obj22189 *)p)->fC;
 }

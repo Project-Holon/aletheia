@@ -1,5 +1,5 @@
 /*
- * function: func_0207BDE0
+ * function: MTX_Copy44To43_
  * address:  0x0207BDE0
  * packet:   pkt_0207BDE0
  * region:   arm9
@@ -29,7 +29,7 @@ typedef union {
     fx32 a[12];
 } MtxFx43;
 
-asm void func_0207BDE0(MtxFx44 *pSrc, MtxFx43 *pDst)
+asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst)
 {
     ldmia r0!, {r2, r3, r12}
     add r0, r0, #4

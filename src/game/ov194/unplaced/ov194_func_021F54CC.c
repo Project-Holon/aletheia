@@ -15,19 +15,19 @@
  * at its declaration fixes the register of n.
  *
  * symbols:
- *   func_02082D44    0x02082D44  arm
+ *   MI_CpuCopy8    0x02082D44  arm
  */
 
 typedef unsigned short u16;
 
-extern void func_02082D44(void *a, u16 *b, int n);
+extern void MI_CpuCopy8(void *a, u16 *b, int n);
 
 int func_021F54CC(void *src, int n, int a2)
 {
     u16 buf[0x20] = {0};
     int j, c = 0;
 
-    func_02082D44(src, buf, n * 2);
+    MI_CpuCopy8(src, buf, n * 2);
     for (j = 0; j < 0x20; j++) {
         u16 v = buf[j];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C88
+ * function: IRC_COMPATIBLE_MENU_ExitText
  * address: 0x021B7C88
  * packet: pkt_ov102_021B7C88
  * region: ov102
@@ -17,4 +17,4 @@
  */
 #include "../include/Obj07975.h"
 struct Rec; extern void func_0201ED04(void *); extern void MSGDATA_Delete(struct Rec *); extern void PRINTSYS_QUE_Delete(unsigned); extern void GF_FONT_Delete(void *); extern void MI_CpuFill8(void *,int,unsigned);
-void func_021B7C88(void *p) { func_0201ED04(((struct Obj07975 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07975 *)p)->f4); PRINTSYS_QUE_Delete(((struct Obj07975 *)p)->f8); GF_FONT_Delete(((struct Obj07975 *)p)->f0); MI_CpuFill8(p,0,16); }
+void IRC_COMPATIBLE_MENU_ExitText(void *p) { func_0201ED04(((struct Obj07975 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07975 *)p)->f4); PRINTSYS_QUE_Delete(((struct Obj07975 *)p)->f8); GF_FONT_Delete(((struct Obj07975 *)p)->f0); MI_CpuFill8(p,0,16); }

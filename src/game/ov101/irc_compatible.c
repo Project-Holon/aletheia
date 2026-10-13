@@ -39,19 +39,15 @@
  *   func_020084F4 0x020084F4 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_0200AA00 0x0200AA00 thumb
- *   func_021B6100 0x021B6100 thumb ov101
- *   func_021B6148 0x021B6148 thumb ov101
- *   func_021B658C 0x021B658C thumb ov101
+ *   COMPATIBLE_IRC_SYS_Create 0x021B6100 thumb ov101
+ *   COMPATIBLE_IRC_SYS_Delete 0x021B6148 thumb ov101
+ *   COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  *   PROCSYS_Main  0x02031330  arm  arm9
  */
 struct Proc;
 struct GameSystem;
 struct StepRunnerQueue;
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef unsigned char u8;
+#include "compatible_irc_sys_types.h"
 
 #define IRC_COMPATIBLE_HEAP_ID 58
 
@@ -63,20 +59,6 @@ enum {
     IRC_STEP_RESULT = 3,
     IRC_STEP_HELP = 4
 };
-
-/* One player's data for the compatibility score (44 bytes, filled by func_021B658C). */
-typedef struct IrcCompatibleProfile {
-    u32 packedDate;          /* RTC date of the day: year, month, day, weekday, one byte each */
-    u8 birthMonth;
-    u8 birthDay;
-    u16 leadSpecies;
-    u8 leadType2;
-    u8 leadType1;
-    u8 leadNature;
-    unsigned char isDay14:4; /* set when the day of the month is 14 */
-    unsigned char reserved:4;
-    u8 myStatus[32];         /* trainer status block; the name string is read from here */
-} IrcCompatibleProfile;
 
 /* Parameter block from the caller; only the first word is read. */
 typedef struct IrcCompatibleParam {
@@ -95,7 +77,7 @@ struct IrcCompatibleWork;
 typedef void (*IrcHandler)(struct IrcCompatibleWork *work, u16 *state);
 
 typedef struct IrcCompatibleWork {
-    void *view;
+    IrcSys *view;
     IrcStepRunner runner;
     IrcCompatibleParam *param;
     IrcHandler handler;
@@ -188,9 +170,9 @@ extern int func_0200A9D4(void *saveBlock, u32 nameKey);
 extern u16 *func_020084F4(void *myStatus);
 extern u16 STRBUF_GetEosChar(void);
 extern unsigned char func_0200AA00(unsigned month, unsigned day, struct DateBytes *date);
-void *func_021B6100(int a,int b,int c,int d);
-void func_021B6148(void *view);
-void func_021B658C(void *gameSystem, IrcCompatibleProfile *out);
+void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
+void COMPATIBLE_IRC_SYS_Delete(void *view);
+void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem, IrcCompatibleProfile *out);
 int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *param);
 int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work);
 int IRC_COMPATIBLE_ProcMain(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work);
@@ -243,7 +225,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
     if (work->param->gameSystem) gameData = (int)func_020120F4(work->param->gameSystem);
-    work->view = func_021B6100(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
+    work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
     GFL_USE_SetBgmPlayerParam((void *)1);
@@ -260,7 +242,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
 
 
 int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) {
- GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); func_021B6148(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); func_020306F0(IRC_COMPATIBLE_HEAP_ID); return 1;
+ GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); COMPATIBLE_IRC_SYS_Delete(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); func_020307B0(work->partnerProfile); func_020315D4(proc); func_020306F0(IRC_COMPATIBLE_HEAP_ID); return 1;
 }
 
 
@@ -567,7 +549,7 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * func_0200A8A0 0x0200A8A0 thumb
  * func_02008530 0x02008530 thumb
  * func_0200A9D4 0x0200A9D4 thumb
- * func_021B658C 0x021B658C thumb ov101
+ * COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  * GFL_NET_IsParentAid 0x0203D378 arm
  * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
  * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
@@ -593,7 +575,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
         if(func_0200A9D4(saveBlock,func_02008530(partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;
-        func_021B658C(work->param->gameSystem,&ownProfile);
+        COMPATIBLE_IRC_SYS_BuildProfile(work->param->gameSystem,&ownProfile);
         if(GFL_NET_IsParentAid()) packedDate=ownProfile.packedDate;
         else packedDate=work->partnerProfile->packedDate;
         args->compatibility=IRC_COMPATIBLE_CalcCompatibility(work->firstTestScore,work->secondTestScore,work->firstTestPenalty,work->secondTestPenalty,&ownProfile,work->partnerProfile,useBonus,packedDate,IRC_COMPATIBLE_HEAP_ID);

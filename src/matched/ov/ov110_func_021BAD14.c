@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD14
+ * function: PMS_INPUT_VIEW_SetWordwinScrollOffset
  * address:  0x021BAD14
  * packet:   pkt_ov110_021BAD14
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFE24  0x021BFE24  thumb  ov110
+ *   PMSIV_WORDWIN_SetThumbY  0x021BFE24  thumb  ov110
  */
 #include "../include/Obj22345.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021BFE24(u8 *p, int y);
-void func_021BAD14(u8 *p, u32 v) { func_021BFE24((u8 *)(((struct Obj22345 *)p)->f5C), v); }
+extern void PMSIV_WORDWIN_SetThumbY(u8 *p, int y);
+void PMS_INPUT_VIEW_SetWordwinScrollOffset(u8 *p, u32 v) { PMSIV_WORDWIN_SetThumbY((u8 *)(((struct Obj22345 *)p)->f5C), v); }

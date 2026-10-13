@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD80
+ * function: WIFICLUB_DeletePartyIcons
  * address:  0x021BBD80
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -43,7 +43,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void func_021BBD80(char *s)
+void WIFICLUB_DeletePartyIcons(char *s)
 {
     int i;
 

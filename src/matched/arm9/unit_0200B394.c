@@ -17,6 +17,7 @@
  * symbols:
  *   func_0200B3DC_File  0x020A71C4  data
  *   BATTLE_REC_Clear  0x0200B448  thumb
+ *   MIi_CpuCopy32  0x02082A90  arm
  *
  * 108 bytes, 0x0200B394..0x0200B400, 7 functions, four of which carry no
  * label in the generated listing.
@@ -45,7 +46,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void  func_02082A90(void *dest, const void *src, u32 size);
+extern void  MIi_CpuCopy32(void *dest, const void *src, u32 size);
 struct BattleRec;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
@@ -85,12 +86,12 @@ s32 func_0200B3AC(struct Rec94 *p)
 
 void func_0200B3B0(struct Rec94 *dest, void *sys)
 {
-    func_02082A90(dest, func_020071CC(sys, 0x30), sizeof(struct Rec94));
+    MIi_CpuCopy32(dest, func_020071CC(sys, 0x30), sizeof(struct Rec94));
 }
 
 void func_0200B3C8(void *sys, const struct Rec94 *src)
 {
-    func_02082A90(func_020071CC(sys, 0x30), src, sizeof(struct Rec94));
+    MIi_CpuCopy32(func_020071CC(sys, 0x30), src, sizeof(struct Rec94));
 }
 
 void *BATTLE_REC_Create(u32 heap)

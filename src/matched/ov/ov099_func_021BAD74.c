@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD74
+ * function: WIFICLUB_CreateAnswerMenu
  * address: 0x021BAD74
  * packet: pkt_ov099_021BAD74
  * region: ov099
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C37A0 0x021C37A0 data a4
- *   d_021C3730 0x021C3730 data a4
- *   func_021B97F4 0x021B97F4 thumb ov099
- *   func_021C23B8 0x021C23B8 thumb ov099
- *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_021C27E0 0x021C27E0 thumb ov099
+ *   gWifiClubAnswerMenuHeaderTemplate 0x021C37A0 data a4
+ *   gWifiClubAnswerMenuItems 0x021C3730 data a4
+ *   WIFICLUBACTOR_GetPickResult 0x021B97F4 thumb ov099
+ *   WIFICLUB_GetFriendStatus 0x021C23B8 thumb ov099
+ *   WIFICLUB_GetStatusKind 0x021BDD48 thumb ov099
+ *   WIFICLUB_GetStatusSeatFlag 0x021C27E0 thumb ov099
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -46,12 +46,12 @@ struct Slot;
 struct PrintSys;
 struct Obj;
 struct Cfg;
-extern Desc d_021C37A0;
-extern const Pair d_021C3730[];
-extern u8 func_021B97F4(struct W *);
-extern int func_021C23B8(int i);
-extern u32 func_021BDD48(int, struct S *);
-extern int func_021C27E0(struct S *);
+extern Desc gWifiClubAnswerMenuHeaderTemplate;
+extern const Pair gWifiClubAnswerMenuItems[];
+extern u8 WIFICLUBACTOR_GetPickResult(struct W *);
+extern int WIFICLUB_GetFriendStatus(int i);
+extern u32 WIFICLUB_GetStatusKind(int, struct S *);
+extern int WIFICLUB_GetStatusSeatFlag(struct S *);
 extern struct Slot *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *, u32, u32, u32, u32);
 struct Src;
@@ -63,7 +63,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(u32);
-void func_021BAD74(char *p)
+void WIFICLUB_CreateAnswerMenu(char *p)
 {
     int n;
     Desc desc;
@@ -71,11 +71,11 @@ void func_021BAD74(char *p)
     u16 kind;
     u32 i;
     n = 2;
-    desc = d_021C37A0;
-    state = (struct S *)func_021C23B8(func_021B97F4((struct W *)(p + 0x274)) - 1);
-    kind = (u16)func_021BDD48((int)p, state);
-    func_021C27E0(state);
-    func_021C27E0(*(struct S * *)&((struct Obj01244 *)p)->f8);
+    desc = gWifiClubAnswerMenuHeaderTemplate;
+    state = (struct S *)WIFICLUB_GetFriendStatus(WIFICLUBACTOR_GetPickResult((struct W *)(p + 0x274)) - 1);
+    kind = (u16)WIFICLUB_GetStatusKind((int)p, state);
+    WIFICLUB_GetStatusSeatFlag(state);
+    WIFICLUB_GetStatusSeatFlag(*(struct S * *)&((struct Obj01244 *)p)->f8);
     *(struct Slot * *)&((struct Obj01244 *)p)->fB8 = BMP_MENUWORK_Create(2, 33);
     for (i = 0; i < 2; i++) {
         if (i == 0 && kind != 2 && kind != 5 && kind != 1) {
@@ -83,7 +83,7 @@ void func_021BAD74(char *p)
             desc.count--;
             n--;
         } else {
-            BMP_MENUWORK_AddMsgItem(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, d_021C3730[i].a, d_021C3730[i].b, 33);
+            BMP_MENUWORK_AddMsgItem(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, gWifiClubAnswerMenuItems[i].a, gWifiClubAnswerMenuItems[i].b, 33);
         }
     }
     *(u32 *)&((struct Obj01244 *)p)->f1A4 = BMP_WIN_Create(2, 16, (u8)((3 - n) * 2 + 11), 15, n * 2, 15, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B900C
+ * function: IRC_RANKING_InertiaStart
  * address: 0x021B900C
  * packet: pkt_ov106_021B900C
  * region: ov106
@@ -26,7 +26,7 @@ static inline int rounded(int v) {
  if(v!=0) return _ffix(_fadd(0.5f,_ffltu((u32)v<<12)));
  return _ffix(_fsub(_ffltu((u32)v<<12),0.5f));
 }
-void func_021B900C(u8 *p,int amount,int duration) {
+void IRC_RANKING_InertiaStart(u8 *p,int amount,int duration) {
  int value;
  if(magnitude(amount)<=4096) return;
  p[16]=amount/magnitude(amount);

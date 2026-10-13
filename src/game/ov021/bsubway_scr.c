@@ -118,7 +118,7 @@
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
  *   ISS_SWITCH_SYS_SwitchOn  0x0202C0D0  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   func_02087BCC  0x02087BCC  arm
+ *   OS_ResetSystem  0x02087BCC  arm
  *   EVENT_BSUBWAY_COMM_Start  0x021542C0  thumb  ov007
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_GetWorkPtr  0x02158FE0  thumb  ov010
@@ -373,7 +373,7 @@ extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
 extern u32 func_0201296C(const struct GameData *p);
 extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
-extern void func_02087BCC(u32 a);
+extern void OS_ResetSystem(u32 a);
 extern u32 func_0200D87C(struct BsubwayPlayData *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
@@ -1513,7 +1513,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_SCR_GetTrainNo(fieldMap);
         break;
     case BSUBWAY_SCR_CMD_RESET_SYSTEM:
-        func_02087BCC(0);
+        OS_ResetSystem(0);
         break;
     case BSUBWAY_SCR_CMD_CLEAR_PLAY_DATA:
         func_0200D85C((struct BsubwayPlayData *)playData);

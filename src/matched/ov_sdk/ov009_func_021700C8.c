@@ -1,5 +1,5 @@
 /*
- * function: func_021700C8
+ * function: DWCi_EncodeBinaryMsgCommand
  * address:  0x021700C8
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -43,7 +43,7 @@ typedef struct DWCstBinaryMessage {
 extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
 extern char *func_02175F3C(void);
 
-void func_021700C8(DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len)
+void DWCi_EncodeBinaryMsgCommand(DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len)
 {
     if (data == 0 || len == 0) {
         len = 0;

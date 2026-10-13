@@ -7,11 +7,11 @@
  * dwc_match_1, dwc_match_3 and dwc_match_13.
  */
 
-#ifndef OV009_DWC_BASIC_TYPES
+#if !defined(OV009_DWC_BASIC_TYPES) && !defined(ALETHEIA_OV009_DWC_LOGIN_TYPES_H)
 #define OV009_DWC_BASIC_TYPES
 typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned long u32;
+typedef unsigned int u32;
 typedef unsigned long long u64;
 #endif
 
@@ -60,10 +60,11 @@ typedef struct {
 
 typedef void (*MatchedCallback)(int error, int cancel, int self, int isServer, int index, void *param);
 typedef void (*DWCMatchedSCCallback)(int index, void *param);
+typedef int (*DWCEvalCallback)(int index, void *param);
 
 typedef struct DWCstNNInfo {
     u8 clientindex;                 /* +0x00 */
-    u8 f_01;                        /* +0x01 */
+    u8 retryCount;                        /* +0x01 */
     u16 port;                       /* +0x02 */
     int ip;                         /* +0x04 */
     int cookie;                     /* +0x08 */
@@ -172,7 +173,7 @@ typedef struct DWCstMatchControl {
     void *matchedParam;             /* +0x774 */
     DWCMatchedSCCallback newClientCallback; /* +0x778 */
     void *newClientParam;           /* +0x77C */
-    void *evalCallback;             /* +0x780 */
+    DWCEvalCallback evalCallback;   /* +0x780 */
     void *evalParam;                /* +0x784 */
     u32 serverDownBuff;             /* +0x788 */
     u32 serverDownBase;             /* +0x78C */
@@ -201,8 +202,21 @@ typedef struct DWCstMatchControl {
     int flag7d4;                    /* +0x7D4 */
 } DWCstMatchControl;
 
-/* Same function (0x02175F3C), two names. */
+typedef struct DWCstBinaryMessageHeader {
+    char identifier[4];
+    unsigned int version;
+    unsigned char command;
+    unsigned char size;
+    unsigned short qr2Port;
+    unsigned int qr2IP;
+    int profileID;
+} DWCstBinaryMessageHeader;
+
+typedef struct DWCstBinaryMessage {
+    DWCstBinaryMessageHeader header;
+    unsigned int data[32];
+} DWCstBinaryMessage;
+
 extern DWCstMatchControl *DWCi_GetMatchCnt(void);
-extern DWCstMatchControl *func_02175F3C(void);
 
 #endif

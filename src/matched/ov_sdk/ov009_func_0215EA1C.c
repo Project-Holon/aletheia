@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0215EB14  0x0215EB14  arm  ov009
- *   func_02085800  0x02085800  arm
- *   func_02087988  0x02087988  arm
+ *   OS_WakeupThread  0x02085800  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F31C  0x0215F31C  arm  ov009
  *   func_0215F3B8  0x0215F3B8  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A1CD8     0x021A1CD8  data
  */
 
@@ -52,11 +52,11 @@ typedef struct {
 } Socket;
 
 extern void func_0215EB14(unsigned char *pipe);
-extern void func_02085800(void *queue);
-extern unsigned long func_02087988(void);
+extern void OS_WakeupThread(void *queue);
+extern unsigned long OS_DisableInterrupts(void);
 extern void func_0215F31C(int a);
 extern void func_0215F3B8(int a);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct G_021A1CD8 *g_021A1CD8;
 
 static inline int IsStream(Socket *socket)
@@ -91,14 +91,14 @@ void func_0215EA1C(Socket *socket)
 		socket->recv_pipe->udpdata.size = 0;
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
-		func_02085800(socket->recv_pipe->udpdata.queue);
+		OS_WakeupThread(socket->recv_pipe->udpdata.queue);
 		func_0215EB14((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
 		func_0215EB14(socket->send_pipe);
 	}
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F3B8((int)socket);
 	g_021A1CD8->free(socket);
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 }

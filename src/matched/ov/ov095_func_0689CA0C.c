@@ -1,5 +1,5 @@
 /*
- * function: func_0689CA0C
+ * function: BTL_ID_IsCallMoveExcluded
  * address:  0x0689CA0C
  * packet:   pkt_ov095_0689CA0C
  * region:   ov095
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689C888  0x0689C888  thumb
- *   d_0689E330     0x0689E330  data  ov095  a2
+ *   BTL_ID_IsInList  0x0689C888  thumb
+ *   gCallMoveExcludedMoves     0x0689E330  data  ov095  a2
  */
 
-extern unsigned short d_0689E330[];
+extern unsigned short gCallMoveExcludedMoves[];
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
 
-int func_0689CA0C(unsigned a)
+int BTL_ID_IsCallMoveExcluded(unsigned a)
 {
-    return func_0689C888(a, d_0689E330, 0xb);
+    return BTL_ID_IsInList(a, gCallMoveExcludedMoves, 0xb);
 }

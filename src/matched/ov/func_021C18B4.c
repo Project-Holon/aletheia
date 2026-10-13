@@ -1,5 +1,5 @@
 /*
- * function: func_021C18B4
+ * function: WIFICLUB_ResolveNetRunState
  * address:  0x021C18B4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern int sub_0203CD98(void);
 
-int func_021C18B4(int a, int b)
+int WIFICLUB_ResolveNetRunState(int a, int b)
 {
     int r = b;
 

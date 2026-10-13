@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D8C
+ * function: DWCi_MOVStartDownloadandBootChild
  * address:  0x021D3D8C
  * packet:   pkt_021D3D8C
  * region:   ov016
@@ -10,21 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3D8C 0x021D3D8C arm
+ *   DWCi_MOVStartDownloadandBootChild 0x021D3D8C arm
+ *   DWCi_MOV_MBP_StartDownloadAll  0x021D21CC  arm
  *
  * Advance the state byte at +0xa90 from 5 to 6.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D21CC(void);
+extern void DWCi_MOV_MBP_StartDownloadAll(void);
 
-int func_021D3D8C(void)
+int DWCi_MOVStartDownloadandBootChild(void)
 {
     char *p = *(char **)0x021DE668;
 
     if (*(unsigned char *)(p + 0xa90) != 5)
         return 0;
     *(unsigned char *)(p + 0xa90) = 6;
-    func_021D21CC();
+    DWCi_MOV_MBP_StartDownloadAll();
     return 1;
 }

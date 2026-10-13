@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EA4
+ * function: IRCBATTLEMATCH_StepOpenQuitConfirm
  * address: 0x021B9EA4
  * packet: pkt_ov100_021B9EA4
  * region: ov100
@@ -8,33 +8,33 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021BB65C 0x021BB65C data a4
+ *   gIrcBattleMatchMsgQuitConfirm 0x021BB65C data a4
  *   func_02049B40 0x02049B40 arm
- *   func_021BA3A4 0x021BA3A4 thumb ov100
- *   func_021BA1D0 0x021BA1D0 thumb ov100
+ *   IRCBATTLEMATCH_PrintMainMessage 0x021BA3A4 thumb ov100
+ *   IRCBATTLEMATCH_OpenQuitMenu 0x021BA1D0 thumb ov100
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021B9E48 0x021B9E48 thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitQuitChoice 0x021B9E48 thumb ov100
  */
 #include "../include/Obj00060.h"
 struct Word { int x; };
-extern const struct Word d_021BB65C;
+extern const struct Word gIrcBattleMatchMsgQuitConfirm;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_021BA3A4(struct Word *,int);
-extern void func_021BA1D0(int);
+extern void IRCBATTLEMATCH_PrintMainMessage(struct Word *,int);
+extern void IRCBATTLEMATCH_OpenQuitMenu(int);
 extern void GF_FONT_SetDefaultTextColor(void);
 typedef unsigned char  u8;
-extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021B9E48(int a);
-void func_021B9EA4(int a) {
- struct Word x=d_021BB65C;
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_StepWaitQuitChoice(int a);
+void IRCBATTLEMATCH_StepOpenQuitConfirm(int a) {
+ struct Word x=gIrcBattleMatchMsgQuitConfirm;
  int v=((struct Obj00060 *)a)->fCB0;
  func_02049B40(23,5,4,0x180,32,((struct Obj00060 *)a)->f278);
- func_021BA3A4(&x,a);
+ IRCBATTLEMATCH_PrintMainMessage(&x,a);
  ((struct Obj00060 *)a)->fCB0=v;
- func_021BA1D0(a);
+ IRCBATTLEMATCH_OpenQuitMenu(a);
  GF_FONT_SetDefaultTextColor();
- func_021B95B8((u8 *)a,(u32)func_021B9E48);
+ IRCBATTLEMATCH_SetStep((u8 *)a,(u32)IRCBATTLEMATCH_StepWaitQuitChoice);
 }

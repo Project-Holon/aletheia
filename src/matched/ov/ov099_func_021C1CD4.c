@@ -1,5 +1,5 @@
 /*
- * function: func_021C1CD4
+ * function: WIFICLUB_TickSlotBlink
  * address:  0x021C1CD4
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -26,7 +26,7 @@ typedef struct {
 
 extern const u8 d_021C3720[];
 
-void func_021C1CD4(Work *w)
+void WIFICLUB_TickSlotBlink(Work *w)
 {
     if (w->f8ed) {
         w->f8ee = d_021C3720[w->f8f2];

@@ -1,5 +1,5 @@
 /*
- * function: func_0215B198
+ * function: CPSi_TcpWrite2Raw
  * address:  0x0215B198
  * packet:   pkt_ov009_0215B198
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      CPSi_TcpWrite2Raw (libcps.TWL.HYB.a network.o)
  * symbols:
  *   OS_GetTick                       0x020870d0 arm
- *   func_0215B15C                    0x0215b15c arm ov009
+ *   tcp_write_do2                    0x0215b15c arm ov009
  *   func_02157390                    0x02157390 arm ov009
  *   g_021A826C                       0x021a826c data
  */
@@ -39,12 +39,12 @@ struct CPSVars {
 
 extern struct CPSVars g_021A826C;
 extern unsigned long long OS_GetTick(void);
-extern void func_0215B15C(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
+extern void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
 extern void func_02157390(void);
 
 #define TICK() ((u32)(OS_GetTick() >> 16))
 
-u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
+u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
 {
     u32 total_written;
     u32 seqno;
@@ -58,7 +58,7 @@ u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc)
     start_time = TICK();
     while (g_021A826C.link_is_on() && len != 0 && soc->state == 4 && (int)(TICK() - start_time) < 0x9f) {
         seqno = soc->sndnxt;
-        func_0215B15C(buf, len, buf2, len2, soc, need_probe);
+        tcp_write_do2(buf, len, buf2, len2, soc, need_probe);
         {
             u32 t = TICK();
             do {

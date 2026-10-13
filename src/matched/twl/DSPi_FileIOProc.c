@@ -16,19 +16,19 @@
  * on the pipe.  Never returns.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02085E50  0x02085E50  arm
  *   DSP_LoadPipe  0x02706D44  arm
  *   DSP_GetPipeReadableSize  0x02706E90  arm
  *   DSP_ReadPipe  0x02706EC0  arm
  *   DSP_WritePipe  0x02706FCC  arm
  *   func_020789FC  0x020789FC  arm
- *   func_02078A80  0x02078A80  arm
+ *   FS_CloseFile  0x02078A80  arm
  *   func_02078A94  0x02078A94  arm
  *   func_02078AEC  0x02078AEC  arm
  *   func_02078B44  0x02078B44  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  *   func_02078BC4  0x02078BC4  arm
  *   func_0207A940  0x0207A940  arm
  */
@@ -67,19 +67,19 @@ typedef struct DSPProcess {
     FSFile file[8];
 } DSPProcess;
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 state);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 state);
 extern BOOL func_02085E50(void *queue, void *msg, s32 flags);
 extern void DSP_LoadPipe(DSPPipe *pipe, int port, int dir);
 extern u32 DSP_GetPipeReadableSize(DSPPipe *pipe);
 extern void DSP_ReadPipe(DSPPipe *pipe, void *buf, u32 len);
 extern void DSP_WritePipe(DSPPipe *pipe, void *buf, u32 len);
 extern BOOL func_020789FC(FSFile *file, const char *path, u32 mode);
-extern void func_02078A80(FSFile *file);
+extern void FS_CloseFile(FSFile *file);
 extern u32 func_02078A94(FSFile *file);
 extern u32 func_02078AEC(FSFile *file);
 extern BOOL func_02078B44(FSFile *file, long offset, int origin);
-extern s32 func_02078B70(FSFile *file, void *dst, s32 len);
+extern s32 FS_ReadFile(FSFile *file, void *dst, s32 len);
 extern s32 func_02078BC4(FSFile *file, const void *src, s32 len);
 extern BOOL func_0207A940(FSFile *file, void *buf, u32 size);
 
@@ -111,7 +111,7 @@ void DSPi_FileIOProc(DSPProcess *p)
     FSFile *file;
 
     for (;;) {
-        state = func_02087988();
+        state = OS_DisableInterrupts();
         for (;;) {
             bits = p->fileRequest;
             bits = ~bits & (bits - 1);
@@ -123,7 +123,7 @@ void DSPi_FileIOProc(DSPProcess *p)
             func_02085E50(p->msgQueue, msg, 1);
         }
         p->fileRequest &= ~(1 << index);
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         file = &p->file[index];
         DSP_LoadPipe(&in, index, 0);
         DSP_LoadPipe(&out, index, 1);
@@ -151,7 +151,7 @@ void DSPi_FileIOProc(DSPProcess *p)
                 DSP_WritePipe(&out, &memRes, 2);
                 break;
             case 1:
-                func_02078A80(file);
+                FS_CloseFile(file);
                 closeRes = 1;
                 DSP_WritePipe(&out, &closeRes, 2);
                 break;
@@ -179,7 +179,7 @@ void DSPi_FileIOProc(DSPProcess *p)
                 DSP_WritePipe(&out, &readHalf, 2);
                 while (readLen != 0) {
                     u16 n = readLen > 0x100 ? 0x100 : readLen;
-                    func_02078B70(file, rbuf, n);
+                    FS_ReadFile(file, rbuf, n);
                     DSP_WritePipe(&out, rbuf, n);
                     readLen = readLen - n;
                 }

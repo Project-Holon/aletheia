@@ -1,5 +1,5 @@
 /*
- * function: func_021C109C
+ * function: ghttpSetRequestEncryptionEngine
  * address:  0x021C109C
  * packet:   pkt_ov114_021C109C
  * region:   ov114
@@ -14,7 +14,7 @@
  * symbols:
  *   ghiRequestToConnection      0x021C0DA4 arm ov114
  *   strncmp                     0x020949F4 arm
- *   g_021CE74C                  0x021CE74C data
+ *   sGhttpHttps                  0x021CE74C data
  *   ghiEncryptorSslInitFunc     0x021C1920 arm ov114
  *   ghiEncryptorSslStartFunc    0x021C1A78 arm ov114
  *   ghiEncryptorSslCleanupFunc  0x021C1C98 arm ov114
@@ -51,9 +51,9 @@ extern int ghiEncryptorSslStartFunc();
 extern int ghiEncryptorSslCleanupFunc();
 extern int ghiEncryptorSslEncryptFunc();
 extern int ghiEncryptorSslDecryptFunc();
-extern char g_021CE74C[];
+extern char sGhttpHttps[];
 
-int func_021C109C(int request, int engine)
+int ghttpSetRequestEncryptionEngine(int request, int engine)
 {
     GHIConnection *connection;
 
@@ -68,7 +68,7 @@ int func_021C109C(int request, int engine)
         return 0;
     if (engine == 0)
     {
-        if (strncmp(connection->URL, g_021CE74C, 8) == 0)
+        if (strncmp(connection->URL, sGhttpHttps, 8) == 0)
             return 0;
     }
     connection->encryptorEngine = engine;

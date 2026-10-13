@@ -1,5 +1,5 @@
 /*
- * function: func_021BB050
+ * function: WIFICLUB_DrawHeaderWindow
  * address:  0x021BB050
  * packet:   pkt_ov099_021BB050
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA8BC  0x021BA8BC  thumb  ov099
+ *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -37,7 +37,7 @@ typedef struct {
 
 struct Cfg;
 struct Descriptor;
-extern int func_021BA8BC(void *p);
+extern int WIFICLUB_DeleteWindow(void *p);
 struct MsgBank;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -46,9 +46,9 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void  PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021BB050(W *w)
+void WIFICLUB_DrawHeaderWindow(W *w)
 {
-    func_021BA8BC(w->f198);
+    WIFICLUB_DeleteWindow(w->f198);
     w->f198 = (void *)BMP_WIN_Create(3, 5, 1, 0x16, 2, 0xf, 1);
     BMP_WIN_MakeScreen(w->f198);
     MSGDATA_ReadString((struct MsgBank *)w->fe0, 0x12, (void *)w->ff8);

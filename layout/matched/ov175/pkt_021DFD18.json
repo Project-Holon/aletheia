@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFD18",
+   "name": "scReportEnd",
    "address": "0x021DFD18",
    "kind": "game",
    "region": "ov175",

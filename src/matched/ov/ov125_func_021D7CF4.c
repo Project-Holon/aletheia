@@ -9,14 +9,14 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   func_02087058 0x02087058 arm
+ *   OS_IsTickAvailable 0x02087058 arm
  *   func_02086FE8 0x02086FE8 arm
  *   d_021D9E40 0x021D9E40 data a4
  */
 
 #include "../include/G_Clear.h"
 
-extern int func_02087058(void);
+extern int OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
 extern struct Clear d_021D9E40;
-int func_021D7CF4(void){if(!func_02087058())func_02086FE8();*(int*)(((char *)&d_021D9E40)+0x270)=16;return 1;}
+int func_021D7CF4(void){if(!OS_IsTickAvailable())func_02086FE8();*(int*)(((char *)&d_021D9E40)+0x270)=16;return 1;}

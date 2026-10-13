@@ -18,7 +18,7 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   SendPacket     0x021992A8  arm  ov009
  *   g_021A5A7C     0x021A5A7C  data
- *   g_021ACEFC     0x021ACEFC  data
+ *   gGsAvailabilityGameName     0x021ACEFC  data
  *   g_021A5A70     0x021A5A70  data
  *   g_021AE698     0x021AE698  data
  *   g_021AE6C4     0x021AE6C4  data
@@ -80,7 +80,7 @@ extern char *SOC_InetNtoA();
 extern void gsDebugFormat();
 extern void SendPacket();
 extern struct Magic6 g_021A5A7C;
-extern char g_021ACEFC[];
+extern char gGsAvailabilityGameName[];
 extern struct NatSocks g_021A5A70;
 extern NegotiateAnchor g_021AE698;
 extern u32 g_021AE6C4;
@@ -107,8 +107,8 @@ void func_02199394(NATNegotiator *neg)
     p.negResult = neg->result == 0 ? 1 : 0;
     p.natType = g_021A5A70.natType;
     p.mappingScheme = g_021AE698.natMappingScheme;
-    if (strlen(g_021ACEFC))
-        memcpy(p.gamename, g_021ACEFC, 0x32);
+    if (strlen(gGsAvailabilityGameName))
+        memcpy(p.gamename, gGsAvailabilityGameName, 0x32);
     gsDebugFormat(7, 0, 8, g_021A5AB4, neg->cookie, SOC_InetNtoA(g_021AE6C4), 27901, p.negResult);
     SendPacket(neg->negotiateSock, g_021AE698.matchup1ip, 27901, &p, 0x49);
 }

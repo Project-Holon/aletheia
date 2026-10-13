@@ -1,7 +1,7 @@
 /*
  * file:     os_alarm.c
  * unit:     yes
- * function: OSi_SetTimer, func_02087208, func_02087244, func_02087254, func_02087264, func_0208738C, func_020873F8, func_0208747C, func_0208748C
+ * function: OSi_SetTimer, func_02087208, OS_IsAlarmAvailable, func_02087254, func_02087264, func_0208738C, func_020873F8, func_0208747C, func_0208748C
  * address:  0x02087180
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -81,7 +81,7 @@ extern u32 OS_DisableIrqMask(u32 intr);
 extern void OS_Terminate(void);
 void OSi_SetTimer(OSAlarm *alarm);
 void func_02087208(void);
-BOOL func_02087244(void);
+BOOL OS_IsAlarmAvailable(void);
 void func_02087254(OSAlarm *alarm);
 void OSi_InsertAlarm(OSAlarm *alarm, OSTick fire);
 void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
@@ -152,7 +152,7 @@ void func_02087208(void)
 
 
 
-BOOL func_02087244(void)
+BOOL OS_IsAlarmAvailable(void)
 {
     return g_02151340.OSi_UseAlarm;
 }

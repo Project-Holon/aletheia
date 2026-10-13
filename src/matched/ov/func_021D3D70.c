@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D70
+ * function: BTL_CLIENT_GetClientId
  * address:  0x021D3D70
  * packet:   pkt_021D3D70
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3D70   0x021D3D70  thumb ov093
+ *   BTL_CLIENT_GetClientId   0x021D3D70  thumb ov093
  *
  * ldrb at #0x1a6 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021D3D70(u8 *p)
+u8 BTL_CLIENT_GetClientId(u8 *p)
 {
     return ((struct Obj18396 *)p)->f1A6;
 }

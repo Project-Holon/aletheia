@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ptr_0214EA50  0x0214EA50  data
+ *   gNNSSndCurrentArc  0x0214EA50  data
  */
 
 typedef unsigned int u32;
@@ -34,11 +34,11 @@ struct Context {
     struct TableHeader *table;
 };
 
-extern struct Context *ptr_0214EA50;
+extern struct Context *gNNSSndCurrentArc;
 
 void NNS_SndArcSetFileAddress(u32 idx, u32 val)
 {
-    struct Context *ctx = ptr_0214EA50;
+    struct Context *ctx = gNNSSndCurrentArc;
     struct TableHeader *tbl = ctx->table;
     tbl->entries[idx].field8 = val;
 }

@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_02030534 0x02030534 arm
- *   func_02088234 0x02088234 arm
+ *   OS_Terminate 0x02088234 arm
  */
 
 typedef unsigned int u32;
 extern signed int func_02030534(u32 size);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 
 void func_02030BA4(u32 size)
 {
     if (func_02030534(size) == 0) {
-        func_02088234();
+        OS_Terminate();
     }
 }

@@ -43,9 +43,8 @@ typedef struct CPSMd5Ctx_021633F0 {
     unsigned char buffer[64];
 } CPSMd5Ctx_021633F0;
 
-extern void func_02082D44(void *a, void *b, int n);
+extern void MI_CpuCopy8(void *a, void *b, int n);
 extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void CPSi_md5_block(CPSMd5Ctx_021633F0 *ctx, unsigned char *m);
 extern void char_from_long(unsigned char *d, unsigned long *s, unsigned int len);
 void func_02162FC0(void *a, void *b, int n);
@@ -61,18 +60,18 @@ extern unsigned char padding[64];
 
 
 /*
- * Tail call to func_02082D44 with its first two arguments swapped.
+ * Tail call to MI_CpuCopy8 with its first two arguments swapped.
  */
 void func_02162FC0(void *a, void *b, int n)
 {
-    func_02082D44(b, a, n);
+    MI_CpuCopy8(b, a, n);
 }
 
 
 
 void func_02162FD8(void *a, void *b, int n)
 {
-    func_02082D44(b, a, n);
+    MI_CpuCopy8(b, a, n);
 }
 
 

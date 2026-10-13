@@ -1,5 +1,5 @@
 /*
- * function: func_02176344
+ * function: DWCi_NodeInfoList_GetMyNodeInfo
  * address:  0x02176344
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,14 @@
  * Passes the word at +0x678 of the module block on.
  *
  * symbols:
- *   func_021763AC  0x021763AC  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
  */
 
 extern int func_02175F3C(void);
-extern char *func_021763AC(int pid);
+extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 
-char *func_02176344(void)
+char *DWCi_NodeInfoList_GetMyNodeInfo(void)
 {
-    return func_021763AC(*(int *)(func_02175F3C() + 0x678));
+    return DWCi_NodeInfoList_GetNodeInfoForProfileID(*(int *)(func_02175F3C() + 0x678));
 }
 

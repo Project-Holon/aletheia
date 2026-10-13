@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * The per-node SRT control block of the NNS G2D cell-animation module, and
- * the three setters the multi-cell node walk at func_020643CC drives.
+ * the three setters the multi-cell node walk at NNSi_G2dSetMCDataToMCInstanceImpl drives.
  *
  * The block is 0x14 bytes:
  *   +0x00  u32  mode      (1 = SRT enabled; every setter below is a no-op
@@ -23,7 +23,7 @@
  *   +0x10  u16  rotation
  *   +0x12  u16  dirty flags: bit1 scale, bit2 rotation, bit3 translation
  *
- * This is the layer the `a/0/0/4` rig question lands on.  func_020643CC's
+ * This is the layer the `a/0/0/4` rig question lands on.  NNSi_G2dSetMCDataToMCInstanceImpl's
  * node loop ends with
  *
  *     slot = nodeStates + i * 0x28;
@@ -34,7 +34,7 @@
  * translation verbatim.  There is no table indexed by species, form or
  * node id anywhere between the NMCR node record and this store, and no
  * second placement source: the only other writes to the same block are
- * the scale and rotation func_0206469C pulls out of the node's NANR
+ * the scale and rotation NNS_G2dSetAnimSequenceToMCAnimation pulls out of the node's NANR
  * frame record.
  *
  * func_020640B0 fills three words with -1 (a "no cell bound" sentinel for

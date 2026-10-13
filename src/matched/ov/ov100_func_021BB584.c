@@ -1,5 +1,5 @@
 /*
- * function: func_021BB584
+ * function: IRCBATTLEMATCH_ProcExit
  * address: 0x021BB584
  * packet: pkt_ov100_021BB584
  * region: ov100
@@ -21,7 +21,7 @@
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_020307B0 0x020307B0 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_021BAC08 0x021BAC08 thumb ov100
+ *   IRCBATTLEMATCH_ExitScreen 0x021BAC08 thumb ov100
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -43,7 +43,7 @@ extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern void BUTTON_MAN_Delete(void *);
 extern u32 func_020307B0(void *p);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_021BAC08(int);
+extern void IRCBATTLEMATCH_ExitScreen(int);
 extern void func_02030EAC(struct Node *);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
@@ -57,7 +57,7 @@ enum PrintOffset { PrintBase=0xcb4 };
 static inline struct PrintSys *printSys(u8 *p) { enum PrintOffset t=PrintBase; t+=4; return *(struct PrintSys **)(p+t); }
 static inline struct Node *node(u8 *p,enum Offset off) { return *(struct Node **)(p+(off+0x80)); }
 static inline void clearNode(u8 *p,enum Offset off,enum Zero zero) { *(int *)(p+(off+0x80))=zero; *(int *)(p+(off+0x84))=zero; }
-int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
+int IRCBATTLEMATCH_ProcExit(struct S020315D4 *a,int b,int c,u8 *p)
 {
     u16 off;
     long zero;
@@ -72,7 +72,7 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
     zero=Clear;
     *(int *)&((struct Obj02805 *)p)->fCA4=zero;
     func_0201ED04(*(struct WordSet **)(p+off));
-    func_021BAC08((int)p);
+    IRCBATTLEMATCH_ExitScreen((int)p);
     func_02030EAC(*(struct Node **)(p+(off+0x24)));
     CLACT_DeleteUnit(*(struct Bank **)(p+(off+0x28)));
     CLACT_ExitSystem();

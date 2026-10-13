@@ -12,14 +12,14 @@
  * sdk:      gsiInt64ToString (gsplatformutil.o)
  *
  * symbols:
- *   func_02084F40                  0x02084F40  arm
+ *   OS_SPrintf                  0x02084F40  arm
  *   g_021A3834                     0x021A3834  data
  */
 
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern char g_021A3834[];
 
 void func_0217F130(char *theNumberStr, long long theNumber)
 {
-    func_02084F40(theNumberStr, g_021A3834, theNumber);
+    OS_SPrintf(theNumberStr, g_021A3834, theNumber);
 }

@@ -12,8 +12,9 @@
  * symbols:
  *   func_021CA980   0x021CA980  arm
  *   DWCi_SceneSetListSave_button  0x021CA9D8  arm
+ *   OS_Sleep  0x02085A38  arm  arm9
  *
- * Set r0 to 0xa, call func_02085A38, then run the four ov016 steps.
+ * Set r0 to 0xa, call OS_Sleep, then run the four ov016 steps.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -22,7 +23,7 @@
  */
 
 typedef unsigned int   u32;
-extern void func_02085A38(u32 msec);
+extern void OS_Sleep(u32 msec);
 extern void func_021CAB68(void);
 extern void func_021CA9A0(void);
 extern void DWCi_SceneSetListSave_button(void);
@@ -30,7 +31,7 @@ extern void func_021CA9DC(void);
 
 void func_021CA980(void)
 {
-    func_02085A38(0xa);
+    OS_Sleep(0xa);
     func_021CAB68();
     func_021CA9A0();
     DWCi_SceneSetListSave_button();

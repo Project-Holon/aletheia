@@ -15,7 +15,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020307B0   0x020307B0  arm arm9
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
  *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
@@ -154,7 +154,7 @@ typedef struct {
 } BtlMsgEffectArgsB;
 
 extern u32 func_020307B0(void *block);
-extern void func_02082D44(const void *src, void *dest, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BTL_NET_ExpectReplies(u32 netId);
 extern u32 BTL_NET_SendServerCmd(u32 channel, struct BtlAdapterPacket *packet, u32 size);
@@ -335,7 +335,7 @@ void BTL_ADAPTER_SetSendData(BtlAdapter *adapter, u16 command, const void *src, 
     adapter->commandByte = command;
     adapter->packet.command = command;
     adapter->packet.size = size;
-    func_02082D44(src, adapter->packet.data, size);
+    MI_CpuCopy8(src, adapter->packet.data, size);
     adapter->peerData = 0;
     adapter->peerSize = 0;
     adapter->peerReady = 0;

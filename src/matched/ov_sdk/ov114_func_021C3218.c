@@ -27,22 +27,22 @@
  *   func_02181E20                    0x02181E20 arm  ov009
  *   func_021803BC                    0x021803BC arm  ov009
  *   OS_SPrintf                       0x02084F40 arm
- *   func_021BFDEC                    0x021BFDEC arm  ov114
- *   func_021C011C                    0x021C011C arm  ov114
- *   func_021C07B8                    0x021C07B8 arm  ov114
- *   func_021C00FC                    0x021C00FC arm  ov114
- *   func_021C2C28                    0x021C2C28 arm  ov114
- *   func_021C2DB0                    0x021C2DB0 arm  ov114
- *   func_021C2F10                    0x021C2F10 arm  ov114
- *   func_021C304C                    0x021C304C arm  ov114
- *   g_021CEEC8                       0x021CEEC8 data
- *   g_021CEECC                       0x021CEECC data
- *   g_021CEED4                       0x021CEED4 data
- *   g_021CEEFC                       0x021CEEFC data
- *   g_021CEF28                       0x021CEF28 data
- *   g_021CEE80                       0x021CEE80 data
- *   g_021CEE88                       0x021CEE88 data
- *   g_021CEF58                       0x021CEF58 data
+ *   ghiEncryptDataToBuffer                    0x021BFDEC arm  ov114
+ *   ghiSendBufferedData                    0x021C011C arm  ov114
+ *   ghiTrySendThenBuffer                    0x021C07B8 arm  ov114
+ *   ghiResetBuffer                    0x021C00FC arm  ov114
+ *   ghiPostStringStateDoPosting                    0x021C2C28 arm  ov114
+ *   ghiPostXmlStateDoPosting                    0x021C2DB0 arm  ov114
+ *   ghiPostFileDiskStateDoPosting                    0x021C2F10 arm  ov114
+ *   ghiPostFileMemoryStateDoPosting                    0x021C304C arm  ov114
+ *   sGhttpPostFirstFieldFormat                       0x021CEEC8 data
+ *   sGhttpPostNextFieldFormat                       0x021CEECC data
+ *   sGhttpQrGSDD2                       0x021CEED4 data
+ *   sGhttpQrGSDD3                       0x021CEEFC data
+ *   sGhttpContentDispositionFormDataName                       0x021CEF28 data
+ *   sGhttpCidId                       0x021CEE80 data
+ *   sGhttpHttpSchemasXmlsoapOrgSoap                       0x021CEE88 data
+ *   sGhttpContentDispositionFormDataName2                       0x021CEF58 data
  */
 
 typedef unsigned char u8;
@@ -129,23 +129,23 @@ typedef struct GHIConnection {
 extern int func_02181E20(void *stream);
 extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern GHTTPBool func_021BFDEC(GHIBuffer *buffer, char *data, int dataLen);
-extern GHTTPBool func_021C011C(GHIConnection *connection);
-extern GHITrySendResult func_021C07B8(GHIConnection *connection, char *buffer, int len);
-extern void func_021C00FC(GHIBuffer *buffer);
-extern GHIPostingResult func_021C2C28(GHIPostState *state, GHIConnection *connection);
-extern GHIPostingResult func_021C2DB0(GHIPostState *state, GHIConnection *connection);
-extern GHIPostingResult func_021C2F10(GHIPostState *state, GHIConnection *connection);
-extern GHIPostingResult func_021C304C(GHIPostState *state, GHIConnection *connection);
+extern GHTTPBool ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
+extern GHTTPBool ghiSendBufferedData(GHIConnection *connection);
+extern GHITrySendResult ghiTrySendThenBuffer(GHIConnection *connection, char *buffer, int len);
+extern void ghiResetBuffer(GHIBuffer *buffer);
+extern GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection *connection);
+extern GHIPostingResult ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *connection);
+extern GHIPostingResult ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection);
+extern GHIPostingResult ghiPostFileMemoryStateDoPosting(GHIPostState *state, GHIConnection *connection);
 
-extern char g_021CEEC8[];
-extern char g_021CEECC[];
-extern char g_021CEED4[];
-extern char g_021CEEFC[];
-extern char g_021CEF28[];
-extern char g_021CEE80[];
-extern char g_021CEE88[];
-extern char g_021CEF58[];
+extern char sGhttpPostFirstFieldFormat[];
+extern char sGhttpPostNextFieldFormat[];
+extern char sGhttpQrGSDD2[];
+extern char sGhttpQrGSDD3[];
+extern char sGhttpContentDispositionFormDataName[];
+extern char sGhttpCidId[];
+extern char sGhttpHttpSchemasXmlsoapOrgSoap[];
+extern char sGhttpContentDispositionFormDataName2[];
 
 static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
                                        GHTTPBool first, GHTTPBool last)
@@ -162,16 +162,16 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
         if (!connection->post->hasFiles && !connection->post->hasSoap)
         {
             if (first)
-                OS_SPrintf(buffer, g_021CEEC8, state->data->name);
+                OS_SPrintf(buffer, sGhttpPostFirstFieldFormat, state->data->name);
             else
-                OS_SPrintf(buffer, g_021CEECC, state->data->name);
+                OS_SPrintf(buffer, sGhttpPostNextFieldFormat, state->data->name);
         }
         else
         {
             if (state->data->type == 0)
             {
-                OS_SPrintf(buffer, g_021CEF28,
-                           first ? g_021CEED4 : g_021CEEFC,
+                OS_SPrintf(buffer, sGhttpContentDispositionFormDataName,
+                           first ? sGhttpQrGSDD2 : sGhttpQrGSDD3,
                            state->data->name);
             }
             else if (state->data->type == 3)
@@ -190,13 +190,13 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                         header.mVersionAndFlags |= GHI_DIMEFLAG_LASTRECORD;
                     header.mTypeT = GHI_DIMETYPE_T_URI;
                     header.mOptionsLength = 0;
-                    header.mIdLength = htons((short)strlen(g_021CEE80));
-                    header.mTypeLength = htons((short)strlen(g_021CEE88));
+                    header.mIdLength = htons((short)strlen(sGhttpCidId));
+                    header.mTypeLength = htons((short)strlen(sGhttpHttpSchemasXmlsoapOrgSoap));
                     header.mDataLength = htonl(func_02181E20(state->data->data.xml.xml));
                     memcpy(&buffer[writePos], &header, sizeof(GSIDimeHeader));
                     writePos += sizeof(GSIDimeHeader);
 
-                    writen = func_021803BC(&buffer[writePos], g_021CEE80, sizeof(buffer) - writePos);
+                    writen = func_021803BC(&buffer[writePos], sGhttpCidId, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)
@@ -205,7 +205,7 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                             buffer[writePos++] = '\0';
                     }
 
-                    writen = func_021803BC(&buffer[writePos], g_021CEE88, sizeof(buffer) - writePos);
+                    writen = func_021803BC(&buffer[writePos], sGhttpHttpSchemasXmlsoapOrgSoap, sizeof(buffer) - writePos);
                     padBytes = (int)(4 - (writen % 4));
                     writePos += writen;
                     if (padBytes != 4)
@@ -282,8 +282,8 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
                 }
                 else
                 {
-                    OS_SPrintf(buffer, g_021CEF58,
-                               first ? g_021CEED4 : g_021CEEFC,
+                    OS_SPrintf(buffer, sGhttpContentDispositionFormDataName2,
+                               first ? sGhttpQrGSDD2 : sGhttpQrGSDD3,
                                state->data->name, filename, contentType);
                 }
             }
@@ -294,32 +294,32 @@ static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection
         {
             if (len == 0)
                 len = (int)strlen(buffer);
-            if (!func_021BFDEC(&connection->sendBuffer, buffer, len))
+            if (!ghiEncryptDataToBuffer(&connection->sendBuffer, buffer, len))
                 return GHIPostingError;
-            if (!func_021C011C(connection))
+            if (!ghiSendBufferedData(connection))
                 return GHIPostingError;
             if (connection->sendBuffer.pos < connection->sendBuffer.len)
                 return GHIPostingWaitForContinue;
-            func_021C00FC(&connection->sendBuffer);
+            ghiResetBuffer(&connection->sendBuffer);
         }
         else
         {
             if (len == 0)
                 len = (int)strlen(buffer);
-            result = func_021C07B8(connection, buffer, len);
+            result = ghiTrySendThenBuffer(connection, buffer, len);
             if (result == GHITrySendError)
                 return GHIPostingError;
             if (result == GHITrySendBuffered)
                 return GHIPostingWaitForContinue;
-            func_021C00FC(&connection->sendBuffer);
+            ghiResetBuffer(&connection->sendBuffer);
         }
     }
 
     if (state->data->type == 0)
-        return func_021C2C28(state, connection);
+        return ghiPostStringStateDoPosting(state, connection);
     if (state->data->type == 3)
-        return func_021C2DB0(state, connection);
+        return ghiPostXmlStateDoPosting(state, connection);
     if (state->data->type == 1)
-        return func_021C2F10(state, connection);
-    return func_021C304C(state, connection);
+        return ghiPostFileDiskStateDoPosting(state, connection);
+    return ghiPostFileMemoryStateDoPosting(state, connection);
 }

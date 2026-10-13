@@ -12,13 +12,13 @@
  * symbols:
  *   g_02146BC8     0x02146BC8  data  a4
  *   g_020A81E4     0x020A81E4  data  a4
- *   func_020862F0  0x020862F0  arm
- *   func_0207E684  0x0207E684  arm
- *   func_0207E708  0x0207E708  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GX_LoadOAM  0x0207E684  arm
+ *   GXS_LoadOAM  0x0207E708  arm
  *
  * NitroSystem g2d_OAM.c NNS_G2dApplyOamManagerToHW(pMan).  Fast-transfer
- * managers: LoadOamAndAffineFast_ (DC_FlushRange func_020862F0 over the
- * span, then GX_LoadOAM func_0207E684 or GXS_LoadOAM func_0207E708 by
+ * managers: LoadOamAndAffineFast_ (DC_FlushRange DWCi_ScreenDC_FlushRange over the
+ * span, then GX_LoadOAM GX_LoadOAM or GXS_LoadOAM GXS_LoadOAM by
  * type).  Otherwise LoadOam_ pushes each entry's three attribute halfwords
  * through the per-type loader, and when the affine area is valid
  * LoadAffine_ pushes PA..PD of each GXOamAffine (LoadOneAffine_) the same
@@ -137,9 +137,9 @@ static inline BOOL HasEnoughCapacity_(const NNSG2dOAMManageArea *pArea, u16 num)
 typedef void (OBJLoadFunction)(const void *pSrc, u32 offset, u32 szByte);
 
 extern OBJLoadFunction *g_020A81E4[5];  /* GetOBJLoadFunction_'s funcTbl */
-extern void func_020862F0(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
-extern void func_0207E684(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
-extern void func_0207E708(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
+extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
+extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
+extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
 
 static inline OBJLoadFunction *GetOBJLoadFunction_(NNSG2dOamType type)
 {
@@ -162,14 +162,14 @@ static inline void LoadOamAndAffineFast_(NNSG2dOamType type, u16 fromIdx, u16 to
     const u16 szByte = (u16)(sizeof(GXOamAttr) * (toIdx - fromIdx + 1));
     u16 offset = (u16)(sizeof(GXOamAttr) * fromIdx);
 
-    func_020862F0(pFrom, szByte);
+    DWCi_ScreenDC_FlushRange(pFrom, szByte);
 
     switch (type) {
     case NNS_G2D_OAMTYPE_MAIN:
-        func_0207E684(pFrom, offset, szByte);
+        GX_LoadOAM(pFrom, offset, szByte);
         break;
     case NNS_G2D_OAMTYPE_SUB:
-        func_0207E708(pFrom, offset, szByte);
+        GXS_LoadOAM(pFrom, offset, szByte);
         break;
     default:
         break;

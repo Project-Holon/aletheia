@@ -1,5 +1,5 @@
 /*
- * function: func_02087C88
+ * function: OS_GetOwnerInfo
  * address:  0x02087C88
  * packet:   pkt_02087C88
  * region:   arm9
@@ -65,7 +65,7 @@ extern BOOL OS_IsRunOnTwl(void);
 
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 
-void func_02087C88(OSOwnerInfo *info)
+void OS_GetOwnerInfo(OSOwnerInfo *info)
 {
     OSiNvramOwner *src = OSi_NVRAM_OWNER;
 

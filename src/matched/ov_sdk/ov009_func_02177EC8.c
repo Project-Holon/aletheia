@@ -1,5 +1,5 @@
 /*
- * function: func_02177EC8
+ * function: DWC_Auth_SetCustomNas
  * address:  0x02177EC8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A2358[];
 
-void func_02177EC8(int v)
+void DWC_Auth_SetCustomNas(int v)
 {
     *(int *)g_021A2358 = v;
 }

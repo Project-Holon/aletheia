@@ -1,5 +1,5 @@
 /*
- * function: func_020853C0
+ * function: OS_CreateThread
  * address:  0x020853C0
  * packet:   pkt_020853C0
  * region:   arm9
@@ -20,6 +20,7 @@
  *   MIi_CpuClear32          0x02082A7C  arm
  *   OS_SetThreadDestructor  0x02085B94  arm
  *   OS_ExitThread           0x020854B0  arm
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -143,7 +144,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -155,7 +156,7 @@ extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern void OS_SetThreadDestructor(OSThread *thread, void (*dtor)(void *));
 extern void OS_ExitThread(void);
 
-void func_020853C0(OSThread *thread, void (*func)(void *), void *arg, void *stack,
+void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
                    u32 stackSize, u32 prio)
 {
     OSIntrMode enable;

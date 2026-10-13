@@ -17,14 +17,14 @@
  *   func_02072758  0x02072758  arm
  *   func_020727B4  0x020727B4  arm
  *   NNS_SndHandleReadTrackInfo  0x02073108  arm
- *   func_02074758       0x02074758  arm
+ *   NNS_SndHeapDestroy       0x02074758  arm
  *   func_02072794  0x02072794  arm
  *   GFL_USE_GetCurrentBgmId  0x020058D0  thumb
  *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
- *   func_0208574C       0x0208574C  arm
+ *   OS_IsThreadTerminated       0x0208574C  arm
  *   GFL_USE_UnloadBgmData        0x020059C8  thumb
  *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
- *   func_02072E7C       0x02072E7C  arm
+ *   NNS_SndHandleStopSeq       0x02072E7C  arm
  *   GFL_USE_LoadBgmData   0x02005924  thumb
  *   func_020755A8  0x020755A8  arm
  *   NNS_SndHandleMoveVolume       0x02072F5C  arm
@@ -35,23 +35,23 @@
  *   NNS_SndHandleStop  0x02073098  arm
  *   NNS_SndHandleSetTrackVolume  0x02072FE8  arm
  *   GFL_USE_StopLoaderThread        0x02006368  thumb
- *   func_02072EE0       0x02072EE0  arm
- *   NNS_SndHandleSetSeqPriority       0x02072F34  arm
+ *   NNS_SndPlayerCountPlayingSeqBySeqNo       0x02072EE0  arm
+ *   NNS_SndHandleSetVolume       0x02072F34  arm
  *   GFL_USE_SaveSeqBankState        0x0200597C  thumb
  *   GFL_USE_FinishBgmLoad        0x020059A0  thumb
  *   NNS_SndArcSetReadChunkSize       0x020746B0  arm
  *   NNS_SndHandleInit       0x02072E9C  arm
- *   func_02085A38       0x02085A38  arm
+ *   OS_Sleep       0x02085A38  arm
  *   NNS_SndArcGetSeqParam  0x0207430C  arm
  *   func_02075560       0x02075560  arm
  *   NNS_SndPlayerGetActiveSeqCount  0x02072EC8  arm
- *   func_020853C0        0x020853C0  arm
- *   func_02074AC4        0x02074AC4  arm
- *   func_02085868        0x02085868  arm
- *   func_020855BC  0x020855BC  arm
+ *   OS_CreateThread        0x020853C0  arm
+ *   NNS_SndArcLoadSeqEx        0x02074AC4  arm
+ *   OS_WakeupThreadDirect        0x02085868  arm
+ *   OS_DestroyThread  0x020855BC  arm
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNS_SndArcGetBankInfo  0x020743EC  arm
- *   func_02074A98  0x02074A98  arm
+ *   NNS_SndArcLoadWaveArc  0x02074A98  arm
  *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
@@ -61,13 +61,13 @@
  *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
  *   func_020307B0       0x020307B0  arm
  *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
- *   func_02072AA0  0x02072AA0  arm
+ *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndArcGetFileSize  0x0207457C  arm
  *   NNS_SndArcReadFile  0x020745A4  arm
  *   SNDi_GetBankWaveArcTable  0x0208A638  arm
- *   func_02072BDC  0x02072BDC  arm
- *   func_02072D20  0x02072D20  arm
- *   func_02072A88  0x02072A88  arm
+ *   NNS_SndWaveOutStop  0x02072BDC  arm
+ *   NNS_SndWaveOutWaitIdle  0x02072D20  arm
+ *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   NNS_SndWaveOutSetVolume  0x02072C18  arm
  *   NNS_SndWaveOutSetSpeed  0x02072C40  arm
  *   func_020056EC  0x020056EC  thumb
@@ -100,6 +100,7 @@
  *   GFL_USE_GetSndStackDepth  0x02005900  thumb
  *   GFL_USE_PushSndSlot  0x02005A00  thumb
  *   GFL_USE_PopSndSlot  0x02005A4C  thumb
+ *   NNS_SndHandlePauseSeq  0x02072E8C  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -279,13 +280,13 @@ struct SndMic {
 extern void  func_02072758(void);
 extern u32   func_020727B4(void);
 extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void  func_02074758(struct SndHeap *heap);
+extern void  NNS_SndHeapDestroy(struct SndHeap *heap);
 extern void  func_02072794(u32 monoFlag);
 extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
-extern void  func_02072E7C(struct SndHandle *handle, int fadeFrames);
-extern void  func_02072E8C(struct SndHandle *handle, u32 value);
+extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
+extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
 extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
-extern void  NNS_SndHandleSetSeqPriority(struct SndHandle *handle, int volume);
+extern void  NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
 extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
 extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
 extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
@@ -294,28 +295,28 @@ extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u
 extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
 extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
 extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
-extern s32   func_02072EE0(u32 seqNo);
+extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
 extern void  NNS_SndHandleInit(struct SndHandle *handle);
 extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
 extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
-extern void  func_02085A38(u32 msec);
+extern void  OS_Sleep(u32 msec);
 extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
 extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
 extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 extern u8   *NNS_SndArcGetSeqParam(int seqNo);
 extern u32   func_02075560(struct SndHandle *handle, u32 seqNo);
 extern u32   func_020755A8(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
-extern u32   func_02074AC4(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
-extern u32   func_02074A98(u32 waveArcNo, struct SndHeap *heap);
+extern u32   NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
+extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct SndHeap *heap);
 extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
 extern u32   NNS_SndArcGetFileAddress(u32 fileId);
 extern void  func_0208A640(u32 *waveArc, u32 waveIndex, u32 address);
 extern u32   func_0208A674(u32 waveArc, u32 waveIndex);
-extern void  func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
+extern void  OS_CreateThread(u32 *thread, void (*entry)(void *), void *arg,
                            u32 *stack, u32 size, u32 prio);
-extern void  func_02085868(u32 *thread);
-extern void  func_020855BC(void *thread);
-extern int   func_0208574C(void *thread);
+extern void  OS_WakeupThreadDirect(u32 *thread);
+extern void  OS_DestroyThread(void *thread);
+extern int   OS_IsThreadTerminated(void *thread);
 
 /* Calls into gfl_use.c (sound heap stack). */
 extern u16   GFL_USE_GetCurrentBgmId(void);
@@ -333,15 +334,15 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  func_020307B0(void *block);
 extern int   NNS_SndWaveOutIsPlaying(struct SndChannel *channel);
 extern struct SndChannel *NNS_SndWaveOutAllocChannel(u32 channelNo);
-extern int   func_02072AA0(struct SndChannel *channel, u32 format, void *data,
+extern int   NNS_SndWaveOutStart(struct SndChannel *channel, u32 format, void *data,
                            u32 loopFlag, u32 start, u32 end, u32 sampleRate,
                            u8 volume, u32 frequency, u8 pan);
 extern u32   NNS_SndArcGetFileSize(u32 fileId);
 extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
 extern void *SNDi_GetBankWaveArcTable(char *file);
-extern void  func_02072BDC(struct SndChannel *channel);
-extern void  func_02072D20(struct SndChannel *channel);
-extern void  func_02072A88(struct SndChannel *channel);
+extern void  NNS_SndWaveOutStop(struct SndChannel *channel);
+extern void  NNS_SndWaveOutWaitIdle(struct SndChannel *channel);
+extern void  NNSi_SndWaveOutUnlockChannel(struct SndChannel *channel);
 extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
 extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
 extern u32   func_020056EC(u32 limit);
@@ -525,7 +526,7 @@ void GFL_USE_UpdateSound(void)
  */
 void GFL_USE_ClearSndHeap(void)
 {
-    func_02074758(_SndState.heap);
+    NNS_SndHeapDestroy(_SndState.heap);
 }
 
 /*
@@ -564,7 +565,7 @@ int GFL_USE_IsLoaderBusy(void)
     if (_SndState.loaderThread == 0) {
         return 0;
     }
-    if (func_0208574C(_WorkerThread) != 0) {
+    if (OS_IsThreadTerminated(_WorkerThread) != 0) {
         return 0;
     }
     return 1;
@@ -628,7 +629,7 @@ void GFL_USE_SetSeqStartFilter(int (*filter)(u32 seqNo))
 /* Stop the BGM at once and drop its data from the sound heap. */
 void GFL_USE_StopBgm(void)
 {
-    func_02072E7C(GFL_USE_GetCurrentSndHandle(), 0);
+    NNS_SndHandleStopSeq(GFL_USE_GetCurrentSndHandle(), 0);
     GFL_USE_UnloadBgmData();
 }
 
@@ -706,7 +707,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
 void GFL_USE_SetBgmPlayerParam(u32 value)
 {
     GFL_USE_FlushBgmChange();
-    func_02072E8C(GFL_USE_GetCurrentSndHandle(), value);
+    NNS_SndHandlePauseSeq(GFL_USE_GetCurrentSndHandle(), value);
 }
 
 /* Fade in to full volume over `frames`. */
@@ -819,7 +820,7 @@ int GFL_USE_IsBgmPlaying(void)
     if (GFL_USE_GetCurrentBgmId() == 0) {
         return 0;
     }
-    if (func_02072EE0(GFL_USE_GetCurrentBgmId()) != 0) {
+    if (NNS_SndPlayerCountPlayingSeqBySeqNo(GFL_USE_GetCurrentBgmId()) != 0) {
         return 1;
     }
     return 0;
@@ -857,7 +858,7 @@ void GFL_USE_CancelBgmChange(void)
     _SndState.changeTrackMask = 0xFFFF;
     _SndState.changeBgm = 0;
     _SndState.fadeCounter = 0;
-    NNS_SndHandleSetSeqPriority(GFL_USE_GetCurrentSndHandle(), SND_VOLUME_MAX);
+    NNS_SndHandleSetVolume(GFL_USE_GetCurrentSndHandle(), SND_VOLUME_MAX);
     _SndState.changePhase = BGM_CHANGE_FADE;
     GFL_USE_StopLoaderThread();
 }
@@ -911,15 +912,15 @@ void GFL_USE_UpdateBgmChange(void)
             if (bgmNo != _SndState.changeBgm) {
                 if (_SndState.fadeCounter != 0) {
                     _SndState.fadeCounter--;
-                    NNS_SndHandleSetSeqPriority(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                    NNS_SndHandleSetVolume(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
                                           _SndState.fadeOutFrames);
                     return;
                 }
-                NNS_SndHandleSetSeqPriority(handle, 0);
+                NNS_SndHandleSetVolume(handle, 0);
             } else {
                 if (_SndState.fadeCounter < _SndState.fadeInFrames) {
                     _SndState.fadeCounter++;
-                    NNS_SndHandleSetSeqPriority(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
+                    NNS_SndHandleSetVolume(handle, _SndState.fadeCounter * SND_VOLUME_MAX /
                                           _SndState.fadeInFrames);
                     return;
                 }
@@ -944,18 +945,18 @@ void GFL_USE_UpdateBgmChange(void)
             _SndState.changePhase = BGM_CHANGE_LOAD_WAVE;
             return;
         }
-        func_02085A38(1);
+        OS_Sleep(1);
         return;
     case BGM_CHANGE_LOAD_WAVE:
         if (GFL_USE_IsLoaderDone() == 1) {
             NNS_SndArcSetReadChunkSize(0);
             GFL_USE_FinishBgmLoad(_SndState.changeBgm);
             func_020755A8(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
-            NNS_SndHandleSetSeqPriority(handle, 0);
+            NNS_SndHandleSetVolume(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
         }
-        func_02085A38(1);
+        OS_Sleep(1);
         return;
     }
 }
@@ -1050,7 +1051,7 @@ void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume)
 
 void GFL_USE_StopSeSlot(int slot)
 {
-    func_02072E7C(&_SeSlots[slot].handle, 0);
+    NNS_SndHandleStopSeq(&_SeSlots[slot].handle, 0);
 }
 
 void GFL_USE_StopAllSe(void)
@@ -1085,7 +1086,7 @@ int GFL_USE_IsAnySeBusy(void)
 
 int GFL_USE_IsSeqPlaying(u32 seqNo)
 {
-    if (func_02072EE0(seqNo) != 0) {
+    if (NNS_SndPlayerCountPlayingSeqBySeqNo(seqNo) != 0) {
         return 1;
     }
     return 0;
@@ -1110,7 +1111,7 @@ void GFL_USE_SetSeSlotVolume(int slot, u32 volume)
     if (volume > SND_VOLUME_MAX) {
         volume = SND_VOLUME_MAX;
     }
-    NNS_SndHandleSetSeqPriority(&_SeSlots[slot].handle, volume);
+    NNS_SndHandleSetVolume(&_SeSlots[slot].handle, volume);
 }
 
 /*
@@ -1122,12 +1123,12 @@ void GFL_USE_SetSeSlotVolume(int slot, u32 volume)
  */
 void GFL_USE_LoaderThreadSeqBank(void *arg)
 {
-    func_02074AC4(*(u32 *)arg, 3, _SndState.heap);
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 3, _SndState.heap);
 }
 
 void GFL_USE_LoaderThreadWaves(void *arg)
 {
-    func_02074AC4(*(u32 *)arg, 4, _SndState.heap);
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 4, _SndState.heap);
 }
 
 /*
@@ -1142,15 +1143,15 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
     GFL_USE_StopLoaderThread();
     switch (mode) {
     case 0:
-        func_020853C0(_WorkerThread, GFL_USE_LoaderThreadSeqBank, &_SndState.loaderSeqNo,
+        OS_CreateThread(_WorkerThread, GFL_USE_LoaderThreadSeqBank, &_SndState.loaderSeqNo,
                       _SndHeapBuf, 0x400, 0x11);
         break;
     case 1:
-        func_020853C0(_WorkerThread, GFL_USE_LoaderThreadWaves, &_SndState.loaderSeqNo,
+        OS_CreateThread(_WorkerThread, GFL_USE_LoaderThreadWaves, &_SndState.loaderSeqNo,
                       _SndHeapBuf, 0x400, 0x11);
         break;
     }
-    func_02085868(_WorkerThread);
+    OS_WakeupThreadDirect(_WorkerThread);
     _SndState.loaderThread = (u32)_WorkerThread;
 }
 
@@ -1158,8 +1159,8 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
 void GFL_USE_StopLoaderThread(void)
 {
     if (_SndState.loaderThread != 0) {
-        if (func_0208574C(_WorkerThread) == 0) {
-            func_020855BC(_WorkerThread);
+        if (OS_IsThreadTerminated(_WorkerThread) == 0) {
+            OS_DestroyThread(_WorkerThread);
             _SndState.loaderThread = 0;
         }
     }
@@ -1171,7 +1172,7 @@ int GFL_USE_IsLoaderDone(void)
     if (_SndState.loaderThread == 0) {
         return 1;
     }
-    return func_0208574C(_WorkerThread);
+    return OS_IsThreadTerminated(_WorkerThread);
 }
 
 /*
@@ -1209,7 +1210,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
                 GFL_USE_StartLoaderThread(bgmNo, 1);
                 (*step)++;
             } else {
-                func_02085A38(2);
+                OS_Sleep(2);
             }
             break;
         case 2:
@@ -1222,7 +1223,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
                 (*step)++;
                 return 1;
             }
-            func_02085A38(2);
+            OS_Sleep(2);
             break;
         default:
             break;
@@ -1260,7 +1261,7 @@ int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
     GFL_USE_SaveSeqBankState();
     for (i = 0; i < 4; i++) {
         if (bank->waveArc[i] != 0xFFFF) {
-            if (func_02074A98(bank->waveArc[i], _SndState.heap) == 0) {
+            if (NNS_SndArcLoadWaveArc(bank->waveArc[i], _SndState.heap) == 0) {
                 return 0;
             }
         }
@@ -1302,7 +1303,7 @@ void GFL_USE_StartSeq(u32 seqNo)
 /* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */
 void GFL_USE_StopSeqAndUnload(void)
 {
-    func_02072E7C(GFL_USE_GetCurrentSndHandle(), 0);
+    NNS_SndHandleStopSeq(GFL_USE_GetCurrentSndHandle(), 0);
     GFL_USE_UnloadBgmData();
 }
 
@@ -1580,7 +1581,7 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
     if (voice->channelA == 0) {
         return 0;
     }
-    if (func_02072AA0(voice->channelA, 0, voice->data, 0, 0, voice->dataSize,
+    if (NNS_SndWaveOutStart(voice->channelA, 0, voice->data, 0, 0, voice->dataSize,
                       voice->sampleRate, PM_VOICE_ScaleVolume(voice->volume),
                       voice->frequency, voice->pan) == 0) {
         return 0;
@@ -1597,7 +1598,7 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
         if (volumeB > SND_VOLUME_MAX) {
             volumeB = SND_VOLUME_MAX;
         }
-        if (func_02072AA0(voice->channelB, 0, voice->data, 0, 0, voice->dataSize,
+        if (NNS_SndWaveOutStart(voice->channelB, 0, voice->data, 0, 0, voice->dataSize,
                           voice->sampleRate, PM_VOICE_ScaleVolume((u8)volumeB),
                           voice->frequency + voice->frequencyOffsetB,
                           voice->pan) == 0) {
@@ -1616,13 +1617,13 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
  */
 void PM_VOICE_Stop(struct PmVoice *voice)
 {
-    func_02072BDC(voice->channelA);
-    func_02072D20(voice->channelA);
-    func_02072A88(voice->channelA);
+    NNS_SndWaveOutStop(voice->channelA);
+    NNS_SndWaveOutWaitIdle(voice->channelA);
+    NNSi_SndWaveOutUnlockChannel(voice->channelA);
     if (voice->dual == 1) {
-        func_02072BDC(voice->channelB);
-        func_02072D20(voice->channelB);
-        func_02072A88(voice->channelB);
+        NNS_SndWaveOutStop(voice->channelB);
+        NNS_SndWaveOutWaitIdle(voice->channelB);
+        NNSi_SndWaveOutUnlockChannel(voice->channelB);
     }
     voice->active = 0;
     PM_VOICE_ResetParams(voice);
@@ -1645,7 +1646,7 @@ u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual,
     if (GFL_USE_IsLoaderBusy() == 1) {
         slot = 2;
         do {
-            func_02085A38(slot);
+            OS_Sleep(slot);
         } while (GFL_USE_IsLoaderBusy() == 1);
     }
     slot = (u16)PM_VOICE_Prepare(species, form, pan, dual, volumeBiasB,

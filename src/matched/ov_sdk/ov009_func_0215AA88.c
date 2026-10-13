@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA88
+ * function: CPS_SocDatagramMode
  * address:  0x0215AA88
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char g_02150FEC[];
 
-void func_0215AA88(void)
+void CPS_SocDatagramMode(void)
 {
     char *q = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
 

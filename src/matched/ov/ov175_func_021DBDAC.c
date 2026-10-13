@@ -10,12 +10,12 @@
  * lever: PC-relative slot audit binds error/cancel/timeout lines to 0x11a0,0x11be,0x11ca; fixing source constants removes three pool-byte mismatches.
  * extent: existing matched ov175_func_021DBFA4.c covers the final16 bytes; keep this504-byte lead alone.
  * symbols:
- *   func_021E10CC 0x021E10CC arm ov175
- *   func_021E1540 0x021E1540 arm ov175
- *   func_021E1414 0x021E1414 arm ov175
- *   func_021E1434 0x021E1434 arm ov175
- *   func_021E1454 0x021E1454 arm ov175
- *   func_021E11F0 0x021E11F0 arm ov175
+ *   DWC_GdbInitialize 0x021E10CC arm ov175
+ *   DWC_GdbUpdateRecordAsync 0x021E1540 arm ov175
+ *   DWC_GdbProcess 0x021E1414 arm ov175
+ *   DWC_GdbGetState 0x021E1434 arm ov175
+ *   DWC_GdbGetAsyncResult 0x021E1454 arm ov175
+ *   DWC_GdbCancelRequest 0x021E11F0 arm ov175
  *   func_021DCE40 0x021DCE40 thumb ov175
  *   func_021DCE08 0x021DCE08 thumb ov175
  *   func_021DCE48 0x021DCE48 thumb ov175
@@ -29,12 +29,12 @@
 #include "../include/Obj00999.h"
 typedef unsigned long u32;
 typedef struct DWCstAccUserData DWCstAccUserData;
-extern int func_021E10CC(int,DWCstAccUserData *,int);
-extern int func_021E1540(char *,int,void *,int);
-extern void func_021E1414(void);
-extern int func_021E1434(void);
-extern u32 func_021E1454(void);
-extern int func_021E11F0(void);
+extern int DWC_GdbInitialize(int,DWCstAccUserData *,int);
+extern int DWC_GdbUpdateRecordAsync(char *,int,void *,int);
+extern void DWC_GdbProcess(void);
+extern int DWC_GdbGetState(void);
+extern u32 DWC_GdbGetAsyncResult(void);
+extern int DWC_GdbCancelRequest(void);
 extern void func_021DCE40(char *,u32,int);
 extern void func_021DCE08(char *,u32,int);
 extern void func_021DCE48(char *,u32,int);
@@ -47,22 +47,22 @@ int func_021DBDAC(char *p)
     long r;
     switch(((struct Obj00999 *)p)->f12C) {
     case 0:
-        r=func_021E10CC(0xb5f,*(DWCstAccUserData * *)&((struct Obj00999 *)p)->f0,0);
+        r=DWC_GdbInitialize(0xb5f,*(DWCstAccUserData * *)&((struct Obj00999 *)p)->f0,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1161);func_021DB6A0(p);return 2;}
         ((struct Obj00999 *)p)->f12C=1;break;
     case 1:
         if(((struct Obj00999 *)p)->f198>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
-        r=func_021E1540((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
+        r=DWC_GdbUpdateRecordAsync((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
         if(r!=0) {func_021DCE40(p+0x18,r,0x116e);func_021DB6A0(p);return 2;}
         ((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=2;break;
     case 2:
         if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x117b);((struct Obj00999 *)p)->f12C=6;break;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DCE48(p+0x18,r,0x1186);((struct Obj00999 *)p)->f12C=6;}
         else if(r==1)((struct Obj00999 *)p)->f12C=3;
         break;
     case 3:
-        r=func_021E1454();
+        r=DWC_GdbGetAsyncResult();
         if(r==0) {func_021DCE50(p+0x18,r,0x1199);((struct Obj00999 *)p)->f12C=6;}
         else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x11a0);return 2;}
         else ((struct Obj00999 *)p)->f12C=4;
@@ -71,13 +71,13 @@ int func_021DBDAC(char *p)
         func_021DB6A0(p);((struct Obj00999 *)p)->f12C=5;
     case 5:return 1;
     case 6:
-        r=func_021E11F0();
+        r=DWC_GdbCancelRequest();
         if(r==0) {((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=7;}
         else {func_021DCE40(p+0x18,r,0x11be);func_021DB6A0(p);return 2;}
         break;
     case 7:
         if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x11ca);func_021DB6A0(p);return 2;}
-        func_021E1414();r=func_021E1434();
+        DWC_GdbProcess();r=DWC_GdbGetState();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
         if(r==1)((struct Obj00999 *)p)->f12C=8;
         break;

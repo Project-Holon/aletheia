@@ -1,5 +1,5 @@
 /*
- * function: func_02175EFC
+ * function: DWCi_IsServerChanging
  * address:  0x02175EFC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_02175EFC(void)
+int DWCi_IsServerChanging(void)
 {
     unsigned int v = *(unsigned int *)(func_02175F3C() + 0x61c) - 9;
 

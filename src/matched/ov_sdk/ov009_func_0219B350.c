@@ -1,5 +1,5 @@
 /*
- * function: func_0219B350
+ * function: qr2_check_send_heartbeat
  * address:  0x0219B350
  * packet:   pkt_ov009_0219B350
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   func_0217F264  0x0217F264  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
- *   func_0219CE58  0x0219CE58  arm   ov009
- *   func_0219CDBC  0x0219CDBC  arm   ov009
+ *   send_heartbeat  0x0219CE58  arm   ov009
+ *   send_keepalive  0x0219CDBC  arm   ov009
  *   g_021A7564     0x021A7564  data
  *   g_021A7578     0x021A7578  data
  *   g_021A75B8     0x021A75B8  data
@@ -77,13 +77,13 @@ typedef struct qr2_implementation_s {
 
 extern unsigned int func_0217F264(void);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0219CE58(qr2_implementation_s *qrec, int statechanged);
-extern void func_0219CDBC(qr2_implementation_s *qrec);
+extern void send_heartbeat(qr2_implementation_s *qrec, int statechanged);
+extern void send_keepalive(qr2_implementation_s *qrec);
 extern char g_021A7564[];
 extern char g_021A7578[];
 extern char g_021A75B8[];
 
-void func_0219B350(qr2_implementation_s *qrec)
+void qr2_check_send_heartbeat(qr2_implementation_s *qrec)
 {
     unsigned int tc = func_0217F264();
 
@@ -98,13 +98,13 @@ void func_0219B350(qr2_implementation_s *qrec)
             qrec->adderror_callback(5, g_021A75B8, qrec->udata);
             return;
         }
-        func_0219CE58(qrec, 3);
+        send_heartbeat(qrec, 3);
         qrec->listed_state++;
     } else if (qrec->userstatechangerequested && tc - qrec->lastheartbeat > 10000) {
-        func_0219CE58(qrec, 1);
+        send_heartbeat(qrec, 1);
     } else if (tc - qrec->lastheartbeat > 60000 || qrec->lastheartbeat == 0 || tc < qrec->lastheartbeat) {
-        func_0219CE58(qrec, 0);
+        send_heartbeat(qrec, 0);
     }
     if (func_0217F264() - qrec->lastka > 20000)
-        func_0219CDBC(qrec);
+        send_keepalive(qrec);
 }

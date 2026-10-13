@@ -1,5 +1,5 @@
 /*
- * function: func_06899F64
+ * function: BTLV_SCD_StartRotateMenu
  * address:  0x06899F64
  * packet:   pkt_ov095_06899F64
  * region:   ov095
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_06899E48  0x06899E48  thumb  ov095
+ *   BTLV_SCD_PushTask  0x06899E48  thumb  ov095
  *   func_06899FA4  0x06899FA4  thumb  ov095
  *   func_06899FB4  0x06899FB4  thumb  ov095
  *   func_06899FC4  0x06899FC4  thumb  ov095
- *   func_0689ABA0  0x0689ABA0  thumb  ov095
- *   func_0689AB48  0x0689AB48  thumb  ov095
+ *   BTLV_SCD_WaitRotateTouchStep  0x0689ABA0  thumb  ov095
+ *   BTLV_SCD_OpenRotateMenuStep  0x0689AB48  thumb  ov095
  */
 #include "../include/Obj07913.h"
 
@@ -24,21 +24,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Q;
-extern void func_06899E48(struct Q *p, void *a, void *b);
+extern void BTLV_SCD_PushTask(struct Q *p, void *a, void *b);
 extern void func_06899FA4(void *);
 extern void func_06899FB4(void *);
 extern void func_06899FC4(void *);
-extern int func_0689ABA0(int unused, u8 *s);
-extern int func_0689AB48(int unused, u8 *s);
+extern int BTLV_SCD_WaitRotateTouchStep(int unused, u8 *s);
+extern int BTLV_SCD_OpenRotateMenuStep(int unused, u8 *s);
 
-void func_06899F64(u8 *s, u8 *a, void *b)
+void BTLV_SCD_StartRotateMenu(u8 *s, u8 *a, void *b)
 {
     ((struct Obj07913 *)s)->f98 = 0;
     *(u8 * *)&((struct Obj07913 *)s)->f7C = a;
     ((struct Obj07913 *)s)->f70 = b;
-    ((struct Obj07913 *)s)->f68 = (void *)func_0689ABA0;
+    ((struct Obj07913 *)s)->f68 = (void *)BTLV_SCD_WaitRotateTouchStep;
     func_06899FA4(b);
     func_06899FB4(a + 0x18);
     func_06899FC4(a + 0x1c);
-    func_06899E48((struct Q *)s, (void *)func_0689AB48, (void *)func_0689ABA0);
+    BTLV_SCD_PushTask((struct Q *)s, (void *)BTLV_SCD_OpenRotateMenuStep, (void *)BTLV_SCD_WaitRotateTouchStep);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207D6C0
+ * function: DWCi_WindowG2x_ChangeBlendBrightness_
  * address:  0x0207D6C0
  * packet:   pkt_0207D6C0
  * region:   arm9
@@ -25,7 +25,7 @@ typedef volatile u32 vu32;
 
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
 
-void func_0207D6C0(u32 addr, int brightness)
+void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness)
 {
     u16 tmp = *(vu16 *)addr;
 

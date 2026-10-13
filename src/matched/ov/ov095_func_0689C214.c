@@ -1,5 +1,5 @@
 /*
- * function: func_0689C214
+ * function: BTL_SICK_OnItemBlockAdded
  * address: 0x0689C214
  * packet: pkt_ov095_0689C214
  * region: ov095
@@ -22,7 +22,7 @@ extern int func_0689C244(void *);
 extern void *func_0689C254(void *, int, int);
 extern int func_0689C264(void *);
 extern void func_0689C274(void *, void *);
-void func_0689C214(void *a, void *b)
+void BTL_SICK_OnItemBlockAdded(void *a, void *b)
 {
     void *r;
     r = func_0689C254(a, 0x21, func_0689C244(b));

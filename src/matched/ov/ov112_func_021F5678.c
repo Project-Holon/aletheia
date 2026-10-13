@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020649D4 0x020649D4 arm
+ *   NNS_G2dTickMCAnimation 0x020649D4 arm
  *   d_02FFFC3C 0x02FFFC3C data a4
  */
 #include "../include/Obj10305.h"
 typedef unsigned int u32;
 extern u32 d_02FFFC3C;
-extern void func_020649D4(char *, int);
+extern void NNS_G2dTickMCAnimation(char *, int);
 typedef struct { u32 low:1; u32 paused:1; u32 rest:30; } Flags;
 void func_021F5678(char *p)
 {
@@ -28,7 +28,7 @@ void func_021F5678(char *p)
     for (; i < ((struct Obj10305 *)p)->f0; i++) {
         child = (*(char ***)(p + 4))[i];
         if (child && !((Flags *)(child + 236))->paused)
-            func_020649D4(child + 40, delta << 12);
+            NNS_G2dTickMCAnimation(child + 40, delta << 12);
     }
     ((struct Obj10305 *)p)->f18 = now;
 }

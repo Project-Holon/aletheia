@@ -1,5 +1,5 @@
 /*
- * function: func_021D1208
+ * function: DWCi_WINlInitEx
  * address:  0x021D1208
  * packet:   pkt_ov016_021D1208
  * region:   ov016
@@ -35,15 +35,15 @@
  *   DWCi_GXlSetWndPosition           0x021d60ec arm
  *   disp                             0x021d1868 arm
  *   DWCi_TSKlForm                    0x021d7680 arm
- *   g_021DAA58                       0x021daa58 data
- *   g_021DE598                       0x021de598 data
- *   g_021DE658                       0x021de658 data
- *   g_021DA9A0                       0x021da9a0 data
- *   g_021DA9A6                       0x021da9a6 data
- *   g_021DA9C8                       0x021da9c8 data
- *   g_021DA9E6                       0x021da9e6 data
- *   g_021DA9E8                       0x021da9e8 data
- *   g_021DA9AC                       0x021da9ac data
+ *   sWindowTable15                       0x021daa58 data
+ *   gCommentWork                       0x021de598 data
+ *   gWindowWork                       0x021de658 data
+ *   sWindowTable1                       0x021da9a0 data
+ *   sWindowTable2                       0x021da9a6 data
+ *   sWindowTable7                       0x021da9c8 data
+ *   sWindowTable9                       0x021da9e6 data
+ *   sWindowTable10                       0x021da9e8 data
+ *   sWindowTable3                       0x021da9ac data
  *   taskV                            0x021d1598 arm  ov016
  *   taskMove                         0x021d15f0 arm  ov016
  */
@@ -87,64 +87,64 @@ extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, u
 extern void taskV(void *task);
 extern void taskMove(void *task);
 
-extern u8 g_021DAA58[6];
-extern void *g_021DE598;
-extern struct MemWinT *g_021DE658;
-extern const u8 g_021DA9A0[6];
-extern const u8 g_021DA9A6[6];
-extern const u8 g_021DA9C8[][2];
-extern u16 g_021DA9E6[];
-extern u16 g_021DA9E8[];
-extern u16 g_021DA9AC[4];
+extern u8 sWindowTable15[6];
+extern void *gCommentWork;
+extern struct MemWinT *gWindowWork;
+extern const u8 sWindowTable1[6];
+extern const u8 sWindowTable2[6];
+extern const u8 sWindowTable7[][2];
+extern u16 sWindowTable9[];
+extern u16 sWindowTable10[];
+extern u16 sWindowTable3[4];
 
-void func_021D1208(int msg, int type, bool dark, int n, int num)
+void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
 {
     u8 EFF[6];
     int obj;
     int i;
     u16 *ms;
 
-    EFF[0] = g_021DAA58[0];
-    EFF[1] = g_021DAA58[1];
-    EFF[2] = g_021DAA58[2];
-    EFF[3] = g_021DAA58[3];
-    EFF[4] = g_021DAA58[4];
-    EFF[5] = g_021DAA58[5];
+    EFF[0] = sWindowTable15[0];
+    EFF[1] = sWindowTable15[1];
+    EFF[2] = sWindowTable15[2];
+    EFF[3] = sWindowTable15[3];
+    EFF[4] = sWindowTable15[4];
+    EFF[5] = sWindowTable15[5];
 
-    ms = DWCi_MSGlGetEx(g_021DE598, msg, n, num);
-    g_021DE658 = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
-    g_021DE658->type = type;
-    g_021DE658->input = -2;
-    g_021DE658->dark = dark;
+    ms = DWCi_MSGlGetEx(gCommentWork, msg, n, num);
+    gWindowWork = (struct MemWinT *)((MemWinT *)DWCi_HEAPlAllocEx(0x20, 4));
+    gWindowWork->type = type;
+    gWindowWork->input = -2;
+    gWindowWork->dark = dark;
     G2x_SetBlendBrightness_(0x04000050, 0x1f, 0);
 
-    g_021DE658->cellWin = DWCi_CEINlSetExCell(0, g_021DA9A0[type], 0);
-    DWCi_CELLlSetPosition(g_021DE658->cellWin, -1, 0x100, 0);
-    DWCi_CELLlSetPriority(g_021DE658->cellWin, -1, 0);
+    gWindowWork->cellWin = DWCi_CEINlSetExCell(0, sWindowTable1[type], 0);
+    DWCi_CELLlSetPosition(gWindowWork->cellWin, -1, 0x100, 0);
+    DWCi_CELLlSetPriority(gWindowWork->cellWin, -1, 0);
 
-    for (i = 0; i < g_021DA9A6[type]; i++) {
-        g_021DE658->button[i] = DWCi_CEINlSetExCell(0, g_021DA9C8[type][i], 0);
-        DWCi_CELLlSetPosition(g_021DE658->button[i], -1, 0x100, 0);
-        DWCi_CELLlSetPriority(g_021DE658->button[i], -1, 0);
+    for (i = 0; i < sWindowTable2[type]; i++) {
+        gWindowWork->button[i] = DWCi_CEINlSetExCell(0, sWindowTable7[type][i], 0);
+        DWCi_CELLlSetPosition(gWindowWork->button[i], -1, 0x100, 0);
+        DWCi_CELLlSetPriority(gWindowWork->button[i], -1, 0);
     }
 
-    g_021DE658->canv = DWCi_FNTlFormEx(0, 0x20, 0xc, 1, &obj, 0);
-    g_021DE658->cellChar = DWCi_CELLlForm(0, obj, 0);
-    DWCi_FNTlDrawRect(g_021DE658->canv, 0, 0, g_021DA9E6[type * 2], g_021DA9E8[type * 2], 2, DWCi_CMNlFontFlag(), ms);
-    DWCi_FNTlDisp(g_021DE658->canv, 0x100, 0, g_021DE658->cellChar, 0);
+    gWindowWork->canv = DWCi_FNTlFormEx(0, 0x20, 0xc, 1, &obj, 0);
+    gWindowWork->cellChar = DWCi_CELLlForm(0, obj, 0);
+    DWCi_FNTlDrawRect(gWindowWork->canv, 0, 0, sWindowTable9[type * 2], sWindowTable10[type * 2], 2, DWCi_CMNlFontFlag(), ms);
+    DWCi_FNTlDisp(gWindowWork->canv, 0x100, 0, gWindowWork->cellChar, 0);
 
     DWCi_GXlSetWndPlane(0, 0, 0x1f, 0);
-    DWCi_GXlSetWndPlane(0, 1, 0x1f, EFF[g_021DE658->type]);
+    DWCi_GXlSetWndPlane(0, 1, 0x1f, EFF[gWindowWork->type]);
     DWCi_GXlSetWndPlane(0, 3, 0x1f, 1);
-    DWCi_GXlSetWndPosition(0, 1, g_021DA9AC);
+    DWCi_GXlSetWndPosition(0, 1, sWindowTable3);
 
     disp(0xc0);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0xE000) | 0x6000;
 
     if (dark)
-        g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
     else
-        g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
 }
 
 

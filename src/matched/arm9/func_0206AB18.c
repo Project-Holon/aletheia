@@ -1,5 +1,5 @@
 /*
- * function: func_0206AB18
+ * function: MTX_Inverse44
  * address:  0x0206AB18
  * packet:   pkt_0206A17C
  * region:   arm9
@@ -32,8 +32,8 @@
  * variable with an earlier role.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206AB18.c
- *       --func func_0206AB18 --addr 0x0206AB18 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/MTX_Inverse44.c
+ *       --func MTX_Inverse44 --addr 0x0206AB18 --arm --cc ../2.0/sp2
  */
 
 typedef int s32;
@@ -53,7 +53,7 @@ static inline fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
     return (fx32)(tmp >> 32);
 }
 
-int func_0206AB18(const MtxFx44 *pSrc, MtxFx44 *pDst)
+int MTX_Inverse44(const MtxFx44 *pSrc, MtxFx44 *pDst)
 {
     MtxFx44 tmp;
     int i, j, k, r;

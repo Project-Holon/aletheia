@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B62AC",
-    "func_021B62FC"
+    "COMPATIBLE_IRC_SYS_StepSyncTiming",
+    "COMPATIBLE_IRC_SYS_IsPartnerReady"
+   ],
+   "addresses": [
+    "0x021B62AC",
+    "0x021B62FC"
    ]
   }
  ]

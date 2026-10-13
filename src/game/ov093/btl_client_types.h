@@ -43,6 +43,26 @@ typedef union {
     BtlClientFlags bit;
 } BtlClientFlagsUnion;
 
+/* Replay position counter of a remote client: the viewer steps a target
+   number up or down, and the client confirms it or times out. */
+typedef struct {
+    u8 state; /* 0 selecting, 1 fading out, 2 finished */
+    u8 mode; /* how the selection ended: 1 confirmed by the viewer, 2 timed out */
+    u8 replaying : 1; /* a replay target is set */
+    u8 fadeStarted : 1;
+    u8 fadeDone : 1;
+    u8 advancePending : 1; /* current should move one step */
+    u8 locked : 1; /* selection not allowed yet */
+    u8 disabled : 1;
+    u8 rest : 2;
+    u8 pad3;
+    u16 confirmDelay; /* frames until the target is confirmed on its own */
+    u16 current; /* position reached */
+    u16 target; /* position the viewer selected */
+    u16 maximum; /* highest selectable position */
+    u16 tick; /* replay step counter */
+} BtlClientCounter;
+
 struct BtlClient {
     void *main; /* 0x000 battle main object */
     void *side; /* 0x004 battle side data */
@@ -50,7 +70,8 @@ struct BtlClient {
     u8 *actionCursor; /* 0x00C cursor into the chosen action record */
     void *timeLimitTimer; /* 0x010 time limit timer object */
     void *remoteLink; /* 0x014 link to the remote player */
-    u8 commandQueue[0x10]; /* 0x018 queue of pending commands */
+    BtlClientCounter counter; /* 0x018 replay position counter */
+    u8 pad026[2];
     BtlClientTickFn tickFn; /* 0x028 per-frame function */
     BtlClientPoint cursor; /* 0x02C cursor position */
     void *battleField; /* 0x034 field state */
@@ -74,7 +95,7 @@ struct BtlClient {
     int sendFlag; /* 0x0E0 send flag word */
     u16 timeLimit; /* 0x0E4 time limit */
     u16 timeElapsed; /* 0x0E6 time elapsed */
-    u8 pad0E8[0x8];
+    u16 trainerItems[4]; /* 0x0E8 items the trainer can use in battle, 0 for an empty entry */
     void *recorder; /* 0x0F0 battle recorder */
     BtlClientRng rng; /* 0x0F4 random number generator state */
     s8 slotOrder[6]; /* 0x10C order of the slots */
@@ -92,7 +113,7 @@ struct BtlClient {
     u8 slotFlags[3]; /* 0x130 flag byte per slot */
     u8 pad133;
     void *workBuffer; /* 0x134 work buffer (0xBC0 bytes) */
-    u8 seqCursorBuf[0x40]; /* 0x138 cursor of the running sequence */
+    u32 seqArgs[16]; /* 0x138 arguments of the running command, filled by the server command reader */
     int seqCode; /* 0x178 code of the running sequence */
     BtlClientSeqFn seqFn; /* 0x17C function of the running sequence */
     int seqState; /* 0x180 state of the running sequence */

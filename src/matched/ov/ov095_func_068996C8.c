@@ -1,5 +1,5 @@
 /*
- * function: func_068996C8
+ * function: HAND_SIDE_GetHandlersToxicSpikes
  * address: 0x068996C8
  * packet: pkt_ov095_068996C8
  * region: ov095
@@ -9,13 +9,13 @@
  * status: EXACT
  * Unlabelled store-and-return follower after the 0x068996B8 veneer.
  * symbols:
- *   data_0689D708 0x0689D708 data a4
+ *   gHandSideToxicSpikesHandlers 0x0689D708 data a4
  */
 typedef unsigned int u32;
-extern unsigned char data_0689D708[];
+extern unsigned char gHandSideToxicSpikesHandlers[];
 
-void *func_068996C8(u32 *p)
+void *HAND_SIDE_GetHandlersToxicSpikes(u32 *p)
 {
     *p = 1;
-    return data_0689D708;
+    return gHandSideToxicSpikesHandlers;
 }

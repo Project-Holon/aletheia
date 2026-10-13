@@ -1,7 +1,7 @@
 /*
  * file:     objvram.c
  * unit:     yes
- * function: func_021D6F9C, func_021D705C, func_021D71C0
+ * function: DWCi_OVRlInit, DWCi_OVRlAlloc, DWCi_OVRlFree
  * address:  0x021D6F9C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5410  0x021D5410  arm  ov016
- *   func_021D6D44  0x021D6D44  arm  ov016
- *   func_021D6E04  0x021D6E04  arm  ov016
- *   func_021D6DF4  0x021D6DF4  arm  ov016
- *   g_021DE6AC  0x021DE6AC  data
- *   func_021D54C4 0x021D54C4 arm ov016
- *   func_02084998 0x02084998 arm
- *   func_021D6DC4 0x021D6DC4 arm ov016
- *   func_02088234 0x02088234 arm
- *   func_02084968 0x02084968 arm
- *   func_021D6D8C  0x021D6D8C  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_QUElFormEx  0x021D5410  arm  ov016
+ *   DWCi_LSTlForm  0x021D6D44  arm  ov016
+ *   DWCi_LSTlPushFront  0x021D6E04  arm  ov016
+ *   DWCi_LSTlPushBack  0x021D6DF4  arm  ov016
+ *   gObjvramWork  0x021DE6AC  data
+ *   DWCi_QUElPopBack 0x021D54C4 arm ov016
+ *   OS_DisableIrqMask 0x02084998 arm
+ *   DWCi_LSTlInsert 0x021D6DC4 arm ov016
+ *   OS_Terminate 0x02088234 arm
+ *   OS_EnableIrqMask 0x02084968 arm
+ *   DWCi_LSTlErase  0x021D6D8C  arm  ov016
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
  */
 struct ListCB;
 typedef struct Ovr {
@@ -51,49 +51,48 @@ typedef unsigned short u16;
 
 typedef unsigned long u32;
 
-extern void *func_021D6414(unsigned long size, int align);
-extern void *func_021D5410(long size, void *data, long dsize);
-extern struct ListCB *func_021D6D44(void);
-extern void func_021D6E04(char *p, void *ob);
-extern void func_021D6DF4(char *p, void *ob);
-extern void *func_021D54C4(void *queue);
-extern u32 func_02084998(u32 intr);
-extern void func_021D6DC4(void *pos, void *ob);
-extern void func_02088234(void);
-extern u32 func_02084968(u32 intr);
-extern void func_021D6D8C(void *ob);
-extern void func_021D546C(void *que, void *data);
-void func_021D6F9C(void);
-void *func_021D705C(int lcd, int num, int head, int *name);
-void func_021D71C0(void *ovram);
-extern MemOvr *g_021DE6AC;
-
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
+extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
+extern struct ListCB *DWCi_LSTlForm(void);
+extern void DWCi_LSTlPushFront(char *p, void *ob);
+extern void DWCi_LSTlPushBack(char *p, void *ob);
+extern void *DWCi_QUElPopBack(void *queue);
+extern u32 OS_DisableIrqMask(u32 intr);
+extern void DWCi_LSTlInsert(void *pos, void *ob);
+extern void OS_Terminate(void);
+extern u32 OS_EnableIrqMask(u32 intr);
+extern void DWCi_LSTlErase(void *ob);
+extern void DWCi_QUElPushBack(void *que, void *data);
+void DWCi_OVRlInit(void);
+void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
+void DWCi_OVRlFree(void *ovram);
+extern MemOvr *gObjvramWork;
 
 
 /*
  * sdk:      DWCi_OVRlInit (libdwcutil.TWL.HYB.a(objvram.o))
  */
-void func_021D6F9C(void)
+
+void DWCi_OVRlInit(void)
 {
 	int i;
 
-	g_021DE6AC = func_021D6414(0x340, 4);
+	gObjvramWork = DWCi_HEAPlAllocEx(0x340, 4);
 	for (i = 0; i < 2; i++) {
-		g_021DE6AC->lcd[i].queue = func_021D5410(0x20, &g_021DE6AC->lcd[i], 0xc);
-		g_021DE6AC->lcd[i].list = func_021D6D44();
-		g_021DE6AC->lcd[i].first.pos = 0x300;
-		g_021DE6AC->lcd[i].last.pos = 0x400;
-		func_021D6E04(g_021DE6AC->lcd[i].list, &g_021DE6AC->lcd[i].first);
-		func_021D6DF4(g_021DE6AC->lcd[i].list, &g_021DE6AC->lcd[i].last);
+		gObjvramWork->lcd[i].queue = DWCi_QUElFormEx(0x20, &gObjvramWork->lcd[i], 0xc);
+		gObjvramWork->lcd[i].list = DWCi_LSTlForm();
+		gObjvramWork->lcd[i].first.pos = 0x300;
+		gObjvramWork->lcd[i].last.pos = 0x400;
+		DWCi_LSTlPushFront(gObjvramWork->lcd[i].list, &gObjvramWork->lcd[i].first);
+		DWCi_LSTlPushBack(gObjvramWork->lcd[i].list, &gObjvramWork->lcd[i].last);
 	}
 }
-
 
 
 /*
  * sdk:      DWCi_OVRlAlloc (libdwcutil.TWL.HYB.a(objvram.o))
  */
-void *func_021D705C(int lcd, int num, int head, int *name)
+void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name)
 {
     Ovr *info;
     Ovr *c;
@@ -102,41 +101,41 @@ void *func_021D705C(int lcd, int num, int head, int *name)
     u32 irq;
     int nu;
 
-    info = func_021D54C4(g_021DE6AC->lcd[lcd].queue);
+    info = DWCi_QUElPopBack(gObjvramWork->lcd[lcd].queue);
     nu = ((num + 3) & ~3) >> 2;
     info->size = nu;
-    irq = func_02084998(1);
+    irq = OS_DisableIrqMask(1);
     if (head) {
-        c = &g_021DE6AC->lcd[lcd].first;
-        while (c != &g_021DE6AC->lcd[lcd].last) {
+        c = &gObjvramWork->lcd[lcd].first;
+        while (c != &gObjvramWork->lcd[lcd].last) {
             n = c->next;
             nx = c->pos + c->size;
             if (nx + nu <= n->pos) {
                 info->pos = nx;
-                func_021D6DC4(n, info);
+                DWCi_LSTlInsert(n, info);
                 break;
             }
             c = n;
         }
-        if (c == &g_021DE6AC->lcd[lcd].last)
-            func_02088234();
+        if (c == &gObjvramWork->lcd[lcd].last)
+            OS_Terminate();
     } else {
-        c = &g_021DE6AC->lcd[lcd].last;
-        while (c != &g_021DE6AC->lcd[lcd].first) {
+        c = &gObjvramWork->lcd[lcd].last;
+        while (c != &gObjvramWork->lcd[lcd].first) {
             n = c->prev;
             nx = c->pos - nu;
             if (nx >= n->pos + n->size) {
                 info->pos = nx;
-                func_021D6DC4(c, info);
+                DWCi_LSTlInsert(c, info);
                 break;
             }
             c = n;
         }
-        if (c == &g_021DE6AC->lcd[lcd].first)
-            func_02088234();
+        if (c == &gObjvramWork->lcd[lcd].first)
+            OS_Terminate();
     }
     *name = info->pos;
-    func_02084968(irq);
+    OS_EnableIrqMask(irq);
     return info;
 }
 
@@ -144,12 +143,12 @@ void *func_021D705C(int lcd, int num, int head, int *name)
 /*
  * sdk:      DWCi_OVRlFree (libdwcutil.TWL.HYB.a(objvram.o))
  */
-void func_021D71C0(void *ovram)
+void DWCi_OVRlFree(void *ovram)
 {
 	int lcd = 0;
 
-	func_021D6D8C(ovram);
-	if ((char *)ovram >= (char *)&g_021DE6AC->lcd[1])
+	DWCi_LSTlErase(ovram);
+	if ((char *)ovram >= (char *)&gObjvramWork->lcd[1])
 		lcd = 1;
-	func_021D546C(g_021DE6AC->lcd[lcd].queue, ovram);
+	DWCi_QUElPushBack(gObjvramWork->lcd[lcd].queue, ovram);
 }

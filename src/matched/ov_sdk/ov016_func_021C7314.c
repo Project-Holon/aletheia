@@ -12,15 +12,15 @@
  * sdk:      procInit1 (libdwcutil.TWL.HYB.a sceneseteditaddress.o)
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021BF390  0x021BF390  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021BF6F4  0x021BF6F4  arm  ov016
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_KB10lInit  0x021BF390  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_KB10lSetErase  0x021BF6F4  arm  ov016
  *   func_021C7690  0x021C7690  arm  ov016
- *   func_021BF708  0x021BF708  arm  ov016
- *   func_021BF71C  0x021BF71C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5E4     0x021DE5E4  data
+ *   DWCi_KB10lSetInput  0x021BF708  arm  ov016
+ *   DWCi_KB10lSetShift  0x021BF71C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gMemSsea     0x021DE5E4  data
  *   func_021C73A0  0x021C73A0  arm  ov016
  */
 
@@ -28,32 +28,32 @@
 
 typedef struct MemSsea MemSsea;
 
-extern int func_021D5580();
-extern void func_021BF390();
-extern void func_021CFFAC(unsigned int v);
-extern void func_021BF6F4(unsigned char v);
+extern int DWCi_EFFlCheck();
+extern void DWCi_KB10lInit();
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_KB10lSetErase(unsigned char v);
 extern int func_021C7690(int val);
-extern void func_021BF708(unsigned char v);
-extern void func_021BF71C(unsigned char v);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_KB10lSetInput(unsigned char v);
+extern void DWCi_KB10lSetShift(unsigned char v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C73A0();
-extern struct MemSsea *g_021DE5E4;
+extern struct MemSsea *gMemSsea;
 
 void func_021C7314(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    func_021BF390();
-    func_021CFFAC(0x14);
-    if (g_021DE5E4->pos == 0) {
-        func_021BF6F4(0);
-        func_021BF71C(0);
+    DWCi_KB10lInit();
+    DWCi_SNDlPlay(0x14);
+    if (gMemSsea->pos == 0) {
+        DWCi_KB10lSetErase(0);
+        DWCi_KB10lSetShift(0);
     } else {
         if (func_021C7690(0x1A))
-            func_021BF708(0);
-        func_021BF71C(0);
+            DWCi_KB10lSetInput(0);
+        DWCi_KB10lSetShift(0);
     }
-    func_021C0E40((unsigned int)func_021C73A0);
+    DWCi_ChangeScene((unsigned int)func_021C73A0);
 }

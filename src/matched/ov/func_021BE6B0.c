@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6B0
+ * function: WIFICLUB_StateResetBgScroll
  * address:  0x021BE6B0
  * packet:   pkt_021BE6B0
  * region:   ov099
@@ -34,7 +34,7 @@ typedef struct {
     u32 f1CC;
 } S;
 
-int func_021BE6B0(S *s, int b)
+int WIFICLUB_StateResetBgScroll(S *s, int b)
 {
     sub_0204047C(0, 3);
     sub_0204047C(1, 1);

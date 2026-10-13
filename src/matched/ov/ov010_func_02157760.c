@@ -27,7 +27,7 @@
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
  */
 #include "../include/Obj04145.h"
@@ -41,7 +41,7 @@ extern u8 *NET_WHPIPE_GetEntryBeaconData(int);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 idx);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 i);
-extern void func_02082D44(void *, void *, u32);
+extern void MI_CpuCopy8(void *, void *, u32);
 extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
 
 typedef struct P {
@@ -84,7 +84,7 @@ void DELIVERY_BEACON_StepCollectPieces(u8 *q)
                 if (p->sel == 0xFF)
                     p->sel = e[0x5E];
                 NET_WHPIPE_SelectEntry(i);
-                func_02082D44(e, base + idx * 100, 100);
+                MI_CpuCopy8(e, base + idx * 100, 100);
                 NET_WHPIPE_ReleaseAllEntrySlots();
             }
         }

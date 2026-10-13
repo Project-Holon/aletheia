@@ -1,5 +1,5 @@
 /*
- * function: func_021D5250
+ * function: DWCi_CELLlGetPosition
  * address:  0x021D5250
  * packet:   pkt_ov016_021D5250
  * region:   ov016
@@ -28,7 +28,7 @@ typedef struct {
     OamAttr *oam;
 } CellInfo;
 
-void func_021D5250(void *cell, int idx, int *x, int *y)
+void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y)
 {
     OamAttr *oam = ((CellInfo *)cell)->oam;
     *x = (oam[idx].attr01 & 0x01ff0000) >> 16;

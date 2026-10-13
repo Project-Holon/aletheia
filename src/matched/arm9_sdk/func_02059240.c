@@ -1,5 +1,5 @@
 /*
- * function: func_02059240
+ * function: DWCi_SetReverseBuddyFlag
  * address:  0x02059240
  * packet:   pkt_02059240
  * region:   arm9
@@ -19,7 +19,7 @@
 extern unsigned long DWCi_Acc_GetFlags(void *userdata);
 extern void DWCi_Acc_SetFlags(void *userdata, unsigned long flags);
 
-void func_02059240(void *frienddata, int setflag)
+void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag)
 {
     unsigned long tempflags;
 

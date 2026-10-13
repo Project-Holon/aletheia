@@ -13,9 +13,9 @@
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_0206A2CC  0x0206A2CC  arm
- *   func_0206A4AC  0x0206A4AC  arm
- *   func_02069D14  0x02069D14  arm
+ *   NNS_G3dBindMdlTex  0x0206A2CC  arm
+ *   NNS_G3dBindMdlPltt  0x0206A4AC  arm
+ *   NNS_G3dRenderObjInit  0x02069D14  arm
  */
 #include "../include/Obj12388.h"
 
@@ -27,9 +27,9 @@ struct Tagged;
 extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern int NNS_G3dGetMdlSet(int p0);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
-extern void func_0206A2CC(void *a, void *b);
-extern void func_0206A4AC(void *a, void *b);
-extern void func_02069D14(void *a, void *b);
+extern void NNS_G3dBindMdlTex(void *a, void *b);
+extern void NNS_G3dBindMdlPltt(void *a, void *b);
+extern void NNS_G3dRenderObjInit(void *a, void *b);
 
 static inline u32 *Get(u8 *r, u32 idx)
 {
@@ -60,8 +60,8 @@ void FIELD_G3D_MAP_InitRenderObj(void *a, void *b, void *c)
     if (y != 0)
         m = NNS_G3dGetTex(y);
     if (m != 0) {
-        func_0206A2CC(res, m);
-        func_0206A4AC(res, m);
+        NNS_G3dBindMdlTex(res, m);
+        NNS_G3dBindMdlPltt(res, m);
     }
-    func_02069D14(a, res);
+    NNS_G3dRenderObjInit(a, res);
 }

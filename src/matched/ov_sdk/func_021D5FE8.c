@@ -1,5 +1,5 @@
 /*
- * function: func_021D5FE8
+ * function: DWCi_InputCoord
  * address:  0x021D5FE8
  * packet:   pkt_021D5FE8
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5FE8   0x021D5FE8  arm
+ *   DWCi_InputCoord   0x021D5FE8  arm
  *
  * Write two halfwords through the out pointer.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D5FE8.c \
- *       --func func_021D5FE8 --addr 0x021D5FE8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_InputCoord.c \
+ *       --func DWCi_InputCoord --addr 0x021D5FE8 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021D5FE8(int a, int b, unsigned short *p)
+void DWCi_InputCoord(int a, int b, unsigned short *p)
 {
     p[0] = a;
     p[1] = b;

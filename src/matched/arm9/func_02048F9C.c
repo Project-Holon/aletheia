@@ -12,6 +12,10 @@
  * symbols:
  *   arc_tool_file 0x020A7EE0  data
  *   ARC_TOOL_SeekMember  0x02048E34  arm
+ *   FS_InitFile  0x020788AC  arm
+ *   FS_CloseFile  0x02078A80  arm
+ *   FS_ReadFile  0x02078B70  arm
+ *   FS_OpenFile  0x02078C18  arm
  *
  * Promote-first callee of src/pending/G3D_SYSTEM_CreateResourcePath.c (parks lane 2).
  * Open one member of an archive by path, size it, allocate the block from
@@ -35,16 +39,16 @@ struct ArcFile {
 
 extern const char arc_tool_file[];
 
-extern void func_020788AC(struct ArcFile *f);
-extern void func_02078C18(struct ArcFile *f, const char *path);
+extern void FS_InitFile(struct ArcFile *f);
+extern void FS_OpenFile(struct ArcFile *f, const char *path);
 struct ArcHandle;
 extern u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef signed int     s32;
 struct FSFile;
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void func_02078A80(struct ArcFile *f);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern void FS_CloseFile(struct ArcFile *f);
 
 void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u32 heap)
 {
@@ -52,11 +56,11 @@ void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u32 heap)
     void *p;
     u32 size;
 
-    func_020788AC(&file);
-    func_02078C18(&file, path);
+    FS_InitFile(&file);
+    FS_OpenFile(&file, path);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), a, 0, 0);
     p = func_02030734(heap, size, 0, arc_tool_file, 0x182);
-    func_02078B70((struct FSFile *)(&file), p, size);
-    func_02078A80(&file);
+    FS_ReadFile((struct FSFile *)(&file), p, size);
+    FS_CloseFile(&file);
     return p;
 }

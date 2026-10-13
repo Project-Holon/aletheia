@@ -1,5 +1,5 @@
 /*
- * function: func_021BA35C
+ * function: NHTTPi_strToHex
  * address:  0x021BA35C
  * packet:   pkt_ov114_021BA35C
  * region:   ov114
@@ -16,7 +16,7 @@
 
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
-int func_021BA35C(char *p_p, int len)
+int NHTTPi_strToHex(char *p_p, int len)
 {
     int i;
     int n;

@@ -11,8 +11,9 @@
  *
  * symbols:
  *   AOSSi_Sleep   0x021B89C0  thumb
+ *   OS_Sleep  0x02085A38  arm  arm9
  *
- * Thumb tail-call thunk into func_02085A38.
+ * Thumb tail-call thunk into OS_Sleep.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,9 +21,9 @@
  *       --func AOSSi_Sleep --addr 0x021B89C0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_02085A38(unsigned int msec);
+extern void OS_Sleep(unsigned int msec);
 
 void AOSSi_Sleep(unsigned int msec)
 {
-    func_02085A38(msec);
+    OS_Sleep(msec);
 }

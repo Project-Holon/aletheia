@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F98
+ * function: BTL_CLIENT_IsCounterReplayDone
  * address: 0x021D3F98
  * packet: pkt_ov093_021D3F98
  * region: ov093
@@ -11,7 +11,7 @@
 #include "../include/Obj13430.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_021D3F98(u8 *p)
+int BTL_CLIENT_IsCounterReplayDone(u8 *p)
 {
     if (((struct Obj13430 *)p)->fC == ((struct Obj13430 *)p)->f8) return 1;
     return 0;

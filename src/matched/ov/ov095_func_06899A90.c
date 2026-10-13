@@ -1,5 +1,5 @@
 /*
- * function: func_06899A90
+ * function: HAND_SIDE_GetHandlersSwamp
  * address: 0x06899A90
  * packet: pkt_ov095_06899A90
  * region: ov095
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_0689D720 0x0689D720 data a4
+ *   gHandSideSwampHandlers 0x0689D720 data a4
  */
-extern unsigned int d_0689D720;
-void *func_06899A90(unsigned int *p)
+extern unsigned int gHandSideSwampHandlers;
+void *HAND_SIDE_GetHandlersSwamp(unsigned int *p)
 {
     *p = 1;
-    return &d_0689D720;
+    return &gHandSideSwampHandlers;
 }

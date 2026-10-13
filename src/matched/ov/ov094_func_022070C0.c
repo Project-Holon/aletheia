@@ -21,7 +21,7 @@
  * nested sub-struct, u8 index, x/y locals were all inert).
  *
  * symbols:
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
@@ -45,7 +45,7 @@ typedef struct { char pad[0x40]; u32 mode, side, a, b, f90, f94, f98, f9c, fa0, 
 typedef struct W { char pad[0x40]; Row rows[8]; } W;
 typedef struct S S;
 typedef struct { short x, y; } Pt;
-extern void func_02082A48(u32, void *, u32);
+extern void MIi_CpuClear16(u32, void *, u32);
 extern int func_021D59B4(u8 *p, int k);
 struct QF;
 struct Unk021D62A8;
@@ -71,7 +71,7 @@ void func_022070C0(W *p, void *a, void *q, int mode, int i)
     u16 species;
     int item;
 
-    func_02082A48(0, &p->rows[i].mode, 0x40);
+    MIi_CpuClear16(0, &p->rows[i].mode, 0x40);
     p->rows[i].a = func_021D59B4(q, 0xd);
     p->rows[i].b = func_021D59B4(q, 0xe);
     p->rows[i].f90 = 0x80000000;

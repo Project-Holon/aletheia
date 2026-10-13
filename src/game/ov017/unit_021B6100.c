@@ -26,14 +26,14 @@
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
- *   func_020862F0  0x020862F0  arm
- *   func_02082A60  0x02082A60  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02062B30  0x02062B30  arm
  *   func_0207DFB4  0x0207DFB4  arm
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
@@ -100,14 +100,14 @@ extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
 extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_020862F0(void *data, u32 size);
-extern void func_02082A60(void *src, void *dst, u32 size);
+extern void DWCi_ScreenDC_FlushRange(void *data, u32 size);
+extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *ptr);
 extern int func_02062B30(void *file, void **out);
 extern void *func_0207DFB4(void);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
-extern void func_02082A48(int value, u32 dst, u32 size);
+extern void MIi_CpuClear16(int value, u32 dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct GfFont *GF_FONT_Create(int fontId, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -172,7 +172,7 @@ void ERROR_SCREEN_Setup(int messageIndex)
 
 static inline void CopyToVram(void *src, void *dst, u32 size)
 {
-    func_02082A60(src, dst, size);
+    MIi_CpuCopy16(src, dst, size);
 }
 
 /*
@@ -197,14 +197,14 @@ void ERROR_SCREEN_LoadBackground(void)
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (func_02062A4C(file, (void **)(&charData))) {
-        func_020862F0(charData->pixels, charData->sizeBytes);
+        DWCi_ScreenDC_FlushRange(charData->pixels, charData->sizeBytes);
         CopyToVram(charData->pixels, func_0207E24C(), charData->sizeBytes);
     }
     func_020307B0(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (func_02062B30(file, (void **)(&screenData))) {
-        func_020862F0(screenData->tiles, screenData->sizeBytes);
+        DWCi_ScreenDC_FlushRange(screenData->tiles, screenData->sizeBytes);
         CopyToVram(screenData->tiles, func_0207DFB4(), screenData->sizeBytes);
     }
     func_020307B0(file);
@@ -212,7 +212,7 @@ void ERROR_SCREEN_LoadBackground(void)
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     func_02062AD4(file, &unusedBlock);
     if (func_02062A98(file, (void **)(&paletteData))) {
-        func_020862F0(paletteData->colors, 0x20);
+        DWCi_ScreenDC_FlushRange(paletteData->colors, 0x20);
         CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
     }
     func_020307B0(file);
@@ -237,7 +237,7 @@ void ERROR_SCREEN_PrintMessage(int messageIndex)
             tile++;
         }
     }
-    func_02082A48(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
+    MIi_CpuClear16(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 30, 16, 32, 1);
     font = GF_FONT_Create(0x17, 0, 0, 0, 1);
     bank = func_02045B38(0, 2, 0xe8, 1);

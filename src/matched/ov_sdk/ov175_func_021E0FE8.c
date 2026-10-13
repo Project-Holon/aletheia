@@ -1,5 +1,5 @@
 /*
- * function: func_021E0FE8
+ * function: sciWsSubmitReportCallback
  * address:  0x021E0FE8
  * packet:   pkt_ov175_021E0FE8
  * region:   ov175
@@ -15,9 +15,9 @@
  *   func_021834D0  0x021834D0  arm  ov009
  *   func_021834E8  0x021834E8  arm  ov009
  *   func_02183A24  0x02183A24  arm  ov009
- *   g_021E43D4  0x021E43D4  data
- *   g_021E43EC  0x021E43EC  data
- *   g_021E42BC  0x021E42BC  data
+ *   sSciTagSubmitReportResponse  0x021E43D4  data
+ *   sSciTagSubmitReportResult  0x021E43EC  data
+ *   sSciTagResult  0x021E42BC  data
  */
 
 struct SCIRequest {
@@ -35,11 +35,11 @@ struct SCIRequest {
 extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
-extern char g_021E43D4[];
-extern char g_021E43EC[];
-extern char g_021E42BC[];
+extern char sSciTagSubmitReportResponse[];
+extern char sSciTagSubmitReportResult[];
+extern char sSciTagResult[];
 
-void func_021E0FE8(int theHttpResult, int unused, void *theResponseData, struct SCIRequest *theUserData)
+void sciWsSubmitReportCallback(int theHttpResult, int unused, void *theResponseData, struct SCIRequest *theUserData)
 {
     int submitResult;
     int aTranslatedResult;
@@ -50,9 +50,9 @@ void func_021E0FE8(int theHttpResult, int unused, void *theResponseData, struct 
         aTranslatedResult = 0;
         submitResult = 0;
         if (!func_021834D0(theResponseData)
-            || !func_021834E8(theResponseData, g_021E43D4)
-            || !func_021834E8(theResponseData, g_021E43EC)
-            || !func_02183A24(theResponseData, g_021E42BC, &submitResult)) {
+            || !func_021834E8(theResponseData, sSciTagSubmitReportResponse)
+            || !func_021834E8(theResponseData, sSciTagSubmitReportResult)
+            || !func_02183A24(theResponseData, sSciTagResult, &submitResult)) {
             aTranslatedResult = 9;
         } else if (submitResult != 0) {
             if (submitResult == 7)

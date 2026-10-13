@@ -1,5 +1,5 @@
 /*
- * function: func_021C11D4
+ * function: DWCi_MOVlChangeCallback
  * address:  0x021C11D4
  * packet:   pkt_021C1030
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C11D4   0x021C11D4  arm
+ *   DWCi_MOVlChangeCallback   0x021C11D4  arm
  *
  * Store a word at +0x1e298 of the object behind the global pointer.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C11D4.c \
- *       --func func_021C11D4 --addr 0x021C11D4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOVlChangeCallback.c \
+ *       --func DWCi_MOVlChangeCallback --addr 0x021C11D4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021C11D4(unsigned int v)
+void DWCi_MOVlChangeCallback(unsigned int v)
 {
     char *p = *(char **)0x021DE590 + 0x1e000;
     unsigned int *q = (unsigned int *)(p + 0x298);

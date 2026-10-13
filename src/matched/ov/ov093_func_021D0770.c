@@ -20,7 +20,7 @@
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
- *   func_021D3DC4 0x021D3DC4 thumb ov093
+ *   BTL_CLIENT_TakeTrainerItemToUse 0x021D3DC4 thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_CLIENT_ChooseAiSwitchTarget 0x021CFBF0 thumb ov093
@@ -39,11 +39,11 @@
  *   BTL_CLIENT_BuildUsableMoveMask 0x021CF81C thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke 0x021B8D8C thumb ov093
- *   func_021880BC 0x021880BC thumb ov096
+ *   TR_AI_Start 0x021880BC thumb ov096
  *   BTL_CLIENT_SetStruggleAction 0x021CF58C thumb ov093
- *   func_02187FB0 0x02187FB0 thumb ov096
- *   func_02188134 0x02188134 thumb ov096
- *   func_02188140 0x02188140 thumb ov096
+ *   TR_AI_Think 0x02187FB0 thumb ov096
+ *   TR_AI_GetChosenMove 0x02188134 thumb ov096
+ *   TR_AI_GetChosenTarget 0x02188140 thumb ov096
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  */
@@ -63,7 +63,7 @@ struct G;
 struct Unk021D82D0;
 extern void BTL_CALC_ActionSetNone(u32 *p);
 extern u32 BTL_CLIENT_IsActionForced(u8 *, void *, u8 *);
-extern u32 func_021D3DC4(u8 *, void *, void *);
+extern u32 BTL_CLIENT_TakeTrainerItemToUse(u8 *, void *, void *);
 struct Unk021D82D0;
 extern void BTL_ACTION_SetItem(u32 *p, u32 id, u32 sub, u32 val);
 extern void *BTL_MAIN_GetCompetitor(void ***);
@@ -83,11 +83,11 @@ extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u32 BTL_CLIENT_BuildUsableMoveMask(u8 *, void *, u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_MAIN_GetTrainerSlotOfPoke(void *, void *, u32);
-extern void func_021880BC(int, u8 *, int);
+extern void TR_AI_Start(int, u8 *, int);
 extern void BTL_CLIENT_SetStruggleAction(struct Unk021D82D0 *out, u8 *p, void *q);
-extern int func_02187FB0(u8 *);
-extern u8 func_02188134(u8 *);
-extern u8 func_02188140(u8 *);
+extern int TR_AI_Think(u8 *);
+extern u8 TR_AI_GetChosenMove(u8 *);
+extern u8 TR_AI_GetChosenTarget(u8 *);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern void BTL_ACTION_SetEscape(u32 *);
 #define M (*(void **)(p+8))
@@ -117,7 +117,7 @@ int BTL_CLIENT_StepAutoChooseActions(u8 *p, u32 *state)
             goto complete;
         }
         if (BTL_CLIENT_IsActionForced(p,M,R)) goto complete;
-        move = func_021D3DC4(p,M,((struct Obj00464 *)p)->f118);
+        move = BTL_CLIENT_TakeTrainerItemToUse(p,M,((struct Obj00464 *)p)->f118);
         if (move) {
             BTL_ACTION_SetItem((u32 *)R,move,p[0x11d],0);
             goto complete;
@@ -147,7 +147,7 @@ int BTL_CLIENT_StepAutoChooseActions(u8 *p, u32 *state)
         slot = BTL_CLIENT_BuildUsableMoveMask(p,M,available);
         if (slot != 4) {
             result = BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj00464 *)p)->f0,((struct Obj00464 *)p)->f4,BTL_POKEPARAM_GetPokeId(M));
-            func_021880BC(*(int *)&((struct Obj00464 *)p)->fF0,available,result);
+            TR_AI_Start(*(int *)&((struct Obj00464 *)p)->fF0,available,result);
             *state = 2;
         } else {
             BTL_CLIENT_SetStruggleAction((struct Unk021D82D0 *)((u32)R),(u8 *)((u32)p),M);
@@ -155,10 +155,10 @@ int BTL_CLIENT_StepAutoChooseActions(u8 *p, u32 *state)
         }
         break;
     case 2:
-        if (func_02187FB0(*(u8 * *)&((struct Obj00464 *)p)->fF0)) break;
-        slot = func_02188134(*(u8 * *)&((struct Obj00464 *)p)->fF0);
+        if (TR_AI_Think(*(u8 * *)&((struct Obj00464 *)p)->fF0)) break;
+        slot = TR_AI_GetChosenMove(*(u8 * *)&((struct Obj00464 *)p)->fF0);
         if (slot != 4) {
-            sub = func_02188140(*(u8 * *)&((struct Obj00464 *)p)->fF0);
+            sub = TR_AI_GetChosenTarget(*(u8 * *)&((struct Obj00464 *)p)->fF0);
             move = BTL_POKEPARAM_GetMoveId(M,slot);
             BTL_ACTION_SetFight((struct Unk021D82D0 *)R,move,sub);
         } else BTL_ACTION_SetEscape((u32 *)R);

@@ -46,7 +46,7 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   func_0200A640 0x0200A640 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  *   func_021FCE00 0x021FCE00 thumb ov132
  *   func_0200FB24 0x0200FB24 thumb
@@ -94,7 +94,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Destroy 0x02031140 arm
  *   d_021F83A4 0x021F83A4 data a1
- *   func_02061C30 0x02061C30 arm
+ *   NNS_GfdResetVramTransferTaskQueue 0x02061C30 arm
  *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   BILLBOARD_SetElemScale 0x0204F684 arm
  *   BILLBOARD_SetElemRotZ 0x0204F7C4 arm
@@ -128,7 +128,7 @@
  *   POKEGRA_GetNcecArcIndex 0x0202D1E0 thumb
  *   d_021F83D4 0x021F83D4 data a1
  *   d_02FFFC3C 0x02FFFC3C data a4
- *   func_020649D4 0x020649D4 arm
+ *   NNS_G2dTickMCAnimation 0x020649D4 arm
  *   func_0207D7C4 0x0207D7C4 arm
  *   func_0207B67C 0x0207B67C arm
  *   func_02082B60 0x02082B60 arm
@@ -156,7 +156,7 @@
  *   d_02148B54 0x02148B54 data
  *   func_0207D760 0x0207D760 arm
  *   func_020627D8 0x020627D8 arm
- *   func_0206469C 0x0206469C arm
+ *   NNS_G2dSetAnimSequenceToMCAnimation 0x0206469C arm
  *   func_02063790 0x02063790 arm
  *   func_020637D4 0x020637D4 arm
  *   ARC_UTIL_LoadCellBankFromArchive 0x02049FBC arm
@@ -171,8 +171,8 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_02063A54 0x02063A54 arm
  *   func_02063E54 0x02063E54 arm
- *   func_020648B4 0x020648B4 arm
- *   func_02064754 0x02064754 arm
+ *   NNS_G2dGetMCWorkAreaSize 0x020648B4 arm
+ *   NNS_G2dInitMCAnimation 0x02064754 arm
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017EAC 0x02017EAC thumb
  *   d_021F83E4 0x021F83E4 data a4
@@ -580,7 +580,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void *func_0200A640(void *);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_021FCDEC(int,int);
 extern int func_021FCE00(char *p, int id);
 extern u32 func_0200FB24(void);
@@ -634,7 +634,7 @@ extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_0201F73C(void *,int,int,int);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02061C30(void);
+extern void NNS_GfdResetVramTransferTaskQueue(void);
 extern void BILLBOARD_SetElemPos(u8 *,int,struct Trip *);
 extern void BILLBOARD_SetElemScale(struct Manager0204F684 *,int,const s16 *,const s16 *);
 extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
@@ -663,7 +663,7 @@ extern int POKEGRA_GetAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetMCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetMAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetNcecArcIndex(u32,u32,u32,u32,u32,u32,u32);
-extern void func_020649D4(char *, int);
+extern void NNS_G2dTickMCAnimation(char *, int);
 extern void func_0207D7C4(const Vec_021F56BC *a, const Vec_021F56BC *b, const Vec_021F56BC *c, int d, void *e);
 extern void func_0207B67C(const Mtx43 *a, Mtx43 *m);
 extern void func_02082B60(Mtx43 *a, Mtx33 *b);
@@ -678,7 +678,7 @@ extern void func_0207B51C(void *v, Mtx33 *m, void *out);
 extern void func_0207CA00(void *a, void *b, void *c);
 extern void func_0207D760(int a, int b, int c, int d, int e, int f, int g, int h, int i);
 extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
-extern void func_0206469C(void *,void *);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(void *,void *);
 extern void func_02063790(u32 *);
 extern void func_020637D4(u32 *);
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
@@ -693,8 +693,8 @@ extern void *func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *n);
 extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063E54(void *,void *,int,void *);
-extern int func_020648B4(u32,u32);
-extern void func_02064754(char *,char *,void *,int,void *,int);
+extern int NNS_G2dGetMCWorkAreaSize(u32,u32);
+extern void NNS_G2dInitMCAnimation(char *,char *,void *,int,void *,int);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_02017EAC(void *);
 extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
@@ -998,7 +998,7 @@ void func_021F4350(u8 *p)
         if(APP_TASKMENU_IsFinish(((struct Obj00226 *)p)->f3C)==1) {
             v=APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj00226 *)p)->f3C);
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
-            if(v==0) func_02082D44(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
+            if(v==0) MI_CpuCopy8(((struct Obj00226 *)p)->f10,func_0200A640(((struct Obj00226 *)p)->f14),432);
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
                 func_021FCDEC(*(int *)&((struct Obj00226 *)p)->f44,71);
@@ -1274,7 +1274,7 @@ Object_021F48C0 *func_021F48C0(u32 owner,int count,u16 heap)
 void func_021F4948(u8 *p)
 {
     int i;
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
     func_021F4F40(*(void **)(p+0xc));
     for(i=0;i<*(u16 *)(p+0x10);i++) {
         if ((*(Record_021F4948 **)(p+8))[i].active==1)
@@ -2156,7 +2156,7 @@ void func_021F5678(char *p)
     for (; i < ((struct Obj10305 *)p)->f0; i++) {
         child = (*(char ***)(p + 4))[i];
         if (child && !((Flags_021F53CC *)(child + 236))->paused)
-            func_020649D4(child + 40, delta << 12);
+            NNS_G2dTickMCAnimation(child + 40, delta << 12);
     }
     ((struct Obj10305 *)p)->f18 = now;
 }
@@ -3335,7 +3335,7 @@ void func_021F6290(u8 *p) { ((Flags *)(p+236))->b=1; }
 void func_021F62A0(char *p) {((struct Obj22546 *)p)->fEC&=~2u;}
 
 
-void func_021F62B0(char *p,u32 n) {void *a; a=func_020627D8(((struct Obj00722 *)p)->f1C,n);func_021F659C(p,1);func_0206469C(p+40,a);}
+void func_021F62B0(char *p,u32 n) {void *a; a=func_020627D8(((struct Obj00722 *)p)->f1C,n);func_021F659C(p,1);NNS_G2dSetAnimSequenceToMCAnimation(p+40,a);}
 
 
 
@@ -3376,7 +3376,7 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     ((struct Obj00722 *)q)->f18=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(u32)(q+28),((struct Obj00722 *)q)->fF4);
     sequence=func_020627D8(*(struct AnimBank * *)&((struct Obj00722 *)q)->f1C,0);
     func_021F659C((char *)q,1);
-    func_0206469C((struct Obj0206469C *)(q+40),sequence);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct Obj0206469C *)(q+40),sequence);
     table=ARC_TOOL_LoadMember(res[0],res[7],(u16)(((struct Obj00722 *)q)->fF4));
     *(u8 * *)&((struct Obj00722 *)q)->f20=table;
     *(u8 * *)&((struct Obj00722 *)q)->f24=table+4+56* ((struct Obj22550 *)table)->f0;
@@ -3409,8 +3409,8 @@ void func_021F6540(void *a, void **p)
 
 void func_021F659C(char *p, int kind)
 {
-    ((struct Obj00722 *)p)->f8C=func_02030734((u16)((struct Obj00722 *)p)->fF4,func_020648B4(*(u32 *)&((struct Obj00722 *)p)->fC,kind),0,d_021F83D4,1216);
-    func_02064754(p+40,*(char * *)&((struct Obj00722 *)p)->f8C,((struct Obj00722 *)p)->f14,((struct Obj00722 *)p)->f4,((struct Obj00722 *)p)->fC,kind);
+    ((struct Obj00722 *)p)->f8C=func_02030734((u16)((struct Obj00722 *)p)->fF4,NNS_G2dGetMCWorkAreaSize(*(u32 *)&((struct Obj00722 *)p)->fC,kind),0,d_021F83D4,1216);
+    NNS_G2dInitMCAnimation(p+40,*(char * *)&((struct Obj00722 *)p)->f8C,((struct Obj00722 *)p)->f14,((struct Obj00722 *)p)->f4,((struct Obj00722 *)p)->fC,kind);
 }
 
 

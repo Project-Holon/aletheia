@@ -1,5 +1,5 @@
 /*
- * function: func_02172604
+ * function: DWCi_PostProcessSVConnectionHybrid
  * address:  0x02172604
  * packet:   pkt_ov009_02172604
  * region:   ov009
@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
- *   func_02176674                0x02176674 arm   ov009
- *   func_0217603C                0x0217603C arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
+ *   DWCi_StopMeshMaking                0x02176674 arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
  *   func_020870D0                0x020870D0 arm
  *   qr2_send_statechanged        0x0219B490 arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
  *   func_02173064                0x02173064 arm   ov009
  */
 
@@ -57,15 +57,15 @@ struct DWCstNodeInfo {
 };
 
 extern int func_02175F3C(void);
-extern void func_02175F4C(int state);
-extern int func_02176674(void);
-extern int func_0217603C(void);
+extern void DWCi_SetMatchStatus(int state);
+extern int DWCi_StopMeshMaking(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 extern u64 func_020870D0(void);
 extern void qr2_send_statechanged(void *qrec);
-extern struct DWCstNodeInfo *func_0217637C(int index);
+extern struct DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void func_02173064(u8 aid, u16 type);
 
-int func_02172604(void)
+int DWCi_PostProcessSVConnectionHybrid(void)
 {
     int sbClear = 0;
     int i;
@@ -74,23 +74,23 @@ int func_02172604(void)
     if (((struct DWCstMatchControl *)func_02175F3C())->f5a4 != 0 || ((struct DWCstMatchControl *)func_02175F3C())->f5a8 == 0xf) {
         ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
         ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
-        func_02175F4C(1);
-        func_02176674();
+        DWCi_SetMatchStatus(1);
+        DWCi_StopMeshMaking();
         return sbClear;
     }
     ((struct DWCstMatchControl *)func_02175F3C())->f18 = 0;
     ((struct DWCstMatchControl *)func_02175F3C())->f5dc = 0;
-    if (((struct DWCstMatchControl *)func_02175F3C())->f0d == 0 && func_0217603C() == 1) {
+    if (((struct DWCstMatchControl *)func_02175F3C())->f0d == 0 && DWCi_NodeInfoList_GetCount() == 1) {
         tick = func_020870D0();
         ((struct DWCstMatchControl *)func_02175F3C())->f7a0 = tick;
     }
     qr2_send_statechanged(((struct DWCstMatchControl *)func_02175F3C())->qr2Obj);
     if (((struct DWCstMatchControl *)func_02175F3C())->f14 == 2)
         ((struct DWCstMatchControl *)func_02175F3C())->f680 = ((struct DWCstMatchControl *)func_02175F3C())->f554;
-    func_02175F4C(0x13);
+    DWCi_SetMatchStatus(0x13);
     ((struct DWCstMatchControl *)func_02175F3C())->f650 = 0;
-    for (i = 1; i < func_0217603C(); i++)
-        func_02173064(func_0217637C(i)->aid, 2);
+    for (i = 1; i < DWCi_NodeInfoList_GetCount(); i++)
+        func_02173064(DWCi_NodeInfoList_GetNodeInfoForIndex(i)->aid, 2);
     func_02173064(((struct DWCstMatchControl *)func_02175F3C())->aid, 2);
     if (((struct DWCstMatchControl *)func_02175F3C())->f14 != 2)
         sbClear = 1;

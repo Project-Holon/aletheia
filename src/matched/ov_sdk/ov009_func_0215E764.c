@@ -12,7 +12,7 @@
  * sdk:      SOCLi_ShutdownCallBack (libsoc.TWL.HYB.a(socl_shutdown.o))
  *
  * symbols:
- *   func_0215AD00  0x0215AD00  arm  ov009
+ *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  */
 
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
     Socket *socket;
 } Cmd;
 
-extern void func_0215AD00(void);
+extern void CPS_TcpShutdown(void);
 
 static inline int IsTcp(int mode)
 {
@@ -41,6 +41,6 @@ int func_0215E764(void *arg)
     Socket *socket = ((Cmd *)arg)->socket;
 
     if (IsTcp(socket->mode))
-        func_0215AD00();
+        CPS_TcpShutdown();
     return 0;
 }

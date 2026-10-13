@@ -9,16 +9,16 @@
  * status: EXACT
  * symbols:
  *   SCRIPT_WORK_GetLocalWork 0x02158FD0 thumb ov010
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned int   u32;
 extern int SCRIPT_WORK_GetLocalWork(int a0, u32 a1, int a2);
-extern void func_02082A60(const void *, void *, unsigned int);
+extern void MIi_CpuCopy16(const void *, void *, unsigned int);
 extern u32 func_020307B0(void *p);
 void SCRIPT_WORK_RestoreLocalWork(void *a, void *b, int a2)
 {
     void *p = (void *)SCRIPT_WORK_GetLocalWork((int)a, 0x8020, a2);
-    func_02082A60(b, p, 0x7e);
+    MIi_CpuCopy16(b, p, 0x7e);
     func_020307B0(b);
 }

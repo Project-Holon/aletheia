@@ -1,5 +1,5 @@
 /*
- * function: func_021D603C
+ * function: DWCi_GXlVisible
  * address:  0x021D603C
  * packet:   pkt_ov016_021D603C
  * region:   ov016
@@ -21,7 +21,7 @@
 
 #define REG_DISPCNT(base) (*(volatile unsigned long *)(base))
 
-void func_021D603C(int lcd, int plane)
+void DWCi_GXlVisible(int lcd, int plane)
 {
     if (lcd == 1) {
         unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB224
+ * function: PMSI_SEARCH_GetKeyPosition
  * address: 0x021BB224
  * packet: pkt_ov110_021BB224
  * region: ov110
@@ -15,4 +15,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 a,b; } Pair;
 extern Pair d_021C37AA;
-void func_021BB224(u32 i,int *a,int *b) { *a=*(u8 *)((u32)&d_021C37AA.a+i*10); *b=*(u8 *)((u32)&d_021C37AA.b+i*10); }
+void PMSI_SEARCH_GetKeyPosition(u32 i,int *a,int *b) { *a=*(u8 *)((u32)&d_021C37AA.a+i*10); *b=*(u8 *)((u32)&d_021C37AA.b+i*10); }

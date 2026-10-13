@@ -1,5 +1,5 @@
 /*
- * function: func_021BA070
+ * function: PMS_INPUT_VIEW_InitDisplay
  * address: 0x021BA070
  * packet: pkt_ov110_021BA070
  * region: ov110
@@ -13,16 +13,16 @@
  *   narrow first extern parameters retain those explicit u8 argument values.
  * volatile: hardware halfword at 04000304 is read/modified at A078..A07E.
  * symbols:
- *   d_021C3714 0x021C3714 data a4
- *   d_021C3604 0x021C3604 data a4
- *   d_021C3694 0x021C3694 data a4
- *   d_021C36B4 0x021C36B4 data a4
- *   d_021C3674 0x021C3674 data a4
- *   d_021C3614 0x021C3614 data a4
- *   d_021C36F4 0x021C36F4 data a4
- *   d_021C36D4 0x021C36D4 data a4
- *   d_021C3654 0x021C3654 data a4
- *   d_021C3634 0x021C3634 data a4
+ *   gPmsInputVramBanks 0x021C3714 data a4
+ *   gPmsInputDispConfig 0x021C3604 data a4
+ *   gPmsInputBgTemplate0 0x021C3694 data a4
+ *   gPmsInputBgTemplate1 0x021C36B4 data a4
+ *   gPmsInputBgTemplate2 0x021C3674 data a4
+ *   gPmsInputBgTemplate3 0x021C3614 data a4
+ *   gPmsInputBgTemplate4 0x021C36F4 data a4
+ *   gPmsInputBgTemplate5 0x021C36D4 data a4
+ *   gPmsInputBgTemplate6 0x021C3654 data a4
+ *   gPmsInputBgTemplate7 0x021C3634 data a4
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
@@ -40,10 +40,10 @@ typedef enum { GX_DISP_SELECT_SUB_MAIN=0, GX_DISP_SELECT_MAIN_SUB=1 } GXDispSele
 static inline void GX_SetDispSelect(GXDispSelect sel) {
     *(volatile u16 *)0x04000304=(u16)((*(volatile u16 *)0x04000304 & ~0x8000) | (sel<<15));
 }
-extern const u8 d_021C3714[];
-extern u8 d_021C3604[];
-extern const u8 d_021C3694[],d_021C36B4[],d_021C3674[],d_021C3614[];
-extern const u8 d_021C36F4[],d_021C36D4[],d_021C3654[],d_021C3634[];
+extern const u8 gPmsInputVramBanks[];
+extern u8 gPmsInputDispConfig[];
+extern const u8 gPmsInputBgTemplate0[],gPmsInputBgTemplate1[],gPmsInputBgTemplate2[],gPmsInputBgTemplate3[];
+extern const u8 gPmsInputBgTemplate4[],gPmsInputBgTemplate5[],gPmsInputBgTemplate6[],gPmsInputBgTemplate7[];
 struct BgTemplate;
 struct DispConfig;
 struct DispVram;
@@ -55,20 +55,20 @@ extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *PRINTSYS_QUE_CreateEx(u16,u32);
-void func_021BA070(u8 *p) {
+void PMS_INPUT_VIEW_InitDisplay(u8 *p) {
     u8 *q=*(u8 * *)&((struct Obj22333 *)p)->f0;
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021C3714);
-    func_0203FC28((struct DispConfig *)d_021C3604);
-    func_0203FCA0(0,(const struct BgTemplate *)d_021C3694,0);
-    func_0203FCA0(1,(const struct BgTemplate *)d_021C36B4,0);
-    func_0203FCA0(2,(const struct BgTemplate *)d_021C3674,0);
-    func_0203FCA0(3,(const struct BgTemplate *)d_021C3614,0);
-    func_0203FCA0(4,(const struct BgTemplate *)d_021C36F4,0);
-    func_0203FCA0(5,(const struct BgTemplate *)d_021C36D4,0);
-    func_0203FCA0(6,(const struct BgTemplate *)d_021C3654,0);
-    func_0203FCA0(7,(const struct BgTemplate *)d_021C3634,0);
+    BG_SYS_SetVramBanks((const struct DispVram *)gPmsInputVramBanks);
+    func_0203FC28((struct DispConfig *)gPmsInputDispConfig);
+    func_0203FCA0(0,(const struct BgTemplate *)gPmsInputBgTemplate0,0);
+    func_0203FCA0(1,(const struct BgTemplate *)gPmsInputBgTemplate1,0);
+    func_0203FCA0(2,(const struct BgTemplate *)gPmsInputBgTemplate2,0);
+    func_0203FCA0(3,(const struct BgTemplate *)gPmsInputBgTemplate3,0);
+    func_0203FCA0(4,(const struct BgTemplate *)gPmsInputBgTemplate4,0);
+    func_0203FCA0(5,(const struct BgTemplate *)gPmsInputBgTemplate5,0);
+    func_0203FCA0(6,(const struct BgTemplate *)gPmsInputBgTemplate6,0);
+    func_0203FCA0(7,(const struct BgTemplate *)gPmsInputBgTemplate7,0);
     for(i=0;i<=7;++i) {
         func_020414EC((u8)i);
         func_02040588((u8)i,1);

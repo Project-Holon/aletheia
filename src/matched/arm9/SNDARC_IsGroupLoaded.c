@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02074AE8   0x02074AE8  arm
+ *   NNSi_SndArcLoadGroup   0x02074AE8  arm
  *
  * Original (24 bytes):
  *   push  {r3, lr}
@@ -23,9 +23,9 @@
 
 typedef int BOOL;
 
-extern BOOL func_02074AE8(void);
+extern BOOL NNSi_SndArcLoadGroup(void);
 
 BOOL SNDARC_IsGroupLoaded(void)
 {
-    return func_02074AE8() == 0;
+    return NNSi_SndArcLoadGroup() == 0;
 }

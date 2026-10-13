@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAD20",
+   "name": "PMS_INPUT_VIEW_GetWordwinItem",
    "address": "0x021BAD20",
    "kind": "game",
    "region": "ov110",

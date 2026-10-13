@@ -10,11 +10,14 @@
  * status:   EXACT
  *
  * TwlDWC libdwcaccount dwc_account.o.
- * The tail target 0x020596B0 is labelled func_020596B0 in the listing; see func_020596B0.c.
+ * The tail target 0x020596B0 is labelled DWCi_Acc_IsValidLoginId in the listing; see DWCi_Acc_IsValidLoginId.c.
+ *
+ * symbols:
+ *   DWCi_Acc_IsValidLoginId  0x020596B0  arm
  */
-extern int func_020596B0(void *loginid);
+extern int DWCi_Acc_IsValidLoginId(void *loginid);
 
 int DWCi_Acc_IsAuthentic(void *userdata)
 {
-    return func_020596B0((char *)userdata + 16);
+    return DWCi_Acc_IsValidLoginId((char *)userdata + 16);
 }

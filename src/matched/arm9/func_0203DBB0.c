@@ -19,7 +19,7 @@
  *   str_020A7D34  0x020A7D34  data
  *   str_020A7D48  0x020A7D48  data
  *   func_02034714 0x02034714  arm
- *   func_02082D44 0x02082D44  arm
+ *   MI_CpuCopy8 0x02082D44  arm
  */
 
 #include "../include/G_Ctx.h"
@@ -31,14 +31,14 @@ extern struct Ctx *gNetIrcWirelessLink;
 extern const u8 str_020A7D34[];
 extern const u8 str_020A7D48[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02082D44(void *dst, const void *src, u32 size);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 void GFL_NET_IRC_WIRELESS_CopyMacAddress(const void *src, u32 i)
 {
     u8 *g = ((u8 *)gNetIrcWirelessLink);
 
     if (g != 0) {
-        func_02082D44(g + 0x94 + i * 8, src, 6);
+        MI_CpuCopy8(g + 0x94 + i * 8, src, 6);
     } else {
         func_02034714((const char *)str_020A7D34, 0x109, (const char *)str_020A7D48);
     }

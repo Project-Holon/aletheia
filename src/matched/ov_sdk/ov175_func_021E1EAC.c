@@ -1,5 +1,5 @@
 /*
- * function: func_021E1EAC
+ * function: DWCi_GdbGetStartRequestErrorCode
  * address:  0x021E1EAC
  * packet:   pkt_021E1EAC
  * region:   ov175
@@ -13,10 +13,10 @@
  *   (none)
  *
  * Leaf: -40000 - (a * 100 + b), the plain two-term member of the
- *  *  func_021E20B8 family (that one adds the 50-byte header).
+ *  *  DWCi_GdbGetRequestResultErrorCode family (that one adds the 50-byte header).
  */
 
-int func_021E1EAC(int a, int b)
+int DWCi_GdbGetStartRequestErrorCode(int a, int b)
 {
     return -40000 - (a * 100 + b);
 }

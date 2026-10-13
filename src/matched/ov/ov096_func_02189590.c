@@ -1,5 +1,5 @@
 /*
- * function: func_02189590
+ * function: TR_AI_CmdJump
  * address: 0x02189590
  * packet: pkt_ov096_02189590
  * region: ov096
@@ -21,7 +21,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
-int func_02189590(struct Cursor *a, u8 *b)
+int TR_AI_CmdJump(struct Cursor *a, u8 *b)
 {
     u32 t; t = VM_GetU32(a); VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + t); return ((struct Obj21964 *)b)->fC4;
 }

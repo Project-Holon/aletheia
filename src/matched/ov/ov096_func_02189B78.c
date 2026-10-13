@@ -1,5 +1,5 @@
 /*
- * function: func_02189B78
+ * function: TR_AI_CmdJumpIfSuperEffective
  * address:  0x02189B78
  * packet:   pkt_ov096_02189B78
  * region:   ov096
@@ -40,7 +40,7 @@ extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
 
-int func_02189B78(struct Cursor *a, Obj *b) {
+int TR_AI_CmdJumpIfSuperEffective(struct Cursor *a, Obj *b) {
     int r;
     int i;
     int c6;

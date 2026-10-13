@@ -1,5 +1,5 @@
 /*
- * function: func_02070434
+ * function: NNSi_G3dAnmCalcNsBma
  * address:  0x02070434
  * packet:   pkt_02070360
  * region:   arm9
@@ -11,9 +11,9 @@
  *
  * Per-node sampling driver for the packed-halfword tracks: resolves the
  * node's descriptor record through the shared +8 table idiom (inlined
- * GetRec, the same body func_02070730 spells out), samples four tracks with
- * func_0207010C into two packed words at out+4/out+8 (low | high << 16,
- * each keeping its own bit 15 as a flag), and one with func_02070274 into
+ * GetRec, the same body NNSi_G3dAnmGetTexSRTData spells out), samples four tracks with
+ * NNSi_G3dAnmGetMatColorData into two packed words at out+4/out+8 (low | high << 16,
+ * each keeping its own bit 15 as a flag), and one with NNSi_G3dAnmGetMatAlphaData into
  * bits 16-20 of out+0xc.  The frame is anim->frame >> 12 (20.12 fixed).
  *
  * Levers: the index is narrowed at the call into a u32-parameter inline
@@ -24,12 +24,12 @@
  * Byte-identical under dsi/1.1p1 and ../2.0/sp2; filed at the default.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070434.c
- *       --func func_02070434 --addr 0x02070434 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmCalcNsBma.c
+ *       --func NNSi_G3dAnmCalcNsBma --addr 0x02070434 --arm
  *
  * symbols:
- *   func_0207010C  0x0207010C  arm
- *   func_02070274  0x02070274  arm
+ *   NNSi_G3dAnmGetMatColorData  0x0207010C  arm
+ *   NNSi_G3dAnmGetMatAlphaData  0x02070274  arm
  */
 #include "../include/Obj16641.h"
 
@@ -43,8 +43,8 @@ struct Out70434 { u32 f00, f04, f08, f0c; };
 struct Node70434 { u8 pad00[9]; u8 b09; u8 pad0a[4]; u16 h0e; };
 struct Anim70434 { s32 frame; u32 f04; struct Node70434 *node; };
 
-u16 func_0207010C(u8 *base, u32 flags, u32 idx);
-u16 func_02070274(u8 *base, u32 flags, u32 idx);
+u16 NNSi_G3dAnmGetMatColorData(u8 *base, u32 flags, u32 idx);
+u16 NNSi_G3dAnmGetMatAlphaData(u8 *base, u32 flags, u32 idx);
 
 static inline struct Rec70434 *GetRec(struct Node70434 *node, u32 idx)
 {
@@ -56,7 +56,7 @@ static inline struct Rec70434 *GetRec(struct Node70434 *node, u32 idx)
     return 0;
 }
 
-void func_02070434(struct Out70434 *out, struct Anim70434 *anim, u32 idx)
+void NNSi_G3dAnmCalcNsBma(struct Out70434 *out, struct Anim70434 *anim, u32 idx)
 {
     struct Node70434 *node = anim->node;
     u32 t = anim->frame >> 12;
@@ -65,14 +65,14 @@ void func_02070434(struct Out70434 *out, struct Anim70434 *anim, u32 idx)
 
     r = GetRec(node, (u16)idx);
 
-    a = func_0207010C((u8 *)node, r->f00, t);
-    b = func_0207010C((u8 *)node, r->f04, t);
+    a = NNSi_G3dAnmGetMatColorData((u8 *)node, r->f00, t);
+    b = NNSi_G3dAnmGetMatColorData((u8 *)node, r->f04, t);
     out->f04 = a | (b << 16) | (((out->f04 & 0x8000) ? 1 : 0) << 15);
 
-    a = func_0207010C((u8 *)node, r->f0c, t);
-    b = func_0207010C((u8 *)node, r->f08, t);
+    a = NNSi_G3dAnmGetMatColorData((u8 *)node, r->f0c, t);
+    b = NNSi_G3dAnmGetMatColorData((u8 *)node, r->f08, t);
     out->f08 = b | (a << 16) | (((out->f08 & 0x8000) ? 1 : 0) << 15);
 
-    a = func_02070274((u8 *)node, r->f10, t);
+    a = NNSi_G3dAnmGetMatAlphaData((u8 *)node, r->f10, t);
     out->f0c = (out->f0c & ~0x1F0000) | (a << 16);
 }

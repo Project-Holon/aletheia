@@ -12,7 +12,7 @@
  * sdk:      libcamera.TWL.HYB.a camera.o
  *
  * symbols:
- *   func_02087A04 0x02087A04 arm twl a2
+ *   OS_SpinWaitSysCycles 0x02087A04 arm twl a2
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0209C0A4 0x0209C0A4 arm twl a2
@@ -27,7 +27,7 @@ typedef signed int s32;
 
 typedef unsigned long long u64;
 
-extern void func_02087A04(u32);
+extern void OS_SpinWaitSysCycles(u32);
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
 extern u64 func_0209C0A4(u32, u32);
@@ -58,11 +58,11 @@ u32 CAMERA_GetBytesAtOnceCore(u32 a0);
 void CAMERA_ResetCore(void) {
     reg_04004004 |= 4;
     reg_04004200 = 0;
-    func_02087A04(0x1e);
+    OS_SpinWaitSysCycles(0x1e);
     reg_04004004 |= 0x100;
-    func_02087A04(0x1e);
+    OS_SpinWaitSysCycles(0x1e);
     reg_04004200 = 0x22;
-    func_02087A04(0x2008);
+    OS_SpinWaitSysCycles(0x2008);
     reg_04004004 &= 0xfeff;
 }
 

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C022C",
-    "func_021C0250"
+    "PMS_SELECT_GRAPHIC_IsPrintDone",
+    "PMS_SELECT_GRAPHIC_SetResult"
+   ],
+   "addresses": [
+    "0x021C022C",
+    "0x021C0250"
    ]
   }
  ]

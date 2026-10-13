@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB44
+ * function: PMS_INPUT_CategoryHasWords
  * address: 0x021BEB44
  * packet: pkt_ov110_021BEB44
  * region: ov110
@@ -15,4 +15,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021B999C(u8 *,int);
-int func_021BEB44(u8 *p) { if(func_021B999C(*(u8 * *)&((struct Obj13792 *)p)->f18,((struct Obj13792 *)p)->f4C)!=0) return 1; return 0; }
+int PMS_INPUT_CategoryHasWords(u8 *p) { if(func_021B999C(*(u8 * *)&((struct Obj13792 *)p)->f18,((struct Obj13792 *)p)->f4C)!=0) return 1; return 0; }

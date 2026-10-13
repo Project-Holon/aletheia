@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7EE4",
+   "name": "IRC_RHYTHM_UpdateTextWindow",
    "address": "0x021B7EE4",
    "kind": "game",
    "region": "ov104",

@@ -1,5 +1,5 @@
 /*
- * function: func_02004490
+ * function: SVC_WaitByLoop
  * address:  0x02004490
  * packet:   pkt_02004490
  * region:   arm9
@@ -13,7 +13,7 @@
  *           stub).  A Thumb `asm` function: swi, then return.
  */
 
-asm void func_02004490(void)
+asm void SVC_WaitByLoop(void)
 {
     swi 3
     bx lr

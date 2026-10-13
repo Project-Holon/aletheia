@@ -17,7 +17,7 @@
  *
  * MATCH (2026-09-28 tree_ov010_4; levers: declaration order q, task, p
  * for the frame slots, the summary block pointer formed before the
- * func_0200CA1C call). The one wildcard is arm9 0x0201A354, an unlabelled
+ * ZUKAN_SAVE_GetFromGameData call). The one wildcard is arm9 0x0201A354, an unlabelled
  * Thumb thunk (`movs r0, #0x69; bx` to 0x02048F60) inside the listing's
  * ARM data run: a seed for the ARM9 session.
  *
@@ -30,9 +30,9 @@
  *   func_02012934  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  */
 
 typedef unsigned char u8;
@@ -97,10 +97,10 @@ extern int NAMEIN_SETUP_RunPartyPickEvent(int a, int *st, int *o);
 extern void *func_02012934(const struct BigObj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern void *func_0200CA1C(void *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 extern u32 POKEPARTY_GetCount(void *p);
 struct Blk37;
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 
 void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
 {
@@ -151,7 +151,7 @@ void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
     pa->f34 = 0x16;
     pa->f38 = sel;
     sum = &w->sum;
-    h = func_0200CA1C(p);
+    h = ZUKAN_SAVE_GetFromGameData(p);
     MI_CpuFill8(sum, 0, sizeof(SummaryArgs));
     sum->party = party;
     sum->f0c = 1;
@@ -159,6 +159,6 @@ void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
     sum->f0d = 0;
     sum->f10 = 0;
     sum->p = p;
-    sum->f18 = (void *)func_0200CA38(h);
+    sum->f18 = (void *)ZUKAN_SAVE_IsNationalDexEnabled(h);
     return task;
 }

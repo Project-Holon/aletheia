@@ -1,5 +1,5 @@
 /*
- * function: func_021B6308
+ * function: PDC_MAIN_Update
  * address: 0x021B6308
  * packet: pkt_ov098_021B6308
  * region: ov098
@@ -18,7 +18,7 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void func_021F78E4(void);
 extern void func_02202228(void **);
-int func_021B6308(unsigned p)
+int PDC_MAIN_Update(unsigned p)
 {
     int (*cb)(unsigned);
     TCBL_Main(((struct Obj10196 *)p)->f18);

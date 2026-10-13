@@ -1,5 +1,5 @@
 /*
- * function: func_0215993C
+ * function: merge_rwin_chunks
  * address:  0x0215993C
  * packet:   pkt_ov009_0215993C
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      merge_rwin_chunks (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_021599EC  0x021599EC  arm  ov009
+ *   pull_rwin_chunks  0x021599EC  arm  ov009
  */
 
 struct Chunk {
@@ -30,9 +30,9 @@ struct Soc {
 	struct Chunk chunks[4];
 };
 
-extern void func_021599EC(char *p);
+extern void pull_rwin_chunks(char *p);
 
-void func_0215993C(struct Soc *soc)
+void merge_rwin_chunks(struct Soc *soc)
 {
 	long ci;
 
@@ -41,14 +41,14 @@ again:
 		soc->ackno += soc->chunks[0].start + soc->chunks[0].len - soc->rcvbufp;
 		soc->rcvbufp = soc->chunks[0].start + soc->chunks[0].len;
 		soc->chunks[0].start = 0;
-		func_021599EC((char *)soc);
+		pull_rwin_chunks((char *)soc);
 	}
 	for (ci = 0; ci < 3; ci++) {
 		if (soc->chunks[ci].start != 0 && soc->chunks[ci + 1].start != 0 &&
 		    soc->chunks[ci].start + soc->chunks[ci].len >= soc->chunks[ci + 1].start) {
 			soc->chunks[ci].len = soc->chunks[ci + 1].start + soc->chunks[ci + 1].len - soc->chunks[ci].start;
 			soc->chunks[ci + 1].start = 0;
-			func_021599EC((char *)soc);
+			pull_rwin_chunks((char *)soc);
 			goto again;
 		}
 	}

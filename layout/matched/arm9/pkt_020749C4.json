@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020749B4",
-    "func_020749C4",
-    "func_020749F8",
-    "func_02074A34"
+    "NNSi_SndHeapLevelInit",
+    "NNSi_SndHeapInit",
+    "NNSi_SndHeapAllocLevel",
+    "NNSi_SndHeapFlushCommands"
+   ],
+   "addresses": [
+    "0x020749B4",
+    "0x020749C4",
+    "0x020749F8",
+    "0x02074A34"
    ]
   }
  ]

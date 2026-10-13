@@ -1,7 +1,7 @@
 /*
  * file:     deque.c
  * unit:     yes
- * function: func_021D53DC, func_021D5410, func_021D5450, func_021D546C, func_021D54C4
+ * function: DWCi_QUElForm, DWCi_QUElFormEx, DWCi_QUElDelete, DWCi_QUElPushBack, DWCi_QUElPopBack
  * address:  0x021D53DC
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021d6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021d6414  arm  ov016
  *   DWCi_HEAPlFree_                  0x021D6438  arm
- *   func_02084998  0x02084998  arm
- *   func_0207C994  0x0207c994  arm
- *   func_02088234  0x02088234  arm
- *   func_02084968  0x02084968  arm
+ *   OS_DisableIrqMask  0x02084998  arm
+ *   FX_ModS32  0x0207c994  arm
+ *   OS_Terminate  0x02088234  arm
+ *   OS_EnableIrqMask  0x02084968  arm
  */
 struct tagLISTCB;
 typedef unsigned char u8;
@@ -32,24 +32,24 @@ typedef struct tagQCB {
     void *data[1];
 } QCB;
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
-extern unsigned long func_02084998(unsigned long intr);
-extern long func_0207C994(long a, long b);
-extern void func_02088234(void);
-extern unsigned long func_02084968(unsigned long intr);
-void *func_021D53DC(long size);
-void *func_021D5410(long size, void *data, long dataSize);
+extern unsigned long OS_DisableIrqMask(unsigned long intr);
+extern long FX_ModS32(long a, long b);
+extern void OS_Terminate(void);
+extern unsigned long OS_EnableIrqMask(unsigned long intr);
+void *DWCi_QUElForm(long size);
+void *DWCi_QUElFormEx(long size, void *data, long dataSize);
 void DWCi_QUElDelete(struct tagLISTCB *list);
-void func_021D546C(void *queue, void *data);
-void *func_021D54C4(void *queue);
+void DWCi_QUElPushBack(void *queue, void *data);
+void *DWCi_QUElPopBack(void *queue);
 
 
-void *func_021D53DC(long size)
+void *DWCi_QUElForm(long size)
 {
     QCB *qcb;
 
-    qcb = (QCB *)func_021D6414((size + 1) * 4 + 8, 4);
+    qcb = (QCB *)DWCi_HEAPlAllocEx((size + 1) * 4 + 8, 4);
     qcb->size = size + 1;
     qcb->head = 0;
     qcb->tail = 0;
@@ -60,13 +60,13 @@ void *func_021D53DC(long size)
 /*
  * sdk:      DWCi_QUElFormEx (libdwcutil.TWL.HYB.a(deque.o))
  */
-void *func_021D5410(long size, void *data, long dataSize)
+void *DWCi_QUElFormEx(long size, void *data, long dataSize)
 {
     long i;
     u8 *adr = (u8 *)data;
     QCB *qcb;
 
-    qcb = (QCB *)func_021D53DC(size);
+    qcb = (QCB *)DWCi_QUElForm(size);
     for (i = 0; i < size; i++) {
         qcb->data[i] = adr;
         adr += dataSize;
@@ -85,26 +85,26 @@ void DWCi_QUElDelete(struct tagLISTCB *list)
 /*
  * sdk:      DWCi_QUElPushBack (libdwcutil.TWL.HYB.a(deque.o))
  */
-void func_021D546C(void *queue, void *data)
+void DWCi_QUElPushBack(void *queue, void *data)
 {
     QCB *qcb = (QCB *)queue;
     unsigned long irq;
     long next;
 
-    irq = func_02084998(1);
-    next = func_0207C994(qcb->tail + 1, qcb->size);
+    irq = OS_DisableIrqMask(1);
+    next = FX_ModS32(qcb->tail + 1, qcb->size);
     if (next == qcb->head)
-        func_02088234();
+        OS_Terminate();
     qcb->data[qcb->tail] = data;
     qcb->tail = next;
-    func_02084968(irq);
+    OS_EnableIrqMask(irq);
 }
 
 
 /*
  * sdk:      DWCi_QUElPopBack (libdwcutil.TWL.HYB.a(deque.o))
  */
-void *func_021D54C4(void *queue)
+void *DWCi_QUElPopBack(void *queue)
 {
     QCB *qcb;
     void *data;
@@ -112,11 +112,11 @@ void *func_021D54C4(void *queue)
 
     qcb = (QCB *)queue;
     data = 0;
-    irq = func_02084998(1);
+    irq = OS_DisableIrqMask(1);
     if (qcb->head != qcb->tail) {
-        qcb->tail = func_0207C994(qcb->tail + qcb->size - 1, qcb->size);
+        qcb->tail = FX_ModS32(qcb->tail + qcb->size - 1, qcb->size);
         data = qcb->data[qcb->tail];
     }
-    func_02084968(irq);
+    OS_EnableIrqMask(irq);
     return data;
 }

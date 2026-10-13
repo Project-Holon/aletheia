@@ -33,7 +33,7 @@
  *
  * symbols:
  *   func_0209477C  0x0209477C  arm
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_02189750  0x02189750  arm  ov009
  *   func_0218964C  0x0218964C  arm  ov009
  *   gpiSendOrBufferChar  0x02189644  arm  ov009
@@ -49,7 +49,7 @@ struct GPIPeer {
 
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, struct GPIPeer *peer, char *string);
 extern int func_0218964C(void **connection, struct GPIPeer *peer, char *string, int stringLen);
 extern int gpiSendOrBufferChar();
@@ -68,7 +68,7 @@ int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int le
         message = g_021A4FEC;
     if (len == -1)
         len = func_0209477C((const u8 *)message);
-    func_02084F40(buffer, g_021A4FF0, len);
+    OS_SPrintf(buffer, g_021A4FF0, len);
     result = func_02189750(connection, peer, buffer);
     if (result != 0)
         return result;

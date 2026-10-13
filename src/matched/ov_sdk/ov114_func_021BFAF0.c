@@ -1,5 +1,5 @@
 /*
- * function: func_021BFAF0
+ * function: DWCi_FindDWCGHTTPParamEntryByReq
  * address:  0x021BFAF0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 *func_021BFAF0(u32 key)
+u8 *DWCi_FindDWCGHTTPParamEntryByReq(u32 key)
 {
     u8 **base = (u8 **)0x021d3b20;
     u8 *p = base[1];

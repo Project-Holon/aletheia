@@ -13,10 +13,10 @@
  * function: MCSS_RestartAnime
  *
  * symbols:
- *   func_02064CBC  0x02064CBC  arm
+ *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  *
  * alias: an argument-adjusting tail call: it shifts the object pointer to
- * a member 0x34 bytes in and hands off to func_02064CBC. See
+ * a member 0x34 bytes in and hands off to NNS_G2dRestartMCAnimation. See
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * Verified with:
@@ -27,9 +27,9 @@
 typedef unsigned char u8;
 
 struct Obj;
-extern void func_02064CBC(struct Obj *x);
+extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 
 void MCSS_RestartAnime(void *obj)
 {
-    func_02064CBC((struct Obj *)((u8 *)obj + 0x34));
+    NNS_G2dRestartMCAnimation((struct Obj *)((u8 *)obj + 0x34));
 }

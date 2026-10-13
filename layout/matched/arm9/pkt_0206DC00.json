@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206DBF4",
+   "name": "NNSi_G3dGeSendDLDone",
    "address": "0x0206DBF4",
    "kind": "sdk",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206DC00",
+   "name": "NNS_G3dGeSendDL",
    "address": "0x0206DC00",
    "kind": "game",
    "region": "arm9",

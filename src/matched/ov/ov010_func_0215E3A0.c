@@ -11,10 +11,10 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D488  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   MOVE_POKEMON_MoveEntry  0x0215E358  thumb  ov010
  */
 
@@ -25,11 +25,11 @@ struct Big;
 struct Blk38;
 struct GdsEnt;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *p);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
 struct BigObj;
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern struct GdsEnt *MOVE_POKEMON_SAVE_GetEntry(struct Blk38 *p, u32 i);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern void MOVE_POKEMON_MoveEntry(int a, int b, int c);
 
 void MOVE_POKEMON_MoveActiveEntriesChecked(void *a)
@@ -38,11 +38,11 @@ void MOVE_POKEMON_MoveActiveEntriesChecked(void *a)
     void *q;
     void *p;
 
-    p = func_0200D418(GAME_DATA_GetSaveControl(a));
+    p = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a));
     q = (void *)GAME_DATA_GetSeason(a);
     for (i = 0; i < 2; i++) {
-        func_0200D4AC(p, i);
-        if (func_0200D488(p, i) != 0) {
+        MOVE_POKEMON_SAVE_GetEntry(p, i);
+        if (MOVE_POKEMON_SAVE_IsEntryActive(p, i) != 0) {
             MOVE_POKEMON_MoveEntry((int)p, (int)q, i);
         }
     }

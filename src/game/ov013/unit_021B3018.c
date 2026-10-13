@@ -16,7 +16,7 @@
  *   gVoiceGateEnergyRing     0x021B4C38  data a4
  *   gVoiceGateState     0x021B4C2C  data a4
  *   gVoiceGateConfig     0x021B3C50  data a4
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gEchoState     0x021B4C48  data ov013
  *   gEchoDefaultCoeffs     0x021B3C60  data a2
  *   gEchoRing     0x021B50CC  data a2
@@ -53,7 +53,7 @@
 /* Lever: the enum constant gives the hangover count its own type, so the cast to short keeps the smulbb. */
 typedef enum { HangoverFramesDefault } HangoverFrames;
 
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
 extern void OSi_ReferSymbol(const void *symbol);
 extern void MI_CpuFill8(void *dst, int c, int n);
@@ -111,7 +111,7 @@ void VCT_DSP_SetVoiceGateConfig(void *config)
 {
     if (!config)
         return;
-    func_02082D44(&gVoiceGateConfig, config, 0x10);
+    MI_CpuCopy8(&gVoiceGateConfig, config, 0x10);
 }
 
 

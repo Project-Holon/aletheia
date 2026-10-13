@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0218948C, func_021894B4, func_021894C4
+ * function: TR_AI_CmdLoadPokeValueByte, TR_AI_CmdLoadRule, TR_AI_CmdLoadCompetitor
  * address:  0x0218948C
  * packet:   pkt_ov096_0218948C
  * region:   ov096
@@ -10,12 +10,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021894B4 and func_021894C4 are the unlabelled store-and-return stubs
+ * TR_AI_CmdLoadRule and TR_AI_CmdLoadCompetitor are the unlabelled store-and-return stubs
  * after the lead function (function_starts seeds).
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
  *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
  */
 
@@ -35,23 +35,23 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern unsigned char BTL_POKEPARAM_GetCounter(unsigned char *base, int idx);
 
-int func_0218948C(struct Cursor *a, Conn *b)
+int TR_AI_CmdLoadPokeValueByte(struct Cursor *a, Conn *b)
 {
-    b->f38 = BTL_POKEPARAM_GetCounter(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, VM_GetU32(a))), 0);
+    b->f38 = BTL_POKEPARAM_GetCounter(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, VM_GetU32(a))), 0);
     return b->fc4;
 }
 
-int func_021894B4(int a, Conn *b)
+int TR_AI_CmdLoadRule(int a, Conn *b)
 {
     b->f38 = b->f98;
     return b->fc4;
 }
 
-int func_021894C4(int a, Conn *b)
+int TR_AI_CmdLoadCompetitor(int a, Conn *b)
 {
     b->f38 = b->f9c;
     return b->fc4;

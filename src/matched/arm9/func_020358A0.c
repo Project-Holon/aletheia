@@ -15,7 +15,7 @@
  *   func_0208AB1C  0x0208AB1C  arm
  *   func_0208ABB8  0x0208ABB8  arm
  *   func_0208ADB4  0x0208ADB4  arm
- *   func_0208B104  0x0208B104  arm
+ *   TP_GetCalibratedPoint  0x0208B104  arm
  *
  * The touch-panel sampling pass of the touchpanel.c family: it resolves the
  * work object, refuses to run with the lid closed, samples the panel (with a
@@ -94,7 +94,7 @@ extern void func_0208AB1C(void);
 struct TPData;
 extern u32 func_0208ABB8(struct TPData *result);
 extern void func_0208ADB4(struct TPData *result);
-extern void func_0208B104(struct TPData *disp, const struct TPData *raw);
+extern void TP_GetCalibratedPoint(struct TPData *disp, const struct TPData *raw);
 
 void TOUCHPANEL_MainSys(struct Tp *ctx)
 {
@@ -131,7 +131,7 @@ void TOUCHPANEL_MainSys(struct Tp *ctx)
         func_0208ADB4((struct TPData *)(&raw));
     }
     if (done == 0) {
-        func_0208B104((struct TPData *)(&cal), (const struct TPData *)(&raw));
+        TP_GetCalibratedPoint((struct TPData *)(&cal), (const struct TPData *)(&raw));
     }
     if (cal.t == 0) {
         w->f5c = cal.x;

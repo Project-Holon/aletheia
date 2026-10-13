@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4D4
+ * function: NHTTPi_CommThreadProcMain
  * address:  0x021BE4D4
  * packet:   pkt_ov114_021BE4D4
  * region:   ov114
@@ -12,19 +12,19 @@
  * sdk:      NHTTPi_CommThreadProcMain (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF3C 0x021BEF3C arm ov114
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BD220 0x021BD220 arm ov114
- *   func_021BD3B8 0x021BD3B8 arm ov114
- *   func_021BD430 0x021BD430 arm ov114
- *   func_021BD548 0x021BD548 arm ov114
- *   func_021BD6DC 0x021BD6DC arm ov114
- *   func_021BD7E8 0x021BD7E8 arm ov114
- *   func_021BDB68 0x021BDB68 arm ov114
- *   func_021BDD34 0x021BDD34 arm ov114
- *   func_021BDFF8 0x021BDFF8 arm ov114
- *   func_021BD270 0x021BD270 arm ov114
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetBgnEndInfoP 0x021BEF3C arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_ThreadInit 0x021BD220 arm ov114
+ *   NHTTPi_ThreadExecReqQueue 0x021BD3B8 arm ov114
+ *   NHTTPi_ThreadHostAddrProc 0x021BD430 arm ov114
+ *   NHTTPi_ThreadConnectProc 0x021BD548 arm ov114
+ *   NHTTPi_ThreadProxyProc 0x021BD6DC arm ov114
+ *   NHTTPi_ThreadSendProc 0x021BD7E8 arm ov114
+ *   NHTTPi_ThreadRecvHeaderProc 0x021BDB68 arm ov114
+ *   NHTTPi_ThreadParseHeaderProc 0x021BDD34 arm ov114
+ *   NHTTPi_ThreadRecvBodyProc 0x021BDFF8 arm ov114
+ *   NHTTPi_ThreadReqEnd 0x021BD270 arm ov114
  */
 
 typedef struct {
@@ -53,64 +53,64 @@ typedef struct {
 } BgnEnd;
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern BgnEnd *func_021BEF3C(void);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern BgnEnd *NHTTPi_GetBgnEndInfoP(void);
 struct _NHTTPThreadData;
-extern void *func_021BEF48(int p);
-extern void func_021BD220(ThreadData *td);
-extern int func_021BD3B8(ThreadData *td);
-extern int func_021BD430(ThreadData *td);
-extern int func_021BD548(struct _NHTTPThreadData *threadData_p);
-extern int func_021BD6DC(ThreadData *td);
-extern int func_021BD7E8(ThreadData *td);
-extern int func_021BDB68(struct _NHTTPThreadData *threadData_p);
-extern int func_021BDD34(ThreadData *td);
-extern int func_021BDFF8(ThreadData *td);
-extern void func_021BD270(struct _NHTTPThreadData *threadData_p);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern void NHTTPi_ThreadInit(ThreadData *td);
+extern int NHTTPi_ThreadExecReqQueue(ThreadData *td);
+extern int NHTTPi_ThreadHostAddrProc(ThreadData *td);
+extern int NHTTPi_ThreadConnectProc(struct _NHTTPThreadData *threadData_p);
+extern int NHTTPi_ThreadProxyProc(ThreadData *td);
+extern int NHTTPi_ThreadSendProc(ThreadData *td);
+extern int NHTTPi_ThreadRecvHeaderProc(struct _NHTTPThreadData *threadData_p);
+extern int NHTTPi_ThreadParseHeaderProc(ThreadData *td);
+extern int NHTTPi_ThreadRecvBodyProc(ThreadData *td);
+extern void NHTTPi_ThreadReqEnd(struct _NHTTPThreadData *threadData_p);
 
-void func_021BE4D4(void)
+void NHTTPi_CommThreadProcMain(void)
 {
     void *sysInfo_p;
     BgnEnd *bgnEndInfo_p;
     ReqInfo *reqInfo_p;
     ThreadData threadData;
 
-    sysInfo_p = func_021BEF08();
-    bgnEndInfo_p = func_021BEF3C();
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
-    func_021BD220(&threadData);
+    sysInfo_p = NHTTPi_GetSystemInfoP();
+    bgnEndInfo_p = NHTTPi_GetBgnEndInfoP();
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
+    NHTTPi_ThreadInit(&threadData);
     while (bgnEndInfo_p->isThreadEnd == 0) {
         if (threadData.restartConnect == 0) {
-            if (func_021BD3B8(&threadData) == 0) {
+            if (NHTTPi_ThreadExecReqQueue(&threadData) == 0) {
                 continue;
             }
             if (reqInfo_p->reqCurrent->req_p->doCancel != 0) {
-                func_021BD270((struct _NHTTPThreadData *)(&threadData));
+                NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
                 continue;
             }
-            if (func_021BD430(&threadData) == 0) {
-                func_021BD270((struct _NHTTPThreadData *)(&threadData));
+            if (NHTTPi_ThreadHostAddrProc(&threadData) == 0) {
+                NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
                 continue;
             }
         }
         if (threadData.restartConnect == 1) {
             threadData.restartConnect = 0;
         }
-        if (func_021BD548((struct _NHTTPThreadData *)(&threadData)) == 0) {
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+        if (NHTTPi_ThreadConnectProc((struct _NHTTPThreadData *)(&threadData)) == 0) {
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        switch (func_021BD6DC(&threadData)) {
+        switch (NHTTPi_ThreadProxyProc(&threadData)) {
         case 0:
             break;
         case 2:
             threadData.restartConnect = 1;
             continue;
         case 1:
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        switch (func_021BD7E8(&threadData)) {
+        switch (NHTTPi_ThreadSendProc(&threadData)) {
         case 0:
             break;
         case 2:
@@ -118,22 +118,22 @@ void func_021BE4D4(void)
             continue;
         case 1:
         case 3:
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
         if (reqInfo_p->reqCurrent->req_p->doCancel != 0) {
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        if (func_021BDB68((struct _NHTTPThreadData *)(&threadData)) == 0) {
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+        if (NHTTPi_ThreadRecvHeaderProc((struct _NHTTPThreadData *)(&threadData)) == 0) {
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        if (func_021BDD34(&threadData) == 0) {
-            func_021BD270((struct _NHTTPThreadData *)(&threadData));
+        if (NHTTPi_ThreadParseHeaderProc(&threadData) == 0) {
+            NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
             continue;
         }
-        func_021BDFF8(&threadData);
-        func_021BD270((struct _NHTTPThreadData *)(&threadData));
+        NHTTPi_ThreadRecvBodyProc(&threadData);
+        NHTTPi_ThreadReqEnd((struct _NHTTPThreadData *)(&threadData));
     }
 }

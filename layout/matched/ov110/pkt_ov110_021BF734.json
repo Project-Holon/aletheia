@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF734",
+   "name": "PMS_INPUT_GetListItemCount",
    "address": "0x021BF734",
    "kind": "game",
    "region": "ov110",

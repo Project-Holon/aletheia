@@ -1,5 +1,5 @@
 /*
- * function: func_021D28E4
+ * function: DWCi_MOV_MBP_GetPlayerNo
  * address:  0x021D28E4
  * packet:   pkt_ov016_021D28E4
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_MOV_MBP_GetPlayerNo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
  * symbols:
- *   g_021DE65C                       0x021DE65C  data
+ *   gDwcMovMbpWork                       0x021DE65C  data
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef struct {
     Child child[1];
 } Wb;
 
-extern Wb *g_021DE65C;
+extern Wb *gDwcMovMbpWork;
 
 static inline int cmpmac(u8 *a, u8 *b)
 {
@@ -39,12 +39,12 @@ static inline int cmpmac(u8 *a, u8 *b)
         && a[4] == b[4] && a[5] == b[5];
 }
 
-u16 func_021D28E4(u8 *macAddress)
+u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress)
 {
     u16 i;
     for (i = 1; i < 2; i++) {
-        if ((g_021DE65C->bmp & (1 << i)) && cmpmac(macAddress, g_021DE65C->child[i - 1].mac))
-            return g_021DE65C->child[i - 1].playerNo;
+        if ((gDwcMovMbpWork->bmp & (1 << i)) && cmpmac(macAddress, gDwcMovMbpWork->child[i - 1].mac))
+            return gDwcMovMbpWork->child[i - 1].playerNo;
     }
     return 0;
 }

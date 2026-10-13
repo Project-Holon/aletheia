@@ -1,5 +1,5 @@
 /*
- * function: func_021C2028
+ * function: WIFICLUB_SetSlotState
  * address:  0x021C2028
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021C2028(char *p, int i, u8 v)
+void WIFICLUB_SetSlotState(char *p, int i, u8 v)
 {
     *(u8 *)(p + i + 0x8CB) = v;
     ((struct Obj18285 *)p)->f8F1 = 1;

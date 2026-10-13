@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7A74",
+   "name": "DWCi_Ndi_intToStrFigure",
    "address": "0x021C7A74",
    "kind": "sdk",
    "region": "ov114",

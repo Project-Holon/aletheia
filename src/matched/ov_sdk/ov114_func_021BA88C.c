@@ -1,5 +1,5 @@
 /*
- * function: func_021BA88C
+ * function: NHTTPi_Startup
  * address:  0x021BA88C
  * packet:   pkt_ov114_021BA88C
  * region:   ov114
@@ -12,20 +12,20 @@
  * sdk:      NHTTPi_Startup (libnhttp.TWL.HYB.a(nhttp_bgnend.o))
  *
  * symbols:
- *   func_021BEF3C 0x021BEF3C arm ov114
- *   func_021BEF40 0x021BEF40 arm ov114
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BEF58 0x021BEF58 arm ov114
- *   func_021BEF50 0x021BEF50 arm ov114
- *   func_021BACEC 0x021BACEC arm ov114
- *   func_021BB3C0 0x021BB3C0 arm ov114
- *   func_021BEFA4 0x021BEFA4 arm ov114
- *   func_021BEF6C 0x021BEF6C arm ov114
- *   func_021BA820 0x021BA820 arm ov114
- *   func_021BA874 0x021BA874 arm ov114
- *   func_021BEFC8 0x021BEFC8 arm ov114
- *   func_021B9B64 0x021B9B64 arm ov114
- *   func_021BA850 0x021BA850 arm ov114
+ *   NHTTPi_GetBgnEndInfoP 0x021BEF3C arm ov114
+ *   NHTTPi_GetListInfoP 0x021BEF40 arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_GetMutexInfoP 0x021BEF58 arm ov114
+ *   NHTTPi_GetThreadInfoP 0x021BEF50 arm ov114
+ *   NHTTPi_InitListInfo 0x021BACEC arm ov114
+ *   NHTTPi_InitRequestInfo 0x021BB3C0 arm ov114
+ *   NHTTPi_initLockReqList 0x021BEFA4 arm ov114
+ *   NHTTPi_InitConnectionList 0x021BEF6C arm ov114
+ *   NHTTPi_alloc 0x021BA820 arm ov114
+ *   NHTTPi_SetError 0x021BA874 arm ov114
+ *   NHTTPi_exitLockReqList 0x021BEFC8 arm ov114
+ *   NHTTPi_createCommThread 0x021B9B64 arm ov114
+ *   NHTTPi_free 0x021BA850 arm ov114
  */
 
 typedef struct {
@@ -41,23 +41,23 @@ typedef struct {
     int f24;
 } BgnEnd;
 
-extern BgnEnd *func_021BEF3C(void);
-extern void *func_021BEF40(int p);
-extern void *func_021BEF48(int p);
-extern void *func_021BEF58(int p);
-extern void *func_021BEF50(int p);
+extern BgnEnd *NHTTPi_GetBgnEndInfoP(void);
+extern void *NHTTPi_GetListInfoP(int p);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern void *NHTTPi_GetThreadInfoP(int p);
 typedef unsigned char  u8;
-extern void func_021BACEC(u8 *p);
-extern void func_021BB3C0(u8 *p);
-extern void func_021BEFA4(u8 *p);
-extern void func_021BEF6C(void);
-extern int func_021BA820(int a, int b);
-extern void func_021BA874(u8 *p, int v);
-extern void func_021BEFC8();
-extern int func_021B9B64(void *threadInfo_p, unsigned long priority, unsigned long *stack_p);
-extern void func_021BA850(int a);
+extern void NHTTPi_InitListInfo(u8 *p);
+extern void NHTTPi_InitRequestInfo(u8 *p);
+extern void NHTTPi_initLockReqList(u8 *p);
+extern void NHTTPi_InitConnectionList(void);
+extern int NHTTPi_alloc(int a, int b);
+extern void NHTTPi_SetError(u8 *p, int v);
+extern void NHTTPi_exitLockReqList();
+extern int NHTTPi_createCommThread(void *threadInfo_p, unsigned long priority, unsigned long *stack_p);
+extern void NHTTPi_free(int a);
 
-int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio)
+int NHTTPi_Startup(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio)
 {
     void *threadInfo_p;
     void *mutexInfo_p;
@@ -66,36 +66,36 @@ int func_021BA88C(void *sysInfo_p, void *(*alloc)(unsigned long, int), void (*fr
     BgnEnd *bgnEndInfo_p;
     unsigned long *stack_p;
 
-    bgnEndInfo_p = func_021BEF3C();
-    listInfo_p = func_021BEF40((int)sysInfo_p);
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
-    mutexInfo_p = func_021BEF58((int)sysInfo_p);
-    threadInfo_p = func_021BEF50((int)sysInfo_p);
+    bgnEndInfo_p = NHTTPi_GetBgnEndInfoP();
+    listInfo_p = NHTTPi_GetListInfoP((int)sysInfo_p);
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
+    mutexInfo_p = NHTTPi_GetMutexInfoP((int)sysInfo_p);
+    threadInfo_p = NHTTPi_GetThreadInfoP((int)sysInfo_p);
     bgnEndInfo_p->alloc = alloc;
     bgnEndInfo_p->free = free;
     bgnEndInfo_p->f14 = 0;
     bgnEndInfo_p->f10 = 0;
     bgnEndInfo_p->f18 = 0;
     bgnEndInfo_p->f24 = 0;
-    func_021BACEC(listInfo_p);
-    func_021BB3C0(reqInfo_p);
-    func_021BEFA4(mutexInfo_p);
-    func_021BEF6C();
+    NHTTPi_InitListInfo(listInfo_p);
+    NHTTPi_InitRequestInfo(reqInfo_p);
+    NHTTPi_initLockReqList(mutexInfo_p);
+    NHTTPi_InitConnectionList();
     bgnEndInfo_p->fc = -1;
-    bgnEndInfo_p->buf = (void *)func_021BA820(0x2000, 8);
+    bgnEndInfo_p->buf = (void *)NHTTPi_alloc(0x2000, 8);
     stack_p = bgnEndInfo_p->buf;
     if (stack_p == 0) {
-        func_021BA874((u8 *)bgnEndInfo_p, 1);
-        func_021BEFC8();
+        NHTTPi_SetError((u8 *)bgnEndInfo_p, 1);
+        NHTTPi_exitLockReqList();
         return 0;
     }
-    if (func_021B9B64(threadInfo_p, threadprio, stack_p) != 0) {
+    if (NHTTPi_createCommThread(threadInfo_p, threadprio, stack_p) != 0) {
         bgnEndInfo_p->opened = 1;
         return 1;
     }
-    func_021BA874((u8 *)bgnEndInfo_p, 9);
-    func_021BA850((int)bgnEndInfo_p->buf);
+    NHTTPi_SetError((u8 *)bgnEndInfo_p, 9);
+    NHTTPi_free((int)bgnEndInfo_p->buf);
     bgnEndInfo_p->buf = 0;
-    func_021BEFC8();
+    NHTTPi_exitLockReqList();
     return 0;
 }

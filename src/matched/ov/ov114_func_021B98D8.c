@@ -1,5 +1,5 @@
 /*
- * function: func_021B98D8
+ * function: NHTTP_RAP_AppendPostData
  * address:  0x021B98D8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -11,18 +11,21 @@
  *
  *
  * Appends `n` bytes at the write cursor and advances it.
+ *
+ * symbols:
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  */
 #include "../include/Obj10328.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_02082D44(int, int, int);
+extern void MI_CpuCopy8(int, int, int);
 
-void func_021B98D8(u8 *p, int a, int n)
+void NHTTP_RAP_AppendPostData(u8 *p, int a, int n)
 {
     if (p == 0)
         return;
-    func_02082D44(a, ((struct Obj10328 *)p)->f0 + ((struct Obj10328 *)p)->f4, n);
+    MI_CpuCopy8(a, ((struct Obj10328 *)p)->f0 + ((struct Obj10328 *)p)->f4, n);
     ((struct Obj10328 *)p)->f4 += n;
 }

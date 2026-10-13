@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C29AC",
+   "name": "ghiPostStateInit",
    "address": "0x021C29AC",
    "kind": "sdk",
    "region": "ov114",

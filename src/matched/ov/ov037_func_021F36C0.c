@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK_INIT_SetGimmick39Flags
+ * function: GIMMICK_INIT_SetCartLanesFlags
  * address:  0x021F36C0
  * packet:   pkt_ov037_021F36C0
  * region:   ov037
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 
-void GIMMICK_INIT_SetGimmick39Flags(unsigned int a0, int a1, int a2)
+void GIMMICK_INIT_SetCartLanesFlags(unsigned int a0, int a1, int a2)
 {
     char *p = (char *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)a0)), 2);
 

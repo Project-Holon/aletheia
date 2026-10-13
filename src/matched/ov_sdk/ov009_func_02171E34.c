@@ -1,5 +1,5 @@
 /*
- * function: func_02171E34
+ * function: DWCi_RetryReserving
  * address:  0x02171E34
  * packet:   pkt_ov009_02171E34
  * region:   ov009
@@ -14,13 +14,13 @@
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
  *   func_020870D0                0x020870D0 arm
- *   func_0217653C                0x0217653C arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
+ *   DWCi_TempNewNodeInfo_Clear                0x0217653C arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   func_0216F770                0x0216F770 arm   ov009
- *   func_02173D9C                0x02173D9C arm   ov009
+ *   DWCi_HandleSBError                0x02173D9C arm   ov009
  *   func_02171C08                0x02171C08 arm   ov009
- *   func_021719A4                0x021719A4 arm   ov009
- *   func_0216EB68                0x0216EB68 arm   ov009
+ *   DWCi_HandleMatchCommandError                0x021719A4 arm   ov009
+ *   DWCi_StopMatch                0x0216EB68 arm   ov009
  */
 
 typedef unsigned char u8;
@@ -44,15 +44,15 @@ struct DWCstMatchControl {
 
 extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
-extern void func_0217653C(void);
-extern void func_02175F4C(int state);
+extern void DWCi_TempNewNodeInfo_Clear(void);
+extern void DWCi_SetMatchStatus(int state);
 extern int func_0216F770(int profileID);
-extern int func_02173D9C(int error);
+extern int DWCi_HandleSBError(int error);
 extern int func_02171C08(int delay, int init, int resendPid);
-extern int func_021719A4(int error);
-extern void func_0216EB68(int error, int errorCode);
+extern int DWCi_HandleMatchCommandError(int error);
+extern void DWCi_StopMatch(int error, int errorCode);
 
-int func_02171E34(int resendPid)
+int DWCi_RetryReserving(int resendPid)
 {
     int result;
     int sbError;
@@ -62,29 +62,29 @@ int func_02171E34(int resendPid)
     ((struct DWCstMatchControl *)func_02175F3C())->f628 = 0;
     tick = func_020870D0();
     ((struct DWCstMatchControl *)func_02175F3C())->f648 = tick;
-    func_0217653C();
+    DWCi_TempNewNodeInfo_Clear();
     if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0) {
-        func_02175F4C(0xc);
-        sbError = func_02173D9C(func_0216F770(0));
+        DWCi_SetMatchStatus(0xc);
+        sbError = DWCi_HandleSBError(func_0216F770(0));
         if (sbError != 0)
             return 0;
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 0) {
-        func_02175F4C(2);
+        DWCi_SetMatchStatus(2);
         if (resendPid != 0) {
             ((struct DWCstMatchControl *)func_02175F3C())->f5e4 = 1;
             tick = func_020870D0();
             ((struct DWCstMatchControl *)func_02175F3C())->f5e8 = tick;
         } else {
-            sbError = func_02173D9C(func_0216F770(0));
+            sbError = DWCi_HandleSBError(func_0216F770(0));
             if (sbError != 0)
                 return 0;
         }
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 1) {
-        result = func_021719A4(func_02171C08(1, 0, resendPid));
+        result = DWCi_HandleMatchCommandError(func_02171C08(1, 0, resendPid));
         if (result != 0)
             return 0;
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 3) {
-        func_0216EB68(6, -80410);
+        DWCi_StopMatch(6, -80410);
         return 0;
     }
     return 1;

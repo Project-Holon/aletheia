@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA454",
+   "name": "IRCBATTLEMATCH_PrintPlayerMessage",
    "address": "0x021BA454",
    "kind": "game",
    "region": "ov100",

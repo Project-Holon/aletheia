@@ -1,5 +1,5 @@
 /*
- * function: func_021C12F8
+ * function: PMS_SELECT_GRAPHIC_GetTouchedRow
  * address: 0x021C12F8
  * packet: pkt_ov110_021C12F8
  * region: ov110
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-int func_021C12F8(void) { u32 x,y; u32 result; if(TOUCHPANEL_GetPointTrg(&x,&y) && x<232 && y>=8) { result=(y/8-1)/6; if(result<3) return result; } return -1; }
+int PMS_SELECT_GRAPHIC_GetTouchedRow(void) { u32 x,y; u32 result; if(TOUCHPANEL_GetPointTrg(&x,&y) && x<232 && y>=8) { result=(y/8-1)/6; if(result<3) return result; } return -1; }

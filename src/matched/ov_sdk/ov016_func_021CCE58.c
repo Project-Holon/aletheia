@@ -15,20 +15,20 @@
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE58.c \n *       --func func_021CCE58 --addr 0x021CCE58 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   func_021BCB9C  0x021BCB9C  arm  ov016
- *   func_021D5790  0x021D5790  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_BTNlDisable  0x021BCB9C  arm  ov016
+ *   DWCi_EFFlWait  0x021D5790  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CCE78  0x021CCE78  arm  ov016
  */
 
-extern void func_021BCB9C(void);
-extern int func_021D5790(int frame);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_BTNlDisable(void);
+extern int DWCi_EFFlWait(int frame);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CCE78(void);
 
 void func_021CCE58(void)
 {
-    func_021BCB9C();
-    func_021D5790(8);
-    func_021C0E40((unsigned int)func_021CCE78);
+    DWCi_BTNlDisable();
+    DWCi_EFFlWait(8);
+    DWCi_ChangeScene((unsigned int)func_021CCE78);
 }

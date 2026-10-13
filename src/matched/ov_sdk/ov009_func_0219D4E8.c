@@ -1,5 +1,5 @@
 /*
- * function: func_0219D4E8
+ * function: FIFOAddFront
  * address:  0x0219D4E8
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Pushes an element onto the singly linked list rooted in *p.
  */
 
-void func_0219D4E8(int **p, int *q)
+void FIFOAddFront(int **p, int *q)
 {
     int *head = p[0];
     int *tail;

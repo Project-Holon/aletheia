@@ -1,5 +1,5 @@
 /*
- * function: func_02070C5C
+ * function: NNSi_G3dSendJointSRTBasic
  * address:  0x02070C5C
  * packet:   pkt_02070C5C
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *
- * The narrow sibling of src/matched/func_02070D18.c: the same flag-driven
- * fan-out of func_0206DDA4(cmd, ptr, count) register-block uploads over one
+ * The narrow sibling of src/matched/NNSi_G3dSendJointSRTMaya.c: the same flag-driven
+ * fan-out of NNS_G3dGeBufferOP_N(cmd, ptr, count) register-block uploads over one
  * object, without the leading bit-5/bit-3 block and without the `first` latch.
  *
  * PIN ../2.0/sp2, the "kept branches" tell (docs/FRONTEND-PINS.md), exactly
- * the tell its sibling func_02070D18 carries.  The image writes the 0x19 and
+ * the tell its sibling NNSi_G3dSendJointSRTMaya carries.  The image writes the 0x19 and
  * 0x1c arms out SEPARATELY, each closing with its own `bl 0x0206dda4` and its
  * own unconditional branch to the join -- `bl` / `b 0x2070cb8` at
  * 0x02070C84/0x02070C88 for the 0x19 arm and `bl` / `b 0x2070cb8` at
@@ -36,30 +36,30 @@
  *
  * The former `*` was the unlabelled follower at 0x02070CD8 (a 64-byte leaf
  * that saves no lr), now seeded in layout/function_starts.txt and matched
- * in src/matched/arm9/func_02070CD8.c; the extent is 124 bytes and EXACT.
+ * in src/matched/arm9/NNSi_G3dGetJointScaleBasic.c; the extent is 124 bytes and EXACT.
  */
 #include "../include/Obj11669.h"
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_02070C5C(u8 *a)
+void NNSi_G3dSendJointSRTBasic(u8 *a)
 {
     u32 f;
 
     f = ((struct Obj11669 *)a)->f0;
     if ((f & 4) == 0) {
         if ((f & 2) == 0)
-            func_0206DDA4(0x19, a + 0x28, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, a + 0x28, 0xc);
         else
-            func_0206DDA4(0x1c, a + 0x4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, a + 0x4c, 3);
     } else {
         if ((f & 2) == 0)
-            func_0206DDA4(0x1a, a + 0x28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, a + 0x28, 9);
     }
 
     f = ((struct Obj11669 *)a)->f0;
     if ((f & 1) == 0)
-        func_0206DDA4(0x1b, a + 4, 3);
+        NNS_G3dGeBufferOP_N(0x1b, a + 4, 3);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02189160
+ * function: TR_AI_CmdIfDamageBelow
  * address: 0x02189160
  * packet: pkt_ov096_02189160
  * region: ov096
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02189170 0x02189170 thumb ov096
+ *   TR_AI_CompareDamage 0x02189170 thumb ov096
  */
 #include "../include/Obj21956.h"
 struct Cursor;
-extern int func_02189170(struct Cursor *a, int b, int c);
-int func_02189160(struct Cursor *a, int b)
+extern int TR_AI_CompareDamage(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfDamageBelow(struct Cursor *a, int b)
 {
-    func_02189170(a, b, 1);
+    TR_AI_CompareDamage(a, b, 1);
     return ((struct Obj21956 *)b)->fC4;
 }

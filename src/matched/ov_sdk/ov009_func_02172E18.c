@@ -1,5 +1,5 @@
 /*
- * function: func_02172E18
+ * function: DWCi_CloseCancelHostAsync
  * address:  0x02172E18
  * packet:   pkt_ov009_02172E18
  * region:   ov009
@@ -15,15 +15,15 @@
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   DWCi_GetGT2ConnectionByProfileID  0x0216BBDC  arm  ov009
  *   func_02195DC4  0x02195DC4  arm  ov009
- *   func_02176254  0x02176254  arm  ov009
+ *   DWCi_NodeInfoList_RemoveProfileID  0x02176254  arm  ov009
  */
 
 extern int func_02175F3C(void);
 extern int *DWCi_GetGT2ConnectionByProfileID(int pid, int flag);
 extern void func_02195DC4(int a);
-extern int func_02176254(int profileID);
+extern int DWCi_NodeInfoList_RemoveProfileID(int profileID);
 
-int func_02172E18(int profileID)
+int DWCi_CloseCancelHostAsync(int profileID)
 {
     int **connection;
     int ret;
@@ -34,10 +34,10 @@ int func_02172E18(int profileID)
         *(char *)(func_02175F3C() + 0x629) = 1;
         func_02195DC4((int)(*connection));
         *(char *)(func_02175F3C() + 0x629) = 0;
-        func_02176254(profileID);
+        DWCi_NodeInfoList_RemoveProfileID(profileID);
         ret = 1;
     } else {
-        func_02176254(profileID);
+        DWCi_NodeInfoList_RemoveProfileID(profileID);
         ret = 0;
     }
     return ret;

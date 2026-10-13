@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFB4
+ * function: WIFICLUB_StatePollEntryPrompt
  * address:  0x021BCFB4
  * packet:   pkt_ov099_021BCFB4
  * region:   ov099
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   func_021BA858  0x021BA858  thumb  ov099
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_PollYesNoMenu  0x021BA858  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  */
 #include "../include/Obj06356.h"
 
@@ -22,26 +22,26 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_021BA858(char *p);
-extern void func_021BA8EC(char *p);
-extern void func_021BAAB8(char *p, int a, int b);
+extern u32 WIFICLUB_PollYesNoMenu(char *p);
+extern void WIFICLUB_ClearTalkWindow(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021BCFB4(char *p, int v)
+int WIFICLUB_StatePollEntryPrompt(char *p, int v)
 {
     int r;
 
     GF_FONT_SetDefaultTextColor();
-    r = func_021BA858(p);
+    r = WIFICLUB_PollYesNoMenu(p);
     if (r == -1) {
         return v;
     }
     if (r == 0) {
         ((struct Obj06356 *)p)->f1CC = 0x62;
-        func_021BA8EC(p);
+        WIFICLUB_ClearTalkWindow(p);
     } else {
         if ((unsigned)(((struct Obj06356 *)p)->f135C - 1) <= 1) {
             ((struct Obj06356 *)p)->f1353 = 0x4A;
-            func_021BAAB8(p, 0x4A, 0);
+            WIFICLUB_ShowStreamedMessage(p, 0x4A, 0);
         } else {
             ((struct Obj06356 *)p)->f1353 = 0x90;
         }

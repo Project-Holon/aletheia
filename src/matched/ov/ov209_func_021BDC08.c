@@ -13,8 +13,8 @@
  *   CLACT_SetActorVisible 0x0204BA20 arm
  *   func_021BD8D8 0x021BD8D8 thumb ov209
  *   func_021BD890 0x021BD890 thumb ov209
- *   func_0200CA54 0x0200CA54 thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   d_021BE9F0 0x021BE9F0 data a4
  */
@@ -37,8 +37,8 @@ extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *, int, int);
-extern u32 func_0200CA54(struct Blk37 *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern int GAME_DATA_CheckSaveFlag(int, int);
 void func_021BDC08(char *p)
 {
@@ -59,9 +59,9 @@ void func_021BDC08(char *p)
         func_021BD8D8(p, 0, 0);
         func_021BD8D8(p, 1, 0);
     }
-    if (func_0200CA54(((struct Obj25571 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_GetDexObtained(((struct Obj25571 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 9, 0);
-    if (func_0200CA38(((struct Obj25572 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_IsNationalDexEnabled(((struct Obj25572 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 8, 0);
     if (((struct Obj25573 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f8 == 1) {
         func_021BD8D8(p, 8, 0);

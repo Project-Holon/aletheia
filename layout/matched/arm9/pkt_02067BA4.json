@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067BA4",
+   "name": "NNS_G2dRndCoreBeginRendering",
    "address": "0x02067BA4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "NNSi_G2dOamSoftEmuEnd",
+   "name": "NNS_G2dRndCoreEndRendering",
    "address": "0x02067CB0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "NNSi_G2dOamSoftEmuRender",
+   "name": "NNS_G2dRndCoreDrawCell",
    "address": "0x02067D14",
    "kind": "game",
    "region": "arm9",

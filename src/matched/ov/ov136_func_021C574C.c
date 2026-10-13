@@ -14,7 +14,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
- *   func_02082B0C 0x02082B0C arm
+ *   MIi_CpuCopyFast 0x02082B0C arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -28,7 +28,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082B0C(void *, const void *, u32);
+extern void MIi_CpuCopyFast(void *, const void *, u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -48,8 +48,8 @@ void func_021C574C(u8 *p)
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
     buf = ARC_UTIL_LoadBgCharDataFromHandle(h, 0x26, 1, (u32)(&out), 0x66);
     dst = *(u8 * *)&((struct Obj23503 *)out)->f14;
-    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 4, 0x20);
-    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 0x24, 0x20);
+    MIi_CpuCopyFast(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 4, 0x20);
+    MIi_CpuCopyFast(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 0x24, 0x20);
     func_020307B0(buf);
     ARC_TOOL_DeleteHandle(h);
 }

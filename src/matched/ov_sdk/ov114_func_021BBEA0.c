@@ -1,5 +1,5 @@
 /*
- * function: func_021BBEA0
+ * function: NHTTPi_IsCreateCommThreadMessageQueueOn
  * address:  0x021BBEA0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BBEA0(u8 *p)
+void NHTTPi_IsCreateCommThreadMessageQueueOn(u8 *p)
 {
     *(u32 *)(p + 0xec) = 1;
 }

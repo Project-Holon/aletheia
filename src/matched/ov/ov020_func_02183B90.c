@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0208068C  0x0208068C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  *   func_0202E888  0x0202E888  thumb
  *   sub_0202E8CC   0x0202E8CC  thumb
@@ -34,7 +34,7 @@ struct Evt;
 struct S0201235C;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void func_0208068C(int a);
-extern void func_02082AC0(int v, u32 a, u32 b);
+extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void func_02080B98(void);
 extern int func_0202E888(void);
 typedef signed int     s32;
@@ -56,7 +56,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(int a, int *state, int *p)
     switch (*state) {
     case 0:
         func_0208068C(0x1ff);
-        func_02082AC0(0, 0x1a << 22, 0x29 << 14);
+        MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
         func_02080B98();
         (*state)++;
         break;

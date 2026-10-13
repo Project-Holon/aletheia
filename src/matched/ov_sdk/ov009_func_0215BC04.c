@@ -1,5 +1,5 @@
 /*
- * function: func_0215BC04
+ * function: dhcp_setcommon
  * address:  0x0215BC04
  * packet:   pkt_ov009_0215BC04
  * region:   ov009
@@ -28,7 +28,7 @@ extern char g_021A1CCC[];
 #define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 
-unsigned char *func_0215BC04(unsigned char *d, int type)
+unsigned char *dhcp_setcommon(unsigned char *d, int type)
 {
 	MI_CpuFill8(d, 0, 0xec);
 	*(unsigned short *)(d + 0) = 0x0101;

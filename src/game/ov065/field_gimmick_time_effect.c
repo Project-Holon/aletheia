@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sGimmick65UnitDescNight     0x021F3918  data  a4
- *   sGimmick65UnitDescDay     0x021F38F8  data  a4
- *   sGimmick65EffectPosition     0x021F3970  data  a4
+ *   sTimeEffectUnitDescNight     0x021F3918  data  a4
+ *   sTimeEffectUnitDescDay     0x021F38F8  data  a4
+ *   sTimeEffectEffectPosition     0x021F3970  data  a4
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
@@ -53,11 +53,11 @@ struct FieldSave;
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern struct FieldSave *GAME_DATA_GetFieldSave(void *gameData);
-extern Gimmick65Save *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern FieldGimmickTimeEffectSave *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
 extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int a, int size);
-extern Gimmick65Work *FIELDMAP_GetCommonWork(void *fieldMap, int id);
+extern FieldGimmickTimeEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int id);
 extern u8 GAME_DATA_GetSeason(void *gameData);
 extern u32 TIMEZONE_GetNowTimeZone(u32 season);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
@@ -81,17 +81,17 @@ void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap);
 void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap);
 void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap);
 void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem);
-extern char sGimmick65UnitDescNight[];
-extern char sGimmick65UnitDescDay[];
-extern VecFx32 sGimmick65EffectPosition;
+extern char sTimeEffectUnitDescNight[];
+extern char sTimeEffectUnitDescDay[];
+extern VecFx32 sTimeEffectEffectPosition;
 extern void *GAME_EVENT_GetGameSystem(void *event);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 
 void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
 {
     void *gameData;
-    Gimmick65Save *save;
-    Gimmick65Work *work;
+    FieldGimmickTimeEffectSave *save;
+    FieldGimmickTimeEffectWork *work;
     int i;
     void *anime;
     void *expObj;
@@ -99,17 +99,17 @@ void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick65Work));
+    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickTimeEffectWork));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->isPlaying = 0;
     if (TIMEZONE_GetNowTimeZone(GAME_DATA_GetSeason(gameData)) - FIELD_GIMMICK_TIME_EFFECT_FIRST_NIGHT_TIME_ZONE <= 1) {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sGimmick65UnitDescNight, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sTimeEffectUnitDescNight, 0);
         work->isNight = 1;
     } else {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sGimmick65UnitDescDay, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sTimeEffectUnitDescDay, 0);
         work->isNight = 0;
     }
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = sGimmick65EffectPosition;
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = sTimeEffectEffectPosition;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, save->isEffectPending == 0);
     for (i = 0; i < FIELD_GIMMICK_TIME_EFFECT_ANIME_COUNT; i++) {
@@ -131,7 +131,7 @@ void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap)
 void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
 {
     int expObj;
-    Gimmick65Work *work;
+    FieldGimmickTimeEffectWork *work;
 
     expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
     work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
@@ -154,7 +154,7 @@ void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap)
 {
     int i;
     int expObj;
-    Gimmick65Work *work;
+    FieldGimmickTimeEffectWork *work;
 
     expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
     work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);

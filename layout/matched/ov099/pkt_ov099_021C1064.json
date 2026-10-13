@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C1064",
-    "func_021C10A0",
-    "func_021C10A4"
+    "WIFICLUB_StateLeaveLinkToLobby",
+    "WIFICLUB_StateUnusedD",
+    "WIFICLUB_StateUnusedE"
+   ],
+   "addresses": [
+    "0x021C1064",
+    "0x021C10A0",
+    "0x021C10A4"
    ]
   }
  ]

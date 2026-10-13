@@ -1,5 +1,5 @@
 /*
- * function: func_0208F698
+ * function: WM_StartScanEx
  * address:  0x0208F698
  * packet:   pkt_0208F698
  * region:   arm9
@@ -94,7 +94,7 @@ extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 
-WMErrCode func_0208F698(WMCallbackFunc callback, const WMScanExParam *param)
+WMErrCode WM_StartScanEx(WMCallbackFunc callback, const WMScanExParam *param)
 {
     WMErrCode result;
     WMStartScanExReq Req;

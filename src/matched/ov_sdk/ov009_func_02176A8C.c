@@ -1,5 +1,5 @@
 /*
- * function: func_02176A8C
+ * function: disp_match_state
  * address:  0x02176A8C
  * packet:   pkt_02155168
  * region:   ov009
@@ -20,7 +20,7 @@
 extern struct NNThinkGlobal g_021AAA20;
 extern unsigned long long func_020870D0(int a);
 
-void func_02176A8C(int a, int b)
+void disp_match_state(int a, int b)
 {
     unsigned long long v = func_020870D0(a);
 

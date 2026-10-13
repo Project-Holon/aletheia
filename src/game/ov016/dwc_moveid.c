@@ -1,7 +1,7 @@
 /*
  * file:     dwc_moveid.c
  * unit:     yes
- * function: func_021D3B18, func_021D3BF8, func_021D3CD0, func_021D3D44, func_021D3D8C, func_021D3DC0, func_021D40F4, DWCi_GetChildInfo, func_021D4148, func_021D41F0, func_021D4214, func_021D439C, func_021D43C8, func_021D455C, func_021D4574, func_021D45A4, func_021D45E0, func_021D4624, func_021D4770, func_021D4854
+ * function: DWCi_MOVInit, DWCi_MOVFinalize, _DWCi_MOVPrepare, DWCi_MOVStartAdmitChild, DWCi_MOVStartDownloadandBootChild, DWCi_MOVFramework, DWCi_MOVGetStatus, DWCi_GetChildInfo, _DWCi_MOVSearchChannel, _DWCi_MOVStartWaitChild, _DWCi_MOV_WaitandDownloadandBoot_Child, _DWCi_MOV_ReadyMovUserID, _DWCi_MOV_MovUserID, _DWCi_MOV_EraseFlashData, _DWCi_MOVEnd, JudgeConnectableChild, Parent_InitDataShare, Parent_StepDataShare, Parent_data_receive_progress, Parent_get_child_data_kind
  * address:  0x021D3B18
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,43 +13,44 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   DWCi_MOV_MBP_StartDownloadAll  0x021D21CC  arm  ov016
+ *   DWCi_MOV_WH_Initialize         0x021D3638  arm  ov016
+ *   DWCi_MOV_WH_SetJudgeAcceptFunc 0x021D38C8  arm  ov016
  *   DWCi_MOV_MBP_MemInit             0x021D1D04  arm  ov016
  *   Parent_InitDataShare             0x021D45E0  arm  ov016
  *   OS_GetTick                       0x020870D0  arm
  *   DWCi_BACKUPlRead                 0x02058770  arm
  *   DWCi_SETTINGlGetMemMap           0x021CFBD4  arm  ov016
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  *   MB_EndToIdle                     0x021F5F74  arm
  *   DWCi_MOV_WH_SetGgid              0x021D3228  arm  ov016
  *   WM_GetNextTgid                   0x0208F1B4  arm
  *   MI_CpuCopy8                      0x02082D44  arm
- *   func_021D455C 0x021D455C  arm  ov016
- *   func_021D3250 0x021D3250  arm  ov016
- *   func_021D3AC8 0x021D3AC8  arm  ov016
- *   func_021D39C0 0x021D39C0  arm  ov016
- *   func_021F5F74 0x021F5F74  arm
+ *   _DWCi_MOV_EraseFlashData 0x021D455C  arm  ov016
+ *   DWCi_MOV_WH_GetSystemState 0x021D3250  arm  ov016
+ *   DWCi_MOV_WH_End 0x021D3AC8  arm  ov016
+ *   DWCi_MOV_WH_Finalize 0x021D39C0  arm  ov016
+ *   DWCi_DwcMoveidMB_EndToIdle 0x021F5F74  arm
  *   MB_CommGetChildUser          0x021F1B64  arm
- *   DWCi_MOV_WH_GetSystemState       0x021D3250  arm  ov016
  *   DWCi_MOV_WH_StartMeasureChannel  0x021D3264  arm  ov016
  *   DWCi_MOV_WH_GetMeasureChannel    0x021D34E0  arm  ov016
  *   DWCi_MOV_WH_Reset                0x021D39A4  arm  ov016
  *   OS_Terminate                     0x02088234  arm
  *   DWCi_MOV_MBP_Init                0x021D1D40  arm  ov016
- *   func_021D2780 0x021D2780 arm ov016
- *   func_021D1E54 0x021D1E54 arm ov016
- *   func_021D2794 0x021D2794 arm ov016
- *   func_021D22AC 0x021D22AC arm ov016
- *   func_021D2314 0x021D2314 arm ov016
- *   func_021D240C 0x021D240C arm ov016
- *   func_021D376C  0x021D376C  arm  ov016
- *   func_021D4854  0x021D4854  arm  ov016
+ *   DWCi_MOV_MBP_GetState 0x021D2780 arm ov016
+ *   DWCi_MOV_MBP_Start 0x021D1E54 arm ov016
+ *   DWCi_MOV_MBP_GetChildBmp 0x021D2794 arm ov016
+ *   DWCi_MOV_MBP_IsBootableAll 0x021D22AC arm ov016
+ *   DWCi_MOV_MBP_StartRebootAll 0x021D2314 arm ov016
+ *   DWCi_MOV_MBP_Cancel 0x021D240C arm ov016
+ *   DWCi_MOV_WH_ParentConnect  0x021D376C  arm  ov016
+ *   Parent_get_child_data_kind  0x021D4854  arm  ov016
  *   DWCi_MOV_MBP_GetPlayerNo         0x021D28E4  arm  ov016
  *   DWCi_MOV_MBP_GetChildInfo        0x021D28B4  arm  ov016
  *   MI_CpuFill8                      0x02082BCC  arm
- *   func_02082D44 0x02082D44 arm
- *   func_021D3904 0x021D3904 arm ov016
- *   func_021D323C 0x021D323C arm ov016
- *   func_021D38DC 0x021D38DC arm ov016
+ *   DWCi_MOV_WH_StepDS 0x021D3904 arm ov016
+ *   DWCi_MOV_WH_GetBitmap 0x021D323C arm ov016
+ *   DWCi_MOV_WH_GetSharedDataAdr 0x021D38DC arm ov016
  */
 typedef unsigned char u8;
 
@@ -123,7 +124,6 @@ typedef struct {
 } GShareData;
 
 extern void DWCi_MOV_MBP_MemInit(void *mw);
-extern void Parent_InitDataShare(void);
 extern u32 OS_GetTick(void);
 extern int DWCi_BACKUPlRead(void *mem);
 extern void *DWCi_SETTINGlGetMemMap(void);
@@ -131,13 +131,11 @@ extern void MB_EndToIdle(void);
 extern void DWCi_MOV_WH_SetGgid(u32 ggid);
 extern u16 WM_GetNextTgid(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern int func_021D3638(void);
-extern void func_021D21CC(void);
-extern void func_021D455C(void);
-extern unsigned int func_021D3250(void);
-extern int func_021D3AC8(void);
-extern void func_021D39C0(void);
-extern void func_021F5F74(void);
+extern int DWCi_MOV_WH_Initialize(void);
+extern void DWCi_MOV_MBP_StartDownloadAll(void);
+extern int DWCi_MOV_WH_End(void);
+extern void DWCi_MOV_WH_Finalize(void);
+extern void DWCi_DwcMoveidMB_EndToIdle(void);
 extern MBUserInfo *MB_CommGetChildUser(unsigned short aid);
 extern int DWCi_MOV_WH_GetSystemState(void);
 extern int DWCi_MOV_WH_StartMeasureChannel(void);
@@ -145,200 +143,151 @@ extern u16 DWCi_MOV_WH_GetMeasureChannel(void);
 extern void DWCi_MOV_WH_Reset(void);
 extern void OS_Terminate(void);
 extern void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
-extern u16 func_021D2780(void);
-extern void func_021D1E54(void *gameInfo, u16 channel);
-extern u16 func_021D2794(int bmpType);
-extern int func_021D22AC(void);
-extern void func_021D2314(void);
-extern void func_021D240C(void);
-extern void func_021D38C8(unsigned int v);
-extern int func_021D376C(int mode, u16 tgid, u16 channel);
-extern u16 func_021D4854(void);
+extern u16 DWCi_MOV_MBP_GetState(void);
+extern void DWCi_MOV_MBP_Start(void *gameInfo, u16 channel);
+extern u16 DWCi_MOV_MBP_GetChildBmp(int bmpType);
+extern int DWCi_MOV_MBP_IsBootableAll(void);
+extern void DWCi_MOV_MBP_StartRebootAll(void);
+extern void DWCi_MOV_MBP_Cancel(void);
+extern void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
+extern int DWCi_MOV_WH_ParentConnect(int mode, u16 tgid, u16 channel);
 extern void *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
 extern u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void func_02082D44(void *srcp, void *dstp, u32 size);
-extern int func_021D3904(void *data);
-extern u16 func_021D323C(void);
-extern u16 *func_021D38DC(u16 aid);
-void func_021D3B18(Wk *wm, MovData *md);
-int func_021D3BF8(void);
-void func_021D3CD0(void);
-int func_021D3D44(void);
-int func_021D3D8C(void);
-void func_021D3DC0(void);
-void func_021D40F4(u8 *stt, u8 *change_f);
+extern int DWCi_MOV_WH_StepDS(void *data);
+extern u16 DWCi_MOV_WH_GetBitmap(void);
+extern u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 aid);
+void DWCi_MOVInit(Wk *wm, MovData *md);
+int DWCi_MOVFinalize(void);
+int DWCi_MOVStartAdmitChild(void);
+int DWCi_MOVStartDownloadandBootChild(void);
+void DWCi_MOVFramework(void);
+void DWCi_MOVGetStatus(u8 *stt, u8 *change_f);
 MBUserInfo *DWCi_GetChildInfo(void);
-void func_021D4148(void);
-void func_021D41F0(void);
-void func_021D4214(void);
-void func_021D439C(void);
-void func_021D43C8(void);
 asm void _DWCi_MOV_EraseFlashData(void);
-int func_021D4574(void);
-int func_021D45A4(WMStartParentCallback *cb);
-void func_021D45E0(void);
-void func_021D4624(u16 kind, u16 counter, u8 *data);
-void func_021D4770(void);
 u16 Parent_get_child_data_kind(void);
-extern Wk *g_021DE668;
-
-
-
-
-
-
-
-
+extern Wk *gDwcMoveidWork;
 
 
 /*
  * sdk:      DWCi_MOVInit (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D3B18(Wk *wm, MovData *md)
+
+static void _DWCi_MOVPrepare(void);
+static void _DWCi_MOVSearchChannel(void);
+static void _DWCi_MOVStartWaitChild(void);
+static void _DWCi_MOV_WaitandDownloadandBoot_Child(void);
+static void _DWCi_MOV_ReadyMovUserID(void);
+static void _DWCi_MOV_MovUserID(void);
+static int _DWCi_MOVEnd(void);
+static int JudgeConnectableChild(WMStartParentCallback *cb);
+static void Parent_InitDataShare(void);
+static void Parent_StepDataShare(u16 kind, u16 counter, u8 *data);
+static void Parent_data_receive_progress(void);
+void DWCi_MOVInit(Wk *wm, MovData *md)
 {
-    g_021DE668 = wm;
+    gDwcMoveidWork = wm;
     DWCi_MOV_MBP_MemInit((char *)wm + 0xb00);
-    g_021DE668->moveid_tgid = 0;
-    g_021DE668->moveid_sChannel = 0;
-    g_021DE668->mov_stt = 1;
-    g_021DE668->mov_stt_old = 1;
-    g_021DE668->cnt = 0;
+    gDwcMoveidWork->moveid_tgid = 0;
+    gDwcMoveidWork->moveid_sChannel = 0;
+    gDwcMoveidWork->mov_stt = 1;
+    gDwcMoveidWork->mov_stt_old = 1;
+    gDwcMoveidWork->cnt = 0;
     Parent_InitDataShare();
-    g_021DE668->game_registry.romFilePathp = md->romFilePathp;
-    g_021DE668->game_registry.gameNamep = md->gameNamep;
-    g_021DE668->game_registry.gameIntroductionp = md->gameIntroductionp;
-    g_021DE668->game_registry.iconCharPathp = md->iconCharPathp;
-    g_021DE668->game_registry.iconPalettePathp = md->iconPalettePathp;
-    g_021DE668->game_registry.ggid = md->ggid;
-    g_021DE668->language = md->language;
-    g_021DE668->game_registry.maxPlayerNum = 2;
+    gDwcMoveidWork->game_registry.romFilePathp = md->romFilePathp;
+    gDwcMoveidWork->game_registry.gameNamep = md->gameNamep;
+    gDwcMoveidWork->game_registry.gameIntroductionp = md->gameIntroductionp;
+    gDwcMoveidWork->game_registry.iconCharPathp = md->iconCharPathp;
+    gDwcMoveidWork->game_registry.iconPalettePathp = md->iconPalettePathp;
+    gDwcMoveidWork->game_registry.ggid = md->ggid;
+    gDwcMoveidWork->language = md->language;
+    gDwcMoveidWork->game_registry.maxPlayerNum = 2;
     OS_GetTick();
-    DWCi_BACKUPlRead(g_021DE668->dummy_userinfo);
+    DWCi_BACKUPlRead(gDwcMoveidWork->dummy_userinfo);
     OS_GetTick();
-    g_021DE668->p_user_info = DWCi_SETTINGlGetMemMap();
+    gDwcMoveidWork->p_user_info = DWCi_SETTINGlGetMemMap();
 }
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOVFinalize (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-int func_021D3BF8(void)
+int DWCi_MOVFinalize(void)
 {
-    u8 stt = g_021DE668->mov_stt;
+    u8 stt = gDwcMoveidWork->mov_stt;
     if (stt == 1 || stt == 20 || stt == 23 || stt == 26 || stt == 29) {
-        g_021DE668->mov_stt = 34;
-        g_021DE668->reset_kind = 0;
+        gDwcMoveidWork->mov_stt = 34;
+        gDwcMoveidWork->reset_kind = 0;
         return 1;
     }
     if (stt == 4 || stt == 5 || stt == 6 || stt == 13) {
         if (stt == 4) {
-            if (g_021DE668->start_wait_child_cnt < 6)
+            if (gDwcMoveidWork->start_wait_child_cnt < 6)
                 return 0;
         }
         MB_EndToIdle();
-        g_021DE668->mov_stt = 16;
-        g_021DE668->reset_kind = 2;
+        gDwcMoveidWork->mov_stt = 16;
+        gDwcMoveidWork->reset_kind = 2;
         return 1;
     }
     if (stt == 9 || stt == 10) {
-        g_021DE668->mov_stt = 32;
+        gDwcMoveidWork->mov_stt = 32;
         return 1;
     }
     if (stt == 12) {
-        g_021DE668->mov_stt = 34;
+        gDwcMoveidWork->mov_stt = 34;
         return 1;
     }
     return 0;
 }
 
 
-
-
-
-
-
-
-
-
 /*
  * sdk:      _DWCi_MOVPrepare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D3CD0(void)
+static void _DWCi_MOVPrepare(void)
 {
-    DWCi_MOV_WH_SetGgid(g_021DE668->game_registry.ggid);
-    g_021DE668->mov_stt = 1;
-    g_021DE668->moveid_tgid = WM_GetNextTgid();
-    MI_CpuCopy8(g_021DE668->p_user_info, &g_021DE668->dummy_gShareData[4], 0x40);
-    g_021DE668->language_send_f = 0;
-    g_021DE668->parent_step_data_share_error_cnt = 0;
-    g_021DE668->moveid_tgid++;
+    DWCi_MOV_WH_SetGgid(gDwcMoveidWork->game_registry.ggid);
+    gDwcMoveidWork->mov_stt = 1;
+    gDwcMoveidWork->moveid_tgid = WM_GetNextTgid();
+    MI_CpuCopy8(gDwcMoveidWork->p_user_info, &gDwcMoveidWork->dummy_gShareData[4], 0x40);
+    gDwcMoveidWork->language_send_f = 0;
+    gDwcMoveidWork->parent_step_data_share_error_cnt = 0;
+    gDwcMoveidWork->moveid_tgid++;
 }
-
-
-
-
-
-
-
-
 
 
 /*
  * Only from the three live modes, tear the sound system down and park it at mode 2.
  * Addresses are Black-image addresses.
  */
-int func_021D3D44(void)
+int DWCi_MOVStartAdmitChild(void)
 {
     unsigned char mode = *(unsigned char *)(*(int *)0x021DE668 + 0xa90);
 
     if (mode != 1 && mode != 0x1a && mode != 0x1d)
         return 0;
-    func_021D3CD0();
-    func_021D3638();
+    _DWCi_MOVPrepare();
+    DWCi_MOV_WH_Initialize();
     *(unsigned char *)(*(int *)0x021DE668 + 0xa90) = 2;
     return 1;
 }
-
-
-
-
-
-
-
-
 
 
 /*
  * Advance the state byte at +0xa90 from 5 to 6.
  * Addresses are Black-image addresses.
  */
-int func_021D3D8C(void)
+int DWCi_MOVStartDownloadandBootChild(void)
 {
     char *p = *(char **)0x021DE668;
 
     if (*(unsigned char *)(p + 0xa90) != 5)
         return 0;
     *(unsigned char *)(p + 0xa90) = 6;
-    func_021D21CC();
+    DWCi_MOV_MBP_StartDownloadAll();
     return 1;
 }
-
-
-
-
-
-
-
-
 
 
 /*
@@ -347,128 +296,128 @@ int func_021D3D8C(void)
  * +0xa98 frame counter, calling the per-state helper.  Addresses are
  * Black-image addresses.
  */
-void func_021D3DC0(void)
+void DWCi_MOVFramework(void)
 {
-    switch (g_021DE668->mov_stt) {
+    switch (gDwcMoveidWork->mov_stt) {
     case 1:
-        if (g_021DE668->reset_kind == 1) {
-            g_021DE668->reset_kind = 0;
-            func_021D3D44();
+        if (gDwcMoveidWork->reset_kind == 1) {
+            gDwcMoveidWork->reset_kind = 0;
+            DWCi_MOVStartAdmitChild();
             return;
         }
-        if (g_021DE668->reset_kind == 2) {
-            g_021DE668->reset_kind = 0;
-            g_021DE668->mov_stt = 0x22;
+        if (gDwcMoveidWork->reset_kind == 2) {
+            gDwcMoveidWork->reset_kind = 0;
+            gDwcMoveidWork->mov_stt = 0x22;
         }
         return;
     case 2:
-        func_021D4148();
+        _DWCi_MOVSearchChannel();
         return;
     case 3:
-        func_021D41F0();
-        g_021DE668->mov_stt = 4;
+        _DWCi_MOVStartWaitChild();
+        gDwcMoveidWork->mov_stt = 4;
         return;
     case 4:
-        g_021DE668->start_wait_child_cnt++;
-        func_021D4214();
+        gDwcMoveidWork->start_wait_child_cnt++;
+        _DWCi_MOV_WaitandDownloadandBoot_Child();
         return;
     case 5:
     case 6:
-        func_021D4214();
+        _DWCi_MOV_WaitandDownloadandBoot_Child();
         return;
     case 7:
-        func_021D439C();
+        _DWCi_MOV_ReadyMovUserID();
         return;
     case 8:
     case 9:
     case 10:
-        func_021D43C8();
+        _DWCi_MOV_MovUserID();
         return;
     case 11:
-        func_021D455C();
+        _DWCi_MOV_EraseFlashData();
         return;
     case 16:
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x11;
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x11;
         return;
     case 17:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        func_021D4574();
+        _DWCi_MOVEnd();
         return;
     case 18:
-        func_021F5F74();
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x16;
+        DWCi_DwcMoveidMB_EndToIdle();
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x16;
         return;
     case 19:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        if (func_021D3250() != 1)
+        if (DWCi_MOV_WH_GetSystemState() != 1)
             return;
-        func_021D3AC8();
-        g_021DE668->mov_stt = 0x14;
+        DWCi_MOV_WH_End();
+        gDwcMoveidWork->mov_stt = 0x14;
         return;
     case 21:
-        func_021D39C0();
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x16;
+        DWCi_MOV_WH_Finalize();
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x16;
         return;
     case 22:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        if (func_021D3250() != 1)
+        if (DWCi_MOV_WH_GetSystemState() != 1)
             return;
-        func_021D3AC8();
-        g_021DE668->mov_stt = 0x17;
+        DWCi_MOV_WH_End();
+        gDwcMoveidWork->mov_stt = 0x17;
         return;
     case 24:
-        func_021D39C0();
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x19;
+        DWCi_MOV_WH_Finalize();
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x19;
         return;
     case 25:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        if (func_021D3250() != 1)
+        if (DWCi_MOV_WH_GetSystemState() != 1)
             return;
-        func_021D3AC8();
-        g_021DE668->mov_stt = 0x1a;
+        DWCi_MOV_WH_End();
+        gDwcMoveidWork->mov_stt = 0x1a;
         return;
     case 27:
-        func_021D39C0();
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x1c;
+        DWCi_MOV_WH_Finalize();
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x1c;
         return;
     case 28:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        if (func_021D3250() == 1) {
-            func_021D3AC8();
-            g_021DE668->mov_stt = 0x1d;
+        if (DWCi_MOV_WH_GetSystemState() == 1) {
+            DWCi_MOV_WH_End();
+            gDwcMoveidWork->mov_stt = 0x1d;
             return;
         }
-        if (g_021DE668->cnt % 30 != 1)
+        if (gDwcMoveidWork->cnt % 30 != 1)
             return;
-        if (g_021DE668->cnt <= 0x37)
+        if (gDwcMoveidWork->cnt <= 0x37)
             return;
-        func_021D39C0();
+        DWCi_MOV_WH_Finalize();
         return;
     case 32:
-        func_021D39C0();
-        g_021DE668->cnt = 0;
-        g_021DE668->mov_stt = 0x21;
+        DWCi_MOV_WH_Finalize();
+        gDwcMoveidWork->cnt = 0;
+        gDwcMoveidWork->mov_stt = 0x21;
         return;
     case 33:
-        if (g_021DE668->cnt++ <= 0x1e)
+        if (gDwcMoveidWork->cnt++ <= 0x1e)
             return;
-        if (func_021D3250() != 1)
+        if (DWCi_MOV_WH_GetSystemState() != 1)
             return;
-        func_021D3AC8();
-        g_021DE668->mov_stt = 0x22;
+        DWCi_MOV_WH_End();
+        gDwcMoveidWork->mov_stt = 0x22;
         return;
     case 30:
-        func_021D39C0();
+        DWCi_MOV_WH_Finalize();
         return;
     case 0x22:
         return;
@@ -477,31 +426,18 @@ void func_021D3DC0(void)
 }
 
 
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_MOVGetStatus (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D40F4(u8 *stt, u8 *change_f)
+void DWCi_MOVGetStatus(u8 *stt, u8 *change_f)
 {
-    *stt = g_021DE668->mov_stt;
-    if (g_021DE668->mov_stt != g_021DE668->mov_stt_old)
+    *stt = gDwcMoveidWork->mov_stt;
+    if (gDwcMoveidWork->mov_stt != gDwcMoveidWork->mov_stt_old)
         *change_f = 1;
     else
         *change_f = 0;
-    g_021DE668->mov_stt_old = g_021DE668->mov_stt;
+    gDwcMoveidWork->mov_stt_old = gDwcMoveidWork->mov_stt;
 }
-
-
-
-
-
-
 
 
 MBUserInfo *DWCi_GetChildInfo(void)
@@ -510,28 +446,23 @@ MBUserInfo *DWCi_GetChildInfo(void)
 }
 
 
-
-
-
-
-
 /*
  * sdk:      _DWCi_MOVSearchChannel (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D4148(void)
+static void _DWCi_MOVSearchChannel(void)
 {
     switch (DWCi_MOV_WH_GetSystemState()) {
     case 1:
         DWCi_MOV_WH_StartMeasureChannel();
         break;
     case 7:
-        g_021DE668->moveid_sChannel = DWCi_MOV_WH_GetMeasureChannel();
-        g_021DE668->start_wait_child_cnt = 0;
-        g_021DE668->mov_stt = 3;
+        gDwcMoveidWork->moveid_sChannel = DWCi_MOV_WH_GetMeasureChannel();
+        gDwcMoveidWork->start_wait_child_cnt = 0;
+        gDwcMoveidWork->mov_stt = 3;
         break;
     case 0:
-        g_021DE668->start_wait_child_cnt = 0;
-        g_021DE668->mov_stt = 3;
+        gDwcMoveidWork->start_wait_child_cnt = 0;
+        gDwcMoveidWork->mov_stt = 3;
         break;
     case 9:
         DWCi_MOV_WH_Reset();
@@ -545,75 +476,67 @@ void func_021D4148(void)
 }
 
 
-
-
-
-
 /*
  * sdk:      _DWCi_MOVStartWaitChild (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D41F0(void)
+static void _DWCi_MOVStartWaitChild(void)
 {
-    DWCi_MOV_MBP_Init(g_021DE668->game_registry.ggid, g_021DE668->moveid_tgid);
+    DWCi_MOV_MBP_Init(gDwcMoveidWork->game_registry.ggid, gDwcMoveidWork->moveid_tgid);
 }
-
-
-
-
 
 
 /*
  * sdk:      _DWCi_MOV_WaitandDownloadandBoot_Child (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D4214(void)
+static void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
 {
-    switch (func_021D2780()) {
+    switch (DWCi_MOV_MBP_GetState()) {
     case 1:
-        func_021D1E54((char *)g_021DE668 + 0x2b4 + 0x800, *(u16 *)((char *)g_021DE668 + 0x600 + 0x4a));
+        DWCi_MOV_MBP_Start((char *)gDwcMoveidWork + 0x2b4 + 0x800, *(u16 *)((char *)gDwcMoveidWork + 0x600 + 0x4a));
         return;
     case 2:
-        if (func_021D2794(2) != 0) {
-            g_021DE668->mov_stt = 5;
+        if (DWCi_MOV_MBP_GetChildBmp(2) != 0) {
+            gDwcMoveidWork->mov_stt = 5;
             return;
         }
-        if (func_021D2794(3) != 0 || func_021D2794(4) != 0) {
-            g_021DE668->mov_stt = 6;
+        if (DWCi_MOV_MBP_GetChildBmp(3) != 0 || DWCi_MOV_MBP_GetChildBmp(4) != 0) {
+            gDwcMoveidWork->mov_stt = 6;
             return;
         }
-        if (g_021DE668->mov_stt != 5)
+        if (gDwcMoveidWork->mov_stt != 5)
             return;
-        if (func_021D2794(2) == 0)
-            g_021DE668->mov_stt = 0xd;
+        if (DWCi_MOV_MBP_GetChildBmp(2) == 0)
+            gDwcMoveidWork->mov_stt = 0xd;
         return;
     case 3:
-        if (func_021D22AC() != 0) {
-            func_021D2314();
+        if (DWCi_MOV_MBP_IsBootableAll() != 0) {
+            DWCi_MOV_MBP_StartRebootAll();
             return;
         }
-        if (g_021DE668->mov_stt == 6 || g_021DE668->mov_stt == 7) {
-            if (func_021D2794(3) == 0)
-                g_021DE668->mov_stt = 0x12;
+        if (gDwcMoveidWork->mov_stt == 6 || gDwcMoveidWork->mov_stt == 7) {
+            if (DWCi_MOV_MBP_GetChildBmp(3) == 0)
+                gDwcMoveidWork->mov_stt = 0x12;
         }
         return;
     case 5:
-        g_021DE668->mov_stt = 7;
+        gDwcMoveidWork->mov_stt = 7;
         return;
     case 7:
-        func_021D240C();
-        g_021DE668->mov_stt = 1;
+        DWCi_MOV_MBP_Cancel();
+        gDwcMoveidWork->mov_stt = 1;
         return;
     case 0:
-        switch (func_021D3250()) {
+        switch (DWCi_MOV_WH_GetSystemState()) {
         case 1:
-            func_021D3AC8();
+            DWCi_MOV_WH_End();
             break;
         case 0:
-            g_021DE668->mov_stt = 0x1f;
+            gDwcMoveidWork->mov_stt = 0x1f;
             break;
         case 3:
             break;
         default:
-            g_021DE668->mov_stt = 0x1f;
+            gDwcMoveidWork->mov_stt = 0x1f;
             break;
         }
         return;
@@ -621,68 +544,55 @@ void func_021D4214(void)
 }
 
 
-
-
-
-
-void func_021D439C(void)
+static void _DWCi_MOV_ReadyMovUserID(void)
 {
-    func_021D45E0();
-    func_021D38C8((unsigned int)((void *)0x021D45A4));
+    Parent_InitDataShare();
+    DWCi_MOV_WH_SetJudgeAcceptFunc((unsigned int)((void *)0x021D45A4));
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 8;
 }
 
 
-
-
-
-
-
-void func_021D43C8(void)
+static void _DWCi_MOV_MovUserID(void)
 {
-    switch (func_021D3250()) {
+    switch (DWCi_MOV_WH_GetSystemState()) {
     case 1:
-        func_021D376C(4, g_021DE668->moveid_tgid + 1, g_021DE668->moveid_sChannel);
+        DWCi_MOV_WH_ParentConnect(4, gDwcMoveidWork->moveid_tgid + 1, gDwcMoveidWork->moveid_sChannel);
         break;
     case 4:
     case 5:
     case 6:
-        func_021D4624(0, g_021DE668->data_seq_num,
-                      (u8 *)g_021DE668->p_user_info + (g_021DE668->data_seq_num % 16) * 64);
-        func_021D4770();
-        if (g_021DE668->mov_stt == 0x1b)
+        Parent_StepDataShare(0, gDwcMoveidWork->data_seq_num,
+                      (u8 *)gDwcMoveidWork->p_user_info + (gDwcMoveidWork->data_seq_num % 16) * 64);
+        Parent_data_receive_progress();
+        if (gDwcMoveidWork->mov_stt == 0x1b)
             break;
-        if (g_021DE668->parent_step_data_share_error_cnt > 0x1e0) {
-            g_021DE668->mov_stt = 0x1b;
+        if (gDwcMoveidWork->parent_step_data_share_error_cnt > 0x1e0) {
+            gDwcMoveidWork->mov_stt = 0x1b;
             break;
         }
-        if (func_021D4854() == 0x10 || func_021D4854() == 0x20) {
-            func_021D4854();
-            g_021DE668->mov_stt = 0xa;
-        } else if (func_021D4854() == 0x40) {
-            g_021DE668->mov_stt = 0xb;
-        } else if (func_021D4854() == 0xff) {
-            g_021DE668->mov_stt = 0x1b;
-        } else if (func_021D4854() == 0x50) {
-            g_021DE668->mov_stt = 0x15;
-        } else if (func_021D4854() == 0x60) {
-            g_021DE668->mov_stt = 0x18;
-        } else if (func_021D4854() == 0x70) {
-            g_021DE668->mov_stt = 0x1b;
-        } else if (func_021D4854() == 0) {
-            g_021DE668->mov_stt = 8;
-        } else if (func_021D4854() == 0xbd) {
-            g_021DE668->mov_stt = 9;
+        if (Parent_get_child_data_kind() == 0x10 || Parent_get_child_data_kind() == 0x20) {
+            Parent_get_child_data_kind();
+            gDwcMoveidWork->mov_stt = 0xa;
+        } else if (Parent_get_child_data_kind() == 0x40) {
+            gDwcMoveidWork->mov_stt = 0xb;
+        } else if (Parent_get_child_data_kind() == 0xff) {
+            gDwcMoveidWork->mov_stt = 0x1b;
+        } else if (Parent_get_child_data_kind() == 0x50) {
+            gDwcMoveidWork->mov_stt = 0x15;
+        } else if (Parent_get_child_data_kind() == 0x60) {
+            gDwcMoveidWork->mov_stt = 0x18;
+        } else if (Parent_get_child_data_kind() == 0x70) {
+            gDwcMoveidWork->mov_stt = 0x1b;
+        } else if (Parent_get_child_data_kind() == 0) {
+            gDwcMoveidWork->mov_stt = 8;
+        } else if (Parent_get_child_data_kind() == 0xbd) {
+            gDwcMoveidWork->mov_stt = 9;
         } else {
-            g_021DE668->mov_stt = 0x1f;
+            gDwcMoveidWork->mov_stt = 0x1f;
         }
         break;
     }
 }
-
-
-
-
 
 
 asm void _DWCi_MOV_EraseFlashData(void)
@@ -695,130 +605,116 @@ asm void _DWCi_MOV_EraseFlashData(void)
 }
 
 
-
-
-
-
-
 /*
- * Enter state 1 once func_021D3250 reports ready.
+ * Enter state 1 once DWCi_MOV_WH_GetSystemState reports ready.
  * Addresses are Black-image addresses.
  */
-int func_021D4574(void)
+static int _DWCi_MOVEnd(void)
 {
-    if (func_021D3250() != 1)
+    if (DWCi_MOV_WH_GetSystemState() != 1)
         return 0;
-    func_021D3AC8();
+    DWCi_MOV_WH_End();
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 1;
     return 1;
 }
 
 
-
-
-
-
 /*
  * sdk:      JudgeConnectableChild (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-int func_021D45A4(WMStartParentCallback *cb)
+static int JudgeConnectableChild(WMStartParentCallback *cb)
 {
     u16 playerNo = DWCi_MOV_MBP_GetPlayerNo(cb->macAddress);
     if (playerNo == 0)
         return 0;
-    g_021DE668->sChildInfo[playerNo - 1] = DWCi_MOV_MBP_GetChildInfo(playerNo);
+    gDwcMoveidWork->sChildInfo[playerNo - 1] = DWCi_MOV_MBP_GetChildInfo(playerNo);
     return 1;
 }
-
-
-
 
 
 /*
  * sdk:      Parent_InitDataShare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D45E0(void)
+static void Parent_InitDataShare(void)
 {
-    MI_CpuFill8(g_021DE668->sRecvBuf, 0, 256);
-    MI_CpuFill8(g_021DE668->sSendBuf, 0, 256);
-    g_021DE668->sShareDataPtr = g_021DE668;
+    MI_CpuFill8(gDwcMoveidWork->sRecvBuf, 0, 256);
+    MI_CpuFill8(gDwcMoveidWork->sSendBuf, 0, 256);
+    gDwcMoveidWork->sShareDataPtr = gDwcMoveidWork;
 }
-
 
 
 /*
  * sdk:      Parent_StepDataShare (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D4624(u16 kind, u16 counter, u8 *data)
+static void Parent_StepDataShare(u16 kind, u16 counter, u8 *data)
 {
     u16 i;
     u16 *adr;
 
-    if (g_021DE668->language_send_f == 1) {
-        ((u16 *)g_021DE668->sShareDataPtr)[0] = kind;
-        ((u16 *)g_021DE668->sShareDataPtr)[1] = counter;
-        func_02082D44(data, ((u16 *)g_021DE668->sShareDataPtr) + 2, 0x40);
+    if (gDwcMoveidWork->language_send_f == 1) {
+        ((u16 *)gDwcMoveidWork->sShareDataPtr)[0] = kind;
+        ((u16 *)gDwcMoveidWork->sShareDataPtr)[1] = counter;
+        MI_CpuCopy8(data, ((u16 *)gDwcMoveidWork->sShareDataPtr) + 2, 0x40);
     } else {
-        g_021DE668->parent_step_data_share_error_cnt++;
-        ((u16 *)g_021DE668->sShareDataPtr)[0] = 0xbc;
-        ((u8 *)((u16 *)g_021DE668->sShareDataPtr))[4] = g_021DE668->language;
+        gDwcMoveidWork->parent_step_data_share_error_cnt++;
+        ((u16 *)gDwcMoveidWork->sShareDataPtr)[0] = 0xbc;
+        ((u8 *)((u16 *)gDwcMoveidWork->sShareDataPtr))[4] = gDwcMoveidWork->language;
     }
-    if (func_021D3250() != 5)
+    if (DWCi_MOV_WH_GetSystemState() != 5)
         return;
-    if (func_021D3904(g_021DE668) == 0) {
-        g_021DE668->parent_step_data_share_error_cnt += 4;
+    if (DWCi_MOV_WH_StepDS(gDwcMoveidWork) == 0) {
+        gDwcMoveidWork->parent_step_data_share_error_cnt += 4;
         return;
     }
-    if (g_021DE668->language_send_f == 0) {
-        g_021DE668->parent_step_data_share_error_cnt++;
+    if (gDwcMoveidWork->language_send_f == 0) {
+        gDwcMoveidWork->parent_step_data_share_error_cnt++;
     } else {
-        g_021DE668->parent_step_data_share_error_cnt = 0;
-        if (func_021D323C() != 3) {
-            g_021DE668->mov_stt = 0x1b;
+        gDwcMoveidWork->parent_step_data_share_error_cnt = 0;
+        if (DWCi_MOV_WH_GetBitmap() != 3) {
+            gDwcMoveidWork->mov_stt = 0x1b;
             return;
         }
     }
     for (i = 0; i < 2; i++) {
-        adr = func_021D38DC(i);
+        adr = DWCi_MOV_WH_GetSharedDataAdr(i);
         if (adr != 0) {
-            func_02082D44(adr, (g_021DE668->sRecvBuf + i * 0x44), 0x44);
-            g_021DE668->sRecvFlag[i] = 1;
+            MI_CpuCopy8(adr, (gDwcMoveidWork->sRecvBuf + i * 0x44), 0x44);
+            gDwcMoveidWork->sRecvFlag[i] = 1;
         } else {
-            g_021DE668->sRecvFlag[i] = 0;
+            gDwcMoveidWork->sRecvFlag[i] = 0;
         }
     }
 }
 
 
-
 /*
  * sdk:      Parent_data_receive_progress (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  */
-void func_021D4770(void)
+static void Parent_data_receive_progress(void)
 {
     long i;
     GShareData *sd;
     for (i = 0; i < 16; i++) {
-        if (g_021DE668->sRecvFlag[i] == 0)
+        if (gDwcMoveidWork->sRecvFlag[i] == 0)
             continue;
-        sd = &((GShareData *)g_021DE668->sRecvBuf)[i];
+        sd = &((GShareData *)gDwcMoveidWork->sRecvBuf)[i];
         if (i != 1)
             continue;
-        if (g_021DE668->language_send_f == 1) {
+        if (gDwcMoveidWork->language_send_f == 1) {
             if (sd->kind != 0x10)
                 return;
-            g_021DE668->data_send_cnt++;
-            if (g_021DE668->data_send_cnt & 1)
+            gDwcMoveidWork->data_send_cnt++;
+            if (gDwcMoveidWork->data_send_cnt & 1)
                 continue;
-            g_021DE668->data_seq_num++;
-            if (g_021DE668->data_seq_num >= 0x24)
-                g_021DE668->data_seq_num = 0;
+            gDwcMoveidWork->data_seq_num++;
+            if (gDwcMoveidWork->data_seq_num >= 0x24)
+                gDwcMoveidWork->data_seq_num = 0;
         } else {
-            g_021DE668->send_data_kind = 0xbc;
+            gDwcMoveidWork->send_data_kind = 0xbc;
             if (sd->kind == 0xbd) {
-                g_021DE668->language_send_f = 1;
-                g_021DE668->data_seq_num = 0;
-                g_021DE668->data_send_cnt = 0;
+                gDwcMoveidWork->language_send_f = 1;
+                gDwcMoveidWork->data_seq_num = 0;
+                gDwcMoveidWork->data_send_cnt = 0;
             }
         }
     }
@@ -827,5 +723,5 @@ void func_021D4770(void)
 
 u16 Parent_get_child_data_kind(void)
 {
-    return *(u16 *)(g_021DE668->sRecvBuf + 0x44);
+    return *(u16 *)(gDwcMoveidWork->sRecvBuf + 0x44);
 }

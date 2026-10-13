@@ -1,5 +1,5 @@
 /*
- * function: func_0200D2B0
+ * function: ZUKAN_SAVE_IsRegionalCaughtComplete
  * address:  0x0200D2B0
  * packet:   pkt_0200D144
  * region:   arm9
@@ -11,15 +11,18 @@
  *           every relocation site resolves and match.py one reports EXACT*.
  * status:   EXACT*
  * blocker:  0200D310 - not matched yet and this call at 0x0200D2B2 is the only branch to it in the image.  All 18 bytes right (verdict MATCH*: the listing extent runs two bytes long over the linker filler at 0x0200D2C2).
+ *
+ * symbols:
+ *   ZUKAN_SAVE_CountCaughtRegionalCounted  0x0200D310  thumb
  */
 
 typedef unsigned int u32;
 
-extern int func_0200D310(void *a0, int a1);
+extern int ZUKAN_SAVE_CountCaughtRegionalCounted(void *a0, int a1);
 
-int func_0200D2B0(void *a0, int a1)
+int ZUKAN_SAVE_IsRegionalCaughtComplete(void *a0, int a1)
 {
-    u32 v = func_0200D310(a0, a1);
+    u32 v = ZUKAN_SAVE_CountCaughtRegionalCounted(a0, a1);
 
     if (v >= 0x96)
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D2C
+ * function: BTL_CLIENT_StepSetStat
  * address: 0x021D3D2C
  * packet: pkt_ov093_021D3D2C
  * region: ov093
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_SetStat(u8 *, int, u16);
-int func_021D3D2C(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepSetStat(char *p, int unused, unsigned int *a)
 {
     int index = a[1];
     u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21204 *)p)->f4, (u8)a[0]);

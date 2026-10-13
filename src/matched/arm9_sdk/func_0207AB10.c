@@ -1,5 +1,5 @@
 /*
- * function: func_0207AB10
+ * function: FSi_InitRomArchive
  * address:  0x0207AB10
  * packet:   pkt_0207AB10
  * region:   arm9
@@ -103,7 +103,7 @@ static inline BOOL FS_IsArchiveLoaded(volatile const FSArchive *arc)
     return (arc->flag & 2) ? 1 : 0;
 }
 
-void func_0207AB10(u32 default_dma_no)
+void FSi_InitRomArchive(u32 default_dma_no)
 {
     CARD_Init();
     fsi_default_dma_no.default_dma_no = default_dma_no;

@@ -12,6 +12,7 @@
  *   g_020A7E5C    0x020A7E5C  data
  *   g_02146A44    0x02146A44  data
  *   sub_02030734  0x02030734  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *
  * bg_sys.c: initialise one BG layer from its template.  Program BGxCNT of
  * layer bgId (0..3 main, 4..7 sub) through the TwlSDK gx_bgcnt.h inline
@@ -97,7 +98,7 @@ extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern int func_02042218(int a0, int a1);
 extern void func_020423D4(u32 bgId);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
-extern void func_02082A48(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
 
 /* TwlSDK nitro/gx/gx_bgcnt.h parameter types; only the type matters here */
@@ -370,7 +371,7 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
         g_02146A44->bgs[bgId].buf = sub_02030734(g_02146A44->heapId,
                                                  tmpl->bufSize, 0,
                                                  g_020A7E5C, 0x231);
-        func_02082A48(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
+        MIi_CpuClear16(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
         g_02146A44->bgs[bgId].bufSize = tmpl->bufSize;
         g_02146A44->bgs[bgId].unk_08 = tmpl->unk_0c;
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B95AC
+ * function: IRCBATTLEMATCH_IsEqual
  * address: 0x021B95AC
  * packet: pkt_ov100_021B95AC
  * region: ov100
@@ -13,7 +13,7 @@
  * data); referenced as 0x021B95AD from the table word at 021BB85C.
  */
 
-int func_021B95AC(int a, int b)
+int IRCBATTLEMATCH_IsEqual(int a, int b)
 {
     if (a == b)
         return 1;

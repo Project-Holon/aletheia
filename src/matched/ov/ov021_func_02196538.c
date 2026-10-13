@@ -19,7 +19,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   IRCBATTLEMENU_BrightenPalette  0x021964B0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  *   func_0201F5DC  0x0201F5DC  thumb
@@ -45,7 +45,7 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern void IRCBATTLEMENU_BrightenPalette(u16 (*dst)[16], u16 *add, int n);
 extern u32 func_020307B0(void *p);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
@@ -72,8 +72,8 @@ void IRCBATTLEMENU_LoadMenuGraphics(u8 *p)
     h = func_020490F4(0x1D, ((struct Obj00150 *)p)->f10);
     func_02049B68(h, 2, 4, 0, 0, ((struct Obj00150 *)p)->f10);
     res = ARC_UTIL_LoadPaletteBlockFromHandle(h, 2, (u32)(&pal), ((struct Obj00150 *)p)->f10);
-    func_02082D44(((struct Obj12630 *)pal)->fC, p + 0x48, 0x100);
-    func_02082D44(((struct Obj12630 *)pal)->fC, p + 0x148, 0x100);
+    MI_CpuCopy8(((struct Obj12630 *)pal)->fC, p + 0x48, 0x100);
+    MI_CpuCopy8(((struct Obj12630 *)pal)->fC, p + 0x148, 0x100);
     IRCBATTLEMENU_BrightenPalette((u16 (*)[16])(p + 0x148), (u16 *)sMenuPlttRowOffsets, 8);
     func_020307B0(res);
     func_02049B68(h, 0, 0, 0, 0, ((struct Obj00150 *)p)->f10);

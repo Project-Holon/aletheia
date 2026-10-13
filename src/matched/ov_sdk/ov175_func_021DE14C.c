@@ -1,5 +1,5 @@
 /*
- * function: func_021DE14C
+ * function: sakeiValidateRequestFieldNames
  * address:  0x021DE14C
  * packet:   pkt_021DE14C
  * region:   ov175
@@ -17,7 +17,7 @@
  *     carry text.  Used to reject a table of names with a hole in it.
  */
 
-int func_021DE14C(char **names, int n)
+int sakeiValidateRequestFieldNames(char **names, int n)
 {
     int i;
 

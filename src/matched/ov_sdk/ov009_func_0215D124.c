@@ -12,11 +12,11 @@
  * sdk:      SOCLi_CreateSocketCallBack (libsoc.TWL.HYB.a(socl_create.o))
  *
  * symbols:
- *   func_0215AA5C  0x0215AA5C  arm  ov009
- *   func_0215AB7C  0x0215AB7C  arm  ov009
- *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_0215AA88  0x0215AA88  arm  ov009
- *   func_0215AB94  0x0215AB94  arm  ov009
+ *   CPS_SocRegister  0x0215AA5C  arm  ov009
+ *   CPS_SocDup  0x0215AB7C  arm  ov009
+ *   CPS_SocUse  0x0215AB10  arm  ov009
+ *   CPS_SocDatagramMode  0x0215AA88  arm  ov009
+ *   CPS_SetUdpCallback  0x0215AB94  arm  ov009
  *   func_0215DF08  0x0215DF08  arm  ov009
  */
 
@@ -34,11 +34,11 @@ typedef struct {
 	Socket *socket;
 } Cmd;
 
-extern void func_0215AA5C(int v);
-extern void func_0215AB7C(void *thread);
-extern void func_0215AB10(void);
-extern void func_0215AA88(void);
-extern void func_0215AB94(int (*callback)(unsigned char *, unsigned long, void *));
+extern void CPS_SocRegister(int v);
+extern void CPS_SocDup(void *thread);
+extern void CPS_SocUse(void);
+extern void CPS_SocDatagramMode(void);
+extern void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, void *));
 struct CPSSoc;
 extern int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc);
 
@@ -48,21 +48,21 @@ int func_0215D124(void *arg)
 	unsigned char *send_pipe;
 
 	socket = ((Cmd *)arg)->socket;
-	func_0215AA5C((int)socket);
+	CPS_SocRegister((int)socket);
 	send_pipe = socket->send_pipe;
 	switch (socket->flag_mode) {
 	case 0:
 	case 4:
-		func_0215AB7C(send_pipe + 0x20);
-		func_0215AB10();
+		CPS_SocDup(send_pipe + 0x20);
+		CPS_SocUse();
 		break;
 	case 1:
-		func_0215AB10();
-		func_0215AA88();
-		func_0215AB94((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
+		CPS_SocUse();
+		CPS_SocDatagramMode();
+		CPS_SetUdpCallback((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
 		break;
 	case 2:
-		func_0215AA88();
+		CPS_SocDatagramMode();
 		break;
 	}
 	socket->state = 1;

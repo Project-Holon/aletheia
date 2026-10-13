@@ -1,7 +1,7 @@
 /*
  * file:     compatible_irc_sys.c
  * unit:     yes
- * function: func_021B6100, func_021B6148, func_021B6150, func_021B61E8, func_021B6254, func_021B62AC, func_021B62FC, func_021B630C, func_021B63BC, func_021B63C4, func_021B63CC, func_021B63D0, func_021B6424, func_021B6480, func_021B6494, func_021B64B8, func_021B64F0, func_021B6508, func_021B6518, func_021B652C, func_021B6540, func_021B6554, func_021B6568, func_021B657C, func_021B658C, func_021B6634, func_021B6670, func_021B667C, func_021B66A4, func_021B66B8, func_021B66E0, func_021B6760, func_021B678C, func_021B67B0, func_021B67C4, func_021B67E4, func_021B67F8, func_021B685C, func_021B6874, func_021B68A0, func_021B68C0, func_021B68E0, func_021B6920
+ * function: COMPATIBLE_IRC_SYS_Create, COMPATIBLE_IRC_SYS_Delete, COMPATIBLE_IRC_SYS_StepStartSession, COMPATIBLE_IRC_SYS_StepShutdown, COMPATIBLE_IRC_SYS_StepConnectChild, COMPATIBLE_IRC_SYS_StepSyncTiming, COMPATIBLE_IRC_SYS_IsPartnerReady, COMPATIBLE_IRC_SYS_StepShareValue, COMPATIBLE_IRC_SYS_ResetStep, COMPATIBLE_IRC_SYS_ClearValues, COMPATIBLE_IRC_SYS_SetOwnValue, COMPATIBLE_IRC_SYS_UpdateValueSync, COMPATIBLE_IRC_SYS_SendOwnValue, COMPATIBLE_IRC_SYS_GetValueDifference, COMPATIBLE_IRC_SYS_SendToHandle, COMPATIBLE_IRC_SYS_SendData, COMPATIBLE_IRC_SYS_AddCommandTable, COMPATIBLE_IRC_SYS_DeleteCommandTable, COMPATIBLE_IRC_SYS_SendProfileRequest, COMPATIBLE_IRC_SYS_PollProfileRequest, COMPATIBLE_IRC_SYS_SendProfileAck, COMPATIBLE_IRC_SYS_PollProfileAck, COMPATIBLE_IRC_SYS_StepSendProfile, COMPATIBLE_IRC_SYS_GetPartnerProfile, COMPATIBLE_IRC_SYS_BuildProfile, COMPATIBLE_IRC_SYS_SetPlayerReady, COMPATIBLE_IRC_SYS_StartSessionCallback, COMPATIBLE_IRC_SYS_RecvValueHandler, COMPATIBLE_IRC_SYS_RecvValueAckHandler, COMPATIBLE_IRC_SYS_RecvOwnValueHandler, COMPATIBLE_IRC_SYS_ProfileSyncInit, COMPATIBLE_IRC_SYS_ProfileSyncExit, COMPATIBLE_IRC_SYS_ProfileSyncSendRequest, COMPATIBLE_IRC_SYS_ProfileSyncPollRequest, COMPATIBLE_IRC_SYS_ProfileSyncSendAck, COMPATIBLE_IRC_SYS_ProfileSyncPollAck, COMPATIBLE_IRC_SYS_ProfileSyncStepSend, COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile, COMPATIBLE_IRC_SYS_RecvRequestHandler, COMPATIBLE_IRC_SYS_RecvAckHandler, COMPATIBLE_IRC_SYS_RecvDoneHandler, COMPATIBLE_IRC_SYS_RecvProfileHandler, COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid
  * address:  0x021B6100
  * region:   ov101
  * compiler: dsi/1.1p1
@@ -16,10 +16,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   d_021B7524 0x021B7524 data a1
+ *   gCompatibleIrcSysFileName 0x021B7524 data a1
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_StartSession 0x0203CBAC arm
- *   d_021B743C 0x021B743C data a4
+ *   gCompatibleIrcSessionParam 0x021B743C data a4
+ *   gCompatibleIrcProfileCommands 0x021B741C data a4
+ *   gCompatibleIrcRecvBuffer 0x021B7520 data a4
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -32,7 +34,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
- *   func_02087C88 0x02087C88 arm
+ *   OS_GetOwnerInfo 0x02087C88 arm
  *   func_020120F4 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
@@ -41,27 +43,12 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_02080D24 0x02080D24 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02012950 0x02012950 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  */
-#include "../../matched/include/Obj06362.h"
-#include "../../matched/include/Obj22090.h"
-#include "../../matched/include/Obj22091.h"
-#include "../../matched/include/Obj22092.h"
-#include "../../matched/include/Obj22093.h"
-#include "../../matched/include/Obj22094.h"
-#include "../../matched/include/Obj22095.h"
-#include "../../matched/include/Obj22096.h"
-#include "../../matched/include/Obj22097.h"
-#include "../../matched/include/Obj04420.h"
-#include "../../matched/include/Obj22106.h"
-#include "../../matched/include/Obj22107.h"
-#include "../../matched/include/Obj22108.h"
-#include "../../matched/include/Obj13716.h"
-
 struct Req;
 struct Entry;
 struct Link;
@@ -69,39 +56,14 @@ struct OSOwnerInfo;
 struct RtcDate;
 struct BigObj;
 struct Ctx;
-struct Data;
 struct Rec44;
 struct Sub24;
-typedef unsigned int u32;
+/* Session parameter block handed to GFL_NET_StartSession (copied from ROM data). */
+typedef struct NetSessionParam { int words[26]; int context; int tail; } NetSessionParam;
 
-typedef unsigned short u16;
+#include "compatible_irc_sys_types.h"
 
-typedef unsigned char u8;
-
-struct Config { int words[26]; int context; int tail; };
-
-struct Obj_021B6150 { int first; int data[15]; int context; unsigned state; int rest[11]; int ready; int done; int spare[3]; u16 heap; };
-
-typedef struct Obj_021B61E8 {
-    int f00;
-    unsigned char sub[0x40];
-    int state;
-    unsigned char pad48[0xC];
-    int done;
-    unsigned char pad58[0x1C];
-    int pending;
-    int busy;
-} Obj_021B61E8;
-
-typedef struct Obj_021B63D0 { unsigned char pad[0x78]; int busy; unsigned char pad7c[6]; u16 counter; } Obj_021B63D0;
-
-typedef struct R { int words[11]; } R;
-
-typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned char low:4; unsigned char high:4; u8 tail[32]; } Data;
-
-typedef struct Config_021B652C { u8 bytes[0x54]; } Config_021B652C;
-
-typedef struct Four { int a,b,c,d; } Four;
+typedef struct Four { int year, month, day, week; } Four;
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
@@ -120,7 +82,7 @@ extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
-extern void func_02087C88(struct OSOwnerInfo *info);
+extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void MYSTATUS_Copy(void *,void *);
@@ -129,771 +91,411 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0203F4E4(struct RtcDate *date);
 extern u32 func_02080D24(u32);
-extern void func_02082D44(void *,const void *,unsigned);
+extern void MI_CpuCopy8(void *,const void *,unsigned);
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int MYSTATUS_GetSize(void);
-void *func_021B6100(int a,int b,int c,int d);
-void func_021B6148(void *a0);
-int func_021B6150(struct Obj_021B6150 *p);
-int func_021B61E8(Obj_021B61E8 *o);
-int func_021B6254(int *p);
-int func_021B62AC(int *p);
-int func_021B62FC(int *p);
-int func_021B630C(int *p,int value);
-void func_021B63BC(int *p);
-void func_021B63C4(int *p);
-void func_021B63CC(int *p,int n);
-int func_021B63D0(Obj_021B63D0 *p);
-int func_021B6424(int p);
-int func_021B6480(int *p);
-int func_021B6494(u32 p,u32 a,u32 b,u32 c);
-u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g);
-void func_021B64F0(u32 p,u32 a,u32 b,u32 c,u32 d);
-void func_021B6508(u32 p,u32 a);
-int func_021B6518(u32 p,u32 a,u32 b);
-int func_021B652C(u32 p);
-int func_021B6540(u32 p);
-int func_021B6554(int *p);
-int func_021B6568(int *p,int resource);
-void func_021B657C(int *p,R *out);
-void func_021B658C(void *p,Data *out);
-void func_021B6634(u32 *p, int i);
-int func_021B6650(void);
-int func_021B6658(void);
-int func_021B665C(int a, int b);
-void func_021B6668(int *p);
-void func_021B6670(void);
-void func_021B6674(int *p);
-void func_021B667C(unsigned a,int b,void *c,unsigned char *d);
-void func_021B66A4(int a,int b,int c,int *d,unsigned e);
-void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e);
-void func_021B66E0(int a, int b, int c);
-void func_021B6760(int *p);
-int func_021B678C(int *p,int a,int b);
-int func_021B67B0(int *p);
-int func_021B67C4(int *p);
-int func_021B67E4(int *p);
-int func_021B67F8(int *p,int resource);
-void func_021B685C(int *p,R *out);
-void func_021B6874(u32 a,int b,void *c,u8 *d,void *e);
-void func_021B68A0(u32 a,int b,int c,u8 *d,void *e);
-void func_021B68C0(u32 a,int b,int c,u8 *d,void *e);
-void func_021B68E0(u32 a, int b, int c, int *d, u32 e);
-u32 func_021B6920(u32 a,u8 *p);
-extern const char d_021B7524[];
-extern const struct Config d_021B743C;
+void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
+void COMPATIBLE_IRC_SYS_Delete(void *sys);
+int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_StepConnectChild(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_StepSyncTiming(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value);
+void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
+int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data);
+u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g);
+void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,u32 b,u32 c,u32 d);
+void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys,u32 a);
+int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys,u32 a,u32 b);
+int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_SendProfileAck(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys);
+int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,int resource);
+void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out);
+void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out);
+void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index);
+int COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
+int COMPATIBLE_IRC_SYS_GetRecvSize(void);
+int COMPATIBLE_IRC_SYS_IsEqual(int a, int b);
+void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_StartSessionCallback(void);
+void COMPATIBLE_IRC_SYS_ExitCallback(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work);
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle);
+void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle);
+void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int heapId);
+void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync);
+int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second);
+int COMPATIBLE_IRC_SYS_ProfileSyncPollRequest(IrcProfileSync *sync);
+int COMPATIBLE_IRC_SYS_ProfileSyncSendAck(IrcProfileSync *sync);
+int COMPATIBLE_IRC_SYS_ProfileSyncPollAck(IrcProfileSync *sync);
+int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,int resource);
+void COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(IrcProfileSync *sync,IrcCompatibleProfile *out);
+void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 aid,int size,void *data,IrcProfileSync *work,void *handle);
+void COMPATIBLE_IRC_SYS_RecvAckHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
+void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle);
+void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfileSync *work, u32 handle);
+u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
+extern const char gCompatibleIrcSysFileName[];
+extern const NetSessionParam gCompatibleIrcSessionParam;
+extern const u32 gCompatibleIrcProfileCommands[];
+extern char gCompatibleIrcRecvBuffer[];
 
-
-
-
-void *func_021B6100(int a,int b,int c,int d) {
- char *p;
- p=func_02030734(c,0x8c,0,d_021B7524,0x113);
- MI_CpuFill8((void *)p,0,0x8c);
- ((struct Obj06362 *)p)->f40=a;
- ((struct Obj06362 *)p)->f88=c;
- ((struct Obj06362 *)p)->f74=0;
- ((struct Obj06362 *)p)->f78=d;
- ((struct Obj06362 *)p)->f0=b;
- return p;
+void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline) {
+ IrcSys *sys;
+ sys=func_02030734(heapId,0x8c,0,gCompatibleIrcSysFileName,0x113);
+ MI_CpuFill8((void *)sys,0,0x8c);
+ sys->context=context;
+ sys->heapId=heapId;
+ sys->sessionReady=0;
+ sys->offline=offline;
+ sys->playerRecords=(void *)playerRecords;
+ return sys;
 }
 
+void COMPATIBLE_IRC_SYS_Delete(void *sys) { func_020307B0(sys); }
 
-
-
-void func_021B6148(void *a0) { func_020307B0(a0); }
-
-
-
-
-int func_021B6150(struct Obj_021B6150 *p) {
- struct Config config;
- if(p->done!=0) return 1;
- switch(p->state) {
+int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys) {
+ NetSessionParam config;
+ if(sys->offline!=0) return 1;
+ switch(sys->step) {
  case 0:
-  if(GFL_NET_GetRunState()!=0) { p->state=2; }
+  if(GFL_NET_GetRunState()!=0) { sys->step=2; }
   else {
-   config=d_021B743C;
-   config.context=p->context;
-   GFL_NET_StartSession((struct Req *)(&config),(u32)func_021B6670,(int)p);
+   config=gCompatibleIrcSessionParam;
+   config.context=sys->context;
+   GFL_NET_StartSession((struct Req *)(&config),(u32)COMPATIBLE_IRC_SYS_StartSessionCallback,(int)sys);
   }
-  p->state=1;
+  sys->step=1;
   break;
  case 1:
-  if(GFL_NET_GetRunState()!=0) p->state=2;
+  if(GFL_NET_GetRunState()!=0) sys->step=2;
   break;
  case 2:
-  func_021B66E0((int)p+4,(int)p,p->heap);
-  p->ready=1;
-  p->state=3;
+  COMPATIBLE_IRC_SYS_ProfileSyncInit(&sys->profileSync,sys,sys->heapId);
+  sys->sessionReady=1;
+  sys->step=3;
   break;
  case 3:
-  p->state=0;
+  sys->step=0;
   return 1;
  }
  return 0;
 }
 
-
-
-
-
-int func_021B61E8(Obj_021B61E8 *o)
+int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys)
 {
-    if (o->busy != 0)
+    if (sys->offline != 0)
         return 1;
-    switch (o->state) {
+    switch (sys->step) {
     case 0:
-        if (o->pending != 0) {
-            func_021B6760((int *)o->sub);
-            o->pending = 0;
+        if (sys->sessionReady != 0) {
+            COMPATIBLE_IRC_SYS_ProfileSyncExit(&sys->profileSync);
+            sys->sessionReady = 0;
         }
-        o->done = 0;
-        o->state = 1;
+        sys->exitDone = 0;
+        sys->step = 1;
         break;
     case 1:
-        if (GFL_NET_Exit((int)func_021B6674) != 0)
-            o->state = 2;
+        if (GFL_NET_Exit((int)COMPATIBLE_IRC_SYS_ExitCallback) != 0)
+            sys->step = 2;
         else
-            o->state = 3;
+            sys->step = 3;
         break;
     case 2:
-        if (o->done != 0)
-            o->state = 3;
+        if (sys->exitDone != 0)
+            sys->step = 3;
         break;
     case 3:
-        o->state = 0;
+        sys->step = 0;
         return 1;
     }
     return 0;
 }
 
-
-
-
-int func_021B6254(int *p)
+int COMPATIBLE_IRC_SYS_StepConnectChild(IrcSys *sys)
 {
-    if (p[30] != 0) return 1;
-    switch(p[17]) {
+    if (sys->offline != 0) return 1;
+    switch(sys->step) {
     case 0:
         GFL_NET_StartChangeoverChild(0);
-        p[17] = 1;
-        p[33] = 1;
-        p[20] = 0;
-        p[19] = 0;
+        sys->step = 1;
+        sys->connecting = 1;
+        sys->partnerReady = 0;
+        sys->readyMask = 0;
         break;
     case 1:
-        if(p[20] != 0) {
-            p[33] = 0;
-            p[17] = 2;
+        if(sys->partnerReady != 0) {
+            sys->connecting = 0;
+            sys->step = 2;
         }
         break;
     case 2:
-        p[17] = 0;
+        sys->step = 0;
         return 1;
     }
     return 0;
 }
 
-
-
-
-int func_021B62AC(int *p)
+int COMPATIBLE_IRC_SYS_StepSyncTiming(IrcSys *sys)
 {
-    if(p[30]) return 1;
-    switch(p[17]) {
+    if(sys->offline) return 1;
+    switch(sys->step) {
     case 0:
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
-        p[17]=1;
+        sys->step=1;
         break;
     case 1:
-        if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
+        if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) sys->step=2;
         break;
     case 2:
-        p[17]=0;
+        sys->step=0;
         return 1;
     }
     return 0;
 }
 
+int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys) { if(sys->offline) return 1; return sys->partnerReady; }
 
-
-
-int func_021B62FC(int *p) { if(p[30]) return 1; return p[20]; }
-
-
-
-
-int func_021B630C(int *p,int value)
+int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys,int value)
 {
     int i;
-    if(p[30]) return 1;
-    switch(p[17]) {
+    if(sys->offline) return 1;
+    switch(sys->step) {
     case 0:
-        p[28]=0;
-        if(func_021B6494((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
+        sys->valueAckReceived=0;
+        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD00,4,(unsigned int)(&value))) sys->step=1;
         break;
     case 1:
         if(GFL_NET_IsParentAid()) {
-            for(i=0;i<2;i++) { if(value != p[26+i]) break; }
-            if(i == 2) p[17]=2;
-        } else p[17]=3;
+            for(i=0;i<2;i++) { if(value != sys->receivedValue[i]) break; }
+            if(i == 2) sys->step=2;
+        } else sys->step=3;
         break;
     case 2:
-        if(func_021B6494((unsigned int)p,0xD01,4,(unsigned int)(&value))) p[17]=4;
+        if(COMPATIBLE_IRC_SYS_SendToHandle(sys,0xD01,4,(unsigned int)(&value))) sys->step=4;
         break;
     case 3:
-        if(p[28]) p[17]=4;
+        if(sys->valueAckReceived) sys->step=4;
         break;
     case 4:
-        p[17]=0;
+        sys->step=0;
         return 1;
     }
     return 0;
 }
 
+void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys) { sys->step=0; }
 
+void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys) { sys->partnerValue=0; sys->ownValue=0; }
 
+void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value) { sys->ownValue=value; }
 
-void func_021B63BC(int *p) { p[17]=0; }
-
-
-
-
-void func_021B63C4(int *p) { p[15]=0; p[14]=0; }
-
-
-
-
-void func_021B63CC(int *p,int n) { p[14]=n; }
-
-
-
-
-int func_021B63D0(Obj_021B63D0 *p)
+int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys)
 {
     u16 old;
-    if (p->busy) return 1;
-    old = p->counter;
-    p->counter += 1;
+    if (sys->offline) return 1;
+    old = sys->syncCounter;
+    sys->syncCounter += 1;
     if (old > 180) {
-        p->counter = 0;
+        sys->syncCounter = 0;
         if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle())))
-            return func_021B6424((int)p);
+            return COMPATIBLE_IRC_SYS_SendOwnValue(sys);
     }
     return 0;
 }
 
-
-
-
-int func_021B6424(int p)
+int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys)
 {
     unsigned int id;
     u8 other;
-    if(((struct Obj22090 *)p)->f78) return 1;
+    if(sys->offline) return 1;
     id=GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle());
     other=(id == 0);
     if(GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,id) == 0) {
-        return func_021B64B8(p,0xD02,4,p+0x38,other,0,0,1);
+        return COMPATIBLE_IRC_SYS_SendData(sys,0xD02,4,(u32)&sys->ownValue,other,0,0,1);
     } else {
         return 0;
     }
 }
 
-
-
-
-int func_021B6480(int *p) { if(p[30]) return 0; return p[14]-p[15]; }
-
-
-
+int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys) { if(sys->offline) return 0; return sys->ownValue-sys->partnerValue; }
 
 /*
  * note: trailing two zero alignment bytes. Extern b/c widened because
  *       caller forwards full words without callee's u16 truncation pairs.
  */
-int func_021B6494(u32 p,u32 a,u32 b,u32 c) {
-    if(((struct Obj22091 *)p)->f78!=0) return 1;
-    return GFL_NET_SendToHandle((struct Entry *)GFL_NET_HANDLE_GetCurrentHandle(),a,b,c);
+int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data) {
+    if(sys->offline!=0) return 1;
+    return GFL_NET_SendToHandle((struct Entry *)GFL_NET_HANDLE_GetCurrentHandle(),commandId,size,data);
 }
 
-
-
-
-u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
-    if(((struct Obj22092 *)p)->f78!=0) return 1;
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),d,a,b,c,e,f,g);
+u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g) {
+    if(sys->offline!=0) return 1;
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),target,commandId,size,data,e,f,g);
 }
-
-
-
 
 /*
  * note: trailing two zero alignment bytes.
  */
-void func_021B64F0(u32 p,u32 a,u32 b,u32 c,u32 d) {
-    if(((struct Obj22093 *)p)->f78==0) GFL_NET_COMMAND_AddCommandTable(a,b,c,d);
+void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,u32 b,u32 c,u32 d) {
+    if(sys->offline==0) GFL_NET_COMMAND_AddCommandTable(a,b,c,d);
 }
 
-
-
-
-void func_021B6508(u32 p,u32 a) {
-    if(((struct Obj22094 *)p)->f78==0) GFL_NET_COMMAND_DeleteCommandTable(a);
+void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys,u32 a) {
+    if(sys->offline==0) GFL_NET_COMMAND_DeleteCommandTable(a);
 }
 
-
-
-
-int func_021B6518(u32 p,u32 a,u32 b) {
-    if(((struct Obj22095 *)p)->f78!=0) return 1;
-    return func_021B678C((int *)(p+4),a,b);
+int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys,u32 a,u32 b) {
+    if(sys->offline!=0) return 1;
+    return COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(&sys->profileSync,a,b);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021B652C(u32 p) {
-    if(((struct Obj22096 *)p)->f78!=0) return 1;
-    return func_021B67B0((int *)(p+4));
+int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys) {
+    if(sys->offline!=0) return 1;
+    return COMPATIBLE_IRC_SYS_ProfileSyncPollRequest(&sys->profileSync);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021B6540(u32 p) {
-    if(((struct Obj22097 *)p)->f78!=0) return 1;
-    return func_021B67C4((int *)(p+4));
+int COMPATIBLE_IRC_SYS_SendProfileAck(IrcSys *sys) {
+    if(sys->offline!=0) return 1;
+    return COMPATIBLE_IRC_SYS_ProfileSyncSendAck(&sys->profileSync);
 }
 
+int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys) { if(sys->offline) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncPollAck(&sys->profileSync); }
 
+int COMPATIBLE_IRC_SYS_StepSendProfile(IrcSys *sys,int resource) { if(sys->offline) return 1; return COMPATIBLE_IRC_SYS_ProfileSyncStepSend(&sys->profileSync,resource); }
 
-
-
-
-
-
-
-
-
-
-
-int func_021B6554(int *p) { if(p[30]) return 1; return func_021B67E4(p+1); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021B6568(int *p,int resource) { if(p[30]) return 1; return func_021B67F8(p+1,resource); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B657C(int *p,R *out) { if(!p[30]) func_021B685C(p+1,out); }
-
-
-
-
-
-
-
-
-
-
-
-
+void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys,IrcCompatibleProfile *out) { if(!sys->offline) COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(&sys->profileSync,out); }
 
 /*
  * lever: pack the words with unsigned left/right shift pairs; u8 casts
  *   keep separate truncation shifts and add eight bytes.
  */
-void func_021B658C(void *p,Data *out)
+void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
 {
-    Config_021B652C config;
-    Four four;
+    u8 ownerInfo[0x54];
+    Four date;
     void *sub;
     void *record;
     int flag;
-    func_02087C88((struct OSOwnerInfo *)(&config));
-    sub=func_020120F4(p);
-    p=func_02012944(sub);
-    out->f04=config.bytes[2];
-    out->f05=config.bytes[3];
-    MYSTATUS_Copy(p,out->tail);
+    OS_GetOwnerInfo((struct OSOwnerInfo *)(&ownerInfo));
+    sub=func_020120F4(playerData);
+    playerData=func_02012944(sub);
+    out->birthMonth=ownerInfo[2];
+    out->birthDay=ownerInfo[3];
+    MYSTATUS_Copy(playerData,out->myStatus);
     record=POKEPARTY_GetMember(func_02012934(sub),0);
     flag=0;
-    out->f06=func_02017E1C(record,5,0);
-    out->f08=func_02017E1C(record,111,0);
-    out->f09=func_02017E1C(record,110,0);
-    out->f0a=func_02017E1C(record,76,0);
-    func_0203F4E4((struct RtcDate *)(&four));
-    if(four.c == 14) flag=1;
-    out->low=(u8)flag;
-    out->f00=((u32)four.a << 24) | (((u32)four.b << 24) >> 8) | (((u32)four.c << 24) >> 16) | four.d;
+    out->leadSpecies=func_02017E1C(record,5,0);
+    out->leadType2=func_02017E1C(record,111,0);
+    out->leadType1=func_02017E1C(record,110,0);
+    out->leadNature=func_02017E1C(record,76,0);
+    func_0203F4E4((struct RtcDate *)(&date));
+    if(date.day == 14) flag=1;
+    out->isDay14=(u8)flag;
+    out->packedDate=((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B6634(u32 *p, int i)
+void COMPATIBLE_IRC_SYS_SetPlayerReady(IrcSys *sys, int index)
 {
-    p[19] |= 1 << i;
-    if (func_02080D24(p[19]) >= 2)
-        p[20] = 1;
+    sys->readyMask |= 1 << index;
+    if (func_02080D24(sys->readyMask) >= 2)
+        sys->partnerReady = 1;
 }
 
+int COMPATIBLE_IRC_SYS_GetRecvBuffer(void) { return (int)gCompatibleIrcRecvBuffer; }
 
+int COMPATIBLE_IRC_SYS_GetRecvSize(void) { return 4; }
 
+int COMPATIBLE_IRC_SYS_IsEqual(int a, int b) { return a == b ? 1 : 0; }
 
+void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys) { sys->partnerReady = 0; }
 
+void COMPATIBLE_IRC_SYS_StartSessionCallback(void) { }
 
+void COMPATIBLE_IRC_SYS_ExitCallback(IrcSys *sys) { sys->exitDone = 1; }
 
+void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work) { unsigned v; if(GFL_NET_IsParentAid()) { MI_CpuCopy8(data,&v,4); *(unsigned *)(work+0x68+aid*4)=v; } }
 
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle) { if(handle==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) work->valueAckReceived=1; }
 
+void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle) { if(handle==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) MI_CpuCopy8(data,work+0x3c,4); } }
 
-
-
-
-int func_021B6650(void) { return 0x021B7520; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021B6658(void) { return 4; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-int func_021B665C(int a, int b) { return a == b ? 1 : 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B6668(int *p) { p[20] = 0; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B6670(void) { }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B6674(int *p) { p[21] = 1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B667C(unsigned a,int b,void *c,unsigned char *d) { unsigned v; if(GFL_NET_IsParentAid()) { func_02082D44(c,&v,4); *(unsigned *)(d+0x68+a*4)=v; } }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) d[28]=1; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) func_02082D44(c,d+0x3c,4); } }
-
-
-
-
-
-
-
-
-
-
-
-
-void func_021B66E0(int a, int b, int c)
+void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int heapId)
 {
-    int r7;
+    int line;
 
-    MI_CpuFill8((void *)a, 0, 0x34);
-    r7 = 0x57b;
-    ((struct Obj04420 *)a)->f0 = b;
-    ((struct Obj04420 *)a)->f28 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7);
-    MI_CpuFill8((void *)((struct Obj04420 *)a)->f28, 0, 0x2c);
-    ((struct Obj04420 *)a)->f2C = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 2);
-    MI_CpuFill8((void *)((struct Obj04420 *)a)->f2C, 0, 0x2c);
-    ((struct Obj04420 *)a)->f30 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
-    MI_CpuFill8((void *)((struct Obj04420 *)a)->f30, 0, 0x2c);
-    func_021B64F0(b, 0x1000, 0x021B741C, 4, a);
+    MI_CpuFill8((void *)sync, 0, 0x34);
+    line = 0x57b;
+    sync->sys = sys;
+    sync->sendProfile = func_02030734(heapId, 0x2c, 0, gCompatibleIrcSysFileName, line);
+    MI_CpuFill8((void *)sync->sendProfile, 0, 0x2c);
+    sync->selfProfile = func_02030734(heapId, 0x2c, 0, gCompatibleIrcSysFileName, line + 2);
+    MI_CpuFill8((void *)sync->selfProfile, 0, 0x2c);
+    sync->partnerProfile = func_02030734(heapId, 0x2c, 0, gCompatibleIrcSysFileName, line + 4);
+    MI_CpuFill8((void *)sync->partnerProfile, 0, 0x2c);
+    COMPATIBLE_IRC_SYS_AddCommandTable(sys, 0x1000, (u32)gCompatibleIrcProfileCommands, 4, (u32)sync);
 }
 
+void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->sys,0x1000); func_020307B0(sync->sendProfile); func_020307B0(sync->selfProfile); func_020307B0(sync->partnerProfile); MI_CpuFill8(sync, 0, 0x34); }
 
+int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(IrcProfileSync *sync,int first,int second) { sync->ownRequest[1]=first; sync->ownRequest[0]=second; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1000,8,(u32)sync->ownRequest)!=0; }
 
+int COMPATIBLE_IRC_SYS_ProfileSyncPollRequest(IrcProfileSync *sync) { if(sync->requestReceived==1) { sync->requestReceived=0; return 1; } return 0; }
 
+int COMPATIBLE_IRC_SYS_ProfileSyncSendAck(IrcProfileSync *sync) { int value; return COMPATIBLE_IRC_SYS_SendToHandle(sync->sys,0x1001,4,(u32)(&value))!=0; }
 
+int COMPATIBLE_IRC_SYS_ProfileSyncPollAck(IrcProfileSync *sync) { if(sync->ackReceived==1) { sync->ackReceived=0; return 1; } return 0; }
 
-
-
-
-
-void func_021B6760(int *p) { func_021B6508((u32)((int *)p[0]),0x1000); func_020307B0((void *)p[10]); func_020307B0((void *)p[11]); func_020307B0((void *)p[12]); MI_CpuFill8(p, 0, 0x34); }
-
-
-
-
-
-
-
-
-
-
-int func_021B678C(int *p,int a,int b) { p[5]=a; p[4]=b; return func_021B6494((u32)((int *)p[0]),0x1000,8,(u32)(p+4))!=0; }
-
-
-
-
-
-
-
-
-
-
-int func_021B67B0(int *p) { if(p[6]==1) { p[6]=0; return 1; } return 0; }
-
-
-
-
-
-
-
-
-
-
-int func_021B67C4(int *p) { int value; return func_021B6494((u32)((int *)p[0]),0x1001,4,(u32)(&value))!=0; }
-
-
-
-
-
-
-
-
-
-
-int func_021B67E4(int *p) { if(p[7]==1) { p[7]=0; return 1; } return 0; }
-
-
-
-
-
-
-
-
-
-int func_021B67F8(int *p,int resource)
+int COMPATIBLE_IRC_SYS_ProfileSyncStepSend(IrcProfileSync *sync,int resource)
 {
-    switch(p[1]) {
+    switch(sync->state) {
     case 0:
-        if(resource) func_021B658C((void *)resource, (Data *)((struct Data *)p[10])); else return 1;
-        if(func_021B64B8(p[0],0x1003,44,p[10],255,0,0,1)) p[1]=1;
+        if(resource) COMPATIBLE_IRC_SYS_BuildProfile((void *)resource, sync->sendProfile); else return 1;
+        if(COMPATIBLE_IRC_SYS_SendData(sync->sys,0x1003,44,(u32)sync->sendProfile,255,0,0,1)) sync->state=1;
         break;
     case 1:
-        if(p[9]) { p[9]=0; p[1]=0; return 1; }
+        if(sync->profileReceived) { sync->profileReceived=0; sync->state=0; return 1; }
         break;
     }
     return 0;
 }
 
+void COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile(IrcProfileSync *sync,IrcCompatibleProfile *out) { *out=*sync->partnerProfile; }
 
-
-
-
-
-
-
-
-void func_021B685C(int *p,R *out) { *out=*(R *)p[12]; }
-
-
-
-
-
-
-
-
-
-void func_021B6874(u32 a,int b,void *c,u8 *d,void *e) {
- if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) { func_02082D44(c,d+8,8); ((struct Obj22106 *)d)->f18=1; } }
+void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 aid,int size,void *data,IrcProfileSync *work,void *handle) {
+ if(handle==GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) { MI_CpuCopy8(data,work->partnerRequest,8); work->requestReceived=1; } }
 }
 
-
-
-
-
-
-
-
-
-void func_021B68A0(u32 a,int b,int c,u8 *d,void *e) {
- if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22107 *)d)->f1C=1; }
+void COMPATIBLE_IRC_SYS_RecvAckHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle) {
+ if(handle==GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) work->ackReceived=1; }
 }
 
-
-
-
-
-
-
-
-
-void func_021B68C0(u32 a,int b,int c,u8 *d,void *e) {
- if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22108 *)d)->f20=1; }
+void COMPATIBLE_IRC_SYS_RecvDoneHandler(u32 aid,int size,int data,IrcProfileSync *work,void *handle) {
+ if(handle==GFL_NET_HANDLE_GetCurrentHandle()) { if(aid!=GFL_NET_SYSTEM_GetCurrentAid()) work->doneReceived=1; }
 }
 
-
-
-
-
-
-
-
-
-void func_021B68E0(u32 a, int b, int c, int *d, u32 e)
+void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfileSync *work, u32 handle)
 {
-    void *p;
-    if (*(int *)d[0] != 0) {
-        p = func_02012950((void *)*(int *)d[0], a);
-        func_02082D44((void *)(c + 12), p, MYSTATUS_GetSize());
+    void *record;
+    if (*(int *)work->sys != 0) {
+        record = func_02012950((void *)*(int *)work->sys, aid);
+        MI_CpuCopy8((void *)(data + 12), record, MYSTATUS_GetSize());
     }
-    if (e == (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
-        if (a != GFL_NET_SYSTEM_GetCurrentAid())
-            d[9] = 1;
+    if (handle == (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (aid != GFL_NET_SYSTEM_GetCurrentAid())
+            work->profileReceived = 1;
     }
 }
 
-
-
-
-
-
-
-
-
-u32 func_021B6920(u32 a,u8 *p) {
- if(a==GFL_NET_SYSTEM_GetCurrentAid()) return ((struct Obj13716 *)p)->f2C;
- return ((struct Obj13716 *)p)->f30;
+u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync) {
+ if(aid==GFL_NET_SYSTEM_GetCurrentAid()) return (u32)sync->selfProfile;
+ return (u32)sync->partnerProfile;
 }

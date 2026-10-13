@@ -1,5 +1,5 @@
 /*
- * function: func_021BA804
+ * function: WIFICLUBACTOR_NetCallbackA
  * address: 0x021BA804
  * packet: pkt_ov099_021BA804
  * region: ov099
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov099/unit_021BA594.c and filed here.
  */
 
-void func_021BA804(int a, int b, int c, int d);
+void WIFICLUBACTOR_NetCallbackA(int a, int b, int c, int d);
 
-void func_021BA804(int a, int b, int c, int d)
+void WIFICLUBACTOR_NetCallbackA(int a, int b, int c, int d)
 {
     if (d != 0) {
         return;

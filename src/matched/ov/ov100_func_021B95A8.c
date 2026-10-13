@@ -1,5 +1,5 @@
 /*
- * function: func_021B95A8
+ * function: IRCBATTLEMATCH_GetRecvSize
  * address: 0x021B95A8
  * packet: pkt_ov100_021B95A8
  * region: ov100
@@ -13,7 +13,7 @@
  * data); referenced as 0x021B95A9 from the table word at 021BB858.
  */
 
-int func_021B95A8(void)
+int IRCBATTLEMATCH_GetRecvSize(void)
 {
     return 4;
 }

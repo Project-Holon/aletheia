@@ -1,5 +1,5 @@
 /*
- * function: func_021C6004
+ * function: getNchar
  * address:  0x021C6004
  * packet:   pkt_ov114_021C6004
  * region:   ov114
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_021C6004(unsigned char *dst, char *p, int n)
+int getNchar(unsigned char *dst, char *p, int n)
 {
     int i;
     int len;

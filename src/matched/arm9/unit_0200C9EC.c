@@ -11,16 +11,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200C9EC, func_0200C9F4, func_0200CA10, func_0200CA1C,
- *           func_0200CA28, func_0200CA38, func_0200CA40, func_0200CA54,
- *           func_0200CA5C, func_0200CA70, func_0200CA78, func_0200CA8C
+ * function: ZUKAN_SAVE_GetSize, ZUKAN_SAVE_Init, ZUKAN_SAVE_GetBlock, ZUKAN_SAVE_GetFromGameData,
+ *           ZUKAN_SAVE_EnableNationalDex, ZUKAN_SAVE_IsNationalDexEnabled, ZUKAN_SAVE_SetDexObtained, ZUKAN_SAVE_GetDexObtained,
+ *           ZUKAN_SAVE_SetViewMode, ZUKAN_SAVE_GetViewMode, ZUKAN_SAVE_SetLastViewedSpecies, ZUKAN_SAVE_GetLastViewedSpecies
  *
  * 172 bytes, 0x0200C9EC..0x0200CA98, 12 functions, nine of which carry no
  * label in the generated listing.
  *
- * The opening of the save block with id 0x37: func_0200C9EC returns 0x4D4,
- * func_0200C9F4 clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
- * first word, and func_0200CA10 is the whole of the lookup
+ * The opening of the save block with id 0x37: ZUKAN_SAVE_GetSize returns 0x4D4,
+ * ZUKAN_SAVE_Init clears exactly 0x4D4 bytes and stamps 0xBEEFCAFE into the
+ * first word, and ZUKAN_SAVE_GetBlock is the whole of the lookup
  * `func_020071CC(sys, 0x37)`.  The magic word is the tell that the record is
  * checked rather than merely zeroed; nothing in this range reads it back.
  *
@@ -28,11 +28,11 @@
  * the shift pairs rather than guessed: `lsls #0x15` / `lsrs #0x16` is bits
  * 1..10 and `lsls #0x0A` / `lsrs #0x16` is bits 12..21, so the layout is
  * 1 + 10 + 1 + 10 bits with the top ten unused by anything in this range.
- * func_0200CA8C truncates its ten-bit field to `u16` on the way out, which is
+ * ZUKAN_SAVE_GetLastViewedSpecies truncates its ten-bit field to `u16` on the way out, which is
  * the second shift pair in it and is a return type rather than a field width.
  *
  * This unit stops at 0x0200CA98 rather than running to the end of the
- * original file: func_0200CA98 is 376 bytes of bit-array maintenance over
+ * original file: ZUKAN_SAVE_UpdateViewFlags is 376 bytes of bit-array maintenance over
  * three module-level tables and is not attempted here.
  *
  * symbols:
@@ -60,67 +60,67 @@ struct Blk37 {
     u8  unk08[0x4CC];
 };
 
-void *func_0200CA10(void *sys);
+void *ZUKAN_SAVE_GetBlock(void *sys);
 
-u32 func_0200C9EC(void)
+u32 ZUKAN_SAVE_GetSize(void)
 {
     return sizeof(struct Blk37);
 }
 
-void func_0200C9F4(struct Blk37 *p)
+void ZUKAN_SAVE_Init(struct Blk37 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk37));
     p->unk00 = 0xBEEFCAFE;
 }
 
-void *func_0200CA10(void *sys)
+void *ZUKAN_SAVE_GetBlock(void *sys)
 {
     return func_020071CC(sys, 0x37);
 }
 
-void *func_0200CA1C(void *a)
+void *ZUKAN_SAVE_GetFromGameData(void *a)
 {
-    return func_0200CA10(GAME_DATA_GetSaveControl(a));
+    return ZUKAN_SAVE_GetBlock(GAME_DATA_GetSaveControl(a));
 }
 
-struct Blk37 *func_0200CA28(struct Blk37 *p)
+struct Blk37 *ZUKAN_SAVE_EnableNationalDex(struct Blk37 *p)
 {
     p->f0 = 1;
     return p;
 }
 
-u32 func_0200CA38(struct Blk37 *p)
+u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p)
 {
     return p->f0;
 }
 
-struct Blk37 *func_0200CA40(struct Blk37 *p)
+struct Blk37 *ZUKAN_SAVE_SetDexObtained(struct Blk37 *p)
 {
     p->f1 = 1;
     return p;
 }
 
-u32 func_0200CA54(struct Blk37 *p)
+u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p)
 {
     return p->f1;
 }
 
-void func_0200CA5C(struct Blk37 *p, u32 v)
+void ZUKAN_SAVE_SetViewMode(struct Blk37 *p, u32 v)
 {
     p->f11 = v;
 }
 
-u32 func_0200CA70(struct Blk37 *p)
+u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p)
 {
     return p->f11;
 }
 
-void func_0200CA78(struct Blk37 *p, u32 v)
+void ZUKAN_SAVE_SetLastViewedSpecies(struct Blk37 *p, u32 v)
 {
     p->f12 = v;
 }
 
-u16 func_0200CA8C(struct Blk37 *p)
+u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *p)
 {
     return p->f12;
 }

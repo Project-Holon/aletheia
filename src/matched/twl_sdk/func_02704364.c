@@ -13,12 +13,12 @@
  *   DAT_02734450  0x02734450  data twl
  *   DAT_0273446c  0x0273446c  data twl
  *   DAT_0273448c  0x0273448c  data twl
- *   func_02004490  0x02004490  thumb
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
+ *   SVC_WaitByLoop  0x02004490  thumb
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
  *   PXI_Init  0x02088498  arm twl
  *   func_020885A0  0x020885A0  arm twl
- *   func_020885EC  0x020885EC  arm twl
+ *   PXI_IsCallbackReady  0x020885EC  arm twl
  *   func_0208C848  0x0208C848  arm twl
  *   CommonCallback  0x027049B0  arm twl
  *   SetSndexWork  0x02704D48  arm twl
@@ -60,12 +60,12 @@ typedef struct {
 extern State DAT_02734450;
 extern u32 DAT_0273446c[];
 extern u32 DAT_0273448c[];
-extern void func_02004490(u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern void SVC_WaitByLoop(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
 extern void func_020885A0(u32, void (*)(u32, u32, u32));
-extern u32 func_020885EC(u32, u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_0208C848(u32 *, u32);
 void CommonCallback(u32 a0, u32 a1, u32 a2);
 void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
@@ -73,17 +73,17 @@ extern void SndexSleepAndExitCallback(void);
 extern void PMi_InsertPostExitCallbackEx(u32 *, u32);
 
 void SNDEXi_Init(void) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     if (DAT_02734450.state != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return;
     }
     DAT_02734450.state = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     SetSndexWork(0, 0, 0, 0);
     PXI_Init();
-    while (func_020885EC(0x18, 1) == 0) {
-        func_02004490(10);
+    while (PXI_IsCallbackReady(0x18, 1) == 0) {
+        SVC_WaitByLoop(10);
     }
     func_020885A0(0x18, (void (*)(u32, u32, u32))CommonCallback);
     DAT_02734450.f1c = SndexSleepAndExitCallback;

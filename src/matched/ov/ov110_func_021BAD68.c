@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD68
+ * function: PMS_INPUT_VIEW_PrintHelpMessage
  * address: 0x021BAD68
  * packet: pkt_ov110_021BAD68
  * region: ov110
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021C3744 0x021C3744 data ov110 a4
+ *   gPmsInputHelpMessageIds 0x021C3744 data ov110 a4
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045B38 0x02045B38 arm
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 values[6]; } Table;
-extern const Table d_021C3744;
+extern const Table gPmsInputHelpMessageIds;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
@@ -39,11 +39,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021BAD68(u8 *p,int index) {
+void PMS_INPUT_VIEW_PrintHelpMessage(u8 *p,int index) {
     Table table;
     void *bank,*str;
     u8 *q;
-    table=d_021C3744;
+    table=gPmsInputHelpMessageIds;
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj22347 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f6C),7);
     bank=func_02045B38(0,2,146,42);
     str=func_02045EC0(bank,table.values[index]);

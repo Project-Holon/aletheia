@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_0207E51C 0x0207E51C arm
+ * GX_LoadOBJPltt 0x0207E51C arm
  * d_021E1AEE 0x021E1AEE data a1
  * d_021E1AEF 0x021E1AEF data a1
  *
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 struct State { u32 enable; u32 index; int counter; u32 spare; u8 *object; };
 extern const u8 d_021E1AEE[];
 extern const u8 d_021E1AEF[];
-extern void func_0207E51C(void *, int, int);
+extern void GX_LoadOBJPltt(void *, int, int);
 #pragma opt_propagation off
 void func_021DD14C(void *unused, u8 *p)
 {
@@ -40,7 +40,7 @@ void func_021DD14C(void *unused, u8 *p)
             v->index = i + 1;
             v->counter = 0;
             if (d_021E1AEF[v->index * 2] == 255) v->index = 0;
-            func_0207E51C(*(u8 **)(v->object + 12) + (d_021E1AEF[v->index * 2] << 5), 0, 32);
+            GX_LoadOBJPltt(*(u8 **)(v->object + 12) + (d_021E1AEF[v->index * 2] << 5), 0, 32);
             return;
         }
         *(u32 *)(p + 32) += 1;

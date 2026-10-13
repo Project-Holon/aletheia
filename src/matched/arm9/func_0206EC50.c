@@ -1,5 +1,5 @@
 /*
- * function: func_0206EC50
+ * function: NNSi_G3dGetNodeScaleFromMdl
  * address:  0x0206EC50
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148DB0      0x02148DB0  data
+ *   gCurrentRS      0x02148DB0  data
  *
  * Resolves the current node through the global stash at 0x02148DB0 (root ->
  * bank at +0xD4, bank -> entry through the halfword-indexed table at
  * bank+6, entry -> node by the relative offset at entry+0), skips the node's
  * optional header blocks by its flag bits, and hands the payload to the
- * root's hook at +0xE8.  func_0206EE60 calls it for the third flag group.
+ * root's hook at +0xE8.  NNSi_G3dAnmCalcJntAnmNode calls it for the third flag group.
  *
  * Closing levers over the 23-30 byte register residue recorded in
  * docs/notes/pkt_0206EB00.c.txt (which no respelling of a flat goto body
@@ -29,7 +29,7 @@
  *   - the hook takes FOUR arguments, (arg, payload, root->h, flags): the
  *     image loads root->h into r2 at 0x0206EC5C and never writes r2 again,
  *     and the flag word stays in r3 up to the `blx`.  The same four-argument
- *     hook, with root->h as its third argument, is what func_0206EE60 calls
+ *     hook, with root->h as its third argument, is what NNSi_G3dAnmCalcJntAnmNode calls
  *     at its emit tail.  A three-argument call is 21 bytes out.
  *
  * Front end: filed under the packet's ../2.0/sp2 unit pin.  With the inline
@@ -38,8 +38,8 @@
  * attributed to the front end is what the nested inline produces under both.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206EC50.c \
- *       --func func_0206EC50 --addr 0x0206EC50 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dGetNodeScaleFromMdl.c \
+ *       --func NNSi_G3dGetNodeScaleFromMdl --addr 0x0206EC50 --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj16624.h"
 #include "../include/G_Root.h"
@@ -52,7 +52,7 @@ typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
 typedef struct Root Root;
 typedef struct { u32 rel00; } Ent;
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 
 static inline u8 *entry_of(Bank *b, u32 idx)
 {
@@ -75,9 +75,9 @@ static inline u8 *resolve(Bank *b, u32 idx)
     return 0;
 }
 
-void func_0206EC50(void *arg)
+void NNSi_G3dGetNodeScaleFromMdl(void *arg)
 {
-    Root *r = g_02148DB0;
+    Root *r = gCurrentRS;
     Hdr *h = r->h;
     u8 *p;
     u32 f;

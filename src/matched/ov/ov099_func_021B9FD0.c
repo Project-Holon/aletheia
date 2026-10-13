@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FD0
+ * function: WIFICLUBACTOR_HideMarkerActor
  * address:  0x021B9FD0
  * packet:   pkt_ov099_021B9FD0
  * region:   ov099
@@ -20,7 +20,7 @@
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 
-void func_021B9FD0(void *p)
+void WIFICLUBACTOR_HideMarkerActor(void *p)
 {
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj22013 *)p)->f2C, 0);
 }

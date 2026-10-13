@@ -12,15 +12,15 @@
  * sdk:      DWCi_Auth_Thread (libdwcauth.TWL.HYB.a dwc_auth.o)
  *
  * symbols:
- *   func_0208574C  0x0208574C  arm
- *   func_02085710  0x02085710  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
+ *   OS_JoinThread  0x02085710  arm
  *   func_02178C48  0x02178C48  arm  ov009
  *   func_02178678  0x02178678  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   func_02086028  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  *   func_02179CF4  0x02179CF4  arm  ov009
  *   func_021782B4  0x021782B4  arm  ov009
  *   g_021AB184     0x021AB184  data ov009
@@ -52,14 +52,14 @@ typedef struct DWCAuth {
 
 typedef struct DWCWFCUtil DWCWFCUtil;
 
-extern int func_0208574C(void *thread);
-extern void func_02085710(void *thread);
+extern int OS_IsThreadTerminated(void *thread);
+extern void OS_JoinThread(void *thread);
 extern void func_02178C48(int error);
 extern int func_02178678(void);
 extern unsigned long long func_020870D0(void);
 extern void func_02086028(OSMutex *mutex);
 extern void func_02086078(OSMutex *mutex);
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 extern void func_02179CF4(char *http);
 extern int func_021782B4(int getwifiinfofromflash);
 
@@ -74,8 +74,8 @@ void func_021783BC(void)
 
     for (;;) {
         if (((DWCAuth *)g_021AB184.auth)->http->thread_started != 0
-            && !func_0208574C(((DWCAuth *)g_021AB184.auth)->http->thread))
-            func_02085710(((DWCAuth *)g_021AB184.auth)->http->thread);
+            && !OS_IsThreadTerminated(((DWCAuth *)g_021AB184.auth)->http->thread))
+            OS_JoinThread(((DWCAuth *)g_021AB184.auth)->http->thread);
 
         if (((DWCAuth *)g_021AB184.auth)->http->state != 8) {
             ((DWCAuth *)g_021AB184.auth)->error = 20100;
@@ -132,7 +132,7 @@ void func_021783BC(void)
                 return;
             }
             func_02086078(&((DWCAuth *)g_021AB184.auth)->mutex);
-            func_02085A38(5000);
+            OS_Sleep(5000);
         }
 
         func_02179CF4((char *)((DWCAuth *)g_021AB184.auth)->http);

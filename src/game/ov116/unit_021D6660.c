@@ -37,7 +37,7 @@
  *   func_021D7B00 0x021D7B00 thumb ov116
  *   func_021D7B64 0x021D7B64 thumb ov116
  *   func_021D7CF4 0x021D7CF4 thumb ov116
- *   func_021C8FA8 0x021C8FA8 arm ov114
+ *   DPW_BT_Main 0x021C8FA8 arm ov114
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   func_021D730C 0x021D730C thumb ov116
@@ -46,8 +46,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_021C941C 0x021C941C arm ov114
- *   func_021C94A0 0x021C94A0 arm ov114
+ *   DPW_BT_GetRoomNumAsync 0x021C941C arm ov114
+ *   DPW_BT_DownloadPlayerAsync 0x021C94A0 arm ov114
  *   func_02025C1C 0x02025C1C thumb
  *   func_02025C30 0x02025C30 thumb
  *   func_02025CB0 0x02025CB0 thumb
@@ -69,14 +69,14 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   func_021B9B00 0x021B9B00 thumb ov114
- *   func_021C9744 0x021C9744 arm ov114
+ *   NHTTP_RAP_InitTrainerInfo 0x021B9B00 thumb ov114
+ *   DPW_BT_SetProfileAsync 0x021C9744 arm ov114
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
  *   func_0201283C 0x0201283C thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   func_020084F4 0x020084F4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_02008530 0x02008530 thumb
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
@@ -87,29 +87,29 @@
  *   func_0200E6FC 0x0200E6FC thumb
  *   func_0200DCF8 0x0200DCF8 thumb
  *   func_0200DC74 0x0200DC74 thumb
- *   func_021B9774 0x021B9774 thumb ov114
- *   func_021B9800 0x021B9800 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
- *   func_021B98A0 0x021B98A0 thumb ov114
- *   func_021B98D8 0x021B98D8 thumb ov114
- *   func_021B98F8 0x021B98F8 thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B99B8 0x021B99B8 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_021B99F0 0x021B99F0 thumb ov114
- *   func_021B9A14 0x021B9A14 thumb ov114
- *   func_021B99F4 0x021B99F4 thumb ov114
+ *   NHTTP_RAP_AllocPostData 0x021B98A0 thumb ov114
+ *   NHTTP_RAP_AppendPostData 0x021B98D8 thumb ov114
+ *   NHTTP_RAP_CreatePostRequest 0x021B98F8 thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
+ *   NHTTP_RAP_RecordList_GetRecord 0x021B9A14 thumb ov114
+ *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
  *   D_020A7370 0x020A7370 data a4
  *   MSGDATA_ReadUnits 0x02045F5C arm
- *   func_021C9530 0x021C9530 arm ov114
+ *   DPW_BT_UploadPlayerAsync 0x021C9530 arm ov114
  *   func_0200DE94 0x0200DE94 thumb
  *   BSUBWAY_SAVEDATA_GetTrainersTagB 0x0200DEA0 thumb
- *   func_021C93D0 0x021C93D0 arm ov114
- *   func_021C940C 0x021C940C arm ov114
- *   func_021C9634 0x021C9634 arm ov114
+ *   DPW_BT_IsAsyncEnd 0x021C93D0 arm ov114
+ *   DPW_BT_GetAsyncResult 0x021C940C arm ov114
+ *   DPW_BT_CancelAsync 0x021C9634 arm ov114
  *   GFL_NET_ERR_ShowScreen 0x0200F7B8 thumb
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   CODEIN_PARAM_Create 0x0202E4EC thumb
@@ -236,7 +236,7 @@ extern void func_021D6CBC(u8 *,void *,u8 *),func_021D7AA8(u8 *),func_021D7C58(u8
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int func_021D7B00(u8 *);
 extern int func_021D7B64(u8 *);
-extern void func_021D7038(u8 *),func_021C8FA8(void),func_021D7CF4(u8 *);
+extern void func_021D7038(u8 *),DPW_BT_Main(void),func_021D7CF4(u8 *);
 extern void func_021D730C(u8 *p);
 extern void func_021D73D0(void *);
 extern void func_021D7420(void *);
@@ -246,8 +246,8 @@ extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);
 extern int FADE_IsActive(void);
-extern void func_021C941C(unsigned x);
-extern void func_021C94A0(unsigned x, unsigned y, unsigned z);
+extern void DPW_BT_GetRoomNumAsync(unsigned x);
+extern void DPW_BT_DownloadPlayerAsync(unsigned x, unsigned y, unsigned z);
 extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
 extern u32 func_02025CB0(u32);
@@ -270,12 +270,12 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
-extern void func_021B9B00(u8 *,int);
-extern void func_021C9744(unsigned char *p, unsigned x);
+extern void NHTTP_RAP_InitTrainerInfo(u8 *,int);
+extern void DPW_BT_SetProfileAsync(unsigned char *p, unsigned x);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6F0(u32);
 extern const void *func_020084F4(const void *p);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -284,30 +284,30 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u16 func_0200DCF8(struct Blk1AC *p);
 extern void func_0200DC74(struct Blk1AC *p, u32 which, void *dest);
-extern void func_021B9774(unsigned char *);
+extern void NHTTP_RAP_DeleteConnection(unsigned char *);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern u8 *func_021B9800(int,int,int);
+extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void DWC_RAP_SetErrorCallback(int a0, int a1);
-extern void func_021B98A0(u8 *,int,int,int);
-extern void func_021B98D8(u8 *p, int a, int n);
-extern int func_021B98F8(u8 *p);
-extern int func_021B9748(u8 *);
-extern int func_021B99DC(u8 *);
-extern int func_021B9790(u8 *);
-extern void func_021B99B8(u8 *);
-extern void func_021B9838(u8 *);
-extern u8 *func_021B97F4(u8 *);
-extern int func_021B99F0(u8 *p);
-extern u8 *func_021B9A14(u8 *p, u32 i);
-extern u32 func_021B99F4(u32 p, u32 i);
+extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
+extern void NHTTP_RAP_AppendPostData(u8 *p, int a, int n);
+extern int NHTTP_RAP_CreatePostRequest(u8 *p);
+extern int NHTTP_RAP_StartConnection(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
 extern void MSGDATA_ReadUnits(struct MsgData *,unsigned int,unsigned short *,unsigned int);
 extern u8 func_0200DE94(struct RecSlot *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct RecSlot *p);
 extern u8 func_0200DCFC(struct Blk1AC *p);
-extern void func_021C9530(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
-extern int func_021C93D0(void);
-extern int func_021C940C(void);
-extern void func_021C9634(void);
+extern void DPW_BT_UploadPlayerAsync(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
+extern int DPW_BT_IsAsyncEnd(void);
+extern int DPW_BT_GetAsyncResult(void);
+extern void DPW_BT_CancelAsync(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
@@ -411,7 +411,7 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 20: if(func_021D7B00(p)!=0) *state=21; else *state=14; func_021D7038(p+0x1610); break;
     case 21: if(func_021D7B64(p)!=0) *state=14; break;
     }
-    if(((struct Obj00671 *)p)->fB68!=0) func_021C8FA8();
+    if(((struct Obj00671 *)p)->fB68!=0) DPW_BT_Main();
     func_021D7CF4(p+4);
     return 0;
 }
@@ -438,11 +438,11 @@ void func_021D6998(void *a) { MI_CpuFill8(a,0,0xa9c); }
 /*
  * Two bytes zero alignment padding follow the compiled function.
  */
-void func_021D69A8(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj22615 *)a)->f8=c; func_021C941C((unsigned char)c); func_021D70E4(b); }
+void func_021D69A8(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj22615 *)a)->f8=c; DPW_BT_GetRoomNumAsync((unsigned char)c); func_021D70E4(b); }
 
 int func_021D69C0(unsigned char *a,unsigned char *b) { int result; if(func_021D70EC(b,&result) && func_021D7158(b)==0) { ((struct Obj13859 *)a)->fC=result; ((struct Obj13859 *)a)->f0=1; return 1; } return 0; }
 
-void func_021D69EC(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj10337 *)a)->fA=c; func_021C94A0((unsigned char)(((struct Obj10337 *)a)->f8),(unsigned char)(((struct Obj10337 *)a)->fA),(unsigned int)(a+14)); func_021D70E4(b); }
+void func_021D69EC(unsigned char *a,unsigned char *b,unsigned short c) { ((struct Obj10337 *)a)->fA=c; DPW_BT_DownloadPlayerAsync((unsigned char)(((struct Obj10337 *)a)->f8),(unsigned char)(((struct Obj10337 *)a)->fA),(unsigned int)(a+14)); func_021D70E4(b); }
 
 /*
  * Remaining extent: existing matched accessor files at 021D6A40 and 021D6A44.
@@ -554,8 +554,8 @@ void func_021D6CBC(u8 *p,void *q,u8 *r) {
     a = (int)GAME_DATA_GetSaveBlock3B(q);
     b = (int)GAME_DATA_GetSaveBlock3A(q);
     c = *(int *)(p+0x218);
-    func_021B9B00(p+4,c);
-    func_021C9744(p+4,(unsigned int)(p+0x68));
+    NHTTP_RAP_InitTrainerInfo(p+4,c);
+    DPW_BT_SetProfileAsync(p+4,(unsigned int)(p+0x68));
     func_021D70E4(r);
     func_021D6D40(p+0x70,q,(void *)c);
     *(int *)(p+0x160)=a;
@@ -589,7 +589,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     MI_CpuFill8(p, 0, 240);
-    func_02082D44(func_020084F4(idx), p + 0xb4, 16);
+    MI_CpuCopy8(func_020084F4(idx), p + 0xb4, 16);
     *(u32 *)(p + 0xc8) = func_02008530(idx);
     p[0xc4] = GAME_VERSION_Code;
     p[0xc5] = GAME_LANGUAGE_Code;
@@ -604,16 +604,16 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     func_0200DC74(n, 1, p);
 }
 
-void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) func_021B9774(((struct Obj13863 *)a)->f168); }
+void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) NHTTP_RAP_DeleteConnection(((struct Obj13863 *)a)->f168); }
 
 void func_021D6E50(u8 *p,u8 *q,int a,int b) {
-    *(u8 * *)&((struct Obj04470 *)p)->f168=func_021B9800(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
+    *(u8 * *)&((struct Obj04470 *)p)->f168=NHTTP_RAP_Create(b,func_0200853C(((struct Obj04470 *)p)->f218),a);
     DWC_RAP_SetErrorCallback((int)func_021D6E3C,(int)p);
-    func_021B98A0(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
-    func_021B98D8(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
+    NHTTP_RAP_AllocPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,b,180,4);
+    NHTTP_RAP_AppendPostData(*(u8 * *)&((struct Obj04470 *)p)->f168,(int)(p+0x70),180);
     ((struct Obj04470 *)p)->f16C=3;
-    func_021B98F8(*(u8 * *)&((struct Obj04470 *)p)->f168);
-    func_021B9748(*(u8 * *)&((struct Obj04470 *)p)->f168);
+    NHTTP_RAP_CreatePostRequest(*(u8 * *)&((struct Obj04470 *)p)->f168);
+    NHTTP_RAP_StartConnection(*(u8 * *)&((struct Obj04470 *)p)->f168);
     func_021D7258(q);
 }
 
@@ -628,13 +628,13 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
     int result = 0;
     int code, status, all, i;
     u8 *x;
-    code = func_021B99DC(*(u8 * *)&((struct Obj01925 *)p)->f168);
-    status = func_021B9790(*(u8 * *)&((struct Obj01925 *)p)->f168);
+    code = NHTTP_RAP_GetResultCode(*(u8 * *)&((struct Obj01925 *)p)->f168);
+    status = NHTTP_RAP_PollConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
     if (code != 200 && status == 0) {
         func_021D7250(q, code);
-        func_021B9774(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         DWC_RAP_SetErrorCallback(0, 0);
         return 2;
@@ -642,12 +642,12 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
     if (status != 0) {
         func_021D7260(q);
     } else {
-        x = func_021B97F4(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        if (func_021B99F0(x) == 0) {
+        x = NHTTP_RAP_GetRecvBuffer(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        if (NHTTP_RAP_RecordList_GetCount(x) == 0) {
             all = 1;
-            func_02082D44(func_021B9A14(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
+            MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
             for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (func_021B99F4((u32)x, i) != 0) {
+                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) {
                     all = 0;
                     if (flag != 0) func_021D724C(q, 1);
                     else func_021D7010((unsigned int)p, i);
@@ -659,11 +659,11 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
             if (flag != 0) func_021D724C(q, 2);
             result = 2;
             for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (func_021B99F4((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
+                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
             }
         }
-        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         DWC_RAP_SetErrorCallback(0, 0);
     }
@@ -676,8 +676,8 @@ void func_021D7038(u8 *p)
 {
     if (*(u8 * *)&((struct Obj08046 *)p)->f168) {
         DWC_RAP_SetErrorCallback(0, 0);
-        func_021B99B8(*(u8 * *)&((struct Obj08046 *)p)->f168);
-        func_021B9838(*(u8 * *)&((struct Obj08046 *)p)->f168);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj08046 *)p)->f168);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj08046 *)p)->f168);
         *(u8 * *)&((struct Obj08046 *)p)->f168 = 0;
     }
 }
@@ -687,7 +687,7 @@ void func_021D7060(u8 *p, u8 *q) {
     a = func_0200DE94(((struct Obj10339 *)p)->f160);
     b = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct Obj10339 *)p)->f160);
     c = func_0200DCFC(((struct Obj10339 *)p)->f164);
-    func_021C9530((u8)a,(u8)b,(u8)c,p+0x70,p+0x16e,(int)0x80);
+    DPW_BT_UploadPlayerAsync((u8)a,(u8)b,(u8)c,p+0x70,p+0x16e,(int)0x80);
     func_021D70E4(q);
 }
 
@@ -709,19 +709,19 @@ void func_021D70E4(u8 *p) { ((struct Obj13864 *)p)->f8 = 0; ((struct Obj13864 *)
  * No overlay leaves filed because the SDK blocker persists; parent requested park.
  * ISA evidence: show --region ov114 --arm reads state at 0x021D4084;
  * overlapping ov021 0x021C93D0 is different Thumb code.
- * 2026-10-05 (wD8 lane09): re-run, still MATCH. Open relocations: func_021C93D0 and func_021C940C (ov114
+ * 2026-10-05 (wD8 lane09): re-run, still MATCH. Open relocations: DPW_BT_IsAsyncEnd and DPW_BT_GetAsyncResult (ov114
  *   ARM, SDK-side, no witness). Nothing source-side to change.
  */
 int func_021D70EC(u8 *p,int *q) {
     int done=0;
-    if(func_021C93D0()==0) {
+    if(DPW_BT_IsAsyncEnd()==0) {
         (*(s16 *)(p+10))++;
         if(*(s16 *)(p+10)==3600) {
-            func_021C9634();
+            DPW_BT_CancelAsync();
             *(s16 *)(p+8)=1;
         }
     } else {
-        int result=func_021C940C();
+        int result=DPW_BT_GetAsyncResult();
         done=1;
         switch(result) {
         case -7: case -6: case -4: case -3: case -2: case -1:

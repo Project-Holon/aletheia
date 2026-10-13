@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   gVctWork 0x021B3C80 data ov013 a4
- *   func_02073A60 0x02073A60 arm
+ *   NNS_SndStrmStart 0x02073A60 arm
  */
 
 #include "../include/G_Work.h"
@@ -18,5 +18,5 @@
 typedef unsigned char u8;
 extern struct Work *gVctWork;
 struct A;
-extern void func_02073A60(struct A *);
-void VCT_MAIN_StartStream(void) { func_02073A60((struct A *)(((u8 *)gVctWork) + 0x19B8)); }
+extern void NNS_SndStrmStart(struct A *);
+void VCT_MAIN_StartStream(void) { NNS_SndStrmStart((struct A *)(((u8 *)gVctWork) + 0x19B8)); }

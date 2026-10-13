@@ -14,7 +14,7 @@
  *           field access, the other is the HEAPlFree argument.  That is two extern
  *           names for one address (docs/idioms/a-duplicated-pool-word-is-a-second-
  *           extern-name-for-the-same-address.md): the free call names `MemMovFree`,
- *           declared at the same address, and the field accesses keep g_021DE590.
+ *           declared at the same address, and the field accesses keep gMoveWork.
  *
  * sdk:      taskFramework (libdwcutil.TWL.HYB.a(move.o))
  *
@@ -25,7 +25,7 @@
  *   MIi_CpuCopy16      0x02082A60  arm
  *   DWCi_TSKlDelete    0x021D7724  arm  ov016
  *   DWCi_HEAPlFree_    0x021D6438  arm  ov016
- *   g_021DE590         0x021DE590  data
+ *   gMoveWork         0x021DE590  data
  *   MemMovFree         0x021DE590  data
  */
 extern void DWCi_MOVFramework(void);
@@ -34,7 +34,7 @@ extern void *DWCi_GetChildInfo(void);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
-extern unsigned char *g_021DE590;
+extern unsigned char *gMoveWork;
 extern void *MemMovFree;
 
 void taskFramework(void *task)
@@ -45,9 +45,9 @@ void taskFramework(void *task)
 	void *p;
 
 	DWCi_MOVFramework();
-	if (g_021DE590[0x1e2a0] != 0) {
-		if (g_021DE590[0x1e2a1] == 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+	if (gMoveWork[0x1e2a0] != 0) {
+		if (gMoveWork[0x1e2a1] == 0) {
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func != 0)
 				func(0);
 			return;
@@ -64,13 +64,13 @@ void taskFramework(void *task)
 		if (change != 0) {
 			char *dst;
 			void *src;
-			p = g_021DE590 + 0x2280;
+			p = gMoveWork + 0x2280;
 			dst = (char *)p + 0x1c000;
 			src = DWCi_GetChildInfo();
 			MIi_CpuCopy16(src, dst, 0x16);
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
+				gMoveWork[0x1e2a0] = 1;
 				return;
 			}
 			func(0);
@@ -78,9 +78,9 @@ void taskFramework(void *task)
 		break;
 	case 13:
 		if (change != 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
+				gMoveWork[0x1e2a0] = 1;
 				return;
 			}
 			func(1);
@@ -89,9 +89,9 @@ void taskFramework(void *task)
 	case 20:
 	case 23:
 		if (change != 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
+				gMoveWork[0x1e2a0] = 1;
 				return;
 			}
 			func(3);
@@ -100,9 +100,9 @@ void taskFramework(void *task)
 	case 26:
 	case 29:
 		if (change != 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
+				gMoveWork[0x1e2a0] = 1;
 				return;
 			}
 			func(4);
@@ -110,9 +110,9 @@ void taskFramework(void *task)
 		break;
 	case 12:
 		if (change != 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			func = *(void (**)(int))(gMoveWork + 0x1e298);
 			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
+				gMoveWork[0x1e2a0] = 1;
 				return;
 			}
 			func(2);

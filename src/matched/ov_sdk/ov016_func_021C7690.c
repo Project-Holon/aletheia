@@ -12,9 +12,9 @@
  * sdk:      isOver (libdwcutil.TWL.HYB.a sceneseteditaddress.o)
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020964E0  0x020964E0  arm
- *   g_021DE5E4     0x021DE5E4  data
+ *   gMemSsea     0x021DE5E4  data
  */
 
 typedef struct MemSsea {
@@ -23,10 +23,10 @@ typedef struct MemSsea {
     unsigned char pos;
 } MemSsea;
 
-extern void func_02082D44();
+extern void MI_CpuCopy8();
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
-extern MemSsea *g_021DE5E4;
+extern MemSsea *gMemSsea;
 
 int func_021C7690(int val)
 {
@@ -35,10 +35,10 @@ int func_021C7690(int val)
     int v;
     int i;
 
-    c = g_021DE5E4->text[g_021DE5E4->pos];
+    c = gMemSsea->text[gMemSsea->pos];
     if (*c != 0 && *c != ' ')
         return 1;
-    func_02082D44(c, buf, 3);
+    MI_CpuCopy8(c, buf, 3);
     buf[3] = 0;
     for (i = 0; i < 3; i++) {
         if (buf[i] != 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_021891E4
+ * function: TR_AI_CmdIfNotKnowsMove
  * address: 0x021891E4
  * packet: pkt_ov096_021891E4
  * region: ov096
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021891F4 0x021891F4 thumb ov096
+ *   TR_AI_CompareKnowsMove 0x021891F4 thumb ov096
  */
 #include "../include/Obj21958.h"
 typedef struct Obj Obj;
-extern int func_021891F4(int, Obj *, int);
-int func_021891E4(int a, Obj * b)
+extern int TR_AI_CompareKnowsMove(int, Obj *, int);
+int TR_AI_CmdIfNotKnowsMove(int a, Obj * b)
 {
-    func_021891F4(a, b, 3);
+    TR_AI_CompareKnowsMove(a, b, 3);
     return ((struct Obj21958 *)((unsigned int)b))->fC4;
 }

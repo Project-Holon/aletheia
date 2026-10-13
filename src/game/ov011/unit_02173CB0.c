@@ -27,7 +27,7 @@
  *   INTRUDE_COMM_StoreSessionEntry  0x02175938  thumb ov011
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  *   INTRUDE_COMM_ReceiveJoinRequest  0x02176048  thumb ov011
  *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
@@ -84,7 +84,7 @@ int GFL_NET_SendToHandle(NetHandle *handle, u32 command, u32 size, void *data);
 void INTRUDE_COMM_StoreSessionEntry(IntrudeSession *session, const u16 *profile, int memberId);
 u32 GFL_NET_GetHandleNetID(NetHandle *handle);
 void *GAME_DATA_GetBattleRecSlot(void *saveData, u32 slot);
-void func_02082D44(void *src, void *dst, int size);
+void MI_CpuCopy8(void *src, void *dst, int size);
 u32 GFL_NET_SendData(NetHandle *handle, unsigned char sendId, u32 command, u32 size, void *data, u32 f, u32 g, u32 h);
 int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, void *request, int netId);
 void GFL_NET_NotifyUserEvent(NetHandle *handle, void *arg);
@@ -188,7 +188,7 @@ void INTRUDE_CMD_RecvMemberEntry(int netId, int size, IntrudeMemberEntry *entry,
     memberId = entry->member.netId;
     INTRUDE_COMM_StoreSessionEntry(&w->session, entry->name.chars, memberId);
     if (memberId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
-        func_02082D44(entry, GAME_DATA_GetBattleRecSlot(saveData, memberId), 0x10);
+        MI_CpuCopy8(entry, GAME_DATA_GetBattleRecSlot(saveData, memberId), 0x10);
     }
 }
 
@@ -255,7 +255,7 @@ int INTRUDE_CMD_SendGroupRecord(IntrudeCommSys *w, IntrudeSession *session)
     if (GFL_NET_IsSendQueueEntryOfHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x212) == 1) {
         return 0;
     }
-    func_02082D44(&session->request, &w->recordCopy, 0x34);
+    MI_CpuCopy8(&session->request, &w->recordCopy, 0x34);
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, 0x212, 0x34, &w->recordCopy, 0, 0, 1);
 }
 
@@ -407,7 +407,7 @@ int INTRUDE_CMD_SendResultRecord(IntrudeCommSys *w, IntrudeSession *session)
     if (GFL_NET_IsSendQueueEntryOfHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x218) == 1) {
         return 0;
     }
-    func_02082D44(&session->result, &w->resultCopy, 0x3c);
+    MI_CpuCopy8(&session->result, &w->resultCopy, 0x3c);
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x218, 0x3c, &w->resultCopy, 0, 0, 1);
 }
 
@@ -459,7 +459,7 @@ void INTRUDE_CMD_RecvProfile(int netId, int size, void *profile, IntrudeCommSys 
 
     saveData = GAME_COMM_GetGameData(w->gameComm);
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && (w->peerMask & (1 << netId))) {
-        func_02082D44(profile, GAME_DATA_GetBattleRecSlot(saveData, netId), 0x10);
+        MI_CpuCopy8(profile, GAME_DATA_GetBattleRecSlot(saveData, netId), 0x10);
         if (netId == w->localPeer.intrudeId) {
             w->profileUpdated = 1;
         }
@@ -479,5 +479,5 @@ int INTRUDE_CMD_SendProfile(IntrudeCommSys *w)
 
 void INTRUDE_CMD_RecvTallyWord(int netId, int size, void *data, IntrudeCommSys *w)
 {
-    func_02082D44(data, &w->partnerTally, 4);
+    MI_CpuCopy8(data, &w->partnerTally, 4);
 }

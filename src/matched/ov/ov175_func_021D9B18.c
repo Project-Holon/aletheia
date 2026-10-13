@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  * leaf: copy128 bytes from response+0x1c to save+0x54.
  */
-extern void func_02082D44(const void *, void *, int);
+extern void MI_CpuCopy8(const void *, void *, int);
 void func_021D9B18(char *save, char *response)
 {
-    func_02082D44(response + 0x1c, save + 0x54, 128);
+    MI_CpuCopy8(response + 0x1c, save + 0x54, 128);
 }

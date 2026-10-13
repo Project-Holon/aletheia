@@ -16,9 +16,9 @@
  *   memset  0x020923B0  arm
  *   func_021B9F5C  0x021B9F5C  thumb  ov016
  *   func_021BC5D4  0x021BC5D4  thumb  ov016
- *   g_021DD224  0x021DD224  data
+ *   gAtermsetBlock4  0x021DD224  data
  *   g_021DD324  0x021DD324  data
- *   g_021DD350  0x021DD350  data
+ *   gAtermsetBlock6  0x021DD350  data
  *   g_021DD388  0x021DD388  data
  *   g_021DD420  0x021DD420  data
  */
@@ -42,14 +42,14 @@ typedef struct {
 extern struct {
     char pad[0x15c];
     WepEntry wep[4];
-} g_021DD224;
+} gAtermsetBlock4;
 extern struct { int w[8]; } g_021DD324;
 extern struct {
     int type;
     int defkey;
     char pad[0x28];
     int f30;
-} g_021DD350;
+} gAtermsetBlock6;
 extern char g_021DD388[4][0x28];
 extern struct { int w[18]; } g_021DD420;
 
@@ -78,31 +78,31 @@ int func_021BA3F4(u8 *lpelement)
             retv = 1;
             break;
         case 0x202:
-            g_021DD350.type = SWAP16(*(u16 *)lpw);
+            gAtermsetBlock6.type = SWAP16(*(u16 *)lpw);
             break;
         case 0x203:
             {
                 u16 v = SWAP16(*(u16 *)lpw);
                 for (i = 0; i < 4; i++)
-                    g_021DD224.wep[i].keyType = v;
+                    gAtermsetBlock4.wep[i].keyType = v;
             }
             break;
         case 0x204:
             {
                 u16 v = SWAP16(*(u16 *)lpw);
                 for (i = 0; i < 4; i++)
-                    g_021DD224.wep[i].keyLen = v;
+                    gAtermsetBlock4.wep[i].keyLen = v;
             }
             break;
         case 0x205:
-            g_021DD350.defkey = SWAP16(*(u16 *)lpw);
+            gAtermsetBlock6.defkey = SWAP16(*(u16 *)lpw);
             break;
         case 0x206:
         case 0x207:
         case 0x208:
         case 0x209:
             memset(g_021DD388[eid - 0x206], 0, 32);
-            if (g_021DD350.f30 == 1) {
+            if (gAtermsetBlock6.f30 == 1) {
                 wp = g_021DD388[eid - 0x206];
                 for (i = 0; i < esize; i++)
                     wp += func_021BC5D4(wp, *(char *)lpw++);

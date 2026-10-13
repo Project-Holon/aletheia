@@ -11,8 +11,8 @@
  *
  * symbols:
  *   DAT_02734450  0x02734450  data twl
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
  */
 
 typedef unsigned int u32;
@@ -47,24 +47,24 @@ typedef struct {
 } State;
 
 extern State DAT_02734450;
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 
 u32 CheckState(void) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     switch (DAT_02734450.state) {
     case 0:
     case 1:
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 1;
     case 3:
     case 4:
     case 5:
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 3;
     default:
         DAT_02734450.state = 3;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 0;
     }
 }

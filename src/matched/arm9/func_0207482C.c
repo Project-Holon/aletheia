@@ -1,5 +1,5 @@
 /*
- * function: func_0207482C
+ * function: NNS_SndHeapAlloc
  * address:  0x0207482C
  * packet:   pkt_02074770
  * region:   arm9
@@ -18,7 +18,7 @@ extern unsigned int func_02061124(char *p, int n, int v);
 extern void *func_0206062C(struct DList *list, void *elem);
 extern void func_020604AC(u32, u32);
 
-u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e) {
+u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e) {
     u32 t;
     u32 r = func_02061124((char *)(*a), ((b + 0x1f) & ~0x1fu) + 0x20, 0x20);
     if (r == 0) return 0;

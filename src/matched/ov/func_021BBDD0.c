@@ -1,5 +1,5 @@
 /*
- * function: func_021BBDD0
+ * function: WIFICLUB_ShowPartyIconHalf
  * address:  0x021BBDD0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -43,7 +43,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_021BBDD0(void *pv, int flag)
+void WIFICLUB_ShowPartyIconHalf(void *pv, int flag)
 {
     char *s = (char *)pv;
     int i;

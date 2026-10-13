@@ -18,7 +18,7 @@
  *   str_020A78A0            0x020A78A0  data
  *   str_020A78B0            0x020A78B0  data
  *   func_02034714           0x02034714  arm
- *   func_02084EB8           0x02084EB8  arm
+ *   OS_GetLockID           0x02084EB8  arm
  *   func_02075E9C           0x02075E9C  arm
  *   CARDi_RequestStreamCommand 0x02076AC0  arm
  *   CARD_WaitBackupAsync           0x02076B80  arm
@@ -42,7 +42,7 @@ typedef unsigned int   u32;
 extern const u8 str_020A78A0[];
 extern const u8 str_020A78B0[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern int  func_02084EB8(u32 a);
+extern int  OS_GetLockID(u32 a);
 extern void func_02075E9C(u16 a);
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
                                        void *arg, int is_async, int req_type,
@@ -53,7 +53,7 @@ extern void func_02084F10(u16 a);
 
 int FLASH_ACCESS_Read(u32 a0, u32 a1, u32 a2, void (*a3)(void))
 {
-    int id = func_02084EB8(a0);
+    int id = OS_GetLockID(a0);
     int r;
 
     if (id == -3) {

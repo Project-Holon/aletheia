@@ -1,5 +1,5 @@
 /*
- * function: func_021BA36C
+ * function: WIFICLUBACTOR_AnimateBounce
  * address:  0x021BA36C
  * packet:   pkt_ov099_021BA36C
  * region:   ov099
@@ -60,7 +60,7 @@ extern void func_021C5814(void *p, P2 v);
 extern void func_021C5898(void *p, P2 v);
 extern void func_021C5864(u8 *p, int b);
 
-void func_021BA36C(void *w, S *s)
+void WIFICLUBACTOR_AnimateBounce(void *w, S *s)
 {
     P2 pos;
     P2 q;

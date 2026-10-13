@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD24
+ * function: scReportSetPlayerData
  * address:  0x021DFD24
  * packet:   pkt_ov175_021DFD24
  * region:   ov175
@@ -12,10 +12,10 @@
  * sdk:      scReportSetPlayerData (libdwcgssc.TWL.HYB.a(scimain.o))
  *
  * symbols:
- *   func_021DFF78  0x021DFF78  arm  ov175
- *   func_021DFFA0  0x021DFFA0  arm  ov175
- *   func_021DFFC8  0x021DFFC8  arm  ov175
- *   func_021DFFF8  0x021DFFF8  arm  ov175
+ *   sciReportSetPlayerConnectionId  0x021DFF78  arm  ov175
+ *   sciReportSetPlayerTeamIndex  0x021DFFA0  arm  ov175
+ *   sciReportSetPlayerGameResult  0x021DFFC8  arm  ov175
+ *   sciReportReturnZero  0x021DFFF8  arm  ov175
  *
  * Static: walks the report's team-id array for thePlayerTeamId, and on a miss
  * appends it (bailing out with 5 past 64 entries).  It then runs the three
@@ -88,12 +88,12 @@ typedef enum {
     RESULT_BAD = 1
 } TResult;
 
-extern int func_021DFF78(struct SCIReport *report, unsigned int index, unsigned char *connectionId);
-extern int func_021DFFA0(struct SCIReport *report, unsigned int index, unsigned int teamIndex);
-extern int func_021DFFC8(char *obj, int i, int v);
-extern void func_021DFFF8();
+extern int sciReportSetPlayerConnectionId(struct SCIReport *report, unsigned int index, unsigned char *connectionId);
+extern int sciReportSetPlayerTeamIndex(struct SCIReport *report, unsigned int index, unsigned int teamIndex);
+extern int sciReportSetPlayerGameResult(char *obj, int i, int v);
+extern void sciReportReturnZero();
 
-int func_021DFD24(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId,
+int scReportSetPlayerData(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId,
                   unsigned int thePlayerTeamId, int theResult, int unused, void *theCertificate,
                   unsigned char *theAuthHash)
 {
@@ -119,12 +119,12 @@ int func_021DFD24(void *theReport, unsigned int thePlayerIndex, unsigned char *t
         aReport->mTeamIds[n - 1] = thePlayerTeamId;
     }
     if (aResult == RESULT_OK)
-        aResult = func_021DFF78(aReport, thePlayerIndex, thePlayerConnectionId);
+        aResult = sciReportSetPlayerConnectionId(aReport, thePlayerIndex, thePlayerConnectionId);
     if (aResult == RESULT_OK)
-        aResult = func_021DFFA0(aReport, thePlayerIndex, thePlayerTeamId);
+        aResult = sciReportSetPlayerTeamIndex(aReport, thePlayerIndex, thePlayerTeamId);
     if (aResult == RESULT_OK)
-        aResult = func_021DFFC8((char *)aReport, thePlayerIndex, theResult);
+        aResult = sciReportSetPlayerGameResult((char *)aReport, thePlayerIndex, theResult);
     if (aResult != RESULT_OK)
         return aResult;
-    func_021DFFF8(aReport, thePlayerIndex, theCertificate, theAuthHash);
+    sciReportReturnZero(aReport, thePlayerIndex, theCertificate, theAuthHash);
 }

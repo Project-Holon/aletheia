@@ -13,8 +13,8 @@
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
  *   CAMERA_CheckRetryCount  0x027007C8  arm twl a2
- *   func_02087988  0x02087988  arm twl a2
- *   func_0208799C  0x0208799C  arm twl a2
+ *   OS_DisableInterrupts  0x02087988  arm twl a2
+ *   OS_RestoreInterrupts  0x0208799C  arm twl a2
  *   func_020870D0  0x020870D0  arm twl a2
  *   CameraSendPxiCommand  0x027019B4  arm twl a2
  */
@@ -24,8 +24,8 @@ typedef unsigned int u32;
 extern u32 data_02732FC8[];
 extern u32 data_02733FC8[];
 extern u32 CAMERA_CheckRetryCount(void);
-extern void func_02087988(void);
-extern void func_0208799C(void);
+extern void OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(void);
 extern void func_020870D0(void);
 extern u32 CameraSendPxiCommand(u32, u32, u32);
 
@@ -43,12 +43,12 @@ asm void CAMERA_I2CActivateAsyncCore(u32 a0, u32 a1, u32 a2) {
     cmpne r4, #2
     movne r0, #3
     ldmnefd sp!, {r4, r5, r6, r7, r8, pc}
-    bl func_02087988
+    bl OS_DisableInterrupts
     ldr r5, =data_02732FC8
     ldr r1, [r5]
     cmp r1, #0
     beq @lbl_02700D48
-    bl func_0208799C
+    bl OS_RestoreInterrupts
     mov r0, #6
     cmp r6, #6
     movne r0, #2
@@ -56,7 +56,7 @@ asm void CAMERA_I2CActivateAsyncCore(u32 a0, u32 a1, u32 a2) {
 @lbl_02700D48:
     mov r6, #1
     str r6, [r5]
-    bl func_0208799C
+    bl OS_RestoreInterrupts
     str r8, [r5, #4]
     str r7, [r5, #0xc]
     cmp r4, #0

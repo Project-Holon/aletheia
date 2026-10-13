@@ -18,7 +18,7 @@
  *   func_0205A16C  0x0205A16C  arm
  *   func_02094860  0x02094860  arm
  *   func_02094B20  0x02094B20  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0217956C  0x0217956C  arm  ov009
  *   func_02178F4C  0x02178F4C  arm  ov009
  *   func_02179218  0x02179218  arm  ov009
@@ -44,7 +44,7 @@
  *   g_021A2808     0x021A2808  data ov009
  *   g_021A2810     0x021A2810  data ov009
  *   g_02150FEC     0x02150FEC  data
- *   func_0208574C  0x0208574C  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
  *   func_0205BDD0  0x0205BDD0  arm
  *   func_02059F54  0x02059F54  arm
  *   func_0217A484  0x0217A484  arm  ov009
@@ -133,7 +133,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void *func_0205A16C(int name, unsigned long size);
 extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern char *func_02094B20(const char *s1, const char *s2);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
@@ -147,7 +147,7 @@ extern void func_02179718(char *http, unsigned long prio);
 extern void func_02179CF4(char *http);
 extern void *func_0217C050(unsigned long name, long size);
 extern void func_0217C060(unsigned long name, void *ptr, long size);
-extern int func_0208574C(OSThread *thread);
+extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char func_0205BDD0(void);
 extern void func_02059F54(int error, int errorCode);
 extern int func_0217A484(DWCHttp *http, int noparsebody);
@@ -240,7 +240,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     pos = func_02094B20(g_021ACEF0->url, g_021A27D8);
     if (pos == 0)
         goto error;
-    func_02082D44(g_021A27E0, pos, 4);
+    MI_CpuCopy8(g_021A27E0, pos, 4);
 
     httpparam.url = g_021ACEF0->url;
     httpparam.action = 0;
@@ -344,7 +344,7 @@ int func_0217BC90(void)
 
     if (g_021ACEF0 == 0 || g_021ACEF0->http.thread.id == 0)
         return 0;
-    if (func_0208574C(&g_021ACEF0->http.thread) == 1) {
+    if (OS_IsThreadTerminated(&g_021ACEF0->http.thread) == 1) {
         aptype = func_0205BDD0();
         if (aptype == 0xff || aptype > 99)
             aptype = 99;

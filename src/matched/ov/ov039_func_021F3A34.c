@@ -34,7 +34,7 @@
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   GFL_USE_GetSeHandle 0x02006138 thumb
- *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
+ *   NNS_SndHandleSetVolume 0x02072F34 arm
  *   FLD_EXP_OBJ_GetAnimeFrame 0x021BE6E8 thumb ov021
  *   FIELD_GIMMICK_CART_LANES_FindStopAtFrame 0x021F4864 thumb ov039
  *   FIELD_SOUND_SYSTEM_ReleaseSlot 0x02028B50 thumb
@@ -107,7 +107,7 @@ extern u32 *GFL_USE_GetSeHandle(int i);
 struct Obj;
 struct Rec;
 struct Rec12;
-extern void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v);
+extern void NNS_SndHandleSetVolume(struct Obj *o, u8 v);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int p, int i, u8 j, u8 k);
 extern int FIELD_GIMMICK_CART_LANES_FindStopAtFrame(u32 a, u32 b, u8 *out);
 extern void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
@@ -185,7 +185,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(int a0, void *a1)
                     GFL_USE_PlaySeDefaultVolume(0x6DB);
                     snd = GFL_USE_GetSeSlot(0x6DB);
                     FIELD_SOUND_SYSTEM_TransferSlot((struct SoundSys2 *)w, 0x68A, 0x7f);
-                    NNS_SndHandleSetSeqPriority((struct Obj *)GFL_USE_GetSeHandle(snd), 0);
+                    NNS_SndHandleSetVolume((struct Obj *)GFL_USE_GetSeHandle(snd), 0);
                 }
                 sr[0x21F0] = -1;
             }

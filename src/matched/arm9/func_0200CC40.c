@@ -1,5 +1,5 @@
 /*
- * function: func_0200CC40
+ * function: ZUKAN_SAVE_GetViewGenderAndForm
  * address:  0x0200CC40
  * packet:   pkt_0200CC40
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The reader half of func_0200CA98: find which form bit (rows +0x30E /
+ * The reader half of ZUKAN_SAVE_UpdateViewFlags: find which form bit (rows +0x30E /
  * +0x317) and which of the four per-species rows (+0x1AC/+0x200/+0x254/
  * +0x2A8) are set for species `id`, report them through out1/out2/outForm,
  * then look the result up through POKE_PERSONAL_Create (docs/notes/
@@ -28,9 +28,9 @@
  *     The two tests of an `||` pair still share the mask, as in the image.
  *
  * symbols:
- *   func_0200C7F4        0x0200C7F4  thumb
- *   func_0200C7C0        0x0200C7C0  thumb
- *   func_0200CA98_Table  0x0209DE4C  data
+ *   ZUKAN_SAVE_GetFormTableIndex        0x0200C7F4  thumb
+ *   ZUKAN_SAVE_GetFormBitBase        0x0200C7C0  thumb
+ *   sZukanFormTable  0x0209DE4C  data
  *   POKE_PERSONAL_Create        0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam        0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete        0x0201AE14  thumb
@@ -46,9 +46,9 @@ struct FormCount {
     u16 count;
 };
 
-extern const struct FormCount func_0200CA98_Table[];
-extern u32 func_0200C7F4(u32 id);
-extern u32 func_0200C7C0(u16 id);
+extern const struct FormCount sZukanFormTable[];
+extern u32 ZUKAN_SAVE_GetFormTableIndex(u32 id);
+extern u32 ZUKAN_SAVE_GetFormBitBase(u16 id);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -65,17 +65,17 @@ static inline u32 TestSpecies(const u8 *row, u32 id)
     return row[x >> 3] & (1 << (x & 7));
 }
 
-void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5)
+void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5)
 {
     u32 idx;
     u32 base;
     u32 form;
     void *h;
 
-    idx = func_0200C7F4(id);
+    idx = ZUKAN_SAVE_GetFormTableIndex(id);
     if (idx != (u32)-1) {
-        base = func_0200C7C0(id);
-        for (form = 0; form < func_0200CA98_Table[idx].count; form++) {
+        base = ZUKAN_SAVE_GetFormBitBase(id);
+        for (form = 0; form < sZukanFormTable[idx].count; form++) {
             if (TestBit(p + 0x30E, base + form)) {
                 *outForm = form;
                 *out2 = 0;

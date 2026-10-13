@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030EAC   0x02030EAC  arm
- *   func_0207E3D0   0x0207E3D0  arm
+ *   GX_LoadBGPltt   0x0207E3D0  arm
  *   func_0207E468   0x0207E468  arm
  *   g_wipeSys                0x021467A4  data
  *   CARD_GetBackupSectorSize  0x0204E6E0  arm
@@ -69,7 +69,7 @@ typedef struct {
 typedef u32 (*FuncPtr)(void *);
 extern void func_02030DA8(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
 extern u32 func_02030EAC(struct Node *n);
-extern void func_0207E3D0(void *a, u32 b, u32 c);
+extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32   CARD_GetBackupSectorSize(void);
 extern void func_0207D534(volatile u16 *reg, int brightness);
@@ -377,7 +377,7 @@ void WIPE_SetBackColor(u32 a)
 {
     u32 *p = &a;
 
-    func_0207E3D0(p, 0, 2);
+    GX_LoadBGPltt(p, 0, 2);
     func_0207E468(p, 0, 2);
 }
 

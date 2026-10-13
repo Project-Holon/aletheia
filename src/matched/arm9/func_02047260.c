@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069FD0  0x02069FD0  arm
- *   func_02069FE4  0x02069FE4  arm
+ *   NNS_G3dTexGetRequiredSize  0x02069FD0  arm
+ *   NNS_G3dTex4x4GetRequiredSize  0x02069FE4  arm
  *   NNS_GfdDefaultFuncAllocTexVram     0x020A8140  data
  *
  * The two probes are looked up independently; the same dispatcher is called
@@ -28,13 +28,13 @@ typedef unsigned int u32;
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(void *p, u32 mode, u32 a2);
 
-extern int func_02069FD0(int p);
-extern int func_02069FE4(int p);
+extern int NNS_G3dTexGetRequiredSize(int p);
+extern int NNS_G3dTex4x4GetRequiredSize(int p);
 
 int G3D_SYSTEM_AllocTexVramKeys(u32 a0, u32 *a1, u32 *a2)
 {
-    void *p = (void *)func_02069FD0(a0);
-    void *q = (void *)func_02069FE4(a0);
+    void *p = (void *)NNS_G3dTexGetRequiredSize(a0);
+    void *q = (void *)NNS_G3dTex4x4GetRequiredSize(a0);
 
     if (p != 0) {
         *a1 = NNS_GfdDefaultFuncAllocTexVram(p, 0, 0);

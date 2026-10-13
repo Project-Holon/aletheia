@@ -26,7 +26,7 @@
  *   P_STATUS_CreateButtonActors 0x021D4FBC thumb ov131
  *   P_STATUS_VBlankTask 0x021D46E4 thumb ov131
  *   func_020056A0 0x020056A0 thumb
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   P_STATUS_LoadPokemonState 0x021D5C4C thumb ov131
  *   P_STA_SUB_InitWindows 0x021D697C thumb ov131
  *   P_STA_SKILL_InitMovesPage 0x021DA6A4 thumb ov131
@@ -57,7 +57,7 @@ extern void P_STATUS_InitMessage(char *);
 extern void P_STATUS_CreateButtonActors(struct Context *ctx);
 extern void P_STATUS_VBlankTask(void);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_02082A60(const void *,void *,u32);
+extern void MIi_CpuCopy16(const void *,void *,u32);
 extern void P_STATUS_LoadPokemonState(u8 *);
 extern void P_STA_SUB_InitWindows(u8 *,int *);
 extern void P_STA_SKILL_InitMovesPage(u8 *a, u8 *p);
@@ -103,10 +103,10 @@ int P_STATUS_InitWork(char *p)
     P_STATUS_CreateButtonActors((struct Context *)p);
     ((struct Obj00238 *)p)->f4=func_020056A0((u32)P_STATUS_VBlankTask,(u32)p,8);
     ((struct Obj00238 *)p)->f1A4=0;
-    func_02082A60((void *)0x0500026c,p+0x1a6,12);
-    func_02082A60((void *)0x05000360,p+0x1b6,64);
-    func_02082A60((void *)0x050003a0,p+0x216,32);
-    func_02082A60((void *)0x050003a0,p+0x236,32);
+    MIi_CpuCopy16((void *)0x0500026c,p+0x1a6,12);
+    MIi_CpuCopy16((void *)0x05000360,p+0x1b6,64);
+    MIi_CpuCopy16((void *)0x050003a0,p+0x216,32);
+    MIi_CpuCopy16((void *)0x050003a0,p+0x236,32);
     P_STATUS_LoadPokemonState((u8 *)p);
     if ((*(u8 **)(p+8))[13]==2) {
         ((struct Obj00238 *)p)->f58=3;

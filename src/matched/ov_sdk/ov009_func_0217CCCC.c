@@ -24,7 +24,7 @@
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   func_0217CB88                  0x0217CB88  arm ov009
- *   func_021C204C                  0x021C204C  arm ov114
+ *   ghttpCleanup                  0x021C204C  arm ov114
  *   func_021841B0                  0x021841B0  arm ov009
  *   gsiLeaveCriticalSection                  0x0217F114  arm ov009
  */
@@ -49,7 +49,7 @@ extern unsigned int func_0217F264(void);
 extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_0217CB88(GSTask *theTask);
-extern void func_021C204C(void);
+extern void ghttpCleanup(void);
 extern void func_021841B0(void *array);
 extern void gsiLeaveCriticalSection(void *cs);
 
@@ -77,7 +77,7 @@ void func_0217CCCC(unsigned int theMS)
             break;
     }
     if (aCore->shutdown != 0 && allTasksAreDead) {
-        func_021C204C();
+        ghttpCleanup();
         if (aCore->tasks != 0) {
             func_021841B0(aCore->tasks);
             aCore->tasks = 0;

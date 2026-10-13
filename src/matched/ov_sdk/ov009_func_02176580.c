@@ -1,5 +1,5 @@
 /*
- * function: func_02176580
+ * function: DWCi_NodeInfo_IsValid
  * address:  0x02176580
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * True when the word a pointer points at is non-zero.
  */
 
-int func_02176580(const int *p)
+int DWCi_NodeInfo_IsValid(const int *p)
 {
     return *p != 0;
 }

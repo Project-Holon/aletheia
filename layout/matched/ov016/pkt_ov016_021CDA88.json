@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CDA88",
+   "name": "DWCi_SceneSetUsbComplete",
    "address": "0x021CDA88",
    "kind": "sdk",
    "region": "ov016",

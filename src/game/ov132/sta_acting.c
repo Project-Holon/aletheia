@@ -125,7 +125,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020409B4 0x020409B4 arm
  *   func_021F6F24 0x021F6F24 thumb ov112
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
@@ -393,7 +393,7 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32_021F8BD4 a1, u32_021F
 extern u32_021F8BD4 func_02049658(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
 extern void func_020498F4(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
 extern void func_02049B68(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u16 f);
-extern void func_02082A60(const void *,void *,u32_021F8BD4);
+extern void MIi_CpuCopy16(const void *,void *,u32_021F8BD4);
 extern void func_020409B4(u32_021F8BD4);
 extern u8 *func_021F6F24(u32_021F8BD4 heap, u32_021F8BD4 v);
 extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
@@ -858,8 +858,8 @@ void func_021F8BD4(u8 *p)
     func_02049658((void *)(((struct ActingScene *)p)->f18.u),12,6,0,0,0,((struct ActingScene *)p)->f0);
     func_020498F4((void *)(((struct ActingScene *)p)->f18.u),16,6,0,0,0,((struct ActingScene *)p)->f0);
     func_02049658((void *)(((struct ActingScene *)p)->f18.u),11,4,0,0,0,((struct ActingScene *)p)->f0);
-    func_02082A60((void *)0x05000400,p+0x16a,32);
-    func_02082A60((void *)0x05000420,palette,32);
+    MIi_CpuCopy16((void *)0x05000400,p+0x16a,32);
+    MIi_CpuCopy16((void *)0x05000420,palette,32);
     for(i=0;i<16;i++){
         old=*(u16 *)(p+0x16a+i*2);
         new=palette[i];

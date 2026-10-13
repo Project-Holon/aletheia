@@ -14,20 +14,20 @@
  *   g_020A81F8     0x020A81F8  data  a4
  *   g_02147C18     0x02147C18  data  a4
  *   g_02148318     0x02148318  data  a4
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *
  * NitroSystem g2di_RendererMtxState.h NNSi_G2dMCMStoreCurrentMtxToMtxCache
  * (static in g2d_Renderer.c): when the current stack level's MCMMtxState is
  * SR-changed and not yet cached (state 1 or 2), take a new cache slot
  * (NNSi_RMCUseNewMtxCache, capped at 31), reset its affine indices
  * (NNS_G2dInitRndCore2DMtxCache: MI_CpuFillFast -> MIi_CpuClearFast
- * func_02082AC0 with 0xFFFFFFFF), copy the 2x2 part of the current 2D-HW
+ * MIi_CpuClearFast with 0xFFFFFFFF), copy the 2x2 part of the current 2D-HW
  * matrix into it (NNSi_G2dGetCurrentMtxFor2DHW, which refreshes mtxI_'s
  * translation when bDonotUseSRTransform is set), and mark every parent
  * level of the same group as loaded (state 3).  Library shape verbatim.
  *
  * Objects: g_02147B88 is the renderer's pooled .bss statics (see
- * src/matched/func_02066620.c); here mtxStateStack_ (0x02147C18) and
+ * src/matched/NNS_G2dRotZ.c); here mtxStateStack_ (0x02147C18) and
  * mtxCacheBuffer_ (0x02148318, 32 x 0x20-byte NNSG2dRndCore2DMtxCache) are
  * declared as their OWN objects, which is what lets the image hoist the
  * stackPos_ re-read above the cache stores and keep a separate base for the
@@ -80,11 +80,11 @@ extern struct RendererBss g_02147B88;
 extern struct RendererData g_020A81F8;
 extern struct Aff g_02148318[32];
 extern struct SlotRec g_02147C18[32];
-extern void func_02082AC0(u32 data, void *dest, u32 size);
+extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
 static inline void MI_CpuFillFast(void *dest, u32 data, u32 size)
 {
-    func_02082AC0(data, dest, size);
+    MIi_CpuClearFast(data, dest, size);
 }
 
 static inline void NNS_G2dInitRndCore2DMtxCache(NNSG2dRndCore2DMtxCache *pMtxCache)

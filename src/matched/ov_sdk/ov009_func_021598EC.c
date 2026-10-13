@@ -1,5 +1,5 @@
 /*
- * function: func_021598EC
+ * function: mark_rwin_chunk
  * address:  0x021598EC
  * packet:   pkt_ov009_021598EC
  * region:   ov009
@@ -25,7 +25,7 @@ struct soc {
     struct rwin rw[3];
 };
 
-void func_021598EC(struct soc *soc, long chunk)
+void mark_rwin_chunk(struct soc *soc, long chunk)
 {
     long ci;
     unsigned long order_max = 0;

@@ -11,15 +11,16 @@
  *
  * symbols:
  *   FRAME_LIST_HideCursor   0x021B941C  thumb
- *   func_0200CA54   0x0200CA54  thumb
+ *   ZUKAN_SAVE_GetDexObtained   0x0200CA54  thumb
  *   func_021B940C   0x021B940C  thumb ov133
  *   d_021BEAE0      0x021BEAE0  data
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb  arm9
  *
  * MATCH (byte-correct, 1 relocation site wildcarded).  All concrete bytes
  * reproduce exactly.
- *   +001C / +00B4  func_0200CA54: declared `thumb` (it was inferred ARM from
+ *   +001C / +00B4  ZUKAN_SAVE_GetDexObtained: declared `thumb` (it was inferred ARM from
  *       the name); it is a member function of the EXACT game_unit
  *       src/matched/unit_0200C9EC.c (pkt_0200C9F4), so `matched` now carries
  *       both sites.  The earlier "unlabelled leaf" reading was wrong: it is
@@ -38,8 +39,8 @@ struct Blk37;
 extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
-extern u32 func_0200CA54(struct Blk37 *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void FRAME_LIST_HideCursor(u32);
 extern int func_021B940C(u8 *p);
 
@@ -50,11 +51,11 @@ int func_021BE658(void *ctx_)
 
     if (v != -1) {
         if (v == 8) {
-            if (func_0200CA54((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
+            if (ZUKAN_SAVE_GetDexObtained((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
         }
         if (v == 9) {
-            if (func_0200CA38((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
+            if (ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;
@@ -79,13 +80,13 @@ int func_021BE658(void *ctx_)
             return 0xb;
         }
         if (KEY_GetTrg() & 8) {
-            if (func_0200CA54((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 1) {
+            if (ZUKAN_SAVE_GetDexObtained((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 1) {
                 func_020355D8(0);
                 return 8;
             }
         }
         if (KEY_GetTrg() & 4) {
-            if (func_0200CA38((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
+            if (ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)(*(u32 *)(*(u32 *)ctx + 4))) == 0)
                 return -1;
             if (*(u16 *)(*(u32 *)ctx + 8) == 1)
                 return -1;

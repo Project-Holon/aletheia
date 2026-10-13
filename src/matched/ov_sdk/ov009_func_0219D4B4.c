@@ -1,5 +1,5 @@
 /*
- * function: func_0219D4B4
+ * function: FIFOAddRear
  * address:  0x0219D4B4
  * packet:   pkt_02155168
  * region:   ov009
@@ -18,7 +18,7 @@
 
  */
 
-void func_0219D4B4(int *p, int *n)
+void FIFOAddRear(int *p, int *n)
 {
     if (p[1] != 0) ((int *)p[1])[9] = (int)n;
     p[1] = (int)n;

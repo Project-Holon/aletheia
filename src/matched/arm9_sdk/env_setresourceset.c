@@ -1,5 +1,5 @@
 /*
- * function: ENV_SetResourceSet
+ * function: NNS_G2dSetCellAnimationSequence
  * address:  0x0206434C
  * packet:   pkt_02060000
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02062FF0   0x02062FF0  arm
- *   func_0206419C   0x0206419C  arm
+ *   NNSi_G2dRefreshCellAnimation   0x0206419C  arm
  *
  * Original (24 bytes):
  *   push {r4, lr}
@@ -23,16 +23,16 @@
  *
  * Sets a cell animation's sequence: seq arrives in r1 and is forwarded
  * untouched to func_02062FF0, then the animation is restarted.  The SDK
- * table's name ENV_SetResourceSet for this address sits in the rejected
+ * table's name NNS_G2dSetCellAnimationSequence for this address sits in the rejected
  * list of layout/symbols_sdk.json, so the name is suspect.
  */
 
 struct CellAnim;
 extern void func_02062FF0(struct CellAnim *anim, void *bank);
-extern void func_0206419C(char *self);
+extern void NNSi_G2dRefreshCellAnimation(char *self);
 
-void ENV_SetResourceSet(void *anim, void *seq)
+void NNS_G2dSetCellAnimationSequence(void *anim, void *seq)
 {
     func_02062FF0(anim, seq);
-    func_0206419C(anim);
+    NNSi_G2dRefreshCellAnimation(anim);
 }

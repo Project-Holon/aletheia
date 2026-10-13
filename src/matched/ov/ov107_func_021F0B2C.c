@@ -17,9 +17,9 @@
  *   func_021F09B0 0x021F09B0 thumb ov107
  *   func_021F1B64 0x021F1B64 arm ov107
  *   func_021F0D1C 0x021F0D1C thumb ov107
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
- *   func_02082D44 0x02082D44 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_02034714 0x02034714 arm
@@ -44,8 +44,8 @@ extern int func_021F0D34(u16);
 extern void func_021F0B04(void),func_021F0938(u16),func_021F08E4(u16),func_021F09B0(u16);
 extern void *func_021F1B64(u16);
 extern void func_021F0D1C(u16);
-extern u32 func_02087988(void),func_0208799C(u32);
-extern void func_02082D44(const void *,void *,u32);
+extern u32 OS_DisableInterrupts(void),OS_RestoreInterrupts(u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
 extern void GFL_NET_FreeAligned(void *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -60,7 +60,7 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
  switch(event){
  case 2:
   if(func_021F0D28()!=2)break;
-  state=func_02087988();H(10)|=(u16)(1<<aid);func_0208799C(state);
+  state=OS_DisableInterrupts();H(10)|=(u16)(1<<aid);OS_RestoreInterrupts(state);
   offset=30*(aid-1);
   *(u8 *)((u32)d_021F6EDE+offset)=p[10];
   *(u8 *)((u32)d_021F6EDF+offset)=p[11];
@@ -71,13 +71,13 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
   *(u16 *)((u32)d_021F6EE4+offset)=aid;break;
  case 3:
   if(func_021F0D34(aid)==6)break;
-  mask=~(1<<aid);state=func_02087988();
+  mask=~(1<<aid);state=OS_DisableInterrupts();
   H(10)&=mask;H(12)&=mask;H(14)&=mask;H(16)&=mask;H(18)&=mask;H(20)&=mask;
-  func_0208799C(state);func_021F0B04();break;
+  OS_RestoreInterrupts(state);func_021F0B04();break;
  case 10:
   if(func_021F0D28()!=2){func_021F0938(aid);break;}
   H(12)|=(u16)(1<<aid);func_021F08E4(aid);
-  q=func_021F1B64(aid);if(q)func_02082D44(q,(void *)((u32)d_021F6EC8+30*(aid-1)),22);break;
+  q=func_021F1B64(aid);if(q)MI_CpuCopy8(q,(void *)((u32)d_021F6EC8+30*(aid-1)),22);break;
  case 14:
   H(12)&=(u16)~(1<<aid);H(14)|=(u16)(1<<aid);func_021F09B0(aid);break;
  case 7:

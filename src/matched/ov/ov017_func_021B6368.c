@@ -12,7 +12,7 @@
  * symbols:
  *   func_0207DFB4  0x0207DFB4  arm
  *   func_0207E24C  0x0207E24C  arm
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern void *func_0207DFB4(void);
 extern u32 func_0207E24C(void);
-extern void func_02082A48(int, u32, u32);
+extern void MIi_CpuClear16(int, u32, u32);
 typedef signed short   s16;
 struct Bmp;
 struct GfFont;
@@ -62,7 +62,7 @@ void ERROR_SCREEN_PrintMessage(int a)
             v++;
         }
     }
-    func_02082A48(0x7777, func_0207E24C() + 0x400, 0x3C00);
+    MIi_CpuClear16(0x7777, func_0207E24C() + 0x400, 0x3C00);
     p = (int)BMP_CreateFromVram((void *)(func_0207E24C() + 0x400), 30, 16, 32, 1);
     q = (int)GF_FONT_Create(0x17, 0, 0, 0, 1);
     r = (int)func_02045B38(0, 2, 0xe8, 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA264
+ * function: WIFICLUBACTOR_SetIdleState
  * address:  0x021BA264
  * packet:   pkt_ov099_021BA264
  * region:   ov099
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * Lever: n = 0x400 in a u32 local keeps 0x400>>2 a runtime lsrs.
- * func_021BA2D0 is the empty callback filed as its own ov099 leaf.
+ * WIFICLUBACTOR_NoOpAnim is the empty callback filed as its own ov099 leaf.
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_021BA5B4  0x021BA5B4  thumb  ov099
+ *   WIFICLUBACTOR_QueueActorMove  0x021BA5B4  thumb  ov099
  *   func_021C57D8  0x021C57D8  thumb  ov127
- *   func_021BA538  0x021BA538  thumb  ov099
- *   func_021BA2D0  0x021BA2D0  thumb  ov099
+ *   WIFICLUBACTOR_UpdateIdleWander  0x021BA538  thumb  ov099
+ *   WIFICLUBACTOR_NoOpAnim  0x021BA2D0  thumb  ov099
  */
 
 typedef unsigned char  u8;
@@ -38,20 +38,20 @@ typedef struct {
 } S;
 
 extern u32 func_020056EC(u32 x);
-extern void func_021BA5B4(void *a, int b, u8 **p);
+extern void WIFICLUBACTOR_QueueActorMove(void *a, int b, u8 **p);
 extern void func_021C57D8(u8 *p, int v);
-extern int func_021BA538(void *w, S *s);
-extern void func_021BA2D0(void);
+extern int WIFICLUBACTOR_UpdateIdleWander(void *w, S *s);
+extern void WIFICLUBACTOR_NoOpAnim(void);
 
-void func_021BA264(void *w, S *s)
+void WIFICLUBACTOR_SetIdleState(void *w, S *s)
 {
     u32 n;
 
-    s->f10 = (void *)func_021BA538;
-    s->f18 = (void *)func_021BA2D0;
+    s->f10 = (void *)WIFICLUBACTOR_UpdateIdleWander;
+    s->f18 = (void *)WIFICLUBACTOR_NoOpAnim;
     n = 0x400;
     s->f8 = func_020056EC(n) + (n >> 2);
     s->fc = 3;
-    func_021BA5B4(w, 0, (u8 **)s);
+    WIFICLUBACTOR_QueueActorMove(w, 0, (u8 **)s);
     func_021C57D8(s->f4, 1);
 }

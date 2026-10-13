@@ -1,5 +1,5 @@
 /*
- * function: func_021D2A64
+ * function: DWCi_MOV_WH_StateInSetParentParam
  * address:  0x021D2A64
  * packet:   pkt_021D2A64
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D2A64 0x021D2A64 arm
+ *   DWCi_MOV_WH_StateInSetParentParam 0x021D2A64 arm
  *   WM_SetParentParameter  0x0208F480  arm  arm9
  *
  * Select port 3, poll the global tail against the table at 0x021D2AA8, then fall back.
@@ -21,7 +21,7 @@ extern int WM_SetParentParameter(int, int);
 extern int func_021D29C8(int);
 extern int func_021D2A44(void);
 
-int func_021D2A64(void)
+int DWCi_MOV_WH_StateInSetParentParam(void)
 {
     int *g = (int *)0x021DE660;
 

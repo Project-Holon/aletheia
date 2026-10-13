@@ -1,5 +1,5 @@
 /*
- * function: func_021579E8
+ * function: send_packet
  * address:  0x021579E8
  * packet:   pkt_ov009_021579E8
  * region:   ov009
@@ -23,7 +23,7 @@ extern unsigned char g_021A826C;
 extern void func_02082EA4(void *src, void *dst, unsigned long size);
 extern long func_02166444(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 
-void func_021579E8(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
+void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len)
 {
     func_02082EA4(g_021A1CC0, hdr + 6, 6);
     g_021A826C = func_02166444(hdr, hdr + 6, hdr_len - 6, body, body_len) < 0;

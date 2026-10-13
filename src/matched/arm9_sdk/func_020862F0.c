@@ -1,5 +1,5 @@
 /*
- * function: func_020862F0
+ * function: DWCi_ScreenDC_FlushRange
  * address:  0x020862F0
  * packet:   pkt_020862F0
  * region:   arm9
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-asm void func_020862F0(void *startAddr, unsigned long nBytes)
+asm void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes)
 {
     mov r12, #0
     add r1, r1, r0

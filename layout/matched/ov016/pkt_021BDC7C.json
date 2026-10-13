@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDC7C",
+   "name": "DWCi_KBlSetInput",
    "address": "0x021BDC7C",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDC90",
+   "name": "DWCi_KBlIsInit",
    "address": "0x021BDC90",
    "kind": "sdk",
    "region": "ov016",

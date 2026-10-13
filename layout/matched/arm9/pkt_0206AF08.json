@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206AF08",
+   "name": "NNSi_G3dAnmBlendMat",
    "address": "0x0206AF08",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AF74",
+   "name": "NNSi_G3dAnmBlendJntVec",
    "address": "0x0206AF74",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AFE4",
+   "name": "NNSi_G3dAnmBlendJnt",
    "address": "0x0206AFE4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B458",
+   "name": "NNSi_G3dSbcRun",
    "address": "0x0206B458",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B4A0",
+   "name": "NNSi_G3dRenderObjRunSbc",
    "address": "0x0206B4A0",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B63C",
+   "name": "NNSi_G3dAnmObjMarkExistMap",
    "address": "0x0206B63C",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206B6A4",
+   "name": "NNS_G3dDraw",
    "address": "0x0206B6A4",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "G3D_SBC_RunCountedCallback",
+   "name": "NNSi_G3dFuncSbc_NOP",
    "address": "0x0206B780",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "G3D_SBC_RunCallbackSetDone",
+   "name": "NNSi_G3dFuncSbc_RET",
    "address": "0x0206B7A8",
    "kind": "game",
    "region": "arm9",

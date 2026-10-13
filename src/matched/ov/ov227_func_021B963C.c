@@ -21,11 +21,11 @@
  *   func_02008500  0x02008500  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
- *   func_0200CED4  0x0200CED4  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
@@ -100,7 +100,7 @@ extern unsigned char ov194_id[];
 extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
@@ -119,11 +119,11 @@ extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32 a);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u32 func_0200CED4(struct Blk37 *p, u16 id);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *sys);
 extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
@@ -147,7 +147,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
     case 0:
         x24 = (u32)GAME_DATA_GetMyParty((const struct BigObj *)c->f0);
         x20 = (u32)GAME_DATA_GetMyStatus((void *)c->f0);
-        r7 = (u32)func_0200CA1C((void *)c->f0);
+        r7 = (u32)ZUKAN_SAVE_GetFromGameData((void *)c->f0);
         x1c = GAME_DATA_GetBoxManager((const struct BigObj *)c->f0);
         if (c->f1 == 1) {
             x28 = (u32)GAME_DATA_GetTrainerRecord((int *)c->f0);
@@ -169,12 +169,12 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             x30 = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->f0)));
             func_0202F190((void *)c->f2, 0, x20, x30, (u32)g->f30);
             fl = 0;
-            x18 = func_0200CA38((struct Blk37 *)r7);
-            if (func_0200CED4((struct Blk37 *)r7, (u16)POKE_TOOL_GetPartyValue((void *)c->f2, 5, 0)) == 0) {
+            x18 = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)r7);
+            if (ZUKAN_SAVE_IsCaught((struct Blk37 *)r7, (u16)POKE_TOOL_GetPartyValue((void *)c->f2, 5, 0)) == 0) {
                 fl = 1;
             }
-            func_0200CFA0((struct Blk37 *)r7, (void *)c->f2);
-            func_0200CDE0((struct Blk37 *)r7, (void *)c->f2);
+            ZUKAN_SAVE_RegisterSeen((struct Blk37 *)r7, (void *)c->f2);
+            ZUKAN_SAVE_RegisterCaught((struct Blk37 *)r7, (void *)c->f2);
             g->f0c = c->f2;
             g->f10 = x18;
             g->f14 = g->f28;
@@ -191,7 +191,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             break;
         }
         if (c->f1 == 2) {
-            func_0200CFA0((struct Blk37 *)r7, (void *)c->f2);
+            ZUKAN_SAVE_RegisterSeen((struct Blk37 *)r7, (void *)c->f2);
         }
         *state = 4;
         break;

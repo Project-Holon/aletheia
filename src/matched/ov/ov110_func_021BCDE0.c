@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDE0
+ * function: PMSIV_MENU_PressEntry2
  * address: 0x021BCDE0
  * packet: pkt_ov110_021BCDE0
  * region: ov110
@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BF6DC 0x021BF6DC thumb ov110
- *   func_021BCFBC 0x021BCFBC thumb ov110
+ *   PMS_INPUT_GetBrowseMode 0x021BF6DC thumb ov110
+ *   PMSIV_MENU_SetDecideEntry 0x021BCFBC thumb ov110
  */
 #include "../include/Obj10278.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u8 func_021BF6DC(u8 *);
-extern void func_021BCFBC(char *p, u32 index, int value);
-void func_021BCDE0(u8 *p)
+extern u8 PMS_INPUT_GetBrowseMode(u8 *);
+extern void PMSIV_MENU_SetDecideEntry(char *p, u32 index, int value);
+void PMSIV_MENU_PressEntry2(u8 *p)
 {
-    if (func_021BF6DC(*(u8 * *)&((struct Obj10278 *)p)->f4) == 1) func_021BCFBC((char *)p, 2, 1);
+    if (PMS_INPUT_GetBrowseMode(*(u8 * *)&((struct Obj10278 *)p)->f4) == 1) PMSIV_MENU_SetDecideEntry((char *)p, 2, 1);
 }

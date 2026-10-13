@@ -26,7 +26,7 @@
  *
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
  *   func_02179D3C 0x02179D3C thumb ov015
@@ -218,7 +218,7 @@ typedef struct GiftMon {
 } GiftMon;
 
 extern int GFL_NET_GetRunState(void);
-extern void func_02082D44(void *, void *, u32);
+extern void MI_CpuCopy8(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern int func_02179D3C(void);
@@ -406,7 +406,7 @@ void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work)
             work->result = 3;
         } else {
             work->result = 1;
-            func_02082D44(work->recvBuffer, work->param.entries[0].data, work->param.entries[0].size);
+            MI_CpuCopy8(work->recvBuffer, work->param.entries[0].data, work->param.entries[0].size);
             if (work->crc != func_0203F1FC(work->param.entries[0].data, work->param.entries[0].size))
                 work->result = 2;
             func_0203F328(work->param.entries[0].data, work->param.entries[0].size, work->cryptKey);
@@ -585,7 +585,7 @@ void DELIVERY_IRC_StepWaitInit(DeliveryIrcWork *work)
 void *DELIVERY_IRC_Create(const DeliveryIrcParam *param)
 {
     void *work = func_02030734(param->heapId, 0x684, 1, d_02172878, 0x1CD);
-    func_02082D44((void *)param, work, 0x7C);
+    MI_CpuCopy8((void *)param, work, 0x7C);
     return work;
 }
 

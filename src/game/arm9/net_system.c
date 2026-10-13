@@ -34,7 +34,7 @@
  *   _AssertNotMpMode   0x020A7A54  data
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
  *   GFL_NET_HANDLE_GetNetHandle   0x0203996C  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   _pNetState     0x021469DC  data
  *   str_020A7A68   0x020A7A68  data
  *   str_020A7A78   0x020A7A78  data
@@ -42,7 +42,7 @@
  *   _pBaseWork     0x021469D4  data
  *   msg_020A7A7C   0x020A7A7C  data
  *   msg_020A7A88   0x020A7A88  data
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   msg_020A7A94   0x020A7A94  data
  *   GFL_NET_SYSTEM_ClampNetId  0x020395E0  arm
  *   func_0203EFC8  0x0203EFC8  arm
@@ -165,7 +165,7 @@ extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern void func_02082D44(const void *src, void *dst, int n);
+extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int netId);
 
@@ -3403,7 +3403,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
             if (copyCount > len)
                 copyCount = len;
             if (dest != 0)
-                func_02082D44(buf, dest, copyCount);
+                MI_CpuCopy8(buf, dest, copyCount);
         }
         cursor->copied += copyCount;
         if (cursor->remaining == 0) {

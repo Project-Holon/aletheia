@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3CC
+ * function: DWCi_CMNlFontFlag
  * address:  0x021BD3CC
  * packet:   pkt_021BD3CC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD3CC 0x021BD3CC arm
+ *   DWCi_CMNlFontFlag 0x021BD3CC arm
  *   gDwcLanguageTable 0x021DA04C data
  *
  * Table lookup through the function-pointer table at 0x021DA04C.
@@ -20,7 +20,7 @@
 extern unsigned char func_021C0EC8(void);
 extern int gDwcLanguageTable[];
 
-int func_021BD3CC(void)
+int DWCi_CMNlFontFlag(void)
 {
     return gDwcLanguageTable[func_021C0EC8()];
 }

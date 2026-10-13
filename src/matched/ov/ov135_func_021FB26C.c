@@ -17,6 +17,7 @@
  *   func_021FB240  0x021FB240  thumb
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb  arm9
  */
 
 typedef signed char s8;
@@ -31,7 +32,7 @@ extern void func_021F84BC(u32 i, int *start, int *end);
 extern int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Blk37;
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 struct Slot;
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u32 func_020307B0(void *p);
@@ -51,7 +52,7 @@ int func_021FB26C(void **menu, void *msg, void *bank, u32 x, u32 kind, void *bag
     n = func_021FB240(x, (u32)bag, count, list, start, end);
     *menu = BMP_MENUWORK_Create(n + 1, 0x48);
     for (i = start; i < end; i++) {
-        if (func_0200D064(bag, list[i]) != 0) {
+        if (ZUKAN_SAVE_IsSeen(bag, list[i]) != 0) {
             BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, list[i], list[i], 0x48);
         }
     }

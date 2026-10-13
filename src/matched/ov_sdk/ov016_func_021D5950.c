@@ -1,5 +1,5 @@
 /*
- * function: func_021D5950
+ * function: DWCi_FNTlFormEx
  * address:  0x021D5950
  * packet:   pkt_ov016_021D5950
  * region:   ov016
@@ -16,7 +16,7 @@
  *   DWCi_OVRlAlloc                   0x021D705C  arm  ov016
  *   NNSi_G2dCalcRequiredOBJ          0x02069184  arm
  *   NNS_G2dCharCanvasInitForOBJ1D    0x02068FF0  arm
- *   g_021DE680                       0x021DE680  data
+ *   gFontWork                       0x021DE680  data
  */
 
 typedef unsigned char u8;
@@ -71,21 +71,21 @@ typedef struct {
     int renew[2];
 } MemFont;
 
-extern MemFont *g_021DE680;
+extern MemFont *gFontWork;
 
 extern void *DWCi_QUElPopBack(void *queue);
 extern void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
 extern u32 NNSi_G2dCalcRequiredOBJ(int w, int h);
 extern void NNS_G2dCharCanvasInitForOBJ1D(Canvas *cnv, void *base, int w, int h, int fmt);
 
-void *func_021D5950(int lcd, int width, int height, bool head, int *obj, int font)
+void *DWCi_FNTlFormEx(int lcd, int width, int height, bool head, int *obj, int font)
 {
     Canvas *cnv;
     u8 *base;
     int name;
     Font *fp;
 
-    cnv = DWCi_QUElPopBack(g_021DE680->unused);
+    cnv = DWCi_QUElPopBack(gFontWork->unused);
     cnv->width = width;
     cnv->height = height;
     cnv->buf = DWCi_OVRlAlloc(lcd, width * height, head, &name);
@@ -95,7 +95,7 @@ void *func_021D5950(int lcd, int width, int height, bool head, int *obj, int fon
     base += name * 128;
     NNS_G2dCharCanvasInitForOBJ1D(cnv, base, width, height, 4);
     cnv->pFmt->pfnClear(cnv, 0);
-    fp = &g_021DE680->font[font];
+    fp = &gFontWork->font[font];
     cnv->text.pCanvas = cnv;
     cnv->text.pFont = fp;
     cnv->text.hSpace = 1;

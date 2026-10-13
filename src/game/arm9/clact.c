@@ -28,35 +28,35 @@
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_0206380C  0x0206380C  arm
  *   func_02063800  0x02063800  arm
- *   func_0207E51C  0x0207E51C  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_0207E5D0  0x0207E5D0  arm
  *   sub_02062F1C   0x02062F1C  arm
  *   g_020A7F3C     0x020A7F3C  data
  *   func_02063078  0x02063078  arm
  *   func_0206343C  0x0206343C  arm
  *   func_02063640  0x02063640  arm
- *   func_02065AA8   0x02065AA8  arm
- *   func_02065B64   0x02065B64  arm
- *   func_02065B74  0x02065B74  arm
+ *   NNS_G2dInitRenderer   0x02065AA8  arm
+ *   NNS_G2dSetRendererTargetSurface   0x02065B64  arm
+ *   NNS_G2dInitRenderSurface  0x02065B74  arm
  *   g_ClactSurfaceFuncTable     0x020A1418  data
  *   g_ClactSurfaceModeTable     0x020A13F4  data
  *   g_ClactSurfaceTypeTable     0x020A1388  data
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02063294  0x02063294  arm
  *   func_02063378  0x02063378  arm
- *   tbl_020A17D8   0x020A17D8  data
- *   tbl_020A17F0   0x020A17F0  data
+ *   NNSi_objSizeHTbl   0x020A17D8  data
+ *   NNSi_objSizeWTbl   0x020A17F0  data
  *   NNS_G2dInitCellTransferStateManager  0x02066934  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   g_ClactTransferFuncs     0x020A138C  data
  *   DC_FlushRange  0x020862F0  arm
  *   sub_02034714  0x02034714  arm
  *   s_clact_assert_expr 0x020A7F7C data
- *   func_02067AB8  0x02067AB8  arm
- *   func_02067B78  0x02067B78  arm
- *   func_020663D0  0x020663D0  arm
- *   func_020664CC  0x020664CC  arm
- *   func_02066620  0x02066620  arm
+ *   NNS_G2dSetRndCoreAffineOverwriteMode  0x02067AB8  arm
+ *   NNS_G2dSetRndCoreFlipMode  0x02067B78  arm
+ *   NNS_G2dTranslate  0x020663D0  arm
+ *   NNS_G2dScale  0x020664CC  arm
+ *   NNS_G2dRotZ  0x02066620  arm
  *   FX_SinCosTable_     0x020A1B38  data
  *   _fflt          0x0209BDBC  arm
  *   _ffix          0x0209C494  arm
@@ -66,26 +66,26 @@
  *   sub_020627D8  0x020627D8  arm
  *   sub_0206428C  0x0206428C  arm
  *   func_02066AE0  0x02066AE0  arm
- *   func_020642C8  0x020642C8  arm
- *   func_020648B4  0x020648B4  arm
- *   func_02064754  0x02064754  arm
+ *   NNS_G2dInitCellAnimationVramTransfered  0x020642C8  arm
+ *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
+ *   NNS_G2dInitMCAnimation  0x02064754  arm
  *   NNSi_G2dResetCellTransferState  0x02066B38  arm
  *   sub_0206434C  0x0206434C  arm
  *   sub_0206469C  0x0206469C  arm
  *   sub_02064364   0x02064364  arm
  *   sub_020649D4   0x020649D4  arm
- *   func_02064384  0x02064384  arm
+ *   NNS_G2dSetCellAnimationCurrentFrame  0x02064384  arm
  *   sub_02064AB4  0x02064AB4  arm
  *   gUnk_020A7F3C  0x020A7F3C  data
- *   sub_020643C4   0x020643C4  arm
- *   sub_02064B68  0x02064B68  arm
+ *   NNS_G2dSetCellAnimationSpeed   0x020643C4  arm
+ *   NNS_G2dSetMCAnimationSpeed  0x02064B68  arm
  *   g_ClactAnimResetFuncs  0x020A7F48  data
- *   func_020643A4  0x020643A4  arm
+ *   NNS_G2dRestartCellAnimation  0x020643A4  arm
  *   func_02063000  0x02063000  arm
  *   func_02063018  0x02063018  arm
  *   VMAN_Create  0x02034558  arm
  *   VMAN_Delete  0x020345DC  arm
- *   func_020834C0  0x020834C0  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
  *   VMAN_InvalidateHandle  0x02034630  arm
  *   func_02063790    0x02063790  arm
  *   VMAN_Alloc    0x02034660  arm
@@ -106,7 +106,12 @@
  *   func_02062670  0x02062670  arm
  *   func_02062A00  0x02062A00  arm
  *   SYSTEMFONT_Load  0x020461F4  arm
- *   NNSi_G2dMCAnimUpdateBank  0x02064C10  arm
+ *   NNSi_G2dSetMCInstanceCurrentFrameZero  0x02064C10  arm
+ *   NNS_G2dBeginRendering  0x02065BD0  arm
+ *   NNS_G2dEndRendering  0x02065C78  arm
+ *   NNSi_G2dRendererDrawCellZOffset  0x02065CE4  arm
+ *   NNSi_G2dRendererDrawCellTransformedZOffset  0x02065D4C  arm
+ *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  arm
  */
 
 #define CONV(d, v) do { s32 _t = (s16)(v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
@@ -564,7 +569,7 @@ extern void func_0207E804(void *a, void *b, u32 c);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
-extern void func_0207E51C(void *dest, void *src, u32 size);
+extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
 extern void func_0207E5D0(void *dest, void *src, u32 size);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u16 sub_02062F1C(const struct AnimCtrl *n);
@@ -572,9 +577,9 @@ extern void func_02063078(void);
 extern unsigned int func_02063138(void *p, int a, int b, int which);
 extern void func_0206343C(struct OamManager *pMan, u32 bound);
 extern void func_02063640(struct OamManager *pMan);
-extern void func_02065AA8(struct Renderer *o);
-extern void func_02065B64(struct Renderer *p0, struct Surface *p1);
-extern void func_02065B74(struct Surface *p);
+extern void NNS_G2dInitRenderer(struct Renderer *o);
+extern void NNS_G2dSetRendererTargetSurface(struct Renderer *p0, struct Surface *p1);
+extern void NNS_G2dInitRenderSurface(struct Surface *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  func_02063294(struct OamManager *win, struct OamEntry *entry, u32 mode);
 extern void func_02063378(struct OamManager *a0, u32 a1);
@@ -584,38 +589,38 @@ extern void MI_CpuFill8(void *dst, int value, u32 len);
 extern void func_02063790(u32 *p);
 extern void func_020637D4(u32 *p);
 extern void func_02066748(int *a0, int a1, int a2);
-extern void func_02065BD0(struct Renderer *obj);
-extern void func_02065C78();
-extern void func_02067AB8(struct Renderer *p, u32 mode);
-extern void func_02067B78(struct Renderer *p, u32 h, u32 v);
-extern void func_020663D0(s32 x, s32 y, s32 z);
-extern void func_020664CC(s32 x, s32 y, s32 z);
-extern void func_02066620(s32 a, s32 b);
-extern void func_02065CE4(void *a0);
-extern void func_02065D4C(void *p);
-extern void func_02066080(struct MultiCellAnim *c);
+extern void NNS_G2dBeginRendering(struct Renderer *obj);
+extern void NNS_G2dEndRendering();
+extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct Renderer *p, u32 mode);
+extern void NNS_G2dSetRndCoreFlipMode(struct Renderer *p, u32 h, u32 v);
+extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
+extern void NNS_G2dScale(s32 x, s32 y, s32 z);
+extern void NNS_G2dRotZ(s32 a, s32 b);
+extern void NNSi_G2dRendererDrawCellZOffset(void *a0);
+extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
+extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
 extern struct AnimSequence *sub_020627D8(struct G2dDataBank *bank, u32 idx);
 extern void sub_0206428C(char *self, int a1, struct G2dDataBank *c);
 extern int func_02066AE0(void);
-extern void func_020642C8(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
-extern int func_020648B4(struct G2dDataBank *mc_bank, u32 b);
-extern void func_02064754(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
+extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
+extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
+extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *a3, struct G2dDataBank *bank, int kind);
 extern void sub_0206469C(struct MultiCellAnim *o, void *bank);
 extern void NNSi_G2dResetCellTransferState(u32 idx);
 extern void  sub_0206434C(u8 *r, void *v);
 extern void sub_02064364(struct CellAnim *anim, s32 frames);
 extern void sub_020649D4(char *self, int a1);
-extern void func_02064384(struct CellAnim *anim, u32 i);
+extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
 extern void sub_02064AB4(char *self, unsigned int i);
-extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
-extern void sub_02064B68(u8 *o, void *arg);
-extern void func_020643A4(struct CellAnim *anim);
-extern void NNSi_G2dMCAnimUpdateBank(struct CellXferState *x);
+extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
+extern void NNS_G2dSetMCAnimationSpeed(u8 *o, void *arg);
+extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
+extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct CellXferState *x);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 extern void VMAN_Delete(struct VramAllocator *obj);
-extern void func_020834C0(const void *src, void *dest);
+extern void MI_UncompressLZ8(const void *src, void *dest);
 extern void  VMAN_InvalidateHandle(struct VramBlock *p);
 extern int VMAN_Alloc(u8 *p, u32 a, void **out);
 extern u32 func_020346D8(struct VramAllocator *a, u32 *b);
@@ -854,8 +859,8 @@ extern struct ClactTables g_020A7F3C;
 extern SurfaceFuncs  g_ClactSurfaceFuncTable[];
 extern u32  g_ClactSurfaceModeTable[];
 extern u16 g_ClactSurfaceTypeTable[];
-extern const u16 tbl_020A17D8[4][4];
-extern const u16 tbl_020A17F0[4][4];
+extern const u16 NNSi_objSizeHTbl[4][4];
+extern const u16 NNSi_objSizeWTbl[4][4];
 extern const char s_clact_assert_expr[];
 extern s16 FX_SinCosTable_[];
 extern AnimUpdateFn const gUnk_020A7F3C[];
@@ -1442,7 +1447,7 @@ void CLACT_ReleasePalette(u32 idx)
  * Flush both halves of one slot of the 0x18-byte-stride table at +0x110 of
  * the singleton behind 0x02146A74 into the destination the caller supplies.
  * Each half is guarded by func_0206380C, fetched with func_02063800 and
- * written through func_0207E51C (selector 1) or func_0207E5D0 (selector 2),
+ * written through GX_LoadOBJPltt (selector 1) or func_0207E5D0 (selector 2),
  * with DC_FlushRange invalidating the destination first.
  *
  * `count` is in 32-byte units; zero means "use the length the destination
@@ -1471,7 +1476,7 @@ void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 siz
         void *src = (void *)func_02063800((char *)(&g_ClactSystem->res.pltts[idx]), 1);
 
         DC_FlushRange((void *)dest->raw, size);
-        func_0207E51C((void *)dest->raw, src, size);
+        GX_LoadOBJPltt((void *)dest->raw, src, size);
     }
 
     if (func_0206380C((char *)(&g_ClactSystem->res.pltts[idx]), 2) != 0) {
@@ -3462,7 +3467,7 @@ void CLACT_ResetOamManager(struct OamManager *oam_manager)
  *
  * Byte-identical at 148 bytes; only the two PC24 call fields at +0x14 and
  * +0x68 stay wildcarded.  The 0x020A7F74 pool word is ABS32 into the string
- * area and resolves `literal`, and func_02065B64 resolves `matched`.
+ * area and resolves `literal`, and NNS_G2dSetRendererTargetSurface resolves `matched`.
  *
  * Spellings that mattered: `for (i = 0; i < count; i++)` with an unsigned `i`
  * and a signed `count` is what gives the single `popls` loop guard and the
@@ -3473,13 +3478,13 @@ void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *ini
 {
     u32 i;
 
-    func_02065AA8(renderer);
+    NNS_G2dInitRenderer(renderer);
     renderer->active = 1;
     renderer->surfaces = sub_02030734(heap_id, count * sizeof(struct Surface), 0, s_clact_c, 0xfc7);
     renderer->n_surfaces = count;
     for (i = 0; i < count; i++) {
         CLACT_InitSurface(&renderer->surfaces[i], &inits[i]);
-        func_02065B64(renderer, &renderer->surfaces[i]);
+        NNS_G2dSetRendererTargetSurface(renderer, &renderer->surfaces[i]);
     }
 }
 
@@ -3563,7 +3568,7 @@ void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init)
     s16 init_h;
     s16 init_y;
 
-    func_02065B74(surface);
+    NNS_G2dInitRenderSurface(surface);
     init_y = init->y;
     surface->x = (int)init->x << 12;
     init_h = init->h;
@@ -3914,7 +3919,7 @@ static inline s32 RepeatY(s16 y)
 
 static inline u16 SizeX(s32 shape)
 {
-    return tbl_020A17F0[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+    return NNSi_objSizeWTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
 
@@ -3925,7 +3930,7 @@ static inline u16 SizeX(s32 shape)
 
 static inline u16 SizeY(s32 shape)
 {
-    return tbl_020A17D8[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+    return NNSi_objSizeHTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
 
@@ -4636,11 +4641,11 @@ void CLACT_ClearActor(struct Actor *actor)
  * now closed and the file is at 4 of 6 relocation sites resolved:
  *
  *   func_02066748  0x02066748   12 bytes  -- veneer, resolves `veneer`
- *   func_02065BD0  0x02065BD0  168 bytes  -- OPEN, docs/notes/func_02065BD0.c.txt
+ *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
  *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
- *   func_02065C78  0x02065C78  108 bytes  -- closed, resolves `matched`
+ *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
  * func_02066748 is not decompilable and never will be.  It is a twelve-byte
  * ARM linker veneer, `ldr ip, [pc]; bx ip; .word 0x02067AA0`, and the
@@ -4653,7 +4658,7 @@ void CLACT_ClearActor(struct Actor *actor)
  * docs/idioms/a-veneer-attests-nothing-while-its-target-is-an-unlabelled-leaf.md
  * predicted.
  *
- * What remains is func_02065BD0, a 24-byte codegen near miss over one
+ * What remains is NNS_G2dBeginRendering, a 24-byte codegen near miss over one
  * zero-register allocation (the note names every spelling tried), and
  * CLACT_ApplyActorTransform, 584 bytes of soft-float record publishing that nobody has
  * attempted yet.  This function is itself the sole blocker for
@@ -4677,19 +4682,19 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
         return;
 
     func_02066748((int *)renderer, (int)&actor->image, (int)&actor->palette);
-    func_02065BD0(renderer);
+    NNS_G2dBeginRendering(renderer);
     CLACT_SetupActorDraw(actor, renderer);
     CLACT_SetOamOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
     CLACT_ApplyActorTransform(actor);
-    func_02065C78();
+    NNS_G2dEndRendering();
 }
 
 
 
 /*
  * Publishes five bitfields of the element's flag word at +0x60 into the
- * render record: the two-bit mode at bits 18-19 through func_02067AB8, the
- * two corner values through func_02067B78 when that mode is zero, then the
+ * render record: the two-bit mode at bits 18-19 through NNS_G2dSetRndCoreAffineOverwriteMode, the
+ * two corner values through NNS_G2dSetRndCoreFlipMode when that mode is zero, then the
  * four-bit value at bits 8-11 into +0x84, bit 24 into +0x90, bits 22-23 into
  * +0x8c and bits 16-17 into +0x88.
  *
@@ -4713,12 +4718,12 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
     int inv_mask;
     u8  mode_bits;
 
-    func_02067AB8(renderer, actor->affine_mode);
+    NNS_G2dSetRndCoreAffineOverwriteMode(renderer, actor->affine_mode);
 
     if (actor->affine_mode == 0) {
         flip_x = CLACT_GetActorFlip(actor, 0);
         flip_y = CLACT_GetActorFlip(actor, 1);
-        func_02067B78(renderer, flip_y, flip_x);
+        NNS_G2dSetRndCoreFlipMode(renderer, flip_y, flip_x);
     }
 
     mode_bits = actor->mode;
@@ -4738,12 +4743,12 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
  * All 584 concrete bytes are right; 36 of 40 relocation sites resolve.  The
  * four that do not are the three fan-in-1 callees of the trailing switch:
  *
- *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
+ *   NNSi_G2dRendererDrawCellZOffset  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
  *                                            from EXACT, see
- *                                            docs/notes/func_02065CE4.c.txt
- *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
+ *                                            docs/notes/NNSi_G2dRendererDrawCellZOffset.c.txt
+ *   NNSi_G2dRendererDrawCellTransformedZOffset  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
  *                                            the above, same near miss
- *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
+ *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
  *
  * Each has exactly one branch reference image-wide and it is the call in this
  * function, so `label` cannot see them and a single function cannot be split.
@@ -4757,7 +4762,7 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
  * `(f32)(v << 12) - 0.5f` otherwise, then truncated back to s32 by the
  * soft-float runtime.  The
  * second pair is published only when the 2-bit field at 0x60 bits 18-19 is
- * set, is followed by a scale (func_020664CC, 0x1000 == FX32_ONE) and a
+ * set, is followed by a scale (NNS_G2dScale, 0x1000 == FX32_ONE) and a
  * rotation read as a pair of s16 from the table at 0x020A1B38 indexed by
  * `actor->angle >> 4`, and is then undone by publishing the negated pair.  The
  * trailing switch on +0x68 picks the draw path; case 0 splits again on bit 0
@@ -4777,36 +4782,36 @@ void CLACT_ApplyActorTransform(struct Actor *actor)
 
     CONV(y_f, actor->pos.y);
     CONV(x_f, actor->pos.x);
-    func_020663D0((s32)x_f, (s32)y_f, 0);
+    NNS_G2dTranslate((s32)x_f, (s32)y_f, 0);
 
     if (actor->affine_mode != 0) {
         CONV(y_f, actor->origin.y);
         CONV(x_f, actor->origin.x);
-        func_020663D0((s32)x_f, (s32)y_f, 0);
+        NNS_G2dTranslate((s32)x_f, (s32)y_f, 0);
 
-        func_020664CC(actor->scale.x, actor->scale.y, 0x1000);
+        NNS_G2dScale(actor->scale.x, actor->scale.y, 0x1000);
 
         trig_idx = actor->angle >> 4;
-        func_02066620(FX_SinCosTable_[trig_idx * 2], FX_SinCosTable_[trig_idx * 2 + 1]);
+        NNS_G2dRotZ(FX_SinCosTable_[trig_idx * 2], FX_SinCosTable_[trig_idx * 2 + 1]);
 
         CONV(y_f, actor->origin.y);
         CONV(x_f, actor->origin.x);
-        func_020663D0(-(s32)x_f, -(s32)y_f, 0);
+        NNS_G2dTranslate(-(s32)x_f, -(s32)y_f, 0);
     }
 
     switch (actor->ctl.kind) {
     case 0:
         if (actor->hidden == 1) {
-            func_02065CE4((void *)actor->ctl.cur_cell);
+            NNSi_G2dRendererDrawCellZOffset((void *)actor->ctl.cur_cell);
         } else {
-            func_02065D4C(actor->ctl.anim);
+            NNSi_G2dRendererDrawCellTransformedZOffset(actor->ctl.anim);
         }
         break;
     case 1:
-        func_02065D4C(actor->ctl.anim);
+        NNSi_G2dRendererDrawCellTransformedZOffset(actor->ctl.anim);
         break;
     case 2:
-        func_02066080((struct MultiCellAnim *)actor->ctl.anim);
+        NNSi_G2dRendererDrawMultiCellTransformed((struct MultiCellAnim *)actor->ctl.anim);
         break;
     }
 }
@@ -5220,7 +5225,7 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     main_vram_addr = func_020637B4((int *)req->char_slot, 1);
     two = 2;
     sub_vram_addr = func_020637B4((int *)req->char_slot, two);
-    func_020642C8((char *)anim_ctl->anim, anim_data, anim_ctl->cell_bank, anim_ctl->xfer_handle,
+    NNS_G2dInitCellAnimationVramTransfered((char *)anim_ctl->anim, anim_data, anim_ctl->cell_bank, anim_ctl->xfer_handle,
                   two - 3, main_vram_addr, sub_vram_addr, (int)chars->raw, zero, chars->size);
 }
 
@@ -5239,7 +5244,7 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
  *    gets cell_bank, +0x70 gets mc_bank).  The honest residue with the image's
  *    pairing was 9 bytes.
  *  - `const struct ActorReq *req` with the four stores written straight from req and
- *    func_020648B4 fed a fresh req->mc_bank: the const source lets mwcc keep all
+ *    NNS_G2dGetMCWorkAreaSize fed a fresh req->mc_bank: the const source lets mwcc keep all
  *    four loads above the stores in field order and CSE the mc_bank re-read.
  *    The `volatile` device on +0x04 is no longer needed.
  *
@@ -5254,8 +5259,8 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     anim_ctl->mc_bank = req->mc_bank;
     anim_ctl->mc_anim_bank = req->mc_anim_bank;
 
-    anim_ctl->mc_work = sub_02030734(heap_id, func_020648B4(req->mc_bank, 1), 0, s_clact_c, 0x171d);
-    func_02064754((char *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
+    anim_ctl->mc_work = sub_02030734(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
+    NNS_G2dInitMCAnimation((char *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
     sub_0206469C((struct MultiCellAnim *)anim_ctl->anim, sub_020627D8(anim_ctl->mc_anim_bank, 0));
 }
 
@@ -5692,7 +5697,7 @@ void *CLACT_SetAnimIndex(struct AnimCtl *anim_ctl, u32 anim_idx)
  */
 void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame)
 {
-    func_02064384((struct CellAnim *)(anim_base + 0xc), frame);
+    NNS_G2dSetCellAnimationCurrentFrame((struct CellAnim *)(anim_base + 0xc), frame);
 }
 
 
@@ -5708,7 +5713,7 @@ void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame)
 
 void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
 {
-    func_02064384((struct CellAnim *)(anim_base + 0xc), frame);
+    NNS_G2dSetCellAnimationCurrentFrame((struct CellAnim *)(anim_base + 0xc), frame);
 }
 
 
@@ -5723,7 +5728,7 @@ void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
 
 /*
  * note:     promoted 2026-09-21: the blocker named below, 0x02064AB4, was
- *           filed EXACT as src/matched/func_02064AB4.c (pin ../2.0/sp2) by the
+ *           filed EXACT as src/matched/NNS_G2dSetMCAnimationCurrentFrame.c (pin ../2.0/sp2) by the
  *           pkt_02064934 lane, so the sole ABS32 site now resolves `matched`.
  *
  * The third row-0 handler of the table at 0x020A1394 (row map in
@@ -5777,7 +5782,7 @@ void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
  * of the range: its tail-call target 0x02064B68 is named only by its own
  * pool word, so including it caps the whole unit at MATCH.  It is parked
  * byte-correct in src/pending/CLACT_UpdateVramAnim.c, and it graduates when
- * 0x02064B68 does (docs/notes/sub_02064B68.c.txt).
+ * 0x02064B68 does (docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D4C4.c \
@@ -5799,7 +5804,7 @@ void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames)
 
 void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value)
 {
-    sub_020643C4((struct MultiCellAnim *)(anim_ctl->anim), value);
+    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
 
 
@@ -5813,7 +5818,7 @@ void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value)
 
 void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
 {
-    sub_020643C4((struct MultiCellAnim *)(anim_ctl->anim), value);
+    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
 
 
@@ -5836,7 +5841,7 @@ void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
  * nothing outside this range.  The one route left is an EXACT entry for
  * 0x02064B68 itself acting as a `matched` witness; that function is a
  * 168-byte two-armed cell/node walk which is four transposed instructions
- * away from matching, recorded in docs/notes/sub_02064B68.c.txt.
+ * away from matching, recorded in docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt.
  *
  * Kept out of unit_0204D4C4.c for exactly this reason: folding it back in
  * would cap that whole range at MATCH for one unattestable word.
@@ -5847,7 +5852,7 @@ void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
  */
 void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target)
 {
-    sub_02064B68((anim_ctl->anim), (void *)target);
+    NNS_G2dSetMCAnimationSpeed((anim_ctl->anim), (void *)target);
 }
 
 
@@ -5885,7 +5890,7 @@ void CLACT_ResetAnim(struct AnimCtl *anim_ctl)
 
 
 
-void CLACT_ResetCellAnim(void *anim_base){ func_020643A4((struct CellAnim *)((char *)anim_base + 0xc)); }
+void CLACT_ResetCellAnim(void *anim_base){ NNS_G2dRestartCellAnimation((struct CellAnim *)((char *)anim_base + 0xc)); }
 
 
 
@@ -5898,7 +5903,7 @@ void CLACT_ResetCellAnim(void *anim_base){ func_020643A4((struct CellAnim *)((ch
  */
 void CLACT_ResetMultiCellAnim(u8 *anim_base)
 {
-    func_020643A4((struct CellAnim *)(anim_base + 0xc));
+    NNS_G2dRestartCellAnimation((struct CellAnim *)(anim_base + 0xc));
 }
 
 
@@ -5908,7 +5913,7 @@ void CLACT_ResetMultiCellAnim(u8 *anim_base)
 
 /*
  * Tear the actor down and release the sub-object at +0x40: CLACT_ResetCellAnim on
- * the actor itself, then NNSi_G2dMCAnimUpdateBank on the tail.
+ * the actor itself, then NNSi_G2dSetMCInstanceCurrentFrameZero on the tail.
  *
  * Both call sites resolve from `matched` witnesses, which is what this file
  * waited for while it sat parked in src/pending/ with both PC24s wildcarded.
@@ -5925,7 +5930,7 @@ void CLACT_ResetMultiCellAnim(u8 *anim_base)
 void CLACT_ResetVramAnim(void *anim_base)
 {
     CLACT_ResetCellAnim(anim_base);
-    NNSi_G2dMCAnimUpdateBank((struct CellXferState *)((u8 *)anim_base + 0x40));
+    NNSi_G2dSetMCInstanceCurrentFrameZero((struct CellXferState *)((u8 *)anim_base + 0x40));
 }
 
 
@@ -6330,7 +6335,7 @@ u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx)
  * form src/matched/unit_02045C44.c uses.  When the third argument is set the
  * block is treated as a compressed image: its first word carries the
  * uncompressed size in the top 24 bits, a normal-end block of that size is
- * allocated, func_020834C0 expands into it and the scratch is released.
+ * allocated, MI_UncompressLZ8 expands into it and the scratch is released.
  *
  * The heap id is computed once above the branch, which is why the `lsl #16`
  * sits before the `beq` and only the matching `lsr #16` is duplicated into
@@ -6340,7 +6345,7 @@ u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx)
  * The decompressing arm is the fall-through, so the guard is written `!= 0`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * func_020834C0 takes source first and destination second here, and only two
+ * MI_UncompressLZ8 takes source first and destination second here, and only two
  * arguments: r2 still holds the allocator's clobbered register at the call and
  * the original never reloads it.  Other files in the tree declare a
  * three-argument (dest, src, size) form of the same address; the declarations
@@ -6364,7 +6369,7 @@ void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 hea
         packed = (struct CompHeader *)ARC_TOOL_LoadHandleMember(archive, file_idx,
                   (u16)((heapId & 0x7fff) | 0x8000));
         out = sub_02030734(heapId, packed->header >> 8, 0, s_clact_c, 0x1ba5);
-        func_020834C0(packed, out);
+        MI_UncompressLZ8(packed, out);
         sub_020307B0(packed);
     } else {
         out = ARC_TOOL_LoadHandleMember(archive, file_idx,

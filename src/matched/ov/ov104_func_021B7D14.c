@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D14
+ * function: IRC_RHYTHM_VBlankActorSystem
  * address: 0x021B7D14
  * packet: pkt_ov104_021B7D14
  * region: ov104
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void CLACT_VBlankSystem(void);
-void func_021B7D14(void *p) { CLACT_VBlankSystem(); }
+void IRC_RHYTHM_VBlankActorSystem(void *p) { CLACT_VBlankSystem(); }

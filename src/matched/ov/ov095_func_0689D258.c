@@ -1,5 +1,5 @@
 /*
- * function: func_0689D258
+ * function: BTL_POSPOKE_SetupPos
  * address:  0x0689D258
  * packet:   pkt_ov095_0689D258
  * region:   ov095
@@ -33,7 +33,7 @@ extern int func_0689D2C8(int, int, int);
 extern int func_0689D2D8(int);
 extern int func_0689D2E8(int);
 
-void func_0689D258(T *a, int b, int c, u8 d)
+void BTL_POSPOKE_SetupPos(T *a, int b, int c, u8 d)
 {
     u8 o1;
     u8 o0;

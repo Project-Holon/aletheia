@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5430",
+   "name": "ghiDoReceivingFile",
    "address": "0x021C5430",
    "kind": "sdk",
    "region": "ov114",

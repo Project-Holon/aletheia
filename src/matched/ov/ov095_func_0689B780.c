@@ -1,5 +1,5 @@
 /*
- * function: func_0689B780
+ * function: BTLV_SCD_ShowCounterScreen
  * address:  0x0689B780
  * packet:   pkt_0689B780
  * region:   ov095
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern void func_0220270C(char *s, int mode, void *arg);
 
-void func_0689B780(void *p, void *q)
+void BTLV_SCD_ShowCounterScreen(void *p, void *q)
 {
     func_0220270C(((struct Obj21900 *)p)->fB0, 6, q);
 }

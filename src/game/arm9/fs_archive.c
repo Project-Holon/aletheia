@@ -1,7 +1,7 @@
 /*
  * file:     fs_archive.c
  * unit:     yes
- * function: func_02077634, func_0207765C, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, func_02077C78, func_02077CFC, FSi_SendCommand, func_02077EB8, func_02077F44, func_02078018, func_02078078, func_02078360, func_02078384, func_02078484, func_02078530, func_02078540, func_02078588, func_02078648, func_020786D8, func_02078734
+ * function: func_02077634, func_0207765C, FSi_WaitForArchiveCompletion, FSi_InvokeCommand, FSi_NextCommand, func_02077C78, func_02077CFC, FSi_SendCommand, func_02077EB8, func_02077F44, func_02078018, func_02078078, FS_InitArchive, FS_RegisterArchiveName, func_02078484, func_02078530, func_02078540, func_02078588, func_02078648, func_020786D8, func_02078734
  * address:  0x02077634
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -322,9 +322,9 @@ extern int STD_CompareNString(const char *str1, const char *str2, int len);
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-void func_02078360(FSArchive *p_arc);
+void FS_InitArchive(FSArchive *p_arc);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
-BOOL func_02078384(FSArchive *p_arc, const char *name, u32 name_len);
+BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len);
 void func_02078484(FSArchive *p_arc);
 char *func_02078530(FSArchive *arc);
 BOOL func_02078540(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl);
@@ -1860,7 +1860,7 @@ FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath)
 /*
  * sdk:      FS_InitArchive (fs_archive.o)
  */
-void func_02078360(FSArchive *p_arc)
+void FS_InitArchive(FSArchive *p_arc)
 {
     MI_CpuFill8(p_arc, 0, sizeof(FSArchive));
     p_arc->queue.head = p_arc->queue.tail = NULL;
@@ -1905,7 +1905,7 @@ void func_02078360(FSArchive *p_arc)
 /*
  * sdk:      FS_RegisterArchiveName (libfs.TWL.HYB.a fs_archive.o)
  */
-BOOL func_02078384(FSArchive *p_arc, const char *name, u32 name_len)
+BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len)
 {
     BOOL retval = 0;
     u32 bak_intr = OS_DisableInterrupts();

@@ -51,7 +51,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   d_021E8DBC 0x021E8DBC data a1
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
@@ -479,7 +479,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -972,9 +972,9 @@ u32 *func_021E567C(int unused, int mode, int heap)
     w[5] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
     hd = func_02049F78(h, 0, (u32)&out, heap);
     data = (u8 *)out[3];
-    func_02082D44(data, (u8 *)w + 0x38, 0x20);
+    MI_CpuCopy8(data, (u8 *)w + 0x38, 0x20);
     k += 0x9b;
-    func_02082D44(data + k, (u8 *)w + 0x58, 0x20);
+    MI_CpuCopy8(data + k, (u8 *)w + 0x58, 0x20);
     func_020307B0(hd);
     ARC_TOOL_DeleteHandle(h);
     l = 0x17;

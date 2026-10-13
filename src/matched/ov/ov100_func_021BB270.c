@@ -1,5 +1,5 @@
 /*
- * function: func_021BB270
+ * function: IRCBATTLEMATCH_StepWaitSession
  * address: 0x021BB270
  * packet: pkt_ov100_021BB270
  * region: ov100
@@ -34,71 +34,71 @@
  *   Counter increment is unsigned wrapping then signed compare as in ROM.
  * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: GFL_NET_HANDLE_GetNegotiationState filed EXACT as src/matched/arm9/GFL_NET_HANDLE_GetNegotiationState.c (relocation resolves after label regeneration); GFL_NET_IRC_WIRELESS_GetRetryCount veneer (to 0x0203E590, filed EXACT) also needs regeneration.
  * symbols:
- *   func_021BB180 0x021BB180 thumb ov100
- *   func_021BA5F4 0x021BA5F4 thumb ov100
- *   func_021BA3A4 0x021BA3A4 thumb ov100
- *   func_021BA64C 0x021BA64C thumb ov100
+ *   IRCBATTLEMATCH_StepAnimateIcons 0x021BB180 thumb ov100
+ *   IRCBATTLEMATCH_FreeMessageWindows 0x021BA5F4 thumb ov100
+ *   IRCBATTLEMATCH_PrintMainMessage 0x021BA3A4 thumb ov100
+ *   IRCBATTLEMATCH_DeleteActor 0x021BA64C thumb ov100
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021B97BC 0x021B97BC thumb ov100
+ *   IRCBATTLEMATCH_NudgeActor 0x021B97BC thumb ov100
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_GetNegotiationState 0x020399DC arm
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BB154 0x021BB154 thumb ov100
- *   func_021BAEE0 0x021BAEE0 thumb ov100
- *   func_021BAF4C 0x021BAF4C thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepShowDisconnectMessage 0x021BB154 thumb ov100
+ *   IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait 0x021BAEE0 thumb ov100
+ *   IRCBATTLEMATCH_StepOpenCancelConfirm 0x021BAF4C thumb ov100
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   func_02041B6C 0x02041B6C arm
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
- *   func_021BA530 0x021BA530 thumb ov100
- *   func_021BA290 0x021BA290 thumb ov100
- *   d_021BB804 0x021BB804 data a4
+ *   IRCBATTLEMATCH_PrintRetryMessage 0x021BA530 thumb ov100
+ *   IRCBATTLEMATCH_OpenWaitMenu 0x021BA290 thumb ov100
+ *   gIrcBattleMatchModeMessages 0x021BB804 data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Word { int x; };
 struct Obj;struct TaskMenu;struct Entry;
-extern struct Word d_021BB804[];
-extern void func_021BB180(int);
-extern void func_021BA5F4(unsigned a);
-extern void func_021BA64C(unsigned a, unsigned b);
-extern void func_021BA3A4(struct Word *,int);
+extern struct Word gIrcBattleMatchModeMessages[];
+extern void IRCBATTLEMATCH_StepAnimateIcons(int);
+extern void IRCBATTLEMATCH_FreeMessageWindows(unsigned a);
+extern void IRCBATTLEMATCH_DeleteActor(unsigned a, unsigned b);
+extern void IRCBATTLEMATCH_PrintMainMessage(struct Word *,int);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32),CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern void func_021B97BC(int,int,int,int);
+extern void IRCBATTLEMATCH_NudgeActor(int,int,int,int);
 extern int GFL_NET_GetRunState(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_HANDLE_GetNegotiationState(struct Entry *);
-extern void func_021B95B8(u8 *,u32);
-extern void func_021BB154(int p);
-extern void func_021BAEE0(int);
-extern void func_021BAF4C(int);
+extern void IRCBATTLEMATCH_SetStep(u8 *,u32);
+extern void IRCBATTLEMATCH_StepShowDisconnectMessage(int p);
+extern void IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait(int);
+extern void IRCBATTLEMATCH_StepOpenCancelConfirm(int);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *),func_02041B6C(u32);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
-extern void func_021BA530(int,int),func_021BA290(int,int);
-void func_021BB270(int p)
+extern void IRCBATTLEMATCH_PrintRetryMessage(int,int),IRCBATTLEMATCH_OpenWaitMenu(int,int);
+void IRCBATTLEMATCH_StepWaitSession(int p)
 {
     int value;
     if(*(int *)(p+0xc94) && *(int *)(p+0x24c)==5) {
-        func_021BB180(p);
+        IRCBATTLEMATCH_StepAnimateIcons(p);
     } else if(*(int *)(p+0xc84)==1 && *(int *)(p+0x24c)!=9) {
         if(*(int *)(p+0xc80)==1) {
-            func_021BA5F4(p);
-            func_021BA3A4(&d_021BB804[*(int *)(p+0x24c)],p);
-            func_021BA64C(p,4);
-            func_021BA64C(p,5);
+            IRCBATTLEMATCH_FreeMessageWindows(p);
+            IRCBATTLEMATCH_PrintMainMessage(&gIrcBattleMatchModeMessages[*(int *)(p+0x24c)],p);
+            IRCBATTLEMATCH_DeleteActor(p,4);
+            IRCBATTLEMATCH_DeleteActor(p,5);
             *(int *)(p+0xc80)=0;
             if(*(struct Obj **)(p+0x2c8)) {
                 CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x2c8),0);
                 CLACT_SetActorAutoAnim(*(struct Obj **)(p+0x2d0),0);
             }
         }
-        func_021B97BC(p,0,-2,0);
-        func_021B97BC(p,0,2,2);
+        IRCBATTLEMATCH_NudgeActor(p,0,-2,0);
+        IRCBATTLEMATCH_NudgeActor(p,0,2,2);
         *(u32 *)(p+0xc88)=*(u32 *)(p+0xc88)+1;
         if(*(int *)(p+0xc88)>30) {
             if(*(struct Obj **)(p+0x2c8)) {
@@ -109,7 +109,7 @@ void func_021BB270(int p)
         }
     }
     if(GFL_NET_GetRunState() && GFL_NET_HANDLE_GetNegotiationState(GFL_NET_HANDLE_GetCurrentHandle())==7) {
-        func_021B95B8((u8 *)p,(u32)func_021BB154);
+        IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepShowDisconnectMessage);
         return;
     }
     if(APP_TASKMENU_IsFinish(*(struct TaskMenu **)(p+0xcc0))) {
@@ -118,23 +118,23 @@ void func_021BB270(int p)
         *(int *)(p+0xcc0)=0;
         func_02041B6C(6);
         if(*(int *)(p+0xcbc)) {
-            func_021B95B8((u8 *)p,(u32)func_021BAEE0);return;
+            IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait);return;
         }
         if(value==0) {
-            func_021B95B8((u8 *)p,(u32)func_021BAF4C);return;
+            IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepOpenCancelConfirm);return;
         } else {
-            func_021B95B8((u8 *)p,(u32)func_021BAEE0);return;
+            IRCBATTLEMATCH_SetStep((u8 *)p,(u32)IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait);return;
         }
     }
     if(*(int *)(p+0x24c)==9) {
         if(*(int *)(p+0xce8)!=GFL_NET_IRC_WIRELESS_GetRetryCount()) {
-            func_021BA530(0x27,p);
+            IRCBATTLEMATCH_PrintRetryMessage(0x27,p);
             *(int *)(p+0xce8)=GFL_NET_IRC_WIRELESS_GetRetryCount();
         }
         if(*(int *)(p+0xce8)>0 && *(int *)(p+0xcbc)==1) {
             APP_TASKMENU_CloseMenu(*(struct TaskMenu **)(p+0xcc0));
             *(int *)(p+0xcc0)=0;
-            func_021BA290(p,1);
+            IRCBATTLEMATCH_OpenWaitMenu(p,1);
         }
     }
 }

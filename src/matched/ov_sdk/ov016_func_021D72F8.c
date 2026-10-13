@@ -1,5 +1,5 @@
 /*
- * function: func_021D72F8
+ * function: DWCi_RepairVram
  * address:  0x021D72F8
  * packet:   pkt_ov016_021D72F8
  * region:   ov016
@@ -29,7 +29,7 @@
  *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
  *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
  *   GX_SetBankForLCDC  0x0208068C  arm
- *   g_021DE6B0  0x021DE6B0  data
+ *   gSubWork  0x021DE6B0  data
  */
 
 #include "../include/G_VRAMBANK.h"
@@ -67,27 +67,27 @@ extern void GX_SetBankForSubOBJ(int sub_obj);
 extern void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
 extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 extern void GX_SetBankForLCDC(int lcdc);
-extern struct VRAMBANK g_021DE6B0;
+extern struct VRAMBANK gSubWork;
 
-void func_021D72F8(void)
+void DWCi_RepairVram(void)
 {
 	GX_DisableBankForBG();
 	GX_DisableBankForOBJ();
 	GX_DisableBankForSubBG();
 	GX_DisableBankForSubOBJ();
 	func_021D73BC();
-	GX_SetBankForBG(g_021DE6B0.bg);
-	GX_SetBankForOBJ(g_021DE6B0.obj);
-	GX_SetBankForBGExtPltt(g_021DE6B0.bgExt);
-	GX_SetBankForOBJExtPltt(g_021DE6B0.objExt);
-	GX_SetBankForTex(g_021DE6B0.tex);
-	GX_SetBankForTexPltt(g_021DE6B0.texPltt);
-	GX_SetBankForClearImage(g_021DE6B0.clrImg);
-	GX_SetBankForSubBG(g_021DE6B0.subBg);
-	GX_SetBankForSubOBJ(g_021DE6B0.subObj);
-	GX_SetBankForSubBGExtPltt(g_021DE6B0.subBgExt);
-	GX_SetBankForSubOBJExtPltt(g_021DE6B0.subObjExt);
-	GX_SetBankForLCDC(g_021DE6B0.lcdc);
+	GX_SetBankForBG(gSubWork.bg);
+	GX_SetBankForOBJ(gSubWork.obj);
+	GX_SetBankForBGExtPltt(gSubWork.bgExt);
+	GX_SetBankForOBJExtPltt(gSubWork.objExt);
+	GX_SetBankForTex(gSubWork.tex);
+	GX_SetBankForTexPltt(gSubWork.texPltt);
+	GX_SetBankForClearImage(gSubWork.clrImg);
+	GX_SetBankForSubBG(gSubWork.subBg);
+	GX_SetBankForSubOBJ(gSubWork.subObj);
+	GX_SetBankForSubBGExtPltt(gSubWork.subBgExt);
+	GX_SetBankForSubOBJExtPltt(gSubWork.subObjExt);
+	GX_SetBankForLCDC(gSubWork.lcdc);
 	*(volatile unsigned short *)0x04000050 = 0;
 	*(volatile unsigned short *)0x04001050 = 0;
 	*(volatile unsigned int *)0x04000010 = 0;

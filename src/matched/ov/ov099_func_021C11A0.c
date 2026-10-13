@@ -1,5 +1,5 @@
 /*
- * function: func_021C11A0
+ * function: WIFICLUB_StateWaitNegotiation
  * address: 0x021C11A0
  * packet: pkt_ov099_021C11A0
  * region: ov099
@@ -14,28 +14,28 @@
  *   symbols: d_021469DC 0x021469DC data a4.
  * prototype: 399A8 leaves a live pointer consumed by 399B8, 39C68 and 3D1A4.
  * symbols:
- *   func_021BA928 0x021BA928 thumb ov099
+ *   WIFICLUB_UpdateTalkStream 0x021BA928 thumb ov099
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
- *   func_021BA874 0x021BA874 thumb ov099
- *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_021C1154 0x021C1154 thumb ov099
+ *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
+ *   WIFICLUB_HandleNetFailure 0x021C1154 thumb ov099
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
- *   func_021BC090 0x021BC090 thumb ov099
+ *   WIFICLUB_ResetTimeIcon 0x021BC090 thumb ov099
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   GFL_NET_HANDLE_GetNegotiationNum 0x020399EC arm
  */
 typedef unsigned short u16;
-extern int func_021BA928(void *);
+extern int WIFICLUB_UpdateTalkStream(void *);
 extern int GFL_NET_STATE_GetWifiState(void);
 extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
-extern void func_021BA874(void *, int);
-extern void func_021BAAB8(char *, int, int);
-extern int func_021C1154(char *);
+extern void WIFICLUB_SetPartnerNameWord(void *, int);
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+extern int WIFICLUB_HandleNetFailure(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Entry;
@@ -44,31 +44,31 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern void MI_CpuFill8(void *, int, int);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
-extern void func_021BC090(void *);
+extern void WIFICLUB_ResetTimeIcon(void *);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
-int func_021C11A0(char *p, int ret)
+int WIFICLUB_StateWaitNegotiation(char *p, int ret)
 {
-    func_021BA928(p);
+    WIFICLUB_UpdateTalkStream(p);
     if (GFL_NET_STATE_GetWifiState() >= 4 || GFL_NET_STATE_IsWifiDisconnectFinal() != 0) {
         if (*(u16 *)(p + 0x244) != 0) {
-            func_021BAAB8(p, 0x44, 0);
+            WIFICLUB_ShowStreamedMessage(p, 0x44, 0);
         } else {
-            func_021BA874(p, *(int *)(p + 0x1f0));
-            func_021BAAB8(p, 15, 0);
+            WIFICLUB_SetPartnerNameWord(p, *(int *)(p + 0x1f0));
+            WIFICLUB_ShowStreamedMessage(p, 15, 0);
         }
         *(u16 *)(p + 0x244) = 0;
         *(int *)(p + 0x1cc) = 19;
-    } else if (func_021C1154(p) == 0) {
+    } else if (WIFICLUB_HandleNetFailure(p) == 0) {
         if (*(int *)(p + 0x1e0) > 1) --*(int *)(p + 0x1e0);
         if (*(int *)(p + 0x1e0) == 0) {
             if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetCurrentHandle()) != 0) {
                 MI_CpuFill8(p + 0x1f4, 0, 0x40);
                 GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 14, 10);
                 *(u16 *)(p + 0x244) = 0;
-                func_021BAAB8(p, 0x45, 0);
-                func_021BC090(p);
+                WIFICLUB_ShowStreamedMessage(p, 0x45, 0);
+                WIFICLUB_ResetTimeIcon(p);
                 *(int *)(p + 0x1cc) = 0x2a;
             }
         } else if (*(int *)(p + 0x1e0) == 1) {

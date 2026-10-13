@@ -1,5 +1,5 @@
 /*
- * function: func_021C245C
+ * function: ghiPostSetAutoFree
  * address:  0x021C245C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-void func_021C245C(u8 *p, u32 v)
+void ghiPostSetAutoFree(u8 *p, u32 v)
 {
     ((struct Obj22579 *)p)->f18 = v;
 }

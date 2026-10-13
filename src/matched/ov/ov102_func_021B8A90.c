@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A90
+ * function: IRC_COMPATIBLE_MENU_StepLinear
  * address:  0x021B8A90
  * packet:   pkt_021B8A90
  * region:   ov102
@@ -22,7 +22,7 @@ typedef struct Struct021B8A90 {
     int f14;
 } Struct021B8A90;
 
-int func_021B8A90(Struct021B8A90 *p)
+int IRC_COMPATIBLE_MENU_StepLinear(Struct021B8A90 *p)
 {
     if (p->f10 < p->f14 - 1) {
         p->f10 = p->f10 + 1;

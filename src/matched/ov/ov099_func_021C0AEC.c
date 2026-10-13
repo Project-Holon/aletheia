@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AEC
+ * function: WIFICLUB_StateAnswerMenu
  * address: 0x021C0AEC
  * packet: pkt_ov099_021C0AEC
  * region: ov099
@@ -27,23 +27,23 @@
  * volatile: none.
  * symbols:
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_021B97F4 0x021B97F4 thumb ov099
- *   func_021BE2A8 0x021BE2A8 thumb ov099
+ *   WIFICLUBACTOR_GetPickResult 0x021B97F4 thumb ov099
+ *   WIFICLUB_FindPeerActor 0x021BE2A8 thumb ov099
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_021B9AE0 0x021B9AE0 thumb ov099
- *   func_021BE900 0x021BE900 thumb ov099
+ *   WIFICLUBACTOR_RestoreActorUpdate 0x021B9AE0 thumb ov099
+ *   WIFICLUB_OnFatalError 0x021BE900 thumb ov099
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021BA874 0x021BA874 thumb ov099
- *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_021C23B8 0x021C23B8 thumb ov099
- *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_021C27E0 0x021C27E0 thumb ov099
- *   func_021BDD54 0x021BDD54 thumb ov099
- *   func_021C08F8 0x021C08F8 thumb ov099
- *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
+ *   WIFICLUB_GetFriendStatus 0x021C23B8 thumb ov099
+ *   WIFICLUB_GetStatusKind 0x021BDD48 thumb ov099
+ *   WIFICLUB_GetStatusSeatFlag 0x021C27E0 thumb ov099
+ *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
+ *   WIFICLUB_TryStartPartnerRequest 0x021C08F8 thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,24 +51,24 @@ typedef unsigned int u32;
 typedef int s32;
 struct Obj;
 extern s32 BMP_MENULIST_Main(struct Obj *);
-extern u8 func_021B97F4(char *);
-extern void *func_021BE2A8(char *, int);
+extern u8 WIFICLUBACTOR_GetPickResult(char *);
+extern void *WIFICLUB_FindPeerActor(char *, int);
 extern int GFL_NET_STATE_IsFatalError(void);
-extern int func_021BA8BC(void *);
+extern int WIFICLUB_DeleteWindow(void *);
 extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_021B9AE0(void *, u8 *);
-extern void func_021BE900(char *);
+extern void WIFICLUBACTOR_RestoreActorUpdate(void *, u8 *);
+extern void WIFICLUB_OnFatalError(char *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void func_021BA874(char *, int);
-extern void func_021BAAB8(char *, int, int);
-extern int func_021C23B8(int);
-extern u8 func_021BDD48(char *, void *);
-extern u8 func_021C27E0(void *);
-extern u8 func_021BDD54(char *, void *);
-extern int func_021C08F8(char *);
-extern void func_021BA8EC(char *);
-int func_021C0AEC(char *p, int ret)
+extern void WIFICLUB_SetPartnerNameWord(char *, int);
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+extern int WIFICLUB_GetFriendStatus(int);
+extern u8 WIFICLUB_GetStatusKind(char *, void *);
+extern u8 WIFICLUB_GetStatusSeatFlag(void *);
+extern u8 WIFICLUB_GetStatusPhase(char *, void *);
+extern int WIFICLUB_TryStartPartnerRequest(char *);
+extern void WIFICLUB_ClearTalkWindow(char *);
+int WIFICLUB_StateAnswerMenu(char *p, int ret)
 {
     int changed;
     s32 choice;
@@ -78,33 +78,33 @@ int func_021C0AEC(char *p, int ret)
     int other;
     changed = 0;
     choice = BMP_MENULIST_Main(*(struct Obj **)(p + 0xbc));
-    n = func_021B97F4(p + 0x274);
-    q = func_021BE2A8(p, n);
+    n = WIFICLUBACTOR_GetPickResult(p + 0x274);
+    q = WIFICLUB_FindPeerActor(p, n);
     if (GFL_NET_STATE_IsFatalError()) {
-        *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
+        *(int *)(p + 0x1a4) = WIFICLUB_DeleteWindow(*(void **)(p + 0x1a4));
         BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
         BMP_MENUWORK_Delete(*(void **)(p + 0xb8));
         if (q)
-            func_021B9AE0(p + 0x274, q);
-        func_021BE900(p);
+            WIFICLUBACTOR_RestoreActorUpdate(p + 0x274, q);
+        WIFICLUB_OnFatalError(p);
         return ret;
     }
     switch (choice) {
     case -1:
         if (q == 0) {
             BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
-            func_021BA874(p, n - 1);
-            func_021BAAB8(p, 13, 0);
+            WIFICLUB_SetPartnerNameWord(p, n - 1);
+            WIFICLUB_ShowStreamedMessage(p, 13, 0);
             *(int *)(p + 0x1cc) = 0x15;
             changed = 1;
         } else {
-            state = func_021C23B8(n - 1);
-            func_021BDD48(p, (void *)state);
-            changed = func_021C27E0((void *)state);
-            other = func_021BDD54(p, (void *)state);
-            if (other != func_021BDD54(p, p + 0x24c) || changed != func_021C27E0(p + 0x24c)) {
-                func_021BA874(p, n - 1);
-                func_021BAAB8(p, 13, 0);
+            state = WIFICLUB_GetFriendStatus(n - 1);
+            WIFICLUB_GetStatusKind(p, (void *)state);
+            changed = WIFICLUB_GetStatusSeatFlag((void *)state);
+            other = WIFICLUB_GetStatusPhase(p, (void *)state);
+            if (other != WIFICLUB_GetStatusPhase(p, p + 0x24c) || changed != WIFICLUB_GetStatusSeatFlag(p + 0x24c)) {
+                WIFICLUB_SetPartnerNameWord(p, n - 1);
+                WIFICLUB_ShowStreamedMessage(p, 13, 0);
                 *(int *)(p + 0x1cc) = 0x15;
                 changed = 1;
             } else {
@@ -120,18 +120,18 @@ int func_021C0AEC(char *p, int ret)
         GFL_USE_PlaySeDefaultVolume(0x54c);
         if (choice == 1) {
             *(int *)(p + 0x1cc) = 11;
-            func_021C08F8(p);
+            WIFICLUB_TryStartPartnerRequest(p);
         } else if (choice == 2) {
             *(int *)(p + 0x1cc) = 0x2e;
         }
         break;
     }
     if (changed == 0)
-        func_021BA8EC(p);
-    *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
+        WIFICLUB_ClearTalkWindow(p);
+    *(int *)(p + 0x1a4) = WIFICLUB_DeleteWindow(*(void **)(p + 0x1a4));
     BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
     BMP_MENUWORK_Delete(*(void **)(p + 0xb8));
     if (q)
-        func_021B9AE0(p + 0x274, q);
+        WIFICLUBACTOR_RestoreActorUpdate(p + 0x274, q);
     return ret;
 }

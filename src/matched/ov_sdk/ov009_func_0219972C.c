@@ -21,7 +21,7 @@
  *   func_02199360  0x02199360  arm  ov009
  *   func_0217F264  0x0217F264  arm  ov009
  *   g_021A5A7C     0x021A5A7C  data
- *   g_021ACEFC     0x021ACEFC  data
+ *   gGsAvailabilityGameName     0x021ACEFC  data
  *   g_021AE6C4     0x021AE6C4  data
  *   g_021A5B8C     0x021A5B8C  data
  *   g_021AE698     0x021AE698  data
@@ -104,7 +104,7 @@ extern unsigned short func_02199360(int sock);
 extern unsigned int func_0217F264(void);
 
 extern struct Magic6 g_021A5A7C;
-extern char g_021ACEFC[];
+extern char gGsAvailabilityGameName[];
 extern unsigned int g_021AE6C4;
 extern unsigned int g_021AE6C0;
 extern unsigned int g_021AE6BC;
@@ -136,8 +136,8 @@ void func_0219972C(NATNegotiator *neg)
     buffer[18] = (unsigned char)localip;
     buffer[19] = 0;
     buffer[20] = 0;
-    func_02094798(buffer + 21, g_021ACEFC);
-    packetlen = func_0209477C(g_021ACEFC) + 22;
+    func_02094798(buffer + 21, gGsAvailabilityGameName);
+    packetlen = func_0209477C(gGsAvailabilityGameName) + 22;
 
     if (p->usegameport && !neg->initAckRecv[0]) {
         p->porttype = 0;

@@ -12,11 +12,11 @@
  * sdk:      SOCLi_ReadUdpBuffer (socl_read.o)
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_020857B0  0x020857B0  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_SleepThread  0x020857B0  arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A1CD8  0x021A1CD8  data
  */
 
@@ -51,11 +51,11 @@ struct SOCLSocket {
     signed char flag_mode;
 };
 
-extern unsigned long func_02087988(void);
-extern void func_020857B0(void *queue);
+extern unsigned long OS_DisableInterrupts(void);
+extern void OS_SleepThread(void *queue);
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct G_021A1CD8 *g_021A1CD8;
 
 static inline int isNotReady(struct SOCLSocket *socket)
@@ -75,7 +75,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
     int result;
 
     pipe = socket->recv_pipe;
-    enable = func_02087988();
+    enable = OS_DisableInterrupts();
     udpdata = pipe->head;
     if (udpdata == 0) {
         for (;;) {
@@ -83,7 +83,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
                 result = -6;
                 break;
             }
-            func_020857B0(&pipe->waiting);
+            OS_SleepThread(&pipe->waiting);
             if (func_0215F3D0(socket) || !isNotReady(socket)) {
                 result = -0x38;
                 break;
@@ -110,6 +110,6 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
             pipe->recv_size -= (unsigned short)result;
         }
     }
-    func_0208799C(enable);
+    OS_RestoreInterrupts(enable);
     return result;
 }

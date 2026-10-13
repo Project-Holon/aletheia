@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9D8C",
+   "name": "NHTTPi_SocConnect",
    "address": "0x021B9D8C",
    "kind": "sdk",
    "region": "ov114",

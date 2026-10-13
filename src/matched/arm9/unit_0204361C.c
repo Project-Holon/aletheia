@@ -24,7 +24,7 @@
  *   0x02043658  read back gVisiblePlane[1], the engine-B software copy
  *
  * symbols:
- *   func_0207D46C  0x0207D46C  arm
+ *   GX_DispOn  0x0207D46C  arm
  *   gVisiblePlane  0x02146A48  data
  *
  * Verified with:
@@ -37,11 +37,11 @@ typedef unsigned int   u32;
 
 extern u32 gVisiblePlane[2];
 
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 
 void BG_SYS_ResetSubDisplay(void)
 {
-    func_0207D46C();
+    GX_DispOn();
     *(volatile u32 *)0x04001000 |= 0x10000;
 }
 

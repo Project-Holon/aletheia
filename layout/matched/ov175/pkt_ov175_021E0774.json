@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E0774",
+   "name": "sciWsCreateSession",
    "address": "0x021E0774",
    "kind": "sdk",
    "region": "ov175",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD318
+ * function: WIFICLUB_StateSendRegisteredParty
  * address:  0x021BD318
  * packet:   pkt_ov099_021BD318
  * region:   ov099
@@ -14,8 +14,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   GFL_NET_SendData  0x0203D3F8  arm
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_021BC090  0x021BC090  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ResetTimeIcon  0x021BC090  thumb  ov099
  */
 #include "../include/Obj13690.h"
 
@@ -28,10 +28,10 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
+extern void WIFICLUB_ResetTimeIcon(char *p);
 
-int func_021BD318(char *p, int v)
+int WIFICLUB_StateSendRegisteredParty(char *p, int v)
 {
     int t;
     u32 h;
@@ -43,8 +43,8 @@ int func_021BD318(char *p, int v)
     h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
     if (GFL_NET_SendData(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
                       *(u32 *)(*(char * *)&((struct Obj13690 *)p)->f248 + t * 4 + 0x14), 0, 0, 1) != 0) {
-        func_021BAAB8(p, 0x4C, 0);
-        func_021BC090(p);
+        WIFICLUB_ShowStreamedMessage(p, 0x4C, 0);
+        WIFICLUB_ResetTimeIcon(p);
         ((struct Obj13690 *)p)->f1CC = 0x98;
     }
     return v;

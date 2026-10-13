@@ -45,7 +45,7 @@
  *   TCBL_Main  0x020310C4  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008558  0x02008558  thumb
  *   func_02008A14  0x02008A14  thumb
@@ -130,7 +130,7 @@
  *   func_021C628C  0x021C628C  thumb
  *   func_020419E4  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
- *   func_02087AE4  0x02087AE4  arm
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   func_02040B1C  0x02040B1C  arm
  *   func_020410D0  0x020410D0  arm
  *   func_02041300  0x02041300  arm
@@ -1031,7 +1031,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void *func_020089CC(void *p);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *func_02012944(void *p);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
@@ -1102,7 +1102,7 @@ extern void func_021C61EC(Work_021C5718 *p, int v, int a);
 extern void func_021C628C(Work_021C5718 *p, int v, int a);
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
@@ -1413,7 +1413,7 @@ int func_021C40DC(void *man, int *state, Args_021C40DC *args, Work_021C40DC *p)
 
     if (!p->info->f4_5) {
         func_021C59B0(p->pix, p->info->bitmap);
-        func_02082D44(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = func_02012944(p->args->f4);
@@ -2593,10 +2593,10 @@ void func_021C5874(void)
     m._01 = 0;
     m._10 = 0;
     m._11 = d;
-    func_02087AE4();
+    OS_WaitVBlankIntr();
     func_0207D59C((void *)0x04001020, &m, 0x80, 0x60, 0, 0);
     func_0207D59C((void *)0x04001030, &m, 0x80, 0x60, 0, 0);
-    func_02087AE4();
+    OS_WaitVBlankIntr();
     func_0207D59C((void *)0x04000030, &m, 0x80, 0, 0, 0);
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217352C",
+   "name": "DWCi_ServerSynTimeoutExec",
    "address": "0x0217352C",
    "kind": "sdk",
    "region": "ov009",

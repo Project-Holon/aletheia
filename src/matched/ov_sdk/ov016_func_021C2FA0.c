@@ -12,73 +12,73 @@
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
  *
  * symbols:
- *   func_021D5580 0x021D5580 arm ov016
- *   func_021BCB58 0x021BCB58 arm ov016
- *   func_021D6F38 0x021D6F38 arm ov016
- *   func_021BD5A8 0x021BD5A8 arm ov016
- *   func_021BD138 0x021BD138 arm ov016
- *   func_021D4C68 0x021D4C68 arm ov016
- *   func_021D6090 0x021D6090 arm ov016
- *   func_021C0E50 0x021C0E50 arm ov016
- *   func_021C0E40 0x021C0E40 arm ov016
- *   func_021C1984 0x021C1984 arm ov016
- *   func_021C255C 0x021C255C arm ov016
- *   func_021C1F1C 0x021C1F1C arm ov016
- *   func_021C3824 0x021C3824 arm ov016
- *   g_021DE5A8 0x021DE5A8 data
+ *   DWCi_EFFlCheck 0x021D5580 arm ov016
+ *   DWCi_BTNlIsEnd 0x021BCB58 arm ov016
+ *   DWCi_OBJlDelete 0x021D6F38 arm ov016
+ *   DWCi_FOCUSlDelete 0x021BD5A8 arm ov016
+ *   DWCi_COMMENTlDelete 0x021BD138 arm ov016
+ *   DWCi_ARClRelease 0x021D4C68 arm ov016
+ *   DWCi_GXlInvisible 0x021D6090 arm ov016
+ *   DWCi_SetParam_ 0x021C0E50 arm ov016
+ *   DWCi_ChangeScene 0x021C0E40 arm ov016
+ *   DWCi_SceneMenu 0x021C1984 arm ov016
+ *   DWCi_SceneOptInfo 0x021C255C arm ov016
+ *   DWCi_SceneOptErase 0x021C1F1C arm ov016
+ *   DWCi_SceneOptMovConfirm1 0x021C3824 arm ov016
+ *   gSceneOptMenuWork 0x021DE5A8 data
  */
 
 #include "../include/G_FocusPosT.h"
 
 typedef unsigned char u8;
 
-extern struct FocusPosT g_021DE5A8;
+extern struct FocusPosT gSceneOptMenuWork;
 
-extern int func_021D5580(int lcd);
-extern int func_021BCB58(void);
-extern void func_021D6F38(unsigned int *obj);
-extern void func_021BD5A8(void);
-extern int func_021BD138(void);
-extern void func_021D4C68(void *file);
-extern void func_021D6090(int lcd, int plane);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021C1984();
-extern void func_021C255C();
-extern void func_021C1F1C();
-extern void func_021C3824();
+extern int DWCi_EFFlCheck(int lcd);
+extern int DWCi_BTNlIsEnd(void);
+extern void DWCi_OBJlDelete(unsigned int *obj);
+extern void DWCi_FOCUSlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
+extern void DWCi_ARClRelease(void *file);
+extern void DWCi_GXlInvisible(int lcd, int plane);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_SceneMenu();
+extern void DWCi_SceneOptInfo();
+extern void DWCi_SceneOptErase();
+extern void DWCi_SceneOptMovConfirm1();
 
 void func_021C2FA0(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    if (!func_021BCB58())
+    if (!DWCi_BTNlIsEnd())
         return;
-    func_021D6F38(g_021DE5A8.obj);
-    func_021BD5A8();
-    func_021BD138();
-    func_021D4C68(g_021DE5A8.ptr);
-    func_021D6090(1, 1);
-    func_021D6090(0, 0x14);
-    if (g_021DE5A8.flag == 0) {
-        func_021C0E50(0, 0);
-        func_021C0E40((unsigned int)func_021C1984);
+    DWCi_OBJlDelete(gSceneOptMenuWork.obj);
+    DWCi_FOCUSlDelete();
+    DWCi_COMMENTlDelete();
+    DWCi_ARClRelease(gSceneOptMenuWork.ptr);
+    DWCi_GXlInvisible(1, 1);
+    DWCi_GXlInvisible(0, 0x14);
+    if (gSceneOptMenuWork.flag == 0) {
+        DWCi_SetParam_(0, 0);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneMenu);
         return;
     }
-    switch (g_021DE5A8.idx) {
+    switch (gSceneOptMenuWork.idx) {
     case 0:
-        func_021C0E50(0, (unsigned int)((void *)1));
-        func_021C0E40((unsigned int)func_021C255C);
+        DWCi_SetParam_(0, (unsigned int)((void *)1));
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptInfo);
         return;
     case 1:
-        func_021C0E50(0, (unsigned int)((void *)1));
-        func_021C0E40((unsigned int)func_021C1F1C);
+        DWCi_SetParam_(0, (unsigned int)((void *)1));
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptErase);
         return;
     case 2:
-        func_021C0E50(0, (unsigned int)((void *)1));
-        func_021C0E40((unsigned int)func_021C3824);
+        DWCi_SetParam_(0, (unsigned int)((void *)1));
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovConfirm1);
         return;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD344
+ * function: PMSIV_MENU_Reserved
  * address:  0x021BD344
  * packet:   pkt_ov110_021BD344
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021BD344(u8 *a0) { }
+void PMSIV_MENU_Reserved(u8 *a0) { }

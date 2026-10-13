@@ -21,9 +21,9 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021BD8D8 0x021BD8D8 thumb ov209
- *   func_0200CC40 0x0200CC40 thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_0200D288 0x0200D288 thumb
+ *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
@@ -57,9 +57,9 @@ struct Actor;
 struct Blk37;
 struct Personal;
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
-extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern int POKEGRA_OpenHandle(int a0);
-extern u32 func_0200D288(struct Blk37 *p, u32 which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
@@ -105,9 +105,9 @@ void func_021BDD7C(char *p,u16 species)
     } else {
         void *arc;
         unsigned personality;
-        func_0200CC40(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
+        ZUKAN_SAVE_GetViewGenderAndForm(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
         arc=(void *)POKEGRA_OpenHandle(0x806b);
-        personality=species==0x147?func_0200D288(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
+        personality=species==0x147?ZUKAN_SAVE_GetSpindaPersonality(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
         *(unsigned *)(p+t.w8*4+0xb64)=POKEGRA_RegisterCgr((u32)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
         *(unsigned *)(p+t.wC*4+0xbf4)=POKEGRA_RegisterPalette((int)arc,species,outForm,out1,out2,0,0,0,base,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);

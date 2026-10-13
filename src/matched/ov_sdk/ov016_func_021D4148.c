@@ -17,7 +17,7 @@
  *   DWCi_MOV_WH_GetMeasureChannel    0x021D34E0  arm  ov016
  *   DWCi_MOV_WH_Reset                0x021D39A4  arm  ov016
  *   OS_Terminate                     0x02088234  arm
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern int DWCi_MOV_WH_GetSystemState(void);
 extern int DWCi_MOV_WH_StartMeasureChannel(void);
 extern u16 DWCi_MOV_WH_GetMeasureChannel(void);
@@ -71,13 +71,13 @@ void func_021D4148(void)
         DWCi_MOV_WH_StartMeasureChannel();
         break;
     case 7:
-        g_021DE668->moveid_sChannel = DWCi_MOV_WH_GetMeasureChannel();
-        g_021DE668->start_wait_child_cnt = 0;
-        g_021DE668->mov_stt = 3;
+        gDwcMoveidWork->moveid_sChannel = DWCi_MOV_WH_GetMeasureChannel();
+        gDwcMoveidWork->start_wait_child_cnt = 0;
+        gDwcMoveidWork->mov_stt = 3;
         break;
     case 0:
-        g_021DE668->start_wait_child_cnt = 0;
-        g_021DE668->mov_stt = 3;
+        gDwcMoveidWork->start_wait_child_cnt = 0;
+        gDwcMoveidWork->mov_stt = 3;
         break;
     case 9:
         DWCi_MOV_WH_Reset();

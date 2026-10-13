@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BC0
+ * function: IRC_COMPATIBLE_TOUCH_TEST_GetReceivedDrawing
  * address: 0x021B8BC0
  * packet: pkt_ov103_021B8BC0
  * region: ov103
@@ -13,4 +13,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 words[54];} Copy;
-void func_021B8BC0(u8 *p,Copy *q) {*q=*(Copy *)(p+8);}
+void IRC_COMPATIBLE_TOUCH_TEST_GetReceivedDrawing(u8 *p,Copy *q) {*q=*(Copy *)(p+8);}

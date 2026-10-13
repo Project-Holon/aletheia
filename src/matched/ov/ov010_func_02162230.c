@@ -13,14 +13,14 @@
  *           index-th eight-byte slot after an 8-byte head, then bit index of
  *           the u16 at +2 is set.
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 typedef unsigned short u16;
 
-extern void func_02082D44(void *src, void *dst, unsigned n);
+extern void MI_CpuCopy8(void *src, void *dst, unsigned n);
 
 void EVENT_FIELD_PROCLINK_SetReturnSlot(char *p, int index, void *s)
 {
-    func_02082D44(s, p + 8 + index * 8, 8);
+    MI_CpuCopy8(s, p + 8 + index * 8, 8);
     *(u16 *)(p + 2) = (u16)(*(u16 *)(p + 2) | (1 << index));
 }

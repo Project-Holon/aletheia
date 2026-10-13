@@ -1,5 +1,5 @@
 /*
- * function: func_021C1484
+ * function: PMS_SELECT_GRAPHIC_StepRowMenu
  * address: 0x021C1484
  * packet: pkt_ov110_021C1484
  * region: ov110
@@ -12,20 +12,20 @@
  *   typedef unsigned char u8;
  *   void *PMS_WORD_GetSaveEntry(u8 *p,int i) { return p+8+i*8; }
  * symbols:
- *   func_021C0B4C 0x021C0B4C thumb ov110
+ *   PMS_SELECT_GRAPHIC_UpdateRowMenu 0x021C0B4C thumb ov110
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  */
 typedef unsigned char u8;
-extern void func_021C0B4C(void *);
+extern void PMS_SELECT_GRAPHIC_UpdateRowMenu(void *);
 typedef unsigned int   u32;
 struct TaskMenu;
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
-int func_021C1484(void *arg, u8 *p) {
-    func_021C0B4C(*(void **)(p+0x68));
+int PMS_SELECT_GRAPHIC_StepRowMenu(void *arg, u8 *p) {
+    PMS_SELECT_GRAPHIC_UpdateRowMenu(*(void **)(p+0x68));
     if (APP_TASKMENU_IsFinish(*(void **)(p+0x68))) {
         switch (APP_TASKMENU_GetCursorPos(*(void **)(p+0x68))) {
         case 0:

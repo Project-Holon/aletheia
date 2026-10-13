@@ -1,5 +1,5 @@
 /*
- * function: func_021BBEB4
+ * function: WIFICLUB_ShowRuleWindow
  * address:  0x021BBEB4
  * packet:   pkt_ov099_021BBEB4
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -34,7 +34,7 @@ struct Descriptor;
 struct Cfg;
 struct CharBuf;
 struct MsgBank;
-extern int func_021BA8BC(void *);
+extern int WIFICLUB_DeleteWindow(void *);
 struct Reg;
 struct U16Vec;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -62,7 +62,7 @@ struct O {
     void **f1344;
     void **f1348;
 };
-void func_021BBEB4(struct O *p, int mask, u32 a, int mode)
+void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode)
 {
     int base;
     int i;
@@ -71,7 +71,7 @@ void func_021BBEB4(struct O *p, int mask, u32 a, int mode)
     u32 w;
     base = 4;
     a = (a == 1) ? 1 : 0;
-    p->f19c = (void *)func_021BA8BC(p->f19c);
+    p->f19c = (void *)WIFICLUB_DeleteWindow(p->f19c);
 
     if (mode == 1) p->f19c = (void *)BMP_WIN_Create(2, 2, 5, 26, 12, 15, 1); else p->f19c = (void *)BMP_WIN_Create(2, 2, 5, 26, 16, 15, 1);
     BMP_Clear(BMP_WIN_GetBmp(p->f19c), 255);

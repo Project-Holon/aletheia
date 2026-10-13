@@ -14,9 +14,9 @@
  * symbols:
  *   OS_GetTick  0x020870D0  arm
  *   memcmp  0x020923F0  arm
- *   func_021D7724  0x021D7724  arm  ov016
- *   g_021DE654  0x021DE654  data
- *   g_021DA948  0x021DA948  data
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
+ *   gUsbapWork  0x021DE654  data
+ *   sUsbApZeroBssid  0x021DA948  data
  */
 
 #include "../arm9_sdk/libc/memcmp/string.h"
@@ -41,9 +41,9 @@ typedef struct {
 } MemUsbT;
 
 extern u64 OS_GetTick(void);
-extern void func_021D7724(int kind, void *task);
-extern MemUsbT *g_021DE654;
-extern u8 g_021DA948[6];
+extern void DWCi_TSKlDelete(int kind, void *task);
+extern MemUsbT *gUsbapWork;
+extern u8 sUsbApZeroBssid[6];
 
 void func_021D10D8(void *task)
 {
@@ -53,29 +53,29 @@ void func_021D10D8(void *task)
     int not;
 
     tick = OS_GetTick();
-    if (tick < g_021DE654->start + 0x17F898)
+    if (tick < gUsbapWork->start + 0x17F898)
         return;
     not = 0;
     admit = 0;
     for (i = 0; i < 16; i++) {
-        if (memcmp(g_021DE654->ap[i].bssid, g_021DA948, 6) != 0) {
-            if (g_021DE654->ap[i].used)
+        if (memcmp(gUsbapWork->ap[i].bssid, sUsbApZeroBssid, 6) != 0) {
+            if (gUsbapWork->ap[i].used)
                 admit = 1;
             else
                 not = 1;
         }
     }
     if (admit && not) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(2);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(2);
     } else if (admit) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(1);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(1);
     } else if (!not) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(0);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(0);
     }
-    g_021DE654->task = 0;
-    g_021DE654->wait = 1;
-    func_021D7724(0, task);
+    gUsbapWork->task = 0;
+    gUsbapWork->wait = 1;
+    DWCi_TSKlDelete(0, task);
 }

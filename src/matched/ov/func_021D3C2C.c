@@ -1,5 +1,5 @@
 /*
- * function: func_021D3C2C
+ * function: BTL_CLIENT_StepClearSubstitute
  * address:  0x021D3C2C
  * packet:   pkt_021D377C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D3C2C   0x021D3C2C  thumb
+ *   BTL_CLIENT_StepClearSubstitute   0x021D3C2C  thumb
  *   BTL_SIDE_GetPokeByIdThunk   0x021B9934  thumb
  *   BTL_POKEPARAM_ClearSubstitute   0x021D6D70  thumb
  * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_ClearSubstitute; movs r0, #1; pop {r3, pc}.
@@ -28,7 +28,7 @@ typedef signed int s32;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_ClearSubstitute(unsigned char *p);
 
-int func_021D3C2C(u8 *p, int b, u32 *q)
+int BTL_CLIENT_StepClearSubstitute(u8 *p, int b, u32 *q)
 {
     BTL_POKEPARAM_ClearSubstitute(BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj18391 *)p)->f4, (u8)*q));
     return 1;

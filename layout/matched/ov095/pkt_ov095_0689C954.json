@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689C954",
+   "name": "BTL_ID_IsAbilitySkillSwapBlocked",
    "address": "0x0689C954",
    "kind": "game",
    "region": "ov095",

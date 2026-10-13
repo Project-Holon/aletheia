@@ -1,5 +1,5 @@
 /*
- * function: func_0216F20C
+ * function: DWCi_GPSetServerStatus
  * address:  0x0216F20C
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -21,8 +21,8 @@
  *   OS_SNPrintf  0x02084F80  arm
  *   func_02168454  0x02168454  arm  ov009
  *   func_0216848C  0x0216848C  arm  ov009
- *   func_0217603C  0x0217603C  arm  ov009
- *   func_021767F4  0x021767F4  arm  ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
+ *   DWCi_IsServerLocked  0x021767F4  arm  ov009
  *   func_021690D0  0x021690D0  arm  ov009
  */
 
@@ -35,11 +35,11 @@ extern int func_02175F3C(void);
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
 extern int func_02168454(const char *key, const char *value, char *string, char sep);
 extern int func_0216848C(const char *key, const char *value, char *string, char sep);
-extern int func_0217603C(void);
-extern int func_021767F4(void);
+extern int DWCi_NodeInfoList_GetCount(void);
+extern int DWCi_IsServerLocked(void);
 extern int func_021690D0(int status, const char *statusString, const char *locString);
 
-int func_0216F20C(int status)
+int DWCi_GPSetServerStatus(int status)
 {
     char value[12];
     char str[0x27];
@@ -47,7 +47,7 @@ int func_0216F20C(int status)
 
     OS_SNPrintf(value, 12, d_021A207C, *(unsigned char *)(func_02175F3C() + 0x17) + 1);
     func_02168454(d_021A2080, value, str, '/');
-    n = func_0217603C();
+    n = DWCi_NodeInfoList_GetCount();
     if (*(unsigned char *)(func_02175F3C() + 0x15) == 2 && n == 0) {
         n = 1;
     }
@@ -55,7 +55,7 @@ int func_0216F20C(int status)
     func_0216848C(d_021A2084, value, str, '/');
     OS_SNPrintf(value, 12, d_021A207C, 0x5a);
     func_0216848C(d_021A2088, value, str, '/');
-    OS_SNPrintf(value, 12, d_021A207C, func_021767F4() ? 1 : 0);
+    OS_SNPrintf(value, 12, d_021A207C, DWCi_IsServerLocked() ? 1 : 0);
     func_0216848C(d_021A208C, value, str, '/');
     return func_021690D0(status, str, 0);
 }

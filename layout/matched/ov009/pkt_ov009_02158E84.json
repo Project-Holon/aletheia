@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02158E84",
+   "name": "process_icmp_reply",
    "address": "0x02158E84",
    "kind": "sdk",
    "region": "ov009",

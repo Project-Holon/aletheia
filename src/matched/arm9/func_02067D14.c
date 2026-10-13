@@ -1,5 +1,5 @@
 /*
- * function: NNSi_G2dOamSoftEmuRender
+ * function: NNS_G2dRndCoreDrawCell
  * address:  0x02067D14
  * packet:   pkt_02067BA4
  * region:   arm9
@@ -13,9 +13,9 @@
  *           function's own range: 0x02067998 and 0x02067340, each called from nowhere else
  *           in the image. It turns EXACT the moment either gets an entry of its own.
  * symbols:
- *   sOamSoftEmuContext    0x02148B48  data
- *   func_02067998 0x02067998  arm
- *   func_02067340 0x02067340  arm
+ *   sRndCoreInstance    0x02148B48  data
+ *   NNSi_G2dDrawCellToSurface3D 0x02067998  arm
+ *   NNSi_G2dDrawCellToSurface2D 0x02067340  arm
  */
 
 typedef unsigned char u8;
@@ -38,15 +38,15 @@ struct Struct02067D14 {
     u32 flag_30;                       /* 0x30 */
 };
 
-extern struct Struct02067D14 *sOamSoftEmuContext;
+extern struct Struct02067D14 *sRndCoreInstance;
 struct Hooks;
 struct List;
-extern void func_02067998(struct Hooks *h, struct List *lst);
-extern void func_02067340(struct Inner02067D14 *a1, u32 a2);
+extern void NNSi_G2dDrawCellToSurface3D(struct Hooks *h, struct List *lst);
+extern void NNSi_G2dDrawCellToSurface2D(struct Inner02067D14 *a1, u32 a2);
 
-void NNSi_G2dOamSoftEmuRender(u32 arg0)
+void NNS_G2dRndCoreDrawCell(u32 arg0)
 {
-    struct Struct02067D14 *st = sOamSoftEmuContext;
+    struct Struct02067D14 *st = sRndCoreInstance;
     struct Inner02067D14 *in = st->inner;
 
     if (in->field_10 == 0) {
@@ -56,17 +56,17 @@ void NNSi_G2dOamSoftEmuRender(u32 arg0)
     st->flag_30 = 1;
 
     if (in->callback_18 != 0) {
-        in->callback_18(sOamSoftEmuContext, arg0);
+        in->callback_18(sRndCoreInstance, arg0);
     }
 
-    if (sOamSoftEmuContext->flag_30 != 0) {
+    if (sRndCoreInstance->flag_30 != 0) {
         switch (in->mode) {
         case 0:
-            func_02067998((struct Hooks *)in, (struct List *)arg0);
+            NNSi_G2dDrawCellToSurface3D((struct Hooks *)in, (struct List *)arg0);
             break;
         case 1:
         case 2:
-            func_02067340(in, arg0);
+            NNSi_G2dDrawCellToSurface2D(in, arg0);
             break;
         case 3:
             break;
@@ -74,6 +74,6 @@ void NNSi_G2dOamSoftEmuRender(u32 arg0)
     }
 
     if (in->callback_1c != 0) {
-        in->callback_1c(sOamSoftEmuContext, arg0);
+        in->callback_1c(sRndCoreInstance, arg0);
     }
 }

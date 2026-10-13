@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC868",
+   "name": "PMSIV_FADE_StartBlend",
    "address": "0x021BC868",
    "kind": "game",
    "region": "ov110",

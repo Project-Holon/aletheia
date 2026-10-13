@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj19278.h"
 #include "../include/Obj19279.h"
@@ -24,7 +24,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 
 void COLOSSEUM_RecvTrainerCard(u32 a, u32 b, void *c, u8 *d)
 {
@@ -39,6 +39,6 @@ void COLOSSEUM_RecvTrainerCard(u32 a, u32 b, void *c, u8 *d)
     if (*(void **)(w + a * 4 + 0x134) == 0) {
         return;
     }
-    func_02082D44(c, *(void **)(w + a * 4 + 0x134), b);
+    MI_CpuCopy8(c, *(void **)(w + a * 4 + 0x134), b);
     (w + a)[0x144] = 1;
 }

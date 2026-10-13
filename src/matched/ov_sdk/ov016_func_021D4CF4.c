@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CF4
+ * function: DWCi_CELLlInit
  * address:  0x021D4CF4
  * packet:   pkt_ov016_021D4CF4
  * region:   ov016
@@ -12,13 +12,13 @@
  * sdk:      DWCi_CELLlInit (libdwcutil.TWL.HYB.a(cell.o))
  *
  * symbols:
- *   func_021D6414  0x021d6414  arm  ov016
- *   func_021D5410  0x021d5410  arm  ov016
- *   func_021D6D44  0x021d6d44  arm  ov016
- *   func_021D6F84  0x021d6f84  arm  ov016
- *   func_021D6E04  0x021d6e04  arm  ov016
- *   func_021D6DF4  0x021d6df4  arm  ov016
- *   g_021DE670  0x021de670  data
+ *   DWCi_HEAPlAllocEx  0x021d6414  arm  ov016
+ *   DWCi_QUElFormEx  0x021d5410  arm  ov016
+ *   DWCi_LSTlForm  0x021d6d44  arm  ov016
+ *   DWCi_OBJlGetOam  0x021d6f84  arm  ov016
+ *   DWCi_LSTlPushFront  0x021d6e04  arm  ov016
+ *   DWCi_LSTlPushBack  0x021d6df4  arm  ov016
+ *   gCellWork  0x021de670  data
  */
 
 typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
@@ -39,27 +39,27 @@ typedef struct tagMEMCELL {
     CELLPRM c[2];
 } MEMCELL;
 
-extern MEMCELL *g_021DE670;
+extern MEMCELL *gCellWork;
 
-extern void *func_021D6414(unsigned long size, int alignment);
-extern void *func_021D5410(long size, void *data, long dataSize);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
 struct ListCB;
-extern struct ListCB *func_021D6D44(void);
-extern GXOamAttr *func_021D6F84(int lcd, int idx);
-extern void func_021D6E04(char *p, void *ob);
-extern void func_021D6DF4(char *p, void *ob);
+extern struct ListCB *DWCi_LSTlForm(void);
+extern GXOamAttr *DWCi_OBJlGetOam(int lcd, int idx);
+extern void DWCi_LSTlPushFront(char *p, void *ob);
+extern void DWCi_LSTlPushBack(char *p, void *ob);
 
-void func_021D4CF4(void)
+void DWCi_CELLlInit(void)
 {
     int i;
 
-    g_021DE670 = (MEMCELL *)func_021D6414(0x450, 4);
+    gCellWork = (MEMCELL *)DWCi_HEAPlAllocEx(0x450, 4);
     for (i = 0; i < 2; i++) {
-        g_021DE670->c[i].queue = func_021D5410(0x20, &g_021DE670->c[i], 0x10);
-        g_021DE670->c[i].list = func_021D6D44();
-        g_021DE670->c[i].oam = func_021D6F84(i, 0x40);
-        g_021DE670->c[i].oamEnd = func_021D6F84(i, 0x7F) + 1;
-        func_021D6E04(g_021DE670->c[i].list, g_021DE670->c[i].lstA);
-        func_021D6DF4(g_021DE670->c[i].list, g_021DE670->c[i].lstB);
+        gCellWork->c[i].queue = DWCi_QUElFormEx(0x20, &gCellWork->c[i], 0x10);
+        gCellWork->c[i].list = DWCi_LSTlForm();
+        gCellWork->c[i].oam = DWCi_OBJlGetOam(i, 0x40);
+        gCellWork->c[i].oamEnd = DWCi_OBJlGetOam(i, 0x7F) + 1;
+        DWCi_LSTlPushFront(gCellWork->c[i].list, gCellWork->c[i].lstA);
+        DWCi_LSTlPushBack(gCellWork->c[i].list, gCellWork->c[i].lstB);
     }
 }

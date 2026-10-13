@@ -74,9 +74,9 @@
  *   func_0200873C   0x0200873C  thumb
  *   func_0200C0E8   0x0200C0E8  thumb
  *   func_0200C258   0x0200C258  thumb
- *   func_0200CA1C   0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
- *   func_02082D44   0x02082D44  arm
+ *   MI_CpuCopy8   0x02082D44  arm
  *   func_020076D0   0x020076D0  thumb
  *   POKEPARTY_GetCapacity   0x0201AA14  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
@@ -200,9 +200,9 @@ extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gd, struct Party *part
 extern u8 func_0202A3FC(u32 trainerType);
 extern struct MiscSave *func_0200C0E8(struct SaveControl *save);
 extern u32 func_0200C258(struct MiscSave *misc);
-extern void *func_0200CA1C(struct GameData *gd);
+extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gd);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
-extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern u32  POKEPARTY_GetCount(struct Party *party);
 extern u32 POKEPARTY_GetCapacity(struct Party *party);
 extern int func_020076D0(u32 boxManager, u32 *tray, u32 *pos);
@@ -1935,14 +1935,14 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     param->playerStatus[0] = func_02012944(gd);
     param->myItem = func_0201292C(gd);
     param->mapMatrix = GAME_DATA_GetMapMatrix(gd);
-    param->zukanWork = func_0200CA1C(gd);
+    param->zukanWork = ZUKAN_SAVE_GetFromGameData(gd);
     param->pmsWork = GAME_DATA_GetPmsWork(gd);
     param->trainerRecord = GAME_DATA_GetTrainerRecord(gd);
     save = GAME_DATA_GetSaveControl(gd);
     misc = func_0200C0E8(save);
     param->config = func_0200873C(save);
     param->badgeCount = (u8)func_0200C258(misc);
-    func_02082D44(sit, &param->fieldSituation, 0x10);
+    MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
     param->bgmWin = 0x468 + 0x14;
     param->moneyRate = 1;
@@ -2433,7 +2433,7 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
     copy = CONFIG_Create(heap);
     param->config = copy;
     CONFIG_Copy(config, copy);
-    param->zukanWork = func_0200CA1C(gd);
+    param->zukanWork = ZUKAN_SAVE_GetFromGameData(gd);
     param->ownsSlots = 1;
     BTL_SETUP_AllocRecordBuffer(param, heap);
 }

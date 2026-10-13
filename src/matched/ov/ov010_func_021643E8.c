@@ -17,7 +17,7 @@
  *   ZONEDATA_GetFieldSkillMapEffect  0x02013F6C  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   MOVE_POKEMON_SetCommonArea  0x0215E428  thumb ov010
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb ov010
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -42,7 +42,7 @@ extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
 extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *a);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *a);
 extern void MOVE_POKEMON_SetCommonArea(int a0, int a1);
 extern void  MOVE_POKEMON_MoveActiveEntries(void *a);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
@@ -59,7 +59,7 @@ void func_021643E8(void *a, void *b)
     if ((ZONEDATA_GetFieldSkillMapEffect((u32)b) & 3) == 0) {
         FIELD_STATUS_SetFlashActive(w, 0);
     }
-    MOVE_POKEMON_SetCommonArea((int)func_0200D418(GAME_DATA_GetSaveControl(a)), (int)b);
+    MOVE_POKEMON_SetCommonArea((int)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a)), (int)b);
     MOVE_POKEMON_MoveActiveEntries(a);
     c = (void *)GAME_DATA_GetEventWork(a);
     ZONEDATA_ResetEventFlag(c, 0x964);

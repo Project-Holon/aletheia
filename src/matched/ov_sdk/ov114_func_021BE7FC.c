@@ -1,5 +1,5 @@
 /*
- * function: func_021BE7FC
+ * function: NHTTP_GetHeaderField
  * address:  0x021BE7FC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBCF0  0x021BBCF0  arm  ov114
- *   func_021BEC2C  0x021BEC2C  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
+ *   NHTTP_GetResponseHeaderField  0x021BBCF0  arm  ov114
+ *   NHTTPi_GetResponse  0x021BEC2C  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
  *
  *
  * Keyed lookup then dispatch; -1 when the key is unknown.
@@ -23,15 +23,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(int p);
-extern int func_021BEC2C(int, int);
-extern int func_021BBCF0(u8 *, int, int);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern int NHTTPi_GetResponse(int, int);
+extern int NHTTP_GetResponseHeaderField(u8 *, int, int);
 
-int func_021BE7FC(int a, int b, int c)
+int NHTTP_GetHeaderField(int a, int b, int c)
 {
-    u8 *p = (u8 *)func_021BEC2C((int)func_021BEF58((int)func_021BEF08()), a);
+    u8 *p = (u8 *)NHTTPi_GetResponse((int)NHTTPi_GetMutexInfoP((int)NHTTPi_GetSystemInfoP()), a);
     if (p == 0)
         return -1;
-    return func_021BBCF0(p, b, c);
+    return NHTTP_GetResponseHeaderField(p, b, c);
 }

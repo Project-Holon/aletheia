@@ -14,8 +14,8 @@
  *
  * symbols:
  *   gVctPendingCount 0x021B4BA0 data a4
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   gVctPendingList  0x021B4B98  data  a4
  *   gVctMuLawSegmentEnds 0x021B3C28 data a4
  *   gVctReadyTail 0x021B4BC4 data a4
@@ -37,8 +37,8 @@
  */
 #include "vct_types.h"
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 irq);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 irq);
 extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern unsigned long long func_020870D0(void);
@@ -104,15 +104,15 @@ int VCT_AUDIO_GetPendingCount(unsigned int slot) { return gVctPendingCount[slot]
 VctRxPacket *VCT_AUDIO_FindPending(u32 slot)
 {
     VctRxPacket *packet = gVctPendingList.head;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     for (; packet; packet = packet->next) {
         if (packet->queueIndex == slot) {
-            func_0208799C(irq);
+            OS_RestoreInterrupts(irq);
             return packet;
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 0;
 }
 
@@ -126,7 +126,7 @@ VctRxPacket *VCT_AUDIO_FindPending(u32 slot)
 
 u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     if (packet->prev)
         packet->prev->next = packet->next;
@@ -143,7 +143,7 @@ u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet)
             packet->prev->next = 0;
     }
     gVctPendingCount[packet->queueIndex]--;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return gVctPendingCount[packet->queueIndex];
 }
 
@@ -258,11 +258,11 @@ void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sam
 
 void VCT_AUDIO_ClearReadyQueue(unsigned int slot)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     gVctReadyTail[slot] = 0;
     gVctReadyHead[slot] = 0;
     gVctReadyCount[slot] = 0;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 
@@ -275,7 +275,7 @@ void VCT_AUDIO_ClearReadyQueue(unsigned int slot)
 void VCT_AUDIO_FlushReadyQueue(u32 slot)
 {
     VctRxPacket *packet;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     packet = gVctReadyHead[slot];
     while (packet) {
@@ -288,7 +288,7 @@ void VCT_AUDIO_FlushReadyQueue(u32 slot)
     }
     gVctReadyTail[slot] = 0;
     gVctReadyCount[slot] = 0;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 
@@ -302,7 +302,7 @@ void VCT_AUDIO_FlushAllReadyQueues(void)
 {
     int slot;
     VctRxPacket *packet;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     slot = 0;
     while (slot < 3) {
@@ -318,7 +318,7 @@ void VCT_AUDIO_FlushAllReadyQueues(void)
         gVctReadyCount[slot] = 0;
         slot++;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 
@@ -337,7 +337,7 @@ int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot)
     if (slot >= 3)
         return -1;
 
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (gVctReadyHead[slot] == 0) {
         gVctReadyHead[slot] = packet;
         packet->prev = 0;
@@ -363,7 +363,7 @@ int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot)
     }
 done:
     gVctReadyCount[slot]++;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return gVctReadyCount[slot];
 }
 
@@ -374,12 +374,12 @@ done:
 
 void *VCT_AUDIO_PeekReadyPacket(unsigned int slot)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     if (gVctReadyHead[slot] != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return gVctReadyHead[slot];
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 0;
 }
 
@@ -392,7 +392,7 @@ void *VCT_AUDIO_PeekReadyPacket(unsigned int slot)
 VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
 {
     VctRxPacket *packet;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     packet = gVctReadyHead[slot];
     if (packet) {
@@ -405,7 +405,7 @@ VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
         else
             gVctReadyTail[slot] = 0;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return (VctRxPacket *)gVctReadyCount[slot];
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF280
+ * function: WIFICLUB_UpdatePeerActors
  * address:  0x021BF280
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -12,9 +12,9 @@
  * EXACT*: the listing extent includes two bytes of trailing alignment padding.
  *
  * symbols:
- *   func_021BF084  0x021BF084  thumb  ov099
- *   func_021BF24C  0x021BF24C  thumb  ov099
- *   func_021BF1CC  0x021BF1CC  thumb  ov099
+ *   WIFICLUB_SyncPresenceLists  0x021BF084  thumb  ov099
+ *   WIFICLUB_RequestSelectionRefresh  0x021BF24C  thumb  ov099
+ *   WIFICLUB_DropActorsOfMissingPeers  0x021BF1CC  thumb  ov099
  *
  * Three-step update of the block.
  */
@@ -27,13 +27,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BF084(char *p);
-extern void func_021BF24C(u8 *p, int v);
-extern void func_021BF1CC(char *p);
+extern int WIFICLUB_SyncPresenceLists(char *p);
+extern void WIFICLUB_RequestSelectionRefresh(u8 *p, int v);
+extern void WIFICLUB_DropActorsOfMissingPeers(char *p);
 
-void func_021BF280(void *a, void *b)
+void WIFICLUB_UpdatePeerActors(void *a, void *b)
 {
-    func_021BF084(a);
-    func_021BF24C(a, (int)b);
-    func_021BF1CC(a);
+    WIFICLUB_SyncPresenceLists(a);
+    WIFICLUB_RequestSelectionRefresh(a, (int)b);
+    WIFICLUB_DropActorsOfMissingPeers(a);
 }

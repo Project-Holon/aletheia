@@ -1,5 +1,5 @@
 /*
- * function: func_021CEF84
+ * function: DWCi_SEARCHlBegin
  * address:  0x021CEF84
  * packet:   pkt_ov016_021CEF84
  * region:   ov016
@@ -18,8 +18,8 @@
  *   WM_GetDispersionScanPeriod  0x0208EFC4  arm
  *   func_021CF04C  0x021CF04C  arm  ov016
  *   func_021CF174  0x021CF174  arm  ov016
- *   g_021DE640  0x021DE640  data
- *   g_021DA8CC  0x021DA8CC  data
+ *   gSearchWork  0x021DE640  data
+ *   sSearchScanParam  0x021DA8CC  data
  */
 
 typedef struct {
@@ -57,22 +57,22 @@ extern int WM_ReadStatus(void *statusBuf);
 extern unsigned short WM_GetDispersionScanPeriod(void);
 extern int func_021CF04C(void);
 extern void func_021CF174(void *arg);
-extern MS *g_021DE640;
-extern SCANPRM g_021DA8CC;
+extern MS *gSearchWork;
+extern SCANPRM sSearchScanParam;
 
-int func_021CEF84(void)
+int DWCi_SEARCHlBegin(void)
 {
 	int rs;
 
-	MIi_CpuClear16(0, g_021DE640->ap, 0x348);
-	rs = WM_Initialize(g_021DE640, func_021CF174, 3);
+	MIi_CpuClear16(0, gSearchWork->ap, 0x348);
+	rs = WM_Initialize(gSearchWork, func_021CF174, 3);
 	if (rs != 2)
 		return 0;
 	do {
-		WM_ReadStatus(&g_021DE640->status);
-	} while (g_021DE640->status.state != 2);
-	g_021DE640->scan = g_021DA8CC;
-	g_021DE640->scan.buf = g_021DE640->buf;
-	g_021DE640->scan.period = WM_GetDispersionScanPeriod();
+		WM_ReadStatus(&gSearchWork->status);
+	} while (gSearchWork->status.state != 2);
+	gSearchWork->scan = sSearchScanParam;
+	gSearchWork->scan.buf = gSearchWork->buf;
+	gSearchWork->scan.period = WM_GetDispersionScanPeriod();
 	return func_021CF04C() != 0;
 }

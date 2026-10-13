@@ -1,5 +1,5 @@
 /*
- * function: func_021C0ED8
+ * function: DWCi_Entry
  * address:  0x021C0ED8
  * packet:   pkt_021C0E40
  * region:   ov016
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0ED8   0x021C0ED8  arm
+ *   DWCi_Entry   0x021C0ED8  arm
  *
  * Low nibble of the word at +0x08 of the global object (4-bit field).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0ED8.c \
- *       --func func_021C0ED8 --addr 0x021C0ED8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_Entry.c \
+ *       --func DWCi_Entry --addr 0x021C0ED8 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 struct Ov016Bits8 {
@@ -25,7 +25,7 @@ struct Ov016Bits8 {
     unsigned int f : 4;
 };
 
-unsigned int func_021C0ED8(void)
+unsigned int DWCi_Entry(void)
 {
     struct Ov016Bits8 *p = (struct Ov016Bits8 *)0x021DE56C;
     return p->f;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC484",
+   "name": "PMSIV_EDIT_ParserFree",
    "address": "0x021BC484",
    "kind": "game",
    "region": "ov110",

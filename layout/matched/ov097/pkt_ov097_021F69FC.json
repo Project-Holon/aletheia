@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F69FC",
+   "name": "VS_MULTI_LIST_DeleteVBlankTask",
    "address": "0x021F69FC",
    "kind": "game",
    "region": "ov097",

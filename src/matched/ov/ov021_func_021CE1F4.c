@@ -11,8 +11,8 @@
  *
  * Blocker: MYSTATUS_Copy (arm9 unlabelled thumb tail-call stub, the integrator's:
  * ldr r3,=0x02082D44; movs r2,#0x20; bx r3) has no witness outside the range.
- * Verified C for the leaf: void MYSTATUS_Copy(void *a, void *b) { func_02082D44(a, b, 0x20); }
- * (verified EXACT, 12 bytes, thumb, with func_02082D44 0x02082D44 arm; leaf not filed here.)
+ * Verified C for the leaf: void MYSTATUS_Copy(void *a, void *b) { MI_CpuCopy8(a, b, 0x20); }
+ * (verified EXACT, 12 bytes, thumb, with MI_CpuCopy8 0x02082D44 arm; leaf not filed here.)
  *
  * symbols:
  *   MYSTATUS_Copy  0x02008494  thumb

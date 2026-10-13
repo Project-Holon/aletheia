@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OSi_IsRunOnTwl    0x02085D88  arm
- *   func_02088234    0x02088234  arm
+ *   OS_Terminate    0x02088234  arm
  *   func_02091220    0x02091220  thumb
  *
  * Three-argument flavour of func_020911D8.
@@ -26,13 +26,13 @@
 typedef unsigned int u32;
 
 extern int OSi_IsRunOnTwl(void);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void func_02091220(u32 a, u32 b, u32 c);
 
 void func_02091200(u32 a, u32 b, u32 c)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_02091220(a, b, c);
 }

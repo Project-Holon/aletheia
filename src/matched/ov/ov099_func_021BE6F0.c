@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6F0
+ * function: WIFICLUB_BuildOwnStatus
  * address: 0x021BE6F0
  * packet: pkt_ov099_021BE6F0
  * region: ov099
@@ -17,10 +17,10 @@
  *   func_02008570 0x02008570 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_021C1908 0x021C1908 thumb ov099
- *   func_021C27E8 0x021C27E8 thumb ov099
- *   func_021C2864 0x021C2864 thumb ov099
- *   func_021BE6E4 0x021BE6E4 thumb ov099
+ *   WIFICLUB_SetOwnStatusKindPhase 0x021C1908 thumb ov099
+ *   WIFICLUB_SetStatusSeatFlag 0x021C27E8 thumb ov099
+ *   WIFICLUB_SetStatusModeFlag 0x021C2864 thumb ov099
+ *   WIFICLUB_PublishOwnStatus 0x021BE6E4 thumb ov099
  */
 #include "../include/Obj01051.h"
 #include "../include/Obj22046.h"
@@ -44,11 +44,11 @@ extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern void func_021C1908(char *, int, int);
-extern void func_021C27E8(void *, u8);
-extern void func_021C2864(void *, u8);
-extern void func_021BE6E4(char *);
-void func_021BE6F0(char *p, int a, int b)
+extern void WIFICLUB_SetOwnStatusKindPhase(char *, int, int);
+extern void WIFICLUB_SetStatusSeatFlag(void *, u8);
+extern void WIFICLUB_SetStatusModeFlag(void *, u8);
+extern void WIFICLUB_PublishOwnStatus(char *);
+void WIFICLUB_BuildOwnStatus(char *p, int a, int b)
 {
     void *q;
     u8 t;
@@ -58,12 +58,12 @@ void func_021BE6F0(char *p, int a, int b)
     t = (int)func_02008550(q);
     (*(State * *)&((struct Obj01051 *)p)->f8)->bits2 = t;
     (*(State * *)&((struct Obj01051 *)p)->f8)->f14 = func_02008554(q);
-    func_021C1908(p, a, b);
+    WIFICLUB_SetOwnStatusKindPhase(p, a, b);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f19 = func_0200856C(q);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f1a = func_02008570(q);
-    func_021C27E8(((struct Obj01051 *)p)->f8, ((struct Obj22046 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
-    func_021C2864(((struct Obj01051 *)p)->f8, ((struct Obj22047 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
+    WIFICLUB_SetStatusSeatFlag(((struct Obj01051 *)p)->f8, ((struct Obj22046 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
+    WIFICLUB_SetStatusModeFlag(((struct Obj01051 *)p)->f8, ((struct Obj22047 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f4 = func_02008530(q);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f0 = func_0200853C(q);
-    func_021BE6E4(p);
+    WIFICLUB_PublishOwnStatus(p);
 }

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   DAT_02734450   0x02734450  data twl
- *   func_02087A04  0x02087A04  arm twl
- *   func_02088688  0x02088688  arm twl
+ *   OS_SpinWaitSysCycles  0x02087A04  arm twl
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm twl
  *   SNDEXi_SetVolumeExAsync  0x027044C0  arm
  *   WaitResetSoundCallback  0x02704DB0  arm
  *   ResetTempVolume  0x02704E04  arm
@@ -31,8 +31,8 @@ typedef struct TwlSyncState {
     u32 waiting;
 } TwlSyncState;
 
-extern void func_02087A04(u32);
-extern void func_02088688(void);
+extern void OS_SpinWaitSysCycles(u32);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u32 SNDEXi_SetVolumeExAsync(u32, u32, u32);
 void WaitIirFilterSetting(void);
 void WaitResetSoundCallback(u32 a0);
@@ -41,7 +41,7 @@ extern TwlSyncState DAT_02734450;
 
 void WaitIirFilterSetting(void) {
     while (DAT_02734450.waiting != 0) {
-        func_02087A04(0x82dc);
-        func_02088688();
+        OS_SpinWaitSysCycles(0x82dc);
+        PXIi_HandlerRecvFifoNotEmpty();
     }
 }

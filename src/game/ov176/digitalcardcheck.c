@@ -29,7 +29,7 @@
  *   func_0200AE54 0x0200AE54 thumb
  *   func_02008554 0x02008554 thumb
  *   func_0200B074 0x0200B074 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0200B078 0x0200B078 thumb
  *   func_021E6118 0x021E6118 thumb ov177
  *   func_021E62A0  0x021E62A0  thumb  ov177
@@ -47,7 +47,7 @@
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_020307B0 0x020307B0 arm
  *   MYSTATUS_GetSize  0x02008468  thumb
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0200E6E8  0x0200E6E8  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
  *   ov067_id       0x00000043  data
@@ -162,7 +162,7 @@ extern u8 func_0200E918(const u8 *, u32);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 *func_0200B074(struct Reg2 *p);
-extern void func_02082D44(void *, const void *, u32);
+extern void MI_CpuCopy8(void *, const void *, u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern char *func_021E6118(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
 extern void func_021E62A0(void *p);
@@ -180,7 +180,7 @@ extern void *func_0200BAF4(int,int);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_020307B0(void *p);
 extern int MYSTATUS_GetSize(void);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -292,7 +292,7 @@ void func_0217D028(u8 *p)
     rec.fa4 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
     rec.fa6 = func_0200AE54((struct Reg *)box, 0x16);
     rec.f9c = func_02008554((const struct Sub0200852CObj *)x);
-    func_02082D44(func_0200B074(((struct Obj00053 *)p)->f38), &rec, 0x92);
+    MI_CpuCopy8(func_0200B074(((struct Obj00053 *)p)->f38), &rec, 0x92);
     a = func_0200B078(((struct Obj00053 *)p)->f38, 6);
     b = func_0200B078(((struct Obj00053 *)p)->f38, 5);
     c = func_0200B078(((struct Obj00053 *)p)->f38, 4);
@@ -389,7 +389,7 @@ int func_0217D2B0(u8 *p){return func_021E8420(((struct Obj24426 *)p)->f18);}
 
 
 
-void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
+void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
 
 
 
@@ -412,11 +412,11 @@ void func_0217D2F0(u8 *p, u8 *q)
 
     ((struct Obj06578 *)p)->f44 = 0x64;
     x = (u32)func_02012944(r);
-    func_02082D44((void *)x, p, MYSTATUS_GetSize());
-    func_02087C6C(p + 0x20);
+    MI_CpuCopy8((void *)x, p, MYSTATUS_GetSize());
+    OS_GetMacAddress(p + 0x20);
     func_0200E6FC(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
-    func_02082D44((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
+    MI_CpuCopy8((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
     ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);
@@ -744,7 +744,7 @@ void func_0217DC28(int *p)
             Row *table;
             int total, a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
-            func_02082D44(func_0200B074(obj), &rec, 0x92);
+            MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
             table = (u16 (*)[3])func_0200EA00((int)stats);
             rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
             total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
@@ -761,7 +761,7 @@ void func_0217DC28(int *p)
             const u8 *table;
             int a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
-            func_02082D44(func_0200B074(obj), &rec, 0x92);
+            MI_CpuCopy8(func_0200B074(obj), &rec, 0x92);
             table = (const u8 *)func_0200EA08((int)stats);
             rec.a0 = func_0200E918(table, 1); rec.a2 = func_0200E918(table, 2);
             rec.v.h.a4 = func_0200E918(table, 0);

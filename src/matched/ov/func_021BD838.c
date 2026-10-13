@@ -1,5 +1,5 @@
 /*
- * function: func_021BD838
+ * function: WIFICLUB_StateShowRuleChoiceMessage
  * address:  0x021BD838
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *
  * Picks 0x49 when the owner record class byte at +0x45 is zero and 0x48
  * otherwise, runs the setup on it, and stamps selector 0x7E; returns the
@@ -27,9 +27,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021BAAB8(char *p, int a, int b);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021BD838(char *p, int v)
+int WIFICLUB_StateShowRuleChoiceMessage(char *p, int v)
 {
     u8 b = ((struct Obj18241 *)(*(char * *)&((struct Obj12117 *)p)->f248))->f45;
     int a;
@@ -40,7 +40,7 @@ int func_021BD838(char *p, int v)
         a = 0x49;
     }
 
-    func_021BAAB8(p, a, 0);
+    WIFICLUB_ShowStreamedMessage(p, a, 0);
     ((struct Obj12117 *)p)->f1CC = 0x7E;
     return v;
 }

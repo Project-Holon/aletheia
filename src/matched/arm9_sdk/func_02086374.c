@@ -20,7 +20,7 @@
  *   func_0208361C  0x0208361C  arm
  *   func_02087578  0x02087578  arm
  *   func_02087EA8  0x02087EA8  arm
- *   func_02085264  0x02085264  arm
+ *   OS_InitThread  0x02085264  arm
  *   func_02087B78  0x02087B78  arm
  *   GFL_USE_CtrdgDummyInit  0x02005438  thumb
  *   func_02075CAC  0x02075CAC  arm
@@ -42,7 +42,7 @@ extern void func_02086DD8(void);
 extern void func_0208361C(void);
 extern void func_02087578(void);
 extern void func_02087EA8(void);
-extern void func_02085264(void);
+extern void OS_InitThread(void);
 extern void func_02087B78(void);
 extern void GFL_USE_CtrdgDummyInit(void);
 extern void func_02075CAC(void);
@@ -65,7 +65,7 @@ void func_02086374(void)
     func_0208361C();
     func_02087578();
     func_02087EA8();
-    func_02085264();
+    OS_InitThread();
     func_02087B78();
     GFL_USE_CtrdgDummyInit();
     func_02075CAC();

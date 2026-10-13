@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082AC0    0x02082AC0  arm
+ *   MIi_CpuClearFast    0x02082AC0  arm
  *
  * Clear a linear surface to one pixel value: expand the value to a full word
  * (4bpp doubles the nibble, then the byte; 8bpp doubles the byte; both then
  * double the halfword) and hand w * h * bytes-per-pixel-row-unit to
- * func_02082AC0 (MIi_CpuClearFast(data, dest, size) in the SDK map).
+ * MIi_CpuClearFast (MIi_CpuClearFast(data, dest, size) in the SDK map).
  *
  * THE LEVER that closed this row after five DIFF passes
  * (docs/notes/pkt_02068808.c.txt): the final `| (t << 16)` step is written
@@ -40,7 +40,7 @@ struct Surface {
     int   stride; /* +0x10 */
 };
 
-extern void func_02082AC0(u32 data, void *dst, int size);
+extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
 void func_02068A18(struct Surface *s, u32 arg)
 {
@@ -57,5 +57,5 @@ void func_02068A18(struct Surface *s, u32 arg)
         arg = t | (t << 16);
     }
     n = s->w * s->h;
-    func_02082AC0(arg, s->base, n * ((bpp << 6) / 8));
+    MIi_CpuClearFast(arg, s->base, n * ((bpp << 6) / 8));
 }

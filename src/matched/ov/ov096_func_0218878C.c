@@ -1,5 +1,5 @@
 /*
- * function: func_0218878C
+ * function: TR_AI_CmdAddScore
  * address: 0x0218878C
  * packet: pkt_ov096_0218878C
  * region: ov096
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *);
-int func_0218878C(struct Cursor *a, u8 *b)
+int TR_AI_CmdAddScore(struct Cursor *a, u8 *b)
 {
     u32 value;
     value = VM_GetU32(a);

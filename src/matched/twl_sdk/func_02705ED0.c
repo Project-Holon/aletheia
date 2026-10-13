@@ -29,6 +29,11 @@
  *   MI_FreeWram  0x02730B04  arm
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
+ *   FS_Init  0x0207AD04  arm  arm9
+ *   OS_EnableIrqMask  0x02084968  arm  arm9
+ *   OS_DisableIrqMask  0x02084998  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,19 +61,19 @@ typedef struct DspGlobals {
 extern DspGlobals DAT_027344AC;
 extern DSPProc *DSPi_ProcList;
 extern int func_0207AD30(void);
-extern void func_0207AD04(u32 v);
+extern void FS_Init(u32 v);
 extern void DSP_InitPipe(void);
 extern void func_02084774(u32 mask, void (*fn)(void));
-extern u32 func_02084968(u32 mask);
-extern u32 func_02084998(u32 mask);
+extern u32 OS_EnableIrqMask(u32 mask);
+extern u32 OS_DisableIrqMask(u32 mask);
 extern void DSPi_MasterInterrupts(void);
 extern void DSPi_PreSleepCallback(void);
 extern void DSPi_ShutdownCallback(void);
 extern void DSP_StopDSPComponent(void);
 extern void DSP_SetProcessHook(DSPProc *p, u32 a, u32 b, u32 c);
 extern u32 DSP_MapAndLoadProcessImage(DSPProc *p, u32 a, u32 b, u32 c);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 v);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 v);
 extern int OS_IsRunOnTwl(void);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
 extern void func_0208C848(void *p, u32 v);
@@ -87,13 +92,13 @@ DSPProc *DSP_FindProcess(const char *name)
 {
     DSPProc *p;
     u32 irq;
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     p = DAT_027344AC.head;
     if (name != 0) {
         while (p != 0 && func_0208CD94(p->name, name) != 0) {
             p = p->next;
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return p;
 }

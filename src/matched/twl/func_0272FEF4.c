@@ -13,22 +13,22 @@
  *   data_02732F3C 0x02732F3C data twl
  *   MIi_FIFOCallback 0x0272FFC8 arm twl
  *   MI_WaitNDma 0x0272FCB0 arm twl
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   func_02084818 0x02084818 arm
  *   func_02084774 0x02084774 arm
- *   func_02084968 0x02084968 arm
+ *   OS_EnableIrqMask 0x02084968 arm
  */
 typedef unsigned int u32;
 struct St { u32 f0; u32 f4; u32 f8; u32 fc; void (*f10)(u32); u32 f14; u32 f18; u32 f1c; };
 extern struct St data_02732F3C;
 extern void MI_WaitNDma(u32);
 extern void MIi_FIFOCallback(void);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern u32 func_02084818(u32);
 extern void func_02084774(u32, void (*)(void));
-extern void func_02084968(u32);
+extern void OS_EnableIrqMask(u32);
 
 void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg)
 {
@@ -52,14 +52,14 @@ void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg)
     s->f10 = cb;
     s->f14 = arg;
     MI_WaitNDma(a0);
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     s->f18 = (*(volatile u32 *)0x04000600 & 0xc0000000) >> 0x1e;
     s->f1c = func_02084818(0x200000);
     *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
     func_02084774(0x200000, MIi_FIFOCallback);
-    func_02084968(0x200000);
+    OS_EnableIrqMask(0x200000);
     MIi_FIFOCallback();
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 

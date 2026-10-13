@@ -12,18 +12,18 @@
  * sdk:      DWCi_Np_GetAppGameName (libdwcnonport.TWL.HYB.a(dwc_nonport.o))
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   g_021AA828  0x021AA828  data
  *   g_021AA828_b  0x021AA828  data
  */
 
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern char g_021AA828[];
 extern char g_021AA828_b[];
 
 char *func_02167EA0(void)
 {
-	func_02082D44((void *)0x02fffe0c, g_021AA828, 4);
+	MI_CpuCopy8((void *)0x02fffe0c, g_021AA828, 4);
 	g_021AA828_b[4] = 0;
 	return g_021AA828;
 }

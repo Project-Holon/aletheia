@@ -1,5 +1,5 @@
 /*
- * function: func_021B7984
+ * function: IRC_RANKING_SeqBrowse
  * address: 0x021B7984
  * packet: pkt_ov106_021B7984
  * region: ov106
@@ -9,24 +9,24 @@
  * status: EXACT
  * note: Unsigned conversion and ROUND use runtime-proven add C95C/sub CB8C. 8FA8 stores word +28 then tail-calls 3630C; 8E90 reads five inputs, writes Pair/Vec/word outputs.
  * symbols:
- *   func_021B727C 0x021B727C thumb ov101
- *   func_021B8FA8 0x021B8FA8 thumb ov106
- *   func_021B900C 0x021B900C thumb ov106
- *   func_021B8E50 0x021B8E50 thumb ov106
- *   func_021B8408 0x021B8408 thumb ov106
- *   func_021B9134 0x021B9134 thumb ov106
- *   func_021B8E90 0x021B8E90 thumb ov106
+ *   IRC_APPBAR_IsBusy 0x021B727C thumb ov101
+ *   IRC_RANKING_InputGetKeys 0x021B8FA8 thumb ov106
+ *   IRC_RANKING_InertiaStart 0x021B900C thumb ov106
+ *   IRC_RANKING_InputGetDrag 0x021B8E50 thumb ov106
+ *   IRC_RANKING_ListScrollBy 0x021B8408 thumb ov106
+ *   IRC_RANKING_InertiaStop 0x021B9134 thumb ov106
+ *   IRC_RANKING_InputGetFlick 0x021B8E90 thumb ov106
  *   func_0207CA68 0x0207CA68 arm
- *   d_021B949C 0x021B949C data a4
- *   func_021B9198 0x021B9198 thumb ov106
- *   func_021B913C 0x021B913C thumb ov106
- *   func_021B7250 0x021B7250 thumb ov101
- *   func_021B78D0 0x021B78D0 thumb ov106
- *   func_021B7948 0x021B7948 thumb ov106
- *   func_021B838C 0x021B838C thumb ov106
- *   func_021B8DA8 0x021B8DA8 thumb ov106
- *   func_021B8FD0 0x021B8FD0 thumb ov106
- *   func_021B71E4 0x021B71E4 thumb ov101
+ *   gIrcRankingFlickAxis 0x021B949C data a4
+ *   IRC_RANKING_InertiaIsActive 0x021B9198 thumb ov106
+ *   IRC_RANKING_InertiaStep 0x021B913C thumb ov106
+ *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
+ *   IRC_RANKING_SeqSetFunc 0x021B78D0 thumb ov106
+ *   IRC_RANKING_SeqFadeOut 0x021B7948 thumb ov106
+ *   IRC_RANKING_ListUpdate 0x021B838C thumb ov106
+ *   IRC_RANKING_InputUpdate 0x021B8DA8 thumb ov106
+ *   IRC_RANKING_InertiaUpdate 0x021B8FD0 thumb ov106
+ *   IRC_APPBAR_Update 0x021B71E4 thumb ov101
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -40,44 +40,44 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 typedef struct { int x,y,z; } Vec;
-extern const Vec d_021B949C;
-extern int func_021B727C(int),func_021B7250(int *);
-extern void *func_021B8FA8(u8 *p, int *out);
-extern int func_021B8E50(u8 *,Pair *,Pair *,Pair *),func_021B8E90(u8 *,Pair *,Pair *,Vec *,int *);
+extern const Vec gIrcRankingFlickAxis;
+extern int IRC_APPBAR_IsBusy(int),IRC_APPBAR_GetResult(int *);
+extern void *IRC_RANKING_InputGetKeys(u8 *p, int *out);
+extern int IRC_RANKING_InputGetDrag(u8 *,Pair *,Pair *,Pair *),IRC_RANKING_InputGetFlick(u8 *,Pair *,Pair *,Vec *,int *);
 extern int func_0207CA68(const Vec *,const Vec *),func_0207C768(int,int);
-extern void func_021B900C(u8 *,int,int),func_021B8408(u8 *,s16),func_021B9134(u8 *);
-extern int func_021B9198(int *p);
-extern s16 func_021B913C(u8 *);
-extern void func_021B78D0(u8 *,u32);
-extern void func_021B7948(u8 *a, int *s);
-extern void func_021B838C(u8 *);
-extern void func_021B8DA8(int *);
-extern void func_021B8FD0(u8 *);
-extern void func_021B71E4(int a);
+extern void IRC_RANKING_InertiaStart(u8 *,int,int),IRC_RANKING_ListScrollBy(u8 *,s16),IRC_RANKING_InertiaStop(u8 *);
+extern int IRC_RANKING_InertiaIsActive(int *p);
+extern s16 IRC_RANKING_InertiaStep(u8 *);
+extern void IRC_RANKING_SeqSetFunc(u8 *,u32);
+extern void IRC_RANKING_SeqFadeOut(u8 *a, int *s);
+extern void IRC_RANKING_ListUpdate(u8 *);
+extern void IRC_RANKING_InputUpdate(int *);
+extern void IRC_RANKING_InertiaUpdate(u8 *);
+extern void IRC_APPBAR_Update(int a);
 #define ROUND(a) ((int)((a)!=0 ? (float)((a)<<12)+0.5f : (float)((a)<<12)-0.5f))
 #define SCALE(a) ((int)(((long long)func_0207C768(ROUND(a)-81920,163840)*245760+2048)>>12))
-void func_021B7984(u8 *a,u32 unused,u8 *p) {
+void IRC_RANKING_SeqBrowse(u8 *a,u32 unused,u8 *p) {
     u32 value;
     Pair pair;
     Vec vec;
     int duration;
-    if(!func_021B727C(*(int *)&((struct Obj10252 *)p)->f614)) {
-        if(((u32)func_021B8FA8(p+0x5d4,(int *)(&value)))&128) {
-            if(ROUND(value)>81920)func_021B900C(p+0x600,SCALE(value),12);
-            else func_021B900C(p+0x600,8192,12);
-        } else if(((u32)func_021B8FA8(p+0x5d4,(int *)(&value)))&64) {
-            if(ROUND(value)>81920)func_021B900C(p+0x600,-SCALE(value),12);
-            else func_021B900C(p+0x600,-8192,12);
-        } else if(func_021B8E50(p+0x5d4,0,0,&pair)) {
-            func_021B8408(p+0x38,-pair.y);
-            func_021B9134(p+0x600);
-        } else if(func_021B8E90(p+0x5d4,0,0,&vec,&duration))
-            func_021B900C(p+0x600,func_0207CA68(&d_021B949C,&vec),duration);
+    if(!IRC_APPBAR_IsBusy(*(int *)&((struct Obj10252 *)p)->f614)) {
+        if(((u32)IRC_RANKING_InputGetKeys(p+0x5d4,(int *)(&value)))&128) {
+            if(ROUND(value)>81920)IRC_RANKING_InertiaStart(p+0x600,SCALE(value),12);
+            else IRC_RANKING_InertiaStart(p+0x600,8192,12);
+        } else if(((u32)IRC_RANKING_InputGetKeys(p+0x5d4,(int *)(&value)))&64) {
+            if(ROUND(value)>81920)IRC_RANKING_InertiaStart(p+0x600,-SCALE(value),12);
+            else IRC_RANKING_InertiaStart(p+0x600,-8192,12);
+        } else if(IRC_RANKING_InputGetDrag(p+0x5d4,0,0,&pair)) {
+            IRC_RANKING_ListScrollBy(p+0x38,-pair.y);
+            IRC_RANKING_InertiaStop(p+0x600);
+        } else if(IRC_RANKING_InputGetFlick(p+0x5d4,0,0,&vec,&duration))
+            IRC_RANKING_InertiaStart(p+0x600,func_0207CA68(&gIrcRankingFlickAxis,&vec),duration);
     }
-    if(func_021B9198((int *)(p+0x600)))func_021B8408(p+0x38,func_021B913C(p+0x600));
-    if(func_021B7250(*(int * *)&((struct Obj10252 *)p)->f614)==1)func_021B78D0(a,(u32)func_021B7948);
-    func_021B838C(p+0x38);
-    func_021B8DA8((int *)(p+0x5d4));
-    func_021B8FD0(p+0x600);
-    func_021B71E4(*(u32 *)&((struct Obj10252 *)p)->f614);
+    if(IRC_RANKING_InertiaIsActive((int *)(p+0x600)))IRC_RANKING_ListScrollBy(p+0x38,IRC_RANKING_InertiaStep(p+0x600));
+    if(IRC_APPBAR_GetResult(*(int * *)&((struct Obj10252 *)p)->f614)==1)IRC_RANKING_SeqSetFunc(a,(u32)IRC_RANKING_SeqFadeOut);
+    IRC_RANKING_ListUpdate(p+0x38);
+    IRC_RANKING_InputUpdate((int *)(p+0x5d4));
+    IRC_RANKING_InertiaUpdate(p+0x600);
+    IRC_APPBAR_Update(*(u32 *)&((struct Obj10252 *)p)->f614);
 }

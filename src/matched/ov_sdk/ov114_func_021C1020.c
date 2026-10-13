@@ -15,17 +15,17 @@
  *   strncmp                 0x020949F4  arm
  *   strcspn                 0x02094A60  arm
  *   goastrdup               0x0217F1E0  arm
- *   g_021CE66C              0x021CE66C  data
- *   g_021CE660              0x021CE660  data
- *   g_021CE674              0x021CE674  data
+ *   sGhttpHttp              0x021CE66C  data
+ *   sGhttpHttps2              0x021CE660  data
+ *   sGhttpServerAddressTerminators              0x021CE674  data
  */
 
 extern int strncmp(const char *s1, const char *s2, unsigned int n);
 extern int strcspn(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
-extern char g_021CE66C[];
-extern char g_021CE660[];
-extern char g_021CE674[];
+extern char sGhttpHttp[];
+extern char sGhttpHttps2[];
+extern char sGhttpServerAddressTerminators[];
 
 char *ghiGetServerAddressFromUrl(char *serverUrl)
 {
@@ -34,14 +34,14 @@ char *ghiGetServerAddressFromUrl(char *serverUrl)
     char tempChar;
     char *serverAddress;
 
-    if (strncmp(serverUrl, g_021CE66C, 7) == 0)
+    if (strncmp(serverUrl, sGhttpHttp, 7) == 0)
         url = serverUrl + 7;
-    else if (strncmp(serverUrl, g_021CE660, 8) == 0)
+    else if (strncmp(serverUrl, sGhttpHttps2, 8) == 0)
         url = serverUrl + 8;
     else
         return 0;
 
-    nIndex = strcspn(url, g_021CE674);
+    nIndex = strcspn(url, sGhttpServerAddressTerminators);
     tempChar = url[nIndex];
     url[nIndex] = 0;
     serverAddress = goastrdup(url);

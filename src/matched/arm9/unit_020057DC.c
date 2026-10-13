@@ -21,10 +21,10 @@
  *   _SndSlots  0x020AA1B8  data
  *   NNS_SndPlayerSetPlayableSeqCount       0x02072DB0  arm
  *   NNS_SndHandleInit       0x02072E9C  arm
- *   func_02072EA8       0x02072EA8  arm
- *   func_02074894       0x02074894  arm
- *   func_020748E0       0x020748E0  arm
- *   func_02074AC4       0x02074AC4  arm
+ *   NNS_SndHandleReleaseSeq       0x02072EA8  arm
+ *   NNS_SndHeapSaveState       0x02074894  arm
+ *   NNS_SndHeapLoadState       0x020748E0  arm
+ *   NNS_SndArcLoadSeqEx       0x02074AC4  arm
  *
  * The accessors of a six element table of 0x1C byte connection slots at
  * 0x020AA1B8 and of the one word "which slot is current" record at
@@ -75,11 +75,11 @@ extern struct Sub020057DCSlot _SndSlots[];
 
 extern void NNS_SndPlayerSetPlayableSeqCount(int idx, int v);
 extern void NNS_SndHandleInit(void **r0);
-extern void func_02072EA8(u32 * volatile *pp);
+extern void NNS_SndHandleReleaseSeq(u32 * volatile *pp);
 struct S;
-extern int   func_02074894(struct S *a);
-extern void  func_020748E0(u32 *a, u32 b);
-extern u32 func_02074AC4(u32 a, u32 b, u32 c);
+extern int   NNS_SndHeapSaveState(struct S *a);
+extern void  NNS_SndHeapLoadState(u32 *a, u32 b);
+extern u32 NNS_SndArcLoadSeqEx(u32 a, u32 b, u32 c);
 
 void GFL_USE_InitSndSlot(u32 i);
 void GFL_USE_BeginSndSlot(u32 v);
@@ -93,7 +93,7 @@ void GFL_USE_InitSndSlot(u32 i)
 {
     _SndSlots[i].unk00 = 0;
     _SndSlots[i].unk04 = 0xFFFF;
-    func_02072EA8((u32 * volatile*)(&_SndSlots[i].unk08));
+    NNS_SndHandleReleaseSeq((u32 * volatile*)(&_SndSlots[i].unk08));
     _SndSlots[i].unk0C = -1;
     _SndSlots[i].unk10 = -1;
     _SndSlots[i].unk14 = -1;
@@ -117,8 +117,8 @@ void GFL_USE_EndSndSlot(void)
     struct Sub020057DCSlot *slot =
         &_SndSlots[_SndStack.index];
 
-    func_02072EA8((u32 * volatile*)(&slot->unk08));
-    func_020748E0(*_SndStack.unk08, slot->unk0C);
+    NNS_SndHandleReleaseSeq((u32 * volatile*)(&slot->unk08));
+    NNS_SndHeapLoadState(*_SndStack.unk08, slot->unk0C);
     GFL_USE_InitSndSlot(_SndStack.index);
 }
 
@@ -133,7 +133,7 @@ void GFL_USE_InitSndStack(u16 a)
         NNS_SndHandleInit((void **)(&_SndSlots[i].unk08));
     }
     NNS_SndPlayerSetPlayableSeqCount(_SndStack.unk00, 6);
-    GFL_USE_BeginSndSlot(func_02074894((struct S *)*_SndStack.unk08));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState((struct S *)*_SndStack.unk08));
 }
 
 u16 GFL_USE_GetCurrentBgmId(void)
@@ -168,15 +168,15 @@ int GFL_USE_LoadBgmData(u32 a)
         &_SndSlots[_SndStack.index];
     int r;
 
-    if (func_02074AC4(a, 3, (u32)(*_SndStack.unk08)) == 0) {
+    if (NNS_SndArcLoadSeqEx(a, 3, (u32)(*_SndStack.unk08)) == 0) {
         return 0;
     }
-    slot->unk14 = func_02074894((struct S *)*_SndStack.unk08);
-    r = func_02074AC4(a, 4, (u32)(*_SndStack.unk08));
+    slot->unk14 = NNS_SndHeapSaveState((struct S *)*_SndStack.unk08);
+    r = NNS_SndArcLoadSeqEx(a, 4, (u32)(*_SndStack.unk08));
     if (r == 0) {
         return 0;
     }
-    slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
+    slot->unk18 = NNS_SndHeapSaveState((struct S *)*_SndStack.unk08);
     slot->unk04 = a;
     return r;
 }
@@ -186,7 +186,7 @@ void GFL_USE_SaveSeqBankState(void)
     struct Sub020057DCSlot *slot =
         &_SndSlots[_SndStack.index];
 
-    slot->unk14 = func_02074894((struct S *)*_SndStack.unk08);
+    slot->unk14 = NNS_SndHeapSaveState((struct S *)*_SndStack.unk08);
 }
 
 int GFL_USE_FinishBgmLoad(u32 a)
@@ -194,7 +194,7 @@ int GFL_USE_FinishBgmLoad(u32 a)
     struct Sub020057DCSlot *slot =
         &_SndSlots[_SndStack.index];
 
-    slot->unk18 = func_02074894((struct S *)*_SndStack.unk08);
+    slot->unk18 = NNS_SndHeapSaveState((struct S *)*_SndStack.unk08);
     slot->unk04 = a;
     return 1;
 }
@@ -208,7 +208,7 @@ void GFL_USE_UnloadBgmData(void)
         return;
     }
     slot->unk04 = 0xFFFF;
-    func_020748E0(*_SndStack.unk08, slot->unk10);
+    NNS_SndHeapLoadState(*_SndStack.unk08, slot->unk10);
     slot->unk14 = slot->unk10;
     slot->unk18 = slot->unk10;
 }
@@ -223,7 +223,7 @@ int GFL_USE_PushSndSlot(void)
         return 0;
     }
     if (slot->unk14 != -1) {
-        func_020748E0(*_SndStack.unk08, slot->unk14);
+        NNS_SndHeapLoadState(*_SndStack.unk08, slot->unk14);
         slot->unk18 = -1;
         v = slot->unk14;
     } else {

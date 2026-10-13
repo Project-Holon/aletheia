@@ -13,7 +13,7 @@
  * The thread list is read through the section-relative .bss base.
  *
  * symbols:
- *   g_02150FD0  0x02150FD0  data
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 #include "../include/G_OsThreadBss.h"
@@ -70,11 +70,11 @@ typedef struct OSThreadInfo {
    +0x0C are the object's other 4-byte data in an order no access here reads. */
 typedef struct OsThreadBss OsThreadBss;
 
-extern struct OsThreadBss g_02150FD0;
+extern struct OsThreadBss gOsThreadBss;
 
 OSThread *OS_SelectThread(void)
 {
-    OSThread *t = g_02150FD0.OSi_ThreadInfo_list;
+    OSThread *t = gOsThreadBss.OSi_ThreadInfo_list;
 
     while (t && t->state != OS_THREAD_STATE_READY) {
         t = t->next;

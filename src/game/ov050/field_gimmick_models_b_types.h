@@ -15,9 +15,9 @@ struct GameSystem;
 #define FIELD_GIMMICK_MODELS_B_MODEL_COUNT 2
 
 /* The common work of the gimmick on the field map (2 bytes, id 1). */
-typedef struct Gimmick50Work {
+typedef struct FieldGimmickModelsBWork {
     u16 heapId;         /* 0x00: heap of the field map */
-} Gimmick50Work;
+} FieldGimmickModelsBWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);

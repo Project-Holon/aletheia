@@ -13,9 +13,9 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0215AA5C  0x0215AA5C  arm  ov009
- *   func_0215C910  0x0215C910  arm  ov009
- *   func_0215AA70  0x0215AA70  arm  ov009
+ *   CPS_SocRegister  0x0215AA5C  arm  ov009
+ *   CPS_Resolve  0x0215C910  arm  ov009
+ *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   g_021A1CD8     0x021A1CD8  data
  */
 
@@ -33,9 +33,9 @@ typedef struct {
 
 extern struct G_021A1CD8 *g_021A1CD8;
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_0215AA5C(int v);
-extern unsigned long func_0215C910(char *name);
-extern void func_0215AA70(void);
+extern void CPS_SocRegister(int v);
+extern unsigned long CPS_Resolve(char *name);
+extern void CPS_SocUnRegister(void);
 
 unsigned long func_0215EDD0(char *hostname)
 {
@@ -55,9 +55,9 @@ unsigned long func_0215EDD0(char *hostname)
     soc.buf_size = 0xb68;
     soc.work_end = buffers + 0xb68;
     soc.work = 0xb9e;
-    func_0215AA5C((int)(&soc));
-    hostip = func_0215C910(hostname);
-    func_0215AA70();
+    CPS_SocRegister((int)(&soc));
+    hostip = CPS_Resolve(hostname);
+    CPS_SocUnRegister();
     g_021A1CD8->free(buffers);
     return hostip;
 }

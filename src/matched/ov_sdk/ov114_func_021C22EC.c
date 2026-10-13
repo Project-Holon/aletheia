@@ -1,5 +1,5 @@
 /*
- * function: func_021C22EC
+ * function: ghttpSetMaxRecvTime
  * address:  0x021C22EC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0DA4  0x021C0DA4  arm  ov114
+ *   ghiRequestToConnection  0x021C0DA4  arm  ov114
  *
  *
  * Stores `b` into the +0x188 field of the object selected by `a`.
@@ -20,11 +20,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021C0DA4(int);
+extern u8 *ghiRequestToConnection(int);
 
-void func_021C22EC(int a, int b)
+void ghttpSetMaxRecvTime(int a, int b)
 {
-    u8 *p = func_021C0DA4(a);
+    u8 *p = ghiRequestToConnection(a);
     if (p != 0)
         *(u32 *)(p + 0x188) = b;
 }

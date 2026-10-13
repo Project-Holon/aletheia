@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK43_CallEvent
+ * function: SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallEvent
  * address:  0x021B25DC
  * packet:   pkt_ov021_021B25DC
  * region:   ov021
@@ -27,7 +27,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern int FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *a, int b);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK43_CallEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

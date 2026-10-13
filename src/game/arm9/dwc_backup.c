@@ -1,7 +1,7 @@
 /*
  * file:     dwc_backup.c
  * unit:     yes
- * function: func_020584E0, func_020584F4, func_02058518, func_020585DC, func_02058634, func_02058664, func_020586BC, func_02058770, func_02058784, func_020587E0, func_020587F8, func_0205883C, func_02058868, func_020588D0, writeDisable, func_02058904, DWCi_BACKUPlGetWifi
+ * function: func_020584E0, func_020584F4, DWCi_BM_GetWiFiInfo, func_020585DC, func_02058634, func_02058664, func_020586BC, func_02058770, func_02058784, func_020587E0, func_020587F8, func_0205883C, func_02058868, func_020588D0, writeDisable, func_02058904, DWCi_BACKUPlGetWifi
  * address:  0x020584E0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -138,7 +138,7 @@ extern void OS_Terminate(void);
 extern u16  MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
 int DWCi_BM_GetApInfo(void *buf);
 int DWCi_BM_GetApInfoEx(void *buf);
-void func_02058518(DWCWiFiInfo *buf);
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
 int func_020585DC(NCFGSlotInfo *buf, int offset, u32 num);
 int WriteSlotInfo(NCFGSlotInfo *buf, int index, void *work);
 int func_02058664(NCFGSlotInfoEx *buf, int offset, u32 num);
@@ -184,7 +184,7 @@ int DWCi_BM_GetApInfoEx(void *buf)
 /*
  * sdk:      DWCi_BM_GetWiFiInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
  */
-void func_02058518(DWCWiFiInfo *buf)
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf)
 {
     MI_CpuCopy8(&Wifi[0], &buf->attestedUserId, 6);
     buf->attestedUserId &= 0x7FFFFFFFFFFULL;

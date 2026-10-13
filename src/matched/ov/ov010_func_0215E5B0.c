@@ -33,15 +33,15 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   MOVE_POKEMON_FindEntryBySpecies  0x0215E804  thumb  ov010
  *   func_02005728  0x02005728  thumb
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb  ov010
  *   MOVE_POKEMON_GetEntryIndexBySpecies  0x0215E724  thumb  ov010
- *   func_0200D494  0x0200D494  thumb
- *   func_0200D480  0x0200D480  thumb
- *   func_0200D470  0x0200D470  thumb
- *   func_0200D50C  0x0200D50C  thumb
+ *   MOVE_POKEMON_SAVE_InitEntry  0x0200D494  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryLocation  0x0200D480  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryState  0x0200D470  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryField  0x0200D50C  thumb
  */
 
 typedef unsigned char u8;
@@ -66,16 +66,16 @@ extern void *BTL_SETUP_GetParty(void *p, int v);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *p);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
 extern struct GdsEnt *MOVE_POKEMON_FindEntryBySpecies(int a0, int a1);
 extern u32 func_02005728(u32 v);
 extern void MOVE_POKEMON_MoveActiveEntries(void *p);
 extern int MOVE_POKEMON_GetEntryIndexBySpecies(int species);
-extern void func_0200D494(struct GdsEnt *e);
-extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
+extern void MOVE_POKEMON_SAVE_InitEntry(struct GdsEnt *e);
+extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct Blk38 *p, u32 i, u8 v);
 struct Blk38;
-extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
-extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
+extern void MOVE_POKEMON_SAVE_SetEntryState(struct Blk38 *p, u32 i, u32 v);
+extern void MOVE_POKEMON_SAVE_SetEntryField(struct GdsEnt *e, u32 i, u32 v);
 
 void MOVE_POKEMON_HandleBattleResult(void *a0, Work *w)
 {
@@ -94,7 +94,7 @@ void MOVE_POKEMON_HandleBattleResult(void *a0, Work *w)
     species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     v = POKE_TOOL_GetPartyValue(mon, 0xA0, 0);
     b = POKE_TOOL_GetPartyValue(mon, 0x9D, 0);
-    tbl = func_0200D418(GAME_DATA_GetSaveControl(a0));
+    tbl = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(a0));
     mon = MOVE_POKEMON_FindEntryBySpecies((int)tbl, species);
     if (mon == 0) {
         if (func_02005728(100) < 30) {
@@ -104,18 +104,18 @@ void MOVE_POKEMON_HandleBattleResult(void *a0, Work *w)
     }
     idx = MOVE_POKEMON_GetEntryIndexBySpecies(species);
     if ((w->f8c == 1 || w->f8c == 2) && v == 0) {
-        func_0200D494(mon);
-        func_0200D480(tbl, idx, 0x10);
-        func_0200D470(tbl, idx, 2);
+        MOVE_POKEMON_SAVE_InitEntry(mon);
+        MOVE_POKEMON_SAVE_SetEntryLocation(tbl, idx, 0x10);
+        MOVE_POKEMON_SAVE_SetEntryState(tbl, idx, 2);
         return;
     }
     if (w->f8c == 5) {
-        func_0200D494(mon);
-        func_0200D480(tbl, idx, 0x10);
-        func_0200D470(tbl, idx, 3);
+        MOVE_POKEMON_SAVE_InitEntry(mon);
+        MOVE_POKEMON_SAVE_SetEntryLocation(tbl, idx, 0x10);
+        MOVE_POKEMON_SAVE_SetEntryState(tbl, idx, 3);
         return;
     }
-    func_0200D50C(mon, 5, v);
-    func_0200D50C(mon, 7, b);
+    MOVE_POKEMON_SAVE_SetEntryField(mon, 5, v);
+    MOVE_POKEMON_SAVE_SetEntryField(mon, 7, b);
     MOVE_POKEMON_MoveActiveEntries(a0);
 }

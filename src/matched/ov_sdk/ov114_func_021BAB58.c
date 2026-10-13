@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB58
+ * function: checkTagPost
  * address:  0x021BAB58
  * packet:   pkt_ov114_021BAB58
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      checkTagPost (libnhttp.TWL.HYB.a(nhttp_control.o))
  *
  * symbols:
- *   func_021BA690 0x021BA690 arm ov114
- *   func_021BAB24 0x021BAB24 arm ov114
+ *   NHTTPi_memfind 0x021BA690 arm ov114
+ *   incAscii 0x021BAB24 arm ov114
  *   g_021CDFC8 0x021CDFC8 data
  */
 
@@ -24,15 +24,15 @@ typedef struct {
 
 extern char g_021CDFC8[];
 
-extern int func_021BA690(signed char *hay, int len1, signed char *needle, int len2);
-extern char func_021BAB24(unsigned char c);
+extern int NHTTPi_memfind(signed char *hay, int len1, signed char *needle, int len2);
+extern char incAscii(unsigned char c);
 
-int func_021BAB58(Req *req_p, char *value_p, unsigned long length)
+int checkTagPost(Req *req_p, char *value_p, unsigned long length)
 {
     char c;
     int n;
 
-    if (func_021BA690((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
+    if (NHTTPi_memfind((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
         return 1;
     }
     for (n = 0x13; n >= 2; n--) {
@@ -41,12 +41,12 @@ int func_021BAB58(Req *req_p, char *value_p, unsigned long length)
         c = tp[0x38];
         t = g_021CDFC8[n];
         while (1) {
-            c = func_021BAB24(c);
+            c = incAscii(c);
             tp[0x38] = c;
             if (c == t) {
                 break;
             }
-            if (func_021BA690((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
+            if (NHTTPi_memfind((signed char *)value_p, length, (signed char *)(&req_p->tag[2]), 0x12) < 0) {
                 return 1;
             }
         }

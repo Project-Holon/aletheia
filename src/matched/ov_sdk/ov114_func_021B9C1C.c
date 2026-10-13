@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C1C
+ * function: NHTTPi_CheckCurrentThread
  * address:  0x021B9C1C
  * packet:   pkt_ov114_021B9C1C
  * region:   ov114
@@ -12,7 +12,7 @@
  * sdk:      NHTTPi_CheckCurrentThread (libnhttp.TWL.HYB.a(nhttp_os_ntr.o))
  *
  * symbols:
- *   func_02088234 0x02088234 arm
+ *   OS_Terminate 0x02088234 arm
  *   g_02150FEC 0x02150FEC data
  */
 
@@ -27,16 +27,16 @@ typedef struct {
 } OSInfo;
 
 extern OSInfo g_02150FEC;
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 
-void func_021B9C1C(ThreadInfo *threadInfo_p, int is)
+void NHTTPi_CheckCurrentThread(ThreadInfo *threadInfo_p, int is)
 {
     int *commThread_p = &threadInfo_p->commThread;
     int *cur = g_02150FEC.current;
 
     if (cur) {
         if ((is == 0 && cur != commThread_p) || (is != 0 && cur == commThread_p)) {
-            func_02088234();
+            OS_Terminate();
         }
     }
 }

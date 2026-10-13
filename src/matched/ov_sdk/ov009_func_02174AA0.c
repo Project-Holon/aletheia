@@ -1,5 +1,5 @@
 /*
- * function: func_02174AA0
+ * function: DWCi_QR2ServerKeyCallback
  * address:  0x02174AA0
  * packet:   pkt_ov009_02174AA0
  * region:   ov009
@@ -12,7 +12,7 @@
  * sdk:      DWCi_QR2ServerKeyCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
- *   func_0217603C  0x0217603C arm   ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C arm   ov009
  *   func_0219B628  0x0219B628 arm   ov009
  *   func_02175F3C  0x02175F3C arm   ov009
  *   func_02175FB8  0x02175FB8 arm   ov009
@@ -43,14 +43,14 @@ struct gamekey_s {
     void *value;
 };
 
-extern int func_0217603C(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 extern int func_0219B628(void *outbuf, int value);
 extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
 extern int func_0219B660(void *outbuf, char *value);
 extern struct gamekey_s g_021AAA40[154];
 
-void func_02174AA0(int keyid, void *outbuf)
+void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf)
 {
     int suspendMatch;
     int numPlayers;
@@ -58,7 +58,7 @@ void func_02174AA0(int keyid, void *outbuf)
 
     switch (keyid) {
     case 8:
-        numPlayers = func_0217603C() - 1;
+        numPlayers = DWCi_NodeInfoList_GetCount() - 1;
         if (numPlayers < 0)
             numPlayers = 0;
         func_0219B628(outbuf, numPlayers);

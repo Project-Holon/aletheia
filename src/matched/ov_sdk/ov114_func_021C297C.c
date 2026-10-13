@@ -12,12 +12,12 @@
  * SDK: TwlDWC/libdwcgsghttp.TWL.HYB.a(ghttppost.o).  decl_line 704.
  *
  * symbols:
- *   func_021C26B8   0x021C26B8  arm
- *   func_021C2620   0x021C2620  arm
+ *   ghiPostGetHasFilesContentLength   0x021C26B8  arm
+ *   ghiPostGetNoFilesContentLength   0x021C2620  arm
  */
-extern int func_021C26B8(void *connection);
+extern int ghiPostGetHasFilesContentLength(void *connection);
 struct GHIConnection;
-extern int func_021C2620(struct GHIConnection *connection);
+extern int ghiPostGetNoFilesContentLength(struct GHIConnection *connection);
 
 int ghiPostGetContentLength(void *connection)
 {
@@ -26,6 +26,6 @@ int ghiPostGetContentLength(void *connection)
     if (!post)
         return 0;
     if (*(void **)((char *)post + 0xC))
-        return func_021C26B8(connection);
-    return func_021C2620(connection);
+        return ghiPostGetHasFilesContentLength(connection);
+    return ghiPostGetNoFilesContentLength(connection);
 }

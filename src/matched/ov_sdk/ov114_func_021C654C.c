@@ -1,5 +1,5 @@
 /*
- * function: func_021C654C
+ * function: DWCi_NdCleanupConnectionHandle
  * address:  0x021C654C
  * packet:   pkt_ov114_021C654C
  * region:   ov114
@@ -12,28 +12,28 @@
  * sdk:      DWCi_NdCleanupConnectionHandle (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_021C78E0  0x021C78E0  arm  ov114
- *   func_021BF3BC  0x021BF3BC  arm  ov114
- *   func_021BF184  0x021BF184  arm  ov114
- *   func_021C78F4  0x021C78F4  arm  ov114
+ *   DWCi_Ndi_lockGlobal  0x021C78E0  arm  ov114
+ *   NHTTP_GetConnectionStatus  0x021BF3BC  arm  ov114
+ *   NHTTP_DeleteConnection  0x021BF184  arm  ov114
+ *   DWCi_Ndi_unlockGlobal  0x021C78F4  arm  ov114
  */
 
-extern void func_021C78E0(void);
-extern int func_021BF3BC(int a);
-extern int func_021BF184(int a);
-extern void func_021C78F4(void);
+extern void DWCi_Ndi_lockGlobal(void);
+extern int NHTTP_GetConnectionStatus(int a);
+extern int NHTTP_DeleteConnection(int a);
+extern void DWCi_Ndi_unlockGlobal(void);
 
-int func_021C654C(void *volatile handle)
+int DWCi_NdCleanupConnectionHandle(void *volatile handle)
 {
 	int result = 1;
-	func_021C78E0();
+	DWCi_Ndi_lockGlobal();
 	if (handle) {
-		func_021BF3BC((int)handle);
-		if (func_021BF184((int)handle) != 0)
+		NHTTP_GetConnectionStatus((int)handle);
+		if (NHTTP_DeleteConnection((int)handle) != 0)
 			result = 0;
 		else
 			handle = 0;
 	}
-	func_021C78F4();
+	DWCi_Ndi_unlockGlobal();
 	return result;
 }

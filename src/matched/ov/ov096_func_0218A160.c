@@ -1,5 +1,5 @@
 /*
- * function: func_0218A160
+ * function: TR_AI_GetPosition
  * address:  0x0218A160
  * packet:   pkt_ov096_0218A160
  * region:   ov096
@@ -23,7 +23,7 @@ typedef int s32;
 
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 
-u8 func_0218A160(u8 *p, int k)
+u8 TR_AI_GetPosition(u8 *p, int k)
 {
     u32 v;
     switch (k) {

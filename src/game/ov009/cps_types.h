@@ -1,7 +1,7 @@
 #ifndef OV009_CPS_TYPES_H
 #define OV009_CPS_TYPES_H
 /*
- * Shared libcps (network.o and friends) types for ov009 cps_network_3.
+ * Shared libcps (network.o and friends) types for ov009 cps_network.
  * One definition per object; every field sits at the offset the parts
  * used. g_021A826C is network.o's block of file statics, read through
  * one base: wfailed, ip_conflict, ipid, mymss, eport, pingseq,

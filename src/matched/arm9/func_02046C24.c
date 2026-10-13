@@ -12,8 +12,8 @@
  * symbols:
  *   _G3dSystem      0x02146A5C  data
  *   G3D_SYSTEM_FlushGlbDefault   0x02046C88  arm
- *   func_0206A884   0x0206A884  arm
- *   func_0206A8FC   0x0206A8FC  arm
+ *   NNS_G3dGlbFlushP   0x0206A884  arm
+ *   NNS_G3dGlbFlushWVP   0x0206A8FC  arm
  *
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
@@ -46,8 +46,8 @@ struct Ctx {
 
 extern struct Ctx *_G3dSystem;
 extern void G3D_SYSTEM_FlushGlbDefault(void);
-extern void func_0206A884(void);
-extern void func_0206A8FC(void);
+extern void NNS_G3dGlbFlushP(void);
+extern void NNS_G3dGlbFlushWVP(void);
 
 void G3D_SYSTEM_SetGlbFlushMode(u32 mode)
 {
@@ -57,10 +57,10 @@ void G3D_SYSTEM_SetGlbFlushMode(u32 mode)
         _G3dSystem->unk_88 = G3D_SYSTEM_FlushGlbDefault;
         break;
     case 1:
-        _G3dSystem->unk_88 = func_0206A884;
+        _G3dSystem->unk_88 = NNS_G3dGlbFlushP;
         break;
     case 2:
-        _G3dSystem->unk_88 = func_0206A8FC;
+        _G3dSystem->unk_88 = NNS_G3dGlbFlushWVP;
         break;
     }
 }

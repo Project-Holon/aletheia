@@ -1,5 +1,5 @@
 /*
- * function: func_0689CB48
+ * function: BTL_POKESET_Add
  * address:  0x0689CB48
  * packet:   pkt_ov095_0689CB48
  * region:   ov095
@@ -26,7 +26,7 @@ typedef struct {
     u8 f45;
 } S;
 
-void func_0689CB48(S *p, u32 id)
+void BTL_POKESET_Add(S *p, u32 id)
 {
     u32 i;
     u8 n = p->n;

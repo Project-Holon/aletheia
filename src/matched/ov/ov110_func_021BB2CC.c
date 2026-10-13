@@ -1,5 +1,5 @@
 /*
- * function: func_021BB2CC
+ * function: PMSIV_CATEGORY_Delete
  * address: 0x021BB2CC
  * packet: pkt_ov110_021BB2CC
  * region: ov110
@@ -21,7 +21,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BB2CC(u8 *p) {
+void PMSIV_CATEGORY_Delete(u8 *p) {
     u8 i;
     if(((struct Obj03752 *)p)->f54) CLACT_DeleteActor(((struct Obj03752 *)p)->f54);
     for(i=0;i<12;i++) if(*(void **)(p+0x60+i*4)) BMP_WIN_Delete(*(void **)(p+0x60+i*4));

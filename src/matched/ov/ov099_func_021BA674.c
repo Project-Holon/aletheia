@@ -1,5 +1,5 @@
 /*
- * function: func_021BA674
+ * function: WIFICLUBACTOR_TickBlinkFrame
  * address:  0x021BA674
  * packet:   pkt_ov099_021BA674
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA764  0x021BA764  thumb  ov099
+ *   WIFICLUBACTOR_GetBlinkColors  0x021BA764  thumb  ov099
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C2878     0x021C2878  data  ov099  a2
  */
@@ -27,12 +27,12 @@ typedef struct {
 } S;
 
 extern const u16 d_021C2878[];
-extern u16 *func_021BA764(S *s, int i);
+extern u16 *WIFICLUBACTOR_GetBlinkColors(S *s, int i);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021BA674(S *s)
+void WIFICLUBACTOR_TickBlinkFrame(S *s)
 {
     int i;
     int k;
@@ -47,7 +47,7 @@ void func_021BA674(S *s)
         }
         for (i = 0; i < 4; i++) {
             if (s->f8 & (1 << i)) {
-                func_02061CA4((void *)0xf, (i + 1) * 2 + 0xe0, (u32)func_021BA764(s, k), 2);
+                func_02061CA4((void *)0xf, (i + 1) * 2 + 0xe0, (u32)WIFICLUBACTOR_GetBlinkColors(s, k), 2);
             }
         }
     }

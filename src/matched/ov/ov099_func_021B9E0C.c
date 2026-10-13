@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E0C
+ * function: WIFICLUBACTOR_LoadPalette
  * address:  0x021B9E0C
  * packet:   pkt_ov099_021B9E0C
  * region:   ov099
@@ -21,7 +21,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040EBC(u32 a, u32 b);
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
-void func_021B9E0C(void *a, u32 b, u32 c, u32 d)
+void WIFICLUBACTOR_LoadPalette(void *a, u32 b, u32 c, u32 d)
 {
     u32 z = 0;
     func_02049B40(d, 7, 0, 0, 0x100, b);

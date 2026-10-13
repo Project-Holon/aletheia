@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CCAAC",
+   "name": "CRYPTOi__BN_RECP_CTX_set",
    "address": "0x021CCAAC",
    "kind": "sdk",
    "region": "ov114",

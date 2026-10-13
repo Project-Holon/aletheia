@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK39_SetState
+ * function: SCRCMD_FIELD_GIMMICK_CART_LANES_SetState
  * address:  0x021B23B8
  * packet:   pkt_ov021_021B23B8
  * region:   ov021
@@ -26,7 +26,7 @@ struct Stream;
 extern u16 VM_GetU16(struct Stream *s);
 extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(void *p, u32 i);
 
-int SCRCMD_GIMMICK39_SetState(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_SetState(u32 a, u32 b)
 {
     void *d;
     u8 k;

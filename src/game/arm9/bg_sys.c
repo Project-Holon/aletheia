@@ -1,7 +1,7 @@
 /*
  * file:     bg_sys.c
  * unit:     yes
- * function: func_0203EF5C, func_0203EFC8, func_0203F004, func_0203F028, func_0203F034, func_0203F0A8, func_0203F1FC, func_0203F258, func_0203F2FC, func_0203F328, func_0203F37C, func_0203F388, func_0203F3B4, func_0203F3F0, func_0203F42C, func_0203F46C, func_0203F49C, func_0203F4CC, func_0203F4E4, func_0203F4FC, func_0203F524, func_0203F540, func_0203F5FC, func_0203F63C, func_0203F684, func_0203F6D8, func_0203F734, func_0203F768, func_0203F7C4, func_0203F8F4, func_0203F9B4, func_0203FA08, func_0203FAF0, func_0203FB44, func_0203FC28, func_0203FC6C, func_0203FCA0, sub_020403F4, func_0204044C, func_0204047C, sub_02040588, sub_02040618, sub_020407E8, sub_02040804, sub_02040820, sub_02040860, sub_02040968, sub_020409B4, func_020409E0, func_02040AE0, func_02040AF0, func_02040B1C, func_02040B58, func_02040B94, func_02040C14, func_02040DA8, func_02040E78, func_02040EBC, func_02040EE0, func_02040F84, func_02041090, func_020410D0, func_020411E8, func_02041300, func_020413B0, func_020414AC, func_020414C4, func_020414EC, func_0204152C, func_02041570, func_020415B4, func_0204162C, func_02041648, func_02041664, func_02041680, func_0204169C, func_020416B8, func_020416D4, func_020419E4, func_02041A1C, sub_02041B6C, func_02041B94, func_02041EE4, func_02041F28, func_02041F6C, func_02041FB0, func_02041FF4, func_02042218, sub_020422D4, sub_02042360, func_020423D4, func_0204241C, func_02042508, func_020425B4, func_020426A0, func_020428E8, func_02042B24, func_02042D2C, func_02042E34, func_02042ED8, sub_02042FB0, sub_02042FF8, sub_02043094, func_02043130, sub_02043228, sub_02043264
+ * function: func_0203EF5C, func_0203EFC8, func_0203F004, func_0203F028, func_0203F034, func_0203F0A8, func_0203F1FC, func_0203F258, func_0203F2FC, func_0203F328, func_0203F37C, func_0203F388, func_0203F3B4, func_0203F3F0, func_0203F42C, func_0203F46C, func_0203F49C, func_0203F4CC, func_0203F4E4, func_0203F4FC, func_0203F524, func_0203F540, func_0203F5FC, func_0203F63C, func_0203F684, func_0203F6D8, func_0203F734, func_0203F768, func_0203F7C4, func_0203F8F4, func_0203F9B4, func_0203FA08, func_0203FAF0, func_0203FB44, func_0203FC28, func_0203FC6C, func_0203FCA0, sub_020403F4, func_0204044C, func_0204047C, sub_02040588, sub_02040618, sub_020407E8, sub_02040804, sub_02040820, sub_02040860, sub_02040968, sub_020409B4, func_020409E0, func_02040AE0, func_02040AF0, func_02040B1C, func_02040B58, func_02040B94, func_02040C14, func_02040DA8, func_02040E78, func_02040EBC, func_02040EE0, func_02040F84, func_02041090, func_020410D0, func_020411E8, func_02041300, func_020413B0, func_020414AC, func_020414C4, func_020414EC, func_0204152C, func_02041570, func_020415B4, func_0204162C, func_02041648, func_02041664, func_02041680, func_0204169C, func_020416B8, func_020416D4, func_020419E4, func_02041A1C, sub_02041B6C, func_02041B94, func_02041EE4, func_02041F28, func_02041F6C, func_02041FB0, func_02041FF4, func_02042218, sub_020422D4, sub_02042360, func_020423D4, func_0204241C, func_02042508, func_020425B4, func_020426A0, func_020428E8, func_02042B24, func_02042D2C, func_02042E34, func_02042ED8, sub_02042FB0, sub_02042FF8, sub_02043094, func_02043130, sub_02043228, sub_02043264, BG_SYS_ApplyCenterOp
  * address:  0x0203EF5C
  * region:   arm9
  * compiler: dsi/1.2
@@ -11,6 +11,11 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
+ * The companion of sub_02043264: the same set / add / subtract triple, but
+ * on the two affine center coordinates at +0x24 and +0x28, opcodes 9..14.
+ * The table is rebased with a leading `sub r1, r1, #9`, so no empty low
+ * arms are needed here.
  *
  * symbols:
  *   g_021469F8     0x021469F8  data
@@ -53,13 +58,13 @@
  *   g_BgConfig     0x02146A44  data
  *   func_02040860  0x02040860  arm
  *   func_0207D59C  0x0207D59C  arm
- *   func_020834C0  0x020834C0  arm
- *   func_02082A90  0x02082A90  arm
- *   func_02082A60  0x02082A60  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   gUnk_02146A44  0x02146A44  data
  *   func_02040968  0x02040968  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_020422D4  0x020422D4  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   func_020409B4  0x020409B4  arm
@@ -78,25 +83,28 @@
  *   func_02043264  0x02043264  arm
  *   func_020432E4  0x020432E4  arm
  *   func_02030734  0x02030734  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   DC_FlushRange  0x020862F0  arm
  *   func_0207E888  0x0207E888  arm
  *   func_0207EA00  0x0207EA00  arm
- *   func_0207EB78  0x0207EB78  arm
+ *   GX_LoadBG2Scr  0x0207EB78  arm
  *   func_0207ECF0  0x0207ECF0  arm
  *   func_0207E944  0x0207E944  arm
  *   func_0207EABC  0x0207EABC  arm
  *   func_0207EC34  0x0207EC34  arm
  *   func_0207EDAC  0x0207EDAC  arm
- *   func_0207EE68  0x0207EE68  arm
+ *   GX_LoadBG0Char  0x0207EE68  arm
  *   func_0207EF90  0x0207EF90  arm
  *   func_0207F024  0x0207F024  arm
- *   func_0207F0B8  0x0207F0B8  arm
+ *   GX_LoadBG2Char  0x0207F0B8  arm
  *   func_0207EEFC  0x0207EEFC  arm
  *   func_0207F14C  0x0207F14C  arm
  *   func_0207F1E0  0x0207F1E0  arm
  *   func_0207F274  0x0207F274  arm
  *   func_02043130_File 0x020A7E5C  data
+ *   GX_LoadBGPltt  0x0207E3D0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   RTC_Init  0x02088788  arm
  */
 #include "../../matched/include/Obj16002.h"
 #include "../../matched/include/Obj16005.h"
@@ -195,8 +203,7 @@ struct DispConfig {
     u32 unk_0c;
 };
 
-
-struct Bg {
+struct Bg_0203EF5C {
     void *buf;
     u32   bufSize;
     u32   unk_08;
@@ -219,7 +226,7 @@ struct BgSys {
     u16       unk_02;
     u16       unk_04;
     u16       unk_06;
-    struct Bg bgs[8];
+    struct Bg_0203EF5C bgs[8];
     void     *unk_168;
     void     *unk_16c;
     u32       unk_170[8];
@@ -277,6 +284,18 @@ typedef unsigned int u8_unused;
 
 typedef signed short       s16;
 
+/* One background layer record (0x2C bytes).  Only the affine members past
+ * the scroll and type fields are touched here. */
+struct Bg_020432E4 {
+    u32 head[6];     /* buffer, size, scroll: not used by this function */
+    u16 rotation;    /* +0x18, angle */
+    u16 rotationPad;
+    u32 scaleX;      /* +0x1C, 0x1000 = 1.0 */
+    u32 scaleY;      /* +0x20 */
+    u32 centerX;     /* +0x24, rotation and scale center */
+    u32 centerY;     /* +0x28 */
+};
+
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
@@ -287,7 +306,7 @@ extern void sub_020813D8(void *p);
 extern void sub_0208142C(void *ctx, void *buf, u32 n);
 extern void sub_020814C0(void *ctx, void *out);
 extern void sub_02082D44(void *in, void *out, u32 n);
-extern void func_02088788(void);
+extern void RTC_Init(void);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern u32  func_02088944(struct RtcDate *date, struct RtcTime *time,
                           void (*done)(u32, struct RtcRequest *),
@@ -315,22 +334,22 @@ extern void BG_SYS_ClearSubPlanes(u32 handle);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern void func_02042360(struct Bg *p, u32 op, u32 value);
+extern void func_02042360(struct Bg_0203EF5C *p, u32 op, u32 value);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
-extern void func_02082A48(u32 value, void *dest, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 extern void func_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c);
 extern void func_0207D59C(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
-extern void func_020834C0(void *dest, const void *src, u32 size);
-extern void func_02082A90(void *dest, const void *src, u32 size);
-extern void func_02082A60(void *dest, const void *src, u32 size);
+extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
+extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
+extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 extern void func_02040968(const void *src, void *dst, u32 mode);
-extern void  func_02082AC0(u32 value, void *dst, u32 size);
-extern void func_020862F0(void *, u32);
-extern void func_0207E3D0(void *, u32, u32);
+extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void GX_LoadBGPltt(void *, u32, u32);
 extern void func_0207E468(void *, u32, u32);
 extern void func_020422D4(u32 mode, u8 *a, u8 *b);
-extern void MIi_CpuClear16(u16 val, void *dest, u32 size);
+
 extern void func_020409B4(u32 index);
 extern void func_02041B6C(u32 bit);
 extern void *func_0207E1F8(void);
@@ -342,24 +361,24 @@ extern u32 func_0207E280(void);
 extern void *func_0207E2F0(void);
 extern void *func_0207E388(void);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void func_02043228(struct Bg *p, u32 op, u16 value);
-extern void func_02043264(struct Bg *p, u32 op, u32 value);
-extern void func_020432E4(struct Bg *p, u32 op, u32 value);
+extern void func_02043228(struct Bg_0203EF5C *p, u32 op, u16 value);
+extern void func_02043264(struct Bg_0203EF5C *p, u32 op, u32 value);
+extern void func_020432E4(struct Bg_0203EF5C *p, u32 op, u32 value);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082D44(void *dst, const void *src, u32 size);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern void DC_FlushRange(void *p, u32 size);
 extern void func_0207E888(const void *src, u32 offset, u32 size);
 extern void func_0207EA00(const void *src, u32 offset, u32 size);
-extern void func_0207EB78(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG2Scr(const void *src, u32 offset, u32 size);
 extern void func_0207ECF0(const void *src, u32 offset, u32 size);
 extern void func_0207E944(const void *src, u32 offset, u32 size);
 extern void func_0207EABC(const void *src, u32 offset, u32 size);
 extern void func_0207EC34(const void *src, u32 offset, u32 size);
 extern void func_0207EDAC(const void *src, u32 offset, u32 size);
-extern void func_0207EE68(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void func_0207EF90(const void *src, u32 offset, u32 size);
 extern void func_0207F024(const void *src, u32 offset, u32 size);
-extern void func_0207F0B8(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG2Char(const void *src, u32 offset, u32 size);
 extern void func_0207EEFC(const void *src, u32 offset, u32 size);
 extern void func_0207F14C(const void *src, u32 offset, u32 size);
 extern void func_0207F1E0(const void *src, u32 offset, u32 size);
@@ -453,23 +472,24 @@ void func_02041FB0(u32 which, u32 op, u16 value);
 u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags);
 int func_02042218(int a0, int a1);
 void sub_020422D4(u32 mode, u8 *a, u8 *b);
-void sub_02042360(struct Bg *p, u32 op, u32 value);
+void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value);
 void func_020423D4(u32 layer);
 void func_0204241C(u32 layer, const void *src, u32 offset, u32 size);
 void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
 void func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
-void func_020426A0(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_020428E8(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_02042B24(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
-void func_02042D2C(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-void func_02042E34(struct Bg *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
-void func_02042ED8(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
+void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h);
+void func_02042ED8(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h, u32 mode);
 void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value);
 void sub_02042FF8(u32 idx, u32 offset, u32 size);
 void sub_02043094(u32 idx, u32 offset, u32 size);
 void func_02043130(u16 flags, u8 *buf, u32 page);
-void sub_02043228(struct Bg *p, u32 op, u16 value);
-void sub_02043264(struct Bg *p, u32 op, u32 value);
+void sub_02043228(struct Bg_0203EF5C *p, u32 op, u16 value);
+void sub_02043264(struct Bg_0203EF5C *p, u32 op, u32 value);
+void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand);
 extern struct Mt *g_021469F8;
 extern char g_020A7E4C[];
 extern u16 tbl_020A08B6[];
@@ -480,6 +500,7 @@ extern struct RtcTime g_02146A1C;
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
 extern u8 func_02043130_File[];
+
 
 
 
@@ -514,6 +535,7 @@ void func_0203EF5C(u32 heapId)
 
 
 
+
 /*
  * memcmp over unsigned bytes.  The count is tested and decremented in one
  * expression (`n-- != 0`), which is what puts the `sub r2, r2, #1` between
@@ -534,6 +556,7 @@ s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n)
     }
     return 0;
 }
+
 
 
 
@@ -569,10 +592,12 @@ u32 func_0203F004(const u8 *s)
 
 
 
+
 int func_0203F028(const char *s1, const char *s2)
 {
     return STD_CompareString(s1, s2);
 }
+
 
 
 
@@ -599,6 +624,7 @@ void func_0203F034(u32 seed)
             (prev ^ (prev >> 30)) * 0x6c078965 + g_021469F8->mti;
     }
 }
+
 
 
 
@@ -649,6 +675,7 @@ u32 func_0203F0A8(void)
 
 
 
+
 /*
  * TU: gf_standard.c.
  *
@@ -673,6 +700,7 @@ u16 func_0203F1FC(const u8 *src, u32 len)
         return func_02081B8C((struct MATHCRC16Table *)g_021469F8->unk_9cc, (void *)src, len);
     }
 }
+
 
 
 
@@ -712,6 +740,7 @@ void func_0203F258(struct Lcg64 *out)
 
 
 
+
 /*
  * Additive byte checksum.  The accumulator is declared before the index, so
  * it takes r3 and the index is rematerialised from it with `mov ip, r3`
@@ -731,6 +760,7 @@ u32 func_0203F2FC(const u8 *p, u32 len)
     }
     return sum;
 }
+
 
 
 
@@ -775,7 +805,9 @@ void func_0203F328(u16 *p, u32 size, u32 seed)
 
 
 
+
 void func_0203F37C(void *p, unsigned int size, unsigned int seed){ func_0203F328(p, size, seed); }
+
 
 
 
@@ -805,6 +837,7 @@ u16 func_0203F388(u32 *seed)
 
 
 
+
 /*
  * Reset of the 0x48-byte block at 0x021469FC: zero it wholesale, then write
  * its first three words explicitly (the redundant stores are in the source;
@@ -816,13 +849,14 @@ u16 func_0203F388(u32 *seed)
  */
 void func_0203F3B4(void)
 {
-    func_02088788();
+    RTC_Init();
     MI_CpuFill8(&g_021469FC, 0, 0x48);
     g_021469FC.unk_00 = 0;
     g_021469FC.unk_04 = 0;
     g_021469FC.unk_08 = 0;
     func_0203F46C((struct RtcRequest *)(&g_021469FC));
 }
+
 
 
 
@@ -852,6 +886,7 @@ void func_0203F3F0(void)
     g_021469FC.unk_08 = 0;
     func_0203F46C((struct RtcRequest *)(&g_021469FC));
 }
+
 
 
 
@@ -889,6 +924,7 @@ void func_0203F42C(u32 result, struct RtcRequest *req)
 
 
 
+
 /*
  * TU: gf_standard.c.
  *
@@ -907,6 +943,7 @@ void func_0203F46C(struct RtcRequest *req)
     req->result = func_02088944(&req->stagedDate, &req->stagedTime,
                                 func_0203F42C, req);
 }
+
 
 
 
@@ -936,6 +973,7 @@ void func_0203F49C(struct RtcDate *date, struct RtcTime *time)
 
 
 
+
 /*
  * TU: gf_standard.c.  Copy the cached RTC time out; three words, so one
  * ldm/stm pair and no frame at all.
@@ -954,6 +992,7 @@ void func_0203F4CC(struct RtcTime *time)
 
 
 
+
 /*
  * TU: gf_standard.c.  Copy the cached RTC date out; four words, one ldm/stm
  * pair, no frame.
@@ -966,6 +1005,7 @@ void func_0203F4E4(struct RtcDate *date)
 {
     *date = g_02146A0C;
 }
+
 
 
 
@@ -999,6 +1039,7 @@ u32 func_0203F4FC(void)
 
 
 
+
 /*
  * TU: gf_standard.c.
  *
@@ -1014,6 +1055,7 @@ void func_0203F524(void)
 {
     func_02089004((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }
+
 
 
 
@@ -1096,6 +1138,7 @@ s32 func_0203F540(struct RtcDate_0203F540 *d)
 
 
 
+
 /*
  * Fixed-point sine lookup without the mod: angles of 360 or more return 0; otherwise the same table index as func_0203F684 (4096-entry table at 0x020A1B38, even halfword).
  */
@@ -1112,6 +1155,7 @@ int func_0203F5FC(u32 x)
 
 
 
+
 /*
  * Twin of func_0203F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
  */
@@ -1122,6 +1166,7 @@ s16_0203F1FC func_0203F63C(u32 x)
     }
     return FX_SinCosTable_[2 * ((((s32)x * 0xFFFF) / 360) >> 4) + 1];
 }
+
 
 
 
@@ -1163,6 +1208,7 @@ short func_0203F684(unsigned short x)
 
 
 
+
 /*
  * The odd-halfword twin of func_0203F684: same signed `x % 360`, same
  * fixed-point multiply by 0xFFFF against the same 360, same `>> 4`, but the
@@ -1188,6 +1234,7 @@ s16_0203F1FC func_0203F6D8(s32 x)
 
 
 
+
 /*
  * Unlabelled ARM leaf (no lr save) that scales x by 0xFFFF and divides by
  * 360: floor(x * 65535 / 360) for x < 360, else 0.  The unsigned guard
@@ -1201,6 +1248,7 @@ u16 func_0203F734(int x)
         return 0;
     return (u16)(x * 0xFFFF / 0x168);
 }
+
 
 
 
@@ -1235,10 +1283,12 @@ int func_0203F768(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
 
 
 
+
 static inline fx32 mulfx(fx32 p, fx32 q)
 {
     return (fx32)(((s64)p * q + 0x800) >> 12);
 }
+
 
 
 
@@ -1252,6 +1302,7 @@ static inline fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)
 
     return mulfx(px, q->y) - mulfx(q->x, py);
 }
+
 
 
 
@@ -1315,6 +1366,7 @@ s32 func_0203F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
 
 
 
+
 /*
  * TU: bg_sys.c.
  *
@@ -1353,6 +1405,7 @@ void func_0203F8F4(u16 heapId)
 
 
 
+
 /*
  * TU: bg_sys.c.
  *
@@ -1379,6 +1432,7 @@ void func_0203F9B4(void)
     func_020307B0(g_02146A44);
     g_02146A44 = 0;
 }
+
 
 
 
@@ -1421,6 +1475,7 @@ u32 func_0203FA08(u32 layer, u32 size, u32 top)
 
 
 
+
 u32 func_0203FAF0(u32 a, u32 b, u32 c)
 {
     u32 d = func_020416B8(a & 0xff);
@@ -1429,6 +1484,7 @@ u32 func_0203FAF0(u32 a, u32 b, u32 c)
     return func_020341F0((struct AreaMan *)((a < 4) ? g_02146A44->unk_168 : g_02146A44->unk_16c),
                   d + b, c);
 }
+
 
 
 
@@ -1484,6 +1540,7 @@ void func_0203FB44(u32 layer, u32 offset, u32 size)
 
 
 
+
 /*
  * TU: bg_sys.c (the initialiser at 0x0203FCA0 is the next function up).
  *
@@ -1505,6 +1562,7 @@ void func_0203FC28(struct DispConfig *cfg)
     BG_SYS_ClearMainBgPlanes();
     BG_SYS_ClearSubBgPlanes();
 }
+
 
 
 
@@ -1535,6 +1593,7 @@ void func_0203FC6C(const struct DispConfig *req, u32 which)
 
 
 
+
 static inline void G2_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG0CNT_A) = (u16)((REG16(REG_BG0CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
@@ -1543,10 +1602,12 @@ static inline void G2_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode co
 
 
 
+
 static inline void G2_SetBG0Priority(int priority)
 {
     REG16(REG_BG0CNT_A) = (u16)((REG16(REG_BG0CNT_A) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1563,6 +1624,7 @@ static inline void G2_BG0Mosaic(BOOL enable)
 
 
 
+
 static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG1CNT_A) = (u16)((REG16(REG_BG1CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
@@ -1571,10 +1633,12 @@ static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode co
 
 
 
+
 static inline void G2_SetBG1Priority(int priority)
 {
     REG16(REG_BG1CNT_A) = (u16)((REG16(REG_BG1CNT_A) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1591,10 +1655,12 @@ static inline void G2_BG1Mosaic(BOOL enable)
 
 
 
+
 static inline void G2_SetBG2ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
+
 
 
 
@@ -1607,6 +1673,7 @@ static inline void G2_SetBG2ControlAffine(GXBGScrSizeAffine screenSize, GXBGArea
 
 
 
+
 static inline void G2_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
@@ -1615,10 +1682,12 @@ static inline void G2_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaO
 
 
 
+
 static inline void G2_SetBG2Priority(int priority)
 {
     REG16(REG_BG2CNT_A) = (u16)((REG16(REG_BG2CNT_A) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1635,10 +1704,12 @@ static inline void G2_BG2Mosaic(BOOL enable)
 
 
 
+
 static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
+
 
 
 
@@ -1651,6 +1722,7 @@ static inline void G2_SetBG3ControlAffine(GXBGScrSizeAffine screenSize, GXBGArea
 
 
 
+
 static inline void G2_SetBG3ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
@@ -1659,10 +1731,12 @@ static inline void G2_SetBG3ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaO
 
 
 
+
 static inline void G2_SetBG3Priority(int priority)
 {
     REG16(REG_BG3CNT_A) = (u16)((REG16(REG_BG3CNT_A) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1679,6 +1753,7 @@ static inline void G2_BG3Mosaic(BOOL enable)
 
 
 
+
 static inline void G2S_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG0CNT_B) = (u16)((REG16(REG_BG0CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
@@ -1687,10 +1762,12 @@ static inline void G2S_SetBG0Control(GXBGScrSizeText screenSize, GXBGColorMode c
 
 
 
+
 static inline void G2S_SetBG0Priority(int priority)
 {
     REG16(REG_BG0CNT_B) = (u16)((REG16(REG_BG0CNT_B) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1707,6 +1784,7 @@ static inline void G2S_BG0Mosaic(BOOL enable)
 
 
 
+
 static inline void G2S_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
 {
     REG16(REG_BG1CNT_B) = (u16)((REG16(REG_BG1CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (bgExtPltt << 13));
@@ -1715,10 +1793,12 @@ static inline void G2S_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode c
 
 
 
+
 static inline void G2S_SetBG1Priority(int priority)
 {
     REG16(REG_BG1CNT_B) = (u16)((REG16(REG_BG1CNT_B) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1735,10 +1815,12 @@ static inline void G2S_BG1Mosaic(BOOL enable)
 
 
 
+
 static inline void G2S_SetBG2ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
+
 
 
 
@@ -1751,6 +1833,7 @@ static inline void G2S_SetBG2ControlAffine(GXBGScrSizeAffine screenSize, GXBGAre
 
 
 
+
 static inline void G2S_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
@@ -1759,10 +1842,12 @@ static inline void G2S_SetBG2ControlType2(GXBGScrSizeAffine screenSize, GXBGArea
 
 
 
+
 static inline void G2S_SetBG2Priority(int priority)
 {
     REG16(REG_BG2CNT_B) = (u16)((REG16(REG_BG2CNT_B) & ~3) | (priority << 0));
 }
+
 
 
 
@@ -1779,10 +1864,12 @@ static inline void G2S_BG2Mosaic(BOOL enable)
 
 
 
+
 static inline void G2S_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
+
 
 
 
@@ -1795,10 +1882,12 @@ static inline void G2S_SetBG3ControlAffine(GXBGScrSizeAffine screenSize, GXBGAre
 
 
 
+
 static inline void G2S_SetBG3ControlType2(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase, GXBGCharBase charBase)
 {
     REG16(REG_BG3CNT_B) = (u16)((REG16(REG_BG3CNT_B) & 0x43) | (screenSize << 14) | (charBase << 2) | (screenBase << 8) | (areaOver << 13));
 }
+
 
 
 
@@ -1811,6 +1900,7 @@ static inline void G2S_SetBG3Priority(int priority)
 
 
 
+
 static inline void G2S_BG3Mosaic(BOOL enable)
 {
     if (enable) {
@@ -1819,6 +1909,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
         REG16(REG_BG3CNT_B) &= ~0x40;
     }
 }
+
 
 
 
@@ -1938,7 +2029,7 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
         g_02146A44->bgs[bgId].buf = sub_02030734(g_02146A44->heapId,
                                                  tmpl->bufSize, 0,
                                                  g_020A7E5C, 0x231);
-        func_02082A48(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
+        MIi_CpuClear16(0, g_02146A44->bgs[bgId].buf, tmpl->bufSize);
         g_02146A44->bgs[bgId].bufSize = tmpl->bufSize;
         g_02146A44->bgs[bgId].unk_08 = tmpl->unk_0c;
     } else {
@@ -1967,6 +2058,7 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     func_02042FF8(bgId, 0, tmpl->bufSize);
 }
+
 
 
 
@@ -2013,6 +2105,7 @@ void sub_020403F4(u32 i)
 
 
 
+
 /*
  * Set the two low bits of DISPCNT (0x04000008) to the incoming mode, after
  * asking BG_SYS_SetMainPlaneVisible for the display to be brought up in mode 1.  The
@@ -2029,6 +2122,7 @@ void func_0204044C(u32 mode)
     *(volatile u16 *)0x04000008 =
         (*(volatile u16 *)0x04000008 & ~3) | mode;
 }
+
 
 
 
@@ -2090,6 +2184,7 @@ void func_0204047C(int idx, unsigned short val)
 
 
 
+
 /*
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
@@ -2130,6 +2225,7 @@ void sub_02040588(unsigned char which, unsigned char enable)
         break;
     }
 }
+
 
 
 
@@ -2205,6 +2301,7 @@ void sub_02040618(u32 layer, u32 a, u32 b)
 
 
 
+
 /*
  * The two scroll-register accessors for the BG configuration table, both of
  * them leaf functions that save nothing and therefore carry no `func_` label
@@ -2235,10 +2332,12 @@ u32 sub_020407E8(u32 layer)
 
 
 
+
 u32 sub_02040804(u32 layer)
 {
     return g_02146A44->bgs[layer].scrollY;
 }
+
 
 
 
@@ -2250,6 +2349,7 @@ void sub_02040820(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
     func_02042360(&g_02146A44->bgs[layer], a, b);
     func_02040860(layer, c, d, e);
 }
+
 
 
 
@@ -2319,20 +2419,22 @@ void sub_02040860(u32 layer, struct Mtx22 *a, u32 b, u32 c)
 
 
 
+
 void sub_02040968(void *dest, const void *src, u32 size)
 {
     if (size == 0) {
-        func_020834C0(dest, src, size);
+        MI_UncompressLZ8(dest, src, size);
         return;
     }
 
     if (((u32)dest & 3) == 0 && ((u32)src & 3) == 0 && ((u16)size % 4) == 0) {
-        func_02082A90(dest, src, size);
+        MIi_CpuCopy32(dest, src, size);
         return;
     }
 
-    func_02082A60(dest, src, size);
+    MIi_CpuCopy16(dest, src, size);
 }
+
 
 
 
@@ -2352,6 +2454,7 @@ void sub_020409B4(u32 index)
 
     func_020409E0(index, g_02146A44->bgs[index].buf, g_02146A44->bgs[index].bufSize, g_02146A44->bgs[index].unk_08);
 }
+
 
 
 
@@ -2395,6 +2498,7 @@ void func_020409E0(u32 index, const void *src, u32 mode, u32 offset)
 
 
 
+
 /*
  * A four-instruction forwarder that binds the tile offset of func_02040AF0
  * to zero.  It has no label in the listing: the prologue saves nothing, so
@@ -2424,6 +2528,7 @@ void func_02040AE0(u32 index, const void *src, u32 mode)
 
 
 
+
 /*
  * Decode a tile source straight into slot `index`'s tile buffer at a tile
  * offset.  The offset scales by two, so the buffer is addressed in
@@ -2438,6 +2543,7 @@ void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset)
 {
     func_02040968(src, (u16 *)g_02146A44->bgs[index].buf + offset, mode);
 }
+
 
 
 
@@ -2463,6 +2569,7 @@ void func_02040B1C(int index, const void *src, u32 size, u32 tile)
         func_02042508(index, src, size, tile * 64);
     }
 }
+
 
 
 
@@ -2496,6 +2603,7 @@ u32 func_02040B58(u32 index, const void *src, u32 size)
 
 
 
+
 /*
  * TU: bg_sys.c.
  *
@@ -2518,6 +2626,7 @@ void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId)
     func_020425B4(layer, buf, offset, size);
     func_020307B0(buf);
 }
+
 
 
 
@@ -2605,11 +2714,12 @@ void func_02040C14(u32 layer, u32 value, u32 count, u32 index)
         value = value | (value << 8 | (value << 24 | value << 16));
     }
 
-    func_02082AC0(value, buf, size);
+    MIi_CpuClearFast(value, buf, size);
     func_020425B4((u8)layer, buf, index * g_02146A44->bgs[layer].unk_17,
                   size);
     func_020307B0(buf);
 }
+
 
 
 
@@ -2667,11 +2777,12 @@ void func_02040DA8(u32 idx, u32 count, u32 tile)
 
 
 
+
 void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4)
 {
-    func_020862F0(r6, r5);
+    DWCi_ScreenDC_FlushRange(r6, r5);
     if (r7 < 4) {
-        func_0207E3D0(r6, r4, r5);
+        GX_LoadBGPltt(r6, r4, r5);
     } else {
         func_0207E468(r6, r4, r5);
     }
@@ -2682,10 +2793,12 @@ void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4)
 
 
 
+
 void func_02040EBC(u32 a0, u32 a1)
 {
     func_02040E78(a0, &a1, 2, 0);
 }
+
 
 
 
@@ -2743,6 +2856,7 @@ u16 func_02040EE0(u8 x, u8 y, u8 code)
         return 0;
     }
 }
+
 
 
 
@@ -2843,6 +2957,7 @@ u16 func_02040F84(u8 x, u8 y, u8 w, u8 h)
 
 
 
+
 /*
  * The short public entry point in front of src/matched/func_020410D0.c: it
  * drops the caller's second argument out of the register block, shifts the
@@ -2862,6 +2977,7 @@ void func_02041090(u32 index, const void *src, u8 dx, u8 dy, u8 cw, u8 ch)
 {
     func_020410D0(index, dx, dy, cw, ch, src, 0, 0, cw, ch);
 }
+
 
 
 
@@ -2900,6 +3016,7 @@ void func_020410D0(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx
                       dx, dy, cw, ch, src, sx, sy, sw, sh, 0);
     }
 }
+
 
 
 
@@ -2946,6 +3063,7 @@ void func_020411E8(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, const void *src, u8 sx
 
 
 
+
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
@@ -2955,13 +3073,14 @@ void func_02041300(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode)
     struct BgConfigLayer *bg = (struct BgConfigLayer *)((u8 *)g_02146A44 + offset);
 
     if (bg->mode == 0) {
-        func_02042D2C((struct Bg *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        func_02042D2C((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     } else if (bg->mode == 1) {
-        func_02042E34((struct Bg *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
+        func_02042E34((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), (u8)value, x0, y0, w, h);
     } else {
-        func_02042ED8((struct Bg *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
+        func_02042ED8((struct Bg_0203EF5C *)((u8 *)g_02146A44 + 8 + offset), value, x0, y0, w, h, mode);
     }
 }
+
 
 
 
@@ -3039,6 +3158,7 @@ void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
 
 
 
+
 void func_020414AC(u8 idx)
 {
     func_020414C4(idx);
@@ -3048,10 +3168,12 @@ void func_020414AC(u8 idx)
 
 
 
+
 void func_020414C4(u8 idx)
 {
     func_02040B94(idx, (u32)g_02146A44->unk_1b0[idx], 0, g_02146A44->heapId);
 }
+
 
 
 
@@ -3079,6 +3201,7 @@ void func_020414EC(u32 i)
 
 
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -3101,6 +3224,7 @@ void func_0204152C(int channel, u16 val)
 
 
 
+
 void func_02041570(int channel, u16 val)
 {
 
@@ -3110,6 +3234,7 @@ void func_02041570(int channel, u16 val)
     MIi_CpuClear16(val, g_02146A44->bgs[channel].buf, g_02146A44->bgs[channel].bufSize);
     func_02041B6C(channel);
 }
+
 
 
 
@@ -3128,6 +3253,7 @@ u32 func_020415B4(u32 channel)
     default: return 0;
     }
 }
+
 
 
 
@@ -3151,10 +3277,12 @@ u32 func_0204162C(int channel)
 
 
 
+
 u32 func_02041648(u8 channel)
 {
     return g_02146A44->bgs[channel].scrollX;
 }
+
 
 
 
@@ -3167,10 +3295,12 @@ u32 func_02041664(u8 channel)
 
 
 
+
 u8 func_02041680(int channel)
 {
     return g_02146A44->bgs[channel].type;
 }
+
 
 
 
@@ -3183,10 +3313,12 @@ u8 func_0204169C(int channel)
 
 
 
+
 u8 func_020416B8(int channel)
 {
     return g_02146A44->bgs[channel].unk_17;
 }
+
 
 
 
@@ -3320,6 +3452,7 @@ u8 func_020416D4(u32 layer)
 
 
 
+
 void func_020419E4(void)
 {
     if (g_02146A44 == 0) {
@@ -3332,6 +3465,7 @@ void func_020419E4(void)
     g_02146A44->unk_04 = 0;
     g_02146A44->unk_06 = 0;
 }
+
 
 
 
@@ -3378,6 +3512,7 @@ void func_02041A1C(void)
 
 
 
+
 /*
  * Sets one bit of the 16-bit request mask at +6 of the singleton reached
  * through the pointer at 0x02146A44.  The lsl #16 / lsr #16 pair is the
@@ -3387,6 +3522,7 @@ void sub_02041B6C(u32 bit)
 {
     g_02146A44->unk_06 |= 1 << bit;
 }
+
 
 
 
@@ -3525,6 +3661,7 @@ void func_02041B94(void)
 
 
 
+
 /*
  * Reset slot `index` of the module's 0x2C-byte slot array and mark it live
  * in the halfword bitmask at +4.  The slot address is one `mla`: the base
@@ -3549,6 +3686,7 @@ void func_02041EE4(u32 index, u32 a, u32 b)
     func_02042360(&g_02146A44->bgs[index], a, b);
     g_02146A44->unk_04 |= (u16)(1 << index);
 }
+
 
 
 
@@ -3588,6 +3726,7 @@ void func_02041F28(u32 which, u32 op, u16 value)
 
 
 
+
 void func_02041F6C(u32 which, u32 op, u32 value)
 {
     func_02043264(&g_02146A44->bgs[which], op, value);
@@ -3597,11 +3736,13 @@ void func_02041F6C(u32 which, u32 op, u32 value)
 
 
 
+
 void func_02041FB0(u32 which, u32 op, u16 value)
 {
     func_020432E4(&g_02146A44->bgs[which], op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
+
 
 
 
@@ -3661,7 +3802,7 @@ u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
   {
     tbl = g_02146A44->bgs[layer].buf;
     buf = func_02030734((u16)((g_02146A44->heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
-    func_02082D44(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
+    MI_CpuCopy8(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
     func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);
@@ -3681,6 +3822,7 @@ u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
   return 0;
 
 }
+
 
 
 
@@ -3737,6 +3879,7 @@ int func_02042218(int a0, int a1)
 
 
 
+
 /*
  * The two register values a layer's window mode implies: six modes, each
  * writing one byte into each of the two output pointers, and nothing at all
@@ -3782,6 +3925,7 @@ void sub_020422D4(u32 mode, u8 *a, u8 *b)
 
 
 
+
 /*
  * The 32-bit member of the set / add / subtract family whose 16-bit
  * counterpart is src/matched/sub_02043228.c: opcodes 0..2 on the word at
@@ -3794,7 +3938,7 @@ void sub_020422D4(u32 mode, u8 *a, u8 *b)
  *   python tools/match.py one --src src/matched/sub_02042360.c \
  *       --func sub_02042360 --addr 0x02042360 --cc 1.1p1 --arm
  */
-void sub_02042360(struct Bg *p, u32 op, u32 value)
+void sub_02042360(struct Bg_0203EF5C *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:
@@ -3821,6 +3965,7 @@ void sub_02042360(struct Bg *p, u32 op, u32 value)
 
 
 
+
 /*
  * One layer's affine setup: fill a scratch parameter block on the stack,
  * then push it into the layer through sub_02040860 with a zero transform.
@@ -3843,6 +3988,7 @@ void func_020423D4(u32 layer)
     BUTTON_MAN_RotScaleMtx22(&p, 0, (const void *)0x1000, (const void *)0x1000, 0);
     sub_02040860(layer, &p, 0, 0);
 }
+
 
 
 
@@ -3876,7 +4022,7 @@ void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
         func_0207EA00(src, offset, size);
         break;
     case 2:
-        func_0207EB78(src, offset, size);
+        GX_LoadBG2Scr(src, offset, size);
         break;
     case 3:
         func_0207ECF0(src, offset, size);
@@ -3895,6 +4041,7 @@ void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
         break;
     }
 }
+
 
 
 
@@ -3940,6 +4087,7 @@ void func_02042508(u32 index, const u32 *src, u32 mode, u32 size)
 
 
 
+
 /*
  * The character-base twin of func_0204241C, byte for byte the same shape
  * over the next eight entries of the same SDK object (0x0207EE68 first,
@@ -3958,13 +4106,13 @@ void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
 
     switch (layer) {
     case 0:
-        func_0207EE68(src, offset, size);
+        GX_LoadBG0Char(src, offset, size);
         break;
     case 1:
         func_0207EF90(src, offset, size);
         break;
     case 2:
-        func_0207F0B8(src, offset, size);
+        GX_LoadBG2Char(src, offset, size);
         break;
     case 3:
         func_0207F1E0(src, offset, size);
@@ -3986,6 +4134,7 @@ void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
 
 
 
+
 /*
  * The u16 tile-to-tile copier, sibling of func_020428E8 (u8 cells) and
  * func_02042B24 (linear destination).  mode 0 clips each row and cell
@@ -3995,7 +4144,7 @@ void func_020425B4(u32 layer, const void *src, u32 offset, u32 size)
  * settled declarations (u8 ch/sw/sh stack parameters, u8 w/h for
  * func_02040F84, `u8 w, h;` and `u8 y, x;`); EXACT at the first compile.
  */
-void func_020426A0(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void func_020426A0(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -4034,6 +4183,7 @@ void func_020426A0(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
 
 
 
+
 /*
  * Tile-to-tile copier: copies a cw x ch block of a source tilemap
  * (row stride sw, height sh, origin sx/sy) into the screen's tilemap at
@@ -4049,7 +4199,7 @@ void func_020426A0(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
  * sp+0x29 and h at sp+0x28.  The callers (func_020410D0, func_020411E8)
  * already declare the fifth parameter (ch) as u8.
  */
-void func_020428E8(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void func_020428E8(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u8 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u8 *dst;
@@ -4089,6 +4239,7 @@ void func_020428E8(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
 
 
 
+
 /*
  * The halfword sibling of func_020428E8: copies a cw x ch block of u16
  * source cells into a linear w-wide screen buffer at dx/dy.  mode 0 clips
@@ -4100,7 +4251,7 @@ void func_020428E8(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
  * u8 w/h; `u8 w, h;` puts w at sp+0x1d) and the loop counters declared
  * `u8 y, x;`.
  */
-void func_02042B24(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
+void func_02042B24(struct Bg_0203EF5C *s, u8 dx, u8 dy, u8 cw, u8 ch,
                    const u16 *src, u8 sx, u8 sy, u8 sw, u8 sh, u8 mode)
 {
     u16 *dst;
@@ -4134,6 +4285,7 @@ void func_02042B24(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
         }
     }
 }
+
 
 
 
@@ -4188,7 +4340,7 @@ void func_02042B24(struct Bg *s, u8 dx, u8 dy, u8 cw, u8 ch,
  *   python3 tools/match.py one --src src/matched/func_02042D2C.c \
  *       --func func_02042D2C --addr 0x02042D2C --arm --cc 1.1p1
  */
-void func_02042D2C(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void func_02042D2C(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u8 mode)
 {
     u8   width;
@@ -4231,6 +4383,7 @@ void func_02042D2C(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
 
 
 
+
 /*
  * The 8bpp-screen fill of the three blitters func_02041300 dispatches to on
  * the bit-depth byte at +0x1c of the 0x2c-byte slot.  It takes the slot's
@@ -4254,7 +4407,7 @@ void func_02042D2C(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
  *   python tools/match.py one --src src/matched/func_02042E34.c \
  *       --func func_02042E34 --addr 0x02042E34 --cc 1.1p1 --arm
  */
-void func_02042E34(struct Bg *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
+void func_02042E34(struct Bg_0203EF5C *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
 {
     u8  width;
     u8  height;
@@ -4283,6 +4436,7 @@ void func_02042E34(struct Bg *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
         }
     }
 }
+
 
 
 
@@ -4319,7 +4473,7 @@ void func_02042E34(struct Bg *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
  *   python tools/match.py one --src src/matched/func_02042ED8.c \
  *       --func func_02042ED8 --addr 0x02042ED8 --cc 1.1p1 --arm
  */
-void func_02042ED8(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+void func_02042ED8(struct Bg_0203EF5C *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
                    u32 mode)
 {
     u8   width;
@@ -4358,6 +4512,7 @@ void func_02042ED8(struct Bg *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
 
 
 
+
 /*
  * Poke one tile entry into the screen buffer of table slot `idx`.  The
  * table is the 0x2c-byte-per-slot array hanging off the singleton pointer
@@ -4380,6 +4535,7 @@ void sub_02042FB0(u32 idx, u32 x, u32 y, u16 value)
 
     screen[(u32)func_02040EE0((u8)x, (u8)y, (u8)code)] = value;
 }
+
 
 
 
@@ -4419,6 +4575,7 @@ void sub_02042FF8(u32 idx, u32 offset, u32 size)
         break;
     }
 }
+
 
 
 
@@ -4463,6 +4620,7 @@ void sub_02043094(u32 idx, u32 offset, u32 size)
         break;
     }
 }
+
 
 
 
@@ -4515,18 +4673,19 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
                 tmp[i * 8 + j] = buf[i * 8 + (7 - j)];
             }
         }
-        func_02082D44(buf, tmp, 0x40);
+        MI_CpuCopy8(buf, tmp, 0x40);
     }
 
     if (flags & 2) {
         for (i = 0; i < 8; i++) {
-            func_02082D44(tmp + i * 8, buf + (7 - i) * 8, 8);
+            MI_CpuCopy8(tmp + i * 8, buf + (7 - i) * 8, 8);
         }
-        func_02082D44(buf, tmp, 0x40);
+        MI_CpuCopy8(buf, tmp, 0x40);
     }
 
     func_020307B0(tmp);
 }
+
 
 
 
@@ -4538,7 +4697,7 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
  * `ldrheq`/`subeq`/`strheq` in the fall-through block and only the first
  * two get out-of-line bodies.
  */
-void sub_02043228(struct Bg *p, u32 op, u16 value)
+void sub_02043228(struct Bg_0203EF5C *p, u32 op, u16 value)
 {
     switch (op) {
     case 0:
@@ -4555,6 +4714,7 @@ void sub_02043228(struct Bg *p, u32 op, u16 value)
 
 
 
+
 /*
  * Apply one of three operations (set / add / subtract) to one of two
  * 32-bit scroll registers of the object, at +0x1c and +0x20, selected by
@@ -4568,7 +4728,7 @@ void sub_02043228(struct Bg *p, u32 op, u16 value)
  * The companion BG_SYS_ApplyCenterOp handles opcodes 9..14 on the two registers
  * at +0x24 and +0x28; nothing in this packet covers 15 and above.
  */
-void sub_02043264(struct Bg *p, u32 op, u32 value)
+void sub_02043264(struct Bg_0203EF5C *p, u32 op, u32 value)
 {
     switch (op) {
     case 0:
@@ -4592,6 +4752,42 @@ void sub_02043264(struct Bg *p, u32 op, u32 value)
         break;
     case 8:
         p->unk_20 = p->unk_20 - value;
+        break;
+    }
+}
+
+
+/* Opcode numbers; 0..8 belong to the rotation and scale versions. */
+enum {
+    BG_CENTER_X_SET = 9,
+    BG_CENTER_X_ADD = 10,
+    BG_CENTER_X_SUB = 11,
+    BG_CENTER_Y_SET = 12,
+    BG_CENTER_Y_ADD = 13,
+    BG_CENTER_Y_SUB = 14
+};
+
+
+void BG_SYS_ApplyCenterOp(struct Bg_020432E4 *bg, u32 opcode, u32 operand)
+{
+    switch (opcode) {
+    case BG_CENTER_X_SET:
+        bg->centerX = operand;
+        break;
+    case BG_CENTER_X_ADD:
+        bg->centerX = bg->centerX + operand;
+        break;
+    case BG_CENTER_X_SUB:
+        bg->centerX = bg->centerX - operand;
+        break;
+    case BG_CENTER_Y_SET:
+        bg->centerY = operand;
+        break;
+    case BG_CENTER_Y_ADD:
+        bg->centerY = bg->centerY + operand;
+        break;
+    case BG_CENTER_Y_SUB:
+        bg->centerY = bg->centerY - operand;
         break;
     }
 }

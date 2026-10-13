@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689D1BC",
+   "name": "BTL_DEADREC_SetReported",
    "address": "0x0689D1BC",
    "kind": "game",
    "region": "ov095",

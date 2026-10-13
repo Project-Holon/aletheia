@@ -1,5 +1,5 @@
 /*
- * function: func_021BEEC4
+ * function: NHTTPi_InitSystemInfo
  * address:  0x021BEEC4
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA7DC  0x021BA7DC  arm  ov114
- *   func_021BACEC  0x021BACEC  arm  ov114
- *   func_021BB3C0  0x021BB3C0  arm  ov114
- *   func_021BBE94  0x021BBE94  arm  ov114
- *   func_021BEF3C  0x021BEF3C  arm  ov114
- *   func_021BEF40  0x021BEF40  arm  ov114
- *   func_021BEF48  0x021BEF48  arm  ov114
- *   func_021BEF50  0x021BEF50  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
- *   func_021BEF98  0x021BEF98  arm  ov114
+ *   NHTTPi_InitBgnEndInfo  0x021BA7DC  arm  ov114
+ *   NHTTPi_InitListInfo  0x021BACEC  arm  ov114
+ *   NHTTPi_InitRequestInfo  0x021BB3C0  arm  ov114
+ *   NHTTPi_InitThreadInfo  0x021BBE94  arm  ov114
+ *   NHTTPi_GetBgnEndInfoP  0x021BEF3C  arm  ov114
+ *   NHTTPi_GetListInfoP  0x021BEF40  arm  ov114
+ *   NHTTPi_GetReqInfoP  0x021BEF48  arm  ov114
+ *   NHTTPi_GetThreadInfoP  0x021BEF50  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
+ *   NHTTPi_InitMutexInfo  0x021BEF98  arm  ov114
  *
  *
  * Constructs the module object: zeroes each of its four sub-blocks.
@@ -27,23 +27,23 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BEF3C(void);
-void func_021BA7DC(void);
-void *func_021BEF40(int p);
-void func_021BACEC(u8 *);
-void *func_021BEF48(int p);
-void func_021BB3C0(u8 *);
-void *func_021BEF58(int p);
-void func_021BEF98(u8 *);
-void *func_021BEF50(int p);
-void func_021BBE94(u8 *);
+void NHTTPi_GetBgnEndInfoP(void);
+void NHTTPi_InitBgnEndInfo(void);
+void *NHTTPi_GetListInfoP(int p);
+void NHTTPi_InitListInfo(u8 *);
+void *NHTTPi_GetReqInfoP(int p);
+void NHTTPi_InitRequestInfo(u8 *);
+void *NHTTPi_GetMutexInfoP(int p);
+void NHTTPi_InitMutexInfo(u8 *);
+void *NHTTPi_GetThreadInfoP(int p);
+void NHTTPi_InitThreadInfo(u8 *);
 
-void func_021BEEC4(u8 *p)
+void NHTTPi_InitSystemInfo(u8 *p)
 {
-    func_021BEF3C();
-    func_021BA7DC();
-    func_021BACEC(func_021BEF40((int)p));
-    func_021BB3C0(func_021BEF48((int)p));
-    func_021BEF98(func_021BEF58((int)p));
-    func_021BBE94(func_021BEF50((int)p));
+    NHTTPi_GetBgnEndInfoP();
+    NHTTPi_InitBgnEndInfo();
+    NHTTPi_InitListInfo(NHTTPi_GetListInfoP((int)p));
+    NHTTPi_InitRequestInfo(NHTTPi_GetReqInfoP((int)p));
+    NHTTPi_InitMutexInfo(NHTTPi_GetMutexInfoP((int)p));
+    NHTTPi_InitThreadInfo(NHTTPi_GetThreadInfoP((int)p));
 }

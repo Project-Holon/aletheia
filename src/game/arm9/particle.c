@@ -84,7 +84,7 @@
  *   func_020526A8   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
- *   func_0206DB80   0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer   0x0206DB80  arm
  *   MI_Copy36B      0x02082B60  arm
  *   MTX_Identity33_ 0x0207ADC4  arm
  *   func_020524C8 0x020524C8 arm
@@ -365,7 +365,7 @@ extern void func_02048AD0(struct ParticleCamera *camera);
 extern void func_020526A8(struct ParticleEngine *engine, const u32 *drawParams);
 extern void NNS_G3dGlbBaseTrans(Vec3 *p);
 extern void NNS_G3dGlbBaseScale(Vec3 *p);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Identity33_(Mtx33 *p);
 extern int func_02052770(struct ParticleEngine *engine);
@@ -2251,7 +2251,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
         }
         func_02048AD0(sys->camera);
         G3D_SYSTEM_ApplyLookAt();
-        func_0206DB80();
+        NNS_G3dGeFlushBuffer();
     }
     func_020526A8(sys->engine, g_renderStateDrawParams);
     if (sys->camera == 0)
@@ -2259,7 +2259,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
     G3D_SYSTEM_SetProjection(&savedState);
     G3D_SYSTEM_SetLookAt(&savedMtx);
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
 }
 
 

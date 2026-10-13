@@ -1,5 +1,5 @@
 /*
- * function: func_021BC828
+ * function: PMSIV_BGSCROLL_Task
  * address: 0x021BC828
  * packet: pkt_ov110_021BC828
  * region: ov110
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021BC828(void *unused, u8 *p)
+void PMSIV_BGSCROLL_Task(void *unused, u8 *p)
 {
     if (((struct Obj02818 *)p)->f14) {
         ((struct Obj02818 *)p)->f8 += ((struct Obj02818 *)p)->f10;

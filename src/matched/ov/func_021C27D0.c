@@ -1,5 +1,5 @@
 /*
- * function: func_021C27D0
+ * function: WIFICLUB_GetStatusActionState
  * address:  0x021C27D0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef struct {
     u8 f18;
 } S;
 
-u8 func_021C27D0(S *s)
+u8 WIFICLUB_GetStatusActionState(S *s)
 {
     return s->f18;
 }

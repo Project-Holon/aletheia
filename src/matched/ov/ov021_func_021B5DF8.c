@@ -21,14 +21,14 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
- *   func_0200CF08  0x0200CF08  thumb
- *   func_0200D298  0x0200D298  thumb
- *   func_0200D0F8  0x0200D0F8  thumb
- *   func_0200D2C4  0x0200D2C4  thumb
- *   func_0200CF54  0x0200CF54  thumb
- *   func_0200D2B0  0x0200D2B0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
+ *   ZUKAN_SAVE_CountCaught  0x0200CF08  thumb
+ *   ZUKAN_SAVE_IsNationalCaughtComplete  0x0200D298  thumb
+ *   ZUKAN_SAVE_CountSeenRegional  0x0200D0F8  thumb
+ *   ZUKAN_SAVE_IsRegionalSeenComplete  0x0200D2C4  thumb
+ *   ZUKAN_SAVE_CountCaughtRegional  0x0200CF54  thumb
+ *   ZUKAN_SAVE_IsRegionalCaughtComplete  0x0200D2B0  thumb
  *   SCRCMD_POKEMON_FLD_LookupThreshold  0x021B5DD0  thumb  ov021
  *   gPokedexRatingTableKind3     0x021D98DC  data  a4
  *   gPokedexRatingTableKind2     0x021D9904  data  a4
@@ -45,14 +45,14 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk37;
 extern u16 SCRCMD_WORK_GetHeapId(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA38(struct Blk37 *p);
-extern u16 func_0200CF08(struct Blk37 *p, u32 heap);
-extern int func_0200D298(void *a0);
-extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
-extern int func_0200D2C4(void *p, unsigned int heap);
-extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
-extern int func_0200D2B0(void *a0, int a1);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountCaught(struct Blk37 *p, u32 heap);
+extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *a0);
+extern u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap);
+extern int ZUKAN_SAVE_IsRegionalSeenComplete(void *p, unsigned int heap);
+extern u16 ZUKAN_SAVE_CountCaughtRegional(struct Blk37 *p, u32 heap);
+extern int ZUKAN_SAVE_IsRegionalCaughtComplete(void *a0, int a1);
 extern u32 SCRCMD_POKEMON_FLD_LookupThreshold(u16 *t, u32 k);
 extern u16 gPokedexRatingTableKind3[];
 extern u16 gPokedexRatingTableKind2[];
@@ -71,28 +71,28 @@ int SCRCMD_POKEMON_FLD_GetPokedexRating(u32 a, u32 b)
     o1 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     o2 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     id = SCRCMD_WORK_GetHeapId((void *)b);
-    w = (u32)func_0200CA1C(SCRCMD_WORK_GetGameData((void *)b));
-    func_0200CA38((struct Blk37 *)w);
+    w = (u32)ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData((void *)b));
+    ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)w);
     *o1 = 5;
     *o2 = 0;
     switch (mode) {
     case 3:
-        x = func_0200CF54((struct Blk37 *)w, id);
-        if (func_0200D2B0((void *)w, id) == 1)
+        x = ZUKAN_SAVE_CountCaughtRegional((struct Blk37 *)w, id);
+        if (ZUKAN_SAVE_IsRegionalCaughtComplete((void *)w, id) == 1)
             *o1 = 0x1e;
         else
             *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind3, x);
         break;
     case 2:
-        x = func_0200D0F8((struct Blk37 *)w, id);
-        if (func_0200D2C4((void *)w, id) == 1)
+        x = ZUKAN_SAVE_CountSeenRegional((struct Blk37 *)w, id);
+        if (ZUKAN_SAVE_IsRegionalSeenComplete((void *)w, id) == 1)
             *o1 = 0xd;
         else
             *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind2, x);
         break;
     case 1:
-        x = func_0200CF08((struct Blk37 *)w, id);
-        if (func_0200D298((void *)w) == 1)
+        x = ZUKAN_SAVE_CountCaught((struct Blk37 *)w, id);
+        if (ZUKAN_SAVE_IsNationalCaughtComplete((void *)w) == 1)
             *o1 = 0x32;
         else
             *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind1, x);

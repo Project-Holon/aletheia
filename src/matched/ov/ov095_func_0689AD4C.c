@@ -1,5 +1,5 @@
 /*
- * function: func_0689AD4C
+ * function: BTLV_SCD_AddFrontEnemyTargets
  * address:  0x0689AD4C
  * packet:   pkt_ov095_0689AD4C
  * region:   ov095
@@ -27,7 +27,7 @@ extern u8 func_0689ADCC(int a, u8 b);
 
 typedef struct { u8 n; u8 pad[2]; u8 d[16]; } St;
 
-void func_0689AD4C(St *st, u32 a, u32 b, u32 c)
+void BTLV_SCD_AddFrontEnemyTargets(St *st, u32 a, u32 b, u32 c)
 {
     u8 x;
 

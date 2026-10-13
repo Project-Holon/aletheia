@@ -52,9 +52,9 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   ITEMMENU_StartSideButtonPress  0x021B8C1C  thumb  ov070
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D58C  0x0200D58C  thumb
- *   func_0200D55C  0x0200D55C  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
+ *   MOVE_POKEMON_SAVE_SetCooldown  0x0200D55C  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F02C  0x0201F02C  thumb
@@ -195,7 +195,7 @@
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   func_0202EE0C  0x0202EE0C  thumb
  *   sSideButtonAnimSeqs     0x021BBAA8  data  ov070  a1
@@ -589,7 +589,7 @@ extern void CLACT_SetActorAnimIndex(void *, int);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void func_0207E780(void *, void *, u32);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -803,9 +803,9 @@ extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
 extern u32 func_0202EDE4(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void *GAME_DATA_GetSaveControl(void *saveData);
-extern void *func_0200D418(void *fieldSave);
-extern u32 func_0200D58C(void *repelState);
-extern void func_0200D55C(void *repelState, u8 steps);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
+extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(void *repelState);
+extern void MOVE_POKEMON_SAVE_SetCooldown(void *repelState, u8 steps);
 void func_021B6100(ItemMenuWork *work, ItemMenuTaskFn taskFn);
 void func_021B6120(ItemMenuWork *work);
 void ITEMMENU_RedrawList(ItemMenuWork *work);
@@ -1259,10 +1259,10 @@ void ITEMMENU_UseRepel(ItemMenuWork *work)
     u8 steps;
 
     if (ITEMMENU_IsRepelItem(work->selectedItemId)) {
-        repelState = func_0200D418(GAME_DATA_GetSaveControl(work->saveData));
-        if (func_0200D58C(repelState)) {
+        repelState = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(work->saveData));
+        if (MOVE_POKEMON_SAVE_IsCooldownDone(repelState)) {
             steps = func_02020FE4(work->selectedItemId, 2, work->heapId);
-            func_0200D55C(repelState, steps);
+            MOVE_POKEMON_SAVE_SetCooldown(repelState, steps);
             ITEMMENU_RemoveSelectedItems(work, 1);
             func_02045CAC(work->msgBank, ITEMMENU_MSG_REPEL_USED, work->tempString);
             func_0201F02C(work->wordSet, 0, work->myStatus);
@@ -3934,7 +3934,7 @@ void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
     for (i = 0; i < 8; i++) {
         srcChars = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(workBytes + i * 4 + 0x5F4), 0);
         dstPixels = BMP_GetPixels(*(void **)(workBytes + i * 4 + 0x614));
-        func_020862F0(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
+        DWCi_ScreenDC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
         func_0207E780(dstPixels + 0x100, srcChars + 0x80, 0x80);
         func_0207E780(dstPixels + 0x280, srcChars + 0x100, 0x80);
         func_0207E780(dstPixels, srcChars + 0x300, 0x100);

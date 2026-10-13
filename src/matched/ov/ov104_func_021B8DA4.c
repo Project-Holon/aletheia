@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DA4
+ * function: IRC_RHYTHM_StartParticle
  * address: 0x021B8DA4
  * packet: pkt_ov104_021B8DA4
  * region: ov104
@@ -46,7 +46,7 @@ static inline int convert(int v)
         f = _fsub(_fflt((int)((u32)v << 12)), 0.5f);
     return _ffix(f);
 }
-void func_021B8DA4(Particle *p, const Point *a, const Point *b, int color, u32 lifetime)
+void IRC_RHYTHM_StartParticle(Particle *p, const Point *a, const Point *b, int color, u32 lifetime)
 {
     int sy, ey;
     p->active = 1;

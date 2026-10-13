@@ -1,7 +1,7 @@
 /*
  * file:     scenesetusbready.c
  * unit:     yes
- * function: DWCi_SceneSetUsbReady, func_021CDCFC, func_021CDDA4, func_021CDE0C, func_021CDE48, DWCi_SceneSetUsbReadyUpdate, func_021CDE80, DWCi_SceneSetUsbReadyUpdateNop, func_021CDEC0, func_021CDF10, endScene1, endScene2, func_021CE050
+ * function: DWCi_SceneSetUsbReady, initGraphics, DWCi_SceneSetUsbReadyProcInit, DWCi_SceneSetUsbReadyProcInit1, DWCi_SceneSetUsbReadyProcInit2, DWCi_SceneSetUsbReadyUpdate, input, DWCi_SceneSetUsbReadyUpdateNop, button, endScene, endScene1, endScene2, DWCi_IsFold
  * address:  0x021CDCAC
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -18,13 +18,13 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDCAC.c \
  *       --func DWCi_SceneSetUsbReady --addr 0x021CDCAC --region ov016 --cc 1.1p1 --arm --lang c99
- * Call func_021CDE80, DWCi_SceneSetUsbReadyUpdateNop, func_021CDEC0.
+ * Call input, DWCi_SceneSetUsbReadyUpdateNop, button.
  * Addresses are Black-image addresses.
  *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbReadyUpdate.c \
  *       --func DWCi_SceneSetUsbReadyUpdate --addr 0x021CDE6C --region ov016 --cc dsi/1.1p1 --arm
- * Two guarded func_021BCB28 calls keyed off func_021D6824.
- *   python tools/match.py one --src src/matched/func_021CDE80.c \
- *       --func func_021CDE80 --addr 0x021CDE80 --region ov016 --cc dsi/1.1p1 --arm
+ * Two guarded DWCi_BTNlSet calls keyed off DWCi_IPTlCheckTrigger.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021CDE80 --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneSetUsbReadyUpdateNop.c \
  *       --func DWCi_SceneSetUsbReadyUpdateNop --addr 0x021CDEBC --region ov016 --cc dsi/1.1p1 --arm
@@ -43,10 +43,12 @@
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021CDF98.c \
  *       --func endScene2 --addr 0x021CDF98 --region ov016 --cc 1.1p1 --arm --lang c99
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
- *   python tools/match.py one --src src/matched/func_021CE050.c \
- *       --func func_021CE050 --addr 0x021CE050 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
+ *       --func DWCi_IsFold --addr 0x021CE050 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   Choose                           0x021DE628  data
  *   DWCi_ANIMElEnd                   0x021BC8EC  arm
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
@@ -80,18 +82,15 @@
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   initGraphics                     0x021CDCFC  arm
  *   procScene                        0x021CDE6C  arm
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   dat_021DB83C    0x021DB83C  data
- *   dat_021DB854    0x021DB854  data
- *   dat_021DB86C    0x021DB86C  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_0207EB78    0x0207EB78  data
- *   func_021BCB14  0x021BCB14  arm
- *   func_021CFFAC  0x021CFFAC  arm
- *   func_021C0E40  0x021C0E40  arm
- *   func_021CDF10  0x021CDF10  arm
- *   g_021DE628  0x021DE628  data  a1
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   sSceneSetUsbReadyPathJbBgStep2Char    0x021DB83C  data
+ *   sSceneSetUsbReadyPathYbBgStep2Pltt    0x021DB854  data
+ *   sSceneSetUsbReadyPathXb3MultiScr    0x021DB86C  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
+ *   endScene  0x021CDF10  arm
+ *   gSceneSetUsbReadyWork  0x021DE628  data  a1
  *   DWCi_WINlInitEx                  0x021D1208  arm
  *   procConfirm                      0x021C22AC  arm
  *   procConfirm1                     0x021C22FC  arm
@@ -126,7 +125,7 @@ extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void DWCi_SetParam_(void *param0, void *param1);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SNDlPlay(int no);
 extern void DWCi_SNDlStop(void);
 extern int DWCi_WINlGet(void);
@@ -138,43 +137,36 @@ extern void DWCi_ANIMElEnd(void);
 extern void DWCi_SceneSetSelectAp(void);
 extern void DWCi_SceneSetUsbReady1(void);
 extern void DWCi_SceneSetUsbComplete(void);
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
-extern signed char func_021BCB14(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(unsigned int v);
-extern void func_021CDF10(void);
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_SceneSetUsbReady(void);
-void func_021CDCFC(void);
 void DWCi_SceneSetUsbReadyUpdate(void);
-void func_021CDE80(void);
 void DWCi_SceneSetUsbReadyUpdateNop(void);
-void func_021CDEC0(void);
-int func_021CE050(void);
+int DWCi_IsFold(void);
 /* scenesetusbready .bss at 0x021DE628 */
 extern unsigned char Choose;
-extern unsigned short dat_021DB83C[];
-extern unsigned short dat_021DB854[];
-extern unsigned short dat_021DB86C[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_0207EB78[];
-extern struct G_021DE628 g_021DE628;
+extern unsigned short sSceneSetUsbReadyPathJbBgStep2Char[];
+extern unsigned short sSceneSetUsbReadyPathYbBgStep2Pltt[];
+extern unsigned short sSceneSetUsbReadyPathXb3MultiScr[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short GX_LoadBG2Scr[];
+extern struct G_021DE628 gSceneSetUsbReadyWork;
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 
-static void initGraphics(void);
-
-static void procInit(void);
-
-static void procInit1(void);
-
-static void procInit2(void);
-
 static void procScene(void);
 
+static void initGraphics(void);
+static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void input(void);
+static void button(void);
+static void endScene(void);
+static void endScene1(void);
 static void endScene2(void);
 
 
@@ -190,19 +182,18 @@ void DWCi_SceneSetUsbReady(void)
 }
 
 
-
 /*
- * Load three tilemaps through func_021BD1D4, then set the low two bits of five
+ * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of five
  * halfword registers (the 0x04001008/0x04000008 pair and their +2 neighbours).
  * Addresses are Black-image addresses.
  */
-void func_021CDCFC(void)
+static void initGraphics(void)
 {
     u16 *p;
 
-    func_021BD1D4((char *)((int)dat_021DB83C), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB854), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB86C), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetUsbReadyPathJbBgStep2Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetUsbReadyPathYbBgStep2Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetUsbReadyPathXb3MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -215,7 +206,6 @@ void func_021CDCFC(void)
 }
 
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
@@ -224,7 +214,6 @@ static void procInit(void)
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 
 static void procInit1(void)
@@ -238,7 +227,6 @@ static void procInit1(void)
 }
 
 
-
 static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
@@ -250,18 +238,18 @@ static void procInit2(void)
 
 void DWCi_SceneSetUsbReadyUpdate(void)
 {
-    func_021CDE80();
+    input();
     DWCi_SceneSetUsbReadyUpdateNop();
-    func_021CDEC0();
+    button();
 }
 
 
-void func_021CDE80(void)
+static void input(void)
 {
-    if (func_021D6824(1))
-        func_021BCB28(1);
-    if (func_021D6824(2))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(1))
+        DWCi_BTNlSet(1);
+    if (DWCi_IPTlCheckTrigger(2))
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneSetUsbReadyUpdateNop(void)
@@ -269,30 +257,24 @@ void DWCi_SceneSetUsbReadyUpdateNop(void)
 }
 
 
-
 /*
  * sdk:      button (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
  */
-void func_021CDEC0(void)
+static void button(void)
 {
-    switch (func_021BCB14()) {
+    switch (DWCi_BTNlGet()) {
     case 0:
-        func_021CFFAC(7);
+        DWCi_SNDlPlay(7);
         break;
     case 1:
-        func_021CFFAC(6);
-        (*(unsigned char *)&g_021DE628) = 1;
+        DWCi_SNDlPlay(6);
+        (*(unsigned char *)&gSceneSetUsbReadyWork) = 1;
         break;
     default:
         return;
     }
-    func_021C0E40((unsigned int)func_021CDF10);
+    DWCi_ChangeScene(endScene);
 }
-
-
-
-static void endScene1(void);
-
 
 
 static void endScene(void)
@@ -305,8 +287,6 @@ static void endScene(void)
 static void procConfirm(void);
 
 static void procConfirm1(void);
-
-static void endScene(void);
 
 
 static void endScene1(void)
@@ -336,15 +316,15 @@ static void endScene2(void)
     }
     DWCi_GXlInvisible(0, 0x15);
     if (Choose == 0) {
-        DWCi_SetParam_((void *)2, (void *)1);
+        DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetSelectAp);
     } else {
-        DWCi_SetParam_((void *)2, (void *)1);
+        DWCi_SetParam_(2, 1);
         DWCi_ChangeScene(DWCi_SceneSetUsbReady1);
     }
 }
 
-int func_021CE050(void)
+int DWCi_IsFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }

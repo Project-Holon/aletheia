@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   UNION_MSG_SetupMenu  0x0217F2A8  thumb  ov019
  *   d_0218046C     0x0218046C  data  a4
  *   d_021805A4     0x021805A4  data  a4
@@ -44,7 +44,7 @@ typedef struct Ent {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void  func_02082D44(const void *src, void *dst, int size);
+extern void  MI_CpuCopy8(const void *src, void *dst, int size);
 extern void UNION_MSG_SetupMenu(char *p, u32 a1, u32 a2, u32 a3, u32 a4);
 
 extern const Tmpl d_0218046C;
@@ -72,7 +72,7 @@ void UNION_MSG_SetupSubMenu(char *p, int a1, int kind, u8 *arg)
 
     if (kind == 1) {
         obj = func_02030734(0x41, 0x30, 1, d_021807FC, 0x647);
-        func_02082D44(d_0218050C, obj, 0x30);
+        MI_CpuCopy8(d_0218050C, obj, 0x30);
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
@@ -80,7 +80,7 @@ void UNION_MSG_SetupSubMenu(char *p, int a1, int kind, u8 *arg)
         func_020307B0(obj);
     } else if (kind == 5) {
         obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
-        func_02082D44(d_021804B4, obj, 0x28);
+        MI_CpuCopy8(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
         UNION_MSG_SetupMenu(p, a1, (u32)obj, v, (u32)(&t));

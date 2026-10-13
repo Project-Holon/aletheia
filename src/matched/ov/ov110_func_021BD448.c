@@ -1,5 +1,5 @@
 /*
- * function: func_021BD448
+ * function: PMSIV_MENU_StartItemBlend
  * address: 0x021BD448
  * packet: pkt_ov110_021BD448
  * region: ov110
@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj22378.h"
 typedef unsigned char u8;
@@ -20,10 +20,10 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_02082D44(const void *,void *,u32);
-void func_021BD448(u8 *p,int i)
+extern void MI_CpuCopy8(const void *,void *,u32);
+void PMSIV_MENU_StartItemBlend(u8 *p,int i)
 {
     CLACT_SetActorPaletteOffset(*(void **)(p+i*4+0x70),2,1);
-    func_02082D44(p+0x98,p+0xac,10);
+    MI_CpuCopy8(p+0x98,p+0xac,10);
     ((struct Obj22378 *)p)->fB8=0;
 }

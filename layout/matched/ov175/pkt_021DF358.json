@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF358",
+   "name": "DWC_ScReportSetPlayerData",
    "address": "0x021DF358",
    "kind": "sdk",
    "region": "ov175",

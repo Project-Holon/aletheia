@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA538",
-    "func_021BA578",
-    "func_021BA590"
+    "WIFICLUBACTOR_UpdateIdleWander",
+    "WIFICLUBACTOR_UpdateBounce",
+    "WIFICLUBACTOR_UpdateNone"
+   ],
+   "addresses": [
+    "0x021BA538",
+    "0x021BA578",
+    "0x021BA590"
    ]
   }
  ]

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C94A0",
+   "name": "DPW_BT_DownloadPlayerAsync",
    "address": "0x021C94A0",
    "kind": "game",
    "region": "ov114",

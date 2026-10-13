@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02064364",
+   "name": "NNS_G2dTickCellAnimation",
    "address": "0x02064364",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064384",
+   "name": "NNS_G2dSetCellAnimationCurrentFrame",
    "address": "0x02064384",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020643A4",
+   "name": "NNS_G2dRestartCellAnimation",
    "address": "0x020643A4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020643C4",
+   "name": "NNS_G2dSetCellAnimationSpeed",
    "address": "0x020643C4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02064648",
+   "name": "NNS_G2dGetMCBankNumCellAnimRequired",
    "address": "0x02064648",
    "kind": "game",
    "region": "arm9",

@@ -11,7 +11,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj22906.h"
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
 {
@@ -30,7 +30,7 @@ void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
     MI_CpuFill8(p,0,0x60);
     allocation=func_02049F78(arc,id,(u32)(&res),heap);
     data=*(char * *)&((struct Obj22906 *)res)->fC;
-    func_02082D44(data+index*32,p+0x40,32);
-    func_02082D44(data+other*32,p+0x20,32);
+    MI_CpuCopy8(data+index*32,p+0x40,32);
+    MI_CpuCopy8(data+other*32,p+0x20,32);
     func_020307B0(allocation);
 }

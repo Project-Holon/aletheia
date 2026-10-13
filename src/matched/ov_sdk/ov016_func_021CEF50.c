@@ -1,5 +1,5 @@
 /*
- * function: func_021CEF50
+ * function: DWCi_SEARCHlEnd
  * address:  0x021CEF50
  * packet:   pkt_ov016_021CEF50
  * region:   ov016
@@ -16,8 +16,8 @@
  *
  * symbols:
  *   WM_GetAllowedChannel  0x0208EE60  arm
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE640  0x021DE640  data
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gSearchWork  0x021DE640  data
  *   g_021DE640_b  0x021DE640  data
  */
 
@@ -36,15 +36,15 @@ typedef struct {
 } MS;
 
 extern unsigned short WM_GetAllowedChannel(void);
-extern void func_021D6438(void **mem);
-extern MS *g_021DE640;
+extern void DWCi_HEAPlFree_(void **mem);
+extern MS *gSearchWork;
 extern MS *g_021DE640_b;
 
-void func_021CEF50(void)
+void DWCi_SEARCHlEnd(void)
 {
-	if (g_021DE640 != 0) {
+	if (gSearchWork != 0) {
 		while (WM_GetAllowedChannel() != 0x8000) {
 		}
-		func_021D6438((void **)&g_021DE640_b);
+		DWCi_HEAPlFree_((void **)&g_021DE640_b);
 	}
 }

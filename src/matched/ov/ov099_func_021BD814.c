@@ -1,5 +1,5 @@
 /*
- * function: func_021BD814
+ * function: WIFICLUB_StateResetNetOptions
  * address: 0x021BD814
  * packet: pkt_ov099_021BD814
  * region: ov099
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
-int func_021BD814(char *p, int v)
+int WIFICLUB_StateResetNetOptions(char *p, int v)
 {
     int zero = 0;
     GFL_NET_SetAutoExit(zero);

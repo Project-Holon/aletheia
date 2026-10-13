@@ -1,5 +1,5 @@
 /*
- * function: func_021D7274
+ * function: DWCi_ClearVram
  * address:  0x021D7274
  * packet:   pkt_ov016_021D7274
  * region:   ov016
@@ -27,7 +27,7 @@
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   GX_SetBankForARM7  0x020805E8  arm
  *   func_021D73BC  0x021D73BC  arm  ov016
- *   g_021DE6B0  0x021DE6B0  data
+ *   gSubWork  0x021DE6B0  data
  */
 
 #include "../include/G_VRAMBANK.h"
@@ -63,23 +63,23 @@ extern int GX_DisableBankForARM7(void);
 extern int GX_DisableBankForLCDC(void);
 extern void GX_SetBankForARM7(int arm7);
 extern void func_021D73BC(void);
-extern struct VRAMBANK g_021DE6B0;
+extern struct VRAMBANK gSubWork;
 
-void func_021D7274(void)
+void DWCi_ClearVram(void)
 {
-	g_021DE6B0.bg = GX_DisableBankForBG();
-	g_021DE6B0.obj = GX_DisableBankForOBJ();
-	g_021DE6B0.bgExt = GX_DisableBankForBGExtPltt();
-	g_021DE6B0.objExt = GX_DisableBankForOBJExtPltt();
-	g_021DE6B0.tex = GX_DisableBankForTex();
-	g_021DE6B0.texPltt = GX_DisableBankForTexPltt();
-	g_021DE6B0.clrImg = GX_DisableBankForClearImage();
-	g_021DE6B0.subBg = GX_DisableBankForSubBG();
-	g_021DE6B0.subObj = GX_DisableBankForSubOBJ();
-	g_021DE6B0.subBgExt = GX_DisableBankForSubBGExtPltt();
-	g_021DE6B0.subObjExt = GX_DisableBankForSubOBJExtPltt();
-	g_021DE6B0.arm7 = GX_DisableBankForARM7();
-	g_021DE6B0.lcdc = GX_DisableBankForLCDC();
-	GX_SetBankForARM7(g_021DE6B0.arm7);
+	gSubWork.bg = GX_DisableBankForBG();
+	gSubWork.obj = GX_DisableBankForOBJ();
+	gSubWork.bgExt = GX_DisableBankForBGExtPltt();
+	gSubWork.objExt = GX_DisableBankForOBJExtPltt();
+	gSubWork.tex = GX_DisableBankForTex();
+	gSubWork.texPltt = GX_DisableBankForTexPltt();
+	gSubWork.clrImg = GX_DisableBankForClearImage();
+	gSubWork.subBg = GX_DisableBankForSubBG();
+	gSubWork.subObj = GX_DisableBankForSubOBJ();
+	gSubWork.subBgExt = GX_DisableBankForSubBGExtPltt();
+	gSubWork.subObjExt = GX_DisableBankForSubOBJExtPltt();
+	gSubWork.arm7 = GX_DisableBankForARM7();
+	gSubWork.lcdc = GX_DisableBankForLCDC();
+	GX_SetBankForARM7(gSubWork.arm7);
 	func_021D73BC();
 }

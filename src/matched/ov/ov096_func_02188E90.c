@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02188E90, func_02188F08
+ * function: TR_AI_CmdLoadAbleBackupCount, TR_AI_CmdLoadCurrentMove
  * address:  0x02188E90
  * packet:   pkt_ov096_02188E90
  * region:   ov096
@@ -10,12 +10,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_02188F08 is the unlabelled store-and-return stub at 0x02188F08
+ * TR_AI_CmdLoadCurrentMove is the unlabelled store-and-return stub at 0x02188F08
  * (function_starts seed).
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A308  0x0218A308  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetSlotPoke  0x0218A308  thumb  ov096
  *   BTL_MAIN_GetSlotClientIdThunk  0x021B8DE4  thumb  ov093
  *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
  *   BTL_MAIN_GetPositionsPerClientThunk  0x021B99B8  thumb  ov093
@@ -42,8 +42,8 @@ typedef struct {
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A308(void *p, u32 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetSlotPoke(void *p, u32 i);
 extern u8 BTL_MAIN_GetSlotClientIdThunk(char *p, int i);
 extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
 extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
@@ -51,24 +51,24 @@ struct Q1;
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 
-int func_02188E90(struct Cursor *a, Conn *b)
+int TR_AI_CmdLoadAbleBackupCount(struct Cursor *a, Conn *b)
 {
     int x;
     char *p;
     int n;
 
-    x = BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, func_0218A160((u8 *)b, VM_GetU32(a)));
+    x = BTL_MAIN_GetSlotClientIdThunk((char *)b->fb0, TR_AI_GetPosition((u8 *)b, VM_GetU32(a)));
     p = BTL_SIDE_GetSlotOfClientThunk(b->fb8, x);
     n = BTL_MAIN_GetPositionsPerClientThunk((void *)b->fb0, x);
     b->f38 = 0;
     for (; n < BTL_SLOT_GetCount((struct Q1 *)p); n++) {
-        if (BTL_POKEPARAM_IsAbleToBattle(func_0218A308(p, (u8)n)) != 0)
+        if (BTL_POKEPARAM_IsAbleToBattle(TR_AI_GetSlotPoke(p, (u8)n)) != 0)
             b->f38++;
     }
     return b->fc4;
 }
 
-int func_02188F08(int a, Conn *b)
+int TR_AI_CmdLoadCurrentMove(int a, Conn *b)
 {
     b->f38 = b->f2;
     return b->fc4;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D51F0
+ * function: DWCi_CELLlSetPriority
  * address:  0x021D51F0
  * packet:   pkt_ov016_021D51F0
  * region:   ov016
@@ -33,7 +33,7 @@ typedef struct {
     u8 num;
 } CellInfo;
 
-void func_021D51F0(void *cell, int idx, int priority)
+void DWCi_CELLlSetPriority(void *cell, int idx, int priority)
 {
     CellInfo *c = (CellInfo *)cell;
     OamAttr *oam = c->oam;

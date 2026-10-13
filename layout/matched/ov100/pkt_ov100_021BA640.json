@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA640",
+   "name": "IRCBATTLEMATCH_ExitWindowSystem",
    "address": "0x021BA640",
    "kind": "game",
    "region": "ov100",

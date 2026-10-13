@@ -14,7 +14,7 @@
  * Split from trial_house.c at 0x021D096C (lane L136, __FILE__ anchor trial_house.c at 021D096C/09D0/0B58/0DB0/10A8 (d_021DE674)).
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   KEY_GetTrg  0x020362DC  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
@@ -196,7 +196,7 @@ typedef struct TrialHouseSaveTaskWork {
     FieldSaveAnime *saveAnime;             /* 0x0C */
 } TrialHouseSaveTaskWork;
 
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 KEY_GetTrg(void);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
@@ -648,7 +648,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
         saveControl2 = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
         buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
         if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-            func_02082D44(func_020073D8(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
+            MI_CpuCopy8(func_020073D8(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
         }
         func_020307B0(buf);
         func_0200734C(saveControl2, TRIAL_HOUSE_SAVE_BLOCK);

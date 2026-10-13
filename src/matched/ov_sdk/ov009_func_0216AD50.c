@@ -12,7 +12,7 @@
  * sdk:      DWC_ShutdownFriendsMatch (libdwcmatch.TWL.HYB.a(dwc_main.o))
  *
  * symbols:
- *   func_0219B540  0x0219B540  arm  ov009
+ *   qr2_shutdown  0x0219B540  arm  ov009
  *   func_0219ED4C  0x0219ED4C  arm  ov009
  *   func_02176B34  0x02176B34  arm  ov009
  *   func_02169FF8  0x02169FF8  arm  ov009
@@ -50,7 +50,7 @@ extern struct DwcGlobal g_021AA878;
 
 struct ServerBrowser;
 struct qr2_implementation_s;
-extern void func_0219B540(struct qr2_implementation_s *qrec);
+extern void qr2_shutdown(struct qr2_implementation_s *qrec);
 extern void func_0219ED4C(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern void func_02169FF8(void);
@@ -71,7 +71,7 @@ void DWC_ShutdownFriendsMatch(void)
     if (g_021AA878.st == 0)
         return;
     if (((Ctl *)g_021AA878.st)->qr2 != 0) {
-        func_0219B540(((Ctl *)g_021AA878.st)->qr2);
+        qr2_shutdown(((Ctl *)g_021AA878.st)->qr2);
         ((Ctl *)g_021AA878.st)->qr2 = 0;
     }
     ((Ctl *)g_021AA878.st)->flag = 0;

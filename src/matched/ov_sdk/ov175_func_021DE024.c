@@ -1,5 +1,5 @@
 /*
- * function: func_021DE024
+ * function: sakeiStartCreateRecordRequest
  * address:  0x021DE024
  * packet:   pkt_ov175_021DE024
  * region:   ov175
@@ -14,13 +14,14 @@
  * goes in as the second argument.
  *
  * symbols:
- *   d_021E39A0  0x021E39A0  data
+ *   sCreateRecordRequestInfo  0x021E39A0  data
+ *   sakeiStartRequest  0x021DDB10  arm
  */
 
-extern int func_021DDB10(void *, int);
-extern char d_021E39A0[];
+extern int sakeiStartRequest(void *, int);
+extern char sCreateRecordRequestInfo[];
 
-void func_021DE024(void *p)
+void sakeiStartCreateRecordRequest(void *p)
 {
-    func_021DDB10(p, (int)d_021E39A0);
+    sakeiStartRequest(p, (int)sCreateRecordRequestInfo);
 }

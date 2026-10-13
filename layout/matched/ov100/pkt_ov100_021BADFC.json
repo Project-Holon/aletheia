@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BADFC",
+   "name": "IRCBATTLEMATCH_StepOpenWirelessWaitMenu",
    "address": "0x021BADFC",
    "kind": "game",
    "region": "ov100",

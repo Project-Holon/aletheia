@@ -1,5 +1,5 @@
 /*
- * function: func_02059760
+ * function: DWC_CheckValidConsole
  * address:  0x02059760
  * packet:   pkt_02059760
  * region:   arm9
@@ -49,7 +49,7 @@ extern unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *userdata);
 
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
 
-int func_02059760(struct DWCstAccUserData *userdata)
+int DWC_CheckValidConsole(struct DWCstAccUserData *userdata)
 {
     DWCAuthWiFiId authid;
 

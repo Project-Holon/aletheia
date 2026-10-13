@@ -1,5 +1,5 @@
 /*
- * function: func_021BB374
+ * function: WIFICLUB_CreateTrainerActor
  * address:  0x021BB374
  * packet:   pkt_ov099_021BB374
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021C37D4     0x021C37D4  data   ov099  a2
- *   func_021BB42C  0x021BB42C  thumb  ov099
+ *   gWifiClubTrainerSpritePos     0x021C37D4  data   ov099  a2
+ *   WIFICLUB_DeleteTrainerActor  0x021BB42C  thumb  ov099
  *   func_02009864  0x02009864  thumb
  *   func_02025C88  0x02025C88  thumb
  *   POKEGRA_OpenTrainerHandle  0x0202DA04  thumb
@@ -29,8 +29,8 @@ typedef struct {
     u16 v[4];
 } T4;
 
-extern const T4 d_021C37D4;
-extern void func_021BB42C(void *p);
+extern const T4 gWifiClubTrainerSpritePos;
+extern void WIFICLUB_DeleteTrainerActor(void *p);
 typedef unsigned int   u32;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
@@ -44,15 +44,15 @@ extern void ARC_TOOL_DeleteHandle(void *o);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-void func_021BB374(char *p, int a, int b)
+void WIFICLUB_CreateTrainerActor(char *p, int a, int b)
 {
     T4 t;
     int r;
     void *o;
 
-    t = d_021C37D4;
+    t = gWifiClubTrainerSpritePos;
     if (((struct Obj00008 *)p)->f180 != 0)
-        func_021BB42C(p);
+        WIFICLUB_DeleteTrainerActor(p);
     r = func_02009864(((struct Obj00008 *)p)->f4, a, 8);
     r = func_02025C88(r);
     o = (void *)POKEGRA_OpenTrainerHandle((u16)b);

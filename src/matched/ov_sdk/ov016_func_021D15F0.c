@@ -27,21 +27,21 @@
  * leading `fn = B` plus one if, as a switch, and with the call duplicated in
  * each arm: every spelling re-folds to 180 B, and no pin/flag cell matches.
  * U26: the object's `mov r4,#0` is the constant 0 held in a callee-saved register across the
- * func_021D5250 call (it is `mov r1,r4` for the idx argument and `mov r0,r4`/`mov r2,r4` for the
- * two zero arguments of func_021D7680).  Spelling that zero as a live local (`int z = 0;`, `z`
+ * DWCi_CELLlGetPosition call (it is `mov r1,r4` for the idx argument and `mov r0,r4`/`mov r2,r4` for the
+ * two zero arguments of DWCi_TSKlForm).  Spelling that zero as a live local (`int z = 0;`, `z`
  * for all three) is folded straight back to immediate 0 by 1.1p1 - same 184 B / 130 diffs - so
  * the difference is mwcc 4.0.0.1025's rematerialisation policy, not a source shape.  Referencing
  * the same 0 through a helper or a cast does not survive either.
  *
  * symbols:
- *   func_021D5250  0x021D5250  arm  ov016
+ *   DWCi_CELLlGetPosition  0x021D5250  arm  ov016
  *   func_021D1868  0x021D1868  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
- *   func_021D7724  0x021D7724  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  *   func_021D17FC  0x021D17FC  arm  ov016
  *   func_021D16B0  0x021D16B0  arm  ov016
- *   g_021DE658     0x021DE658  data
- *   g_021DA9FE     0x021DA9FE  data
+ *   gWindowWork     0x021DE658  data
+ *   sWindowTable11     0x021DA9FE  data
  */
 
 #include "../include/G_MemWinT.h"
@@ -65,30 +65,30 @@ typedef struct {
 } MemWinT;
 
 typedef struct { u16 x; u16 y; } CoordT;
-extern void func_021D5250(void *cell, int idx, int *x, int *y);
+extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void func_021D1868(int y);
-extern void *func_021D7680(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void func_021D7724(int kind, void *task);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+extern void DWCi_TSKlDelete(int kind, void *task);
 extern void func_021D17FC(void *task);
 extern void func_021D16B0(void);
-extern struct MemWinT *g_021DE658;
-extern struct CoordT g_021DA9FE[];
+extern struct MemWinT *gWindowWork;
+extern struct CoordT sWindowTable11[];
 
 void func_021D15F0(void *task)
 {
     int x;
     int y;
 
-    func_021D5250(g_021DE658->cellWin, 0, &x, &y);
+    DWCi_CELLlGetPosition(gWindowWork->cellWin, 0, &x, &y);
     y -= 12;
-    if (y > g_021DA9FE[g_021DE658->type].y) {
+    if (y > sWindowTable11[gWindowWork->type].y) {
         func_021D1868(y);
         return;
     }
-    func_021D1868(g_021DA9FE[g_021DE658->type].y);
-    if (g_021DE658->type == 5)
-        g_021DE658->task = func_021D7680(0, (void (*)(void *, void *))func_021D17FC, 0, 0x78);
+    func_021D1868(sWindowTable11[gWindowWork->type].y);
+    if (gWindowWork->type == 5)
+        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))func_021D17FC, 0, 0x78);
     else
-        g_021DE658->task = func_021D7680(0, (void (*)(void *, void *))func_021D16B0, 0, 0x78);
-    func_021D7724(1, task);
+        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))func_021D16B0, 0, 0x78);
+    DWCi_TSKlDelete(1, task);
 }

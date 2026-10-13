@@ -50,7 +50,7 @@
  *   func_0200E8D0 0x0200E8D0 thumb
  *   func_02040B1C 0x02040B1C arm
  *   func_02040E78 0x02040E78 arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207F308 0x0207F308 arm
  *   func_0207F394 0x0207F394 arm
  *   func_0207F428 0x0207F428 arm
@@ -144,7 +144,7 @@ extern u32_021BC5B0 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
 extern void func_02040B1C(int index, const void *src, u32_021BC5B0 size, u32_021BC5B0 tile);
 extern void func_02040E78(u32_021BC5B0,void *,u32_021BC5B0,u32_021BC5B0);
-extern void func_020862F0(void *,unsigned long);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F65C(void);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32_021BC5B0);
@@ -274,7 +274,7 @@ void func_021BC5B0(char *p)
             func_02040B1C(1,tiles,0x6000,0);
             func_02040E78(1,palette,0x200,0);
             func_02040E78(5,palette,0x200,0);
-            func_020862F0(palette,0x200);
+            DWCi_ScreenDC_FlushRange(palette,0x200);
             func_0207F308();
             func_0207F394(palette,0x4000,0x200);
             func_0207F394(palette,0x6000,0x200);

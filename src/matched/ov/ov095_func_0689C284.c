@@ -1,5 +1,5 @@
 /*
- * function: func_0689C284
+ * function: BTL_SICK_GetCureStringId
  * address: 0x0689C284
  * packet: pkt_ov095_0689C284
  * region: ov095
@@ -19,7 +19,7 @@
  */
 typedef struct { int v; } Word;
 extern int func_0689C354(Word);
-int func_0689C284(unsigned int selector, Word value)
+int BTL_SICK_GetCureStringId(unsigned int selector, Word value)
 {
     int result = -1;
     switch (selector) {

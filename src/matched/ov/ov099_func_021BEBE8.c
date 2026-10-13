@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBE8
+ * function: WIFICLUB_StateWaitSave
  * address: 0x021BEBE8
  * packet: pkt_ov099_021BEBE8
  * region: ov099
@@ -31,25 +31,25 @@
  *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
- *   func_021BE6F0 0x021BE6F0 thumb ov099
- *   func_021BE788 0x021BE788 thumb ov099
- *   func_021BE4F0 0x021BE4F0 thumb ov099
+ *   WIFICLUB_BuildOwnStatus 0x021BE6F0 thumb ov099
+ *   WIFICLUB_RefreshVisibleList 0x021BE788 thumb ov099
+ *   WIFICLUB_BeginIdle 0x021BE4F0 thumb ov099
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
- *   func_021BE900 0x021BE900 thumb ov099
+ *   WIFICLUB_OnFatalError 0x021BE900 thumb ov099
  */
 typedef unsigned char u8;
 extern u8 DWC_RAP_IsUserDataChanged(void);
 extern int GAME_DATA_SaveMain(u8 *p);
 extern void DWC_RAP_ClearUserDataChanged(int v);
 extern int GFL_NET_STATE_IsWifiLoginState(void);
-extern void func_021BE6F0(char *p, int a, int b);
-extern int func_021BE788(char *p);
-extern int func_021BE4F0(char *p, int a);
+extern void WIFICLUB_BuildOwnStatus(char *p, int a, int b);
+extern int WIFICLUB_RefreshVisibleList(char *p);
+extern int WIFICLUB_BeginIdle(char *p, int a);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int GFL_NET_STATE_GetWifiState(void);
-extern void func_021BE900(char *p);
-int func_021BEBE8(char *p, int result)
+extern void WIFICLUB_OnFatalError(char *p);
+int WIFICLUB_StateWaitSave(char *p, int result)
 {
     int v;
     if (DWC_RAP_IsUserDataChanged()) {
@@ -67,12 +67,12 @@ int func_021BEBE8(char *p, int result)
         if (*(int *)(p + 0x1e8) != 0) {
             *(int *)(p + 0x1cc) = 7;
         } else {
-            func_021BE6F0(p, 1, 2);
-            func_021BE788(p);
-            *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
+            WIFICLUB_BuildOwnStatus(p, 1, 2);
+            WIFICLUB_RefreshVisibleList(p);
+            *(int *)(p + 0x1cc) = WIFICLUB_BeginIdle(p, 0);
         }
     } else if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) {
-        func_021BE900(p);
+        WIFICLUB_OnFatalError(p);
     }
     return result;
 }

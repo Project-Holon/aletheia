@@ -16,7 +16,7 @@
  *   func_0219F068  0x0219F068  arm  ov009
  *   func_0219F058  0x0219F058  arm  ov009
  *   func_0219E120  0x0219E120  arm  ov009
- *   func_021763AC  0x021763AC  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForProfileID  0x021763AC  arm  ov009
  *   func_0219EFA8  0x0219EFA8  arm  ov009
  *   func_021685CC  0x021685CC  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
@@ -43,7 +43,7 @@ extern void *func_0219F058(void *sb, int index);
 struct SBServer;
 struct ServerBrowser;
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
-extern char *func_021763AC(int pid);
+extern char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
 extern void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server);
 extern unsigned long func_021685CC(unsigned long max);
 extern void func_0219E084(void *server, char *keyname, int value);
@@ -63,7 +63,7 @@ static int func_02174790(int sort)
         if (((DWCstMatchControl *)func_02175F3C())->qr2IsReserved == 0) {
             profileID = func_0219E120(server, "dwc_pid", 0);
             localDelete = 0;
-            if (func_021763AC(profileID)) {
+            if (DWCi_NodeInfoList_GetNodeInfoForProfileID(profileID)) {
                 func_0219EFA8(((DWCstMatchControl *)func_02175F3C())->sb, server);
                 i--;
                 localDelete = 1;

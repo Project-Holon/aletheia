@@ -1,5 +1,5 @@
 /*
- * function: func_021B6518
+ * function: COMPATIBLE_IRC_SYS_SendProfileRequest
  * address: 0x021B6518
  * packet: pkt_ov101_021B6518
  * region: ov101
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B678C 0x021B678C thumb ov101
+ *   COMPATIBLE_IRC_SYS_ProfileSyncSendRequest 0x021B678C thumb ov101
  */
 #include "../include/Obj22095.h"
 typedef unsigned int u32;
-extern int func_021B678C(int *p, int a, int b);
-int func_021B6518(u32 p,u32 a,u32 b) {
+extern int COMPATIBLE_IRC_SYS_ProfileSyncSendRequest(int *p, int a, int b);
+int COMPATIBLE_IRC_SYS_SendProfileRequest(u32 p,u32 a,u32 b) {
     if(((struct Obj22095 *)p)->f78!=0) return 1;
-    return func_021B678C((int *)(p+4),a,b);
+    return COMPATIBLE_IRC_SYS_ProfileSyncSendRequest((int *)(p+4),a,b);
 }

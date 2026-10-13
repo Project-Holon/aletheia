@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F48
+ * function: BTL_CLIENT_SetCounterMaximum
  * address:  0x021D3F48
  * packet:   pkt_021D3F48
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3F48   0x021D3F48  thumb ov093
+ *   BTL_CLIENT_SetCounterMaximum   0x021D3F48  thumb ov093
  *
  * strh v at #0xa
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021D3F48(u8 *p, u32 v)
+void BTL_CLIENT_SetCounterMaximum(u8 *p, u32 v)
 {
     *(u16 *)&p[0xa] = v;
 }

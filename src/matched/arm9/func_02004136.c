@@ -1,5 +1,5 @@
 /*
- * function: func_02004136
+ * function: SVC_CpuFastSet
  * address:  0x02004136
  * packet:   pkt_02004136
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_CpuSetFast), `swi N; bx lr` in the BIOS call table */
 
-asm void func_02004136(void)
+asm void SVC_CpuFastSet(void)
 {
     swi 0xC
     bx lr

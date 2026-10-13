@@ -1,5 +1,5 @@
 /*
- * function: func_0689D4F0
+ * function: BTL_POSPOKE_SwapPos
  * address:  0x0689D4F0
  * packet:   pkt_ov095_0689D4F0
  * region:   ov095
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0689D544  0x0689D544  thumb
+ *   BTL_POSPOKE_UpdatePosOfPoke  0x0689D544  thumb
  */
 
 typedef unsigned char u8;
@@ -20,15 +20,15 @@ typedef struct {
     u8 c;
 } Rec;
 
-extern void func_0689D544(Rec *p, int i);
+extern void BTL_POSPOKE_UpdatePosOfPoke(Rec *p, int i);
 
-void func_0689D4F0(Rec *p, int i, int j)
+void BTL_POSPOKE_SwapPos(Rec *p, int i, int j)
 {
     Rec t;
 
     t = p[i];
     p[i] = p[j];
     p[j] = t;
-    func_0689D544(p, i);
-    func_0689D544(p, j);
+    BTL_POSPOKE_UpdatePosOfPoke(p, i);
+    BTL_POSPOKE_UpdatePosOfPoke(p, j);
 }

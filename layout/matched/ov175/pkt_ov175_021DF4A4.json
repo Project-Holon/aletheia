@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF4A4",
+   "name": "DWCi_ScPrintf",
    "address": "0x021DF4A4",
    "kind": "sdk",
    "region": "ov175",

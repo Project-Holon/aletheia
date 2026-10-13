@@ -1,5 +1,5 @@
 /*
- * function: func_02004632
+ * function: SVC_GetCRC16
  * address:  0x02004632
  * packet:   pkt_02004490
  * region:   arm9
@@ -13,7 +13,7 @@
  *           stub).  A Thumb `asm` function: swi, then return.
  */
 
-asm void func_02004632(void)
+asm void SVC_GetCRC16(void)
 {
     swi 0xe
     bx lr

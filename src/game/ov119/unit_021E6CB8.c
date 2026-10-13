@@ -30,7 +30,7 @@
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BMP_GetByteSize 0x020437EC arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E804 0x0207E804 arm
  *   d_021E7DD8 0x021E7DD8 data a1
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
@@ -49,9 +49,9 @@
  *   PALANM_Delete 0x02021540 thumb
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
- *   func_0207E51C 0x0207E51C arm
- *   func_0207E3D0 0x0207E3D0 arm
- *   func_02082D44  0x02082D44  arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020056BC  0x020056BC  thumb
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_02030EAC 0x02030EAC arm
@@ -123,7 +123,7 @@ extern void CLACT_ReleaseCellAnim(unsigned int);
 extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_020862F0(void *,int);
+extern void DWCi_ScreenDC_FlushRange(void *,int);
 extern void func_0207E804(const void *,void *,unsigned int);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
@@ -141,9 +141,9 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void func_0207E5D0(void *,u32,u32);
 extern void func_0207E468(void *,u32,u32);
-extern void func_0207E51C(void *,u32,u32);
-extern void func_0207E3D0(void *,u32,u32);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void GX_LoadOBJPltt(void *,u32,u32);
+extern void GX_LoadBGPltt(void *,u32,u32);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern u32 func_020056BC(void);
 extern void func_02030DA8(u32, void (*)(void), int, int);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
@@ -211,7 +211,7 @@ void func_021E6E7C(int p) {
     for(i=0;i<8;i++) {
         dest=(char *)CLACT_GetCharacterVramAddress(*(int *)(p+i*4+0x1114),1);
         source=BMP_GetPixels((const struct Bmp *)(*(int *)(p+i*4+0x10f4)));
-        func_020862F0(source,BMP_GetByteSize((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
+        DWCi_ScreenDC_FlushRange(source,BMP_GetByteSize((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
         for(j=0;j<8;j++) {func_0207E804(source+t.v[j]*256,dest,256);dest+=256;}
     }
 }
@@ -295,12 +295,12 @@ void func_021E7098(char *p, int bank, int mask)
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
             off=i*32;
-            func_020862F0(buf+off,32);
+            DWCi_ScreenDC_FlushRange(buf+off,32);
             switch(bank) {
             case 3: func_0207E5D0(buf+off,off,32); break;
             case 1: func_0207E468(buf+off,off,32); break;
-            case 2: func_0207E51C(buf+off,off,32); break;
-            case 0: func_0207E3D0(buf+off,off,32); break;
+            case 2: GX_LoadOBJPltt(buf+off,off,32); break;
+            case 0: GX_LoadBGPltt(buf+off,off,32); break;
             }
         }
     }
@@ -313,21 +313,21 @@ void func_021E7160(void *p, int a1, int a2, int a3)
 {
     if (a1 != 0) {
         if (a2 == 3)
-            func_02082D44((void *)0x05000600, ((TradeWork *)p)->f10A4,
+            MI_CpuCopy8((void *)0x05000600, ((TradeWork *)p)->f10A4,
                           0x200);
         else if (a2 == 1)
-            func_02082D44((void *)0x05000400, ((TradeWork *)p)->f10A8,
+            MI_CpuCopy8((void *)0x05000400, ((TradeWork *)p)->f10A8,
                           0x200);
         func_021E7098(p, a2, a3);
         return;
     }
     if (a2 == 3) {
-        func_020862F0(((TradeWork *)p)->f10A4, 0x200);
+        DWCi_ScreenDC_FlushRange(((TradeWork *)p)->f10A4, 0x200);
         func_0207E5D0(((TradeWork *)p)->f10A4, 0, 0x200);
         return;
     }
     if (a2 == 1) {
-        func_020862F0(((TradeWork *)p)->f10A8, 0x200);
+        DWCi_ScreenDC_FlushRange(((TradeWork *)p)->f10A8, 0x200);
         func_0207E468(((TradeWork *)p)->f10A8, 0, 0x200);
     }
 }

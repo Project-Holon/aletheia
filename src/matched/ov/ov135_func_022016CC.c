@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C8C68 0x021C8C68 arm ov114
+ *   DPW_TR_TradeAsync 0x021C8C68 arm ov114
  *   func_0220251C 0x0220251C thumb ov135
  */
 #include "../include/Obj10595.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C8C68(u32, const void *, u32, const void *, u32);
+extern void DPW_TR_TradeAsync(u32, const void *, u32, const void *, u32);
 typedef unsigned short u16;
 extern void func_0220251C(u8 *p, u16 a, u16 b);
 int func_022016CC(u8 *p)
 {
-    func_021C8C68(*(u32 *)(p + ((struct Obj10595 *)p)->fD4 * 0x128 + 0x314), p + 0xe4, (u32)(p + 0xa24), p + 0x10ec, 0x80);
+    DPW_TR_TradeAsync(*(u32 *)(p + ((struct Obj10595 *)p)->fD4 * 0x128 + 0x314), p + 0xe4, (u32)(p + 0xa24), p + 0x10ec, 0x80);
     func_0220251C(p, 0x12, 0x14);
     ((struct Obj10595 *)p)->f28 = 0x11;
     ((struct Obj10595 *)p)->fF8C = 0;

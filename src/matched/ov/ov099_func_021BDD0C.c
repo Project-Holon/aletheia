@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD0C
+ * function: WIFICLUB_StartNetSession
  * address:  0x021BDD0C
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -27,7 +27,7 @@ struct Req;
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void GFL_NET_CopyInitParam(void *dst);
 
-void func_021BDD0C(void *p, int on)
+void WIFICLUB_StartNetSession(void *p, int on)
 {
     if (OS_IsRunOnTwl())
         d_021C3B9C.f48 = 0x79000;

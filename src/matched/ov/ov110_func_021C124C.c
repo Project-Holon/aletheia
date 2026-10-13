@@ -1,5 +1,5 @@
 /*
- * function: func_021C124C
+ * function: PMS_SELECT_GRAPHIC_DrawSavedRow
  * address: 0x021C124C
  * packet: pkt_ov110_021C124C
  * region: ov110
@@ -14,7 +14,7 @@
  * symbols:
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_GetSentenceType 0x0202452C thumb
- *   func_021C080C 0x021C080C thumb ov110
+ *   PMS_SELECT_GRAPHIC_ColorRowBg 0x021C080C thumb ov110
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
@@ -31,17 +31,17 @@ struct PmsDraw;
 struct T;
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
-extern void func_021C080C(u8 *,int,int,int);
+extern void PMS_SELECT_GRAPHIC_ColorRowBg(u8 *,int,int,int);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
-void func_021C124C(u8 *p,int index,u8 which,int flag) {
+void PMS_SELECT_GRAPHIC_DrawSavedRow(u8 *p,int index,u8 which,int flag) {
     void *item;
     item=PMS_WORD_GetSaveEntry(*(void **)(p+0x20),which);
-    func_021C080C(p+0x24,index,PMSI_PARAM_GetSentenceType(item),flag);
+    PMS_SELECT_GRAPHIC_ColorRowBg(p+0x24,index,PMSI_PARAM_GetSentenceType(item),flag);
     if (flag) {
         BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x6c+index*4)),14);
         PMS_DRAW_SetPrintColor(*(void **)(p+0x8c),0x44e);

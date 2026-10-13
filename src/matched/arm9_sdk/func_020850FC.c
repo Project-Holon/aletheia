@@ -1,5 +1,5 @@
 /*
- * function: func_020850FC
+ * function: OSi_InsertThreadToList
  * address:  0x020850FC
  * packet:   pkt_020850FC
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      OSi_InsertThreadToList (os_thread.o)
  *
  * symbols:
- *   g_02150FD0  0x02150FD0  data
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -136,14 +136,14 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_020850FC(OSThread *thread)
+void OSi_InsertThreadToList(OSThread *thread)
 {
-    OSThread *t = g_02150FD0.OSi_ThreadInfo.list;
+    OSThread *t = gOsThreadBss.OSi_ThreadInfo.list;
     OSThread *pre = 0;
 
     while (t && t->priority < thread->priority) {
@@ -152,8 +152,8 @@ void func_020850FC(OSThread *thread)
     }
 
     if (!pre) {
-        thread->next = g_02150FD0.OSi_ThreadInfo.list;
-        g_02150FD0.OSi_ThreadInfo.list = thread;
+        thread->next = gOsThreadBss.OSi_ThreadInfo.list;
+        gOsThreadBss.OSi_ThreadInfo.list = thread;
     } else {
         thread->next = pre->next;
         pre->next = thread;

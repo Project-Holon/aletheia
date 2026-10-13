@@ -1,5 +1,5 @@
 /*
- * function: func_021B7778
+ * function: IRC_RESULT_Main
  * address: 0x021B7778
  * packet: pkt_ov105_021B7778
  * region: ov105
@@ -13,12 +13,12 @@
  * symbols:
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   func_021B7C94 0x021B7C94 thumb ov105
- *   func_021B7DAC 0x021B7DAC thumb ov105
- *   func_021B78BC 0x021B78BC thumb ov105
- *   func_021B85A4 0x021B85A4 thumb ov105
- *   func_021B71E4 0x021B71E4 thumb ov101
- *   func_021B63D0 0x021B63D0 thumb ov101
+ *   IRC_RESULT_RunPrintQueue 0x021B7C94 thumb ov105
+ *   IRC_RESULT_UpdateTextWindow 0x021B7DAC thumb ov105
+ *   IRC_RESULT_DrawScreen 0x021B78BC thumb ov105
+ *   IRC_RESULT_UpdateRankFade 0x021B85A4 thumb ov105
+ *   IRC_APPBAR_Update 0x021B71E4 thumb ov101
+ *   COMPATIBLE_IRC_SYS_UpdateValueSync 0x021B63D0 thumb ov101
  */
 #include "../include/Obj10249.h"
 #include "../include/Obj22238.h"
@@ -28,12 +28,12 @@ typedef unsigned int u32;
 typedef struct Obj { u8 pad[0x78]; int busy; u8 pad7c[6]; u16 counter; } Obj;
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern u32 func_021B7C94(u8 *);
-extern int func_021B7DAC(u8 *,u8 *);
-extern void func_021B78BC(u8 *),func_021B85A4(u8 *);
-extern void func_021B71E4(int);
-extern int func_021B63D0(Obj *);
-int func_021B7778(void *a,u32 *state,void *b,u8 *p)
+extern u32 IRC_RESULT_RunPrintQueue(u8 *);
+extern int IRC_RESULT_UpdateTextWindow(u8 *,u8 *);
+extern void IRC_RESULT_DrawScreen(u8 *),IRC_RESULT_UpdateRankFade(u8 *);
+extern void IRC_APPBAR_Update(int);
+extern int COMPATIBLE_IRC_SYS_UpdateValueSync(Obj *);
+int IRC_RESULT_Main(void *a,u32 *state,void *b,u8 *p)
 {
     Obj *object;
     switch(*state) {
@@ -48,14 +48,14 @@ int func_021B7778(void *a,u32 *state,void *b,u8 *p)
     case 5: if(!FADE_IsActive()) *state=6; break;
     case 6: return 1;
     }
-    if(func_021B7C94(p+0xb0)) {
-        func_021B7DAC(p+0xc0,p+0xb0);
-        func_021B7DAC(p+0xd4,p+0xb0);
+    if(IRC_RESULT_RunPrintQueue(p+0xb0)) {
+        IRC_RESULT_UpdateTextWindow(p+0xc0,p+0xb0);
+        IRC_RESULT_UpdateTextWindow(p+0xd4,p+0xb0);
     }
-    func_021B78BC(p);
-    func_021B85A4(p+0x128);
-    func_021B71E4(((struct Obj10249 *)p)->f188);
+    IRC_RESULT_DrawScreen(p);
+    IRC_RESULT_UpdateRankFade(p+0x128);
+    IRC_APPBAR_Update(((struct Obj10249 *)p)->f188);
     object=*(Obj * *)&((struct Obj22238 *)(*(u8 * *)&((struct Obj10249 *)p)->f1A4))->f4;
-    if(object) func_021B63D0(object);
+    if(object) COMPATIBLE_IRC_SYS_UpdateValueSync(object);
     return 0;
 }

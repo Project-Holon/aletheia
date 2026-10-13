@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "TCBL_IsDeletePending",
+   "name": "TCBL_GetTaskUserData",
    "address": "0x02030EE8",
    "kind": "game",
    "region": "arm9",

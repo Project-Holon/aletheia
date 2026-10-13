@@ -12,10 +12,10 @@
  * sdk:      SOCLi_UdpRecvCallback (libsoc.TWL.HYB.a(socl_read.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_02082EA4  0x02082EA4  arm
- *   func_02085800  0x02085800  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_WakeupThread  0x02085800  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A1CD8     0x021A1CD8  data
  *   g_021AA4A4     0x021AA4A4  data
  * note: volatile in this file is a matching device (it forces the reload the
@@ -58,10 +58,10 @@ struct CPSSoc {
 extern struct G_021A1CD8 *g_021A1CD8;
 extern unsigned long g_021AA4A4[2];
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
-extern void func_02085800(void *queue);
+extern void OS_WakeupThread(void *queue);
 
 int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 {
@@ -69,7 +69,7 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 	struct SOCLiUdpData *udpheader;
 	unsigned long enable;
 
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	if (pipe->limit >= pipe->used + len) {
 		udpheader = g_021A1CD8->alloc(len + 12);
 		if (udpheader != 0) {
@@ -94,7 +94,7 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc)
 	soc->remote_ip = soc->remote_ip2;
 	if (soc->socket_port == 0)
 		soc->socket_port = soc->local_port;
-	func_02085800(pipe->queue);
-	func_0208799C(enable);
+	OS_WakeupThread(pipe->queue);
+	OS_RestoreInterrupts(enable);
 	return 1;
 }

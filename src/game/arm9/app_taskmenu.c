@@ -42,7 +42,7 @@
  *   _WazaKindPltOffset  0x0209FCEC  data
  *   func_0204162C  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   MIi_CpuCopy16     0x02082A60  arm
  *   app_taskmenu_File  0x020A74E0  data
@@ -232,7 +232,7 @@ extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 func_020307B0(void *memory);
 extern void *func_0204162C(int bgFrame);
 extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32 func_02017E1C(const struct PokemonParam *pp, int paramId, void *buf);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
@@ -558,7 +558,7 @@ void func_02027634(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffse
 
     scrn = (BarScreen *)func_0204162C(bgFrame);
     fileBuf = func_02049EF4(arc, 0x1d, 0, &file, heapId);
-    func_02082D44(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
+    MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
     func_020307B0(fileBuf);
     for (i = 0; i < 0x60; i++)
         scrn->barCells[i] = (palNo << 12) + (charOffset + (scrn->barCells[i] & 0xfff));

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02008530 0x02008530 thumb
  *   func_020084F4 0x020084F4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj09436.h"
 
@@ -21,5 +21,5 @@ typedef unsigned int u32;
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern const void *func_020084F4(const void *p);
-extern void func_02082D44(const void *src, void *dst, u32 size);
-void FIELD_WFBC_DATA_LOCAL_SetPersonParent(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; ((struct Obj09436 *)p)->f14 = func_02008530(src); func_02082D44(func_020084F4(src), p + 4, 16); }
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+void FIELD_WFBC_DATA_LOCAL_SetPersonParent(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; ((struct Obj09436 *)p)->f14 = func_02008530(src); MI_CpuCopy8(func_020084F4(src), p + 4, 16); }

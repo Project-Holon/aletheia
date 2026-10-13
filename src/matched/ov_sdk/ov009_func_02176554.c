@@ -1,5 +1,5 @@
 /*
- * function: func_02176554
+ * function: DWCi_TempNewNodeInfo_IsValid
  * address:  0x02176554
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,15 @@
  * Prepares the block 0x554 bytes into the module block.
  *
  * symbols:
+ *   DWCi_NodeInfo_IsValid  0x02176580  arm
 
  */
 
 extern int func_02175F3C(void);
-extern int func_02176580(const int *p);
+extern int DWCi_NodeInfo_IsValid(const int *p);
 
-int func_02176554(void)
+int DWCi_TempNewNodeInfo_IsValid(void)
 {
-    return func_02176580((const int *)(func_02175F3C() + 0x554));
+    return DWCi_NodeInfo_IsValid((const int *)(func_02175F3C() + 0x554));
 }
 

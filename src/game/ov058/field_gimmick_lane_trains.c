@@ -44,7 +44,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern Gimmick58Work *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern FieldGimmickLaneTrainsWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
@@ -55,12 +55,12 @@ extern u32 func_020056EC(u32 range);
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern int GFL_USE_IsSeSlotBusy(int seSlot);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(void *fieldSound, u32 seId);
-extern void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(Gimmick58Work *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
+extern void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
 
 void FIELD_GIMMICK_LANE_TRAINS_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_LANE_TRAINS_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(Gimmick58Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap);
 
 extern G3dUtilSetup sLaneTrainsUnitSetup;
 
@@ -68,7 +68,7 @@ extern G3dUtilSetup sLaneTrainsUnitSetup;
 void FIELD_GIMMICK_LANE_TRAINS_Init(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
-    Gimmick58Work *work;
+    FieldGimmickLaneTrainsWork *work;
 
     FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
@@ -94,8 +94,8 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
     int westLeadX;
     struct GameData *gameData;
     FldExpObjCnt *expObj;
-    Gimmick58Work *work;
-    Gimmick58Train *train;
+    FieldGimmickLaneTrainsWork *work;
+    FieldGimmickLaneTrainsTrain *train;
     int modelIndex;
     G3dObjectStatus *model;
     void *fieldSound;
@@ -169,7 +169,7 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
 }
 
 /* Put the three sets of train models at their start. */
-void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(Gimmick58Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap)
 {
     FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(work, fieldMap, 0, 1);
     FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(work, fieldMap, 4, 5);
@@ -183,7 +183,7 @@ void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(Gimmick58Work *work, struct FieldMap 
  * locals (two stack slots) while the sine value reuses one register; the
  * cosine declared before the sine puts the sine in r7.
  */
-void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(Gimmick58Work *work, struct FieldMap *fieldMap, int leadModel, int trailModel)
+void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap, int leadModel, int trailModel)
 {
     FldExpObjCnt *expObj;
     G3dObjectStatus *model;

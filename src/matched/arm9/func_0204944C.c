@@ -13,7 +13,7 @@
  * symbols:
  *   func_02034734      0x02034734  arm
  *   func_02078B44      0x02078B44  arm
- *   func_02078B70      0x02078B70  arm
+ *   FS_ReadFile      0x02078B70  arm
  *   arc_tool_file 0x020A7EE0  data
  *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
@@ -53,7 +53,7 @@ extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 typedef signed int     s32;
 struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size,
                    void *dst)
@@ -66,7 +66,7 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset,
     }
 
     func_02078B44((struct FSFile *)arc, arc->fatOffset + 0xc + member * 8, 0);
-    func_02078B70((struct FSFile *)arc, &start, 4);
+    FS_ReadFile((struct FSFile *)arc, &start, 4);
     func_02078B44((struct FSFile *)arc, offset + (arc->imageBase + 8 + start), 0);
-    func_02078B70((struct FSFile *)arc, dst, size);
+    FS_ReadFile((struct FSFile *)arc, dst, size);
 }

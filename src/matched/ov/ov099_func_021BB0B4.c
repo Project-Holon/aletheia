@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0B4
+ * function: WIFICLUB_DeleteAllWindows
  * address: 0x021BB0B4
  * packet: pkt_ov099_021BB0B4
  * region: ov099
@@ -9,8 +9,8 @@
  * status: EXACT*
  * extent: 242-byte function followed only by 00 00 alignment at 021BB1A6.
  * symbols:
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
@@ -24,17 +24,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 struct Obj;
-extern void func_021BA8EC(char *p);
-extern int func_021BA8BC(void *);
+extern void WIFICLUB_ClearTalkWindow(char *p);
+extern int WIFICLUB_DeleteWindow(void *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void func_02041B6C(u32);
 extern void BMP_MENU_DeleteYesNo(u8 *);
-void func_021BB0B4(char *p)
+void WIFICLUB_DeleteAllWindows(char *p)
 {
-    func_021BA8EC(p);
+    WIFICLUB_ClearTalkWindow(p);
     if (((struct Obj00008 *)p)->f1A4) {
         BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj00008 *)p)->f1A4);
         BMP_MENULIST_Delete(*(struct Obj * *)&((struct Obj00008 *)p)->fBC, 0, 0);
@@ -49,7 +49,7 @@ void func_021BB0B4(char *p)
     if (((struct Obj00008 *)p)->f19C) {
         BMP_WIN_ClearScreen(*(struct Descriptor * *)&((struct Obj00008 *)p)->f19C);
         func_02041B6C(2);
-        func_021BA8BC(((struct Obj00008 *)p)->f19C);
+        WIFICLUB_DeleteWindow(((struct Obj00008 *)p)->f19C);
         ((struct Obj00008 *)p)->f19C = 0;
     }
     if (((struct Obj00008 *)p)->fB4) { BMP_MENULIST_Delete(*(struct Obj * *)&((struct Obj00008 *)p)->fB4, 0, 0); ((struct Obj00008 *)p)->fB4 = 0; }

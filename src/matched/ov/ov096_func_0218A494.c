@@ -1,5 +1,5 @@
 /*
- * function: func_0218A494
+ * function: TR_AI_LoadScript
  * address:  0x0218A494
  * packet:   pkt_ov096_0218A494
  * region:   ov096
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   D_0218A7C0     0x0218A7C0  data
+ *   gTrAiScriptCache     0x0218A7C0  data
  */
 #include "../include/Obj04408.h"
 #include "../include/G_Slot.h"
@@ -26,31 +26,31 @@ typedef struct {
     void *obj[4];
 } Slot;
 
-extern struct Slot *D_0218A7C0;
+extern struct Slot *gTrAiScriptCache;
 struct ArcFile;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
-void *func_0218A494(u8 *a)
+void *TR_AI_LoadScript(u8 *a)
 {
     int i;
     u32 x;
 
     for (i = 0; i < 4; i++) {
-        if (D_0218A7C0->id[i] == a[0x45]) {
-            D_0218A7C0->ref[i]++;
-            return D_0218A7C0->obj[i];
+        if (gTrAiScriptCache->id[i] == a[0x45]) {
+            gTrAiScriptCache->ref[i]++;
+            return gTrAiScriptCache->obj[i];
         }
     }
     for (i = 0; i < 4; i++) {
-        if (D_0218A7C0->id[i] == 0xff)
+        if (gTrAiScriptCache->id[i] == 0xff)
             break;
     }
     if (a[0x45] == 2)
         x = (u16)((((struct Obj04408 *)a)->fA0 & 0x7fff) | 0x8000);
     else
         x = ((struct Obj04408 *)a)->fA0;
-    D_0218A7C0->id[i] = a[0x45];
-    D_0218A7C0->ref[i]++;
-    D_0218A7C0->obj[i] = ARC_TOOL_LoadHandleMember(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
-    return D_0218A7C0->obj[i];
+    gTrAiScriptCache->id[i] = a[0x45];
+    gTrAiScriptCache->ref[i]++;
+    gTrAiScriptCache->obj[i] = ARC_TOOL_LoadHandleMember(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
+    return gTrAiScriptCache->obj[i];
 }

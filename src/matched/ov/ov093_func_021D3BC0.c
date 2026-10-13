@@ -1,5 +1,5 @@
 /*
- * function: func_021D3BC0
+ * function: BTL_CLIENT_StepSetPokeCounter
  * address: 0x021D3BC0
  * packet: pkt_ov093_021D3BC0
  * region: ov093
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_SetCounter(u8 *, int, u8);
-int func_021D3BC0(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepSetPokeCounter(char *p, int unused, unsigned int *a)
 {
     u8 *obj = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj21197 *)p)->f4, (u8)a[0]);
     BTL_POKEPARAM_SetCounter(obj, a[1], a[2]);

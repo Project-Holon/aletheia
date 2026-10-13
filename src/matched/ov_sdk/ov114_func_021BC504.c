@@ -21,12 +21,12 @@
  *   NHTTPi_SendProxyAuthorization    0x021bc40c arm
  *   NHTTPi_SocSend                   0x021ba020 arm
  *   NHTTPi_memclr                    0x021ba13c arm
- *   g_021CE45C                       0x021ce45c data
- *   g_021CE468                       0x021ce468 data
- *   g_021CE46C                       0x021ce46c data
- *   g_021CE478                       0x021ce478 data
- *   g_021CE440                       0x021ce440 data
- *   g_021CE480                       0x021ce480 data
+ *   sNHTTPConnectMethod                       0x021ce45c data
+ *   sNHTTPColon                       0x021ce468 data
+ *   sNHTTPHttpVersionLine                       0x021ce46c data
+ *   sNHTTPHostHeader                       0x021ce478 data
+ *   sNHTTPCrLf                       0x021ce440 data
+ *   sNHTTPEmptyContentHeaders                       0x021ce480 data
  */
 
 typedef struct
@@ -77,12 +77,12 @@ extern int NHTTPi_SendProxyAuthorization(ThreadData *threadData_p);
 extern int NHTTPi_SocSend(Req *req_p, int socket, char *buf_p, int len,
                           int flags);
 extern void NHTTPi_memclr(void *p_p, int size);
-extern char g_021CE45C[];
-extern char g_021CE468[];
-extern char g_021CE46C[];
-extern char g_021CE478[];
-extern char g_021CE440[];
-extern char g_021CE480[];
+extern char sNHTTPConnectMethod[];
+extern char sNHTTPColon[];
+extern char sNHTTPHttpVersionLine[];
+extern char sNHTTPHostHeader[];
+extern char sNHTTPCrLf[];
+extern char sNHTTPEmptyContentHeaders[];
 
 int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
 {
@@ -101,7 +101,7 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
 
     portlen = NHTTPi_intToStr(portstr, req_p->port);
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE45C, 8);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPConnectMethod, 8);
     if (stat != 0)
         return stat;
 
@@ -109,7 +109,7 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE468, 1);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPColon, 1);
     if (stat != 0)
         return stat;
 
@@ -117,11 +117,11 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE46C, 0xb);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPHttpVersionLine, 0xb);
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE478, 6);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPHostHeader, 6);
     if (stat != 0)
         return stat;
 
@@ -129,7 +129,7 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE468, 1);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPColon, 1);
     if (stat != 0)
         return stat;
 
@@ -137,11 +137,11 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (stat != 0)
         return stat;
 
-    stat = NHTTPi_SendData(threadData_p, g_021CE480, 0x25);
+    stat = NHTTPi_SendData(threadData_p, sNHTTPEmptyContentHeaders, 0x25);
     if (stat != 0)
         return stat;
 
@@ -149,7 +149,7 @@ int NHTTPi_SendProxyConnectMethod(ThreadData *threadData_p)
     if (stat != 0)
         return stat;
 
-    NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
 
     if (threadData_p->sendBufwp > 0)
     {

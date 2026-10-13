@@ -1,5 +1,5 @@
 /*
- * function: func_021BA25C
+ * function: NHTTPi_getUrlEncodedSize2
  * address:  0x021BA25C
  * packet:   pkt_ov114_021BA25C
  * region:   ov114
@@ -17,7 +17,7 @@
  *   (none)
  */
 
-int func_021BA25C(char *p_p, int len)
+int NHTTPi_getUrlEncodedSize2(char *p_p, int len)
 {
     int i;
     int n;

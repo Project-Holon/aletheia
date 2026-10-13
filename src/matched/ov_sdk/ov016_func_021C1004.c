@@ -1,5 +1,5 @@
 /*
- * function: func_021C1004
+ * function: DWCi_MSGlRelease
  * address:  0x021C1004
  * packet:   pkt_ov016_021C1004
  * region:   ov016
@@ -12,21 +12,21 @@
  * sdk:      DWCi_MSGlRelease (libdwcutil.TWL.HYB.a message.o)
  *
  * symbols:
- *   func_021D4C68  0x021D4C68  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
- *   g_021DE58C     0x021DE58C  data
+ *   DWCi_ARClRelease  0x021D4C68  arm  ov016
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
+ *   gMessageWork     0x021DE58C  data
  */
 
 #include "../include/G_MemMsg.h"
 
 typedef struct MemMsg MemMsg;
 
-extern void func_021D4C68(void *file);
-extern void func_021D546C(void *queue, void *data);
-extern struct MemMsg *g_021DE58C;
+extern void DWCi_ARClRelease(void *file);
+extern void DWCi_QUElPushBack(void *queue, void *data);
+extern struct MemMsg *gMessageWork;
 
-void func_021C1004(void *msg)
+void DWCi_MSGlRelease(void *msg)
 {
-    func_021D4C68(((void **)msg)[2]);
-    func_021D546C(g_021DE58C->queue, msg);
+    DWCi_ARClRelease(((void **)msg)[2]);
+    DWCi_QUElPushBack(gMessageWork->queue, msg);
 }

@@ -12,19 +12,19 @@
  * declared pointer/index inputs; 99F4 reconstructs a full32-bit value.
  * Original keeps field loads and repeated per-call object reloads.
  * symbols:
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
  *   func_021D7250 0x021D7250 thumb ov116
- *   func_021B9774 0x021B9774 thumb ov114
- *   func_021B99B8 0x021B99B8 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
+ *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021D7260 0x021D7260 thumb ov116
- *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_021B99F0 0x021B99F0 thumb ov114
- *   func_021B9A14 0x021B9A14 thumb ov114
- *   func_02082D44 0x02082D44 arm
- *   func_021B99F4 0x021B99F4 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
+ *   NHTTP_RAP_RecordList_GetRecord 0x021B9A14 thumb ov114
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
  *   func_021D724C 0x021D724C thumb ov116
  *   func_021D7010 0x021D7010 thumb ov116
  */
@@ -32,19 +32,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B99DC(u8 *);
-extern int func_021B9790(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
 extern void func_021D7250(u8 *, u32);
-extern void func_021B9774(u8 *);
-extern void func_021B99B8(u8 *);
-extern void func_021B9838(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
 extern void DWC_RAP_SetErrorCallback(int, int);
 extern void func_021D7260(u8 *);
-extern u8 *func_021B97F4(u8 *);
-extern int func_021B99F0(u8 *p);
-extern u8 *func_021B9A14(u8 *p, u32 i);
-extern void func_02082D44(const void *, void *, u32);
-extern u32 func_021B99F4(u32 p, u32 i);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
+extern void MI_CpuCopy8(const void *, void *, u32);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
 extern void func_021D724C(u8 *, u32);
 extern void func_021D7010(unsigned int a, unsigned int b);
 int func_021D6EC4(u8 *p, u8 *q, int flag)
@@ -52,13 +52,13 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
     int result = 0;
     int code, status, all, i;
     u8 *x;
-    code = func_021B99DC(*(u8 * *)&((struct Obj01925 *)p)->f168);
-    status = func_021B9790(*(u8 * *)&((struct Obj01925 *)p)->f168);
+    code = NHTTP_RAP_GetResultCode(*(u8 * *)&((struct Obj01925 *)p)->f168);
+    status = NHTTP_RAP_PollConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
     if (code != 200 && status == 0) {
         func_021D7250(q, code);
-        func_021B9774(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         DWC_RAP_SetErrorCallback(0, 0);
         return 2;
@@ -66,12 +66,12 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
     if (status != 0) {
         func_021D7260(q);
     } else {
-        x = func_021B97F4(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        if (func_021B99F0(x) == 0) {
+        x = NHTTP_RAP_GetRecvBuffer(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        if (NHTTP_RAP_RecordList_GetCount(x) == 0) {
             all = 1;
-            func_02082D44(func_021B9A14(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
+            MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
             for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (func_021B99F4((u32)x, i) != 0) {
+                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) {
                     all = 0;
                     if (flag != 0) func_021D724C(q, 1);
                     else func_021D7010((unsigned int)p, i);
@@ -83,11 +83,11 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
             if (flag != 0) func_021D724C(q, 2);
             result = 2;
             for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
-                if (func_021B99F4((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
+                if (NHTTP_RAP_RecordList_GetValue((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
             }
         }
-        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
-        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01925 *)p)->f168);
         *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         DWC_RAP_SetErrorCallback(0, 0);
     }

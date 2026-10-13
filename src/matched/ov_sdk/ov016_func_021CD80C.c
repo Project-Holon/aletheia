@@ -1,5 +1,5 @@
 /*
- * function: func_021CD80C
+ * function: DWCi_SceneSetTestConfirm
  * address:  0x021CD80C
  * packet:   pkt_ov016_021CD80C
  * region:   ov016
@@ -12,38 +12,38 @@
  * sdk:      DWCi_SceneSetTestConfirm (libdwcutil.TWL.HYB.a scenesettestconf)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD80C.c \n *       --func func_021CD80C --addr 0x021CD80C --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD80C.c \n *       --func DWCi_SceneSetTestConfirm --addr 0x021CD80C --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   func_021CEF50  0x021CEF50  arm  ov016
- *   func_021C0EA0  0x021C0EA0  arm  ov016
+ *   DWCi_SEARCHlEnd  0x021CEF50  arm  ov016
+ *   DWCi_GetParam2_  0x021C0EA0  arm  ov016
  *   func_021CD870  0x021CD870  arm  ov016
- *   func_021BD060  0x021BD060  arm  ov016
- *   func_021BD6D4  0x021BD6D4  arm  ov016
- *   func_021CF8D8  0x021CF8D8  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_COMMENTlDispEx  0x021BD060  arm  ov016
+ *   DWCi_HLlLoadSet  0x021BD6D4  arm  ov016
+ *   DWCi_SETTINGlSet  0x021CF8D8  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CD8DC  0x021CD8DC  arm  ov016
  */
 
-extern void func_021CEF50(void);
-extern void func_021C0EA0(unsigned int *a, unsigned int *b);
+extern void DWCi_SEARCHlEnd(void);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void func_021CD870(void);
-extern int func_021BD060(int messageId, int n, int num);
-extern void func_021BD6D4(void);
-extern void func_021CF8D8(void);
-extern void func_021C0E40(unsigned int v);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern void DWCi_HLlLoadSet(void);
+extern void DWCi_SETTINGlSet(void);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD8DC(void);
 
-void func_021CD80C(void)
+void DWCi_SceneSetTestConfirm(void)
 {
     int prm;
-    func_021CEF50();
-    func_021C0EA0(0, (unsigned int *)((void **)&prm));
+    DWCi_SEARCHlEnd();
+    DWCi_GetParam2_(0, (unsigned int *)((void **)&prm));
     func_021CD870();
-    func_021BD060(49, -1, 0);
+    DWCi_COMMENTlDispEx(49, -1, 0);
     if (prm != 2)
-        func_021BD6D4();
+        DWCi_HLlLoadSet();
     if (prm == 1)
-        func_021CF8D8();
-    func_021C0E40((unsigned int)func_021CD8DC);
+        DWCi_SETTINGlSet();
+    DWCi_ChangeScene((unsigned int)func_021CD8DC);
 }

@@ -11,15 +11,15 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(void *thread, void *arg1, void *res);
+extern void MI_CpuCopy8(void *thread, void *arg1, void *res);
 
 void WORLDTRADE_CopyPokemon(void *thread, void *arg1)
 {
     void *res = (void *)POKE_TOOL_GetPartyParamSize();
-    func_02082D44(thread, arg1, res);
+    MI_CpuCopy8(thread, arg1, res);
 }

@@ -12,24 +12,24 @@
  * sdk:      procError (libdwcutil.TWL.HYB.a sceneseteditaddress.o)
  *
  * symbols:
- *   func_021D1568  0x021D1568  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021D1524  0x021D1524  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_WINlGet  0x021D1568  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_WINlEnd  0x021D1524  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021C7CA0  0x021C7CA0  arm  ov016
  */
 
-extern signed char func_021D1568(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021D1524();
-extern void func_021C0E40(unsigned int v);
+extern signed char DWCi_WINlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_WINlEnd();
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C7CA0();
 
 void func_021C7C74(void)
 {
-    if (func_021D1568())
+    if (DWCi_WINlGet())
         return;
-    func_021CFFAC(6);
-    func_021D1524();
-    func_021C0E40((unsigned int)func_021C7CA0);
+    DWCi_SNDlPlay(6);
+    DWCi_WINlEnd();
+    DWCi_ChangeScene((unsigned int)func_021C7CA0);
 }

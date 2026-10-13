@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7D4
+ * function: WIFICLUBACTOR_GetCommandCount
  * address:  0x021BA7D4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -12,7 +12,7 @@
  * Returns the constant 9.
  */
 
-int func_021BA7D4(void)
+int WIFICLUBACTOR_GetCommandCount(void)
 {
     return 9;
 }

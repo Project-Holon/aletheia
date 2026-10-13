@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK_INIT_ResetGimmick46Panels",
+   "name": "GIMMICK_INIT_ResetRotatingRoomPanels",
    "address": "0x021F3800",
    "kind": "game",
    "region": "ov037",

@@ -1,5 +1,5 @@
 /*
- * function: func_02176410
+ * function: DWCi_NodeInfoList_GetNodeInfoForAID
  * address:  0x02176410
  * packet:   pkt_ov009_02176410
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char *func_02175F3C(void);
 
-char *func_02176410(unsigned char aid)
+char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid)
 {
     int i;
 

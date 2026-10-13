@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207E51C  0x0207E51C  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -25,12 +25,12 @@ typedef struct {
     Res *res[3];
 } Work;
 
-extern void func_0207E51C(const void *src, int ofs, int size);
+extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 
 void func_021C829C(Work *p, int idx, int k)
 {
     if (k > 2) {
         k = 2;
     }
-    func_0207E51C((unsigned short *)p->res[k]->fC + idx * 16, idx * 32, 32);
+    GX_LoadOBJPltt((unsigned short *)p->res[k]->fC + idx * 16, idx * 32, 32);
 }

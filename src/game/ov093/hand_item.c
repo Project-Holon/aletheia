@@ -88,7 +88,7 @@
  *   BTLV_CORE_MakeSlotKind1Value  0x021E89D4  thumb  ov093
  *   gJabocaBerryHandlers 0x021F160C data a4
  *   gMicleBerryHandlers     0x021F1E0C  data   ov093  a4
- *   func_0689C8CC  0x0689C8CC  thumb  ov095
+ *   BTL_ID_IsMetronomeItemIgnoredMove  0x0689C8CC  thumb  ov095
  *   BTL_EVENT_KeepFactorRunning  0x021D70C8  thumb  ov093
  *   gRowapBerryHandlers     0x021F162C  data   ov093  a4
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
@@ -232,7 +232,7 @@
  *   gBtlHandlerItemRedCardHandlers     0x021F14CC  data   ov093  a4
  *   gBtlHandlerItemRingTargetHandlers     0x021F14BC  data   ov093  a4
  *   gBtlHandlerItemBindingBandHandlers     0x021F1524  data   ov093  a4
- *   func_0689C8EC  0x0689C8EC  thumb
+ *   BTL_ID_IsGemIgnoredMove  0x0689C8EC  thumb
  *   BTLV_CORE_SetSlotFlag  0x021E8BD0  thumb  ov093
  *   gHandItemAbsorbBulbHandlers     0x021F173C  data    a4
  *   gHandItemCellBatteryHandlers     0x021F174C  data   ov093  a4
@@ -1645,7 +1645,7 @@ void HAND_ITEM_RememberAttackerOfCategory(struct BtlEventFactor *factor, struct 
     HandExUseItem *record;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE_FLAG) == 0
-        && func_0689C8CC(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == 0 && moveCategory == BTL_EVENT_GetVar(BTL_EVAR_DAMAGE_TYPE)) {
+        && BTL_ID_IsMetronomeItemIgnoredMove(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == 0 && moveCategory == BTL_EVENT_GetVar(BTL_EVAR_DAMAGE_TYPE)) {
         BTL_EVENT_KeepFactorRunning(factor);
         *work = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) + 1;
         record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_USE_ITEM, pokeId);
@@ -2455,7 +2455,7 @@ void HAND_ITEM_Metronome_BoostConsecutiveUse(struct BtlEventFactor *factor, void
     float scaled;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        if (func_0689C8CC(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == 0) {
+        if (BTL_ID_IsMetronomeItemIgnoredMove(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == 0) {
             attacker = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
             streak = (int)BTL_POKEPARAM_GetMoveStreak(attacker);
             if (streak >= 1) {
@@ -4398,7 +4398,7 @@ void HAND_ITEM_GemMoveUsed(struct BtlEventFactor *factor, struct BtlServerFlow *
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && gemType == BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE)) {
         moveId = BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID);
-        if (WAZA_TOOL_IsDamaging(moveId) != 0 && func_0689C8EC(moveId) == 0 && BTL_EVENT_IsFactorDead(factor) == 0
+        if (WAZA_TOOL_IsDamaging(moveId) != 0 && BTL_ID_IsGemIgnoredMove(moveId) == 0 && BTL_EVENT_IsFactorDead(factor) == 0
             && BTL_SERVER_FLOW_IsActionCounterSet(flow) == 0) {
             BTL_EVENT_MarkFactorDead(factor);
             cmd = (BtlItemMessageCmd *)BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ITEM_MESSAGE, pokeId);

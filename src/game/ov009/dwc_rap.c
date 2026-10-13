@@ -31,8 +31,8 @@
  *   _sDwcRapFile     0x021A1C60  data  ov009  a1
  *   GFL_NET_AllocAligned  0x0203D7C8  arm
  *   func_02034714  0x02034714  arm
- *   func_020597C8  0x020597C8  arm
- *   func_02059760  0x02059760  arm
+ *   DWC_CheckHasProfile  0x020597C8  arm
+ *   DWC_CheckValidConsole  0x02059760  arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_02059F18 0x02059F18 arm
  *   _pRapWorkAddr 0x021A8264  data  ov009  a4
@@ -43,14 +43,14 @@
  *   func_0205CA20  0x0205CA20  arm
  *   func_0205C8E0  0x0205C8E0  arm
  *   DWC_InitFriendsMatch  0x0216AB20  arm
- *   func_02087C88  0x02087C88  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *   DWC_LoginAsync  0x0216B0E0  arm
  *   DWC_ProcessFriendsMatch  0x0216AE88  arm
  *   DWC_UpdateServersAsync  0x0216B1E0  arm
  *   func_02168994  0x02168994  arm
  *   _sMatchKey     0x021A1C74  data  ov009  a1
  *   _sMatchFilterFormat     0x021A1974  data  ov009  a1
- *   func_0216CA04  0x0216CA04  arm
+ *   DWC_AddMatchKeyString  0x0216CA04  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02094530  0x02094530  arm
  *   func_0203F004  0x0203F004  arm
@@ -61,7 +61,7 @@
  *   DWC_SetConnectionClosedCallback  0x0216B634  arm
  *   func_02177188  0x02177188  arm
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02176FD4  0x02176FD4  arm
  *   DWC_GetMyAID  0x0216B838  arm
  *   DWC_CheckDirtyFlag  0x0205984C  arm
@@ -74,7 +74,7 @@
  *   func_0205CC20  0x0205CC20  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   DWC_ShutdownFriendsMatch  0x0216AD50  arm  ov009
- *   func_021C5B80  0x021C5B80  arm  ov114
+ *   DWC_NdCleanupAsync  0x021C5B80  arm  ov114
  *   DWC_GdbShutdown  0x021E1340  arm
  *   DWC_IsValidAID  0x0216B94C  arm  ov009
  *   func_02176DEC  0x02176DEC  arm  ov009
@@ -87,7 +87,7 @@
  *   VCT_MAIN_DisconnectPeers 0x021AF2AC thumb ov013
  *   VCT_MAIN_SetMuted 0x021AF30C thumb ov013
  *   _s32_div_f     0x0209C0A4  arm
- *   func_0205912C  0x0205912C  arm
+ *   CTRDG_IsBitID  0x0205912C  arm
  *   func_02168848  0x02168848  arm  ov009
  *   func_021688FC 0x021688FC arm ov009
  *   DWC_SetupGameServer  0x0216B354  arm  ov009
@@ -107,8 +107,8 @@
  *   func_02060F40  0x02060F40  arm
  *   func_02060C94  0x02060C94  arm
  *   func_020306F0  0x020306F0  arm
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_02060CA0  0x02060CA0  arm
  *   func_0200FB6C  0x0200FB6C  thumb
  *   func_02060F98  0x02060F98  arm  arm9
@@ -116,7 +116,7 @@
  *   _sDwcGameName  0x021A1C8C  data  ov009  a1
  *   func_02059F6C  0x02059F6C  arm
  *   MIi_CpuClearFast    0x02082AC0  arm
- *   func_02059718       0x02059718  arm
+ *   DWC_CheckUserData       0x02059718  arm
  *   DWC_CreateUserData  0x020596FC  arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
@@ -155,8 +155,8 @@ void GFL_NET_STATE_SetError(int errorCode, u32 errorType, u32 dwcError, u32 game
 u32 GFL_NET_STATE_GetError(void);
 void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
-int func_020597C8(struct DWCstAccUserData *userdata);
-int func_02059760(struct DWCstAccUserData *userdata);
+int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
+int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 extern void GFL_NET_FreeAligned(void *);
 extern void func_02059F18(void);
 void func_0205C6AC(void *inetControl, u16 dmaNo, u16 powerMode, u16 priority);
@@ -165,12 +165,12 @@ int func_0205C88C(void);
 int func_0205CA20(void);
 void func_0205C8E0(void);
 void DWC_InitFriendsMatch(void *userData, int productId, char *gameName, int secretKey, int sakeAppId, void *friendList, int friendListLen);
-void func_02087C88(struct OSOwnerInfo *info);
+void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param);
 void DWC_ProcessFriendsMatch(void);
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 int func_02168994(void (*callback)(int, void *), void *param);
-u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
+u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 void MI_CpuFill8(void *dst, int value, int size);
 u32 func_02094530(char *dst, u32 format, ...);
 u32 func_0203F004(const u8 *str);
@@ -181,7 +181,7 @@ int func_02177160(int callback, int param);
 int DWC_SetConnectionClosedCallback(int callback, int param);
 int func_02177188(int callback, int param);
 int DWC_CloseAllConnectionsHard(void);
-void func_02082D44(void *src, void *dst, int size);
+void MI_CpuCopy8(void *src, void *dst, int size);
 unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 unsigned char DWC_GetMyAID(void);
 int DWC_CheckDirtyFlag(void *userdata);
@@ -193,7 +193,7 @@ extern void GFL_NET_HANDLE_RemoveHandle(u32);
 extern void func_0205CC20(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void DWC_ShutdownFriendsMatch(void);
-extern int func_021C5B80(void);
+extern int DWC_NdCleanupAsync(void);
 extern void DWC_GdbShutdown(void);
 extern int DWC_IsValidAID(u8);
 extern int func_02176DEC(int a);
@@ -206,7 +206,7 @@ extern int VCT_MAIN_DisconnectPeers(int);
 extern void VCT_MAIN_SetMuted(int);
 extern int _s32_div_f(int, int);
 extern void VCT_MAIN_HangUp(void);
-extern int func_0205912C(u8 *);
+extern int CTRDG_IsBitID(u8 *);
 extern unsigned char func_02168848(void *p, int a, int b);
 extern int func_021688FC(char *, unsigned long);
 int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
@@ -222,15 +222,15 @@ extern u32 func_02060F18(char *p, u32 v);
 extern u16 func_02060F40(char *p, u16 v);
 extern void func_02060C94(void *heap);
 extern void func_020306F0(u32 heap);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 h);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 h);
 extern void *func_02060CA0(struct ExpHeap *heap, u32 size, int align);
 extern void func_0200FB6C(void);
 extern u8 func_02060F98(char *p);
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern int func_02059F6C(void *a, u32 b, void *c, void *d);
 extern void MIi_CpuClearFast(unsigned int data, void *destp, unsigned int size);
-extern int func_02059718(struct DWCstAccUserData *userdata);
+extern int DWC_CheckUserData(struct DWCstAccUserData *userdata);
 extern void DWC_CreateUserData(void *userdata);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
@@ -1376,9 +1376,9 @@ int DWC_RAP_CreateWork(int userData, int friendList)
     _pRapWork->connectArmed = 1;
     for (slot = 0; slot < 32; slot++)
         _pRapWork->friendStatus[slot] = 0;
-    if (func_020597C8((struct DWCstAccUserData *)_pRapWork->userData) == 0)
+    if (DWC_CheckHasProfile((struct DWCstAccUserData *)_pRapWork->userData) == 0)
         return 1;
-    if (func_02059760((struct DWCstAccUserData *)_pRapWork->userData) == 0)
+    if (DWC_CheckValidConsole((struct DWCstAccUserData *)_pRapWork->userData) == 0)
         return 2;
     return 0;
 }
@@ -1484,7 +1484,7 @@ int DWC_RAP_StepLogin(void)
         DWC_InitFriendsMatch(_pRapWork->userData, 0x2FC6, _sGameName, 0, 0, friendListArg, friendFlags);
         _pRapWork->friendsMatchInit = 1;
         { u16 ingameName[2] = {0, 0};
-        func_02087C88((struct OSOwnerInfo *)(&ownerInfo));
+        OS_GetOwnerInfo((struct OSOwnerInfo *)(&ownerInfo));
         DWC_LoginAsync(ingameName, 0, (void (*)(int,  int,  void *))((VoidFunc)DWC_RAP_OnLogin), 0);
         }
         DWC_RAP_SetState(DWC_RAP_STATE_LOGIN);
@@ -1672,14 +1672,14 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     if (_pRapWork->state != DWC_RAP_STATE_IDLE)
         return 0;
     DWC_RAP_FreeRecvBuffers();
-    if (func_0216CA04(0, _sMatchKey, matchValue) == 0)
+    if (DWC_AddMatchKeyString(0, _sMatchKey, matchValue) == 0)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     MI_CpuFill8(_pRapWork->matchFilter, 0, 0x80);
     func_02094530(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
     if ((int)func_0203F004((const u8 *)_pRapWork->matchFilter) >= 0x80)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     if (useFilter)
-        func_0216CA04(1, _pRapWork->matchFilter, _pRapWork->matchFilter);
+        DWC_AddMatchKeyString(1, _pRapWork->matchFilter, _pRapWork->matchFilter);
     for (slot = 0; slot < maxPlayers; slot++)
         DWC_RAP_AllocRecvBuffer(slot);
     DWC_RAP_SetState(DWC_RAP_STATE_MATCHING);
@@ -1920,7 +1920,7 @@ int DWC_RAP_SendPacket(void *data, int size, int packetType)
     _pRapWork->sendHeader.word = packetType | (_pRapWork->vchatLocalOn << 8);
     _pRapWork->sendSeq = _pRapWork->sendSeq + 1;
     _pRapWork->sendHeader.octet[2] = _pRapWork->sendSeq;
-    func_02082D44(data, _pRapWork->sendPayload, size);
+    MI_CpuCopy8(data, _pRapWork->sendPayload, size);
     _pRapWork->sendInFlight = 1;
     aidBitmap = (u16)DWC_GetAIDBitmap();
     if (aidBitmap != func_02176FD4(aidBitmap, _pRapWork, size + 4)) {
@@ -2480,7 +2480,7 @@ int DWC_RAP_HandleError(void)
         }
         break;
     case 5:
-        func_021C5B80();
+        DWC_NdCleanupAsync();
         break;
     case 3:
     case 6:
@@ -3025,7 +3025,7 @@ void DWC_RAP_PollFriendStatus(void)
         u32 slot = _pRapWork->friendPollCursor & 0x1f;
         u32 byteOffset = slot * 12;
         int statusLen;
-        if (func_0205912C(_pRapWork->friendList + byteOffset) != 0) {
+        if (CTRDG_IsBitID(_pRapWork->friendList + byteOffset) != 0) {
             u32 status = func_02168848(_pRapWork->friendList + byteOffset,
                                   (int)_pRapWork->friendStatusData[slot], (int)(&statusLen));
             if (statusLen < 1) {
@@ -3664,14 +3664,14 @@ u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
     u32 block;
 
     if (_pRapHeap->subHeap != 0 && ownerId == _pRapHeap->subOwnerId && size > _pRapHeap->subMinRequest) {
-        irqState = func_02087988();
+        irqState = OS_DisableInterrupts();
         block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->subHeap, size, align);
-        func_0208799C(irqState);
+        OS_RestoreInterrupts(irqState);
         _pRapHeap->subLiveBlocks++;
     } else {
-        irqState = func_02087988();
+        irqState = OS_DisableInterrupts();
         block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
-        func_0208799C(irqState);
+        OS_RestoreInterrupts(irqState);
     }
     if (block == 0) {
         func_0200FB6C();
@@ -3697,18 +3697,18 @@ void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
     }
     if (func_02060F98(block) == 0xEA) {
         if (_pRapHeap->subHeap != 0) {
-            irqState = func_02087988();
+            irqState = OS_DisableInterrupts();
             func_02060E30((struct ExpHeap *)_pRapHeap->subHeap, block);
-            func_0208799C(irqState);
+            OS_RestoreInterrupts(irqState);
             _pRapHeap->subLiveBlocks--;
             return;
         }
         GFL_NET_STATE_SetError(0, 0, 0, DWC_RAP_RESULT_FATAL);
         return;
     }
-    irqState = func_02087988();
+    irqState = OS_DisableInterrupts();
     func_02060E30((struct ExpHeap *)_pRapHeap->mainHeap, block);
-    func_0208799C(irqState);
+    OS_RestoreInterrupts(irqState);
 }
 
 
@@ -3758,7 +3758,7 @@ int DWC_RAPCOMMON_RunDwcInit(u16 heapId)
 
 /*
  * Clears the 0x40-byte DWC account user-data block, then rebuilds it when
- * the check at func_02059718 (CRC validation) fails: DWC_CreateUserData,
+ * the check at DWC_CheckUserData (CRC validation) fails: DWC_CreateUserData,
  * then the veneer at 0x02059870 into DWCi_Acc_ClearDirty (DWCi_Acc_ClearDirty).
  * Called from arm9 WIFILIST_Init (bl at 0x0200982C), the save-table
  * constructor at 0x0209DB98.
@@ -3766,7 +3766,7 @@ int DWC_RAPCOMMON_RunDwcInit(u16 heapId)
 void DWC_RAPCOMMON_InitUserData(void *userData)
 {
     MIi_CpuClearFast(0, userData, 0x40);
-    if (func_02059718(userData) == 0) {
+    if (DWC_CheckUserData(userData) == 0) {
         DWC_CreateUserData(userData);
         DWC_ClearDirtyFlag((int)userData);
     }

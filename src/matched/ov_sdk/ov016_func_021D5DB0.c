@@ -1,5 +1,5 @@
 /*
- * function: func_021D5DB0
+ * function: DWCi_FNTlDrawStringEx
  * address:  0x021D5DB0
  * packet:   pkt_ov016_021D5DB0
  * region:   ov016
@@ -15,7 +15,7 @@
  *   NNS_G2dFontFindGlyphIndex        0x02067F9C  arm
  *   NNS_G2dFontGetCharWidthsFromIndex 0x02067FE4  arm
  *   DWCi_FNTlDrawCharEx              0x021D5D74  arm  ov016
- *   g_021DE680                       0x021DE680  data
+ *   gFontWork                       0x021DE680  data
  */
 
 typedef unsigned char u8;
@@ -62,7 +62,7 @@ typedef struct {
     int renew[2];
 } MemFont;
 
-extern MemFont *g_021DE680;
+extern MemFont *gFontWork;
 typedef struct {
     signed char left;
     signed char glyphWidth;
@@ -73,14 +73,14 @@ extern int NNS_G2dFontFindGlyphIndex(void *font, u16 c);
 extern CharWidths *NNS_G2dFontGetCharWidthsFromIndex(void *font, int idx);
 extern void DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, u16 chr, int font);
 
-void func_021D5DB0(void *canvas, int x, int y, int color, int interval, u16 *txt, int font)
+void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, u16 *txt, int font)
 {
     Font *f;
     int idx;
     if (*txt == 0)
         return;
     do {
-        f = &g_021DE680->font[font];
+        f = &gFontWork->font[font];
         idx = NNS_G2dFontFindGlyphIndex(f, *txt);
         if (idx == 0xffff)
             idx = ((u16 *)f->res)[1];

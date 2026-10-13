@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200D478 0x0200D478 thumb
+ *   MOVE_POKEMON_SAVE_GetEntryLocation 0x0200D478 thumb
  *   d_021711C6 0x021711C6 data a2
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Blk38;
-extern u8 func_0200D478(struct Blk38 *p, u32 i);
+extern u8 MOVE_POKEMON_SAVE_GetEntryLocation(struct Blk38 *p, u32 i);
 extern const u16 d_021711C6[];
 u32 MOVE_POKEMON_GetEntryZoneId(void *p, u32 slot)
 {
-    u32 i = func_0200D478(p, slot);
+    u32 i = MOVE_POKEMON_SAVE_GetEntryLocation(p, slot);
     if (i > 16) return 319;
     return d_021711C6[i];
 }

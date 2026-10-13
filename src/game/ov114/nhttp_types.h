@@ -13,9 +13,8 @@ typedef unsigned int u32;
 #endif
 
 /* Opaque SDK objects. */
-typedef struct _NHTTPSysInfo NHTTPSysInfo;
-typedef struct _NHTTPMutexInfo NHTTPMutexInfo;
 
+typedef struct _NHTTPSslCon NHTTPSslCon;
 typedef struct _NHTTPReq NHTTPReq;
 typedef struct _NHTTPRes NHTTPRes;
 typedef struct _NHTTPConnection NHTTPConnection;
@@ -27,20 +26,33 @@ typedef char *(*NHTTPBufFullFn)(char **, unsigned long *, unsigned long,
                                 void (*)(void *), void *);
 typedef void (*NHTTPFreeBufFn)(char *, void (*)(void *), void *);
 
-/* Post data node (size 0x18); the header list uses the same node type. */
+/* Post data and header list node (size 0x18); the list is circular and
+ * doubly linked, the list pointer is the first node and its prev is the
+ * node added last. */
 typedef struct _NHTTPi_DATALIST {
-    struct _NHTTPi_DATALIST *head;
-    struct _NHTTPi_DATALIST *next;
-    char *name;
-    char *data;
-    unsigned long len;
-    u32 isBinary;
+    struct _NHTTPi_DATALIST *prev;      /* 0x00 */
+    struct _NHTTPi_DATALIST *next;      /* 0x04 */
+    char *name;                         /* 0x08 */
+    char *data;                         /* 0x0c */
+    unsigned long len;                  /* 0x10 */
+    u32 isBinary;                       /* 0x14 */
 } NHTTPi_DATALIST;
 
 /* Extra header buffer block chained from NHTTPRes (size 0x204). */
 struct _NHTTPi_HDRBUFLIST {
     struct _NHTTPi_HDRBUFLIST *next_p;
     char block[512];
+};
+
+/* SSL connection object handed to the socket library (size 0x830). */
+struct _NHTTPSslCon {
+    u8 pad_0[0x800];
+    char *hostname_p;                   /* 0x800 */
+    u8 pad_804[0xc];
+    void *authCallback;                 /* 0x810 */
+    void *rootCA_p;                     /* 0x814 */
+    int rootCALen;                      /* 0x818 */
+    u8 pad_81c[0x14];
 };
 
 /* One request (size 0x254). */
@@ -62,24 +74,25 @@ struct _NHTTPReq {
     char multipartBound[0x14];          /* 0x38: "--" and the boundary */
     char basicAuth[0x5c];               /* 0x4c */
     int basicAuthLen;                   /* 0xa8 */
-    int field_0xac;
-    int field_0xb0;
-    int field_0xb4;
-    int field_0xb8;
-    int field_0xbc;
-    int field_0xc0;
-    int field_0xc4;
-    u8 pad_c8[4];
-    int field_0xcc;
-    int field_0xd0;
+    NHTTPSslCon *sslCon_p;              /* 0xac */
+    int sslHandshakeState;              /* 0xb0 */
+    int sslRecvLen;                     /* 0xb4 */
+    int sslSendLen;                     /* 0xb8 */
+    int sslLastError;                   /* 0xbc */
+    void *rootCA_p;                     /* 0xc0 */
+    int rootCALen;                      /* 0xc4 */
+    int rootCAIndex;                    /* 0xc8 */
+    void *clientCert_p;                 /* 0xcc */
+    int verifyOption;                   /* 0xd0 */
     int postEncoding;                   /* 0xd4 */
-    int field_0xd8;
-    u8 pad_dc[8];
+    int isIgnoreAuth;                   /* 0xd8: selects the debug auth callback */
+    int rootCAChainLen;                   /* 0xdc */
+    u8 pad_e0[4];
     char proxyAddr[256];                /* 0xe4 */
     int proxyPort;                      /* 0x1e4 */
     char proxyAuth[0x5c];               /* 0x1e8 */
     int proxyAuthLen;                   /* 0x244 */
-    int field_0x248;
+    int postDataState;                  /* 0x248 */
     char *rawPostData_p;                /* 0x24c */
     unsigned long rawPostDataLen;       /* 0x250 */
 };
@@ -138,9 +151,14 @@ typedef struct _NHTTPBgnEndInfo {
     unsigned long defaultRootCAId;      /* 0x24 */
 } NHTTPBgnEndInfo;
 
-/* Communication thread buffers. */
+/* Communication thread: message queue, its three slots, the OS thread
+ * and the transfer buffer (size 0x4100). */
 typedef struct _NHTTPThreadInfo {
-    char pad0[0x100];
+    u8 msgQueue[0x20];                  /* 0x00 */
+    void *msgArray[3];                  /* 0x20 */
+    u8 commThread[0xc0];                /* 0x2c */
+    int isCreateCommThreadMessageQueue; /* 0xec */
+    u8 pad_f0[0x10];
     char commBuf[0x4000];               /* 0x100 */
 } NHTTPThreadInfo;
 
@@ -185,34 +203,42 @@ struct _NHTTPConnection {
     unsigned long tmpBufRest;           /* 0x8044 */
     int ref;                            /* 0x8048 */
 };
-/* Connection node in the list at g_021CF984 (size 0x2c). */
-typedef struct Conn {
-    u8 pad_0[0x10];
-    void *f10;
-    void *f14;
-    u8 pad_18[4];
-    int (*callback)(struct Conn *, int, void *);
-    struct Conn *next;
-    void *f24;
-    unsigned long f28;
-} Conn;
-
-/* Per-connection body state returned by func_021BEBC8 (the f14 field). */
-typedef struct ConnBody {
-    int f0;
-    unsigned long offset;
-    u8 pad_8[0x14];
+/* Argument blocks handed to the connection callback. */
+typedef struct _NHTTPPostSendArg {
+    char *label;
+    void *value;
     unsigned long length;
-    u8 pad_20[8];
-    void *buf;
-} ConnBody;
+    int offset;
+} NHTTPPostSendArg;
 
-/* g_021CF984: list head, current slot, and a flag word that overlaps
- * the first word of the g_021CF98C block. */
-typedef struct ConnList {
-    Conn *head;
-    void *cur;
-    int init;
-} ConnList;
+typedef struct _NHTTPBodyBufArg {
+    void *buf;
+    unsigned long length;
+    unsigned long offset;
+} NHTTPBodyBufArg;
+
+/* Lock state for the request list (size 0x1c). */
+typedef struct _NHTTPMutexInfo {
+    int mutex[6];                       /* 0x00 */
+    int isInitialized;                  /* 0x18 */
+} NHTTPMutexInfo;
+
+/* The system info singleton at gNHTTPSystemInfo (size 0x4150). */
+typedef struct _NHTTPSysInfo {
+    NHTTPBgnEndInfo bgnEndInfo;         /* 0x00 */
+    NHTTPListInfo listInfo;             /* 0x28 */
+    NHTTPReqInfo reqInfo;               /* 0x30 */
+    NHTTPMutexInfo mutexInfo;           /* 0x34 */
+    NHTTPThreadInfo threadInfo;         /* 0x50 */
+} NHTTPSysInfo;
+
+/* Module globals at gNHTTPModuleGlobals: connection list head, the system info
+ * pointer, and an initialised flag that overlaps the first word of the
+ * static resource block that follows. */
+typedef struct _NHTTPModuleGlobals {
+    NHTTPConnection *connListHead;
+    NHTTPSysInfo *sysInfo_p;
+    int isInitialized;
+} NHTTPModuleGlobals;
 
 #endif

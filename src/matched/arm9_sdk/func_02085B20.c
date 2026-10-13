@@ -1,5 +1,5 @@
 /*
- * function: func_02085B20
+ * function: OSi_IdleThreadProc
  * address:  0x02085B20
  * packet:   pkt_02085B20
  * region:   arm9
@@ -22,7 +22,7 @@ typedef u32 OSIntrMode;
 extern OSIntrMode OS_EnableInterrupts(void);
 extern void OS_Halt(void);
 
-void func_02085B20(void)
+void OSi_IdleThreadProc(void)
 {
     (void)OS_EnableInterrupts();
     while (1) {

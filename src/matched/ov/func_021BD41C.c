@@ -1,5 +1,5 @@
 /*
- * function: func_021BD41C
+ * function: WIFICLUB_StateWaitRuleMessageTimer
  * address:  0x021BD41C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
  *
  * Ages the counter at +0x1E0 under the guard and stamps selector 0x6A when it
  * underflows; returns the selector.
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern int func_021BA928(void *p, int v);
+extern int WIFICLUB_UpdateTalkStream(void *p, int v);
 
-int func_021BD41C(char *p, int v)
+int WIFICLUB_StateWaitRuleMessageTimer(char *p, int v)
 {
-    if (func_021BA928(p, v) != 0) {
+    if (WIFICLUB_UpdateTalkStream(p, v) != 0) {
         int x = ((struct Obj00008 *)p)->f1E0;
 
         ((struct Obj00008 *)p)->f1E0 = x - 1;

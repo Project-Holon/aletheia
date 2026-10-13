@@ -1,5 +1,5 @@
 /*
- * function: func_021895AC
+ * function: TR_AI_CmdEnd
  * address: 0x021895AC
  * packet: pkt_ov096_021895AC
  * region: ov096
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct ScriptVm;
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-int func_021895AC(u8 *a, u8 *b)
+int TR_AI_CmdEnd(u8 *a, u8 *b)
 {
     b[0x44] |= 1; func_02011290((struct ScriptVm *)a); return 1;
 }

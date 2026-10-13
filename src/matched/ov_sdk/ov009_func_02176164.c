@@ -1,5 +1,5 @@
 /*
- * function: func_02176164
+ * function: DWCi_NodeInfoList_RemoveAID
  * address:  0x02176164
  * packet:   pkt_ov009_02176164
  * region:   ov009
@@ -26,7 +26,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176164.c \
- *       --func func_02176164 --addr 0x02176164 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
+ *       --func DWCi_NodeInfoList_RemoveAID --addr 0x02176164 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
 extern int func_02175F3C(void);
@@ -34,7 +34,7 @@ extern int func_02175F3C(void);
 typedef struct NodeRec { int w[10]; } NodeRec;
 typedef struct Node { char pad[0x54]; NodeRec rec; } Node;
 
-int func_02176164(unsigned char aid)
+int DWCi_NodeInfoList_RemoveAID(unsigned char aid)
 {
     int removeAidIndex;
     int i;

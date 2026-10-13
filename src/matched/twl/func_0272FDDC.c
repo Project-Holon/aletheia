@@ -10,21 +10,21 @@
  * status:   EXACT
  * symbols:
  *   data_02732EFC 0x02732EFC data twl
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   MIi_Wait 0x0272FD40 arm twl
  */
 
 #include "../include/G_twl_data_02732EFC.h"
 
 extern struct G_twl_data_02732EFC data_02732EFC[];
-unsigned int func_02087988(void);
-void func_0208799C(unsigned int);
+unsigned int OS_DisableInterrupts(void);
+void OS_RestoreInterrupts(unsigned int);
 void MIi_Wait(int a0);
 
 void MIi_CardNDmaRecv32(int ch, const void *src, void *dst)
 {
-    unsigned int irq = func_02087988();
+    unsigned int irq = OS_DisableInterrupts();
     unsigned int base;
     struct G_twl_data_02732EFC *e;
     MIi_Wait(ch);
@@ -35,5 +35,5 @@ void MIi_CardNDmaRecv32(int ch, const void *src, void *dst)
     *(volatile unsigned int *)(base + 0x410C) = 1;
     *(volatile unsigned int *)(base + 0x4110) = 1;
     *(volatile unsigned int *)(base + 0x411C) = e->unk8 | 0x4000 | 0xA4000000;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

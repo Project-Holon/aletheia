@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDB0
+ * function: WIFICLUB_StateViolationListKey
  * address:  0x021BCDB0
  * packet:   pkt_ov099_021BCDB0
  * region:   ov099
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC06C  0x021BC06C  thumb  ov099
+ *   WIFICLUB_DeleteRuleWindow  0x021BC06C  thumb  ov099
  *   KEY_GetTrg  0x020362DC  arm
- *   func_021BCBBC  0x021BCBBC  thumb  ov099
- *   func_021BBEB4  0x021BBEB4  thumb  ov099
+ *   WIFICLUB_CheckSavedRegulation  0x021BCBBC  thumb  ov099
+ *   WIFICLUB_ShowRuleWindow  0x021BBEB4  thumb  ov099
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
-extern void func_021BC06C(char *p);
-extern int func_021BCBBC(int a, int b, int *out);
+extern void WIFICLUB_DeleteRuleWindow(char *p);
+extern int WIFICLUB_CheckSavedRegulation(int a, int b, int *out);
 struct O;
-extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
+extern void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode);
 
-int func_021BCDB0(char *p, int v)
+int WIFICLUB_StateViolationListKey(char *p, int v)
 {
     if (KEY_GetTrg() != 0) {
-        func_021BC06C(p);
+        WIFICLUB_DeleteRuleWindow(p);
         if (*(int *)(p + 0xCC) != 0) {
             int out;
-            func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out);
-            func_021BBEB4((struct O *)p, out, *(u8 *)(*(char **)(p + 0x248) + 0x48), 3);
+            WIFICLUB_CheckSavedRegulation(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out);
+            WIFICLUB_ShowRuleWindow((struct O *)p, out, *(u8 *)(*(char **)(p + 0x248) + 0x48), 3);
             *(int *)(p + 0x1CC) = 0x78;
         } else {
             switch (*(int *)(p + 0x135C)) {

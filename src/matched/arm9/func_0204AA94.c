@@ -12,7 +12,7 @@
  *   lbl_02146A74    0x02146A74  data
  *   func_020637BC   0x020637BC  arm
  *   func_020637B4   0x020637B4  arm
- *   func_020862F0   0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
  *   func_0207E780   0x0207E780  arm
  *   func_0207E804   0x0207E804  arm
  */
@@ -28,7 +28,7 @@ struct Obj02146A74 {
 extern struct Obj02146A74 *lbl_02146A74;
 extern int func_020637BC(const u32 *p, u32 i);
 extern int func_020637B4(int *p, int i);
-extern void func_020862F0(void *a, u32 b);
+extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 extern void func_0207E780(void *a, void *b, u32 c);
 extern void func_0207E804(void *a, void *b, u32 c);
 
@@ -37,7 +37,7 @@ void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e)
     if (e == 0 || e == 2) {
         if (func_020637BC((const u32 *)(lbl_02146A74->f10C + (a << 6)), 1) != 0) {
             void *p = (void *)func_020637B4((int *)(lbl_02146A74->f10C + (a << 6)), 1);
-            func_020862F0(b, c);
+            DWCi_ScreenDC_FlushRange(b, c);
             func_0207E780(b, (char *)p + d, c);
         }
     }
@@ -46,7 +46,7 @@ void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e)
             return;
         {
             void *p = (void *)func_020637B4((int *)(lbl_02146A74->f10C + (a << 6)), 2);
-            func_020862F0(b, c);
+            DWCi_ScreenDC_FlushRange(b, c);
             func_0207E804(b, (char *)p + d, c);
         }
     }

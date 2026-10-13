@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD41C",
+   "name": "DWCi_FOCUSlDisp",
    "address": "0x021BD41C",
    "kind": "sdk",
    "region": "ov016",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB90
+ * function: WIFICLUB_StateSyncTimingStart
  * address: 0x021BFB90
  * packet: pkt_ov099_021BFB90
  * region: ov099
@@ -23,7 +23,7 @@ struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
-int func_021BFB90(char *p, int ret) {
+int WIFICLUB_StateSyncTimingStart(char *p, int ret) {
  GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,10);
  func_02009B80(((struct Obj13700 *)p)->f4,DWC_RAP_GetTargetFriendIndex());
  ((struct Obj13700 *)p)->f1CC=149;

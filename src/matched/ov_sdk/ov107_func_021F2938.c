@@ -15,10 +15,10 @@
  *   func_02077EB8 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02075E04 0x02075E04 arm
- *   func_020788AC 0x020788AC arm
+ *   FS_InitFile 0x020788AC arm
  *   func_02078964 0x02078964 arm
- *   func_02078B70 0x02078B70 arm
- *   func_02078A80 0x02078A80 arm
+ *   FS_ReadFile 0x02078B70 arm
+ *   FS_CloseFile 0x02078A80 arm
  *   g_021F6E4C 0x021F6E4C data
  */
 
@@ -64,12 +64,12 @@ struct FSArchive;
 extern struct FSArchive *func_02077EB8(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
 extern RomHeader *func_02075E04(void);
-extern void func_020788AC(void *file);
+extern void FS_InitFile(void *file);
 extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
 typedef signed int     s32;
 struct FSFile;
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern int func_02078A80(void *file);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern int FS_CloseFile(void *file);
 
 void func_021F2938(TaskInfo *p_task)
 {
@@ -99,12 +99,12 @@ void func_021F2938(TaskInfo *p_task)
             length = boundary_ltd - p_info->src;
         }
     }
-    func_020788AC(file);
+    FS_InitFile(file);
     if (func_02078964(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
-        if (length == func_02078B70((struct FSFile *)file, p_info->ptr, length)) {
+        if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }
-        func_02078A80(file);
+        FS_CloseFile(file);
     }
     if (p_info->state != 2) {
         p_info->src = 0;

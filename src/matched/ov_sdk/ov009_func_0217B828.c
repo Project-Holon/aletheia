@@ -17,7 +17,7 @@
  *   func_0205A16C  0x0205A16C  arm
  *   func_02094860  0x02094860  arm
  *   func_02094B20  0x02094B20  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0217956C  0x0217956C  arm  ov009
  *   func_02178F4C  0x02178F4C  arm  ov009
  *   func_02179218  0x02179218  arm  ov009
@@ -119,7 +119,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 *func_02094860(u8 *dest, const u8 *src, u32 n);
 extern char *func_02094B20(const char *s1, const char *s2);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
@@ -186,7 +186,7 @@ int func_0217B828(unsigned short **words, int wordsnum, char *reserved, int time
     pos = func_02094B20(g_021ACEF0->url, g_021A27D8);
     if (pos == 0)
         goto error;
-    func_02082D44(g_021A27E0, pos, 4);
+    MI_CpuCopy8(g_021A27E0, pos, 4);
 
     httpparam.url = g_021ACEF0->url;
     httpparam.action = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0207010C
+ * function: NNSi_G3dAnmGetMatColorData
  * address:  0x0207010C
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * RGB555 colour keyframe sampler, the u16-key sibling of
- * src/matched/func_02070274.c (same descriptor word: bit 29 = inline value,
+ * src/matched/NNSi_G3dAnmGetMatAlphaData.c (same descriptor word: bit 29 = inline value,
  * bits 31:30 = key stride, bits 28:16 = key count, bits 15:0 = key offset).
  * The two-key mean and the 3:1 blend are done per channel group with the
  * 0x7C1F (red+blue) and 0x03E0 (green) masks, so one add serves two
- * channels.  func_02070434 calls it four times (0x0207048C..0x020704E0).
+ * channels.  NNSi_G3dAnmCalcNsBma calls it four times (0x0207048C..0x020704E0).
  *
  * Per-file compiler pin, "kept branches" tell (docs/FRONTEND-PINS.md): the
  * image keeps `cmp r2, r3` / `bls 0x02070168` at 0x02070150 / 0x02070154
@@ -24,7 +24,7 @@
  * concrete bytes out.  Under ../2.0/sp2 the same C is 360 bytes, 0 mismatches.
  *
  * Source levers: the shared `two:` block takes its own index i0 (not idx),
- * as in src/matched/func_02070624.c; the 3:1 arm's index pair is a fresh
+ * as in src/matched/NNSi_G3dAnmGetTexSRTRotData.c; the 3:1 arm's index pair is a fresh
  * pair (i0, j), not idx rewritten in place; and the 3:1 arm reads its second
  * key p[j] directly in both channel sums rather than through a local (found
  * by tools/permuter.py, expand(v1)).
@@ -32,14 +32,14 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0207010C.c \
- *       --func func_0207010C --addr 0x0207010C --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetMatColorData.c \
+ *       --func NNSi_G3dAnmGetMatColorData --addr 0x0207010C --cc ../2.0/sp2 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_0207010C(u8 *base, u32 flags, u32 idx)
+u16 NNSi_G3dAnmGetMatColorData(u8 *base, u32 flags, u32 idx)
 {
     u16 *p;
     u32 n;

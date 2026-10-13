@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A3C
+ * function: IRC_RESULT_ExitBackgrounds
  * address: 0x021B7A3C
  * packet: pkt_ov105_021B7A3C
  * region: ov105
@@ -13,7 +13,7 @@
  *   func_020403F4 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
- *   d_021B89B8 0x021B89B8 data a4
+ *   sResultBackgroundLayers 0x021B89B8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,11 +23,11 @@ extern void func_02040DA8(u32,u32,u32);
 extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern const int d_021B89B8[];
-void func_021B7A3C(u32 *p) {
+extern const int sResultBackgroundLayers[];
+void IRC_RESULT_ExitBackgrounds(u32 *p) {
  int i;
  func_0203FB44(5,(u16)(*p),(u16)(*p>>16));
  func_02040DA8(5,1,0);
- for(i=0;i<8;i++) func_020403F4((u8)d_021B89B8[i]);
+ for(i=0;i<8;i++) func_020403F4((u8)sResultBackgroundLayers[i]);
  BMP_WIN_Exit(); func_0203F9B4();
 }

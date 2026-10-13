@@ -1,5 +1,5 @@
 /*
- * function: func_021C569C
+ * function: DWCi_NdAlloc
  * address:  0x021C569C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_0205A17C(int name, unsigned long size, int align);
 
-void *func_021C569C(int a, int b)
+void *DWCi_NdAlloc(int a, int b)
 {
     return func_0205A17C(0xa, a, b);
 }

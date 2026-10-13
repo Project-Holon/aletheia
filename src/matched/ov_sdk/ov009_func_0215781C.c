@@ -1,5 +1,5 @@
 /*
- * function: func_0215781C
+ * function: calc_checksum
  * address:  0x0215781C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,15 @@
  * The halfword the three-argument call lands on, tested.
  *
  * symbols:
- *   func_02157700  0x02157700  arm  ov009
+ *   calc_checksum_do  0x02157700  arm  ov009
+ *   invert_checksum  0x02157808  arm
  */
 
-extern unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum);
-extern unsigned int func_02157808(unsigned int x);
+extern unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum);
+extern unsigned int invert_checksum(unsigned int x);
 
-int func_0215781C(int a, int b)
+int calc_checksum(int a, int b)
 {
-    return func_02157808((unsigned short)func_02157700((unsigned char *)a, b, 0));
+    return invert_checksum((unsigned short)calc_checksum_do((unsigned char *)a, b, 0));
 }
 

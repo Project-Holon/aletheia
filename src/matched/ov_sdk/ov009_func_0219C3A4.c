@@ -1,5 +1,5 @@
 /*
- * function: func_0219C3A4
+ * function: qr_process_client_message
  * address:  0x0219C3A4
  * packet:   pkt_ov009_0219C3A4
  * region:   ov009
@@ -34,12 +34,12 @@
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
  *   func_02199DFC  0x02199DFC  arm  ov009
- *   func_0219BA58  0x0219BA58  arm  ov009
- *   func_0219BA54  0x0219BA54  arm  ov009
+ *   NatNegCompletedCallback  0x0219BA58  arm  ov009
+ *   NatNegProgressCallback  0x0219BA54  arm  ov009
  *   @13818         0x021A1B64  data
  *   g_021A7858     0x021A7858  data
- *   g_021ACEF8     0x021ACEF8  data
- *   g_021ACEFC     0x021ACEFC  data
+ *   gGsAvailabilityState     0x021ACEF8  data
+ *   gGsAvailabilityGameName     0x021ACEFC  data
  *
  * MATCH: all 399 concrete bytes equal, one relocation without a witness.
  * Eight of the nine sites resolve; only @13818 does not.
@@ -90,7 +90,7 @@
  *
  * How the other data absolutes stand, for the record:
  *   - g_021A7858 (the vendor's @14807) resolves as `sole-ref/self`.
- *   - g_021ACEF8 and g_021ACEFC (__GSIACResult and __GSIACGamename, i.e. the
+ *   - gGsAvailabilityState and gGsAvailabilityGameName (__GSIACResult and __GSIACGamename, i.e. the
  *     start and start+4 of one global, as the catalog suggests) resolve as
  *     `sole-ref/data`: the ov009 listing attests an object start at both, so
  *     they are the strongest of the three.
@@ -122,14 +122,14 @@ extern unsigned long func_021803BC(char *dst, const char *src, unsigned long siz
 extern int func_02199DFC(int gamesocket, int cookie, int clientindex,
                          void (*progresscallback)(int, void *),
                          void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
-extern void func_0219BA58(int result, int gamesocket, SOCSockAddrIn *remoteaddr, void *userdata);
-extern void func_0219BA54(int state, void *userdata);
+extern void NatNegCompletedCallback(int result, int gamesocket, SOCSockAddrIn *remoteaddr, void *userdata);
+extern void NatNegProgressCallback(int state, void *userdata);
 
 extern char g_021A7858[];
-extern int g_021ACEF8;
-extern char g_021ACEFC[];
+extern int gGsAvailabilityState;
+extern char gGsAvailabilityGameName[];
 
-void func_0219C3A4(qr2_t qrec, char *buf, int len)
+void qr_process_client_message(qr2_t qrec, char *buf, int len)
 {
     unsigned char natNegBytes[6] = {0xFD, 0xFC, 0x1E, 0x66, 0x6A, 0xB2};
     int i;
@@ -153,11 +153,11 @@ void func_0219C3A4(qr2_t qrec, char *buf, int len)
         cookie = (int)((((unsigned int)cookie >> 24) & 0xFF) | (((unsigned int)cookie >> 8) & 0xFF00)
                        | (((unsigned int)cookie << 8) & 0xFF0000) | (((unsigned int)cookie << 24) & 0xFF000000));
         if (qrec->cc_callback) {
-            if (g_021ACEF8 != 1) {
-                g_021ACEF8 = 1;
-                func_021803BC(g_021ACEFC, qrec->gamename, 64);
+            if (gGsAvailabilityState != 1) {
+                gGsAvailabilityState = 1;
+                func_021803BC(gGsAvailabilityGameName, qrec->gamename, 64);
             }
-            func_02199DFC(qrec->hbsock, cookie, 1, func_0219BA54, func_0219BA58, qrec);
+            func_02199DFC(qrec->hbsock, cookie, 1, NatNegProgressCallback, NatNegCompletedCallback, qrec);
         } else if (qrec->nn_callback)
             qrec->nn_callback(cookie, qrec->udata);
     } else if (qrec->cm_callback)

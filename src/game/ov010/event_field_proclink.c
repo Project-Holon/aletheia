@@ -43,7 +43,7 @@
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   func_0201292C  0x0201292C  thumb
  *   func_02008FEC  0x02008FEC  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02012984  0x02012984  thumb
  *   func_02034A5C  0x02034A5C  arm
  *   func_021C3E00  0x021C3E00  thumb  ov136
@@ -54,7 +54,7 @@
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  *   FIELD_SOUND_SYSTEM_RestoreVolume 0x02029DD8 thumb
  *   sub_02030734   0x02030734  arm
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_020120F8 0x020120F8 thumb
  *   func_02012AC8 0x02012AC8 thumb
  *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
@@ -364,7 +364,7 @@ extern u32 POKE_TOOL_HasRibbonData(void *mon);
 
 extern void *func_0201292C(const GameData *gameData);
 extern void *func_02008FEC(GameData *gameData);
-extern void *func_0200CA1C(GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u8 func_02012984(const GameData *gameData);
 extern void func_02034A5C(int handle);
 extern u32 func_021C3E00(void *mailParam);
@@ -373,7 +373,7 @@ extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int,int);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0200CA38(void *zukanSave);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *zukanSave);
 extern u8 *func_020120F8(const GameSystem *gameSystem);
 extern u16 func_02012AC8(const void *playerWork);
 extern u32 ZONEDATA_IsZone1A6(u32);
@@ -505,7 +505,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     list->carry = work->carry;
     list->myItem = func_0201292C(gameData);
     list->mailBox = func_02008FEC(gameData);
-    list->zukanSave = func_0200CA1C(gameData);
+    list->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     list->listMode = 0;
     list->selectedSlot = work->context->partySlot;
     list->argValue2 = 0;
@@ -680,7 +680,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     MI_CpuFill8(param, 0, 0x10);
     gameData = func_020120F4(work->context->gameSystem);
     param->gameData = gameData;
-    param->zukanSave = func_0200CA1C(gameData);
+    param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     param->myStatus = func_02012944(param->gameData);
     bgmInfo = func_02012A30(param->gameData);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
@@ -726,11 +726,11 @@ PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int
     param = sub_02030734(4, sizeof(PStatusParam), 1, d_02172978, 0x4DE);
     gameData = func_020120F4(work->context->gameSystem);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    zukanSave = func_0200CA1C(gameData);
+    zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     param->ppt = 1;
     param->config = gameData;
     param->forceExit = 0;
-    param->isNationalDex = func_0200CA38(zukanSave);
+    param->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled(zukanSave);
     if (mode == 0) {
         party = listResult->party;
         mailBox = listResult->playerSaveBlock;

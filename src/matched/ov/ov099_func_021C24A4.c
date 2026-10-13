@@ -1,5 +1,5 @@
 /*
- * function: func_021C24A4
+ * function: WIFICLUB_StartBgmFade
  * address:  0x021C24A4
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 extern void PM_VOICE_SetMasterVolume(int v);
 
-void func_021C24A4(Work *w, int v)
+void WIFICLUB_StartBgmFade(Work *w, int v)
 {
     if (w->f1342 != v) {
         w->f1341 = w->f1340;

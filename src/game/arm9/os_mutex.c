@@ -22,6 +22,7 @@
  *   OS_WakeupThread               0x02085800  arm
  *   OSi_EnqueueTail       0x0208623C  arm
  *   OSi_DequeueItem       0x02086260  arm
+ *   gOsThreadBss  0x02150FD0  data
  */
 typedef unsigned long long u64;
 
@@ -168,7 +169,7 @@ BOOL func_020860D0(OSMutex *mutex);
 void func_02086164(OSMutex *mutex, u32 type);
 void func_0208623C(OSThread *thread, OSMutex *mutex);
 void func_02086260(OSThread *thread, OSMutex *mutex);
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 extern OSThreadInfo OSi_ThreadInfo;
 
 #define OSi_MUTEX_TYPE_MASK   0xFF000000

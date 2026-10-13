@@ -23,6 +23,7 @@
  *   func_020071CC 0x020071CC thumb
  *   MYSTERY_DATA_DecryptBuffer 0x0200A50C thumb
  *   MYSTERY_DATA_EncryptBuffer 0x0200A4B8 thumb
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  */
 #include "../../matched/include/Obj04656.h"
 #include "../../matched/include/Obj14811.h"
@@ -42,7 +43,7 @@ struct Blk { u32 w[51]; };
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_02082D44(const void *src,void *dest,u32 size);
+extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
 extern u32 func_020307B0(void *p);
 extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
 extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
@@ -117,7 +118,7 @@ void *func_021DFC20(u32 heap)
             ((struct Obj04656 *)obj)->f374=1;
         }
     }
-    if(sel==1)func_02082D44(buf[1],buf[0],0x374);
+    if(sel==1)MI_CpuCopy8(buf[1],buf[0],0x374);
     func_020307B0(buf[1]);
     if(sel!=-1)obj[0x378]=1;
     return obj;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BD0
+ * function: PMS_INPUT_VIEW_VBlankTask
  * address: 0x021B9BD0
  * packet: pkt_ov110_021B9BD0
  * region: ov110
@@ -15,4 +15,4 @@
 #include "../include/Obj13768.h"
 extern void func_020419E4(void);
 extern void CLACT_VBlankSystem(void);
-void func_021B9BD0(int a,unsigned char *b) { if(((struct Obj13768 *)b)->f84) ((struct Obj13768 *)b)->f84=0; func_020419E4(); CLACT_VBlankSystem(); }
+void PMS_INPUT_VIEW_VBlankTask(int a,unsigned char *b) { if(((struct Obj13768 *)b)->f84) ((struct Obj13768 *)b)->f84=0; func_020419E4(); CLACT_VBlankSystem(); }

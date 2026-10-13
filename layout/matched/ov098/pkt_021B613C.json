@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B613C",
-    "func_021B6140",
-    "func_021B6144"
+    "PDC_GetGameData",
+    "PDC_GetMon",
+    "PDC_GetScene"
+   ],
+   "addresses": [
+    "0x021B613C",
+    "0x021B6140",
+    "0x021B6144"
    ]
   }
  ]

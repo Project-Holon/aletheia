@@ -1,5 +1,5 @@
 /*
- * function: func_02064178
+ * function: NNSi_G2dInitMCNode
  * address:  0x02064178
  * packet:   pkt_020640DC
  * region:   arm9
@@ -12,7 +12,7 @@
  * Opens one 0x28-byte group header of the two-level cell-array shape: clears
  * the header's first word, stores the cell pointer at +0x04, sets the "in use"
  * word at +0x08 and tail-calls NNSi_G2dSrtcInitControl on the SRT block at +0x0c.
- * func_02064754 drives it once per group.
+ * NNS_G2dInitMCAnimation drives it once per group.
  *
  * PIN ../2.0/sp2: the tail-call scheduling form of the "kept constants" tell.
  * The image materialises the zero FIRST and stores it first -- `mov r2,#0` at
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 struct O02064140;
 extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 
-void func_02064178(char *o, u32 a)
+void NNSi_G2dInitMCNode(char *o, u32 a)
 {
     *(u32 *)&((struct Obj07023 *)o)->f0 = 0;
     ((struct Obj07023 *)o)->f4 = a;

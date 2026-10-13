@@ -1,5 +1,5 @@
 /*
- * function: func_02189C8C
+ * function: TR_AI_CmdLoadPokeValueSimple
  * address:  0x02189C8C
  * packet:   pkt_ov096_02189C8C
  * region:   ov096
@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   d_0218A58C     0x0218A58C  data   ov096  a4
  *
@@ -33,21 +33,21 @@ typedef struct { u8 p0[0x38]; int f38; u8 p1[0x88]; int fc4; } Obj;
 extern const Seven d_0218A58C;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int func_021D59B4(u8 *p, int k);
 
-int func_02189C8C(struct Cursor *a, Obj *b) {
+int TR_AI_CmdLoadPokeValueSimple(struct Cursor *a, Obj *b) {
     u8 s;
     int v;
     u32 i;
     Seven t;
-    s = func_0218A160((u8 *)b, VM_GetU32(a));
+    s = TR_AI_GetPosition((u8 *)b, VM_GetU32(a));
     t = d_0218A58C;
     i = 0;
     b->f38 = 0;
     for (; i < 7; i++) {
-        v = func_021D59B4(func_0218A2FC((u8 *)b, s), t.v[i]);
+        v = func_021D59B4(TR_AI_GetPoke((u8 *)b, s), t.v[i]);
         if (v > 6) {
             b->f38 += v - 6;
         }

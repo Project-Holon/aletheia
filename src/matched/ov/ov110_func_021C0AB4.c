@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AB4
+ * function: PMS_SELECT_GRAPHIC_DeleteTouchBar
  * address:  0x021C0AB4
  * packet:   pkt_ov110_021C0AB4
  * region:   ov110
@@ -24,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void TOUCHBAR_Delete(u8 *p);
-void func_021C0AB4(u8 *p) { TOUCHBAR_Delete((u8 *)(((struct Obj22408 *)p)->f54)); }
+void PMS_SELECT_GRAPHIC_DeleteTouchBar(u8 *p) { TOUCHBAR_Delete((u8 *)(((struct Obj22408 *)p)->f54)); }

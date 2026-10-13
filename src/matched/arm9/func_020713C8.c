@@ -1,5 +1,5 @@
 /*
- * function: func_020713C8
+ * function: NNSi_G3dSendTexMtx4x4
  * address:  0x020713C8
  * packet:   pkt_020713C8
  * region:   arm9
@@ -13,7 +13,7 @@
  * through a dispatch handler selected by the low three bits of the object's
  * flag word, then applies the object's two fixed-point (1.12) scale factors
  * to the three components of each of the two vectors when the factor is not
- * unity, and hands the finished descriptor to func_0206DDA4.
+ * unity, and hands the finished descriptor to NNS_G3dGeBufferOP_N.
  *
  * The two scale fields are declared volatile because the image re-reads
  * [r4,#0x30] / [r4,#0x34] before each of the three smulls in its block,
@@ -21,12 +21,12 @@
  * the three multiplies together (308 bytes against the original's 328).
  *
  * symbols:
- *   func_0206DDA4    0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N    0x0206DDA4  arm
  *   g_dispatch       0x020A8438  data a4
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020713C8.c \
- *       --func func_020713C8 --addr 0x020713C8 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dSendTexMtx4x4.c \
+ *       --func NNSi_G3dSendTexMtx4x4 --addr 0x020713C8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ struct Obj;
 typedef void (*Fn)(int *out, struct Obj *o);
 
 extern Fn   g_dispatch[8];
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
 struct Obj {
     u32 flags;   /* +0x00 */
@@ -44,7 +44,7 @@ struct Obj {
     volatile int sy;  /* +0x34 */
 };
 
-void func_020713C8(struct Obj *o)
+void NNSi_G3dSendTexMtx4x4(struct Obj *o)
 {
     int buf[0x13];
     int sc;
@@ -82,6 +82,6 @@ void func_020713C8(struct Obj *o)
 
     {
         char *q = (char *)buf;
-        func_0206DDA4((u32)buf[0], (int *)(q + 4), 0x12);
+        NNS_G3dGeBufferOP_N((u32)buf[0], (int *)(q + 4), 0x12);
     }
 }

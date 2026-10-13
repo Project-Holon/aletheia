@@ -1,5 +1,5 @@
 /*
- * function: func_02074E10
+ * function: NNSi_SndArcLoadWaveArc
  * address:  0x02074E10
  * packet:   pkt_02074A34
  * region:   arm9
@@ -11,8 +11,8 @@
  * symbols:
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
- *   func_02075080  0x02075080  arm
- *   func_020750EC  0x020750EC  arm
+ *   NNSi_SndArcLoadWaveArcFile  0x02075080  arm
+ *   NNSi_SndArcLoadWaveArcTable  0x020750EC  arm
  *
  * The 0x02074BEC/0x02074C70 sibling for the third handler slot: resolve the
  * object (NNS_SndArcGetWaveArcInfo), read its 32-bit header word, and dispatch on the
@@ -39,8 +39,8 @@
  *    pointers cost the whole function, as the note records.
  *
  *  - PIN ../2.0/sp2, the "kept constants" tell of docs/FRONTEND-PINS.md, the
- *    same pin the rest of this cluster carries (func_02074A6C, func_02074A98,
- *    func_02074AC4, func_02074AE8).  The image computes the SECOND and THIRD
+ *    same pin the rest of this cluster carries (NNS_SndArcLoadSeq, NNS_SndArcLoadWaveArc,
+ *    NNS_SndArcLoadSeqEx, NNSi_SndArcLoadGroup).  The image computes the SECOND and THIRD
  *    call arguments separately inside EACH arm -- `mov r2, r4` / `lsr r0,r0,#8`
  *    at 0x02074E50/0x02074E54 and again at 0x02074E60/0x02074E64 -- and only
  *    the first argument's `mov r1, r5` is hoisted above the branch.  1.1p1
@@ -51,8 +51,8 @@
  *    the SAME C is 140 bytes, 0 mismatches.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02074E10.c \
- *       --func func_02074E10 --addr 0x02074E10 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndArcLoadWaveArc.c \
+ *       --func NNSi_SndArcLoadWaveArc --addr 0x02074E10 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -64,10 +64,10 @@ union Hdr {
 
 extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern u32 NNS_SndArcGetFileAddress(u32 a);
-extern u32 func_02075080(u32 a, u32 b, u32 c);
-extern u32 func_020750EC(u32 idx, u32 *heap, int flag);
+extern u32 NNSi_SndArcLoadWaveArcFile(u32 a, u32 b, u32 c);
+extern u32 NNSi_SndArcLoadWaveArcTable(u32 idx, u32 *heap, int flag);
 
-u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
+u32 NNSi_SndArcLoadWaveArc(u32 a, u32 b, u32 c, u32 d, u32 *out)
 {
     union Hdr *o;
     u32 r;
@@ -75,8 +75,8 @@ u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out)
     o = NNS_SndArcGetWaveArcInfo(a);
     if (o == 0) return 5;
     if (b & 4) {
-        if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, (u32 *)c, d);
-        else                  r = func_02075080(o->b.v, c, d);
+        if ((o->w >> 24) & 1) r = NNSi_SndArcLoadWaveArcTable(o->b.v, (u32 *)c, d);
+        else                  r = NNSi_SndArcLoadWaveArcFile(o->b.v, c, d);
         if (r == 0) return 9;
     } else {
         r = NNS_SndArcGetFileAddress(o->b.v);

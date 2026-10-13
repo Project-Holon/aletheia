@@ -23,8 +23,8 @@
  *   _ffix            0x0209C494  arm
  *   _ll_mul          0x0209C054  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_0206A854    0x0206A854  arm
- *   func_0206DB80    0x0206DB80  arm
+ *   NNS_G3dGlbFlush    0x0206A854  arm
+ *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   func_0207ADC4    0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos    0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling    0x02047AC8  arm
@@ -72,8 +72,8 @@ extern MtxFx44 g_DefaultProjectionMtx;
 extern struct Glb SCREENTEX_CameraState;
 
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
-extern void func_0206A854(void);
-extern void func_0206DB80(void);
+extern void NNS_G3dGlbFlush(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207ADC4(void *mtx);
 extern void FIELD_EFFECT_GetObjectPos(u32 a, Node *n);
 struct Arg;
@@ -98,13 +98,13 @@ void FLDEFF_GYOE_DrawTask(u32 a, Arg *b)
     m.m[3][2] += FX_MUL(m.m[2][2], z);
     MIi_CpuCopyFast(&m, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     func_0207ADC4(n.mtx);
     FIELD_EFFECT_GetObjectPos(a, &n);
     G3D_SYSTEM_DrawObjectCulling((void *)b->f8->f24[b->f0], (struct Arg *)(&n));
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
 }

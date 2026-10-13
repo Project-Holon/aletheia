@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E8C
+ * function: IRC_RHYTHM_IsParticleActive
  * address:  0x021B8E8C
  * packet:   pkt_ov104_021B8E8C
  * region:   ov104
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B8E8C(u8 *p) { return ((struct Obj22235 *)p)->f8; }
+u32 IRC_RHYTHM_IsParticleActive(u8 *p) { return ((struct Obj22235 *)p)->f8; }

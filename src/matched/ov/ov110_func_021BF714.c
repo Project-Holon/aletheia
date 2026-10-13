@@ -1,5 +1,5 @@
 /*
- * function: func_021BF714
+ * function: PMS_INPUT_GetWordSlot
  * address:  0x021BF714
  * packet:   pkt_ov110_021BF714
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u16 func_021BF714(u8 *p) { return ((struct Obj22388 *)p)->f4A; }
+u16 PMS_INPUT_GetWordSlot(u8 *p) { return ((struct Obj22388 *)p)->f4A; }

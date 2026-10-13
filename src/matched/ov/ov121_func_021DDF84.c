@@ -19,8 +19,8 @@
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
  *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
- *   func_02082A48 0x02082A48 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuClear16 0x02082A48 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void MYSTERY_ALBUM_SetBlendMain(int,int);
 extern void MYSTERY_ALBUM_SetBlendSub(int,int);
-extern void func_02082A48(int,void *,int);
-extern void func_02082A60(void *,const void *,int);
+extern void MIi_CpuClear16(int,void *,int);
+extern void MIi_CpuCopy16(void *,const void *,int);
 void MYSTERY_ALBUM_ResetIntro(char *p)
 {
     char *palette;
@@ -48,7 +48,7 @@ void MYSTERY_ALBUM_ResetIntro(char *p)
             blend=MYSTERY_ALBUM_SetBlendSub;
         }
         blend(2,12);
-        func_02082A48(0,*(char **)(p+0x11c)+0x44,32);
-        func_02082A60(*(char **)(p+0x11c)+0x44,palette,32);
+        MIi_CpuClear16(0,*(char **)(p+0x11c)+0x44,32);
+        MIi_CpuCopy16(*(char **)(p+0x11c)+0x44,palette,32);
     }
 }

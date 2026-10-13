@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020713C8",
+   "name": "NNSi_G3dSendTexMtx4x4",
    "address": "0x020713C8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02071510",
+   "name": "NNSi_G3dSendJointSRTSi3d",
    "address": "0x02071510",
    "kind": "game",
    "region": "arm9",

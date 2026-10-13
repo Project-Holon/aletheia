@@ -11,7 +11,7 @@
  *
  * symbols:
  *   data_02732F3C 0x02732F3C data twl
- *   func_02084998 0x02084998 arm
+ *   OS_DisableIrqMask 0x02084998 arm
  *   func_02084774 0x02084774 arm
  */
 typedef unsigned int u32;
@@ -27,7 +27,7 @@ struct St {
     u32 f1c;
 };
 extern struct St data_02732F3C;
-extern void func_02084998(u32);
+extern void OS_DisableIrqMask(u32);
 extern void func_02084774(u32, u32);
 
 void MIi_NDMACallback(void)
@@ -36,7 +36,7 @@ void MIi_NDMACallback(void)
     void (*cb)(u32);
     u32 arg;
     volatile u32 *reg = (volatile u32 *)0x04000600;
-    func_02084998(0x200000);
+    OS_DisableIrqMask(0x200000);
     *reg = (s->f18 << 30) | (*reg & ~0xC0000000);
     func_02084774(0x200000, s->f1c);
     s->f0 = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206D3C4",
+   "name": "NNSi_G3dFuncSbc_POSSCALE",
    "address": "0x0206D3C4",
    "kind": "game",
    "region": "arm9",

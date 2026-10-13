@@ -1,5 +1,5 @@
 /*
- * function: func_021B95B0
+ * function: NHTTP_RAP_Free
  * address: 0x021B95B0
  * packet: pkt_ov114_021B95B0
  * region: ov114
@@ -12,7 +12,7 @@
  */
 typedef unsigned int   u32;
 extern void DWC_RAPCOMMON_Free(u32 a, void *p, int b);
-void func_021B95B0(int a)
+void NHTTP_RAP_Free(int a)
 {
     DWC_RAPCOMMON_Free(13, (void *)a, 0);
 }

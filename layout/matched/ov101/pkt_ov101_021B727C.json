@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B727C",
-    "func_021B728C",
-    "func_021B72A0"
+    "IRC_APPBAR_IsBusy",
+    "IRC_APPBAR_SetEnabled",
+    "IRC_APPBAR_SetActive"
+   ],
+   "addresses": [
+    "0x021B727C",
+    "0x021B728C",
+    "0x021B72A0"
    ]
   }
  ]

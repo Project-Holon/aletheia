@@ -1,5 +1,5 @@
 /*
- * function: func_02173CFC
+ * function: DWCi_InitClWaitTimeout
  * address:  0x02173CFC
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_02175F3C(void);
 extern unsigned long long OS_GetTick(void);
 
-void func_02173CFC(void)
+void DWCi_InitClWaitTimeout(void)
 {
     unsigned long long t;
 

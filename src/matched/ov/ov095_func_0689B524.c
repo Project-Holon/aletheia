@@ -1,5 +1,5 @@
 /*
- * function: func_0689B524
+ * function: BTLV_SCD_PollTouchKey
  * address: 0x0689B524
  * packet: pkt_ov095_0689B524
  * region: ov095
@@ -14,7 +14,7 @@
 #include "../include/Obj21896.h"
 typedef unsigned char u8;
 extern int func_0689B548(void *, int, int);
-int func_0689B524(void *p, u8 *q)
+int BTLV_SCD_PollTouchKey(void *p, u8 *q)
 {
     int zero = 0;
     int value;

@@ -147,7 +147,7 @@
  *   d_021B7484 0x021B7484 data a1
  *   d_021B7480 0x021B7480 data a1
  *   func_02049DF4 0x02049DF4 arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
@@ -407,7 +407,7 @@ extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void *func_02049DF4(void *,unsigned,unsigned,unsigned,unsigned short);
-extern void func_02082A90(int, int, int);
+extern void MIi_CpuCopy32(int, int, int);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 void func_021B6100(u8 *p);
@@ -1068,7 +1068,7 @@ void func_021B7180(char *p, char *q, int id) {((struct Obj24208 *)q)->f10=func_0
 
 void func_021B71A0(int a, int *b, int c, int d, int e)
 {
-    func_02082A90(*(int *)((char *)(((struct Obj24209 *)b)->fC) + 0x14) + c,
+    MIi_CpuCopy32(*(int *)((char *)(((struct Obj24209 *)b)->fC) + 0x14) + c,
                   d + 0x06000000, e);
 }
 

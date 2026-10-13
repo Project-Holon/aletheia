@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   FX_ModS32  0x0207C994  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -18,13 +21,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0207C994(int a, int b);
+extern int FX_ModS32(int a, int b);
 
 int FIELD_G3D_MAPPER_GetWindowStartWrapped(u32 a, int b, int c)
 {
     int r = ((int)func_0207C768((int)c, (int)b) >> 12) - (a >> 1);
     if ((a & 1) == 0) {
-        int m = func_0207C994(c, b);
+        int m = FX_ModS32(c, b);
         if ((int)func_0207C768((int)b, (int)0x2000) < m)
             r++;
     }

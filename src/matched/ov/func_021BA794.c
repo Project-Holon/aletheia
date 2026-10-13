@@ -1,5 +1,5 @@
 /*
- * function: func_021BA794
+ * function: WIFICLUBACTOR_StartBlinkScript
  * address:  0x021BA794
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA770  0x021BA770  thumb  ov099
- *   func_021BA78C  0x021BA78C  thumb  ov099
+ *   WIFICLUBACTOR_EndBlinkScript  0x021BA770  thumb  ov099
+ *   WIFICLUBACTOR_RequestBlinkRestart  0x021BA78C  thumb  ov099
  *
  * Records the bit selector at +0x0C and toggles it in the byte mask at +0x08;
- * releases the previous holder through func_021BA770 first when +0x0D is set,
- * and always finishes through func_021BA78C.
+ * releases the previous holder through WIFICLUBACTOR_EndBlinkScript first when +0x0D is set,
+ * and always finishes through WIFICLUBACTOR_RequestBlinkRestart.
  */
 
 typedef unsigned char  u8;
@@ -25,16 +25,16 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021BA770(void *p);
-extern void func_021BA78C(void *p);
+extern void WIFICLUBACTOR_EndBlinkScript(void *p);
+extern void WIFICLUBACTOR_RequestBlinkRestart(void *p);
 
-void func_021BA794(u8 *p, u8 b)
+void WIFICLUBACTOR_StartBlinkScript(u8 *p, u8 b)
 {
     if (p[0xD] != 0) {
-        func_021BA770(p);
+        WIFICLUBACTOR_EndBlinkScript(p);
     }
 
     p[0xC] = b;
     p[0x8] ^= (u8)(1 << b);
-    func_021BA78C(p);
+    WIFICLUBACTOR_RequestBlinkRestart(p);
 }

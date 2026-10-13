@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
  *   func_021F66C8  0x021F66C8  thumb
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   func_020307B0  0x020307B0  arm
  *
@@ -39,7 +39,7 @@ typedef struct {
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d);
-extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 func_020307B0(void *p);
 
@@ -48,7 +48,7 @@ void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f
     CharData *cd;
     void *buf = (void *)func_021F66C8(arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), (u32)(&cd), 0x48);
 
-    func_02082B0C(cd->pixels, rec->pixels, 0x200);
+    MIi_CpuCopyFast(cd->pixels, rec->pixels, 0x200);
     rec->vram = (slot * 16 + 0x1c) * 32;
     rec->f8 = f8;
     rec->pal = POKE_TOOL_CalcIconPalette(species, form, gender, isEgg) + 5;

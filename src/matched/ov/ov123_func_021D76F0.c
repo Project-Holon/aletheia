@@ -15,7 +15,7 @@
  *   func_021D76B8 0x021D76B8 thumb ov123
  *   func_0203F1FC 0x0203F1FC arm
  *   func_02030734 0x02030734 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_02009108 0x02009108 thumb
  *   d_021DAB78 0x021DAB78 data ov123 a1
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb  arm9
@@ -35,7 +35,7 @@ struct Sub02009210Obj;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern void func_0200E8E0(void *obj, u32 value);
 extern void GAME_DATA_PartSaveStart(u8 *,u32);
 extern struct Sub02009210Obj *func_02009210(void *sys);
@@ -63,7 +63,7 @@ void func_021D76F0(int a)
     x=(int)func_02030734(((struct Obj02475 *)a)->f0,0x6800,0,d_021DAB78,0x37d);
     *(int *)&((struct Obj02475 *)a)->f3C=x;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(b,7,((struct Obj02475 *)a)->f0,*(int *)&((struct Obj02475 *)a)->f3C,0x6800);
-    func_02082D44(p,((struct Obj02475 *)a)->f3C,0x6200);
+    MI_CpuCopy8(p,((struct Obj02475 *)a)->f3C,0x6200);
     func_0200E8E0((void *)(*(int *)&((struct Obj02475 *)a)->f3C),1);
     GAME_DATA_PartSaveStart((u8 *)((struct Obj02475 *)a)->f2C,7);
     func_021D6EE0((u8 *)a,(int)func_021D76B8,0x383);

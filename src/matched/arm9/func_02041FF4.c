@@ -17,7 +17,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02043130  0x02043130  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * bg_sys.c: does the pixel under (x, y) on a layer match the caller's
  * colour list?  4bpp layers (flag_1e == 0) decode the tile into a scratch
@@ -66,7 +66,7 @@ extern u32 func_020415B4(u32 channel);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void func_02043130(u16 flags, u8 *buf, u32 page);
-extern void func_02082D44(void *dst, const void *src, u32 size);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
 {
   u8 px;
@@ -106,7 +106,7 @@ u32 func_02041FF4(u32 layer, u16 x, u16 y, u16 *flags)
   {
     tbl = g_02146A44->slots[layer].tiles;
     buf = func_02030734((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
-    func_02082D44(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
+    MI_CpuCopy8(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
     func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
     v = buf[px + (py << 3)];
     func_020307B0(buf);

@@ -39,7 +39,7 @@
  *   sub_0204960C  0x0204960C  arm
  *   sub_020495F4  0x020495F4  arm
  *   sub_02045CAC  0x02045CAC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   sub_02046110  0x02046110  arm
  *   sub_020461E4  0x020461E4  arm
  *   STRBUF_Create 0x020457B0 arm
@@ -134,7 +134,7 @@ extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *stream, u32 pos);
 extern void STRBUF_Clear(struct Strbuf *vec);
-extern void func_02082D44(const void *src, void *dest, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 u16 STRBUF_GetLength(struct Strbuf *vec);
 void STRBUF_Truncate(struct Strbuf *vec, u32 length);
@@ -572,7 +572,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
  * separate literal, so the size argument is written as the literal at each
  * call and not bound to a named local.
  *
- * func_02082D44 takes source first and destination second (the MI_CpuCopy8
+ * MI_CpuCopy8 takes source first and destination second (the MI_CpuCopy8
  * order), which is why the stack buffer is in r0 and the freshly allocated
  * block in r1.
  *
@@ -592,7 +592,7 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
 
     file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
                                           MSGDATA_AllocSite, 0x1f3);
-    func_02082D44(hp, file, sizeof(struct MsgFileHeader));
+    MI_CpuCopy8(hp, file, sizeof(struct MsgFileHeader));
     ARC_TOOL_ReadHandle(stream, file->langCount * 4, file->langOff);
     return file;
 }

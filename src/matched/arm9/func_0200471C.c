@@ -1,5 +1,5 @@
 /*
- * function: func_0200471C
+ * function: SVC_Sqrt
  * address:  0x0200471C
  * packet:   pkt_0200471C
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_Sqrt), `swi N; bx lr` in the BIOS call table */
 
-asm void func_0200471C(void)
+asm void SVC_Sqrt(void)
 {
     swi 0xD
     bx lr

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02078AEC  0x02078AEC  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  *   func_02078B44  0x02078B44  arm
  *   CARD_GetOwnRomHeader             0x02075DF8  arm
  *   FS_GetFilePosition               0x02078AEC  arm
@@ -37,7 +37,7 @@
  *   _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl  0x021F6D28  data
  *   _start_AutoloadDoneCallback      0x02004EA8  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   OS_DisableInterrupts     0x02087988  arm
  *   MBi_IsStarted            0x021F6314  arm  ov107
  *   OS_RestoreInterrupts     0x0208799C  arm
@@ -49,7 +49,7 @@
  *   mbc                      0x021F6FA0  data
  *   _ZZ15MB_RegisterFileP14MBGameRegistryPvE6update  0x021F6EF0  data
  *   MBi_defaultLoadSegList  0x021F6D04  data  a4
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   _u32_div_f   0x0209C2B0  arm
  *   g_021F6D04     0x021F6D04  data
  */
@@ -198,11 +198,10 @@ typedef enum {
 } SegType;
 
 extern u32_021F2F1C func_02078AEC(struct FSFile *file);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern void *CARD_GetOwnRomHeader(void);
 extern u32_021F2F1C FS_GetFilePosition(FSFile *file);
-extern long FS_ReadFile(FSFile *file, void *buffer, long length);
 extern void FS_InitFile(FSFile *file);
 extern void *FS_FindArchive(char *name, int name_len);
 extern int FS_OpenFileDirect(FSFile *file, void *arc, u32_021F2F1C image_top, u32_021F2F1C image_bottom, u32_021F2F1C id);
@@ -217,7 +216,6 @@ extern void MBi_ReadSegmentHeader(SegmentHeaderInfo_021F2F1C *p, u32_021F2F1C to
 extern void DC_FlushRange(void *startAddr, u32_021F2F1C nBytes);
 extern void _start_AutoloadDoneCallback(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_DisableInterrupts(void);
 extern int MBi_IsStarted(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -226,7 +224,7 @@ extern void MB_AddGameInfo(void *);
 extern int MBi_IsTaskAvailable(void);
 extern void MBi_InitTaskInfo(void *);
 extern void MBi_InitTaskThread(void *, unsigned long);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern BOOL IsAbleToLoad(u8 segment_no, u32 address, u32 size);
 u32_021F2F1C func_021F2F1C(void *file);
 int MB_ReadSegment(FSFile *file, void *buf, u32_021F2F1C len);
@@ -265,7 +263,7 @@ u32_021F2F1C func_021F2F1C(void *file)
     ret = 0;
     if (file) {
         bak_pos = func_02078AEC(file);
-        if ((u32_021F2F1C)func_02078B70(file, rom, 96) >= 96)
+        if ((u32_021F2F1C)FS_ReadFile(file, rom, 96) >= 96)
             p = (RomHeader_021F2F1C *)rom;
         func_02078B44(file, bak_pos, 0);
     } else {
@@ -496,7 +494,7 @@ void func_021F34CC(SegmentHeaderInfo_021F34CC *p, u32_021F2F1C top, u32_021F2F1C
         MI_CpuFill8(p->dst + top, 0, bottom - top);
         return;
     }
-    func_02082D44(p->src + top, p->dst + top, bottom - top);
+    MI_CpuCopy8(p->src + top, p->dst + top, bottom - top);
 }
 
 
@@ -613,7 +611,7 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg,
             seg->recv_addr = seg->load_addr;
             seg->target = 0;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
         break;
     case SEG_B: {
@@ -640,7 +638,7 @@ void MBi_SetSegmentInfo(const RomHeader *hdr, SegType *list, MbSegmentInfo *seg,
             error_flag = 1;
         }
         if (error_flag == 1)
-            func_02088234();
+            OS_Terminate();
         seg->size = romRegp->size;
         seg->load_addr = romRegp->ram_address;
         if (!reload_flag) {

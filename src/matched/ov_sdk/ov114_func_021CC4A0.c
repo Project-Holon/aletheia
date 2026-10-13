@@ -1,5 +1,5 @@
 /*
- * function: func_021CC4A0
+ * function: CRYPTOi__BN_mod_inverse_word
  * address:  0x021CC4A0
  * packet:   pkt_ov114_021CC4A0
  * region:   ov114
@@ -15,7 +15,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  */
 
-unsigned long func_021CC4A0(unsigned long n)
+unsigned long CRYPTOi__BN_mod_inverse_word(unsigned long n)
 {
 	unsigned long a, b, q, r, t, res;
 	unsigned long x0, x1;

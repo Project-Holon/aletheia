@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3E4
+ * function: DWCi_FOCUSlInit
  * address:  0x021BD3E4
  * packet:   pkt_ov016_021BD3E4
  * region:   ov016
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_HEAPlAllocEx                0x021D6414  arm  ov016
- *   g_021DE550                       0x021DE550  data
+ *   gFocusWork                       0x021DE550  data
  */
 
 #include "../include/G_MemFocus.h"
@@ -25,10 +25,10 @@ typedef struct {
     void *cell[4];
 } MemFocus;
 
-extern struct MemFocus *g_021DE550;
+extern struct MemFocus *gFocusWork;
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 
-void func_021BD3E4(void)
+void DWCi_FOCUSlInit(void)
 {
-    g_021DE550 = DWCi_HEAPlAllocEx(sizeof(MemFocus), 4);
+    gFocusWork = DWCi_HEAPlAllocEx(sizeof(MemFocus), 4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB260
+ * function: PMSI_SEARCH_GetKeyLeft
  * address: 0x021BB260
  * packet: pkt_ov110_021BB260
  * region: ov110
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021C37AE[];
-u8 func_021BB260(u32 i) { return *(const u8 *)(d_021C37AE+i*10); }
+u8 PMSI_SEARCH_GetKeyLeft(u32 i) { return *(const u8 *)(d_021C37AE+i*10); }

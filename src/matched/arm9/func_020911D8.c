@@ -13,7 +13,7 @@
  *
  * symbols:
  *   OSi_IsRunOnTwl    0x02085D88  arm
- *   func_02088234    0x02088234  arm
+ *   OS_Terminate    0x02088234  arm
  *   func_020911F0    0x020911F0  thumb
  *
  * Thumb wrapper over the ARM-side entry: aborts when the check fails, then
@@ -27,13 +27,13 @@
 typedef unsigned int u32;
 
 extern int OSi_IsRunOnTwl(void);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void func_020911F0(u32 a);
 
 void func_020911D8(u32 a)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_020911F0(a);
 }

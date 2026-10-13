@@ -34,7 +34,7 @@
  *   EVENT_MAPCHANGE_ContinueEvent  0x02183DE4  thumb  ov020
  *   PALANM_StartTimer  0x02021444  thumb
  *   func_0208068C  0x0208068C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  */
 #include "../include/Obj02684.h"
@@ -78,7 +78,7 @@ extern void EVENT_MAPCHANGE_RefreshUnionInfo(void *p);
 extern int EVENT_MAPCHANGE_ContinueEvent(int ctx, int *state, u8 *p);
 extern void PALANM_StartTimer(void);
 extern void func_0208068C(int a);
-extern void func_02082AC0(int v, int dst, int size);
+extern void MIi_CpuClearFast(int v, int dst, int size);
 extern void func_02080B98(void);
 
 int EVENT_MAPCHANGE_CreateContinueEvent(int a0, u8 *a1)
@@ -114,7 +114,7 @@ int EVENT_MAPCHANGE_CreateContinueEvent(int a0, u8 *a1)
     EVENT_MAPCHANGE_RefreshUnionInfo((void *)a0);
     PALANM_StartTimer();
     func_0208068C(0x1FF);
-    func_02082AC0(0, 0x06800000, 0xA4000);
+    MIi_CpuClearFast(0, 0x06800000, 0xA4000);
     func_02080B98();
     return t0;
 }

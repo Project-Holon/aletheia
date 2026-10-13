@@ -23,17 +23,17 @@
  *   screentex_File     0x020A77E0  data
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   func_02046C9C  0x02046C9C  arm
- *   func_02069FD0  0x02069FD0  arm
- *   func_02069FF8  0x02069FF8  arm
+ *   NNS_G3dTexGetRequiredSize  0x02069FD0  arm
+ *   NNS_G3dTexSetTexKey  0x02069FF8  arm
  *   NNS_G3dGetTex  0x0206E964  arm
  *   func_02080C44  0x02080C44  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   SCREENTEX_CaptureBanks      0x020A02D0  data
  *   GX_GetBankForTex   0x02080C44  arm
  *   GX_SetBankForLCDC  0x0208068C  arm
  *   GX_SetBankForTex   0x02080294  arm
  *   MIi_CpuCopyFast    0x02082B0C  arm
- *   func_02087AE4   0x02087AE4  arm
+ *   OS_WaitVBlankIntr   0x02087AE4  arm
  *   func_02080B98   0x02080B98  arm
  *   func_02080964   0x02080964  arm
  *   SCREENTEX_CameraTarget        0x020A02B8  data
@@ -100,17 +100,17 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 func_020307B0(void *p);
 extern int G3D_SYSTEM_GetResourceSize(void);
-extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void func_02046C9C(void *control, u32 kind, u32 value);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
-extern int func_02069FD0(int p);
+extern int NNS_G3dTexGetRequiredSize(int p);
 extern u16 func_02080C44(void);
-extern void func_02069FF8(char *p, int a, int b);
+extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
 extern u32  GX_GetBankForTex(void);
 extern void GX_SetBankForLCDC(u32 a);
 extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 extern void func_02080B98(void);
 extern int func_02080964(void);
 extern void G3D_SYSTEM_DrawObject(void *dst, const u32 *params);
@@ -218,11 +218,11 @@ void CODEIN_PARAM_Delete(struct CodeinParam *param)
  * Screen-texture setup (the __FILE__ anchor for this address is
  * screentex.c, 0x020A77E0). Allocates a small control block and a 0x8C-byte
  * work buffer off the heap in a0, seeds the buffer from a template with
- * MI_CpuCopy8 (func_02082D44), binds it to the control block, then builds a
+ * MI_CpuCopy8 (MI_CpuCopy8), binds it to the control block, then builds a
  * packed VRAM descriptor: bits of the bank word returned by func_02080C44
  * are folded into an accumulator under a fall-through switch on a1, and the
  * result is combined with the texture size from NNS_G3dGetTex /
- * func_02069FD0 before the final publish through func_02069FF8.
+ * NNS_G3dTexGetRequiredSize before the final publish through NNS_G3dTexSetTexKey.
  *
  * BLOCKED: every concrete byte is correct; the single unresolved relocation
  * is the ABS32 to the 0x8C-byte template at 0x020A033C. No evidence class
@@ -250,10 +250,10 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
 
     control = func_02030734(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
     work = func_02030734(heapId, 0x8c, 0, screentex_File, 0x3c);
-    func_02082D44(SCREENTEX_WorkTemplate, work, 0x8c);
+    MI_CpuCopy8(SCREENTEX_WorkTemplate, work, 0x8c);
     func_02046C9C(control, 2, (u32)work);
     texHeader = NNS_G3dGetTex(work);
-    texSize = func_02069FD0((int)texHeader);
+    texSize = NNS_G3dTexGetRequiredSize((int)texHeader);
     vramBanks = func_02080C44();
     slotBits = 0;
     switch (slotCount) {
@@ -275,7 +275,7 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     case 0:
         break;
     }
-    func_02069FF8(texHeader, ((texSize >> 4) << 16) | ((slotBits << 13) >> 16), 0);
+    NNS_G3dTexSetTexKey(texHeader, ((texSize >> 4) << 16) | ((slotBits << 13) >> 16), 0);
     return control;
 }
 
@@ -315,8 +315,8 @@ void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex)
     GX_SetBankForLCDC(SCREENTEX_CaptureBanks[captureIndex].lcdcBank);
     *(u32 *)0x04000064 = (SCREENTEX_CaptureBanks[captureIndex].captureControl << 16) | 0x80300010;
 
-    func_02087AE4();
-    func_02087AE4();
+    OS_WaitVBlankIntr();
+    OS_WaitVBlankIntr();
     func_02080B98();
     GX_SetBankForTex(savedTexBank);
 

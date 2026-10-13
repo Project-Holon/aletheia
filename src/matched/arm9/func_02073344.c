@@ -1,5 +1,5 @@
 /*
- * function: func_02073344
+ * function: NNSi_SndPlayerAllocSeqPlayer
  * address:  0x02073344
  * packet:   pkt_0207312C
  * region:   arm9
@@ -9,7 +9,11 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E464  0x0214E464  data
+ *   gSndPlayers  0x0214E464  data
+ *   NNS_SndHandleReleaseSeq  0x02072EA8  arm
+ *   NNSi_SndPlayerInsertSeqPlayer  0x02073548  arm
+ *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
+ *   NNSi_SndAllocFreeSeqPlayer  0x02073624  arm
  *
  * Pinned ../2.0/sp2 on the documented "kept constants" tell: under 1.1p1 -O4,p
  * the three `return 0` sites and the null argument of func_02060614 CSE into a
@@ -22,10 +26,10 @@
  * Under the pin the same C is 152 bytes, 0 concrete mismatches.
  *
  * PROMOTED TO EXACT, 2026-09-21, with NO change to the C.  It was parked at
- * MATCH because the PC24 site at +0x68 had no witness: func_02073624 has
+ * MATCH because the PC24 site at +0x68 had no witness: NNSi_SndAllocFreeSeqPlayer has
  * exactly one branch anywhere in the image (the `bl` at 0x020733AC inside this
  * very function), so `label` refused it.  0x02073624 is now filed as
- * src/matched/func_02073624.c (104 bytes, shard pkt_02073624, same ../2.0/sp2
+ * src/matched/NNSi_SndAllocFreeSeqPlayer.c (104 bytes, shard pkt_02073624, same ../2.0/sp2
  * kept-constants pin), and the site resolves `matched x1`.  All six
  * relocations are attested.
  */
@@ -37,23 +41,23 @@ struct Node { u8 p0[0x3d]; u8 b3d; };
 struct Slot { u8 p0[8]; u16 h08; u8 p0a[0x18 - 0xa]; u32 f18; u8 p1c[0x24 - 0x1c]; };
 struct Obj { struct Node *f0; };
 
-extern struct Slot g_0214E464[];
+extern struct Slot gSndPlayers[];
 struct DList;
 struct Obj_02073548;
 struct Voice;
-extern void func_02072EA8(u32 * volatile *pp);
+extern void NNS_SndHandleReleaseSeq(u32 * volatile *pp);
 extern void *func_02060614(struct DList *list, void *elem);
-extern void func_020735EC(struct Node *p);
-extern struct Voice *func_02073624(s32 pri);
-extern void func_02073548(void *list, struct Obj_02073548 *obj);
+extern void NNSi_SndSeqPlayerStopNow(struct Node *p);
+extern struct Voice *NNSi_SndAllocFreeSeqPlayer(s32 pri);
+extern void NNSi_SndPlayerInsertSeqPlayer(void *list, struct Obj_02073548 *obj);
 
-struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
+struct Node *NNSi_SndPlayerAllocSeqPlayer(struct Obj *o, s32 idx, s32 pri)
 {
-    struct Slot *s = &g_0214E464[idx];
+    struct Slot *s = &gSndPlayers[idx];
     struct Node *e = o->f0;
 
     if (e != 0) {
-        func_02072EA8((u32 * volatile*)o);
+        NNS_SndHandleReleaseSeq((u32 * volatile*)o);
     }
     if (s->h08 >= s->f18) {
         e = func_02060614((struct DList *)s, 0);
@@ -63,13 +67,13 @@ struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
         if (pri < e->b3d) {
             return 0;
         }
-        func_020735EC(e);
+        NNSi_SndSeqPlayerStopNow(e);
     }
-    e = (struct Node *)func_02073624(pri);
+    e = (struct Node *)NNSi_SndAllocFreeSeqPlayer(pri);
     if (e == 0) {
         return 0;
     }
-    func_02073548(s, (struct Obj_02073548 *)e);
+    NNSi_SndPlayerInsertSeqPlayer(s, (struct Obj_02073548 *)e);
     *(struct Obj * *)&((struct Obj00513 *)e)->f0 = o;
     o->f0 = e;
     return e;

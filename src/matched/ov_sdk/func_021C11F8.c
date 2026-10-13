@@ -1,5 +1,5 @@
 /*
- * function: func_021C11F8
+ * function: DWCi_MOVlGetChild
  * address:  0x021C11F8
  * packet:   pkt_021C11B8
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C11F8   0x021C11F8  arm
+ *   DWCi_MOVlGetChild   0x021C11F8  arm
  *
  * Address of the object behind the global pointer, +0x1e280.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C11F8.c \
- *       --func func_021C11F8 --addr 0x021C11F8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOVlGetChild.c \
+ *       --func DWCi_MOVlGetChild --addr 0x021C11F8 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-char *func_021C11F8(void)
+char *DWCi_MOVlGetChild(void)
 {
     return *(char **)0x021DE590 + 0x1e280;
 }

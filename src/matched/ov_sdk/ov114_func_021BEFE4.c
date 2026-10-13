@@ -13,18 +13,18 @@
  * params mutexInfo_p, connection_p.
  *
  * symbols:
- *   func_021BEFCC   0x021BEFCC  arm
- *   func_021BEFD8   0x021BEFD8  arm
+ *   NHTTPi_lockReqList   0x021BEFCC  arm
+ *   NHTTPi_unlockReqList   0x021BEFD8  arm
  */
 typedef unsigned long u32;
 
-extern void func_021BEFCC(void);
-extern void func_021BEFD8(void *mutexInfo_p);
+extern void NHTTPi_lockReqList(void);
+extern void NHTTPi_unlockReqList(void *mutexInfo_p);
 
 int NHTTPi_addRef(void *mutexInfo_p, char *connection_p)
 {
-    func_021BEFCC();
+    NHTTPi_lockReqList();
     ++*(u32 *)(connection_p + 0x8048);
-    func_021BEFD8(mutexInfo_p);
+    NHTTPi_unlockReqList(mutexInfo_p);
     return *(u32 *)(connection_p + 0x8048);
 }

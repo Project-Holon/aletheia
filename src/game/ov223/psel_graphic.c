@@ -22,7 +22,7 @@
  *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02061CA4 0x02061CA4 arm
@@ -245,7 +245,7 @@ extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02061CA4(void *, unsigned, unsigned, int);
@@ -528,10 +528,10 @@ void func_021BB540(u8 *p)
     for (i = 0; i < 3; i++) {
         u8 *out;
         void *buffer = func_02049F78(object, d_021BC73C[i].b, (u32)&out, *(u16 *)p);
-        func_02082D44(*(u8 **)(out + 0xC), p + 0x74 + i * 0x94, 0x20);
+        MI_CpuCopy8(*(u8 **)(out + 0xC), p + 0x74 + i * 0x94, 0x20);
         func_020307B0(buffer);
         buffer = func_02049F78(object, d_021BC73C[i].e, (u32)&out, *(u16 *)p);
-        func_02082D44(*(u8 **)(out + 0xC), p + 0x94 + i * 0x94, 0x20);
+        MI_CpuCopy8(*(u8 **)(out + 0xC), p + 0x94 + i * 0x94, 0x20);
         func_020307B0(buffer);
     }
     ARC_TOOL_DeleteHandle(object);
@@ -540,7 +540,7 @@ void func_021BB540(u8 *p)
         *(u16 *)(p + 0xD6 + i * 0x94) = 0x10;
     }
     for (i = 0; i < 3; i++) {
-        func_02082D44(p + 0x94 + i * 0x94, p + 0xB4 + i * 0x94, 0x20);
+        MI_CpuCopy8(p + 0x94 + i * 0x94, p + 0xB4 + i * 0x94, 0x20);
         func_02061CA4((void *)0x1E, d_021BC6FC[i] << 5, (u32)(p + 0xB4 + i * 0x94), 0x20);
     }
 }
@@ -618,14 +618,14 @@ void func_021BB7A4(char *p)
     for (i = 0; i < 4; i++) {
         char *out;
         void *buffer = func_02049F78(object, d_021BC708[i], (u32)(&out), ((struct Obj06727 *)p)->f0);
-        func_02082D44(*(char * *)&((struct Obj26099 *)out)->fC + 256, p + 0x26A + i * 256, 256);
+        MI_CpuCopy8(*(char * *)&((struct Obj26099 *)out)->fC + 256, p + 0x26A + i * 256, 256);
         func_020307B0(buffer);
     }
     ARC_TOOL_DeleteHandle(object);
     ((struct Obj06727 *)p)->f86C = 0;
     ((struct Obj06727 *)p)->f870 = 16;
     ((struct Obj06727 *)p)->f871 = 3;
-    func_02082D44(p + 0x56A, p + 0x76A, 256);
+    MI_CpuCopy8(p + 0x56A, p + 0x76A, 256);
     func_02061CA4((void *)31, 256, (unsigned)(p + 0x76A), 256);
 }
 
@@ -732,7 +732,7 @@ void func_021BB974(unsigned char *p,unsigned index,int cmd){switch(cmd){case 0:i
 /*
  * extent: copy helper followed by unlabelled return-one stub at 021BB9DC.
  */
-void func_021BB9A4(unsigned char *p,int value){if(p[2161]!=value){((struct Obj00084 *)p)->f86C=1;p[2160]=0;p[2161]=value;func_02082D44(p+1898,p+1642,256);}}
+void func_021BB9A4(unsigned char *p,int value){if(p[2161]!=value){((struct Obj00084 *)p)->f86C=1;p[2160]=0;p[2161]=value;MI_CpuCopy8(p+1898,p+1642,256);}}
 
 
 

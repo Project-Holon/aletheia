@@ -1,5 +1,5 @@
 /*
- * function: func_021BD744
+ * function: WIFICLUB_StateShowLeaveMessageByRoleA
  * address:  0x021BD744
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *
  * Reads the state word at +0x135C: when it is 2 or 3 runs the 0x7D setup,
  * otherwise the 0x7C one; clears +0x135C and stamps selector 0x8E.  Returns
@@ -28,16 +28,16 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BAAB8(char *p, int a, int b);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021BD744(char *p, int v)
+int WIFICLUB_StateShowLeaveMessageByRoleA(char *p, int v)
 {
     u32 x = ((struct Obj09198 *)p)->f135C;
 
     if (x - 2 <= 1) {
-        func_021BAAB8(p, 0x7D, 0);
+        WIFICLUB_ShowStreamedMessage(p, 0x7D, 0);
     } else {
-        func_021BAAB8(p, 0x7C, 0);
+        WIFICLUB_ShowStreamedMessage(p, 0x7C, 0);
     }
 
     ((struct Obj09198 *)p)->f135C = 0;

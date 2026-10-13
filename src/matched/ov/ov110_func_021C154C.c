@@ -1,5 +1,5 @@
 /*
- * function: func_021C154C
+ * function: PMS_SELECT_GRAPHIC_StepOpenEditScreen
  * address: 0x021C154C
  * packet: pkt_ov110_021C154C
  * region: ov110
@@ -33,7 +33,7 @@ extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern void PROCSYS_Push(void *, int, void *, void *);
 extern const unsigned gPmsSelectProcData[];
-int func_021C154C(int *state, u8 *p) {
+int PMS_SELECT_GRAPHIC_StepOpenEditScreen(int *state, u8 *p) {
     void *q;
     switch (*state) {
     case 0: ++*state; break;

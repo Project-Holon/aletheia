@@ -1,5 +1,5 @@
 /*
- * function: func_021BD578
+ * function: PMS_INPUT_OnButton
  * address: 0x021BD578
  * packet: pkt_ov110_021BD578
  * region: ov110
@@ -7,12 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * extent: independent switch leaf following func_021BD534; all registers
+ * extent: independent switch leaf following PMS_INPUT_ProcMain; all registers
  * are incoming arguments; each arm returns through bx lr.
  */
 #include "../include/Obj10281.h"
 typedef unsigned char u8;
-void func_021BD578(int value,unsigned int which,u8 *p) {
+void PMS_INPUT_OnButton(int value,unsigned int which,u8 *p) {
     switch(which) {
     case 0: ((struct Obj10281 *)p)->f3C=value; break;
     case 1:

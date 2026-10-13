@@ -1,5 +1,5 @@
 /*
- * function: func_02070BD8
+ * function: NNSi_G3dAnmObjInitNsBva
  * address:  0x02070BD8
  * packet:   pkt_0207010C
  * region:   arm9
@@ -11,9 +11,9 @@
  * symbols:
  *   data_020A8220  0x020A8220  data
  *
- * Unlabelled leaf follower of func_02070B64: no lr-saving prologue, so
+ * Unlabelled leaf follower of NNSi_G3dAnmCalcNsBtp: no lr-saving prologue, so
  * disasm.py never auto-labels it and the worklist folds its 72 bytes into
- * func_02070B64's inferred extent.  It should be seeded into
+ * NNSi_G3dAnmCalcNsBtp's inferred extent.  It should be seeded into
  * layout/function_starts.txt as a function start at 0x02070BD8, extent
  * 0x02070BD8..0x02070C20 with a single pool word at 0x02070C20.
  *
@@ -43,7 +43,7 @@ struct S {
     u16 f1a[1];
 };
 
-void func_02070BD8(struct S *s, u32 a, u8 *src)
+void NNSi_G3dAnmObjInitNsBva(struct S *s, u32 a, u8 *src)
 {
     u32 i = 0;
     s->fc = data_020A8220;

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   DAT_02734450  0x02734450  data twl
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
  *   SetSndexWork  0x02704D48  arm twl
  */
 
@@ -48,12 +48,12 @@ typedef struct {
 } State;
 
 extern State DAT_02734450;
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 
 void ReplyCallback(u32 a0) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u8 cmd = DAT_02734450.f58;
     Cb cb = DAT_02734450.f4c;
     void *arg = DAT_02734450.f50;
@@ -67,7 +67,7 @@ void ReplyCallback(u32 a0) {
     } else {
         DAT_02734450.state = 2;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     if (cb != 0) {
         cb(a0, arg);
     }

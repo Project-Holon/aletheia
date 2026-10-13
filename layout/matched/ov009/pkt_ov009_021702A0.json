@@ -226,7 +226,7 @@
    }
   },
   {
-   "name": "func_0216EB68",
+   "name": "DWCi_StopMatch",
    "address": "0x0216EB68",
    "kind": "sdk",
    "region": "ov009",
@@ -238,7 +238,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216F014",
+   "name": "DWCi_CheckDeadAIDBitmap",
    "address": "0x0216F014",
    "kind": "sdk",
    "region": "ov009",
@@ -250,7 +250,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216F058",
+   "name": "DWCi_ProcessMatchPollingPacket",
    "address": "0x0216F058",
    "kind": "sdk",
    "region": "ov009",
@@ -267,7 +267,7 @@
    }
   },
   {
-   "name": "func_0216F20C",
+   "name": "DWCi_GPSetServerStatus",
    "address": "0x0216F20C",
    "kind": "sdk",
    "region": "ov009",
@@ -291,7 +291,7 @@
    }
   },
   {
-   "name": "func_0216F6C0",
+   "name": "DWCi_CloseMatch",
    "address": "0x0216F6C0",
    "kind": "sdk",
    "region": "ov009",
@@ -308,7 +308,7 @@
    }
   },
   {
-   "name": "func_0216FEF0",
+   "name": "DWCi_CanSendMatchCommandDirect",
    "address": "0x0216FEF0",
    "kind": "sdk",
    "region": "ov009",
@@ -320,7 +320,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216FF2C",
+   "name": "DWCi_SendMatchCommand",
    "address": "0x0216FF2C",
    "kind": "sdk",
    "region": "ov009",
@@ -339,7 +339,7 @@
    }
   },
   {
-   "name": "func_021700C8",
+   "name": "DWCi_EncodeBinaryMsgCommand",
    "address": "0x021700C8",
    "kind": "sdk",
    "region": "ov009",
@@ -351,7 +351,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02170168",
+   "name": "DWCi_SendSBMsgCommand",
    "address": "0x02170168",
    "kind": "sdk",
    "region": "ov009",
@@ -368,7 +368,7 @@
    }
   },
   {
-   "name": "func_02170200",
+   "name": "DWCi_SendGPBuddyMsgCommand",
    "address": "0x02170200",
    "kind": "sdk",
    "region": "ov009",
@@ -389,7 +389,7 @@
    }
   },
   {
-   "name": "func_021702A0",
+   "name": "DWCi_ProcessRecvMatchCommand",
    "address": "0x021702A0",
    "kind": "sdk",
    "region": "ov009",
@@ -410,7 +410,7 @@
    }
   },
   {
-   "name": "func_021719A4",
+   "name": "DWCi_HandleMatchCommandError",
    "address": "0x021719A4",
    "kind": "sdk",
    "region": "ov009",
@@ -422,7 +422,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02171F68",
+   "name": "DWCi_CancelReservation",
    "address": "0x02171F68",
    "kind": "sdk",
    "region": "ov009",
@@ -434,7 +434,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02172E7C",
+   "name": "DWCi_CloseAllConnectionsByTimeout",
    "address": "0x02172E7C",
    "kind": "sdk",
    "region": "ov009",
@@ -446,7 +446,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02173B18",
+   "name": "DWCi_ClearGameMatchKeys",
    "address": "0x02173B18",
    "kind": "sdk",
    "region": "ov009",
@@ -463,7 +463,7 @@
    }
   },
   {
-   "name": "func_02173CFC",
+   "name": "DWCi_InitClWaitTimeout",
    "address": "0x02173CFC",
    "kind": "sdk",
    "region": "ov009",
@@ -487,7 +487,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02173D9C",
+   "name": "DWCi_HandleSBError",
    "address": "0x02173D9C",
    "kind": "sdk",
    "region": "ov009",
@@ -499,7 +499,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02173EF8",
+   "name": "DWCi_HandleNNError",
    "address": "0x02173EF8",
    "kind": "sdk",
    "region": "ov009",
@@ -511,7 +511,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021754FC",
+   "name": "DWCi_IsBackupMine",
    "address": "0x021754FC",
    "kind": "sdk",
    "region": "ov009",
@@ -523,7 +523,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02175F4C",
+   "name": "DWCi_SetMatchStatus",
    "address": "0x02175F4C",
    "kind": "sdk",
    "region": "ov009",
@@ -543,7 +543,7 @@
    }
   },
   {
-   "name": "func_02175FE4",
+   "name": "DWCi_ResetLastSomeDataRecvTimeByAidAll",
    "address": "0x02175FE4",
    "kind": "sdk",
    "region": "ov009",
@@ -555,7 +555,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217637C",
+   "name": "DWCi_NodeInfoList_GetNodeInfoForIndex",
    "address": "0x0217637C",
    "kind": "sdk",
    "region": "ov009",
@@ -567,7 +567,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021763AC",
+   "name": "DWCi_NodeInfoList_GetNodeInfoForProfileID",
    "address": "0x021763AC",
    "kind": "sdk",
    "region": "ov009",
@@ -579,7 +579,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176674",
+   "name": "DWCi_StopMeshMaking",
    "address": "0x02176674",
    "kind": "sdk",
    "region": "ov009",
@@ -591,7 +591,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021767F4",
+   "name": "DWCi_IsServerLocked",
    "address": "0x021767F4",
    "kind": "sdk",
    "region": "ov009",

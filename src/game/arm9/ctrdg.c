@@ -14,17 +14,17 @@
  *
  * symbols:
  *   g_02153B80     0x02153B80  data
- *   func_0200421A  0x0200421A  thumb
- *   func_02084EB8  0x02084EB8  arm
+ *   SVC_CpuSet  0x0200421A  thumb
+ *   OS_GetLockID  0x02084EB8  arm
  *   CTRDGi_LockByProcessor         0x020910D0  arm
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   OS_ReadOwnerOfLockWord  0x02084EB0  arm
  *   func_02084DA4  0x02084DA4  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02004490  0x02004490  thumb
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   SVC_WaitByLoop  0x02004490  thumb
  *   OS_UnLockCartridge             0x02084D98  arm
  *   OS_RestoreInterrupts           0x0208799C  arm
- *   func_02088610  0x02088610  arm
+ *   PXI_SendWordByFifo  0x02088610  arm
  */
 typedef unsigned short u16;
 
@@ -78,17 +78,17 @@ typedef struct CTRDGRomCycle {
     MICartridgeRomCycle2nd c2;
 } CTRDGRomCycle;
 
-extern void func_0200421A(u32 *out, void *p, u32 v);
-extern u16 func_02084EB8(void);
+extern void SVC_CpuSet(u32 *out, void *p, u32 v);
+extern u16 OS_GetLockID(void);
 extern void CTRDGi_LockByProcessor(u16 lockID, CTRDGLockByProc *info);
-extern u32 func_02087988(void);
+extern u32 OS_DisableInterrupts(void);
 extern unsigned short OS_ReadOwnerOfLockWord(char *p);
 extern u32 func_02084DA4(u32 a);
-extern void func_0208799C(u32 h);
-extern void func_02004490(u32 v);
+extern void OS_RestoreInterrupts(u32 h);
+extern void SVC_WaitByLoop(u32 v);
 extern void OS_UnLockCartridge(u16 lockID);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32 func_02088610(u32 a, u32 b, u32 c);
+
+extern u32 PXI_SendWordByFifo(u32 a, u32 b, u32 c);
 asm BOOL CTRDG_IsExistedAtInit(void);
 void func_02090F18(void);
 BOOL CTRDG_IsExisting(void);
@@ -114,8 +114,8 @@ void func_02090F18(void)
 {
     u32 tmp = 0;
 
-    func_0200421A(&tmp, &g_02153B80.subpInit, 0x05000001);
-    g_02153B80.lockID = func_02084EB8();
+    SVC_CpuSet(&tmp, &g_02153B80.subpInit, 0x05000001);
+    g_02153B80.lockID = OS_GetLockID();
 }
 
 #define CTRDGi_ROM   ((CTRDGHeader *)0x08000000)
@@ -197,15 +197,15 @@ void func_020910D0(u32 a0, u32 *a1)
     u32 t;
 
     while (1) {
-        a1[1] = func_02087988();
+        a1[1] = OS_DisableInterrupts();
         t = OS_ReadOwnerOfLockWord((void *)0x02FFFFE8) & 0x40;
         a1[0] = t;
         if (t != 0)
             return;
         if (func_02084DA4(a0) == 0)
             return;
-        func_0208799C(a1[1]);
-        func_02004490(1);
+        OS_RestoreInterrupts(a1[1]);
+        SVC_WaitByLoop(1);
     }
 }
 
@@ -219,10 +219,10 @@ void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info)
 
 void func_02091150(u32 a0)
 {
-    if (func_02088610(0xd, a0, 0) == 0)
+    if (PXI_SendWordByFifo(0xd, a0, 0) == 0)
         return;
 
     do {
-        func_02004490(1);
-    } while (func_02088610(0xd, a0, 0) != 0);
+        SVC_WaitByLoop(1);
+    } while (PXI_SendWordByFifo(0xd, a0, 0) != 0);
 }

@@ -13,7 +13,7 @@
  *   DC_FlushRange   0x020862F0  arm
  *   func_0207E888   0x0207E888  arm
  *   func_0207EA00   0x0207EA00  arm
- *   func_0207EB78   0x0207EB78  arm
+ *   GX_LoadBG2Scr   0x0207EB78  arm
  *   func_0207ECF0   0x0207ECF0  arm
  *   func_0207E944   0x0207E944  arm
  *   func_0207EABC   0x0207EABC  arm
@@ -42,7 +42,7 @@ typedef unsigned int u32;
 extern void DC_FlushRange(void *p, u32 size);
 extern void func_0207E888(const void *src, u32 offset, u32 size);
 extern void func_0207EA00(const void *src, u32 offset, u32 size);
-extern void func_0207EB78(const void *src, u32 offset, u32 size);
+extern void GX_LoadBG2Scr(const void *src, u32 offset, u32 size);
 extern void func_0207ECF0(const void *src, u32 offset, u32 size);
 extern void func_0207E944(const void *src, u32 offset, u32 size);
 extern void func_0207EABC(const void *src, u32 offset, u32 size);
@@ -61,7 +61,7 @@ void func_0204241C(u32 layer, const void *src, u32 offset, u32 size)
         func_0207EA00(src, offset, size);
         break;
     case 2:
-        func_0207EB78(src, offset, size);
+        GX_LoadBG2Scr(src, offset, size);
         break;
     case 3:
         func_0207ECF0(src, offset, size);

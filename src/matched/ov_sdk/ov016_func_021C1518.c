@@ -1,5 +1,5 @@
 /*
- * function: func_021C1518
+ * function: DWCi_RAKUlGetState
  * address:  0x021C1518
  * packet:   pkt_ov016_021C1518
  * region:   ov016
@@ -21,7 +21,7 @@ extern int func_021BC7F0(int a);
 extern void OS_Terminate(void);
 extern int *gRakuStatus;
 
-int func_021C1518(void)
+int DWCi_RAKUlGetState(void)
 {
 	int prm[0x3a];
 

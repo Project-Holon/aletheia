@@ -1,5 +1,5 @@
 /*
- * function: func_021B6874
+ * function: COMPATIBLE_IRC_SYS_RecvRequestHandler
  * address: 0x021B6874
  * packet: pkt_ov101_021B6874
  * region: ov101
@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 #include "../include/Obj22106.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_02082D44(void *,const void *,u32);
-void func_021B6874(u32 a,int b,void *c,u8 *d,void *e) {
- if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) { func_02082D44(c,d+8,8); ((struct Obj22106 *)d)->f18=1; } }
+extern void MI_CpuCopy8(void *,const void *,u32);
+void COMPATIBLE_IRC_SYS_RecvRequestHandler(u32 a,int b,void *c,u8 *d,void *e) {
+ if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) { MI_CpuCopy8(c,d+8,8); ((struct Obj22106 *)d)->f18=1; } }
 }

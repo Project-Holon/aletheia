@@ -16,8 +16,8 @@
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
  *   func_0201F41C  0x0201F41C  thumb
- *   func_02087C6C  0x02087C6C  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -87,8 +87,8 @@ struct Sub0200852CObj;
 u32 func_020084F8(void *dst, u32 value, u32 size);
 u8 func_02008550(const struct Sub0200852CObj *obj);
 void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-void func_02087C6C(void *p);
-void func_02082D44(const void *src, void *dst, int n);
+void OS_GetMacAddress(void *p);
+void MI_CpuCopy8(const void *src, void *dst, int n);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -127,7 +127,7 @@ void UNION_CHAT_LOG_Add(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->v[3] = v[3];
         e->kind = kind;
         e->h = 0;
-        func_02087C6C(e->key);
+        OS_GetMacAddress(e->key);
         e->flag = func_02008550((const struct Sub0200852CObj *)a);
         e->rel = 0;
     } else {
@@ -138,7 +138,7 @@ void UNION_CHAT_LOG_Add(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->v[3] = src->v[3];
         e->kind = src->kind;
         e->h = src->h;
-        func_02082D44(src->key, e->key, 6);
+        MI_CpuCopy8(src->key, e->key, 6);
         e->flag = src->flag;
         t = (int)GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->c);
         s = GAME_DATA_GetWifiList((const struct BigObj *)t);

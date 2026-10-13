@@ -1,5 +1,5 @@
 /*
- * function: func_021C25C8
+ * function: ghiPostGetContentType
  * address:  0x021C25C8
  * packet:   pkt_ov114_021C25C8
  * region:   ov114
@@ -12,11 +12,11 @@
  * sdk:      ghiPostGetContentType (libdwcgsghttp.TWL.HYB.a(ghttppost.o))
  *
  * symbols:
- *   g_021CEDCC  0x021CEDCC  data
- *   g_021CEDD0  0x021CEDD0  data
- *   g_021CEDE4  0x021CEDE4  data
- *   g_021CEE28  0x021CEE28  data
- *   g_021CEE34  0x021CEE34  data
+ *   sGhttpPostEmptyContentType  0x021CEDCC  data
+ *   sGhttpApplicationDime  0x021CEDD0  data
+ *   sGhttpMultipartFormDataBoundaryQr  0x021CEDE4  data
+ *   sGhttpTextXml  0x021CEE28  data
+ *   sGhttpApplicationXWwwFormUrlencoded  0x021CEE34  data
  */
 
 struct Post {
@@ -31,23 +31,23 @@ struct Conn {
 	struct Post *post;
 };
 
-extern char g_021CEDCC[];
-extern char g_021CEDD0[];
-extern char g_021CEDE4[];
-extern char g_021CEE28[];
-extern char g_021CEE34[];
+extern char sGhttpPostEmptyContentType[];
+extern char sGhttpApplicationDime[];
+extern char sGhttpMultipartFormDataBoundaryQr[];
+extern char sGhttpTextXml[];
+extern char sGhttpApplicationXWwwFormUrlencoded[];
 
-char *func_021C25C8(struct Conn *connection)
+char *ghiPostGetContentType(struct Conn *connection)
 {
 	struct Post *post = connection->post;
 
 	if (post == 0)
-		return g_021CEDCC;
+		return sGhttpPostEmptyContentType;
 	if (post->f14)
-		return g_021CEDD0;
+		return sGhttpApplicationDime;
 	if (post->f0c)
-		return g_021CEDE4;
+		return sGhttpMultipartFormDataBoundaryQr;
 	if (post->f10)
-		return g_021CEE28;
-	return g_021CEE34;
+		return sGhttpTextXml;
+	return sGhttpApplicationXWwwFormUrlencoded;
 }

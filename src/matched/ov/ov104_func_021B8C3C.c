@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C3C
+ * function: IRC_RHYTHM_SpawnBurst
  * address: 0x021B8C3C
  * packet: pkt_ov104_021B8C3C
  * region: ov104
@@ -15,8 +15,8 @@
  *   func_020056EC 0x020056EC thumb
  *   func_0207CA00 0x0207CA00 arm
  *   VEC_Normalize 0x0207CCA4 arm
- *   func_021B8E8C 0x021B8E8C thumb ov104
- *   func_021B8DA4 0x021B8DA4 thumb ov104
+ *   IRC_RHYTHM_IsParticleActive 0x021B8E8C thumb ov104
+ *   IRC_RHYTHM_StartParticle 0x021B8DA4 thumb ov104
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
 typedef unsigned char u8;
@@ -28,11 +28,11 @@ typedef struct { int x,y; } Point;
 extern u32 func_020056EC(u32);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *);
 extern void VEC_Normalize(const Vec *,Vec *);
-extern u32 func_021B8E8C(u8 *);
-extern void func_021B8DA4(u8 *,const Point *,const Point *,int,u32);
+extern u32 IRC_RHYTHM_IsParticleActive(u8 *);
+extern void IRC_RHYTHM_StartParticle(u8 *,const Point *,const Point *,int,u32);
 extern const s16 FX_SinCosTable_[];
 #define SHIFT(v,n) ((int)((u32)(v)<<(n)))
-void func_021B8C3C(u8 *p, const void *a, int color)
+void IRC_RHYTHM_SpawnBurst(u8 *p, const void *a, int color)
 {
     Vec origin, random, delta;
     Point end;
@@ -44,7 +44,7 @@ void func_021B8C3C(u8 *p, const void *a, int color)
         for(i=0;i<30;++i) {
             tmp=i*44;
             offset=tmp;
-            if(!func_021B8E8C(p+offset)) {
+            if(!IRC_RHYTHM_IsParticleActive(p+offset)) {
                 angle=(u16)func_020056EC(65535)>>4;
                 end.x=SHIFT(FX_SinCosTable_[angle*2],8)>>12;
                 end.y=SHIFT(FX_SinCosTable_[angle*2+1],8)>>12;
@@ -58,7 +58,7 @@ void func_021B8C3C(u8 *p, const void *a, int color)
                 end.y=SHIFT(rawY,8)>>12;
                 end.x=(int)((u32)end.x+(u32)((const Point *)a)->x);
                 end.y=(int)((u32)end.y+(u32)((const Point *)a)->y);
-                func_021B8DA4(p+offset,a,&end,color,func_020056EC(5)+40);
+                IRC_RHYTHM_StartParticle(p+offset,a,&end,color,func_020056EC(5)+40);
                 break;
             }
         }

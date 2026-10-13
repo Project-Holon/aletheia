@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBBC
+ * function: WIFICLUB_CheckSavedRegulation
  * address:  0x021BCBBC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 
-int func_021BCBBC(int a, int b, int *out)
+int WIFICLUB_CheckSavedRegulation(int a, int b, int *out)
 {
     int r = 4;
 

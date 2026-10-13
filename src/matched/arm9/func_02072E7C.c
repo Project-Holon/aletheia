@@ -1,5 +1,5 @@
 /*
- * function: func_02072E7C
+ * function: NNS_SndHandleStopSeq
  * address:  0x02072E7C
  * packet:   pkt_02072DE8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02073438  0x02073438  arm
+ *   NNSi_SndSeqPlayerStop  0x02073438  arm
  *
  * HEADER CORRECTED 2026-09-21 (pkt_02072DE8 lane), C unchanged.  The block read
  * `compiler: 1.1p1` / `status: EXACT`, and was neither: under the DEFAULT 1.1p1
@@ -20,7 +20,7 @@
  * Both fields now say what match.py actually prints.
  *
  * Blocked at MATCH, evidence class: none available for the sole ABS32 site at
- * +0x0C.  The tail-call target func_02073438 is named by exactly one pool word
+ * +0x0C.  The tail-call target NNSi_SndSeqPlayerStop is named by exactly one pool word
  * anywhere in the image -- this function's own, at 0x02072E88 -- so `literal`
  * has no outside witness, `label` does not apply to a pool word, and no
  * `matched` entry covers the address.  A split cannot help: the function is
@@ -28,9 +28,9 @@
  */
 
 struct Obj_02073438;
-extern void func_02073438(struct Obj_02073438 *p, int fadeFrame);
+extern void NNSi_SndSeqPlayerStop(struct Obj_02073438 *p, int fadeFrame);
 
-void func_02072E7C(void **r0, int fadeFrame)
+void NNS_SndHandleStopSeq(void **r0, int fadeFrame)
 {
-    func_02073438(*r0, fadeFrame);
+    NNSi_SndSeqPlayerStop(*r0, fadeFrame);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020642C8
+ * function: NNS_G2dInitCellAnimationVramTransfered
  * address:  0x020642C8
  * packet:   pkt_02064178
  * region:   arm9
@@ -52,7 +52,7 @@ extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
-void func_020642C8(char *self, int a1, char *c, int d,
+void NNS_G2dInitCellAnimationVramTransfered(char *self, int a1, char *c, int d,
                    int e, int f, int g, int h, int i, int j)
 {
     func_02066890(d, e, f, g, *(int *)*(int * *)&((struct Obj16429 *)c)->fC, h, i, j);

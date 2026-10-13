@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6910",
-    "func_021B694C",
-    "func_021B6988",
+    "PDC_MSG_PrintMessage0",
+    "PDC_MSG_PrintMessage3",
+    "PDC_MSG_PrintMessage1",
     "IRC_COMPATIBLE_ProcExit"
    ],
    "addresses": [

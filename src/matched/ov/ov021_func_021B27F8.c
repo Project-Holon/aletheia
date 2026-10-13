@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK46_CallThirdEvent
+ * function: SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallThirdEvent
  * address:  0x021B27F8
  * packet:   pkt_ov021_021B27F8
  * region:   ov021
@@ -25,7 +25,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u32 FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(void *, u32);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK46_CallThirdEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallThirdEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

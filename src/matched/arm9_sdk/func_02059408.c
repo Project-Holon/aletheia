@@ -1,5 +1,5 @@
 /*
- * function: func_02059408
+ * function: DWCi_Acc_U64ToString32
  * address:  0x02059408
  * packet:   pkt_02059408
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern const char g_020A7FF4[];
 
-void func_02059408(unsigned long long num, int bitnum, char *result)
+void DWCi_Acc_U64ToString32(unsigned long long num, int bitnum, char *result)
 {
     int i;
     int loopnum;

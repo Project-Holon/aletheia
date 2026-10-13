@@ -1,5 +1,5 @@
 /*
- * function: func_021E1340
+ * function: DWC_GdbShutdown
  * address:  0x021E1340
  * packet:   pkt_ov175_021E1340
  * region:   ov175
@@ -12,14 +12,14 @@
  * sdk:      DWC_GdbShutdown (dwc_gdb.o)
  *
  * symbols:
- *   func_021E17D8  0x021E17D8  arm  ov175
- *   func_021E13BC  0x021E13BC  arm  ov175
- *   func_021BF57C  0x021BF57C  arm  ov114
- *   func_021DD250  0x021DD250  arm  ov175
- *   func_021E191C  0x021E191C  arm  ov175
- *   g_021E5334     0x021E5334  data
- *   g_021E4594     0x021E4594  data
- *   g_021E45A8     0x021E45A8  data
+ *   DWCi_GdbPrintf  0x021E17D8  arm  ov175
+ *   DWCi_GdbCleanupRootCAList  0x021E13BC  arm  ov175
+ *   DWC_ShutdownGHTTP  0x021BF57C  arm  ov114
+ *   sakeShutdown  0x021DD250  arm  ov175
+ *   DWCi_GdbShutdownGsCore  0x021E191C  arm  ov175
+ *   gDwcGdbEntity     0x021E5334  data
+ *   sDwcGdbNotInitialized     0x021E4594  data
+ *   sDwcGdbInAsyncProcess     0x021E45A8  data
  */
 
 typedef struct {
@@ -27,29 +27,29 @@ typedef struct {
     void *sake;
     int state;
 } Tbl;
-extern Tbl g_021E5334;
-extern char g_021E4594[];
-extern char g_021E45A8[];
-extern void func_021E17D8(int line, char *fmt, ...);
-extern void func_021E13BC(void);
-extern int func_021BF57C(void);
-extern void func_021DD250(void *sake);
-extern void func_021E191C(void);
+extern Tbl gDwcGdbEntity;
+extern char sDwcGdbNotInitialized[];
+extern char sDwcGdbInAsyncProcess[];
+extern void DWCi_GdbPrintf(int line, char *fmt, ...);
+extern void DWCi_GdbCleanupRootCAList(void);
+extern int DWC_ShutdownGHTTP(void);
+extern void sakeShutdown(void *sake);
+extern void DWCi_GdbShutdownGsCore(void);
 
-int func_021E1340(void)
+int DWC_GdbShutdown(void)
 {
-    if (g_021E5334.state == 0) {
-        func_021E17D8(0x1a6, g_021E4594);
+    if (gDwcGdbEntity.state == 0) {
+        DWCi_GdbPrintf(0x1a6, sDwcGdbNotInitialized);
         return 0x13;
     }
-    if (g_021E5334.state == 2) {
-        func_021E17D8(0x1ab, g_021E45A8);
+    if (gDwcGdbEntity.state == 2) {
+        DWCi_GdbPrintf(0x1ab, sDwcGdbInAsyncProcess);
         return 0x14;
     }
-    func_021E13BC();
-    g_021E5334.state = 0;
-    func_021BF57C();
-    func_021DD250(g_021E5334.sake);
-    func_021E191C();
+    DWCi_GdbCleanupRootCAList();
+    gDwcGdbEntity.state = 0;
+    DWC_ShutdownGHTTP();
+    sakeShutdown(gDwcGdbEntity.sake);
+    DWCi_GdbShutdownGsCore();
     return 0;
 }

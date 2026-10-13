@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB08
+ * function: WIFICLUB_StateWaitSyncAndContinue
  * address:  0x021BDB08
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -37,7 +37,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 
-int func_021BDB08(char *p, int v)
+int WIFICLUB_StateWaitSyncAndContinue(char *p, int v)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xA) == 0) {
         return v;

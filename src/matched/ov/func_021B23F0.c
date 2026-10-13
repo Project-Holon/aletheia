@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK40_SetFlag
+ * function: SCRCMD_FIELD_GIMMICK_FLAG_ANIME_SetFlag
  * address:  0x021B23F0
  * packet:   pkt_021B23F0
  * region:   ov021
@@ -30,7 +30,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void FIELD_GIMMICK_FLAG_ANIME_SetFlag(u8 *p);
 
-int SCRCMD_GIMMICK40_SetFlag(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_SetFlag(u32 a, u32 b, u32 c, u32 d)
 {
 SCRCMD_WORK_GetScriptWork((void *)b);
 FIELD_GIMMICK_FLAG_ANIME_SetFlag(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)));

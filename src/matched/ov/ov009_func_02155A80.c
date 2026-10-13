@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pRapWork     0x021A8264  data  ov009  a4
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   DWC_GetAIDBitmap  0x0216B908  arm
  *   func_02176FD4  0x02176FD4  arm
  */
@@ -31,7 +31,7 @@ typedef struct {
 } G;
 
 extern G *_pRapWork;
-void func_02082D44(void *src, void *dst, int n);
+void MI_CpuCopy8(void *src, void *dst, int n);
 int DWC_GetAIDBitmap(void);
 unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 
@@ -46,7 +46,7 @@ int DWC_RAP_SendPacket(void *src, int len, int c)
     _pRapWork->hdr = c | (_pRapWork->v794 << 8);
     _pRapWork->cnt = _pRapWork->cnt + 1;
     ((u8 *)_pRapWork)[2] = _pRapWork->cnt;
-    func_02082D44(src, (char *)_pRapWork + 4, len);
+    MI_CpuCopy8(src, (char *)_pRapWork + 4, len);
     _pRapWork->busy = 1;
     r = (u16)DWC_GetAIDBitmap();
     if (r != func_02176FD4(r, _pRapWork, len + 4)) {

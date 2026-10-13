@@ -16,7 +16,7 @@
  *
  * Byte-correct. Evidence gaps, not C: 0x02189A08 (ov021), 0x021B6158
  * (ov098) and 0x021B95C8 (ov227) carry no func_ label in their overlay
- * and have no second caller; d_021B6D74 and d_021B98A4 are the ov098 and
+ * and have no second caller; gPdcProcData and d_021B98A4 are the ov098 and
  * ov227 proc tables. Levers: `ok` at function scope (its slot sits above
  * the case-1 locals), heap declared before mon in both key blocks, and
  * the u16 flag stored in both arms of an if/else.
@@ -38,7 +38,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_0200CA10  0x0200CA10  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
  *   func_02007F1C  0x02007F1C  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
@@ -47,13 +47,13 @@
  *   func_020307B0  0x020307B0  arm
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_Start  0x021CF498  thumb  ov021
- *   func_021B6100  0x021B6100  thumb  ov098
- *   func_021B6158  0x021B6158  thumb  ov098
+ *   PDC_CreateArgs  0x021B6100  thumb  ov098
+ *   PDC_GetResult  0x021B6158  thumb  ov098
  *   func_021B95A0  0x021B95A0  thumb  ov227
  *   func_021B95C8  0x021B95C8  thumb  ov227
  *   ov098_id       0x00000062  data
  *   ov227_id       0x000000E3  data
- *   d_021B6D74     0x021B6D74  data ov098
+ *   gPdcProcData     0x021B6D74  data ov098
  *   d_021B98A4     0x021B98A4  data ov227
  */
 
@@ -82,7 +82,7 @@ typedef struct Work {
 
 extern u8 ov098_id[];
 extern u8 ov227_id[];
-extern u8 d_021B6D74[];
+extern u8 gPdcProcData[];
 extern u8 d_021B98A4[];
 
 typedef signed int     s32;
@@ -107,7 +107,7 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void *func_0200CA10(void *sv);
+extern void *ZUKAN_SAVE_GetBlock(void *sv);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *h);
@@ -116,8 +116,8 @@ extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *h);
 extern u32 func_020307B0(void *p);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern void ENCEFF_Start(struct Ctx *c, u32 x, int idx);
-extern struct P *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
-extern int func_021B6158(void *p);
+extern struct P *PDC_CreateArgs(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
+extern int PDC_GetResult(void *p);
 extern void *func_021B95A0(u32 a, int b, u32 c, u32 heap);
 extern void func_021B95C8(void *p);
 
@@ -160,9 +160,9 @@ int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 
         func_02007E50(GAME_DATA_GetMyItem(sys), 0x240, 1, w->f24);
         func_02034AC4((u32)ov098_id);
-        w->f04 = func_021B6100((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)GAME_DATA_GetMyStatus(sys), (u32)GAME_DATA_GetMyItem(sys),
-                               (u32)func_0200873C(sv), (u32)func_0200CA10(sv), w->f24);
-        GAME_EVENT_CallProc(evt, -1, (u32)d_021B6D74, (u32)w->f04);
+        w->f04 = PDC_CreateArgs((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)GAME_DATA_GetMyStatus(sys), (u32)GAME_DATA_GetMyItem(sys),
+                               (u32)func_0200873C(sv), (u32)ZUKAN_SAVE_GetBlock(sv), w->f24);
+        GAME_EVENT_CallProc(evt, -1, (u32)gPdcProcData, (u32)w->f04);
         (*state)++;
         break;
     }
@@ -171,7 +171,7 @@ int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
         void *mon;
         Key key;
 
-        ok = func_021B6158(w->f04);
+        ok = PDC_GetResult(w->f04);
         mon = w->f0c;
         heap = w->f24;
 

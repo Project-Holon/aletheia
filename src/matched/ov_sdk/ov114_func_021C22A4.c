@@ -1,5 +1,5 @@
 /*
- * function: func_021C22A4
+ * function: ghttpCancelRequest
  * address:  0x021C22A4
  * packet:   pkt_ov114_021C22A4
  * region:   ov114
@@ -28,7 +28,7 @@ typedef struct GHIConnection {
 extern GHIConnection *ghiRequestToConnection(int request);
 extern int ghiCloseConnection(GHIConnection *connection);
 
-void func_021C22A4(int request)
+void ghttpCancelRequest(int request)
 {
     GHIConnection *connection = ghiRequestToConnection(request);
     if (connection == 0)

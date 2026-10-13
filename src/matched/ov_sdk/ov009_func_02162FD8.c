@@ -9,16 +9,17 @@
  * isa:      arm
  * status:   EXACT
  *
- * Tail call to func_02082D44 with its first two arguments swapped.
+ * Tail call to MI_CpuCopy8 with its first two arguments swapped.
  *
  * symbols:
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
 
  */
 
-extern void func_02082D44(void *a, void *b, int n);
+extern void MI_CpuCopy8(void *a, void *b, int n);
 
 void func_02162FD8(void *a, void *b, int n)
 {
-    func_02082D44(b, a, n);
+    MI_CpuCopy8(b, a, n);
 }
 

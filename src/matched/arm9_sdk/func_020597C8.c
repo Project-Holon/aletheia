@@ -1,5 +1,5 @@
 /*
- * function: func_020597C8
+ * function: DWC_CheckHasProfile
  * address:  0x020597C8
  * packet:   pkt_020597C8
  * region:   arm9
@@ -18,7 +18,7 @@
 struct DWCstAccUserData;
 extern int DWCi_Acc_IsValidLoginId(void *loginid);
 
-int func_020597C8(struct DWCstAccUserData *userdata)
+int DWC_CheckHasProfile(struct DWCstAccUserData *userdata)
 {
     return DWCi_Acc_IsValidLoginId((char *)userdata + 0x10) && ((int *)userdata)[7] > 0;
 }

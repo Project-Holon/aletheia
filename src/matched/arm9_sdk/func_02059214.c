@@ -1,5 +1,5 @@
 /*
- * function: func_02059214
+ * function: DWCi_SetBuddyFriendData
  * address:  0x02059214
  * packet:   pkt_02059214
  * region:   arm9
@@ -24,7 +24,7 @@ extern unsigned long func_0205911C(DWCstAccFlag *userdata);
 extern unsigned long func_02059108(DWCstAccFlag *userdata);
 extern void func_020591D8(DWCstAccFlag *userdata, unsigned long flags);
 
-void func_02059214(DWCstAccFriendData *frienddata)
+void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata)
 {
     unsigned long flags;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6B0
+ * function: WIFICLUB_StateKeyThenExit
  * address:  0x021BC6B0
  * packet:   pkt_ov099_021BC6B0
  * region:   ov099
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
  *   KEY_GetTrg  0x020362DC  arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BA928(char *p, int v);
+extern int WIFICLUB_UpdateTalkStream(char *p, int v);
 extern u32 KEY_GetTrg(void);
 
-int func_021BC6B0(char *p, int v)
+int WIFICLUB_StateKeyThenExit(char *p, int v)
 {
-    if (func_021BA928(p, v) == 0)
+    if (WIFICLUB_UpdateTalkStream(p, v) == 0)
         return v;
     if (KEY_GetTrg() == 0)
         return v;

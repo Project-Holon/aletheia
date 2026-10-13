@@ -1,5 +1,5 @@
 /*
- * function: func_021DF734
+ * function: DWCi_ScSetUseSSL
  * address:  0x021DF734
  * packet:   pkt_ov175_021DF734
  * region:   ov175
@@ -14,40 +14,40 @@
  * symbols:
  *   func_02084F80  0x02084F80  arm
  *   func_021BF520  0x021BF520  arm  ov114
- *   g_021E52B4  0x021E52B4  data
+ *   gScStatsServiceUrl  0x021E52B4  data
  *   g_021AE01C  0x021AE01C  data
- *   g_021E3FE8  0x021E3FE8  data
- *   g_021E53BC  0x021E53BC  data
- *   g_021E4040  0x021E4040  data
- *   g_021E408C  0x021E408C  data
- *   g_021E40E4  0x021E40E4  data
+ *   sDwcScStatsUrlFormatSecure2  0x021E3FE8  data
+ *   gWsAuthServiceUrl  0x021E53BC  data
+ *   sDwcScAuthUrlFormatSecure2  0x021E4040  data
+ *   sDwcScStatsUrlFormatSecure  0x021E408C  data
+ *   sDwcScAuthUrlFormatSecure  0x021E40E4  data
  */
 
 extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 extern int func_021BF520(int a);
-extern char g_021E52B4[];
+extern char gScStatsServiceUrl[];
 extern char g_021AE01C[];
-extern char g_021E3FE8[];
-extern char g_021E53BC[];
-extern char g_021E4040[];
-extern char g_021E408C[];
-extern char g_021E40E4[];
+extern char sDwcScStatsUrlFormatSecure2[];
+extern char gWsAuthServiceUrl[];
+extern char sDwcScAuthUrlFormatSecure2[];
+extern char sDwcScStatsUrlFormatSecure[];
+extern char sDwcScAuthUrlFormatSecure[];
 
-void func_021DF734(int ssl_type)
+void DWCi_ScSetUseSSL(int ssl_type)
 {
 	switch (ssl_type) {
 	case 1:
-		func_02084F80(g_021E52B4, 128, g_021E3FE8, g_021AE01C);
-		func_021BF520((int)g_021E52B4);
-		func_02084F80(g_021E53BC, 128, g_021E4040, g_021AE01C);
-		func_021BF520((int)g_021E53BC);
+		func_02084F80(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure2, g_021AE01C);
+		func_021BF520((int)gScStatsServiceUrl);
+		func_02084F80(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure2, g_021AE01C);
+		func_021BF520((int)gWsAuthServiceUrl);
 		break;
 	case 0:
 	default:
-		func_02084F80(g_021E52B4, 128, g_021E408C, g_021AE01C);
-		func_021BF520((int)g_021E52B4);
-		func_02084F80(g_021E53BC, 128, g_021E40E4, g_021AE01C);
-		func_021BF520((int)g_021E53BC);
+		func_02084F80(gScStatsServiceUrl, 128, sDwcScStatsUrlFormatSecure, g_021AE01C);
+		func_021BF520((int)gScStatsServiceUrl);
+		func_02084F80(gWsAuthServiceUrl, 128, sDwcScAuthUrlFormatSecure, g_021AE01C);
+		func_021BF520((int)gWsAuthServiceUrl);
 		break;
 	}
 }

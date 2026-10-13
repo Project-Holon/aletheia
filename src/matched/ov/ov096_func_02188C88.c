@@ -1,5 +1,5 @@
 /*
- * function: func_02188C88
+ * function: TR_AI_CmdLoadTurnCount
  * address: 0x02188C88
  * packet: pkt_ov096_02188C88
  * region: ov096
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj10176.h"
 struct Q7; extern unsigned short BTL_SERVER_FLOW_GetTurnCount(struct Q7 *);
-int func_02188C88(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=BTL_SERVER_FLOW_GetTurnCount(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }
+int TR_AI_CmdLoadTurnCount(int a, unsigned char *b) { ((struct Obj10176 *)b)->f38=BTL_SERVER_FLOW_GetTurnCount(*(struct Q7 * *)&((struct Obj10176 *)b)->fB4); return ((struct Obj10176 *)b)->fC4; }

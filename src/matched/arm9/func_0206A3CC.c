@@ -1,5 +1,5 @@
 /*
- * function: func_0206A3CC
+ * function: NNSi_G3dBindMdlPlttInternal
  * address:  0x0206A3CC
  * packet:   pkt_0206A17C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * NitroSystem G3D bindMdlPltt_Internal_ (static helper of
- * NNS_G3dBindMdlPltt, func_0206A4AC): for every material index in a
+ * NNS_G3dBindMdlPltt, NNS_G3dBindMdlPltt): for every material index in a
  * pltt-to-material bind record, stores plttBase + (plttInfo.vramKey address)
  * into the material's texPlttBase, both halved when the palette is not a
  * 4-colour one (flag bit 0 clear); marks the record bound.
@@ -22,8 +22,8 @@
  * lookup as the NNS_G3dGetMatDataByIdx inline with an `if (mat)` guard.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206A3CC.c
- *       --func func_0206A3CC --addr 0x0206A3CC --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dBindMdlPlttInternal.c
+ *       --func NNSi_G3dBindMdlPlttInternal --addr 0x0206A3CC --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -62,7 +62,7 @@ static inline u32 GetPlttKeyAddr(u32 key)
     return (u32)((key & 0xffff) << 3);
 }
 
-void func_0206A3CC(ResMat *pMat, PlttToMatIdx *pBindData, const ResTex *pTex, const PlttData *pPlttData)
+void NNSi_G3dBindMdlPlttInternal(ResMat *pMat, PlttToMatIdx *pBindData, const ResTex *pTex, const PlttData *pPlttData)
 {
     u8 *base;
     u16 plttBase;

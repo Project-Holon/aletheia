@@ -1,5 +1,5 @@
 /*
- * function: func_02082B0C
+ * function: MIi_CpuCopyFast
  * address:  0x02082B0C
  * packet:   pkt_02082B0C
  * region:   arm9
@@ -15,7 +15,7 @@
  * void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size).
  */
 
-asm void func_02082B0C(void)
+asm void MIi_CpuCopyFast(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     add r10, r1, r2

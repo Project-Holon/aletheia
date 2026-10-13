@@ -1,5 +1,5 @@
 /*
- * function: func_0206A0C4
+ * function: NNS_G3dTexReleaseTexKey
  * address:  0x0206A0C4
  * packet:   pkt_02069FF8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * The DETACH half of the texture/palette upload descriptor whose ATTACH half
- * is src/matched/func_0206A00C.c: for each of the descriptor's two slots
+ * is src/matched/NNS_G3dTexLoad.c: for each of the descriptor's two slots
  * (texture at +0x08/+0x10, palette at +0x18/+0x20), when the caller passed a
  * non-null out-pointer, clear the slot's "uploaded" bit 0, hand the caller the
  * VRAM address the slot held, and zero the slot.  Two independent halves with
@@ -48,15 +48,15 @@
  * image byte for byte with the same C; ../2.0/sp2 is recorded here because the
  * neighbouring cluster docs/families/cluster_0206A17C.h is already pin-heavy
  * on 2.0 and because the sibling filed in this same pass,
- * src/matched/func_0206A00C.c, is 2.0 and NOT 1.2.  Since two front ends agree
+ * src/matched/NNS_G3dTexLoad.c, is 2.0 and NOT 1.2.  Since two front ends agree
  * on this row it is not usable as evidence for either pin on its own, and it
  * is deliberately not offered as one in docs/FRONTEND-PINS.md.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A0C4.c \
- *       --func func_0206A0C4 --addr 0x0206A0C4 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_G3dTexReleaseTexKey.c \
+ *       --func NNS_G3dTexReleaseTexKey --addr 0x0206A0C4 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 76 = original 76, 0 relocation sites
  */
 
@@ -76,7 +76,7 @@ struct Tex {
     u16 pad22;
 };
 
-void func_0206A0C4(struct Tex *t, u32 *a, u32 *b)
+void NNS_G3dTexReleaseTexKey(struct Tex *t, u32 *a, u32 *b)
 {
     if (a != 0) {
         t->f10 = (u16)(t->f10 & ~1);

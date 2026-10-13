@@ -1,5 +1,5 @@
 /*
- * function: func_021B8624
+ * function: IRC_RHYTHM_RecordTap
  * address: 0x021B8624
  * packet: pkt_ov104_021B8624
  * region: ov104
@@ -22,4 +22,4 @@ typedef short s16;
 typedef unsigned int u32;
 extern unsigned long long func_020870D0(void);
 typedef struct { u32 f0; u32 f4; } Pair;
-void func_021B8624(u8 *p) { if(((struct Obj01389 *)p)->f78<10) { ((Pair *)p)[((struct Obj01389 *)p)->f78].f0=(func_020870D0()<<6)/33514-*(unsigned long long *)(p+0x7c); if(((struct Obj01389 *)p)->f78==0) ((Pair *)p)[((struct Obj01389 *)p)->f78].f4=0; else ((Pair *)p)[((struct Obj01389 *)p)->f78].f4=((Pair *)p)[((struct Obj01389 *)p)->f78].f0-((Pair *)p)[((struct Obj01389 *)p)->f78-1].f0; ++((struct Obj01389 *)p)->f78; } else if(((struct Obj01389 *)p)->f7A<99) ++((struct Obj01389 *)p)->f7A; }
+void IRC_RHYTHM_RecordTap(u8 *p) { if(((struct Obj01389 *)p)->f78<10) { ((Pair *)p)[((struct Obj01389 *)p)->f78].f0=(func_020870D0()<<6)/33514-*(unsigned long long *)(p+0x7c); if(((struct Obj01389 *)p)->f78==0) ((Pair *)p)[((struct Obj01389 *)p)->f78].f4=0; else ((Pair *)p)[((struct Obj01389 *)p)->f78].f4=((Pair *)p)[((struct Obj01389 *)p)->f78].f0-((Pair *)p)[((struct Obj01389 *)p)->f78-1].f0; ++((struct Obj01389 *)p)->f78; } else if(((struct Obj01389 *)p)->f7A<99) ++((struct Obj01389 *)p)->f7A; }

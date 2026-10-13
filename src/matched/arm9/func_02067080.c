@@ -1,5 +1,5 @@
 /*
- * function: func_02067080
+ * function: NNSi_G2dDoAffineTransforme
  * address:  0x02067080
  * packet:   pkt_02067080
  * region:   arm9
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   sOamSoftEmuContext      0x02148B48  data
- *   tbl_020A17F0    0x020A17F0  data
- *   tbl_020A17D8    0x020A17D8  data
+ *   sRndCoreInstance      0x02148B48  data
+ *   NNSi_objSizeWTbl    0x020A17F0  data
+ *   NNSi_objSizeHTbl    0x020A17D8  data
  *
  * NitroSystem g2d DoAffineTransforme_ (g2d_RendererCore.c): read the OBJ
  * position back as fx32, undo the double-affine centring, rotate it by the
  * 2x2 SR matrix, apply the renderer's affine overwrite mode, correct for the
  * rotation centre (NNSi_G2dAdjustDifferenceOfRotateOrientation) and add the
- * base translation.  sOamSoftEmuContext is pTheInstance_; the two u16 [3][4] tables
- * are NNSi_objSizeWTbl / NNSi_objSizeHTbl.  Only caller: func_02067340
+ * base translation.  sRndCoreInstance is pTheInstance_; the two u16 [3][4] tables
+ * are NNSi_objSizeWTbl / NNSi_objSizeHTbl.  Only caller: NNSi_G2dDrawCellToSurface2D
  * (DrawCellToSurface2D_).
  *
  * Closed 2026-09-24 (wave 21, online research lane) from DIFF 2
@@ -38,8 +38,8 @@
  * of it isolated the two points above.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02067080.c \
- *       --func func_02067080 --addr 0x02067080 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G2dDoAffineTransforme.c \
+ *       --func NNSi_G2dDoAffineTransforme --addr 0x02067080 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -65,9 +65,9 @@ typedef struct { fx32 x; fx32 y; } NNSG2dFVec2;
 typedef struct { fx32 _00; fx32 _01; fx32 _10; fx32 _11; } MtxFx22;
 
 typedef struct RndCore { u32 f00; u32 affineOverwriteMode; } RndCore;
-extern RndCore *sOamSoftEmuContext;
-extern const u16 tbl_020A17F0[3][4];   /* NNSi_objSizeWTbl */
-extern const u16 tbl_020A17D8[3][4];   /* NNSi_objSizeHTbl */
+extern RndCore *sRndCoreInstance;
+extern const u16 NNSi_objSizeWTbl[3][4];   /* NNSi_objSizeWTbl */
+extern const u16 NNSi_objSizeHTbl[3][4];   /* NNSi_objSizeHTbl */
 
 static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
 {
@@ -104,11 +104,11 @@ static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *oamAttr)
 }
 static inline int NNS_G2dGetOamSizeX(const GXOamShape *oamShape)
 {
-    return tbl_020A17F0[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
+    return NNSi_objSizeWTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
 static inline int NNS_G2dGetOamSizeY(const GXOamShape *oamShape)
 {
-    return tbl_020A17D8[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
+    return NNSi_objSizeHTbl[(*oamShape & 0x0000c000) >> 14][(*oamShape & 0xc0000000) >> 30];
 }
 static inline s16 NNS_G2dRepeatXinCellSpace(s16 srcX)
 {
@@ -188,7 +188,7 @@ static inline void MulMtx22(const MtxFx22 *m, const NNSG2dFVec2 *pSrc, NNSG2dFVe
     }
 }
 
-void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
+void NNSi_G2dDoAffineTransforme(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTrans)
 {
     NNSG2dFVec2 objTrans;
     GXOamEffect effectTypeAfter;
@@ -197,8 +197,8 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTra
     NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(pOam, &objTrans);
     MulMtx22(pMtxSR, &objTrans, &objTrans);
 
-    if (sOamSoftEmuContext->affineOverwriteMode != 0) {
-        if (sOamSoftEmuContext->affineOverwriteMode == 2) {
+    if (sRndCoreInstance->affineOverwriteMode != 0) {
+        if (sRndCoreInstance->affineOverwriteMode == 2) {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE_DOUBLE;
         } else {
             effectTypeAfter = GX_OAM_EFFECT_AFFINE;

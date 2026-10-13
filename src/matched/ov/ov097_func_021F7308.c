@@ -1,5 +1,5 @@
 /*
- * function: func_021F7308
+ * function: VS_MULTI_LIST_MoveSlotActors
  * address:  0x021F7308
  * packet:   pkt_ov097_021F7308
  * region:   ov097
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F72DC  0x021F72DC  thumb  ov097
+ *   VS_MULTI_LIST_MoveActorX  0x021F72DC  thumb  ov097
  */
 
-extern void func_021F72DC(unsigned p, unsigned i, int dx);
+extern void VS_MULTI_LIST_MoveActorX(unsigned p, unsigned i, int dx);
 
-void func_021F7308(int a, unsigned b, int c)
+void VS_MULTI_LIST_MoveSlotActors(int a, unsigned b, int c)
 {
     unsigned i;
 
     for (i = b; i < b + 3; i++) {
-        func_021F72DC(a, i, c);
-        func_021F72DC(a, i + 6, c);
-        func_021F72DC(a, i + 12, c);
-        func_021F72DC(a, i + 18, c);
+        VS_MULTI_LIST_MoveActorX(a, i, c);
+        VS_MULTI_LIST_MoveActorX(a, i + 6, c);
+        VS_MULTI_LIST_MoveActorX(a, i + 12, c);
+        VS_MULTI_LIST_MoveActorX(a, i + 18, c);
     }
 }

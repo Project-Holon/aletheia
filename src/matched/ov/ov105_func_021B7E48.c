@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E48
+ * function: IRC_RESULT_PrintCenteredMessage
  * address: 0x021B7E48
  * packet: pkt_ov105_021B7E48
  * region: ov105
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7CA0 0x021B7CA0 thumb ov105
- *   func_021B7CA4 0x021B7CA4 thumb ov105
- *   func_021B7CA8 0x021B7CA8 thumb ov105
+ *   IRC_RESULT_GetFont 0x021B7CA0 thumb ov105
+ *   IRC_RESULT_GetPrintQueue 0x021B7CA4 thumb ov105
+ *   IRC_RESULT_GetMessages 0x021B7CA8 thumb ov105
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -20,7 +20,7 @@
  */
 #include "../include/Obj02813.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef short s16;
-extern int func_021B7CA0(void *); extern int func_021B7CA4(void *); extern int func_021B7CA8(void *);
+extern int IRC_RESULT_GetFont(void *); extern int IRC_RESULT_GetPrintQueue(void *); extern int IRC_RESULT_GetMessages(void *);
 typedef unsigned int   u32;
 struct Descriptor;
 struct StrObj;
@@ -30,10 +30,10 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p); extern u8 BMP_WIN_GetHeight(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b); extern unsigned func_0201D42C(void *,int);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021B7E48(u8 *p,void *a,int b)
+void IRC_RESULT_PrintCenteredMessage(u8 *p,void *a,int b)
 {
  int bank; int font; int tag; u16 x,y;
- bank=func_021B7CA8(a); font=func_021B7CA4(a); tag=func_021B7CA0(a);
+ bank=IRC_RESULT_GetMessages(a); font=IRC_RESULT_GetPrintQueue(a); tag=IRC_RESULT_GetFont(a);
  BMP_Clear(BMP_WIN_GetBmp(((struct Obj02813 *)p)->f0),((struct Obj02813 *)p)->f10);
  MSGDATA_ReadString((struct MsgBank *)bank,b,((struct Obj02813 *)p)->fC);
  x=BMP_WIN_GetWidth(((struct Obj02813 *)p)->f0)*4; y=BMP_WIN_GetHeight(((struct Obj02813 *)p)->f0)*4;

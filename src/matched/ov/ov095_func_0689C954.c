@@ -1,5 +1,5 @@
 /*
- * function: func_0689C954
+ * function: BTL_ID_IsAbilitySkillSwapBlocked
  * address: 0x0689C954
  * packet: pkt_ov095_0689C954
  * region: ov095
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0689C974 0x0689C974 thumb ov095
- *   func_0689C888 0x0689C888 thumb ov095
- *   d_0689E2A4 0x0689E2A4 data a2
+ *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
+ *   BTL_ID_IsInList 0x0689C888 thumb ov095
+ *   gSkillSwapBlockedAbilities 0x0689E2A4 data a2
  */
 
-extern int func_0689C974(int a);
-extern int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-extern unsigned short d_0689E2A4[];
-int func_0689C954(unsigned a)
+extern int BTL_ID_IsMultitypeAbility(int a);
+extern int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+extern unsigned short gSkillSwapBlockedAbilities[];
+int BTL_ID_IsAbilitySkillSwapBlocked(unsigned a)
 {
-    if (func_0689C974(a)) return 1;
-    return func_0689C888(a, d_0689E2A4, 3);
+    if (BTL_ID_IsMultitypeAbility(a)) return 1;
+    return BTL_ID_IsInList(a, gSkillSwapBlockedAbilities, 3);
 }

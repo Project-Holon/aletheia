@@ -1,5 +1,5 @@
 /*
- * function: func_021BA620
+ * function: NHTTPi_strtonum
  * address:  0x021BA620
  * packet:   pkt_ov114_021BA620
  * region:   ov114
@@ -15,7 +15,7 @@
  */
 
 
-int func_021BA620(char *p_p, int size)
+int NHTTPi_strtonum(char *p_p, int size)
 {
     int numFound = 0;
     int n = 0;

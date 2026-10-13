@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C060C",
+   "name": "PMS_SELECT_GRAPHIC_CreateBg",
    "address": "0x021C060C",
    "kind": "game",
    "region": "ov110",

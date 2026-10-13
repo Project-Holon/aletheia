@@ -16,7 +16,7 @@
  *   func_021684CC  0x021684CC  arm  ov009
  *   strtoul        0x02095EAC  arm
  *   strcpy         0x02094798  arm
- *   func_02176984  0x02176984  arm  ov009
+ *   DWCi_IsLockedBuddyStatus  0x02176984  arm  ov009
  *   g_021A2004     0x021A2004  data
  *   g_021A2008     0x021A2008  data
  */
@@ -40,7 +40,7 @@ extern char g_021A2008[];
 extern int func_0216980C(void *friendData, GPBuddyStatus *status);
 extern int func_021684CC(char *key, char *value, char *string, char separator);
 extern unsigned long strtoul(const char *s, char **end, int base);
-extern int func_02176984(GPBuddyStatus *status);
+extern int DWCi_IsLockedBuddyStatus(GPBuddyStatus *status);
 
 u8 func_02168724(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString)
 {
@@ -74,7 +74,7 @@ u8 func_02168724(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusStrin
         if (statusString)
             strcpy(statusString, status.locationString);
         state = status.status;
-        if (func_02176984(&status))
+        if (DWCi_IsLockedBuddyStatus(&status))
             state = 2;
         return state;
     }

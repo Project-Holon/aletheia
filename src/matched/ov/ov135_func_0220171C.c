@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C866C 0x021C866C arm ov114
- *   func_021C86A8 0x021C86A8 arm ov114
+ *   DPW_TR_IsAsyncEnd 0x021C866C arm ov114
+ *   DPW_TR_GetAsyncResult 0x021C86A8 arm ov114
  *   func_022021F8 0x022021F8 thumb ov135
  *   func_022023A4 0x022023A4 thumb ov135
  *   func_022024B0 0x022024B0 thumb ov135
@@ -24,8 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021C866C(void);
-extern int func_021C86A8(void);
+extern int DPW_TR_IsAsyncEnd(void);
+extern int DPW_TR_GetAsyncResult(void);
 extern void func_022021F8(u8 *,int);
 extern void func_022023A4(u8 *p, void *mon, void *unused2, void *unused3, u32 index);
 extern void func_022024B0(void *obj, u8 *p);
@@ -38,8 +38,8 @@ extern void GFL_NET_STATE_ClearErrorMode(void);
 int func_0220171C(u8 *p)
 {
     int r;
-    if(func_021C866C()) {
-        r=func_021C86A8();
+    if(DPW_TR_IsAsyncEnd()) {
+        r=DPW_TR_GetAsyncResult();
         ((struct Obj01943 *)p)->fF8C=0;
         switch(r) {
         case 0:

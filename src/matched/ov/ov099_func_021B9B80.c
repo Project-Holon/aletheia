@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B80
+ * function: WIFICLUBACTOR_FreeAllActors
  * address:  0x021B9B80
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9A34  0x021B9A34  thumb  ov099
+ *   WIFICLUBACTOR_FreeActor  0x021B9A34  thumb  ov099
  *
  * Releases every occupied one of the 0x30 records of 0x1C bytes at +0x30.
  */
@@ -23,15 +23,15 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9A34(void *p);
+extern void WIFICLUBACTOR_FreeActor(void *p);
 
-void func_021B9B80(char *p)
+void WIFICLUBACTOR_FreeAllActors(char *p)
 {
     int i;
 
     for (i = 0; i < 0x30; i++) {
         if (*(u32 *)(p + i * 0x1C + 0x30) != 0) {
-            func_021B9A34(p + 0x30 + i * 0x1C);
+            WIFICLUBACTOR_FreeActor(p + 0x30 + i * 0x1C);
         }
     }
 }

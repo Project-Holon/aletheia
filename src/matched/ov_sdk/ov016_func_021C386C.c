@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_021BD1D4  0x021BD1D4  arm
+ *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  */
 
 typedef unsigned short u16;
@@ -19,11 +19,11 @@ typedef struct {
     u16 rest : 14;
 } BgCnt;
 
-void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 
 void func_021C386C(void)
 {
-    func_021BD1D4((void *)0x021DB37C, (void *)0x0207EB78);
+    DWCi_CMNlLoadResource((void *)0x021DB37C, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;
     ((BgCnt *)0x0400100A)->priority = 3;
     ((BgCnt *)0x04000008)->priority = 3;

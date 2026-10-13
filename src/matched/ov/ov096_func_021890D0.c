@@ -1,5 +1,5 @@
 /*
- * function: func_021890D0
+ * function: TR_AI_CmdIfPokeValueGreater
  * address: 0x021890D0
  * packet: pkt_ov096_021890D0
  * region: ov096
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02189100 0x02189100 thumb ov096
+ *   TR_AI_ComparePokeValue 0x02189100 thumb ov096
  */
 #include "../include/Obj21952.h"
 struct Cursor;
-extern int func_02189100(struct Cursor *a, int b, int c);
-int func_021890D0(struct Cursor *a, int b)
+extern int TR_AI_ComparePokeValue(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfPokeValueGreater(struct Cursor *a, int b)
 {
-    func_02189100(a, b, 1);
+    TR_AI_ComparePokeValue(a, b, 1);
     return ((struct Obj21952 *)b)->fC4;
 }

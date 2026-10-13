@@ -1,5 +1,5 @@
 /*
- * function: func_021D546C
+ * function: DWCi_QUElPushBack
  * address:  0x021D546C
  * packet:   pkt_ov016_021D546C
  * region:   ov016
@@ -12,10 +12,10 @@
  * sdk:      DWCi_QUElPushBack (libdwcutil.TWL.HYB.a(deque.o))
  *
  * symbols:
- *   func_02084998  0x02084998  arm
- *   func_0207C994  0x0207c994  arm
- *   func_02088234  0x02088234  arm
- *   func_02084968  0x02084968  arm
+ *   OS_DisableIrqMask  0x02084998  arm
+ *   FX_ModS32  0x0207c994  arm
+ *   OS_Terminate  0x02088234  arm
+ *   OS_EnableIrqMask  0x02084968  arm
  */
 
 typedef unsigned char u8;
@@ -28,22 +28,22 @@ typedef struct tagQCB {
     void *data[1];
 } QCB;
 
-extern unsigned long func_02084998(unsigned long intr);
-extern long func_0207C994(long a, long b);
-extern void func_02088234(void);
-extern unsigned long func_02084968(unsigned long intr);
+extern unsigned long OS_DisableIrqMask(unsigned long intr);
+extern long FX_ModS32(long a, long b);
+extern void OS_Terminate(void);
+extern unsigned long OS_EnableIrqMask(unsigned long intr);
 
-void func_021D546C(void *queue, void *data)
+void DWCi_QUElPushBack(void *queue, void *data)
 {
     QCB *qcb = (QCB *)queue;
     unsigned long irq;
     long next;
 
-    irq = func_02084998(1);
-    next = func_0207C994(qcb->tail + 1, qcb->size);
+    irq = OS_DisableIrqMask(1);
+    next = FX_ModS32(qcb->tail + 1, qcb->size);
     if (next == qcb->head)
-        func_02088234();
+        OS_Terminate();
     qcb->data[qcb->tail] = data;
     qcb->tail = next;
-    func_02084968(irq);
+    OS_EnableIrqMask(irq);
 }

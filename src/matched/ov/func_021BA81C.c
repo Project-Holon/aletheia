@@ -1,5 +1,5 @@
 /*
- * function: func_021BA81C
+ * function: WIFICLUB_GetMessageIdByIndex
  * address:  0x021BA81C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021C39E0  0x021C39E0  data  a4
+ *   gWifiClubMessageIdTable  0x021C39E0  data  a4
  *
  * Word getter at index i of the table at 0x021C39E0.
  */
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u32 data_021C39E0[];
+extern u32 gWifiClubMessageIdTable[];
 
-u32 func_021BA81C(int i)
+u32 WIFICLUB_GetMessageIdByIndex(int i)
 {
-    return data_021C39E0[i];
+    return gWifiClubMessageIdTable[i];
 }

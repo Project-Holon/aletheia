@@ -1,5 +1,5 @@
 /*
- * function: func_0689D338
+ * function: BTL_POSPOKE_RotateInPoke
  * address:  0x0689D338
  * packet:   pkt_ov095_0689D338
  * region:   ov095
@@ -19,8 +19,8 @@
  *   func_0689D418 0x0689D418 thumb ov095
  *   func_0689D428 0x0689D428 thumb ov095
  *   func_0689D438 0x0689D438 thumb ov095
- *   func_0689D320 0x0689D320 thumb ov095
- *   func_0689D544 0x0689D544 thumb ov095
+ *   BTL_POSPOKE_SetPoke 0x0689D320 thumb ov095
+ *   BTL_POSPOKE_UpdatePosOfPoke 0x0689D544 thumb ov095
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,9 +30,9 @@ extern int func_0689D408(int);
 extern int func_0689D418(int);
 extern int func_0689D428(int);
 extern int func_0689D438(int);
-extern void func_0689D320(T *, int, int, int);
-extern void func_0689D544(T *, int);
-void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
+extern void BTL_POSPOKE_SetPoke(T *, int, int, int);
+extern void BTL_POSPOKE_UpdatePosOfPoke(T *, int);
+void BTL_POSPOKE_RotateInPoke(T *p, u32 size, u32 category, int key, int extra)
 {
     u32 n;
     u32 i;
@@ -51,8 +51,8 @@ void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
     p->r[idx[first]] = p->r[idx[second]];
     p->r[idx[second]] = tr;
     if (func_0689D428(key) == 0)
-        func_0689D320(p, idx[0], func_0689D438(key), extra);
+        BTL_POSPOKE_SetPoke(p, idx[0], func_0689D438(key), extra);
     else
         p->r[i].c = 0x1f;
-    for (i = 0; i < n; i++) func_0689D544(p, idx[i]);
+    for (i = 0; i < n; i++) BTL_POSPOKE_UpdatePosOfPoke(p, idx[i]);
 }

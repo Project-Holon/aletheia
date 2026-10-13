@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  * note:     promoted 2026-09-21: the blocker named below, 0x02064AB4, was
- *           filed EXACT as src/matched/func_02064AB4.c (pin ../2.0/sp2) by the
+ *           filed EXACT as src/matched/NNS_G2dSetMCAnimationCurrentFrame.c (pin ../2.0/sp2) by the
  *           pkt_02064934 lane, so the sole ABS32 site now resolves `matched`.
  *
  * symbols:

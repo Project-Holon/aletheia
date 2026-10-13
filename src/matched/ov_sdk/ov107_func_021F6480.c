@@ -12,12 +12,12 @@
  * sdk:      MBi_TaskThread (libmb.TWL.HYB.a(mb_task.o))
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_02085988 0x02085988 arm
- *   func_020857B0 0x020857B0 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_SetThreadPriority 0x02085988 arm
+ *   OS_SleepThread 0x020857B0 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   OS_GetThreadPriority 0x02085A30 arm
- *   func_020854B0 0x020854B0 arm
+ *   OS_ExitThread 0x020854B0 arm
  */
 
 typedef unsigned long u32;
@@ -36,12 +36,12 @@ typedef struct {
     Task end;
 } TaskWork;
 
-extern u32 func_02087988(void);
-extern void func_02085988(void *thread, u32 prio);
-extern void func_020857B0(void *q);
-extern void func_0208799C(u32 mode);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_SetThreadPriority(void *thread, u32 prio);
+extern void OS_SleepThread(void *q);
+extern void OS_RestoreInterrupts(u32 mode);
 extern void *OS_GetThreadPriority(char *p);
-extern void func_020854B0(void);
+extern void OS_ExitThread(void);
 
 void func_021F6480(void *arg)
 {
@@ -53,15 +53,15 @@ void func_021F6480(void *arg)
         {
             u32 bak_cpsr;
 
-            bak_cpsr = func_02087988();
+            bak_cpsr = OS_DisableInterrupts();
             while (p->list == 0) {
-                func_02085988(p, 0);
-                func_020857B0(0);
+                OS_SetThreadPriority(p, 0);
+                OS_SleepThread(0);
             }
             trg = p->list;
         p->list = p->list->next;
-            func_02085988(p, trg->flags >> 1);
-            func_0208799C(bak_cpsr);
+            OS_SetThreadPriority(p, trg->flags >> 1);
+            OS_RestoreInterrupts(bak_cpsr);
         }
         if (trg->task) {
             trg->task(trg);
@@ -70,7 +70,7 @@ void func_021F6480(void *arg)
             u32 bak_cpsr;
             void (*callback)(Task *);
 
-            bak_cpsr = func_02087988();
+            bak_cpsr = OS_DisableInterrupts();
             callback = trg->callback;
             {
                 u32 cur_priority;
@@ -83,7 +83,7 @@ void func_021F6480(void *arg)
                     new_priority = cur_priority < (p->list->flags >> 1) ? (p->list->flags >> 1) : cur_priority;
                 }
                 if (new_priority != cur_priority) {
-                    func_02085988(p, new_priority);
+                    OS_SetThreadPriority(p, new_priority);
                 }
             }
             trg->next = 0;
@@ -94,8 +94,8 @@ void func_021F6480(void *arg)
             if (trg == &p->end) {
                 break;
             }
-            func_0208799C(bak_cpsr);
+            OS_RestoreInterrupts(bak_cpsr);
         }
     }
-    func_020854B0();
+    OS_ExitThread();
 }

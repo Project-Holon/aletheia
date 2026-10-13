@@ -1,5 +1,5 @@
 /*
- * function: func_021F66B4
+ * function: VS_MULTI_LIST_StateSlideIn
  * address: 0x021F66B4
  * packet: pkt_ov097_021F66B4
  * region: ov097
@@ -15,9 +15,9 @@
  *   BGWINFRM_StartMove 0x0202CD64 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_021F681C 0x021F681C thumb ov097
- *   func_021F7308 0x021F7308 thumb ov097
- *   func_021F67F0 0x021F67F0 thumb ov097
+ *   VS_MULTI_LIST_EnterWaitState 0x021F681C thumb ov097
+ *   VS_MULTI_LIST_MoveSlotActors 0x021F7308 thumb ov097
+ *   VS_MULTI_LIST_StartWipeOut 0x021F67F0 thumb ov097
  */
 #include "../include/Obj00111.h"
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern int func_021F681C(u8 *, int, int);
-extern void func_021F7308(int a, unsigned b, int c);
-extern int func_021F67F0(u8 *, int);
-int func_021F66B4(u8 *p)
+extern int VS_MULTI_LIST_EnterWaitState(u8 *, int, int);
+extern void VS_MULTI_LIST_MoveSlotActors(int a, unsigned b, int c);
+extern int VS_MULTI_LIST_StartWipeOut(u8 *, int);
+int VS_MULTI_LIST_StateSlideIn(u8 *p)
 {
     u32 i;
     switch (((struct Obj00111 *)p)->f110) {
@@ -56,20 +56,20 @@ int func_021F66B4(u8 *p)
             if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 3) == 0) {
                 (((struct Obj00111 *)p)->f110)++;
                 GFL_USE_PlaySeDefaultVolume(0x57a);
-                return func_021F681C(p, 0x80, 4);
+                return VS_MULTI_LIST_EnterWaitState(p, 0x80, 4);
             }
-            func_021F7308((int)p, 3, -8);
+            VS_MULTI_LIST_MoveSlotActors((int)p, 3, -8);
         } else {
             if (BGWINFRM_IsMoving(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 0) == 0) {
                 (((struct Obj00111 *)p)->f110)++;
                 GFL_USE_PlaySeDefaultVolume(0x57a);
-                return func_021F681C(p, 0x80, 4);
+                return VS_MULTI_LIST_EnterWaitState(p, 0x80, 4);
             }
-            func_021F7308((int)p, 0, 8);
+            VS_MULTI_LIST_MoveSlotActors((int)p, 0, 8);
         }
         break;
     case 2:
-        return func_021F67F0(p, 1);
+        return VS_MULTI_LIST_StartWipeOut(p, 1);
     }
     return 4;
 }

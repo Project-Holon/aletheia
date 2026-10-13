@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD484",
+   "name": "PMS_INPUT_ProcInit",
    "address": "0x021BD484",
    "kind": "game",
    "region": "ov110",

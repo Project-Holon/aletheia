@@ -13,17 +13,17 @@
  *
  * symbols:
  *   DWC_GetServerAID  0x0216B9B0  arm  ov009
- *   func_0217637C  0x0217637C  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
  */
 
 extern unsigned char DWC_GetServerAID(void);
-extern char *func_0217637C(int index);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 
 unsigned char DWCi_GetServerOrSubServerAID(void)
 {
     unsigned char aid = DWC_GetServerAID();
     if (aid == 0xff) {
-        char *info = func_0217637C(0);
+        char *info = DWCi_NodeInfoList_GetNodeInfoForIndex(0);
         if (info != 0) aid = info[0x16];
     }
     return aid;

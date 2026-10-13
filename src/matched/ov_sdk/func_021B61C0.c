@@ -1,5 +1,5 @@
 /*
- * function: func_021B61C0
+ * function: AOSS_FREE
  * address:  0x021B61C0
  * packet:   pkt_021B6178
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B61C0   0x021B61C0  thumb
+ *   AOSS_FREE   0x021B61C0  thumb
  *   func_021DCE2C   0x021DCE2C  data  ov016
 
  *
@@ -18,13 +18,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B61C0.c \
- *       --func func_021B61C0 --addr 0x021B61C0 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_FREE.c \
+ *       --func AOSS_FREE --addr 0x021B61C0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void (*func_021DCE2C)(int);
 
-void func_021B61C0(int a)
+void AOSS_FREE(int a)
 {
     func_021DCE2C(a);
 }

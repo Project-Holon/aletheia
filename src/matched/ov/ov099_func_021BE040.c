@@ -1,5 +1,5 @@
 /*
- * function: func_021BE040
+ * function: WIFICLUB_InitBackgrounds
  * address: 0x021BE040
  * packet: pkt_ov099_021BE040
  * region: ov099
@@ -48,7 +48,7 @@ extern void func_020409B4(u32);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_020414C4(u32 idx);
 extern void func_0204047C(int, u16);
-void func_021BE040(u16 heap)
+void WIFICLUB_InitBackgrounds(u16 heap)
 {
     Disp d;
     Bg b0, b1, b2, b3, b4, b5, b6, b7;

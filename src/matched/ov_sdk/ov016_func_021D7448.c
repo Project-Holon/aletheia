@@ -1,5 +1,5 @@
 /*
- * function: func_021D7448
+ * function: DWCi_SetLedWireless
  * address:  0x021D7448
  * packet:   pkt_ov016_021D7448
  * region:   ov016
@@ -19,7 +19,7 @@
 extern unsigned long PM_GetLEDPattern(int *patternBuf);
 extern unsigned long PMi_SendLEDPatternCommand(int pattern);
 
-void func_021D7448(void)
+void DWCi_SetLedWireless(void)
 {
 	int pat;
 

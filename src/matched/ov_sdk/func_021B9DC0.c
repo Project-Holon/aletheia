@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DC0
+ * function: WIFICLUBACTOR_InitSprites
  * address:  0x021B9DC0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9DE4  0x021B9DE4  thumb  ov099
- *   func_021B9DF4  0x021B9DF4  thumb  ov099
+ *   WIFICLUBACTOR_RegisterResources  0x021B9DE4  thumb  ov099
+ *   WIFICLUBACTOR_CreateCursorActors  0x021B9DF4  thumb  ov099
  *
  * Two registered setup steps.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9DE4(void *a, int b, u32 c);
-extern void func_021B9DF4(void *a, int b);
+extern void WIFICLUBACTOR_RegisterResources(void *a, int b, u32 c);
+extern void WIFICLUBACTOR_CreateCursorActors(void *a, int b);
 
-void func_021B9DC0(void *a, u32 b, u32 c)
+void WIFICLUBACTOR_InitSprites(void *a, u32 b, u32 c)
 {
-    func_021B9DE4(a, b, c);
-    func_021B9DF4(a, b);
+    WIFICLUBACTOR_RegisterResources(a, b, c);
+    WIFICLUBACTOR_CreateCursorActors(a, b);
 }

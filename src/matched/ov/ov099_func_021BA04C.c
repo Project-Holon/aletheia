@@ -1,5 +1,5 @@
 /*
- * function: func_021BA04C
+ * function: WIFICLUBACTOR_FindSlotTile
  * address:  0x021BA04C
  * packet:   pkt_ov099_021BA04C
  * region:   ov099
@@ -23,7 +23,7 @@ extern u16 func_021C47F8(u16 *p);
 extern u16 func_021C47FC(u16 *p);
 extern void *func_021C4864(void *o, u16 x, u16 y);
 
-void func_021BA04C(char *p, u16 *out, u32 c)
+void WIFICLUBACTOR_FindSlotTile(char *p, u16 *out, u32 c)
 {
     u32 y, h, x, w;
     u32 hi = c >> 3;

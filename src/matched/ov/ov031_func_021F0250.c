@@ -17,7 +17,7 @@
  *   func_020498F4  0x020498F4  arm
  *   func_0204162C  0x0204162C  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049B40  0x02049B40  arm
@@ -38,7 +38,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0204162C(int channel);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **out, u16 d);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern u32 func_020307B0(void *p);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -67,7 +67,7 @@ void UNION_SUBDISP_InitBgs(void *p, u32 h)
     func_020498F4((void *)h, 0x11, 7, 0, 0x800, 0, 0x15);
     pal = (u16 *)func_0204162C(6);
     res = ARC_UTIL_LoadPaletteDataFromHandle((void *)h, 0x12, 0, (void **)&out, 0x15);
-    func_02082D44(out + 0xC, pal, 0x1C0);
+    MI_CpuCopy8(out + 0xC, pal, 0x1C0);
     func_020307B0(res);
     func_02049B68((void *)h, 0x10, 4, 0, 0xA0, 0x15);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x15);

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  */
 
@@ -32,7 +32,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
 void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *p)
@@ -50,9 +50,9 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *p)
             CLACT_SetActorPaletteOffset(p->f5c[v + 12], (u8)(v + 1), (int)1);
         }
         if (p->f16a != sel) {
-            func_02082A60((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
+            MIi_CpuCopy16((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
             PALANM_BlendColors(buf, buf, 0x10, 8, 0x7fff);
-            func_02082A60(buf, (void *)0x05000720, 0x20);
+            MIi_CpuCopy16(buf, (void *)0x05000720, 0x20);
             p->f16a = sel;
         }
         p->f16b++;

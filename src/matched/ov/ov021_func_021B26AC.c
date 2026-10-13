@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK45_CallEvent
+ * function: SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_CallEvent
  * address:  0x021B26AC
  * packet:   pkt_ov021_021B26AC
  * region:   ov021
@@ -27,7 +27,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern void *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(void *a, int b);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_GIMMICK45_CallEvent(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_CallEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

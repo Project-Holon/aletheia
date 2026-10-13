@@ -24,8 +24,8 @@
  *   func_020307B0  0x020307B0  arm
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   func_0201EE60  0x0201EE60  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CED4  0x0200CED4  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
  *   func_02030734  0x02030734  arm
  *   sScrcmdFldBattleFileName     0x021DE248  data  a1
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -84,8 +84,8 @@ extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_020307B0(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CED4(struct ZukanSave *p, u16 id);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
@@ -196,11 +196,11 @@ u16 *SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(u8 *regulation, void *gameData, 
     u16 *speciesList;
 
     *count = 0;
-    zukan = func_0200CA1C(gameData);
+    zukan = ZUKAN_SAVE_GetFromGameData(gameData);
     speciesList = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, sScrcmdFldBattleFileName, 0xac);
     for (species = 0; species < 0x28b; species++) {
         if (regulation[0xa + species / 8] & (1 << (species % 8))) {
-            if (func_0200CED4(zukan, (u16)species)) {
+            if (ZUKAN_SAVE_IsCaught(zukan, (u16)species)) {
                 if (*count >= 0x20) {
                     break;
                 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CE6F0
+ * function: DWCi_SCREENlRenew
  * address:  0x021CE6F0
  * packet:   pkt_021CE6F0
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CE6F0   0x021CE6F0  arm
+ *   DWCi_SCREENlRenew   0x021CE6F0  arm
  *
  * Set the byte at +0x604 of the object behind the global pointer to 1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CE6F0.c \
- *       --func func_021CE6F0 --addr 0x021CE6F0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SCREENlRenew.c \
+ *       --func DWCi_SCREENlRenew --addr 0x021CE6F0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void func_021CE6F0(void)
+void DWCi_SCREENlRenew(void)
 {
     *(unsigned char *)(*(char **)0x021DE630 + 0x604) = 1;
 }

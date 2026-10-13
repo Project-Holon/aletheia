@@ -1,5 +1,5 @@
 /*
- * function: func_02070274
+ * function: NNSi_G3dAnmGetMatAlphaData
  * address:  0x02070274
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * u8 keyframe sampler, the byte-key sibling of src/matched/func_02070524.c
+ * u8 keyframe sampler, the byte-key sibling of src/matched/NNSi_G3dAnmGetTexSRTScalarData.c
  * (same track descriptor word: bit 29 = inline value, returned as its low
  * half; bits 31:30 = full / half / quarter key stride; bits 28:16 = key
  * count n; bits 15:0 = the key block's offset from base).  Its one caller,
- * func_02070434 at 0x0207050C, shifts the result into bits 16..20 of a
+ * NNSi_G3dAnmCalcNsBma at 0x0207050C, shifts the result into bits 16..20 of a
  * packed word, hence the u16 return.
  *
  * Front end: filed under the packet's ../2.0/sp2 unit pin
@@ -24,14 +24,14 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070274.c \
- *       --func func_02070274 --addr 0x02070274 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetMatAlphaData.c \
+ *       --func NNSi_G3dAnmGetMatAlphaData --addr 0x02070274 --cc ../2.0/sp2 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02070274(u8 *base, u32 flags, u32 idx)
+u16 NNSi_G3dAnmGetMatAlphaData(u8 *base, u32 flags, u32 idx)
 {
     u8 *p;
     u32 n;

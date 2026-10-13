@@ -1,5 +1,5 @@
 /*
- * function: func_021CB0C8
+ * function: CRYPTOi__BN_set_bit
  * address:  0x021CB0C8
  * packet:   pkt_ov114_021CB0C8
  * region:   ov114
@@ -12,7 +12,7 @@
  * sdk:      CRYPTOi__BN_set_bit (libcrypto.TWL.HYB.a(crypto_bobj1.o))
  *
  * symbols:
- *   func_021CADAC  0x021CADAC  arm  ov114
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
  */
 
 typedef struct {
@@ -23,16 +23,16 @@ typedef struct {
 	int flags;
 } BIGNUM;
 
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
 
-int func_021CB0C8(BIGNUM *a, int n)
+int CRYPTOi__BN_set_bit(BIGNUM *a, int n)
 {
 	int i, j, k;
 
 	i = n / 32;
 	j = n % 32;
 	if (a->top <= i) {
-		if (((i + 1 > a->dmax) ? func_021CADAC(a, i + 1) : a) == 0)
+		if (((i + 1 > a->dmax) ? CRYPTOi__bn_expand2(a, i + 1) : a) == 0)
 			return 0;
 		for (k = a->top; k < i + 1; k++)
 			a->d[k] = 0;

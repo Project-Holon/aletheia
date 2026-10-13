@@ -1,5 +1,5 @@
 /*
- * function: func_021C1FE8
+ * function: WIFICLUB_AddTileOffsetToTileMap
  * address:  0x021C1FE8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -34,7 +34,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021C1FE8(u16 *p, u16 d)
+void WIFICLUB_AddTileOffsetToTileMap(u16 *p, u16 d)
 {
     u16 *q = (u16 *)((u8 *)p + 0xC);
     u16 w0 = p[0];

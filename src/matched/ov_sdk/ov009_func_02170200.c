@@ -1,5 +1,5 @@
 /*
- * function: func_02170200
+ * function: DWCi_SendGPBuddyMsgCommand
  * address:  0x02170200
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -30,7 +30,7 @@ extern int func_0209477C(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern int func_021864CC(void **connection, int profile, char *message);
 
-int func_02170200(void *conn, unsigned char command, int pid, const char *data)
+int DWCi_SendGPBuddyMsgCommand(void *conn, unsigned char command, int pid, const char *data)
 {
     char msg[0x200];
     char *p;

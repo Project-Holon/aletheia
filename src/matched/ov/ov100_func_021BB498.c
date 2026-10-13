@@ -1,5 +1,5 @@
 /*
- * function: func_021BB498
+ * function: IRCBATTLEMATCH_ProcMain
  * address:  0x021BB498
  * packet:   pkt_ov100_021BB498
  * region:   ov100
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02040618 0x02040618 arm
@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0207E3D0(void *, int, int);
+extern void GX_LoadBGPltt(void *, int, int);
 extern void APP_TASKMENU_UpdateMenu(u8 *);
 extern void APP_TASKMENU_WIN_Update(u8 *);
 extern void func_02040618(u32, u32, u32);
@@ -32,13 +32,13 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
-u32 func_021BB498(u32 a, u32 b, u32 c, u8 *p)
+u32 IRCBATTLEMATCH_ProcMain(u32 a, u32 b, u32 c, u8 *p)
 {
     void (*cb)(u8 *) = *(void (**)(u8 *))(p + 0x248);
     u32 ret = 1;
     u32 flag;
     if ((*(volatile u32 *)0x02FFFC3C & 7) == 1) {
-        func_0207E3D0(p + *(u16 *)(p + 0x240) * 32, 0, 0x20);
+        GX_LoadBGPltt(p + *(u16 *)(p + 0x240) * 32, 0, 0x20);
         *(u16 *)(p + 0x240) = *(u16 *)(p + 0x240) + 1;
         if (*(u16 *)(p + 0x240) == 9) {
             flag = ret;

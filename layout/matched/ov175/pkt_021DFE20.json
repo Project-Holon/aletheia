@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFE20",
+   "name": "scCleanupServiceUrl",
    "address": "0x021DFE20",
    "kind": "game",
    "region": "ov175",

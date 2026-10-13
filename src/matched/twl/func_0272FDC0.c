@@ -10,15 +10,15 @@
  * status:   EXACT
  * symbols:
  *   data_02732EFC 0x02732EFC data twl
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  */
 
 #include "../include/G_twl_data_02732EFC.h"
 
 extern struct G_twl_data_02732EFC data_02732EFC[];
-void func_02082A90(void *dst, const void *src, unsigned int n);
+void MIi_CpuCopy32(void *dst, const void *src, unsigned int n);
 
 void MI_GetNDmaConfig(int a0, const void *src)
 {
-    func_02082A90(&data_02732EFC[a0], src, 16);
+    MIi_CpuCopy32(&data_02732EFC[a0], src, 16);
 }

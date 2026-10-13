@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D44
+ * function: DWCi_MOVStartAdmitChild
  * address:  0x021D3D44
  * packet:   pkt_021D3D44
  * region:   ov016
@@ -10,23 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3D44 0x021D3D44 arm
+ *   DWCi_MOVStartAdmitChild 0x021D3D44 arm
+ *   DWCi_MOV_WH_Initialize  0x021D3638  arm
  *
  * Only from the three live modes, tear the sound system down and park it at mode 2.
  * Addresses are Black-image addresses.
  */
 
 extern void func_021D3CD0(void);
-extern int func_021D3638(void);
+extern int DWCi_MOV_WH_Initialize(void);
 
-int func_021D3D44(void)
+int DWCi_MOVStartAdmitChild(void)
 {
     unsigned char mode = *(unsigned char *)(*(int *)0x021DE668 + 0xa90);
 
     if (mode != 1 && mode != 0x1a && mode != 0x1d)
         return 0;
     func_021D3CD0();
-    func_021D3638();
+    DWCi_MOV_WH_Initialize();
     *(unsigned char *)(*(int *)0x021DE668 + 0xa90) = 2;
     return 1;
 }

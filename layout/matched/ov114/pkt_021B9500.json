@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9748",
+   "name": "NHTTP_RAP_StartConnection",
    "address": "0x021B9748",
    "kind": "game",
    "region": "ov114",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9774",
+   "name": "NHTTP_RAP_DeleteConnection",
    "address": "0x021B9774",
    "kind": "game",
    "region": "ov114",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_021B9800",
+   "name": "NHTTP_RAP_Create",
    "address": "0x021B9800",
    "kind": "game",
    "region": "ov114",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9838",
+   "name": "NHTTP_RAP_Destroy",
    "address": "0x021B9838",
    "kind": "game",
    "region": "ov114",
@@ -60,7 +60,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B98A0",
+   "name": "NHTTP_RAP_AllocPostData",
    "address": "0x021B98A0",
    "kind": "game",
    "region": "ov114",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B98D8",
+   "name": "NHTTP_RAP_AppendPostData",
    "address": "0x021B98D8",
    "kind": "game",
    "region": "ov114",
@@ -84,7 +84,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B99B8",
+   "name": "NHTTP_RAP_FreePostData",
    "address": "0x021B99B8",
    "kind": "game",
    "region": "ov114",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B99DC",
+   "name": "NHTTP_RAP_GetResultCode",
    "address": "0x021B99DC",
    "kind": "game",
    "region": "ov114",
@@ -113,7 +113,7 @@
    }
   },
   {
-   "name": "func_021B9A64",
+   "name": "NHTTP_RAP_EvilCheckAllocArray",
    "address": "0x021B9A64",
    "kind": "game",
    "region": "ov114",
@@ -125,7 +125,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9B00",
+   "name": "NHTTP_RAP_InitTrainerInfo",
    "address": "0x021B9B00",
    "kind": "game",
    "region": "ov114",
@@ -137,7 +137,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9B4C",
+   "name": "NHTTPi_InitMutex",
    "address": "0x021B9B4C",
    "kind": "game",
    "region": "ov114",
@@ -149,7 +149,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9BD4",
+   "name": "NHTTPi_destroyCommThread",
    "address": "0x021B9BD4",
    "kind": "sdk",
    "region": "ov114",
@@ -161,7 +161,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9BF4",
+   "name": "NHTTPi_idleCommThread",
    "address": "0x021B9BF4",
    "kind": "sdk",
    "region": "ov114",
@@ -173,7 +173,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9C08",
+   "name": "NHTTPi_kickCommThread",
    "address": "0x021B9C08",
    "kind": "sdk",
    "region": "ov114",
@@ -185,7 +185,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9C80",
+   "name": "NHTTPi_SetSSLseed",
    "address": "0x021B9C80",
    "kind": "sdk",
    "region": "ov114",
@@ -202,7 +202,7 @@
    }
   },
   {
-   "name": "func_021B9CA4",
+   "name": "NHTTPi_checkKeepAlive",
    "address": "0x021B9CA4",
    "kind": "sdk",
    "region": "ov114",
@@ -214,7 +214,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9CE4",
+   "name": "NHTTPi_SocOpen",
    "address": "0x021B9CE4",
    "kind": "sdk",
    "region": "ov114",
@@ -226,7 +226,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9F94",
+   "name": "NHTTPi_SocRecv",
    "address": "0x021B9F94",
    "kind": "sdk",
    "region": "ov114",
@@ -243,7 +243,7 @@
    }
   },
   {
-   "name": "func_021BA014",
+   "name": "NHTTPi_SocRecvRaw",
    "address": "0x021BA014",
    "kind": "game",
    "region": "ov114",
@@ -255,7 +255,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA068",
+   "name": "NHTTPi_SocCancel",
    "address": "0x021BA068",
    "kind": "sdk",
    "region": "ov114",
@@ -267,7 +267,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA118",
+   "name": "NHTTPi_strlen",
    "address": "0x021BA118",
    "kind": "game",
    "region": "ov114",
@@ -279,7 +279,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA124",
+   "name": "NHTTPi_strnlen",
    "address": "0x021BA124",
    "kind": "game",
    "region": "ov114",
@@ -296,7 +296,7 @@
    }
   },
   {
-   "name": "func_021BA130",
+   "name": "NHTTPi_strcmp",
    "address": "0x021BA130",
    "kind": "game",
    "region": "ov114",
@@ -308,7 +308,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA13C",
+   "name": "NHTTPi_memclr",
    "address": "0x021BA13C",
    "kind": "sdk",
    "region": "ov114",
@@ -320,7 +320,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA820",
+   "name": "NHTTPi_alloc",
    "address": "0x021BA820",
    "kind": "sdk",
    "region": "ov114",
@@ -332,7 +332,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA850",
+   "name": "NHTTPi_free",
    "address": "0x021BA850",
    "kind": "sdk",
    "region": "ov114",
@@ -344,7 +344,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA874",
+   "name": "NHTTPi_SetError",
    "address": "0x021BA874",
    "kind": "game",
    "region": "ov114",
@@ -356,7 +356,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA87C",
+   "name": "NHTTPi_SetSSLError",
    "address": "0x021BA87C",
    "kind": "game",
    "region": "ov114",
@@ -368,7 +368,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BA884",
+   "name": "NHTTPi_GetSSLError",
    "address": "0x021BA884",
    "kind": "game",
    "region": "ov114",
@@ -380,7 +380,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BAA14",
+   "name": "NHTTPi_GetError",
    "address": "0x021BAA14",
    "kind": "game",
    "region": "ov114",
@@ -392,7 +392,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BAA1C",
+   "name": "addHdrList",
    "address": "0x021BAA1C",
    "kind": "sdk",
    "region": "ov114",
@@ -409,7 +409,7 @@
    }
   },
   {
-   "name": "func_021BAB24",
+   "name": "incAscii",
    "address": "0x021BAB24",
    "kind": "sdk",
    "region": "ov114",
@@ -421,7 +421,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BAC38",
+   "name": "NHTTPi_AddRequestHeaderField",
    "address": "0x021BAC38",
    "kind": "sdk",
    "region": "ov114",
@@ -433,7 +433,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BACEC",
+   "name": "NHTTPi_InitListInfo",
    "address": "0x021BACEC",
    "kind": "sdk",
    "region": "ov114",
@@ -445,7 +445,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BAE90",
+   "name": "NHTTPi_allFreeReqQueue",
    "address": "0x021BAE90",
    "kind": "sdk",
    "region": "ov114",
@@ -457,7 +457,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BAEC8",
+   "name": "NHTTPi_popReqQueue",
    "address": "0x021BAEC8",
    "kind": "game",
    "region": "ov114",
@@ -469,7 +469,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB2FC",
+   "name": "NHTTPi_isRecvBufFull",
    "address": "0x021BB2FC",
    "kind": "sdk",
    "region": "ov114",
@@ -481,7 +481,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB3C0",
+   "name": "NHTTPi_InitRequestInfo",
    "address": "0x021BB3C0",
    "kind": "sdk",
    "region": "ov114",
@@ -493,7 +493,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB8B4",
+   "name": "NHTTPi_DestroyRequest",
    "address": "0x021BB8B4",
    "kind": "sdk",
    "region": "ov114",
@@ -505,7 +505,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB934",
+   "name": "NHTTPi_destroyRequestObject",
    "address": "0x021BB934",
    "kind": "sdk",
    "region": "ov114",
@@ -522,7 +522,7 @@
    }
   },
   {
-   "name": "func_021BBE94",
+   "name": "NHTTPi_InitThreadInfo",
    "address": "0x021BBE94",
    "kind": "game",
    "region": "ov114",
@@ -539,7 +539,7 @@
    }
   },
   {
-   "name": "func_021BBEA0",
+   "name": "NHTTPi_IsCreateCommThreadMessageQueueOn",
    "address": "0x021BBEA0",
    "kind": "sdk",
    "region": "ov114",
@@ -551,7 +551,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BBEB8",
+   "name": "NHTTPi_IsCreateCommThreadMessageQueue",
    "address": "0x021BBEB8",
    "kind": "game",
    "region": "ov114",
@@ -563,7 +563,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE648",
+   "name": "NHTTP_Startup",
    "address": "0x021BE648",
    "kind": "sdk",
    "region": "ov114",
@@ -580,7 +580,7 @@
    }
   },
   {
-   "name": "func_021BE680",
+   "name": "NHTTP_CleanupAsync",
    "address": "0x021BE680",
    "kind": "sdk",
    "region": "ov114",
@@ -592,7 +592,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE698",
+   "name": "NHTTP_Cleanup",
    "address": "0x021BE698",
    "kind": "sdk",
    "region": "ov114",
@@ -604,7 +604,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE6AC",
+   "name": "NHTTP_GetError",
    "address": "0x021BE6AC",
    "kind": "game",
    "region": "ov114",
@@ -616,7 +616,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE6BC",
+   "name": "NHTTP_AddHeaderField",
    "address": "0x021BE6BC",
    "kind": "sdk",
    "region": "ov114",
@@ -633,7 +633,7 @@
    }
   },
   {
-   "name": "func_021BE7FC",
+   "name": "NHTTP_GetHeaderField",
    "address": "0x021BE7FC",
    "kind": "sdk",
    "region": "ov114",
@@ -650,7 +650,7 @@
    }
   },
   {
-   "name": "func_021BE880",
+   "name": "NHTTP_GetResultCode",
    "address": "0x021BE880",
    "kind": "sdk",
    "region": "ov114",
@@ -662,7 +662,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE8B8",
+   "name": "NHTTP_SetVerifyOption",
    "address": "0x021BE8B8",
    "kind": "sdk",
    "region": "ov114",
@@ -674,7 +674,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BE9C8",
+   "name": "NHTTP_SetRootCA",
    "address": "0x021BE9C8",
    "kind": "sdk",
    "region": "ov114",
@@ -691,7 +691,7 @@
    }
   },
   {
-   "name": "func_021BE9F8",
+   "name": "NHTTP_SetRequestRootCA",
    "address": "0x021BE9F8",
    "kind": "sdk",
    "region": "ov114",
@@ -703,7 +703,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEA64",
+   "name": "NHTTPi_WaitForCompletion",
    "address": "0x021BEA64",
    "kind": "sdk",
    "region": "ov114",
@@ -715,7 +715,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEA98",
+   "name": "NHTTPi_NotifyCompletion",
    "address": "0x021BEA98",
    "kind": "sdk",
    "region": "ov114",
@@ -727,7 +727,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEB88",
+   "name": "NHTTPi_CommitConnectionList",
    "address": "0x021BEB88",
    "kind": "sdk",
    "region": "ov114",
@@ -739,7 +739,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEBA8",
+   "name": "NHTTPi_OmitConnectionList",
    "address": "0x021BEBA8",
    "kind": "sdk",
    "region": "ov114",
@@ -751,7 +751,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEBC8",
+   "name": "NHTTPi_Connection2Response",
    "address": "0x021BEBC8",
    "kind": "sdk",
    "region": "ov114",
@@ -763,7 +763,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEBE0",
+   "name": "NHTTPi_Request2Connection",
    "address": "0x021BEBE0",
    "kind": "sdk",
    "region": "ov114",
@@ -775,7 +775,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEBF0",
+   "name": "NHTTPi_Response2Connection",
    "address": "0x021BEBF0",
    "kind": "sdk",
    "region": "ov114",
@@ -787,7 +787,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEC00",
+   "name": "NHTTPi_GetConnection",
    "address": "0x021BEC00",
    "kind": "sdk",
    "region": "ov114",
@@ -799,7 +799,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEC10",
+   "name": "NHTTPi_GetRequest",
    "address": "0x021BEC10",
    "kind": "sdk",
    "region": "ov114",
@@ -811,7 +811,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEC2C",
+   "name": "NHTTPi_GetResponse",
    "address": "0x021BEC2C",
    "kind": "sdk",
    "region": "ov114",
@@ -823,7 +823,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEC48",
+   "name": "NHTTPi_GetConnectionListLength",
    "address": "0x021BEC48",
    "kind": "sdk",
    "region": "ov114",
@@ -840,7 +840,7 @@
    }
   },
   {
-   "name": "func_021BEE1C",
+   "name": "NHTTPi_CompleteCallback",
    "address": "0x021BEE1C",
    "kind": "sdk",
    "region": "ov114",
@@ -852,7 +852,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEE4C",
+   "name": "NHTTPi_SetPostDataBuffer",
    "address": "0x021BEE4C",
    "kind": "sdk",
    "region": "ov114",
@@ -864,7 +864,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEEC4",
+   "name": "NHTTPi_InitSystemInfo",
    "address": "0x021BEEC4",
    "kind": "sdk",
    "region": "ov114",
@@ -882,7 +882,7 @@
    }
   },
   {
-   "name": "func_021BEF08",
+   "name": "NHTTPi_GetSystemInfoP",
    "address": "0x021BEF08",
    "kind": "sdk",
    "region": "ov114",
@@ -903,7 +903,7 @@
    }
   },
   {
-   "name": "func_021BEF3C",
+   "name": "NHTTPi_GetBgnEndInfoP",
    "address": "0x021BEF3C",
    "kind": "game",
    "region": "ov114",
@@ -915,7 +915,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF40",
+   "name": "NHTTPi_GetListInfoP",
    "address": "0x021BEF40",
    "kind": "game",
    "region": "ov114",
@@ -927,7 +927,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF48",
+   "name": "NHTTPi_GetReqInfoP",
    "address": "0x021BEF48",
    "kind": "game",
    "region": "ov114",
@@ -939,7 +939,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF50",
+   "name": "NHTTPi_GetThreadInfoP",
    "address": "0x021BEF50",
    "kind": "game",
    "region": "ov114",
@@ -951,7 +951,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF58",
+   "name": "NHTTPi_GetMutexInfoP",
    "address": "0x021BEF58",
    "kind": "game",
    "region": "ov114",
@@ -963,7 +963,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF60",
+   "name": "NHTTPi_SetVirtualContentLength",
    "address": "0x021BEF60",
    "kind": "sdk",
    "region": "ov114",
@@ -975,7 +975,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEF6C",
+   "name": "NHTTPi_InitConnectionList",
    "address": "0x021BEF6C",
    "kind": "sdk",
    "region": "ov114",
@@ -992,7 +992,7 @@
    }
   },
   {
-   "name": "func_021BEF98",
+   "name": "NHTTPi_InitMutexInfo",
    "address": "0x021BEF98",
    "kind": "sdk",
    "region": "ov114",
@@ -1004,7 +1004,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEFA4",
+   "name": "NHTTPi_initLockReqList",
    "address": "0x021BEFA4",
    "kind": "sdk",
    "region": "ov114",
@@ -1016,7 +1016,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEFC8",
+   "name": "NHTTPi_exitLockReqList",
    "address": "0x021BEFC8",
    "kind": "game",
    "region": "ov114",
@@ -1028,7 +1028,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEFCC",
+   "name": "NHTTPi_lockReqList",
    "address": "0x021BEFCC",
    "kind": "game",
    "region": "ov114",
@@ -1040,7 +1040,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BEFD8",
+   "name": "NHTTPi_unlockReqList",
    "address": "0x021BEFD8",
    "kind": "game",
    "region": "ov114",
@@ -1052,7 +1052,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BF184",
+   "name": "NHTTP_DeleteConnection",
    "address": "0x021BF184",
    "kind": "sdk",
    "region": "ov114",
@@ -1064,7 +1064,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BF3BC",
+   "name": "NHTTP_GetConnectionStatus",
    "address": "0x021BF3BC",
    "kind": "sdk",
    "region": "ov114",
@@ -1076,7 +1076,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BF488",
+   "name": "NHTTP_GetConnectionError",
    "address": "0x021BF488",
    "kind": "sdk",
    "region": "ov114",
@@ -1100,7 +1100,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BF540",
+   "name": "DWC_GHTTPCleanupRootCAList",
    "address": "0x021BF540",
    "kind": "sdk",
    "region": "ov114",
@@ -1112,7 +1112,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BF558",
+   "name": "DWC_InitGHTTP",
    "address": "0x021BF558",
    "kind": "sdk",
    "region": "ov114",
@@ -1129,7 +1129,7 @@
    }
   },
   {
-   "name": "func_021BF6C4",
+   "name": "DWC_GetGHTTPDataEx",
    "address": "0x021BF6C4",
    "kind": "sdk",
    "region": "ov114",
@@ -1146,7 +1146,7 @@
    }
   },
   {
-   "name": "func_021BFAF0",
+   "name": "DWCi_FindDWCGHTTPParamEntryByReq",
    "address": "0x021BFAF0",
    "kind": "sdk",
    "region": "ov114",
@@ -1158,7 +1158,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0368",
+   "name": "ghiInitLock",
    "address": "0x021C0368",
    "kind": "game",
    "region": "ov114",
@@ -1170,7 +1170,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C036C",
+   "name": "ghiFreeLock",
    "address": "0x021C036C",
    "kind": "game",
    "region": "ov114",
@@ -1182,7 +1182,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0370",
+   "name": "ghiLock",
    "address": "0x021C0370",
    "kind": "game",
    "region": "ov114",
@@ -1194,7 +1194,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0374",
+   "name": "ghiUnlock",
    "address": "0x021C0374",
    "kind": "game",
    "region": "ov114",
@@ -1206,7 +1206,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C135C",
+   "name": "ghiFreeCertificateInfo",
    "address": "0x021C135C",
    "kind": "sdk",
    "region": "ov114",
@@ -1218,7 +1218,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1C78",
+   "name": "ghiEncryptorSslSendFunc",
    "address": "0x021C1C78",
    "kind": "game",
    "region": "ov114",
@@ -1230,7 +1230,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1C80",
+   "name": "ghiEncryptorSslReceiveFunc",
    "address": "0x021C1C80",
    "kind": "game",
    "region": "ov114",
@@ -1242,7 +1242,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2270",
+   "name": "ghttpThink",
    "address": "0x021C2270",
    "kind": "sdk",
    "region": "ov114",
@@ -1254,7 +1254,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C22D4",
+   "name": "ghttpGetState",
    "address": "0x021C22D4",
    "kind": "sdk",
    "region": "ov114",
@@ -1266,7 +1266,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C22EC",
+   "name": "ghttpSetMaxRecvTime",
    "address": "0x021C22EC",
    "kind": "sdk",
    "region": "ov114",
@@ -1278,7 +1278,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2310",
+   "name": "ghttpPostSetAutoFree",
    "address": "0x021C2310",
    "kind": "sdk",
    "region": "ov114",
@@ -1290,7 +1290,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2324",
+   "name": "ghttpFreePostAndUpdateConnection",
    "address": "0x021C2324",
    "kind": "sdk",
    "region": "ov114",
@@ -1307,7 +1307,7 @@
    }
   },
   {
-   "name": "func_021C2344",
+   "name": "ghttpSetRootCAList",
    "address": "0x021C2344",
    "kind": "game",
    "region": "ov114",
@@ -1324,7 +1324,7 @@
    }
   },
   {
-   "name": "func_021C2350",
+   "name": "ghttpCleanupRootCAList",
    "address": "0x021C2350",
    "kind": "game",
    "region": "ov114",
@@ -1336,7 +1336,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C245C",
+   "name": "ghiPostSetAutoFree",
    "address": "0x021C245C",
    "kind": "game",
    "region": "ov114",
@@ -1348,7 +1348,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2464",
+   "name": "ghiFreePost",
    "address": "0x021C2464",
    "kind": "sdk",
    "region": "ov114",
@@ -1360,7 +1360,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C2490",
+   "name": "ghiFreePostAndUpdateConnection",
    "address": "0x021C2490",
    "kind": "sdk",
    "region": "ov114",
@@ -1372,7 +1372,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C4E68",
+   "name": "ghiFreeTempBuffer",
    "address": "0x021C4E68",
    "kind": "sdk",
    "region": "ov114",
@@ -1384,7 +1384,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C569C",
+   "name": "DWCi_NdAlloc",
    "address": "0x021C569C",
    "kind": "sdk",
    "region": "ov114",
@@ -1396,7 +1396,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C56B4",
+   "name": "DWCi_NdFree",
    "address": "0x021C56B4",
    "kind": "sdk",
    "region": "ov114",
@@ -1408,7 +1408,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C60AC",
+   "name": "DWCi_Ndi_getEncodeLenBASE64",
    "address": "0x021C60AC",
    "kind": "sdk",
    "region": "ov114",
@@ -1420,7 +1420,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C6898",
+   "name": "DWCi_Ndi_getUserAgent",
    "address": "0x021C6898",
    "kind": "sdk",
    "region": "ov114",
@@ -1432,7 +1432,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C6BEC",
+   "name": "freeHttp",
    "address": "0x021C6BEC",
    "kind": "sdk",
    "region": "ov114",
@@ -1456,7 +1456,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C78DC",
+   "name": "DWCi_Ndi_freeLockGlobal",
    "address": "0x021C78DC",
    "kind": "game",
    "region": "ov114",
@@ -1468,7 +1468,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C78E0",
+   "name": "DWCi_Ndi_lockGlobal",
    "address": "0x021C78E0",
    "kind": "sdk",
    "region": "ov114",
@@ -1480,7 +1480,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C78F4",
+   "name": "DWCi_Ndi_unlockGlobal",
    "address": "0x021C78F4",
    "kind": "sdk",
    "region": "ov114",
@@ -1492,7 +1492,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7908",
+   "name": "DWCi_Ndi_initHttpCallback",
    "address": "0x021C7908",
    "kind": "sdk",
    "region": "ov114",
@@ -1510,7 +1510,7 @@
    }
   },
   {
-   "name": "func_021C7930",
+   "name": "DWCi_Ndi_freeHttpCallback",
    "address": "0x021C7930",
    "kind": "game",
    "region": "ov114",
@@ -1522,7 +1522,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C79AC",
+   "name": "DWCi_Ndi_kickThread",
    "address": "0x021C79AC",
    "kind": "sdk",
    "region": "ov114",
@@ -1534,7 +1534,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7A18",
+   "name": "DWCi_Ndi_strlen",
    "address": "0x021C7A18",
    "kind": "game",
    "region": "ov114",
@@ -1546,7 +1546,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7A24",
+   "name": "DWCi_Ndi_strncmp",
    "address": "0x021C7A24",
    "kind": "game",
    "region": "ov114",
@@ -1558,7 +1558,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7A30",
+   "name": "DWCi_Ndi_memclr",
    "address": "0x021C7A30",
    "kind": "sdk",
    "region": "ov114",
@@ -1570,7 +1570,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7A5C",
+   "name": "DWCi_Ndi_strToInt",
    "address": "0x021C7A5C",
    "kind": "game",
    "region": "ov114",
@@ -1582,7 +1582,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C7A68",
+   "name": "DWCi_Ndi_intToStr",
    "address": "0x021C7A68",
    "kind": "game",
    "region": "ov114",
@@ -1594,7 +1594,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C9890",
+   "name": "my_randinit",
    "address": "0x021C9890",
    "kind": "sdk",
    "region": "ov114",
@@ -1606,7 +1606,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CA188",
+   "name": "DWCi_EncSessionCancel",
    "address": "0x021CA188",
    "kind": "sdk",
    "region": "ov114",
@@ -1626,7 +1626,7 @@
    }
   },
   {
-   "name": "func_021CA470",
+   "name": "DWCi_EncSessionGetAsync",
    "address": "0x021CA470",
    "kind": "sdk",
    "region": "ov114",
@@ -1643,7 +1643,7 @@
    }
   },
   {
-   "name": "func_021CAB94",
+   "name": "CRYPTOi__BN_num_bits",
    "address": "0x021CAB94",
    "kind": "sdk",
    "region": "ov114",
@@ -1660,7 +1660,7 @@
    }
   },
   {
-   "name": "func_021CABC0",
+   "name": "CRYPTOi__BN_clear_free",
    "address": "0x021CABC0",
    "kind": "sdk",
    "region": "ov114",
@@ -1677,7 +1677,7 @@
    }
   },
   {
-   "name": "func_021CACD0",
+   "name": "CRYPTOi__BN_init",
    "address": "0x021CACD0",
    "kind": "sdk",
    "region": "ov114",
@@ -1689,7 +1689,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CAD48",
+   "name": "CRYPTOi__BN_CTX_init",
    "address": "0x021CAD48",
    "kind": "sdk",
    "region": "ov114",
@@ -1701,7 +1701,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CC0FC",
+   "name": "CRYPTOi__BN_mod",
    "address": "0x021CC0FC",
    "kind": "sdk",
    "region": "ov114",
@@ -1713,7 +1713,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CCA5C",
+   "name": "CRYPTOi__BN_RECP_CTX_init",
    "address": "0x021CCA5C",
    "kind": "sdk",
    "region": "ov114",

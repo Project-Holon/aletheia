@@ -1,5 +1,5 @@
 /*
- * function: func_021C97E0
+ * function: DPW_BT_ConvertDwcError
  * address: 0x021C97E0
  * packet: pkt_ov114_021C97E0
  * region: ov114
@@ -13,7 +13,7 @@
  */
 extern int DWC_UpdateConnection(void);
 extern void DWC_ClearError(void);
-int func_021C97E0(unsigned type)
+int DPW_BT_ConvertDwcError(unsigned type)
 {
     int r;
     switch (type) {

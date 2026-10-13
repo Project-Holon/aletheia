@@ -1,5 +1,5 @@
 /*
- * function: func_021B8338
+ * function: IRC_COMPATIBLE_TOUCH_TEST_SetHandler
  * address: 0x021B8338
  * packet: pkt_ov103_021B8338
  * region: ov103
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B8338(u32 p,u32 a) {((struct Obj13734 *)p)->f728=a;((struct Obj13734 *)p)->f72C=0;}
+void IRC_COMPATIBLE_TOUCH_TEST_SetHandler(u32 p,u32 a) {((struct Obj13734 *)p)->f728=a;((struct Obj13734 *)p)->f72C=0;}

@@ -12,7 +12,7 @@
  * sdk:      CPSi_SslConnect (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_0215ABB0  0x0215ABB0  arm  ov009
+ *   CPSi_TcpConnectRaw  0x0215ABB0  arm  ov009
  *   func_02163C9C  0x02163C9C  arm  ov009
  *   func_021633F0  0x021633F0  arm  ov009
  *   func_0216289C  0x0216289C  arm  ov009
@@ -37,7 +37,7 @@ typedef struct CPSSoc {
 } CPSSoc;
 
 struct Soc;
-extern unsigned long func_0215ABB0(struct Soc *soc);
+extern unsigned long CPSi_TcpConnectRaw(struct Soc *soc);
 extern void func_02163C9C(void *ctx);
 extern void func_021633F0(void *ctx);
 extern int func_0216289C(CPSSoc *soc);
@@ -49,7 +49,7 @@ unsigned long func_02162968(CPSSoc *soc)
 
     con = soc->con;
     if (soc->state != 4) {
-        if (func_0215ABB0((struct Soc *)soc) != 0)
+        if (CPSi_TcpConnectRaw((struct Soc *)soc) != 0)
             return 1;
     }
     con->f455 = 0;

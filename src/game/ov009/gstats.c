@@ -68,7 +68,7 @@
  *   @14079       0x021A1A54  data
  *   g_021A5800   0x021A5800  data
  *   func_021937D0 0x021937D0  arm
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   d_021A590C     0x021A590C  data  a4
  *   OS_SPrintf   0x02084F40  arm
  *   g_021A590C   0x021A590C  data
@@ -119,8 +119,7 @@ extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern void func_0218437C(int a, int b);
 extern void func_021841B0(void *array);
 extern void *func_021937D0(void *set, char *name, int type, void *initialvalue);
-extern void func_02084F40(char *buf, const char *fmt, char *b, int n);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
+extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
 
 void func_02193D00(void);
 int func_02193D64(void);
@@ -184,7 +183,7 @@ extern char g_021A5914[];
 void func_02194A78(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
-    func_02084F40(buf, d_021A5914, name, func_02194724(game, index));
+    OS_SPrintf(buf, d_021A5914, name, func_02194724(game, index));
     func_02194834(game, buf, func, value, index);
 }
 
@@ -202,7 +201,7 @@ double func_02194A14(int *game, char *name, double *(*func)(void *, char *, void
 void func_021949B4(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
-    func_02084F40(buf, d_021A5914, name, func_02194724(game, index));
+    OS_SPrintf(buf, d_021A5914, name, func_02194724(game, index));
     func_02194754(game, buf, func, value, index);
 }
 
@@ -212,7 +211,7 @@ void func_021949B4(int *game, char *name, int *(*func)(void *, char *, void *), 
 void func_02194954(int *game, char *name, void *(*func)(void *, char *, void *), void *value, int index)
 {
     char buf[0x40];
-    func_02084F40(buf, d_021A590C, name, func_021946F4(game, index));
+    OS_SPrintf(buf, d_021A590C, name, func_021946F4(game, index));
     func_02194834(game, buf, func, value, index);
 }
 
@@ -233,7 +232,7 @@ double func_021948F0(int *game, char *name, double *(*func)(void *, char *, void
 void func_02194890(int *game, char *name, int *(*func)(void *, char *, void *), int value, int index)
 {
     char buf[0x40];
-    func_02084F40(buf, d_021A590C, name, func_021946F4(game, index));
+    OS_SPrintf(buf, d_021A590C, name, func_021946F4(game, index));
     func_02194754(game, buf, func, value, index);
 }
 

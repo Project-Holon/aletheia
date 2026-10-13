@@ -44,7 +44,7 @@
  *   sub_0202FDC4  0x0202FDC4  arm
  *   sub_020306A0  0x020306A0  arm
  *   GFL_HEAP_RegisterBlockHeapImpl  0x0202FE68  arm
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  */
 struct ExpHeap;
 struct HeapAllocator;
@@ -162,7 +162,7 @@ extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
 extern void  sub_02088234(void *obj);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 void *GFL_HEAP_GetHeap(u32 heapId);
 u32 GFL_HEAP_GetParentHeap(u32 heapId);
 u32 GFL_HEAP_GetBlock(u32 heapId);
@@ -1447,19 +1447,19 @@ void GFL_HEAP_FatalError(int errorCode)
     case 0:
         break;
     case 1:
-        func_02088234();
+        OS_Terminate();
         break;
     case 2:
-        func_02088234();
+        OS_Terminate();
         break;
     case 3:
-        func_02088234();
+        OS_Terminate();
         break;
     case 4:
-        func_02088234();
+        OS_Terminate();
         break;
     case 5:
-        func_02088234();
+        OS_Terminate();
         break;
     }
 }

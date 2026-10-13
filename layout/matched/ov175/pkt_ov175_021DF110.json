@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF110",
+   "name": "DWCi_ScSetReportIntentionCallback",
    "address": "0x021DF110",
    "kind": "sdk",
    "region": "ov175",

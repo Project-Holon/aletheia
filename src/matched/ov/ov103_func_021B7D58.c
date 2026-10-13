@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D58
+ * function: IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay
  * address: 0x021B7D58
  * packet: pkt_ov103_021B7D58
  * region: ov103
@@ -15,7 +15,7 @@
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   d_021B92B4 0x021B92B4 data a4
+ *   IRC_COMPATIBLE_TOUCH_TEST_Lights 0x021B92B4 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,9 +25,9 @@ extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern const u8 d_021B92B4[];
+extern const u8 IRC_COMPATIBLE_TOUCH_TEST_Lights[];
 #define D (*(volatile u16 *)0x04000060)
-void func_021B7D58(void) {
+void IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay(void) {
  unsigned i;
  BG_SYS_SetMainPlaneVisible(1,1);
  *(volatile u16 *)0x04000008 = (u16)(*(volatile u16 *)0x04000008 & ~3);
@@ -39,6 +39,6 @@ void func_021B7D58(void) {
  G3X_SetFog(0,0,0,0);
  G3X_SetClearColor(0,0,0x7fff,63,0);
  *(volatile unsigned *)0x04000580=0xbfff0000;
- for(i=0;i<4;i++)G3D_SYSTEM_SetLight((u8)i,(void *)(d_021B92B4+i*8));
+ for(i=0;i<4;i++)G3D_SYSTEM_SetLight((u8)i,(void *)(IRC_COMPATIBLE_TOUCH_TEST_Lights+i*8));
  G3D_SYSTEM_SetSwapBuffersMode(1,0);
 }

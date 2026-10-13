@@ -1,5 +1,5 @@
 /*
- * function: func_021DF358
+ * function: DWC_ScReportSetPlayerData
  * address:  0x021DF358
  * packet:   pkt_021DF358
  * region:   ov175
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DFD24  0x021DFD24  arm
- *   func_021DF644  0x021DF644  arm
+ *   scReportSetPlayerData  0x021DFD24  arm
+ *   DWCi_ScGetRequestErrorCode  0x021DF644  arm
  *   func_02059F54  0x02059F54  arm
  *
- * Eight-argument form of the func_021DF3B0 post shape: the four register
+ * Eight-argument form of the DWC_ScReportEnd post shape: the four register
  * arguments are forwarded, and the stack arguments become (a4, a5->f18, a5,
  * a6) on the outgoing frame.  Same warning post and same returned handle.
  */
 
 typedef int s32;
 
-extern int func_021DFD24(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId, unsigned int thePlayerTeamId, int theResult, int unused, void *theCertificate, unsigned char *theAuthHash);
-extern s32 func_021DF644(s32, s32);
+extern int scReportSetPlayerData(void *theReport, unsigned int thePlayerIndex, unsigned char *thePlayerConnectionId, unsigned int thePlayerTeamId, int theResult, int unused, void *theCertificate, unsigned char *theAuthHash);
+extern s32 DWCi_ScGetRequestErrorCode(s32, s32);
 extern void func_02059F54(s32, s32);
 
-s32 func_021DF358(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6)
+s32 DWC_ScReportSetPlayerData(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, char *a5, s32 a6)
 {
-    s32 v = func_021DFD24((void *)a0, a1, (unsigned char *)a2, a3, a4, *(s32 *)(a5 + 0x18), (void *)((s32)a5), (unsigned char *)a6);
+    s32 v = scReportSetPlayerData((void *)a0, a1, (unsigned char *)a2, a3, a4, *(s32 *)(a5 + 0x18), (void *)((s32)a5), (unsigned char *)a6);
 
     if (v != 0)
-        func_02059F54(8, func_021DF644(10, v));
+        func_02059F54(8, DWCi_ScGetRequestErrorCode(10, v));
     return v;
 }

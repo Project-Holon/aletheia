@@ -15,7 +15,7 @@
  *   UNION_SUBDISP_SetLinePalette  0x021F0F68  thumb  ov031
  *   UNION_SUBDISP_StartLineHighlight  0x021F0ED8  thumb  ov031
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   UNION_SUBDISP_CancelOtherHighlights  0x021F0F40  thumb  ov031
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
@@ -35,7 +35,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int UNION_SUBDISP_SetLinePalette(void *, int, int);
 extern void UNION_SUBDISP_StartLineHighlight(void *, B *, int);
 extern u8 *UNION_CHAT_LOG_GetLine(B *, int);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern void UNION_SUBDISP_CancelOtherHighlights(void *, B *, int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -67,7 +67,7 @@ int UNION_SUBDISP_CheckLineTouch(char *a0, void *a1, B *a2)
         UNION_SUBDISP_StartLineHighlight(a1, a2, i);
         e = UNION_CHAT_LOG_GetLine(a2, i);
         if (e != 0)
-            func_02082D44(e + 0x1A, a0 + 0x28A4, 6);
+            MI_CpuCopy8(e + 0x1A, a0 + 0x28A4, 6);
         UNION_SUBDISP_CancelOtherHighlights(a1, a2, i);
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return 1;

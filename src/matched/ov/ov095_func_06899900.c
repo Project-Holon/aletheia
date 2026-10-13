@@ -1,5 +1,5 @@
 /*
- * function: func_06899900
+ * function: HAND_SIDE_SeaOfFireHurt
  * address:  0x06899900
  * packet:   pkt_ov095_06899900
  * region:   ov095
@@ -46,7 +46,7 @@ extern void func_06899A60(u8 *p, int n, int c);
 extern void func_06899A70(u8 *p, int v);
 extern void func_06899A80(int a, u8 *q);
 
-void func_06899900(int a0, int p, int x)
+void HAND_SIDE_SeaOfFireHurt(int a0, int p, int x)
 {
     u8 v;
     int w;

@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_020084F8  0x020084F8  thumb
@@ -95,7 +95,7 @@ typedef struct Save {
 extern void MI_CpuFill8(void *dst, int val, int size);
 struct Sub0200852CObj;
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 extern int  GFL_NET_GetNegotiationNum(void);
 struct BigObj;
@@ -118,7 +118,7 @@ void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
     MI_CpuFill8(out, 0, 0x64);
     if (l->f20 != 0) {
         if (GFL_NET_IsParentAid() == 1)
-            func_02087C6C(out);
+            OS_GetMacAddress(out);
         else
             MI_CpuCopy8(l->f20 + 0x64, out, 6);
     } else if (l->f18 != 0) {

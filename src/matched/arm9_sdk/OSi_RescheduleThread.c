@@ -15,7 +15,7 @@
  * through the section base.
  *
  * symbols:
- *   g_02150FD0            0x02150FD0  data
+ *   gOsThreadBss            0x02150FD0  data
  *   OSi_ThreadInfo        0x02150FEC  data
  *   OS_GetProcMode        0x020879EC  arm
  *   OS_SelectThread       0x02085890  arm
@@ -81,7 +81,7 @@ typedef struct OsThreadBss {
     OSThreadInfo OSi_ThreadInfo;
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
@@ -93,15 +93,15 @@ extern void OS_LoadContext(OSContext *context);
 
 void OSi_RescheduleThread(void)
 {
-    if (g_02150FD0.OSi_RescheduleCount == 0) {
+    if (gOsThreadBss.OSi_RescheduleCount == 0) {
         OSThreadInfo *info = &OSi_ThreadInfo;
 
-        if (g_02150FD0.OSi_ThreadInfo.irqDepth > 0 || OS_GetProcMode() == 0x12) {
+        if (gOsThreadBss.OSi_ThreadInfo.irqDepth > 0 || OS_GetProcMode() == 0x12) {
             info->isNeedRescheduling = 1;
         } else {
             OSThread *currentThread, *nextThread;
 
-            currentThread = *g_02150FD0.OSi_CurrentThreadPtr;
+            currentThread = *gOsThreadBss.OSi_CurrentThreadPtr;
             nextThread = OS_SelectThread();
 
             if (currentThread == nextThread || !nextThread) {
@@ -113,15 +113,15 @@ void OSi_RescheduleThread(void)
                 return;
             }
 
-            if (g_02150FD0.OSi_SystemCallbackInSwitchThread) {
-                ((OSSwitchThreadCallback)g_02150FD0.OSi_SystemCallbackInSwitchThread)(currentThread, nextThread);
+            if (gOsThreadBss.OSi_SystemCallbackInSwitchThread) {
+                ((OSSwitchThreadCallback)gOsThreadBss.OSi_SystemCallbackInSwitchThread)(currentThread, nextThread);
             }
 
             if (info->switchCallback) {
                 ((OSSwitchThreadCallback)info->switchCallback)(currentThread, nextThread);
             }
 
-            g_02150FD0.OSi_ThreadInfo.current = nextThread;
+            gOsThreadBss.OSi_ThreadInfo.current = nextThread;
 
             OS_LoadContext(&nextThread->context);
         }

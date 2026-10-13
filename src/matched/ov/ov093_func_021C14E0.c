@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_NotifyTypeImmunityEvent  0x021C6BB8  thumb  ov093
  *   BTL_SERVER_FLOW_EndHandExScope  0x021CC95C  thumb  ov093
- *   func_021C158C  0x021C158C  thumb  ov093
+ *   WIFICLUB_StateBeginIdleAfterNet  0x021C158C  thumb  ov093
  *   func_021C159C  0x021C159C  thumb  ov093
  */
 #include "../include/Obj21076.h"
@@ -29,7 +29,7 @@ extern int BTL_SERVER_FLOW_QueryTypeImmunityEvent(u8 *p, u8 *a, u8 *b, u8 *q);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern void BTL_SERVER_FLOW_NotifyTypeImmunityEvent(u8 *p, u8 *a, u8 *r);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
-extern void func_021C158C(u8 *c, u8 *r);
+extern void WIFICLUB_StateBeginIdleAfterNet(u8 *c, u8 *r);
 extern u8 *func_021C159C(u8 *c);
 
 struct St { u8 pad[5]; u8 f : 1; };
@@ -48,7 +48,7 @@ void BTL_SERVER_FLOW_RemoveSelfProtectedTargets(u8 *p, u8 *a, int b, u8 *c)
                 s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 0x197b);
                 BTL_SERVER_FLOW_NotifyTypeImmunityEvent(p, a, r);
                 BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), s, 0x197f);
-                func_021C158C(c, r);
+                WIFICLUB_StateBeginIdleAfterNet(c, r);
             }
             r = func_021C159C(c);
         } while (r != 0);

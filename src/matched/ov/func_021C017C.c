@@ -1,5 +1,5 @@
 /*
- * function: func_021C017C
+ * function: WIFICLUB_StateStartPrompt
  * address:  0x021C017C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9B64  0x021B9B64  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUBACTOR_TickBlink  0x021B9B64  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *
  * Re-arms, runs the seven/zero setup and stamps selector 0x20.
  */
@@ -25,13 +25,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9B64(char *p);
-extern void func_021BAAB8(char *p, int a, int b);
+extern void WIFICLUBACTOR_TickBlink(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021C017C(char *p, int v)
+int WIFICLUB_StateStartPrompt(char *p, int v)
 {
-    func_021B9B64(p + 0x274);
-    func_021BAAB8(p, 7, 0);
+    WIFICLUBACTOR_TickBlink(p + 0x274);
+    WIFICLUB_ShowStreamedMessage(p, 7, 0);
     ((struct Obj18264 *)p)->f1CC = 0x20;
     return v;
 }

@@ -11,7 +11,7 @@
  * symbols:
  *   ARC_TOOL_OpenArchive  0x02048DDC  arm
  *   ARC_TOOL_SeekMember  0x02048E34  arm
- *   func_02078A80  0x02078A80  arm
+ *   FS_CloseFile  0x02078A80  arm
  */
 
 typedef unsigned int u32;
@@ -20,7 +20,7 @@ struct ArcFile;
 struct ArcHandle;
 extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
 extern u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
-extern void func_02078A80(void *p);
+extern void FS_CloseFile(void *p);
 
 u32 ARC_TOOL_GetMemberSize(u32 a, u32 b)
 {
@@ -29,6 +29,6 @@ u32 ARC_TOOL_GetMemberSize(u32 a, u32 b)
 
     ARC_TOOL_OpenArchive((struct ArcFile *)buf, a);
     r = ARC_TOOL_SeekMember((struct ArcHandle *)buf, b, 0, 0);
-    func_02078A80(buf);
+    FS_CloseFile(buf);
     return r;
 }

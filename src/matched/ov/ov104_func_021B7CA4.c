@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CA4
+ * function: IRC_RHYTHM_ExitActorSystem
  * address: 0x021B7CA4
  * packet: pkt_ov104_021B7CA4
  * region: ov104
@@ -30,4 +30,4 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,int);
-void func_021B7CA4(void **p) { int i; for(i=0;i<35;i++) if(p[i+10]) CLACT_DeleteActor(p[i+10]); CLACT_ReleasePalette((u32)p[1]); CLACT_ReleaseCharacter((u32)p[2]); CLACT_ReleaseCellAnim((u32)p[3]); CLACT_ReleasePalette((u32)p[4]); CLACT_ReleaseCharacter((u32)p[5]); CLACT_ReleaseCellAnim((u32)p[6]); CLACT_ReleasePalette((u32)p[7]); CLACT_ReleaseCharacter((u32)p[8]); CLACT_ReleaseCellAnim((u32)p[9]); CLACT_DeleteUnit(p[0]); CLACT_ExitSystem(); MI_CpuFill8(p,0,0xb4); }
+void IRC_RHYTHM_ExitActorSystem(void **p) { int i; for(i=0;i<35;i++) if(p[i+10]) CLACT_DeleteActor(p[i+10]); CLACT_ReleasePalette((u32)p[1]); CLACT_ReleaseCharacter((u32)p[2]); CLACT_ReleaseCellAnim((u32)p[3]); CLACT_ReleasePalette((u32)p[4]); CLACT_ReleaseCharacter((u32)p[5]); CLACT_ReleaseCellAnim((u32)p[6]); CLACT_ReleasePalette((u32)p[7]); CLACT_ReleaseCharacter((u32)p[8]); CLACT_ReleaseCellAnim((u32)p[9]); CLACT_DeleteUnit(p[0]); CLACT_ExitSystem(); MI_CpuFill8(p,0,0xb4); }

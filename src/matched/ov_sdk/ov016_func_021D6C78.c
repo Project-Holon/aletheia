@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C78
+ * function: DWCi_ITRlIntr
  * address:  0x021D6C78
  * packet:   pkt_ov016_021D6C78
  * region:   ov016
@@ -19,7 +19,7 @@
  *   OS_ResetRequestIrqMask 0x020849C8  arm
  *   OS_EnableInterrupts 0x02087974  arm
  *   func_021D6D1C  0x021D6D1C  arm  ov016
- *   g_021DE6A0     0x021DE6A0  data
+ *   gInterruptWork     0x021DE6A0  data
  */
 
 #include "../include/G_ItrState.h"
@@ -33,16 +33,16 @@ extern void OS_SetIrqFunction(unsigned long intrBit, void (*function)(void));
 extern unsigned long OS_ResetRequestIrqMask(unsigned long intr);
 extern unsigned long OS_EnableInterrupts(void);
 extern void func_021D6D1C(void);
-extern struct ItrState g_021DE6A0;
+extern struct ItrState gInterruptWork;
 
-void func_021D6C78(void)
+void DWCi_ITRlIntr(void)
 {
     volatile unsigned short *ime;
     unsigned short old;
-    g_021DE6A0.mask = *(volatile unsigned long *)0x04000210;
+    gInterruptWork.mask = *(volatile unsigned long *)0x04000210;
     OS_SetIrqMask(0x40018);
     OS_EnableIrqMask(1);
-    g_021DE6A0.func = OS_GetIrqFunction(1);
+    gInterruptWork.func = OS_GetIrqFunction(1);
     OS_SetIrqFunction(1, func_021D6D1C);
     OS_ResetRequestIrqMask(1);
     ime = (volatile unsigned short *)0x04000208;

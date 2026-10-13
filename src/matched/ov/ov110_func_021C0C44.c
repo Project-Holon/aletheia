@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C44
+ * function: PMS_SELECT_GRAPHIC_RedrawRows
  * address:  0x021C0C44
  * packet:   pkt_ov110_021C0C44
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0C64  0x021C0C64  thumb  ov110
+ *   PMS_SELECT_GRAPHIC_DrawRows  0x021C0C64  thumb  ov110
  */
 
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021C0C64(u8 *p, int flag);
-void func_021C0C44(void *p) { func_021C0C64(p, 0); }
+extern void PMS_SELECT_GRAPHIC_DrawRows(u8 *p, int flag);
+void PMS_SELECT_GRAPHIC_RedrawRows(void *p) { PMS_SELECT_GRAPHIC_DrawRows(p, 0); }

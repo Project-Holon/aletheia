@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02088234 0x02088234 arm
+ *   OS_Terminate 0x02088234 arm
  *   func_0209C2B0 0x0209C2B0 arm
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
- *   func_020857B0 0x020857B0 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   OS_SleepThread 0x020857B0 arm
  *   CARDi_TouchRomHashBlock 0x0272EE98 arm twl
  *   CARDi_CompareHash 0x0272EC38 arm twl
  */
@@ -52,11 +52,11 @@ struct Obj {
     u8 *hash;
 };
 
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern u32 func_0209C2B0(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern void func_020857B0(int);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
+extern void OS_SleepThread(int);
 extern struct Node *CARDi_TouchRomHashBlock(struct Obj *obj, u32 key);
 extern void CARDi_CompareHash(u32 *expect, void *data, u32 len);
 
@@ -76,7 +76,7 @@ void CARDi_ReadRomHashImageDirect(struct Obj *obj, u8 *buf, u32 off, u32 len)
         if (a < obj->fc) {
             a += size;
         } else {
-            func_02088234();
+            OS_Terminate();
         }
     }
     key = func_0209C2B0(a, obj->f20);
@@ -94,15 +94,15 @@ void CARDi_ReadRomHashImageDirect(struct Obj *obj, u8 *buf, u32 off, u32 len)
 
             for (; idx < per && n >= psz; idx++, key++) {
                 if (node != obj->cache_b) {
-                    u32 irq = func_02087988();
+                    u32 irq = OS_DisableInterrupts();
 
                     while (obj->free_b != 0) {
-                        func_020857B0(0);
+                        OS_SleepThread(0);
                     }
                     if (node == obj->used_b) {
                         obj->used_b = node->next;
                     }
-                    func_0208799C(irq);
+                    OS_RestoreInterrupts(irq);
                     CARDi_CompareHash((u32 *)(obj->hash + node->f4 * 0x14), (void *)node->fc, per * 0x14);
                     node->next = obj->cache_b;
                     obj->cache_b = node;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F88
+ * function: VS_MULTI_LIST_LoadIconResources
  * address: 0x021F6F88
  * packet: pkt_ov097_021F6F88
  * region: ov097
@@ -59,7 +59,7 @@ static inline u32 IconBase(int obj)
 {
     return (u32)&((struct Obj00410 *)obj)->fB4;
 }
-void func_021F6F88(int p)
+void VS_MULTI_LIST_LoadIconResources(int p)
 {
     u32 a, b;
     void *h;

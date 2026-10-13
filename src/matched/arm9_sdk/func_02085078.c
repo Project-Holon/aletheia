@@ -1,5 +1,5 @@
 /*
- * function: func_02085078
+ * function: OSi_RemoveSpecifiedLinkFromQueue
  * address:  0x02085078
  * packet:   pkt_02085078
  * region:   arm9
@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * sdk:      OSi_RemoveSpecifiedLinkFromQueue (os_thread.o)
+ *
+ * symbols:
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -133,12 +136,12 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-OSThread *func_02085078(OSThreadQueue *queue, OSThread *thread)
+OSThread *OSi_RemoveSpecifiedLinkFromQueue(OSThreadQueue *queue, OSThread *thread)
 {
     OSThread *t = queue->head;
     OSThread *next;

@@ -11,57 +11,57 @@
  *
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a(scenesetrakubutt))
  * symbols:
- *   func_021D5580  0x021D5580  arm
- *   func_021BCB58  0x021BCB58  arm
- *   func_021BC8EC  0x021BC8EC  arm
- *   func_021D5CA8  0x021D5CA8  arm
- *   func_021BD138  0x021BD138  arm
- *   func_021D6090  0x021D6090  arm
- *   func_021C14F4  0x021C14F4  arm
- *   func_021C0E50  0x021C0E50  arm
- *   func_021C0E40  0x021C0E40  arm
- *   func_021CC998  0x021CC998  arm
- *   func_021CB0A8  0x021CB0A8  arm
- *   g_021DE5FC  0x021DE5FC  data  a1
+ *   DWCi_EFFlCheck  0x021D5580  arm
+ *   DWCi_BTNlIsEnd  0x021BCB58  arm
+ *   DWCi_ANIMElEnd  0x021BC8EC  arm
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm
+ *   DWCi_COMMENTlDelete  0x021BD138  arm
+ *   DWCi_GXlInvisible  0x021D6090  arm
+ *   DWCi_RAKUlEnd  0x021C14F4  arm
+ *   DWCi_SetParam_  0x021C0E50  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
+ *   DWCi_SceneSetSelectWay  0x021CC998  arm
+ *   DWCi_SceneSetRakuComplete  0x021CB0A8  arm
+ *   gSceneSetRakuButton1Work  0x021DE5FC  data  a1
  */
 
 #include "../include/G_021DE5FC.h"
 
-extern int func_021D5580(int x);
-extern int func_021BCB58(void);
-extern void func_021BC8EC(void);
-extern void func_021D5CA8(int x);
-extern void func_021BD138(void);
-extern void func_021D6090(int a, int b);
-extern void func_021C14F4(void);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern void func_021CC998(void);
-extern void func_021CB0A8(void);
-extern struct G_021DE5FC g_021DE5FC;
+extern int DWCi_EFFlCheck(int x);
+extern int DWCi_BTNlIsEnd(void);
+extern void DWCi_ANIMElEnd(void);
+extern void DWCi_FNTlDeleteBgLcd(int x);
+extern void DWCi_COMMENTlDelete(void);
+extern void DWCi_GXlInvisible(int a, int b);
+extern void DWCi_RAKUlEnd(void);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_SceneSetSelectWay(void);
+extern void DWCi_SceneSetRakuComplete(void);
+extern struct G_021DE5FC gSceneSetRakuButton1Work;
 
 void func_021CAEBC(void)
 {
-    if (func_021D5580(0) != 0)
+    if (DWCi_EFFlCheck(0) != 0)
         return;
-    if ((*(unsigned char *)&g_021DE5FC) == 0) {
-        if (func_021D5580(1) != 0)
+    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+        if (DWCi_EFFlCheck(1) != 0)
             return;
     }
-    if (func_021BCB58() == 0)
+    if (DWCi_BTNlIsEnd() == 0)
         return;
-    func_021BC8EC();
-    func_021D5CA8(0);
-    if ((*(unsigned char *)&g_021DE5FC) == 0) {
-        func_021BD138();
-        func_021D6090(1, 1);
+    DWCi_ANIMElEnd();
+    DWCi_FNTlDeleteBgLcd(0);
+    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+        DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    func_021C14F4();
-    if ((*(unsigned char *)&g_021DE5FC) == 0) {
-        func_021C0E50(2, 1);
-        func_021C0E40((unsigned int)func_021CC998);
+    DWCi_RAKUlEnd();
+    if ((*(unsigned char *)&gSceneSetRakuButton1Work) == 0) {
+        DWCi_SetParam_(2, 1);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectWay);
     } else {
-        func_021C0E50(0, 0);
-        func_021C0E40((unsigned int)func_021CB0A8);
+        DWCi_SetParam_(0, 0);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetRakuComplete);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067DC8",
+   "name": "NNS_G2dRndCoreDrawCellVramTransfer",
    "address": "0x02067DC8",
    "kind": "game",
    "region": "arm9",

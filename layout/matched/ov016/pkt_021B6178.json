@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B61B0",
+   "name": "AOSS_MALLOC",
    "address": "0x021B61B0",
    "kind": "sdk",
    "region": "ov016",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_021B61C0",
+   "name": "AOSS_FREE",
    "address": "0x021B61C0",
    "kind": "sdk",
    "region": "ov016",

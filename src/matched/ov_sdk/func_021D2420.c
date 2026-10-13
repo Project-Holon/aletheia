@@ -11,12 +11,13 @@
  *
  * symbols:
  *   func_021D2420 0x021D2420 arm
+ *   DWCi_DwcMoveidMB_EndToIdle  0x021F5F74  arm
  *
  * Guard on the kind and the paired words of the object at 0x021DE65C.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021F5F74(void);
+extern void DWCi_DwcMoveidMB_EndToIdle(void);
 
 void func_021D2420(void)
 {
@@ -26,5 +27,5 @@ void func_021D2420(void)
         return;
     if (p[1] != p[6])
         return;
-    func_021F5F74();
+    DWCi_DwcMoveidMB_EndToIdle();
 }

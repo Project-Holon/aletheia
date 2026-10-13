@@ -1,5 +1,5 @@
 /*
- * function: func_02157D48
+ * function: throw_packet
  * address:  0x02157D48
  * packet:   pkt_ov009_02157D48
  * region:   ov009
@@ -12,8 +12,8 @@
  * sdk:      throw_packet (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A826C  0x021A826C  data
  * note: volatile in this file is a matching device (it forces the reload the
  *   original performs); the vendor DWARF declares the object without volatile.
@@ -29,15 +29,15 @@ struct net_vars {
 };
 
 extern struct net_vars g_021A826C;
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-void func_02157D48(void)
+void throw_packet(void)
 {
-    unsigned long en = func_02087988();
+    unsigned long en = OS_DisableInterrupts();
 
     g_021A826C.put += *(unsigned short *)(g_021A826C.buf + g_021A826C.put);
     if (g_021A826C.put >= g_021A826C.limit)
         g_021A826C.put = 0;
-    func_0208799C(en);
+    OS_RestoreInterrupts(en);
 }

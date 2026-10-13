@@ -1,5 +1,5 @@
 /*
- * function: func_0205BC78
+ * function: DWC_AC_Process
  * address:  0x0205BC78
  * packet:   pkt_0205BC78
  * region:   arm9
@@ -41,7 +41,7 @@ extern u8 DWCi_AC_Error(void);
 extern BOOL CheckDuplicate(void);
 extern void Free_Disused(void);
 
-int func_0205BC78(void)
+int DWC_AC_Process(void)
 {
     int ret;
     u32 irq;

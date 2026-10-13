@@ -1,5 +1,5 @@
 /*
- * function: func_021DF884
+ * function: sciInterfaceInit
  * address:  0x021DF884
  * packet:   pkt_021DF884
  * region:   ov175
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E06DC  0x021E06DC  arm
+ *   sciWsInit  0x021E06DC  arm
  *   func_020923B0  0x020923B0  arm
  *
- * Activation probe: func_021E06DC reports on the owner, and a report is
+ * Activation probe: sciWsInit reports on the owner, and a report is
  * returned as-is.  Otherwise clear the two 0x28-byte parameter blocks and
  * mark the owner live at +0x50.
  */
@@ -21,12 +21,12 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern s32 func_021E06DC(char *p, u32 v);
+extern s32 sciWsInit(char *p, u32 v);
 extern void *func_020923B0(void *p, int c, u32 n);
 
-s32 func_021DF884(char *p)
+s32 sciInterfaceInit(char *p)
 {
-    s32 e = func_021E06DC(p, (u32)p);
+    s32 e = sciWsInit(p, (u32)p);
 
     if (e != 0)
         return e;

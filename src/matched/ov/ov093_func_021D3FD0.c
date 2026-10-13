@@ -1,5 +1,5 @@
 /*
- * function: func_021D3FD0
+ * function: BTL_CLIENT_DisableCounter
  * address:  0x021D3FD0
  * packet:   pkt_ov093_021D3FD0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-void func_021D3FD0(unsigned char *p)
+void BTL_CLIENT_DisableCounter(unsigned char *p)
 {
     p[2] |= 0x20;
 }

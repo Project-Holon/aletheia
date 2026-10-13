@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDC4
+ * function: PMS_WORDLIST_GetCellOffset
  * address:  0x021BEDC4
  * packet:   pkt_ov110_021BEDC4
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021BEDC4(u8 *p) { return p[6] + p[7] * 2; }
+u32 PMS_WORDLIST_GetCellOffset(u8 *p) { return p[6] + p[7] * 2; }

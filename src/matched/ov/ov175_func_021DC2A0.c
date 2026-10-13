@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Sibling of func_021DC240 on the +0x148 block: take-and-clear, and when
  *     it was live, feed the object's +0x218 port block, the caller's argument
@@ -20,7 +20,7 @@
 
 typedef unsigned long u32;
 
-extern void func_02082D44(char *dst, u32 arg, u32 n);
+extern void MI_CpuCopy8(char *dst, u32 arg, u32 n);
 
 u32 func_021DC2A0(char *obj, u32 arg)
 {
@@ -28,7 +28,7 @@ u32 func_021DC2A0(char *obj, u32 arg)
 
     if (v != 0) {
         ((struct Obj14346 *)obj)->f148 = 0;
-        func_02082D44(obj + 0x218, arg, 4);
+        MI_CpuCopy8(obj + 0x218, arg, 4);
     }
     return v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216CA04
+ * function: DWC_AddMatchKeyString
  * address:  0x0216CA04
  * packet:   pkt_ov009_0216CA04
  * region:   ov009
@@ -15,11 +15,11 @@
  *
  * symbols:
  *   func_020948E0                0x020948E0 arm
- *   func_02173AD8                0x02173AD8 arm   ov009
+ *   DWCi_GetNewMatchKey                0x02173AD8 arm   ov009
  *   func_0205A1B0                0x0205A1B0 arm
  *   func_0209477C                0x0209477C arm
  *   func_0205A16C                0x0205A16C arm
- *   func_0216EB68                0x0216EB68 arm   ov009
+ *   DWCi_StopMatch                0x0216EB68 arm   ov009
  *   func_02094798                0x02094798 arm
  *   func_0219D158                0x0219D158 arm   ov009
  *   g_021AAA40                   0x021AAA40 data
@@ -72,7 +72,7 @@
  * class of residue, so this is the object's front end, not this body.
  * Verified with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov009_func_0216CA04.c \
- *       --func func_0216CA04 --addr 0x0216CA04 --region ov009 --arm \
+ *       --func DWC_AddMatchKeyString --addr 0x0216CA04 --region ov009 --arm \
  *       --lang c99 --cc ../2.0/base
  *
  * lane W8 (2026-09-30).  Re-confirmed both pins on the current source, no
@@ -147,15 +147,15 @@ extern struct DWCstGameMatchKeyData g_021AAA40[154];
 #define KEYVAL(i) (g_021AAA40[i].value)
 
 extern int func_020948E0(const char *s1, const char *s2);
-extern u8 func_02173AD8(void);
+extern u8 DWCi_GetNewMatchKey(void);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern int func_0209477C(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 extern char *func_02094798(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
 
-u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc)
+u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc)
 {
     int index;
 
@@ -165,7 +165,7 @@ u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc)
         if (KEYSTR(keyID - 0x64) != 0 && func_020948E0(KEYSTR(keyID - 0x64), keyString) != 0)
             return 0;
     } else {
-        keyID = func_02173AD8();
+        keyID = DWCi_GetNewMatchKey();
         if (keyID == 0)
             return 0;
     }
@@ -177,7 +177,7 @@ u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc)
         func_0205A1B0(4, KEYSTR(index), 0);
     KEYSTR(index) = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
     if (KEYSTR(index) == 0) {
-        func_0216EB68(9, -80001);
+        DWCi_StopMatch(9, -80001);
         return 0;
     }
     func_02094798(KEYSTR(index), keyString);

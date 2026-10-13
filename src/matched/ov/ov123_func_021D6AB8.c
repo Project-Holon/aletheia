@@ -15,7 +15,7 @@
  *   func_02020E60 0x02020E60 thumb
  *   func_02062A98 0x02062A98 arm
  *   func_02062A4C 0x02062A4C arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02019D30 0x02019D30 thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
@@ -38,7 +38,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern u32 func_02019D30(u32 a, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
@@ -60,11 +60,11 @@ void func_021D6AB8(u8 *p)
         if (species) {
             buf = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,2),((struct Obj03268 *)p)->f43C4);
             func_02062A98(buf,(void **)(&out));
-            func_02082D44(((struct Obj22951 *)out)->fC,p+0xbc+i*0x224,32);
+            MI_CpuCopy8(((struct Obj22951 *)out)->fC,p+0xbc+i*0x224,32);
             func_020307B0(buf);
             buf2 = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,1),((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+i*0x224,512);
+            MI_CpuCopy8(((struct Obj13981 *)out2)->f14,p+0xdc+i*0x224,512);
             func_020307B0(buf2);
         }
     }
@@ -80,7 +80,7 @@ void func_021D6AB8(u8 *p)
             id = POKE_TOOL_CalcGraphicIndex(species,form,gender,0);
             buf2 = ARC_TOOL_LoadHandleMember(h2,id,((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+n*0x224,512);
+            MI_CpuCopy8(((struct Obj13981 *)out2)->f14,p+0xdc+n*0x224,512);
             func_020307B0(buf2);
             *(u32 *)(p+n*0x224+0x2dc) = value;
         }

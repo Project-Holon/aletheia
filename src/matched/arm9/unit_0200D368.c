@@ -11,18 +11,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D368, func_0200D3C0
+ * function: ZUKAN_SAVE_CountSeenRegionalCounted, ZUKAN_SAVE_HasLanguageFlag
  *
  * 172 bytes, 0x0200D368..0x0200D414, 2 functions, one of which carries a label
  * in the generated listing.
  *
  * The tail of the save block with id 0x37, whose head is
- * src/matched/unit_0200C9EC.c.  func_0200D368 counts the species this block
- * records as seen that the id table has an entry for and that func_0200C7A0
- * accepts; func_0200D3C0 reads a bit out of the flat 0x1B0-byte bitmap at
+ * src/matched/unit_0200C9EC.c.  ZUKAN_SAVE_CountSeenRegionalCounted counts the species this block
+ * records as seen that the id table has an entry for and that ZUKAN_SAVE_IsCountedForRegionalCompletion
+ * accepts; ZUKAN_SAVE_HasLanguageFlag reads a bit out of the flat 0x1B0-byte bitmap at
  * +0x320, indexed by `(b - 1) + (a - 1) * 7` over a range of 0x1ED rows.
  *
- * func_0200D3C0 saves `r4` without saving `lr`, so `disasm.py` does not label
+ * ZUKAN_SAVE_HasLanguageFlag saves `r4` without saving `lr`, so `disasm.py` does not label
  * it and it arrives in the listing as a run of `.word`s.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
  *
@@ -32,14 +32,14 @@
  * compares and the `subs` encode.
  *
  * This range starts at 0x0200D368 rather than at the head of the group because
- * func_0200C7A0 is reached from exactly two places in the image, 0x0200D33A in
- * func_0200D310 and 0x0200D392 here, so a range holding both has no witness
+ * ZUKAN_SAVE_IsCountedForRegionalCompletion is reached from exactly two places in the image, 0x0200D33A in
+ * ZUKAN_SAVE_CountCaughtRegionalCounted and 0x0200D392 here, so a range holding both has no witness
  * left for it.  Cut between them and this half closes.  See
  * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  The other
- * half does not close, because func_0200C780 is reached only from
- * func_0200D2D8; it is parked in src/pending/unit_0200D288.c.
+ * half does not close, because ZUKAN_SAVE_IsCountedForNationalCompletion is reached only from
+ * ZUKAN_SAVE_CountCaughtNationalCounted; it is parked in src/pending/unit_0200D288.c.
  *
- * Near miss in the same original file: func_0200D144, 322 bytes at
+ * Near miss in the same original file: ZUKAN_SAVE_HasSeenGenderForm, 322 bytes at
  * 0x0200D144, the five-way reader over the same bitmaps.  It reaches the right
  * size and the right control flow, and sixteen bytes in its last arm differ in
  * register numbers alone: the original keeps the shifted id in one register and
@@ -52,6 +52,12 @@
  *
  * symbols:
  *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
+ *   ZUKAN_SAVE_IsCountedForNationalCompletion  0x0200C780  thumb
+ *   ZUKAN_SAVE_IsCountedForRegionalCompletion  0x0200C7A0  thumb
+ *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb
+ *   ZUKAN_SAVE_CountCaughtNationalCounted  0x0200D2D8  thumb
+ *   ZUKAN_SAVE_CountCaughtRegionalCounted  0x0200D310  thumb
  */
 
 typedef unsigned char  u8;
@@ -74,20 +80,20 @@ struct Blk37 {
     u32 unk4D0;
 };
 
-extern int func_0200C780(u32 v);
-extern int func_0200C7A0(u32 v);
-extern u32   func_0200CED4(struct Blk37 *p, u16 id);
-extern u32   func_0200D064(struct Blk37 *p, u16 id);
+extern int ZUKAN_SAVE_IsCountedForNationalCompletion(u32 v);
+extern int ZUKAN_SAVE_IsCountedForRegionalCompletion(u32 v);
+extern u32   ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
+extern u32   ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 
-u16 func_0200D2D8(void *a0);
-int func_0200D310(void *a0, int a1);
-u16 func_0200D368(struct Blk37 *p, u32 heap);
+u16 ZUKAN_SAVE_CountCaughtNationalCounted(void *a0);
+int ZUKAN_SAVE_CountCaughtRegionalCounted(void *a0, int a1);
+u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap);
 
-u16 func_0200D368(struct Blk37 *p, u32 heap);
+u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap);
 
-u16 func_0200D368(struct Blk37 *p, u32 heap)
+u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct Blk37 *p, u32 heap)
 {
     u16 i;
     u16 n;
@@ -96,7 +102,7 @@ u16 func_0200D368(struct Blk37 *p, u32 heap)
     n = 0;
     t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
-        if (func_0200D064(p, i) == 1 && t[i] != 0x3E7 && func_0200C7A0(i) == 1) {
+        if (ZUKAN_SAVE_IsSeen(p, i) == 1 && t[i] != 0x3E7 && ZUKAN_SAVE_IsCountedForRegionalCompletion(i) == 1) {
             n = (u16)(n + 1);
         }
     }
@@ -104,7 +110,7 @@ u16 func_0200D368(struct Blk37 *p, u32 heap)
     return n;
 }
 
-u32 func_0200D3C0(struct Blk37 *p, u32 a, u32 b)
+u32 ZUKAN_SAVE_HasLanguageFlag(struct Blk37 *p, u32 a, u32 b)
 {
     s32 x;
     u32 r;

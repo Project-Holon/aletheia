@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_020596C8  0x020596C8  arm
- *   func_02059474  0x02059474  arm
+ *   DWCi_Acc_LoginIdToUserName  0x02059474  arm
  *   func_02059084  0x02059084  arm
- *   func_020596B0  0x020596B0  arm
- *   func_02059644  0x02059644  arm
- *   func_02059588  0x02059588  arm
+ *   DWCi_Acc_IsValidLoginId  0x020596B0  arm
+ *   DWCi_Acc_CheckConsoleUserId  0x02059644  arm
+ *   DWCi_Acc_CreateTempLoginId  0x02059588  arm
  *   OS_GetTick     0x020870D0  arm
  *   DWCi_Acc_SetPlayerId  0x020590F0  arm
  *   func_02178D14  0x02178D14  arm  ov009
@@ -61,11 +61,11 @@ extern LoginControl *g_021AA874;
 
 extern int func_020596C8(UserData *userdata);
 struct DWCstAccLoginId;
-extern void func_02059474(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username);
+extern void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username);
 extern u64 func_02059084(void *loginId);
-extern int func_020596B0(void *loginid);
-extern int func_02059644(struct DWCstAccLoginId *loginid);
-extern void func_02059588(struct DWCstAccLoginId *loginid);
+extern int DWCi_Acc_IsValidLoginId(void *loginid);
+extern int DWCi_Acc_CheckConsoleUserId(struct DWCstAccLoginId *loginid);
+extern void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid);
 extern u64 OS_GetTick(void);
 extern void DWCi_Acc_SetPlayerId(int *p, int v);
 extern int func_02178D14(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
@@ -77,18 +77,18 @@ int func_0216A6F4(void)
     u64 userid;
 
     if (func_020596C8(g_021AA874->userdata)) {
-        func_02059474((struct DWCstAccLoginId *)g_021AA874->userdata->loginId, g_021AA874->userdata->gamecode, g_021AA874->username);
+        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)g_021AA874->userdata->loginId, g_021AA874->userdata->gamecode, g_021AA874->username);
         userid = func_02059084(g_021AA874->userdata->loginId);
     } else {
-        if (!func_020596B0(&g_021AA874->loginId)) {
-            if (func_02059644((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId)))
+        if (!DWCi_Acc_IsValidLoginId(&g_021AA874->loginId)) {
+            if (DWCi_Acc_CheckConsoleUserId((struct DWCstAccLoginId *)(&g_021AA874->userdata->consoleId)))
                 g_021AA874->loginId = g_021AA874->userdata->consoleId;
             else
-                func_02059588((struct DWCstAccLoginId *)(&g_021AA874->loginId));
+                DWCi_Acc_CreateTempLoginId((struct DWCstAccLoginId *)(&g_021AA874->loginId));
         } else {
             DWCi_Acc_SetPlayerId((int *)(&g_021AA874->loginId), (u32)((OS_GetTick() * 0x5D588B656C078965ULL + 0x269EC3) >> 32));
         }
-        func_02059474((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, g_021AA874->username);
+        DWCi_Acc_LoginIdToUserName((struct DWCstAccLoginId *)(&g_021AA874->loginId), g_021AA874->gamecode, g_021AA874->username);
         userid = 0;
     }
     return func_02178D14(g_021AA874->ingamesn, g_021AA874->gsbrcd, userid, func_0205A16C, func_0205A1B0);

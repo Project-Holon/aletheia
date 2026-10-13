@@ -15,7 +15,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
@@ -56,7 +56,7 @@ extern u8 gOptionMenuDispConfig[];
 extern Row gOptionMenuBgLayers[];
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern void func_0203F8F4(u16 heap);
 extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
@@ -114,7 +114,7 @@ void OPTION_MENU_InitGfx(u8 *p, u16 heap)
     func_02049658(h, 0x10, 4, 1, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);
     buf = func_02049F34(0x1b, 1, (u32)(&pd), heap);
-    func_02082D44(pd->data + 0xe0, p + 0x5c, 0x20);
+    MI_CpuCopy8(pd->data + 0xe0, p + 0x5c, 0x20);
     func_020307B0(buf);
     *(u32 *)(p + 0x44) = BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 4, 1);
     *(u32 *)(p + 0x48) = BMP_WIN_Create(3, 1, 1, 0x1e, 4, 0xf, 1);

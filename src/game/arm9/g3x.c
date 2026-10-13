@@ -1,7 +1,7 @@
 /*
  * file:     g3x.c
  * unit:     yes
- * function: func_0207D988, func_0207DA8C, func_0207DAF8, func_0207DB1C, func_0207DBB4, G3X_SetFog, func_0207DC98, func_0207DCC8, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, func_0207DD4C, func_0207DE30, func_0207DE5C, func_0207DE88, func_0207DEA4, func_0207DECC
+ * function: func_0207D988, func_0207DA8C, func_0207DAF8, func_0207DB1C, func_0207DBB4, G3X_SetFog, G3X_GetClipMtx, G3X_GetVectorMtx, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, func_0207DD4C, func_0207DE30, func_0207DE5C, func_0207DE88, func_0207DEA4, func_0207DECC
  * address:  0x0207D988
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -22,7 +22,7 @@
  *   G3X_GetMtxStackLevelPJ   0x0207DE5C  arm
  *   MI_Copy64B   0x02082BA0  arm
  *   MI_Copy36B   0x02082B60  arm
- *   func_02082A60   0x02082A60  arm
+ *   MIi_CpuCopy16   0x02082A60  arm
  *   func_02082B44   0x02082B44  arm
  *   MI_NDmaFillAsync     0x0272FBD0  arm
  *   MI_NDmaFill          0x0272FB28  arm
@@ -106,7 +106,7 @@ extern int G3X_GetMtxStackLevelPV(s32 *level);
 extern int G3X_GetMtxStackLevelPJ(s32 *level);
 extern void MI_Copy64B(const void *pSrc, void *pDest);
 extern void MI_Copy36B(const void *pSrc, void *pDest);
-extern void func_02082A60(const void *src, void *dst, unsigned int size);
+extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 extern void func_02082B44(const void *src, void *dst);
 extern void MI_NDmaFillAsync(u32 ndmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg);
 extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
@@ -119,8 +119,8 @@ void func_0207DAF8(void);
 void func_0207DB1C(void);
 void func_0207DBB4(void);
 void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
-int func_0207DC98(MtxFx44 *m);
-int func_0207DCC8(MtxFx33 *m);
+int G3X_GetClipMtx(MtxFx44 *m);
+int G3X_GetVectorMtx(MtxFx33 *m);
 void G3X_SetEdgeColorTable(const void *src);
 void G3X_SetFogTable(const void *src);
 void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
@@ -308,7 +308,7 @@ void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOff
 /*
  * sdk:      G3X_GetClipMtx (libgx.TWL.HYB.a g3x.o)
  */
-int func_0207DC98(MtxFx44 *m)
+int G3X_GetClipMtx(MtxFx44 *m)
 {
     if (reg_G3X_GXSTAT & 0x08000000) {
         return -1;
@@ -326,7 +326,7 @@ int func_0207DC98(MtxFx44 *m)
 /*
  * sdk:      G3X_GetVectorMtx (libgx.TWL.HYB.a g3x.o)
  */
-int func_0207DCC8(MtxFx33 *m)
+int G3X_GetVectorMtx(MtxFx33 *m)
 {
     if (reg_G3X_GXSTAT & 0x08000000) {
         return -1;
@@ -343,7 +343,7 @@ int func_0207DCC8(MtxFx33 *m)
 
 void G3X_SetEdgeColorTable(const void *src)
 {
-    func_02082A60(src, (void *)0x04000330, 0x10);
+    MIi_CpuCopy16(src, (void *)0x04000330, 0x10);
 }
 
 

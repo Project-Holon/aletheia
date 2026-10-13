@@ -1,5 +1,5 @@
 /*
- * function: func_02067AAC
+ * function: NNS_G2dSetRndCoreOamRegisterFunc
  * address:  0x02067AAC
  * packet:   pkt_02067AAC
  * region:   arm9
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067AAC.c \
- *       --func func_02067AAC --addr 0x02067AAC --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetRndCoreOamRegisterFunc.c \
+ *       --func NNS_G2dSetRndCoreOamRegisterFunc --addr 0x02067AAC --arm --cc 1.1p1
  */
 
-void func_02067AAC(int *p, int a, int b)
+void NNS_G2dSetRndCoreOamRegisterFunc(int *p, int a, int b)
 {
     p[7] = a;
     p[8] = b;

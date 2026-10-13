@@ -1,5 +1,5 @@
 /*
- * function: func_0689BDE0
+ * function: BTL_SICK_RecoverHpAquaRing
  * address:  0x0689BDE0
  * packet:   pkt_ov095_0689BDE0
  * region:   ov095
@@ -38,7 +38,7 @@ extern void func_0689BE7C(void *, int, int);
 extern void func_0689BE8C(void *, int);
 extern void func_0689BE9C(void *, void *);
 
-void func_0689BDE0(void *a, void *b, int c)
+void BTL_SICK_RecoverHpAquaRing(void *a, void *b, int c)
 {
     Rec *r;
 

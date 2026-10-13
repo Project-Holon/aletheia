@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   gWihWork 0x021797A8 data ov014 a4
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *gWihWork;
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 void WIH_SetScanTarget(u16 value, void *src)
 {
     *(u16 *)(gWihWork + 0x1eb2) = value;
-    func_02082D44(src, gWihWork + 0x140a, 6);
+    MI_CpuCopy8(src, gWihWork + 0x140a, 6);
 }

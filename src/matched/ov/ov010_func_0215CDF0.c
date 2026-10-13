@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   GIMMICK_INIT_RestoreGimmick38State  0x021F3768  thumb  ov037
+ *   GIMMICK_INIT_RestorePlateDoorsState  0x021F3768  thumb  ov037
  *   ov037_id       0x00000025  data
  */
 
@@ -25,7 +25,7 @@ extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void GIMMICK_INIT_RestoreGimmick38State(unsigned int a0, unsigned short **a1);
+extern void GIMMICK_INIT_RestorePlateDoorsState(unsigned int a0, unsigned short **a1);
 extern char ov037_id[];
 
 int SCRCMD_PROC_Ov037ReadEightVars(void *a, void *b)
@@ -41,7 +41,7 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *a, void *b)
     v[6] = SCRIPT_WORK_ReadWorkPointer(a, b);
     v[7] = SCRIPT_WORK_ReadWorkPointer(a, b);
     func_02034AC4((u32)ov037_id);
-    GIMMICK_INIT_RestoreGimmick38State((unsigned int)h, v);
+    GIMMICK_INIT_RestorePlateDoorsState((unsigned int)h, v);
     func_02034A5C((u32)ov037_id);
     return 0;
 }

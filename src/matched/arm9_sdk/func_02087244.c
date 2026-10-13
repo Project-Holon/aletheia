@@ -1,5 +1,5 @@
 /*
- * function: func_02087244
+ * function: OS_IsAlarmAvailable
  * address:  0x02087244
  * packet:   pkt_02087244
  * region:   arm9
@@ -18,7 +18,7 @@ typedef int BOOL;
 
 extern u16 g_02151340;
 
-BOOL func_02087244(void)
+BOOL OS_IsAlarmAvailable(void)
 {
     return g_02151340;
 }

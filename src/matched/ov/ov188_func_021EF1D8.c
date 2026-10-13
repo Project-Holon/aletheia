@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj02907.h"
 #include "../include/Obj24897.h"
 
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 
 int func_021EF1D8(char *p, char *a1)
 {
     int v = ((struct Obj24897 *)a1)->f34;
 
     ((struct Obj02907 *)p)->f98 = v;
-    func_02082D44(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
+    MI_CpuCopy8(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C14EC
+ * function: WIFICLUB_IsTalkFinishedOrClosed
  * address:  0x021C14EC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
+ *   WIFICLUB_OpenYesNoMenu  0x021BA828  thumb
  *
  * True when the guard answers true or the pointer 0x190 bytes in is still unset.
  */
@@ -24,12 +25,12 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA928(void *p);
-extern void func_021BA828(char *p);
+extern int WIFICLUB_UpdateTalkStream(void *p);
+extern void WIFICLUB_OpenYesNoMenu(char *p);
 
-BOOL func_021C14EC(char *p)
+BOOL WIFICLUB_IsTalkFinishedOrClosed(char *p)
 {
-    if (func_021BA928(p) != 0) {
+    if (WIFICLUB_UpdateTalkStream(p) != 0) {
         return 1;
     }
 

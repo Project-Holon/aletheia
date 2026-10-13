@@ -10,42 +10,42 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm
- *   func_021BD8D8  0x021BD8D8  arm
- *   func_021CFFAC  0x021CFFAC  arm
- *   func_021BDC68  0x021BDC68  arm
- *   func_021BDC7C  0x021BDC7C  arm
- *   func_021C0E40  0x021C0E40  arm
- *   g_021DE5E0     0x021DE5E0  data
+ *   DWCi_EFFlCheck  0x021D5580  arm
+ *   DWCi_KBlInit  0x021BD8D8  arm
+ *   DWCi_SNDlPlay  0x021CFFAC  arm
+ *   DWCi_KBlSetErase  0x021BDC68  arm
+ *   DWCi_KBlSetInput  0x021BDC7C  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
+ *   gMemSse     0x021DE5E0  data
  *   func_021C684C  0x021C684C  arm
  */
 
 typedef unsigned char u8;
 
-extern int  func_021D5580(int x);
-extern void func_021BD8D8(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021BDC68(unsigned char v);
-extern void func_021BDC7C(unsigned char v);
-extern void func_021C0E40(unsigned int v);
-extern u8  *g_021DE5E0;
+extern int  DWCi_EFFlCheck(int x);
+extern void DWCi_KBlInit(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_KBlSetErase(unsigned char v);
+extern void DWCi_KBlSetInput(unsigned char v);
+extern void DWCi_ChangeScene(unsigned int v);
+extern u8  *gMemSse;
 extern void func_021C684C(void);
 
 void func_021C67CC(void)
 {
     u8 *p;
 
-    if (func_021D5580(1) != 0)
+    if (DWCi_EFFlCheck(1) != 0)
         return;
-    if (func_021D5580(0) != 0)
+    if (DWCi_EFFlCheck(0) != 0)
         return;
-    func_021BD8D8();
-    func_021CFFAC(0x14);
-    p = g_021DE5E0;
+    DWCi_KBlInit();
+    DWCi_SNDlPlay(0x14);
+    p = gMemSse;
     if (p[0x29] == 0)
-        func_021BDC68(0);
-    p = g_021DE5E0;
+        DWCi_KBlSetErase(0);
+    p = gMemSse;
     if (p[0x29] == 0x20)
-        func_021BDC7C(0);
-    func_021C0E40((unsigned int)func_021C684C);
+        DWCi_KBlSetInput(0);
+    DWCi_ChangeScene((unsigned int)func_021C684C);
 }

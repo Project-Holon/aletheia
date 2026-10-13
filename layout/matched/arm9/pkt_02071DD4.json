@@ -49,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020721BC",
+   "name": "NNSi_G3dTexMtxRotTrans_Max",
    "address": "0x020721BC",
    "kind": "game",
    "region": "arm9",
@@ -61,7 +61,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0207229C",
+   "name": "NNSi_G3dTexMtxScaleTrans_Max",
    "address": "0x0207229C",
    "kind": "game",
    "region": "arm9",
@@ -73,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072320",
+   "name": "NNSi_G3dTexMtxTrans_Max",
    "address": "0x02072320",
    "kind": "game",
    "region": "arm9",

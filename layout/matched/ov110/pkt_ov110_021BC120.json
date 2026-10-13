@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC120",
+   "name": "PMSIV_EDIT_InitSlotPositions",
    "address": "0x021BC120",
    "kind": "game",
    "region": "ov110",

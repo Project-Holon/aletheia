@@ -18,6 +18,9 @@
  *   PXI_Init  0x02088498  arm  arm9
  *   WMi_CheckInitializedAfterMeasure  0x02090ECC  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  */
 typedef unsigned int u32;
 
@@ -40,11 +43,11 @@ typedef struct CamBuf {
     u16 f280;
 } CamBuf;
 
-extern u32 func_02087988(void);
+extern u32 OS_DisableInterrupts(void);
 extern u32 WMi_CheckInitializedAfterMeasure(void);
-extern void func_0208799C(u32);
+extern void OS_RestoreInterrupts(u32);
 extern void PXI_Init(void);
-extern u32 func_020885EC(u32, u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020862B8(void *, u32);
 extern void func_020821C0(u32, void *, u32, u32, u32);
 extern void func_020862D4(void *, u32);
@@ -72,31 +75,31 @@ u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
 }
 
 u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     int i;
     if (WMi_CheckInitializedAfterMeasure() == 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 3;
     }
     if (data_027341A0[0] != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 3;
     }
     if (buf == 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 5;
     }
     if (mode > 3) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 5;
     }
     if (((u32)buf & 0x1f) != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 5;
     }
     PXI_Init();
-    if (func_020885EC(0x16, 1) == 0) {
-        func_0208799C(irq);
+    if (PXI_IsCallbackReady(0x16, 1) == 0) {
+        OS_RestoreInterrupts(irq);
         return 4;
     }
     func_020862B8(buf, size);
@@ -120,7 +123,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
     data_027341A4->ring->ready = 1;
     func_020862D4(data_027341A4, 0x22e0);
     func_020862D4((void *)0x27341a0, 1);
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 0;
 }
 

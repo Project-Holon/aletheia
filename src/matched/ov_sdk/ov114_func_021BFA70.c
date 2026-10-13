@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA70
+ * function: DWCi_RemoveDWCGHTTPParamEntry
  * address:  0x021BFA70
  * packet:   pkt_ov114_021BFA70
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D3B20    0x021D3B20  data  ov114  a4
+ *   gDwcGhttpParamList    0x021D3B20  data  ov114  a4
  *   func_0205A1B0 0x0205A1B0  arm
  *
  * Singly linked list removal.  The if/else with a lone `p = q` arm is
@@ -25,19 +25,19 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-extern Node *d_021D3B20[];
+extern Node *gDwcGhttpParamList[];
 extern void func_0205A1B0(int, Node *, int);
 
-void func_021BFA70(Node *x)
+void DWCi_RemoveDWCGHTTPParamEntry(Node *x)
 {
-    Node *p = d_021D3B20[1];
+    Node *p = gDwcGhttpParamList[1];
     Node *q;
     if (p == 0)
         return;
     if (p == x) {
         Node *nx = p->next;
         func_0205A1B0(6, p, 0);
-        d_021D3B20[1] = nx;
+        gDwcGhttpParamList[1] = nx;
         return;
     }
     q = p->next;

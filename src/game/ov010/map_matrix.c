@@ -22,8 +22,8 @@
  *   MAP_MATRIX_PosToBlock  0x02159D68  thumb  ov010
  *   MAP_MATRIX_IsInRange  0x02159C2C  thumb  ov010
  *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
- *   func_02082A48  0x02082A48  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuClear16  0x02082A48  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   MAP_MATRIX_ApplyReplace  0x02159CC4  thumb  ov010
  *   MAP_REPLACE_Create  0x02159D84  thumb  ov010
  *   MAP_REPLACE_GetRecordCount  0x02159DC8  thumb  ov010
@@ -75,8 +75,8 @@ extern int MAP_MATRIX_PosToBlock(int pos);
 u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z);
 int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId);
 int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z);
-extern void func_02082A48(u32 value, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 struct MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem);
 u32 MAP_REPLACE_GetRecordCount(struct MapReplace *replace);
 u32 MAP_REPLACE_LoadRecord(struct MapReplace *replace, int index);
@@ -324,7 +324,7 @@ void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile 
     matrix->mode = file->mode;
     matrix->width = file->width;
     cells = file->cells;
-    func_02082A90(cells, matrix->mapGrid, count * 4);
+    MIi_CpuCopy32(cells, matrix->mapGrid, count * 4);
 
     zoneGrid = matrix->zoneGrid;
     if (matrix->mode == 1) {
@@ -332,7 +332,7 @@ void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile 
         for (i = 0; i < matrix->count; i++)
             zoneGrid[i] = (u16)zoneCells[i];
     } else {
-        func_02082A48(zoneId, zoneGrid, sizeof(matrix->zoneGrid));
+        MIi_CpuClear16(zoneId, zoneGrid, sizeof(matrix->zoneGrid));
     }
 }
 

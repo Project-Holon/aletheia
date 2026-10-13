@@ -1,5 +1,5 @@
 /*
- * function: func_021C5F90
+ * function: DWCi_NdSetAttr
  * address:  0x021C5F90
  * packet:   pkt_ov114_021C5F90
  * region:   ov114
@@ -12,26 +12,26 @@
  * sdk:      DWCi_NdSetAttr (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_021C78E0  0x021C78E0  arm  ov114
- *   func_021C5E78  0x021C5E78  arm  ov114
- *   func_021C5EBC  0x021C5EBC  arm  ov114
- *   func_021C78F4  0x021C78F4  arm  ov114
+ *   DWCi_Ndi_lockGlobal  0x021C78E0  arm  ov114
+ *   DWCi_Ndi_freeAttr  0x021C5E78  arm  ov114
+ *   setAttr  0x021C5EBC  arm  ov114
+ *   DWCi_Ndi_unlockGlobal  0x021C78F4  arm  ov114
  */
 
-extern void func_021C78E0(void);
-extern void func_021C5E78(void);
-extern int func_021C5EBC(int id, char *attr);
-extern void func_021C78F4(void);
+extern void DWCi_Ndi_lockGlobal(void);
+extern void DWCi_Ndi_freeAttr(void);
+extern int setAttr(int id, char *attr);
+extern void DWCi_Ndi_unlockGlobal(void);
 
-int func_021C5F90(char *attr1, char *attr2, char *attr3)
+int DWCi_NdSetAttr(char *attr1, char *attr2, char *attr3)
 {
-	func_021C78E0();
-	func_021C5E78();
-	if (func_021C5EBC(0, attr1) && func_021C5EBC(1, attr2) && func_021C5EBC(2, attr3)) {
-		func_021C78F4();
+	DWCi_Ndi_lockGlobal();
+	DWCi_Ndi_freeAttr();
+	if (setAttr(0, attr1) && setAttr(1, attr2) && setAttr(2, attr3)) {
+		DWCi_Ndi_unlockGlobal();
 		return 1;
 	}
-	func_021C5E78();
-	func_021C78F4();
+	DWCi_Ndi_freeAttr();
+	DWCi_Ndi_unlockGlobal();
 	return 0;
 }

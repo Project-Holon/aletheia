@@ -1,5 +1,5 @@
 /*
- * function: func_020731E0
+ * function: NNS_SndPlayerMain
  * address:  0x020731E0
  * packet:   pkt_0207312C
  * region:   arm9
@@ -9,17 +9,17 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E018  0x0214E018  data
+ *   gSndActiveSeqList  0x0214E018  data
  *   g_020A5D08  0x020A5D08  data
  *   func_0208A054  0x0208A054  arm
  *   func_02060614  0x02060614  arm
  *   func_02089D6C  0x02089D6C  arm
- *   func_0207368C  0x0207368C  arm
+ *   NNSi_SndSeqPlayerRelease  0x0207368C  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   func_020893D0  0x020893D0  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
- *   func_020735EC  0x020735EC  arm
+ *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
  *   func_02089378  0x02089378  arm
  *
  * Byte-correct: 356 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1
@@ -44,7 +44,7 @@
  *    them with an arithmetic round-trip emits a signed-division fixup
  *    (`add r0,r0,r0,lsr #31` / `asr r0,r0,#1`) that the image does not have.
  *  - The guard at 0x02073250 is `(mask & (1 << v->b3c)) == 0`, not `!= 0`:
- *    the image's `bne 0x2073264` at 0x02073254 skips the func_0207368C arm.
+ *    the image's `bne 0x2073264` at 0x02073254 skips the NNSi_SndSeqPlayerRelease arm.
  *  - Declaration order is the whole register allocation, and it took three
  *    passes: 57 bytes out with `v` first, 40 with `next` moved below `tbl`,
  *    12 once `tbl` is declared BEFORE `v` (tbl->r5, v->r6, next->r7).
@@ -82,7 +82,7 @@ struct Voice {
     u8  p42[0x44 - 0x42];
 };
 
-extern char g_0214E018[];
+extern char gSndActiveSeqList[];
 extern s16 g_020A5D08[];
 
 extern u32 func_0208A054(void);
@@ -91,15 +91,15 @@ struct LerpObj;
 struct Obj;
 extern void *func_02060614(struct DList *list, void *elem);
 extern int func_02089D6C(u32 tag);
-extern void func_0207368C(struct Voice *v);
+extern void NNSi_SndSeqPlayerRelease(struct Voice *v);
 extern void NNS_SndFaderUpdate(struct LerpObj *obj);
 extern s32 NNS_SndFaderGet(struct Obj *o);
 extern void func_020893D0(u32 player, s32 vol);
 extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
-extern void func_020735EC(struct Voice *v);
+extern void NNSi_SndSeqPlayerStopNow(struct Voice *v);
 extern void func_02089378(u32 player);
 
-void func_020731E0(void)
+void NNS_SndPlayerMain(void)
 {
     u32 mask;
     s16 *tbl;
@@ -109,7 +109,7 @@ void func_020731E0(void)
     s32 vol;
 
     mask = func_0208A054();
-    v = func_02060614((struct DList *)g_0214E018, 0);
+    v = func_02060614((struct DList *)gSndActiveSeqList, 0);
     if (v == 0) {
         return;
     }
@@ -117,14 +117,14 @@ void func_020731E0(void)
     tbl = g_020A5D08;
 
     do {
-        next = func_02060614((struct DList *)g_0214E018, v);
+        next = func_02060614((struct DList *)gSndActiveSeqList, v);
         if (v->b2d == 0) {
             if (func_02089D6C(*(u32 *)&v->p30[0]) != 0) {
                 v->b2d = 1;
             }
         }
         if (v->b2d != 0 && (mask & (1 << v->b3c)) == 0) {
-            func_0207368C(v);
+            NNSi_SndSeqPlayerRelease(v);
         } else {
             s32 a, b, c;
             NNS_SndFaderUpdate((struct LerpObj *)(&v->env));
@@ -145,7 +145,7 @@ void func_020731E0(void)
                 v->h3e = (s16)vol;
             }
             if (v->b2c == 2 && NNS_SndFaderIsFinished((struct LerpObj *)(&v->env)) != 0) {
-                func_020735EC(v);
+                NNSi_SndSeqPlayerStopNow(v);
             }
             if (v->b2f != 0) {
                 func_02089378(v->b3c);

@@ -1,5 +1,5 @@
 /*
- * function: func_0218A378
+ * function: TR_AI_GetMoveParam
  * address:  0x0218A378
  * packet:   pkt_ov096_0218A378
  * region:   ov096
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void WAZA_TOOL_GetParam(int, int);
-void func_0218A378(int a, int b, int c) { WAZA_TOOL_GetParam(b, c); }
+void TR_AI_GetMoveParam(int a, int b, int c) { WAZA_TOOL_GetParam(b, c); }

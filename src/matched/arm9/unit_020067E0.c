@@ -16,7 +16,7 @@
  * symbols:
  *   PM_VOICE_ScaleVolume   0x0200674C  thumb
  *   NNS_SndWaveOutAllocChannel  0x02072A44  arm
- *   func_02072AA0  0x02072AA0  arm
+ *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
  *   NNS_SndArcGetFileSize  0x0207457C  arm
  *   NNS_SndArcReadFile  0x020745A4  arm
@@ -65,8 +65,8 @@
  * The near miss immediately after this range is PM_VOICE_Stop,
  * 0x02006948..0x02006984, 60 bytes.  Evidence class `label`, witness census
  * 2 image wide and 2 inside the range, for each of three separate targets:
- * func_02072BDC is branched to from 0x0200694E and 0x02006966, func_02072D20
- * from 0x02006954 and 0x0200696C, and func_02072A88 from 0x0200695A and
+ * NNS_SndWaveOutStop is branched to from 0x0200694E and 0x02006966, NNS_SndWaveOutWaitIdle
+ * from 0x02006954 and 0x0200696C, and NNSi_SndWaveOutUnlockChannel from 0x0200695A and
  * 0x02006972, and every one of those six sites is inside PM_VOICE_Stop
  * itself.  ov172 holds the words 0x02072A88 and 0x02072BDC in its own
  * literal pools, but overlay pool words are deliberately not admitted to
@@ -123,7 +123,7 @@ struct Sub020067E0Wave {
 
 extern u8   PM_VOICE_ScaleVolume(u8 volume);
 extern u32  NNS_SndWaveOutAllocChannel(u32 kind);
-extern int  func_02072AA0(u32 channel, u32 a, void *data, u32 b, u32 c,
+extern int  NNS_SndWaveOutStart(u32 channel, u32 a, void *data, u32 b, u32 c,
                           u32 length, u32 loop, u8 volume, u32 rate, u8 pan);
 extern void *NNS_SndArcGetWaveArcInfo(int index);
 extern u32  NNS_SndArcGetFileSize(u32 group);
@@ -179,7 +179,7 @@ int PM_VOICE_StartChannels(struct Sub02006544Entry *e)
     if (e->unk14 == 0) {
         return 0;
     }
-    if (func_02072AA0(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
+    if (NNS_SndWaveOutStart(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
                       PM_VOICE_ScaleVolume(e->unk1C), e->unk20, e->unk28) == 0) {
         return 0;
     }
@@ -195,7 +195,7 @@ int PM_VOICE_StartChannels(struct Sub02006544Entry *e)
         if (v > 0x7F) {
             v = 0x7F;
         }
-        if (func_02072AA0(e->unk18, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
+        if (NNS_SndWaveOutStart(e->unk18, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
                           PM_VOICE_ScaleVolume((u8)v), e->unk20 + e->unk24,
                           e->unk28) == 0) {
             return 0;

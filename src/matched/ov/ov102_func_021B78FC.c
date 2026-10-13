@@ -1,5 +1,5 @@
 /*
- * function: func_021B78FC
+ * function: IRC_COMPATIBLE_MENU_VBlankTask
  * address: 0x021B78FC
  * packet: pkt_ov102_021B78FC
  * region: ov102
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_021B7C0C 0x021B7C0C thumb ov102
+ * IRC_COMPATIBLE_MENU_VBlankSpriteSystem 0x021B7C0C thumb ov102
  */
-extern void func_021B7C0C(void *);
-void func_021B78FC(unsigned a,void *p) { func_021B7C0C(p); }
+extern void IRC_COMPATIBLE_MENU_VBlankSpriteSystem(void *);
+void IRC_COMPATIBLE_MENU_VBlankTask(unsigned a,void *p) { IRC_COMPATIBLE_MENU_VBlankSpriteSystem(p); }

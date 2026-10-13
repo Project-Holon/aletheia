@@ -1,5 +1,5 @@
 /*
- * function: func_021B64B8
+ * function: COMPATIBLE_IRC_SYS_SendData
  * address: 0x021B64B8
  * packet: pkt_ov101_021B64B8
  * region: ov101
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
-u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
+u32 COMPATIBLE_IRC_SYS_SendData(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
     if(((struct Obj22092 *)p)->f78!=0) return 1;
     return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),d,a,b,c,e,f,g);
 }

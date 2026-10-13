@@ -1,5 +1,5 @@
 /*
- * function: func_021BF680
+ * function: PMS_INPUT_IsComplete
  * address: 0x021BF680
  * packet: pkt_ov110_021BF680
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct T;
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
-int func_021BF680(u8 *p) {
+int PMS_INPUT_IsComplete(u8 *p) {
     switch(((struct Obj08007 *)p)->f4) {
     case 0: if(((struct Obj08007 *)p)->f10!=65535) return 1; else return 0;
     case 1: if(((struct Obj08007 *)p)->f10!=65535 && ((struct Obj08007 *)p)->f12!=65535) return 1; else return 0;

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -30,14 +30,14 @@ typedef struct E50 {
 } E50;
 
 extern void EVENT_FIELD_PROCLINK_IsReturnEntryValid(void *a);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 
 void FIELD_WFBC_PEOPLE_SetUp(E50 *e, void *a, u8 *b, void *c)
 {
     EVENT_FIELD_PROCLINK_IsReturnEntryValid(a);
     e->f00 = 1;
-    func_02082D44(a, e->f34, 0x18);
-    func_02082D44(c, e->f04, 0x30);
+    MI_CpuCopy8(a, e->f34, 0x18);
+    MI_CpuCopy8(c, e->f04, 0x30);
     e->f4c = b[0];
     e->f4e = b[1];
 }

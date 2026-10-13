@@ -1,5 +1,5 @@
 /*
- * function: func_02172E7C
+ * function: DWCi_CloseAllConnectionsByTimeout
  * address:  0x02172E7C
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_02175F3C(void);
 extern void gt2CloseAllConnections(int conn);
 
-void func_02172E7C(void)
+void DWCi_CloseAllConnectionsByTimeout(void)
 {
     ((char *)func_02175F3C())[0x629] = 1;
     gt2CloseAllConnections(**(int **)(func_02175F3C() + 4));

@@ -1,5 +1,5 @@
 /*
- * function: func_02061BD0
+ * function: NNSi_GfdPopVramTransferTask
  * address:  0x02061BD0
  * packet:   pkt_02061BD0
  * region:   arm9
@@ -16,8 +16,8 @@
  * bytes, 0 mismatches.
  *
  * symbols:
- *   func_02061878  0x02061878  arm
- *   func_02061840  0x02061840  arm
+ *   NNSi_GfdRingIsEmpty  0x02061878  arm
+ *   NNSi_GfdRingNextIndex  0x02061840  arm
  */
 
 typedef unsigned short u16;
@@ -29,17 +29,17 @@ struct Obj02061BD0 {
     u16 fC;
 };
 
-extern int func_02061878(struct Obj02061BD0 *);
+extern int NNSi_GfdRingIsEmpty(struct Obj02061BD0 *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_02061840(u8 *p, u32 v);
+extern u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
 
-u32 func_02061BD0(struct Obj02061BD0 *p)
+u32 NNSi_GfdPopVramTransferTask(struct Obj02061BD0 *p)
 {
-    if (func_02061878(p) != 0) {
+    if (NNSi_GfdRingIsEmpty(p) != 0) {
         return 0;
     }
-    p->f8 = func_02061840((u8 *)p, p->f8);
+    p->f8 = NNSi_GfdRingNextIndex((u8 *)p, p->f8);
     p->fC -= 1;
     return 1;
 }

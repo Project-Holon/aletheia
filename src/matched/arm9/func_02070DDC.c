@@ -1,5 +1,5 @@
 /*
- * function: func_02070DDC
+ * function: NNSi_G3dGetJointScaleMaya
  * address:  0x02070DDC
  * packet:   pkt_02070DDC
  * region:   arm9
@@ -30,7 +30,7 @@
  * words: 344 bytes and 298 concrete out.
  *
  * symbols:
- *   g_02148DB0  0x02148DB0  data
+ *   gCurrentRS  0x02148DB0  data
  *   g_02149BC0  0x02149BC0  data
  */
 
@@ -59,10 +59,10 @@ struct Desc {
 
 struct Row { struct Vec v; s32 pad[3]; };  /* 0x18 bytes */
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 extern struct Row  g_02149BC0[];
 
-void func_02070DDC(struct Owner *oo, s32 *src, struct Desc *d, u32 f)
+void NNSi_G3dGetJointScaleMaya(struct Owner *oo, s32 *src, struct Desc *d, u32 f)
 {
     struct Owner *o = oo;
     u32 m;
@@ -73,7 +73,7 @@ void func_02070DDC(struct Owner *oo, s32 *src, struct Desc *d, u32 f)
         o->flags |= 1;
         if (m & 2) {
             u32 i = d->idx;
-            g_02148DB0->bits[i >> 5] |= 1U << (i & 0x1f);
+            gCurrentRS->bits[i >> 5] |= 1U << (i & 0x1f);
         }
     } else {
         o->f04 = src[0];
@@ -81,7 +81,7 @@ void func_02070DDC(struct Owner *oo, s32 *src, struct Desc *d, u32 f)
         o->f0c = src[2];
         if (m & 2) {
             u32 i = d->idx;
-            g_02148DB0->bits[i >> 5] &= ~(1U << (i & 0x1f));
+            gCurrentRS->bits[i >> 5] &= ~(1U << (i & 0x1f));
             g_02149BC0[i].v.a = src[3];
             g_02149BC0[i].v.b = src[4];
             g_02149BC0[i].v.c = src[5];
@@ -91,7 +91,7 @@ void func_02070DDC(struct Owner *oo, s32 *src, struct Desc *d, u32 f)
     if (m & 1) {
         u32 j = d->slot;
         o->flags |= 0x20;
-        if (g_02148DB0->bits[j >> 5] & (1U << (j & 0x1f))) {
+        if (gCurrentRS->bits[j >> 5] & (1U << (j & 0x1f))) {
             o->flags |= 8;
         } else {
             o->v10 = g_02149BC0[j].v;

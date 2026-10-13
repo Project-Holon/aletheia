@@ -1,5 +1,5 @@
 /*
- * function: func_0219B540
+ * function: qr2_shutdown
  * address:  0x0219B540
  * packet:   pkt_ov009_0219B540
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_0219CE58  0x0219CE58  arm  ov009
+ *   send_heartbeat  0x0219CE58  arm  ov009
  *   func_0217EB2C  0x0217EB2C  arm  ov009
  *   SocketShutDown  0x0217F260  arm  ov009
  *   func_0219922C  0x0219922C  arm  ov009
@@ -41,19 +41,19 @@ extern char g_021A7674[];
 extern qr2_implementation_s *g_021A6600;
 extern struct G_021A6604 g_021A6604;
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_0219CE58(qr2_implementation_s *qrec, int statechanged);
+extern void send_heartbeat(qr2_implementation_s *qrec, int statechanged);
 extern int func_0217EB2C(int sock);
 extern void SocketShutDown();
 extern void func_0219922C(void);
 extern void func_0217EAE0(void *ptr);
 
-void func_0219B540(qr2_implementation_s *qrec)
+void qr2_shutdown(qr2_implementation_s *qrec)
 {
     func_0217D254(3, 0, 0x40, g_021A7674);
     if (!qrec)
         qrec = g_021A6600;
     if (qrec->stateChanged)
-        func_0219CE58(qrec, 2);
+        send_heartbeat(qrec, 2);
     if (qrec->hbsock != -1 && qrec->ownsSocket)
         func_0217EB2C(qrec->hbsock);
     qrec->hbsock = -1;

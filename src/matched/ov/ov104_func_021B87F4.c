@@ -1,5 +1,5 @@
 /*
- * function: func_021B87F4
+ * function: IRC_RHYTHM_GetPartnerRecord
  * address: 0x021B87F4
  * packet: pkt_ov104_021B87F4
  * region: ov104
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 words[33]; } Record;
-void func_021B87F4(u8 *p,Record *out) { *out=*(Record *)(p+8); }
+void IRC_RHYTHM_GetPartnerRecord(u8 *p,Record *out) { *out=*(Record *)(p+8); }

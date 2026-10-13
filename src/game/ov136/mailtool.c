@@ -15,7 +15,7 @@
  * symbols:
  *   func_02008FEC 0x02008FEC thumb
  *   func_02030734 0x02030734 arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MAIL_Create 0x02008F08 thumb
  *   func_02008EAC 0x02008EAC thumb
@@ -141,7 +141,7 @@ typedef int (*Step021C42C8)(u8 *p);
 
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(unsigned, void *, unsigned);
+extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MAIL_Create(int a0);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
@@ -247,7 +247,7 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
     unsigned v;
     v = (unsigned int)func_02008FEC(a);
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
-    func_02082AC0(0, p, 0x1C);
+    MIi_CpuClearFast(0, p, 0x1C);
     p[0xF] = d;
     p[0xE] = c;
     ((struct MbSeqCtx *)p)->f18 = v;
@@ -266,7 +266,7 @@ void *func_021C3D44(void *a, void *b, unsigned heap)
 {
     u8 *p;
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);
-    func_02082AC0(0, p, 0x1C);
+    MIi_CpuClearFast(0, p, 0x1C);
     *(unsigned short *)&((struct MbSeqCtx *)p)->f0 = 0;
     ((struct MbSeqCtx *)p)->f10 = GAME_DATA_GetSaveControl(a);
     ((struct MbSeqCtx *)p)->f14 = MAIL_Create((unsigned)((u16)heap));
@@ -279,7 +279,7 @@ void *func_021C3DA4(void *a, void *b, unsigned heap)
 {
     u8 *p;
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0xB9);
-    func_02082AC0(0, p, 0x1C);
+    MIi_CpuClearFast(0, p, 0x1C);
     *(unsigned short *)&((struct MbSeqCtx *)p)->f0 = 0;
     ((struct MbSeqCtx *)p)->f10 = GAME_DATA_GetSaveControl(a);
     ((struct MbSeqCtx *)p)->f14 = MAIL_Create((unsigned)((u16)heap));
@@ -322,7 +322,7 @@ int func_021C3E3C(void *a, void *b, u8 *p)
     u8 *q;
     GFL_HEAP_CreateChildHeap(1, 0x63, 0x1000);
     q = PROCSYS_AllocProcWork(a, 0x20, 0x63);
-    func_02082AC0(0, q, 0x20);
+    MIi_CpuClearFast(0, q, 0x20);
     ((struct MailViewCtx *)q)->f0 = 0x63;
     *(u8 * *)&((struct MailViewCtx *)q)->f10 = func_021C409C(((struct MbSeqCtx *)p)->f14, 0x63);
     if (*(unsigned short *)&((struct MbSeqCtx *)p)->f0 == 1) (*(u8 **)(q + 0x10))[0xB] = p[0xF];
@@ -451,7 +451,7 @@ void *func_021C409C(void *a, unsigned heap)
     u16 i;
     i = 0;
     p = func_02030734((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
-    func_02082AC0(0, p, 0x34);
+    MIi_CpuClearFast(0, p, 0x34);
     ((struct MailViewCtx_f1C *)p)->f0 = i;
     ((struct MailViewCtx_f1C *)p)->f4 = func_02008F80(a);
     ((struct MailViewCtx_f1C *)p)->fC = STRBUF_Create(0x10, heap);
@@ -505,7 +505,7 @@ int func_021C41E0(void *a, void *b, u8 *p)
     u8 v;
     GFL_HEAP_CreateChildHeap(1, 0x64, 0x20000);
     q = PROCSYS_AllocProcWork(a, 0x15C, 0x64);
-    func_02082AC0(0, q, 0x15C);
+    MIi_CpuClearFast(0, q, 0x15C);
     ((struct MailViewCtx *)q)->f0 = 0x64;
     ((struct MailViewCtx *)q)->f1C = p;
     q[0xB] = ((struct MailViewCtx_f1C *)p)->f0;

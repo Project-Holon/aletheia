@@ -1,5 +1,5 @@
 /*
- * function: func_021B86FC
+ * function: IRC_COMPATIBLE_MENU_IsButtonPressed
  * address: 0x021B86FC
  * packet: pkt_ov102_021B86FC
  * region: ov102
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_021B86FC(u8 *p)
+int IRC_COMPATIBLE_MENU_IsButtonPressed(u8 *p)
 {
     return *(u16 *)(p + 0x34) != 0;
 }

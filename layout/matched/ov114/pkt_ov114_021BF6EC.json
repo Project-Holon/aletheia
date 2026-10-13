@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF6EC",
+   "name": "DWCi_GHTTPGetEx",
    "address": "0x021BF6EC",
    "kind": "sdk",
    "region": "ov114",

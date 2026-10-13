@@ -1,5 +1,5 @@
 /*
- * function: func_021C5430
+ * function: ghiDoReceivingFile
  * address:  0x021C5430
  * packet:   pkt_ov114_021C5430
  * region:   ov114
@@ -15,13 +15,13 @@
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021C04D4  0x021C04D4  arm  ov114
- *   func_021C4E68  0x021C4E68  arm  ov114
- *   func_021BFCEC  0x021BFCEC  arm  ov114
- *   func_021C0378  0x021C0378  arm  ov114
- *   func_021C4C50  0x021C4C50  arm  ov114
- *   g_021CF310     0x021CF310  data
- *   g_021CF320     0x021CF320  data
+ *   ghiDoReceive  0x021C04D4  arm  ov114
+ *   ghiFreeTempBuffer  0x021C4E68  arm  ov114
+ *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
+ *   ghiDecryptReceivedData  0x021C0378  arm  ov114
+ *   ghiProcessIncomingFileData  0x021C4C50  arm  ov114
+ *   sGhttpReceivingFile     0x021CF310  data
+ *   sGhttpReceiveFileIdleTimeout     0x021CF320  data
  */
 
 typedef struct {
@@ -58,15 +58,15 @@ extern void *func_0217EAB0(unsigned long size);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 struct GHIBuffer;
 struct GHIConnection;
-extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
-extern void func_021C4E68(int a);
-extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C0378(struct GHIConnection *connection);
-extern int func_021C4C50(struct GHIConnection *connection, char *data, int len);
-extern char g_021CF310[];
-extern char g_021CF320[];
+extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
+extern void ghiFreeTempBuffer(int a);
+extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int ghiDecryptReceivedData(struct GHIConnection *connection);
+extern int ghiProcessIncomingFileData(struct GHIConnection *connection, char *data, int len);
+extern char sGhttpReceivingFile[];
+extern char sGhttpReceiveFileIdleTimeout[];
 
-void func_021C5430(GHIConnection *connection)
+void ghiDoReceivingFile(GHIConnection *connection)
 {
     int result;
     unsigned int start_time;
@@ -87,15 +87,15 @@ void func_021C5430(GHIConnection *connection)
         return;
     }
 
-    func_0217D254(8, (char *)3, 0x10, g_021CF310);
+    func_0217D254(8, (char *)3, 0x10, sGhttpReceivingFile);
 
     while (!connection->completed && running_time < connection->maxRecvTime)
     {
         bufferLen = 0x2000;
-        result = func_021C04D4((struct GHIConnection *)connection, buffer, &bufferLen);
+        result = ghiDoReceive((struct GHIConnection *)connection, buffer, &bufferLen);
         if (result == 1)
         {
-            func_021C4E68((int)buffer);
+            ghiFreeTempBuffer((int)buffer);
             if (connection->lastReceiveTime == 0)
             {
                 connection->lastReceiveTime = func_0217F264();
@@ -103,7 +103,7 @@ void func_021C5430(GHIConnection *connection)
             }
             if (func_0217F264() - connection->lastReceiveTime < 30000)
                 return;
-            func_0217D254(8, 0, 1, g_021CF320, func_0217F264() - connection->lastReceiveTime);
+            func_0217D254(8, 0, 1, sGhttpReceiveFileIdleTimeout, func_0217F264() - connection->lastReceiveTime);
             connection->lastReceiveTime = 0;
             connection->completed = 1;
             connection->result = 0x13;
@@ -113,7 +113,7 @@ void func_021C5430(GHIConnection *connection)
 
         if (result == 3)
         {
-            func_021C4E68((int)buffer);
+            ghiFreeTempBuffer((int)buffer);
             return;
         }
         if (result == 2)
@@ -121,40 +121,40 @@ void func_021C5430(GHIConnection *connection)
             connection->completed = 1;
             if (connection->totalSize > 0 && connection->fileBytesReceived < connection->totalSize)
                 connection->result = 0xF;
-            func_021C4E68((int)buffer);
+            ghiFreeTempBuffer((int)buffer);
             return;
         }
 
         if (connection->encryptEngine != 0 && connection->sessionEstablished == 1)
         {
-            if (!func_021BFCEC((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
+            if (!ghiAppendDataToBuffer((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
             {
-                func_021C4E68((int)buffer);
+                ghiFreeTempBuffer((int)buffer);
                 return;
             }
             connection->recvBuffer.len = connection->recvBuffer.pos;
-            if (!func_021C0378((struct GHIConnection *)connection))
+            if (!ghiDecryptReceivedData((struct GHIConnection *)connection))
             {
                 connection->completed = 1;
                 connection->result = 0x11;
-                func_021C4E68((int)buffer);
+                ghiFreeTempBuffer((int)buffer);
                 return;
             }
             decryptedLen = connection->recvBuffer.len - connection->recvBuffer.pos;
             if (decryptedLen != 0)
             {
-                if (!func_021C4C50((struct GHIConnection *)connection, connection->recvBuffer.data + connection->recvBuffer.pos, decryptedLen))
+                if (!ghiProcessIncomingFileData((struct GHIConnection *)connection, connection->recvBuffer.data + connection->recvBuffer.pos, decryptedLen))
                 {
-                    func_021C4E68((int)buffer);
+                    ghiFreeTempBuffer((int)buffer);
                     return;
                 }
             }
         }
         else
         {
-            if (!func_021C4C50((struct GHIConnection *)connection, buffer, bufferLen))
+            if (!ghiProcessIncomingFileData((struct GHIConnection *)connection, buffer, bufferLen))
             {
-                func_021C4E68((int)buffer);
+                ghiFreeTempBuffer((int)buffer);
                 return;
             }
         }
@@ -162,5 +162,5 @@ void func_021C5430(GHIConnection *connection)
         running_time = func_0217F264() - start_time;
     }
 
-    func_021C4E68((int)buffer);
+    ghiFreeTempBuffer((int)buffer);
 }

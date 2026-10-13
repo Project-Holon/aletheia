@@ -11,33 +11,33 @@
  *
  * sdk:      button (libdwcutil.TWL.HYB.a(sceneoptmovconfi))
  * symbols:
- *   func_021BCB14  0x021BCB14  arm
- *   func_021CFFAC  0x021CFFAC  arm
- *   func_021C0E40  0x021C0E40  arm
+ *   DWCi_BTNlGet  0x021BCB14  arm
+ *   DWCi_SNDlPlay  0x021CFFAC  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
  *   func_021C3A48  0x021C3A48  arm
- *   g_021DE5B8  0x021DE5B8  data  a1
+ *   gSceneOptMovConfirm1Work  0x021DE5B8  data  a1
  */
 
 #include "../include/G_021DE5B8.h"
 
-extern signed char func_021BCB14(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern signed char DWCi_BTNlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3A48(void);
-extern struct G_021DE5B8 g_021DE5B8;
+extern struct G_021DE5B8 gSceneOptMovConfirm1Work;
 
 void func_021C39F8(void)
 {
-    switch (func_021BCB14()) {
+    switch (DWCi_BTNlGet()) {
     case 0:
-        func_021CFFAC(7);
+        DWCi_SNDlPlay(7);
         break;
     case 1:
-        func_021CFFAC(6);
-        (*(unsigned char *)&g_021DE5B8) = 1;
+        DWCi_SNDlPlay(6);
+        (*(unsigned char *)&gSceneOptMovConfirm1Work) = 1;
         break;
     default:
         return;
     }
-    func_021C0E40((unsigned int)func_021C3A48);
+    DWCi_ChangeScene((unsigned int)func_021C3A48);
 }

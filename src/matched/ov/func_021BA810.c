@@ -1,5 +1,5 @@
 /*
- * function: func_021BA810
+ * function: WIFICLUBACTOR_GetMapSize
  * address:  0x021BA810
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern u32 data_021C28F0[];
 
-u32 func_021BA810(int i)
+u32 WIFICLUBACTOR_GetMapSize(int i)
 {
     return data_021C28F0[i];
 }

@@ -1,21 +1,21 @@
 /*
- * function: func_02073BF0
+ * function: NNSi_SndStrmUpdate
  * address:  0x02073BF0
  * packet:   pkt_020737C0
  * status:   EXACT
  * isa:      arm
  * compiler: ../2.0/sp2
  * symbols:
- *   g_0214E934     0x0214E934  data
- *   g_0214E8F4     0x0214E8F4  data
+ *   gSndStrmChannels     0x0214E934  data
+ *   gSndStrmBufferTable     0x0214E8F4  data
  *   func_0209C2B0  0x0209C2B0  arm
  *
  * Per-frame step of the sound object: base = f30 / f34 (func_0209C2B0),
- * fill g_0214E8F4[0 .. f50) with each slot's buffer address plus
+ * fill gSndStrmBufferTable[0 .. f50) with each slot's buffer address plus
  * base * frame, hand the table to the callback at +0x38, then advance the
  * frame counter at +0x40 and wrap it at +0x34.
  *
- * The callback's argument list is (arg, o->f50, g_0214E8F4, base, f28, f3c):
+ * The callback's argument list is (arg, o->f50, gSndStrmBufferTable, base, f28, f3c):
  * the COUNT of entries in the table goes second and the per-frame base
  * fourth (the image's r1 is the f50 the loop test just loaded, r3 the base
  * it copied out of r0 before the multiply).  docs/notes/pkt_02073BF0.c.txt
@@ -31,8 +31,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef signed int    s32;
 
-extern struct SlotDesc g_0214E934[];
-extern u32 g_0214E8F4[];
+extern struct SlotDesc gSndStrmChannels[];
+extern u32 gSndStrmBufferTable[];
 
 struct Obj {
     u8  pad00[0x28];
@@ -52,7 +52,7 @@ typedef void (*SndSeqCb)(u32 arg, s32 n, u32 *table, u32 base, u32 f28, u32 f3c)
 
 extern u32 func_0209C2B0(u32 a, s32 b);
 
-void func_02073BF0(struct Obj *o, u32 arg)
+void NNSi_SndStrmUpdate(struct Obj *o, u32 arg)
 {
     u32 step;
     s32 i;
@@ -62,10 +62,10 @@ void func_02073BF0(struct Obj *o, u32 arg)
     base = func_0209C2B0(o->f30, o->f34);
     step = base * o->f40;
     for (i = 0; i < o->f50; i++) {
-        addr = g_0214E934[o->f54[i]].a;
-        g_0214E8F4[i] = addr + step;
+        addr = gSndStrmChannels[o->f54[i]].a;
+        gSndStrmBufferTable[i] = addr + step;
     }
-    ((SndSeqCb)o->f38)(arg, o->f50, g_0214E8F4, base, o->f28, o->f3c);
+    ((SndSeqCb)o->f38)(arg, o->f50, gSndStrmBufferTable, base, o->f28, o->f3c);
     o->f40 = o->f40 + 1;
     if (o->f40 >= o->f34) o->f40 = 0;
 }

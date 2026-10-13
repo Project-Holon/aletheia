@@ -1,5 +1,5 @@
 /*
- * function: func_021D4FF4
+ * function: DWCi_CELLlSetEffect
  * address:  0x021D4FF4
  * packet:   pkt_ov016_021D4FF4
  * region:   ov016
@@ -30,7 +30,7 @@ typedef struct {
     u8 num;
 } CellInfo;
 
-void func_021D4FF4(void *cell, int idx, int effect, int affine)
+void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine)
 {
     CellInfo *c = (CellInfo *)cell;
     OamAttr *oam = c->oam;

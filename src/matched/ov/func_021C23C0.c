@@ -1,5 +1,5 @@
 /*
- * function: func_021C23C0
+ * function: WIFICLUB_GetFriendConnectionStatus
  * address:  0x021C23C0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern unsigned char DWC_RAP_GetFriendStatus(int i);
 
-unsigned char func_021C23C0(void *a)
+unsigned char WIFICLUB_GetFriendConnectionStatus(void *a)
 {
     return DWC_RAP_GetFriendStatus((int)a);
 }

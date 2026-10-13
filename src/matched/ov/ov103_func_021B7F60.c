@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F60
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive
  * address: 0x021B7F60
  * packet: pkt_ov103_021B7F60
  * region: ov103
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct AnmCtl;
 extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx);
-void func_021B7F60(u8 *p,int n) {if(((struct Obj10243 *)p)->f58!=n) {G3D_SYSTEM_ResetObjectAnimeFrame(((struct Obj10243 *)p)->f10,0); ((struct Obj10243 *)p)->f58=n;}}
+void IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive(u8 *p,int n) {if(((struct Obj10243 *)p)->f58!=n) {G3D_SYSTEM_ResetObjectAnimeFrame(((struct Obj10243 *)p)->f10,0); ((struct Obj10243 *)p)->f58=n;}}

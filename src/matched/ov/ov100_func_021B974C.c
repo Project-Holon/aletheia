@@ -1,5 +1,5 @@
 /*
- * function: func_021B974C
+ * function: IRCBATTLEMATCH_CreateActor
  * address: 0x021B974C
  * packet: pkt_ov100_021B974C
  * region: ov100
@@ -26,7 +26,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 typedef unsigned int   u32;
 struct Actor;
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void func_021B974C(int a,int b,int c,int d,int e)
+void IRCBATTLEMATCH_CreateActor(int a,int b,int c,int d,int e)
 {
  struct Point p;
  if(*(int *)(a+0x2c8+d*4)==0) {

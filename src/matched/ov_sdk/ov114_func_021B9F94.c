@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F94
+ * function: NHTTPi_SocRecv
  * address:  0x021B9F94
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEBE0  0x021BEBE0  arm  ov114
- *   func_021B9ECC  0x021B9ECC  arm  ov114
+ *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
+ *   NHTTPi_SocRecv_sub  0x021B9ECC  arm  ov114
  *
- * Range submit: maps the sentinel answers of func_021B9ECC onto the module's
+ * Range submit: maps the sentinel answers of NHTTPi_SocRecv_sub onto the module's
  * -1001/-1002/0 return codes.  The null-guard return is the ELSE arm of the
  * first test, which sinks it out of line at 0x021B9FD0.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 *func_021BEBE0(int, int);
-int func_021B9ECC(void *, int, int, int, int);
+u8 *NHTTPi_Request2Connection(int, int);
+int NHTTPi_SocRecv_sub(void *, int, int, int, int);
 
-int func_021B9F94(int a, u32 *b, int c, int d, int e, int f)
+int NHTTPi_SocRecv(int a, u32 *b, int c, int d, int e, int f)
 {
-    void *p = func_021BEBE0(a, (int)b);
+    void *p = NHTTPi_Request2Connection(a, (int)b);
     int r;
 
     if (p != 0) {
-        r = func_021B9ECC(p, c, d, e, f);
+        r = NHTTPi_SocRecv_sub(p, c, d, e, f);
     } else {
         return -1001;
     }

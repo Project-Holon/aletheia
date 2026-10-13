@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_HEAPlFree2  0x021D647C  arm
  *
- * Free hook DWCi_AOSSlInit (func_021C07A8) passes to AOSSi_InitLocal next to
+ * Free hook DWCi_AOSSlInit (DWCi_AOSSlInit) passes to AOSSi_InitLocal next to
  * aossAlloc (0x021C0954).
  */
 

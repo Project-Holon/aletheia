@@ -1,5 +1,5 @@
 /*
- * function: func_021C3D8C
+ * function: DWCi_SceneOptMovFailure
  * address:  0x021C3D8C
  * packet:   pkt_ov016_021C3D8C
  * region:   ov016
@@ -13,24 +13,24 @@
  *
  * symbols:
  *   func_021C3DC8  0x021C3DC8  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021BD060  0x021BD060  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C0     0x021DE5C0  data
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_COMMENTlDispEx  0x021BD060  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovFailureWork     0x021DE5C0  data
  *   func_021C3E48  0x021C3E48  arm  ov016
  */
 
 extern void func_021C3DC8();
-extern void func_021BD29C();
-extern int func_021BD060();
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw();
+extern int DWCi_COMMENTlDispEx();
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3E48();
-extern unsigned char g_021DE5C0;
+extern unsigned char gSceneOptMovFailureWork;
 
-void func_021C3D8C(void)
+void DWCi_SceneOptMovFailure(void)
 {
     func_021C3DC8();
-    func_021BD29C(0x20);
-    g_021DE5C0 = func_021BD060(0x3C, -1, 0);
-    func_021C0E40((unsigned int)func_021C3E48);
+    DWCi_CMNlMsgDraw(0x20);
+    gSceneOptMovFailureWork = DWCi_COMMENTlDispEx(0x3C, -1, 0);
+    DWCi_ChangeScene((unsigned int)func_021C3E48);
 }

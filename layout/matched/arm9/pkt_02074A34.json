@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02074CD0",
+   "name": "NNSi_SndArcLoadBank",
    "address": "0x02074CD0",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02074E10",
+   "name": "NNSi_SndArcLoadWaveArc",
    "address": "0x02074E10",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074E9C",
+   "name": "NNSi_SndArcLoadFile",
    "address": "0x02074E9C",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020750EC",
+   "name": "NNSi_SndArcLoadWaveArcTable",
    "address": "0x020750EC",
    "kind": "game",
    "region": "arm9",
@@ -65,7 +65,7 @@
    }
   },
   {
-   "name": "func_0207533C",
+   "name": "NNSi_SndArcLoadWave",
    "address": "0x0207533C",
    "kind": "game",
    "region": "arm9",

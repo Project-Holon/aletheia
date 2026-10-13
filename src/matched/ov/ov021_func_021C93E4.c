@@ -11,7 +11,7 @@
  *
  * symbols:
  *   LAND_DATA_PATCH_GetAttrBlock  0x021C94AC  thumb  ov021
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int LAND_DATA_PATCH_GetAttrBlock(u32 a);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 
 void LAND_DATA_PATCH_OverwriteAttr(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 cnt)
 {
@@ -33,7 +33,7 @@ void LAND_DATA_PATCH_OverwriteAttr(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32
     u32 i;
 
     for (i = 0; i < cnt; i++) {
-        func_02082D44(tb + (x + (y + i) * ((struct Obj20228 *)t)->f0) * 0x18,
+        MI_CpuCopy8(tb + (x + (y + i) * ((struct Obj20228 *)t)->f0) * 0x18,
                       qb + (z + (w + i) * ((struct Obj20227 *)q)->f0) * 0x18, n * 0x18);
     }
 }

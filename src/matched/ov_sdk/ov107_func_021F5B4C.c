@@ -12,8 +12,8 @@
  * sdk:      MB_SetParentCommParam (libmb.TWL.HYB.a(mb_wm_base.o))
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   func_021F5ADC 0x021F5ADC arm ov107
  *   g_021F6F90 0x021F6F90 data
  */
@@ -22,25 +22,25 @@
 
 extern struct WmBase g_021F6F90;
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_021F5ADC(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 
 int func_021F5B4C(unsigned short sendSize, unsigned short maxChildren)
 {
-    unsigned long enabled = func_02087988();
+    unsigned long enabled = OS_DisableInterrupts();
 
     if ((*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC))[0x50D] != 0) {
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     if (func_021F5ADC(sendSize, 8, maxChildren) == 0) {
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x10) = maxChildren;
     *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x500) = sendSize;
     *(unsigned short *)(*(unsigned char **)(((unsigned char *)&g_021F6F90) + 0xC) + 0x502) = 8;
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 1;
 }

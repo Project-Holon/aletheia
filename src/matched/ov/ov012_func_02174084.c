@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SendDataMask  0x0203D4D0  arm
  */
@@ -20,7 +20,7 @@ typedef struct { int w[8]; } B32;
 typedef struct { B32 a; unsigned char t[8]; } Msg;
 
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
@@ -32,6 +32,6 @@ void UNION_COMMAND_SendAppLeaveData(int a, B32 *src)
 
     MI_CpuFill8(&m, 0, 0x28);
     m.a = *src;
-    func_02087C6C(m.t);
+    OS_GetMacAddress(m.t);
     GFL_NET_SendDataMask((int)GFL_NET_HANDLE_GetCurrentHandle(), a, 0x1413, 0x28, (u32)(&m), 1, 0, 0);
 }

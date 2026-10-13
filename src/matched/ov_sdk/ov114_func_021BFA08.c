@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA08
+ * function: DWCi_AppendDWCGHTTPParam
  * address:  0x021BFA08
  * packet:   pkt_ov114_021BFA08
  * region:   ov114
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWC_Alloc   0x0205A16C  arm
- *   g_021D3B20  0x021D3B20  data
+ *   gDwcGhttpParamList  0x021D3B20  data
  */
 
 #include "../include/G_Init.h"
@@ -35,10 +35,10 @@ typedef struct {
     int count;
     Entry *head;
 } Init;
-extern struct Init g_021D3B20;
+extern struct Init gDwcGhttpParamList;
 extern void *DWC_Alloc(int name, unsigned long size);
 
-Entry *func_021BFA08(Param *param)
+Entry *DWCi_AppendDWCGHTTPParam(Param *param)
 {
     Entry *entry;
 
@@ -49,11 +49,11 @@ Entry *func_021BFA08(Param *param)
     entry->param = *param;
     entry->next = 0;
     entry->data = 0;
-    if (g_021D3B20.head == 0) {
-        g_021D3B20.head = entry;
+    if (gDwcGhttpParamList.head == 0) {
+        gDwcGhttpParamList.head = entry;
         return entry;
     }
-    entry->next = g_021D3B20.head;
-    g_021D3B20.head = entry;
+    entry->next = gDwcGhttpParamList.head;
+    gDwcGhttpParamList.head = entry;
     return entry;
 }

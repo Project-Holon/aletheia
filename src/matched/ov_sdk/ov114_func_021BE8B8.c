@@ -1,5 +1,5 @@
 /*
- * function: func_021BE8B8
+ * function: NHTTP_SetVerifyOption
  * address:  0x021BE8B8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEC10  0x021BEC10  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
+ *   NHTTPi_GetRequest  0x021BEC10  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
  *
  *
  * Keyed word store at +0xd0; -1 when the key is unknown.
@@ -22,13 +22,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF58(int p);
-extern int func_021BEC10(int, int);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern int NHTTPi_GetRequest(int, int);
 
-int func_021BE8B8(int a, int v)
+int NHTTP_SetVerifyOption(int a, int v)
 {
-    u8 *p = (u8 *)func_021BEC10((int)func_021BEF58((int)func_021BEF08()), a);
+    u8 *p = (u8 *)NHTTPi_GetRequest((int)NHTTPi_GetMutexInfoP((int)NHTTPi_GetSystemInfoP()), a);
     if (p == 0)
         return -1;
     *(u32 *)(p + 0xd0) = v;

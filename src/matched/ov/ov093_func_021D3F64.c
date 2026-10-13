@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F64
+ * function: BTL_CLIENT_StartCounterReplay
  * address: 0x021D3F64
  * packet: pkt_ov093_021D3F64
  * region: ov093
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note 2026-10-05: object is the same 14-byte record as func_021D3F04 (bit flags in byte 2).
+ * note 2026-10-05: object is the same 14-byte record as BTL_CLIENT_ResetCounter (bit flags in byte 2).
  *   Sets h8 = v, bit0 = 1, h12 = 0, clears bits 1 and 2. Source order h12 = 0 before h8 = v:
  *   the scheduler hoists the strh, and r1 (v) stays live so the zero takes r2.
  */
@@ -27,7 +27,7 @@ typedef struct {
     u16 h10;
     u16 h12;
 } S;
-void func_021D3F64(S *p, u16 v)
+void BTL_CLIENT_StartCounterReplay(S *p, u16 v)
 {
     p->f0 = 1;
     p->h12 = 0;

@@ -22,10 +22,10 @@
  * (lanes U41, W8, A, 07; docs/notes/func_0215D92C.c.txt) are superseded.
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215DA34  0x0215DA34  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 struct SOCLRecvPipe {
@@ -45,8 +45,8 @@ struct SOCLSocket {
 	unsigned short local_port;
 };
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len, unsigned short *local_port,
 				    unsigned short *remote_port, unsigned long *remote_ip);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
@@ -70,7 +70,7 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 	unsigned long his_ip;
 	int result = 0;
 
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	cpsbuffer = func_0215DA34(socket, &cpsbuffer_len, &my_port, &his_port, &his_ip);
 	if (cpsbuffer != 0) {
 		if (cpsbuffer_len == 0) {
@@ -99,6 +99,6 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 		if (socket->local_port == 0)
 			socket->local_port = my_port;
 	}
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 	return result;
 }

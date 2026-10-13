@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C4C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_DrawSpriteSystem
  * address:  0x021B7C4C
  * packet:   pkt_ov103_021B7C4C
  * region:   ov103
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void CLACT_DrawSystem(void);
-void func_021B7C4C(void *a0) { CLACT_DrawSystem(); }
+void IRC_COMPATIBLE_TOUCH_TEST_DrawSpriteSystem(void *a0) { CLACT_DrawSystem(); }

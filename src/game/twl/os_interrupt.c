@@ -11,6 +11,9 @@
  * status:   EXACT
  *
  * sdk:      libos.TWL.HYB.a os_interrupt.o
+ *
+ * symbols:
+ *   OS_EnableIrqMask  0x02084968  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -21,7 +24,7 @@ struct Slot {
     u32 f8;
 };
 
-extern u32 func_02084968(u32);
+extern u32 OS_EnableIrqMask(u32);
 extern struct Slot data_02150F68[];
 
 void OSi_EnterNDmaCallback_ltdmain(u32 a, u32 b, u32 c)
@@ -29,5 +32,5 @@ void OSi_EnterNDmaCallback_ltdmain(u32 a, u32 b, u32 c)
     u32 bit = 1 << (a + 28);
     data_02150F68[a].f0 = b;
     data_02150F68[a].f8 = c;
-    data_02150F68[a].f4 = func_02084968(bit) & bit;
+    data_02150F68[a].f4 = OS_EnableIrqMask(bit) & bit;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0689CC84
+ * function: BTL_POKESET_SeekStart
  * address:  0x0689CC84
  * packet:   pkt_0689CC84
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_0689CC84(char *p)
+void BTL_POKESET_SeekStart(char *p)
 {
     p[0x44] = 0;
 }

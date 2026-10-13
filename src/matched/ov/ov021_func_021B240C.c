@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_GIMMICK40_GetFlag
+ * function: SCRCMD_FIELD_GIMMICK_FLAG_ANIME_GetFlag
  * address:  0x021B240C
  * packet:   pkt_ov021_021B240C
  * region:   ov021
@@ -28,7 +28,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int FIELD_GIMMICK_FLAG_ANIME_GetFlag(u8 *p);
 
-int SCRCMD_GIMMICK40_GetFlag(u32 a, u32 b)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_GetFlag(u32 a, u32 b)
 {
     void *w;
     u16 *o;

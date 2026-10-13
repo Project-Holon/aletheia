@@ -12,12 +12,12 @@
  *
  * symbols:
  *   sVramTransferTaskQueue     0x02146B80  data
- *   func_02061860  0x02061860  arm
- *   func_02061BC0  0x02061BC0  arm
- *   func_02061B74  0x02061B74  arm
+ *   NNSi_GfdRingIsFull  0x02061860  arm
+ *   NNSi_GfdGetTailVramTransferTask  0x02061BC0  arm
+ *   NNSi_GfdPushVramTransferTask  0x02061B74  arm
  *
  * Pushes one four-word request onto the queue object at 0x02146B80 and adds
- * its size field to the queue's running byte total at +0x10. func_02061860
+ * its size field to the queue's running byte total at +0x10. NNSi_GfdRingIsFull
  * is the "queue full" test: a non-zero answer makes this return 0 without
  * touching anything, which is why the failure path is a `movne r0, #0` fused
  * into the conditional epilogue rather than a branch.
@@ -30,8 +30,8 @@
  * verdict stays SIZE-clean and the diff is only two bytes.
  *
  * This was capped at MATCH until 0x02061B74, the queue push, was matched in
- * src/matched/func_02061B74.c; that entry is the witness the `bl` needed.
- * func_02061BC0 is likewise a matched entry now.
+ * src/matched/NNSi_GfdPushVramTransferTask.c; that entry is the witness the `bl` needed.
+ * NNSi_GfdGetTailVramTransferTask is likewise a matched entry now.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_GfdRegisterNewVramTransferTask.c \
@@ -53,24 +53,24 @@ struct Req {
 
 extern struct Queue sVramTransferTaskQueue;
 
-extern int func_02061860(u8 *p);
-extern u32 func_02061BC0(u8 *p);
-extern int func_02061B74(char *p);
+extern int NNSi_GfdRingIsFull(u8 *p);
+extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
+extern int NNSi_GfdPushVramTransferTask(char *p);
 
 s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size)
 {
     struct Req *req;
 
-    if (func_02061860((u8 *)(&sVramTransferTaskQueue)) != 0) {
+    if (NNSi_GfdRingIsFull((u8 *)(&sVramTransferTaskQueue)) != 0) {
         return 0;
     }
 
-    req = (struct Req *)func_02061BC0((u8 *)(&sVramTransferTaskQueue));
+    req = (struct Req *)NNSi_GfdGetTailVramTransferTask((u8 *)(&sVramTransferTaskQueue));
     req->unk_00 = p;
     req->unk_04 = b;
     req->unk_08 = a;
     req->size = size;
-    func_02061B74((char *)(&sVramTransferTaskQueue));
+    NNSi_GfdPushVramTransferTask((char *)(&sVramTransferTaskQueue));
     sVramTransferTaskQueue.total += req->size;
     return 1;
 }

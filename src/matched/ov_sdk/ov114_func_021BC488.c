@@ -1,5 +1,5 @@
 /*
- * function: func_021BC488
+ * function: NHTTPi_SendBasicAuthorization
  * address:  0x021BC488
  * packet:   pkt_ov114_021BC488
  * region:   ov114
@@ -12,11 +12,11 @@
  * sdk:      NHTTPi_SendBasicAuthorization (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08 0x021BEF08 arm ov114
- *   func_021BEF48 0x021BEF48 arm ov114
- *   func_021BC384 0x021BC384 arm ov114
- *   g_021CE444 0x021CE444 data
- *   g_021CE440 0x021CE440 data
+ *   NHTTPi_GetSystemInfoP 0x021BEF08 arm ov114
+ *   NHTTPi_GetReqInfoP 0x021BEF48 arm ov114
+ *   NHTTPi_SendData 0x021BC384 arm ov114
+ *   sNHTTPAuthorizationBasic 0x021CE444 data
+ *   sNHTTPCrLf 0x021CE440 data
  */
 
 typedef struct {
@@ -34,36 +34,36 @@ typedef struct {
     ReqList *reqCurrent;
 } ReqInfo;
 
-extern char g_021CE444[];
-extern char g_021CE440[];
+extern char sNHTTPAuthorizationBasic[];
+extern char sNHTTPCrLf[];
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF48(int p);
-extern int func_021BC384(void *threadData_p, char *src_p, int srclen);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern int NHTTPi_SendData(void *threadData_p, char *src_p, int srclen);
 
-int func_021BC488(void *threadData_p)
+int NHTTPi_SendBasicAuthorization(void *threadData_p)
 {
     int sendStatus;
     Req *req_p;
     ReqInfo *reqInfo_p;
     void *sysInfo_p;
 
-    sysInfo_p = func_021BEF08();
-    reqInfo_p = func_021BEF48((int)sysInfo_p);
+    sysInfo_p = NHTTPi_GetSystemInfoP();
+    reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
     req_p = reqInfo_p->reqCurrent->req_p;
     if (req_p->authLen == 0) {
         return 0;
     }
-    sendStatus = func_021BC384(threadData_p, g_021CE444, 0x15);
+    sendStatus = NHTTPi_SendData(threadData_p, sNHTTPAuthorizationBasic, 0x15);
     if (sendStatus != 0) {
         return sendStatus;
     }
-    sendStatus = func_021BC384(threadData_p, req_p->auth, req_p->authLen);
+    sendStatus = NHTTPi_SendData(threadData_p, req_p->auth, req_p->authLen);
     if (sendStatus != 0) {
         return sendStatus;
     }
-    sendStatus = func_021BC384(threadData_p, g_021CE440, 2);
+    sendStatus = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (sendStatus == 0) {
         return 0;
     }

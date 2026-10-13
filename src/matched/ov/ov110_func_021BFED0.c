@@ -1,5 +1,5 @@
 /*
- * function: func_021BFED0
+ * function: PMSIV_WORDWIN_ClearRows
  * address: 0x021BFED0
  * packet: pkt_ov110_021BFED0
  * region: ov110
@@ -21,7 +21,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 typedef unsigned int   u32;
 struct Bmp;
 extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_021BFED0(u8 *p,int amount) {
+void PMSIV_WORDWIN_ClearRows(u8 *p,int amount) {
     int start,end;
     if(amount>0) {
         start=(u8)(((struct Obj06392 *)p)->f94+192);

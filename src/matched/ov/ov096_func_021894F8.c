@@ -1,5 +1,5 @@
 /*
- * function: func_021894F8
+ * function: TR_AI_CmdNop5
  * address: 0x021894F8
  * packet: pkt_ov096_021894F8
  * region: ov096
@@ -24,9 +24,9 @@ typedef struct {
     int fc4;
 } Conn_021892F8;
 
-int func_021894F8(int a, Conn_021892F8 *b);
+int TR_AI_CmdNop5(int a, Conn_021892F8 *b);
 
-int func_021894F8(int a, Conn_021892F8 *b)
+int TR_AI_CmdNop5(int a, Conn_021892F8 *b)
 {
     return b->fc4;
 }

@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02075E10 0x02075E10 arm
- *   func_02075E80 0x02075E80 arm
- *   func_0207A980 0x0207A980 arm
+ *   CARD_LockRom 0x02075E10 arm
+ *   CARD_UnlockRom 0x02075E80 arm
+ *   FSi_IsUnreadableRomOffset 0x0207A980 arm
  *   g_02150DA0 0x02150DA0 data
  */
 
 #include "../include/G_FSiRomState.h"
 
 typedef unsigned short u16;
-extern void func_02075E10(u16 lock_id);
-extern void func_02075E80(void);
-extern void func_0207A980(void);
+extern void CARD_LockRom(u16 lock_id);
+extern void CARD_UnlockRom(void);
+extern void FSi_IsUnreadableRomOffset(void);
 extern struct FSiRomState g_02150DA0;
 
 asm int FSi_RomArchiveProc(void *p_file, int cmd)
@@ -49,7 +49,7 @@ case_9:
     ldr r0, [r0, #4]
     mov r0, r0, lsl #0x10
     mov r0, r0, lsr #0x10
-    bl func_02075E10
+    bl CARD_LockRom
     mov r0, #0
     ldmfd sp!, {r3, pc}
 
@@ -58,14 +58,14 @@ case_10:
     ldr r0, [r0, #4]
     mov r0, r0, lsl #0x10
     mov r0, r0, lsr #0x10
-    bl func_02075E80
+    bl CARD_UnlockRom
     mov r0, #0
     ldmfd sp!, {r3, pc}
 
 case_7:
     ldr r0, [r2, #8]
     ldr r1, [r2, #0x30]
-    bl func_0207A980
+    bl FSi_IsUnreadableRomOffset
     cmp r0, #0
     movne r0, #9
     ldreq r0, [pc, #0x14]

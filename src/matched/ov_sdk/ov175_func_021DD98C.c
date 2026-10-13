@@ -1,5 +1,5 @@
 /*
- * function: func_021DD98C
+ * function: sakeiSetupRequest
  * address:  0x021DD98C
  * packet:   pkt_ov175_021DD98C
  * region:   ov175
@@ -19,11 +19,11 @@
  *   func_02181D84  0x02181D84  arm   ov009
  *   func_02182A2C  0x02182A2C  arm   ov009
  *   func_02181DE8  0x02181DE8  arm   ov009
- *   g_021E370C     0x021E370C  data
- *   g_021E3858     0x021E3858  data
- *   g_021E385C     0x021E385C  data
- *   g_021E3864     0x021E3864  data
- *   g_021E3870     0x021E3870  data
+ *   sSoapNamespaces     0x021E370C  data
+ *   sXmlNamespacePrefix     0x021E3858  data
+ *   sTagGameid     0x021E385C  data
+ *   sTagSecretKey     0x021E3864  data
+ *   sTagLoginTicket     0x021E3870  data
  */
 
 struct SAKERequestInternal;
@@ -64,13 +64,13 @@ extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *val
 extern void func_02181D84(void **p);
 extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
 extern int func_02181DE8(void *stream);
-extern char *g_021E370C[1];
-extern char g_021E3858[];
-extern char g_021E385C[];
-extern char g_021E3864[];
-extern char g_021E3870[];
+extern char *sSoapNamespaces[1];
+extern char sXmlNamespacePrefix[];
+extern char sTagGameid[];
+extern char sTagSecretKey[];
+extern char sTagLoginTicket[];
 
-int func_021DD98C(SAKERequestInternal *request)
+int sakeiSetupRequest(SAKERequestInternal *request)
 {
     SAKEIRequestInfo *info = request->mInfo;
     int result;
@@ -78,13 +78,13 @@ int func_021DD98C(SAKERequestInternal *request)
     result = info->validateInputFunc(request);
     if (result != 0)
         return result;
-    request->mSoapRequest = func_021819B0((const char **)g_021E370C, 1);
+    request->mSoapRequest = func_021819B0((const char **)sSoapNamespaces, 1);
     if (request->mSoapRequest == 0)
         return 2;
-    func_021829AC(request->mSoapRequest, g_021E3858, request->mInfo->soapTag);
-    func_02182CF0(request->mSoapRequest, g_021E3858, g_021E385C, request->mSake->gameId);
-    func_02182AC0(request->mSoapRequest, g_021E3858, g_021E3864, request->mSake->gameName);
-    func_02182AC0(request->mSoapRequest, g_021E3858, g_021E3870, request->mSake->secretKey);
+    func_021829AC(request->mSoapRequest, sXmlNamespacePrefix, request->mInfo->soapTag);
+    func_02182CF0(request->mSoapRequest, sXmlNamespacePrefix, sTagGameid, request->mSake->gameId);
+    func_02182AC0(request->mSoapRequest, sXmlNamespacePrefix, sTagSecretKey, request->mSake->gameName);
+    func_02182AC0(request->mSoapRequest, sXmlNamespacePrefix, sTagLoginTicket, request->mSake->secretKey);
     result = info->fillFunc(request);
     if (result != 0) {
         func_02181D84(request->mSoapRequest);
@@ -93,7 +93,7 @@ int func_021DD98C(SAKERequestInternal *request)
             info->cleanupFunc(request);
         return result;
     }
-    func_02182A2C(request->mSoapRequest, g_021E3858, request->mInfo->soapTag);
+    func_02182A2C(request->mSoapRequest, sXmlNamespacePrefix, request->mInfo->soapTag);
     func_02181DE8(request->mSoapRequest);
     return 0;
 }

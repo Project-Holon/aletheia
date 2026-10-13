@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAFDC",
+   "name": "PMSI_SEARCH_GetInputCount",
    "address": "0x021BAFDC",
    "kind": "game",
    "region": "ov110",

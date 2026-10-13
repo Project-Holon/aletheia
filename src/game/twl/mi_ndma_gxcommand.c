@@ -14,17 +14,17 @@
  * symbols:
  *   MI_IsNDmaBusy  0x0272FC90  arm twl
  *   data_02732EFC  0x02732EFC  data twl
- *   func_02082A90  0x02082A90  arm
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   data_02732F3C  0x02732F3C  data twl
  *   MIi_NDmaAsync_withConfig_Dev  0x0272F9C4  arm twl
  *   MI_WaitNDma  0x0272FCB0  arm twl
- *   func_02084998  0x02084998  arm
+ *   OS_DisableIrqMask  0x02084998  arm
  *   func_020849C8  0x020849C8  arm
  *   func_02084818  0x02084818  arm
  *   func_02084774  0x02084774  arm
- *   func_02084968  0x02084968  arm
+ *   OS_EnableIrqMask  0x02084968  arm
  */
 typedef unsigned int u32;
 
@@ -50,15 +50,15 @@ typedef struct {
 
 extern GxState data_02732F3C;
 extern NdmaConfig data_02732EFC[];
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void MI_WaitNDma(int);
 extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, void *cfg, int words, u32 flags);
-extern void func_02084998(u32);
+extern void OS_DisableIrqMask(u32);
 extern void func_020849C8(u32);
 extern IrqHandler func_02084818(u32);
 extern void func_02084774(u32, IrqHandler);
-extern void func_02084968(u32);
+extern void OS_EnableIrqMask(u32);
 
 void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg);
 static void MIi_FIFOCallback(void);
@@ -88,14 +88,14 @@ void MI_SendNDmaGXCommandAsync(u32 a0, u32 a1, u32 a2, void (*cb)(u32), u32 arg)
     s->f10 = cb;
     s->f14 = arg;
     MI_WaitNDma(a0);
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     s->f18 = (*(volatile u32 *)0x04000600 & 0xc0000000) >> 0x1e;
     s->f1c = func_02084818(0x200000);
     *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
     func_02084774(0x200000, MIi_FIFOCallback);
-    func_02084968(0x200000);
+    OS_EnableIrqMask(0x200000);
     MIi_FIFOCallback();
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 static void MIi_FIFOCallback(void)
@@ -115,7 +115,7 @@ static void MIi_FIFOCallback(void)
     data_02732F3C.fc -= n;
     data_02732F3C.f8 = pos + n;
     if (data_02732F3C.fc == 0) {
-        func_02084998(0x200000);
+        OS_DisableIrqMask(0x200000);
     }
     func_020849C8(0x200000);
     rem = data_02732F3C.fc;
@@ -134,7 +134,7 @@ void MIi_NDMACallback(void)
     void (*cb)(u32);
     u32 arg;
     volatile u32 *reg = (volatile u32 *)0x04000600;
-    func_02084998(0x200000);
+    OS_DisableIrqMask(0x200000);
     *reg = (s->f18 << 30) | (*reg & ~0xC0000000);
     func_02084774(0x200000, s->f1c);
     s->f0 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B08
+ * function: BTL_CLIENT_StepSetItem
  * address: 0x021D3B08
  * packet: pkt_ov093_021D3B08
  * region: ov093
@@ -19,7 +19,7 @@ struct UtilWork;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct QI;
 extern void BTL_POKEPARAM_SetItem(struct QI *p, u16 v);
-int func_021D3B08(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepSetItem(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);

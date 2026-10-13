@@ -1,5 +1,5 @@
 /*
- * function: func_021C0E58
+ * function: ghiRedirectConnection
  * address:  0x021C0E58
  * packet:   pkt_ov114_021C0E58
  * region:   ov114
@@ -17,11 +17,11 @@
  *   func_0217EB9C  0x0217eb9c  arm   ov009
  *   func_0217EB40  0x0217eb40  arm   ov009
  *   func_0217EAE0  0x0217eae0  arm   ov009
- *   func_021C00FC  0x021c00fc  arm   ov114
+ *   ghiResetBuffer  0x021c00fc  arm   ov114
  *   func_020949F4  0x020949f4  arm
- *   g_021CE648     0x021ce648  data  ov114
- *   g_021CE620     0x021ce620  data  ov114
- *   g_021CE660     0x021ce660  data
+ *   sGhttpRedirectingConnection     0x021ce648  data  ov114
+ *   sGhttpCancellingThreadAndFreeingMemory     0x021ce620  data  ov114
+ *   sGhttpHttps2     0x021ce660  data
  */
 
 struct GHIConnection;
@@ -83,19 +83,19 @@ extern void func_0217F1C0(void *);
 extern int func_0217EB9C(int, int);
 extern int func_0217EB40(int, int *);
 extern void func_0217EAE0(void *);
-extern void func_021C00FC(GHIBuffer *);
+extern void ghiResetBuffer(GHIBuffer *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
-extern char g_021CE648[];
-extern char g_021CE620[];
-extern char g_021CE660[];
+extern char sGhttpRedirectingConnection[];
+extern char sGhttpCancellingThreadAndFreeingMemory[];
+extern char sGhttpHttps2[];
 
-void func_021C0E58(GHIConnection *connection)
+void ghiRedirectConnection(GHIConnection *connection)
 {
-    func_0217D254(8, (char *)3, 0x10, g_021CE648);
+    func_0217D254(8, (char *)3, 0x10, sGhttpRedirectingConnection);
     if (connection->f1cc != 0) {
-        func_0217D254(8, (char *)3, 0x10, g_021CE620);
+        func_0217D254(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         func_0217F1C0(connection->f1cc);
         connection->f1cc = 0;
     }
@@ -113,10 +113,10 @@ void func_021C0E58(GHIConnection *connection)
     connection->f24 = 0;
     connection->f10 = 0;
     connection->f50 = -1;
-    func_021C00FC(&connection->buf58);
-    func_021C00FC(&connection->buf7c);
-    func_021C00FC(&connection->bufa0);
-    func_021C00FC(&connection->bufc4);
+    ghiResetBuffer(&connection->buf58);
+    ghiResetBuffer(&connection->buf7c);
+    ghiResetBuffer(&connection->bufa0);
+    ghiResetBuffer(&connection->bufc4);
     connection->f110 = 0;
     connection->f114 = 0;
     connection->f118 = 0;
@@ -127,7 +127,7 @@ void func_021C0E58(GHIConnection *connection)
         if (connection->f1b8 != 0)
             connection->f1b8(connection, &connection->f194);
         connection->f19c = 0;
-        if (func_020949F4((const u8 *)g_021CE660, (const u8 *)connection->f14, 8) != 0) {
+        if (func_020949F4((const u8 *)sGhttpHttps2, (const u8 *)connection->f14, 8) != 0) {
             connection->f198 = 0;
             connection->f194 = 0;
         }

@@ -16,8 +16,8 @@
  *   PM_PrependPostSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback   0x0208C828  arm
  *   NNS_SndWaveOutInit  0x02072A28  arm
- *   func_02073D5C  0x02073D5C  arm
- *   func_0207312C  0x0207312C  arm
+ *   NNSi_SndMainReset  0x02073D5C  arm
+ *   NNS_SndPlayerInit  0x0207312C  arm
  *
  * Sound-system one-shot init: take the f0c latch, SND_Init(), register the two
  * post-sleep callbacks whose PMSleepCallbackInfo blocks live at +0x10 and +0x20
@@ -29,9 +29,9 @@
  * own 136 bytes --
  *   +0x1C  SND_Init (0x02089848): the `bl` here is the only branch to it
  *          anywhere in the image, arm9 and all overlays.
- *   +0x54  func_02073D5C: only src/pending/func_02073D5C.c names it, and a
+ *   +0x54  NNSi_SndMainReset: only src/pending/NNSi_SndMainReset.c names it, and a
  *          `pending` file is never a `matched` witness.
- *   +0x58  func_0207312C: same, src/pending/func_0207312C.c, which is itself
+ *   +0x58  NNS_SndPlayerInit: same, src/pending/NNS_SndPlayerInit.c, which is itself
  *          parked for want of a `literal` witness on 0x0214E024 (see its
  *          header and docs/FRONTEND-PINS.md).
  * Promoting either of those two pending files promotes this one with it; there
@@ -76,8 +76,8 @@ extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
 extern void NNS_SndWaveOutInit(void);
-extern void func_02073D5C(void);
-extern void func_0207312C(void);
+extern void NNSi_SndMainReset(void);
+extern void NNS_SndPlayerInit(void);
 
 void func_020726D0(void)
 {
@@ -93,8 +93,8 @@ void func_020726D0(void)
     PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);
     NNS_SndWaveOutInit();
-    func_02073D5C();
-    func_0207312C();
+    NNSi_SndMainReset();
+    NNS_SndPlayerInit();
     g_0214BAC0.b00 = -1;
     g_0214BAC0.f04 = 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFAA8
+ * function: scSetSessionId
  * address:  0x021DFAA8
  * packet:   pkt_021DFAA8
  * region:   ov175
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DF928  0x021DF928  arm
+ *   sciInterfaceSetSessionId  0x021DF928  arm
  *
  * Fire-and-forget wrapper: kick 0x021DF928 and report success.
  */
 
-extern void func_021DF928(char *obj, int v);
+extern void sciInterfaceSetSessionId(char *obj, int v);
 
-int func_021DFAA8(char *a, int b)
+int scSetSessionId(char *a, int b)
 {
-    func_021DF928(a, b);
+    sciInterfaceSetSessionId(a, b);
     return 0;
 }
 

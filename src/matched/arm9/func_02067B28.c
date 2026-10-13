@@ -1,5 +1,5 @@
 /*
- * function: func_02067B28
+ * function: NNS_G2dSetRndCoreCurrentMtx2D
  * address:  0x02067B28
  * packet:   pkt_02067AC0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sOamSoftEmuContext       0x02148B48  data
+ *   sRndCoreInstance       0x02148B48  data
  */
 
 typedef unsigned char u8;
@@ -23,11 +23,11 @@ struct S02067B28 {
     u32 unk2c;
 };
 
-extern struct S02067B28 *sOamSoftEmuContext;
+extern struct S02067B28 *sRndCoreInstance;
 
-void func_02067B28(u32 a, u32 b)
+void NNS_G2dSetRndCoreCurrentMtx2D(u32 a, u32 b)
 {
-    struct S02067B28 *p = sOamSoftEmuContext;
+    struct S02067B28 *p = sRndCoreInstance;
 
     p->unk2c = a;
     p->unk28 = b;

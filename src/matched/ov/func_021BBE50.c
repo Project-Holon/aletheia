@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE50
+ * function: WIFICLUB_FreezePartyIcons
  * address:  0x021BBE50
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -34,7 +34,7 @@ typedef struct {
     void *arr[12];
 } S;
 
-void func_021BBE50(S *s)
+void WIFICLUB_FreezePartyIcons(S *s)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0218A0F4
+ * function: TR_AI_Compare
  * address:  0x0218A0F4
  * packet:   pkt_ov096_0218A0F4
  * region:   ov096
@@ -24,7 +24,7 @@ typedef int s32;
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
-int func_0218A0F4(u8 *a, int op, int x, int y, int z)
+int TR_AI_Compare(u8 *a, int op, int x, int y, int z)
 {
     int r = 0;
     switch (op) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020885EC",
+   "name": "PXI_IsCallbackReady",
    "address": "0x020885EC",
    "kind": "sdk",
    "region": "arm9",

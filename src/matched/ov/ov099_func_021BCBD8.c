@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BCBD8, func_021BCC4C
+ * function: WIFICLUB_LoadPickedRegulation, WIFICLUB_LoadOwnRegulation
  * address:  0x021BCBD8
  * packet:   pkt_ov099_021BCBD8
  * region:   ov099
@@ -18,25 +18,25 @@
  * The caller passes (t, 0x21).
  *
  * symbols:
- *   d_021C3A30     0x021C3A30  data  a4
+ *   gWifiClubRuleIdTable     0x021C3A30  data  a4
  *   func_020307B0  0x020307B0  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *
  * Unit of the lead function plus the unlabelled 12-byte tail-call stub at
- * 0x021BCC4C (mode 0 -> func_021BCBD8).
+ * 0x021BCC4C (mode 0 -> WIFICLUB_LoadPickedRegulation).
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern const u32 d_021C3A30[];
+extern const u32 gWifiClubRuleIdTable[];
 extern u32 func_020307B0(void *p);
 extern void *POKE_REGULATION_Load(int a, int b);
 
-u32 func_021BCBD8(char *p, int m);
+u32 WIFICLUB_LoadPickedRegulation(char *p, int m);
 
-u32 func_021BCBD8(char *p, int m)
+u32 WIFICLUB_LoadPickedRegulation(char *p, int m)
 {
     int a, b, c;
     u8 *rec;
@@ -56,7 +56,7 @@ u32 func_021BCBD8(char *p, int m)
         c = rec[0x20];
         break;
     }
-    t = d_021C3A30[a + b * 4];
+    t = gWifiClubRuleIdTable[a + b * 4];
     if (*(int *)(p + 0x1348) != 0) {
         func_020307B0((void *)(*(int *)(p + 0x1348)));
     }
@@ -67,7 +67,7 @@ u32 func_021BCBD8(char *p, int m)
     return t;
 }
 
-u32 func_021BCC4C(char *p)
+u32 WIFICLUB_LoadOwnRegulation(char *p)
 {
-    return func_021BCBD8(p, 0);
+    return WIFICLUB_LoadPickedRegulation(p, 0);
 }

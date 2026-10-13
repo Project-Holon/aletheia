@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3A8
+ * function: WIFICLUB_StateShowRuleMatchMessage
  * address:  0x021BD3A8
  * packet:   pkt_ov099_021BD3A8
  * region:   ov099
@@ -13,8 +13,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   func_0200AE54  0x0200AE54  thumb
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_021BC090  0x021BC090  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ResetTimeIcon  0x021BC090  thumb  ov099
  */
 #include "../include/Obj07947.h"
 
@@ -28,10 +28,10 @@ struct Link;
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
+extern void WIFICLUB_ResetTimeIcon(char *p);
 
-int func_021BD3A8(char *p, int v)
+int WIFICLUB_StateShowRuleMatchMessage(char *p, int v)
 {
     int a;
     int b;
@@ -49,8 +49,8 @@ int func_021BD3A8(char *p, int v)
         } else {
             id = 0x91;
         }
-        func_021BAAB8(p, id, 0);
-        func_021BC090(p);
+        WIFICLUB_ShowStreamedMessage(p, id, 0);
+        WIFICLUB_ResetTimeIcon(p);
         ((struct Obj07947 *)p)->f1E0 = 0x78;
         ((struct Obj07947 *)p)->f1CC = 0x69;
     }

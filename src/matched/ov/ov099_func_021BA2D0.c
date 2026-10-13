@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2D0
+ * function: WIFICLUBACTOR_NoOpAnim
  * address:  0x021BA2D0
  * packet:   pkt_ov099_021BA2D0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * Empty callback (bx lr), stored as a function pointer by ov099
- * func_021BA264 and func_021BA2A4.  Leaf of func_021BA264.
+ * WIFICLUBACTOR_SetIdleState and WIFICLUBACTOR_SetBounceState.  Leaf of WIFICLUBACTOR_SetIdleState.
  */
 
-void func_021BA2D0(void)
+void WIFICLUBACTOR_NoOpAnim(void)
 {
 }

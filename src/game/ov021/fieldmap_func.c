@@ -32,8 +32,8 @@
  *   _ffix            0x0209C494  arm
  *   _ll_mul          0x0209C054  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_0206A854    0x0206A854  arm
- *   func_0206DB80    0x0206DB80  arm
+ *   NNS_G3dGlbFlush    0x0206A854  arm
+ *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   func_0207ADC4    0x0207ADC4  arm
  *   FIELD_EFFECT_GetObjectPos    0x021AC1B8  thumb  ov021
  *   G3D_SYSTEM_DrawObjectCulling    0x02047AC8  arm
@@ -65,8 +65,8 @@
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
  *   func_0201F41C  0x0201F41C  thumb
- *   func_02087C6C  0x02087C6C  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_0201283C  0x0201283C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -262,8 +262,8 @@ extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
 extern void FIELD_EFFECT_SetObjectPos(void *task, VecFx32 *pos);
 void FIELD_EFFECT_DeleteObject(void *task);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
-extern void func_0206A854(void);
-extern void func_0206DB80(void);
+extern void NNS_G3dGlbFlush(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207ADC4(MtxFx33 *mtx);
 extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
 extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transform);
@@ -292,8 +292,8 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 u32 func_020084F8(void *myStatus, u16 *dst, u32 size);
 u8 func_02008550(void *myStatus);
 void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-void func_02087C6C(u8 *outMac);
-void func_02082D44(const void *src, void *dst, int n);
+void OS_GetMacAddress(u8 *outMac);
+void MI_CpuCopy8(const void *src, void *dst, int n);
 void *func_020120F4(void *gameSystem);
 void *func_0201283C(void *gameData);
 void *GAME_DATA_GetSaveControl(void *gameData);
@@ -427,15 +427,15 @@ void FLDEFF_GYOE_DrawTask(void *task, FldeffGyoeTaskWork *work)
     shifted.m[3][2] += FX_MUL(shifted.m[2][2], zBias);
     MIi_CpuCopyFast(&shifted, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.matrixDirtyFlags &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     func_0207ADC4(&transform.rotation);
     FIELD_EFFECT_GetObjectPos(task, &transform);
     G3D_SYSTEM_DrawObjectCulling(work->param.gyoe->object[work->param.type], &transform);
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.matrixDirtyFlags &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
 }
 
 void FLDEFF_GYOE_PlaySe(int type)
@@ -655,7 +655,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatPms[3] = chatPms[3];
         line->chatType = chatType;
         line->chatCount = 0;
-        func_02087C6C(line->senderMac);
+        OS_GetMacAddress(line->senderMac);
         line->sex = func_02008550(myStatus);
         line->relation = 0;
     } else {
@@ -666,7 +666,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatPms[3] = beaconPc->beacon.chatPms.word[3];
         line->chatType = beaconPc->beacon.chatType;
         line->chatCount = beaconPc->beacon.chatCount;
-        func_02082D44(beaconPc->mac, line->senderMac, 6);
+        MI_CpuCopy8(beaconPc->mac, line->senderMac, 6);
         line->sex = beaconPc->beacon.sex;
         saveControl = func_020120F4(work->parent->gameSystem);
         wifiList = func_0201283C(saveControl);

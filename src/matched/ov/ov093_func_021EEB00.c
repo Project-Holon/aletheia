@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern void func_02082D44(const void *, void *, int);
+extern void MI_CpuCopy8(const void *, void *, int);
 
 void BTL_ADAPTER_SetSendData(W *p, u16 a, const void *src, u16 n)
 {
@@ -39,7 +39,7 @@ void BTL_ADAPTER_SetSendData(W *p, u16 a, const void *src, u16 n)
     p->f0f = a;
     p->h10 = a;
     p->h12 = n;
-    func_02082D44(src, p->d, n);
+    MI_CpuCopy8(src, p->d, n);
     p->w4 = 0;
     p->w8 = 0;
     p->st = 0;

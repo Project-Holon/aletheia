@@ -1,5 +1,5 @@
 /*
- * function: func_021B879C
+ * function: IRC_COMPATIBLE_MENU_InitScrollEffect
  * address: 0x021B879C
  * packet: pkt_ov102_021B879C
  * region: ov102
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, u32);
 extern void func_02041EE4(u32,u32,u32);
-void func_021B879C(void *p, u32 a1) { MI_CpuFill8(p,0,28); func_02041EE4(4,3,88); func_02041EE4(7,3,88); }
+void IRC_COMPATIBLE_MENU_InitScrollEffect(void *p, u32 a1) { MI_CpuFill8(p,0,28); func_02041EE4(4,3,88); func_02041EE4(7,3,88); }

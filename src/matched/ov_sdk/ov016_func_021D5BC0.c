@@ -18,10 +18,10 @@
  * `task` here.
  *
  * symbols:
- *   func_020862F0                  0x020862F0  arm
- *   func_0207EE68                  0x0207EE68  arm
+ *   DWCi_ScreenDC_FlushRange                  0x020862F0  arm
+ *   GX_LoadBG0Char                  0x0207EE68  arm
  *   func_0207EEFC                  0x0207EEFC  arm
- *   g_021DE680                     0x021DE680  data
+ *   gFontWork                     0x021DE680  data
  */
 
 typedef unsigned char bool;
@@ -41,11 +41,11 @@ typedef struct tagMEMFONT {
     bool renew[2];
 } MEMFONT;
 
-extern void func_020862F0(void *startAddr, unsigned long nBytes);
-extern void func_0207EE68(void *pSrc, unsigned long offset, unsigned long szByte);
+extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void func_0207EEFC(void *pSrc, unsigned long offset, unsigned long szByte);
 
-extern MEMFONT *g_021DE680;
+extern MEMFONT *gFontWork;
 
 void func_021D5BC0(void *task, void *work)
 {
@@ -53,12 +53,12 @@ void func_021D5BC0(void *task, void *work)
 
     if (!*renew)
         return;
-    if (renew == &g_021DE680->renew[0]) {
-        func_020862F0(g_021DE680->bg[0].buffer, 0x6000);
-        func_0207EE68(g_021DE680->bg[0].buffer, 0, 0x6000);
+    if (renew == &gFontWork->renew[0]) {
+        DWCi_ScreenDC_FlushRange(gFontWork->bg[0].buffer, 0x6000);
+        GX_LoadBG0Char(gFontWork->bg[0].buffer, 0, 0x6000);
     } else {
-        func_020862F0(g_021DE680->bg[1].buffer, 0x3000);
-        func_0207EEFC(g_021DE680->bg[1].buffer, 0x3000, 0x3000);
+        DWCi_ScreenDC_FlushRange(gFontWork->bg[1].buffer, 0x3000);
+        func_0207EEFC(gFontWork->bg[1].buffer, 0x3000, 0x3000);
     }
     *renew = 0;
 }

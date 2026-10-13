@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE64
+ * function: WIFICLUB_IsFriendRequestFromPeer
  * address:  0x021BEE64
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C23B8  0x021C23B8  thumb  ov099
- *   func_021C27D0  0x021C27D0  thumb  ov099
- *   func_021C27D8  0x021C27D8  thumb  ov099
+ *   WIFICLUB_GetFriendStatus  0x021C23B8  thumb  ov099
+ *   WIFICLUB_GetStatusActionState  0x021C27D0  thumb  ov099
+ *   WIFICLUB_GetStatusActionArg  0x021C27D8  thumb  ov099
  *
- * True when the two objects - the one at +0x08 of b and the one func_021C23B8
- * returns - agree under func_021C27D8 after both have been released through
- * func_021C27D0.
+ * True when the two objects - the one at +0x08 of b and the one WIFICLUB_GetFriendStatus
+ * returns - agree under WIFICLUB_GetStatusActionArg after both have been released through
+ * WIFICLUB_GetStatusActionState.
  */
 #include "../include/Obj18261.h"
 
@@ -28,19 +28,19 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021C23B8(int i);
-extern int func_021C27D0(void *p);
-extern int func_021C27D8(void *p);
+extern int WIFICLUB_GetFriendStatus(int i);
+extern int WIFICLUB_GetStatusActionState(void *p);
+extern int WIFICLUB_GetStatusActionArg(void *p);
 
-BOOL func_021BEE64(void *a, char *b)
+BOOL WIFICLUB_IsFriendRequestFromPeer(void *a, char *b)
 {
     void *x = ((struct Obj18261 *)b)->f8;
-    void *y = (void *)func_021C23B8((int)a);
+    void *y = (void *)WIFICLUB_GetFriendStatus((int)a);
 
-    func_021C27D0(x);
-    func_021C27D0(y);
+    WIFICLUB_GetStatusActionState(x);
+    WIFICLUB_GetStatusActionState(y);
 
-    if (func_021C27D8(x) == func_021C27D8(y)) {
+    if (WIFICLUB_GetStatusActionArg(x) == WIFICLUB_GetStatusActionArg(y)) {
         return 1;
     }
 

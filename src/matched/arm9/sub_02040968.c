@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020834C0  0x020834C0  arm
- *   func_02082A90  0x02082A90  arm
- *   func_02082A60  0x02082A60  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *
  * A copy that picks its word width from the operands.  A zero length goes
- * to func_020834C0 (the SDK's own degenerate-copy path, reached with all
+ * to MI_UncompressLZ8 (the SDK's own degenerate-copy path, reached with all
  * three arguments still in place).  Otherwise the 32-bit copy is taken only
  * when both pointers are word aligned and the length is a whole number of
  * words; anything else falls back to the byte copy.
@@ -47,22 +47,22 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020834C0(void *dest, const void *src, u32 size);
-extern void func_02082A90(void *dest, const void *src, u32 size);
-extern void func_02082A60(void *dest, const void *src, u32 size);
+extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
+extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
+extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 
 void sub_02040968(void *dest, const void *src, u32 size)
 {
     if (size == 0) {
-        func_020834C0(dest, src, size);
+        MI_UncompressLZ8(dest, src, size);
         return;
     }
 
     if (((u32)dest & 3) == 0 && ((u32)src & 3) == 0 && ((u16)size % 4) == 0) {
-        func_02082A90(dest, src, size);
+        MIi_CpuCopy32(dest, src, size);
         return;
     }
 
-    func_02082A60(dest, src, size);
+    MIi_CpuCopy16(dest, src, size);
 }
 

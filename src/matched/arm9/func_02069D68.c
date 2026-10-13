@@ -1,5 +1,5 @@
 /*
- * function: func_02069D68
+ * function: NNSi_G3dAnmObjInsertByPriority
  * address:  0x02069D68
  * packet:   pkt_02069D68
  * region:   arm9
@@ -27,8 +27,8 @@
  *    between the two spellings.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02069D68.c \
- *       --func func_02069D68 --addr 0x02069D68 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dAnmObjInsertByPriority.c \
+ *       --func NNSi_G3dAnmObjInsertByPriority --addr 0x02069D68 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -41,7 +41,7 @@ typedef struct Node {
     u8 pri18;
 } Node;
 
-void func_02069D68(Node **head, Node *item)
+void NNSi_G3dAnmObjInsertByPriority(Node **head, Node *item)
 {
     Node *cur;
     Node *nx;

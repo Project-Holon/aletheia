@@ -1,5 +1,5 @@
 /*
- * function: func_0215AD3C
+ * function: CPS_TcpClose
  * address:  0x0215AD3C
  * packet:   pkt_ov009_0215AD3C
  * region:   ov009
@@ -25,7 +25,7 @@ extern void func_02162E5C(void *soc);
 extern unsigned long long func_020870D0(void);
 extern void func_02157390(void);
 
-void func_0215AD3C(void)
+void CPS_TcpClose(void)
 {
     unsigned long start;
     char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);

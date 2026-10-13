@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FEC
+ * function: IRC_RANKING_ClactVBlank
  * address:  0x021B7FEC
  * packet:   pkt_ov106_021B7FEC
  * region:   ov106
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void CLACT_VBlankSystem(void);
-void func_021B7FEC(u8 *a0) { CLACT_VBlankSystem(); }
+void IRC_RANKING_ClactVBlank(u8 *a0) { CLACT_VBlankSystem(); }

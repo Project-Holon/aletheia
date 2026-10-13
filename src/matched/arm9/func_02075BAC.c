@@ -1,5 +1,5 @@
 /*
- * function: func_02075BAC
+ * function: NNSi_SndFaderSet
  * address:  0x02075BAC
  * packet:   pkt_02075BAC
  * region:   arm9
@@ -15,7 +15,7 @@
  * Wave 17 lane untried_small. The pkt_02073098 cluster's front end: under
  * dsi/1.1p1 the zero for +0x08 is hoisted above the +0x0C store (9 out);
  * ../2.0/sp2 keeps it after, as the image does, the same pin that closes
- * func_02072EA8. NNS_SndFaderGet reads only r0 (its body loads +0x08/+0x0C of
+ * NNS_SndHandleReleaseSeq. NNS_SndFaderGet reads only r0 (its body loads +0x08/+0x0C of
  * the record before touching r1/r2), so it is declared with one parameter.
  */
 
@@ -32,7 +32,7 @@ typedef signed int     s32;
 struct Obj;
 extern s32 NNS_SndFaderGet(struct Obj *o);
 
-void func_02075BAC(Obj02075BAC *o, u32 a, u32 b)
+void NNSi_SndFaderSet(Obj02075BAC *o, u32 a, u32 b)
 {
     o->unk00 = NNS_SndFaderGet((struct Obj *)o);
     o->unk04 = a;

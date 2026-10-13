@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689B780  0x0689B780  thumb  ov095
+ *   BTLV_SCD_ShowCounterScreen  0x0689B780  thumb  ov095
  */
 #include "../include/Obj07848.h"
 typedef unsigned char u8;
-extern void func_0689B780(void *, void *);
+extern void BTLV_SCD_ShowCounterScreen(void *, void *);
 void BTLV_CORE_ShowCounterValue(u8 *p, int v)
 {
     ((struct Obj07848 *)p)->f160 = v;
     ((struct Obj07848 *)p)->f164 = v;
     ((struct Obj07848 *)p)->f16C = 3;
-    func_0689B780(((struct Obj07848 *)p)->f180, p + 0x160);
+    BTLV_SCD_ShowCounterScreen(((struct Obj07848 *)p)->f180, p + 0x160);
 }

@@ -17,7 +17,7 @@
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -61,7 +61,7 @@ struct PalAnmSlot;
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern int func_021F86E0(void);
 extern int PALANM_GetDefaultWork(char *p, int i);
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
@@ -85,7 +85,7 @@ void func_022033F4(Main *m)
     func_020498F4(m->f48, 0x72, 7, 0, 0, 0, m->heap);
     PALANM_LoadHandlePaletteToSlot(m->pal, m->f48, 0x5c, m->heap, 1, 0x1e0, 0);
     if (m->f23c == 1)
-        func_02082A60((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
+        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
     m->h104 = CLACT_RegisterCharacter(m->f48, 0x73, 0, 1, m->heap);
     m->h10c = CLACT_RegisterCellAnim(m->f48, 0x75, 0x76, m->heap);
     m->h108 = CLACT_RegisterPalette(m->f48, 0x74, 1, 0, m->heap);

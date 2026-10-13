@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DA8
+ * function: IRC_RANKING_InputUpdate
  * address: 0x021B8DA8
  * packet: pkt_ov106_021B8DA8
  * region: ov106
@@ -20,7 +20,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
-void func_021B8DA8(int *p) {
+void IRC_RANKING_InputUpdate(int *p) {
     int x,y;
     int d;
     if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))) {

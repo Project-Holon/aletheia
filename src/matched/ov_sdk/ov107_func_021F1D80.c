@@ -23,7 +23,7 @@
  *   func_021F62B4  0x021F62B4  arm  ov107
  *   func_021F3FC8  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   g_021F6FA0     0x021F6FA0  data
  *
  * notes:    the fileinfo fields are addressed as g + fileID * 0x5D4 + constant (the
@@ -109,7 +109,7 @@ extern u16 func_021F62A0(void);
 extern u8 func_021F62B4(void);
 extern void func_021F3FC8(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
-extern void func_02082AC0(u32 data, void *destp, u32 size);
+extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 
 #define FIELD(id, off) (*(u16 *)((u8 *)g_021F6FA0 + (id) * 0x5D4 + (off)))
 void func_021F1D80(u16 type, void *arg)
@@ -256,7 +256,7 @@ void func_021F1D80(u16 type, void *arg)
 
     if (type == 0x11) {
         MBCommPStateCallback tmpCb = g_021F6FA0->parent_callback;
-        func_02082AC0(0, g_021F6FA0, 0x7D00);
+        MIi_CpuClearFast(0, g_021F6FA0, 0x7D00);
         g_021F6FA0 = 0;
         if (tmpCb)
             tmpCb(0, 12, 0);

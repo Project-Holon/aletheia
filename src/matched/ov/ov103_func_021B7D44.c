@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D44
+ * function: IRC_COMPATIBLE_TOUCH_TEST_End3DFrame
  * address:  0x021B7D44
  * packet:   pkt_ov103_021B7D44
  * region:   ov103
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void G3D_SYSTEM_DrawEnd(void);
-void func_021B7D44(void *a0) { G3D_SYSTEM_DrawEnd(); }
+void IRC_COMPATIBLE_TOUCH_TEST_End3DFrame(void *a0) { G3D_SYSTEM_DrawEnd(); }

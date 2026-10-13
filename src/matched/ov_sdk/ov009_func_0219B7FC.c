@@ -1,5 +1,5 @@
 /*
- * function: func_0219B7FC
+ * function: swap_byte
  * address:  0x0219B7FC
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Swaps two bytes.
  */
 
-void func_0219B7FC(unsigned char *p, unsigned char *q)
+void swap_byte(unsigned char *p, unsigned char *q)
 {
     unsigned char t = *p;
 

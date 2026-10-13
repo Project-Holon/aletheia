@@ -58,7 +58,7 @@
  *   gMudSportHandlers     0x021F2614  data   ov093  a4
  *   gDefogHandlers     0x021F29B8  data   ov093  a4
  *   HAND_SIDE_IsActive  0x06898CF4  thumb
- *   func_0689CA7C  0x0689CA7C  thumb
+ *   BTL_ID_IsMimicExcludedMove  0x0689CA7C  thumb
  *   gBrickBreakHandlers 0x021F2B70 data a4
  *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
  *   BTL_MAIN_IsPokeIdInSecondPair 0x021B9A40 thumb ov093
@@ -245,7 +245,7 @@
  *   gFeintHandlers 0x021F2B10 data a4
  *   BTL_MAIN_IsZero  0x021B9A5C  thumb  ov093
  *   BTL_SERVER_FLOW_CheckSideEffectActive  0x021C82C4  thumb  ov093
- *   func_0689C8AC  0x0689C8AC  thumb
+ *   BTL_ID_IsEncoreFailMove  0x0689C8AC  thumb
  *   func_021D5D14 0x021D5D14 thumb ov093
  *   gAcupressureStats 0x021F2D20 data a4
  *   gRestHandlers 0x021F2888 data a4
@@ -253,7 +253,7 @@
  *   gAttractHandlers 0x021F278C data a4
  *   BTL_POKEPARAM_GetLastTargetPos  0x021D67B0  thumb  ov093
  *   BTL_CALC_ListResistingTypes  0x021D7A9C  thumb  ov093
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gConversion2Handlers     0x021F2784  data   ov093  a4
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
  *   gEncoreHandlers     0x021F25E4  data   ov093  a4
@@ -296,7 +296,7 @@
  *   BTL_SERVER_FLOW_CheckClientHasBackupPoke  0x021C7F24  thumb  ov093
  *   gHealingWishHandlers     0x021F2694  data   ov093  a4
  *   gWishHandlers     0x021F254C  data   ov093  a4
- *   func_0689C91C  0x0689C91C  thumb
+ *   BTL_ID_IsAbilityRolePlayBlocked  0x0689C91C  thumb
  *   gFutureSightHandlers     0x021F29D8  data   ov093  a4
  *   BTL_MAIN_GetEnemyLanePos  0x021B8C20  thumb  ov093
  *   BTL_SERVER_FLOW_GetTurnCount  0x021C8138  thumb  ov093
@@ -331,7 +331,7 @@
  *   gSkullBashHandlers     0x021F25D4  data   ov093  a4
  *   gRazorWindHandlers     0x021F27D4  data   ov093  a4
  *   gPluckHandlers     0x021F27AC  data   ov093  a4
- *   func_0689C8CC  0x0689C8CC  thumb  ov095
+ *   BTL_ID_IsMetronomeItemIgnoredMove  0x0689C8CC  thumb  ov095
  *   ITEM_IsBerry  0x020213C0  thumb
  *   gStruggleHandlers     0x021F2B28  data   ov093  a4
  *   gDestinyBondHandlers     0x021F2B40  data   ov093  a4
@@ -341,21 +341,21 @@
  *   gRoostHandlers     0x021F255C  data   ov093  a4
  *   gFocusPunchHandlers     0x021F2734  data   ov093  a4
  *   BTLV_CORE_SetSlotFlag  0x021E8BD0  thumb  ov093
- *   func_0689CA8C  0x0689CA8C  thumb
+ *   BTL_ID_GetMetronomeExcludedMoves  0x0689CA8C  thumb
  *   BTL_POKEPARAM_IsSemiInvulnerable  0x021D5C30  thumb  ov093
  *   BTL_CALC_PickRandomMoveExcluding  0x021D7E44  thumb  ov093
  *   gMetronomeWazaHandlers     0x021F28F8  data    a4
- *   func_0689CA3C  0x0689CA3C  thumb
+ *   BTL_ID_IsAssistExcludedMove  0x0689CA3C  thumb
  *   gNaturePowerHandlers     0x021F2928  data   ov093  a4
  *   gAssistHandlers     0x021F270C  data   ov093  a4
- *   func_0689CA1C  0x0689CA1C  thumb
+ *   BTL_ID_IsSleepTalkExcludedMove  0x0689CA1C  thumb
  *   gSleepTalkHandlers     0x021F2BB8  data   ov093  a4
  *   gMirrorMoveHandlers     0x021F2574  data   ov093  a4
- *   func_0689C8BC  0x0689C8BC  thumb
+ *   BTL_ID_IsMeFirstFailMove  0x0689C8BC  thumb
  *   BTL_SERVER_FLOW_IsPokeInPosTable 0x021C814C thumb ov093
  *   BTL_SERVER_FLOW_IsPokeAfflictedByStatus 0x021C8374 thumb ov093
  *   gMeFirstHandlers     0x021F2968  data    a4
- *   func_0689CA5C  0x0689CA5C  thumb
+ *   BTL_ID_IsCopycatExcludedMove  0x0689CA5C  thumb
  *   BTL_SERVER_FLOW_GetLastActionId  0x021C8114  thumb  ov093
  *   gCopycatHandlers     0x021F26C4  data    a4
  *   gAllStatBoostChanceHandlers     0x021F262C  data   ov093  a4
@@ -366,10 +366,10 @@
  *   gHeavySlamHandlers      0x021F2654  data   ov093  a4
  *   gStoredPowerHandlers    0x021F267C  data   ov093  a4
  *   gElectroBallHandlers    0x021F245C  data   ov093  a4
- *   func_0689C93C  0x0689C93C  thumb
- *   func_0689D064  0x0689D064  thumb
- *   func_0689D174  0x0689D174  thumb
- *   func_0689D184  0x0689D184  thumb
+ *   BTL_ID_IsAbilityEntrainmentBlocked  0x0689C93C  thumb
+ *   BTL_WAZAREC_IsUsedWaza  0x0689D064  thumb
+ *   BTL_DEADREC_GetCount  0x0689D174  thumb
+ *   BTL_DEADREC_GetPokeId  0x0689D184  thumb
  *   gEchoedVoiceHandlers     0x021F24EC  data   ov093  a4
  *   BTL_SERVER_FLOW_GetTurnRecord  0x021C812C  thumb  ov093
  *   BTL_SERVER_FLOW_GetHistoryList  0x021C8130  thumb  ov093
@@ -400,7 +400,7 @@
  *   gFinalGambitHandlers 0x021F2AE8 data a4
  *   gAfterYouHandlers     0x021F27EC  data   ov093  a4
  *   gQuashHandlers     0x021F25B4  data   ov093  a4
- *   func_0689D098  0x0689D098  thumb
+ *   BTL_WAZAREC_GetUsedWazaCount  0x0689D098  thumb
  *   gRoundHandlers     0x021F28C8  data   ov093  a4
  *   gQuickGuardHandlers     0x021F2DB8  data   ov093  a4
  *   gAllySwitchHandlers     0x021F26CC  data    a4
@@ -416,7 +416,7 @@
  *   gForesightOdorSleuthHandlers     0x021F2898  data   ov093  a4
  *   gMiracleEyeHandlers     0x021F2958  data   ov093  a4
  *   gGrowthHandlers     0x021F26A4  data   ov093  a4
- *   func_0689D0C8  0x0689D0C8  thumb
+ *   BTL_WAZAREC_GetEffectiveWaza  0x0689D0C8  thumb
  *   gFreezeShockIceBurnHandlers     0x021F2814  data   ov093  a4
  *   gFusionFlareFusionBoltHandlers     0x021F27E4  data   ov093  a4
  *   gPledgeComboTable  0x021F2CF0  data  a4
@@ -425,8 +425,6 @@
  */
 #include "hand_waza_types.h"
 #include "hand_common_protos.h"
-#include "hand_waza_021e700c_types.h"
-#include "hand_waza_021e7db0_types.h"
 
 #define SPECIES_CHATOT 0x1b9
 #define STOCKPILE_MAX 3
@@ -530,7 +528,7 @@ extern int HAND_COMMON_IsItemBoundToSpecies(int species, int itemId);
 extern u32 func_0202136C(u16 itemId);
 extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(struct BtlServerFlow *flow, int pokeId);
 extern u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
-extern int func_0689C91C(u16 abilityId);
+extern int BTL_ID_IsAbilityRolePlayBlocked(u16 abilityId);
 extern int BTL_SERVER_FLOW_TrySetOnceFlag(struct BtlServerFlow *flow);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 pokeId);
 extern int HAND_SIDE_IsActive(int side, int hazardKind);
@@ -543,25 +541,25 @@ extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *pokeParam);
 extern int ITEM_IsBerry(u32 itemId);
 extern void BTLV_CORE_SetSlotFlag(union SickCont *cont, int value);
 extern int BTL_POKEPARAM_IsSemiInvulnerable(struct BtlPokeParam *bpp);
-extern int func_0689CA8C(u32 *out);
+extern int BTL_ID_GetMetronomeExcludedMoves(u32 *out);
 extern u16 BTL_CALC_PickRandomMoveExcluding(int a, int b);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
-extern int func_0689CA3C(u16 moveId);
-extern int func_0689CA1C(int moveId);
+extern int BTL_ID_IsAssistExcludedMove(u16 moveId);
+extern int BTL_ID_IsSleepTalkExcludedMove(int moveId);
 extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(struct BtlServerFlow *flow, int pokeId);
-extern int func_0689C8BC(u32 moveId);
+extern int BTL_ID_IsMeFirstFailMove(u32 moveId);
 extern u16 BTL_SERVER_FLOW_GetLastActionId(u8 *flow);
-extern int func_0689CA5C(int moveId);
+extern int BTL_ID_IsCopycatExcludedMove(int moveId);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *bpp);
 extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
-extern int func_0689D064(int turnRecord, int factorKey, int turnIndex);
+extern int BTL_WAZAREC_IsUsedWaza(int turnRecord, int factorKey, int turnIndex);
 extern u8 *BTL_SERVER_FLOW_GetHistoryList(struct BtlServerFlow *flow);
-extern int func_0689D174(int historyList, int kind);
-extern int func_0689D184(int historyList, int kind, int index);
+extern int BTL_DEADREC_GetCount(int historyList, int kind);
+extern int BTL_DEADREC_GetPokeId(int historyList, int kind, int index);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB);
-extern int func_0689C93C(u16 abilityId);
+extern int BTL_ID_IsAbilityEntrainmentBlocked(u16 abilityId);
 extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlServerFlow *flow, int pokeId);
 extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagId);
@@ -1942,7 +1940,7 @@ void HAND_WAZA_MimicCopyTargetMove(struct BtlEventFactor *factor, struct BtlServ
         selectedMove = BTL_POKEPARAM_GetLastSelectedMoveId(target);
         if (selectedMove != move)
             move = selectedMove;
-        if (move == 0 || func_0689CA7C(move) != 0 || BTL_POKEPARAM_FindMoveSlot(user, move) != BTL_POKEPARAM_MOVE_COUNT)
+        if (move == 0 || BTL_ID_IsMimicExcludedMove(move) != 0 || BTL_POKEPARAM_FindMoveSlot(user, move) != BTL_POKEPARAM_MOVE_COUNT)
             return;
         slot = BTL_POKEPARAM_FindMoveSlot(user, BTL_EVENT_GetFactorKey(factor));
         if (slot == BTL_POKEPARAM_MOVE_COUNT)
@@ -6488,7 +6486,7 @@ void HAND_WAZA_Conversion2ChangeType(int unused, struct BtlServerFlow *flow, int
                 while (i < typeCount) {
                     if (BTL_POKEPARAM_HasType(userBpp, types[i]) != 0) {
                         if ((int)(typeCount - 1 - i) > 0)
-                            func_02082D44(types + (i + 1), types + i, typeCount - 1 - i);
+                            MI_CpuCopy8(types + (i + 1), types + i, typeCount - 1 - i);
                         typeCount--;
                     } else {
                         i++;
@@ -6530,7 +6528,7 @@ void HAND_WAZA_EncoreAddSick(int unused, struct BtlServerFlow *flow, int pokeId)
         targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST);
         targetBpp = BTL_SERVER_FLOW_GetPokeParam(flow, targetId);
         lastMoveId = BTL_POKEPARAM_GetLastSelectedMoveId(targetBpp);
-        if (BTL_POKEPARAM_HasSick(targetBpp, BTL_SICK_ENCORE) == 0 && func_0689C8AC(lastMoveId) == 0 && BTL_POKEPARAM_GetMovePPById(targetBpp, lastMoveId) != 0) {
+        if (BTL_POKEPARAM_HasSick(targetBpp, BTL_SICK_ENCORE) == 0 && BTL_ID_IsEncoreFailMove(lastMoveId) == 0 && BTL_POKEPARAM_GetMovePPById(targetBpp, lastMoveId) != 0) {
             if (BTL_POKEPARAM_TestTurnFlag(targetBpp, BTL_TURN_FLAG_ACTED) != 0)
                 turns = (u8)(turns + 1);
             record = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, pokeId);
@@ -7709,7 +7707,7 @@ void HAND_WAZA_RolePlayCopyAbility(struct BtlEventFactor *factor, struct BtlServ
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         targetId = BTL_EVENT_GetVar(BTL_EVAR_TARGET_ID);
         targetAbility = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, targetId), BPP_VALUE_ABILITY);
-        if (func_0689C91C(targetAbility) == 0) {
+        if (BTL_ID_IsAbilityRolePlayBlocked(targetAbility) == 0) {
             changeAbility = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_CHANGE_ABILITY, pokeId);
             changeAbility->pokeId = pokeId;
             changeAbility->abilityId = targetAbility;
@@ -8776,7 +8774,7 @@ void HAND_WAZA_DestinyBondOnFaint(int factor, void *flow, u32 pokeId)
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_DEFENDER_ID)) {
         if (BTL_POKEPARAM_IsFainted(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)) != 0) {
-            if (func_0689C8CC((u16)BTL_EVENT_GetVar(WAZAVAR_MOVE_ID)) == 0) {
+            if (BTL_ID_IsMetronomeItemIgnoredMove((u16)BTL_EVENT_GetVar(WAZAVAR_MOVE_ID)) == 0) {
                 attackerId = BTL_EVENT_GetVar(WAZAVAR_ATTACKER_ID);
                 attacker = BTL_SERVER_FLOW_GetPokeParam(flow, attackerId);
                 if (BTL_MAIN_IsPokeSamePair(pokeId, attackerId) == 0 && BTL_POKEPARAM_IsFainted(attacker) == 0) {
@@ -8840,7 +8838,7 @@ void HAND_WAZA_GrudgeOnFaint(void *factor, void *flow, int pokeId)
     struct HandWazaPpRecord *pp;
     int multiplier;
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_DEFENDER_ID)) {
-        if (func_0689C8CC((u16)BTL_EVENT_GetVar(18)) == 0) {
+        if (BTL_ID_IsMetronomeItemIgnoredMove((u16)BTL_EVENT_GetVar(18)) == 0) {
             if (BTL_POKEPARAM_IsFainted(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)) != 0) {
                 attackerId = BTL_EVENT_GetVar(WAZAVAR_ATTACKER_ID);
                 attacker = BTL_SERVER_FLOW_GetPokeParam(flow, attackerId);
@@ -9003,7 +9001,7 @@ void HAND_WAZA_MetronomePickMove(int factor, int flow, int pokeId)
     int slot;
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
-        moveId = BTL_CALC_PickRandomMoveExcluding(func_0689CA8C(&previousMove), (u16)previousMove);
+        moveId = BTL_CALC_PickRandomMoveExcluding(BTL_ID_GetMetronomeExcludedMoves(&previousMove), (u16)previousMove);
         slot = BTL_SERVER_FLOW_DecideMoveTarget((struct BtlServerFlow *)flow, pokeId, moveId);
         BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_ID, moveId);
         BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_SLOT, slot);
@@ -9151,7 +9149,7 @@ void HAND_WAZA_AssistPickMove(void *factor, void *flow, int pokeId)
                 moveCount = BTL_POKEPARAM_GetMoveCount(member);
                 for (slot = 0; slot < moveCount; slot++) {
                     moveId = BTL_POKEPARAM_GetMoveId(member, slot);
-                    if (func_0689CA3C(moveId) == 0) {
+                    if (BTL_ID_IsAssistExcludedMove(moveId) == 0) {
                         moves[candidateCount++] = moveId;
                     }
                 }
@@ -9197,7 +9195,7 @@ void HAND_WAZA_SleepTalkPickMove(int factor, int flow, int pokeId, u32 *candidat
             candidateCount = 0;
             for (; slot < moveCount; slot++) {
                 candidate = BTL_POKEPARAM_GetMoveId(user, slot);
-                if (func_0689CA1C(candidate) == 0 && WAZA_TOOL_GetFlag(candidate, 1) == 0) {
+                if (BTL_ID_IsSleepTalkExcludedMove(candidate) == 0 && WAZA_TOOL_GetFlag(candidate, 1) == 0) {
                     candidates[candidateCount++] = candidate;
                 }
             }
@@ -9265,7 +9263,7 @@ int *HAND_WAZA_AddMeFirst(int *handlerCount)
  * the target has not acted yet.
  *
  * extent: 202 bytes of code followed by 2-byte alignment nop at 021E6F02,
- * then the labelled Thumb veneer func_0689C8BC.
+ * then the labelled Thumb veneer BTL_ID_IsMeFirstFailMove.
  */
 void HAND_WAZA_MeFirstPickMove(void *factor, void *flow, int pokeId, u8 *targetPokeId)
 {
@@ -9291,7 +9289,7 @@ void HAND_WAZA_MeFirstPickMove(void *factor, void *flow, int pokeId, u8 *targetP
                     if (BTL_SERVER_FLOW_IsPokeInPosTable(flow, targetId) != 0) {
                         if (BTL_SERVER_FLOW_IsPokeAfflictedByStatus(flow, targetId) == 0) {
                             moveId = BTL_ACTION_GetFightMove(&action);
-                            if (moveId != 0 && WAZA_TOOL_IsDamaging(moveId) != 0 && func_0689C8BC(moveId) == 0)
+                            if (moveId != 0 && WAZA_TOOL_IsDamaging(moveId) != 0 && BTL_ID_IsMeFirstFailMove(moveId) == 0)
                                 usable = 1;
                         }
                     }
@@ -9335,7 +9333,7 @@ void HAND_WAZA_CopycatPickMove(int factor, int flow, int pokeId)
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
         moveId = BTL_SERVER_FLOW_GetLastActionId((u8 *)flow);
-        if (moveId != 0 && func_0689CA5C(moveId) == 0) {
+        if (moveId != 0 && BTL_ID_IsCopycatExcludedMove(moveId) == 0) {
             slot = BTL_SERVER_FLOW_DecideMoveTarget((struct BtlServerFlow *)flow, pokeId, moveId);
             BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_ID, moveId);
             BTL_EVENT_OverwriteVar(WAZAVAR_MOVE_SLOT, slot);
@@ -9581,7 +9579,7 @@ void HAND_WAZA_EchoedVoiceSetPowerByStreak(struct BtlEventFactor *factor, struct
         turn = BTL_SERVER_FLOW_GetTurnCount(flow) - 1;
         streak = 0;
         for (; turn >= 0;) {
-            if (func_0689D064(turnRecord, factorKey, turn--) == 0)
+            if (BTL_WAZAREC_IsUsedWaza(turnRecord, factorKey, turn--) == 0)
                 break;
             streak++;
         }
@@ -9614,9 +9612,9 @@ void HAND_WAZA_RetaliateDoublePowerAfterAllyFaint(struct BtlEventFactor *factor,
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         historyList = (int)BTL_SERVER_FLOW_GetHistoryList(flow);
-        faintCount = func_0689D174(historyList, 1);
+        faintCount = BTL_DEADREC_GetCount(historyList, 1);
         for (i = 0; i < faintCount; i++) {
-            if (BTL_MAIN_IsPokeSamePair(pokeId, func_0689D184(historyList, 1, i)) != 0) {
+            if (BTL_MAIN_IsPokeSamePair(pokeId, BTL_DEADREC_GetPokeId(historyList, 1, i)) != 0) {
                 BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, 0x2000);
                 return;
             }
@@ -9658,7 +9656,7 @@ void HAND_WAZA_SoakSetWaterType(struct BtlEventFactor *factor, struct BtlServerF
 {
     u32 i;
     u32 targetCount;
-    struct HandWazaCmdChangeType *cmd;
+    HandExChangeType *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         targetCount = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_COUNT);
@@ -9728,7 +9726,7 @@ void HAND_WAZA_EntrainmentCopyAbility(struct BtlEventFactor *factor, struct BtlS
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         userAbility = func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), HAND_WAZA_BPP_VALUE_ABILITY);
-        if (func_0689C93C(userAbility) == 0) {
+        if (BTL_ID_IsAbilityEntrainmentBlocked(userAbility) == 0) {
             targetCount = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_COUNT);
             for (i = 0; i < targetCount; i++) {
                 targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST + i);
@@ -9796,7 +9794,7 @@ void HAND_WAZA_IncinerateBurnBerry(struct BtlEventFactor *factor, struct BtlServ
 {
     u8 targetId;
     u16 itemId;
-    struct HandWazaCmdSetItem *cmd;
+    HandExSetItem *cmd;
 
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
         return;
@@ -9932,41 +9930,41 @@ int *HAND_WAZA_AddShellSmash(int *handlerCount)
 /* Shell Smash: lower Defense and Special Defense by one stage, raise Attack, Special Attack and Speed by two. */
 void HAND_WAZA_ShellSmashChangeStats(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    struct HandWazaCmdRankChange *cmd;
+    HandExRankChange *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_RANK_CHANGE, pokeId);
         cmd->rankKind = HAND_WAZA_RANK_DEFENSE;
         cmd->volume = -1;
-        cmd->pokeCount = 1;
+        cmd->targetCount = 1;
         cmd->pokeId = pokeId;
         cmd->showMessage = 1;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_RANK_CHANGE, pokeId);
         cmd->rankKind = HAND_WAZA_RANK_SP_DEFENSE;
         cmd->volume = -1;
-        cmd->pokeCount = 1;
+        cmd->targetCount = 1;
         cmd->pokeId = pokeId;
         cmd->showMessage = 1;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_RANK_CHANGE, pokeId);
         cmd->rankKind = HAND_WAZA_RANK_ATTACK;
         cmd->volume = 2;
-        cmd->pokeCount = 1;
+        cmd->targetCount = 1;
         cmd->pokeId = pokeId;
         cmd->showMessage = 1;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_RANK_CHANGE, pokeId);
         cmd->rankKind = HAND_WAZA_RANK_SP_ATTACK;
         cmd->volume = 2;
-        cmd->pokeCount = 1;
+        cmd->targetCount = 1;
         cmd->pokeId = pokeId;
         cmd->showMessage = 1;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_RANK_CHANGE, pokeId);
         cmd->rankKind = HAND_WAZA_RANK_SPEED;
         cmd->volume = 2;
-        cmd->pokeCount = 1;
+        cmd->targetCount = 1;
         cmd->pokeId = pokeId;
         cmd->showMessage = 1;
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -9992,7 +9990,7 @@ void HAND_WAZA_ReflectTypeCopyTargetType(struct BtlEventFactor *factor, struct B
 {
     u8 targetId;
     struct BtlPokeParam *target;
-    struct HandWazaCmdChangeType *typeCmd;
+    HandExChangeType *typeCmd;
     struct HandExMessage *messageCmd;
 
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
@@ -10113,15 +10111,15 @@ int *HAND_WAZA_AddWonderRoom(int *handlerCount)
 void HAND_WAZA_WonderRoomToggle(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
     int fieldEffectId;
-    struct HandWazaCmdAddFieldEffect *addCmd;
-    struct HandWazaCmdRemoveFieldEffect *removeCmd;
+    BtlFieldEffectAddCmd *addCmd;
+    BtlFieldEffectRemoveCmd *removeCmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         fieldEffectId = HAND_WAZA_FIELD_WONDER_ROOM;
         if (BTL_FIELD_GetStaticSlotObject(fieldEffectId) == 0) {
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = fieldEffectId;
-            addCmd->cont = BTLV_CORE_MakeSlotKind2Index(HAND_WAZA_ROOM_TURNS);
+            addCmd->duration = BTLV_CORE_MakeSlotKind2Index(HAND_WAZA_ROOM_TURNS);
             BTL_SERVER_FLOW_InitMsgRecord(&addCmd->message, HAND_WAZA_STR_STANDARD, 0xb2);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, addCmd);
         } else {
@@ -10145,15 +10143,15 @@ int *HAND_WAZA_AddMagicRoom(int *handlerCount)
 void HAND_WAZA_MagicRoomToggle(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
     int fieldEffectId;
-    struct HandWazaCmdAddFieldEffect *addCmd;
-    struct HandWazaCmdRemoveFieldEffect *removeCmd;
+    BtlFieldEffectAddCmd *addCmd;
+    BtlFieldEffectRemoveCmd *removeCmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         fieldEffectId = HAND_WAZA_FIELD_MAGIC_ROOM;
         if (BTL_FIELD_GetStaticSlotObject(fieldEffectId) == 0) {
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = fieldEffectId;
-            addCmd->cont = BTLV_CORE_MakeSlotKind2Index(HAND_WAZA_ROOM_TURNS);
+            addCmd->duration = BTLV_CORE_MakeSlotKind2Index(HAND_WAZA_ROOM_TURNS);
             BTL_SERVER_FLOW_InitMsgRecord(&addCmd->message, HAND_WAZA_STR_STANDARD, 0xb4);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, addCmd);
         } else {
@@ -10184,7 +10182,7 @@ void HAND_WAZA_FlameBurstDamageAdjacent(struct BtlEventFactor *factor, struct Bt
     u8 adjacentCount;
     int targetPos;
     struct BtlPokeParam *adjacent;
-    struct HandWazaCmdDamage *cmd;
+    HandExDamage *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
@@ -10197,7 +10195,7 @@ void HAND_WAZA_FlameBurstDamageAdjacent(struct BtlEventFactor *factor, struct Bt
                     cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_DAMAGE, pokeId);
                     cmd->pokeId = adjacentIds[i];
                     cmd->amount = BTL_CALC_DivideMaxHpMin1(adjacent, 16);
-                    cmd->noMoveHitEffect = 1;
+                    cmd->unblockable = 1;
                     BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HAND_WAZA_STR_SET, 0x451);
                     BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, cmd->pokeId);
                     BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -10256,7 +10254,7 @@ void HAND_WAZA_BestowGiveItem(struct BtlEventFactor *factor, struct BtlServerFlo
     u8 targetId;
     struct BtlPokeParam *target;
     u16 itemId;
-    struct HandWazaCmdSetItem *cmd;
+    HandExSetItem *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         targetId = BTL_EVENT_GetVar(HAND_WAZA_EVAR_TARGET_ID);
@@ -10362,7 +10360,7 @@ void HAND_WAZA_RoundRegisterUse(struct BtlEventFactor *factor, struct BtlServerF
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
         turnRecord = (int)BTL_SERVER_FLOW_GetTurnRecord(flow);
         factorKey = BTL_EVENT_GetFactorKey(factor);
-        if (func_0689D098((struct BtlTurnRecord *)turnRecord, factorKey, BTL_SERVER_FLOW_GetTurnCount(flow)) == 1) {
+        if (BTL_WAZAREC_GetUsedWazaCount((struct BtlTurnRecord *)turnRecord, factorKey, BTL_SERVER_FLOW_GetTurnCount(flow)) == 1) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ROUND_USED, pokeId);
             cmd->factorKey = factorKey;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -10380,7 +10378,7 @@ void HAND_WAZA_RoundDoublePower(BTL_EVENT_SIGNATURE)
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         turnRecord = BTL_SERVER_FLOW_GetTurnRecord(flow);
         moveId = BTL_EVENT_GetFactorKey(factor);
-        if (func_0689D098(turnRecord, moveId, BTL_SERVER_FLOW_GetTurnCount(flow)) > 1)
+        if (BTL_WAZAREC_GetUsedWazaCount(turnRecord, moveId, BTL_SERVER_FLOW_GetTurnCount(flow)) > 1)
             BTLV_CORE_EventScaleDamage(2);
     }
 }
@@ -10749,7 +10747,7 @@ void HAND_WAZA_FusionDoublePower(BTL_EVENT_SIGNATURE)
             otherMove = 0;
             break;
         }
-        if (otherMove != 0 && otherMove == func_0689D0C8(turnRecord, BTL_SERVER_FLOW_GetTurnCount(flow))) {
+        if (otherMove != 0 && otherMove == BTL_WAZAREC_GetEffectiveWaza(turnRecord, BTL_SERVER_FLOW_GetTurnCount(flow))) {
             BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, BTL_RATIO_DOUBLE);
             BTL_SERVER_FLOW_SetCurTurnStateFlag(flow, 1);
         }

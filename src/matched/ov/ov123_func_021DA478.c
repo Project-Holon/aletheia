@@ -14,7 +14,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   func_021B9800 0x021B9800 thumb ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   func_021DA45C 0x021DA45C thumb ov123
  *   func_021D9958 0x021D9958 thumb ov123
@@ -42,7 +42,7 @@ extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int GFL_NET_GetRunState(void);
-extern u8 *func_021B9800(int,int,int);
+extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern void func_021DA45C(char *);
 extern char *func_021D9958(int);
@@ -63,7 +63,7 @@ int func_021DA478(void *a,int unused,char *q)
     ((struct Obj02478 *)p)->f20=((struct Obj03275 *)q)->f0;
     ((struct Obj02478 *)p)->f28=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03275 *)q)->f0));
     if(GFL_NET_GetRunState()) {
-        ((struct Obj02478 *)p)->f8=func_021B9800(((struct Obj03275 *)q)->f8,((struct Obj02478 *)p)->f28,((struct Obj03275 *)q)->f4);
+        ((struct Obj02478 *)p)->f8=NHTTP_RAP_Create(((struct Obj03275 *)q)->f8,((struct Obj02478 *)p)->f28,((struct Obj03275 *)q)->f4);
         DWC_RAP_SetErrorCallback((int)func_021DA45C,(int)p);
     }
     ((struct Obj02478 *)p)->fC=func_021D9958(((struct Obj02478 *)p)->f0);

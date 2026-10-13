@@ -1,5 +1,5 @@
 /*
- * function: func_02175698
+ * function: DWCi_ConnectToGameServerAsync_InterChange
  * address:  0x02175698
  * packet:   pkt_ov009_02175698
  * region:   ov009
@@ -14,11 +14,11 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_0219EC74  0x0219EC74  arm  ov009
- *   func_02173D9C  0x02173D9C  arm  ov009
- *   func_02175F4C  0x02175F4C  arm  ov009
+ *   DWCi_HandleSBError  0x02173D9C  arm  ov009
+ *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   func_021719D0  0x021719D0  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
- *   func_02174058  0x02174058  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
+ *   DWCi_SBCallback  0x02174058  arm  ov009
  */
 
 typedef struct MatchCnt {
@@ -35,13 +35,13 @@ typedef struct MatchCnt {
 
 extern int func_02175F3C(void);
 extern int func_0219EC74(int a, int b, int c, int d, int e, int f, int g, void (*cb)(void), int h);
-extern int func_02173D9C(int err);
-extern void func_02175F4C(int status);
+extern int DWCi_HandleSBError(int err);
+extern void DWCi_SetMatchStatus(int status);
 extern int func_021719D0(int a, int b);
-extern int func_021719A4(int error);
-extern void func_02174058(void *sb, int reason, void *server);
+extern int DWCi_HandleMatchCommandError(int error);
+extern void DWCi_SBCallback(void *sb, int reason, void *server);
 
-void func_02175698(void)
+void DWCi_ConnectToGameServerAsync_InterChange(void)
 {
     int result;
 
@@ -49,13 +49,13 @@ void func_02175698(void)
     if (((MatchCnt *)func_02175F3C())->f5E0 == 0) {
         ((MatchCnt *)func_02175F3C())->f5E0 = func_0219EC74(((MatchCnt *)func_02175F3C())->f684, ((MatchCnt *)func_02175F3C())->f684,
                                               ((MatchCnt *)func_02175F3C())->f688, 0, 20, 1, 0,
-                                              (void (*)(void))func_02174058, 0);
+                                              (void (*)(void))DWCi_SBCallback, 0);
     }
     if (((MatchCnt *)func_02175F3C())->f5E0 == 0) {
-        if (func_02173D9C(5))
+        if (DWCi_HandleSBError(5))
             return;
     }
-    func_02175F4C(3);
+    DWCi_SetMatchStatus(3);
     result = func_021719D0(((MatchCnt *)func_02175F3C())->f554, 0);
-    func_021719A4(result);
+    DWCi_HandleMatchCommandError(result);
 }

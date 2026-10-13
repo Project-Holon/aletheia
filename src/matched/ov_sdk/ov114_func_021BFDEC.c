@@ -1,5 +1,5 @@
 /*
- * function: func_021BFDEC
+ * function: ghiEncryptDataToBuffer
  * address:  0x021BFDEC
  * packet:   pkt_ov114_021BFDEC
  * region:   ov114
@@ -12,11 +12,11 @@
  * sdk:      ghiEncryptDataToBuffer (ghttpbuffer.o)
  *
  * symbols:
- *   func_021BFCEC                    0x021bfcec arm  ov114
+ *   ghiAppendDataToBuffer                    0x021bfcec arm  ov114
  *   func_0209477C                    0x0209477c arm
- *   func_021BFB90                    0x021bfb90 arm  ov114
+ *   ghiResizeBuffer                    0x021bfb90 arm  ov114
  *   func_0217D254                    0x0217d254 arm  ov009
- *   g_021CE54C                       0x021ce54c data ov114
+ *   sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode                       0x021ce54c data ov114
  */
 
 struct GHIConnection;
@@ -52,13 +52,13 @@ typedef struct GHIBuffer {
 } GHIBuffer;
 
 typedef unsigned char  u8;
-extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
 extern int func_0209477C(const u8 *s);
-extern int func_021BFB90(GHIBuffer *buffer, int sizeIncrement);
+extern int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern char g_021CE54C[];
+extern char sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode[];
 
-int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
+int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
 {
     int result;
     int bufSpace = 0;
@@ -75,7 +75,7 @@ int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
 
     if (buffer->connection->encryptor.engine == 0 ||
         buffer->connection->encryptor.sessionEstablished == 0)
-        return func_021BFCEC(buffer, (char *)data, dataLen);
+        return ghiAppendDataToBuffer(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
         dataLen = func_0209477C((const u8 *)data);
@@ -91,14 +91,14 @@ int func_021BFDEC(GHIBuffer *buffer, const char *data, int dataLen)
             buffer->connection, &buffer->connection->encryptor,
             data + pos, dataLen, buffer->data + buffer->len, &bufSpace);
         if (result == 2) {
-            if (func_021BFB90(buffer, buffer->sizeIncrement) == 0)
+            if (ghiResizeBuffer(buffer, buffer->sizeIncrement) == 0)
                 return 0;
             bufSpace = buffer->size - buffer->len;
         } else if (result == 1) {
             pos += fragmentLen;
             buffer->len = buffer->size - bufSpace;
         } else {
-            func_0217D254(8, (char *)4, 2, g_021CE54C, result);
+            func_0217D254(8, (char *)4, 2, sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode, result);
             return 0;
         }
     } while (pos < dataLen);

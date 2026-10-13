@@ -1,5 +1,5 @@
 /*
- * function: func_02176860
+ * function: DWCi_GetTopologyType
  * address:  0x02176860
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_02176860(void)
+int DWCi_GetTopologyType(void)
 {
     return *(int *)(func_02175F3C() + 0x7b0);
 }

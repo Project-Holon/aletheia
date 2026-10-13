@@ -12,14 +12,14 @@
  *   void *PMSI_PARAM_GetSaveWork(char *p){return *(void **)(p+8);}
  * symbols:
  *   PMSI_PARAM_GetSaveWork 0x02024148 thumb
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
 extern void *PMSI_PARAM_GetSaveWork(char *p);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
 {
     void *save;
@@ -28,7 +28,7 @@ u32 func_021B9654(u8 *p,const u16 *ids,u32 count,u16 *out)
     save=PMSI_PARAM_GetSaveWork(*(void **)p);
     n=0;
     for(i=0;i<count;i++){
-        if(func_0200D064(save,ids[i])){
+        if(ZUKAN_SAVE_IsSeen(save,ids[i])){
             u32 id=ids[i];
             p[0x1D6E + (id>>3)] |= (u8)(1<<(id&7));
             *out++=id;

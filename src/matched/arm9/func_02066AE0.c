@@ -33,7 +33,7 @@
  *   - the entry test is `count > i` against the ZERO counter, not
  *     `count != 0`.  The image's `bls` at 0x02066AF0 is the loop's own
  *     unsigned pre-test hoisted; `!= 0` gives `beq` and is one byte wrong.
- *     This is the same lever src/matched/func_02067998.c needed.
+ *     This is the same lever src/matched/NNSi_G2dDrawCellToSurface3D.c needed.
  *   - the claim STORE is through the index, `sCellTransferStateManager.cells[i].used = 1`,
  *     while the SCAN is through the cursor `c`.  That is what makes the
  *     image spend `mov r1, #0x30` / `mla r1, r0, r1, ip` on a cell address

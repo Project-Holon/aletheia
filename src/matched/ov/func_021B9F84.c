@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F84
+ * function: WIFICLUBACTOR_HideCursor
  * address:  0x021B9F84
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -31,7 +31,7 @@ typedef struct {
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_021B9F84(S *s)
+void WIFICLUBACTOR_HideCursor(S *s)
 {
     CLACT_SetActorDrawEnable(s->f28, 0);
 }

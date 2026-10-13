@@ -1,5 +1,5 @@
 /*
- * function: func_021E26B8
+ * function: wsiToNetworkOrder
  * address:  0x021E26B8
  * packet:   pkt_021E26B8
  * region:   ov175
@@ -12,11 +12,11 @@
  * Symbols:
  *   (none)
  *
- * ARM no-op: func_021E26BC calls it on each of four fields before
+ * ARM no-op: wsLoginCertIsValid calls it on each of four fields before
  * overwriting the result with the same value, i.e. a deliberately empty
  * hook/validator left in the shipped binary.
  */
 
-void func_021E26B8(void)
+void wsiToNetworkOrder(void)
 {
 }

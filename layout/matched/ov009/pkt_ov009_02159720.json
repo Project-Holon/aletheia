@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02159720",
+   "name": "dt_syn",
    "address": "0x02159720",
    "kind": "sdk",
    "region": "ov009",

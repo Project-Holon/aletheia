@@ -12,59 +12,59 @@
  * sdk:      cbUsb (libdwcutil.TWL.HYB.a scenesetusbready)
  *
  * symbols:
- *   func_021D0014  0x021D0014  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021D1208  0x021D1208  arm  ov016
- *   func_021BCB9C  0x021BCB9C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021D0DC8  0x021D0DC8  arm  ov016
+ *   DWCi_SNDlStop  0x021D0014  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_WINlInitEx  0x021D1208  arm  ov016
+ *   DWCi_BTNlDisable  0x021BCB9C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   DWCi_USBAPlSetCallback  0x021D0DC8  arm  ov016
  *   func_021CE564  0x021CE564  arm  ov016
  *   func_021CE2D4  0x021CE2D4  arm  ov016
  *   func_021CE5B0  0x021CE5B0  arm  ov016
- *   g_021DE62C  0x021DE62C  data
+ *   gSceneSetUsbReady1Work  0x021DE62C  data
  */
 
-extern void func_021D0014(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
-extern void func_021BCB9C(void);
-extern void func_021C0E40(unsigned int v);
-extern void func_021D0DC8(unsigned int v);
+extern void DWCi_SNDlStop(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
+extern void DWCi_BTNlDisable(void);
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_USBAPlSetCallback(unsigned int v);
 extern void func_021CE564(void);
 extern void func_021CE2D4(void);
 extern void func_021CE5B0(void);
-extern unsigned char g_021DE62C;
+extern unsigned char gSceneSetUsbReady1Work;
 
 void func_021CE45C(int state)
 {
-    if (g_021DE62C != 0)
+    if (gSceneSetUsbReady1Work != 0)
         return;
     switch (state) {
     case 0:
-        g_021DE62C = 3;
-        func_021D0014();
-        func_021CFFAC(0x12);
-        func_021D1208(0x10, 1, 1, -1, 0);
-        func_021BCB9C();
-        func_021C0E40((unsigned int)func_021CE564);
+        gSceneSetUsbReady1Work = 3;
+        DWCi_SNDlStop();
+        DWCi_SNDlPlay(0x12);
+        DWCi_WINlInitEx(0x10, 1, 1, -1, 0);
+        DWCi_BTNlDisable();
+        DWCi_ChangeScene((unsigned int)func_021CE564);
         break;
     case 1:
-        g_021DE62C = 1;
-        func_021D0014();
-        func_021C0E40((unsigned int)func_021CE2D4);
+        gSceneSetUsbReady1Work = 1;
+        DWCi_SNDlStop();
+        DWCi_ChangeScene((unsigned int)func_021CE2D4);
         break;
     case 2:
-        func_021D0014();
-        func_021D0DC8(0);
-        func_021D1208(0x11, 0, 1, -1, 0);
-        func_021BCB9C();
-        func_021C0E40((unsigned int)func_021CE5B0);
+        DWCi_SNDlStop();
+        DWCi_USBAPlSetCallback(0);
+        DWCi_WINlInitEx(0x11, 0, 1, -1, 0);
+        DWCi_BTNlDisable();
+        DWCi_ChangeScene((unsigned int)func_021CE5B0);
         break;
     case 3:
-        g_021DE62C = 2;
-        func_021D0014();
-        func_021CFFAC(9);
-        func_021C0E40((unsigned int)func_021CE2D4);
+        gSceneSetUsbReady1Work = 2;
+        DWCi_SNDlStop();
+        DWCi_SNDlPlay(9);
+        DWCi_ChangeScene((unsigned int)func_021CE2D4);
         break;
     }
 }

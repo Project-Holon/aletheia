@@ -1,5 +1,5 @@
 /*
- * function: func_021BF724
+ * function: PMS_INPUT_GetCursorPos
  * address:  0x021BF724
  * packet:   pkt_ov110_021BF724
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u16 func_021BF724(u8 *p) { return ((struct Obj22390 *)p)->f4C; }
+u16 PMS_INPUT_GetCursorPos(u8 *p) { return ((struct Obj22390 *)p)->f4C; }

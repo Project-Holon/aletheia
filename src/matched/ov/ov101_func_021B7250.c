@@ -1,5 +1,5 @@
 /*
- * function: func_021B7250
+ * function: IRC_APPBAR_GetResult
  * address: 0x021B7250
  * packet: pkt_ov101_021B7250
  * region: ov101
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-int func_021B7250(int *p) { return p[17]; }
+int IRC_APPBAR_GetResult(int *p) { return p[17]; }

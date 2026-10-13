@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C98
+ * function: ghiEncryptorSslCleanupFunc
  * address:  0x021C1C98
  * packet:   pkt_ov114_021C1C98
  * region:   ov114
@@ -11,22 +11,22 @@
  *
  * symbols:
  *   d_021CE7B0    0x021CE7B0  data  a4
- *   d_021CE713    0x021CE713  data  a1
- *   d_021CED3C    0x021CED3C  data  a4
+ *   sFuncNameGhiEncryptorSslCleanupFunc    0x021CE713  data  a1
+ *   sGhttpGamespySslTwlEngineCleanup    0x021CED3C  data  a4
  *   func_0217EAE0 0x0217EAE0  arm
  *   func_0217D254 0x0217D254  arm
  */
 
 extern char d_021CE7B0[];
-extern char d_021CE713[];
-extern char d_021CED3C[];
+extern char sFuncNameGhiEncryptorSslCleanupFunc[];
+extern char sGhttpGamespySslTwlEngineCleanup[];
 
 extern void func_0217EAE0(void *);
 extern void func_0217D254(int, int, int, void *, ...);
 
-int func_021C1C98(int unused, unsigned int *p)
+int ghiEncryptorSslCleanupFunc(int unused, unsigned int *p)
 {
-    func_0217D254(8, 4, 0xf, d_021CED3C, d_021CE7B0, d_021CE713, 0x4d5);
+    func_0217D254(8, 4, 0xf, sGhttpGamespySslTwlEngineCleanup, d_021CE7B0, sFuncNameGhiEncryptorSslCleanupFunc, 0x4d5);
     if (p != 0) {
         unsigned int *q = (unsigned int *)p[0];
         if (q != 0) {

@@ -17,7 +17,7 @@
  * symbols:
  *   G3D_SYSTEM_GetResourceTex        0x02047250  arm
  *   STD_GetStringLength  0x0208CC78  arm
- *   func_0206E62C        0x0206E62C  arm
+ *   NNS_G3dGetResDataByName        0x0206E62C  arm
  *   GF_FONT_Create        0x0201D7EC  thumb
  *   GF_FONT_Delete        0x0201D83C  thumb
  *   WAZA_OSHIE_UploadTextTexture        0x0216FD54  thumb  ov010
@@ -68,7 +68,7 @@ typedef struct TexReq {
 
 extern Res *G3D_SYSTEM_GetResourceTex(void *p);
 extern int STD_GetStringLength(const char *s);
-extern void *func_0206E62C(const void *dict, const char *name);
+extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -104,7 +104,7 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
         tn[i] = texName[i];
     for (; i < 16; i++)
         tn[i] = 0;
-    e = func_0206E62C((u8 *)res + ofs, tn);
+    e = NNS_G3dGetResDataByName((u8 *)res + ofs, tn);
     if (e == 0)
         return 0;
     v = ((struct Obj09341 *)e)->f0;
@@ -128,7 +128,7 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
         pn[i] = plttName[i];
     for (; i < 16; i++)
         pn[i] = 0;
-    e = func_0206E62C((u8 *)res + ofs, pn);
+    e = NNS_G3dGetResDataByName((u8 *)res + ofs, pn);
     if (e == 0)
         return 0;
     if (e[1] == 1)

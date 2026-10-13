@@ -142,10 +142,10 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_020862F0 0x020862F0 arm
- *   func_0207E3D0 0x0207E3D0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
- *   func_0207E51C 0x0207E51C arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   GAME_BEACON_ACCESSOR_GetPmVersion  0x02165C48  thumb  ov010
@@ -483,10 +483,10 @@ extern u32 KEY_GetTrg(void);
 extern unsigned func_02012204(const struct Ctx *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020862F0(void *,unsigned);
-extern void func_0207E3D0(void *,unsigned,unsigned);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned);
+extern void GX_LoadBGPltt(void *,unsigned,unsigned);
 extern void func_0207E468(void *,unsigned,unsigned);
-extern void func_0207E51C(void *,unsigned,unsigned);
+extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
 extern void func_0207E5D0(void *,unsigned,unsigned);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
@@ -1339,11 +1339,11 @@ void func_021BCD00(int a){GFL_USE_PlaySeDefaultVolume(a);}
 void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b)
 {
     unsigned x=a*2,y=b*2;
-    func_020862F0(p,y);
+    DWCi_ScreenDC_FlushRange(p,y);
     switch(mode) {
-    case 0: func_0207E3D0(p,x,y); break;
+    case 0: GX_LoadBGPltt(p,x,y); break;
     case 1: func_0207E468(p,x,y); break;
-    case 2: func_0207E51C(p,x,y); break;
+    case 2: GX_LoadOBJPltt(p,x,y); break;
     case 3: func_0207E5D0(p,x,y); break;
     }
 }

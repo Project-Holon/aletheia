@@ -14,7 +14,7 @@
  *   func_021C1144 0x021C1144 thumb ov093
  *   func_021C1154 0x021C1154 thumb ov093
  *   func_021C1164 0x021C1164 thumb ov093
- *   func_021C1174 0x021C1174 thumb ov093
+ *   PMS_SELECT_GRAPHIC_FlushRowWindow 0x021C1174 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
@@ -56,7 +56,7 @@ struct Unk021D62A8 { u8 pad[0x1c]; struct Slot e[6]; };
 extern u32 func_021C1144(void *, u32);
 extern u8 func_021C1154(u8 *, u8);
 extern u8 func_021C1164(u8 *, u8);
-extern u8 func_021C1174(u8 *, u8);
+extern u8 PMS_SELECT_GRAPHIC_FlushRowWindow(u8 *, u8);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *);
@@ -119,7 +119,7 @@ u32 BTL_SERVER_FLOW_ProcMultiHitDamage(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
     }
     if (tag != 6) {
         BTL_SERVER_CMD_Push(((struct Obj02134 *)p)->fC, 0x4d,
-            func_021C1174(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)), 0x291);
+            PMS_SELECT_GRAPHIC_FlushRowWindow(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)), 0x291);
     }
     p[0x789] = 0x1f;
     return sum;

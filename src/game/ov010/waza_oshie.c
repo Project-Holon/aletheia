@@ -22,7 +22,7 @@
  *   POKE_PERSONAL_LoadDataDirect  0x0201ADD0  thumb
  *   func_02047250        0x02047250  arm
  *   STD_GetStringLength  0x0208CC78  arm
- *   func_0206E62C        0x0206E62C  arm
+ *   NNS_G3dGetResDataByName        0x0206E62C  arm
  *   GF_FONT_Create        0x0201D7EC  thumb
  *   GF_FONT_Delete        0x0201D83C  thumb
  *   d_021726A0           0x021726A0  data
@@ -35,7 +35,7 @@
  *   BMP_GetTileBytes  0x02043994  arm
  *   BMP_Create  0x02043678  arm
  *   func_0207F7A0  0x0207F7A0  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207F7FC  0x0207F7FC  arm
  *   func_0207F9B4  0x0207F9B4  arm
  *   BMP_Delete  0x020437AC  arm
@@ -122,7 +122,7 @@ extern void MI_CpuFill8(void *p, int v, int n);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
 extern TexResource *func_02047250(void *p);
 extern int STD_GetStringLength(const char *s);
-extern void *func_0206E62C(const void *dict, const char *name);
+extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -140,7 +140,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void func_0207F7A0(void);
-extern void func_020862F0(void *p, int n);
+extern void DWCi_ScreenDC_FlushRange(void *p, int n);
 extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
 extern void BMP_Delete(struct Bmp *p);
@@ -329,7 +329,7 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
         tn[i] = texName[i];
     for (; i < 16; i++)
         tn[i] = 0;
-    e = func_0206E62C((u8 *)res + ofs, tn);
+    e = NNS_G3dGetResDataByName((u8 *)res + ofs, tn);
     if (e == 0)
         return 0;
     v = *(u32 *)e;
@@ -353,7 +353,7 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
         pn[i] = plttName[i];
     for (; i < 16; i++)
         pn[i] = 0;
-    e = func_0206E62C((u8 *)res + ofs, pn);
+    e = NNS_G3dGetResDataByName((u8 *)res + ofs, pn);
     if (e == 0)
         return 0;
     if (e[1] == 1)
@@ -553,7 +553,7 @@ void WAZA_OSHIE_UploadTextTexture(TexReq *req, u32 text, u16 xPos, u16 yPos, u16
     off = (u16)req->texVramKey << 3;
     n = ((int)(wi * h) / 8) << 5;
     func_0207F7A0();
-    func_020862F0(vram, n);
+    DWCi_ScreenDC_FlushRange(vram, n);
     func_0207F7FC(vram, base + off, n);
     func_0207F9B4();
     BMP_Delete(buf);
@@ -569,7 +569,7 @@ void WAZA_OSHIE_UploadPalette(TexReq *req, void *dest)
     plttBase = req->plttOfs;
     plttKeyOfs = (u16)req->plttVramKey * 8;
     func_0207FA0C();
-    func_020862F0(dest, 32);
+    DWCi_ScreenDC_FlushRange(dest, 32);
     func_0207FA40(dest, plttBase + plttKeyOfs, 32);
     func_0207FADC();
 }

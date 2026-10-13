@@ -12,11 +12,11 @@
  * sdk:      formTask (libdwcutil.TWL.HYB.a(task.o))
  *
  * symbols:
- *   func_021D54C4  0x021D54C4  arm  ov016
+ *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
  *   OS_DisableIrqMask  0x02084998  arm
- *   func_021D6DC4  0x021D6DC4  arm  ov016
+ *   DWCi_LSTlInsert  0x021D6DC4  arm  ov016
  *   OS_EnableIrqMask  0x02084968  arm
- *   g_021DE6E4  0x021DE6E4  data
+ *   gMemTask  0x021DE6E4  data
  */
 
 typedef struct TCB {
@@ -41,11 +41,11 @@ typedef struct {
 	char pad2[7];
 } TK;
 
-extern void *func_021D54C4(void *queue);
+extern void *DWCi_QUElPopBack(void *queue);
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern void func_021D6DC4(void *pos, void *ob);
+extern void DWCi_LSTlInsert(void *pos, void *ob);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
-extern TK *g_021DE6E4;
+extern TK *gMemTask;
 
 TCB *func_021D7694(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc)
 {
@@ -53,15 +53,15 @@ TCB *func_021D7694(int kind, void (*func)(void *, void *), void *work, unsigned 
 	TCB *t;
 	unsigned long irq;
 
-	tcb = (TCB *)func_021D54C4(g_021DE6E4[kind].que);
+	tcb = (TCB *)DWCi_QUElPopBack(gMemTask[kind].que);
 	tcb->func = func;
 	tcb->work = work;
 	tcb->prio = prio;
 	tcb->alloc = alloc;
 	irq = OS_DisableIrqMask(1);
-	for (t = g_021DE6E4[kind].first;; t = t->next) {
+	for (t = gMemTask[kind].first;; t = t->next) {
 		if (prio < t->prio) {
-			func_021D6DC4(t, tcb);
+			DWCi_LSTlInsert(t, tcb);
 			break;
 		}
 	}

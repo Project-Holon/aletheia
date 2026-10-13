@@ -17,7 +17,7 @@
  *   func_02034714  0x02034714  arm
  *   flash_access_File   0x020A78A0  data
  *   flash_access_LockIdAssert   0x020A78B0  data
- *   func_02084EB8  0x02084EB8  arm
+ *   OS_GetLockID  0x02084EB8  arm
  *   func_02075E9C  0x02075E9C  arm
  *   func_02076B2C  0x02076B2C  arm
  *   func_02075EAC  0x02075EAC  arm
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 typedef void (*FlashErrorFunc)(u32 no_response);
 
 extern void func_02034714(const char *file, u32 line, const char *expr);
-extern int  func_02084EB8(u32 lock_arg);
+extern int  OS_GetLockID(u32 lock_arg);
 extern void func_02075E9C(u16 lock_id);
 extern int  func_02076B2C(int type);
 extern void func_02075EAC(u16 lock_id);
@@ -75,7 +75,7 @@ extern u32 _AccessBusy;
  */
 int FLASH_ACCESS_Identify(u32 unused_arg)
 {
-    int lock_id = func_02084EB8(unused_arg);
+    int lock_id = OS_GetLockID(unused_arg);
     u32 type;
 
     if (lock_id == -3) {
@@ -123,7 +123,7 @@ u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
  */
 int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
 {
-    int lock_id = func_02084EB8(flash_addr);
+    int lock_id = OS_GetLockID(flash_addr);
     int result;
 
     if (lock_id == -3) {
@@ -162,7 +162,7 @@ void FLASH_ACCESS_OnWriteDone(void)
  */
 u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
 {
-    int lock_id = func_02084EB8(flash_addr);
+    int lock_id = OS_GetLockID(flash_addr);
     u32 probe;
 
     if (lock_id == -3) {

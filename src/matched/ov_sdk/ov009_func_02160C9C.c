@@ -12,7 +12,7 @@
  * sdk:      rcv_server_hello (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020923F0  0x020923F0  arm
  *   func_0215FFD0  0x0215FFD0  arm  ov009
  */
@@ -28,7 +28,7 @@ typedef struct CPSSslConnection {
     unsigned char state;                /* +0x455 */
 } CPSSslConnection;
 
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void func_0215FFD0(CPSSslConnection *con);
@@ -38,7 +38,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
     int session_id_len;
     unsigned char cached;
 
-    func_02082D44(s + 2, con->random, 0x20);
+    MI_CpuCopy8(s + 2, con->random, 0x20);
     cached = con->cache;
     session_id_len = s[0x22];
     s += 0x23;
@@ -49,7 +49,7 @@ static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
         if (cached != 0)
             func_0215FFD0(con);
         if (session_id_len != 0) {
-            func_02082D44(s, con->session_id, 0x20);
+            MI_CpuCopy8(s, con->session_id, 0x20);
             con->cache = 1;
         } else {
             con->cache = 0;

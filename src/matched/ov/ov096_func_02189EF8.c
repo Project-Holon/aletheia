@@ -1,5 +1,5 @@
 /*
- * function: func_02189EF8
+ * function: TR_AI_CmdJumpIfSubstitute
  * address: 0x02189EF8
  * packet: pkt_ov096_02189EF8
  * region: ov096
@@ -11,8 +11,8 @@
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   VM_Jump 0x020113B0 thumb
- *   func_0218A160 0x0218A160 thumb ov096
- *   func_0218A2FC 0x0218A2FC thumb ov096
+ *   TR_AI_GetPosition 0x0218A160 thumb ov096
+ *   TR_AI_GetPoke 0x0218A2FC thumb ov096
  *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
  */
 #include "../include/Obj00005.h"
@@ -24,10 +24,10 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
-int func_02189EF8(struct Cursor *a, u8 *b)
+int TR_AI_CmdJumpIfSubstitute(struct Cursor *a, u8 *b)
 {
-    int t; u32 n; u8 s; t = VM_GetU32(a); n = VM_GetU32(a); s = func_0218A160(b,t); if (BTL_POKEPARAM_HasSubstitute(func_0218A2FC(b,s))) VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
+    int t; u32 n; u8 s; t = VM_GetU32(a); n = VM_GetU32(a); s = TR_AI_GetPosition(b,t); if (BTL_POKEPARAM_HasSubstitute(TR_AI_GetPoke(b,s))) VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
 }

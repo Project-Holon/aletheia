@@ -1,5 +1,5 @@
 /*
- * function: func_021B8D8C
+ * function: IRC_RANKING_DataGetCount
  * address:  0x021B8D8C
  * packet:   pkt_ov106_021B8D8C
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B8D8C(u8 *p) { return ((struct Obj22265 *)p)->f0; }
+u32 IRC_RANKING_DataGetCount(u8 *p) { return ((struct Obj22265 *)p)->f0; }

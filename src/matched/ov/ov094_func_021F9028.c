@@ -14,17 +14,17 @@
  * Frees the buffer at 0x10 of the current task's work, if any.
  *
  * symbols:
- *   TCBL_IsDeletePending 0x02030EE8 arm
+ *   TCBL_GetTaskUserData 0x02030EE8 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 
 void func_021F9028(void *h)
 {
-    void *p = *(void **)(TCBL_IsDeletePending(h) + 0x10);
+    void *p = *(void **)(TCBL_GetTaskUserData(h) + 0x10);
     if (p != 0)
         func_020307B0(p);
 }

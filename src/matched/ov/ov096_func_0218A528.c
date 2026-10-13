@@ -1,5 +1,5 @@
 /*
- * function: func_0218A528
+ * function: TR_AI_ReleaseScript
  * address:  0x0218A528
  * packet:   pkt_0218A528
  * region:   ov096
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   D_0218A7C0     0x0218A7C0  data
+ *   gTrAiScriptCache     0x0218A7C0  data
  */
 
 #include "../include/G_Slot.h"
@@ -24,21 +24,21 @@ typedef struct {
     void *obj[4];
 } Slot;
 
-extern struct Slot *D_0218A7C0;
+extern struct Slot *gTrAiScriptCache;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0218A528(u8 *a)
+void TR_AI_ReleaseScript(u8 *a)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (D_0218A7C0->id[i] == a[0x45]) {
-            D_0218A7C0->ref[i]--;
-            if (D_0218A7C0->ref[i] == 0) {
-                D_0218A7C0->id[i] = 0xff;
-                func_020307B0(D_0218A7C0->obj[i]);
-                D_0218A7C0->obj[i] = 0;
+        if (gTrAiScriptCache->id[i] == a[0x45]) {
+            gTrAiScriptCache->ref[i]--;
+            if (gTrAiScriptCache->ref[i] == 0) {
+                gTrAiScriptCache->id[i] = 0xff;
+                func_020307B0(gTrAiScriptCache->obj[i]);
+                gTrAiScriptCache->obj[i] = 0;
             }
             return;
         }

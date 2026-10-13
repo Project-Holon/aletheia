@@ -1,5 +1,5 @@
 /*
- * function: func_021D4E1C
+ * function: DWCi_CELLlForm
  * address:  0x021D4E1C
  * packet:   pkt_ov016_021D4E1C
  * region:   ov016
@@ -12,12 +12,12 @@
  * sdk:      DWCi_CELLlForm (libdwcutil.TWL.HYB.a cell.o)
  *
  * symbols:
- *   func_021D54C4  0x021D54C4  arm  ov016
- *   func_02084998  0x02084998  arm
- *   func_021D6DC4  0x021D6DC4  arm  ov016
- *   func_02088234  0x02088234  arm
- *   func_02084968  0x02084968  arm
- *   g_021DE670  0x021DE670  data
+ *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
+ *   OS_DisableIrqMask  0x02084998  arm
+ *   DWCi_LSTlInsert  0x021D6DC4  arm  ov016
+ *   OS_Terminate  0x02088234  arm
+ *   OS_EnableIrqMask  0x02084968  arm
+ *   gCellWork  0x021DE670  data
  */
 
 typedef struct { unsigned long attr01; unsigned long attr23; } GXOamAttr;
@@ -36,14 +36,14 @@ typedef struct {
 } CellPrm;
 typedef struct { CellPrm c[2]; } MemCellT;
 
-extern void *func_021D54C4(void *queue);
-extern unsigned long func_02084998(unsigned long intr);
-extern void func_021D6DC4(void *pos, void *ob);
-extern void func_02088234(void);
-extern unsigned long func_02084968(unsigned long intr);
-extern MemCellT *g_021DE670;
+extern void *DWCi_QUElPopBack(void *queue);
+extern unsigned long OS_DisableIrqMask(unsigned long intr);
+extern void DWCi_LSTlInsert(void *pos, void *ob);
+extern void OS_Terminate(void);
+extern unsigned long OS_EnableIrqMask(unsigned long intr);
+extern MemCellT *gCellWork;
 
-void *func_021D4E1C(int lcd, int num, int head)
+void *DWCi_CELLlForm(int lcd, int num, int head)
 {
     CellInfo *cell;
     CellInfo *c;
@@ -51,34 +51,34 @@ void *func_021D4E1C(int lcd, int num, int head)
     GXOamAttr *obj;
     unsigned long irq;
 
-    cell = func_021D54C4(g_021DE670->c[lcd].queue);
-    irq = func_02084998(1);
+    cell = DWCi_QUElPopBack(gCellWork->c[lcd].queue);
+    irq = OS_DisableIrqMask(1);
     if (head) {
-        for (c = &g_021DE670->c[lcd].head; c != &g_021DE670->c[lcd].tail; c = n) {
+        for (c = &gCellWork->c[lcd].head; c != &gCellWork->c[lcd].tail; c = n) {
             n = c->next;
             obj = c->obj + c->num;
             if (obj + num <= n->obj) {
                 cell->obj = obj;
-                func_021D6DC4(n, cell);
+                DWCi_LSTlInsert(n, cell);
                 break;
             }
         }
-        if (c == &g_021DE670->c[lcd].tail)
-            func_02088234();
+        if (c == &gCellWork->c[lcd].tail)
+            OS_Terminate();
     } else {
-        for (c = &g_021DE670->c[lcd].tail; c != &g_021DE670->c[lcd].head; c = n) {
+        for (c = &gCellWork->c[lcd].tail; c != &gCellWork->c[lcd].head; c = n) {
             n = c->prev;
             obj = c->obj - num;
             if (obj >= n->obj + n->num) {
                 cell->obj = obj;
-                func_021D6DC4(c, cell);
+                DWCi_LSTlInsert(c, cell);
                 break;
             }
         }
-        if (c == &g_021DE670->c[lcd].head)
-            func_02088234();
+        if (c == &gCellWork->c[lcd].head)
+            OS_Terminate();
     }
-    func_02084968(irq);
+    OS_EnableIrqMask(irq);
     cell->num = num;
     return cell;
 }

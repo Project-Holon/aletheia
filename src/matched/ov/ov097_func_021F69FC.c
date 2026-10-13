@@ -1,5 +1,5 @@
 /*
- * function: func_021F69FC
+ * function: VS_MULTI_LIST_DeleteVBlankTask
  * address:  0x021F69FC
  * packet:   pkt_ov097_021F69FC
  * region:   ov097
@@ -20,4 +20,4 @@ typedef int s32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021F69FC(u8 *p) { func_02030EAC((struct Node *)(((struct Obj21992 *)p)->f4)); }
+void VS_MULTI_LIST_DeleteVBlankTask(u8 *p) { func_02030EAC((struct Node *)(((struct Obj21992 *)p)->f4)); }

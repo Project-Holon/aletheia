@@ -1,5 +1,5 @@
 /*
- * function: func_0219DEE8
+ * function: SBQueryEngineAddQueryKey
  * address:  0x0219DEE8
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-void func_0219DEE8(char *p, int v)
+void SBQueryEngineAddQueryKey(char *p, int v)
 {
     int n = *(int *)(p + 0x54);
 

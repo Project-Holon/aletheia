@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF4C
+ * function: WIFICLUB_StateRulePreviewDone
  * address:  0x021BCF4C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
  *
  * Stamps selector 0x7B 0x1CC bytes in when the guard answers true.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA928(void *p, int v);
+extern int WIFICLUB_UpdateTalkStream(void *p, int v);
 
-int func_021BCF4C(char *p, int v)
+int WIFICLUB_StateRulePreviewDone(char *p, int v)
 {
-    if (func_021BA928(p, v) == 0) {
+    if (WIFICLUB_UpdateTalkStream(p, v) == 0) {
         return v;
     }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D1C
+ * function: WIFICLUB_CreateSlotPanelWindows
  * address:  0x021C1D1C
  * packet:   pkt_ov099_021C1D1C
  * region:   ov099
@@ -50,7 +50,7 @@
  *   func_02049658  0x02049658  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
- *   func_021C1FE8  0x021C1FE8  thumb  ov099
+ *   WIFICLUB_AddTileOffsetToTileMap  0x021C1FE8  thumb  ov099
  *   func_02049B40  0x02049B40  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -71,7 +71,7 @@ struct Descriptor;
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 a1, u32 a2, void **out, u16 heap);
-extern void func_021C1FE8(u16 *p, u16 d);
+extern void WIFICLUB_AddTileOffsetToTileMap(u16 *p, u16 d);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 extern void *BMP_WIN_Create(int, u8, u8, int, u8, u8, u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -80,7 +80,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 
-void func_021C1D1C(u8 *p, void *a, int heap)
+void WIFICLUB_CreateSlotPanelWindows(u8 *p, void *a, int heap)
 {
     int i;
     int j;
@@ -93,9 +93,9 @@ void func_021C1D1C(u8 *p, void *a, int heap)
     func_02049658(a, 0xf, 6, 0x80, i, i, heap);
     ARC_UTIL_UploadBgPaletteAddFromHandle(a, 0x16, 4, 0, (u16)*(u32 *)(p + 0x9A8), i, i, heap);
     *(void **)(p + 0x8B4) = ARC_UTIL_LoadPaletteDataFromHandle(a, 0x17, 0, (void **)(p + 0x8B8), heap);
-    func_021C1FE8(*(u16 **)(p + 0x8B8), 0x80);
+    WIFICLUB_AddTileOffsetToTileMap(*(u16 **)(p + 0x8B8), 0x80);
     *(void **)(p + 0x8BC) = ARC_UTIL_LoadPaletteDataFromHandle(a, 0x19, 0, (void **)(p + 0x8C0), heap);
-    func_021C1FE8(*(u16 **)(p + 0x8C0), 0x80);
+    WIFICLUB_AddTileOffsetToTileMap(*(u16 **)(p + 0x8C0), 0x80);
     func_02049B40(0x17, 5, 4, 0xf << 5, 0x20, heap);
     for (i = 0; i < 8; i++) {
         y = i % 4;

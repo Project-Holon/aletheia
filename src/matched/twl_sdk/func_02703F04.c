@@ -11,8 +11,8 @@
  *
  * symbols:
  *   MICEXi_GetLimitedSamplingCallback  0x0208B7B0  arm twl
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
  *   MicexStopLimitedSampling  0x02704088  arm twl
  */
 
@@ -28,20 +28,20 @@ typedef struct {
 } Func_02703CDC_State;
 
 extern Func_02703CDC_State *MICEXi_GetLimitedSamplingCallback(void);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern u32 MicexStopLimitedSampling(void);
 
 u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
     Func_02703CDC_State *st = MICEXi_GetLimitedSamplingCallback();
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     if (st->busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 1;
     }
     st->busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     st->cb = a0;
     st->arg = a1;
     if (MicexStopLimitedSampling() == 0) {

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK_INIT_RestoreGimmick38State
+ * function: GIMMICK_INIT_RestorePlateDoorsState
  * address:  0x021F3768
  * packet:   pkt_ov037_021F3768
  * region:   ov037
@@ -32,7 +32,7 @@ extern u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1);
 extern signed char gGimmick38SwitchPlates[][2];
 extern unsigned char gGimmick38DoorPlates[][2];
 
-void GIMMICK_INIT_RestoreGimmick38State(unsigned int a0, unsigned short **a1)
+void GIMMICK_INIT_RestorePlateDoorsState(unsigned int a0, unsigned short **a1)
 {
     unsigned int t = (unsigned int)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)a0));
     int *p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)t, 6);

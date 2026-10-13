@@ -26,8 +26,8 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_SetRotomFormMove  0x02017A20  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  */
 
 typedef unsigned char u8;
@@ -44,8 +44,8 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_SetRotomFormMove(void *p, u32 idx, u32 val);
-extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 
 int SCRCMD_PROC_SetRotomFormMove(void *a0, void *a1)
 {
@@ -59,6 +59,6 @@ int SCRCMD_PROC_SetRotomFormMove(void *a0, void *a1)
     h = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(a1));
     e = POKEPARTY_GetMember(GAME_DATA_GetMyParty(h), (u32)k);
     POKE_TOOL_SetRotomFormMove(e, (u32)w, (u32)v);
-    func_0200CFA0(func_0200CA1C(h), e);
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(h), e);
     return 0;
 }

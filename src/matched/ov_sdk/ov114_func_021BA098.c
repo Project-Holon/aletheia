@@ -1,5 +1,5 @@
 /*
- * function: func_021BA098
+ * function: NHTTPi_resolveHostname
  * address:  0x021BA098
  * packet:   pkt_ov114_021BA098
  * region:   ov114
@@ -14,7 +14,7 @@
  * symbols:
  *   SOC_InetAtoN 0x0215FAD0 arm
  *   SOC_GetHostByName 0x0215F650 arm
- *   func_021BA100 0x021BA100 arm ov114
+ *   NHTTPi_memcpy 0x021BA100 arm ov114
  */
 
 typedef struct {
@@ -29,9 +29,9 @@ typedef struct {
 
 extern int SOC_InetAtoN(char *cp, SOCInAddr *inp);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern void func_021BA100(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
 
-unsigned long func_021BA098(int unused, char *hostname_p)
+unsigned long NHTTPi_resolveHostname(int unused, char *hostname_p)
 {
     SOCHostEnt *hostEnt;
     unsigned long addr = 0;
@@ -42,7 +42,7 @@ unsigned long func_021BA098(int unused, char *hostname_p)
     } else {
         hostEnt = SOC_GetHostByName(hostname_p);
         if (hostEnt && hostEnt->h_length > 0) {
-            func_021BA100(&addr, *hostEnt->h_addr_list, 4);
+            NHTTPi_memcpy(&addr, *hostEnt->h_addr_list, 4);
         }
     }
     return addr;

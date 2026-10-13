@@ -16,12 +16,13 @@
  *   GFL_USE_CancelChangeDefaultFade  0x02005F5C  thumb
  *   GFL_USE_InitSeSlots  0x02006118  thumb
  *   NNS_SndArcGetGroupInfo  0x02074518  arm
+ *   NNS_SndArcPlayerSetup  0x020754C4  arm
  *    */
 
 extern char _SndState[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020754C4(u32 a);
+extern u32 NNS_SndArcPlayerSetup(u32 a);
 extern void GFL_USE_SetSndStackHeap(u32 **a);
 extern void *NNS_SndArcGetGroupInfo(int index);
 extern void func_02074A54(int a, int b);
@@ -30,7 +31,7 @@ extern void GFL_USE_InitSndStack(u16 a);
 extern void GFL_USE_CancelChangeDefaultFade(void);
 void GFL_USE_ResetSound(int a0)
 {
-    func_020754C4(*(int *)(_SndState + 0x10));
+    NNS_SndArcPlayerSetup(*(int *)(_SndState + 0x10));
     GFL_USE_SetSndStackHeap((u32 **)(_SndState + 0x10));
     if (a0 != 0) {
         NNS_SndArcGetGroupInfo(0);

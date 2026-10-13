@@ -1,5 +1,5 @@
 /*
- * function: func_021DFD00
+ * function: scReportBeginTeamData
  * address:  0x021DFD00
  * packet:   pkt_021DFD00
  * region:   ov175
@@ -10,17 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0080  0x_021E0080  arm
+ *   sciReportBeginTeamData  0x021E0080  arm
+ *   sciReportBeginTeamData  0x_021E0080  arm
  *
  * ARM tail jump to 0x021E0080, which carries labels in ov093 and ov183 as
  *  *  well, so the site needs the region hint below.
  */
 
 typedef unsigned int   u32;
-extern int func_021E0080(u32 *p);
+extern int sciReportBeginTeamData(u32 *p);
 
-int func_021DFD00(u32 *a0)
+int scReportBeginTeamData(u32 *a0)
 {
-    return func_021E0080(a0);
+    return sciReportBeginTeamData(a0);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021CAAB4
+ * function: CRYPTOi_MyAlloc
  * address:  0x021CAAB4
  * packet:   pkt_ov114_021CAAB4
  * region:   ov114
@@ -13,17 +13,17 @@
  *
  * symbols:
  *   func_020868E0  0x020868E0  arm
- *   g_021D422C     0x021D422C  data
+ *   gCryptoAllocators     0x021D422C  data
  */
 
 #include "../include/G_CryptoAllocators.h"
 
 extern void *func_020868E0(int id, int heap, unsigned long size);
-extern struct CryptoAllocators g_021D422C;
+extern struct CryptoAllocators gCryptoAllocators;
 
-void *func_021CAAB4(unsigned long size)
+void *CRYPTOi_MyAlloc(unsigned long size)
 {
-	if (g_021D422C.alloc_fn != 0)
-		return g_021D422C.alloc_fn(size);
+	if (gCryptoAllocators.alloc_fn != 0)
+		return gCryptoAllocators.alloc_fn(size);
 	return func_020868E0(0, -1, size);
 }

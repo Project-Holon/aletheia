@@ -1,5 +1,5 @@
 /*
- * function: func_02065BD0
+ * function: NNS_G2dBeginRendering
  * address:  0x02065BD0
  * packet:   pkt_02064B68
  * region:   arm9
@@ -15,7 +15,7 @@
  * count pair, clears the 0x100-byte slot table g_02147C18, writes the GX
  * MTX_PUSH / MTX_IDENTITY command registers (0x04000444 / 0x04000454, plain
  * hardware addresses, no relocation) and rebuilds the slot-0 matrices via
- * NNSi_G2dRendererResetMtxSlot.  The body is the one docs/notes/func_02065BD0.c.txt
+ * NNSi_G2dRendererResetMtxSlot.  The body is the one docs/notes/NNS_G2dBeginRendering.c.txt
  * recorded at 144/168; the loop shape (guarded do-while, cursor p) is
  * that note's.
  *
@@ -35,7 +35,7 @@
  *   g_02148318     0x02148318  data  a4
  *   g_02147C18     0x02147C18  data  a4
  *   g_020A81F8     0x020A81F8  data  a2
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   NNSi_G2dRendererResetMtxSlot  0x02064E3C  arm
  */
 
@@ -62,10 +62,10 @@ extern struct Bank g_02147B88;
 extern struct Aff g_02148318[];
 extern struct SlotRec g_02147C18;
 extern struct Scr g_020A81F8;
-extern void func_02082AC0(u32 value, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void NNSi_G2dRendererResetMtxSlot(void);
 
-void func_02065BD0(void *obj)
+void NNS_G2dBeginRendering(void *obj)
 {
     struct Ent *p;
     s32 i;
@@ -78,7 +78,7 @@ void func_02065BD0(void *obj)
     if (i < ((volatile struct Bank *)&g_02147B88)->count) {
         p = ((struct Ent *)g_02148318);
         do {
-            func_02082AC0((u32)-1, p->unk_10, 0x10);
+            MIi_CpuClearFast((u32)-1, p->unk_10, 0x10);
             i++;
             p++;
         } while (i < g_02147B88.count);
@@ -86,7 +86,7 @@ void func_02065BD0(void *obj)
 
     g_02147B88.count = 0;
     g_02147B88.unk_02 = 0;
-    func_02082AC0(0, ((u8 *)&g_02147C18), 0x100);
+    MIi_CpuClearFast(0, ((u8 *)&g_02147C18), 0x100);
 
     *(volatile u32 *)0x04000444 = 0;
     *(volatile u32 *)0x04000454 = 0;

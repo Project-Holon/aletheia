@@ -13,9 +13,9 @@
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   ov208_func_021BC3A4 0x021BC3A4 thumb ov208
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
- *   func_0200CC40 0x0200CC40 thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   PM_VOICE_Play 0x02006984 thumb
  *   func_020870D0 0x020870D0 arm
  *   ov208_func_021C3840 0x021C3840 thumb ov208
@@ -32,9 +32,9 @@ extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int ov208_func_021BC3A4(int key);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u16 ov208_func_021BC3C0(int key);
-extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u64 func_020870D0(void);
 extern void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 species, u16 form);
@@ -63,9 +63,9 @@ void ov208_func_021C3514(u16 *heap, u8 *p, int key)
         }
     }
     if (hit != 0) {
-        pd = func_0200CA1C((void *)ov208_func_021BC3A4(key));
+        pd = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(key));
         species = ov208_func_021BC3C0(key);
-        func_0200CC40(pd, species, &o1, &o2, &form, *heap);
+        ZUKAN_SAVE_GetViewGenderAndForm(pd, species, &o1, &o2, &form, *heap);
         ((struct Obj06684 *)p)->f64 = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, 0);
         ((struct Obj06684 *)p)->f74 = 0;
         *(u64 *)(p + 0x6c) = func_020870D0();

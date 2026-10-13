@@ -1,5 +1,5 @@
 /*
- * function: func_02072D20
+ * function: NNS_SndWaveOutWaitIdle
  * address:  0x02072D20
  * packet:   pkt_02072D20
  * region:   arm9
@@ -40,7 +40,7 @@
  * ("the image rematerialises a constant from the pool where the build keeps it
  * live in a callee-saved register" -> 2.0), measured here as a register choice
  * rather than a pool word, and it is the same family as the pins already in
- * force for src/matched/func_02074A6C.c and src/matched/func_02074A98.c.
+ * force for src/matched/NNS_SndArcLoadSeq.c and src/matched/NNS_SndArcLoadWaveArc.c.
  *
  * The two arms are one switch of the driver state: +8 zero means "wake the
  * voice once the channel bit is free, then hand it a fresh handle", +8 nonzero
@@ -49,8 +49,8 @@
  * survive the `func_02089B38(1)` call between the two uses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072D20.c \
- *       --func func_02072D20 --addr 0x02072D20 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutWaitIdle.c \
+ *       --func NNS_SndWaveOutWaitIdle --addr 0x02072D20 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 120 = original 120, 6 of 6 sites resolved
  */
 
@@ -69,7 +69,7 @@ extern u32 func_02089D40(void);
 extern void func_02089B38(int v);
 extern void func_02089CD4(u32 tag);
 
-void func_02072D20(Obj *obj)
+void NNS_SndWaveOutWaitIdle(Obj *obj)
 {
     u32 h;
 

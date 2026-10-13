@@ -13,10 +13,10 @@
  *
  * symbols:
  *   func_020895F8    0x020895F8  arm
- *   g_0214DEC0       0x0214DEC0  data
+ *   gNNSSndWaveOutState       0x0214DEC0  data
  *
  * Releases one channel of the allocator: unlocks it and clears the channel bit
- * from the word at g_0214DEC0 + 8.
+ * from the word at gNNSSndWaveOutState + 8.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/SND_CHANNEL_UnlockChannels.c \
@@ -26,7 +26,7 @@
 typedef unsigned int u32;
 
 extern void func_020895F8(u32 chan, u32 a);
-extern u32  g_0214DEC0[];
+extern u32  gNNSSndWaveOutState[];
 
 void SND_CHANNEL_UnlockChannels(u32 chan)
 {
@@ -34,5 +34,5 @@ void SND_CHANNEL_UnlockChannels(u32 chan)
         return;
     }
     func_020895F8(chan, 0);
-    g_0214DEC0[2] &= ~chan;
+    gNNSSndWaveOutState[2] &= ~chan;
 }

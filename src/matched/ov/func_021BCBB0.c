@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBB0
+ * function: WIFICLUB_FreeRegulation
  * address:  0x021BCBB0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern u32 sub_020307B0(void *p);
 
-void func_021BCBB0(void *p)
+void WIFICLUB_FreeRegulation(void *p)
 {
     if (p != 0) {
         sub_020307B0(p);

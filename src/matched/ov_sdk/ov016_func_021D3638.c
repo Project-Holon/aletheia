@@ -1,5 +1,5 @@
 /*
- * function: func_021D3638
+ * function: DWCi_MOV_WH_Initialize
  * address:  0x021D3638
  * packet:   pkt_ov016_021D3638
  * region:   ov016
@@ -111,7 +111,7 @@ static void *wh_trace = 0;
 static Wh *wh = 0;
 extern int DWCi_MOV_WH_StateInInitialize(void);
 
-int func_021D3638(void)
+int DWCi_MOV_WH_Initialize(void)
 {
     wh->f12a4 = 0;
     wh->f12a0 = 0;

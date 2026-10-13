@@ -1,5 +1,5 @@
 /*
- * function: func_021E0000
+ * function: sciReportBeginNewPlayer
  * address:  0x021E0000
  * packet:   pkt_ov175_021E0000
  * region:   ov175
@@ -14,16 +14,16 @@
  * at +0x120, byte-swapping the zeroed two-byte player id.
  *
  * symbols:
- *   func_021E0504  0x021E0504  arm  ov175
+ *   sciSerializeInt16  0x021E0504  arm  ov175
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_021E0504(u8 *dst, u32 v);
+extern u8 *sciSerializeInt16(u8 *dst, u32 v);
 
-int func_021E0000(u8 *p)
+int sciReportBeginNewPlayer(u8 *p)
 {
     u32 a = *(u32 *)(p + 0x120);
     u8 *q = *(u8 **)(p + 0x124);
@@ -31,7 +31,7 @@ int func_021E0000(u8 *p)
     *(u16 *)(p + 8) = 0;
     *(u32 *)(p + 4) = a;
     *(u32 *)(p + 0x120) = a + 2;
-    func_021E0504(q + a, 0);
+    sciSerializeInt16(q + a, 0);
     *(u32 *)(q + 0x3c) += 2;
     return 0;
 }

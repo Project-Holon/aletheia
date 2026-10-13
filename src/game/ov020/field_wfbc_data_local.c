@@ -71,7 +71,7 @@
  *   d_02187DBC     0x02187DBC  data  ov020  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_020084F4 0x020084F4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
@@ -248,7 +248,7 @@ extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *itemSlots);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int direction);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *p);
@@ -830,7 +830,7 @@ return (person->flags.all & 1) != 0;
 /*
  * Follower 021867A8 is already filed separately; 020084F4 returns its unchanged incoming r0.
  */
-void FIELD_WFBC_DATA_LOCAL_SetPersonParent(WfbcPerson *person, const struct MyStatus *myStatus) { person->hasParent = 1; person->parentId = func_02008530(myStatus); func_02082D44(func_020084F4(myStatus), person->parentName, 16); }
+void FIELD_WFBC_DATA_LOCAL_SetPersonParent(WfbcPerson *person, const struct MyStatus *myStatus) { person->hasParent = 1; person->parentId = func_02008530(myStatus); MI_CpuCopy8(func_020084F4(myStatus), person->parentName, 16); }
 
 /*
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
@@ -1052,7 +1052,7 @@ int FIELD_WFBC_DATA_LOCAL_IsPeopleListFull(const WfbcPerson *list) { int i; for 
 /*
  * Lever: unsigned index scaling retains separate source/destination multiplies.
  */
-WfbcPerson *FIELD_WFBC_DATA_LOCAL_PushPersonFront(WfbcPerson *list, const WfbcPerson *person) { int i; for (i = 9; i > 0; i--) func_02082D44(&list[(u32)(i - 1)], &list[(u32)i], 24); func_02082D44(person, list, 24); return list; }
+WfbcPerson *FIELD_WFBC_DATA_LOCAL_PushPersonFront(WfbcPerson *list, const WfbcPerson *person) { int i; for (i = 9; i > 0; i--) MI_CpuCopy8(&list[(u32)(i - 1)], &list[(u32)i], 24); MI_CpuCopy8(person, list, 24); return list; }
 
 WfbcPerson *FIELD_WFBC_DATA_LOCAL_FindEmptyPersonSlot(WfbcPerson *list)
 {

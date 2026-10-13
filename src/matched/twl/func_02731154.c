@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02004490 0x02004490 thumb
- *   func_02088610 0x02088610 arm
+ *   SVC_WaitByLoop 0x02004490 thumb
+ *   PXI_SendWordByFifo 0x02088610 arm
  */
 typedef unsigned int u32;
 
-extern void func_02004490(u32);
-extern int func_02088610(u32, u32, u32);
+extern void SVC_WaitByLoop(u32);
+extern int PXI_SendWordByFifo(u32, u32, u32);
 
 void MIi_SendToPxi(u32 a, u32 b)
 {
-    while (func_02088610(0x12, b, a) != 0) {
-        func_02004490(1);
+    while (PXI_SendWordByFifo(0x12, b, a) != 0) {
+        SVC_WaitByLoop(1);
     }
 }

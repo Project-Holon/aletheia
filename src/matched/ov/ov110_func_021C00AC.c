@@ -1,5 +1,5 @@
 /*
- * function: func_021C00AC
+ * function: PMSIV_WORDWIN_StartPickAnim
  * address: 0x021C00AC
  * packet: pkt_ov110_021C00AC
  * region: ov110
@@ -26,7 +26,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021C00AC(u8 *p, unsigned i) {
+void PMSIV_WORDWIN_StartPickAnim(u8 *p, unsigned i) {
     Vec2 pos;
     ((struct Obj06393 *)p)->f18=CLACT_GetActorDrawEnable(((struct Obj06393 *)p)->f14);
     CLACT_SetActorDrawEnable(((struct Obj06393 *)p)->f14,1);

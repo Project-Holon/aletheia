@@ -1,7 +1,7 @@
 /*
  * file:     hand_side.c
  * unit:     yes
- * function: HAND_SIDE_InitTable, HAND_SIDE_AddFactor, HAND_SIDE_GetStackCount, HAND_SIDE_IsActive, HAND_SIDE_Remove, HAND_SIDE_TickTurns, HAND_SIDE_GetStackCountByFactor, HAND_SIDE_GetHandlersReflect, HAND_SIDE_ScreenReduceDamage, HAND_SIDE_GetHandlersSafeguard, HAND_SIDE_SafeguardBlockSick, HAND_SIDE_SafeguardNoticeBlocked, HAND_SIDE_GetHandlersMist, HAND_SIDE_MistBlockStatDrop, HAND_SIDE_MistNoticeStatDrop, HAND_SIDE_GetHandlersTailwind, HAND_SIDE_TailwindDoubleSpeed, HAND_SIDE_GetHandlersLuckyChant, HAND_SIDE_LuckyChantBlockCritical, HAND_SIDE_GetHandlersStealthRock, HAND_SIDE_StealthRockHurtOnEnter, HAND_SIDE_GetHandlersWideGuard, HAND_SIDE_WideGuardBlockSpreadMove, HAND_SIDE_GetHandlersQuickGuard, HAND_SIDE_QuickGuardBlockPriorityMove
+ * function: HAND_SIDE_InitTable, HAND_SIDE_AddFactor, HAND_SIDE_GetStackCount, HAND_SIDE_IsActive, HAND_SIDE_Remove, HAND_SIDE_TickTurns, HAND_SIDE_GetStackCountByFactor, HAND_SIDE_GetHandlersReflect, HAND_SIDE_ScreenReduceDamage, HAND_SIDE_GetHandlersSafeguard, HAND_SIDE_SafeguardBlockSick, HAND_SIDE_SafeguardNoticeBlocked, HAND_SIDE_GetHandlersMist, HAND_SIDE_MistBlockStatDrop, HAND_SIDE_MistNoticeStatDrop, HAND_SIDE_GetHandlersTailwind, HAND_SIDE_TailwindDoubleSpeed, HAND_SIDE_GetHandlersLuckyChant, HAND_SIDE_LuckyChantBlockCritical, HAND_SIDE_GetHandlersStealthRock, HAND_SIDE_StealthRockHurtOnEnter, HAND_SIDE_GetHandlersWideGuard, HAND_SIDE_WideGuardBlockSpreadMove, HAND_SIDE_GetHandlersQuickGuard, HAND_SIDE_QuickGuardBlockPriorityMove, HAND_SIDE_GetHandlersSpikes, HAND_SIDE_SpikesHurtOnEnter, HAND_SIDE_GetHandlersToxicSpikes, HAND_SIDE_ToxicSpikesOnEnter, HAND_SIDE_GetHandlersRainbow, HAND_SIDE_RainbowDoubleEffectChance, HAND_SIDE_RainbowForceCriticalFlag, HAND_SIDE_GetHandlersSeaOfFire, HAND_SIDE_SeaOfFireHurt, HAND_SIDE_GetHandlersSwamp, HAND_SIDE_SwampQuarterSpeed
  * address:  0x06898BFC
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -11,8 +11,6 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- *
-
  *
  * symbols:
  *   BTL_EVENT_AddFactor  0x021D6F0C  thumb  ov093
@@ -47,9 +45,25 @@
  *   WAZA_TOOL_IsDamaging  0x0201C314  thumb  arm9
  *   gHandSideWideGuardHandlers  0x0689D700  data  ov095  a4
  *   gHandSideQuickGuardHandlers  0x0689D718  data  ov095  a4
+ *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb
+ *   gHandSideSpikesHandlers  0x0689D740  data  ov095  a4
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb
+ *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb
+ *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb
+ *   gHandSideToxicSpikesHandlers  0x0689D708  data  ov095  a4
+ *   gHandSideRainbowHandlers  0x0689D768  data  ov095  a4
+ *   BTL_SERVER_FLOW_IsPokeInPosTable  0x021C814C  thumb
+ *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb
+ *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
+ *   gHandSideSeaOfFireHandlers  0x0689D6F8  data  ov095  a4
+ *   gHandSideSwampHandlers  0x0689D720  data  ov095  a4
  */
 #include "hand_field_types.h"
 #include "hand_side_types.h"
+
+typedef struct {
+    int stackCount;
+} StackCountResult;
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
@@ -83,6 +97,17 @@ const BtlEventHandler *HAND_SIDE_GetHandlersWideGuard(u32 *handlerCount);
 void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
 const BtlEventHandler *HAND_SIDE_GetHandlersQuickGuard(u32 *handlerCount);
 void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+const BtlEventHandler *HAND_SIDE_GetHandlersSpikes(u32 *handlerCount);
+void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+const BtlEventHandler *HAND_SIDE_GetHandlersToxicSpikes(u32 *handlerCount);
+void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount);
+void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount);
+void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
+const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount);
+void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work);
 extern BtlSideEffectRow gHandSideEffectSlots[BTL_SIDE_COUNT];
 extern const HandSideEffectEntry gHandSideEffectTable[BTL_SIDEEFF_COUNT];
 extern const BtlEventHandler gHandSideReflectHandlers[1];
@@ -94,6 +119,12 @@ extern const BtlEventHandler gHandSideLuckyChantHandlers[];
 extern const BtlEventHandler gHandSideStealthRockHandlers[];
 extern const BtlEventHandler gHandSideWideGuardHandlers[];
 extern const BtlEventHandler gHandSideQuickGuardHandlers[];
+extern const BtlEventHandler gHandSideSpikesHandlers[];
+extern const BtlEventHandler gHandSideToxicSpikesHandlers[];
+extern const BtlEventHandler gHandSideRainbowHandlers[];
+extern const BtlEventHandler gHandSideSeaOfFireHandlers[];
+extern const BtlEventHandler gHandSideSwampHandlers[];
+
 
 
 /* Clears the state of all side effects on both sides. */
@@ -101,6 +132,7 @@ void HAND_SIDE_InitTable(void)
 {
     MI_CpuFill8(gHandSideEffectSlots, 0, sizeof(gHandSideEffectSlots));
 }
+
 
 
 /*
@@ -136,11 +168,13 @@ struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont 
 }
 
 
+
 /* Number of stacked layers of the effect on the side (0 when inactive). */
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId)
 {
     return gHandSideEffectSlots[side].effects[effectId].layers;
 }
+
 
 
 /*
@@ -150,6 +184,7 @@ int HAND_SIDE_IsActive(int side, int effectId)
 {
     return gHandSideEffectSlots[side].effects[effectId].factor != 0;
 }
+
 
 
 /* Ends the effect on the side. Returns 1 if it was active. */
@@ -165,6 +200,7 @@ int HAND_SIDE_Remove(u32 side, u32 effectId)
     }
     return 0;
 }
+
 
 
 /*
@@ -200,6 +236,7 @@ void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 
 }
 
 
+
 /* Layers of the effect that `factor` belongs to, on the side; 0 for an unknown effect or side. */
 int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side)
 {
@@ -209,6 +246,7 @@ int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side)
         return (u8)gHandSideEffectSlots[side].effects[effectId].layers;
     return 0;
 }
+
 
 
 /*
@@ -226,11 +264,13 @@ const BtlEventHandler *HAND_SIDE_GetHandlersReflect(u32 *handlerCount)
 }
 
 
+
 /* Reflect: reduces physical damage. */
 void HAND_SIDE_ReflectOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work)
 {
     HAND_SIDE_ScreenReduceDamage(flow, side, BTL_DAMAGE_TYPE_PHYSICAL);
 }
+
 
 
 /* Handler list of Light Screen: one entry on the damage ratio event. */
@@ -241,11 +281,13 @@ const BtlEventHandler *HAND_SIDE_GetHandlersLightScreen(u32 *handlerCount)
 }
 
 
+
 /* Light Screen: reduces special damage. */
 void HAND_SIDE_LightScreenOnDamage(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, void *work)
 {
     HAND_SIDE_ScreenReduceDamage(flow, side, BTL_DAMAGE_TYPE_SPECIAL);
 }
+
 
 
 /*
@@ -265,12 +307,14 @@ void HAND_SIDE_ScreenReduceDamage(struct BtlSvFlow *flow, int side, int damageTy
 }
 
 
+
 /* Safeguard: two handlers (block a status condition, show the notice). */
 const BtlEventHandler *HAND_SIDE_GetHandlersSafeguard(u32 *handlerCount)
 {
     *handlerCount = 2;
     return gHandSideSafeguardHandlers;
 }
+
 
 
 /* Blocks a status condition that another Pokemon inflicts on the protected side. */
@@ -285,6 +329,7 @@ void HAND_SIDE_SafeguardBlockSick(struct BtlEventFactor *factor, struct BtlSvFlo
             *work = BTL_EVENT_OverwriteVar(HAND_SIDE_EVAR_PREVENT_FLAG, 1);
     }
 }
+
 
 
 /* Shows the Safeguard notice once after a status condition was blocked. */
@@ -304,12 +349,14 @@ void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlS
 }
 
 
+
 /* Mist: two handlers (block a stat drop, show the notice). */
 const BtlEventHandler *HAND_SIDE_GetHandlersMist(u32 *handlerCount)
 {
     *handlerCount = 2;
     return gHandSideMistHandlers;
 }
+
 
 
 /* Blocks a stat drop that another Pokemon causes on the protected side. */
@@ -325,6 +372,7 @@ void HAND_SIDE_MistBlockStatDrop(struct BtlEventFactor *factor, struct BtlSvFlow
         }
     }
 }
+
 
 
 /* Work slot 0: a stat drop was blocked. Work slot 1: the stat of the last notice. */
@@ -349,12 +397,14 @@ void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlSvFlo
 }
 
 
+
 /* Tailwind: one handler (double the speed). */
 const BtlEventHandler *HAND_SIDE_GetHandlersTailwind(u32 *handlerCount)
 {
     *handlerCount = 1;
     return gHandSideTailwindHandlers;
 }
+
 
 
 /* Doubles the speed ratio of the Pokemon on the side with Tailwind. */
@@ -368,12 +418,14 @@ void HAND_SIDE_TailwindDoubleSpeed(struct BtlEventFactor *factor, struct BtlSvFl
 }
 
 
+
 /* Lucky Chant: one handler (block critical hits). */
 const BtlEventHandler *HAND_SIDE_GetHandlersLuckyChant(u32 *handlerCount)
 {
     *handlerCount = 1;
     return gHandSideLuckyChantHandlers;
 }
+
 
 
 /* Blocks critical hits against the protected side. */
@@ -387,12 +439,14 @@ void HAND_SIDE_LuckyChantBlockCritical(struct BtlEventFactor *factor, struct Btl
 }
 
 
+
 /* Stealth Rock: one handler (hurt a Pokemon that enters). */
 const BtlEventHandler *HAND_SIDE_GetHandlersStealthRock(u32 *handlerCount)
 {
     *handlerCount = 1;
     return gHandSideStealthRockHandlers;
 }
+
 
 
 /* Hurts a Pokemon that enters the side: 1/2 of its max HP at quadruple weakness down to 1/32 at quadruple resistance. */
@@ -433,12 +487,14 @@ void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlS
 }
 
 
+
 /* Wide Guard: one handler (block moves that hit several Pokemon). */
 const BtlEventHandler *HAND_SIDE_GetHandlersWideGuard(u32 *handlerCount)
 {
     *handlerCount = 1;
     return gHandSideWideGuardHandlers;
 }
+
 
 
 /* Blocks a damaging move whose target range is several Pokemon and shows the notice. */
@@ -466,12 +522,14 @@ void HAND_SIDE_WideGuardBlockSpreadMove(struct BtlEventFactor *factor, struct Bt
 }
 
 
+
 /* Quick Guard: one handler (block moves with raised priority). */
 const BtlEventHandler *HAND_SIDE_GetHandlersQuickGuard(u32 *handlerCount)
 {
     *handlerCount = 1;
     return gHandSideQuickGuardHandlers;
 }
+
 
 
 /* Blocks a move of positive priority that another Pokemon aims at the protected side and shows the notice. */
@@ -488,4 +546,190 @@ void HAND_SIDE_QuickGuardBlockPriorityMove(struct BtlEventFactor *factor, struct
         BTL_SERVER_FLOW_InitMsgRecord(message, HANDEX_MESSAGE_SET, BTL_MSG_QUICK_GUARD_BLOCKED);
         BTL_SERVER_FLOW_AppendMsgRecordArg(message, (int)defenderId);
     }
+}
+
+
+/* Spikes: one handler (hurt a grounded Pokemon that enters the side). */
+const BtlEventHandler *HAND_SIDE_GetHandlersSpikes(u32 *handlerCount)
+{
+    *handlerCount = 1;
+    return gHandSideSpikesHandlers;
+}
+
+
+
+/* Hurts a grounded Pokemon that enters the side: 1/8 of its max HP with one layer, 1/6 with two, 1/4 with three. */
+void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    u8 pokeId;
+    int divisor;
+    struct BtlPokeParam *bpp;
+    struct HandExDamage *cmd;
+
+    pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
+    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeGroundedById(flow, pokeId) == 0) {
+        switch (HAND_SIDE_GetStackCountByFactor(factor, side)) {
+        default:
+        case 1:
+            divisor = 8;
+            break;
+        case 2:
+            divisor = 6;
+            break;
+        case 3:
+            divisor = 4;
+            break;
+        }
+        cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
+        bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
+        cmd->pokeId = pokeId;
+        cmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, divisor);
+        BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SPIKES_HURT);
+        BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, pokeId);
+        BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
+    }
+}
+
+
+/* Toxic Spikes: one handler (poison or absorb on entry). */
+const BtlEventHandler *HAND_SIDE_GetHandlersToxicSpikes(u32 *handlerCount)
+{
+    *handlerCount = 1;
+    return gHandSideToxicSpikesHandlers;
+}
+
+
+
+/* Wraps the layer count in a one-field struct; the compiler then opens the 8-byte frame hole that the original has. */
+static inline StackCountResult GetStackCountResult(struct BtlEventFactor *factor, u32 side)
+{
+    StackCountResult result;
+
+    result.stackCount = HAND_SIDE_GetStackCountByFactor(factor, side);
+    return result;
+}
+
+
+
+/*
+ * A grounded Pokemon that enters the side: a Poison type absorbs the spikes (the effect ends), any other
+ * Pokemon is poisoned, badly with two layers.
+ *
+ * The wrapper above was accepted by the user as plausible original source (2026-10-05): without it the
+ * frame is 4 bytes smaller and the function does not match.
+ */
+void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    u8 pokeId;
+    u32 i;
+    struct HandExRemoveSideEffect *removeCmd;
+    struct HandExAddSick *sickCmd;
+
+    pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
+    if (side == BTL_MAIN_IsPokeIdInSecondPair(pokeId) && BTL_SERVER_FLOW_IsPokeGroundedById(flow, pokeId) == 0) {
+        if (BTL_POKEPARAM_HasType(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId), POKETYPE_POISON) != 0) {
+            removeCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_REMOVE_SIDE_EFFECT, pokeId);
+            removeCmd->side = side;
+            removeCmd->effectCont[0] = HAND_SIDE_EFFECT_ID_TOXIC_SPIKES;
+            for (i = 1; i < 3; i++)
+                removeCmd->effectCont[i] = 0;
+            if (removeCmd->effectCont[0] > 1)
+                removeCmd->effectCont[1] |= 0x80;
+            BTL_SERVER_FLOW_CommitCmdRecord(flow, removeCmd);
+        } else {
+            sickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, 0x1f);
+            sickCmd->sickKind = BTL_SICK_POISON;
+            if ((u32)GetStackCountResult(factor, side).stackCount > 1)
+                sickCmd->sickCont.raw = BTLV_CORE_MakeSlotKind1Index15();
+            else
+                sickCmd->sickCont.raw = BTLV_CORE_MakeSlotKind1Empty();
+            sickCmd->pokeId = pokeId;
+            BTL_SERVER_FLOW_CommitCmdRecord(flow, sickCmd);
+        }
+    }
+}
+
+
+/* Rainbow (Fire and Water Pledge): three handlers (the first doubles the chance of secondary effects). */
+const BtlEventHandler *HAND_SIDE_GetHandlersRainbow(u32 *handlerCount)
+{
+    *handlerCount = 3;
+    return gHandSideRainbowHandlers;
+}
+
+
+
+/* Doubles the secondary effect chance of a move used by the side that owns the rainbow. */
+void HAND_SIDE_RainbowDoubleEffectChance(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    u16 percent;
+
+    if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))) {
+        percent = BTL_EVENT_GetVar(BTL_EVAR_EFFECT_PERCENT) * 2;
+        BTL_EVENT_OverwriteVar(BTL_EVAR_EFFECT_PERCENT, percent);
+    }
+}
+
+
+/* Second handler of the Rainbow table: sets the critical hit flag for a move of the owning side (guess for the event). */
+void HAND_SIDE_RainbowForceCriticalFlag(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))) {
+        BTL_EVENT_OverwriteVar(BTL_EVAR_CRITICAL_FLAG, 1);
+    }
+}
+
+
+/* Sea of Fire (Fire and Grass Pledge): one handler (hurt the Pokemon on the side each turn). */
+const BtlEventHandler *HAND_SIDE_GetHandlersSeaOfFire(u32 *handlerCount)
+{
+    *handlerCount = 1;
+    return gHandSideSeaOfFireHandlers;
+}
+
+
+
+/* Plays the fire effect on a Pokemon of the side that is not Fire type and hurts it for 1/8 of its max HP. */
+void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    u8 pokeId;
+    struct BtlPokeParam *bpp;
+    struct HandExPlayEffect *effectCmd;
+    struct HandExDamage *damageCmd;
+
+    pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
+    if (pokeId != 0x1f && BTL_SERVER_FLOW_IsPokeInPosTable(flow, pokeId) != 0 && BTL_SERVER_FLOW_CheckShowdownThunk(flow) == 0
+        && side == BTL_MAIN_IsPokeIdInSecondPair(pokeId)) {
+        bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
+        if (BTL_POKEPARAM_HasType(bpp, POKETYPE_FIRE) == 0) {
+            effectCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_PLAY_EFFECT, pokeId);
+            effectCmd->viewPos = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
+            effectCmd->mode = 6;
+            effectCmd->effectId = 0x28e;
+            BTL_SERVER_FLOW_CommitCmdRecord(flow, effectCmd);
+            damageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
+            damageCmd->pokeId = pokeId;
+            damageCmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
+            BTL_SERVER_FLOW_InitMsgRecord(&damageCmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SEA_OF_FIRE_HURT);
+            BTL_SERVER_FLOW_AppendMsgRecordArg(&damageCmd->message, pokeId);
+            BTL_SERVER_FLOW_CommitCmdRecord(flow, damageCmd);
+        }
+    }
+}
+
+
+/* Swamp (Water and Grass Pledge): one handler (quarter the speed). */
+const BtlEventHandler *HAND_SIDE_GetHandlersSwamp(u32 *handlerCount)
+{
+    *handlerCount = 1;
+    return gHandSideSwampHandlers;
+}
+
+
+
+/* Reduces the speed of the Pokemon on the side to a quarter. */
+void HAND_SIDE_SwampQuarterSpeed(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int side, int *work)
+{
+    if (side == BTL_MAIN_IsPokeIdInSecondPair((u8)BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)))
+        BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, HAND_RATIO_QUARTER);
 }

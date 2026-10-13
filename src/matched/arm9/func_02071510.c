@@ -1,5 +1,5 @@
 /*
- * function: func_02071510
+ * function: NNSi_G3dSendJointSRTSi3d
  * address:  0x02071510
  * packet:   pkt_020713C8
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Flushes the object's dirty transform components to func_0206DDA4, one
+ * Flushes the object's dirty transform components to NNS_G3dGeBufferOP_N, one
  * call per component group, each gated by a bit of the flag word at +0x00.
  * Bits 3/4 (mask 0x18) select whether the rotation block is sent raw or the
  * translation is pre-scaled by the 1.12 factors at +0x4c; bit 2 suppresses
@@ -19,11 +19,11 @@
  * Pinned to ../2.0/sp2: see docs/FRONTEND-PINS.md, the "kept branches" tell.
  *
  * symbols:
- *   func_0206DDA4    0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N    0x0206DDA4  arm
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02071510.c \
- *       --func func_02071510 --addr 0x02071510 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dSendJointSRTSi3d.c \
+ *       --func NNSi_G3dSendJointSRTSi3d --addr 0x02071510 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned int u32;
@@ -37,9 +37,9 @@ struct Obj {
     volatile int s[3];    /* +0x4c */
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_02071510(struct Obj *o)
+void NNSi_G3dSendJointSRTSi3d(struct Obj *o)
 {
     int tmp[3];
     int flag = 0;
@@ -47,7 +47,7 @@ void func_02071510(struct Obj *o)
 
     m = o->flags & 0x18;
     if (m == 0)
-        func_0206DDA4(0x1b, &o->c[0], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &o->c[0], 3);
 
     if (!(o->flags & 4)) {
         if (m != 0) {
@@ -56,20 +56,20 @@ void func_02071510(struct Obj *o)
             tmp[0] = (int)(((long long)o->s[0] * o->b[0]) >> 12);
             tmp[1] = (int)(((long long)o->s[1] * o->b[1]) >> 12);
             tmp[2] = (int)(((long long)o->s[2] * o->b[2]) >> 12);
-            func_0206DDA4(0x1c, tmp, 3);
+            NNS_G3dGeBufferOP_N(0x1c, tmp, 3);
         }
     }
 
     if (!(o->flags & 2)) {
-        if (flag) func_0206DDA4(0x19, &o->pad28[0], 0xc);
-        else      func_0206DDA4(0x1a, &o->pad28[0], 9);
+        if (flag) NNS_G3dGeBufferOP_N(0x19, &o->pad28[0], 0xc);
+        else      NNS_G3dGeBufferOP_N(0x1a, &o->pad28[0], 9);
     } else if (flag) {
-        func_0206DDA4(0x1c, (void *)&o->s[0], 3);
+        NNS_G3dGeBufferOP_N(0x1c, (void *)&o->s[0], 3);
     }
 
     if (m == 0)
-        func_0206DDA4(0x1b, &o->b[0], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &o->b[0], 3);
 
     if (!(o->flags & 1))
-        func_0206DDA4(0x1b, &o->a[0], 3);
+        NNS_G3dGeBufferOP_N(0x1b, &o->a[0], 3);
 }

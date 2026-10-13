@@ -22,7 +22,7 @@
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   func_020307B0  0x020307B0  arm
  */
@@ -60,7 +60,7 @@ extern void func_0202A3AC(void *a0, void *a1);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void  func_02082A60(const void *src, void *dest, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 extern u32 func_020307B0(void *p);
 
@@ -80,7 +80,7 @@ void func_0202A440(u32 id, struct Out *out, u32 heap)
     MSGDATA_ReadString(bank, id, (void *)out->f14);
     MSGDATA_Delete(bank);
 
-    func_02082A60(t->f04, &out->f0c, 8);
+    MIi_CpuCopy16(t->f04, &out->f0c, 8);
     PMSI_PARAM_ClearSentence(&out->f18);
     PMSI_PARAM_ClearSentence(&out->f20);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C207C
+ * function: WIFICLUB_RequestPanelRedraw
  * address:  0x021C207C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021C207C(char *p)
+void WIFICLUB_RequestPanelRedraw(char *p)
 {
     ((struct Obj12129 *)p)->f8F4 = 1;
     ((struct Obj12129 *)p)->f8F1 = 1;

@@ -10,17 +10,17 @@
  * status:   EXACT
  * symbols:
  *   sVramTransferTaskQueue  0x02146B80  data
- *   func_02061BB0  0x02061BB0  arm
- *   func_02061BD0  0x02061BD0  arm
- *   func_02061B2C  0x02061B2C  arm
+ *   NNSi_GfdGetHeadVramTransferTask  0x02061BB0  arm
+ *   NNSi_GfdPopVramTransferTask  0x02061BD0  arm
+ *   NNSi_GfdRunVramTransferTask  0x02061B2C  arm
  *
  * Drain loop over the 0x02146B80 work record: fetch the head node, pump the
  * record's one-step state machine, and for as long as it reports progress
  * dispose of the node and subtract its size field from the record's running
  * byte total at +0x10, then fetch the next head.
  *
- * Blocked at MATCH on the `matched` class: func_02061B2C (PC24 at +0x0028)
- * and func_02061BD0 (PC24 at +0x0018 and +0x004c) each have their only
+ * Blocked at MATCH on the `matched` class: NNSi_GfdRunVramTransferTask (PC24 at +0x0028)
+ * and NNSi_GfdPopVramTransferTask (PC24 at +0x0018 and +0x004c) each have their only
  * branch inside 0x02061C44..0x02061CA0, so both sites stay wildcarded.  Both
  * callees are documented dead ends in docs/notes/pkt_02061B2C.c.txt and
  * docs/notes/pkt_02061BD0.c.txt (16 and 6 concrete bytes of instruction
@@ -39,18 +39,18 @@ typedef struct Node {
 } Node;
 
 extern struct Queue sVramTransferTaskQueue;
-extern u32 func_02061BB0(u8 *p);
+extern u32 NNSi_GfdGetHeadVramTransferTask(u8 *p);
 struct Obj02061BD0;
-extern u32 func_02061BD0(struct Obj02061BD0 *p);
-extern void func_02061B2C(u32 *s);
+extern u32 NNSi_GfdPopVramTransferTask(struct Obj02061BD0 *p);
+extern void NNSi_GfdRunVramTransferTask(u32 *s);
 
 void NNS_GfdDoVramTransfer(void)
 {
-    Node *n = (Node *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
+    Node *n = (Node *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
 
-    while (func_02061BD0((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
-        func_02061B2C((u32 *)n);
+    while (NNSi_GfdPopVramTransferTask((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
+        NNSi_GfdRunVramTransferTask((u32 *)n);
         sVramTransferTaskQueue.total -= n->f0c;
-        n = (Node *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
+        n = (Node *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
     }
 }

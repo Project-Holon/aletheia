@@ -1,5 +1,5 @@
 /*
- * function: func_021C9858
+ * function: b64size
  * address:  0x021C9858
  * packet:   pkt_ov114_021C9858
  * region:   ov114
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-unsigned long func_021C9858(unsigned long len)
+unsigned long b64size(unsigned long len)
 {
     return (len / 3 + (len % 3 != 0 ? 1 : 0)) * 4;
 }

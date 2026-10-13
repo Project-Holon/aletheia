@@ -1,5 +1,5 @@
 /*
- * function: func_0218A308
+ * function: TR_AI_GetSlotPoke
  * address:  0x0218A308
  * packet:   pkt_ov096_0218A308
  * region:   ov096
@@ -24,4 +24,4 @@ typedef int s32;
 
 struct S2;
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
-u8 *func_0218A308(void *p, u32 i) { return BTL_SLOT_GetPokeParam(p, i); }
+u8 *TR_AI_GetSlotPoke(void *p, u32 i) { return BTL_SLOT_GetPokeParam(p, i); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2584
+ * function: ghiPostAddXml
  * address:  0x021C2584
  * packet:   pkt_ov114_021C2584
  * region:   ov114
@@ -32,7 +32,7 @@ struct Post {
 
 extern void func_02184234(void *array, void *newElem);
 
-int func_021C2584(struct Post *_post, void *xml)
+int ghiPostAddXml(struct Post *_post, void *xml)
 {
 	struct Post *post;
 	struct PostData data;

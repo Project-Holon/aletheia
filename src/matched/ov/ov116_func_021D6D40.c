@@ -30,7 +30,7 @@
  *   func_0200E6F0 0x0200E6F0 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   func_020084F4 0x020084F4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_02008530 0x02008530 thumb
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
@@ -60,7 +60,7 @@ extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *func_0200E6F0(u32);
 extern void MI_CpuFill8(void *, u8, u32);
 extern const void *func_020084F4(const void *p);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 GAME_VERSION_Code, GAME_LANGUAGE_Code;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
@@ -81,7 +81,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     MI_CpuFill8(p, 0, 240);
-    func_02082D44(func_020084F4(idx), p + 0xb4, 16);
+    MI_CpuCopy8(func_020084F4(idx), p + 0xb4, 16);
     *(u32 *)(p + 0xc8) = func_02008530(idx);
     p[0xc4] = GAME_VERSION_Code;
     p[0xc5] = GAME_LANGUAGE_Code;

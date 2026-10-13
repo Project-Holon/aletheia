@@ -1,5 +1,5 @@
 /*
- * function: func_021B80CC
+ * function: IRC_RESULT_Finish
  * address: 0x021B80CC
  * packet: pkt_ov105_021B80CC
  * region: ov105
@@ -11,4 +11,4 @@
  */
 #include "../include/Obj22249.h"
 
-void func_021B80CC(unsigned char *p) { ((struct Obj22249 *)p)->f194=1; }
+void IRC_RESULT_Finish(unsigned char *p) { ((struct Obj22249 *)p)->f194=1; }

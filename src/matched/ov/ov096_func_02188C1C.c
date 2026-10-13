@@ -1,5 +1,5 @@
 /*
- * function: func_02188C1C
+ * function: TR_AI_CmdIfNoMoveWithParam3
  * address:  0x02188C1C
  * packet:   pkt_ov096_02188C1C
  * region:   ov096
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Lever: as func_02188BB0 (Conn struct pointer, int second parameter).
+ * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn struct pointer, int second parameter).
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
- *   func_0218A378  0x0218A378  thumb  ov096
+ *   TR_AI_GetMoveParam  0x0218A378  thumb  ov096
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  */
@@ -35,18 +35,18 @@ extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 struct QG;
 extern void VM_Jump(struct Cur *c, u32 v);
-extern int func_0218A378(Conn *, int, int);
+extern int TR_AI_GetMoveParam(Conn *, int, int);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 
-int func_02188C1C(struct Cursor *a, Conn *b)
+int TR_AI_CmdIfNoMoveWithParam3(struct Cursor *a, Conn *b)
 {
     int m;
     int i;
 
     m = VM_GetU32(a);
     for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
-        if (func_0218A378(b, BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 3) != 0)
+        if (TR_AI_GetMoveParam(b, BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 3) != 0)
             break;
     }
     if (i == BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc))

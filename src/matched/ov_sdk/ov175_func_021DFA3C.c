@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA3C
+ * function: scShutdown
  * address:  0x021DFA3C
  * packet:   pkt_021DFA3C
  * region:   ov175
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DF8D4  0x021DF8D4  arm
+ *   sciInterfaceDestroy  0x021DF8D4  arm
  *   func_0217EAE0  0x0217EAE0  arm
  *
  * Tear a live record down: a null handle is not an error (2), a clear +0x50
@@ -21,15 +21,15 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern void func_021DF8D4(char *p);
+extern void sciInterfaceDestroy(char *p);
 extern void func_0217EAE0(void *);
 
-s32 func_021DFA3C(void *p)
+s32 scShutdown(void *p)
 {
     if (p == 0)
         return 2;
     if (*(u32 *)((char *)p + 0x50) != 0) {
-        func_021DF8D4(p);
+        sciInterfaceDestroy(p);
         func_0217EAE0(p);
     }
     return 0;

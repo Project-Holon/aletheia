@@ -51,8 +51,8 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   sScrcmdCompareTable     0x02171180  data   ov010  a2
  *   sScrcmdParamLimits     0x0217118E  data   ov010  a2
@@ -80,7 +80,7 @@
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_020074D8  0x020074D8  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C278 0x0200C278 thumb
  *   func_0200C29C 0x0200C29C thumb
@@ -139,12 +139,12 @@
  *   ov003_id       0x00000003  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   ov037_id       0x00000025  data
- *   GIMMICK_INIT_SetGimmick40Flag 0x021F36E8 thumb ov037
- *   GIMMICK_INIT_SetGimmick42Flags 0x021F3724 thumb ov037
- *   GIMMICK_INIT_RestoreGimmick38State  0x021F3768  thumb  ov037
- *   GIMMICK_INIT_ResetGimmick46Panels 0x021F3800 thumb ov037
+ *   GIMMICK_INIT_SetFlagAnimeFlag 0x021F36E8 thumb ov037
+ *   GIMMICK_INIT_SetButtonStatesFlags 0x021F3724 thumb ov037
+ *   GIMMICK_INIT_RestorePlateDoorsState  0x021F3768  thumb  ov037
+ *   GIMMICK_INIT_ResetRotatingRoomPanels 0x021F3800 thumb ov037
  *   FIELDMAP_GetSodateya  0x02188D50  thumb
  *   SODATEYA_HasEgg  0x021C3400  thumb  ov021
  *   SODATEYA_ReceiveEgg 0x021C32F4 thumb ov021
@@ -162,7 +162,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_02014910  0x02014910  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   sAllocSiteScrcmdSodateya     0x02172900  data
@@ -366,8 +366,8 @@ extern u8 func_02008550(const struct MyStatus *obj);
 extern void *SCRCMD_WORK_GetScriptWork(void *);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
 extern u32 POKE_TOOL_ChangeForm(void *, u32);
-extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct ZukanSave *, void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *, void *);
 extern u32 POKE_TOOL_SetRotomFormMove(void *, u32 idx, u32 val);
 extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
 extern int WAZA_OSHIE_IsListEntryValid(u16 *);
@@ -390,7 +390,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
-extern void func_0200CDE0(struct ZukanSave *, void *);
+extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 extern void *GAME_DATA_GetMiscSave(int *);
 extern u32 func_0200C278(struct MiscSave *, u32);
 extern u32 func_0200C29C(struct MiscSave *, u32);
@@ -428,11 +428,11 @@ extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
 extern void EVENT_MENUPROC_Entry(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void GIMMICK_INIT_SetGimmick39Flags(unsigned int, int, int);
-extern void GIMMICK_INIT_SetGimmick40Flag(void *, int);
-extern void GIMMICK_INIT_SetGimmick42Flags(unsigned int, int);
-extern void GIMMICK_INIT_RestoreGimmick38State(unsigned int, unsigned short **);
-extern void GIMMICK_INIT_ResetGimmick46Panels(unsigned int);
+extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int, int, int);
+extern void GIMMICK_INIT_SetFlagAnimeFlag(void *, int);
+extern void GIMMICK_INIT_SetButtonStatesFlags(unsigned int, int);
+extern void GIMMICK_INIT_RestorePlateDoorsState(unsigned int, unsigned short **);
+extern void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int);
 extern void *FIELDMAP_GetSodateya(void *);
 extern int SODATEYA_HasEgg(void *);
 extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
@@ -450,7 +450,7 @@ extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
 extern void *func_02014910(char *, int, int, int);
-extern u32 func_0200CA38(struct ZukanSave *);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 extern struct GameEvent *func_020122C0(void *owner, void *, void *, u32 size);
 extern void *func_020124E8(struct GameEvent *);
 int SCRCMD_PROC_LookupTableValue(int, int);
@@ -1475,7 +1475,7 @@ int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
     POKE_TOOL_ChangeForm(mon, (u32)form);
-    func_0200CFA0(func_0200CA1C(gameData), mon);
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
 
@@ -1497,7 +1497,7 @@ int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
     POKE_TOOL_SetRotomFormMove(mon, (u32)moveSlot, (u32)form);
-    func_0200CFA0(func_0200CA1C(gameData), mon);
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
 
@@ -1843,7 +1843,7 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
     func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
-    func_0200CDE0(func_0200CA1C(gameData), mon);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     func_020307B0(mon);
     return 1;
 }
@@ -1863,7 +1863,7 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
     POKEPARTY_Add(party, mon);
-    func_0200CDE0(func_0200CA1C(gameData), mon);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     func_020307B0(mon);
     return 1;
 }
@@ -2584,7 +2584,7 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_02034AC4((u32)ov037_id);
-    GIMMICK_INIT_SetGimmick39Flags((unsigned int)gameSystem, *firstVar, *secondVar);
+    GIMMICK_INIT_SetCartLanesFlags((unsigned int)gameSystem, *firstVar, *secondVar);
     func_02034A5C((u32)ov037_id);
     return 0;
 }
@@ -2601,7 +2601,7 @@ int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     func_02034AC4((int)ov037_id);
-    GIMMICK_INIT_SetGimmick40Flag(gameSystem, value);
+    GIMMICK_INIT_SetFlagAnimeFlag(gameSystem, value);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -2617,7 +2617,7 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     func_02034AC4((int)ov037_id);
-    GIMMICK_INIT_SetGimmick42Flags((unsigned int)gameSystem, value);
+    GIMMICK_INIT_SetButtonStatesFlags((unsigned int)gameSystem, value);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -2641,7 +2641,7 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     resultVars[6] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[7] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_02034AC4((u32)ov037_id);
-    GIMMICK_INIT_RestoreGimmick38State((unsigned int)gameSystem, resultVars);
+    GIMMICK_INIT_RestorePlateDoorsState((unsigned int)gameSystem, resultVars);
     func_02034A5C((u32)ov037_id);
     return 0;
 }
@@ -2656,7 +2656,7 @@ int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     func_02034AC4((int)ov037_id);
-    GIMMICK_INIT_ResetGimmick46Panels((unsigned int)gameSystem);
+    GIMMICK_INIT_ResetRotatingRoomPanels((unsigned int)gameSystem);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -3005,7 +3005,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
 {
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
-    u32 zukanSave = (u32)func_0200CA1C(gameData);
+    u32 zukanSave = (u32)ZUKAN_SAVE_GetFromGameData(gameData);
     PartyMenuParam *menuParam = func_02030734(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
     PartyMenuState *menuState;
     DaycareEventWork *work;
@@ -3023,7 +3023,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState->cursor = 0;
     menuState->reserved10 = 0;
     menuState->selectedPos = 0;
-    menuState->zukanSave = func_0200CA38((struct ZukanSave *)zukanSave);
+    menuState->zukanSave = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
     event = func_020122C0(gameSystem, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;

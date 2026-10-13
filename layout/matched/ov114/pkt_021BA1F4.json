@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA1F4",
+   "name": "NHTTPi_getUrlEncodedSize",
    "address": "0x021BA1F4",
    "kind": "sdk",
    "region": "ov114",

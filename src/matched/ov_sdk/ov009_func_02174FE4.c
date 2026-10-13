@@ -1,5 +1,5 @@
 /*
- * function: func_02174FE4
+ * function: DWCi_NNProgressCallback
  * address:  0x02174FE4
  * packet:   pkt_ov009_02174FE4
  * region:   ov009
@@ -16,6 +16,6 @@
  *           0x0216FEEC.  Seeded in layout/function_starts.txt.
  */
 
-void func_02174FE4(void)
+void DWCi_NNProgressCallback(void)
 {
 }

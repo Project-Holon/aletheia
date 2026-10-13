@@ -1,5 +1,5 @@
 /*
- * function: func_02078360
+ * function: FS_InitArchive
  * address:  0x02078360
  * packet:   pkt_02078360
  * region:   arm9
@@ -34,7 +34,7 @@ typedef struct FSArchive {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 
-void func_02078360(FSArchive *p_arc)
+void FS_InitArchive(FSArchive *p_arc)
 {
     MI_CpuFill8(p_arc, 0, sizeof(FSArchive));
     p_arc->queue.head = p_arc->queue.tail = NULL;

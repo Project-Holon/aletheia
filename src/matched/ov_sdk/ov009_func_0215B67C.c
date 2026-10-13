@@ -1,5 +1,5 @@
 /*
- * function: func_0215B67C
+ * function: scavenger
  * address:  0x0215B67C
  * packet:   pkt_ov009_0215B67C
  * region:   ov009
@@ -13,19 +13,19 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0215AA5C  0x0215AA5C  arm  ov009
- *   func_02085A38  0x02085A38  arm
+ *   CPS_SocRegister  0x0215AA5C  arm  ov009
+ *   OS_Sleep  0x02085A38  arm
  *   func_020870D0  0x020870D0  arm
- *   func_0215B644  0x0215B644  arm  ov009
- *   func_0215C2F8  0x0215C2F8  arm  ov009
- *   func_0215C350  0x0215C350  arm  ov009
+ *   set_fixed_ip  0x0215B644  arm  ov009
+ *   dhcp_discover_server  0x0215C2F8  arm  ov009
+ *   dhcp_request_server  0x0215C350  arm  ov009
  *   func_02157290  0x02157290  arm  ov009
- *   func_0215B5C4  0x0215B5C4  arm  ov009
- *   func_02157E54  0x02157E54  arm  ov009
- *   func_02085868  0x02085868  arm
+ *   garprequest  0x0215B5C4  arm  ov009
+ *   send_arprequest  0x02157E54  arm  ov009
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   func_02162EC4  0x02162EC4  arm  ov009
- *   func_0215C44C  0x0215C44C  arm  ov009
- *   func_0215AA70  0x0215AA70  arm  ov009
+ *   dhcp_release_server  0x0215C44C  arm  ov009
+ *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   g_021A83E4     0x021A83E4  data
  *   g_021A826C     0x021A826C  data
  *   g_021A88E4     0x021A88E4  data
@@ -129,26 +129,26 @@ extern struct thread_info g_02150FEC;
 extern struct CPSFragTable g_021A8A64[8];
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_0215AA5C(int v);
-extern void func_02085A38(unsigned long msec);
+extern void CPS_SocRegister(int v);
+extern void OS_Sleep(unsigned long msec);
 extern unsigned long long func_020870D0(void);
-extern void func_0215B644(void);
-extern int func_0215C2F8(void);
-extern int func_0215C350(unsigned long *sleep, int mode);
+extern void set_fixed_ip(void);
+extern int dhcp_discover_server(void);
+extern int dhcp_request_server(unsigned long *sleep, int mode);
 extern void func_02157290(int reason);
-extern int func_0215B5C4(void);
-extern void func_02157E54(unsigned long ip);
-extern void func_02085868(OSThread *thread);
+extern int garprequest(void);
+extern void send_arprequest(unsigned long ip);
+extern void OS_WakeupThreadDirect(OSThread *thread);
 extern void func_02162EC4(unsigned long now);
-extern void func_0215C44C(void);
-extern void func_0215AA70(void);
+extern void dhcp_release_server(void);
+extern void CPS_SocUnRegister(void);
 
 static inline int dhcp_denied(void)
 {
     return g_021A826C.dhcp_callback ? g_021A826C.dhcp_callback() == 0 : 0;
 }
 
-void func_0215B67C(void)
+void scavenger(void)
 {
     int i;
     int dhcp_state;
@@ -168,7 +168,7 @@ void func_0215B67C(void)
     g_021A83E4.rcvbuf.data = g_021A88E4;
     g_021A83E4.sndbuf.size = sizeof(g_021A8764);
     g_021A83E4.sndbuf.data = g_021A8764;
-    func_0215AA5C((int)(&g_021A83E4));
+    CPS_SocRegister((int)(&g_021A83E4));
     gwcache_sleep = 1;
     dhcp_sleep = 1;
     first = 1;
@@ -176,7 +176,7 @@ void func_0215B67C(void)
 
     for (;;)
     {
-        func_02085A38(1000);
+        OS_Sleep(1000);
         if (g_021A826C.calm)
             break;
         now = (unsigned long)(func_020870D0() >> 16);
@@ -189,7 +189,7 @@ void func_0215B67C(void)
                 {
                     if (dhcp_state == 0)
                     {
-                        func_0215B644();
+                        set_fixed_ip();
                         dhcp_state = 1;
                     }
                 }
@@ -203,9 +203,9 @@ void func_0215B67C(void)
                             g_021A826C.state = 2;
                             first = 0;
                         }
-                        if (!func_0215C2F8() || !func_0215C350(&dhcp_sleep, 0))
+                        if (!dhcp_discover_server() || !dhcp_request_server(&dhcp_sleep, 0))
                         {
-                            func_0215B644();
+                            set_fixed_ip();
                             dhcp_state = 3;
                         }
                         else
@@ -219,13 +219,13 @@ void func_0215B67C(void)
                             if (denied)
                             {
                                 func_02157290(5);
-                                func_0215B644();
+                                set_fixed_ip();
                                 dhcp_state = 3;
                             }
                             else
                             {
                                 dhcp_state = 1;
-                                if (!func_0215B5C4())
+                                if (!garprequest())
                                 {
                                     func_02157290(4);
                                     dhcp_state = 3;
@@ -234,35 +234,35 @@ void func_0215B67C(void)
                         }
                         break;
                     case 1:
-                        if (!func_0215C350(&dhcp_sleep, 1) && dhcp_sleep < 60)
+                        if (!dhcp_request_server(&dhcp_sleep, 1) && dhcp_sleep < 60)
                         {
                             dhcp_state = 2;
                         }
                         else if (dhcp_denied())
                         {
                             func_02157290(5);
-                            func_0215B644();
+                            set_fixed_ip();
                             dhcp_state = 3;
                         }
-                        else if (!func_0215B5C4())
+                        else if (!garprequest())
                         {
                             func_02157290(4);
                             dhcp_state = 3;
                         }
                         break;
                     case 2:
-                        if (func_0215C350(&dhcp_sleep, 2))
+                        if (dhcp_request_server(&dhcp_sleep, 2))
                         {
                             if (dhcp_denied())
                             {
                                 func_02157290(5);
-                                func_0215B644();
+                                set_fixed_ip();
                                 dhcp_state = 3;
                             }
                             else
                             {
                                 dhcp_state = 1;
-                                if (!func_0215B5C4())
+                                if (!garprequest())
                                 {
                                     func_02157290(4);
                                     dhcp_state = 3;
@@ -300,7 +300,7 @@ void func_0215B67C(void)
 
         if (g_021A826C.gateway_ip && --gwcache_sleep == 0)
         {
-            func_02157E54(g_021A826C.gateway_ip);
+            send_arprequest(g_021A826C.gateway_ip);
             gwcache_sleep = 105;
         }
 
@@ -321,13 +321,13 @@ void func_0215B67C(void)
                     {
                         soc->state = 0;
                         soc->block_type = 0;
-                        func_02085868(soc->thread);
+                        OS_WakeupThreadDirect(soc->thread);
                     }
                 }
                 else if (soc->state != 4 && soc->block_type == 2)
                 {
                     soc->block_type = 0;
-                    func_02085868(soc->thread);
+                    OS_WakeupThreadDirect(soc->thread);
                 }
             }
         }
@@ -348,6 +348,6 @@ void func_0215B67C(void)
     }
 
     if (!(g_021A826C.mode & 1) && dhcp_state != 3)
-        func_0215C44C();
-    func_0215AA70();
+        dhcp_release_server();
+    CPS_SocUnRegister();
 }

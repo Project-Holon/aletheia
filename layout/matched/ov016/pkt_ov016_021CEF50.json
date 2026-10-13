@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CEF50",
+   "name": "DWCi_SEARCHlEnd",
    "address": "0x021CEF50",
    "kind": "sdk",
    "region": "ov016",

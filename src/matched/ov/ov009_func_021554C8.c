@@ -23,7 +23,7 @@
  *   func_0205CA20  0x0205CA20  arm
  *   func_0205C8E0  0x0205C8E0  arm
  *   DWC_InitFriendsMatch  0x0216AB20  arm
- *   func_02087C88  0x02087C88  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *   DWC_LoginAsync  0x0216B0E0  arm
  *   DWC_ProcessFriendsMatch  0x0216AE88  arm
  *   DWC_UpdateServersAsync  0x0216B1E0  arm
@@ -79,7 +79,7 @@ void func_0205C8E0(void);
 void DWC_InitFriendsMatch(void *a, int b, char *c, int d, int e, void *f, int g);
 typedef signed int     s32;
 struct OSOwnerInfo;
-void func_02087C88(struct OSOwnerInfo *info);
+void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 int DWC_LoginAsync(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param);
 void DWC_ProcessFriendsMatch(void);
 int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
@@ -128,7 +128,7 @@ int DWC_RAP_StepLogin(void)
         DWC_InitFriendsMatch(_pRapWork->w108, 0x2FC6, d_021A1C6C, 0, 0, m, flag);
         _pRapWork->b7A9 = 1;
         { u16 name[2] = {0, 0};
-        func_02087C88((struct OSOwnerInfo *)(&info));
+        OS_GetOwnerInfo((struct OSOwnerInfo *)(&info));
         DWC_LoginAsync(name, 0, (void (*)(int,  int,  void *))((Fn)DWC_RAP_OnLogin), 0);
         }
         DWC_RAP_SetState(3);

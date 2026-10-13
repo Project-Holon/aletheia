@@ -1,5 +1,5 @@
 /*
- * function: func_021C013C
+ * function: WIFICLUB_StateUnusedC
  * address: 0x021C013C
  * packet: pkt_ov099_021C013C
  * region: ov099
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov099/unit_021BF050.c and filed here.
  */
 
-int func_021C013C(int a, int b);
+int WIFICLUB_StateUnusedC(int a, int b);
 
-int func_021C013C(int a, int b) { return b; }
+int WIFICLUB_StateUnusedC(int a, int b) { return b; }

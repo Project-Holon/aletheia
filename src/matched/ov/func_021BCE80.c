@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE80
+ * function: WIFICLUB_StateShowRuleSet
  * address:  0x021BCE80
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BCBD8  0x021BCBD8  thumb  ov099
- *   func_021BBEB4  0x021BBEB4  thumb  ov099
+ *   WIFICLUB_LoadPickedRegulation  0x021BCBD8  thumb  ov099
+ *   WIFICLUB_ShowRuleWindow  0x021BBEB4  thumb  ov099
  *
- * Re-arms through func_021BCBD8, hands the owner record class byte to
- * func_021BBEB4 and stamps selector 0x5D; returns the selector.
+ * Re-arms through WIFICLUB_LoadPickedRegulation, hands the owner record class byte to
+ * WIFICLUB_ShowRuleWindow and stamps selector 0x5D; returns the selector.
  */
 #include "../include/Obj12113.h"
 #include "../include/Obj18202.h"
@@ -26,14 +26,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern u32 func_021BCBD8(char *p, int m);
+extern u32 WIFICLUB_LoadPickedRegulation(char *p, int m);
 struct O;
-extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
+extern void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode);
 
-int func_021BCE80(char *p, int v)
+int WIFICLUB_StateShowRuleSet(char *p, int v)
 {
-    func_021BCBD8(p, 1);
-    func_021BBEB4((struct O *)p, 0, ((struct Obj18202 *)(*(char * *)&((struct Obj12113 *)p)->f248))->f20, 0);
+    WIFICLUB_LoadPickedRegulation(p, 1);
+    WIFICLUB_ShowRuleWindow((struct O *)p, 0, ((struct Obj18202 *)(*(char * *)&((struct Obj12113 *)p)->f248))->f20, 0);
     ((struct Obj12113 *)p)->f1CC = 0x5D;
     return v;
 }

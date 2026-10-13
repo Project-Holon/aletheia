@@ -63,7 +63,7 @@
  *   func_020498F4  0x020498F4  arm
  *   func_0204162C  0x0204162C  arm
  *   func_02049EF4  0x02049EF4  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049B40  0x02049B40  arm
  *   func_02040588  0x02040588  arm
@@ -173,7 +173,7 @@ extern u32 func_02049658(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 h
 extern void func_020498F4(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern u32 func_0204162C(int channel);
 extern void *func_02049EF4(void *archive, u32 a, u32 b, void **out, u16 heapId);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void func_02049B68(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -548,7 +548,7 @@ void UNION_SUBDISP_InitBgs(UnionSubdispWork *work, void *archive)
     func_020498F4(archive, 0x11, 7, 0, 0x800, 0, UNION_SUBDISP_HEAP_ID);
     palette = (u16 *)func_0204162C(6);
     palFile = func_02049EF4(archive, 0x12, 0, (void **)&palData, UNION_SUBDISP_HEAP_ID);
-    func_02082D44(palData + 0xC, palette, 0x1C0);
+    MI_CpuCopy8(palData + 0xC, palette, 0x1C0);
     func_020307B0(palFile);
     func_02049B68(archive, 0x10, 4, 0, 0xA0, UNION_SUBDISP_HEAP_ID);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, UNION_SUBDISP_HEAP_ID);
@@ -592,7 +592,7 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
     func_02049658(archive, 0x1C, 5, charOffset, 0x80, 0, UNION_SUBDISP_HEAP_ID);
     screen = (u16 *)func_0204162C(5);
     screenFile = func_02049EF4(archive, 0x1D, 0, (void **)&screenData, UNION_SUBDISP_HEAP_ID);
-    func_02082D44((u16 *)(screenData + 0xC) + 0x2A0, screen + 0x2A0, 0xC0);
+    MI_CpuCopy8((u16 *)(screenData + 0xC) + 0x2A0, screen + 0x2A0, 0xC0);
     func_020307B0(screenFile);
     for (i = 0; i < 0x60; i++)
         screen[0x2A0 + i] = (screen[0x2A0 + i] & 0xFFF) + charOffset + 0xD000;
@@ -802,7 +802,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     screen = (u16 *)func_0204162C(UNION_SUBDISP_BG_CHAT);
     offset = (lineNo * UNION_SUBDISP_LINE_COPY_STRIDE) << 1;
     palette = UNION_SUBDISP_GetLinePalette(entry);
-    func_02082D44(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
+    MI_CpuCopy8(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
     func_020413B0(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
     func_02041B6C(UNION_SUBDISP_BG_CHAT);
     textOffset = sUnionSubdispChatTextOffset;
@@ -901,7 +901,7 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     sourceOffset <<= 1;
     dst = (u16 *)((u32)screen + destOffset);
     src = (u16 *)((u32)screen + sourceOffset);
-    func_02082D44(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
+    MI_CpuCopy8(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
     func_02041B6C(UNION_SUBDISP_BG_CHAT);
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_PMS && work->lineKind[dstLine] == UNION_SUBDISP_LINE_PMS) {
         PMS_DRAW_Copy(work->pmsDraw, srcLine, dstLine);
@@ -1122,7 +1122,7 @@ int UNION_SUBDISP_CheckLineTouch(UnionRoomWork *room, UnionSubdispWork *work, Un
         UNION_SUBDISP_StartLineHighlight(work, log, lineNo);
         entry = UNION_CHAT_LOG_GetLine(log, lineNo);
         if (entry != 0)
-            func_02082D44(entry->senderMac, room->mySituation.focusMac, 6);
+            MI_CpuCopy8(entry->senderMac, room->mySituation.focusMac, 6);
         UNION_SUBDISP_CancelOtherHighlights(work, log, lineNo);
         GFL_USE_PlaySeDefaultVolume(UNION_SUBDISP_SE_SELECT_LINE);
         return 1;

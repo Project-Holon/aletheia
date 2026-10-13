@@ -13,10 +13,10 @@
  * symbols:
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_0200D468  0x0200D468  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryState  0x0200D468  thumb
  */
 #include "../include/Obj00005.h"
 
@@ -28,11 +28,11 @@ struct Big;
 
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *sys);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk38;
-extern u8 func_0200D468(struct Blk38 *p, u32 i);
+extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct Blk38 *p, u32 i);
 
 int FIELD_G3D_MAP_ScrCmdReadSaveByte(int a0, int a1)
 {
@@ -49,7 +49,7 @@ a0 = t6 + 0;
 loc_0216BF44:
     p = GAME_DATA_GetSaveControl((struct Big *)p);
 loc_0216BF48:
-    t7 = func_0200D418(p);
+    t7 = MOVE_POKEMON_SAVE_GetBlock(p);
 loc_0216BF4C:
 a0 = t5 + 0;
 a1 = t6 + 0;
@@ -63,7 +63,7 @@ a1 = t6 + 0;
 loc_0216BF62:
 t5 = a0 + 0;
 a1 = t4 + 0;
-    a0 = func_0200D468(t7, a1);
+    a0 = MOVE_POKEMON_SAVE_GetEntryState(t7, a1);
 loc_0216BF6C:
 *(u16 *)&((struct Obj00005 *)((char *)t5))->f0 = a0;
 a0 = 0;

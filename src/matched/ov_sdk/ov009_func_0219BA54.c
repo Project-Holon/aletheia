@@ -1,5 +1,5 @@
 /*
- * function: func_0219BA54
+ * function: NatNegProgressCallback
  * address:  0x0219BA54
  * packet:   pkt_ov009_0219BA54
  * region:   ov009
@@ -16,6 +16,6 @@
  *           0x0219C550.  Seeded in layout/function_starts.txt.
  */
 
-void func_0219BA54(void)
+void NatNegProgressCallback(void)
 {
 }

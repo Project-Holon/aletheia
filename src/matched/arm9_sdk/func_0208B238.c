@@ -1,5 +1,5 @@
 /*
- * function: func_0208B238
+ * function: TP_CheckError
  * address:  0x0208B238
  * packet:   pkt_0208B238
  * region:   arm9
@@ -21,7 +21,7 @@ typedef struct {
 
 extern TPState tpState;
 
-unsigned int func_0208B238(unsigned int command_flgs)
+unsigned int TP_CheckError(unsigned int command_flgs)
 {
     return (unsigned int)(tpState.err_flg & command_flgs);
 }

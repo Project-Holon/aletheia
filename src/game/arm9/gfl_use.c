@@ -57,7 +57,7 @@
  *   FS_Init             0x0207AD04  arm
  *   FS_TryLoadTable  0x0207ACB4  arm
  *   OS_AllocFromArenaLo 0x02086788  arm
- *   sub_02061C0C        0x02061C0C  arm
+ *   NNS_GfdInitVramTransferTaskQueue        0x02061C0C  arm
  *   sub_0202EB0C        0x0202EB0C  thumb
  *   PM_GetAmp           0x0208C030  arm
  *   PM_SetAmp           0x0208BEF0  arm
@@ -95,19 +95,19 @@
  *   _SndSlots  0x020AA1B8  data
  *   NNS_SndPlayerSetPlayableSeqCount       0x02072DB0  arm
  *   NNS_SndHandleInit       0x02072E9C  arm
- *   func_02072EA8       0x02072EA8  arm
- *   func_02074894       0x02074894  arm
- *   func_020748E0       0x020748E0  arm
- *   func_02074AC4       0x02074AC4  arm
- *   func_0207482C       0x0207482C  arm
- *   func_02074A6C       0x02074A6C  arm
+ *   NNS_SndHandleReleaseSeq       0x02072EA8  arm
+ *   NNS_SndHeapSaveState       0x02074894  arm
+ *   NNS_SndHeapLoadState       0x020748E0  arm
+ *   NNS_SndArcLoadSeqEx       0x02074AC4  arm
+ *   NNS_SndHeapAlloc       0x0207482C  arm
+ *   NNS_SndArcLoadSeq       0x02074A6C  arm
  *   _SndHeapBuf   0x020AA9B4  data
  *   _SndState   0x020AA260  data
  *   _SndArcPath   0x020A7010  data
  *   _SndArc   0x020AA2BC  data
  *   func_020726D0  0x020726D0  arm
- *   func_020746E8  0x020746E8  arm
- *   func_02073FB8  0x02073FB8  arm
+ *   NNS_SndHeapCreate  0x020746E8  arm
+ *   NNS_SndArcInit  0x02073FB8  arm
  *   SNDEXi_Init  0x02704364  arm  twl
  *   PM_ReadyToExit  0x027314F0  arm  twl
  *   PM_SetAutoExit  0x027315C0  arm  twl
@@ -137,6 +137,7 @@
  *   NNS_SndArcGetGroupInfo  0x02074518  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
+ *   NNS_SndArcPlayerSetup  0x020754C4  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -279,7 +280,7 @@ extern void SCFG_SetCpuSpeed(int speed);
 extern void FS_Init(int dma);
 extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
-extern void sub_02061C0C(void *buf, u32 capacity);
+extern void NNS_GfdInitVramTransferTaskQueue(void *buf, u32 capacity);
 extern u32 sub_0202EB0C(void);
 extern void PM_AppendPreExitCallback(void *info);
 extern void PM_GetAmp(u32 *out);
@@ -338,17 +339,17 @@ extern void func_0203508C(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  func_02035108(void);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndHandleInit(u32 **handle);
-extern void func_02072EA8(u32 **handle);
-extern int   func_02074894(struct SndHeap *heap);
-extern void  func_020748E0(struct SndHeap *heap, u32 state);
-extern u32 func_02074AC4(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
-extern struct SndWaveSetHeader *func_0207482C(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
-extern u32   func_02074A6C(u32 waveArcNo, struct SndHeap *heap);
+extern void NNS_SndHandleReleaseSeq(u32 **handle);
+extern int   NNS_SndHeapSaveState(struct SndHeap *heap);
+extern void  NNS_SndHeapLoadState(struct SndHeap *heap, u32 state);
+extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
+extern struct SndWaveSetHeader *NNS_SndHeapAlloc(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
+extern u32   NNS_SndArcLoadSeq(u32 waveArcNo, struct SndHeap *heap);
 extern void func_020726D0(void);
-extern struct SndHeap *func_020746E8(char *buf, u32 size);
-extern void func_02073FB8(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
+extern struct SndHeap *NNS_SndHeapCreate(char *buf, u32 size);
+extern void NNS_SndArcInit(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
 extern void SNDEXi_Init(void);
-extern u32 func_020754C4(struct SndHeap *heap);
+extern u32 NNS_SndArcPlayerSetup(struct SndHeap *heap);
 extern void *NNS_SndArcGetGroupInfo(int index);
 extern void func_02074A54(int index, struct SndHeap *heap);
 extern void GFL_USE_InitSeSlots(void);
@@ -688,7 +689,7 @@ void GFL_USE_InitSdk(void)
     FS_Init(1);
     tableSize = FS_TryLoadTable(0, 0);
     FS_TryLoadTable((int)OS_AllocFromArenaLo(0, tableSize, 4), tableSize);
-    sub_02061C0C(_TwlServiceBuf, 0x30);
+    NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
     if (sub_0202EB0C()) {
         _PreExitState[0] = 0;
         _PreExitState[1] = (u32)GFL_USE_OnPreExit;
@@ -1280,7 +1281,7 @@ void GFL_USE_InitSndSlot(u32 level)
 {
     _SndSlots[level].inUse = 0;
     _SndSlots[level].bgmId = 0xFFFF;
-    func_02072EA8(&_SndSlots[level].handle);
+    NNS_SndHandleReleaseSeq(&_SndSlots[level].handle);
     _SndSlots[level].baseState = -1;
     _SndSlots[level].preBgmState = -1;
     _SndSlots[level].seqBankState = -1;
@@ -1306,8 +1307,8 @@ void GFL_USE_EndSndSlot(void)
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
-    func_02072EA8(&slot->handle);
-    func_020748E0(*_SndStack.heapPtr, slot->baseState);
+    NNS_SndHandleReleaseSeq(&slot->handle);
+    NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->baseState);
     GFL_USE_InitSndSlot(_SndStack.top);
 }
 
@@ -1323,7 +1324,7 @@ void GFL_USE_InitSndStack(u16 playerNo)
         NNS_SndHandleInit(&_SndSlots[i].handle);
     }
     NNS_SndPlayerSetPlayableSeqCount(_SndStack.playerNo, 6);
-    GFL_USE_BeginSndSlot(func_02074894(*_SndStack.heapPtr));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState(*_SndStack.heapPtr));
 }
 
 
@@ -1362,15 +1363,15 @@ int GFL_USE_LoadBgmData(u32 bgmId)
         &_SndSlots[_SndStack.top];
     int result;
 
-    if (func_02074AC4(bgmId, 3, *_SndStack.heapPtr) == 0) {
+    if (NNS_SndArcLoadSeqEx(bgmId, 3, *_SndStack.heapPtr) == 0) {
         return 0;
     }
-    slot->seqBankState = func_02074894(*_SndStack.heapPtr);
-    result = func_02074AC4(bgmId, 4, *_SndStack.heapPtr);
+    slot->seqBankState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
+    result = NNS_SndArcLoadSeqEx(bgmId, 4, *_SndStack.heapPtr);
     if (result == 0) {
         return 0;
     }
-    slot->waveState = func_02074894(*_SndStack.heapPtr);
+    slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
     slot->bgmId = bgmId;
     return result;
 }
@@ -1381,7 +1382,7 @@ void GFL_USE_SaveSeqBankState(void)
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
-    slot->seqBankState = func_02074894(*_SndStack.heapPtr);
+    slot->seqBankState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
 }
 
 
@@ -1390,7 +1391,7 @@ int GFL_USE_FinishBgmLoad(u32 bgmId)
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
-    slot->waveState = func_02074894(*_SndStack.heapPtr);
+    slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
     slot->bgmId = bgmId;
     return 1;
 }
@@ -1405,7 +1406,7 @@ void GFL_USE_UnloadBgmData(void)
         return;
     }
     slot->bgmId = 0xFFFF;
-    func_020748E0(*_SndStack.heapPtr, slot->preBgmState);
+    NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->preBgmState);
     slot->seqBankState = slot->preBgmState;
     slot->waveState = slot->preBgmState;
 }
@@ -1421,7 +1422,7 @@ int GFL_USE_PushSndSlot(void)
         return 0;
     }
     if (slot->seqBankState != -1) {
-        func_020748E0(*_SndStack.heapPtr, slot->seqBankState);
+        NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->seqBankState);
         slot->waveState = -1;
         state = slot->seqBankState;
     } else {
@@ -1439,7 +1440,7 @@ int GFL_USE_PushSndSlot(void)
  *
  * Pop one slot off the stack of connection slots that src/matched/
  * unit_020057DC.c pushes onto.  It is its own byte range rather than part
- * of that unit for an evidence reason and not a source one: func_02074AC4
+ * of that unit for an evidence reason and not a source one: NNS_SndArcLoadSeqEx
  * is reached from exactly three `blx` sites image wide, 0x0200593A,
  * 0x02005958 and 0x02005A7A, and the first two are inside
  * unit_020057DC.c's range.  Splitting here leaves each file a witness for
@@ -1464,8 +1465,8 @@ int GFL_USE_PopSndSlot(void)
     bgmId = slot->bgmId;
     _SndStack.top = level;
     if (bgmId != 0xFFFF) {
-        func_02074AC4(bgmId, 6, *_SndStack.heapPtr);
-        slot->waveState = func_02074894(*_SndStack.heapPtr);
+        NNS_SndArcLoadSeqEx(bgmId, 6, *_SndStack.heapPtr);
+        slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
     }
     return 1;
 }
@@ -1502,13 +1503,13 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
     savedState = slot->baseState;
     GFL_USE_EndSndSlot();
     i = 0;
-    header = func_0207482C(*_SndStack.heapPtr, 8, 0, 0, 0);
+    header = NNS_SndHeapAlloc(*_SndStack.heapPtr, 8, 0, 0, 0);
     for (i = 0; i < count; i++) {
-        func_02074A6C(waveArcIds[i], *_SndStack.heapPtr);
+        NNS_SndArcLoadSeq(waveArcIds[i], *_SndStack.heapPtr);
     }
     header->count = count;
     header->savedState = savedState;
-    GFL_USE_BeginSndSlot(func_02074894(*_SndStack.heapPtr));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState(*_SndStack.heapPtr));
     return header;
 }
 
@@ -1520,14 +1521,14 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
  * Close the current connection slot with a status word taken from the
  * second word of the argument block.  Its own byte range because the
  * function immediately before it, 0x02005A98, cannot be attested: the only
- * `blx` to func_02074A6C anywhere in the image is the one inside it.
+ * `blx` to NNS_SndArcLoadSeq anywhere in the image is the one inside it.
  */
 void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header)
 {
     u32 savedState = header->savedState;
 
     GFL_USE_EndSndSlot();
-    func_020748E0(*_SndStack.heapPtr, savedState);
+    NNS_SndHeapLoadState(*_SndStack.heapPtr, savedState);
     GFL_USE_BeginSndSlot(savedState);
 }
 
@@ -1555,9 +1556,9 @@ void GFL_USE_InitSound(void)
     struct SndHeap *heap;
 
     func_020726D0();
-    heap = func_020746E8(_SndHeapBuf, 0x95AD0);
+    heap = NNS_SndHeapCreate(_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
-    func_02073FB8(_SndArc, _SndArcPath, heap, 0);
+    NNS_SndArcInit(_SndArc, _SndArcPath, heap, 0);
     GFL_USE_ResetSound(1);
     if (OS_IsRunOnTwl() == 1) {
         SNDEXi_Init();
@@ -1567,7 +1568,7 @@ void GFL_USE_InitSound(void)
 
 void GFL_USE_ResetSound(int clearHeap)
 {
-    func_020754C4(_SndState.heap);
+    NNS_SndArcPlayerSetup(_SndState.heap);
     GFL_USE_SetSndStackHeap(&_SndState.heap);
     if (clearHeap != 0) {
         NNS_SndArcGetGroupInfo(0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF5E4
+ * function: DWCi_DWCScResultToDWCError
  * address:  0x021DF5E4
  * packet:   pkt_021DF5E4
  * region:   ov175
@@ -18,7 +18,7 @@
 
 typedef int s32;
 
-s32 func_021DF5E4(s32 a)
+s32 DWCi_DWCScResultToDWCError(s32 a)
 {
     switch (a) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6AC
+ * function: NHTTP_GetError
  * address:  0x021BE6AC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BAA14  0x021BAA14  arm  ov114
- *   func_021BEF08  0x021BEF08  arm  ov114
+ *   NHTTPi_GetError  0x021BAA14  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
  *
  *
  * Module +0x14 field read: the +0x14 word of the singleton module object.
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021BEF08(void);
-extern u32 func_021BAA14(u8 *);
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern u32 NHTTPi_GetError(u8 *);
 
-u32 func_021BE6AC(void)
+u32 NHTTP_GetError(void)
 {
-    return func_021BAA14(func_021BEF08());
+    return NHTTPi_GetError(NHTTPi_GetSystemInfoP());
 }

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BB7B8, func_021BB804
+ * function: PMSIV_CATEGORY_StepClose, PMSIV_CATEGORY_ResetBgScroll
  * address: 0x021BB7B8
  * packet: pkt_ov110_021BB7B8
  * region: ov110
@@ -10,32 +10,32 @@
  * status: EXACT
  * extent: includes the unlabelled tail-call stub at 0x021BB804.
  * symbols:
- *   func_021BC7DC 0x021BC7DC thumb ov110
- *   func_021BC8FC 0x021BC8FC thumb ov110
- *   func_021BC93C 0x021BC93C thumb ov110
+ *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
+ *   PMSIV_FADE_StartBrightness 0x021BC8FC thumb ov110
+ *   PMSIV_FADE_IsBrightnessDone 0x021BC93C thumb ov110
  *   func_02040618 0x02040618 arm
  */
 #include "../include/Obj13779.h"
 typedef unsigned char u8;
-extern int func_021BC7DC(u8 *p);
-extern void func_021BC8FC(u8 *p, int a, int start, int end, int n);
-extern int func_021BC93C(u8 *p);
+extern int PMSIV_BGSCROLL_Step(u8 *p);
+extern void PMSIV_FADE_StartBrightness(u8 *p, int a, int start, int end, int n);
+extern int PMSIV_FADE_IsBrightnessDone(u8 *p);
 extern void func_02040618(unsigned, unsigned, unsigned);
-int func_021BB7B8(u8 *p)
+int PMSIV_CATEGORY_StepClose(u8 *p)
 {
     switch (((struct Obj13779 *)p)->f10) {
     case 0:
-        if (func_021BC7DC(p + 0x38)) {
-            func_021BC8FC(p + 0x18, 2, 0, -10, 16);
+        if (PMSIV_BGSCROLL_Step(p + 0x38)) {
+            PMSIV_FADE_StartBrightness(p + 0x18, 2, 0, -10, 16);
             ++((struct Obj13779 *)p)->f10;
         }
         break;
     case 1:
-        return func_021BC93C(p + 0x18);
+        return PMSIV_FADE_IsBrightnessDone(p + 0x18);
     }
     return 0;
 }
-void func_021BB804(u8 *a0)
+void PMSIV_CATEGORY_ResetBgScroll(u8 *a0)
 {
     func_02040618(1, 3, 16);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E212C
+ * function: DWCi_GdbSetAsyncStatus
  * address:  0x021E212C
  * packet:   pkt_021E212C
  * region:   ov175
@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-void func_021E212C(u32 v)
+void DWCi_GdbSetAsyncStatus(u32 v)
 {
     u32 *p = (u32 *)0x021E5334;
     p[2] = 2;

@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT*
  * promoted: from src/pending 2026-09-19, no C change: blockers 0x02072A88
- *           (src/matched/func_02072A88.c, ../1.2/sp2) and 0x02072BDC
- *           (src/matched/func_02072BDC.c, ../2.0/sp2) are filed and
+ *           (src/matched/NNSi_SndWaveOutUnlockChannel.c, ../1.2/sp2) and 0x02072BDC
+ *           (src/matched/NNS_SndWaveOutStop.c, ../2.0/sp2) are filed and
  *           0x02072D20 was already a manifest entry, so all seven sites
  *           resolve through the `matched` class.  EXACT* not EXACT: the
  *           follower at 0x0200697A carries no label, nothing else differs.
  * blocker:  (resolved)
  *
  * symbols:
- *   func_02072BDC  0x02072BDC  arm
- *   func_02072D20  0x02072D20  arm
- *   func_02072A88  0x02072A88  arm
+ *   NNS_SndWaveOutStop  0x02072BDC  arm
+ *   NNS_SndWaveOutWaitIdle  0x02072D20  arm
+ *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   PM_VOICE_ResetParams  0x020067A4  thumb
  *
  * Tear down one voice: three calls on the object's object pointer at +0x14,
@@ -50,21 +50,21 @@ struct Sub02006948 {
     u32 unk2C;
 };
 
-extern void func_02072BDC(u32 a);
-extern void func_02072D20(u32 a);
-extern void func_02072A88(u32 *a);
+extern void NNS_SndWaveOutStop(u32 a);
+extern void NNS_SndWaveOutWaitIdle(u32 a);
+extern void NNSi_SndWaveOutUnlockChannel(u32 *a);
 struct Sub02006544Entry;
 extern void PM_VOICE_ResetParams(struct Sub02006544Entry *p);
 
 void PM_VOICE_Stop(struct Sub02006948 *p)
 {
-    func_02072BDC(p->unk14);
-    func_02072D20(p->unk14);
-    func_02072A88((u32 *)p->unk14);
+    NNS_SndWaveOutStop(p->unk14);
+    NNS_SndWaveOutWaitIdle(p->unk14);
+    NNSi_SndWaveOutUnlockChannel((u32 *)p->unk14);
     if (p->unk2C == 1) {
-        func_02072BDC(p->unk18);
-        func_02072D20(p->unk18);
-        func_02072A88((u32 *)p->unk18);
+        NNS_SndWaveOutStop(p->unk18);
+        NNS_SndWaveOutWaitIdle(p->unk18);
+        NNSi_SndWaveOutUnlockChannel((u32 *)p->unk18);
     }
     p->unk00 = 0;
     PM_VOICE_ResetParams((struct Sub02006544Entry *)p);

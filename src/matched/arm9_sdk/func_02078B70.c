@@ -1,5 +1,5 @@
 /*
- * function: func_02078B70
+ * function: FS_ReadFile
  * address:  0x02078B70
  * packet:   pkt_02078B70
  * region:   arm9
@@ -51,7 +51,7 @@ typedef struct FSArgumentForReadFile
     s32 length;
 } FSArgumentForReadFile;
 
-s32 func_02078B70(FSFile *file, void *buffer, s32 length)
+s32 FS_ReadFile(FSFile *file, void *buffer, s32 length)
 {
     FSArgumentForReadFile arg[1];
 

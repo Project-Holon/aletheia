@@ -14,7 +14,7 @@
  * once per frame.  Every concrete byte reproduces (1968/1968, 78 of 80
  * relocation sites resolved).  The only lever beyond the straight reading
  * was state 11's loop counter: `i = 0;` is assigned BEFORE the
- * func_02087C6C(mac) call (the image's `mov sb, r8` precedes the `bl`).
+ * OS_GetMacAddress(mac) call (the image's `mov sb, r8` precedes the `bl`).
  *
  * blocker:  the two remaining sites, GFL_NET_ConnectMacAddressParent (+0x484) and
  *           GFL_NET_ConnectMacAddressChild (+0x4F0), are ARM tail-call wrappers (both now
@@ -51,7 +51,7 @@
  *   GFL_NET_IRC_WIRELESS_OnConnectEnd  0x0203DC4C  arm
  *   GFL_NET_IRC_WIRELESS_SetState  0x0203DC68  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  */
 
 #include "../include/G_Ctx.h"
@@ -100,7 +100,7 @@ extern void GFL_NET_IRC_WIRELESS_OnSyncReady(void);
 extern void GFL_NET_IRC_WIRELESS_OnConnectEnd(void);
 extern void GFL_NET_IRC_WIRELESS_SetState(struct Ctx *p, int state);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern void func_02087C6C(u8 *mac);
+extern void OS_GetMacAddress(u8 *mac);
 
 void GFL_NET_IRC_WIRELESS_Main(void)
 {
@@ -232,7 +232,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         u8 *q;
 
         i = 0;
-        func_02087C6C(mac);
+        OS_GetMacAddress(mac);
         for (;; i++) {
             q = (u8 *)GFL_NET_GetScanResult((int)i);
             if (q == 0)

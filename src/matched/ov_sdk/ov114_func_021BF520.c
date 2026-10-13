@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C2344  0x021C2344  arm  ov114
+ *   ghttpSetRootCAList  0x021C2344  arm  ov114
  *
  *
  * Predicate: true when `a` is the sole entry of the 0x021CE544 table.
@@ -18,9 +18,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021C2344(int, void *);
+extern int ghttpSetRootCAList(int, void *);
 
 int func_021BF520(int a)
 {
-    return func_021C2344(a, (void *)0x021CE544) == 1;
+    return ghttpSetRootCAList(a, (void *)0x021CE544) == 1;
 }

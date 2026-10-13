@@ -1,5 +1,5 @@
 /*
- * function: func_021DD328
+ * function: sakeiCancelRequest
  * address:  0x021DD328
  * packet:   pkt_021DD328
  * region:   ov175
@@ -23,7 +23,7 @@ typedef unsigned long u32;
 struct GSTask;
 extern void func_0217CECC(struct GSTask *theTask);
 
-int func_021DD328(char *a, char *b)
+int sakeiCancelRequest(char *a, char *b)
 {
     u32 v;
     if (a && b && *(char **)(b + 0x20)

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB58
+ * function: DWCi_BTNlIsEnd
  * address:  0x021BCB58
  * packet:   pkt_021BCB58
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCB58 0x021BCB58 arm
+ *   DWCi_BTNlIsEnd 0x021BCB58 arm
  *
  * Report whether +0x19 of the object behind the global pointer at 0x021DE508 is clear (or the pointer is null).
  * Addresses are Black-image addresses.
  */
 
-int func_021BCB58(void)
+int DWCi_BTNlIsEnd(void)
 {
     unsigned char *p = *(unsigned char **)0x021DE508;
 

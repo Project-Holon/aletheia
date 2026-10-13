@@ -1,5 +1,5 @@
 /*
- * function: func_02069D14
+ * function: NNS_G3dRenderObjInit
  * address:  0x02069D14
  * packet:   pkt_020694D8
  * region:   arm9
@@ -13,18 +13,18 @@
  *           resolves as data_table, this one occurs only inside the compared range.
  *           All 17 instructions and the two other pool words are byte-identical.
  * symbols:
- *   g_020A8234     0x020A8234  data
- *   g_020A8238     0x020A8238  data
- *   g_020A823C     0x020A823C  data
+ *   gNNSiG3dFuncBlendVisDefault     0x020A8234  data
+ *   gNNSiG3dFuncBlendJntDefault     0x020A8238  data
+ *   gNNSiG3dFuncBlendMatDefault     0x020A823C  data
  *   func_02082A7C  0x02082A7C  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 g_020A8234;
-extern u32 g_020A8238;
-extern u32 g_020A823C;
+extern u32 gNNSiG3dFuncBlendVisDefault;
+extern u32 gNNSiG3dFuncBlendJntDefault;
+extern u32 gNNSiG3dFuncBlendMatDefault;
 extern void func_02082A7C(u32 val, void *dst, u32 len);
 
 typedef struct {
@@ -38,11 +38,11 @@ typedef struct {
     u32 f1c;
 } S;
 
-void func_02069D14(S *p, u32 b)
+void NNS_G3dRenderObjInit(S *p, u32 b)
 {
     func_02082A7C(0, p, 0x54);
-    p->f0c = g_020A823C;
-    p->f14 = g_020A8238;
-    p->f1c = g_020A8234;
+    p->f0c = gNNSiG3dFuncBlendMatDefault;
+    p->f14 = gNNSiG3dFuncBlendJntDefault;
+    p->f1c = gNNSiG3dFuncBlendVisDefault;
     p->f04 = b;
 }

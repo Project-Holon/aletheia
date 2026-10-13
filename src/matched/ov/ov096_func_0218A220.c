@@ -1,5 +1,5 @@
 /*
- * function: func_0218A220
+ * function: TR_AI_GetAbility
  * address: 0x0218A220
  * packet: pkt_ov096_0218A220
  * region: ov096
@@ -15,7 +15,7 @@
  * lever: advance p itself before indexed store; random draw helper owns
  * its u64 temporary and returns u32 (random-below-n existing idiom).
  * symbols:
- *   func_0218A2FC 0x0218A2FC thumb ov096
+ *   TR_AI_GetPoke 0x0218A2FC thumb ov096
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   func_021F8AFC 0x021F8AFC thumb ov094
  *   func_021D59B4 0x021D59B4 thumb ov093
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern int func_0218A2FC(u8 *, int);
+extern int TR_AI_GetPoke(u8 *, int);
 struct QF;
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
@@ -43,13 +43,13 @@ static inline u32 draw_below(u32 n)
     if (n != 0) draw = (draw * n) >> 32;
     return draw;
 }
-int func_0218A220(u8 *p, int k, int slot)
+int TR_AI_GetAbility(u8 *p, int k, int slot)
 {
     void *mon;
     int a, b;
     u32 x, y, z, n;
     u32 values[3];
-    mon = (void *)func_0218A2FC(p, slot);
+    mon = (void *)TR_AI_GetPoke(p, slot);
     if (BTL_POKEPARAM_HasSick(mon, 0x10) != 0)
         return 0;
     if (k == 0 || k == 2) {

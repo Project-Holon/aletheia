@@ -1,5 +1,5 @@
 /*
- * function: func_02085988
+ * function: OS_SetThreadPriority
  * address:  0x02085988
  * packet:   pkt_02085988
  * region:   arm9
@@ -17,7 +17,7 @@
  *   OSi_InsertThreadToList  0x020850FC  arm
  *   OSi_RescheduleThread    0x020851A0  arm
  *   OSi_IdleThread          0x02150FFC  data
- *   g_02150FD0              0x02150FD0  data
+ *   gOsThreadBss              0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -141,7 +141,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -150,9 +150,9 @@ extern void OSi_InsertThreadToList(OSThread *thread);
 extern void OSi_RescheduleThread(void);
 extern OSThread OSi_IdleThread;
 
-BOOL func_02085988(OSThread *thread, u32 prio)
+BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
 {
-    OSThread *t = g_02150FD0.OSi_ThreadInfo.list;
+    OSThread *t = gOsThreadBss.OSi_ThreadInfo.list;
     OSThread *pre = 0;
     OSIntrMode enable = OS_DisableInterrupts();
 
@@ -168,7 +168,7 @@ BOOL func_02085988(OSThread *thread, u32 prio)
 
     if (t->priority != prio) {
         if (!pre) {
-            g_02150FD0.OSi_ThreadInfo.list = thread->next;
+            gOsThreadBss.OSi_ThreadInfo.list = thread->next;
         } else {
             pre->next = thread->next;
         }

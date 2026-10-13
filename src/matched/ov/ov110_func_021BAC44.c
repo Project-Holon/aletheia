@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC44
+ * function: PMS_INPUT_VIEW_GetFont
  * address:  0x021BAC44
  * packet:   pkt_ov110_021BAC44
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021BAC44(u8 *p) { return ((struct Obj22342 *)p)->f80; }
+u32 PMS_INPUT_VIEW_GetFont(u8 *p) { return ((struct Obj22342 *)p)->f80; }

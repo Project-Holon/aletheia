@@ -28,7 +28,7 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   COMM_ENTRY_EndNetCommands  0x021CF17C  thumb  ov021
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
@@ -66,7 +66,7 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern u32 GFL_NET_GetUserArg(void);
 extern void *GFL_NET_GetInitParam(void);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void COMM_ENTRY_EndNetCommands(void);
 extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_IsSessionNull(void);
@@ -180,7 +180,7 @@ int COMM_ENTRY_MENU_MainMode1(u8 *p)
         break;
     case 10:
         U32(0x484) = GFL_NET_GetUserArg();
-        func_02082D44(GFL_NET_GetInitParam(), p + 0x414, 0x70);
+        MI_CpuCopy8(GFL_NET_GetInitParam(), p + 0x414, 0x70);
         COMM_ENTRY_EndNetCommands();
         GFL_NET_Exit(0);
         func_0201F02C((struct WordSet *)U32(4), 0, (void *)((int)(p + 0x530)));

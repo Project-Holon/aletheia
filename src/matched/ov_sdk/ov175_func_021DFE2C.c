@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE2C
+ * function: sciCreateReport
  * address:  0x021DFE2C
  * packet:   pkt_ov175_021DFE2C
  * region:   ov175
@@ -61,7 +61,7 @@ typedef struct {
 
 #define HTONL(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 
-int func_021DFE2C(int unused, unsigned int theHeaderVersion, unsigned int thePlayerCount, unsigned int theTeamCount, SCIReport **theReportOut)
+int sciCreateReport(int unused, unsigned int theHeaderVersion, unsigned int thePlayerCount, unsigned int theTeamCount, SCIReport **theReportOut)
 {
     SCIReport *theNewReport;
     SCIReportHeader *theReportHeader;

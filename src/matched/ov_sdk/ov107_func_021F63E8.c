@@ -12,9 +12,9 @@
  * sdk:      MBi_ReadFromCache (libmb.TWL.HYB.a mb_cache.o)
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_02082D44  0x02082D44  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef unsigned char u8;
@@ -33,9 +33,9 @@ typedef struct {
     MBiCacheInfo list[4];
 } MBiCacheList;
 
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32 state);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
 int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
 {
@@ -45,7 +45,7 @@ int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
     int ofs;
 
     ret = 0;
-    bak_cpsr = func_02087988();
+    bak_cpsr = OS_DisableInterrupts();
     for (pi = pl->list; pi < &pl->list[4]; pi++) {
         if (pi->state < 2)
             continue;
@@ -54,11 +54,11 @@ int func_021F63E8(MBiCacheList *pl, u32 src, void *dst, u32 len)
             continue;
         if (ofs + len > pi->len)
             continue;
-        func_02082D44((u8 *)pi->ptr + ofs, dst, len);
+        MI_CpuCopy8((u8 *)pi->ptr + ofs, dst, len);
         pl->f0 = 0;
         ret = 1;
         break;
     }
-    func_0208799C(bak_cpsr);
+    OS_RestoreInterrupts(bak_cpsr);
     return ret;
 }

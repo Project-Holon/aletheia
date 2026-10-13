@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4BC
+ * function: WIFICLUB_DrawPhaseIcon
  * address: 0x021BE4BC
  * packet: pkt_ov099_021BE4BC
  * region: ov099
@@ -10,13 +10,13 @@
  * status: EXACT*
  * Extent ends with two-byte alignment padding at 0x021BE4EA.
  * symbols:
- *   func_021BE448 0x021BE448 thumb ov099
- *   func_021BE3CC 0x021BE3CC thumb ov099
+ *   WIFICLUB_GetPhaseIconTile 0x021BE448 thumb ov099
+ *   WIFICLUB_DrawTileBlock 0x021BE3CC thumb ov099
  */
-extern int func_021BE448(unsigned int,int);
-extern void func_021BE3CC(char *,int,int,int,int,int);
-void func_021BE4BC(char *p,int a,int b,int c,int d,unsigned int e,int f) {
+extern int WIFICLUB_GetPhaseIconTile(unsigned int,int);
+extern void WIFICLUB_DrawTileBlock(char *,int,int,int,int,int);
+void WIFICLUB_DrawPhaseIcon(char *p,int a,int b,int c,int d,unsigned int e,int f) {
  int value;
- value=func_021BE448(e,d);
- func_021BE3CC(p,a,b,c,value+f,0);
+ value=WIFICLUB_GetPhaseIconTile(e,d);
+ WIFICLUB_DrawTileBlock(p,a,b,c,value+f,0);
 }

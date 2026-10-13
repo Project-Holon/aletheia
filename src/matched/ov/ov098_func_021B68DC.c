@@ -1,5 +1,5 @@
 /*
- * function: func_021B68DC
+ * function: PDC_MSG_Delete
  * address: 0x021B68DC
  * packet: pkt_ov098_021B68DC
  * region: ov098
@@ -22,4 +22,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec); extern void func_0201ED04(void *); extern void PRINTSYS_PrintStreamDelete(void *); extern void func_020403F4(int); extern void MSGDATA_Delete(void *); extern void BMP_WIN_Delete(void *); extern void func_020307B0(void *);
-void func_021B68DC(u8 *p) { STRBUF_Delete(((struct Obj05259 *)p)->f2C); func_0201ED04(((struct Obj05259 *)p)->f30); if (((struct Obj05259 *)p)->f0) PRINTSYS_PrintStreamDelete(((struct Obj05259 *)p)->f0); func_020403F4(1); MSGDATA_Delete(((struct Obj05259 *)p)->f20); BMP_WIN_Delete(((struct Obj05259 *)p)->f1C); func_020307B0(p); }
+void PDC_MSG_Delete(u8 *p) { STRBUF_Delete(((struct Obj05259 *)p)->f2C); func_0201ED04(((struct Obj05259 *)p)->f30); if (((struct Obj05259 *)p)->f0) PRINTSYS_PrintStreamDelete(((struct Obj05259 *)p)->f0); func_020403F4(1); MSGDATA_Delete(((struct Obj05259 *)p)->f20); BMP_WIN_Delete(((struct Obj05259 *)p)->f1C); func_020307B0(p); }

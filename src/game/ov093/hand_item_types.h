@@ -34,7 +34,7 @@
  */
 #include "btl_action_word_types.h"
 #include "hand_tokusei_types.h"
-#include "unit_021D794C_types.h"
+#include "btl_calc_types.h"
 /*
  * ov093 held item handlers, last part: Binding Band (power part), Absorb
  * Bulb, Cell Battery, Eject Button and the 17 type gems; and the start of the
@@ -487,7 +487,7 @@ extern u32 BTL_SERVER_FLOW_TestStateFlagBit0(struct BtlServerFlow *flow);
 extern int BTL_SERVER_FLOW_TrySetOnceFlag(struct BtlServerFlow *flow);
 
 
-extern int func_0689C8EC(u16 moveId);
+extern int BTL_ID_IsGemIgnoredMove(u16 moveId);
 
 extern int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor);
 

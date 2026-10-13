@@ -1,5 +1,5 @@
 /*
- * function: func_068998A4
+ * function: HAND_SIDE_RainbowForceCriticalFlag
  * address: 0x068998A4
  * packet: pkt_ov095_068998A4
  * region: ov095
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 extern int func_068998C4(int);
 extern int func_068998D4(u8);
 extern int func_068998E4(int, unsigned int);
-void func_068998A4(int a, int b, int c)
+void HAND_SIDE_RainbowForceCriticalFlag(int a, int b, int c)
 {
     if (c == func_068998D4((u8)func_068998C4(3))) {
         func_068998E4(0x45, 1);

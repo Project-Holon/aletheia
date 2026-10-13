@@ -1,5 +1,5 @@
 /*
- * function: func_021D2314
+ * function: DWCi_MOV_MBP_StartRebootAll
  * address:  0x021D2314
  * packet:   pkt_ov016_021D2314
  * region:   ov016
@@ -17,7 +17,7 @@
  *   OS_DisableInterrupts             0x02087988  arm
  *   OS_RestoreInterrupts             0x0208799C  arm
  *   MB_DisconnectChild               0x021F5FB0  arm
- *   g_021DE65C                       0x021DE65C  data
+ *   gDwcMovMbpWork                       0x021DE65C  data
  */
 
 typedef unsigned short u16;
@@ -37,31 +37,31 @@ typedef struct {
     MBPState mbpState;
 } Wb;
 
-extern Wb *g_021DE65C;
+extern Wb *gDwcMovMbpWork;
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern int MB_CommResponseRequest(u16 child_aid, int ack);
 extern void MB_DisconnectChild(u16 aid);
 extern void DWCi_MOV_MBP_ChangeState(u16 state);
 
-void func_021D2314(void)
+void DWCi_MOV_MBP_StartRebootAll(void)
 {
     u16 i;
     u16 sentChild = 0;
     for (i = 1; i < 16; i++) {
-        if (g_021DE65C->mbpState.bootableChildBmp & (1 << i)) {
+        if (gDwcMovMbpWork->mbpState.bootableChildBmp & (1 << i)) {
             if (MB_CommResponseRequest(i, 3)) {
                 sentChild |= (u16)(1 << i);
             } else {
                 u32 enabled;
                 u16 mask = ~(1 << i);
                 enabled = OS_DisableInterrupts();
-                g_021DE65C->mbpState.connectChildBmp &= mask;
-                g_021DE65C->mbpState.requestChildBmp &= mask;
-                g_021DE65C->mbpState.entryChildBmp &= mask;
-                g_021DE65C->mbpState.downloadChildBmp &= mask;
-                g_021DE65C->mbpState.bootableChildBmp &= mask;
-                g_021DE65C->mbpState.rebootChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
                 OS_RestoreInterrupts(enabled);
                 MB_DisconnectChild(i);
             }

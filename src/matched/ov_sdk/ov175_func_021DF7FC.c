@@ -1,5 +1,5 @@
 /*
- * function: func_021DF7FC
+ * function: sciInterfaceCreate
  * address:  0x021DF7FC
  * packet:   pkt_021DF7FC
  * region:   ov175
@@ -24,7 +24,7 @@ void func_02084F80(void *p, int a, void *b, void *c);
 void *func_0217EAB0(int size);
 void func_020923B0(void *dst, int c, int n);
 
-int func_021DF7FC(void **out)
+int sciInterfaceCreate(void **out)
 {
     void *p;
 

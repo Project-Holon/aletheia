@@ -1,5 +1,5 @@
 /*
- * function: func_020853B0
+ * function: OS_IsThreadAvailable
  * address:  0x020853B0
  * packet:   pkt_020853B0
  * region:   arm9
@@ -19,7 +19,7 @@ typedef int BOOL;
 
 extern BOOL OSi_IsThreadInitialized;
 
-BOOL func_020853B0(void)
+BOOL OS_IsThreadAvailable(void)
 {
     return OSi_IsThreadInitialized;
 }

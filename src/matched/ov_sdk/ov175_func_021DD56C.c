@@ -1,5 +1,5 @@
 /*
- * function: func_021DD56C
+ * function: sakeiInitRequest
  * address:  0x021DD56C
  * packet:   pkt_021DD56C
  * region:   ov175
@@ -13,7 +13,7 @@ typedef unsigned int u32;
 void *func_0217EAB0(int size);
 void func_020923B0(void *dst, int c, int n);
 
-int *func_021DD56C(int *ctx, int a1, int a2, int a3, int a4)
+int *sakeiInitRequest(int *ctx, int a1, int a2, int a3, int a4)
 {
     int *p;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF60
+ * function: PMSIV_WORDWIN_ResetScroll
  * address: 0x021BFF60
  * packet: pkt_ov110_021BFF60
  * region: ov110
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_02040618(u32,u32,u32);
-void func_021BFF60(u8 *p) { ((struct Obj02166 *)p)->f94=0; ((struct Obj02166 *)p)->f98=0; func_02040618(2,3,8); }
+void PMSIV_WORDWIN_ResetScroll(u8 *p) { ((struct Obj02166 *)p)->f94=0; ((struct Obj02166 *)p)->f98=0; func_02040618(2,3,8); }

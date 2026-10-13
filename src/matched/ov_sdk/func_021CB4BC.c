@@ -12,8 +12,9 @@
  * symbols:
  *   func_021CB4BC   0x021CB4BC  arm
  *   DWCi_SceneSetRakuReady_draw  0x021CB514  arm
+ *   OS_Sleep  0x02085A38  arm  arm9
  *
- * Set r0 to 0xa, call func_02085A38, then run the four ov016 steps.
+ * Set r0 to 0xa, call OS_Sleep, then run the four ov016 steps.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -22,7 +23,7 @@
  */
 
 typedef unsigned int   u32;
-extern void func_02085A38(u32 msec);
+extern void OS_Sleep(u32 msec);
 extern void func_021CB6A4(void);
 extern void func_021CB4DC(void);
 extern void DWCi_SceneSetRakuReady_draw(void);
@@ -30,7 +31,7 @@ extern void func_021CB518(void);
 
 void func_021CB4BC(void)
 {
-    func_02085A38(0xa);
+    OS_Sleep(0xa);
     func_021CB6A4();
     func_021CB4DC();
     DWCi_SceneSetRakuReady_draw();

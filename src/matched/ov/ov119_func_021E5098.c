@@ -13,7 +13,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E8530 0x021E8530 data a4
@@ -31,7 +31,7 @@ extern unsigned int POKE_TOOL_GetGraphicIndex(void *mon);
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082D44(void *, const void *, int);
+extern void MI_CpuCopy8(void *, const void *, int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 void func_021E5098(char *p, int b)
@@ -50,7 +50,7 @@ body:
             if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
             t = (int)ARC_UTIL_LoadBgCharDataFromHandle(a, x, 0, (u32)(&out), ((struct Obj00001 *)p)->f5F4);
-            func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);
+            MI_CpuCopy8(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);
             n++;
             func_020307B0((void *)t);
         }

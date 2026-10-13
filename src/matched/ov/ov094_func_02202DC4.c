@@ -24,8 +24,8 @@
  *   func_02206908  0x02206908  thumb  ov094
  *   d_0689E090     0x0689E090  data   ov095
  *   d_0689E0B0     0x0689E0B0  data   ov095
- *   d_0689E560     0x0689E560  data   ov095
- *   d_0689E704     0x0689E704  data   ov095
+ *   gBtlvScdTargetRegionsSingleB     0x0689E560  data   ov095
+ *   gBtlvScdTargetRegionsDoubleB     0x0689E704  data   ov095
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -82,8 +82,8 @@ extern int func_02206908(char *p, char *q, int i);
 
 extern u8 d_0689E090[][15];
 extern u8 d_0689E0B0[][15];
-extern Ent *d_0689E560[][15];
-extern Ent *d_0689E704[][15];
+extern Ent *gBtlvScdTargetRegionsSingleB[][15];
+extern Ent *gBtlvScdTargetRegionsDoubleB[][15];
 
 int func_02202DC4(Obj *o, Cmd *c, int x)
 {
@@ -155,9 +155,9 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
                     else
                         cnt = d_0689E0B0[o->cur][o->sel];
                     if (o->f50 != 2)
-                        e = d_0689E560[o->cur][o->sel];
+                        e = gBtlvScdTargetRegionsSingleB[o->cur][o->sel];
                     else
-                        e = d_0689E704[o->cur][o->sel];
+                        e = gBtlvScdTargetRegionsDoubleB[o->cur][o->sel];
                     for (i = 0; i < cnt; i++) {
                         if (r == e[i].id) {
                             idx = i;

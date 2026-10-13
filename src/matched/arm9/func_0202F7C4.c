@@ -32,7 +32,7 @@
  * symbols:
  *   func_0207D534    0x0207D534  arm
  *   func_0207D3AC    0x0207D3AC  arm
- *   func_0207D3E4    0x0207D3E4  arm
+ *   GX_VBlankIntr    0x0207D3E4  arm
  *   func_020808F4    0x020808F4  arm
  *   func_020809A0    0x020809A0  arm
  *   func_0207FDCC    0x0207FDCC  arm
@@ -50,7 +50,7 @@ typedef unsigned int u32;
 
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern long func_0207D3AC(int enable);
-extern long func_0207D3E4(int enable);
+extern long GX_VBlankIntr(int enable);
 extern int func_020808F4(void);
 extern int func_020809A0(void);
 extern void func_0207FDCC(u32 a);
@@ -63,7 +63,7 @@ void func_0202F7C4(u32 a0)
     func_0207D534((volatile u16 *)0x0400006C, 0xFFFFFFF0);
     func_0207D534((volatile u16 *)0x0400106C, 0xFFFFFFF0);
     func_0207D3AC(0);
-    func_0207D3E4(0);
+    GX_VBlankIntr(0);
     func_020808F4();
     func_020809A0();
     func_0207FDCC(4);

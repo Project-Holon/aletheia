@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovuser.c
  * unit:     yes
- * function: func_021C4110, func_021C41E0, func_021C4260, func_021C429C, func_021C42C0, func_021C42E0, DWCi_SceneOptMovUser_input, DWCi_SceneOptMovUser_draw, func_021C4350, func_021C43AC, func_021C4408, func_021C44D8
+ * function: DWCi_SceneOptMovUser, initGraphics, procInit, DWCi_SceneOptMovUserProcInit1, DWCi_SceneOptMovUserProcInit2, DWCi_SceneOptMovUserProcScene, DWCi_SceneOptMovUser_input, DWCi_SceneOptMovUser_draw, DWCi_SceneOptMovUserEndScene, DWCi_SceneOptMovUserEndScene1, DWCi_SceneOptMovUserEndScene2, cbMov
  * address:  0x021C4110
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,25 +13,23 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C11F8  0x021C11F8  arm  ov016
- *   func_021D5A58  0x021D5A58  arm  ov016
- *   func_02082A48  0x02082A48  arm
- *   func_02082A60  0x02082A60  arm
- *   func_021D5E5C  0x021D5E5C  arm  ov016
- *   func_021D5FC4  0x021D5FC4  arm  ov016
- *   func_021C11D4  0x021C11D4  arm  ov016
- *   func_021D1208  0x021D1208  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C4     0x021DE5C4  data
- *   func_021C44D8  0x021C44D8  arm  ov016
- *   func_021C4260  0x021C4260  arm  ov016
- *   func_021BD1D4  0x021BD1D4  arm
- *   DWCi_ChangeScene                 0x021C0E40  arm
+ *   DWCi_MOVlGetChild  0x021C11F8  arm  ov016
+ *   DWCi_FNTlFormBgEx  0x021D5A58  arm  ov016
+ *   MIi_CpuClear16  0x02082A48  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
+ *   DWCi_FNTlDrawRect  0x021D5E5C  arm  ov016
+ *   DWCi_FNTlRenewBg  0x021D5FC4  arm  ov016
+ *   DWCi_MOVlChangeCallback  0x021C11D4  arm  ov016
+ *   DWCi_WINlInitEx  0x021D1208  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovUserWork     0x021DE5C4  data
+ *   cbMov  0x021C44D8  arm  ov016
+ *   procInit  0x021C4260  arm  ov016
+ *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_EFFlFade                    0x021D55A4  arm
  *   DWCi_GXlVisible                  0x021D603C  arm
  *   DWCi_EFFlCheck                   0x021D5580  arm
  *   DWCi_WINlGet                     0x021D1568  arm
- *   DWCi_MOVlChangeCallback          0x021C11D4  arm
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
  *   Error                            0x021DE5C4  data
@@ -67,18 +65,14 @@ typedef struct {
 
 typedef _Bool bool;
 
-extern char *func_021C11F8(void);
-extern void *func_021D5A58(int lcd, int font);
-extern void func_02082A48();
-extern void func_02082A60();
-extern void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-extern void func_021D5FC4(int x);
-extern void func_021C11D4(unsigned int v);
-extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
-extern void func_021C0E40(unsigned int v);
-extern void func_021C44D8();
-extern void func_021C4260();
-void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern char *DWCi_MOVlGetChild(void);
+extern void *DWCi_FNTlFormBgEx(int lcd, int font);
+extern void MIi_CpuClear16();
+extern void MIi_CpuCopy16();
+extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
+extern void DWCi_FNTlRenewBg(int x);
+extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
+void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_ChangeScene(void (*scene)());
@@ -94,59 +88,61 @@ extern bool DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern bool DWCi_COMMENTlDelete(void);
-extern void DWCi_SetParam_(void *param0, void *param1);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu(void);
 extern void DWCi_SceneOptMovComm(void);
 extern void DWCi_SceneOptMovFailure(void);
-void func_021C4110(void);
-void func_021C41E0(void);
+void DWCi_SceneOptMovUser(void);
 void DWCi_SceneOptMovUser_input(void);
 void DWCi_SceneOptMovUser_draw(void);
-extern unsigned char g_021DE5C4[];
+extern unsigned char gSceneOptMovUserWork[];
 extern unsigned char Error[];
 extern unsigned char isUnloaded;
-
 
 
 /*
  * sdk:      DWCi_SceneOptMovUser (libdwcutil.TWL.HYB.a sceneoptmovuser.o)
  */
-void func_021C4110(void)
+
+static void initGraphics(void);
+static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void procScene(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
+static void cbMov(int state);
+void DWCi_SceneOptMovUser(void)
 {
     unsigned short buf[11];
     MBUserInfo *info;
     void *bg;
 
-    info = (MBUserInfo *)func_021C11F8();
-    bg = func_021D5A58(0, 0);
-    g_021DE5C4[1] = 0;
-    g_021DE5C4[0] = 0;
-    func_021C41E0();
-    func_02082A48(0, buf, sizeof(buf));
-    func_02082A60(info->name, buf, info->nameLength * 2);
-    func_021D5E5C(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
-    func_021D5FC4((int)bg);
-    func_021C11D4((unsigned int)func_021C44D8);
-    func_021D1208(0x1D, 4, 0, -1, 0);
-    func_021C0E40((unsigned int)func_021C4260);
+    info = (MBUserInfo *)DWCi_MOVlGetChild();
+    bg = DWCi_FNTlFormBgEx(0, 0);
+    gSceneOptMovUserWork[1] = 0;
+    gSceneOptMovUserWork[0] = 0;
+    initGraphics();
+    MIi_CpuClear16(0, buf, sizeof(buf));
+    MIi_CpuCopy16(info->name, buf, info->nameLength * 2);
+    DWCi_FNTlDrawRect(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
+    DWCi_FNTlRenewBg((int)bg);
+    DWCi_MOVlChangeCallback(cbMov);
+    DWCi_WINlInitEx(0x1D, 4, 0, -1, 0);
+    DWCi_ChangeScene(procInit);
 }
 
 
-
-void func_021C41E0(void)
+static void initGraphics(void)
 {
-    func_021BD1D4((void *)0x021DB3B8, (void *)0x0207EB78);
+    DWCi_CMNlLoadResource((void *)0x021DB3B8, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;
     ((BgCnt *)0x0400100A)->priority = 3;
     ((BgCnt *)0x04000008)->priority = 3;
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
-
-
-static void procInit1(void);
-
 
 
 static void procInit(void)
@@ -157,21 +153,11 @@ static void procInit(void)
 }
 
 
-
-static void procInit2(void);
-
-
-
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
         DWCi_ChangeScene(procInit2);
 }
-
-
-
-static void procScene(void);
-
 
 
 static void procInit2(void)
@@ -186,10 +172,6 @@ static void input(void);
 
 
 static void draw(void);
-
-
-static void endScene(void);
-
 
 
 static void procScene(void)
@@ -240,11 +222,6 @@ void DWCi_SceneOptMovUser_draw(void)
 }
 
 
-
-static void endScene1(void);
-
-
-
 static void endScene(void)
 {
     if (DWCi_WINlIsInit())
@@ -254,11 +231,6 @@ static void endScene(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene1);
 }
-
-
-
-static void endScene2(void);
-
 
 
 static void endScene1(void)
@@ -275,7 +247,6 @@ static void endScene1(void)
 }
 
 
-
 static void endScene2(void)
 {
     if (Error[0] || !Error[1]) {
@@ -288,7 +259,7 @@ static void endScene2(void)
         DWCi_COMMENTlDelete();
         DWCi_GXlInvisible(1, 1);
     }
-    DWCi_SetParam_(0, (void *)1);
+    DWCi_SetParam_(0, 1);
     if (Error[0]) {
         DWCi_ChangeScene(DWCi_SceneOptMovFailure);
         return;
@@ -302,8 +273,7 @@ static void endScene2(void)
 }
 
 
-
-static void cbMov(void)
+static void cbMov(int state)
 {
     isUnloaded = 1;
 }

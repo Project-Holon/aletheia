@@ -1,5 +1,5 @@
 /*
- * function: func_021BB82C
+ * function: PMSIV_CATEGORY_IsFadeOutDone
  * address: 0x021BB82C
  * packet: pkt_ov110_021BB82C
  * region: ov110
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC93C 0x021BC93C thumb ov110
+ *   PMSIV_FADE_IsBrightnessDone 0x021BC93C thumb ov110
  */
 typedef unsigned char u8;
-extern int func_021BC93C(u8 *);
-int func_021BB82C(u8 *p) { return func_021BC93C(p+0x18); }
+extern int PMSIV_FADE_IsBrightnessDone(u8 *);
+int PMSIV_CATEGORY_IsFadeOutDone(u8 *p) { return PMSIV_FADE_IsBrightnessDone(p+0x18); }

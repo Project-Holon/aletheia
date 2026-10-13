@@ -1,5 +1,5 @@
 /*
- * function: func_021BF03C
+ * function: WIFICLUB_IsNetStateConnected
  * address:  0x021BF03C
  * packet:   pkt_021BF03C
  * region:   ov099
@@ -21,8 +21,8 @@
  * function (0x021BF04E) has no func_ label.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_021BF03C.c \
- *       --func func_021BF03C --addr 0x021BF03C --region ov099 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/WIFICLUB_IsNetStateConnected.c \
+ *       --func WIFICLUB_IsNetStateConnected --addr 0x021BF03C --region ov099 --thumb --cc 1.1p1
  */
 
 typedef unsigned long u32;
@@ -30,7 +30,7 @@ typedef int BOOL;
 
 extern int GFL_NET_STATE_GetWifiState(void);
 
-BOOL func_021BF03C(char *a0)
+BOOL WIFICLUB_IsNetStateConnected(char *a0)
 {
     if (GFL_NET_STATE_GetWifiState() == 1) {
         return 1;

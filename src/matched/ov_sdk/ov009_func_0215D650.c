@@ -17,8 +17,8 @@
  * symbols:
  *   func_02086028  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   func_0215AAB0  0x0215AAB0  arm  ov009
- *   func_0215AC60  0x0215AC60  arm  ov009
+ *   CPS_SocBind  0x0215AAB0  arm  ov009
+ *   CPS_TcpConnect  0x0215AC60  arm  ov009
  */
 
 typedef struct {
@@ -47,8 +47,8 @@ typedef struct {
 
 extern void func_02086028(void *mutex);
 extern void func_02086078(void *mutex);
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long func_0215AC60(void);
+extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
+extern unsigned long CPS_TcpConnect(void);
 
 int func_0215D650(void *arg)
 {
@@ -62,10 +62,10 @@ int func_0215D650(void *arg)
 	retcode = 0;
 	recv_pipe = socket->recv_pipe;
 	func_02086028(recv_pipe->mutex);
-	func_0215AAB0(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
+	CPS_SocBind(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
 	recv_pipe->result = retcode;
 	if (cpacket->type == 0 || cpacket->type == 4) {
-		retcode = func_0215AC60();
+		retcode = CPS_TcpConnect();
 	}
 	func_02086078(recv_pipe->mutex);
 	if (retcode != 0) {

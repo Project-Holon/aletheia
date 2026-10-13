@@ -1,5 +1,5 @@
 /*
- * function: func_021BD484
+ * function: PMS_INPUT_ProcInit
  * address: 0x021BD484
  * packet: pkt_ov110_021BD484
  * region: ov110
@@ -10,12 +10,12 @@
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   func_021BD5C4 0x021BD5C4 thumb ov110
- *   func_021B9BEC 0x021B9BEC thumb ov110
- *   func_021B9C74 0x021B9C74 thumb ov110
- *   func_021BABE8 0x021BABE8 thumb ov110
- *   func_021BD7A0 0x021BD7A0 thumb ov110
- *   func_021BD894 0x021BD894 thumb ov110
+ *   PMS_INPUT_Create 0x021BD5C4 thumb ov110
+ *   PMS_INPUT_VIEW_StartTask 0x021B9BEC thumb ov110
+ *   PMS_INPUT_VIEW_IsIdle 0x021B9C74 thumb ov110
+ *   PMS_INPUT_VIEW_GetEditValue 0x021BABE8 thumb ov110
+ *   PMS_INPUT_SetHandler 0x021BD7A0 thumb ov110
+ *   PMS_INPUT_HandleMenu 0x021BD894 thumb ov110
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02030D28 0x02030D28 arm
  *   d_00000043 0x00000043 data a1
@@ -28,39 +28,39 @@ struct Ctx;
 extern int func_02034AC4(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
-extern u8 *func_021BD5C4(struct Obj0203159C *owner, u8 *input);
-extern void func_021B9BEC(u8 *p, int id);
-extern int func_021B9C74(unsigned int a);
-extern int func_021BABE8(u8 *p);
-extern void func_021BD7A0(u8 *,int (*)(u8 *,void *));
-extern int func_021BD894(u8 *,void *);
+extern u8 *PMS_INPUT_Create(struct Obj0203159C *owner, u8 *input);
+extern void PMS_INPUT_VIEW_StartTask(u8 *p, int id);
+extern int PMS_INPUT_VIEW_IsIdle(unsigned int a);
+extern int PMS_INPUT_VIEW_GetEditValue(u8 *p);
+extern void PMS_INPUT_SetHandler(u8 *,int (*)(u8 *,void *));
+extern int PMS_INPUT_HandleMenu(u8 *,void *);
 extern const u8 d_00000043[];
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02030D28(struct Ctx *c);
-int func_021BD484(void *a,int *state,int c,void *p) {
+int PMS_INPUT_ProcInit(void *a,int *state,int c,void *p) {
     u8 *obj;
     switch(*state) {
     case 0:
         func_02034AC4((int)d_00000043);
         GFL_HEAP_CreateChildHeap(1,41,0x18000);
         GFL_HEAP_CreateChildHeap(1,42,0x32000);
-        obj=func_021BD5C4(a,(u8 *)c);
-        func_021B9BEC(((struct Obj03242 *)obj)->f14,0);
+        obj=PMS_INPUT_Create(a,(u8 *)c);
+        PMS_INPUT_VIEW_StartTask(((struct Obj03242 *)obj)->f14,0);
         ++*state;
         break;
     case 1:
         obj=p;
-        if(func_021B9C74((unsigned int)(((struct Obj03242 *)obj)->f14))) {
-            if(((struct Obj03242 *)obj)->f4==2) obj[0x68]=func_021BABE8(((struct Obj03242 *)obj)->f14);
+        if(PMS_INPUT_VIEW_IsIdle((unsigned int)(((struct Obj03242 *)obj)->f14))) {
+            if(((struct Obj03242 *)obj)->f4==2) obj[0x68]=PMS_INPUT_VIEW_GetEditValue(((struct Obj03242 *)obj)->f14);
             else obj[0x68]=0;
-            func_021B9BEC(((struct Obj03242 *)obj)->f14,4);
+            PMS_INPUT_VIEW_StartTask(((struct Obj03242 *)obj)->f14,4);
             ++*state;
         }
         break;
     case 2:
         obj=p;
-        if(func_021B9C74((unsigned int)(((struct Obj03242 *)obj)->f14))) {
-            func_021BD7A0(obj,func_021BD894);
+        if(PMS_INPUT_VIEW_IsIdle((unsigned int)(((struct Obj03242 *)obj)->f14))) {
+            PMS_INPUT_SetHandler(obj,PMS_INPUT_HandleMenu);
             GFL_NET_RestartWithDefaultTimeout(1,42);
             return 1;
         }

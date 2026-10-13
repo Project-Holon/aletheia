@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9A34",
+   "name": "WIFICLUBACTOR_FreeActor",
    "address": "0x021B9A34",
    "kind": "game",
    "region": "ov099",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9C4C",
+   "name": "WIFICLUBACTOR_ProcessSpawnCommands",
    "address": "0x021B9C4C",
    "kind": "game",
    "region": "ov099",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9F90",
+   "name": "WIFICLUBACTOR_ShowMarker",
    "address": "0x021B9F90",
    "kind": "game",
    "region": "ov099",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BA874",
+   "name": "WIFICLUB_SetPartnerNameWord",
    "address": "0x021BA874",
    "kind": "game",
    "region": "ov099",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BB4EC",
+   "name": "WIFICLUB_LoadPanelGraphics",
    "address": "0x021BB4EC",
    "kind": "game",
    "region": "ov099",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB918",
+   "name": "WIFICLUB_GetVisitorMessageId",
    "address": "0x021BB918",
    "kind": "game",
    "region": "ov099",
@@ -84,7 +84,7 @@
    }
   },
   {
-   "name": "func_021BDD0C",
+   "name": "WIFICLUB_StartNetSession",
    "address": "0x021BDD0C",
    "kind": "game",
    "region": "ov099",
@@ -101,7 +101,7 @@
    }
   },
   {
-   "name": "func_021BF2C4",
+   "name": "WIFICLUB_StateLobbyMain",
    "address": "0x021BF2C4",
    "kind": "game",
    "region": "ov099",
@@ -113,7 +113,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1968",
+   "name": "WIFICLUB_ToggleOwnSeat",
    "address": "0x021C1968",
    "kind": "game",
    "region": "ov099",
@@ -125,7 +125,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C1C10",
+   "name": "WIFICLUB_IsSlotPanelDismissed",
    "address": "0x021C1C10",
    "kind": "game",
    "region": "ov099",
@@ -137,7 +137,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1CD4",
+   "name": "WIFICLUB_TickSlotBlink",
    "address": "0x021C1CD4",
    "kind": "game",
    "region": "ov099",
@@ -154,7 +154,7 @@
    }
   },
   {
-   "name": "func_021C2370",
+   "name": "WIFICLUB_SetFriendNameWord",
    "address": "0x021C2370",
    "kind": "game",
    "region": "ov099",
@@ -166,7 +166,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021C24A4",
+   "name": "WIFICLUB_StartBgmFade",
    "address": "0x021C24A4",
    "kind": "game",
    "region": "ov099",
@@ -178,7 +178,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C282C",
+   "name": "WIFICLUB_CopyZeroToDeviceAddr",
    "address": "0x021C282C",
    "kind": "game",
    "region": "ov099",

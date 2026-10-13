@@ -1,5 +1,5 @@
 /*
- * function: func_021BC564
+ * function: PMSIV_EDIT_SlotPosToBoxOrigin
  * address: 0x021BC564
  * packet: pkt_ov110_021BC564
  * region: ov110
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-void func_021BC564(s16 *p,s16 *out) { out[0]=p[0]-48; out[1]=p[1]-8; }
+void PMSIV_EDIT_SlotPosToBoxOrigin(s16 *p,s16 *out) { out[0]=p[0]-48; out[1]=p[1]-8; }

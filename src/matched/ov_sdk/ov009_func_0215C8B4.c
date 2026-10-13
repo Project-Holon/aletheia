@@ -1,5 +1,5 @@
 /*
- * function: func_0215C8B4
+ * function: resolve_sub
  * address:  0x0215C8B4
  * packet:   pkt_ov009_0215C8B4
  * region:   ov009
@@ -12,29 +12,29 @@
  * sdk:      resolve_sub (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_0215AA88  0x0215AA88  arm  ov009
- *   func_0215AAB0  0x0215AAB0  arm  ov009
- *   func_0215C538  0x0215C538  arm  ov009
- *   func_0215AB5C  0x0215AB5C  arm  ov009
+ *   CPS_SocUse  0x0215AB10  arm  ov009
+ *   CPS_SocDatagramMode  0x0215AA88  arm  ov009
+ *   CPS_SocBind  0x0215AAB0  arm  ov009
+ *   resolve_common  0x0215C538  arm  ov009
+ *   CPS_SocRelease  0x0215AB5C  arm  ov009
  */
 
-extern void func_0215AB10(void);
-extern void func_0215AA88(void);
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long func_0215C538(unsigned char *name, unsigned long type, unsigned short id, unsigned char *rname, unsigned long rname_max);
-extern void func_0215AB5C(void);
+extern void CPS_SocUse(void);
+extern void CPS_SocDatagramMode(void);
+extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
+extern unsigned long resolve_common(unsigned char *name, unsigned long type, unsigned short id, unsigned char *rname, unsigned long rname_max);
+extern void CPS_SocRelease(void);
 
-unsigned long func_0215C8B4(unsigned char *name, unsigned long dnsip, unsigned short id)
+unsigned long resolve_sub(unsigned char *name, unsigned long dnsip, unsigned short id)
 {
     unsigned long ip;
 
     if (dnsip == 0)
         return 0xffffffff;
-    func_0215AB10();
-    func_0215AA88();
-    func_0215AAB0(0, 0x35, dnsip);
-    ip = func_0215C538(name, 1, id, 0, 0);
-    func_0215AB5C();
+    CPS_SocUse();
+    CPS_SocDatagramMode();
+    CPS_SocBind(0, 0x35, dnsip);
+    ip = resolve_common(name, 1, id, 0, 0);
+    CPS_SocRelease();
     return ip;
 }

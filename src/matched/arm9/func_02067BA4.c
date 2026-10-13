@@ -1,5 +1,5 @@
 /*
- * function: func_02067BA4
+ * function: NNS_G2dRndCoreBeginRendering
  * address:  0x02067BA4
  * packet:   pkt_02067BA4
  * region:   arm9
@@ -21,7 +21,7 @@
  * bytes, 0 mismatches.
  *
  * symbols:
- *   sOamSoftEmuContext    0x02148B48  data
+ *   sRndCoreInstance    0x02148B48  data
  *   func_020637BC 0x020637BC  arm
  *   func_020637B4 0x020637B4  arm
  *   func_0206380C 0x0206380C  arm
@@ -50,20 +50,20 @@ struct Ctx {
     int  shcfg;           /* 0x20 */
 };
 
-extern struct Ctx *sOamSoftEmuContext;
+extern struct Ctx *sRndCoreInstance;
 
 extern int func_020637BC(const u32 *p, u32 i);
 extern int func_020637B4(int *p, int i);
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
 
-void func_02067BA4(struct Ctx *c)
+void NNS_G2dRndCoreBeginRendering(struct Ctx *c)
 {
     volatile u32 *reg = (volatile u32 *)0x04000440;
     struct Ctx *p = c;
     int n;
 
-    sOamSoftEmuContext = p;
+    sRndCoreInstance = p;
 
     n = p->inner->mode;
     if (n == 0) {
@@ -82,10 +82,10 @@ void func_02067BA4(struct Ctx *c)
         reg[12] = 0;
         reg[0] = 1;
 
-        ta = sOamSoftEmuContext->ta;
+        ta = sRndCoreInstance->ta;
         p->out14 = func_020637BC(ta, 0) ? func_020637B4(ta, 0) : 0;
 
-        tb = sOamSoftEmuContext->tb;
+        tb = sRndCoreInstance->tb;
         p->out18 = func_0206380C(tb, 0) ? func_02063800(tb, 0) : 0;
     } else {
         struct Ctx *t = (struct Ctx *)p->ta;
@@ -97,6 +97,6 @@ void func_02067BA4(struct Ctx *c)
         } else {
             r = 0;
         }
-        sOamSoftEmuContext->out10 = r;
+        sRndCoreInstance->out10 = r;
     }
 }

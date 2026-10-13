@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  */
 typedef struct Cell Cell;
 
@@ -21,12 +21,12 @@ struct Cell {
     long size;
 };
 
-extern void func_02087988(void);
-extern void func_0208799C(void);
+extern void OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(void);
 
 long OS_ReferentSize(int id, void *ptr)
 {
-    func_02087988();
-    func_0208799C();
+    OS_DisableInterrupts();
+    OS_RestoreInterrupts();
     return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }

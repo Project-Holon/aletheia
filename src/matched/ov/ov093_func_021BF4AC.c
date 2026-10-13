@@ -11,7 +11,7 @@
  * symbols:
  *   EVENT_APPEAR_CreateSpinZoomAlt 0x021BF5E8 thumb ov093
  *   func_021BF5F8 0x021BF5F8 thumb ov093
- *   func_021BF608 0x021BF608 thumb ov093
+ *   PMS_INPUT_SubHandleCancel 0x021BF608 thumb ov093
  *   func_021BF618 0x021BF618 thumb ov093
  *   func_021BF628 0x021BF628 thumb ov093
  *   func_021BF638 0x021BF638 thumb ov093
@@ -24,7 +24,7 @@
  *   func_021BF6A8 0x021BF6A8 thumb ov093
  *   func_021BF6B8 0x021BF6B8 thumb ov093
  *   func_021BF6C8 0x021BF6C8 thumb ov093
- *   func_021BF6D8 0x021BF6D8 thumb ov093
+ *   PMS_INPUT_GetInputMode 0x021BF6D8 thumb ov093
  *   BTL_SERVER_FLOW_CheckNoGuardHit 0x021BF324 thumb ov093
  *   BTL_SERVER_FLOW_ProcNoEffectCheck 0x021BF6E8 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
@@ -40,7 +40,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void EVENT_APPEAR_CreateSpinZoomAlt(void *);
 extern u8 *func_021BF5F8(void *);
-extern void func_021BF608(void *, u8 *);
+extern void PMS_INPUT_SubHandleCancel(void *, u8 *);
 extern u8 *func_021BF618(void *);
 extern void func_021BF628(void *);
 extern u8 *func_021BF638(void *);
@@ -53,7 +53,7 @@ extern u8 *func_021BF698(void *);
 extern void func_021BF6A8(void *);
 extern u8 *func_021BF6B8(void *);
 extern void func_021BF6C8(void *, u8 *);
-extern u8 *func_021BF6D8(void *);
+extern u8 *PMS_INPUT_GetInputMode(void *);
 extern int BTL_SERVER_FLOW_CheckNoGuardHit(u8 *, u8 *, u8 *);
 extern int BTL_SERVER_FLOW_ProcNoEffectCheck(u8 *, u8 *, u8 *, u8 *, void *, int);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
@@ -69,7 +69,7 @@ void BTL_SERVER_FLOW_ProcNoEffectChecks(u8 *p, u8 *b, u8 *a, void *d, void *e)
     q = func_021BF5F8(d);
     while (q) {
         if (BTL_SERVER_FLOW_CheckNoGuardHit(p, a, q) == 0 && BTL_SERVER_FLOW_ProcNoEffectCheck(p, b, a, q, e, 43))
-            func_021BF608(d, q);
+            PMS_INPUT_SubHandleCancel(d, q);
         q = func_021BF618(d);
     }
     func_021BF628(d);
@@ -93,6 +93,6 @@ void BTL_SERVER_FLOW_ProcNoEffectChecks(u8 *p, u8 *b, u8 *a, void *d, void *e)
     q = func_021BF6B8(d);
     while (q) {
         if (BTL_SERVER_FLOW_ProcNoEffectCheck(p, b, a, q, e, 45)) func_021BF6C8(d, q);
-        q = func_021BF6D8(d);
+        q = PMS_INPUT_GetInputMode(d);
     }
 }

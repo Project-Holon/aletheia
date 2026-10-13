@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020854D0 0x020854D0 arm
- *   func_02087988 0x02087988 arm
- *   g_02150FD0 0x02150FD0 data
+ *   OSi_ExitThread_ArgSpecified 0x020854D0 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   gOsThreadBss 0x02150FD0 data
  */
 
 typedef unsigned long u32;
@@ -38,12 +38,12 @@ typedef struct OsThreadBss {
     OSThreadInfo OSi_ThreadInfo;
 } OsThreadBss;
 
-extern void func_020854D0(OSThread *thread, void *arg);
-extern void func_02087988(void);
-extern OsThreadBss g_02150FD0;
+extern void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg);
+extern void OS_DisableInterrupts(void);
+extern OsThreadBss gOsThreadBss;
 
 void OS_ExitThread(void)
 {
-    func_02087988();
-    func_020854D0(g_02150FD0.OSi_ThreadInfo.current, 0);
+    OS_DisableInterrupts();
+    OSi_ExitThread_ArgSpecified(gOsThreadBss.OSi_ThreadInfo.current, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0206C524
+ * function: NNSi_G3dFuncSbc_BB
  * address:  0x0206C524
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -13,7 +13,7 @@
  * callback slot 7 (cbVecFunc at +0x28, cbVecTiming at +0x93). opt 0x40/0x60
  * adds a MTX_RESTORE (0x14) of c[2]/c[3] before, opt 0x20/0x60 a MTX_STORE
  * (0x13) of c[2] after; between them, unless NOGECMD (0x100) or the timing-A
- * callback asked to skip, it reads the clip matrix back (func_0207DC98),
+ * callback asked to skip, it reads the clip matrix back (G3X_GetClipMtx),
  * undoes the camera (flag bits 0/1 of NNS_G3dGlb+0xfc), stores the
  * translation row and the three row lengths (VEC_Mag, func_0207CBD0) into the
  * static command block at 0x020A8328 and sends that block to GXFIFO.
@@ -28,17 +28,17 @@
  *
  * symbols:
  *   g_renderState     0x02148B4C  data
- *   g_020A8328     0x020A8328  data
- *   func_0206DDA4  0x0206DDA4  arm
- *   func_0206DB80  0x0206DB80  arm
- *   func_0207DC98  0x0207DC98  arm
- *   func_0206ADBC  0x0206ADBC  arm
- *   func_0206ADF4  0x0206ADF4  arm
- *   func_0206AAD4  0x0206AAD4  arm
+ *   gBillboardCmd     0x020A8328  data
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
+ *   G3X_GetClipMtx  0x0207DC98  arm
+ *   NNS_G3dGlbGetWVMtx  0x0206ADBC  arm
+ *   NNS_G3dGlbGetInvWVMtx  0x0206ADF4  arm
+ *   NNS_G3dGlbGetInvCameraMtx  0x0206AAD4  arm
  *   func_0207B5C0  0x0207B5C0  arm
  *   func_0207BE14  0x0207BE14  arm
  *   func_0207CBD0  0x0207CBD0  arm
- *   func_02082AA8  0x02082AA8  arm
+ *   MIi_CpuSend32  0x02082AA8  arm
  */
 
 typedef unsigned char u8;
@@ -66,7 +66,7 @@ typedef struct {
     MtxFx43 mtx;
     VecFx32 scale;
 } BBData;
-extern BBData g_020A8328;
+extern BBData gBillboardCmd;
 
 typedef struct RS RS;
 typedef void (*CbFunc)(RS *);
@@ -80,16 +80,16 @@ struct RS {
 
 #define GXFIFO (*(volatile u32 *)0x04000400)
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern void func_0206DB80(void);
-extern int  func_0207DC98(MtxFx44 *m);
-extern u32 *func_0206ADBC(void);
-extern u32 *func_0206ADF4(void);
-extern u32 *func_0206AAD4(void);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeFlushBuffer(void);
+extern int  G3X_GetClipMtx(MtxFx44 *m);
+extern u32 *NNS_G3dGlbGetWVMtx(void);
+extern u32 *NNS_G3dGlbGetInvWVMtx(void);
+extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
 extern void func_0207B5C0(const MtxFx43 *src, MtxFx44 *dst);
 extern void func_0207BE14(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 extern fx32 func_0207CBD0(const VecFx32 *v);
-extern void func_02082AA8(const void *src, volatile void *dst, u32 n);
+extern void MIi_CpuSend32(const void *src, volatile void *dst, u32 n);
 
 static inline u32 CheckPossibilityOfCallback(RS *rs, u32 cmd)
 {
@@ -117,11 +117,11 @@ static inline u32 CallBackCheck_C(RS *rs, u32 cmd, u32 timing)
     return 0;
 }
 
-void func_0206C524(RS *rs, u32 opt)
+void NNSi_G3dFuncSbc_BB(RS *rs, u32 opt)
 {
     u32 cmdLen = 2;
-    VecFx32 *trans = (VecFx32 *)&g_020A8328.mtx._30;
-    VecFx32 *scale = &g_020A8328.scale;
+    VecFx32 *trans = (VecFx32 *)&gBillboardCmd.mtx._30;
+    VecFx32 *scale = &gBillboardCmd.scale;
 
     if (rs->flag & 0x200) {
         if (opt == 0x40 || opt == 0x60)
@@ -142,7 +142,7 @@ void func_0206C524(RS *rs, u32 opt)
                     arg = rs->c[2];
                 else
                     arg = rs->c[3];
-                func_0206DDA4(0x14, &arg, 1);
+                NNS_G3dGeBufferOP_N(0x14, &arg, 1);
             }
         }
 
@@ -152,15 +152,15 @@ void func_0206C524(RS *rs, u32 opt)
         if (!(rs->flag & 0x100) && !cbFlag) {
             MtxFx44 m;
 
-            func_0206DB80();
+            NNS_G3dGeFlushBuffer();
             GXFIFO = 0x00151110;
             GXFIFO = 0;
             GXFIFO = 0;
-            while (func_0207DC98(&m))
+            while (G3X_GetClipMtx(&m))
                 ;
             if (g_renderState.flag & 1) {
                 MtxFx44 tmp;
-                func_0207B5C0((const MtxFx43 *)func_0206ADBC(), &tmp);
+                func_0207B5C0((const MtxFx43 *)NNS_G3dGlbGetWVMtx(), &tmp);
                 func_0207BE14(&m, &tmp, &m);
             } else if (g_renderState.flag & 2) {
                 MtxFx44 tmp;
@@ -176,18 +176,18 @@ void func_0206C524(RS *rs, u32 opt)
 
             if (g_renderState.flag & 1) {
                 GXFIFO = 0x00171012;
-                func_02082AA8(&g_020A8328.prm[0], &GXFIFO, 8);
-                func_02082AA8(func_0206ADF4(), &GXFIFO, 0x30);
+                MIi_CpuSend32(&gBillboardCmd.prm[0], &GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvWVMtx(), &GXFIFO, 0x30);
                 GXFIFO = 0x1b19;
-                func_02082AA8(&g_020A8328.mtx, &GXFIFO, 0x3c);
+                MIi_CpuSend32(&gBillboardCmd.mtx, &GXFIFO, 0x3c);
             } else if (g_renderState.flag & 2) {
                 GXFIFO = 0x00171012;
-                func_02082AA8(&g_020A8328.prm[0], &GXFIFO, 8);
-                func_02082AA8(func_0206AAD4(), &GXFIFO, 0x30);
+                MIi_CpuSend32(&gBillboardCmd.prm[0], &GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvCameraMtx(), &GXFIFO, 0x30);
                 GXFIFO = 0x1b19;
-                func_02082AA8(&g_020A8328.mtx, &GXFIFO, 0x3c);
+                MIi_CpuSend32(&gBillboardCmd.mtx, &GXFIFO, 0x3c);
             } else {
-                func_02082AA8(&g_020A8328, &GXFIFO, 0x48);
+                MIi_CpuSend32(&gBillboardCmd, &GXFIFO, 0x48);
             }
         }
 
@@ -197,7 +197,7 @@ void func_0206C524(RS *rs, u32 opt)
             cmdLen++;
             if (!cbFlag && !(rs->flag & 0x100)) {
                 u32 arg = rs->c[2];
-                func_0206DDA4(0x13, &arg, 1);
+                NNS_G3dGeBufferOP_N(0x13, &arg, 1);
             }
         }
     }

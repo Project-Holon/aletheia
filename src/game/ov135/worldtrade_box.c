@@ -22,7 +22,7 @@
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_0205D074 0x0205D074 arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
- *   func_021C7C1C 0x021C7C1C arm ov114
+ *   DPW_TR_Main 0x021C7C1C arm ov114
  *   PROCSYS_Main 0x02031330 arm
  *   func_02030D28 0x02030D28 arm
  *   func_02202770 0x02202770 thumb ov135
@@ -147,7 +147,7 @@
  *   STRBUF_Delete   0x02045808  arm
  *   func_02202858  0x02202858  thumb  ov135
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb
  *   GX_LoadOBJ     0x0207E780  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
@@ -208,7 +208,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   tbl_02202EC0 0x02202EC0 data a2
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_021F8990 0x021F8990 thumb ov135
  *   g_02203C00 0x02203C00 data a4
  *   func_021F9968  0x021F9968  thumb  ov135
@@ -262,6 +262,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb  arm9
  */
 #include "worldtrade_types.h"
 #include "../../matched/include/Obj00018.h"
@@ -475,7 +476,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int GFL_NET_GetRunState(void);
 extern int func_0205D074(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
-extern void func_021C7C1C(void);
+extern void DPW_TR_Main(void);
 extern u32 PROCSYS_Main(void *);
 extern void func_02030D28(struct Ctx *c);
 extern void func_02202770(void *);
@@ -619,7 +620,7 @@ extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 POKE_TOOL_CalcBoxLevel(void *p);
 extern void GX_LoadOBJ(const void *src, u32 offset, u32 size);
@@ -659,7 +660,7 @@ extern void *func_021F9890(Init *,u32,u32);
 extern void func_021F99D0(u8 *p);
 extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern void func_02082AC0(u32 value, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void func_021F8990(u8 *p);
 extern void func_021F9968(u8 *p, int mode);
 extern int func_021F8950(void *p, u16 *old);
@@ -686,7 +687,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02009628(const struct Sub02009470Obj *obj);
 extern u8 func_02009584(const struct Sub02009470Obj *obj);
 extern u8 func_0200960C(const struct Sub02009470Obj *obj);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 int func_021F4580(void *proc, int *seq, Args_021F4580 *args);
 int func_021F46A8(void *unused0, int *state, void *unused2, Work *p);
@@ -931,7 +932,7 @@ int func_021F46A8(void *unused0, int *state, void *unused2, Work *p)
         func_0205D074();
         GFL_NET_WM_ICON_EasySetLevel(func_021F4EB4());
     }
-    func_021C7C1C();
+    DPW_TR_Main();
     p->busy_u = PROCSYS_Main(p->f12F0);
     func_02030D28(p->rec_p);
     func_02202770((u8 *)p + 0xfa0);
@@ -2611,7 +2612,7 @@ void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f
     CharData_p02 *cd;
     void *buf = (void *)func_021F66C8(arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), (u32)(&cd), 0x48);
 
-    func_02082B0C(cd->pixels, rec->pixels, 0x200);
+    MIi_CpuCopyFast(cd->pixels, rec->pixels, 0x200);
     rec->vram = (slot * 16 + 0x1c) * 32;
     rec->spr = f8;
     rec->pal = POKE_TOOL_CalcIconPalette(species, form, gender, isEgg) + 5;
@@ -3525,7 +3526,7 @@ void func_021F798C(Work *p)
 {
     p->str = STRBUF_Create(0xB4, 0x48);
     (*(void **)&p->st) = func_02030734(0x48, 0x30, 0, g_02203C00, 0x2B4);
-    func_02082AC0(0, (void *)p->st, 0x30);
+    MIi_CpuClearFast(0, (void *)p->st, 0x30);
     *(u16 * *)&((struct Obj23382 *)(*(u8 * *)(void **)&p->st))->f18 = func_021F8498(0x48, 0, (u32 *)(*(u8 * *)(void **)&p->st + 0x1C));
     *(u8 * *)&((struct Obj23383 *)(*(u8 * *)(void **)&p->st))->f14 = func_021F84EC(0x48);
     func_021F8990((u8 *)p + 0xEEC);
@@ -4149,7 +4150,7 @@ u8 *func_021F84EC(u32 id)
     u32 n;
 
     buf = func_02030734(0x48, 0x28A, 0, (const char *)g_02203C00, 0x796);
-    func_02082AC0(0, buf, 0x28A);
+    MIi_CpuClearFast(0, buf, 0x28A);
     tbl = (u16 *)ARC_UTIL_LoadMemberWithSize(0x62, 4, 0, (u16)id, &size);
     n = size / 2;
     for (i = 0; i < n; i++) {
@@ -4174,7 +4175,7 @@ void func_021F8554(WorldtradeBoxObj5 *dst, Work *p)
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);
         }
-        func_02082B0C(p->mon, dst, func_020173EC());
+        MIi_CpuCopyFast(p->mon, dst, func_020173EC());
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
@@ -4223,11 +4224,11 @@ int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, 
     start = tbl_02203B84[kind];
     size = tbl_02203B84[kind + 1] - start;
     for (i = 0; i < size; i++) {
-        if (func_0200D064(bag, list[start + i]) != 0) count++;
+        if (ZUKAN_SAVE_IsSeen(bag, list[start + i]) != 0) count++;
     }
     *menu = BMP_MENUWORK_Create(count + 1, 0x48);
     for (i = 0; i < size; i++) {
-        if (func_0200D064(bag, list[start + i]) != 0) {
+        if (ZUKAN_SAVE_IsSeen(bag, list[start + i]) != 0) {
             BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, list[start + i], list[start + i], 0x48);
         }
     }

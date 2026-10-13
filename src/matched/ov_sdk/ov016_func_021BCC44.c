@@ -12,10 +12,10 @@
  * sdk:      taskStart (libdwcutil.TWL.HYB.a(button.o))
  *
  * symbols:
- *   func_021D5250  0x021d5250  arm  ov016
+ *   DWCi_CELLlGetPosition  0x021d5250  arm  ov016
  *   func_021BCBB4  0x021bcbb4  arm  ov016
  *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
- *   g_021DE508  0x021de508  data
+ *   gButtonWork  0x021de508  data
  *   func_021BCCB0  0x021bccb0  arm  ov016
  */
 
@@ -23,9 +23,9 @@
 
 typedef _Bool bool;
 
-extern struct tagMEMBTN *g_021DE508;
+extern struct tagMEMBTN *gButtonWork;
 
-extern void func_021D5250(void *cell, int idx, int *x, int *y);
+extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void func_021BCBB4(int y);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCCB0(void *task);
@@ -34,7 +34,7 @@ void func_021BCC44(void *task)
 {
     int x, y;
 
-    func_021D5250(g_021DE508->cellBack, 0, &x, &y);
+    DWCi_CELLlGetPosition(gButtonWork->cellBack, 0, &x, &y);
     y -= 4;
     func_021BCBB4(y);
     if (y > 168)

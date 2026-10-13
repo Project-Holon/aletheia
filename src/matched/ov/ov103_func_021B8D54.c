@@ -1,5 +1,5 @@
 /*
- * function: func_021B8D54
+ * function: IRC_COMPATIBLE_TOUCH_TEST_PollTouchTrigger
  * address: 0x021B8D54
  * packet: pkt_ov103_021B8D54
  * region: ov103
@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-int func_021B8D54(u32 *p,u32 *out) {
+int IRC_COMPATIBLE_TOUCH_TEST_PollTouchTrigger(u32 *p,u32 *out) {
  u32 x,y;
  if(TOUCHPANEL_GetPointTrg(&x,&y)) {
   if(x-p[0]<p[2]-p[0] && y-p[1]<p[3]-p[1]) {

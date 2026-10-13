@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CD0
+ * function: WIFICLUBACTOR_AnimateActors
  * address:  0x021B9CD0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-void func_021B9CD0(char *p)
+void WIFICLUBACTOR_AnimateActors(char *p)
 {
     int i;
 

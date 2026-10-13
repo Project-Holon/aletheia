@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0E3C",
+   "name": "PMS_SELECT_GRAPHIC_GetThumbRow",
    "address": "0x021C0E3C",
    "kind": "game",
    "region": "ov110",

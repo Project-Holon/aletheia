@@ -18,7 +18,7 @@
  *   func_02161598  0x02161598  arm  ov009
  *   func_02161C54  0x02161C54  arm  ov009
  *   func_021619CC  0x021619CC  arm  ov009
- *   func_0215B198  0x0215B198  arm  ov009
+ *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *   g_021A8280     0x021A8280  data ov009
  *   g_021A82B0     0x021A82B0  data ov009
  *
@@ -54,7 +54,7 @@ extern void func_021614BC(struct _CPSSslConnection *con, unsigned char *d, int f
 extern void func_02161598(struct _CPSSslConnection *con, unsigned char *d, int flag);
 extern void func_02161C54(CPSSslConnection *con, unsigned char *s, unsigned long len);
 extern int func_021619CC(CPSSslConnection *con, unsigned char *s);
-extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
+extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 
 void func_021622C0(CPSSoc *soc)
 {
@@ -89,6 +89,6 @@ void func_021622C0(CPSSoc *soc)
     func_02161598((struct _CPSSslConnection *)con, buf + 31, 0);
     MI_CpuCopy8(con->sha1_hash_tmp, con->sha1_hash, 0x5C);
     func_02161C54(con, buf + 11, 40);
-    func_0215B198(buf, func_021619CC(con, buf + 6) + 6, 0, 0, (struct _CPSSoc *)soc);
+    CPSi_TcpWrite2Raw(buf, func_021619CC(con, buf + 6) + 6, 0, 0, (struct _CPSSoc *)soc);
     g_021A82B0(buf);
 }

@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The actor object's first in-object callback (func_02065B74 stores it at
+ * The actor object's first in-object callback (NNS_G2dInitRenderSurface stores it at
  * +0x18): runs the live actor vtable's +0x34 predicate with the selected
  * affine matrix, records its verdict in the host's +0x30 word (0 stops
  * there), then dispatches the +0x38 slot with the matrix selected afresh.

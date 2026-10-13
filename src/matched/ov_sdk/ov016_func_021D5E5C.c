@@ -1,5 +1,5 @@
 /*
- * function: func_021D5E5C
+ * function: DWCi_FNTlDrawRect
  * address:  0x021D5E5C
  * packet:   pkt_ov016_021D5E5C
  * region:   ov016
@@ -13,6 +13,7 @@
  *
  * symbols:
  *   NNSi_G2dTextCanvasDrawTextRect   0x02069818  arm
+ *   gFontWork  0x021DE680  data
  */
 
 typedef unsigned char u8;
@@ -58,7 +59,7 @@ typedef struct {
     int renew[2];
 } MemFont;
 
-extern MemFont *g_021DE680;
+extern MemFont *gFontWork;
 typedef struct {
     signed char a;
     signed char b;
@@ -66,7 +67,7 @@ typedef struct {
 
 extern void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *tc, int x, int y, int w, int h, int color, u32 flag, u16 *txt, Pair p);
 
-void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt)
+void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt)
 {
     Canvas *cnv = canvas;
     Pair p = {0, 0};

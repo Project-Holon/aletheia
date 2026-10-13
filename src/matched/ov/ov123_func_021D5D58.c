@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C5B80 0x021C5B80 arm ov114
+ *   DWC_NdCleanupAsync 0x021C5B80 arm ov114
  */
 #include "../include/Obj13976.h"
-extern int func_021C5B80(void);
-int func_021D5D58(char *p){int ok;if(!((struct Obj13976 *)p)->fC4){ok=0;((struct Obj13976 *)p)->fB0=0;if(!func_021C5B80())return ok;}return 1;}
+extern int DWC_NdCleanupAsync(void);
+int func_021D5D58(char *p){int ok;if(!((struct Obj13976 *)p)->fC4){ok=0;((struct Obj13976 *)p)->fB0=0;if(!DWC_NdCleanupAsync())return ok;}return 1;}

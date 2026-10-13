@@ -1,5 +1,5 @@
 /*
- * function: func_0206EB00
+ * function: NNSi_G3dAnmObjInitNsBca
  * address:  0x0206EB00
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -20,7 +20,7 @@
  *
  * symbols:
  *   g_020A8224       0x020A8224  data
- *   func_02082A48    0x02082A48  arm
+ *   MIi_CpuClear16    0x02082A48  arm
  *
  * Builds the halfword index at dst+0x1A: the byte at tbl+0x17 is the clear
  * length (doubled) and is also stashed at dst+0x19; each of the src->count
@@ -37,9 +37,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  g_020A8224;
-extern void func_02082A48(u32 val, void *dst, u32 n);
+extern void MIi_CpuClear16(u32 val, void *dst, u32 n);
 
-void func_0206EB00(char *dst, char *src, char *tbl)
+void NNSi_G3dAnmObjInitNsBca(char *dst, char *src, char *tbl)
 {
     u8 n;
 
@@ -47,7 +47,7 @@ void func_0206EB00(char *dst, char *src, char *tbl)
     ((struct Obj07050 *)dst)->fC = g_020A8224;
     n = ((struct Obj16618 *)tbl)->f17;
     ((struct Obj07050 *)dst)->f19 = n;
-    func_02082A48(0, dst + 0x1A, (u32)n << 1);
+    MIi_CpuClear16(0, dst + 0x1A, (u32)n << 1);
     {
         u32 i = 0;
         char *ix = src + 0x14;

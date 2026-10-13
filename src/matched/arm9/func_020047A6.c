@@ -1,5 +1,5 @@
 /*
- * function: func_020047A6
+ * function: SVC_WaitVBlankIntr
  * address:  0x020047A6
  * packet:   pkt_020047A6
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_WaitVBlankIntr), `swi N; bx lr` in the BIOS call table */
 
-asm void func_020047A6(void)
+asm void SVC_WaitVBlankIntr(void)
 {
     swi 0x5
     bx lr

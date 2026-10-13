@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm
- *   func_021BD5A8  0x021BD5A8  arm
- *   func_021BD138  0x021BD138  arm
- *   func_021D4C68  0x021D4C68  arm
- *   func_021D6090  0x021D6090  arm
- *   func_021C0E50  0x021C0E50  arm
- *   func_021C0E40  0x021C0E40  arm
- *   dat_021DE59C   0x021DE59C  data
- *   func_021CBC90  0x021CBC90  arm
- *   func_021C2A3C  0x021C2A3C  arm
+ *   DWCi_EFFlCheck  0x021D5580  arm
+ *   DWCi_FOCUSlDelete  0x021BD5A8  arm
+ *   DWCi_COMMENTlDelete  0x021BD138  arm
+ *   DWCi_ARClRelease  0x021D4C68  arm
+ *   DWCi_GXlInvisible  0x021D6090  arm
+ *   DWCi_SetParam_  0x021C0E50  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
+ *   gSceneMenuWork   0x021DE59C  data
+ *   DWCi_SceneSetSelectAp  0x021CBC90  arm
+ *   DWCi_SceneOptMenu  0x021C2A3C  arm
  */
 
 typedef unsigned char u8;
@@ -30,36 +30,36 @@ struct D {
     int f4;
 };
 
-extern int  func_021D5580(int x);
-extern void func_021BD5A8(void);
-extern void func_021BD138(void);
-extern void func_021D4C68(void *file);
-extern void func_021D6090(int a, int b);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern struct D dat_021DE59C;
-extern void func_021CBC90(void);
-extern void func_021C2A3C(void);
+extern int  DWCi_EFFlCheck(int x);
+extern void DWCi_FOCUSlDelete(void);
+extern void DWCi_COMMENTlDelete(void);
+extern void DWCi_ARClRelease(void *file);
+extern void DWCi_GXlInvisible(int a, int b);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern struct D gSceneMenuWork;
+extern void DWCi_SceneSetSelectAp(void);
+extern void DWCi_SceneOptMenu(void);
 
 void func_021C1DC4(void)
 {
-    if (func_021D5580(1) != 0)
+    if (DWCi_EFFlCheck(1) != 0)
         return;
-    if (func_021D5580(0) != 0)
+    if (DWCi_EFFlCheck(0) != 0)
         return;
-    func_021BD5A8();
-    func_021BD138();
-    func_021D4C68((void *)dat_021DE59C.f4);
-    func_021D6090(1, 1);
-    func_021D6090(0, 0x14);
-    switch (dat_021DE59C.f0) {
+    DWCi_FOCUSlDelete();
+    DWCi_COMMENTlDelete();
+    DWCi_ARClRelease((void *)gSceneMenuWork.f4);
+    DWCi_GXlInvisible(1, 1);
+    DWCi_GXlInvisible(0, 0x14);
+    switch (gSceneMenuWork.f0) {
     case 0:
-        func_021C0E50(1, 0);
-        func_021C0E40((unsigned int)func_021CBC90);
+        DWCi_SetParam_(1, 0);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectAp);
         return;
     case 1:
-        func_021C0E50(0, 0);
-        func_021C0E40((unsigned int)func_021C2A3C);
+        DWCi_SetParam_(0, 0);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMenu);
         return;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC090
+ * function: WIFICLUB_ResetTimeIcon
  * address:  0x021BC090
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -35,7 +35,7 @@ typedef struct {
     u32 f1C0;
 } S;
 
-void func_021BC090(S *s)
+void WIFICLUB_ResetTimeIcon(S *s)
 {
     if (s->f100 != 0) {
         TIME_ICON_Delete((u8 *)s->f100);

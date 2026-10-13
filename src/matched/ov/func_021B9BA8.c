@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BA8
+ * function: WIFICLUBACTOR_IsCursorFree
  * address:  0x021B9BA8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern int func_021C49A4(u8 *p, unsigned int i);
 
-BOOL func_021B9BA8(char *p)
+BOOL WIFICLUBACTOR_IsCursorFree(char *p)
 {
     if (func_021C49A4(*(void **)((struct Obj18150 *)p)->f570, 5) == 0) {
         return 1;

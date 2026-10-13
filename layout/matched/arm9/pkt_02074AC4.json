@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02074AC4",
+   "name": "NNS_SndArcLoadSeqEx",
    "address": "0x02074AC4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074AE8",
+   "name": "NNSi_SndArcLoadGroup",
    "address": "0x02074AE8",
    "kind": "game",
    "region": "arm9",

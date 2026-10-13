@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214BAB4       0x0214BAB4  data
+ *   gNnsG3dGeState       0x0214BAB4  data
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G3dGeSetBuffer.c \
  *       --func NNS_G3dGeSetBuffer --addr 0x0206DB40 --cc 1.1p1 --arm
@@ -20,12 +20,12 @@
 
 typedef unsigned int u32;
 
-extern struct GeState g_0214BAB4;
+extern struct GeState gNnsG3dGeState;
 
 void NNS_G3dGeSetBuffer(u32 *p)
 {
-    if ((*(char * *)&g_0214BAB4) == 0) {
+    if ((*(char * *)&gNnsG3dGeState) == 0) {
         *p = 0;
-        (*(char * *)&g_0214BAB4) = (char *)p;
+        (*(char * *)&gNnsG3dGeState) = (char *)p;
     }
 }

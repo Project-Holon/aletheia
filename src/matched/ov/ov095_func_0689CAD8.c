@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0689CAD8, func_0689CAE0, func_0689CAEC, func_0689CB08, func_0689CB14, func_0689CB18, func_0689CB1C, func_0689CB2C
+ * function: BTL_PICK_SetSlotState, BTL_PICK_InitList, BTL_PICK_Push, BTL_PICK_Pop, BTL_PICK_GetLocked, BTL_PICK_GetCount, BTL_PICK_GetLast, BTL_PICK_GetSlot
  * address:  0x0689CAD8
  * packet:   pkt_ov095_0689CAD8
  * region:   ov095
@@ -13,18 +13,18 @@
 
 typedef unsigned char u8;
 
-void func_0689CAD8(u8 *p, u8 v, int i)
+void BTL_PICK_SetSlotState(u8 *p, u8 v, int i)
 {
     (p + i)[5] = v;
 }
 
-void func_0689CAE0(u8 *p, const u8 *q)
+void BTL_PICK_InitList(u8 *p, const u8 *q)
 {
     p[6] = 0;
     p[7] = q[4];
 }
 
-void func_0689CAEC(u8 *p, u8 a, u8 b)
+void BTL_PICK_Push(u8 *p, u8 a, u8 b)
 {
     if (p[6] < p[7]) {
         p[p[6]] = b;
@@ -33,23 +33,23 @@ void func_0689CAEC(u8 *p, u8 a, u8 b)
     }
 }
 
-void func_0689CB08(u8 *p)
+void BTL_PICK_Pop(u8 *p)
 {
     if (p[6])
         p[6]--;
 }
 
-int func_0689CB14(u8 *p)
+int BTL_PICK_GetLocked(u8 *p)
 {
     return p[8];
 }
 
-int func_0689CB18(u8 *p)
+int BTL_PICK_GetCount(u8 *p)
 {
     return p[6];
 }
 
-int func_0689CB1C(u8 *p)
+int BTL_PICK_GetLast(u8 *p)
 {
     u8 n = p[6];
     if (n)
@@ -57,7 +57,7 @@ int func_0689CB1C(u8 *p)
     return 6;
 }
 
-int func_0689CB2C(u8 *p, u8 i)
+int BTL_PICK_GetSlot(u8 *p, u8 i)
 {
     if (i < p[6])
         return p[i];

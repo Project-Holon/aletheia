@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   CARD_NotifyRomHashReadAsync 0x0272EE2C arm twl
  */
 typedef unsigned int u32;
@@ -41,8 +41,8 @@ struct Obj {
     struct Node *used_b;
 };
 
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void CARD_NotifyRomHashReadAsync(struct Obj *);
 
 void CARDi_StartLoading(struct Obj *p)
@@ -50,7 +50,7 @@ void CARDi_StartLoading(struct Obj *p)
     void *a = 0;
     u32 b = 0;
     u32 c = 0;
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     if (p->cur == 0) {
         struct Node *q = p->free_b;
@@ -72,7 +72,7 @@ void CARDi_StartLoading(struct Obj *p)
             }
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     if (a != 0) {
         if (p->f38(p->f30, a, b, c) != 0) {
             return;

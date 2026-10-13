@@ -1,5 +1,5 @@
 /*
- * function: func_0689A84C
+ * function: BTLV_SCD_WaitBackTouchStep
  * address: 0x0689A84C
  * packet: pkt_ov095_0689A84C
  * region: ov095
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 extern int func_0689A868(u32);
 
-int func_0689A84C(u32 unused, u32 p)
+int BTLV_SCD_WaitBackTouchStep(u32 unused, u32 p)
 {
     int result;
     result = func_0689A868(((struct Obj13635 *)p)->fB0);

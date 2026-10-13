@@ -1,5 +1,5 @@
 /*
- * function: func_021F6D70
+ * function: VS_MULTI_LIST_PrintHp
  * address: 0x021F6D70
  * packet: pkt_ov097_021F6D70
  * region: ov097
@@ -51,7 +51,7 @@ static inline u8 center_x(u32 w)
     return 0x5c - (w >> 1);
 }
 
-void func_021F6D70(char *p, int idx)
+void VS_MULTI_LIST_PrintHp(char *p, int idx)
 {
     void *buf;
     void *t1;

@@ -28,8 +28,8 @@
  *   NNS_SndArcSetReadChunkSize       0x020746B0  arm
  *   func_020755A8       0x020755A8  arm
  *   NNS_SndHandleInit       0x02072E9C  arm
- *   NNS_SndHandleSetSeqPriority       0x02072F34  arm
- *   func_02085A38       0x02085A38  arm
+ *   NNS_SndHandleSetVolume       0x02072F34  arm
+ *   OS_Sleep       0x02085A38  arm
  *
  * The three state connection pump, plus the initialiser and the address-of
  * accessor for the five entry table at 0x020AA294.
@@ -37,7 +37,7 @@
  * GFL_USE_UpdateBgmChange is where the signal strength bar comes from: `unk24` counts
  * up towards `unk2C` while the current access point matches the one being
  * connected to and back down towards zero when it does not, and the value
- * handed to NNS_SndHandleSetSeqPriority is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
+ * handed to NNS_SndHandleSetVolume is `unk24 * 0x7F / unk2C` or `unk24 * 0x7F /
  * unk30`.  Both divisions are signed, so they call the compiler's own
  * `_s32_div_f` helper rather than `_u32_div_f`: `unk24` is a `u16` that
  * promotes to `int` and the two limits are `int`.  Getting that wrong is not
@@ -85,8 +85,8 @@ extern int  GFL_USE_IsLoaderDone(void);
 extern void NNS_SndArcSetReadChunkSize(int p0);
 extern u32  func_020755A8(u32 req, int a, int b, int c, u32 arg);
 extern void NNS_SndHandleInit(void **r0);
-extern void NNS_SndHandleSetSeqPriority(u32 *req, int level);
-extern void func_02085A38(u32 msec);
+extern void NNS_SndHandleSetVolume(u32 *req, int level);
+extern void OS_Sleep(u32 msec);
 
 void GFL_USE_UpdateBgmChange(void)
 {
@@ -102,15 +102,15 @@ void GFL_USE_UpdateBgmChange(void)
             if (id != sub_02005FF4_State.unk28) {
                 if (sub_02005FF4_State.unk24 != 0) {
                     sub_02005FF4_State.unk24--;
-                    NNS_SndHandleSetSeqPriority(req, sub_02005FF4_State.unk24 * 0x7F /
+                    NNS_SndHandleSetVolume(req, sub_02005FF4_State.unk24 * 0x7F /
                                        sub_02005FF4_State.unk30);
                     return;
                 }
-                NNS_SndHandleSetSeqPriority(req, 0);
+                NNS_SndHandleSetVolume(req, 0);
             } else {
                 if (sub_02005FF4_State.unk24 < sub_02005FF4_State.unk2C) {
                     sub_02005FF4_State.unk24++;
-                    NNS_SndHandleSetSeqPriority(req, sub_02005FF4_State.unk24 * 0x7F /
+                    NNS_SndHandleSetVolume(req, sub_02005FF4_State.unk24 * 0x7F /
                                        sub_02005FF4_State.unk2C);
                     return;
                 }
@@ -135,7 +135,7 @@ void GFL_USE_UpdateBgmChange(void)
             sub_02005FF4_State.unk20 = 2;
             return;
         }
-        func_02085A38(1);
+        OS_Sleep(1);
         return;
     case 2:
         if (GFL_USE_IsLoaderDone() == 1) {
@@ -143,11 +143,11 @@ void GFL_USE_UpdateBgmChange(void)
             GFL_USE_FinishBgmLoad(sub_02005FF4_State.unk28);
             func_020755A8((u32)GFL_USE_GetCurrentSndHandle(), 0, -1, -1,
                           sub_02005FF4_State.unk28);
-            NNS_SndHandleSetSeqPriority(req, 0);
+            NNS_SndHandleSetVolume(req, 0);
             sub_02005FF4_State.unk20 = 0;
             return;
         }
-        func_02085A38(1);
+        OS_Sleep(1);
         return;
     }
 }

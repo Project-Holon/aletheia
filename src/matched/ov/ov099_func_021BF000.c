@@ -1,5 +1,5 @@
 /*
- * function: func_021BF000
+ * function: WIFICLUB_StateReturnToClub
  * address: 0x021BF000
  * packet: pkt_ov099_021BF000
  * region: ov099
@@ -9,27 +9,27 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BEEBC 0x021BEEBC thumb ov099
- *   func_021C18C8 0x021C18C8 thumb ov099
- *   func_021BDE30 0x021BDE30 thumb ov099
- *   func_021C2408 0x021C2408 thumb ov099
+ *   WIFICLUB_ResetClubScreen 0x021BEEBC thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
+ *   WIFICLUB_ChangeNetMode 0x021BDE30 thumb ov099
+ *   WIFICLUB_DisableTouchBar 0x021C2408 thumb ov099
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  */
 #include "../include/Obj00008.h"
-extern void func_021BEEBC(char *);
-extern void func_021C18C8(char *,int,int);
-extern void func_021BDE30(void *,int,int);
-extern void func_021C2408(char *);
+extern void WIFICLUB_ResetClubScreen(char *);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *,int,int);
+extern void WIFICLUB_ChangeNetMode(void *,int,int);
+extern void WIFICLUB_DisableTouchBar(char *);
 typedef unsigned char  u8;
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
-int func_021BF000(char *p,int ret) {
- func_021BEEBC(p);
- func_021C18C8(p,1,2);
- func_021BDE30(p,1,2);
+int WIFICLUB_StateReturnToClub(char *p,int ret) {
+ WIFICLUB_ResetClubScreen(p);
+ WIFICLUB_SetOwnStatusAndPublish(p,1,2);
+ WIFICLUB_ChangeNetMode(p,1,2);
  ((struct Obj00008 *)p)->f1CC=11;
- func_021C2408(p);
+ WIFICLUB_DisableTouchBar(p);
  GFL_NET_SetAutoExit(0);
  GFL_NET_SetLoginOption(0);
  return ret;

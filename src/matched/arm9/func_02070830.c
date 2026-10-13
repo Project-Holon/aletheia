@@ -1,5 +1,5 @@
 /*
- * function: func_02070830
+ * function: NNSi_G3dAnmObjInitNsBta
  * address:  0x02070830
  * packet:   pkt_02070360
  * region:   arm9
@@ -9,22 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * Twin of func_02070360, instruction for instruction: the same channel
+ * Twin of NNSi_G3dAnmObjInitNsBma, instruction for instruction: the same channel
  * binder, differing only in the handler-table word that seeds ctx->f0c
- * (data_020A8228, which holds &func_02070904, where func_02070360 reads
- * data_020A8230 = &func_02070434).  The table at 0x020A8220.. pairs each
+ * (data_020A8228, which holds &NNSi_G3dAnmCalcNsBta, where NNSi_G3dAnmObjInitNsBma reads
+ * data_020A8230 = &NNSi_G3dAnmCalcNsBma).  The table at 0x020A8220.. pairs each
  * binder (0x020A8244.., tagged by a 4-char kind word) with the per-frame
- * driver it installs.  Same levers as func_02070360: the GetName/Lookup
+ * driver it installs.  Same levers as NNSi_G3dAnmObjInitNsBma: the GetName/Lookup
  * inline helpers, `volatile u8 b09`, `i` declared before `names`, and the
  * ../2.0/sp2 pin.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070830.c
- *       --func func_02070830 --addr 0x02070830 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmObjInitNsBta.c
+ *       --func NNSi_G3dAnmObjInitNsBta --addr 0x02070830 --arm --cc ../2.0/sp2
  *
  * symbols:
  *   MIi_CpuClear16   0x02082A48  arm
- *   func_0206E7EC    0x0206E7EC  arm
+ *   NNS_G3dGetResDictIdxByName    0x0206E7EC  arm
  *   data_020A8228    0x020A8228  data
  */
 #include "../include/Obj16646.h"
@@ -61,7 +61,7 @@ struct Arg70830 {
 extern u32 data_020A8228;
 
 void MIi_CpuClear16(u16 value, void *dest, u32 size);
-s32 func_0206E7EC(void *name, void *ent);
+s32 NNS_G3dGetResDictIdxByName(void *name, void *ent);
 
 static inline void *GetName(struct Src70830 *src, u32 idx)
 {
@@ -76,11 +76,11 @@ static inline void *GetName(struct Src70830 *src, u32 idx)
 static inline s32 Lookup(u8 *names, void *ent)
 {
     if (names != 0)
-        return func_0206E7EC(names + 4, ent);
+        return NNS_G3dGetResDictIdxByName(names + 4, ent);
     return -1;
 }
 
-void func_02070830(struct Ctx70830 *ctx, struct Src70830 *src, struct Arg70830 *arg)
+void NNSi_G3dAnmObjInitNsBta(struct Ctx70830 *ctx, struct Src70830 *src, struct Arg70830 *arg)
 {
     u32 i;
     u8 *names;

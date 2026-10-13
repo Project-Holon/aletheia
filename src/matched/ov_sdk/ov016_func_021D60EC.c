@@ -1,5 +1,5 @@
 /*
- * function: func_021D60EC
+ * function: DWCi_GXlSetWndPosition
  * address:  0x021D60EC
  * packet:   pkt_ov016_021D60EC
  * region:   ov016
@@ -31,7 +31,7 @@ static inline void SetWin(u16 *reg, u16 x1, u16 y1, u16 x2, u16 y2)
     ((vu16 *)reg)[2] = (u16)(((y1 << 8) & 0xff00) | (y2 & 0xff));
 }
 
-void func_021D60EC(int lcd, int wnd, Rect *r)
+void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r)
 {
     if (lcd == 1) {
         if (wnd == 0)

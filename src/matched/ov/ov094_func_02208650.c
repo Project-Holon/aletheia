@@ -11,6 +11,7 @@
  *
  * symbols:
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
+ *   MIi_CpuCopy16  0x02082A60  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -19,7 +20,7 @@ typedef struct { void *f0; char p4[0x6f - 4]; u8 f6f; } E;
 typedef struct { char p0[0x14]; char *f14; } O;
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 
 void BTLV_GAUGE_DrawCaughtIcon(O *o, E *e)
 {
@@ -32,5 +33,5 @@ void BTLV_GAUGE_DrawCaughtIcon(O *o, E *e)
         off = 0x660;
     CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
-    func_02082A60(o->f14 + off, (void *)(vram + 0x120 + buf.w[1]), 0x20);
+    MIi_CpuCopy16(o->f14 + off, (void *)(vram + 0x120 + buf.w[1]), 0x20);
 }

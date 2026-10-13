@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB04
+ * function: WIFICLUB_ShowNoticeWindow
  * address: 0x021BAB04
  * packet: pkt_ov099_021BAB04
  * region: ov099
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA8D4 0x021BA8D4 thumb ov099
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_DeleteTimeIcon 0x021BA8D4 thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02049B40 0x02049B40 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -33,8 +33,8 @@ struct Cfg;
 struct CharBuf;
 struct MsgBank;
 struct WordSet;
-extern void func_021BA8D4(void *);
-extern int func_021BA8BC(void *);
+extern void WIFICLUB_DeleteTimeIcon(void *);
+extern int WIFICLUB_DeleteWindow(void *);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
@@ -48,11 +48,11 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 #define P(k) (*(void **)((u8 *)p+(k)))
-void func_021BAB04(void *p, int message)
+void WIFICLUB_ShowNoticeWindow(void *p, int message)
 {
-    func_021BA8D4(p);
-    P(0x19c)=(void *)func_021BA8BC(P(0x19c));
-    P(0x190)=(void *)func_021BA8BC(P(0x190));
+    WIFICLUB_DeleteTimeIcon(p);
+    P(0x19c)=(void *)WIFICLUB_DeleteWindow(P(0x19c));
+    P(0x190)=(void *)WIFICLUB_DeleteWindow(P(0x190));
     P(0x19c)=(void *)BMP_WIN_Create(2,4,4,23,16,15,1);
     func_02049B40(23,5,0,480,32,33);
     BMP_Clear(BMP_WIN_GetBmp(P(0x19c)),255);

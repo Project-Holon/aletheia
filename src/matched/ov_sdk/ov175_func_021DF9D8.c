@@ -1,5 +1,5 @@
 /*
- * function: func_021DF9D8
+ * function: scInitialize
  * address:  0x021DF9D8
  * packet:   pkt_ov175_021DF9D8
  * region:   ov175
@@ -14,18 +14,18 @@
  * object into it and publish the handle.
  *
  * symbols:
- *   func_021DF7FC  0x021DF7FC  arm  ov175
- *   func_021DF884  0x021DF884  arm  ov175
+ *   sciInterfaceCreate  0x021DF7FC  arm  ov175
+ *   sciInterfaceInit  0x021DF884  arm  ov175
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021DF7FC(void **);
+extern int sciInterfaceCreate(void **);
 typedef signed int     s32;
-extern s32 func_021DF884(char *p);
+extern s32 sciInterfaceInit(char *p);
 
-int func_021DF9D8(u32 *p, u32 *out)
+int scInitialize(u32 *p, u32 *out)
 {
     int r;
     u8 *h = 0;
@@ -33,9 +33,9 @@ int func_021DF9D8(u32 *p, u32 *out)
     if (out == 0)
         return 2;
     *out = 0;
-    if ((r = func_021DF7FC((void **)&h)) != 0)
+    if ((r = sciInterfaceCreate((void **)&h)) != 0)
         return r;
-    if ((r = func_021DF884((char *)h)) != 0)
+    if ((r = sciInterfaceInit((char *)h)) != 0)
         return r;
     *(u32 *)(h + 0x4c) = (u32)p;
     *out = (u32)h;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D14
+ * function: IRC_RANKING_GfxInit
  * address: 0x021B7D14
  * packet: pkt_ov106_021B7D14
  * region: ov106
@@ -19,7 +19,7 @@
  * zero and CSEs the later 7s from k. Tried: bg local for the table read (fixed the
  * loop), i=0 reuse, named int z, no k at all, six per-function pragmas
  * (lifetimes, propagation, common_subs, dead_assignments, scheduling, peephole):
- * none pools the zero. d_021B94A8 also has no witness (ov106 token did not help).
+ * none pools the zero. gIrcRankingDispConfig also has no witness (ov106 token did not help).
  * Idioms checked: a-named-zero-argument-pins-the-callers-truncation (z folded, no
  * change), a-repeated-small-constant-takes-a-callee-saved-register (wall note),
  * a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register (n/a),
@@ -48,15 +48,15 @@
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02012944 0x02012944 thumb
- *   func_021B91A8 0x021B91A8 thumb
+ *   IRC_RANKING_PrintCentered 0x021B91A8 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_020409B4 0x020409B4 arm
- *   d_021B94A8 0x021B94A8 data
- *   d_021B9524 0x021B9524 data a4
+ *   gIrcRankingDispConfig 0x021B94A8 data
+ *   gIrcRankingBgEntries 0x021B9524 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -68,8 +68,8 @@ struct Descriptor;
 struct MsgBank;
 struct GfFont;
 struct StrObj;
-extern struct DispConfig d_021B94A8;
-extern BgEntry d_021B9524[];
+extern struct DispConfig gIrcRankingDispConfig;
+extern BgEntry gIrcRankingBgEntries[];
 extern void MI_CpuFill8(void *, int, u32);
 extern void func_0203F8F4(u32);
 extern void BMP_WIN_Init(u32);
@@ -96,22 +96,22 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern u8 *func_02012944(void *p);
-extern void func_021B91A8(struct Descriptor *, struct StrObj *, void *, u32);
+extern void IRC_RANKING_PrintCentered(struct Descriptor *, struct StrObj *, void *, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32);
-void func_021B7D14(u32 *p, void *arg, u32 heap) {
+void IRC_RANKING_GfxInit(u32 *p, void *arg, u32 heap) {
  int i; int k; u32 bg; struct MsgBank *msg; struct GfFont *font; struct StrObj *str;
  MI_CpuFill8(p, 0, 0x10);
  func_0203F8F4(heap);
  BMP_WIN_Init(heap);
- func_0203FC28(&d_021B94A8);
+ func_0203FC28(&gIrcRankingDispConfig);
  for (i = 0; i < 8; i++) {
-  bg = d_021B9524[i].bg;
-  func_0203FCA0((u8)bg, &d_021B9524[i].t, (u8)d_021B9524[i].type);
+  bg = gIrcRankingBgEntries[i].bg;
+  func_0203FCA0((u8)bg, &gIrcRankingBgEntries[i].t, (u8)gIrcRankingBgEntries[i].type);
   func_020414AC(bg);
   func_02040588(bg, 1);
  }
@@ -137,7 +137,7 @@ void func_021B7D14(u32 *p, void *arg, u32 heap) {
  p[3] = BMP_WIN_Create(0, 3, 1, 0x1a, (u32)2, (u32)0xe, (u32)1);
  BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)p[3]), 0xf);
  str = (struct StrObj *)func_02045EC0(msg, 0);
- func_021B91A8((struct Descriptor *)p[3], str, func_02012944(arg), (u32)font);
+ IRC_RANKING_PrintCentered((struct Descriptor *)p[3], str, func_02012944(arg), (u32)font);
  STRBUF_Delete((struct U16Vec *)str);
  GF_FONT_Delete(font);
  MSGDATA_Delete((struct Rec *)msg);

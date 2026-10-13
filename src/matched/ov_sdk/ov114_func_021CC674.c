@@ -1,5 +1,5 @@
 /*
- * function: func_021CC674
+ * function: CRYPTOi__BN_gen_exp_string
  * address:  0x021CC674
  * packet:   pkt_ov114_021CC674
  * region:   ov114
@@ -12,10 +12,11 @@
  * sdk:      CRYPTOi__BN_gen_exp_string (crypto_bobj1.o)
  *
  * symbols:
- *   g_021CF930  0x021CF930  data  ov114
+ *   sCryptoBnGenExpStringShifts  0x021CF930  data  ov114
+ *   sCryptoBnNumBitsWordBits  0x021CE202  data
  *
  * notes: EXACT 2026-10-01 (lane29). Locals and types from the object's
- *        DWARF 1 entry (str, p, bits; sp, mask, shift, w, wh, wl, d, i,
+ *        DWARF 1 entry (str, p, sCryptoBnNumBitsWordBits; sp, mask, shift, w, wh, wl, d, i,
  *        sqr, t, s, ss, top; d is the walking word pointer, i is both the
  *        string length and the return count). Closed by three source-shape
  *        changes, each fixing a scheduler tie: `w = wl = d[0];` before the
@@ -45,9 +46,9 @@ typedef struct
     int depth;
 } BN_CTX;
 
-extern unsigned char *g_021CF930[7];
+extern unsigned char *sCryptoBnGenExpStringShifts[7];
 
-int func_021CC674(unsigned char *str, BIGNUM *p, int bits)
+int CRYPTOi__BN_gen_exp_string(unsigned char *str, BIGNUM *p, int sCryptoBnNumBitsWordBits)
 {
     unsigned char *shift;
     unsigned char *sp;
@@ -63,12 +64,12 @@ int func_021CC674(unsigned char *str, BIGNUM *p, int bits)
     unsigned int s;
     unsigned int i;
 
-    if (bits > 6)
-        bits = 6;
-    shift = g_021CF930[bits];
-    mask = (1 << bits) - 1;
+    if (sCryptoBnNumBitsWordBits > 6)
+        sCryptoBnNumBitsWordBits = 6;
+    shift = sCryptoBnGenExpStringShifts[sCryptoBnNumBitsWordBits];
+    mask = (1 << sCryptoBnNumBitsWordBits) - 1;
     ss = 0;
-    i = ((p->top << 5) + bits - 1) / bits;
+    i = ((p->top << 5) + sCryptoBnNumBitsWordBits - 1) / sCryptoBnNumBitsWordBits;
     i = i * 2 + 2;
     sp = str + i;
     *sp-- = 0;
@@ -122,8 +123,8 @@ int func_021CC674(unsigned char *str, BIGNUM *p, int bits)
                 *sp-- = 0;
             }
         }
-        ss += bits;
-        sqr = bits;
+        ss += sCryptoBnNumBitsWordBits;
+        sqr = sCryptoBnNumBitsWordBits;
         if (ss >= 32)
         {
             if (top <= 1)

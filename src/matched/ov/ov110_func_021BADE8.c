@@ -1,5 +1,5 @@
 /*
- * function: func_021BADE8
+ * function: PMS_INPUT_VIEW_FlushHelpText
  * address: 0x021BADE8
  * packet: pkt_ov110_021BADE8
  * region: ov110
@@ -29,4 +29,4 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void func_021BADE8(u8 *p) { struct Descriptor *q; if(((struct Obj03239 *)p)->f70!=0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(*(unsigned *)&((struct Obj03239 *)p)->f7C),(void *)((unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03239 *)p)->f6C)))==0) { q=*(struct Descriptor * *)&((struct Obj03239 *)p)->f6C; BMP_WIN_TransferChars(q);BMP_WIN_MakeScreen((struct Cfg *)q);func_02041B6C(BMP_WIN_GetBgLayer(q));((struct Obj03239 *)p)->f70=0; } }
+void PMS_INPUT_VIEW_FlushHelpText(u8 *p) { struct Descriptor *q; if(((struct Obj03239 *)p)->f70!=0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(*(unsigned *)&((struct Obj03239 *)p)->f7C),(void *)((unsigned)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj03239 *)p)->f6C)))==0) { q=*(struct Descriptor * *)&((struct Obj03239 *)p)->f6C; BMP_WIN_TransferChars(q);BMP_WIN_MakeScreen((struct Cfg *)q);func_02041B6C(BMP_WIN_GetBgLayer(q));((struct Obj03239 *)p)->f70=0; } }

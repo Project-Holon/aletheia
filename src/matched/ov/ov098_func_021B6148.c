@@ -1,5 +1,5 @@
 /*
- * function: func_021B6148
+ * function: PDC_GetMyStatus
  * address:  0x021B6148
  * packet:   pkt_ov098_021B6148
  * region:   ov098
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B6148(u8 *p) { return ((struct Obj22001 *)p)->fC; }
+u32 PDC_GetMyStatus(u8 *p) { return ((struct Obj22001 *)p)->fC; }

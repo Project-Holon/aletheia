@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_021DF420 0x021DF420 arm ov175
- *   func_021DF3E8 0x021DF3E8 arm ov175
+ *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
  *   func_02034714 0x02034714 arm
  *   d_021E2EF8 0x021E2EF8 data a4
  */
 typedef unsigned int u32;
 extern int func_021DF420(int,int,int);
-extern int func_021DF3E8(int,int,int);
+extern int DWC_ScReportAddIntValue(int,int,int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 void func_021DAFB8(int *ctx,const u32 *record,int invert) {
@@ -31,31 +31,31 @@ void func_021DAFB8(int *ctx,const u32 *record,int invert) {
     switch(record[0]) {
     case 0:
         if(!skip && func_021DF420(ctx[1],15,1)) return;
-        if(func_021DF3E8(ctx[1],5,first)) return;
-        if(func_021DF3E8(ctx[1],6,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],5,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],6,second)) return;
         break;
     case 1:
         if(!skip && func_021DF420(ctx[1],16,1)) return;
-        if(func_021DF3E8(ctx[1],8,first)) return;
-        if(func_021DF3E8(ctx[1],7,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],8,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],7,second)) return;
         break;
     case 2:
         if(!skip && func_021DF420(ctx[1],18,1)) return;
-        if(func_021DF3E8(ctx[1],11,first)) return;
-        if(func_021DF3E8(ctx[1],12,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],11,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],12,second)) return;
         break;
     case 3:
         if(!skip && func_021DF420(ctx[1],17,1)) return;
-        if(func_021DF3E8(ctx[1],9,first)) return;
-        if(func_021DF3E8(ctx[1],10,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],9,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],10,second)) return;
         break;
     case 4:
         if(!skip && func_021DF420(ctx[1],19,1)) return;
-        if(func_021DF3E8(ctx[1],13,first)) return;
-        if(func_021DF3E8(ctx[1],14,second)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],13,first)) return;
+        if(DWC_ScReportAddIntValue(ctx[1],14,second)) return;
         break;
     default: func_02034714(d_021E2EF8,0,d_021E2EF8); break;
     }
-    if(func_021DF3E8(ctx[1],20,present!=0)) return;
-    func_021DF3E8(ctx[1],27,-1);
+    if(DWC_ScReportAddIntValue(ctx[1],20,present!=0)) return;
+    DWC_ScReportAddIntValue(ctx[1],27,-1);
 }

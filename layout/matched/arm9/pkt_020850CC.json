@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020850CC",
+   "name": "OSi_RemoveMutexLinkFromQueue",
    "address": "0x020850CC",
    "kind": "sdk",
    "region": "arm9",

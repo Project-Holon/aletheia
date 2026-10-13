@@ -11,11 +11,11 @@
  * lever: width-first multiply preserves the stack load and register order.
  * symbols:
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  */
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082A90(void *,const void *,unsigned);
+extern void MIi_CpuCopy32(void *,const void *,unsigned);
 void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
 {
     char *d,*s;
@@ -23,5 +23,5 @@ void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned sho
     d=BMP_GetPixels((const struct Bmp *)dest);s=BMP_GetPixels((const struct Bmp *)src);
     doff=width*dy+dx;
     soff=width*sy+sx;
-    func_02082A90(d+doff*32,s+soff*32,width*height*32);
+    MIi_CpuCopy32(d+doff*32,s+soff*32,width*height*32);
 }

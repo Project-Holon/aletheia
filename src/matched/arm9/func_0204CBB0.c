@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Publishes five bitfields of the element's flag word at +0x60 into the
- * render record: the two-bit mode at bits 18-19 through func_02067AB8, the
- * two corner values through func_02067B78 when that mode is zero, then the
+ * render record: the two-bit mode at bits 18-19 through NNS_G2dSetRndCoreAffineOverwriteMode, the
+ * two corner values through NNS_G2dSetRndCoreFlipMode when that mode is zero, then the
  * four-bit value at bits 8-11 into +0x84, bit 24 into +0x90, bits 22-23 into
  * +0x8c and bits 16-17 into +0x88.
  *
@@ -26,9 +26,9 @@
  * 0x0204CB44+0x3c (src/pending/CLACT_DrawActor.c).
  *
  * symbols:
- *   func_02067AB8  0x02067AB8  arm
+ *   NNS_G2dSetRndCoreAffineOverwriteMode  0x02067AB8  arm
  *   CLACT_GetActorFlip  0x0204B658  arm
- *   func_02067B78  0x02067B78  arm
+ *   NNS_G2dSetRndCoreFlipMode  0x02067B78  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_SetupActorDraw.c \
@@ -63,9 +63,9 @@ struct Rec {
 
 struct Actor;
 struct G2dOamState;
-extern void func_02067AB8(struct G2dOamState *p, u32 mode);
+extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct G2dOamState *p, u32 mode);
 extern u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which);
-extern void func_02067B78(struct G2dOamState *p, u32 h, u32 v);
+extern void NNS_G2dSetRndCoreFlipMode(struct G2dOamState *p, u32 h, u32 v);
 
 void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r)
 {
@@ -73,12 +73,12 @@ void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r)
     int n;
     u8  m;
 
-    func_02067AB8((struct G2dOamState *)r, e->f_12);
+    NNS_G2dSetRndCoreAffineOverwriteMode((struct G2dOamState *)r, e->f_12);
 
     if (e->f_12 == 0) {
         a = CLACT_GetActorFlip((const struct Actor *)e, 0);
         b = CLACT_GetActorFlip((const struct Actor *)e, 1);
-        func_02067B78((struct G2dOamState *)r, b, a);
+        NNS_G2dSetRndCoreFlipMode((struct G2dOamState *)r, b, a);
     }
 
     m = e->f_08;

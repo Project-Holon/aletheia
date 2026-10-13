@@ -1,5 +1,5 @@
 /*
- * function: func_021DF07C
+ * function: DWCi_ScCreateSessionCallback
  * address:  0x021DF07C
  * packet:   pkt_021DF07C
  * region:   ov175
@@ -25,7 +25,7 @@ typedef struct {
     void (*fn)(u32, u32);
 } Disp;
 
-void func_021DF07C(u32 a, u32 b, u32 c, u32 d)
+void DWCi_ScCreateSessionCallback(u32 a, u32 b, u32 c, u32 d)
 {
     Disp *t = (Disp *)0x021E4D08;
     t->fn(c, d);

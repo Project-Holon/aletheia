@@ -10,7 +10,7 @@
  * follower: loop leaf filed as ov132_func_021FD328.c.
  * symbols:
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
  */
 #include "../include/Obj08175.h"
@@ -21,7 +21,7 @@ extern u32 POKE_TOOL_GetBoxParamSize(void);
 typedef unsigned short u16;
 extern int MYSTATUS_GetSize(void);
 extern int func_020084BC(const u16 *values);
-extern void func_02082D44(void *,void *,u32);
+extern void MI_CpuCopy8(void *,void *,u32);
 void func_021FD2B8(int a,int b,int c,char *p)
 {
     u8 i;
@@ -37,7 +37,7 @@ void func_021FD2B8(int a,int b,int c,char *p)
         m=MYSTATUS_GetSize();
         n=m+4+POKE_TOOL_GetBoxParamSize();
         s=p+i*0x30;
-        func_02082D44(q+k,((struct Obj08175 *)s)->f8C,n);
+        MI_CpuCopy8(q+k,((struct Obj08175 *)s)->f8C,n);
         flag=func_020084BC(((struct Obj08175 *)s)->f84)==0 ? 1 : 0;
         ((struct Obj08175 *)s)->f60=flag;
         ((struct Obj08175 *)s)->f68=flag;

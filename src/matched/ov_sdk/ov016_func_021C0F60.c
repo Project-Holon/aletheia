@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F60
+ * function: DWCi_MSGlInit
  * address:  0x021C0F60
  * packet:   pkt_ov016_021C0F60
  * region:   ov016
@@ -12,20 +12,20 @@
  * sdk:      DWCi_MSGlInit (libdwcutil.TWL.HYB.a(message.o))
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5410  0x021D5410  arm  ov016
- *   g_021DE58C  0x021DE58C  data
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_QUElFormEx  0x021D5410  arm  ov016
+ *   gMessageWork  0x021DE58C  data
  */
 
 #include "../include/G_MemMsg.h"
 
-extern void *func_021D6414(unsigned long size, int align);
-extern void *func_021D5410(long size, void *data, long dsize);
-extern struct MemMsg *g_021DE58C;
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
+extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
+extern struct MemMsg *gMessageWork;
 
-void func_021C0F60(void)
+void DWCi_MSGlInit(void)
 {
-	void *m = func_021D6414(0x64, 4);
-	g_021DE58C = m;
-	*(void **)(((char *)g_021DE58C) + 0x60) = func_021D5410(8, m, 0xc);
+	void *m = DWCi_HEAPlAllocEx(0x64, 4);
+	gMessageWork = m;
+	*(void **)(((char *)gMessageWork) + 0x60) = DWCi_QUElFormEx(8, m, 0xc);
 }

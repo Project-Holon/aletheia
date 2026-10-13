@@ -87,7 +87,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021D6C58 0x021D6C58 thumb ov121
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
@@ -123,7 +123,7 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -142,7 +142,7 @@ typedef struct {s16 x,y,z;u8 a,b;} Point;
 typedef struct {u8 iv[6];u16 move[4];Point point;void *resdesc;} Work;
 extern void MI_CpuFill8(void *,int,int);
 extern void *func_02049F34(u32,u32,u32,u32);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 struct Actor;
 struct MsgBank;
@@ -185,7 +185,7 @@ typedef signed int     s32;
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern void func_02082A48(u32,void *,u32);
+extern void MIi_CpuClear16(u32,void *,u32);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
@@ -224,8 +224,8 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     else palette=d_021DF4F2[desc[179]];
     buf=func_02049F34(34,2,(u32)&work.resdesc,heap);
     base=*(u8 **)((u8 *)work.resdesc+12);
-    func_02082D44(base,out+146,32);
-    func_02082D44(base+palette*32,out+114,32);
+    MI_CpuCopy8(base,out+146,32);
+    MI_CpuCopy8(base+palette*32,out+114,32);
     func_020307B0(buf);
     for(i=0;i<32;i++) CLACT_SetActorPaletteOffset(func_021D6C58(list,i+1),(u8)palette,0);
     switch(desc[179]) {
@@ -334,9 +334,9 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
         break;
     }
     if(desc[714]) {
-        func_02082D44(PALETTE,out+242,32);
-        func_02082A48(32767,PALETTE,32);
-        func_02082D44(PALETTE,out+210,32);
+        MI_CpuCopy8(PALETTE,out+242,32);
+        MIi_CpuClear16(32767,PALETTE,32);
+        MI_CpuCopy8(PALETTE,out+210,32);
     }
     MI_CpuFill8(&work.point,0,8);
     work.point.x=*(s16 *)(out+298)+128;work.point.y=-96;work.point.b=2;

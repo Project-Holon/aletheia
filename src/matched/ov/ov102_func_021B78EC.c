@@ -1,5 +1,5 @@
 /*
- * function: func_021B78EC
+ * function: IRC_COMPATIBLE_MENU_GetSprite
  * address:  0x021B78EC
  * packet:   pkt_ov102_021B78EC
  * region:   ov102
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unblocked by matching func_021B7C14 in ov102 (pkt_ov102_021B7C14).
+ * Unblocked by matching IRC_COMPATIBLE_MENU_SpriteSetGetActor in ov102 (pkt_ov102_021B7C14).
  *
  * symbols:
- *   func_021B7C14  0x021B7C14  thumb  ov102
+ *   IRC_COMPATIBLE_MENU_SpriteSetGetActor  0x021B7C14  thumb  ov102
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 func_021B7C14(u8 *p, int i);
-u32 func_021B78EC(void *p, int i) { return func_021B7C14(p, i); }
+extern u32 IRC_COMPATIBLE_MENU_SpriteSetGetActor(u8 *p, int i);
+u32 IRC_COMPATIBLE_MENU_GetSprite(void *p, int i) { return IRC_COMPATIBLE_MENU_SpriteSetGetActor(p, i); }

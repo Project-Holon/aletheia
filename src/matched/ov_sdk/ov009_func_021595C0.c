@@ -1,5 +1,5 @@
 /*
- * function: func_021595C0
+ * function: dt_syn_LISTEN
  * address:  0x021595C0
  * packet:   pkt_ov009_021595C0
  * region:   ov009
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_020870D0  0x020870D0  arm
- *   func_021592A8  0x021592A8  arm  ov009
- *   func_021593A8  0x021593A8  arm  ov009
+ *   parse_mss  0x021592A8  arm  ov009
+ *   _tcp_send_handshake  0x021593A8  arm  ov009
  */
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
@@ -34,10 +34,10 @@ struct _CPSSoc {
 };
 
 extern unsigned long long func_020870D0(void);
-extern void func_021592A8(unsigned char *tcphdr, struct _CPSSoc *soc);
-extern void func_021593A8(char *soc, unsigned char flag);
+extern void parse_mss(unsigned char *tcphdr, struct _CPSSoc *soc);
+extern void _tcp_send_handshake(char *soc, unsigned char flag);
 
-void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc)
+void dt_syn_LISTEN(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *soc)
 {
 	soc->state = 3;
 	soc->seqno = (unsigned long)(func_020870D0() >> 16);
@@ -45,6 +45,6 @@ void func_021595C0(unsigned char *iphdr, unsigned char *tcphdr, struct _CPSSoc *
 	soc->remote_port = SWAP16(*(unsigned short *)tcphdr);
 	soc->remote_ip = BE32(iphdr, 0xc);
 	soc->ackno = BE32(tcphdr, 4) + 1;
-	func_021592A8(tcphdr, soc);
-	func_021593A8((char *)soc, 0x12);
+	parse_mss(tcphdr, soc);
+	_tcp_send_handshake((char *)soc, 0x12);
 }

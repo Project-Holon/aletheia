@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02072A88",
+   "name": "NNSi_SndWaveOutUnlockChannel",
    "address": "0x02072A88",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072AA0",
+   "name": "NNS_SndWaveOutStart",
    "address": "0x02072AA0",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02072BDC",
+   "name": "NNS_SndWaveOutStop",
    "address": "0x02072BDC",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B87F0
+ * function: AOSSi_WLANConnect
  * address:  0x021B87F0
  * packet:   pkt_ov016_021B87F0
  * region:   ov016
@@ -25,9 +25,9 @@
  *   func_021B8EFC        0x021B8EFC  thumb  ov016
  *   func_021B84AC        0x021B84AC  thumb  ov016
  *   func_021B84D0        0x021B84D0  thumb  ov016
- *   g_021DCF20           0x021DCF20  data
- *   g_021DCE40           0x021DCE40  data
- *   g_021DCE60           0x021DCE60  data
+ *   gAosslinkBlock2           0x021DCF20  data
+ *   gAosslinkEventQueue           0x021DCE40  data
+ *   gAosslinkBlock1           0x021DCE60  data
  *
  * notes: 2026-10-01 (wave 3 lane 10) EXACT. Earlier waves parked two residues
  *   (the empty ssidLength loop's r0/r1 roles and the case-19 jump-table slot)
@@ -98,11 +98,11 @@ extern int func_021B8EFC(WMBssDesc *bd, u8 *wep_buf, u32 option);
 extern void func_021B84AC(int *p, int a, int c);
 extern void func_021B84D0(void *event);
 
-extern u8 g_021DCF20[96];
-extern struct OSMessageQueue g_021DCE40;
-static WMBssDesc g_021DCE60 __attribute__((aligned(32))) = {0};
+extern u8 gAosslinkBlock2[96];
+extern struct OSMessageQueue gAosslinkEventQueue;
+static WMBssDesc gAosslinkBlock1 __attribute__((aligned(32))) = {0};
 
-int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
+int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat)
 {
     void *msg;
     OSiAlarm alarm;
@@ -125,18 +125,18 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
     }
     connect_option |= 0x30000;
 
-    MI_CpuFill8(g_021DCF20, 0, 96);
+    MI_CpuFill8(gAosslinkBlock2, 0, 96);
     if (conParam->keyLen == 5) {
-        g_021DCF20[0] = 1;
+        gAosslinkBlock2[0] = 1;
     } else if (conParam->keyLen == 13) {
-        g_021DCF20[0] = 2;
+        gAosslinkBlock2[0] = 2;
     } else if (conParam->keyLen == 16) {
-        g_021DCF20[0] = 3;
+        gAosslinkBlock2[0] = 3;
     } else {
         return -1;
     }
-    g_021DCF20[1] = wep_id;
-    MI_CpuCopy8(conParam->key, &g_021DCF20[wep_id * 20 + 2], conParam->keyLen);
+    gAosslinkBlock2[1] = wep_id;
+    MI_CpuCopy8(conParam->key, &gAosslinkBlock2[wep_id * 20 + 2], conParam->keyLen);
 
     WCM_ClearApList();
     if (func_021B8D40(0, conParam->ssid, conParam->ssidLen, 0x30BFFE)) {
@@ -144,7 +144,7 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
         OS_CreateAlarm(&alarm);
         OS_SetAlarm(&alarm, 0x3FEC42, func_021B84D0, (void *)0x12);
         while (loop_flag) {
-            OS_ReceiveMessage(&g_021DCE40, &msg, 1);
+            OS_ReceiveMessage(&gAosslinkEventQueue, &msg, 1);
             switch ((int)msg) {
             case 18:
                 if (wep_id == 0)
@@ -156,21 +156,21 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
                 if (wep_id != 0)
                     break;
                 OS_CancelAlarm(&alarm);
-                if (func_021B8CFC(&g_021DCE60, 1) != 1) {
+                if (func_021B8CFC(&gAosslinkBlock1, 1) != 1) {
                     loop_flag = 0;
                 } else {
-                    func_021B8488(conParam, &g_021DCE60);
-                    for (i = 0; i < g_021DCE60.ssidLength; i++)
+                    func_021B8488(conParam, &gAosslinkBlock1);
+                    for (i = 0; i < gAosslinkBlock1.ssidLength; i++)
                         ;
-                    if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
+                    if (func_021B8EFC(&gAosslinkBlock1, gAosslinkBlock2, connect_option) == 0)
                         loop_flag = 0;
                     else
                         wep_id = 1;
                 }
                 break;
             case 10:
-                func_021B8488(conParam, &g_021DCE60);
-                if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
+                func_021B8488(conParam, &gAosslinkBlock1);
+                if (func_021B8EFC(&gAosslinkBlock1, gAosslinkBlock2, connect_option) == 0)
                     loop_flag = 0;
                 break;
             case 12:
@@ -180,7 +180,7 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
             case 13:
                 connect_retry_count++;
                 if (connect_retry_count < 3) {
-                    if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
+                    if (func_021B8EFC(&gAosslinkBlock1, gAosslinkBlock2, connect_option) == 0)
                         loop_flag = 0;
                 } else {
                     loop_flag = 0;
@@ -196,9 +196,9 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
         }
         OS_CancelAlarm(&alarm);
         do {
-        } while (OS_ReceiveMessage(&g_021DCE40, &msg, 0) == 1);
+        } while (OS_ReceiveMessage(&gAosslinkEventQueue, &msg, 0) == 1);
     }
     link_status = (ret_code == 0) ? 1 : 0;
-    func_021B84AC((int *)linkStat, (int)(&g_021DCE60), link_status);
+    func_021B84AC((int *)linkStat, (int)(&gAosslinkBlock1), link_status);
     return ret_code;
 }

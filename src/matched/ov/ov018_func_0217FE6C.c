@@ -22,7 +22,7 @@
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   INTRUDE_COMM_GetRequestKind  0x02175DCC  thumb  ov011
  *   func_02030734  0x02030734  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   INTRUDE_COMM_GetSessionResult  0x02175BCC  thumb  ov011
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
@@ -92,7 +92,7 @@ int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int INTRUDE_COMM_GetRequestKind(void *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void func_02082D44(void *, void *, int);
+void MI_CpuCopy8(void *, void *, int);
 u32 func_020307B0(void *p);
 u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 int INTRUDE_COMM_IsSessionActive(u8 *);
@@ -137,7 +137,7 @@ int EVENT_COMM_COMMON_TalkEventMain(void *a, int *state, Outer *c)
         b = (Bits *)(v + 0xA2 + c->f40 * 0x1C);
         if (b->f15 == 1) {
             t = func_02030734((u16)((c->f00 & 0x7FFF) | 0x8000), 0x98, 1, str_02183B30, 493);
-            func_02082D44(c, t, 0x98);
+            MI_CpuCopy8(c, t, 0x98);
             if (INTRUDE_COMM_GetSessionResult(v + 0x1AC) == 0 && INTRUDE_COMM_IsSessionActive(v + 0x1AC) == 1
                 && INTRUDE_COMM_IsSessionAccepted(v + 0x1AC) == 1 && INTRUDE_COMM_IsRequestFromNetId(v + 0x1AC, c->f40) == 1) {
                 EVENT_COMM_COMMON_StartMsgScriptEvent(a, t);
@@ -147,7 +147,7 @@ int EVENT_COMM_COMMON_TalkEventMain(void *a, int *state, Outer *c)
             func_020307B0(t);
         } else if (b->f9 != 0) {
             t = func_02030734((u16)((c->f00 & 0x7FFF) | 0x8000), 0x98, 1, str_02183B30, 517);
-            func_02082D44(c, t, 0x98);
+            MI_CpuCopy8(c, t, 0x98);
             if (((Bits *)(v + c->f40 * 0x1C + 0xA2))->f9 == 2) {
                 if (kind == 5) {
                     EVENT_COMM_COMMON_ChangeSearchFoundEvent(a, t);

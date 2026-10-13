@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C50
+ * function: PMS_SELECT_GRAPHIC_RedrawRowsAfterInput
  * address: 0x021C0C50
  * packet: pkt_ov110_021C0C50
  * region: ov110
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C0C64 0x021C0C64 thumb ov110
- *   func_021C09E0 0x021C09E0 thumb ov110
+ *   PMS_SELECT_GRAPHIC_DrawRows 0x021C0C64 thumb ov110
+ *   PMS_SELECT_GRAPHIC_ResetBgBlink 0x021C09E0 thumb ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021C0C64(u8 *,int);
-extern void func_021C09E0(u8 *);
-void func_021C0C50(u8 *p) { func_021C0C64(p,1); func_021C09E0(p+0x24); }
+extern void PMS_SELECT_GRAPHIC_DrawRows(u8 *,int);
+extern void PMS_SELECT_GRAPHIC_ResetBgBlink(u8 *);
+void PMS_SELECT_GRAPHIC_RedrawRowsAfterInput(u8 *p) { PMS_SELECT_GRAPHIC_DrawRows(p,1); PMS_SELECT_GRAPHIC_ResetBgBlink(p+0x24); }

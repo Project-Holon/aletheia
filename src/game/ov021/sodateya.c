@@ -92,6 +92,9 @@
  *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb  arm9
  *   POKEPARTY_GetCapacity  0x0201AA14  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb  arm9
+ *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb  arm9
  */
 #include "../arm9/billboard_act_types.h"
 
@@ -315,9 +318,9 @@ extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 func_0200BCD8(void *dayCare, u32 slot);
 extern u32 POKEPARTY_Add(void *p, const void *src);
 extern void func_0200BC88(void *dayCare, s32 slot);
-extern void *func_0200CA1C(void *p);
-extern u32 func_0200CED4(void *p, u16 id);
-extern void func_0200CDE0(void *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+extern u32 ZUKAN_SAVE_IsCaught(void *p, u16 id);
+extern void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
 extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
 extern int func_0200BCA0(void *dayCare);
 extern void GAME_BEACON_SEARCH_SetSymbolMapEnter(void);
@@ -427,9 +430,9 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
  */
 void SODATEYA_ReturnHeldItem(SodateyaWork *work, void *mon)
 {
-    void *bag = func_0200CA1C(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap)));
-    if (func_0200CED4(bag, func_02017E1C(mon, 5, 0)) == 0)
-        func_0200CDE0(bag, mon);
+    void *bag = ZUKAN_SAVE_GetFromGameData(func_020120F4(FIELDMAP_GetGameSystem(work->fieldMap)));
+    if (ZUKAN_SAVE_IsCaught(bag, func_02017E1C(mon, 5, 0)) == 0)
+        ZUKAN_SAVE_RegisterCaught(bag, mon);
 }
 
 /* Takes the egg out of the day care into the party. */

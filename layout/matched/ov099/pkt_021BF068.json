@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF068",
+   "name": "WIFICLUB_IsNetStateDisconnecting",
    "address": "0x021BF068",
    "kind": "game",
    "region": "ov099",

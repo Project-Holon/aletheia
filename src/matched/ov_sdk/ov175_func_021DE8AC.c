@@ -1,5 +1,5 @@
 /*
- * function: func_021DE8AC
+ * function: sakeiFreeOutputRecords
  * address:  0x021DE8AC
  * packet:   pkt_021DE8AC
  * region:   ov175
@@ -16,7 +16,7 @@ typedef struct {
 
 void func_0217EAE0(void *p);
 
-void func_021DE8AC(int a, int b, Ent **arr)
+void sakeiFreeOutputRecords(int a, int b, Ent **arr)
 {
     int i, j;
 

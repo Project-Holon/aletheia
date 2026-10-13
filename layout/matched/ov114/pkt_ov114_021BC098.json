@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC098",
+   "name": "NHTTPi_GetPostContentlength",
    "address": "0x021BC098",
    "kind": "sdk",
    "region": "ov114",

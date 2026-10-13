@@ -1,5 +1,5 @@
 /*
- * function: func_021E1830
+ * function: DWCi_GdbCheckStateForAsyncProcess
  * address:  0x021E1830
  * packet:   pkt_ov175_021E1830
  * region:   ov175
@@ -14,12 +14,12 @@
  * symbols:
  *   DWCi_IsError      0x02059F38  arm
  *   DWC_GetLastError  0x02059E18  arm
- *   func_021E17D8     0x021E17D8  arm  ov175
- *   g_021E464C        0x021E464C  data
- *   g_021E5334        0x021E5334  data
- *   g_021E4594        0x021E4594  data
- *   g_021E45A8        0x021E45A8  data
- *   g_021E4660        0x021E4660  data
+ *   DWCi_GdbPrintf     0x021E17D8  arm  ov175
+ *   sDwcGdbInDwcError        0x021E464C  data
+ *   gDwcGdbEntity        0x021E5334  data
+ *   sDwcGdbNotInitialized        0x021E4594  data
+ *   sDwcGdbInAsyncProcess        0x021E45A8  data
+ *   sDwcGdbInCancelProcess        0x021E4660  data
  */
 
 typedef struct {
@@ -27,39 +27,39 @@ typedef struct {
     void *sake;
     int state;
 } Tbl;
-extern char g_021E464C[];
-extern Tbl g_021E5334;
-extern char g_021E4594[];
-extern char g_021E45A8[];
-extern char g_021E4660[];
+extern char sDwcGdbInDwcError[];
+extern Tbl gDwcGdbEntity;
+extern char sDwcGdbNotInitialized[];
+extern char sDwcGdbInAsyncProcess[];
+extern char sDwcGdbInCancelProcess[];
 extern int DWCi_IsError(void);
 extern int DWC_GetLastError(int *errorCode);
-extern void func_021E17D8(int line, char *fmt, ...);
+extern void DWCi_GdbPrintf(int line, char *fmt, ...);
 
-int func_021E1830(int *result)
+int DWCi_GdbCheckStateForAsyncProcess(int *result)
 {
     if (DWCi_IsError()) {
-        func_021E17D8(0x568, g_021E464C, DWC_GetLastError(0));
+        DWCi_GdbPrintf(0x568, sDwcGdbInDwcError, DWC_GetLastError(0));
         if (result != 0) {
             *result = 0x16;
         }
         return 1;
     }
-    switch (g_021E5334.state) {
+    switch (gDwcGdbEntity.state) {
     case 0:
-        func_021E17D8(0x570, g_021E4594);
+        DWCi_GdbPrintf(0x570, sDwcGdbNotInitialized);
         if (result != 0) {
             *result = 0x13;
         }
         return 1;
     case 2:
-        func_021E17D8(0x575, g_021E45A8);
+        DWCi_GdbPrintf(0x575, sDwcGdbInAsyncProcess);
         if (result != 0) {
             *result = 0x14;
         }
         return 1;
     case 3:
-        func_021E17D8(0x57a, g_021E4660);
+        DWCi_GdbPrintf(0x57a, sDwcGdbInCancelProcess);
         if (result != 0) {
             *result = 0x17;
         }

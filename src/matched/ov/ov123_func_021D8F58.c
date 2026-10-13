@@ -11,7 +11,7 @@
  * symbols:
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
@@ -25,7 +25,7 @@ struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u32 func_02009228(void);
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 extern u32 func_020307B0(void *p);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void *POKE_TOOL_GetBoxParam(void *);
@@ -38,7 +38,7 @@ void func_021D8F58(char *p)
     void *q;
     v=func_02009448(((struct Obj02476 *)p)->f28);
     if (((struct Obj02476 *)p)->f34) {
-        func_02082D44(((struct Obj02476 *)p)->f34,v,func_02009228());
+        MI_CpuCopy8(((struct Obj02476 *)p)->f34,v,func_02009228());
         func_020307B0(((struct Obj02476 *)p)->f34);
         ((struct Obj02476 *)p)->f34=0;
     }

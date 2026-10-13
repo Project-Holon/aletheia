@@ -1,5 +1,5 @@
 /*
- * function: func_021E0C68
+ * function: sciWsSetReportIntentionCallback
  * address:  0x021E0C68
  * packet:   pkt_ov175_021E0C68
  * region:   ov175
@@ -16,11 +16,11 @@
  *   func_021834E8  0x021834E8  arm  ov009
  *   func_02183A24  0x02183A24  arm  ov009
  *   func_0218372C  0x0218372C  arm  ov009
- *   func_021DF948  0x021DF948  arm  ov175
- *   g_021E4338  0x021E4338  data
- *   g_021E4354  0x021E4354  data
- *   g_021E42BC  0x021E42BC  data
- *   g_021E42CC  0x021E42CC  data
+ *   sciInterfaceSetConnectionId  0x021DF948  arm  ov175
+ *   sSciTagSetReportIntentionResponse  0x021E4338  data
+ *   sSciTagSetReportIntentionResult  0x021E4354  data
+ *   sSciTagResult  0x021E42BC  data
+ *   sSciTagCcid  0x021E42CC  data
  */
 
 typedef void (*SCWebCallback)(void *, int, int, void *);
@@ -50,13 +50,13 @@ extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern void func_021DF948(char *obj, int v);
-extern char g_021E4338[];
-extern char g_021E4354[];
-extern char g_021E42BC[];
-extern char g_021E42CC[];
+extern void sciInterfaceSetConnectionId(char *obj, int v);
+extern char sSciTagSetReportIntentionResponse[];
+extern char sSciTagSetReportIntentionResult[];
+extern char sSciTagResult[];
+extern char sSciTagCcid[];
 
-void func_021E0C68(int theHttpResult, int unused, void *theResponseData, void *theUserData)
+void sciWsSetReportIntentionCallback(int theHttpResult, int unused, void *theResponseData, void *theUserData)
 {
     SCWebServices *aWebServices = (SCWebServices *)theUserData;
     int aTranslatedResult;
@@ -68,15 +68,15 @@ void func_021E0C68(int theHttpResult, int unused, void *theResponseData, void *t
     if (theHttpResult == 0) {
         aTranslatedResult = 0;
         intentionResult = 0;
-        if (!func_021834D0(theResponseData) || !func_021834E8(theResponseData, g_021E4338) ||
-            !func_021834E8(theResponseData, g_021E4354) ||
-            !func_02183A24(theResponseData, g_021E42BC, &intentionResult) ||
-            !func_0218372C(theResponseData, g_021E42CC, ccid, 255)) {
+        if (!func_021834D0(theResponseData) || !func_021834E8(theResponseData, sSciTagSetReportIntentionResponse) ||
+            !func_021834E8(theResponseData, sSciTagSetReportIntentionResult) ||
+            !func_02183A24(theResponseData, sSciTagResult, &intentionResult) ||
+            !func_0218372C(theResponseData, sSciTagCcid, ccid, 255)) {
             aTranslatedResult = 9;
         } else if (intentionResult != 0) {
             aTranslatedResult = 8;
         } else {
-            func_021DF948(aWebServices->mInterface, (int)ccid);
+            sciInterfaceSetConnectionId(aWebServices->mInterface, (int)ccid);
         }
     } else {
         aTranslatedResult = 7;

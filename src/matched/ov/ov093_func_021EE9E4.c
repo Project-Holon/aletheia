@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_02082D44(const void *src, void *dst, int n);
+extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
 int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
 {
@@ -30,7 +30,7 @@ int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
         *b = h & 0x1f;
         len = *b * 4;
         *pos = *pos + 1;
-        func_02082D44(p + 4 + *pos, dst, len);
+        MI_CpuCopy8(p + 4 + *pos, dst, len);
         *pos = *pos + len;
         return 1;
     }

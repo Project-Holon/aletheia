@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *
  * net_handle.c: claim a connection slot for the message a2 (MAC copy,
@@ -36,7 +36,7 @@ extern void *GFL_NET_GetInitParam(void);
 typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
-extern void func_02087C6C(u8 *p);
+extern void OS_GetMacAddress(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 {
@@ -52,7 +52,7 @@ void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *b
   p[0xd] = 1;
   MI_CpuCopy8(a2, p + 6, 6);
   p[0xc] = a2[6];
-  func_02087C6C(p);
+  OS_GetMacAddress(p);
   if (a2[8] == 0)
     goto zero;
   if ((a2[6] != 0) && (a2[7] != r4[0x67]))

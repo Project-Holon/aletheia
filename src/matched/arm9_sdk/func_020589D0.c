@@ -1,5 +1,5 @@
 /*
- * function: func_020589D0
+ * function: DWC_BM_Init
  * address:  0x020589D0
  * packet:   pkt_020589D0
  * region:   arm9
@@ -109,7 +109,7 @@ extern s32  NCFG_CheckConfig(void *work);
 extern int  DWCi_BACKUPlRead(DWCMemMap *mem);
 extern void DWCi_BACKUPlSetWiFi(u8 *wifi);
 
-int func_020589D0(void *work)
+int DWC_BM_Init(void *work)
 {
     s32 ret;
     MEMINIT *wk;

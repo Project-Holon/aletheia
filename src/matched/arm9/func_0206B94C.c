@@ -1,5 +1,5 @@
 /*
- * function: func_0206B94C
+ * function: NNSi_G3dFuncSbc_MTX
  * address:  0x0206B94C
  * packet:   pkt_0206B7D0
  * region:   arm9
@@ -9,13 +9,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * The two-byte opcode of the same script object func_0206B7D0 steps: bit 9
+ * The two-byte opcode of the same script object NNSi_G3dFuncSbc_NODE steps: bit 9
  * of the status word at +0x08 aborts, bit 0 gates the body, the state byte
  * at +0x8f (read through the +0x18 hook, zero when the hook is null) picks
  * the stop, and the tail advances the program counter at +0x00 by two.
  *
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  */
 
 typedef unsigned int u32;
@@ -34,9 +34,9 @@ struct Obj0206B94C {
     u8    f8f;
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_0206B94C(Obj0206B94C *p)
+void NNSi_G3dFuncSbc_MTX(Obj0206B94C *p)
 {
     u32 v = p->f08;
     u32 st;
@@ -55,7 +55,7 @@ void func_0206B94C(Obj0206B94C *p)
         if (flag == 0) {
             u32 a = p->f00[1];
             if (!(p->f08 & 0x100)) {
-                func_0206DDA4(0x14, &a, 1);
+                NNS_G3dGeBufferOP_N(0x14, &a, 1);
             }
         }
         if (st == 3) {

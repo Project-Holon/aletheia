@@ -1,5 +1,5 @@
 /*
- * function: func_0218814C
+ * function: TR_AI_ThinkSingle
  * address: 0x0218814C
  * packet: pkt_ov096_0218814C
  * region: ov096
@@ -12,10 +12,10 @@
  * declaration order fixes r7/r6; u64 draw puts its high-word zero before
  * the count guard. All 9 relocation sites resolve.
  * symbols:
- *   func_0218A2FC 0x0218A2FC thumb ov096
- *   func_0218A310 0x0218A310 thumb ov096
- *   func_0218A324 0x0218A324 thumb ov096
- *   func_021885BC 0x021885BC thumb ov096
+ *   TR_AI_GetPoke 0x0218A2FC thumb ov096
+ *   TR_AI_ResetScores 0x0218A310 thumb ov096
+ *   TR_AI_RememberLastMove 0x0218A324 thumb ov096
+ *   TR_AI_RunScripts 0x021885BC thumb ov096
  *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   func_0203F0A8 0x0203F0A8 arm
@@ -26,16 +26,16 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef enum { COUNT_ONE = 1 } Count;
 typedef struct { u8 state, index; unsigned short move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[0x1a]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; u8 pc8[8]; u64 tick; } Obj;
-extern u8 *func_0218A2FC(u8 *, u8);
-extern void func_0218A310(unsigned int a);
-extern void func_0218A324(u8 *);
-extern void func_021885BC(int, u8 *);
+extern u8 *TR_AI_GetPoke(u8 *, u8);
+extern void TR_AI_ResetScores(unsigned int a);
+extern void TR_AI_RememberLastMove(u8 *);
+extern void TR_AI_RunScripts(int, u8 *);
 struct QG;
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
 inline static u32 draw_below(u32 n) { u64 random=func_0203F0A8(); if(n!=0) random=(random*n)>>32; return random; }
-int func_0218814C(int a, Obj *b)
+int TR_AI_ThinkSingle(int a, Obj *b)
 {
     int scores[4];
     u8 ids[4];
@@ -48,11 +48,11 @@ int func_0218814C(int a, Obj *b)
     u8 *entryPtr;
     u32 *maskPtr;
     u8 *flagsPtr;
-    b->fbc = func_0218A2FC((u8 *)b, b->side);
-    b->fc0 = func_0218A2FC((u8 *)b, b->opp);
+    b->fbc = TR_AI_GetPoke((u8 *)b, b->side);
+    b->fc0 = TR_AI_GetPoke((u8 *)b, b->opp);
     if (!(b->flags & 16)) {
-        func_0218A310((unsigned int)((u8 *)b));
-        func_0218A324((u8 *)b);
+        TR_AI_ResetScores((unsigned int)((u8 *)b));
+        TR_AI_RememberLastMove((u8 *)b);
     }
     if ((mask = b->mask) != 0) {
     flagsPtr = &b->flags;
@@ -63,7 +63,7 @@ int func_0218814C(int a, Obj *b)
             if (!(b->flags & 16)) b->state = 0;
             *flagsPtr &= ~16;
             b->tick = func_020870D0();
-            func_021885BC(a, (u8 *)b);
+            TR_AI_RunScripts(a, (u8 *)b);
             if (b->flags & 16) return 1;
         }
         next = *entryPtr + 1;

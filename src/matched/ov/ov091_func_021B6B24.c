@@ -22,7 +22,7 @@
  * locals, each delta is read three times (clamp), tried-and-failed forms in git history.
  * Callee 02061CA4 matches its 4-parameter definition.
  * symbols:
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_02061CA4  0x02061CA4  arm
  *   d_021BEBFC     0x021BEBFC  data  a1
  *   d_021BEC04     0x021BEC04  data  a1
@@ -48,7 +48,7 @@ struct Pal {
 extern const struct C3 d_021BEBFC;
 extern const struct C3 d_021BEC04;
 extern s16 FX_SinCosTable_[];
-extern void func_02082A60(void *src, void *dst, u32 size);
+extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
@@ -63,7 +63,7 @@ void POKELIST_UpdatePaletteFade(struct Pal *p)
     struct C3 hi;
     struct C3 lo;
 
-    func_02082A60(p->src, p->dst, 0x60);
+    MIi_CpuCopy16(p->src, p->dst, 0x60);
     if (p->step != 0) {
         p->step--;
         k = p->step;

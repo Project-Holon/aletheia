@@ -1,5 +1,5 @@
 /*
- * function: func_021D3CC8
+ * function: BTL_CLIENT_StepAddHitRecord
  * address: 0x021D3CC8
  * packet: pkt_ov093_021D3CC8
  * region: ov093
@@ -22,7 +22,7 @@ struct Rec { u16 a, b; u8 c, d, e; };
 struct HalfRec { u16 a, b, c, d; };
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_AddHitRecord(u8 *p, struct Rec *r);
-int func_021D3CC8(char *p, int unused, const unsigned int *a)
+int BTL_CLIENT_StepAddHitRecord(char *p, int unused, const unsigned int *a)
 {
     struct Rec r;
     u8 *obj;

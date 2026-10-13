@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_G2dSetRndCoreImageProxy  0x02067AA0  arm
  */
 
-extern void func_02067AA0(int *p, int a, int b);
-void func_02066748(int *a0, int a1, int a2){ func_02067AA0(a0, a1, a2); }
+extern void NNS_G2dSetRndCoreImageProxy(int *p, int a, int b);
+void func_02066748(int *a0, int a1, int a2){ NNS_G2dSetRndCoreImageProxy(a0, a1, a2); }

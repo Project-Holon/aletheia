@@ -1,5 +1,5 @@
 /*
- * function: func_020713A4
+ * function: NNSi_G3dTexMtxIdentity
  * address:  0x020713A4
  * packet:   pkt_02071104
  * region:   arm9
@@ -35,7 +35,7 @@ struct DST {
     s32 f34;
 };
 
-void func_020713A4(struct DST *d)
+void NNSi_G3dTexMtxIdentity(struct DST *d)
 {
     d->f00 = 0x1000;
     d->f04 = 0;

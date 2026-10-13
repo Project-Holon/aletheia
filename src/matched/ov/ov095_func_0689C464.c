@@ -1,5 +1,5 @@
 /*
- * function: func_0689C464
+ * function: BTL_SICK_BuildAddMessage
  * address:  0x0689C464
  * packet:   pkt_ov095_0689C464
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689C424   0x0689C424  thumb  ov095
+ *   BTL_SICK_GetAddStringId   0x0689C424  thumb  ov095
  *   func_0689C4E0   0x0689C4E0  thumb  ov095
  *   func_0689C4F0   0x0689C4F0  thumb  ov095
  *   func_0689C500   0x0689C500  thumb  ov095
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef struct Word { int v; } Word;
 
 typedef unsigned int   u32;
-extern int func_0689C424(u32 key, int flag);
+extern int BTL_SICK_GetAddStringId(u32 key, int flag);
 extern void func_0689C4E0(void *, int, u16);
 extern int func_0689C4F0(void *);
 extern void func_0689C500(void *, int);
@@ -31,7 +31,7 @@ extern void func_0689C510(void *, int);
 extern int func_0689C520(Word);
 extern void func_0689C530(void *, int);
 
-int func_0689C464(int a, Word b, void *c, unsigned char d, void *e)
+int BTL_SICK_BuildAddMessage(int a, Word b, void *c, unsigned char d, void *e)
 {
     int f;
     int k;
@@ -39,7 +39,7 @@ int func_0689C464(int a, Word b, void *c, unsigned char d, void *e)
     f = 1;
     if (d == 0)
         f = 0;
-    k = func_0689C424(a, f);
+    k = BTL_SICK_GetAddStringId(a, f);
     if (k >= 0) {
         func_0689C4E0(e, 2, k);
         func_0689C500(e, func_0689C4F0(c));

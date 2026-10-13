@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned short u16;
 typedef struct { unsigned x; u16 b; u16 t; } S;
-extern void func_02082D44(void *, void *, unsigned);
+extern void MI_CpuCopy8(void *, void *, unsigned);
 void EVENT_FIELD_PROCLINK_SetReturnSlotDefault(u16 *p, S *s)
 {
     if (s->x == *p) {
-        func_02082D44(s, (char *)p + 0x20, 8);
+        MI_CpuCopy8(s, (char *)p + 0x20, 8);
         p[1] |= 8;
     }
 }

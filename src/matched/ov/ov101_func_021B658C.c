@@ -1,5 +1,5 @@
 /*
- * function: func_021B658C
+ * function: COMPATIBLE_IRC_SYS_BuildProfile
  * address: 0x021B658C
  * packet: pkt_ov101_021B658C
  * region: ov101
@@ -10,7 +10,7 @@
  * lever: pack the words with unsigned left/right shift pairs; u8 casts
  *   keep separate truncation shifts and add eight bytes.
  * symbols:
- *   func_02087C88 0x02087C88 arm
+ *   OS_GetOwnerInfo 0x02087C88 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
@@ -27,7 +27,7 @@ typedef struct Config { u8 bytes[0x54]; } Config;
 typedef struct Four { int a,b,c,d; } Four;
 struct OSOwnerInfo;
 struct RtcDate;
-extern void func_02087C88(struct OSOwnerInfo *info);
+extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 struct BigObj;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -37,14 +37,14 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_0203F4E4(struct RtcDate *date);
-void func_021B658C(void *p,Data *out)
+void COMPATIBLE_IRC_SYS_BuildProfile(void *p,Data *out)
 {
     Config config;
     Four four;
     void *sub;
     void *record;
     int flag;
-    func_02087C88((struct OSOwnerInfo *)(&config));
+    OS_GetOwnerInfo((struct OSOwnerInfo *)(&config));
     sub=GAMESYSTEM_GetGameData(p);
     p=GAME_DATA_GetMyStatus(sub);
     out->f04=config.bytes[2];

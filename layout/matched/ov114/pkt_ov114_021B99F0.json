@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B99F0",
+   "name": "NHTTP_RAP_RecordList_GetCount",
    "address": "0x021B99F0",
    "kind": "game",
    "region": "ov114",

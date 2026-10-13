@@ -1,5 +1,5 @@
 /*
- * function: func_021CA69C
+ * function: SkipPadding
  * address:  0x021CA69C
  * packet:   pkt_ov114_021CA69C
  * region:   ov114
@@ -15,7 +15,7 @@
 
  */
 
-int func_021CA69C(unsigned char *psrc_adrs, unsigned int nsrc_size, unsigned char **ppsign_adrs, unsigned int *psign_size)
+int SkipPadding(unsigned char *psrc_adrs, unsigned int nsrc_size, unsigned char **ppsign_adrs, unsigned int *psign_size)
 {
 	unsigned char *p;
 	unsigned char *pe;

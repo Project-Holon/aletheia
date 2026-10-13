@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD60
+ * function: WIFICLUB_IsBusyPhase
  * address:  0x021BDD60
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-int func_021BDD60(int x)
+int WIFICLUB_IsBusyPhase(int x)
 {
     switch (x) {
     case 7:

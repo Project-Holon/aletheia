@@ -20,10 +20,10 @@
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_021D580C 0x021D580C thumb ov123
  *   func_021D6E70 0x021D6E70 thumb ov123
- *   func_021B95D4 0x021B95D4 thumb ov114
- *   func_021B973C 0x021B973C thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021BE79C 0x021BE79C arm ov114
+ *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
+ *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   func_021D66D0 0x021D66D0 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8C04 0x021D8C04 thumb ov123
@@ -34,10 +34,10 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_021D580C(char *);
 extern int func_021D6E70(u8 *p);
-extern int func_021B95D4(int index, u8 *p);
-extern int func_021B973C(char *p);
-extern int func_021B9748(u8 *p);
-extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
+extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
+extern int NHTTP_RAP_GetConnection(char *p);
+extern int NHTTP_RAP_StartConnection(u8 *p);
+extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 struct Ctrl020071D8;
 extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
 extern void func_021D66D0(u8 *p, int n);
@@ -51,12 +51,12 @@ void func_021D8D08(char *p)
     if (func_021D580C(*(char **)(p+0x18))) {
         *(int *)(p+0x74)=0;
         if (func_021D6E70((u8 *)p)) {
-            if (func_021B95D4(3,*(void **)(p+0x10))) {
+            if (NHTTP_RAP_CreateRequest(3,*(void **)(p+0x10))) {
                 v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
-                func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
+                NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(void **)(p+0x10)),(void *)v,0x80000);
                 func_021D66D0(*(void **)(p+0x14),0);
                 *(int *)(p+0x70)=0;
-                if (!func_021B9748(*(void **)(p+0x10)))
+                if (!NHTTP_RAP_StartConnection(*(void **)(p+0x10)))
                     func_021D6EE0((u8 *)p,(int)func_021D8C04,0x986);
             }
         } else {

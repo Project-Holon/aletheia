@@ -9,18 +9,18 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02073344  0x02073344  arm
- *   func_020734AC  0x020734AC  arm
- *   func_02074CD0  0x02074CD0  arm
- *   func_020733DC  0x020733DC  arm
- *   func_020733E8  0x020733E8  arm
- *   NNS_SndHandleSetPlayerPriority  0x02072F48  arm
+ *   NNSi_SndPlayerAllocSeqPlayer  0x02073344  arm
+ *   NNSi_SndPlayerAllocHeap  0x020734AC  arm
+ *   NNSi_SndArcLoadBank  0x02074CD0  arm
+ *   NNSi_SndPlayerFreeSeqPlayer  0x020733DC  arm
+ *   NNSi_SndPlayerStartSeqPlayer  0x020733E8  arm
+ *   NNS_SndHandleSetInitialVolume  0x02072F48  arm
  *   NNS_SndHandlePause  0x02072F88  arm
- *   NNS_SndHandleSetSweep  0x020730DC  arm
+ *   NNSi_SndHandleSetSeqArc  0x020730DC  arm
  *
  * The four-step open/bind path behind func_02075618 and func_02075698: take a
- * voice handle (func_02073344), read its slot (func_020734AC), load the wave
- * data through func_02074CD0 and release the handle if that fails, then bind
+ * voice handle (NNSi_SndPlayerAllocSeqPlayer), read its slot (NNSi_SndPlayerAllocHeap), load the wave
+ * data through NNSi_SndArcLoadBank and release the handle if that fails, then bind
  * the loaded data and push the three per-voice parameters.  Eight arguments,
  * four in registers and four on the stack.
  *
@@ -34,7 +34,7 @@
  *     s0     r6         r7
  *     h      r5         r6
  *
- * with the extra instruction being `mov r5, #0; mov r3, r5` for func_02074CD0's
+ * with the extra instruction being `mov r5, #0; mov r3, r5` for NNSi_SndArcLoadBank's
  * fourth argument where the image emits `mov r3, #0` directly.  That is
  * verbatim the "kept constants" tell of docs/FRONTEND-PINS.md, and the note
  * measured every one of its seven spellings under the project default 1.1p1.
@@ -60,14 +60,14 @@ typedef unsigned int  u32;
 typedef signed int     s32;
 struct Node;
 struct Obj;
-extern struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri);
-extern void *func_020734AC(s32 idx, void *owner);
-extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern void  func_020733DC(void *h);
-extern void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void NNS_SndHandleSetPlayerPriority(struct Obj *o, u8 v);
+extern struct Node *NNSi_SndPlayerAllocSeqPlayer(struct Obj *o, s32 idx, s32 pri);
+extern void *NNSi_SndPlayerAllocHeap(s32 idx, void *owner);
+extern u32   NNSi_SndArcLoadBank(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern void  NNSi_SndPlayerFreeSeqPlayer(void *h);
+extern void NNSi_SndPlayerStartSeqPlayer(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData);
+extern void NNS_SndHandleSetInitialVolume(struct Obj *o, u8 v);
 extern void NNS_SndHandlePause(struct Obj *o, u32 v);
-extern void NNS_SndHandleSetSweep(struct Obj *o, u32 a, u32 b);
+extern void NNSi_SndHandleSetSeqArc(struct Obj *o, u32 a, u32 b);
 
 u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
 {
@@ -75,21 +75,21 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
     u32 v;
     u32 slot;
 
-    h = func_02073344((struct Obj *)a0, a1, a3);
+    h = NNSi_SndPlayerAllocSeqPlayer((struct Obj *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
 
-    v = (u32)func_020734AC(a1, h);
+    v = (u32)NNSi_SndPlayerAllocHeap(a1, h);
 
-    if (func_02074CD0(a2, 6, v, 0, &slot) != 0) {
-        func_020733DC(h);
+    if (NNSi_SndArcLoadBank(a2, 6, v, 0, &slot) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(h);
         return 0;
     }
 
-    func_020733E8(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
-    NNS_SndHandleSetPlayerPriority((struct Obj *)a0, s0[6]);
+    NNSi_SndPlayerStartSeqPlayer(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
+    NNS_SndHandleSetInitialVolume((struct Obj *)a0, s0[6]);
     NNS_SndHandlePause((struct Obj *)a0, s0[7]);
-    NNS_SndHandleSetSweep((struct Obj *)a0, s2, s3);
+    NNSi_SndHandleSetSeqArc((struct Obj *)a0, s2, s3);
     return 1;
 }

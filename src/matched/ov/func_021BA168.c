@@ -1,5 +1,5 @@
 /*
- * function: func_021BA168
+ * function: WIFICLUBACTOR_FindFreeActor
  * address:  0x021BA168
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -29,7 +29,7 @@ typedef unsigned long  u32;
 typedef signed short   s16;
 typedef int BOOL;
 
-u8 *func_021BA168(u8 *p)
+u8 *WIFICLUBACTOR_FindFreeActor(u8 *p)
 {
     int i;
 

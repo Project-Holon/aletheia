@@ -17,7 +17,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -34,7 +34,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *,int);
-extern void func_020862F0(void *,unsigned long);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -52,11 +52,11 @@ void func_021D6328(u8 *p,int bank,int *offset,int *size,int count)
     for(i=0;i<count;i++) {
         switch(bank) {
         case 3:
-            func_020862F0(buffer+offset[i]*32,size[i]*32);
+            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
             func_0207E5D0(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         case 1:
-            func_020862F0(buffer+offset[i]*32,size[i]*32);
+            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
             func_0207E468(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         }

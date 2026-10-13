@@ -1,5 +1,5 @@
 /*
- * function: func_021579BC
+ * function: maccmp
  * address:  0x021579BC
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
  */
 
-int func_021579BC(unsigned short *a, unsigned short *b)
+int maccmp(unsigned short *a, unsigned short *b)
 {
     int i;
 

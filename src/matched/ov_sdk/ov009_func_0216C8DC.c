@@ -1,5 +1,5 @@
 /*
- * function: func_0216C8DC
+ * function: DWC_AddMatchKeyInt
  * address:  0x0216C8DC
  * packet:   pkt_ov009_0216C8DC
  * region:   ov009
@@ -119,13 +119,13 @@
  *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
- *   func_02173AD8  0x02173AD8  arm  ov009
+ *   DWCi_GetNewMatchKey  0x02173AD8  arm  ov009
  *   func_020948E0  0x020948E0  arm
  *   func_0205A1B0  0x0205A1B0  arm
  *   func_0209477C  0x0209477C  arm
  *   func_0205A16C  0x0205A16C  arm
  *   func_02094798  0x02094798  arm
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   func_0219D158  0x0219D158  arm  ov009
  */
 
@@ -144,15 +144,15 @@ struct DWCstGameMatchKeyData {
 extern struct DWCstGameMatchKeyData g_021AAA40[154];
 
 extern int func_020948E0(const char *s1, const char *s2);
-extern u8 func_02173AD8(void);
+extern u8 DWCi_GetNewMatchKey(void);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern int func_0209477C(const u8 *s);
 extern void *func_0205A16C(int name, u32 size);
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 extern char *func_02094798(char *dst, const char *src);
 extern void func_0219D158(int keyid, char *key);
 
-u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc)
+u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc)
 {
     int index;
 
@@ -162,7 +162,7 @@ u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc)
         if (g_021AAA40[keyID - 0x64].keyString != 0 && func_020948E0(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
             return 0;
     } else {
-        keyID = func_02173AD8();
+        keyID = DWCi_GetNewMatchKey();
         if (keyID == 0)
             return 0;
     }
@@ -174,7 +174,7 @@ u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc)
         func_0205A1B0(4, g_021AAA40[index].keyString, 0);
     g_021AAA40[index].keyString = func_0205A16C(4, func_0209477C((const u8 *)keyString) + 1);
     if (g_021AAA40[index].keyString == 0) {
-        func_0216EB68(9, -80001);
+        DWCi_StopMatch(9, -80001);
         return 0;
     }
     func_02094798(g_021AAA40[index].keyString, keyString);

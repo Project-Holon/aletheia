@@ -17,7 +17,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02034714  0x02034714  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -194,7 +194,7 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern void *GAME_DATA_GetSaveControl(void *p);
 extern u32 func_020307B0(void *p);
 void func_02034714(const void *expr, u32 line, const void *file);
-extern void func_02082D44(const void *a, void *b, int c);
+extern void MI_CpuCopy8(const void *a, void *b, int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
@@ -930,7 +930,7 @@ void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *a
 
     if (kind == 1) {
         obj = func_02030734(0x41, 0x30, 1, d_021807FC, 0x647);
-        func_02082D44(d_0218050C, obj, 0x30);
+        MI_CpuCopy8(d_0218050C, obj, 0x30);
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
@@ -938,7 +938,7 @@ void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *a
         func_020307B0(obj);
     } else if (kind == 5) {
         obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
-        func_02082D44(d_021804B4, obj, 0x28);
+        MI_CpuCopy8(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
         UNION_MSG_SetupMenu(unisys, fieldmap, (u32)obj, v, (u32)(&t));

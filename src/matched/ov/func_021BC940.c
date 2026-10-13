@@ -1,5 +1,5 @@
 /*
- * function: func_021BC940
+ * function: WIFICLUB_StateOpenKindMenu
  * address:  0x021BC940
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BB9C8  0x021BB9C8  thumb  ov099
+ *   WIFICLUB_CreateKindMenu  0x021BB9C8  thumb  ov099
  *
  * Runs the setup for selector 0x56 and stamps it 0x1CC bytes in.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BB9C8(int a);
+extern void WIFICLUB_CreateKindMenu(int a);
 
-int func_021BC940(char *p, int v)
+int WIFICLUB_StateOpenKindMenu(char *p, int v)
 {
-    func_021BB9C8((int)p);
+    WIFICLUB_CreateKindMenu((int)p);
     ((struct Obj18193 *)p)->f1CC = 0x56;
     return v;
 }

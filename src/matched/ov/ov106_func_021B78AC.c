@@ -1,5 +1,5 @@
 /*
- * function: func_021B78AC
+ * function: IRC_RANKING_SeqClear
  * address:  0x021B78AC
  * packet:   pkt_ov106_021B78AC
  * region:   ov106
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B78AC(void *p) { MI_CpuFill8(p, 0, 0x10); }
+void IRC_RANKING_SeqClear(void *p) { MI_CpuFill8(p, 0, 0x10); }

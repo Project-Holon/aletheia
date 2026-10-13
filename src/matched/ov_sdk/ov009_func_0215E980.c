@@ -12,16 +12,16 @@
  * sdk:      SOCLi_CloseCallBack (libsoc.TWL.HYB.a(socl_close.o))
  *
  * symbols:
- *   func_02085710  0x02085710  arm
- *   func_0215AD00  0x0215AD00  arm  ov009
- *   func_0215AD3C  0x0215AD3C  arm  ov009
- *   func_0215AB5C  0x0215AB5C  arm  ov009
- *   func_0215AA70  0x0215AA70  arm  ov009
+ *   OS_JoinThread  0x02085710  arm
+ *   CPS_TcpShutdown  0x0215AD00  arm  ov009
+ *   CPS_TcpClose  0x0215AD3C  arm  ov009
+ *   CPS_SocRelease  0x0215AB5C  arm  ov009
+ *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   func_0215CEB0  0x0215CEB0  arm  ov009
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F31C  0x0215F31C  arm  ov009
  *   func_0215F304  0x0215F304  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef struct {
@@ -39,16 +39,16 @@ typedef struct Socket {
 	signed char flag_mode;
 } Socket;
 
-extern void func_02085710(void *thread);
-extern void func_0215AD00(void);
-extern void func_0215AD3C(void);
-extern void func_0215AB5C(void);
-extern void func_0215AA70(void);
+extern void OS_JoinThread(void *thread);
+extern void CPS_TcpShutdown(void);
+extern void CPS_TcpClose(void);
+extern void CPS_SocRelease(void);
+extern void CPS_SocUnRegister(void);
 extern int func_0215CEB0(int a0, char *a1);
-extern unsigned long func_02087988(void);
+extern unsigned long OS_DisableInterrupts(void);
 extern void func_0215F31C(int a);
 extern void func_0215F304(int a);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
 static inline int IsStream(Socket *socket)
 {
@@ -66,18 +66,18 @@ int func_0215E980(void *arg)
 
 	socket = ((Cmd *)arg)->socket;
 	if (IsStream(socket)) {
-		func_02085710(socket->send_pipe + 0x20);
-		func_0215AD00();
-		func_0215AD3C();
-		func_0215AB5C();
+		OS_JoinThread(socket->send_pipe + 0x20);
+		CPS_TcpShutdown();
+		CPS_TcpClose();
+		CPS_SocRelease();
 	}
-	func_0215AA70();
+	CPS_SocUnRegister();
 	socket->state &= ~6;
 	func_0215CEB0((int)(socket->flag_mode == 2 ? socket->send_pipe : socket->recv_pipe), 0);
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F304((int)socket);
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;
 }

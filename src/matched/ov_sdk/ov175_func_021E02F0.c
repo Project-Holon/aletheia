@@ -1,5 +1,5 @@
 /*
- * function: func_021E02F0
+ * function: sciReportAddIntValue
  * address:  0x021E02F0
  * packet:   pkt_ov175_021E02F0
  * region:   ov175
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0504   0x021E0504  arm  ov175
- *   func_021E054C   0x021E054C  arm  ov175
+ *   sciSerializeInt16   0x021E0504  arm  ov175
+ *   sciSerializeInt32   0x021E054C  arm  ov175
  */
 typedef struct Node {
     char _0[0x24];
@@ -35,10 +35,10 @@ typedef struct Obj {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 *func_021E0504(u8 *dst, unsigned int v);
-extern u8 *func_021E054C(u8 *dst, u32 v);
+extern u8 *sciSerializeInt16(u8 *dst, unsigned int v);
+extern u8 *sciSerializeInt32(u8 *dst, u32 v);
 
-int func_021E02F0(Obj *o, int a, int b)
+int sciReportAddIntValue(Obj *o, int a, int b)
 {
     int f0 = o->f0;
     Node *n = o->f124;
@@ -50,18 +50,18 @@ int func_021E02F0(Obj *o, int a, int b)
         n->h26++;
         n->w3c += 8;
         o->h8++;
-        func_021E0504((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
+        sciSerializeInt16((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
     } else if (f0 == 4) {
         n->h28++;
         n->w40 += 8;
         o->h8++;
-        func_021E0504((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
+        sciSerializeInt16((u8 *)((char *)o->f124 + o->f4), (short)o->h8);
     }
-    func_021E0504((u8 *)((char *)o->f124 + o->f120), (short)a);
+    sciSerializeInt16((u8 *)((char *)o->f124 + o->f120), (short)a);
     o->f120 += 2;
-    func_021E0504((u8 *)((char *)o->f124 + o->f120), (short)0);
+    sciSerializeInt16((u8 *)((char *)o->f124 + o->f120), (short)0);
     o->f120 += 2;
-    func_021E054C((u8 *)((char *)o->f124 + o->f120), (int)b);
+    sciSerializeInt32((u8 *)((char *)o->f124 + o->f120), (int)b);
     o->f120 += 4;
     return 0;
 }

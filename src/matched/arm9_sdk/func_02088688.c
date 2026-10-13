@@ -1,5 +1,5 @@
 /*
- * function: func_02088688
+ * function: PXIi_HandlerRecvFifoNotEmpty
  * address:  0x02088688
  * packet:   pkt_02088688
  * region:   arm9
@@ -88,7 +88,7 @@ static inline int PXIi_GetFromFifo(u32 *data)
     return PXI_FIFO_SUCCESS;
 }
 
-void func_02088688(void)
+void PXIi_HandlerRecvFifoNotEmpty(void)
 {
     int tag;
     int ret_code;

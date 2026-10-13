@@ -1,5 +1,5 @@
 /*
- * function: func_020750EC
+ * function: NNSi_SndArcLoadWaveArcTable
  * address:  0x020750EC
  * packet:   pkt_02074A34
  * region:   arm9
@@ -12,13 +12,13 @@
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
  *   NNS_SndArcReadFile  0x020745A4  arm
  *   NNS_SndArcGetCurrent  0x020742FC  arm
- *   func_0207482C  0x0207482C  arm
- *   func_020752D4  0x020752D4  arm
+ *   NNS_SndHeapAlloc  0x0207482C  arm
+ *   NNSi_SndArcDisposeWaveArcTable  0x020752D4  arm
  *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   DC_StoreRange  0x020862D4  arm
- *   d_0214EA54     0x0214EA54  data  a4
+ *   gNNSSndArcWaveArcHeader     0x0214EA54  data  a4
  *   d_0214EA54_hdr 0x0214EA54  data  a4
  *
  * The fifth leaf loader of the sound-archive cluster, the one whose payload
@@ -26,7 +26,7 @@
  * already resident (NNS_SndArcGetFileAddress returns non-zero, which is returned as is)
  * read the 0x3c-byte header into the scratch object at 0x0214EA54, take the
  * table size (count at +0x38, four bytes per entry), allocate header + two
- * tables + 0x20 with func_020752D4 as the teardown callback, read header and
+ * tables + 0x20 with NNSi_SndArcDisposeWaveArcTable as the teardown callback, read header and
  * table, move the table up by its own size (MI_CpuCopy8), clear the first
  * copy (MI_CpuFill8), flush the whole block and publish it when `flag` is
  * set.  The returned word is the error code or the block, in ONE variable
@@ -55,21 +55,21 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct ArcHdr d_0214EA54;
+extern struct ArcHdr gNNSSndArcWaveArcHeader;
 extern struct ArcHdr d_0214EA54_hdr;
 
 extern u32   NNS_SndArcGetFileAddress(u32 idx);
 extern int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset);
 struct Global;
-extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern struct Global *NNS_SndArcGetCurrent(void);
-extern void func_020752D4(int a, int b, int c, int d);
+extern void NNSi_SndArcDisposeWaveArcTable(int a, int b, int c, int d);
 extern void NNS_SndArcSetFileAddress(u32 idx, u32 val);
 extern void  MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  DC_StoreRange(void *addr, u32 size);
 
-u32 func_020750EC(u32 idx, u32 *heap, int flag)
+u32 NNSi_SndArcLoadWaveArcTable(u32 idx, u32 *heap, int flag)
 {
     u32 r;
     u32 n;
@@ -80,7 +80,7 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
 
     r = NNS_SndArcGetFileAddress(idx);
     if (r == 0) {
-        if (NNS_SndArcReadFile(idx, &d_0214EA54, 0x3c, 0) != 0x3c)
+        if (NNS_SndArcReadFile(idx, &gNNSSndArcWaveArcHeader, 0x3c, 0) != 0x3c)
             return 0;
         sz = d_0214EA54_hdr.count * 4;
         total = sz * 2;
@@ -90,7 +90,7 @@ u32 func_020750EC(u32 idx, u32 *heap, int flag)
             cookie = (u32)NNS_SndArcGetCurrent();
         else
             cookie = 0;
-        p = (struct ArcHdr *)func_0207482C(heap, total + 0x5c, (u32)func_020752D4, cookie, idx);
+        p = (struct ArcHdr *)NNS_SndHeapAlloc(heap, total + 0x5c, (u32)NNSi_SndArcDisposeWaveArcTable, cookie, idx);
         if (p == 0)
             return 0;
         n = NNS_SndArcReadFile(idx, p, sz + 0x3c, 0);

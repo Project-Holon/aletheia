@@ -1,5 +1,5 @@
 /*
- * function: func_021BBCF0
+ * function: PMSIV_EDIT_Delete
  * address: 0x021BBCF0
  * packet: pkt_ov110_021BBCF0
  * region: ov110
@@ -36,7 +36,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BBCF0(u8 *p)
+void PMSIV_EDIT_Delete(u8 *p)
 {
     BGWINFRM_Delete(((struct Obj01248 *)p)->f1B4);
     if (((struct Obj01248 *)p)->f1B0) func_02030EAC(((struct Obj01248 *)p)->f1B0);

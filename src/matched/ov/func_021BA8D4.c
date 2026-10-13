@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8D4
+ * function: WIFICLUB_DeleteTimeIcon
  * address:  0x021BA8D4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -30,7 +30,7 @@ typedef struct {
     void *f100;
 } S;
 
-void func_021BA8D4(S *s)
+void WIFICLUB_DeleteTimeIcon(S *s)
 {
     if (s->f100 != 0) {
         TIME_ICON_Delete(s->f100);

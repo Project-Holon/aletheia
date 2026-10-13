@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BFC
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExchangeGetBuffer
  * address: 0x021B8BFC
  * packet: pkt_ov103_021B8BFC
  * region: ov103
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-u8 *func_021B8BFC(u32 a,u8 *p) { if(a == GFL_NET_SYSTEM_GetCurrentAid()) p += 0xe0; else p += 8; return p; }
+u8 *IRC_COMPATIBLE_TOUCH_TEST_ExchangeGetBuffer(u32 a,u8 *p) { if(a == GFL_NET_SYSTEM_GetCurrentAid()) p += 0xe0; else p += 8; return p; }

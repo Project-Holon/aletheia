@@ -1,5 +1,5 @@
 /*
- * function: func_021713CC
+ * function: DWCi_CheckResvCommand
  * address:  0x021713CC
  * packet:   pkt_ov009_021713CC
  * region:   ov009
@@ -16,7 +16,7 @@
  *   func_02175FB8                0x02175FB8 arm   ov009
  *   DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID 0x02176500 arm   ov009
  *   DWCi_ClearMeshMakingTempInfo 0x02176870 arm   ov009
- *   func_02176344                0x02176344 arm   ov009
+ *   DWCi_NodeInfoList_GetMyNodeInfo                0x02176344 arm   ov009
  *   func_020870D0                0x020870D0 arm
  *   func_02171524                0x02171524 arm   ov009
  */
@@ -49,11 +49,11 @@ extern int func_02175F3C(void);
 extern unsigned char func_02175FB8(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern void DWCi_ClearMeshMakingTempInfo(void);
-extern char *func_02176344(void);
+extern char *DWCi_NodeInfoList_GetMyNodeInfo(void);
 extern u64 func_020870D0(void);
 extern u8 func_02171524(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve);
 
-u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve)
+u8 DWCi_CheckResvCommand(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve)
 {
     struct DWCstNodeInfo *pMyNodeInfo;
     u8 sendCommand;
@@ -77,7 +77,7 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
                 }
             } else {
                 if (((struct DWCstMatchControl *)func_02175F3C())->f61c == 3) {
-                    pMyNodeInfo = (struct DWCstNodeInfo *)func_02176344();
+                    pMyNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetMyNodeInfo();
                     if (profileID == ((struct DWCstMatchControl *)func_02175F3C())->f554) {
                         if (pMyNodeInfo->profileID >= profileID) {
                             sendCommand = 0xff;

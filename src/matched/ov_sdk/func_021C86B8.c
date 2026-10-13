@@ -11,13 +11,15 @@
  *
  * symbols:
  *   func_021C86B8 0x021C86B8 arm
+ *   DWCi_GetParam2_  0x021C0EA0  arm
+ *   DWCi_SETTIGNlGet  0x021CF404  arm
  *
  * Poll the input driver into a local and clear the shared counter when it reads zero.
  * Addresses are Black-image addresses.
  */
 
-extern char *func_021CF404(void);
-extern void func_021C0EA0(unsigned int *a, unsigned int *b);
+extern char *DWCi_SETTIGNlGet(void);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 
 void func_021C86B8(void)
 {
@@ -25,8 +27,8 @@ void func_021C86B8(void)
     int z = 0;
     int v;
 
-    func_021CF404();
-    func_021C0EA0((unsigned int *)z, (unsigned int *)(&v));
+    DWCi_SETTIGNlGet();
+    DWCi_GetParam2_((unsigned int *)z, (unsigned int *)(&v));
     if (v == 0) {
         *(unsigned short *)(g + 4) = z;
         *(unsigned char *)g = z;

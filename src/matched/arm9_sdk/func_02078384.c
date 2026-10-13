@@ -1,5 +1,5 @@
 /*
- * function: func_02078384
+ * function: FS_RegisterArchiveName
  * address:  0x02078384
  * packet:   pkt_02078384
  * region:   arm9
@@ -54,7 +54,7 @@ extern FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern void OS_Terminate(void);
 
-BOOL func_02078384(FSArchive *p_arc, const char *name, u32 name_len)
+BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len)
 {
     BOOL retval = 0;
     u32 bak_intr = OS_DisableInterrupts();

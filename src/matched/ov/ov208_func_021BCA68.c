@@ -18,8 +18,8 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021BCC80 0x021BCC80 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CA54 0x0200CA54 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
  *   func_021BD8C0 0x021BD8C0 thumb
  *   func_021BE710 0x021BE710 thumb
  *   func_021BC35C 0x021BC35C thumb
@@ -52,8 +52,8 @@ struct Ov208Icon;
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020056A0(void (*fn)(void), void *arg, int n);
 extern void func_021BCC80(void);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA54(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
 extern char *func_021BD8C0(u16 heap, unsigned arg);
 extern struct Ov208Icon *func_021BE710(u16 heap, unsigned arg);
 extern void *func_021BC35C(u32 heap, void *a, void *b, void *c, void *d, void *e, void *f, int g, u16 h, void *i);
@@ -77,7 +77,7 @@ int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
     p->gfx = (void *)PRINTSYS_QUE_Create((void *)p->heap);
     p->task = func_020056A0(func_021BCC80, p, 1);
 
-    p->f14 = func_021BD8C0(p->heap, func_0200CA54(func_0200CA1C(args->src)));
+    p->f14 = func_021BD8C0(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
     p->f18 = func_021BE710(p->heap, (unsigned int)p->font);
     p->fsm = func_021BC35C(p->heap, args->src, p->disp, p->font, p->gfx, p->f14, p->f18, args->f8, args->fc, &args->fe);
     p->f20 = 0;

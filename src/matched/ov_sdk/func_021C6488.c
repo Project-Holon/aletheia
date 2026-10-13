@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CFFAC   0x021CFFAC   arm
- *   func_021D7680   0x021D7680   arm
+ *   DWCi_SNDlPlay   0x021CFFAC   arm
+ *   DWCi_TSKlForm   0x021D7680   arm
  *   func_021C61A4   0x021C61A4   arm
- *   g_021DE5D8      0x021DE5D8   data
+ *   gSceneSetApListWork      0x021DE5D8   data
  */
 
 #include "../include/G_SCENESETAPLIST_BSS.h"
@@ -21,22 +21,22 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern struct SCENESETAPLIST_BSS g_021DE5D8;
-extern void func_021CFFAC(unsigned int v);
-extern void *func_021D7680(int a, void *b, int c, int d);
+extern struct SCENESETAPLIST_BSS gSceneSetApListWork;
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void *DWCi_TSKlForm(int a, void *b, int c, int d);
 extern void  func_021C61A4(void);
 
 void func_021C6488(void)
 {
-    u8 *p = g_021DE5D8.MemSsal;
+    u8 *p = gSceneSetApListWork.MemSsal;
 
-    if (g_021DE5D8.Pos == *(u16 *)(p + 0x40) || p[0x51] <= 4) {
+    if (gSceneSetApListWork.Pos == *(u16 *)(p + 0x40) || p[0x51] <= 4) {
         if (p[0x59] == 0) {
-            func_021CFFAC(9);
-            ((u8 *)g_021DE5D8.MemSsal)[0x59] = 1;
+            DWCi_SNDlPlay(9);
+            ((u8 *)gSceneSetApListWork.MemSsal)[0x59] = 1;
         }
         return;
     }
-    func_021CFFAC(0x13);
-    *(void **)(((u8 *)g_021DE5D8.MemSsal) + 0x38) = func_021D7680(0, func_021C61A4, 0, 0x78);
+    DWCi_SNDlPlay(0x13);
+    *(void **)(((u8 *)gSceneSetApListWork.MemSsal) + 0x38) = DWCi_TSKlForm(0, func_021C61A4, 0, 0x78);
 }

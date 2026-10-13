@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_020857B0  0x020857B0  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   OS_SleepThread  0x020857B0  arm
  *   func_0215E2C0  0x0215E2C0  arm  ov009
  *
  * Pull a count out of the object at +0xa4, clamped to `n` (and, when it came
  * back short, to `m`) -- below `m` the loop instead either gives up with 0 or
- * pumps func_020857B0 on the +0x104 channel, depending on the low bit of the
+ * pumps OS_SleepThread on the +0x104 channel, depending on the low bit of the
  * fifth argument.  The success path copies the u16 at +0x100 out.  The whole
- * scan runs inside a func_02087988/func_0208799C interrupt bracket.
+ * scan runs inside a OS_DisableInterrupts/OS_RestoreInterrupts interrupt bracket.
  */
 
 typedef unsigned char  u8;
@@ -36,7 +36,7 @@ int func_0215E23C(void *a, int n, int m, int *out, int f5)
     base = *(u32 **)((u8 *)a + 0xa4);
     if (m > n)
         m = n;
-    st = func_02087988();
+    st = OS_DisableInterrupts();
     flag = f5 & 1;
     for (;;) {
         v = func_0215E2C0(a);
@@ -50,8 +50,8 @@ int func_0215E23C(void *a, int n, int m, int *out, int f5)
             v = 0;
             break;
         }
-        func_020857B0((u8 *)base + 0x104);
+        OS_SleepThread((u8 *)base + 0x104);
     }
-    func_0208799C(st);
+    OS_RestoreInterrupts(st);
     return v;
 }

@@ -35,9 +35,9 @@
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   POKEPARTY_SetMember  0x0201AB48  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   func_02030734  0x02030734  arm
@@ -107,9 +107,9 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
-extern void *func_0200CA1C(void *p);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -157,9 +157,9 @@ int FLD_TRADE_EventMain(void *a, u32 *state, Work *w)
         break;
     case 2:
         POKEPARTY_SetMember(f8, w->fD, w->obj->fC);
-        box = func_0200CA1C(f4);
-        func_0200CFA0(box, w->obj->fC);
-        func_0200CDE0(box, w->obj->fC);
+        box = ZUKAN_SAVE_GetFromGameData(f4);
+        ZUKAN_SAVE_RegisterSeen(box, w->obj->fC);
+        ZUKAN_SAVE_RegisterCaught(box, w->obj->fC);
         *state = 4;
         break;
     case 3:

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2A78
+ * function: ghiPostInitState
  * address:  0x021C2A78
  * packet:   pkt_ov114_021C2A78
  * region:   ov114
@@ -15,11 +15,11 @@
  *   func_02184200  0x02184200  arm   ov009
  *   func_02184144  0x02184144  arm   ov009
  *   func_02184208  0x02184208  arm   ov009
- *   func_021C29AC  0x021C29AC  arm   ov114
- *   func_021C2A3C  0x021C2A3C  arm   ov114
+ *   ghiPostStateInit  0x021C29AC  arm   ov114
+ *   ghiPostStateCleanup  0x021C2A3C  arm   ov114
  *   func_021841B0  0x021841B0  arm   ov009
  *   func_02184234  0x02184234  arm   ov009
- *   func_021C297C  0x021C297C  arm   ov114
+ *   ghiPostGetContentLength  0x021C297C  arm   ov114
  */
 
 typedef struct GHIPostData {
@@ -54,13 +54,13 @@ extern int func_02184200(const int *p);
 extern void *func_02184144(int, int, void (*)(void *));
 extern void *func_02184208(void *, int);
 struct Obj;
-extern int func_021C29AC(struct Obj *o);
-extern void func_021C2A3C(void *);
+extern int ghiPostStateInit(struct Obj *o);
+extern void ghiPostStateCleanup(void *);
 extern void func_021841B0(void *);
 extern void func_02184234(void *, void *);
-extern int func_021C297C(GHIConnection *);
+extern int ghiPostGetContentLength(GHIConnection *);
 
-int func_021C2A78(GHIConnection *connection)
+int ghiPostInitState(GHIConnection *connection)
 {
     int i;
     int len;
@@ -84,16 +84,16 @@ int func_021C2A78(GHIConnection *connection)
         GHIPostState state = {0};
 
         state.data = obj;
-        if (func_021C29AC((struct Obj *)(&state)) == 0) {
+        if (ghiPostStateInit((struct Obj *)(&state)) == 0) {
             for (i--; i >= 0; i--)
-                func_021C2A3C(func_02184208(connection->states, i));
+                ghiPostStateCleanup(func_02184208(connection->states, i));
             func_021841B0(connection->states);
             connection->states = 0;
             return 0;
         }
         func_02184234(connection->states, &state);
     }
-    connection->contentLength = func_021C297C(connection);
+    connection->contentLength = ghiPostGetContentLength(connection);
     if (connection->postData->mode == 1)
         connection->isPost = 1;
     else

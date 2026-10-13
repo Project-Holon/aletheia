@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C1C
+ * function: IRC_RESULT_GetActorUnit
  * address:  0x021B7C1C
  * packet:   pkt_ov105_021B7C1C
  * region:   ov105
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021B7C1C(u32 *p)
+u32 IRC_RESULT_GetActorUnit(u32 *p)
 {
     return *p;
 }

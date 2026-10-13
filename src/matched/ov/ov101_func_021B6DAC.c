@@ -20,7 +20,7 @@
  * func_0200A8A0 0x0200A8A0 thumb
  * func_02008530 0x02008530 thumb
  * func_0200A9D4 0x0200A9D4 thumb
- * func_021B658C 0x021B658C thumb ov101
+ * COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  * GFL_NET_IsParentAid 0x0203D378 arm
  * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
  * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
@@ -44,7 +44,7 @@ extern void *func_0200A8A0(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
-extern void func_021B658C(void *,Data *);
+extern void COMPATIBLE_IRC_SYS_BuildProfile(void *,Data *);
 extern u32 GFL_NET_IsParentAid(void);
 extern int IRC_COMPATIBLE_CalcCompatibility(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8);
 void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heap,char *p)
@@ -66,7 +66,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heap,char *p)
         if(func_0200A9D4(token,func_02008530((const struct Sub0200852CObj *)name))==0) flag=1;
         both=0;
         if(((struct Obj01387 *)p)->f30 && flag) both=1;
-        func_021B658C(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
+        COMPATIBLE_IRC_SYS_BuildProfile(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
         if(GFL_NET_IsParentAid()) id=data.f00;
         else id=**(u32 * *)&((struct Obj01387 *)p)->f3C;
         ((struct Obj07971 *)out)->fC=IRC_COMPATIBLE_CalcCompatibility(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,(char *)(&data),((struct Obj01387 *)p)->f3C,both,id,58);

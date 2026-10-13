@@ -23,7 +23,7 @@
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   BMP_WIN_Create  0x020450F0  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  */
 
 typedef unsigned char u8;
@@ -96,7 +96,7 @@ extern struct CodeIn *BLINK_PALANM_Create(u16 a0, u16 a1, u32 a2, u16 heap);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 S *FRAME_LIST_Create(Tmpl *tmpl, u32 heap)
 {
@@ -145,7 +145,7 @@ S *FRAME_LIST_Create(Tmpl *tmpl, u32 heap)
         }
         p->f2c = func_02030734(p->f98, (n + 1) * 4, 0, gFrameListSourceFile, 0x13e);
         for (i = 0; i < n + 1; i++)
-            func_02082A90(&p->t.f1c[i], &p->f2c[i], 4);
+            MIi_CpuCopy32(&p->t.f1c[i], &p->f2c[i], 4);
     }
     return p;
 }

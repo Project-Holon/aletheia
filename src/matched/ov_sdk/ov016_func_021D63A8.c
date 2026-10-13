@@ -1,5 +1,5 @@
 /*
- * function: func_021D63A8
+ * function: DWCi_HEAPlEnd
  * address:  0x021D63A8
  * packet:   pkt_ov016_021D63A8
  * region:   ov016
@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_02060C94  0x02060C94  arm
- *   g_021DE684     0x021DE684  data
+ *   gHeapWork     0x021DE684  data
  */
 
 extern void func_02060C94(void *heap);
-extern void *g_021DE684;
+extern void *gHeapWork;
 
-void func_021D63A8(void)
+void DWCi_HEAPlEnd(void)
 {
-    func_02060C94(g_021DE684);
-    g_021DE684 = 0;
+    func_02060C94(gHeapWork);
+    gHeapWork = 0;
 }

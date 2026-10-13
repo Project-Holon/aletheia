@@ -1,5 +1,5 @@
 /*
- * function: func_021BD470
+ * function: PMSIV_MENU_StopItemBlend
  * address: 0x021BD470
  * packet: pkt_ov110_021BD470
  * region: ov110
@@ -18,7 +18,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021BD470(u8 *p,int i)
+void PMSIV_MENU_StopItemBlend(u8 *p,int i)
 {
     CLACT_SetActorPaletteOffset(*(void **)(p+i*4+0x70),6,1);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFD94",
+   "name": "PMSIV_WORDWIN_GetThumb",
    "address": "0x021BFD94",
    "kind": "game",
    "region": "ov110",

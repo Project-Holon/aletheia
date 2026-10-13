@@ -1,5 +1,5 @@
 /*
- * function: func_02072320
+ * function: NNSi_G3dTexMtxTrans_Max
  * address:  0x02072320
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -28,7 +28,7 @@
  * Store order (all six permutations), a `z` local, `d->f14 = d->f00`, and
  * hoisting all three constants were measured and the merge survives every
  * one. It is the "kept constants" tell of docs/FRONTEND-PINS.md, the same
- * already pinned for func_02074A6C, func_02072D20 and func_020713A4; note
+ * already pinned for NNS_SndArcLoadSeq, NNS_SndWaveOutWaitIdle and NNSi_G3dTexMtxIdentity; note
  * also the image's `push {r3, lr}` / `pop {r3, pc}` with NO call in the
  * body, lr spent as a scratch, which is exactly what the merge denies.
  * Under the pin the same C is 84 bytes, 0 mismatches.
@@ -56,7 +56,7 @@ struct DST {
     s32 f34;
 };
 
-void func_02072320(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxTrans_Max(struct DST *d, struct SRC *s)
 {
     s32 a, b, c;
 

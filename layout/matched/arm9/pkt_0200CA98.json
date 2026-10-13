@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200CA98",
+   "name": "ZUKAN_SAVE_UpdateViewFlags",
    "address": "0x0200CA98",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200CC20"
+    "ZUKAN_SAVE_GetFormCount"
+   ],
+   "addresses": [
+    "0x0200CC20"
    ]
   },
   {
@@ -45,10 +48,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200CED4",
-    "func_0200CF08",
-    "func_0200CF28",
-    "func_0200CF54"
+    "ZUKAN_SAVE_IsCaught",
+    "ZUKAN_SAVE_CountCaught",
+    "ZUKAN_SAVE_CountCaughtNational",
+    "ZUKAN_SAVE_CountCaughtRegional"
+   ],
+   "addresses": [
+    "0x0200CED4",
+    "0x0200CF08",
+    "0x0200CF28",
+    "0x0200CF54"
    ]
   },
   {
@@ -63,7 +72,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200CFA0"
+    "ZUKAN_SAVE_RegisterSeen"
+   ],
+   "addresses": [
+    "0x0200CFA0"
    ]
   },
   {
@@ -78,9 +90,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D0AC",
-    "func_0200D0CC",
-    "func_0200D0F8"
+    "ZUKAN_SAVE_CountSeen",
+    "ZUKAN_SAVE_CountSeenNational",
+    "ZUKAN_SAVE_CountSeenRegional"
+   ],
+   "addresses": [
+    "0x0200D0AC",
+    "0x0200D0CC",
+    "0x0200D0F8"
    ]
   },
   {
@@ -95,8 +112,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200D368",
-    "func_0200D3C0"
+    "ZUKAN_SAVE_CountSeenRegionalCounted",
+    "ZUKAN_SAVE_HasLanguageFlag"
+   ],
+   "addresses": [
+    "0x0200D368",
+    "0x0200D3C0"
    ]
   }
  ]

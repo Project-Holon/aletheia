@@ -1,5 +1,5 @@
 /*
- * function: func_021C6B44
+ * function: freeHttpParam
  * address:  0x021C6B44
  * packet:   pkt_ov114_021C6B44
  * region:   ov114
@@ -12,13 +12,13 @@
  * sdk:      freeHttpParam (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   g_021D3B9C  0x021D3B9C  data
+ *   gDwciNdStatics  0x021D3B9C  data
  */
 
-extern int g_021D3B9C[];
-#define FREE(p) ((void (*)(void *))g_021D3B9C[5])(p)
+extern int gDwciNdStatics[];
+#define FREE(p) ((void (*)(void *))gDwciNdStatics[5])(p)
 
-void func_021C6B44(int *hrq)
+void freeHttpParam(int *hrq)
 {
 	if (hrq == 0)
 		return;

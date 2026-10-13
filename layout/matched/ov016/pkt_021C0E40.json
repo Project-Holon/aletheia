@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0E40",
+   "name": "DWCi_ChangeScene",
    "address": "0x021C0E40",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E50",
+   "name": "DWCi_SetParam_",
    "address": "0x021C0E50",
    "kind": "sdk",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0E8C",
+   "name": "DWCi_SetParam2_",
    "address": "0x021C0E8C",
    "kind": "sdk",
    "region": "ov016",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0ED8",
+   "name": "DWCi_Entry",
    "address": "0x021C0ED8",
    "kind": "sdk",
    "region": "ov016",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0EF0",
+   "name": "DWCi_Flag",
    "address": "0x021C0EF0",
    "kind": "sdk",
    "region": "ov016",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0F0C",
+   "name": "DWCi_EndUtility",
    "address": "0x021C0F0C",
    "kind": "sdk",
    "region": "ov016",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C0F98",
+   "name": "DWCi_MSGlEnd",
    "address": "0x021C0F98",
    "kind": "sdk",
    "region": "ov016",

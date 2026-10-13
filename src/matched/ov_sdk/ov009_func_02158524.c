@@ -1,5 +1,5 @@
 /*
- * function: func_02158524
+ * function: send_ping
  * address:  0x02158524
  * packet:   pkt_ov009_02158524
  * region:   ov009
@@ -67,9 +67,9 @@
  * sdk:      send_ping (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02157700  0x02157700  arm  ov009
- *   func_02157808  0x02157808  arm  ov009
- *   func_0215832C  0x0215832C  arm  ov009
+ *   calc_checksum_do  0x02157700  arm  ov009
+ *   invert_checksum  0x02157808  arm  ov009
+ *   send_ip  0x0215832C  arm  ov009
  *   g_02150FEC  0x02150FEC  data
  *   wfailed  0x021A826C  data
  *   ip_conflict  0x021A826D  data
@@ -93,9 +93,9 @@ struct Soc {
 	struct SocBuf sndbuf;
 };
 
-extern unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum);
-extern unsigned short func_02157808(unsigned short sum);
-extern void func_0215832C(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
+extern unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum);
+extern unsigned short invert_checksum(unsigned short sum);
+extern void send_ip(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
 extern unsigned long g_02150FEC[];
 
 static unsigned char ip_conflict = 0;
@@ -109,7 +109,7 @@ static inline unsigned short SWAP16(unsigned short v)
 	return (v >> 8) | (v << 8);
 }
 
-void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc)
+void send_ping(unsigned char *pattern, unsigned long len, struct Soc *soc)
 {
 	static unsigned short pingseq;
 	unsigned char *icmp;
@@ -120,6 +120,6 @@ void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc)
 	*(unsigned short *)(icmp + 0x24) = 0;
 	soc->local_port = pingseq;
 	*(unsigned short *)(icmp + 0x28) = pingseq++;
-	*(unsigned short *)(icmp + 0x24) = SWAP16(func_02157808((unsigned short)func_02157700(pattern, len, func_02157700(icmp + 0x22, 8, 0))));
-	func_0215832C(icmp + 0x22, 8, pattern, len, soc->remote_ip, 1);
+	*(unsigned short *)(icmp + 0x24) = SWAP16(invert_checksum((unsigned short)calc_checksum_do(pattern, len, calc_checksum_do(icmp + 0x22, 8, 0))));
+	send_ip(icmp + 0x22, 8, pattern, len, soc->remote_ip, 1);
 }

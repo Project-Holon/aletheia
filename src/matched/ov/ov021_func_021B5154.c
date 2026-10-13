@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D488  0x0200D488  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive  0x0200D488  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
@@ -25,18 +25,18 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Big;
 struct Blk38;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *sys);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
 
 int SCRCMD_PROC_FLD_SetFlagIfClear(u32 a, u32 b)
 {
     void *e = SCRCMD_WORK_GetGameData((void *)b);
-    u32 g = (u32)func_0200D418(GAME_DATA_GetSaveControl(e));
+    u32 g = (u32)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(e));
     u8 k = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
 
-    if (func_0200D488((struct Blk38 *)g, k) == 0) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive((struct Blk38 *)g, k) == 0) {
         MOVE_POKEMON_SpawnEntry(e, k);
     }
     return 0;

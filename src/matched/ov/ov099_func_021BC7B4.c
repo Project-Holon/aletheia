@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7B4
+ * function: WIFICLUB_StateStartScene
  * address:  0x021BC7B4
  * packet:   pkt_ov099_021BC7B4
  * region:   ov099
@@ -14,12 +14,12 @@
  * a goto directly to that shared tail threads the stub away (152 vs156).
  *
  * symbols:
- *   func_021C282C  0x021C282C  thumb  ov099
- *   func_021BC104  0x021BC104  thumb  ov099
- *   func_021BAADC  0x021BAADC  thumb  ov099
- *   func_021C18C8  0x021C18C8  thumb  ov099
- *   func_021C24A4  0x021C24A4  thumb  ov099
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_CopyZeroToDeviceAddr  0x021C282C  thumb  ov099
+ *   WIFICLUB_StartVoiceChat  0x021BC104  thumb  ov099
+ *   WIFICLUB_ShowMessage  0x021BAADC  thumb  ov099
+ *   WIFICLUB_SetOwnStatusAndPublish  0x021C18C8  thumb  ov099
+ *   WIFICLUB_StartBgmFade  0x021C24A4  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  */
 #include "../include/Obj04414.h"
 
@@ -27,19 +27,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern int func_021C282C(u8 *p);
-extern void func_021BC104(char *p);
-extern void func_021BAADC(char *p, int a, int b);
-extern void func_021C18C8(char *p, int a, int b);
-extern void func_021C24A4(char *p, int v);
-extern void func_021BA8EC(char *p);
+extern int WIFICLUB_CopyZeroToDeviceAddr(u8 *p);
+extern void WIFICLUB_StartVoiceChat(char *p);
+extern void WIFICLUB_ShowMessage(char *p, int a, int b);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *p, int a, int b);
+extern void WIFICLUB_StartBgmFade(char *p, int v);
+extern void WIFICLUB_ClearTalkWindow(char *p);
 
-int func_021BC7B4(char *p, int v)
+int WIFICLUB_StateStartScene(char *p, int v)
 {
     int r4;
     int sel;
 
-    func_021C282C(*(u8 * *)&((struct Obj04414 *)p)->f8);
+    WIFICLUB_CopyZeroToDeviceAddr(*(u8 * *)&((struct Obj04414 *)p)->f8);
     ((struct Obj04414 *)p)->f1351 = 0;
     sel = ((struct Obj04414 *)p)->f132C;
     switch (sel) {
@@ -55,25 +55,25 @@ int func_021BC7B4(char *p, int v)
     }
     switch (sel) {
     case 0x4b:
-        func_021BC104(p);
-        func_021BAADC(p, 0x7b, 0);
-        func_021C18C8(p, 4, 4);
-        func_021C24A4(p, 0);
+        WIFICLUB_StartVoiceChat(p);
+        WIFICLUB_ShowMessage(p, 0x7b, 0);
+        WIFICLUB_SetOwnStatusAndPublish(p, 4, 4);
+        WIFICLUB_StartBgmFade(p, 0);
         ((struct Obj04414 *)p)->f1355 = 0;
         ((struct Obj04414 *)p)->f1CC = 0x10;
         break;
     case 0x4c:
-        func_021BA8EC(p);
+        WIFICLUB_ClearTalkWindow(p);
         ((struct Obj04414 *)p)->f1D0 = r4;
         v = 2;
         break;
     case 0x4d:
-        func_021BC104(p);
-        func_021BA8EC(p);
+        WIFICLUB_StartVoiceChat(p);
+        WIFICLUB_ClearTalkWindow(p);
         ((struct Obj04414 *)p)->f1D0 = r4;
         v = 2;
         break;
     }
-    func_021C18C8(p, 4, r4);
+    WIFICLUB_SetOwnStatusAndPublish(p, 4, r4);
     return v;
 }

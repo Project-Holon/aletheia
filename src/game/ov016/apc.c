@@ -1,7 +1,7 @@
 /*
  * file:     apc.c
  * unit:     yes
- * function: APCi_Notify, APCi_MoveIdleState, func_021B8CFC, func_021B8D40, func_021B8E30, func_021B8E6C, func_021B8EA4, func_021B8EFC, func_021B8F80
+ * function: APCi_Notify, APCi_MoveIdleState, APC_GetAPList, APC_SearchStart, APC_SearchEnd, APC_Disconnect, APC_End, APC_Connect, APC_Init
  * address:  0x021B89DC
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -279,8 +279,6 @@ void APCi_Notify(WCMNotice *notice)
 }
 
 
-
-
 int APCi_MoveIdleState(void)
 {
     switch (apc_bss.apci_state) {
@@ -307,9 +305,6 @@ int APCi_MoveIdleState(void)
     }
     return 1;
 }
-
-
-
 
 
 int APC_GetAPList(struct WMBssDesc *WMBssdescBuf, int list_max)
@@ -376,7 +371,6 @@ int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, u
 }
 
 
-
 int APC_SearchEnd(void)
 {
     unsigned long enabled;
@@ -392,7 +386,6 @@ int APC_SearchEnd(void)
 }
 
 
-
 int APC_Disconnect(void)
 {
     unsigned long enabled;
@@ -406,7 +399,6 @@ int APC_Disconnect(void)
     OS_RestoreInterrupts(enabled);
     return 0;
 }
-
 
 
 int APC_End(void)
@@ -431,7 +423,6 @@ int APC_End(void)
     OS_RestoreInterrupts(enabled);
     return 0;
 }
-
 
 
 int APC_Connect(struct WMBssDesc *wmbssdesc, unsigned char *wep_buf, unsigned long option)

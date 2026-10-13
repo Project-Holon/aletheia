@@ -1,5 +1,5 @@
 /*
- * function: func_021B99F4
+ * function: IRCBATTLEMATCH_StepWaitTimeout
  * address: 0x021B99F4
  * packet: pkt_ov100_021B99F4
  * region: ov100
@@ -10,17 +10,17 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_Exit 0x0203CEAC arm
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021B99D4 0x021B99D4 thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitTouchThenExit 0x021B99D4 thumb ov100
  */
 #include "../include/Obj22073.h"
 extern int GFL_NET_Exit(int);
-extern void func_021B95B8(unsigned char *,unsigned);
-extern void func_021B99D4(unsigned char *a);
-void func_021B99F4(unsigned a)
+extern void IRCBATTLEMATCH_SetStep(unsigned char *,unsigned);
+extern void IRCBATTLEMATCH_StepWaitTouchThenExit(unsigned char *a);
+void IRCBATTLEMATCH_StepWaitTimeout(unsigned a)
 {
  if(++((struct Obj22073 *)a)->fCAC>60) {
   GFL_NET_Exit(0);
-  func_021B95B8((unsigned char *)a,(unsigned)func_021B99D4);
+  IRCBATTLEMATCH_SetStep((unsigned char *)a,(unsigned)IRCBATTLEMATCH_StepWaitTouchThenExit);
  }
 }

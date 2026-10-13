@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCB9C",
+   "name": "DWCi_BTNlDisable",
    "address": "0x021BCB9C",
    "kind": "sdk",
    "region": "ov016",

@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetTaskUserData  0x02030EE8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17950.h"
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 int FLDMMDL_ACMD_ListCheckEnd(u32 a)
 {
-return ((struct Obj17950 *)((u8 *)(TCBL_IsDeletePending((struct S02030EE8 *)a))))->f4;
+return ((struct Obj17950 *)((u8 *)(TCBL_GetTaskUserData((struct S02030EE8 *)a))))->f4;
 }
 

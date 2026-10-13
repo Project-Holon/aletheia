@@ -1,5 +1,5 @@
 /*
- * function: func_02087058
+ * function: OS_IsTickAvailable
  * address:  0x02087058
  * packet:   pkt_02087058
  * region:   arm9
@@ -18,7 +18,7 @@ typedef int BOOL;
 
 extern u16 g_02151330;
 
-BOOL func_02087058(void)
+BOOL OS_IsTickAvailable(void)
 {
     return g_02151330;
 }

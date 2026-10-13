@@ -1,5 +1,5 @@
 /*
- * function: func_02072AA0
+ * function: NNS_SndWaveOutStart
  * address:  0x02072AA0
  * packet:   pkt_02072A44
  * region:   arm9
@@ -18,7 +18,7 @@
  * Starts one channel.  The ten-argument signature is not guessed: the single
  * caller src/matched/unit_020067E0.c (PM_VOICE_StartChannels) already spells the call
  *
- *   func_02072AA0(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
+ *   NNS_SndWaveOutStart(e->unk14, 0, e->unk10, 0, 0, e->unk08, e->unk0C,
  *                 PM_VOICE_ScaleVolume(e->unk1C), e->unk20, e->unk28)
  *
  * which fixes the four register arguments and the six stack words at
@@ -57,13 +57,13 @@
  *      `mov r3, r1`, and three separate `mov r0, #1`).  ../1.2/sp2 is 328
  *      bytes.  This is the "kept constants" tell of docs/FRONTEND-PINS.md,
  *      the same pin and the same family as the cluster neighbours
- *      src/matched/func_02072BDC.c and src/matched/func_02072D20.c.
+ *      src/matched/NNS_SndWaveOutStop.c and src/matched/NNS_SndWaveOutWaitIdle.c.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072AA0.c \
- *       --func func_02072AA0 --addr 0x02072AA0 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_SndWaveOutStart.c \
+ *       --func NNS_SndWaveOutStart --addr 0x02072AA0 --arm --cc ../2.0/sp2
  *   -> EXACT, compiled 316 = original 316, 5 of 5 sites resolved
  */
 
@@ -82,7 +82,7 @@ extern void func_02089660(int chNo, int format, const void *dataaddr, int loop, 
 extern void func_020894B4(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
 extern u32  func_02089D40(void);
 
-int func_02072AA0(Obj *s, int fmt, void *data, int loop,
+int NNS_SndWaveOutStart(Obj *s, int fmt, void *data, int loop,
                   int start, int end, int rate, int vol, int freq, int e)
 {
     int a;

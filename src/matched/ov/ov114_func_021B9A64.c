@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A64
+ * function: NHTTP_RAP_EvilCheckAllocArray
  * address:  0x021B9A64
  * packet:   pkt_021B9500
  * region:   ov114
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void MI_CpuFill8(int, int, int);
 
-u8 *func_021B9A64(int a, int b, int c)
+u8 *NHTTP_RAP_EvilCheckAllocArray(int a, int b, int c)
 {
     int n = b * a;
     u8 *p = func_02030734(c, n, 0, (const char *)0x021CE3A0, 0xb9);

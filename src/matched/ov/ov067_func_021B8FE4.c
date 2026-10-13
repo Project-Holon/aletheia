@@ -21,7 +21,7 @@
  *   BMP_WIN_GetPosY  0x02045760  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  */
 
 typedef unsigned char u8;
@@ -58,7 +58,7 @@ extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2)
 {
@@ -87,7 +87,7 @@ void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2)
     gfx = BMP_GetPixels(BMP_WIN_GetBmp(res));
     for (i = 0; i < h; i++) {
         for (j = 0; j < w; j++) {
-            func_02082A90((u8 *)vram + (map[x0 + j + (i + y0) * stride] & 0x3ff) * 32,
+            MIi_CpuCopy32((u8 *)vram + (map[x0 + j + (i + y0) * stride] & 0x3ff) * 32,
                           gfx + (j + i * w) * 32, 0x20);
         }
     }

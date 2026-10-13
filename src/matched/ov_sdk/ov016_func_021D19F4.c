@@ -13,8 +13,8 @@
  *
  * symbols:
  *   DWCi_CELLlGetState  0x021D4FEC  arm  ov016
- *   func_021D5250  0x021D5250  arm  ov016
- *   func_021D4FF4  0x021D4FF4  arm  ov016
+ *   DWCi_CELLlGetPosition  0x021D5250  arm  ov016
+ *   DWCi_CELLlSetEffect  0x021D4FF4  arm  ov016
  */
 
 typedef enum {
@@ -23,8 +23,8 @@ typedef enum {
 } Eff;
 
 extern unsigned char DWCi_CELLlGetState(char *p);
-extern void func_021D5250(void *cell, int idx, int *x, int *y);
-extern void func_021D4FF4(void *cell, int idx, Eff eff, int affine);
+extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
+extern void DWCi_CELLlSetEffect(void *cell, int idx, Eff eff, int affine);
 
 void func_021D19F4(void *cell, int y)
 {
@@ -36,11 +36,11 @@ void func_021D19F4(void *cell, int y)
 
     num = DWCi_CELLlGetState(cell);
     for (i = 0; i < num; i++) {
-        func_021D5250(cell, i, &x, &cy);
+        DWCi_CELLlGetPosition(cell, i, &x, &cy);
         if (cy >= y && cy < 192)
             eff = EFF_NONE;
         else
             eff = EFF_HIDE;
-        func_021D4FF4(cell, i, eff, 0);
+        DWCi_CELLlSetEffect(cell, i, eff, 0);
     }
 }

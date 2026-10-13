@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02004490",
+   "name": "SVC_WaitByLoop",
    "address": "0x02004490",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02004632",
+   "name": "SVC_GetCRC16",
    "address": "0x02004632",
    "kind": "game",
    "region": "arm9",

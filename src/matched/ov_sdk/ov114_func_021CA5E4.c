@@ -1,5 +1,5 @@
 /*
- * function: func_021CA5E4
+ * function: ASN1Skip
  * address:  0x021CA5E4
  * packet:   pkt_ov114_021CA5E4
  * region:   ov114
@@ -23,7 +23,7 @@
 
  */
 
-int func_021CA5E4(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp)
+int ASN1Skip(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp)
 {
 	unsigned int dlen;
 	unsigned int len;

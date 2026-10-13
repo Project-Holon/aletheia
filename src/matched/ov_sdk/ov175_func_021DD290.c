@@ -1,5 +1,5 @@
 /*
- * function: func_021DD290
+ * function: sakeSetProfile
  * address:  0x021DD290
  * packet:   pkt_ov175_021DD290
  * region:   ov175
@@ -28,7 +28,7 @@ typedef struct SAKEInternal {
     char loginTicket[25];
 } SAKEInternal;
 
-void func_021DD290(SAKEInternal *sake, int profileId, const char *loginTicket)
+void sakeSetProfile(SAKEInternal *sake, int profileId, const char *loginTicket)
 {
     sake->profileId = profileId;
     memcpy(sake->loginTicket, loginTicket, 25);

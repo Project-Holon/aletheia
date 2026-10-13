@@ -11,16 +11,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200D0AC, func_0200D0CC, func_0200D0F8
+ * function: ZUKAN_SAVE_CountSeen, ZUKAN_SAVE_CountSeenNational, ZUKAN_SAVE_CountSeenRegional
  *
  * 152 bytes, 0x0200D0AC..0x0200D144, 3 functions, all labelled.
  *
  * The "seen" counterpart of src/matched/unit_0200CED4.c: the same three
- * functions over func_0200D064's four-bitmap test instead of func_0200CED4's
+ * functions over ZUKAN_SAVE_IsSeen's four-bitmap test instead of ZUKAN_SAVE_IsCaught's
  * single one.  0x289 is 649, one past the last species id this block tracks,
  * and 0x3E7 is the 999 the id-to-index table uses for "no entry".
  *
- * Near miss, and the reason this range starts at 0x0200D0AC: func_0200D064,
+ * Near miss, and the reason this range starts at 0x0200D0AC: ZUKAN_SAVE_IsSeen,
  * 72 bytes, the four-bitmap test itself.  Every instruction reproduces bar the
  * placement of one `adds`: the original recomputes `p + i * 0x54 + (id >> 3)`
  * inside the loop, and mwccarm hoists the loop-invariant `p + (id >> 3)` into
@@ -37,6 +37,9 @@
  *
  * symbols:
  *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
+ *   ZUKAN_SAVE_IsInvalidSpecies  0x0200C720  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb
  */
 
 typedef unsigned char  u8;
@@ -59,38 +62,38 @@ struct Blk37 {
     u32 unk4D0;
 };
 
-extern u32 func_0200C720(u32 v);
-extern u32   func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsInvalidSpecies(u32 v);
+extern u32   ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 
-u32 func_0200D064(struct Blk37 *p, u16 id);
-u16 func_0200D0CC(struct Blk37 *p);
-u16 func_0200D0F8(struct Blk37 *p, u32 heap);
+u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
+u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p);
+u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap);
 
-u32 func_0200D0AC(struct Blk37 *p, u32 heap)
+u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap)
 {
-    if (func_0200CA38(p) != 0) {
-        return func_0200D0CC(p);
+    if (ZUKAN_SAVE_IsNationalDexEnabled(p) != 0) {
+        return ZUKAN_SAVE_CountSeenNational(p);
     }
-    return func_0200D0F8(p, heap);
+    return ZUKAN_SAVE_CountSeenRegional(p, heap);
 }
 
-u16 func_0200D0CC(struct Blk37 *p)
+u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p)
 {
     s32 n;
     s32 i;
 
     n = 0;
     for (i = 1; i <= 0x289; i++) {
-        if (func_0200D064(p, (u16)i) == 1) {
+        if (ZUKAN_SAVE_IsSeen(p, (u16)i) == 1) {
             n++;
         }
     }
     return (u16)n;
 }
 
-u16 func_0200D0F8(struct Blk37 *p, u32 heap)
+u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap)
 {
     u16 i;
     u16 n;
@@ -99,7 +102,7 @@ u16 func_0200D0F8(struct Blk37 *p, u32 heap)
     n = 0;
     t = POKE_PERSONAL_LoadFormTable(heap, 0);
     for (i = 1; i <= 0x289; i++) {
-        if (func_0200D064(p, i) == 1 && t[i] != 0x3E7) {
+        if (ZUKAN_SAVE_IsSeen(p, i) == 1 && t[i] != 0x3E7) {
             n = (u16)(n + 1);
         }
     }

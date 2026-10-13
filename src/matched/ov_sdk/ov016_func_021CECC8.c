@@ -12,10 +12,10 @@
  * sdk:      setBar (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   func_021D6B64  0x021D6B64  arm  ov016
+ *   DWCi_TPlGet  0x021D6B64  arm  ov016
  *   func_021CEEE8  0x021CEEE8  arm  ov016
- *   g_021DE63C  0x021DE63C  data
- *   g_021DA8BB  0x021DA8BB  data
+ *   gScrollBar  0x021DE63C  data
+ *   sScrollBarStep  0x021DA8BB  data
  */
 
 typedef struct {
@@ -38,10 +38,10 @@ typedef struct {
 } COORD;
 
 struct tagCOORD;
-extern int func_021D6B64(struct tagCOORD *c);
+extern int DWCi_TPlGet(struct tagCOORD *c);
 extern void func_021CEEE8(int pos);
-extern SB *g_021DE63C;
-extern unsigned char g_021DA8BB[];
+extern SB *gScrollBar;
+extern unsigned char sScrollBarStep[];
 
 void func_021CECC8(void)
 {
@@ -49,13 +49,13 @@ void func_021CECC8(void)
 	int pos;
 	int s;
 
-	func_021D6B64((struct tagCOORD *)(&c));
-	s = g_021DA8BB[g_021DE63C->bar];
-	pos = c.y - g_021DE63C->y - ((unsigned)s >> 1);
+	DWCi_TPlGet((struct tagCOORD *)(&c));
+	s = sScrollBarStep[gScrollBar->bar];
+	pos = c.y - gScrollBar->y - ((unsigned)s >> 1);
 	if (pos < 0)
 		pos = 0;
-	else if (pos >= g_021DE63C->len - s)
-		pos = g_021DE63C->len - s;
+	else if (pos >= gScrollBar->len - s)
+		pos = gScrollBar->len - s;
 	func_021CEEE8(pos);
-	g_021DE63C->b = 3;
+	gScrollBar->b = 3;
 }

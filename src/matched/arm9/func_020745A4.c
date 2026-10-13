@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   ptr_0214EA50   0x0214EA50  data
+ *   gNNSSndCurrentArc   0x0214EA50  data
  *   func_02078B44  0x02078B44  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_ReadFile  0x02078B70  arm
  */
 
 typedef unsigned int u32;
@@ -39,15 +39,15 @@ struct Context {
     int chunk_size;
 };
 
-extern struct Context *ptr_0214EA50;
+extern struct Context *gNNSSndCurrentArc;
 typedef signed int     s32;
 struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset)
 {
-    struct Context *ctx = ptr_0214EA50;
+    struct Context *ctx = gNNSSndCurrentArc;
     struct TableHeader *tbl = ctx->table;
     int read_bytes;
     int chunk_size;
@@ -80,7 +80,7 @@ int NNS_SndArcReadFile(u32 idx, void *dst_buf, int total_len, u32 offset)
             if (!func_02078B44((struct FSFile *)ctx->file, entry->offset + offset, 0)) {
                 return -1;
             }
-            res = func_02078B70((struct FSFile *)ctx->file, dst_buf, rem);
+            res = FS_ReadFile((struct FSFile *)ctx->file, dst_buf, rem);
             if (res < 0) {
                 return res;
             }

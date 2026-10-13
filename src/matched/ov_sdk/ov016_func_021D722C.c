@@ -1,5 +1,5 @@
 /*
- * function: func_021D722C
+ * function: DWCi_STRlConvertStringAsciiToUnicode
  * address:  0x021D722C
  * packet:   pkt_ov016_021D722C
  * region:   ov016
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-int func_021D722C(unsigned short *dst, unsigned char *src, int len)
+int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len)
 {
 	int i;
 

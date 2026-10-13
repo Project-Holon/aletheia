@@ -10,8 +10,8 @@
  * status: EXACT*
  * Two bytes zero alignment padding follow the compiled function.
  * symbols:
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  */
 #include "../include/Obj13863.h"
-extern void func_021B9774(unsigned char *);
-void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) func_021B9774(((struct Obj13863 *)a)->f168); }
+extern void NHTTP_RAP_DeleteConnection(unsigned char *);
+void func_021D6E3C(unsigned char *a) { if(((struct Obj13863 *)a)->f168) NHTTP_RAP_DeleteConnection(((struct Obj13863 *)a)->f168); }

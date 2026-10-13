@@ -1,5 +1,5 @@
 /*
- * function: func_0689C540
+ * function: BTL_SICK_OverrideGroundImmunity
  * address:  0x0689C540
  * packet:   pkt_ov095_0689C540
  * region:   ov095
@@ -40,7 +40,7 @@ extern int func_0689C65C(void *, int);
 extern int func_0689C66C(int);
 extern void func_0689C67C(int, int);
 
-void func_0689C540(void *a, void *b)
+void BTL_SICK_OverrideGroundImmunity(void *a, void *b)
 {
     int k;
     int v;

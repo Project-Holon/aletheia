@@ -19,7 +19,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02008FEC  0x02008FEC  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02034AC4  0x02034AC4  arm
@@ -107,7 +107,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
-extern void *func_0200CA1C(void *sv);
+extern void *ZUKAN_SAVE_GetFromGameData(void *sv);
 extern u16 *GAME_DATA_GetMyPlayerWork(void *sv);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int func_02034AC4(s32 handle);
@@ -126,7 +126,7 @@ Req *EVENT_FIELD_PROCLINK_CreatePokeListParam(Ctx *c, int kind, int mode, Src *s
     r->hdr = c->hdr;
     r->f04 = GAME_DATA_GetMyItem(sv);
     r->f08 = func_02008FEC(sv);
-    r->f18 = func_0200CA1C(sv);
+    r->f18 = ZUKAN_SAVE_GetFromGameData(sv);
     r->f34 = 0;
     r->f3c = c->f18->f2c;
     r->f46 = 0;

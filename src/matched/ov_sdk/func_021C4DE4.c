@@ -12,6 +12,7 @@
  * symbols:
  *   func_021C4DE4   0x021C4DE4  arm
  *   DWCi_IPTlUpdate  0x021D656C  arm
+ *   DWCi_TSKlAct  0x021D75D0  arm
  *
  * Run the job, then select mode 0 and run the four ov016 steps.
  * Addresses are Black-image addresses.
@@ -22,14 +23,14 @@
  */
 
 extern void DWCi_IPTlUpdate(void);
-extern void func_021D75D0(int);
+extern void DWCi_TSKlAct(int);
 extern void func_021C4BDC(void);
 extern void func_021C4C18(void);
 
 void func_021C4DE4(void)
 {
     DWCi_IPTlUpdate();
-    func_021D75D0(0);
+    DWCi_TSKlAct(0);
     func_021C4BDC();
     func_021C4C18();
 }

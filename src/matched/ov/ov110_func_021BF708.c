@@ -1,5 +1,5 @@
 /*
- * function: func_021BF708
+ * function: PMS_INPUT_GetSentenceString
  * address:  0x021BF708
  * packet:   pkt_ov110_021BF708
  * region:   ov110
@@ -22,4 +22,4 @@ typedef int s32;
 
 struct Struct_0202441C;
 extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
-void *func_021BF708(u8 *p, u32 heapId) { return PMSI_PARAM_GetSourceString((const struct Struct_0202441C *)(p + 8), heapId); }
+void *PMS_INPUT_GetSentenceString(u8 *p, u32 heapId) { return PMSI_PARAM_GetSourceString((const struct Struct_0202441C *)(p + 8), heapId); }

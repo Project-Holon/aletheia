@@ -1,5 +1,5 @@
 /*
- * function: func_02174058
+ * function: DWCi_SBCallback
  * address:  0x02174058
  * packet:   pkt_ov009_02174058
  * region:   ov009
@@ -148,7 +148,7 @@ extern void DWCi_ConnectToGameServerAsync(int topology, int serverPid,
 #define MC() DWCi_GetMatchCnt()
 #define RETRY() do { MC()->f_5E4 = 2; tick = OS_GetTick(); MC()->f_5E8 = tick; } while (0)
 
-void func_02174058(void *sb, int reason, void *server)
+void DWCi_SBCallback(void *sb, int reason, void *server)
 {
     int sbCount;
     void *targetServer;

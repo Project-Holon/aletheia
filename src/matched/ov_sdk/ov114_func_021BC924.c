@@ -1,5 +1,5 @@
 /*
- * function: func_021BC924
+ * function: NHTTPi_SendHeaderList
  * address:  0x021BC924
  * packet:   pkt_ov114_021BC924
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      NHTTPi_SendHeaderList (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF48  0x021BEF48  arm  ov114
- *   func_021BABF4  0x021BABF4  arm  ov114
- *   func_021BA118  0x021BA118  arm  ov114
- *   func_021BC384  0x021BC384  arm  ov114
- *   func_021BA850  0x021BA850  arm  ov114
- *   g_021CE4B0     0x021CE4B0  data
- *   g_021CE440     0x021CE440  data
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetReqInfoP  0x021BEF48  arm  ov114
+ *   NHTTPi_getHdrFromList  0x021BABF4  arm  ov114
+ *   NHTTPi_strlen  0x021BA118  arm  ov114
+ *   NHTTPi_SendData  0x021BC384  arm  ov114
+ *   NHTTPi_free  0x021BA850  arm  ov114
+ *   sNHTTPHeaderSeparator     0x021CE4B0  data
+ *   sNHTTPCrLf     0x021CE440  data
  */
 
 typedef struct {
@@ -39,16 +39,16 @@ typedef struct {
 } DataList;
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern ReqInfo **func_021BEF48(void *sysInfo);
-extern DataList *func_021BABF4(void *list);
-extern int func_021BA118(const char *s);
-extern int func_021BC384(void *threadData, const char *src, int srclen);
-extern void func_021BA850(int a);
-extern char g_021CE4B0[];
-extern char g_021CE440[];
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern ReqInfo **NHTTPi_GetReqInfoP(void *sysInfo);
+extern DataList *NHTTPi_getHdrFromList(void *list);
+extern int NHTTPi_strlen(const char *s);
+extern int NHTTPi_SendData(void *threadData, const char *src, int srclen);
+extern void NHTTPi_free(int a);
+extern char sNHTTPHeaderSeparator[];
+extern char sNHTTPCrLf[];
 
-int func_021BC924(void *threadData_p)
+int NHTTPi_SendHeaderList(void *threadData_p)
 {
 	int sendStatus;
 	DataList *datalist_p;
@@ -56,27 +56,27 @@ int func_021BC924(void *threadData_p)
 	ReqInfo *reqInfo_p;
 	void *sysInfo_p;
 
-	sysInfo_p = func_021BEF08();
-	reqInfo_p = *func_021BEF48(sysInfo_p);
+	sysInfo_p = NHTTPi_GetSystemInfoP();
+	reqInfo_p = *NHTTPi_GetReqInfoP(sysInfo_p);
 	req_p = reqInfo_p->req;
-	while ((datalist_p = func_021BABF4(&req_p->hdrlist)) != 0) {
-		sendStatus = func_021BC384(threadData_p, datalist_p->name, func_021BA118(datalist_p->name));
+	while ((datalist_p = NHTTPi_getHdrFromList(&req_p->hdrlist)) != 0) {
+		sendStatus = NHTTPi_SendData(threadData_p, datalist_p->name, NHTTPi_strlen(datalist_p->name));
 		if (sendStatus) {
 			return sendStatus;
 		}
-		sendStatus = func_021BC384(threadData_p, g_021CE4B0, 2);
+		sendStatus = NHTTPi_SendData(threadData_p, sNHTTPHeaderSeparator, 2);
 		if (sendStatus) {
 			return sendStatus;
 		}
-		sendStatus = func_021BC384(threadData_p, datalist_p->value, func_021BA118(datalist_p->value));
+		sendStatus = NHTTPi_SendData(threadData_p, datalist_p->value, NHTTPi_strlen(datalist_p->value));
 		if (sendStatus) {
 			return sendStatus;
 		}
-		sendStatus = func_021BC384(threadData_p, g_021CE440, 2);
+		sendStatus = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
 		if (sendStatus) {
 			return sendStatus;
 		}
-		func_021BA850((int)datalist_p);
+		NHTTPi_free((int)datalist_p);
 	}
 	return 0;
 }

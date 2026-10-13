@@ -1,5 +1,5 @@
 /*
- * function: func_0689A988
+ * function: BTLV_SCD_WaitMoveTouchStep
  * address: 0x0689A988
  * packet: pkt_ov095_0689A988
  * region: ov095
@@ -21,16 +21,16 @@
  *   func_0689AB18 0x0689AB18 thumb ov095
  *   func_0689AB28 0x0689AB28 thumb ov095
  *   func_0689AB38 0x0689AB38 thumb ov095
- *   d_0689D880 0x0689D880 data a4
- *   d_0689D91C 0x0689D91C data a4
- *   d_0689E128 0x0689E128 data a4
- *   d_0689E054 0x0689E054 data a4
+ *   gBtlvScdMoveRegionsDoubleA 0x0689D880 data a4
+ *   gBtlvScdMoveRegionsSingleA 0x0689D91C data a4
+ *   gBtlvScdMoveRegionsDoubleB 0x0689E128 data a4
+ *   gBtlvScdMoveRegionsSingleB 0x0689E054 data a4
  */
 #include "../include/Obj01703.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern const char d_0689D880[], d_0689D91C[], d_0689E128[], d_0689E054[];
+extern const char gBtlvScdMoveRegionsDoubleA[], gBtlvScdMoveRegionsSingleA[], gBtlvScdMoveRegionsDoubleB[], gBtlvScdMoveRegionsSingleB[];
 extern u8 func_0689AA78(void *);
 extern int func_0689AA88(void *, void *, u32);
 extern u8 func_0689AA98(void *, u32);
@@ -44,16 +44,16 @@ extern void func_0689AB08(void *, u32, u32);
 extern void func_0689AB18(void *);
 extern u32 func_0689AB28(void *);
 extern void func_0689AB38(void *);
-int func_0689A988(int unused, u8 *s)
+int BTLV_SCD_WaitMoveTouchStep(int unused, u8 *s)
 {
     int r;
     const char *q, *n;
     int flag;
     r = func_0689AA98(((struct Obj01703 *)s)->fA0, func_0689AA88(((struct Obj01703 *)s)->fA0, ((struct Obj01703 *)s)->fA4, func_0689AA78(((struct Obj01703 *)s)->f6C)));
-    if (func_0689AAA8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) q = d_0689D880;
-    else q = d_0689D91C;
-    if (func_0689AAB8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) n = d_0689E128;
-    else n = d_0689E054;
+    if (func_0689AAA8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) q = gBtlvScdMoveRegionsDoubleA;
+    else q = gBtlvScdMoveRegionsSingleA;
+    if (func_0689AAB8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) n = gBtlvScdMoveRegionsDoubleB;
+    else n = gBtlvScdMoveRegionsSingleB;
     r = func_0689AAC8(*(char * *)&((struct Obj01703 *)s)->fB0, q, (int)n);
     if (r != -1) {
         if (r & 0x8000) flag = 1;

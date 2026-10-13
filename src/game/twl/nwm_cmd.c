@@ -13,6 +13,8 @@
  *
  * symbols:
  *   NWMi_GetSystemWork  0x027026DC  arm
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,9 +22,9 @@ typedef signed int s32;
 
 extern u32 NWMi_GetSystemWork(void);
 extern void func_020862D4(u16 *, u32);
-extern s32 func_02088610(u32, u16 *, u32);
+extern s32 PXI_SendWordByFifo(u32, u16 *, u32);
 extern void func_02085DBC(u32, u16 *, u32);
-extern void func_02082D44(u32, u16 *, u32);
+extern void MI_CpuCopy8(u32, u16 *, u32);
 extern u32 func_02085E50(u32, u16 **, u32);
 extern void func_020862B8(void *, u32);
 void NWMi_SetCallbackTable(u32 a0, u32 a1);
@@ -62,7 +64,7 @@ u32 NWMi_SendCommand(u16 a0, u16 a1, ...) {
         ((u32 *)msg)[1 + i] = *(u32 *)((ap += 4) - 4);
     }
     func_020862D4(msg, 0x100);
-    res = func_02088610(0x16, msg, 0);
+    res = PXI_SendWordByFifo(0x16, msg, 0);
     func_02085DBC(base + 0x2000, msg, 1);
     ret = 6;
     if (res >= 0) {
@@ -80,9 +82,9 @@ u32 NWMi_SendCommandDirect(u32 a0, u32 a1) {
     if (msg == 0) {
         return 6;
     }
-    func_02082D44(a0, msg, a1);
+    MI_CpuCopy8(a0, msg, a1);
     func_020862D4(msg, a1);
-    res = func_02088610(0x16, msg, 0);
+    res = PXI_SendWordByFifo(0x16, msg, 0);
     func_02085DBC(base + 0x2000, msg, 1);
     ret = 6;
     if (res >= 0) {

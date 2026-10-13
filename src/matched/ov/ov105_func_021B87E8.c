@@ -1,5 +1,5 @@
 /*
- * function: func_021B87E8
+ * function: IRC_RESULT_GetScoreRank
  * address: 0x021B87E8
  * packet: pkt_ov105_021B87E8
  * region: ov105
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021B87E8(unsigned a, int *p)
+int IRC_RESULT_GetScoreRank(unsigned a, int *p)
 {
     int limit, result;
     if (a == 100) { limit = 65535; result = 5; }

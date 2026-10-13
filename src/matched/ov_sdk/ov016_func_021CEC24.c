@@ -13,9 +13,9 @@
  *
  * symbols:
  *   FX_DivS32  0x0207C958  arm
- *   func_021CFFD0  0x021CFFD0  arm  ov016
- *   func_021CFFF0  0x021CFFF0  arm  ov016
- *   g_021DE63C  0x021DE63C  data
+ *   DWCi_SNDlSetVolume  0x021CFFD0  arm  ov016
+ *   DWCi_SNDlSetPitch  0x021CFFF0  arm  ov016
+ *   gScrollBar  0x021DE63C  data
  */
 
 typedef struct {
@@ -33,9 +33,9 @@ typedef struct {
 } SB;
 
 extern long FX_DivS32(long a, long b);
-extern void func_021CFFD0(unsigned int v);
-extern void func_021CFFF0(unsigned int a, unsigned int b);
-extern SB *g_021DE63C;
+extern void DWCi_SNDlSetVolume(unsigned int v);
+extern void DWCi_SNDlSetPitch(unsigned int a, unsigned int b);
+extern SB *gScrollBar;
 
 void func_021CEC24(int pos)
 {
@@ -43,7 +43,7 @@ void func_021CEC24(int pos)
 	int vol;
 	int pit;
 
-	d = g_021DE63C->pos - pos;
+	d = gScrollBar->pos - pos;
 	if (d < 0)
 		d = -d;
 	if (d < 2)
@@ -52,12 +52,12 @@ void func_021CEC24(int pos)
 		vol = 0x7f;
 	else
 		vol = FX_DivS32(0x7f, 6 - d);
-	func_021CFFD0(vol);
+	DWCi_SNDlSetVolume(vol);
 	if (d < 2)
 		pit = -0x100;
 	else if (d >= 6)
 		pit = 0x100;
 	else
 		pit = FX_DivS32(0x200, 6 - d) - 0x100;
-	func_021CFFF0(0xffff, pit);
+	DWCi_SNDlSetPitch(0xffff, pit);
 }

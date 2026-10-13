@@ -14,7 +14,7 @@
  * .bss section base (0x02150FD0) as in OSi_RescheduleThread.
  *
  * symbols:
- *   g_02150FD0             0x02150FD0  data
+ *   gOsThreadBss             0x02150FD0  data
  *   OS_DisableInterrupts   0x02087988  arm
  *   OS_RestoreInterrupts   0x0208799C  arm
  *   OSi_InsertLinkToQueue  0x02084FCC  arm
@@ -79,7 +79,7 @@ typedef struct OsThreadBss {
     OSThreadInfo OSi_ThreadInfo;
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -92,7 +92,7 @@ void OS_SleepThread(OSThreadQueue *queue)
     OSThread *currentThread;
 
     enable = OS_DisableInterrupts();
-    currentThread = *g_02150FD0.OSi_CurrentThreadPtr;
+    currentThread = *gOsThreadBss.OSi_CurrentThreadPtr;
 
     if (queue) {
         currentThread->queue = queue;

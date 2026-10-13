@@ -1,5 +1,5 @@
 /*
- * function: func_021BB270
+ * function: PMSI_SEARCH_GetKeyRight
  * address: 0x021BB270
  * packet: pkt_ov110_021BB270
  * region: ov110
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 extern const u8 d_021C37AF[];
-int func_021BB270(int n) {return *(const u8 *)((unsigned)d_021C37AF+n*10);}
+int PMSI_SEARCH_GetKeyRight(int n) {return *(const u8 *)((unsigned)d_021C37AF+n*10);}

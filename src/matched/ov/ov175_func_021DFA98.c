@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA98
+ * function: scGetSessionId
  * address: 0x021DFA98
  * packet: pkt_ov175_021DFA98
  * region: ov175
@@ -13,7 +13,7 @@
  */
 
 /* Returns the address of the field at +0x5c. */
-char *func_021DFA98(char *p)
+char *scGetSessionId(char *p)
 {
     return p + 0x5c;
 }

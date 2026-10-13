@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DEE3C",
+   "name": "DWC_ScInitialize",
    "address": "0x021DEE3C",
    "kind": "sdk",
    "region": "ov175",

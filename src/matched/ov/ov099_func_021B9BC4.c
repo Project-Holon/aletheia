@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BC4
+ * function: WIFICLUBACTOR_IsFacingEntrance
  * address:  0x021B9BC4
  * packet:   pkt_ov099_021B9BC4
  * region:   ov099
@@ -34,7 +34,7 @@ extern Pos func_021C4A54(Pos p, int n);
 typedef unsigned int   u32;
 extern u32 func_021C4864(u8 *p, u16 x, u16 y);
 
-int func_021B9BC4(Work *w)
+int WIFICLUBACTOR_IsFacingEntrance(Work *w)
 {
     Pos b;
     Pos d;

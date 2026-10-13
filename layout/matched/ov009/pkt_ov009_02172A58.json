@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02172A58",
+   "name": "DWCi_FinishCancelMatch",
    "address": "0x02172A58",
    "kind": "sdk",
    "region": "ov009",

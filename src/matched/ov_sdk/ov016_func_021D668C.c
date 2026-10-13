@@ -12,11 +12,11 @@
  * sdk:      readTouch (libdwcutil.TWL.HYB.a(input.o))
  *
  * symbols:
- *   func_0208AF08  0x0208AF08  arm
- *   func_0208B104  0x0208B104  arm
- *   func_021D5FE8  0x021D5FE8  arm  ov016
- *   func_0207C994  0x0207C994  arm
- *   g_021DE688     0x021DE688  data
+ *   TP_GetLatestIndexInAuto  0x0208AF08  arm
+ *   TP_GetCalibratedPoint  0x0208B104  arm
+ *   DWCi_InputCoord  0x021D5FE8  arm  ov016
+ *   FX_ModS32  0x0207C994  arm
+ *   gInputStatics     0x021DE688  data
  *
  * input.o's statics sit in one block; the vendor reaches them through one
  * pool word anchored at 0x021DE688 (DWCi_IPTlCheckFold's local static fold),
@@ -58,12 +58,12 @@ typedef struct {
     InputWork *work;
 } InputStatics;
 
-extern u16 func_0208AF08(void);
+extern u16 TP_GetLatestIndexInAuto(void);
 struct TPData;
-extern void func_0208B104(struct TPData *disp, const struct TPData *raw);
-extern void func_021D5FE8(int a, int b, unsigned short *p);
-extern s32 func_0207C994(s32 a, s32 b);
-extern InputStatics g_021DE688;
+extern void TP_GetCalibratedPoint(struct TPData *disp, const struct TPData *raw);
+extern void DWCi_InputCoord(int a, int b, unsigned short *p);
+extern s32 FX_ModS32(s32 a, s32 b);
+extern InputStatics gInputStatics;
 
 void func_021D668C(void)
 {
@@ -74,32 +74,32 @@ void func_021D668C(void)
     bool last;
     bool touch;
 
-    last = g_021DE688.work->touch;
+    last = gInputStatics.work->touch;
     touch = 0;
-    idx = func_0208AF08();
-    g_021DE688.work->last = g_021DE688.work->coord;
-    for (i = 0; i < 4; i++, idx = func_0207C994(idx + 4, 5)) {
-        if (g_021DE688.work->tp[idx].touch == 1 && g_021DE688.work->tp[idx].validity == 0) {
+    idx = TP_GetLatestIndexInAuto();
+    gInputStatics.work->last = gInputStatics.work->coord;
+    for (i = 0; i < 4; i++, idx = FX_ModS32(idx + 4, 5)) {
+        if (gInputStatics.work->tp[idx].touch == 1 && gInputStatics.work->tp[idx].validity == 0) {
             touch = 1;
-            func_0208B104((struct TPData *)(&p), (const struct TPData *)(&g_021DE688.work->tp[idx]));
-            func_021D5FE8(p.x, p.y, (short unsigned int *)(&g_021DE688.work->coord));
+            TP_GetCalibratedPoint((struct TPData *)(&p), (const struct TPData *)(&gInputStatics.work->tp[idx]));
+            DWCi_InputCoord(p.x, p.y, (short unsigned int *)(&gInputStatics.work->coord));
             break;
         }
     }
-    g_021DE688.work->trig = touch & (touch ^ last);
-    g_021DE688.work->release = last & (touch ^ last);
-    g_021DE688.work->touch = touch;
-    g_021DE688.work->repeat = g_021DE688.work->trig;
+    gInputStatics.work->trig = touch & (touch ^ last);
+    gInputStatics.work->release = last & (touch ^ last);
+    gInputStatics.work->touch = touch;
+    gInputStatics.work->repeat = gInputStatics.work->trig;
     if (!touch) {
-        g_021DE688.cnt = 0;
+        gInputStatics.cnt = 0;
         return;
     }
-    if (++g_021DE688.cnt == 40) {
-        g_021DE688.work->repeat = 1;
+    if (++gInputStatics.cnt == 40) {
+        gInputStatics.work->repeat = 1;
         return;
     }
-    if (g_021DE688.cnt == 47) {
-        g_021DE688.work->repeat = 1;
-        g_021DE688.cnt = 40;
+    if (gInputStatics.cnt == 47) {
+        gInputStatics.work->repeat = 1;
+        gInputStatics.cnt = 40;
     }
 }

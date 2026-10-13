@@ -1,7 +1,7 @@
 /*
  * file:     gslargeint.c
  * unit:     yes
- * function: gsiLargeIntTimerEnter, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, gsLargeIntDiv_Alt, gsiLargeIntDiv, gsiLargeIntSubDivide, gsLargeIntSquareMod_Alt, gsLargeIntPowerMod, gsiLargeIntMultM_Alt, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, gsLargeIntReverseBytes_Alt, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
+ * function: gsiLargeIntTimerEnter, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, gsLargeIntDiv, gsiLargeIntDiv, gsiLargeIntSubDivide, gsLargeIntSquareMod, gsLargeIntPowerMod, gsiLargeIntMultM, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, gsLargeIntReverseBytes, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
  * address:  0x0217D3AC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -66,29 +66,21 @@ extern void gsiLargeIntTimerExit(int id);
 extern void *func_02092344(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
-extern int gsLargeIntDiv(gsLargeInt_t *src1, gsLargeInt_t *divisor,
-                         gsLargeInt_t *dest, gsLargeInt_t *remainder);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
-extern int gsLargeIntSquareMod(gsLargeInt_t *lint, gsLargeInt_t *mod,
-                               gsLargeInt_t *dest);
-extern int gsiLargeIntMultM(gsLargeInt_t *x, gsLargeInt_t *y,
-                            gsLargeInt_t *m, gsi_u32 modPrime,
-                            gsLargeInt_t *dest);
 extern int func_0209477C(const u8 *s);
 extern int func_0208CF34(const char *src, const char *fmt, ...);
-extern int gsLargeIntReverseBytes(gsLargeInt_t * lint);
 extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
 int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m);
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
-gsi_bool gsLargeIntDiv_Alt(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
+gsi_bool gsLargeIntDiv(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
 int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder);
-int gsLargeIntSquareMod_Alt(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
+int gsLargeIntSquareMod(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
 int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
-int gsiLargeIntMultM_Alt(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
+int gsiLargeIntMultM(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
 int gsiLargeIntInverseMod(gsLargeInt_t *mod, unsigned int *dest);
 int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
-int gsLargeIntReverseBytes_Alt(char *p);
+int gsLargeIntReverseBytes(char *p);
 void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5);
 unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern struct GSLintTimer gTimers[9];
@@ -341,7 +333,7 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
 /*
  * sdk:      gsLargeIntDiv (gslargeint.o)
  */
-gsi_bool gsLargeIntDiv_Alt(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
+gsi_bool gsLargeIntDiv(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
     return gsiLargeIntDiv((unsigned int *)src1->mData, src1->mLength, (gsLargeInt_t *)divisor, dest, remainder);
 }
@@ -548,7 +540,7 @@ static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
  *
  * sdk:      gsLargeIntSquareMod (gslargeint.o)
  */
-int gsLargeIntSquareMod_Alt(const gsLargeInt_t *lint, gsLargeInt_t *mod,
+int gsLargeIntSquareMod(const gsLargeInt_t *lint, gsLargeInt_t *mod,
                   gsLargeInt_t *dest)
 {
     int i;
@@ -732,7 +724,7 @@ int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p,
  *   is spelled (unsigned int *)temp + logB_r: &temp[logB_r] lets mwcc reuse
  *   the Compare pointer, which the image does not.
  */
-int gsiLargeIntMultM_Alt(gsLargeInt_t *x, gsLargeInt_t *y,
+int gsiLargeIntMultM(gsLargeInt_t *x, gsLargeInt_t *y,
                   const gsLargeInt_t *m, unsigned int modPrime,
                   gsLargeInt_t *dest)
 {
@@ -866,7 +858,7 @@ int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream)
 /*
  * Reverses the n*4-byte payload that follows the count word, in place.
  */
-int gsLargeIntReverseBytes_Alt(char *p)
+int gsLargeIntReverseBytes(char *p)
 {
     int n = *(int *)p;
     char *a = p + 4;
@@ -899,9 +891,9 @@ void gsLargeIntAddToMD5(gsLargeInt_t * _lint, struct GSMD5_CTX * md5)
     if (byteLength & 3)
         dataStart += 4 - (byteLength & 3);
 
-    gsLargeIntReverseBytes(&lint);
+    gsLargeIntReverseBytes((char *)&lint);
     GSMD5Update(md5, dataStart, byteLength);
-    gsLargeIntReverseBytes(&lint);
+    gsLargeIntReverseBytes((char *)&lint);
 }
 
 

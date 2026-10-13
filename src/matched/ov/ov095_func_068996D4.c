@@ -1,5 +1,5 @@
 /*
- * function: func_068996D4
+ * function: HAND_SIDE_ToxicSpikesOnEnter
  * address:  0x068996D4
  * packet:   pkt_ov095_068996D4
  * region:   ov095
@@ -49,7 +49,7 @@ extern void func_06899820(void *a, void *q);
 typedef struct { int v; } Id;
 static inline Id cmpid(int a, u32 b) { Id r; r.v = HAND_SIDE_GetStackCountByFactor(a, b); return r; }
 
-void func_068996D4(int a, void *p, int x)
+void HAND_SIDE_ToxicSpikesOnEnter(int a, void *p, int x)
 {
     u8 v;
     u32 i;

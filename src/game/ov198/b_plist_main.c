@@ -92,7 +92,7 @@
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   PALANM_GetDefaultWork 0x02021728 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_02045B38 0x02045B38 arm
@@ -132,7 +132,7 @@
  *   func_0220C688 0x0220C688 thumb
  *   func_0220E27C 0x0220E27C thumb
  *   func_0204162C 0x0204162C arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   data_02212550 0x02212550 data ov198
  *   func_0220BBF0 0x0220BBF0 thumb ov198
  *   func_0220C67C 0x0220C67C thumb ov198
@@ -444,7 +444,7 @@ extern void func_0220B3B4(char *,u16 *);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int PALANM_GetDefaultWork(char *,int);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -481,7 +481,7 @@ extern u32 func_0202F72C(void *,u16,u16);
 extern void func_0220C688(char *p);
 extern void func_0220E27C(u8 *p);
 extern u32_022113B8 func_0204162C(int channel);
-extern void func_02082A60(const void *, void *, unsigned);
+extern void MIi_CpuCopy16(const void *, void *, unsigned);
 extern struct WinMgr *BGWINFRM_Create(u32_02211420 a0, u32_02211420 a1, u32_02211420 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32_02211420 idx, u32_02211420 a, u32_02211420 b, u32_02211420 c);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32_02211420 idx, const void *src);
@@ -1590,7 +1590,7 @@ void func_02210608(char *p)
     func_020307B0(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,100,19,((struct Obj25251 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
-    func_02082D44((void *)(PALANM_GetDefaultWork(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
+    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(*(char * *)&((struct Obj02535 *)p)->f1D8,1)+0x180),p+0x1e78,32);
     func_0201F5BC(4,1,14,0,((struct Obj25252 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10);
     PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,1,0xe0,32);
     PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj02535 *)p)->f1D8,23,5,((struct Obj25253 *)(*(char * *)&((struct Obj02535 *)p)->f0))->f10,1,32,0xd0);
@@ -2244,7 +2244,7 @@ void func_022113B8(u8 *dst, unsigned bg, unsigned which)
     u8 i;
     func_0221139C(&xy[1], &xy[0], which);
     for (i = 0; i < 6; i++) {
-        func_02082A60(src + 2 * (xy[1] + ((xy[0] + i) << 5)), dst + (i << 5), 32);
+        MIi_CpuCopy16(src + 2 * (xy[1] + ((xy[0] + i) << 5)), dst + (i << 5), 32);
     }
 }
 

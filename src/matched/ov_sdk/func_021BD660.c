@@ -1,5 +1,5 @@
 /*
- * function: func_021BD660
+ * function: DWCi_HLlEnd
  * address:  0x021BD660
  * packet:   pkt_021BD660
  * region:   ov016
@@ -10,15 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD660 0x021BD660 arm
+ *   DWCi_HLlEnd 0x021BD660 arm
+ *   DWCi_HEAPlFree_  0x021D6438  arm
  *
- * Tail-call func_021D6438 with the address of 0x021DE554.
+ * Tail-call DWCi_HEAPlFree_ with the address of 0x021DE554.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D6438(void **mem);
+extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021BD660(void)
+void DWCi_HLlEnd(void)
 {
-    func_021D6438((void *)0x021DE554);
+    DWCi_HEAPlFree_((void *)0x021DE554);
 }

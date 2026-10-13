@@ -25,7 +25,7 @@
  *   func_02012B58  0x02012B58  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_IsSendQueueEntryOfHandle  0x0203D578  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb ov011
  *   INTRUDE_COMM_SetSessionResultSendFlag  0x0217592C  thumb ov011
  *   COMM_PLAYER_Del 0x02167658 thumb ov010
@@ -67,7 +67,7 @@ extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *work, int netId, u8 *record);
 extern u8 func_02012B58(const struct GameData *gameData);
 extern u32 GFL_NET_IsParentAid(void);
 int GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, int command);
-void func_02082D44(const void *src, void *dst, int size);
+void MI_CpuCopy8(const void *src, void *dst, int size);
 void INTRUDE_COMM_SetSessionRequestSendFlag(void *session);
 void INTRUDE_COMM_SetSessionResultSendFlag(void *session);
 extern void COMM_PLAYER_Del(struct CommPlayerWork *commPlayer, int netId);
@@ -260,7 +260,7 @@ int INTRUDE_COMM_SendStatusRecord(IntrudeCommSys *work)
     if (GFL_NET_IsSendQueueEntryOfHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x203) == 1) {
         return 0;
     }
-    func_02082D44(work->ownMyStatus, work->sendBuffer, 0x4C);
+    MI_CpuCopy8(work->ownMyStatus, work->sendBuffer, 0x4C);
     result = GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, 0x203, 0x4C, work->sendBuffer, 0, 0, 1);
     if (result == 1) {
         work->resendRequested = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216F5FC
+ * function: DWCi_SetMatchCommonParam
  * address:  0x0216F5FC
  * packet:   pkt_ov009_0216F5FC
  * region:   ov009
@@ -19,7 +19,7 @@
 extern void func_0216F388(int flag);
 extern char *func_02175F3C(void);
 
-void func_0216F5FC(unsigned char matchType, unsigned char numEntry, void *callback, void *param)
+void DWCi_SetMatchCommonParam(unsigned char matchType, unsigned char numEntry, void *callback, void *param)
 {
     func_0216F388(0);
     *(unsigned char *)(func_02175F3C() + 0x14) = matchType;

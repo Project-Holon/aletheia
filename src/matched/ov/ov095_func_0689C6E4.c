@@ -1,5 +1,5 @@
 /*
- * function: func_0689C6E4
+ * function: BTL_SICK_ForceGroundedOrFloating
  * address:  0x0689C6E4
  * packet:   pkt_ov095_0689C6E4
  * region:   ov095
@@ -27,7 +27,7 @@ int func_0689C774(int a, int b);
 int func_0689C784(int a, int b);
 void func_0689C794(int a, int b);
 
-void func_0689C6E4(int unused, int x)
+void BTL_SICK_ForceGroundedOrFloating(int unused, int x)
 {
     if (func_0689C734(x, 0x15))
         func_0689C744(0x41, 1);

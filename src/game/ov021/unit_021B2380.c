@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B2380.c
  * unit:     yes
- * function: SCRCMD_GIMMICK39_CallEvent, SCRCMD_GIMMICK39_SetState, SCRCMD_GIMMICK39_TransferSound, SCRCMD_GIMMICK40_SetFlag, SCRCMD_GIMMICK40_GetFlag, SCRCMD_GIMMICK40_CallEvent, SCRCMD_GIMMICK42_CallEventWithFlag, SCRCMD_GIMMICK42_CallEvent, SCRCMD_GIMMICK42_CallSecondEvent, SCRCMD_GIMMICK39_CallSecondEvent, SCRCMD_GIMMICK38_CallEvent, SCRCMD_GIMMICK38_CallSecondEvent, SCRCMD_GIMMICK43_CallEvent, SCRCMD_GIMMICK43_CallSecondEvent, SCRCMD_GIMMICK44_CallEvent, SCRCMD_GIMMICK43_Cleanup, SCRCMD_GIMMICK44_Cleanup, SCRCMD_GIMMICK45_CallEvent, SCRCMD_GIMMICK42_CallSecondEventU16, SCRCMD_GIMMICK45_SetState, SCRCMD_GIMMICK38_CallCheckEvent, SCRCMD_GIMMICK46_CallEvent, SCRCMD_GIMMICK46_CallSecondEvent, SCRCMD_GIMMICK46_CallThirdEvent
+ * function: SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent, SCRCMD_FIELD_GIMMICK_CART_LANES_SetState, SCRCMD_FIELD_GIMMICK_CART_LANES_TransferSound, SCRCMD_FIELD_GIMMICK_FLAG_ANIME_SetFlag, SCRCMD_FIELD_GIMMICK_FLAG_ANIME_GetFlag, SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CallEvent, SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag, SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEvent, SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEvent, SCRCMD_FIELD_GIMMICK_CART_LANES_CallSecondEvent, SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallEvent, SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallSecondEvent, SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallEvent, SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallSecondEvent, SCRCMD_FIELD_GIMMICK_LIFT_CallEvent, SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup, SCRCMD_FIELD_GIMMICK_LIFT_Cleanup, SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_CallEvent, SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16, SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState, SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent, SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallEvent, SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallSecondEvent, SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallThirdEvent
  * address:  0x021B2380
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -79,30 +79,30 @@ extern void *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSy
 extern void *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int paramA, int paramB);
 extern void *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, u32 param);
 
-int SCRCMD_GIMMICK39_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK39_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK39_TransferSound(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK40_SetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK40_GetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK40_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK42_CallEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK42_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK42_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK39_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK38_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK38_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK43_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK43_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK44_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK43_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK44_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK45_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK42_CallSecondEventU16(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK45_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK38_CallCheckEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK46_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK46_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_GIMMICK46_CallThirdEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_CART_LANES_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_CART_LANES_TransferSound(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_SetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_GetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_CART_LANES_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_LIFT_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_LIFT_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallThirdEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 /*
  * The handlers below start a field gimmick overlay event (ov038 to ov046,
@@ -113,7 +113,7 @@ int SCRCMD_GIMMICK46_CallThirdEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
  */
 
 /* Script command: start the ov039 event for a parameter byte. */
-int SCRCMD_GIMMICK39_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -128,7 +128,7 @@ int SCRCMD_GIMMICK39_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: store a value byte in the ov039 gimmick state (slot 2). */
-int SCRCMD_GIMMICK39_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
     u8 value;
@@ -141,14 +141,14 @@ int SCRCMD_GIMMICK39_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: ov039 sound slot transfer (no arguments). */
-int SCRCMD_GIMMICK39_TransferSound(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_TransferSound(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     FIELD_GIMMICK_CART_LANES_TransferSound(SCRCMD_WORK_GetGameSystem(cmdWork));
     return 0;
 }
 
 /* Script command: set the ov040 gimmick flag of the current map (no arguments). */
-int SCRCMD_GIMMICK40_SetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_SetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     SCRCMD_WORK_GetScriptWork(cmdWork);
     FIELD_GIMMICK_FLAG_ANIME_SetFlag(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
@@ -156,7 +156,7 @@ int SCRCMD_GIMMICK40_SetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: write the ov040 gimmick flag of the current map to a script variable (0 or 1). */
-int SCRCMD_GIMMICK40_GetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_GetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *fieldMap;
     u16 *result;
@@ -173,7 +173,7 @@ int SCRCMD_GIMMICK40_GetFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov040 event for a parameter byte. */
-int SCRCMD_GIMMICK40_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -188,7 +188,7 @@ int SCRCMD_GIMMICK40_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov042 event for a parameter byte with its flag set. */
-int SCRCMD_GIMMICK42_CallEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -203,8 +203,8 @@ int SCRCMD_GIMMICK42_CallEventWithFlag(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return flag;
 }
 
-/* Same as SCRCMD_GIMMICK42_CallEventWithFlag with the flag clear. */
-int SCRCMD_GIMMICK42_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+/* Same as SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEventWithFlag with the flag clear. */
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -219,7 +219,7 @@ int SCRCMD_GIMMICK42_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov042 second event for a parameter byte. */
-int SCRCMD_GIMMICK42_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -234,7 +234,7 @@ int SCRCMD_GIMMICK42_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov039 second event for a script variable value. */
-int SCRCMD_GIMMICK39_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_CART_LANES_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -248,7 +248,7 @@ int SCRCMD_GIMMICK39_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov038 event for a script variable value. */
-int SCRCMD_GIMMICK38_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -262,7 +262,7 @@ int SCRCMD_GIMMICK38_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov038 second event for an immediate value. */
-int SCRCMD_GIMMICK38_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -276,7 +276,7 @@ int SCRCMD_GIMMICK38_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov043 event for an immediate value. */
-int SCRCMD_GIMMICK43_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -290,7 +290,7 @@ int SCRCMD_GIMMICK43_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov043 second event; the immediate value is reduced to a flag. */
-int SCRCMD_GIMMICK43_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -304,7 +304,7 @@ int SCRCMD_GIMMICK43_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov044 event; the immediate value is reduced to a flag. */
-int SCRCMD_GIMMICK44_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_LIFT_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -318,21 +318,21 @@ int SCRCMD_GIMMICK44_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: ov043 cleanup (no arguments). */
-int SCRCMD_GIMMICK43_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(SCRCMD_WORK_GetGameSystem(cmdWork));
     return 0;
 }
 
 /* Script command: ov044 cleanup (no arguments). */
-int SCRCMD_GIMMICK44_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_LIFT_Cleanup(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     FIELD_GIMMICK_LIFT_SnapLiftToBottom(SCRCMD_WORK_GetGameSystem(cmdWork));
     return 0;
 }
 
 /* Script command: start the ov045 event for an immediate value. */
-int SCRCMD_GIMMICK45_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -346,7 +346,7 @@ int SCRCMD_GIMMICK45_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov042 second event for an immediate value. */
-int SCRCMD_GIMMICK42_CallSecondEventU16(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -360,14 +360,14 @@ int SCRCMD_GIMMICK42_CallSecondEventU16(ScriptVm *vm, struct ScrcmdWork *cmdWork
 }
 
 /* Script command: ov045 state change for an immediate value. */
-int SCRCMD_GIMMICK45_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_SetState(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(SCRCMD_WORK_GetGameSystem(cmdWork), VM_GetU16(vm));
     return 0;
 }
 
 /* Script command: start the ov038 check event for two immediate values. */
-int SCRCMD_GIMMICK38_CallCheckEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_CallCheckEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -383,7 +383,7 @@ int SCRCMD_GIMMICK38_CallCheckEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov046 event for an immediate value. */
-int SCRCMD_GIMMICK46_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -397,7 +397,7 @@ int SCRCMD_GIMMICK46_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov046 second event for two script values. */
-int SCRCMD_GIMMICK46_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -413,7 +413,7 @@ int SCRCMD_GIMMICK46_CallSecondEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: start the ov046 third event for a script value. */
-int SCRCMD_GIMMICK46_CallThirdEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_CallThirdEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);

@@ -1,5 +1,5 @@
 /*
- * function: func_0208574C
+ * function: OS_IsThreadTerminated
  * address:  0x0208574C
  * packet:   pkt_0208574C
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     int state;
 } OSThread;
 
-int func_0208574C(const OSThread *thread)
+int OS_IsThreadTerminated(const OSThread *thread)
 {
     return (thread->state == 2) ? 1 : 0;
 }

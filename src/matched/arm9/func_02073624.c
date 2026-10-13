@@ -1,5 +1,5 @@
 /*
- * function: func_02073624
+ * function: NNSi_SndAllocFreeSeqPlayer
  * address:  0x02073624
  * packet:   pkt_02073624
  * region:   arm9
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E00C     0x0214E00C  data
- *   g_0214E018     0x0214E018  data
+ *   gSndFreeSeqList     0x0214E00C  data
+ *   gSndActiveSeqList     0x0214E018  data
  *   func_02060614  0x02060614  arm
  *   func_020605B4  0x020605B4  arm
- *   func_020735EC  0x020735EC  arm
- *   func_02073598  0x02073598  arm
+ *   NNSi_SndSeqPlayerStopNow  0x020735EC  arm
+ *   NNSi_SndInsertActiveSeqPlayer  0x02073598  arm
  *
  * Voice allocator: take the head of the free list at 0x0214E00C; if it is
  * empty, take the head of the ACTIVE list at 0x0214E018 instead and steal it,
@@ -39,7 +39,7 @@
  * 108 bytes against the original's 104 and 96 concrete bytes out.  Under the
  * pin the same C is 104 bytes, 0 mismatches.
  *
- * Filing this address unblocks src/pending/func_02073344.c, whose PC24 site at
+ * Filing this address unblocks src/pending/NNSi_SndPlayerAllocSeqPlayer.c, whose PC24 site at
  * +0x68 had no witness for this function.
  */
 
@@ -48,30 +48,30 @@ typedef signed int s32;
 
 struct Voice { u8 p00[0x3d]; u8 b3d; };
 
-extern char g_0214E00C[];
-extern char g_0214E018[];
+extern char gSndFreeSeqList[];
+extern char gSndActiveSeqList[];
 
 struct DList;
 struct Obj_02073548;
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
-extern void func_020735EC(struct Voice *v);
-extern void func_02073598(struct Obj_02073548 *obj);
+extern void NNSi_SndSeqPlayerStopNow(struct Voice *v);
+extern void NNSi_SndInsertActiveSeqPlayer(struct Obj_02073548 *obj);
 
-struct Voice *func_02073624(s32 pri)
+struct Voice *NNSi_SndAllocFreeSeqPlayer(s32 pri)
 {
     struct Voice *v;
 
-    v = func_02060614((struct DList *)g_0214E00C, 0);
+    v = func_02060614((struct DList *)gSndFreeSeqList, 0);
     if (v == 0) {
-        v = func_02060614((struct DList *)g_0214E018, 0);
+        v = func_02060614((struct DList *)gSndActiveSeqList, 0);
         if (pri < v->b3d) {
             return 0;
         }
-        func_020735EC(v);
+        NNSi_SndSeqPlayerStopNow(v);
     }
-    func_020605B4((volatile struct DList *)g_0214E00C, v);
+    func_020605B4((volatile struct DList *)gSndFreeSeqList, v);
     v->b3d = (u8)pri;
-    func_02073598((struct Obj_02073548 *)v);
+    NNSi_SndInsertActiveSeqPlayer((struct Obj_02073548 *)v);
     return v;
 }

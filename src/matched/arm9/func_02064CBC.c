@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02064CBC
+ * function: NNS_G2dRestartMCAnimation
  * address:  0x02064CBC
  * packet:   pkt_02064B68
  * region:   arm9
@@ -10,8 +10,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * The reset twin of NNSi_G2dMCAnimUpdateBank / sub_02064B68: clears the u16 at +0x30,
- * runs func_0206469C over the object with its +0x1c word, raises the +0x0c
+ * The reset twin of NNSi_G2dMCAnimUpdateBank / NNS_G2dSetMCAnimationSpeed: clears the u16 at +0x30,
+ * runs NNS_G2dSetAnimSequenceToMCAnimation over the object with its +0x1c word, raises the +0x0c
  * state to 1, then walks every record of the multi-cell bank and resets its
  * cell animation.  Same two layouts as the rest of the family (kind 1 is the
  * 0x5c-stride node array with its count at header +2, anything else the
@@ -27,8 +27,8 @@
  * docs/FRONTEND-PINS.md.
  *
  * symbols:
- *   func_0206469C  0x0206469C  arm
- *   func_020643A4  0x020643A4  arm
+ *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
+ *   NNS_G2dRestartCellAnimation  0x020643A4  arm
  */
 
 typedef unsigned char  u8;
@@ -53,29 +53,29 @@ struct Obj {
 };
 
 struct Obj0206469C;
-extern void func_0206469C(struct Obj0206469C *o, void *bank);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(struct Obj0206469C *o, void *bank);
 struct CellAnim;
-extern void func_020643A4(struct CellAnim *anim);
+extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
 
-void func_02064CBC(struct Obj *x)
+void NNS_G2dRestartMCAnimation(struct Obj *x)
 {
     u16 i;
 
     x->f30 = 0;
-    func_0206469C((struct Obj0206469C *)x, (void *)x->f1c);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct Obj0206469C *)x, (void *)x->f1c);
     x->f0c = 1;
 
     if (x->f3c == 1) {
         void *base = x->f40;
 
         for (i = 0; i < ((struct NodeHdr *)x->f34)->count; i++) {
-            func_020643A4((struct CellAnim *)((u8 *)base + i * 0x5c));
+            NNS_G2dRestartCellAnimation((struct CellAnim *)((u8 *)base + i * 0x5c));
         }
     } else {
         void *base = x->f40;
 
         for (i = 0; i < ((struct CellHdr *)x->f34)->count; i++) {
-            func_020643A4(*(void **)((u8 *)base + i * 0x28));
+            NNS_G2dRestartCellAnimation(*(void **)((u8 *)base + i * 0x28));
         }
     }
 }

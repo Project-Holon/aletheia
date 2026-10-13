@@ -12,7 +12,7 @@
  * sdk:      MBi_ReceiveRequestDataPiece (libmb.TWL.HYB.a mb_block.o)
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F6AA4  0x021F6AA4  arm  ov107
  *   g_021F7008     0x021F7008  data
  */
@@ -31,7 +31,7 @@ typedef struct {
     u8 piece;
 } ChildBlockHeader;
 
-extern void func_02082D44(void *src, void *dst, unsigned long size);
+extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern int func_021F6AA4(int a);
 
 u8 *func_021F6A24(ChildBlockHeader *hdr, u16 child)
@@ -43,7 +43,7 @@ u8 *func_021F6A24(ChildBlockHeader *hdr, u16 child)
     piece = hdr->piece;
     if (piece > g_021F7008.max)
         return 0;
-    func_02082D44((u8 *)hdr + 3,
+    MI_CpuCopy8((u8 *)hdr + 3,
                   ((u8 *)g_021F7008.buf) + (child - 1) * 32 + piece * g_021F7008.size,
                   g_021F7008.size);
     *(u32 *)(((u8 *)g_021F7008.buf) + 0x1E0 + (child - 1) * 4) |= 1 << piece;

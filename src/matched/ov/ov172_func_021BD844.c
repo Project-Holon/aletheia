@@ -39,7 +39,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
@@ -77,7 +77,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -146,6 +146,6 @@ void func_021BD844(u8 *p)
     } else {
         dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 6, (u32)(&pal), HEAP);
     }
-    func_02082A90(pal->raw + 0xc0, p + 0x3c, 0x140);
+    MIi_CpuCopy32(pal->raw + 0xc0, p + 0x3c, 0x140);
     func_020307B0(dev);
 }

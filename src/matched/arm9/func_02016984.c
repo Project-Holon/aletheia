@@ -11,6 +11,8 @@
  *
  * symbols:
  *   data_020A72CC  0x020A72CC  data
+ *   NNS_G2dInitMCAnimation  0x02064754  arm
+ *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
  *
  * A two-call registrar.  The first call is five arguments wide: the value
  * loaded from +0x14c is an `int` truncated to `u16` at the call (the listing
@@ -32,17 +34,17 @@
 #include "../include/Obj02301.h"
 
 typedef unsigned int   u32;
-extern int func_020648B4(u32 a, u32 b);
+extern int NNS_G2dGetMCWorkAreaSize(u32 a, u32 b);
 extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, unsigned short a4);
-extern void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind);
+extern void NNS_G2dInitMCAnimation(char *o, char *buf, void *set, int a3, void *bank, int kind);
 
 extern char data_020A72CC[];
 
 void MCSS_InitAnimCtrl(char *a0, int a1)
 {
     *(int *)&((struct Obj02301 *)a0)->f98 = (int)func_02030734((unsigned short)((struct Obj02301 *)a0)->f14C,
-                                        func_020648B4(((struct Obj02301 *)a0)->f18, a1),
+                                        NNS_G2dGetMCWorkAreaSize(((struct Obj02301 *)a0)->f18, a1),
                                         0, data_020A72CC, 0x970);
-    func_02064754((char *)((int)(a0 + 0x34)), (char *)(*(int *)&((struct Obj02301 *)a0)->f98), (void *)(((struct Obj02301 *)a0)->f20),
+    NNS_G2dInitMCAnimation((char *)((int)(a0 + 0x34)), (char *)(*(int *)&((struct Obj02301 *)a0)->f98), (void *)(((struct Obj02301 *)a0)->f20),
                   ((struct Obj02301 *)a0)->f10, (void *)(((struct Obj02301 *)a0)->f18), a1);
 }

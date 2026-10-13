@@ -53,15 +53,15 @@ struct SoundObj;
 #define FIELD_GIMMICK_SOUND_OBJS_SLIDE_FADING 2
 
 /* The music track that fades with the camera height, and the heights where the fade starts and ends. */
-typedef struct Gimmick53BgmFade {
+typedef struct FieldGimmickSoundObjsBgmFade {
     u16 track;          /* 0x00 */
     u8 reserved02[2];
     float heightLow;    /* 0x04: volume 0 up to this camera height */
     float heightHigh;   /* 0x08: full volume above this camera height */
-} Gimmick53BgmFade;
+} FieldGimmickSoundObjsBgmFade;
 
 /* State of the sliding sound effect (0x90 bytes). */
-typedef struct Gimmick53SlideSe {
+typedef struct FieldGimmickSoundObjsSlideSe {
     int prevZ;                              /* 0x00: camera z of the last frame */
     int cameraY[FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY];   /* 0x04: ring of camera heights while z changes */
     short head;                               /* 0x84: oldest entry of the ring */
@@ -70,10 +70,10 @@ typedef struct Gimmick53SlideSe {
     u16 state;                              /* 0x8A: FIELD_GIMMICK_SOUND_OBJS_SLIDE_* */
     u16 seId;                               /* 0x8C: sound effect that plays */
     u8 reserved8E[2];
-} Gimmick53SlideSe;
+} FieldGimmickSoundObjsSlideSe;
 
 /* Work of the gimmick (0xF8 bytes, common work id 0 of the field map). */
-typedef struct Gimmick53Work {
+typedef struct FieldGimmickSoundObjsWork {
     u16 heapId;                                             /* 0x00 */
     u16 reserved02;
     struct Iss3dsSys *iss3ds;                               /* 0x04 */
@@ -81,20 +81,20 @@ typedef struct Gimmick53Work {
     int waitFrames[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];              /* 0x1C: frames left before the animation starts again; 0 while it plays */
     int minWait[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];                 /* 0x30: shortest wait */
     int maxWait[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];                 /* 0x44: longest wait */
-    Gimmick53BgmFade bgmFade;                               /* 0x58 */
+    FieldGimmickSoundObjsBgmFade bgmFade;                               /* 0x58 */
     int bgmVolume;                                          /* 0x64 */
-    Gimmick53SlideSe slideSe;                               /* 0x68 */
-} Gimmick53Work;
+    FieldGimmickSoundObjsSlideSe slideSe;                               /* 0x68 */
+} FieldGimmickSoundObjsWork;
 
 /* The animation frames (in whole frames) in the gimmick work. */
-typedef struct Gimmick53Save {
+typedef struct FieldGimmickSoundObjsSave {
     int animeFrame[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];
-} Gimmick53Save;
+} FieldGimmickSoundObjsSave;
 
 /* Archive members that hold the wait limits of each object. */
-typedef struct Gimmick53WaitMembers {
+typedef struct FieldGimmickSoundObjsWaitMembers {
     int member[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];
-} Gimmick53WaitMembers;
+} FieldGimmickSoundObjsWaitMembers;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
@@ -128,13 +128,13 @@ extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 
 extern u32 func_020307B0(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern Gimmick53Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
 extern unsigned func_02005728(unsigned limit);
 extern void func_02082A7C(int value, void *dst, unsigned int size);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
-void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer);
+void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(FieldGimmickSoundObjsSlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer);
 
 #endif

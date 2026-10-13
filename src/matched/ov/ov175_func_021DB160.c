@@ -10,10 +10,10 @@
  * tail: 021DB216..021DB218 is two zero alignment bytes.
  * symbols:
  *   func_021DF420 0x021DF420 arm ov175
- *   func_021DF3E8 0x021DF3E8 arm ov175
+ *   DWC_ScReportAddIntValue 0x021DF3E8 arm ov175
  */
 extern int func_021DF420(int, int, int);
-extern int func_021DF3E8(int, int, int);
+extern int DWC_ScReportAddIntValue(int, int, int);
 void func_021DB160(int *ctx, int *input, int invert)
 {
     int flip = 0, skip = 0;
@@ -28,8 +28,8 @@ void func_021DB160(int *ctx, int *input, int invert)
     }
     if (!invert && flip) { first ^= 1; second ^= 1; }
     if (!skip && func_021DF420(ctx[1], 0x15, 1)) return;
-    if (func_021DF3E8(ctx[1], 0x16, first)) return;
-    if (func_021DF3E8(ctx[1], 0x17, second)) return;
-    if (func_021DF3E8(ctx[1], 0x18, present != 0)) return;
-    func_021DF3E8(ctx[1], 0x1c, -1);
+    if (DWC_ScReportAddIntValue(ctx[1], 0x16, first)) return;
+    if (DWC_ScReportAddIntValue(ctx[1], 0x17, second)) return;
+    if (DWC_ScReportAddIntValue(ctx[1], 0x18, present != 0)) return;
+    DWC_ScReportAddIntValue(ctx[1], 0x1c, -1);
 }

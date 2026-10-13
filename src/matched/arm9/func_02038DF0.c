@@ -21,7 +21,7 @@
  *   GFL_NET_COMMAND_IsCommandValid  0x0203A7EC  arm
  *   GFL_NET_COMMAND_GetHeaderSize  0x0203A634  arm
  *   GFL_NET_COMMAND_GetHugeBuffer  0x0203A81C  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_SYSTEM_DispatchRecv  0x02038D68  arm
  *   func_02034714  0x02034714  arm
  *
@@ -79,7 +79,7 @@ extern int  GFL_NET_COMMAND_IsHugeCommand(u32 h);
 extern int  GFL_NET_COMMAND_IsCommandValid(u32 h);
 extern u32 GFL_NET_COMMAND_GetHeaderSize(u32 a0);
 extern u32 GFL_NET_COMMAND_GetHugeBuffer(u32 a0, u32 a1, u32 a2);
-extern void func_02082D44(void *dst, const void *src, int n);
+extern void MI_CpuCopy8(void *dst, const void *src, int n);
 extern void GFL_NET_SYSTEM_DispatchRecv(int a0, u32 a1, u32 a2, u8 *a3);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
@@ -138,7 +138,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(struct Src *src, u32 a1, u8 *buf, struct St 
             if (cnt > len)
                 cnt = len;
             if (p != 0)
-                func_02082D44(buf, p, cnt);
+                MI_CpuCopy8(buf, p, cnt);
         }
         st->done += cnt;
         if (st->left == 0) {

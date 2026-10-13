@@ -1,5 +1,5 @@
 /*
- * function: func_02174C2C
+ * function: DWCi_QR2PlayerKeyCallback
  * address:  0x02174C2C
  * packet:   pkt_ov009_02174C2C
  * region:   ov009
@@ -16,6 +16,6 @@
  *           0x0216CEFC.  Seeded in layout/function_starts.txt.
  */
 
-void func_02174C2C(void)
+void DWCi_QR2PlayerKeyCallback(void)
 {
 }

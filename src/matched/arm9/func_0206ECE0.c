@@ -1,5 +1,5 @@
 /*
- * function: func_0206ECE0
+ * function: NNSi_G3dGetNodeRotFromMdl
  * address:  0x0206ECE0
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148DB0      0x02148DB0  data  a4
+ *   gCurrentRS      0x02148DB0  data  a4
  *   g_020A1998      0x020A1998  data  a1
  *   g_020A1999      0x020A1999  data  a1
  *   g_020A199A      0x020A199A  data  a1
@@ -46,7 +46,7 @@ typedef struct { u8 c; u8 pad[3]; } Perm;
 
 typedef struct { u32 f00; u8 pad04[0x24]; int m[9]; } Out;
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 extern const Perm g_020A1998[];
 extern const Perm g_020A1999[];
 extern const Perm g_020A199A[];
@@ -76,9 +76,9 @@ static inline u8 *resolve(Bank *b, u32 idx)
     return 0;
 }
 
-void func_0206ECE0(Out *out)
+void NNSi_G3dGetNodeRotFromMdl(Out *out)
 {
-    Root *r = ((Root *)g_02148DB0);
+    Root *r = ((Root *)gCurrentRS);
     u8 *node;
     u32 f;
     s16 *p;

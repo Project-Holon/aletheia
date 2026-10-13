@@ -1,5 +1,5 @@
 /*
- * function: func_021C26B8
+ * function: ghiPostGetHasFilesContentLength
  * address:  0x021C26B8
  * packet:   pkt_ov114_021C26B8
  * region:   ov114
@@ -16,9 +16,9 @@
  *   func_02184200  0x02184200  arm  ov009
  *   func_02184208  0x02184208  arm  ov009
  *   func_02181E20  0x02181E20  arm  ov009
- *   g_021CEE58     0x021CEE58  data
- *   g_021CEE80     0x021CEE80  data
- *   g_021CEE88     0x021CEE88  data
+ *   sGhttpQrGSDD     0x021CEE58  data
+ *   sGhttpCidId     0x021CEE80  data
+ *   sGhttpHttpSchemasXmlsoapOrgSoap     0x021CEE88  data
  *
  * strlen comes from src/matched/arm9_sdk/libc/string.h: mwccarm treats strlen
  * as not writing memory (so name, length and post->useDIME stay cached in
@@ -74,9 +74,9 @@ typedef struct {
 extern int func_02184200(void *array);
 extern void *func_02184208(void *array, int n);
 extern int func_02181E20(void *writer);
-extern char g_021CEE58[];
-extern char g_021CEE80[];
-extern char g_021CEE88[];
+extern char sGhttpQrGSDD[];
+extern char sGhttpCidId[];
+extern char sGhttpHttpSchemasXmlsoapOrgSoap[];
 
 #define GHI_DIME_PAD(total, len)                \
     {                                           \
@@ -85,7 +85,7 @@ extern char g_021CEE88[];
             (total) += padBytes;                \
     }
 
-int func_021C26B8(GHIConnection *connection)
+int ghiPostGetHasFilesContentLength(GHIConnection *connection)
 {
     GHIPost *post = connection->post;
     GHIPostData *data;
@@ -107,7 +107,7 @@ int func_021C26B8(GHIConnection *connection)
     }
     else
     {
-        boundaryLen = strlen(g_021CEE58);
+        boundaryLen = strlen(sGhttpQrGSDD);
         stringBaseLen = boundaryLen + 47;
         fileBaseLen = boundaryLen + 76;
         xmlBaseLen = 0;
@@ -162,10 +162,10 @@ int func_021C26B8(GHIConnection *connection)
             total += xmlBaseLen;
             total += func_02181E20(data->data.xml.xml);
             GHI_DIME_PAD(total, func_02181E20(data->data.xml.xml));
-            total += strlen(g_021CEE80);
-            GHI_DIME_PAD(total, (int)strlen(g_021CEE80));
-            total += strlen(g_021CEE88);
-            GHI_DIME_PAD(total, (int)strlen(g_021CEE88));
+            total += strlen(sGhttpCidId);
+            GHI_DIME_PAD(total, (int)strlen(sGhttpCidId));
+            total += strlen(sGhttpHttpSchemasXmlsoapOrgSoap);
+            GHI_DIME_PAD(total, (int)strlen(sGhttpHttpSchemasXmlsoapOrgSoap));
         }
         else
         {

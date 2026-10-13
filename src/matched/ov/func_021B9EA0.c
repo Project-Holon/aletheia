@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EA0
+ * function: WIFICLUBACTOR_ReleaseClactResources
  * address:  0x021B9EA0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -36,7 +36,7 @@ typedef struct {
     void *f10;
 } S;
 
-void func_021B9EA0(S *s)
+void WIFICLUBACTOR_ReleaseClactResources(S *s)
 {
     CLACT_ReleaseCharacter((u32)s->f08);
     CLACT_ReleasePalette((u32)s->f0C);

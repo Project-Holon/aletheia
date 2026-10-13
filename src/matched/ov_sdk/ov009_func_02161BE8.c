@@ -12,17 +12,17 @@
  * sdk:      tcp_read_raw_nbytes (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
- *   func_0215AE18  0x0215AE18  arm  ov009
- *   func_02082D44  0x02082D44  arm
- *   func_0215AF14  0x0215AF14  arm  ov009
+ *   CPSi_TcpReadRaw  0x0215AE18  arm  ov009
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   CPSi_SocConsumeRaw  0x0215AF14  arm  ov009
  */
 
 struct CPSSoc;
 
 struct _CPSSoc;
-extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_0215AF14(unsigned long len, struct _CPSSoc *soc);
+extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
 
 static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
 {
@@ -30,13 +30,13 @@ static int func_02161BE8(unsigned char *d, int len, struct CPSSoc *soc)
     unsigned char *s;
 
     do {
-        s = func_0215AE18(&thislen, (char *)soc);
+        s = CPSi_TcpReadRaw(&thislen, (char *)soc);
         if (thislen == 0)
             return -1;
         if (thislen > len)
             thislen = len;
-        func_02082D44(s, d, thislen);
-        func_0215AF14(thislen, (struct _CPSSoc *)soc);
+        MI_CpuCopy8(s, d, thislen);
+        CPSi_SocConsumeRaw(thislen, (struct _CPSSoc *)soc);
         len -= thislen;
         d += thislen;
     } while (len > 0);

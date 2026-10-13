@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FDC
+ * function: WIFICLUBACTOR_IsCursorOnExit
  * address:  0x021B9FDC
  * packet:   pkt_ov099_021B9FDC
  * region:   ov099
@@ -32,7 +32,7 @@ extern int func_021C49A4(u8 *p, unsigned int i);
 typedef unsigned int   u32;
 extern u32 func_021C4864(u8 *p, u16 x, u16 y);
 
-int func_021B9FDC(Work *w)
+int WIFICLUBACTOR_IsCursorOnExit(Work *w)
 {
     Pos b;
     int n;

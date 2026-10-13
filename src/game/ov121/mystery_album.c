@@ -43,17 +43,17 @@
  *   func_021DBF70 0x021DBF70 thumb ov121
  *   func_021DC024 0x021DC024 thumb ov121
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_02049E74 0x02049E74 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_TransferPalette 0x0204ADEC arm
- *   func_02082A48 0x02082A48 arm
+ *   MIi_CpuClear16 0x02082A48 arm
  *   CLACT_SetActorRotation 0x0204B5F4 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_021DA4A8 0x021DA4A8 thumb ov121
  *   func_021DA318 0x021DA318 thumb ov121
  *   func_02040588 0x02040588 arm
@@ -249,14 +249,14 @@ extern int func_021DBF9C(void *album);
 extern u32 func_021DBF70(void *album);
 extern int func_021DC024(void *album);
 extern void *func_02049F78(void *arc, u32 fileId, u32 res, u32 heapId);
-extern void func_02082D44(const void *src,void *dst,int size);
+extern void MI_CpuCopy8(const void *src,void *dst,int size);
 extern u32 func_020307B0(void *mem);
 extern void *func_02049E74(void *arc, u32 fileId, u32 compressed, u32 res, u16 heapId);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern void CLACT_SetActorPaletteOffset(struct Obj *actor, u32 animId, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *actor, u32 visible);
 extern void CLACT_TransferPalette(u32,void *,u32);
-extern void func_02082A48(u32 value,void *dst,u32 size);
+extern void MIi_CpuClear16(u32 value,void *dst,u32 size);
 extern void CLACT_SetActorRotation(struct Actor *actor, u16 frame);
 extern int CLACT_GetPaletteVramAddress(u32 paletteHandle, u32 screenId);
 extern void func_0207D63C(void *reg,int,int,int,int);
@@ -265,7 +265,7 @@ extern void CLACT_SetActorBgPriority(void *actor,u8 animId);
 extern void MYSTERY_ALBUM_SetBlendMain(int eva,int evb);
 extern void MYSTERY_ALBUM_SetBlendSub(int eva,int evb);
 #pragma thumb on
-extern void func_02082A60(void *dst,const void *src,int size);
+extern void MIi_CpuCopy16(void *dst,const void *src,int size);
 extern void func_021DA4A8(void *cardView);
 extern void func_021DA318(void *albumData);
 extern void func_02040588(unsigned char plane, unsigned char enable);
@@ -376,7 +376,7 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     arc=func_021DBF10(album,heapId);
     iconPalAlloc=func_02049F78(arc,(int)func_021DBF40(album),(u32)(&iconPalRes),(u16)(album->heapId));
     offset=ui->iconPaletteNumber*32;
-    func_02082D44(*(void **)((char *)iconPalRes+12),MYSTERY_ALBUM_GetPaletteRam(offset,ui->screenId),96);
+    MI_CpuCopy8(*(void **)((char *)iconPalRes+12),MYSTERY_ALBUM_GetPaletteRam(offset,ui->screenId),96);
     func_020307B0(iconPalAlloc);
     iconGfxAlloc=func_02049E74(arc,(int)func_021DBF9C(album),(int)0,(u32)(&iconGfxRes),album->heapId);
     CLACT_TransferCharacterPart(ui->bgHandleA,*(void **)((char *)iconGfxRes+20),512,0,ui->screenId);
@@ -389,8 +389,8 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     CLACT_SetActorDrawEnable(ui->iconActor,1);
     if (func_021DC024(album)==1) {
         CLACT_TransferPalette(ui->paletteHandle,*(void **)((char *)album->paletteRes+12),1);
-        func_02082D44(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
-        func_02082A48(0,ui->palBlack,32);
+        MI_CpuCopy8(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
+        MIi_CpuClear16(0,ui->palBlack,32);
         CLACT_TransferCharacterPart(ui->bgHandleB,*(void **)((char *)album->bgDataRes+20),0x1200,0,ui->screenId);
         CLACT_SetActorRotation(ui->cursorActor,0);
         CLACT_SetActorDrawEnable(ui->cursorActor,1);
@@ -430,8 +430,8 @@ void MYSTERY_ALBUM_ResetIntro(MysteryAlbum *album)
             setBlend=MYSTERY_ALBUM_SetBlendSub;
         }
         setBlend(2,12);
-        func_02082A48(0,album->ui->palBlack,32);
-        func_02082A60(album->ui->palBlack,paletteRam,32);
+        MIi_CpuClear16(0,album->ui->palBlack,32);
+        MIi_CpuCopy16(album->ui->palBlack,paletteRam,32);
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6DC
+ * function: PMS_INPUT_GetBrowseMode
  * address:  0x021BF6DC
  * packet:   pkt_ov110_021BF6DC
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 func_021BF6DC(u8 *p) { return ((struct Obj22386 *)p)->f69; }
+u8 PMS_INPUT_GetBrowseMode(u8 *p) { return ((struct Obj22386 *)p)->f69; }

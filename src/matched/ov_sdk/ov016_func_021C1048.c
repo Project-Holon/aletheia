@@ -1,5 +1,5 @@
 /*
- * function: func_021C1048
+ * function: DWCi_MSGlGetEx
  * address:  0x021C1048
  * packet:   pkt_ov016_021C1048
  * region:   ov016
@@ -19,7 +19,7 @@ typedef struct MsgPrm {
     unsigned char *data;
 } MsgPrm;
 
-unsigned short *func_021C1048(void *msg, int id, int n, int num)
+unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num)
 {
     MsgPrm *ms = msg;
     unsigned short *str = (unsigned short *)(ms->data + ms->index[(unsigned short)id]);

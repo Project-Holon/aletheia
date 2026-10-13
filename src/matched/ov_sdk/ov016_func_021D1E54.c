@@ -1,5 +1,5 @@
 /*
- * function: func_021D1E54
+ * function: DWCi_MOV_MBP_Start
  * address:  0x021D1E54
  * packet:   pkt_ov016_021D1E54
  * region:   ov016
@@ -12,10 +12,11 @@
  * sdk:      DWCi_MOV_MBP_Start (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
  * symbols:
- *   func_021D276C  0x021d276c  arm  ov016
+ *   DWCi_MOV_MBP_ChangeState  0x021d276c  arm  ov016
  *   func_021F5E7C  0x021f5e7c  arm  ov107
- *   func_021D1E9C  0x021d1e9c  arm  ov016
- *   func_02088234  0x02088234  arm
+ *   DWCi_MOV_MBP_RegistFile  0x021d1e9c  arm  ov016
+ *   OS_Terminate  0x02088234  arm
+ *   gDwcMovMbpWork  0x021DE65C  data
  */
 
 typedef unsigned char u8;
@@ -43,7 +44,7 @@ typedef struct {
     DWCi_MOV_MBPChildInfo childInfo[1];
 } DWCi_MOV_WPB_WORK;
 
-extern DWCi_MOV_WPB_WORK *g_021DE65C;
+extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 
 typedef struct {
     char *romFilePathp;
@@ -57,19 +58,19 @@ typedef struct {
     u8 userParam[32];
 } MBGameRegistry;
 
-extern void func_021D276C(u16 state);
+extern void DWCi_MOV_MBP_ChangeState(u16 state);
 extern int func_021F5E7C(int channel);
-extern int func_021D1E9C(MBGameRegistry *gameInfo);
-extern void func_02088234(void);
+extern int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo);
+extern void OS_Terminate(void);
 
-void func_021D1E54(MBGameRegistry *gameInfo, u16 channel)
+void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel)
 {
-    func_021D276C(2);
+    DWCi_MOV_MBP_ChangeState(2);
     if (func_021F5E7C(channel)) {
-        func_021D276C(7);
+        DWCi_MOV_MBP_ChangeState(7);
         return;
     }
-    if (func_021D1E9C(gameInfo))
+    if (DWCi_MOV_MBP_RegistFile(gameInfo))
         return;
-    func_02088234();
+    OS_Terminate();
 }

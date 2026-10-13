@@ -1,7 +1,7 @@
 /*
  * file:     graphics.c
  * unit:     yes
- * function: func_021D603C, func_021D6090, func_021D60EC, func_021D61F4
+ * function: DWCi_GXlVisible, DWCi_GXlInvisible, DWCi_GXlSetWndPosition, DWCi_GXlSetWndPlane
  * address:  0x021D603C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -38,13 +38,13 @@ typedef struct {
     u16 y2;
 } Rect;
 
-void func_021D603C(int lcd, int plane);
-void func_021D6090(int lcd, int plane);
-void func_021D60EC(int lcd, int wnd, Rect *r);
-void func_021D61F4(int lcd, int wnd, int plane, int effect);
+void DWCi_GXlVisible(int lcd, int plane);
+void DWCi_GXlInvisible(int lcd, int plane);
+void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r);
+void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
 
 
-void func_021D603C(int lcd, int plane)
+void DWCi_GXlVisible(int lcd, int plane)
 {
     if (lcd == 1) {
         unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;
@@ -65,7 +65,7 @@ void func_021D603C(int lcd, int plane)
  * again inside the store expression (get-then-set order); reading both into
  * locals up front gave the converse r0/r2 roles.
  */
-void func_021D6090(int lcd, int plane)
+void DWCi_GXlInvisible(int lcd, int plane)
 {
     if (lcd == 1) {
         unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;
@@ -89,7 +89,7 @@ static inline void SetWin(u16 *reg, u16 x1, u16 y1, u16 x2, u16 y2)
 /*
  * sdk:      DWCi_GXlSetWndPosition (libdwcutil.TWL.HYB.a(graphics.o))
  */
-void func_021D60EC(int lcd, int wnd, Rect *r)
+void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r)
 {
     if (lcd == 1) {
         if (wnd == 0)
@@ -108,7 +108,7 @@ void func_021D60EC(int lcd, int wnd, Rect *r)
 /*
  * sdk:      DWCi_GXlSetWndPlane (libdwcutil.TWL.HYB.a(graphics.o))
  */
-void func_021D61F4(int lcd, int wnd, int plane, int effect)
+void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect)
 {
     switch (wnd) {
     case 0:

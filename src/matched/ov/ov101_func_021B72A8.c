@@ -1,5 +1,5 @@
 /*
- * function: func_021B72A8
+ * function: IRC_APPBAR_SetLabel
  * address: 0x021B72A8
  * packet: pkt_ov101_021B72A8
  * region: ov101
@@ -31,7 +31,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void func_021B72A8(unsigned *p,unsigned b) {
+void IRC_APPBAR_SetLabel(unsigned *p,unsigned b) {
  unsigned q;
  Desc t;
  if(b==p[21]) return;

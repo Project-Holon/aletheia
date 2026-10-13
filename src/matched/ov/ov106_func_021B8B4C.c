@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B4C
+ * function: IRC_RANKING_ClearRowScreens
  * address: 0x021B8B4C
  * packet: pkt_ov106_021B8B4C
  * region: ov106
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,int);
-void func_021B8B4C(void *p) { MI_CpuFill8(p,0,384); }
+void IRC_RANKING_ClearRowScreens(void *p) { MI_CpuFill8(p,0,384); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD248
+ * function: PMSIV_MENU_ShowBackButton
  * address: 0x021BD248
  * packet: pkt_ov110_021BD248
  * region: ov110
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021BD248(u8 *p)
+void PMSIV_MENU_ShowBackButton(u8 *p)
 {
     CLACT_SetActorDrawEnable(((struct Obj10279 *)p)->f28,1);
     CLACT_SetActorAnimSeq(((struct Obj10279 *)p)->f28,1);

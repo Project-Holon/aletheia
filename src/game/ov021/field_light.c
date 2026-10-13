@@ -19,7 +19,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   sFieldLightSourceName  0x021DDE38  data  ov021
  *   func_02048CA4  0x02048CA4  arm
  *   func_02048CDC  0x02048CDC  arm
@@ -153,7 +153,7 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 extern void func_02048CA4(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
 extern void func_02048CDC(struct LightSlot *slots, u32 index, u16 *color);
 extern void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 flag);
@@ -202,7 +202,7 @@ FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, 
     FIELD_LIGHT_LoadZoneTable(light, tableId);
     light->active = 1;
     light->keyframeIndex = FIELD_LIGHT_FindKeyframe(light, seconds);
-    func_02082D44(&light->keyframes[light->keyframeIndex], &light->current, sizeof(FieldLightKeyframe));
+    MI_CpuCopy8(&light->keyframes[light->keyframeIndex], &light->current, sizeof(FieldLightKeyframe));
     light->dirty = 1;
     light->fog = fog;
     light->slots = slots;

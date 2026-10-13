@@ -1,5 +1,5 @@
 /*
- * function: func_021C135C
+ * function: ghiFreeCertificateInfo
  * address:  0x021C135C
  * packet:   pkt_021B9500
  * region:   ov114
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0217EAE0(void *);
 
-void func_021C135C(u8 *p)
+void ghiFreeCertificateInfo(u8 *p)
 {
     void *q = *(void **)p;
 

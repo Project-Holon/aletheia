@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06899F64",
+   "name": "BTLV_SCD_StartRotateMenu",
    "address": "0x06899F64",
    "kind": "game",
    "region": "ov095",

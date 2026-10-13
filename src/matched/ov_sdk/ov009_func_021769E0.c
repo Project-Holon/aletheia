@@ -1,5 +1,5 @@
 /*
- * function: func_021769E0
+ * function: DWCi_GetResvDenyReasonString
  * address:  0x021769E0
  * packet:   pkt_ov009_021769E0
  * region:   ov009
@@ -35,7 +35,7 @@ extern char g_021A22F0[];
 extern char g_021A2324[];
 extern char g_021A2340[];
 
-char *func_021769E0(unsigned char denyReason)
+char *DWCi_GetResvDenyReasonString(unsigned char denyReason)
 {
     switch (denyReason) {
     case 0x10:

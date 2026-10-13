@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
  *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb  ov010
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int GFL_NET_GetRunState(void);
-extern void func_02082D44(void *, void *, u32);
+extern void MI_CpuCopy8(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern void DELIVERY_IRC_SetStepAtLine(int a, int b, int c);
@@ -39,7 +39,7 @@ void DELIVERY_IRC_StepFinish(u8 *p)
             p[0x674] = 3;
         } else {
             p[0x674] = 1;
-            func_02082D44(p + 0x7C, ((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8);
+            MI_CpuCopy8(p + 0x7C, ((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8);
             if (((struct Obj01335 *)p)->f672 != func_0203F1FC(*(const u8 * *)&((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8))
                 p[0x674] = 2;
             func_0203F328(((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8, ((struct Obj01335 *)p)->f668);

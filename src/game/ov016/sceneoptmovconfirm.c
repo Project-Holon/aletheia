@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovconfirm.c
  * unit:     yes
- * function: DWCi_SceneOptMovConfirm, func_021C3610, func_021C3678, func_021C36B4, func_021C36F0, DWCi_SceneOptMovConfirm_procScene, func_021C3728, DWCi_SceneOptMovConfirm_draw, button, endScene
+ * function: DWCi_SceneOptMovConfirm, initGraphics, DWCi_SceneOptMovConfirmProcInit, DWCi_SceneOptMovConfirmProcInit1, DWCi_SceneOptMovConfirmProcInit2, DWCi_SceneOptMovConfirm_procScene, input, DWCi_SceneOptMovConfirm_draw, button, endScene
  * address:  0x021C35F0
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -15,19 +15,21 @@
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol DWCi_SceneOptMovConfirm
  * (name and prototype from the vendor object DWARF). The object is stamped Metrowerks
  * C/C++ for ARM 4.0.0.1025, which no tools/mwccarm build writes, so it stays on 1.1p1.
- * Call func_021C3728, DWCi_SceneOptMovConfirm_draw, func_021C374C.
+ * Call input, DWCi_SceneOptMovConfirm_draw, button.
  * Addresses are Black-image addresses.
  * Verified with:
  *   python tools/match.py one --src src/matched/DWCi_SceneOptMovConfirm_procScene.c \
  *       --func DWCi_SceneOptMovConfirm_procScene --addr 0x021C3714 --region ov016 --cc dsi/1.1p1 --arm
- * Guard: if (func_021D6824(1)) call func_021D6824.
- *   python tools/match.py one --src src/matched/func_021C3728.c \
- *       --func func_021C3728 --addr 0x021C3728 --region ov016 --cc dsi/1.1p1 --arm
+ * Guard: if (DWCi_IPTlCheckTrigger(1)) call DWCi_IPTlCheckTrigger.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C3728 --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneOptMovConfirm_draw.c \
  *       --func DWCi_SceneOptMovConfirm_draw --addr 0x021C3748 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   initGraphics                     0x021C3610  arm
  *   DWCi_CMNlMsgDraw                 0x021BD29C  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
@@ -58,23 +60,23 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_CMNlButton(int kind);
 extern int DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
-extern void func_021C374C(void);
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
 extern void DWCi_SETTINGlEraseAll(void);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_SNDlPlay(int no);
 void DWCi_SceneOptMovConfirm(void);
-void func_021C3610(void);
 void DWCi_SceneOptMovConfirm_procScene(void);
-void func_021C3728(void);
 void DWCi_SceneOptMovConfirm_draw(void);
 
-
 static void initGraphics(void);
-
 static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
+static void input(void);
+static void button(void);
+static void endScene(void);
 
 
 void DWCi_SceneOptMovConfirm(void)
@@ -85,11 +87,10 @@ void DWCi_SceneOptMovConfirm(void)
 }
 
 
-
 /*
  * sdk:      initGraphics (libdwcutil.TWL.HYB.a(sceneoptmovcompl))
  */
-void func_021C3610(void)
+static void initGraphics(void)
 {
     *(vu16 *)0x04001008 = (*(vu16 *)0x04001008 & ~3) | 3;
     *(vu16 *)0x0400100A = (*(vu16 *)0x0400100A & ~3) | 3;
@@ -99,22 +100,12 @@ void func_021C3610(void)
 }
 
 
-
-static void procInit1(void);
-
-
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
-
-
-static void procInit2(void);
-
 
 
 static void procInit1(void)
@@ -128,9 +119,7 @@ static void procInit1(void)
 }
 
 
-
 static void procScene(void);
-
 
 
 static void procInit2(void)
@@ -144,16 +133,16 @@ static void procInit2(void)
 
 void DWCi_SceneOptMovConfirm_procScene(void)
 {
-    func_021C3728();
+    input();
     DWCi_SceneOptMovConfirm_draw();
-    func_021C374C();
+    button();
 }
 
 
-void func_021C3728(void)
+static void input(void)
 {
-    if (func_021D6824(1))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(1))
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneOptMovConfirm_draw(void)
@@ -161,17 +150,10 @@ void DWCi_SceneOptMovConfirm_draw(void)
 }
 
 
-static void button(void);
-
-
-static void endScene(void);
-
-
 static void endScene1(void);
 
 
 static void endScene2(void);
-
 
 
 static void button(void)
@@ -181,7 +163,6 @@ static void button(void)
     DWCi_SNDlPlay(6);
     DWCi_ChangeScene(endScene);
 }
-
 
 
 static void endScene(void)

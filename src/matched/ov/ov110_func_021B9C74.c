@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C74
+ * function: PMS_INPUT_VIEW_IsIdle
  * address: 0x021B9C74
  * packet: pkt_ov110_021B9C74
  * region: ov110
@@ -11,4 +11,4 @@
  * Two-byte zero alignment padding follows the compiled function.
  */
 
-int func_021B9C74(unsigned int a) { int i; for(i=0;i<4;i++) if(*(int *)(a+(unsigned)i*4+8)) return 0; return 1; }
+int PMS_INPUT_VIEW_IsIdle(unsigned int a) { int i; for(i=0;i<4;i++) if(*(int *)(a+(unsigned)i*4+8)) return 0; return 1; }

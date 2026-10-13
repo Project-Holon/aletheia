@@ -1,5 +1,5 @@
 /*
- * function: func_020648E0
+ * function: NNS_G2dGetMCBankNumNodesRequired
  * address:  0x020648E0
  * packet:   pkt_020648E0
  * region:   arm9
@@ -18,8 +18,8 @@
  * is why the guard at the top is a rotated `cmp count, #0`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020648E0.c \
- *       --func func_020648E0 --addr 0x020648E0 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetMCBankNumNodesRequired.c \
+ *       --func NNS_G2dGetMCBankNumNodesRequired --addr 0x020648E0 --arm --cc 1.1p1
  */
 
 typedef unsigned short u16;
@@ -39,7 +39,7 @@ struct MultiCellBank {
 
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 
-u16 func_020648E0(struct MultiCellBank *bank)
+u16 NNS_G2dGetMCBankNumNodesRequired(struct MultiCellBank *bank)
 {
     u16 max = 0;
     u16 i;

@@ -10,53 +10,53 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm
- *   func_021C11B8  0x021C11B8  arm
- *   func_021BD7F4  0x021BD7F4  arm
- *   func_021BC8EC  0x021BC8EC  arm
- *   func_021D5CA8  0x021D5CA8  arm
- *   func_021D6090  0x021D6090  arm
- *   func_021C0E50  0x021C0E50  arm
- *   func_021C0E40  0x021C0E40  arm
- *   g_021DE5B4     0x021DE5B4  data
- *   func_021C3D8C  0x021C3D8C  arm
- *   func_021C3B8C  0x021C3B8C  arm
- *   func_021C33CC  0x021C33CC  arm
+ *   DWCi_EFFlCheck  0x021D5580  arm
+ *   DWCi_MOVlIsEnd  0x021C11B8  arm
+ *   DWCi_ICONlEnd  0x021BD7F4  arm
+ *   DWCi_ANIMElEnd  0x021BC8EC  arm
+ *   DWCi_FNTlDeleteBgLcd  0x021D5CA8  arm
+ *   DWCi_GXlInvisible  0x021D6090  arm
+ *   DWCi_SetParam_  0x021C0E50  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
+ *   gSceneOptMovCommWork     0x021DE5B4  data
+ *   DWCi_SceneOptMovFailure  0x021C3D8C  arm
+ *   DWCi_SceneOptMovDisconnect  0x021C3B8C  arm
+ *   DWCi_SceneOptMovComplete  0x021C33CC  arm
  */
 
 typedef unsigned char u8;
 
-extern int  func_021D5580(int x);
-extern int  func_021C11B8(void);
-extern void func_021BD7F4(void);
-extern void func_021BC8EC(void);
-extern void func_021D5CA8(int x);
-extern void func_021D6090(int a, int b);
-extern void func_021C0E50(unsigned int a, unsigned int b);
-extern void func_021C0E40(unsigned int v);
-extern u8   g_021DE5B4[];
-extern void func_021C3D8C(void);
-extern void func_021C3B8C(void);
-extern void func_021C33CC(void);
+extern int  DWCi_EFFlCheck(int x);
+extern int  DWCi_MOVlIsEnd(void);
+extern void DWCi_ICONlEnd(void);
+extern void DWCi_ANIMElEnd(void);
+extern void DWCi_FNTlDeleteBgLcd(int x);
+extern void DWCi_GXlInvisible(int a, int b);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
+extern void DWCi_ChangeScene(unsigned int v);
+extern u8   gSceneOptMovCommWork[];
+extern void DWCi_SceneOptMovFailure(void);
+extern void DWCi_SceneOptMovDisconnect(void);
+extern void DWCi_SceneOptMovComplete(void);
 
 void func_021C32C0(void)
 {
-    if (func_021D5580(0) != 0)
+    if (DWCi_EFFlCheck(0) != 0)
         return;
-    if (func_021C11B8() == 0)
+    if (DWCi_MOVlIsEnd() == 0)
         return;
-    func_021BD7F4();
-    func_021BC8EC();
-    func_021D5CA8(0);
-    func_021D6090(0, 0x15);
-    func_021C0E50(0, 1);
-    if (g_021DE5B4[0] == 0) {
-        func_021C0E40((unsigned int)func_021C3D8C);
-        return;
-    }
-    if (g_021DE5B4[0] == 2) {
-        func_021C0E40((unsigned int)func_021C3B8C);
+    DWCi_ICONlEnd();
+    DWCi_ANIMElEnd();
+    DWCi_FNTlDeleteBgLcd(0);
+    DWCi_GXlInvisible(0, 0x15);
+    DWCi_SetParam_(0, 1);
+    if (gSceneOptMovCommWork[0] == 0) {
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovFailure);
         return;
     }
-    func_021C0E40((unsigned int)func_021C33CC);
+    if (gSceneOptMovCommWork[0] == 2) {
+        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovDisconnect);
+        return;
+    }
+    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComplete);
 }

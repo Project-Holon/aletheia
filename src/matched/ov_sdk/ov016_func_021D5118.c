@@ -1,5 +1,5 @@
 /*
- * function: func_021D5118
+ * function: DWCi_CELLlSetPosition
  * address:  0x021D5118
  * packet:   pkt_ov016_021D5118
  * region:   ov016
@@ -30,7 +30,7 @@ static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
 
-void func_021D5118(void *cell, int idx, int x, int y)
+void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y)
 {
     CellInfo *c = (CellInfo *)cell;
     GXOamAttr *oam;

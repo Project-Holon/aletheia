@@ -12,7 +12,7 @@
  * symbols:
  *   func_0203EFC8  0x0203EFC8  arm
  *   COMM_ENTRY_MENU_EraseMemberName  0x021CE984  thumb  ov021
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gCommEntryEmptyMac  0x021DB470  data  a4
  * Addresses are Black-image addresses.
  */
@@ -24,13 +24,13 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void COMM_ENTRY_MENU_EraseMemberName(u32 *p, u32 n);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern u8 gCommEntryEmptyMac[];
 
 void COMM_ENTRY_MENU_ClearMemberName(u8 *p, u8 *e, int i)
 {
     if (func_0203EFC8(p + 0x55a + i * 6, gCommEntryEmptyMac, 6)) {
         COMM_ENTRY_MENU_EraseMemberName((u32 *)p, i);
-        func_02082D44(gCommEntryEmptyMac, ((Mac *)(p + 0x55a))[i].b, 6);
+        MI_CpuCopy8(gCommEntryEmptyMac, ((Mac *)(p + 0x55a))[i].b, 6);
     }
 }

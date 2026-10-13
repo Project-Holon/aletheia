@@ -12,25 +12,25 @@
  * sdk:      disp (libdwcutil.TWL.HYB.a(button.o))
  *
  * symbols:
- *   func_021D5118  0x021d5118  arm  ov016
- *   g_021DE508  0x021de508  data
- *   g_021DA008  0x021da008  data
- *   g_021DA026  0x021da026  data
- *   g_021DA010  0x021da010  data
+ *   DWCi_CELLlSetPosition  0x021d5118  arm  ov016
+ *   gButtonWork  0x021de508  data
+ *   sButtonCountByKind  0x021da008  data
+ *   sButtonPositionIndex  0x021da026  data
+ *   sButtonPositions  0x021da010  data
  */
 
 #include "../include/G_tagMEMBTN.h"
 
 typedef _Bool bool;
 
-extern struct tagMEMBTN *g_021DE508;
+extern struct tagMEMBTN *gButtonWork;
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;
 
-extern const unsigned char g_021DA008[];
-extern const unsigned char g_021DA026[][2];
-extern const COORD g_021DA010[];
-extern void func_021D5118(void *cell, int idx, int x, int y);
+extern const unsigned char sButtonCountByKind[];
+extern const unsigned char sButtonPositionIndex[][2];
+extern const COORD sButtonPositions[];
+extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 
 void func_021BCBB4(int y)
 {
@@ -38,9 +38,9 @@ void func_021BCBB4(int y)
     int cy;
     int i;
 
-    btnNum = g_021DA008[g_021DE508->kind];
-    func_021D5118(g_021DE508->cellBack, -1, 0, y);
+    btnNum = sButtonCountByKind[gButtonWork->kind];
+    DWCi_CELLlSetPosition(gButtonWork->cellBack, -1, 0, y);
     for (i = 0; i < btnNum; i++) {
-        func_021D5118(g_021DE508->cellButton[i], -1, g_021DA010[g_021DA026[g_021DE508->kind][i]].x, y + 4);
+        DWCi_CELLlSetPosition(gButtonWork->cellButton[i], -1, sButtonPositions[sButtonPositionIndex[gButtonWork->kind][i]].x, y + 4);
     }
 }

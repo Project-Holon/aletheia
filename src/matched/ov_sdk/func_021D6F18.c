@@ -1,5 +1,5 @@
 /*
- * function: func_021D6F18
+ * function: DWCi_OBJlFormGx
  * address:  0x021D6F18
  * packet:   pkt_021D6DF4
  * region:   ov016
@@ -10,20 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6F18   0x021D6F18  arm
+ *   DWCi_OBJlFormGx   0x021D6F18  arm
+ *   DWCi_QUElPopBack  0x021D54C4  arm
  *
- * Tail-call func_021D54C4 with an indexed pointer out of the global table.
+ * Tail-call DWCi_QUElPopBack with an indexed pointer out of the global table.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D6F18.c \
- *       --func func_021D6F18 --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_OBJlFormGx.c \
+ *       --func DWCi_OBJlFormGx --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void *func_021D54C4(void *queue);
+extern void *DWCi_QUElPopBack(void *queue);
 
-void func_021D6F18(unsigned int i)
+void DWCi_OBJlFormGx(unsigned int i)
 {
     char *p = *(char **)0x021DE6A8;
-    func_021D54C4(*(void **)(p + (i << 2) + 0x800));
+    DWCi_QUElPopBack(*(void **)(p + (i << 2) + 0x800));
 }

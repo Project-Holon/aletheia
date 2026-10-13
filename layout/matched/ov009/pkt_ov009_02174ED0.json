@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02174ED0",
+   "name": "DWCi_QR2ClientMsgCallback",
    "address": "0x02174ED0",
    "kind": "sdk",
    "region": "ov009",

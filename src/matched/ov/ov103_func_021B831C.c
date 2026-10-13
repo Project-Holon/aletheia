@@ -1,5 +1,5 @@
 /*
- * function: func_021B831C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ClearWindow
  * address: 0x021B831C
  * packet: pkt_ov103_021B831C
  * region: ov103
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *); extern void BMP_Clear(int,u8); extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021B831C(u8 *p) {BMP_Clear((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj10244 *)p)->f0),((struct Obj10244 *)p)->f10);BMP_WIN_TransferChars((struct Descriptor *)((struct Obj10244 *)p)->f0);}
+void IRC_COMPATIBLE_TOUCH_TEST_ClearWindow(u8 *p) {BMP_Clear((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj10244 *)p)->f0),((struct Obj10244 *)p)->f10);BMP_WIN_TransferChars((struct Descriptor *)((struct Obj10244 *)p)->f0);}

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTLV_CORE_CloseMenuToReselect   0x021E9964  thumb  ov093
- *   func_06899D64   0x06899D64  thumb  ov095
+ *   BTLV_SCD_CloseInput   0x06899D64  thumb  ov095
  * Indexed-dispatch thunk (o18's 23-member shape): the member's whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base; only the scratch register, the index constant and the tail target differ. Tail call T(p[i]) with the index materialised as a scaled immediate.
  */
 
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-void BTLV_CORE_CloseMenuToReselect(E64 *p) { func_06899D64(p[0x6].f0); }
+void BTLV_CORE_CloseMenuToReselect(E64 *p) { BTLV_SCD_CloseInput(p[0x6].f0); }
 

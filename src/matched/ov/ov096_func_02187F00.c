@@ -1,5 +1,5 @@
 /*
- * function: func_02187F00
+ * function: TR_AI_Create
  * address: 0x02187F00
  * packet: pkt_ov096_02187F00
  * region: ov096
@@ -39,7 +39,7 @@
  *   keeps both pool loads (tag, site) below the parameter homing and the heap load, as if the homing code
  *   were scheduled apart from the body.
  * 2026-10-05 (wD9r lane21): still DIFF 14. Tried (compiled): a K&R (old-style) definition of
- *   func_02187F00 itself (parameter homing unchanged, same 14, tag ldr still at +0006).
+ *   TR_AI_Create itself (parameter homing unchanged, same 14, tag ldr still at +0006).
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
@@ -50,9 +50,9 @@
  *   VM_Init 0x0201126C thumb
  *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
  *   WAZA_TOOL_CreateCache 0x0201C328 thumb
- *   func_0218A41C 0x0218A41C thumb ov096
- *   D_0218A7A0 0x0218A7A0 data
- *   D_0218A574 0x0218A574 data
+ *   TR_AI_InitScriptCache 0x0218A41C thumb ov096
+ *   gTrAiAllocSite 0x0218A7A0 data
+ *   gTrAiVmParams 0x0218A574 data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,14 +69,14 @@ extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *param
 extern void VM_Init(struct ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_CreateCache(s32 n, u32 heap);
-extern void func_0218A41C(unsigned int a);
-extern const char D_0218A7A0[];
-extern u8 D_0218A574[];
-void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
+extern void TR_AI_InitScriptCache(unsigned int a);
+extern const char gTrAiAllocSite[];
+extern u8 gTrAiVmParams[];
+void *TR_AI_Create(void **a, u32 b, u32 c, u32 d, u16 heap)
 {
     u8 *p;
     void *v;
-    p = func_02030734(heap, 0xD8, 1, D_0218A7A0, 0x1D9);
+    p = func_02030734(heap, 0xD8, 1, gTrAiAllocSite, 0x1D9);
     *(u16 *)(p + 0xA0) = heap;
     *(u32 *)(p + 0xC4) = 1;
     *(u32 *)(p + 0x40) = d;
@@ -87,10 +87,10 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(u32 *)(p + 0xB8) = c;
     *(u32 *)(p + 0x98) = BTL_MAIN_GetRule(a);
     *(void **)(p + 0x9C) = BTL_MAIN_GetCompetitor((void ***)a);
-    v = VM_Create(heap, (const struct ScriptVmParams *)D_0218A574);
+    v = VM_Create(heap, (const struct ScriptVmParams *)gTrAiVmParams);
     VM_Init(v, p);
     if (WAZA_TOOL_IsCacheCreated() == 0)
         WAZA_TOOL_CreateCache(0x30, heap);
-    func_0218A41C(*(u16 *)(p + 0xA0));
+    TR_AI_InitScriptCache(*(u16 *)(p + 0xA0));
     return v;
 }

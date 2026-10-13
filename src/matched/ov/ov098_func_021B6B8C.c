@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B8C
+ * function: PDC_MSG_StartPrint
  * address: 0x021B6B8C
  * packet: pkt_ov098_021B6B8C
  * region: ov098
@@ -43,7 +43,7 @@ extern void *PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u
 extern void PRINTSYS_PrintStreamStop(void *);
 extern void PRINTSYS_Print(void *, short, short, void *, void *);
 
-void func_021B6B8C(char *a, int b)
+void PDC_MSG_StartPrint(char *a, int b)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(a + 0x1c)), 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);

@@ -1,5 +1,5 @@
 /*
- * function: func_021CBA90
+ * function: CRYPTOi__bn_mul_normal
  * address:  0x021CBA90
  * packet:   pkt_ov114_021CBA90
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      CRYPTOi__bn_mul_normal (libcrypto.TWL.HYB.a(crypto_bobj1.o))
  *
  * symbols:
- *   func_021CDA38  0x021CDA38  arm  ov114
- *   func_021CD984  0x021CD984  arm  ov114
+ *   CRYPTOi__bn_mul_words  0x021CDA38  arm  ov114
+ *   CRYPTOi__bn_mul_add_words  0x021CD984  arm  ov114
  */
 
-extern unsigned long func_021CDA38(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
-extern unsigned long func_021CD984(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
+extern unsigned long CRYPTOi__bn_mul_words(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
+extern unsigned long CRYPTOi__bn_mul_add_words(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
 
-void func_021CBA90(unsigned long *r, unsigned long *a, int na, unsigned long *b, int nb)
+void CRYPTOi__bn_mul_normal(unsigned long *r, unsigned long *a, int na, unsigned long *b, int nb)
 {
 	unsigned long *rr;
 
@@ -35,20 +35,20 @@ void func_021CBA90(unsigned long *r, unsigned long *a, int na, unsigned long *b,
 		b = ltmp;
 	}
 	rr = &(r[na]);
-	rr[0] = func_021CDA38(r, a, na, b[0]);
+	rr[0] = CRYPTOi__bn_mul_words(r, a, na, b[0]);
 	for (;;) {
 		if (--nb <= 0)
 			return;
-		rr[1] = func_021CD984(&(r[1]), a, na, b[1]);
+		rr[1] = CRYPTOi__bn_mul_add_words(&(r[1]), a, na, b[1]);
 		if (--nb <= 0)
 			return;
-		rr[2] = func_021CD984(&(r[2]), a, na, b[2]);
+		rr[2] = CRYPTOi__bn_mul_add_words(&(r[2]), a, na, b[2]);
 		if (--nb <= 0)
 			return;
-		rr[3] = func_021CD984(&(r[3]), a, na, b[3]);
+		rr[3] = CRYPTOi__bn_mul_add_words(&(r[3]), a, na, b[3]);
 		if (--nb <= 0)
 			return;
-		rr[4] = func_021CD984(&(r[4]), a, na, b[4]);
+		rr[4] = CRYPTOi__bn_mul_add_words(&(r[4]), a, na, b[4]);
 		rr += 4;
 		r += 4;
 		b += 4;

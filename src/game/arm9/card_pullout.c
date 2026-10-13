@@ -29,8 +29,8 @@
  *   MI_StopAllNDma  0x0272FD18  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_02088610 0x02088610  arm
- *   func_02004490 0x02004490  thumb
+ *   PXI_SendWordByFifo 0x02088610  arm
+ *   SVC_WaitByLoop 0x02004490  thumb
  */
 typedef unsigned long u32_020773DC;
 
@@ -85,8 +85,8 @@ extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
 extern u32_02077518 OS_DisableInterrupts(void);
 extern u32_02077518 OS_RestoreInterrupts(u32_02077518 state);
-extern u32_02077568  func_02088610(u32_02077568, u32_02077568, u32_02077568);
-extern void func_02004490(u32_02077568);
+extern u32_02077568  PXI_SendWordByFifo(u32_02077568, u32_02077568, u32_02077568);
+extern void SVC_WaitByLoop(u32_02077568);
 void func_020773DC(void);
 void func_02077410(int tag, u32_02077410 data, BOOL err);
 void func_020774A0(int (*callback)(void));
@@ -221,8 +221,8 @@ void func_02077568(u32_02077568 a, u32_02077568 b)
     u32_02077568 n = 0xe;
     u32_02077568 z = 0;
 
-    if (func_02088610(n, a, z) == 0) return;
+    if (PXI_SendWordByFifo(n, a, z) == 0) return;
     do {
-        func_02004490(b);
-    } while (func_02088610(n, a, z) != 0);
+        SVC_WaitByLoop(b);
+    } while (PXI_SendWordByFifo(n, a, z) != 0);
 }

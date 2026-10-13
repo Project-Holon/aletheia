@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02075404",
+   "name": "NNSi_SndArcLoadBankWaves",
    "address": "0x02075404",
    "kind": "game",
    "region": "arm9",
@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_020754C4",
+   "name": "NNS_SndArcPlayerSetup",
    "address": "0x020754C4",
    "kind": "game",
    "region": "arm9",

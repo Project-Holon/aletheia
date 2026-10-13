@@ -1,5 +1,5 @@
 /*
- * function: func_021F75E0
+ * function: VS_MULTI_LIST_DeleteBgFrames
  * address:  0x021F75E0
  * packet:   pkt_ov097_021F75E0
  * region:   ov097
@@ -17,7 +17,7 @@
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
-void func_021F75E0(int *p)
+void VS_MULTI_LIST_DeleteBgFrames(int *p)
 {
     BGWINFRM_Delete((struct WinMgr *)p[2]);
 }

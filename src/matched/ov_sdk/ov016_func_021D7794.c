@@ -1,5 +1,5 @@
 /*
- * function: func_021D7794
+ * function: DWCi_TSKlOperate
  * address:  0x021D7794
  * packet:   pkt_021D7474
  * region:   ov016
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D7794 0x021D7794 arm
- *   g_021DE6E4    0x021DE6E4 data
+ *   DWCi_TSKlOperate 0x021D7794 arm
+ *   gMemTask    0x021DE6E4 data
  */
 
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void *g_021DE6E4;
+extern void *gMemTask;
 
-void func_021D7794(u32 index, u8 val)
+void DWCi_TSKlOperate(u32 index, u8 val)
 {
-    u8 *ptr = (u8 *)g_021DE6E4;
+    u8 *ptr = (u8 *)gMemTask;
     ptr += index << 6;
     ptr[0x38] = val;
 }

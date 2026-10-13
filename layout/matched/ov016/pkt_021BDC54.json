@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDC54",
+   "name": "DWCi_KBlGet",
    "address": "0x021BDC54",
    "kind": "sdk",
    "region": "ov016",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDC68",
+   "name": "DWCi_KBlSetErase",
    "address": "0x021BDC68",
    "kind": "sdk",
    "region": "ov016",

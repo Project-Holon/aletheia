@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F74
+ * function: IRC_RANKING_DisplayBgVBlank
  * address:  0x021B7F74
  * packet:   pkt_ov106_021B7F74
  * region:   ov106
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_020419E4(void);
-void func_021B7F74(u8 *a0) { func_020419E4(); }
+void IRC_RANKING_DisplayBgVBlank(u8 *a0) { func_020419E4(); }

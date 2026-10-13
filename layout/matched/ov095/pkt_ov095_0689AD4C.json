@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689AD4C",
+   "name": "BTLV_SCD_AddFrontEnemyTargets",
    "address": "0x0689AD4C",
    "kind": "game",
    "region": "ov095",

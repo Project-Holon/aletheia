@@ -1,5 +1,5 @@
 /*
- * function: func_0208EE9C
+ * function: WM_GetLinkLevel
  * address:  0x0208EE9C
  * packet:   pkt_0208EE9C
  * region:   arm9
@@ -77,7 +77,7 @@ extern WMArm9Buf *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckInitialized(void);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 
-WMLinkLevel func_0208EE9C(void)
+WMLinkLevel WM_GetLinkLevel(void)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

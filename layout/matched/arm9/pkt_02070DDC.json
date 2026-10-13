@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02070DDC",
+   "name": "NNSi_G3dGetJointScaleMaya",
    "address": "0x02070DDC",
    "kind": "game",
    "region": "arm9",

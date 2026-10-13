@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216E4C0",
+   "name": "DWCi_GT2UnrecognizedMessageCallback",
    "address": "0x0216E4C0",
    "kind": "sdk",
    "region": "ov009",

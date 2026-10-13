@@ -13,15 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_02085988 0x02085988 arm
- *   func_020857B0 0x020857B0 arm
- *   func_0208799C 0x0208799C arm
- *   OS_GetThreadPriority_Alt 0x02085A30 arm
- *   func_020854B0 0x020854B0 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_SetThreadPriority 0x02085988 arm
+ *   OS_SleepThread 0x020857B0 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   OS_ExitThread 0x020854B0 arm
  *   func_021F662C 0x021F662C arm ov107
- *   func_020853C0 0x020853C0 arm
- *   func_02085868 0x02085868 arm
+ *   OS_CreateThread 0x020853C0 arm
+ *   OS_WakeupThreadDirect 0x02085868 arm
  *   g_021F7004 0x021F7004 data
  *   ctrdgi_task_work 0x021f7004 data
  *   OS_GetThreadPriority             0x02085a30 arm
@@ -72,20 +71,19 @@ typedef struct MBiTaskWork {
     struct MBiTaskInfo_tag fieldC4;
 } MBiTaskWork;
 
-extern u32 func_02087988(void);
-extern void func_02085988(void *thread, u32 prio);
-extern void func_020857B0(void *q);
-extern void func_0208799C(u32 mode);
-extern void *OS_GetThreadPriority_Alt(char *p);
-extern void func_020854B0(void);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_SetThreadPriority(void *thread, u32 prio);
+extern void OS_SleepThread(void *q);
+extern void OS_RestoreInterrupts(u32 mode);
+extern void OS_ExitThread(void);
 extern void func_021F662C(void *pt);
-extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
-extern void func_02085868(void *thread);
+extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
+extern void OS_WakeupThreadDirect(void *thread);
 extern void MI_CpuFill8(void *dst, int val, u32 len);
 extern u32 OS_GetThreadPriority(void *thread);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_WakeupThreadDirect(void *thread);
-extern u32 OS_RestoreInterrupts(u32 state);
+
+
+
 void func_021F6480(void *arg);
 void func_021F6590(void *p_work, unsigned long size);
 int MBi_IsTaskAvailable(void);
@@ -111,15 +109,15 @@ void func_021F6480(void *arg)
         {
             u32 bak_cpsr;
 
-            bak_cpsr = func_02087988();
+            bak_cpsr = OS_DisableInterrupts();
             while (p->list == 0) {
-                func_02085988(p, 0);
-                func_020857B0(0);
+                OS_SetThreadPriority(p, 0);
+                OS_SleepThread(0);
             }
             trg = p->list;
         p->list = p->list->next;
-            func_02085988(p, trg->flags >> 1);
-            func_0208799C(bak_cpsr);
+            OS_SetThreadPriority(p, trg->flags >> 1);
+            OS_RestoreInterrupts(bak_cpsr);
         }
         if (trg->task) {
             trg->task(trg);
@@ -128,20 +126,20 @@ void func_021F6480(void *arg)
             u32 bak_cpsr;
             void (*callback)(Task *);
 
-            bak_cpsr = func_02087988();
+            bak_cpsr = OS_DisableInterrupts();
             callback = trg->callback;
             {
                 u32 cur_priority;
                 u32 new_priority;
 
-                cur_priority = (u32)OS_GetThreadPriority_Alt((char *)p);
+                cur_priority = OS_GetThreadPriority((void *)p);
                 if (p->list == 0) {
                     new_priority = 0;
                 } else {
                     new_priority = cur_priority < (p->list->flags >> 1) ? (p->list->flags >> 1) : cur_priority;
                 }
                 if (new_priority != cur_priority) {
-                    func_02085988(p, new_priority);
+                    OS_SetThreadPriority(p, new_priority);
                 }
             }
             trg->next = 0;
@@ -152,26 +150,26 @@ void func_021F6480(void *arg)
             if (trg == &p->end) {
                 break;
             }
-            func_0208799C(bak_cpsr);
+            OS_RestoreInterrupts(bak_cpsr);
         }
     }
-    func_020854B0();
+    OS_ExitThread();
 }
 
 
 void func_021F6590(void *p_work, unsigned long size)
 {
-    unsigned long bak_cpsr = func_02087988();
+    unsigned long bak_cpsr = OS_DisableInterrupts();
 
     if (g_021F7004 == 0) {
         TaskWork_021F6590 *p = (TaskWork_021F6590 *)p_work;
         g_021F7004 = p;
         func_021F662C((char *)p + 0xC4);
         p->f_c0 = 0;
-        func_020853C0(p, func_021F6480, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
-        func_02085868(p);
+        OS_CreateThread(p, func_021F6480, p, (char *)p + 0xE4 + ((size - 0xE4) & ~3), (size - 0xE4) & ~3, 0);
+        OS_WakeupThreadDirect(p);
     }
-    func_0208799C(bak_cpsr);
+    OS_RestoreInterrupts(bak_cpsr);
 }
 
 

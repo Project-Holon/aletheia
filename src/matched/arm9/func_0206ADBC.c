@@ -1,5 +1,5 @@
 /*
- * function: func_0206ADBC
+ * function: NNS_G3dGlbGetWVMtx
  * address:  0x0206ADBC
  * packet:   pkt_0206AA78
  * region:   arm9
@@ -17,7 +17,7 @@
  *   frame to `push {r4, lr}` with 21 differing bytes; dsi/../2.0/sp2 with this
  *   C compiles to the original's 56 bytes with zero concrete mismatches.  Same
  *   tell ("kept constants", docs/FRONTEND-PINS.md) and same family as
- *   src/pending/func_0206AD64.c and src/pending/func_0206AE2C.c, both already
+ *   src/pending/NNSi_G3dGlbUpdateWV.c and src/pending/NNS_G3dGlbGetInvVPMtx.c, both already
  *   pinned to ../2.0/sp2 by wave r6.
  *
  * Rig-slot setup for bit 7: if the flags object's +0xfc word does not already
@@ -26,25 +26,25 @@
  * last and is loaded once, after the branch target.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206ADBC.c \
- *       --func func_0206ADBC --addr 0x0206ADBC --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbGetWVMtx.c \
+ *       --func NNS_G3dGlbGetWVMtx --addr 0x0206ADBC --cc ../2.0/sp2 --arm
  *
  * symbols:
  *   g_renderState   0x02148B4C  data
  *   g_02148C7C   0x02148C7C  data
- *   func_0206AD64  0x0206AD64  arm
+ *   NNSi_G3dGlbUpdateWV  0x0206AD64  arm
  */
 
 typedef unsigned int u32;
 
 extern u32 g_renderState[];
 extern u32 g_02148C7C[];
-extern void func_0206AD64(void);
+extern void NNSi_G3dGlbUpdateWV(void);
 
-u32 *func_0206ADBC(void)
+u32 *NNS_G3dGlbGetWVMtx(void)
 {
     if ((g_renderState[0x3f] & 0x80) == 0) {
-        func_0206AD64();
+        NNSi_G3dGlbUpdateWV();
         g_renderState[0x3f] |= 0x80;
     }
     return g_02148C7C;

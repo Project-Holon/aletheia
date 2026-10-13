@@ -1,5 +1,5 @@
 /*
- * function: func_021B98F8
+ * function: WIFICLUBACTOR_SetMode
  * address:  0x021B98F8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -24,7 +24,7 @@ typedef struct {
     u32 f00, f04, f08, f0C;
 } S;
 
-void func_021B98F8(S *s, u32 v)
+void WIFICLUBACTOR_SetMode(S *s, u32 v)
 {
     s->f0C = v;
 }

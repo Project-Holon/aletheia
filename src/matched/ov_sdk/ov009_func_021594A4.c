@@ -1,5 +1,5 @@
 /*
- * function: func_021594A4
+ * function: _tcp_send_rst
  * address:  0x021594A4
  * packet:   pkt_ov009_021594A4
  * region:   ov009
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuFill8              0x02082BCC  arm
- *   func_021593A8            0x021593A8  arm  ov009
+ *   _tcp_send_handshake            0x021593A8  arm  ov009
  *   g_021A8484               0x021A8484  data
  */
 
@@ -32,14 +32,14 @@ struct _CPSSoc {
 };
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_021593A8(char *soc, unsigned char flag);
+extern void _tcp_send_handshake(char *soc, unsigned char flag);
 extern struct _CPSSoc g_021A8484;
 
 #define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
 #define GET16(p) SWAP16(*(unsigned short *)(p))
 #define GET32(p) (((unsigned long)GET16(p) << 16) | GET16((p) + 2))
 
-void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
+void _tcp_send_rst(unsigned char *iphdr, unsigned char *tcphdr, unsigned long len)
 {
 	struct _CPSSoc *soc;
 
@@ -50,12 +50,12 @@ void func_021594A4(unsigned char *iphdr, unsigned char *tcphdr, unsigned long le
 	soc->remote_ip = GET32(iphdr + 0xc);
 	if (tcphdr[0xd] & 0x10) {
 		soc->seqno = GET32(tcphdr + 8);
-		func_021593A8((char *)soc, 4);
+		_tcp_send_handshake((char *)soc, 4);
 		return;
 	}
 	soc->seqno = 0;
 	soc->ackno = GET32(tcphdr + 4) + len;
 	if (tcphdr[0xd] & 3)
 		soc->ackno++;
-	func_021593A8((char *)soc, 0x14);
+	_tcp_send_handshake((char *)soc, 0x14);
 }

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_0689B098, func_0689B0CC
+ * function: BTLV_SCD_ShowTargetSetMenu, BTLV_SCD_IsTargetChosen
  * address: 0x0689B098
  * packet: pkt_ov095_0689B098
  * region: ov095
@@ -10,23 +10,23 @@
  * status: EXACT
  * trailing: unlabelled byte accessor at 0x0689B0CC, followed by alignment padding.
  * symbols:
- *   func_0689AE34 0x0689AE34 thumb ov095
+ *   BTLV_SCD_ShowTargetMenu 0x0689AE34 thumb ov095
  */
 typedef unsigned char u8;
-extern void func_0689AE34(u8 *list, u8 n, int unused, u8 *s);
+extern void BTLV_SCD_ShowTargetMenu(u8 *list, u8 n, int unused, u8 *s);
 
-void func_0689B098(u8 *p, u8 *s)
+void BTLV_SCD_ShowTargetSetMenu(u8 *p, u8 *s)
 {
     if (p[0] != 0) {
-        func_0689AE34(p + 3, p[0], 0, s);
+        BTLV_SCD_ShowTargetMenu(p + 3, p[0], 0, s);
     } else if (p[2] == 1) {
-        func_0689AE34(p + 3, p[1], 1, s);
+        BTLV_SCD_ShowTargetMenu(p + 3, p[1], 1, s);
     } else {
-        func_0689AE34(p + 3, p[1], 2, s);
+        BTLV_SCD_ShowTargetMenu(p + 3, p[1], 2, s);
     }
 }
 
-u8 func_0689B0CC(u8 *p)
+u8 BTLV_SCD_IsTargetChosen(u8 *p)
 {
     return p[0x89];
 }

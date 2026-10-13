@@ -1,5 +1,5 @@
 /*
- * function: func_0689BC30
+ * function: BTL_SICK_ApplyBindDamage
  * address: 0x0689BC30
  * packet: pkt_ov095_0689BC30
  * region: ov095
@@ -38,7 +38,7 @@ extern void func_0689BDA0(void *, int, int);
 extern void func_0689BDB0(void *, u32);
 extern void func_0689BDC0(void *, int);
 extern void func_0689BDD0(u32, Node *);
-void func_0689BC30(u32 a, u32 b, u32 c)
+void BTL_SICK_ApplyBindDamage(u32 a, u32 b, u32 c)
 {
     Word value;
     Node *node;

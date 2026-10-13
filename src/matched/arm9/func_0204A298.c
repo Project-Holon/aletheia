@@ -14,7 +14,7 @@
  *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   func_02030734  0x02030734  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   func_020834C0  0x020834C0  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
  *   func_020307B0  0x020307B0  arm
  *   arc_util_file   0x020A7F30  data
  *
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void *      func_02030734(u32 a0, u32 a1, int a2, const char *file, u16 line);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-extern int         func_020834C0(int a0, int a1);
+extern int         MI_UncompressLZ8(int a0, int a1);
 extern u32 func_020307B0(void *p);
 extern const char  arc_util_file[];
 
@@ -49,7 +49,7 @@ int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out)
     if (a2 != 0) {
         *out = ((struct Obj16075 *)r)->f0 >> 8;
         t = (int)func_02030734(a3, *out, 0, arc_util_file, 1656);
-        func_020834C0(r, t);
+        MI_UncompressLZ8(r, t);
         func_020307B0((void *)r);
         r = t;
     }

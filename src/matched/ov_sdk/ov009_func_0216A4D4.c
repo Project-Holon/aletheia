@@ -18,12 +18,12 @@
  *   func_02185CB4  0x02185CB4  arm  ov009
  *   func_0216A460  0x0216A460  arm  ov009
  *   func_02178F00  0x02178F00  arm  ov009
- *   func_02059408  0x02059408  arm
+ *   DWCi_Acc_U64ToString32  0x02059408  arm
  *   func_02167EA0  0x02167EA0  arm  ov009
- *   func_0216F20C  0x0216F20C  arm  ov009
+ *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
  *   DWCi_GT2Startup  0x0216BA4C  arm  ov009
- *   func_02176AA8  0x02176AA8  arm  ov009
- *   func_02176ABC  0x02176ABC  arm  ov009
+ *   DWCi_SetMatchmakeProfileId  0x02176AA8  arm  ov009
+ *   DWCi_RegisterMatchmakeKeys  0x02176ABC  arm  ov009
  *   func_0216A3B8  0x0216A3B8  arm  ov009
  *   func_02185BD8  0x02185BD8  arm  ov009
  *   func_0216A8F4  0x0216A8F4  arm  ov009
@@ -68,12 +68,12 @@ extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
 extern int func_0216A460(int result);
 extern u64 func_02178F00(void);
-extern void func_02059408(u64 num, int bitnum, char *result);
+extern void DWCi_Acc_U64ToString32(u64 num, int bitnum, char *result);
 extern char *func_02167EA0(void);
-extern int func_0216F20C(int matchType);
+extern int DWCi_GPSetServerStatus(int matchType);
 extern int DWCi_GT2Startup(void);
-extern void func_02176AA8(int profileID);
-extern void func_02176ABC(void);
+extern void DWCi_SetMatchmakeProfileId(int profileID);
+extern void DWCi_RegisterMatchmakeKeys(void);
 extern void func_0216A3B8(int error, int errorCode);
 extern int func_02185BD8(void **connection, int profile, int checkCache, int blocking,
                          void (*callback)(void **, void *, void *), void *param);
@@ -92,7 +92,7 @@ static void func_0216A4D4(void **pconnection, GPConnectResponseArg *arg)
     if (func_0216A460(gpResult))
         return;
 
-    func_02059408(func_02178F00(), 43, aimname);
+    DWCi_Acc_U64ToString32(func_02178F00(), 43, aimname);
     gpResult = func_02185CB4(pconnection, 0x717, aimname);
     if (func_0216A460(gpResult))
         return;
@@ -105,14 +105,14 @@ static void func_0216A4D4(void **pconnection, GPConnectResponseArg *arg)
         if (g_021AA874->state == 2) {
             if (g_021AA874->userdata->gs_profile_id == arg->profile) {
                 g_021AA874->state = 5;
-                gpResult = func_0216F20C(1);
+                gpResult = DWCi_GPSetServerStatus(1);
                 if (func_0216A460(gpResult))
                     return;
                 g_021AA874->callback(0, arg->profile, g_021AA874->param);
                 if (DWCi_GT2Startup())
                     return;
-                func_02176AA8(arg->profile);
-                func_02176ABC();
+                DWCi_SetMatchmakeProfileId(arg->profile);
+                DWCi_RegisterMatchmakeKeys();
             } else {
                 func_0216A3B8(6, -60000);
             }

@@ -746,6 +746,12 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
                     code = img[t["addr"] - base:(tus[ti + 1]["addr"] if ti + 1 < len(tus) else end) - base]
                     hits = [h for h in hits if struct.pack("<I", base + h) in code] or hits
                 if len(hits) > 1:
+                    # keep the place the header names with an @ symbol, the compiler's
+                    # own template of a function-local array (ov009 qr2: g_021A5A7C
+                    # holds the same 6 bytes and the code points at both)
+                    hits = [h for h in hits if any(
+                        n.startswith("@") and v[0] == base + h for n, v in t["syms"].items())] or hits
+                if len(hits) > 1:
                     # drop places inside an object the headers already name
                     hits = [h for h in hits if not named_object_at(base + h, len(blob))] or hits
                 if len(hits) == 1:

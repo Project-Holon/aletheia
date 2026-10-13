@@ -23,9 +23,9 @@ struct EventWork;
 #define FIELD_GIMMICK_MODELS_A_FLAG_MODEL5 0x96C
 
 /* The common work of the gimmick on the field map (2 bytes, id 0). */
-typedef struct Gimmick49Work {
+typedef struct FieldGimmickModelsAWork {
     u16 heapId;         /* 0x00: heap of the field map */
-} Gimmick49Work;
+} FieldGimmickModelsAWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);

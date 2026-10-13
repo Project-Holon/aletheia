@@ -1,5 +1,5 @@
 /*
- * function: func_021D75D0
+ * function: DWCi_TSKlAct
  * address:  0x021D75D0
  * packet:   pkt_ov016_021D75D0
  * region:   ov016
@@ -12,9 +12,9 @@
  * sdk:      DWCi_TSKlAct (libdwcutil.TWL.HYB.a(task.o))
  *
  * symbols:
- *   func_021D54C4  0x021D54C4  arm  ov016
+ *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
  *   func_021D7750  0x021D7750  arm  ov016
- *   g_021DE6E4  0x021DE6E4  data
+ *   gMemTask  0x021DE6E4  data
  */
 
 typedef struct TCB {
@@ -39,23 +39,23 @@ typedef struct {
 	char pad2[7];
 } TK;
 
-extern void *func_021D54C4(void *queue);
+extern void *DWCi_QUElPopBack(void *queue);
 typedef unsigned int   u32;
 struct StructR4;
 extern void func_021D7750(u32 idx, struct StructR4 *r4);
-extern TK *g_021DE6E4;
+extern TK *gMemTask;
 
-void func_021D75D0(int kind)
+void DWCi_TSKlAct(int kind)
 {
 	TCB *t;
 	int i;
 
-	if (g_021DE6E4[kind].flag == 0)
+	if (gMemTask[kind].flag == 0)
 		return;
-	for (t = g_021DE6E4[kind].first; t != (TCB *)g_021DE6E4[kind].head; t = t->next)
+	for (t = gMemTask[kind].first; t != (TCB *)gMemTask[kind].head; t = t->next)
 		t->func(t, t->work);
-	for (i = 0; i < g_021DE6E4[kind].count; i++) {
-		t = (TCB *)func_021D54C4(g_021DE6E4[kind].delque);
+	for (i = 0; i < gMemTask[kind].count; i++) {
+		t = (TCB *)DWCi_QUElPopBack(gMemTask[kind].delque);
 		if (t == 0)
 			return;
 		func_021D7750(kind, (struct StructR4 *)t);

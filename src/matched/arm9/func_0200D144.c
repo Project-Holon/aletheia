@@ -1,5 +1,5 @@
 /*
- * function: func_0200D144
+ * function: ZUKAN_SAVE_HasSeenGenderForm
  * address:  0x0200D144
  * packet:   pkt_0200D144
  * region:   arm9
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * The five-way reader over the bitmaps func_0200C818/func_0200C914 write
+ * The five-way reader over the bitmaps ZUKAN_SAVE_SetSeenGenderFlag/ZUKAN_SAVE_SetSeenFormFlag write
  * (decode in docs/notes/pkt_0200D144.c.txt).  EXACT* only because the
- * 16-byte leaf that follows it, func_0200D288, has no label; that leaf is
- * filed as its own witness, src/matched/func_0200D288.c.
+ * 16-byte leaf that follows it, ZUKAN_SAVE_GetSpindaPersonality, has no label; that leaf is
+ * filed as its own witness, src/matched/ZUKAN_SAVE_GetSpindaPersonality.c.
  *
  * Closed in wave 13: the two-row tests of the last two arms go through the
  * species-bit helper `TestSpecies(row, id)` (it forms `u16 x = id - 1`
- * itself, as in func_0200CC40 and func_0200D064), joined by `||`.  Each
+ * itself, as in ZUKAN_SAVE_GetViewGenderAndForm and ZUKAN_SAVE_IsSeen), joined by `||`.  Each
  * inlined copy has its own `x`, so the image's second `adds r0, r5, r1`
  * (p + off formed again for the +0xB0 row) comes out, which no open-coded
  * spelling reached (it was 2 bytes short or 2 long, never right).  The
@@ -24,8 +24,8 @@
  * shape that gives their shared `bne` tail.
  *
  * symbols:
- *   func_0200C720  0x0200C720  thumb
- *   func_0200C7C0  0x0200C7C0  thumb
+ *   ZUKAN_SAVE_IsInvalidSpecies  0x0200C720  thumb
+ *   ZUKAN_SAVE_GetFormBitBase  0x0200C7C0  thumb
  */
 
 typedef unsigned char  u8;
@@ -33,8 +33,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_0200C720(u32 id);
-extern u32 func_0200C7C0(u16 id);
+extern u32 ZUKAN_SAVE_IsInvalidSpecies(u32 id);
+extern u32 ZUKAN_SAVE_GetFormBitBase(u16 id);
 
 static inline u32 TestSpecies(const u8 *row, u32 id)
 {
@@ -42,17 +42,17 @@ static inline u32 TestSpecies(const u8 *row, u32 id)
     return row[x >> 3] & (1 << (x & 7));
 }
 
-u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form)
+u32 ZUKAN_SAVE_HasSeenGenderForm(u8 *p, u16 id, u32 sel, u32 alt, u32 form)
 {
     u32 res;
     s32 x;
     u32 m;
     u32 r;
 
-    if (func_0200C720(id) != 0) {
+    if (ZUKAN_SAVE_IsInvalidSpecies(id) != 0) {
         return (u32)-1;
     }
-    res = func_0200C7C0(id);
+    res = ZUKAN_SAVE_GetFormBitBase(id);
     if (res != (u32)-1) {
         x = (u16)(res + form);
         m = 1 << (x & 7);

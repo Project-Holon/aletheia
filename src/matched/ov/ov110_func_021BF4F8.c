@@ -1,5 +1,5 @@
 /*
- * function: func_021BF4F8
+ * function: PMS_INPUT_SetSubHandler
  * address:  0x021BF4F8
  * packet:   pkt_ov110_021BF4F8
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021BF4F8(u8 *p, u32 v) { ((struct Obj13795 *)p)->f30 = v; ((struct Obj13795 *)p)->f2C = 0; }
+void PMS_INPUT_SetSubHandler(u8 *p, u32 v) { ((struct Obj13795 *)p)->f30 = v; ((struct Obj13795 *)p)->f2C = 0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E20D4
+ * function: DWCi_GdbHandleRequestResult
  * address:  0x021E20D4
  * packet:   pkt_ov175_021E20D4
  * region:   ov175
@@ -12,29 +12,29 @@
  * sdk:      DWCi_GdbHandleRequestResult (dwc_gdb.o)
  *
  * symbols:
- *   func_021E1F6C  0x021E1F6C  arm  ov175
- *   func_021E17D8  0x021E17D8  arm  ov175
- *   func_021E20B8  0x021E20B8  arm  ov175
+ *   DWCi_GdbRequestResultToAsyncResult  0x021E1F6C  arm  ov175
+ *   DWCi_GdbPrintf  0x021E17D8  arm  ov175
+ *   DWCi_GdbGetRequestResultErrorCode  0x021E20B8  arm  ov175
  *   DWCi_SetError  0x02059F54  arm
- *   g_021E47C4     0x021E47C4  data
+ *   sDwcGdbAsyncResultFormat     0x021E47C4  data
  */
 
-extern char g_021E47C4[];
-extern int func_021E1F6C(int result, int *dwc_error);
-extern void func_021E17D8(int line, char *fmt, ...);
-extern int func_021E20B8(int process, int result);
+extern char sDwcGdbAsyncResultFormat[];
+extern int DWCi_GdbRequestResultToAsyncResult(int result, int *dwc_error);
+extern void DWCi_GdbPrintf(int line, char *fmt, ...);
+extern int DWCi_GdbGetRequestResultErrorCode(int process, int result);
 extern void DWCi_SetError(int error, int errorCode);
 
-int func_021E20D4(int process, int result)
+int DWCi_GdbHandleRequestResult(int process, int result)
 {
     int error_code;
     int dwc_error;
     int retval;
 
-    retval = func_021E1F6C(result, &dwc_error);
+    retval = DWCi_GdbRequestResultToAsyncResult(result, &dwc_error);
     if (retval != 1) {
-        func_021E17D8(0x75b, g_021E47C4, retval);
-        error_code = func_021E20B8(process, retval);
+        DWCi_GdbPrintf(0x75b, sDwcGdbAsyncResultFormat, retval);
+        error_code = DWCi_GdbGetRequestResultErrorCode(process, retval);
         DWCi_SetError(dwc_error, error_code);
     }
     return retval;

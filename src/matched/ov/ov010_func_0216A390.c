@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 struct Blk37;
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 
 void FORMCHANGE_RevertShayminAndRegister(int a0, int a1)
 {
@@ -40,7 +40,7 @@ void FORMCHANGE_RevertShayminAndRegister(int a0, int a1)
     int v;
     int w;
 
-    l4 = func_0200CA1C((void *)a0);
+    l4 = ZUKAN_SAVE_GetFromGameData((void *)a0);
     found = 0;
     n = POKEPARTY_GetCount((void *)a1);
     for (i = 0; i < n; i++) {
@@ -50,7 +50,7 @@ void FORMCHANGE_RevertShayminAndRegister(int a0, int a1)
         if (v == 0x1EC && w == 1) {
             POKE_TOOL_ChangeForm(e, 0);
             if (found == 0) {
-                func_0200CFA0(l4, e);
+                ZUKAN_SAVE_RegisterSeen(l4, e);
                 found = 1;
             }
         }

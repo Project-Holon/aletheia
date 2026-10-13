@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0F8
+ * function: PMSIV_MENU_SetItemAnim
  * address: 0x021BD0F8
  * packet: pkt_ov110_021BD0F8
  * region: ov110
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * lever: integer table-base arithmetic forms table+i*2 before adding flag;
- * d_021C38DF[i*2+flag] combined the two indices first (11 concrete bytes differed).
+ * gPmsivMenuItemAnimSeq[i*2+flag] combined the two indices first (11 concrete bytes differed).
  * symbols:
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   d_021C38DF 0x021C38DF data a1
+ *   gPmsivMenuItemAnimSeq 0x021C38DF data a1
  */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern const u8 d_021C38DF[];
+extern const u8 gPmsivMenuItemAnimSeq[];
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-void func_021BD0F8(u8 *p,int i,int flag)
+void PMSIV_MENU_SetItemAnim(u8 *p,int i,int flag)
 {
-    CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x70),*(u8 *)((u32)d_021C38DF+i*2+flag));
+    CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x70),*(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
 }

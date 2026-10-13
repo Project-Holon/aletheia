@@ -29,14 +29,14 @@
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
- *   func_021C7BA0 0x021C7BA0 arm ov114
+ *   DPW_TR_Init 0x021C7BA0 arm ov114
  *   func_021F513C  0x021F513C  thumb  ov135
  *   func_021F4FC4  0x021F4FC4  thumb  ov135
- *   func_021C7C1C  0x021C7C1C  arm
- *   func_021C866C  0x021C866C  arm
- *   func_021C86A8  0x021C86A8  arm
- *   func_021B9B00 0x021B9B00 thumb ov114
- *   func_021C8E18 0x021C8E18 arm ov114
+ *   DPW_TR_Main  0x021C7C1C  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm
+ *   NHTTP_RAP_InitTrainerInfo 0x021B9B00 thumb ov114
+ *   DPW_TR_SetProfileAsync 0x021C8E18 arm ov114
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Push 0x02031348 arm
@@ -136,7 +136,7 @@
  *   func_021FBF6C  0x021FBF6C  thumb
  *   tbl_022033F8   0x022033F8  data
  *   tbl_02203440   0x02203440  data
- *   func_0200D064  0x0200D064  thumb
+ *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb
  *   func_021F8498  0x021F8498  thumb
  *   func_021F84BC  0x021F84BC  thumb
  *   g_022033FC  0x022033FC  data  ov135
@@ -310,15 +310,15 @@ extern int func_02009CC0(void *a0);
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
-extern void func_021C7BA0(u32 a, u32 b, u32 c, int d);
+extern void DPW_TR_Init(u32 a, u32 b, u32 c, int d);
 extern void func_021C8DA0(u8 *p);
-extern void *func_021C7C1C();
-extern u32 func_021C866C();
-extern s32 func_021C86A8(void);
+extern void *DPW_TR_Main();
+extern u32 DPW_TR_IsAsyncEnd();
+extern s32 DPW_TR_GetAsyncResult(void);
 extern void func_021F513C(u8 *p);
 extern void func_021F4FC4(u8 *p);
-extern void func_021B9B00(u8 *,int);
-extern void func_021C8E18(u8 *,u32);
+extern void NHTTP_RAP_InitTrainerInfo(u8 *,int);
+extern void DPW_TR_SetProfileAsync(u8 *,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void *func_020120F4(const struct Ctx *p);
@@ -390,7 +390,7 @@ extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FBF6C(Menu *m, u32 idx);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
 extern void func_021F84BC(u32 i, int *start, int *end);
 extern u32 BMP_MENUWORK_Delete(void *p);
@@ -741,7 +741,7 @@ int func_021F8AB0(u8 **p)
     func_02008540(((struct Obj23397 *)(*p))->f1C, func_02009CC0(((struct Obj23398 *)(*p))->f14));
     id = func_0200853C(((struct Obj23399 *)(*p))->f1C);
     key = DWC_CreateFriendKey(handle);
-    func_021C7BA0(id, (u32)key, (u32)(key >> 32), 0);
+    DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);
     return 1;
 }
 
@@ -768,7 +768,7 @@ int func_021F8AF4(Work *p)
  * index 14 returns 1, and four separate case groups (15, 13+16, 0+3, 1+12)
  * each call func_021F4FC4 and archive n at +0x38 before returning 2; the
  * remaining indexes fall through to the shared tail (one more func_021F4FC4)
- * and the function returns 0.  func_021C7C1C(p) runs first, unconditionally.
+ * and the function returns 0.  DPW_TR_Main(p) runs first, unconditionally.
  * Concrete bytes are identical to the image; the only wildcards are the two
  * BLX sites to 0x021C866C and 0x021C86A8, which carry no func_ label in any
  * overlay listing (match.py's `label` class needs exactly one listing to
@@ -776,7 +776,7 @@ int func_021F8AF4(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -785,8 +785,8 @@ int func_021F8B0C(WorldtradeEnterObj2 *p)
 {
     s32 n;
 
-    if (func_021C866C(func_021C7C1C((u8 *)p)) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd(DPW_TR_Main((u8 *)p)) != 0) {
+        n = DPW_TR_GetAsyncResult();
         p->fF8C = 0;
         switch (n + 15) {
         case 15:
@@ -825,7 +825,7 @@ int func_021F8B0C(WorldtradeEnterObj2 *p)
 
 
 
-int func_021F8BBC(Work *p) { func_021B9B00((u8 *)p+0xf18,((struct Obj23400 *)(*(u8 * *)(void **)&p->ctx))->f1C);func_021C8E18((u8 *)p+0xf18,(u32)((u8 *)p+0xf7c));p->timer=0;return 1; }
+int func_021F8BBC(Work *p) { NHTTP_RAP_InitTrainerInfo((u8 *)p+0xf18,((struct Obj23400 *)(*(u8 * *)(void **)&p->ctx))->f1C);DPW_TR_SetProfileAsync((u8 *)p+0xf18,(u32)((u8 *)p+0xf7c));p->timer=0;return 1; }
 
 
 
@@ -838,9 +838,9 @@ int func_021F8BE8(Work *p)
 {
     int code;
 
-    func_021C7C1C();
-    if (func_021C866C() != 0) {
-        code = func_021C86A8();
+    DPW_TR_Main();
+    if (DPW_TR_IsAsyncEnd() != 0) {
+        code = DPW_TR_GetAsyncResult();
         p->wait = 0;
         switch (code) {
         case 0:
@@ -2799,7 +2799,7 @@ int func_021FB240(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
     int n = 0;
 
     for (i = start; i < end; i++) {
-        if (func_0200D064((struct Blk37 *)item, list[i]) != 0) {
+        if (ZUKAN_SAVE_IsSeen((struct Blk37 *)item, list[i]) != 0) {
             n++;
         }
     }
@@ -2823,7 +2823,7 @@ int func_021FB26C(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag
     n = func_021FB240(x, (u32)bag, count, list, start, end);
     *menu = BMP_MENUWORK_Create(n + 1, 0x48);
     for (i = start; i < end; i++) {
-        if (func_0200D064(bag, list[i]) != 0) {
+        if (ZUKAN_SAVE_IsSeen(bag, list[i]) != 0) {
             BMP_MENUWORK_AddMsgItem((struct Slot *)*menu, (u32)msg, list[i], list[i], 0x48);
         }
     }

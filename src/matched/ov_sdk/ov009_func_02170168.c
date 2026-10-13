@@ -1,5 +1,5 @@
 /*
- * function: func_02170168
+ * function: DWCi_SendSBMsgCommand
  * address:  0x02170168
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -12,7 +12,7 @@
  * Sends a match command to a host through the server browser.
  *
  * symbols:
- *   func_021700C8  0x021700C8  arm  ov009
+ *   DWCi_EncodeBinaryMsgCommand  0x021700C8  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02198620  0x02198620  arm  ov009
  *   func_0219EF08  0x0219EF08  arm  ov009
@@ -35,18 +35,18 @@ typedef struct {
 
 struct DWCstBinaryMessage;
 struct ServerBrowser;
-extern void func_021700C8(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
+extern void DWCi_EncodeBinaryMsgCommand(struct DWCstBinaryMessage *message, unsigned char command, unsigned long *data, int len);
 extern int func_02175F3C(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0219EF08(struct ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
 
-int func_02170168(unsigned char command, unsigned int ip, unsigned short port, const unsigned int *data, int len)
+int DWCi_SendSBMsgCommand(unsigned char command, unsigned int ip, unsigned short port, const unsigned int *data, int len)
 {
     MatchCtrl ctrl;
     int i;
     int res;
 
-    func_021700C8((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
+    DWCi_EncodeBinaryMsgCommand((struct DWCstBinaryMessage *)(&ctrl), command, (long unsigned int *)data, len);
     for (i = 0; i < 1; i++) {
         res = func_0219EF08(*(void **)(func_02175F3C() + 0x5e0), func_02198620(ip, 0, 0), port, (char *)(&ctrl), ctrl.len + 0x14);
         if (res == 0) {

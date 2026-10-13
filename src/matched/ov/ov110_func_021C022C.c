@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021C022C, func_021C0250
+ * function: PMS_SELECT_GRAPHIC_IsPrintDone, PMS_SELECT_GRAPHIC_SetResult
  * address: 0x021C022C
  * packet: pkt_ov110_021C022C
  * region: ov110
@@ -22,5 +22,5 @@ struct Obj0202DC98;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
-int func_021C022C(u8 *p) { if(PRINTSYS_QUE_IsFinished(((struct Obj13806 *)p)->f5C) && PMS_DRAW_IsPrintEnd(((struct Obj13806 *)p)->f8C)) return 1; return 0; }
-void func_021C0250(int *out,u8 *p,int value) { *out=value; ((struct Obj22406 *)p)->f9C=0; }
+int PMS_SELECT_GRAPHIC_IsPrintDone(u8 *p) { if(PRINTSYS_QUE_IsFinished(((struct Obj13806 *)p)->f5C) && PMS_DRAW_IsPrintEnd(((struct Obj13806 *)p)->f8C)) return 1; return 0; }
+void PMS_SELECT_GRAPHIC_SetResult(int *out,u8 *p,int value) { *out=value; ((struct Obj22406 *)p)->f9C=0; }

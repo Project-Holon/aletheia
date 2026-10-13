@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  */
 #include "../include/Obj24209.h"
 
-extern void func_02082A90(int, int, int);
+extern void MIi_CpuCopy32(int, int, int);
 
 void func_021B71A0(int a, int *b, int c, int d, int e)
 {
-    func_02082A90(*(int *)((char *)(((struct Obj24209 *)b)->fC) + 0x14) + c,
+    MIi_CpuCopy32(*(int *)((char *)(((struct Obj24209 *)b)->fC) + 0x14) + c,
                   d + 0x06000000, e);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2D0
+ * function: NHTTPi_encodeUrlChar
  * address:  0x021BA2D0
  * packet:   pkt_ov114_021BA2D0
  * region:   ov114
@@ -17,7 +17,7 @@
  * docs/idioms/compute-a-stores-operands-before-the-store.md.
  */
 
-int func_021BA2D0(char *dst, int c)
+int NHTTPi_encodeUrlChar(char *dst, int c)
 {
     int hi, lo;
 

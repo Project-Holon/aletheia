@@ -11,6 +11,7 @@
  * symbols:
  *   MCSS_UpdatePaletteFade  0x020169E8  thumb
  *   MCSS_RestartAnime  0x02016374  thumb
+ *   NNS_G2dTickMCAnimation  0x020649D4  arm
  *
  * Closed in the second pass (2026-09-22) from the 7-byte near miss in
  * docs/notes/pkt_02014C08.c.txt.  That note, and the two full permuter
@@ -47,7 +48,7 @@
  *       --func MCSS_Main --addr 0x02014C08 --cc 1.1p1 --thumb
  */
 #include "../include/Obj01459.h"
-extern void func_020649D4(char *member, int value);
+extern void NNS_G2dTickMCAnimation(char *member, int value);
 extern void MCSS_RestartAnime(void *obj);
 typedef unsigned char  u8;
 extern void MCSS_UpdatePaletteFade(u8 *a0, u8 *a1);
@@ -62,13 +63,13 @@ void MCSS_Main(char *self)
         if (*(int *)(((struct Obj01459 *)self)->f14 + i * 4) == 0)
             continue;
         if (((*(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x140) << 0x15) >> 0x1e) == 0)
-            func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34),
+            NNS_G2dTickMCAnimation((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34),
                           *(int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x174));
         if (((*(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
             MCSS_UpdatePaletteFade((u8 *)self, (u8 *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
         if (((B1 *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x144))->b0 == 1) {
             MCSS_RestartAnime((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
-            func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34), 0);
+            NNS_G2dTickMCAnimation((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34), 0);
             *(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x144) &= ~1u;
         }
     }

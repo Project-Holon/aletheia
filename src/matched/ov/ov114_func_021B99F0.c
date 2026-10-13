@@ -1,5 +1,5 @@
 /*
- * function: func_021B99F0
+ * function: NHTTP_RAP_RecordList_GetCount
  * address: 0x021B99F0
  * packet: pkt_ov114_021B99F0
  * region: ov114
@@ -11,4 +11,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021B99F0(u8 *p) { return *p; }
+int NHTTP_RAP_RecordList_GetCount(u8 *p) { return *p; }

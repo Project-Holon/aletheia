@@ -1,5 +1,5 @@
 /*
- * function: func_0689CAB0
+ * function: BTL_PICK_MarkSlotsSelectable
  * address: 0x0689CAB0
  * packet: pkt_ov095_0689CAB0
  * region: ov095
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0689CAD8 0x0689CAD8 thumb ov095
+ *   BTL_PICK_SetSlotState 0x0689CAD8 thumb ov095
  */
 typedef unsigned char u8;
-extern void func_0689CAD8(u8 *p, u8 v, int i);
-void func_0689CAB0(u8 *p, u8 n)
+extern void BTL_PICK_SetSlotState(u8 *p, u8 v, int i);
+void BTL_PICK_MarkSlotsSelectable(u8 *p, u8 n)
 {
     u8 i;
     for (i = 0; i < n; i++)
-        func_0689CAD8(p, 2, i);
+        BTL_PICK_SetSlotState(p, 2, i);
 }

@@ -50,7 +50,7 @@ typedef struct FldExpModel {
 } FldExpModel;
 
 /* Event data: play one animation on a model and wait until it stops. */
-typedef struct Gimmick46AnimEvent {
+typedef struct FieldGimmickRotatingRoomAnimEvent {
     u8 modelIndex;
     u8 startCount;   /* number of entries of animId that are started */
     u8 stopCount;    /* animations 0 .. stopCount-1 are stopped first */
@@ -59,26 +59,26 @@ typedef struct Gimmick46AnimEvent {
     int animId[1];
     int startSe;
     int endSe;       /* FIELD_GIMMICK_ROTATING_ROOM_SE_NONE: no sound at the end */
-} Gimmick46AnimEvent;
+} FieldGimmickRotatingRoomAnimEvent;
 
 /* Event data: the player hops across a unit. */
-typedef struct Gimmick46HopEvent {
+typedef struct FieldGimmickRotatingRoomHopEvent {
     u8 pad[3];
     u8 step;         /* 0 .. FIELD_GIMMICK_ROTATING_ROOM_HOP_STEPS */
     int speedX;      /* position change per step */
     int baseY;       /* height at the start */
-} Gimmick46HopEvent;
+} FieldGimmickRotatingRoomHopEvent;
 
 /* Common work of the gimmick (allocated by the setup function). */
-typedef struct Gimmick46Work {
+typedef struct FieldGimmickRotatingRoomWork {
     int unitIndex;          /* unit that the running event uses */
     int side;               /* lever or button side of that event */
-    Gimmick46Unit *unit;    /* save data of that unit */
+    FieldGimmickRotatingRoomUnit *unit;    /* save data of that unit */
     union {
-        Gimmick46AnimEvent anim;
-        Gimmick46HopEvent hop;
+        FieldGimmickRotatingRoomAnimEvent anim;
+        FieldGimmickRotatingRoomHopEvent hop;
     } event;
     int playerInside;       /* player stands inside the area */
-} Gimmick46Work;
+} FieldGimmickRotatingRoomWork;
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F7C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_InitText
  * address: 0x021B7F7C
  * packet: pkt_ov103_021B7F7C
  * region: ov103
@@ -26,7 +26,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-void func_021B7F7C(u32 *p, int skip, u32 heap)
+void IRC_COMPATIBLE_TOUCH_TEST_InitText(u32 *p, int skip, u32 heap)
 {
     MI_CpuFill8(p, 0, 16);
     func_0201DD60();

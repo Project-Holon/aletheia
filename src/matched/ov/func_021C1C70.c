@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C70
+ * function: WIFICLUB_ResetSlotSelection
  * address:  0x021C1C70
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1A44  0x021C1A44  thumb  ov099
+ *   WIFICLUB_IsSlotPanelOpen  0x021C1A44  thumb  ov099
  *
  * Clears the flag block 0x8ED bytes in and sets the keep flag when the entry test answers 1.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021C1A44(char *p);
+extern int WIFICLUB_IsSlotPanelOpen(char *p);
 
-void func_021C1C70(char *p)
+void WIFICLUB_ResetSlotSelection(char *p)
 {
-    if (func_021C1A44(p) != 1) {
+    if (WIFICLUB_IsSlotPanelOpen(p) != 1) {
         return;
     }
 

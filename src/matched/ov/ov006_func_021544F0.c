@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blockers: code-start witnesses for ov006 EVENT_WIFICLUB_SetBattleParty and ov099
- * func_021C2850; overlay-ID consumer evidence for GAME_EVENT_CallProc:r1
+ * WIFICLUB_RunPeerAddrRoutine; overlay-ID consumer evidence for GAME_EVENT_CallProc:r1
  * (IDs 127,134,8,119,195,172). All concrete bytes match.
  * Matching levers: typed Sel table folds the u16 field offset into its
  * pool word; Pair struct copies to SP; char-pointer field addressing
@@ -23,11 +23,11 @@
  * 02031354(int) and 020314F4(obj,u32,u32,u32); 0200F7B8 receives the
  * explicitly loaded zero despite its legacy void declaration.
  * 2026-10-04 note (wave D2 lane 15): still MATCH, bytes identical. Unresolved after re-run:
- * THM_CALL func_021C2850 (ov099 hint present, but 021C2850 is a Thumb veneer in ov099, 64 bytes
+ * THM_CALL WIFICLUB_RunPeerAddrRoutine (ov099 hint present, but 021C2850 is a Thumb veneer in ov099, 64 bytes
  * incl. data, no matched witness exists) and six single-use overlay-id words (ov008 0x8,
  * ov119 0x77, ov127 0x7f, ov134 0x86, ov172 0xac, ov195 0xc3) with no witness outside this
  * function. Nothing left to change in the C.
- * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is func_021C2850, a Thumb veneer in ov099). No change possible in C.
+ * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is WIFICLUB_RunPeerAddrRoutine, a Thumb veneer in ov099). No change possible in C.
  *
  * symbols:
  *   func_02012138 0x02012138 thumb
@@ -78,7 +78,7 @@
  *   EVENT_WIFICLUB_ResetSound 0x021544D4 thumb ov006
  *   EVENT_WIFICLUB_FreeWork 0x02154ABC thumb ov006
  *   EVENT_WIFICLUB_SetupBattle 0x021542C0 thumb ov006
- *   func_021C2850 0x021C2850 thumb ov099
+ *   WIFICLUB_RunPeerAddrRoutine 0x021C2850 thumb ov099
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   gNetSaveRetryProc 0x021D654C data ov115 a4
  *   d_021C37E8 0x021C37E8 data ov099 a4
@@ -101,9 +101,9 @@
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb  arm9
  */
 /*
- * 2026-10-05 (wave D8 lane08): still MATCH, no C change. The open relocation func_021C2850 (ov099) is NOT a veneer:
- *  it is a 12-byte Thumb tail call, `void func_021C2850(char *p) { func_02087C6C(p + 0xe); }` with symbols line
- *  `func_02087C6C 0x02087C6C arm`, verified EXACT in a scratch test. It is in ov099 (not arm9, not this overlay), so
+ * 2026-10-05 (wave D8 lane08): still MATCH, no C change. The open relocation WIFICLUB_RunPeerAddrRoutine (ov099) is NOT a veneer:
+ *  it is a 12-byte Thumb tail call, `void WIFICLUB_RunPeerAddrRoutine(char *p) { OS_GetMacAddress(p + 0xe); }` with symbols line
+ *  `OS_GetMacAddress 0x02087C6C arm`, verified EXACT in a scratch test. It is in ov099 (not arm9, not this overlay), so
  *  this lane did not file it. Filing src/matched/ov/ov099_func_021C2850.c (packet pkt_ov099_021C2850) closes this
  *  draft's last unresolved relocation.
  */
@@ -149,7 +149,7 @@ extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_021C2850(char *p);
+extern void WIFICLUB_RunPeerAddrRoutine(char *p);
 extern int BTL_SETUP_Delete(int);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void EVENT_WIFICLUB_BuildBattleEntry(char *,u32,int);
@@ -277,7 +277,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
     case 11:
         func_02034AC4((int)ov099_id);
         func_02034AC4((int)ov067_id);
-        func_021C2850((char *)W(W(obj,0x5c),0));
+        WIFICLUB_RunPeerAddrRoutine((char *)W(W(obj,0x5c),0));
         if (W(obj,0xdc)) { BTL_SETUP_Delete(W(obj,0xdc)); W(obj,0xdc)=0; }
         GAME_EVENT_CallProc((void *)W(obj,0),(u32)ov127_id,(u32)d_021C37E8,W(obj,0x5c));
         ++*state;

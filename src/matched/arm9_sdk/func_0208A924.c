@@ -1,5 +1,5 @@
 /*
- * function: func_0208A924
+ * function: TP_Init
  * address:  0x0208A924
  * packet:   pkt_0208A924
  * region:   arm9
@@ -75,7 +75,7 @@ BOOL PXI_IsCallbackReady(int fifotag, int proc);
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 void TPi_TpCallback(int tag, u32 data, BOOL err);
 
-void func_0208A924(void)
+void TP_Init(void)
 {
     if (tpState.initial) {
         return;

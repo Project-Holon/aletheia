@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206EB00",
+   "name": "NNSi_G3dAnmObjInitNsBca",
    "address": "0x0206EB00",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206EB7C",
+   "name": "NNSi_G3dAnmCalcNsBca",
    "address": "0x0206EB7C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206EBB8",
+   "name": "NNSi_G3dGetNodeTransFromMdl",
    "address": "0x0206EBB8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206EC50",
+   "name": "NNSi_G3dGetNodeScaleFromMdl",
    "address": "0x0206EC50",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206ECE0",
+   "name": "NNSi_G3dGetNodeRotFromMdl",
    "address": "0x0206ECE0",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206EE60",
+   "name": "NNSi_G3dAnmCalcJntAnmNode",
    "address": "0x0206EE60",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206F214",
+   "name": "NNSi_G3dAnmGetTransData",
    "address": "0x0206F214",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206F36C",
+   "name": "NNSi_G3dAnmGetTransDataEx",
    "address": "0x0206F36C",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206F4C8",
+   "name": "NNSi_G3dAnmGetScaleData",
    "address": "0x0206F4C8",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206F6B0",
+   "name": "NNSi_G3dAnmGetScaleDataEx",
    "address": "0x0206F6B0",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206F844",
+   "name": "NNSi_G3dAnmGetRotData",
    "address": "0x0206F844",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206FC5C",
+   "name": "NNSi_G3dAnmGetRotDataEx",
    "address": "0x0206FC5C",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206FFA0",
+   "name": "NNSi_G3dAnmDecodeRotKey",
    "address": "0x0206FFA0",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0207010C",
+   "name": "NNSi_G3dAnmGetMatColorData",
    "address": "0x0207010C",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070274",
+   "name": "NNSi_G3dAnmGetMatAlphaData",
    "address": "0x02070274",
    "kind": "game",
    "region": "arm9",

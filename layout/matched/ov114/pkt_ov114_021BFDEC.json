@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFDEC",
+   "name": "ghiEncryptDataToBuffer",
    "address": "0x021BFDEC",
    "kind": "sdk",
    "region": "ov114",

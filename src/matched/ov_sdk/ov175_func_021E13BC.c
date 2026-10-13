@@ -1,5 +1,5 @@
 /*
- * function: func_021E13BC
+ * function: DWCi_GdbCleanupRootCAList
  * address:  0x021E13BC
  * packet:   pkt_ov175_021E13BC
  * region:   ov175
@@ -12,11 +12,11 @@
  * sdk:      DWCi_GdbCleanupRootCAList (dwc_gdb.o)
  *
  * symbols:
- *   func_021BF540  0x021BF540  arm  ov114
- *   func_021DD4D8  0x021DD4D8  arm  ov175
- *   func_021DD420  0x021DD420  arm  ov175
- *   g_021E4C88     0x021E4C88  data
- *   g_021E5334     0x021E5334  data
+ *   DWC_GHTTPCleanupRootCAList  0x021BF540  arm  ov114
+ *   sakeGetFileUploadURL  0x021DD4D8  arm  ov175
+ *   sakeGetFileDownloadURL  0x021DD420  arm  ov175
+ *   gDwcGdbStorageServerUrl     0x021E4C88  data
+ *   gDwcGdbEntity     0x021E5334  data
  */
 
 typedef struct {
@@ -24,21 +24,21 @@ typedef struct {
     void *sake;
     int state;
 } Tbl;
-extern char g_021E4C88[];
-extern Tbl g_021E5334;
-extern int func_021BF540(char *url);
+extern char gDwcGdbStorageServerUrl[];
+extern Tbl gDwcGdbEntity;
+extern int DWC_GHTTPCleanupRootCAList(char *url);
 struct SAKEInternal;
-extern int func_021DD4D8(struct SAKEInternal *sake, char *url);
-extern int func_021DD420(struct SAKEInternal *sake, int fileId, char *url);
+extern int sakeGetFileUploadURL(struct SAKEInternal *sake, char *url);
+extern int sakeGetFileDownloadURL(struct SAKEInternal *sake, int fileId, char *url);
 
-void func_021E13BC(void)
+void DWCi_GdbCleanupRootCAList(void)
 {
     char upload_url[128];
     char download_url[128];
 
-    func_021BF540(g_021E4C88);
-    func_021DD4D8(g_021E5334.sake, upload_url);
-    func_021BF540(upload_url);
-    func_021DD420(g_021E5334.sake, 1, download_url);
-    func_021BF540(download_url);
+    DWC_GHTTPCleanupRootCAList(gDwcGdbStorageServerUrl);
+    sakeGetFileUploadURL(gDwcGdbEntity.sake, upload_url);
+    DWC_GHTTPCleanupRootCAList(upload_url);
+    sakeGetFileDownloadURL(gDwcGdbEntity.sake, 1, download_url);
+    DWC_GHTTPCleanupRootCAList(download_url);
 }

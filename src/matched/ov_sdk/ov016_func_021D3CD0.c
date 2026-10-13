@@ -15,7 +15,7 @@
  *   DWCi_MOV_WH_SetGgid              0x021D3228  arm  ov016
  *   WM_GetNextTgid                   0x0208F1B4  arm
  *   MI_CpuCopy8                      0x02082D44  arm
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -55,18 +55,18 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern void DWCi_MOV_WH_SetGgid(u32 ggid);
 extern u16 WM_GetNextTgid(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 
 void func_021D3CD0(void)
 {
-    DWCi_MOV_WH_SetGgid(g_021DE668->game_registry.ggid);
-    g_021DE668->mov_stt = 1;
-    g_021DE668->moveid_tgid = WM_GetNextTgid();
-    MI_CpuCopy8(g_021DE668->p_user_info, &g_021DE668->dummy_gShareData[4], 0x40);
-    g_021DE668->language_send_f = 0;
-    g_021DE668->parent_step_data_share_error_cnt = 0;
-    g_021DE668->moveid_tgid++;
+    DWCi_MOV_WH_SetGgid(gDwcMoveidWork->game_registry.ggid);
+    gDwcMoveidWork->mov_stt = 1;
+    gDwcMoveidWork->moveid_tgid = WM_GetNextTgid();
+    MI_CpuCopy8(gDwcMoveidWork->p_user_info, &gDwcMoveidWork->dummy_gShareData[4], 0x40);
+    gDwcMoveidWork->language_send_f = 0;
+    gDwcMoveidWork->parent_step_data_share_error_cnt = 0;
+    gDwcMoveidWork->moveid_tgid++;
 }

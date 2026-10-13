@@ -16,7 +16,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj08050.h"
 
@@ -31,7 +31,7 @@ extern u32 POKEPARTY_GetCount(void *m);
 extern void *POKEPARTY_GetMember(void *m, u32 c);
 extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void func_02082D44(void *dst, const void *src, int n);
+extern void MI_CpuCopy8(void *dst, const void *src, int n);
 
 void *func_021D8D4C(void **a, int b, int c, char *p)
 {
@@ -54,7 +54,7 @@ void *func_021D8D4C(void **a, int b, int c, char *p)
         {
             void *mon = POKE_TOOL_Create(1, 1, 1, ((struct Obj08050 *)p)->f5F4);
             int sz = POKE_TOOL_GetPartyParamSize();
-            func_02082D44(POKEPARTY_GetMember(m, c), mon, sz);
+            MI_CpuCopy8(POKEPARTY_GetMember(m, c), mon, sz);
             res = mon;
         }
     }

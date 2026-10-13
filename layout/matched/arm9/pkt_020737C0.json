@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020737C0",
+   "name": "NNS_SndStrmInit",
    "address": "0x020737C0",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_020738C0",
+   "name": "NNS_SndStrmSetup",
    "address": "0x020738C0",
    "kind": "game",
    "region": "arm9",
@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_02073BE0",
+   "name": "NNSi_SndStrmTimerCallback",
    "address": "0x02073BE0",
    "kind": "sdk",
    "region": "arm9",
@@ -53,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073BF0",
+   "name": "NNSi_SndStrmUpdate",
    "address": "0x02073BF0",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +70,7 @@
    }
   },
   {
-   "name": "func_02073CA0",
+   "name": "NNSi_SndStrmAlarmHandler",
    "address": "0x02073CA0",
    "kind": "game",
    "region": "arm9",
@@ -82,7 +82,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073DFC",
+   "name": "NNSi_SndShutdown",
    "address": "0x02073DFC",
    "kind": "game",
    "region": "arm9",
@@ -102,7 +102,7 @@
    }
   },
   {
-   "name": "func_02073F3C",
+   "name": "NNSi_SndCaptureReset",
    "address": "0x02073F3C",
    "kind": "game",
    "region": "arm9",
@@ -114,7 +114,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073FB8",
+   "name": "NNS_SndArcInit",
    "address": "0x02073FB8",
    "kind": "game",
    "region": "arm9",
@@ -131,7 +131,7 @@
    }
   },
   {
-   "name": "func_02074048",
+   "name": "NNSi_SndArcLoadTables",
    "address": "0x02074048",
    "kind": "game",
    "region": "arm9",
@@ -143,7 +143,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074220",
+   "name": "NNS_SndArcInitOnMemory",
    "address": "0x02074220",
    "kind": "game",
    "region": "arm9",
@@ -155,7 +155,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020746C4",
+   "name": "NNSi_SndArcDisposeInfo",
    "address": "0x020746C4",
    "kind": "game",
    "region": "arm9",
@@ -167,7 +167,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020746D0",
+   "name": "NNSi_SndArcDisposeFat",
    "address": "0x020746D0",
    "kind": "game",
    "region": "arm9",
@@ -179,7 +179,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020746DC",
+   "name": "NNSi_SndArcDisposeSymbol",
    "address": "0x020746DC",
    "kind": "game",
    "region": "arm9",
@@ -191,7 +191,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020746E8",
+   "name": "NNS_SndHeapCreate",
    "address": "0x020746E8",
    "kind": "game",
    "region": "arm9",
@@ -203,7 +203,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074770",
+   "name": "NNS_SndHeapClear",
    "address": "0x02074770",
    "kind": "game",
    "region": "arm9",
@@ -215,7 +215,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02074894",
+   "name": "NNS_SndHeapSaveState",
    "address": "0x02074894",
    "kind": "game",
    "region": "arm9",
@@ -227,7 +227,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020748E0",
+   "name": "NNS_SndHeapLoadState",
    "address": "0x020748E0",
    "kind": "game",
    "region": "arm9",

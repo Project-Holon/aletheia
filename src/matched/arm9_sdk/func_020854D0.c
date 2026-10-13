@@ -1,5 +1,5 @@
 /*
- * function: func_020854D0
+ * function: OSi_ExitThread_ArgSpecified
  * address:  0x020854D0
  * packet:   pkt_020854D0
  * region:   arm9
@@ -15,7 +15,7 @@
  *   OS_InitContext  0x02085B9C  arm
  *   OS_LoadContext  0x02085C54  arm
  *   OSi_ExitThread  0x02085528  arm
- *   g_02150FD0      0x02150FD0  data
+ *   gOsThreadBss      0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -139,7 +139,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -148,10 +148,10 @@ extern void OS_InitContext(OSContext *context, u32 newpc, u32 newsp);
 extern void OS_LoadContext(OSContext *context);
 extern void OSi_ExitThread(void *arg);
 
-void func_020854D0(OSThread *thread, void *arg)
+void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg)
 {
-    if (g_02150FD0.OSi_StackForDestructor) {
-        OS_InitContext(&thread->context, (u32)OSi_ExitThread, g_02150FD0.OSi_StackForDestructor);
+    if (gOsThreadBss.OSi_StackForDestructor) {
+        OS_InitContext(&thread->context, (u32)OSi_ExitThread, gOsThreadBss.OSi_StackForDestructor);
         thread->context.r[0] = (u32)arg;
         thread->context.cpsr |= 0x80;
         thread->state = OS_THREAD_STATE_READY;

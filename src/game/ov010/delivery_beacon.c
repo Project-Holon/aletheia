@@ -15,7 +15,7 @@
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
  *   func_02030734  0x02030734  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gDeliveryBeaconAllocSite  0x021727F4  data
  *   func_02034714 0x02034714 arm
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
@@ -84,7 +84,7 @@ typedef struct DeliveryBeacon {
 } DeliveryBeacon;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082D44(void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
@@ -175,7 +175,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
     DeliveryBeacon *work;
 
     work = func_02030734(param->heapId, 0x31C0, 1, gDeliveryBeaconAllocSite, 0x127);
-    func_02082D44(param, work, sizeof(DeliveryBeaconParam));
+    MI_CpuCopy8(param, work, sizeof(DeliveryBeaconParam));
     return work;
 }
 
@@ -251,7 +251,7 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
                 if (work->lockedSender == DELIVERY_BEACON_NO_SENDER)
                     work->lockedSender = entry->senderId;
                 NET_WHPIPE_SelectEntry(i);
-                func_02082D44(entry, &work->slots[0][pieceIndex], sizeof(DeliveryBeaconSlot));
+                MI_CpuCopy8(entry, &work->slots[0][pieceIndex], sizeof(DeliveryBeaconSlot));
                 NET_WHPIPE_ReleaseAllEntrySlots();
             }
         }
@@ -272,9 +272,9 @@ void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
         func_0203F328((u16 *)slot->data, DELIVERY_BEACON_PIECE_SIZE, slot->seed);
         n = (u16)off;
         if (work->param.destSize > (int)(n + DELIVERY_BEACON_PIECE_SIZE))
-            func_02082D44(slot->data, work->param.dest + off, DELIVERY_BEACON_PIECE_SIZE);
+            MI_CpuCopy8(slot->data, work->param.dest + off, DELIVERY_BEACON_PIECE_SIZE);
         else
-            func_02082D44(slot->data, work->param.dest + off, work->param.destSize - n);
+            MI_CpuCopy8(slot->data, work->param.dest + off, work->param.destSize - n);
     }
 }
 

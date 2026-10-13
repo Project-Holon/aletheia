@@ -1,5 +1,5 @@
 /*
- * function: func_021C33CC
+ * function: DWCi_SceneOptMovComplete
  * address:  0x021C33CC
  * packet:   pkt_ov016_021C33CC
  * region:   ov016
@@ -13,19 +13,19 @@
  *
  * symbols:
  *   func_021C33EC  0x021C33EC  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021C3454  0x021C3454  arm  ov016
  */
 
 extern void func_021C33EC(void);
-extern void func_021BD29C(int msg);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw(int msg);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3454(void);
 
-void func_021C33CC(void)
+void DWCi_SceneOptMovComplete(void)
 {
 	func_021C33EC();
-	func_021BD29C(0x1f);
-	func_021C0E40((unsigned int)func_021C3454);
+	DWCi_CMNlMsgDraw(0x1f);
+	DWCi_ChangeScene((unsigned int)func_021C3454);
 }

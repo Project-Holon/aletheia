@@ -99,8 +99,8 @@
  *   func_0200752C 0x0200752C thumb
  *   func_02007664 0x02007664 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CFA0 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
  *   func_02007610 0x02007610 thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb
  *   func_02019CF8 0x02019CF8 thumb
@@ -110,7 +110,7 @@
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   func_020092AC 0x020092AC thumb
  *   func_021EC7B8 0x021EC7B8 thumb
  *   func_021EC548 0x021EC548 thumb
@@ -605,8 +605,8 @@ extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern void func_021EDB34(char *p, int a);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
-extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void func_02007610(void *save, unsigned b1, unsigned a, unsigned b2, unsigned c);
 extern int POKE_TOOL_ChangeBoxForm(int a0, int a1);
 extern u16 func_02019CF8(u32 item);
@@ -616,7 +616,7 @@ extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern u32 func_0200CA38(struct Blk37 *);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *);
 extern u32 func_020092AC(const u8 *bits, int n);
 extern void func_021EC7B8(char *p, int i, unsigned j, int flag);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
@@ -1642,7 +1642,7 @@ void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
     if(POKE_TOOL_GetPartyValue(m,5,0)==492){
         POKE_TOOL_ChangeForm(m,0);
         func_021DD8A8((void **)p,a);
-        func_0200CFA0(func_0200CA1C((*(void ***)p)[0]),m);
+        ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((*(void ***)p)[0]),m);
     }
     func_0200752C((*(void ***)p)[1],box,POKE_TOOL_GetBoxParam(m));
     func_021DD314((char **)p,p[0x14],a);
@@ -1769,7 +1769,7 @@ void func_021DD6E8(void **pp, void *a, u32 b)
 
     POKE_TOOL_ChangeBoxForm((int)a, b);
     r = POKE_TOOL_CreateFromBoxParam(a, 0x4c);
-    func_0200CFA0(func_0200CA1C((void *)(*(u32 *)*pp)), r);
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((void *)(*(u32 *)*pp)), r);
     func_020307B0(r);
 }
 
@@ -1900,7 +1900,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
 
 
-void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((BoxTask *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((BoxTask *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((BoxTask *)p)->f0)); }
+void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((BoxTask *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((BoxTask *)p)->f2C))->f17C=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(**(void ** *)&((BoxTask *)p)->f0)); }
 
 
 

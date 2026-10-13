@@ -25,7 +25,7 @@
  *   func_021D5D94 0x021D5D94 thumb ov123
  *   func_021D54F4 0x021D54F4 thumb ov123
  *   func_021D8F3C 0x021D8F3C thumb ov123
- *   func_021B9800 0x021B9800 thumb ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021DABA4 0x021DABA4 data a1
@@ -60,7 +60,7 @@ extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D87F8(char *);
 extern void func_021D8EC4(char *);
 extern void func_021D88A0(char *);
-extern u8 *func_021B9800(int,int,int);
+extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern u8 *func_021D5D94(u32);
 extern u8 *func_021D54F4(u32,u32);
@@ -110,7 +110,7 @@ int func_021D8FBC(void *a,int b,char *q)
             break;
         }
         if (*(int *)&((struct Obj03799 *)q)->f1C8!=4) {
-            ((struct Obj01059 *)p)->f10=func_021B9800(98,value,(int)(q+0x54));
+            ((struct Obj01059 *)p)->f10=NHTTP_RAP_Create(98,value,(int)(q+0x54));
             DWC_RAP_SetErrorCallback((int)func_021D8F3C,(int)p);
         }
     }

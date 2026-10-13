@@ -66,7 +66,7 @@
  *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
  *   GAMESYSTEM_Delete     0x02012088  thumb
  *   func_020315D4     0x020315D4  arm
- *   func_02087BCC     0x02087BCC  arm
+ *   OS_ResetSystem     0x02087BCC  arm
  *   PROCSYS_Create  0x02031324  arm
  *   func_020261E4  0x020261E4  thumb
  *   ISS_SYS_Create  0x0202B4BC  thumb
@@ -160,6 +160,7 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "btl_setup_types.h"
 
@@ -372,7 +373,7 @@ extern struct GameEvent *SCRCMD_NETWORK_CreateOv020Event(struct GameSystem *game
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 func_0200C258(struct MiscSave *miscSave);
 extern void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
-extern void func_02087BCC(u32 mode);
+extern void OS_ResetSystem(u32 mode);
 extern struct ProcSys *PROCSYS_Create(int heapId);
 extern struct GameComm *func_020261E4(unsigned int heapId, struct GameData *gameData);
 extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId);
@@ -457,7 +458,7 @@ extern void FIELD_SOUND_SYSTEM_Delete(struct BgmInfo *bgmInfo);
 extern struct MusicalShot *func_0200A864(struct SaveControl *saveControl);
 extern u16 *func_0200A890(struct MusicalShot *shot);
 extern u8 *func_0200A898(struct MusicalShot *shot);
-extern void func_02082D44(void *dst, const void *src, u32 size);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int unionInfo);
 extern u16 *func_02008850(struct Situation *situation);
 int func_02010D98(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWork *work);
@@ -2531,7 +2532,7 @@ u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameS
  * EXACT entry of its own, so the site resolves through the `matched` class and
  * the file needs no change.  The fourth parameter is moved out of r3 at entry
  * and passed first; then the first parameter; the three func_020306F0 calls
- * with consecutive ids 3, 4, 5 and a final func_02087BCC(0).  Returns 1.
+ * with consecutive ids 3, 4, 5 and a final OS_ResetSystem(0).  Returns 1.
  * Verified with:
  *   python tools/match.py one --src src/matched/GAMESYSTEM_ProcEnd.c \
  *       --func GAMESYSTEM_ProcEnd --addr 0x02011EC0 --cc 1.1p1 --thumb
@@ -2543,7 +2544,7 @@ u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSy
     func_020306F0(3);
     func_020306F0(4);
     func_020306F0(5);
-    func_02087BCC(0);
+    OS_ResetSystem(0);
     return 1;
 }
 
@@ -3821,7 +3822,7 @@ u8 *GAME_DATA_GetMysteryRecvFlagB(struct GameData *gameData)
  */
 void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst)
 {
-    func_02082D44(dst, gameData->unionInfo[0], sizeof(gameData->unionInfo[0]));
+    MI_CpuCopy8(dst, gameData->unionInfo[0], sizeof(gameData->unionInfo[0]));
     EVENT_FIELD_PROCLINK_CheckZoneFlag((int)gameData->unionInfo[0]);
 }
 

@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovdisconnect.c
  * unit:     yes
- * function: func_021C3B8C, func_021C3BBC, func_021C3C28, func_021C3C64, DWCi_SceneOptMovDisconnect_procScene, DWCi_SceneOptMovDisconnect_draw, func_021C3CA8, func_021C3CEC, func_021C3D58
+ * function: DWCi_SceneOptMovDisconnect, initGraphics, DWCi_SceneOptMovDisconnectProcInit, DWCi_SceneOptMovDisconnectProcInit1, DWCi_SceneOptMovDisconnect_procScene, DWCi_SceneOptMovDisconnect_draw, DWCi_SceneOptMovDisconnectEndScene, DWCi_SceneOptMovDisconnectEndScene1, wait
  * address:  0x021C3B8C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   DWCi_CMNlMsgDraw               0x021BD29C  arm  ov016
  *   Count                            0x021DE5BC  data
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm
  *   DWCi_COMMENTlDelete              0x021BD138  arm
@@ -35,9 +36,7 @@
 #define reg_G2_BG2CNT     (*(volatile unsigned short *)0x0400000C)
 typedef _Bool bool;
 
-extern void func_021C3BBC(void);
-extern void func_021BD29C(int);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw(int);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern void GX_LoadBG2Scr(void *src, unsigned long offset, unsigned long size);
 extern bool DWCi_EFFlCheck(int lcd);
@@ -48,10 +47,9 @@ extern void DWCi_ChangeScene(void (*scene)());
 extern bool DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern bool DWCi_COMMENTlDelete(void);
-extern void DWCi_SetParam_(void *param0, void *param1);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu(void);
-extern void func_021C3D58(void);
-void func_021C3B8C(void);
+void DWCi_SceneOptMovDisconnect(void);
 void DWCi_SceneOptMovDisconnect_procScene(void);
 void DWCi_SceneOptMovDisconnect_draw(void);
 /* sceneoptmovdisco .bss */
@@ -59,38 +57,24 @@ extern unsigned char Count;
 /* the resource file name, the compiler's @20611 in .rodata */
 extern char sceneoptmovdisco_str_20611[];
 
+static void initGraphics(void);
+static void procInit(void);
+static void procInit1(void);
+static void endScene(void);
+static void endScene1(void);
+static void wait(void);
 
 
-void func_021C3B8C(void)
+void DWCi_SceneOptMovDisconnect(void)
 {
     *(unsigned char *)0x021DE5BC = 0;
-    func_021C3BBC();
-    func_021BD29C(0x21);
-    func_021C0E40((unsigned int)((void *)0x021C3C28));
+    initGraphics();
+    DWCi_CMNlMsgDraw(0x21);
+    DWCi_ChangeScene(procInit);
 }
 
 
-
-static void initGraphics(void);
-
-
-static void procInit(void);
-
-
-static void procInit1(void);
-
-
 static void procScene(void);
-
-
-static void endScene(void);
-
-
-static void endScene1(void);
-
-
-static void wait(void);
-
 
 
 static void initGraphics(void)
@@ -103,14 +87,12 @@ static void initGraphics(void)
 }
 
 
-
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
     DWCi_ChangeScene(procInit1);
 }
-
 
 
 static void procInit1(void)
@@ -123,9 +105,8 @@ static void procInit1(void)
 }
 
 
-
 /*
- * Call func_021C3D58, DWCi_SceneOptMovDisconnect_draw.
+ * Call wait, DWCi_SceneOptMovDisconnect_draw.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -134,7 +115,7 @@ static void procInit1(void)
  */
 void DWCi_SceneOptMovDisconnect_procScene(void)
 {
-    func_021C3D58();
+    wait();
     DWCi_SceneOptMovDisconnect_draw();
 }
 
@@ -152,14 +133,12 @@ void DWCi_SceneOptMovDisconnect_draw(void)
 }
 
 
-
 static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 
 static void endScene1(void)
@@ -172,10 +151,9 @@ static void endScene1(void)
     DWCi_COMMENTlDelete();
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
-    DWCi_SetParam_(0, (void *)1);
+    DWCi_SetParam_(0, 1);
     DWCi_ChangeScene(DWCi_SceneOptMenu);
 }
-
 
 
 static void wait(void)

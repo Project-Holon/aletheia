@@ -13,27 +13,27 @@
  *
  * symbols:
  *   g_021F6FA0  0x021F6FA0  data
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F2EE8  0x021F2EE8  arm  ov107
  */
 
 extern char *g_021F6FA0;
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int func_021F2EE8(unsigned short child_aid);
 
 void *func_021F1B64(unsigned short child_aid)
 {
-    unsigned long enabled = func_02087988();
+    unsigned long enabled = OS_DisableInterrupts();
 
     if (g_021F6FA0 && func_021F2EE8(child_aid)) {
-        func_02082D44(g_021F6FA0 + 0x1340 + (child_aid - 1) * 22, g_021F6FA0 + 0x1772, 0x16);
-        func_0208799C(enabled);
+        MI_CpuCopy8(g_021F6FA0 + 0x1340 + (child_aid - 1) * 22, g_021F6FA0 + 0x1772, 0x16);
+        OS_RestoreInterrupts(enabled);
         return g_021F6FA0 + 0x1772;
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 0;
 }

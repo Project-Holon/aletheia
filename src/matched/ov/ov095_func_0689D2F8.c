@@ -1,5 +1,5 @@
 /*
- * function: func_0689D2F8
+ * function: BTL_POSPOKE_RemovePoke
  * address: 0x0689D2F8
  * packet: pkt_ov095_0689D2F8
  * region: ov095
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 a, b, c; } Rec;
-void func_0689D2F8(u8 *p, int b)
+void BTL_POSPOKE_RemovePoke(u8 *p, int b)
 {
     u32 i;
     Rec *q;

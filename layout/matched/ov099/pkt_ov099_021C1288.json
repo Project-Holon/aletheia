@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C1288",
-    "func_021C12CC"
+    "WIFICLUB_RecvFriendTrainerCard",
+    "WIFICLUB_NoOpNetCommand"
+   ],
+   "addresses": [
+    "0x021C1288",
+    "0x021C12CC"
    ]
   }
  ]

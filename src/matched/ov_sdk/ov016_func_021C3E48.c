@@ -12,26 +12,26 @@
  * sdk:      procInit (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  *
  * symbols:
- *   func_021D55A4  0x021D55A4  arm  ov016
- *   func_021D603C  0x021D603C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5C0     0x021DE5C0  data
+ *   DWCi_EFFlFade  0x021D55A4  arm  ov016
+ *   DWCi_GXlVisible  0x021D603C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMovFailureWork     0x021DE5C0  data
  *   func_021C3EC4  0x021C3EC4  arm  ov016
  */
 
-extern void func_021D55A4();
-extern void func_021D603C(int lcd, int plane);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_EFFlFade();
+extern void DWCi_GXlVisible(int lcd, int plane);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3EC4();
-extern unsigned char g_021DE5C0;
+extern unsigned char gSceneOptMovFailureWork;
 
 void func_021C3E48(void)
 {
-    func_021D55A4(2, 0, 0x15, 8);
-    func_021D603C(0, 0x15);
-    if (g_021DE5C0) {
-        func_021D55A4(2, 1, 1, 8);
-        func_021D603C(1, 1);
+    DWCi_EFFlFade(2, 0, 0x15, 8);
+    DWCi_GXlVisible(0, 0x15);
+    if (gSceneOptMovFailureWork) {
+        DWCi_EFFlFade(2, 1, 1, 8);
+        DWCi_GXlVisible(1, 1);
     }
-    func_021C0E40((unsigned int)func_021C3EC4);
+    DWCi_ChangeScene((unsigned int)func_021C3EC4);
 }

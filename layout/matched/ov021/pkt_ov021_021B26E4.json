@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_GIMMICK42_CallSecondEventU16",
+   "name": "SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CallSecondEventU16",
    "address": "0x021B26E4",
    "kind": "game",
    "region": "ov021",

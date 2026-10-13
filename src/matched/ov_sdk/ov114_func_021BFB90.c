@@ -1,5 +1,5 @@
 /*
- * function: func_021BFB90
+ * function: ghiResizeBuffer
  * address:  0x021BFB90
  * packet:   pkt_ov114_021BFB90
  * region:   ov114
@@ -28,7 +28,7 @@ typedef struct {
 
 extern void *gsirealloc(void *ptr, unsigned long size);
 
-int func_021BFB90(GHIBuffer *buffer, int sizeIncrement)
+int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement)
 {
     int newSize;
     char *tempPtr;

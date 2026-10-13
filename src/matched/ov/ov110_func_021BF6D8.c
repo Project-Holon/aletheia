@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6D8
+ * function: PMS_INPUT_GetInputMode
  * address:  0x021BF6D8
  * packet:   pkt_ov110_021BF6D8
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021BF6D8(u8 *p) { return ((struct Obj22385 *)p)->f4; }
+u32 PMS_INPUT_GetInputMode(u8 *p) { return ((struct Obj22385 *)p)->f4; }

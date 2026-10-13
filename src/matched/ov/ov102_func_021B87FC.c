@@ -1,5 +1,5 @@
 /*
- * function: func_021B87FC
+ * function: IRC_COMPATIBLE_MENU_StartScrollEffect
  * address:  0x021B87FC
  * packet:   pkt_ov102_021B87FC
  * region:   ov102
@@ -13,14 +13,14 @@
  * helper at 0x021B8A40 (0, 0x58, 0x78).  Blocker target of FIELD_RAIL_POINT_GetLineKey.
  *
  * symbols:
- *   func_021B8A40  0x021B8A40  thumb  ov102
+ *   IRC_COMPATIBLE_MENU_InitLinearStep  0x021B8A40  thumb  ov102
  * Addresses are Black-image addresses.
  */
 
-extern void func_021B8A40(int *p, int a, int b, int n);
+extern void IRC_COMPATIBLE_MENU_InitLinearStep(int *p, int a, int b, int n);
 
-void func_021B87FC(int *p)
+void IRC_COMPATIBLE_MENU_StartScrollEffect(int *p)
 {
     p[6] = 1;
-    func_021B8A40(p, 0, 0x58, 0x78);
+    IRC_COMPATIBLE_MENU_InitLinearStep(p, 0, 0x58, 0x78);
 }

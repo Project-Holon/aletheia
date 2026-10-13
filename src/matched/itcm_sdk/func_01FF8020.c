@@ -9,16 +9,16 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02087988    0x02087988  arm
- *   func_0208799C    0x0208799C  arm
+ *   OS_DisableInterrupts    0x02087988  arm
+ *   OS_RestoreInterrupts    0x0208799C  arm
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef volatile u32 vu32;
 
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 
 typedef union
 {
@@ -33,7 +33,7 @@ void func_01FF8020(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
 
     if (!(mode & 1))
     {
-        enabled = func_02087988();
+        enabled = OS_DisableInterrupts();
     }
 
     p = (vu32 *)(0x040000B0 + dmaNo * 12);
@@ -77,7 +77,7 @@ void func_01FF8020(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
 
     if (!(mode & 1))
     {
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
     }
 
     if (mode & 2)

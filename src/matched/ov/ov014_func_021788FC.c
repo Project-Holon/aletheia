@@ -12,8 +12,8 @@
  *   gWihWork     0x021797A8  data  a4
  *   WIH_ChangeSysState  0x02178138  thumb  ov014
  *   DWCi_MOV_WH_StateInStartScan  0x0217863C  thumb  ov014
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 #include "../include/G_S.h"
@@ -26,15 +26,15 @@ typedef signed short s16;
 extern struct S *gWihWork;
 void WIH_ChangeSysState(int a);
 int DWCi_MOV_WH_StateInStartScan(void);
-int func_02087988(void);
-void func_0208799C(int a);
+int OS_DisableInterrupts(void);
+void OS_RestoreInterrupts(int a);
 
 int DWCi_MOV_WH_EndScan(void)
 {
     int irq;
     int r = 0;
 
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
 
     if (*(u32 *)(((u8 *)gWihWork) + 0x1E70) == 2) {
         if (*(s16 *)(((u8 *)gWihWork) + 0x1EBE) != 0) {
@@ -47,6 +47,6 @@ int DWCi_MOV_WH_EndScan(void)
         ((u8 *)gWihWork)[0x1EDF] = 1;
         WIH_ChangeSysState(3);
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return r;
 }

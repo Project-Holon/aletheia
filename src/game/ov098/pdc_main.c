@@ -1,0 +1,494 @@
+/*
+ * file:     pdc_main.c
+ * unit:     yes
+ * function: PDC_MAIN_Create, PDC_MAIN_Update, PDC_MAIN_Delete, PDC_MAIN_SetStep, PDC_MAIN_InitGraphics, PDC_MAIN_ExitGraphics, PDC_MAIN_StepIntro, PDC_MAIN_StepConfirm, PDC_MAIN_StepChooseItem, PDC_MAIN_StepDeclined, PDC_MAIN_StartFadeIn
+ * address:  0x021B61E8
+ * region:   ov098
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Cut from pdc.c, ov098_func_021B6CDC.c by tools/splitfile.py.
+ *
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_02034A5C 0x02034A5C arm
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   func_021F73F0 0x021F73F0 thumb ov094
+ *   func_021F7544 0x021F7544 thumb ov094
+ *   func_020307B0 0x020307B0 arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_02202058 0x02202058 thumb ov094
+ *   TCBL_Create 0x0203101C arm
+ *   func_02008254 0x02008254 thumb
+ *   gPdcMainSrcName 0x021B6E68 data a1
+ *   gPdcViewParams 0x021B6D80 data a2
+ *   TCBL_Main 0x020310C4 arm
+ *   func_021F78E4 0x021F78E4 thumb ov094
+ *   func_02202228 0x02202228 thumb ov094
+ *   TCBL_Destroy 0x02031140 arm
+ *   func_021F7808 0x021F7808 thumb ov094
+ *   func_022021F4 0x022021F4 thumb ov094
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   func_0201DD60 0x0201DD60 thumb
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   func_0204044C 0x0204044C arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
+ *   gPdcDispVram 0x021B6DF4 data a4
+ *   gPdcDispConfig 0x021B6DB0 data a4
+ *   gPdcClactInit 0x021B6DD8 data a4
+ *   BMP_WIN_Exit 0x020450C8 arm
+ *   func_0203F9B4 0x0203F9B4 arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
+ *   func_021F7EE8  0x021F7EE8  thumb  ov094
+ *   func_021F7998  0x021F7998  thumb  ov094
+ *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   func_021F8090  0x021F8090  thumb  ov094
+ *   func_0220270C  0x0220270C  thumb  ov094
+ *   func_02202DC4  0x02202DC4  thumb  ov094
+ *   gPdcMenuLayoutA     0x021B6D98  data   ov098  a4
+ *   gPdcMenuLayoutB     0x021B6DC0  data   ov098  a4
+ *   ov196_id 0x000000C4 data
+ *   ov197_id 0x000000C5 data
+ *   func_022025D8 0x022025D8 thumb ov094
+ *   func_022026FC 0x022026FC thumb ov094
+ *   func_0220266C 0x0220266C thumb ov094
+ *   func_0220C834 0x0220C834 thumb ov197
+ *   func_021F7CFC 0x021F7CFC thumb ov094
+ *   func_021F7C0C 0x021F7C0C thumb ov094
+ *   func_02007F1C 0x02007F1C thumb
+ *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
+ *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
+ *   KEY_GetTrg 0x020362DC arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
+ *   GFL_USE_FadeOutBgm  0x02005E30  thumb
+ *   func_0207D55C 0x0207D55C arm
+ *   PDC_GetGameData 0x021B613C thumb ov098
+ *   PDC_GetMon 0x021B6140 thumb ov098
+ *   PDC_GetScene 0x021B6144 thumb ov098
+ *   PDC_GetMyItem 0x021B614C thumb ov098
+ *   PDC_GetConfig 0x021B6150 thumb ov098
+ *   PDC_GetPokedexSave 0x021B6154 thumb ov098
+ *   PDC_MSG_Create 0x021B67D4 thumb ov098
+ *   PDC_MSG_Delete 0x021B68DC thumb ov098
+ *   PDC_MSG_PrintMessage0 0x021B6910 thumb ov098
+ *   PDC_MSG_PrintMessage3 0x021B694C thumb ov098
+ *   PDC_MSG_PrintMessage1 0x021B6988 thumb ov098
+ *   PDC_MSG_PrintMessage2 0x021B69C4 thumb ov098
+ *   PDC_MSG_PrintMessage4 0x021B6A00 thumb ov098
+ *   PDC_MSG_Update 0x021B6A3C thumb ov098
+ *   PDC_MSG_StartFadeIn 0x021B6B5C thumb ov098
+ *   PDC_MSG_IsFadeIdle 0x021B6B68 thumb ov098
+ *   PDC_MSG_TakeStreamEnded 0x021B6B74 thumb ov098
+ */
+#include "pdc_types.h"
+
+#define BLDCNT (*(volatile u16 *)0x04000050)
+
+#define SBLDCNT (*(volatile u16 *)0x04001050)
+
+#define POWCNT (*(volatile u16 *)0x04000304)
+
+#define DISP3DCNT (*(volatile u16 *)0x04000060)
+
+#define BG0CNT (*(volatile u16 *)0x04000008)
+
+#define MASTER_BRIGHT_MAIN ((unsigned short *)0x0400006c)
+
+struct DispVram;
+struct DispConfig;
+struct Cfg;
+struct PdcWindowGfx;
+struct PdcPanel;
+
+/* Four halfwords handed to the overlay 94 screen builder (data gPdcViewParams). */
+struct PdcViewParams {
+    u16 x;
+    u16 y;
+    u16 width;
+    u16 height;
+};
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_02034AC4(int overlayId);
+extern void func_02034A5C(int overlayId);
+extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
+extern void *func_021F73F0(int, int, void *scene, int, u16 *params, int, int, u16 heapId);
+extern void func_021F7544(void *screen, struct GfFont *font, u16 heapId);
+extern u32 func_020307B0(void *p);
+extern int func_021F86E0(void);
+extern struct PdcMenu *func_02202058(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern void *func_02008254(u32 heapId);
+extern void TCBL_Main(struct Tcbl *tcbl);
+extern void func_021F78E4(void);
+extern void func_02202228(struct PdcMenu *menu);
+extern void TCBL_Destroy(struct Tcbl *tcbl);
+extern void func_021F7808(void);
+extern void func_022021F4(struct PdcMenu *menu);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
+extern void func_0203F8F4(u16);
+extern void BMP_WIN_Init(u16);
+extern void func_0201DD60(void);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
+extern void func_0203FC28(struct DispConfig *);
+extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
+extern void G3X_SetFog(int, int, int, int);
+extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
+extern void func_0204044C(u32);
+extern void BG_SYS_SetMainPlaneVisible(u32, u32);
+extern void BMP_WIN_Exit(void);
+extern void func_0203F9B4(void);
+extern void CLACT_ExitSystem(void);
+extern void G3D_SYSTEM_Exit(void);
+extern void func_021F7EE8(struct PokemonParam *mon, int key);
+extern void func_021F7998(u32 a);
+extern int func_021F7EB4(void);
+extern void func_021F8090(struct PokedexSave *pokedexSave, struct PokemonParam *mon, u32 c);
+extern void func_0220270C(struct PdcMenu *menu, int mode, void *arg);
+extern int func_02202DC4(struct PdcMenu *menu, char *b, char *c);
+extern void func_022025D8(struct PdcMenu *menu, int);
+extern int func_022026FC(struct PdcMenu *menu);
+extern void func_0220266C(struct PdcMenu *menu);
+extern void func_0220C834(struct PdcItemSelect *select);
+extern void func_021F7CFC(u32, u16, u8, int, int);
+extern void func_021F7C0C(void);
+extern u32 func_02007F1C(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
+extern int GFL_USE_IsBgmPlaying(void);
+extern u32 KEY_GetTrg(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern void FADE_Start(u32, int, int, int);
+extern int FADE_IsActive(void);
+extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
+extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
+extern void GFL_USE_FadeOutBgm(u32 a);
+extern int func_0207D55C(volatile u16 *reg);
+
+extern struct GameData *PDC_GetGameData(struct PdcArgs *args);
+extern struct PokemonParam *PDC_GetMon(struct PdcArgs *args);
+extern void *PDC_GetScene(struct PdcArgs *args);
+extern struct MyItem *PDC_GetMyItem(struct PdcArgs *args);
+extern struct Config *PDC_GetConfig(struct PdcArgs *args);
+extern struct PokedexSave *PDC_GetPokedexSave(struct PdcArgs *args);
+extern struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct Tcbl *tcbl, u32 heapId);
+extern void PDC_MSG_Delete(struct PdcMsg *msg);
+extern void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args);
+extern void PDC_MSG_PrintMessage3(struct PdcMsg *msg, struct PdcArgs *args);
+extern void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args);
+extern void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args);
+extern void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args);
+extern int PDC_MSG_Update(struct PdcMsg *msg);
+extern void PDC_MSG_StartFadeIn(struct PdcMsg *msg);
+extern int PDC_MSG_IsFadeIdle(struct PdcMsg *msg);
+extern int PDC_MSG_TakeStreamEnded(struct PdcMsg *msg);
+
+struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
+int PDC_MAIN_Update(struct PdcSys *sys);
+void PDC_MAIN_Delete(struct PdcSys *sys);
+void PDC_MAIN_SetStep(struct PdcSys *sys, PdcStep step);
+void PDC_MAIN_InitGraphics(u16 heapId);
+void PDC_MAIN_ExitGraphics(void);
+int PDC_MAIN_StepIntro(struct PdcSys *sys);
+int PDC_MAIN_StepConfirm(struct PdcSys *sys);
+int PDC_MAIN_StepChooseItem(struct PdcSys *sys);
+int PDC_MAIN_StepDeclined(struct PdcSys *sys);
+void PDC_MAIN_StartFadeIn(int speed);
+
+extern const char gPdcMainSrcName[];
+extern const struct PdcViewParams gPdcViewParams;
+extern const struct DispVram gPdcDispVram;
+extern struct DispConfig gPdcDispConfig;
+extern const struct Cfg gPdcClactInit;
+extern char gPdcMenuLayoutA[];
+extern char gPdcMenuLayoutB[];
+extern char ov196_id[], ov197_id[];
+
+struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
+{
+    struct PdcSys *sys;
+    struct PdcViewParams params;
+    void *screen;
+    struct GameData *gameData;
+
+    sys = func_02030734(heapId, 0x78, 1, gPdcMainSrcName, 0x5e);
+    sys->heapId = heapId;
+    sys->args = args;
+    PDC_MAIN_InitGraphics(sys->heapId);
+    sys->font = GF_FONT_Create(23, 0, 0, 0, sys->heapId);
+    sys->msgFont = GF_FONT_Create(23, 2, 0, 0, sys->heapId);
+    sys->state = 0;
+    params = gPdcViewParams;
+    screen = func_021F73F0(0, 0, PDC_GetScene(args), 0, (u16 *)&params, 0, 0, sys->heapId);
+    func_021F7544(screen, sys->msgFont, sys->heapId);
+    func_020307B0(screen);
+    gameData = PDC_GetGameData(args);
+    sys->menu = func_02202058(gameData, 0, func_021F86E0(), sys->font, &sys->menuWork, sys->heapId);
+    sys->tcbl = TCBL_Create(heapId, heapId, 64, 128);
+    sys->mon = PDC_GetMon(args);
+    sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
+    sys->workBuf = func_02008254(sys->heapId);
+    PDC_MAIN_SetStep(sys, PDC_MAIN_StepIntro);
+    return sys;
+}
+
+int PDC_MAIN_Update(struct PdcSys *sys)
+{
+    PdcStep step;
+    TCBL_Main(sys->tcbl);
+    func_021F78E4();
+    func_02202228(sys->menu);
+    step = sys->step;
+    if (step != 0) return step(sys);
+    return 0;
+}
+
+void PDC_MAIN_Delete(struct PdcSys *sys)
+{
+    TCBL_Destroy(sys->tcbl);
+    PDC_MSG_Delete(sys->msg);
+    func_021F7808();
+    func_022021F4(sys->menu);
+    GF_FONT_Delete(sys->font);
+    GF_FONT_Delete(sys->msgFont);
+    PDC_MAIN_ExitGraphics();
+    func_020307B0(sys->workBuf);
+    func_020307B0(sys);
+}
+
+void PDC_MAIN_SetStep(struct PdcSys *sys, PdcStep step) { sys->state = 0; sys->step = step; }
+
+void PDC_MAIN_InitGraphics(u16 heapId)
+{
+    func_0203F8F4(heapId);
+    BMP_WIN_Init(heapId);
+    func_0201DD60();
+    BG_SYS_SetVramBanks(&gPdcDispVram);
+    BLDCNT = 0;
+    SBLDCNT = 0;
+    POWCNT = (u16)(POWCNT | 0x8000);
+    func_0203FC28(&gPdcDispConfig);
+    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, 0);
+    G3D_SYSTEM_SetSwapBuffersMode(1, 0);
+    DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);
+    DISP3DCNT &= (u16)~0x3020;
+    DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 16);
+    G3X_SetFog(0, 0, 0, 0);
+    BG0CNT = (u16)((BG0CNT & ~3) | 1);
+    CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heapId);
+    func_0204044C(1);
+    BG_SYS_SetMainPlaneVisible(16, 1);
+}
+
+void PDC_MAIN_ExitGraphics(void)
+{
+    BMP_WIN_Exit(); func_0203F9B4(); CLACT_ExitSystem(); G3D_SYSTEM_Exit();
+}
+
+/* Step 1: opening message, fade in, first message. */
+int PDC_MAIN_StepIntro(struct PdcSys *sys)
+{
+    struct PokedexSave *pokedexSave;
+
+    switch (sys->state) {
+    case 0:
+        PDC_MSG_StartFadeIn(sys->msg);
+        sys->state++;
+        break;
+    case 1:
+        if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
+            func_021F7EE8(sys->mon, 1);
+            func_021F7998(0x231);
+            PDC_MAIN_StartFadeIn(2);
+            sys->state++;
+        }
+        break;
+    case 2:
+        if (func_021F7EB4() == 0) {
+            PDC_MSG_PrintMessage0(sys->msg, sys->args);
+            sys->state++;
+        }
+        break;
+    case 3:
+        if (PDC_MSG_Update(sys->msg) != 0) {
+            pokedexSave = PDC_GetPokedexSave(sys->args);
+            func_021F8090(pokedexSave, PDC_GetMon(sys->args), 1);
+            PDC_MSG_StartFadeIn(sys->msg);
+            sys->state++;
+        }
+        break;
+    case 4:
+        if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
+            func_021F7998(0x23e);
+            sys->state++;
+        }
+        break;
+    case 5:
+        if (func_021F7EB4() == 0)
+            PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
+        break;
+    }
+    return 0;
+}
+
+/* Step 2: question message and the confirmation menu; picks the next step. */
+int PDC_MAIN_StepConfirm(struct PdcSys *sys)
+{
+    int choice;
+
+    switch (sys->state) {
+    case 0:
+        PDC_MSG_PrintMessage3(sys->msg, sys->args);
+        sys->state++;
+        break;
+    case 1:
+        if (PDC_MSG_Update(sys->msg) != 0) {
+            func_0220270C(sys->menu, 7, 0);
+            sys->state++;
+        }
+        break;
+    case 2:
+        choice = func_02202DC4(sys->menu, gPdcMenuLayoutA, gPdcMenuLayoutB);
+        if (choice != -1) {
+            if (choice != 0)
+                PDC_MAIN_SetStep(sys, PDC_MAIN_StepDeclined);
+            else
+                PDC_MAIN_SetStep(sys, PDC_MAIN_StepChooseItem);
+        }
+        break;
+    }
+    return 0;
+}
+
+/* Step 3: item list, the chosen item goes into the bag, closing messages. Returns 1 when done. */
+int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
+{
+    u32 itemCode;
+    switch (sys->state) {
+    case 0:
+        sys->select.myItem = PDC_GetMyItem(sys->args);
+        sys->select.workBuf = sys->workBuf;
+        sys->select.mode = 3;
+        sys->select.font = sys->font;
+        sys->select.heapId = sys->heapId;
+        sys->select.chosenItem = 0;
+        sys->select.reserved20 = 0;
+        sys->select.cursorPos = 0; sys->select.scrollPos = 0; sys->select.done = 0;
+        sys->select.menuWork = (u8 *)&sys->menuWork;
+        sys->select.enabled = 1;
+        func_022025D8(sys->menu, 1);
+        func_02034AC4((int)ov196_id);
+        sys->state++;
+        break;
+    case 1:
+        if (!func_022026FC(sys->menu)) {
+            func_02034AC4((int)ov197_id);
+            func_0220C834(&sys->select);
+            sys->state++;
+        }
+        break;
+    case 2:
+        if (sys->select.done) {
+            func_02034A5C((int)ov196_id); func_02034A5C((int)ov197_id);
+            func_0220266C(sys->menu);
+            if (sys->select.chosenItem == 0) sys->state = 3;
+            else {
+                func_02007F1C(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
+                sys->state = 4;
+            }
+        }
+        break;
+    case 3:
+        if (!func_022026FC(sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
+        break;
+    case 4:
+        if (!func_022026FC(sys->menu)) {
+            PDC_MSG_PrintMessage1(sys->msg, sys->args);
+            sys->state++;
+        }
+        break;
+    case 5:
+        if (PDC_MSG_Update(sys->msg)) {
+            func_021F7CFC(1, sys->select.chosenItem, 4, 1, 0);
+            sys->state++;
+        }
+        break;
+    case 6:
+        if (!func_021F7EB4()) {
+            PDC_MSG_PrintMessage2(sys->msg, sys->args);
+            sys->state++;
+        }
+        break;
+    case 7:
+        if (PDC_MSG_TakeStreamEnded(sys->msg)) GFL_USE_CancelChangeAndPlayBgm(0x518, 0xffff);
+        if (PDC_MSG_Update(sys->msg)) sys->state++;
+        break;
+    case 8:
+        if (!GFL_USE_IsBgmPlaying()) {
+            func_021F7C0C(); GFL_USE_CancelChangeAndPlayBgm(0x47c, 0xffff);
+            sys->state++;
+        }
+        break;
+    case 9:
+        if (!func_021F7EB4()) {
+            sys->timer = 80;
+            sys->state++;
+        }
+        break;
+    case 10:
+        if (((u32)KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || --sys->timer == 0) {
+            FADE_Start(3, 0, 16, 2);
+            sys->state++;
+        }
+        break;
+    case 11:
+        if (!FADE_IsActive()) {
+            itemCode = PALANM_GetPairedCodeForFirst(sys->select.chosenItem);
+            POKE_TOOL_SetPartyValue(PDC_GetMon(sys->args), 152, itemCode);
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+/* Step 3 alternative: the player declined; fade out and return 2. */
+int PDC_MAIN_StepDeclined(struct PdcSys *sys)
+{
+    switch (sys->state) {
+    case 0:
+        PDC_MSG_PrintMessage4(sys->msg, sys->args);
+        sys->state++;
+        break;
+    case 1:
+        if (PDC_MSG_Update(sys->msg) != 0) {
+            FADE_Start(3, 0, 0x10, 2);
+            GFL_USE_FadeOutBgm(8);
+            sys->state++;
+        }
+        break;
+    case 2:
+        if (FADE_IsActive() == 0)
+            return 2;
+        break;
+    }
+    return 0;
+}
+
+void PDC_MAIN_StartFadeIn(int speed) { if (func_0207D55C(MASTER_BRIGHT_MAIN) <= 0) FADE_Start(3,16,0,speed); else FADE_Start(12,16,0,speed); }

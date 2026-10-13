@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DE4
+ * function: WIFICLUBACTOR_RegisterResources
  * address:  0x021B9DE4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9E50  0x021B9E50  thumb
+ *   WIFICLUBACTOR_RegisterClactResources  0x021B9E50  thumb
  *
- * Tail call thunk onto func_021B9E50.
+ * Tail call thunk onto WIFICLUBACTOR_RegisterClactResources.
  */
 
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9E50(void *a, int b, u32 c);
+extern void WIFICLUBACTOR_RegisterClactResources(void *a, int b, u32 c);
 
-void func_021B9DE4(void *a, int b, u32 c)
+void WIFICLUBACTOR_RegisterResources(void *a, int b, u32 c)
 {
-    func_021B9E50(a, b, c);
+    WIFICLUBACTOR_RegisterClactResources(a, b, c);
 }

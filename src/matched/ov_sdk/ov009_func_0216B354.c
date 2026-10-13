@@ -16,7 +16,7 @@
  *   DWCi_ClearGT2ConnectionList  0x0216BB98  arm  ov009
  *   DWCi_SetState  0x0216BC84  arm  ov009
  *   DWCi_CustomCommonInit  0x0216C7E0  arm  ov009
- *   func_0216D138  0x0216D138  arm  ov009
+ *   DWCi_SetupGameServer  0x0216D138  arm  ov009
  *   DWCi_MatchedCallback  0x0216BFB8  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
@@ -52,7 +52,7 @@ extern int func_02059F38(void);
 extern void DWCi_ClearGT2ConnectionList(void);
 extern void DWCi_SetState(int state);
 extern void DWCi_CustomCommonInit(unsigned char matchType);
-extern void func_0216D138(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
+extern void DWCi_SetupGameServer(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 extern void DWCi_MatchedCallback(int error, int cancel, int self, int isServer, int index);
 
 int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam)
@@ -64,6 +64,6 @@ int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallb
 	((DwcState *)g_021AA878.st)->matchedParam = matchedParam;
 	DWCi_SetState(4);
 	DWCi_CustomCommonInit(2);
-	func_0216D138(topology, (unsigned char)(maxEntry - 1), (int)DWCi_MatchedCallback, 0, (int)newClientCallback, (int)newClientParam, (int)attemptCallback, (int)connectionUserData, (int)attemptParam);
+	DWCi_SetupGameServer(topology, (unsigned char)(maxEntry - 1), (int)DWCi_MatchedCallback, 0, (int)newClientCallback, (int)newClientParam, (int)attemptCallback, (int)connectionUserData, (int)attemptParam);
 	return 1;
 }

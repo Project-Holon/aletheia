@@ -1,5 +1,5 @@
 /*
- * function: func_021B95C0
+ * function: IRCBATTLEMATCH_AbortSession
  * address: 0x021B95C0
  * packet: pkt_ov100_021B95C0
  * region: ov100
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern int GFL_NET_Exit(int a0);
-int func_021B95C0(u8 *p) { *(int *)(((struct Obj22064 *)p)->f244+0x1c)=12; GFL_NET_IRC_WIRELESS_Exit(); return GFL_NET_Exit(0); }
+int IRCBATTLEMATCH_AbortSession(u8 *p) { *(int *)(((struct Obj22064 *)p)->f244+0x1c)=12; GFL_NET_IRC_WIRELESS_Exit(); return GFL_NET_Exit(0); }

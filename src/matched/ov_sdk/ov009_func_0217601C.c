@@ -1,5 +1,5 @@
 /*
- * function: func_0217601C
+ * function: DWCi_NodeInfoList_Clear
  * address:  0x0217601C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 extern int func_02175F3C(void);
 extern void MI_CpuFill8(void *p, int v, int n);
 
-void func_0217601C(void)
+void DWCi_NodeInfoList_Clear(void)
 {
     MI_CpuFill8((void *)(func_02175F3C() + 0x50), 0, 0x504);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C09E8
+ * function: PMS_SELECT_GRAPHIC_ColorTitleBg
  * address: 0x021C09E8
  * packet: pkt_ov110_021C09E8
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32);
-void func_021C09E8(char *p, int pal)
+void PMS_SELECT_GRAPHIC_ColorTitleBg(char *p, int pal)
 {
     int i = 0;
     u16 *hdr = *(u16 **)(p + 8);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02065438
+ * function: NNSi_G2dRendererDrawCellToSurfaces
  * address:  0x02065438
  * packet:   pkt_02064B68
  * region:   arm9
@@ -10,23 +10,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * The plain actor draw (func_02065878 / func_02065CE4 / func_02065D4C call
+ * The plain actor draw (NNSi_G2dRendererDrawCellTransformed / NNSi_G2dRendererDrawCellZOffset / NNSi_G2dRendererDrawCellTransformedZOffset call
  * it).  With the live object's +0x7c bit 1 set it draws the object itself:
  * an affine record (GetAff: cached per g_02148718.h00 in g_02148718.arr04
  * when +0x404 is set, else rebuilt through NNSi_G2dMCMLoadCurrentMtxToCache) and the selected
- * matrix go to func_02067B28 for a node whose +0x14 is set, otherwise the
- * slot's g_02147B98 word goes to func_02067B40 and the matrix alone to
- * func_02067AC0; then func_02067DC8(a, g_020A81F8.f04) when that word is
- * not -1, else NNSi_G2dOamSoftEmuRender(a).  Without the bit it walks the node list at
+ * matrix go to NNS_G2dSetRndCoreCurrentMtx2D for a node whose +0x14 is set, otherwise the
+ * slot's g_02147B98 word goes to NNS_G2dSetRndCore3DSoftSpriteZvalue and the matrix alone to
+ * NNS_G2dSetRndCoreCurrentMtx3D; then NNS_G2dRndCoreDrawCellVramTransfer(a, g_020A81F8.f04) when that word is
+ * not -1, else NNS_G2dRndCoreDrawCell(a).  Without the bit it walks the node list at
  * +0x70 (next at +0x30), drawing every node whose +0x10 is set the same way
  * with the node bound to the object's +0x74 and cleared again after.
  *
  * What closed it: the two loop arms are INLINE HELPERS (DrawA / DrawB), each
- * carrying its own "obj->f74 = 0; NNSi_G2dOamSoftEmuEnd()" tail.  Written as one if
+ * carrying its own "obj->f74 = 0; NNS_G2dRndCoreEndRendering()" tail.  Written as one if
  * with the shared tail after it (or with the tail duplicated in plain arms)
  * the compiler hoists the f74 store and merges the tails: 20 bytes short /
  * 225 out.  The matrix selection is the else-first GetMtx of
- * NNSi_G2dRendererAfterDrawCell / func_020653A4.  ../2.0/sp2; 1.1p1 is 1028 bytes, 850 out.
+ * NNSi_G2dRendererAfterDrawCell / NNSi_G2dRendererCallSurfaceOamFunc.  ../2.0/sp2; 1.1p1 is 1028 bytes, 850 out.
  *
  * symbols:
  *   g_02147B88     0x02147B88  data  a4
@@ -37,15 +37,15 @@
  *   g_02147D18     0x02147D18  data  a4
  *   g_02147B98     0x02147B98  data  a4
  *   NNSi_G2dMCMLoadCurrentMtxToCache  0x02064EDC  arm
- *   func_02067B28  0x02067B28  arm
- *   func_02067AC0  0x02067AC0  arm
- *   func_02067DC8  0x02067DC8  arm
- *   NNSi_G2dOamSoftEmuRender  0x02067D14  arm
- *   func_02067B40  0x02067B40  arm
- *   func_02067B48  0x02067B48  arm
- *   func_02067AAC  0x02067AAC  arm
- *   func_02067BA4  0x02067BA4  arm
- *   NNSi_G2dOamSoftEmuEnd  0x02067CB0  arm
+ *   NNS_G2dSetRndCoreCurrentMtx2D  0x02067B28  arm
+ *   NNS_G2dSetRndCoreCurrentMtx3D  0x02067AC0  arm
+ *   NNS_G2dRndCoreDrawCellVramTransfer  0x02067DC8  arm
+ *   NNS_G2dRndCoreDrawCell  0x02067D14  arm
+ *   NNS_G2dSetRndCore3DSoftSpriteZvalue  0x02067B40  arm
+ *   NNS_G2dSetRndCoreSurface  0x02067B48  arm
+ *   NNS_G2dSetRndCoreOamRegisterFunc  0x02067AAC  arm
+ *   NNS_G2dRndCoreBeginRendering  0x02067BA4  arm
+ *   NNS_G2dRndCoreEndRendering  0x02067CB0  arm
  */
 
 #include "../include/G_Mtx.h"
@@ -110,16 +110,16 @@ extern void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 struct Ctx;
 struct G2dOamState;
 struct Src02067AC0;
-extern void func_02067B28(u32 a, u32 b);
-extern void func_02067AC0(struct Src02067AC0 *src);
+extern void NNS_G2dSetRndCoreCurrentMtx2D(u32 a, u32 b);
+extern void NNS_G2dSetRndCoreCurrentMtx3D(struct Src02067AC0 *src);
 typedef signed int     s32;
-extern void func_02067DC8(u32 a0, s32 a1);
-extern void NNSi_G2dOamSoftEmuRender(u32 arg0);
-extern void func_02067B40(struct G2dOamState *p, u32 v);
-extern void func_02067B48(u32 *p, u32 v);
-extern void func_02067AAC(int *p, int a, int b);
-extern void func_02067BA4(struct Ctx *c);
-extern void NNSi_G2dOamSoftEmuEnd(void);
+extern void NNS_G2dRndCoreDrawCellVramTransfer(u32 a0, s32 a1);
+extern void NNS_G2dRndCoreDrawCell(u32 arg0);
+extern void NNS_G2dSetRndCore3DSoftSpriteZvalue(struct G2dOamState *p, u32 v);
+extern void NNS_G2dSetRndCoreSurface(u32 *p, u32 v);
+extern void NNS_G2dSetRndCoreOamRegisterFunc(int *p, int a, int b);
+extern void NNS_G2dRndCoreBeginRendering(struct Ctx *c);
+extern void NNS_G2dRndCoreEndRendering(void);
 
 static inline Mtx *GetMtx(void)
 {
@@ -161,9 +161,9 @@ static inline void Finish(void *a)
     int r = !(g_020A81F8.f04 == -1);
 
     if (r != 0)
-        func_02067DC8((u32)a, g_020A81F8.f04);
+        NNS_G2dRndCoreDrawCellVramTransfer((u32)a, g_020A81F8.f04);
     else
-        NNSi_G2dOamSoftEmuRender((u32)a);
+        NNS_G2dRndCoreDrawCell((u32)a);
 }
 
 static inline void DrawA(void *a, struct Node *p)
@@ -172,14 +172,14 @@ static inline void DrawA(void *a, struct Node *p)
     struct Aff *aff;
 
     q->f74 = p;
-    func_02067B48((u32 *)q, (u32)p);
-    func_02067AAC((int *)q, p->f28, p->f2c);
-    func_02067BA4((struct Ctx *)q);
+    NNS_G2dSetRndCoreSurface((u32 *)q, (u32)p);
+    NNS_G2dSetRndCoreOamRegisterFunc((int *)q, p->f28, p->f2c);
+    NNS_G2dRndCoreBeginRendering((struct Ctx *)q);
     aff = GetAff();
-    func_02067B28((u32)GetMtx(), (u32)aff);
+    NNS_G2dSetRndCoreCurrentMtx2D((u32)GetMtx(), (u32)aff);
     Finish(a);
     g_02147B88.obj->f74 = 0;
-    NNSi_G2dOamSoftEmuEnd();
+    NNS_G2dRndCoreEndRendering();
 }
 
 static inline void DrawB(void *a, struct Obj *o, struct Node *p)
@@ -187,16 +187,16 @@ static inline void DrawB(void *a, struct Obj *o, struct Node *p)
     struct Obj *q = g_02147B88.obj;
 
     q->f74 = p;
-    func_02067B48((u32 *)q, (u32)p);
-    func_02067BA4((struct Ctx *)q);
-    func_02067B40((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
-    func_02067AC0((struct Src02067AC0 *)GetMtx());
+    NNS_G2dSetRndCoreSurface((u32 *)q, (u32)p);
+    NNS_G2dRndCoreBeginRendering((struct Ctx *)q);
+    NNS_G2dSetRndCore3DSoftSpriteZvalue((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
+    NNS_G2dSetRndCoreCurrentMtx3D((struct Src02067AC0 *)GetMtx());
     Finish(a);
     g_02147B88.obj->f74 = 0;
-    NNSi_G2dOamSoftEmuEnd();
+    NNS_G2dRndCoreEndRendering();
 }
 
-void func_02065438(void *a)
+void NNSi_G2dRendererDrawCellToSurfaces(void *a)
 {
     struct Obj *o = g_02147B88.obj;
     struct Node *p = o->f70;
@@ -204,11 +204,11 @@ void func_02065438(void *a)
     if ((o->f7c & 2) != 0) {
         if (p->f14 != 0) {
             struct Aff *aff = GetAff();
-            func_02067B28((u32)GetMtx(), (u32)aff);
+            NNS_G2dSetRndCoreCurrentMtx2D((u32)GetMtx(), (u32)aff);
             Finish(a);
         } else {
-            func_02067B40((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
-            func_02067AC0((struct Src02067AC0 *)GetMtx());
+            NNS_G2dSetRndCore3DSoftSpriteZvalue((struct G2dOamState *)o, g_02147B98[g_02147B88.slot]);
+            NNS_G2dSetRndCoreCurrentMtx3D((struct Src02067AC0 *)GetMtx());
             Finish(a);
         }
         return;

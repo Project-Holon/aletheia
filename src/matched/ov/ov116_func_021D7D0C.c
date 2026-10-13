@@ -20,10 +20,10 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020056A0 0x020056A0 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_0203FA08 0x0203FA08 arm
  *   func_0201F5DC 0x0201F5DC thumb
@@ -41,10 +41,10 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02049B40(int, int, int, int, int, u32);
 extern void MI_CpuFill8(void *, int, u32);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void *func_020056A0(void *, void *, int);
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
@@ -76,8 +76,8 @@ void func_021D7D0C(u8 *p, short heap) {
     func_02049990(arc, 7, 3, 0, (u16)func_02049740(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(p + 0xc, 0, 0x970);
     blk = func_02049F78(arc, 2, (u32)(&res), (u16)heap);
-    func_02082D44(res->fC, p + 0x14, 0x1e0);
-    func_02082D44(res->fC, p + 0x1f4, 0x1e0);
+    MI_CpuCopy8(res->fC, p + 0x14, 0x1e0);
+    MI_CpuCopy8(res->fC, p + 0x1f4, 0x1e0);
     func_020307B0(blk);
     k = 0;
     pa = p + 0x1f4;
@@ -102,7 +102,7 @@ void func_021D7D0C(u8 *p, short heap) {
             if (t >= 0x1000) { t = 0x1000; done = 1; }
         }
     }
-    func_020862F0(p + 0x1f4, 0x780);
+    DWCi_ScreenDC_FlushRange(p + 0x1f4, 0x780);
     *(u32 *)(p + 0x10) = 1;
     *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);

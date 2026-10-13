@@ -1,5 +1,5 @@
 /*
- * function: func_02070624
+ * function: NNSi_G3dAnmGetTexSRTRotData
  * address:  0x02070624
  * packet:   pkt_02070360
  * region:   arm9
@@ -9,19 +9,19 @@
  * isa:      arm
  * status:   EXACT
  *
- * Vector-2 keyframe sampler: the exact sibling of func_02070524 (the same flag
+ * Vector-2 keyframe sampler: the exact sibling of NNSi_G3dAnmGetTexSRTScalarData (the same flag
  * cascade, word for word) but every key is a PAIR of s16 packed into one word,
  * and the result is the two interpolated components packed back into one u32.
- * func_02070730 uses it for the animation node's rotation track, where
- * func_02070524 serves the scalar scale and translation tracks.  `flags` bit
+ * NNSi_G3dAnmGetTexSRTData uses it for the animation node's rotation track, where
+ * NNSi_G3dAnmGetTexSRTScalarData serves the scalar scale and translation tracks.  `flags` bit
  * 29 = inline value, bits 31:30 = key stride, bits 15:0 = key count; unlike
- * func_02070524 there is no bit-28 width selector, because the key type is
+ * NNSi_G3dAnmGetTexSRTScalarData there is no bit-28 width selector, because the key type is
  * always the s16 pair.
  *
  * Per-file compiler pin, inherited from the cluster and from the caller
- * src/matched/func_02070730.c: ../2.0/sp2, not the project default.
+ * src/matched/NNSi_G3dAnmGetTexSRTData.c: ../2.0/sp2, not the project default.
  *
- * Three source levers, all measured (history in docs/notes/func_02070624.c.txt):
+ * Three source levers, all measured (history in docs/notes/NNSi_G3dAnmGetTexSRTRotData.c.txt):
  *   1. in BOTH tail blocks the value read by byte-offset off `base` must be
  *      read and folded before the pointer local is created, or the four live
  *      s16 plus the pointer plus `base` want a sixth register and the leaf
@@ -43,15 +43,15 @@
  * No relocation sites: the function is self-contained.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070624.c \
- *       --func func_02070624 --addr 0x02070624 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetTexSRTRotData.c \
+ *       --func NNSi_G3dAnmGetTexSRTRotData --addr 0x02070624 --cc ../2.0/sp2 --arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-int func_02070624(u32 *base, u32 flags, u32 off, u32 idx)
+int NNSi_G3dAnmGetTexSRTRotData(u32 *base, u32 flags, u32 off, u32 idx)
 {
     u32 n;
     u32 i0;

@@ -13,7 +13,7 @@
  * checks trip allocates a 0x10-byte record holding it and registers it.
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_020307B0  0x020307B0  arm
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  func_02082D44(void *src, void *dst, int n);
+extern void  MI_CpuCopy8(void *src, void *dst, int n);
 struct Ctx;
 extern u32   GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
@@ -53,7 +53,7 @@ void GAME_BEACON_SEARCH_StartConnectEvent(u8 *obj, int flag)
     u32 o = ((struct Obj18989 *)obj)->f0;
     u32 w;
     u8 *p;
-    func_02082D44(obj + 4, buf, 6);
+    MI_CpuCopy8(obj + 4, buf, 6);
     w = GAMESYSTEM_GetGameComm((const struct Ctx *)o);
     func_020307B0(obj);
     if (flag == 0 && GAMESYSTEM_CanStartAutoComm((struct IcaAnime *)o) == 1 && GAME_COMM_GetNotifyFlag((void *)w) == 0
@@ -61,7 +61,7 @@ void GAME_BEACON_SEARCH_StartConnectEvent(u8 *obj, int flag)
         p = func_02030734(5, 0x10, 1, GAME_BEACON_SEARCH_FileName, 0x287);
         ((struct Obj12364 *)p)->f0 = o;
         ((struct Obj12364 *)p)->f4 = GAMESYSTEM_GetGameComm((const struct Ctx *)o);
-        func_02082D44(buf, p + 8, 6);
+        MI_CpuCopy8(buf, p + 8, 6);
         GAME_COMM_Start((struct Comm *)w, 2, (u32)p);
     }
 }

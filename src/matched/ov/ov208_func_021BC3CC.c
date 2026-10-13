@@ -8,23 +8,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  */
 #include "../include/Obj01178.h"
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Blk37;
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 void func_021BC3CC(char *p)
 {
     unsigned short old=**(unsigned short * *)&((struct Obj01178 *)p)->f20;
-    void *owner=func_0200CA1C((void *)(*(int *)&((struct Obj01178 *)p)->f0));
+    void *owner=ZUKAN_SAVE_GetFromGameData((void *)(*(int *)&((struct Obj01178 *)p)->f0));
     do {
         ++**(unsigned short * *)&((struct Obj01178 *)p)->f20;
         if(**(unsigned short * *)&((struct Obj01178 *)p)->f20>=((struct Obj01178 *)p)->f1C)
             **(unsigned short * *)&((struct Obj01178 *)p)->f20=0;
         if(**(unsigned short * *)&((struct Obj01178 *)p)->f20==old)break;
-    }while(func_0200D064(owner,(*(unsigned short **)(p+0x18))[**(unsigned short * *)&((struct Obj01178 *)p)->f20])==0);
+    }while(ZUKAN_SAVE_IsSeen(owner,(*(unsigned short **)(p+0x18))[**(unsigned short * *)&((struct Obj01178 *)p)->f20])==0);
 }

@@ -13,18 +13,12 @@
  * Cut from hand_waza.c by tools/splitfile.py.
  *
  * symbols:
- *   func_0689C980  0x0689C980  thumb
- *   func_0689C990  0x0689C990  thumb
+ *   BTL_ID_IsArceusPlate  0x0689C980  thumb
+ *   BTL_ID_IsGenesectDrive  0x0689C990  thumb
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_AreAllOtherActionsDone  0x021C80AC  thumb  ov093
  */
 #include "hand_common_protos.h"
-
-int HAND_COMMON_IsMoveTarget(int pokeId);
-
-int HAND_COMMON_IsLastToAct(struct BtlServerFlow *flow, int pokeId);
-
-int HAND_COMMON_IsItemBoundToSpecies(int speciesId, int itemId);
 
 /* Shared helper of the ability, item and move handlers: whether the Pokemon is one of the targets of the current move. */
 int HAND_COMMON_IsMoveTarget(int pokeId)
@@ -64,11 +58,11 @@ int HAND_COMMON_IsItemBoundToSpecies(int speciesId, int itemId)
             return 1;
         break;
     case BTL_SPECIES_ARCEUS:
-        if (func_0689C980(itemId) != 0)
+        if (BTL_ID_IsArceusPlate(itemId) != 0)
             return 1;
         break;
     case BTL_SPECIES_GENESECT:
-        if (func_0689C990(itemId) != 0)
+        if (BTL_ID_IsGenesectDrive(itemId) != 0)
             return 1;
         break;
     }

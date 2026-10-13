@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7DC
+ * function: PMSIV_BGSCROLL_Step
  * address: 0x021BC7DC
  * packet: pkt_ov110_021BC7DC
  * region: ov110
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BC828 0x021BC828 thumb ov110
- *   func_021B9BA4 0x021B9BA4 thumb ov110
+ *   PMSIV_BGSCROLL_Task 0x021BC828 thumb ov110
+ *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  *   func_02030EAC 0x02030EAC arm
  */
 #include "../include/Obj05293.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021BC828(void *, u8 *);
+extern void PMSIV_BGSCROLL_Task(void *, u8 *);
 struct Node;
-extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
+extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, u8 *), u8 *p, int n);
 extern void func_02030EAC(struct Node *n);
-int func_021BC7DC(u8 *p)
+int PMSIV_BGSCROLL_Step(u8 *p)
 {
     switch (((struct Obj05293 *)p)->f16) {
     case 0:
-        ((struct Obj05293 *)p)->f18=func_021B9BA4(func_021BC828,p,0);
+        ((struct Obj05293 *)p)->f18=PMS_INPUT_VIEW_AddVBlankTask(PMSIV_BGSCROLL_Task,p,0);
         ++((struct Obj05293 *)p)->f16;
         break;
     case 1:

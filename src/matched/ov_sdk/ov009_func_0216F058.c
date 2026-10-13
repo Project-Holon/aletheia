@@ -1,5 +1,5 @@
 /*
- * function: func_0216F058
+ * function: DWCi_ProcessMatchPollingPacket
  * address:  0x0216F058
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -14,8 +14,8 @@
  * symbols:
  *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02176358  0x02176358  arm  ov009
- *   func_0216F014  0x0216F014  arm  ov009
+ *   DWCi_NodeInfoList_GetServerNodeInfo  0x02176358  arm  ov009
+ *   DWCi_CheckDeadAIDBitmap  0x0216F014  arm  ov009
  */
 
 typedef struct {
@@ -26,10 +26,10 @@ typedef struct {
 
 extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
-extern void *func_02176358(void);
-extern void func_0216F014(unsigned int bitmap);
+extern void *DWCi_NodeInfoList_GetServerNodeInfo(void);
+extern void DWCi_CheckDeadAIDBitmap(unsigned int bitmap);
 
-void func_0216F058(const Poll *p)
+void DWCi_ProcessMatchPollingPacket(const Poll *p)
 {
     int pid = p->pid;
     unsigned int bitmap = p->bitmap;
@@ -42,12 +42,12 @@ void func_0216F058(const Poll *p)
     if (id != *(int *)(func_02175F3C() + 0x7c8)) {
         return;
     }
-    node = func_02176358();
+    node = DWCi_NodeInfoList_GetServerNodeInfo();
     if (node == 0) {
         return;
     }
     if (*node != pid) {
         return;
     }
-    func_0216F014(bitmap);
+    DWCi_CheckDeadAIDBitmap(bitmap);
 }

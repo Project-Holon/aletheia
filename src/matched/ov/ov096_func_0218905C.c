@@ -1,5 +1,5 @@
 /*
- * function: func_0218905C
+ * function: TR_AI_CmdLoadFieldCountdown
  * address: 0x0218905C
  * packet: pkt_ov096_0218905C
  * region: ov096
@@ -13,4 +13,4 @@
  */
 #include "../include/Obj13656.h"
 extern int BTL_FIELD_GetCountdownValue(void);
-int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=BTL_FIELD_GetCountdownValue(); return ((struct Obj13656 *)b)->fC4; }
+int TR_AI_CmdLoadFieldCountdown(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=BTL_FIELD_GetCountdownValue(); return ((struct Obj13656 *)b)->fC4; }

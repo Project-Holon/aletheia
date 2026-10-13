@@ -63,7 +63,7 @@
  *   BMP_Delete 0x020437AC arm
  *   P_STA_RIBBON_KindCountInit 0x021DC2B0 data a1
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0201F250 0x0201F250 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -276,7 +276,7 @@ extern void *func_02049E74(void *arc, u32 fileId, u32 a, void **outData, u16 hea
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, void *str, void *font);
 extern void func_0201DD68(void);
@@ -774,7 +774,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     pixels=work->iconChr->pixels;
     source=BMP_GetPixels(row->bmp);
     if (row->ownedIdx==work->selectedOwned) pixels+=0x660;
-    func_02082D44(pixels,source,0x660);
+    MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(work->msgBank,owned->category+160);
     buffer=STRBUF_Create(32,wk->heapId);
     wordSet=func_0201EC64(wk->heapId);

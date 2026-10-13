@@ -201,6 +201,11 @@ callback a battle event factor registers for one ability, item or move
 `BtlEventVarKey`, in `hand_common_types.h`. Helpers shared by all three groups use
 `HAND_COMMON_` (`hand_common.c`).
 
+Field, position and side handlers (ov095) use `HAND_FIELD_`, `HAND_POS_` and
+`HAND_SIDE_`; status condition code uses `BTL_SICK_`. Library code in game
+overlays keeps the library style for internal names (`DWCi_` for DWC internals):
+library prefix, then `i` for internal.
+
 File names (rule used by the file-rename pass): the original file name when the
 `__FILE__` anchors or the SDK object tables give it; otherwise a descriptive
 snake_case name from the module prefix and role (`hand_waza.c`, `btl_client.c`).

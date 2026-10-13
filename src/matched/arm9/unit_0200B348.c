@@ -16,6 +16,7 @@
  * symbols:
  *   func_0200B3DC_File  0x020A71C4  data
  *   BATTLE_REC_Clear  0x0200B448  thumb
+ *   MIi_CpuCopy32  0x02082A90  arm
  *
  * 52 bytes, 0x0200B348..0x0200B37C, 4 functions, none of which carries a
  * label in the generated listing.
@@ -48,7 +49,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void  func_02082A90(void *dest, const void *src, u32 size);
+extern void  MIi_CpuCopy32(void *dest, const void *src, u32 size);
 struct BattleRec;
 struct Struct_0200B37C;
 struct Sub020071CCCtrl;

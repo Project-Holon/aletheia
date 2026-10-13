@@ -15,7 +15,7 @@
  *   g_021AA878  0x021AA878  data
  *   func_02059F38  0x02059F38  arm
  *   DWCi_GetGT2Connection  0x0216BAF4  arm  ov009
- *   func_02176410  0x02176410  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
  *   DWCi_GT2ClosedProcess  0x0216C230  arm  ov009
  *   func_02195DC4  0x02195DC4  arm  ov009
  */
@@ -26,7 +26,7 @@ extern struct DwcGlobal g_021AA878;
 extern int func_02059F38(void);
 struct GTI2Connection;
 extern int DWCi_GetGT2Connection(int aid);
-extern char *func_02176410(unsigned char aid);
+extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern void func_02195DC4(int conn);
 
@@ -42,7 +42,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
     }
     conn = DWCi_GetGT2Connection(aid);
     if (conn == 0) {
-        node = (unsigned char *)func_02176410(aid);
+        node = (unsigned char *)DWCi_NodeInfoList_GetNodeInfoForAID(aid);
         if (node == 0) {
             return -2;
         }

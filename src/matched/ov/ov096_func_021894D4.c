@@ -1,5 +1,5 @@
 /*
- * function: func_021894D4
+ * function: TR_AI_CmdLoadConsumedItem
  * address:  0x021894D4
  * packet:   pkt_ov096_021894D4
  * region:   ov096
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
  *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
  *   VM_GetU32  0x0201134C  thumb
  */
@@ -25,17 +25,17 @@ typedef int s32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 struct QK;
 extern u16 BTL_POKEPARAM_GetConsumedItem(struct QK *p);
 
-int func_021894D4(struct Cursor *a, int b) {
+int TR_AI_CmdLoadConsumedItem(struct Cursor *a, int b) {
     int t;
     u8 s;
     t = VM_GetU32(a);
-    s = func_0218A160((u8 *)b, t);
-    t = BTL_POKEPARAM_GetConsumedItem((struct QK *)func_0218A2FC((u8 *)b, s));
+    s = TR_AI_GetPosition((u8 *)b, t);
+    t = BTL_POKEPARAM_GetConsumedItem((struct QK *)TR_AI_GetPoke((u8 *)b, s));
     ((struct Obj13663 *)b)->f38 = t;
     return ((struct Obj13663 *)b)->fC4;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5E78
+ * function: DWCi_Ndi_freeAttr
  * address:  0x021C5E78
  * packet:   pkt_ov114_021C5E78
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      DWCi_Ndi_freeAttr (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
  * symbols:
- *   g_021D3BD8  0x021D3BD8  data
- *   g_021D3B9C  0x021D3B9C  data
+ *   gDwciNdAttrEncoded  0x021D3BD8  data
+ *   gDwciNdStatics  0x021D3B9C  data
  */
 
 typedef struct NdGlobals {
@@ -21,17 +21,17 @@ typedef struct NdGlobals {
     void (*f14)(void *p);
 } NdGlobals;
 
-extern void *g_021D3BD8[3];
-extern NdGlobals g_021D3B9C;
+extern void *gDwciNdAttrEncoded[3];
+extern NdGlobals gDwciNdStatics;
 
-void func_021C5E78(void)
+void DWCi_Ndi_freeAttr(void)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        if (g_021D3BD8[i] != 0) {
-            g_021D3B9C.f14(g_021D3BD8[i]);
-            g_021D3BD8[i] = 0;
+        if (gDwciNdAttrEncoded[i] != 0) {
+            gDwciNdStatics.f14(gDwciNdAttrEncoded[i]);
+            gDwciNdAttrEncoded[i] = 0;
         }
     }
 }

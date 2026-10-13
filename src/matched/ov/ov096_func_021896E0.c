@@ -1,5 +1,5 @@
 /*
- * function: func_021896E0
+ * function: TR_AI_CmdLoadAbilityEquals
  * address:  0x021896E0
  * packet:   pkt_ov096_021896E0
  * region:   ov096
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A220  0x0218A220  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetAbility  0x0218A220  thumb  ov096
  *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj13665.h"
@@ -24,17 +24,17 @@ typedef int s32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern int func_0218A220(u8 *p, int k, int slot);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern int TR_AI_GetAbility(u8 *p, int k, int slot);
 
-int func_021896E0(struct Cursor *a, int b) {
+int TR_AI_CmdLoadAbilityEquals(struct Cursor *a, int b) {
     int r;
     int r2;
     int t;
     r = VM_GetU32(a);
     r2 = VM_GetU32(a);
-    t = func_0218A160((u8 *)b, r);
-    t = func_0218A220((u8 *)b, r, t);
+    t = TR_AI_GetPosition((u8 *)b, r);
+    t = TR_AI_GetAbility((u8 *)b, r, t);
     if (t == r2) {
         t = 1;
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B732C
+ * function: IRC_APPBAR_LoadResources
  * address: 0x021B732C
  * packet: pkt_ov101_021B732C
  * region: ov101
@@ -21,7 +21,7 @@ extern int CLACT_RegisterPaletteEx(void *,unsigned,unsigned,u16,u16,u16,unsigned
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,unsigned);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021B732C(int *p,unsigned b,int c,int unused,int unused2,u8 d,unsigned e) {
+void IRC_APPBAR_LoadResources(int *p,unsigned b,int c,int unused,int unused2,u8 d,unsigned e) {
  void *q;
  q=func_020490F4(0x5e,e);
  p[12]=CLACT_RegisterPaletteEx(q,0x29,b,d<<5,0,1,e);

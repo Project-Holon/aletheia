@@ -1,5 +1,5 @@
 /*
- * function: func_02157700
+ * function: calc_checksum_do
  * address:  0x02157700
  * packet:   pkt_ov009_02157700
  * region:   ov009
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum)
+unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum)
 {
 	int align;
 	unsigned long tmp;

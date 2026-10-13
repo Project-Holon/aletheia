@@ -1,5 +1,5 @@
 /*
- * function: func_021C2850
+ * function: WIFICLUB_RunPeerAddrRoutine
  * address: 0x021C2850
  * packet: pkt_ov099_021C2850
  * region: ov099
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02087C6C 0x02087C6C arm
+ *   OS_GetMacAddress 0x02087C6C arm
  */
-extern void func_02087C6C(void *);
-void func_021C2850(char *p) { func_02087C6C(p + 0xe); }
+extern void OS_GetMacAddress(void *);
+void WIFICLUB_RunPeerAddrRoutine(char *p) { OS_GetMacAddress(p + 0xe); }

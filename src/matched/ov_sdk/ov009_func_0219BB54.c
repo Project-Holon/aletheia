@@ -1,5 +1,5 @@
 /*
- * function: func_0219BB54
+ * function: handle_public_address
  * address:  0x0219BB54
  * packet:   pkt_ov009_0219BB54
  * region:   ov009
@@ -41,7 +41,7 @@ extern int func_0208CF34(char *src, char *fmt, ...);
 extern char *func_0215FA9C(SOCInAddr in);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 
-void func_0219BB54(qr2_implementation_s *qrec, char *buffer)
+void handle_public_address(qr2_implementation_s *qrec, char *buffer)
 {
     unsigned int ip;
     unsigned int portTemp;

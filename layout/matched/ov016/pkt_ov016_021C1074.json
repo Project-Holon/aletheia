@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1074",
+   "name": "DWCi_MOVlInit",
    "address": "0x021C1074",
    "kind": "sdk",
    "region": "ov016",

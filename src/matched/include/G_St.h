@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_ST_H
 #define ALETHEIA_G_ST_H
-/* g_0214E9FC (arm9) */
+/* gNNSSndSystem (arm9) */
 struct St {
     unsigned int f00;
     unsigned int f04;

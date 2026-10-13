@@ -12,16 +12,19 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G3dInit.c \
  *       --func NNS_G3dInit --addr 0x0206DF14 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   NNS_G3dGlbInit  0x0206A700  arm
  */
 
 typedef unsigned int u32;
 
 extern void func_0207D988(void);
-extern void func_0206A700(void);
+extern void NNS_G3dGlbInit(void);
 
 void NNS_G3dInit(void)
 {
     func_0207D988();
-    func_0206A700();
+    NNS_G3dGlbInit();
     *(u32 *)0x04000600 = (*(u32 *)0x04000600 & 0x3FFFFFFFu) | 0x80000000u;
 }

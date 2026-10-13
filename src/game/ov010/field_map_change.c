@@ -15,7 +15,7 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   func_0200D418 0x0200D418 thumb
+ *   MOVE_POKEMON_SAVE_GetBlock 0x0200D418 thumb
  *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
  *   MOVE_POKEMON_SetCommonArea 0x0215E428 thumb ov010
  *   MOVE_POKEMON_MoveActiveEntriesChecked 0x0215E3A0 thumb ov010
@@ -43,7 +43,7 @@ struct Situation;
 typedef unsigned int u32;
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *func_0200D418(struct SaveControl *saveControl);
+extern void *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern void MOVE_POKEMON_SetCommonArea(int a0, int a1);
 extern void MOVE_POKEMON_MoveActiveEntriesChecked(void *);
@@ -70,11 +70,11 @@ void func_0216447C(int system, u16 zoneId);
 
 /*
  * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
- * MOVE_POKEMON_SetCommonArea forwards its second argument to func_0200D45C,
+ * MOVE_POKEMON_SetCommonArea forwards its second argument to MOVE_POKEMON_SAVE_SetCommonArea,
  * whose matched ARM9 body takes u16 and stores only that halfword.
  * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
  */
-void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork=func_0200D418(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
+void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
 
 /*
  * Per-object setup: registers the object with the frame list, applies
@@ -89,7 +89,7 @@ void func_021643E8(struct GameData *gameData, u32 zoneId)
     if ((ZONEDATA_GetFieldSkillMapEffect(zoneId) & 3) == 0) {
         FIELD_STATUS_SetFlashActive(mmdlSys, 0);
     }
-    MOVE_POKEMON_SetCommonArea((int)func_0200D418(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
+    MOVE_POKEMON_SetCommonArea((int)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
     MOVE_POKEMON_MoveActiveEntries(gameData);
     eventWork = GAME_DATA_GetEventWork(gameData);
     ZONEDATA_ResetEventFlag(eventWork, 0x964);

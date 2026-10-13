@@ -12,14 +12,14 @@
  * symbols:
  *   ARC_TOOL_OpenArchive  0x02048DDC  arm
  *   ARC_TOOL_SeekMember  0x02048E34  arm
- *   func_02078A80  0x02078A80  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_CloseFile  0x02078A80  arm
+ *   FS_ReadFile  0x02078B70  arm
  *
  * Read one sub-file of one archive into a buffer the caller owns.  The whole
  * archive handle is a 0x48 byte stack local: ARC_TOOL_OpenArchive binds it to the
  * archive named by `archive_id` (it indexes the 235-entry a/x/y/z name table
  * at 0x020A6C58), ARC_TOOL_SeekMember seeks the member and returns its byte size,
- * func_02078B70 is the read and func_02078A80 closes the handle again.
+ * FS_ReadFile is the read and FS_CloseFile closes the handle again.
  *
  * Nothing survives the call, so this is the one-shot form: a caller that wants
  * the archive to stay open uses func_020490F4 instead.
@@ -43,8 +43,8 @@ extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
 typedef signed int     s32;
 struct FSFile;
 extern u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void func_02078A80(struct ArcHandle *h);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern void FS_CloseFile(struct ArcHandle *h);
 
 void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 mode,
                    u32 *size_out)
@@ -52,6 +52,6 @@ void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 mod
     struct ArcHandle h;
 
     ARC_TOOL_OpenArchive((struct ArcFile *)(&h), archive_id);
-    func_02078B70((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember(&h, member, mode, (u32)size_out));
-    func_02078A80(&h);
+    FS_ReadFile((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember(&h, member, mode, (u32)size_out));
+    FS_CloseFile(&h);
 }

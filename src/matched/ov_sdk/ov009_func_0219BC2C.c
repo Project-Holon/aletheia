@@ -1,5 +1,5 @@
 /*
- * function: func_0219BC2C
+ * function: qr_build_partial_query_reply
  * address:  0x0219BC2C
  * packet:   pkt_ov009_0219BC2C
  * region:   ov009
@@ -85,7 +85,7 @@ extern char g_021A76CC[];
 extern const char *g_021A7C90[];
 extern char g_021A76D4[];
 
-void func_0219BC2C(qr2_t qrec, qr2_buffer_t buf, int keytype, int keycount, unsigned char *keys)
+void qr_build_partial_query_reply(qr2_t qrec, qr2_buffer_t buf, int keytype, int keycount, unsigned char *keys)
 {
     qr2_keybuffer_t kb;
     int playerteamcount;

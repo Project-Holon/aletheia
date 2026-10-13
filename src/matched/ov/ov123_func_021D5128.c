@@ -19,7 +19,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
  *   func_0207D534 0x0207D534 arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -64,7 +64,7 @@ struct R;
 struct Tcbl;
 extern void func_0204363C(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16 heapId);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
@@ -106,7 +106,7 @@ int func_021D5128(void *a,int b,u8 *q)
     func_0204363C(1);
     if(((struct Obj06459 *)q)->f2C8) bright=16; else bright=-16;
     func_0207D534((void *)0x0400006c,bright); func_0207D534((void *)0x0400106c,bright);
-    *(volatile u32 *)0x04001000|=0x10000; func_0207D46C();
+    *(volatile u32 *)0x04001000|=0x10000; GX_DispOn();
     func_0203F8F4(((struct Obj00590 *)p)->fC); BMP_WIN_Init(((struct Obj00590 *)p)->fC); func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
     cfg=d_021DA680; func_0203FC28((struct DispConfig *)(&cfg));

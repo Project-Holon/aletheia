@@ -34,7 +34,7 @@
  *   func_02043130_File 0x020A7E5C  data
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
- *   func_02082D44      0x02082D44  arm
+ *   MI_CpuCopy8      0x02082D44  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02043130.c \
@@ -48,7 +48,7 @@ typedef unsigned int u32;
 extern u8 func_02043130_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02082D44(void *dst, void *src, u32 n);
+extern void MI_CpuCopy8(void *dst, void *src, u32 n);
 
 void func_02043130(u16 flags, u8 *buf, u32 page)
 {
@@ -73,14 +73,14 @@ void func_02043130(u16 flags, u8 *buf, u32 page)
                 tmp[i * 8 + j] = buf[i * 8 + (7 - j)];
             }
         }
-        func_02082D44(buf, tmp, 0x40);
+        MI_CpuCopy8(buf, tmp, 0x40);
     }
 
     if (flags & 2) {
         for (i = 0; i < 8; i++) {
-            func_02082D44(tmp + i * 8, buf + (7 - i) * 8, 8);
+            MI_CpuCopy8(tmp + i * 8, buf + (7 - i) * 8, 8);
         }
-        func_02082D44(buf, tmp, 0x40);
+        MI_CpuCopy8(buf, tmp, 0x40);
     }
 
     func_020307B0(tmp);

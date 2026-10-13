@@ -10,7 +10,7 @@
  * symbols:
  *   BMP_GetByteSize 0x020437EC arm
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
@@ -27,7 +27,7 @@ struct Bmp;
 struct StrObj;
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082A90(const void *, void *, u32);
+extern void MIi_CpuCopy32(const void *, void *, u32);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
@@ -51,7 +51,7 @@ void BTLV_SCU_DrawNamePlate(u8 *p)
     q = *(u8 * *)&((struct Obj02797 *)p)->f0;
     size = BMP_GetByteSize(((struct Obj02797 *)p)->f4);
     pixels = BMP_GetPixels(((struct Obj02797 *)p)->f4);
-    func_02082A90(*(u8 * *)&((struct Obj21616 *)(*(u8 * *)&((struct Obj21615 *)(*(u8 * *)&((struct Obj02797 *)p)->f0))->fDC))->f14 + p[0xa] * 0x900, pixels, size);
+    MIi_CpuCopy32(*(u8 * *)&((struct Obj21616 *)(*(u8 * *)&((struct Obj21615 *)(*(u8 * *)&((struct Obj02797 *)p)->f0))->fDC))->f14 + p[0xa] * 0x900, pixels, size);
     GF_FONT_SetTextColor(1, 2, 0);
     BTL_MSG_FormatArgs(*(u32 *)&((struct Obj01524 *)q)->f38, 0x67, 2, p[0xc], ((struct Obj02797 *)p)->f8);
     if ((u8)func_0201D33C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f28, 0, widths, 2) > 1) {

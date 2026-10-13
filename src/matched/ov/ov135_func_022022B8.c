@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
@@ -49,7 +49,7 @@ struct Blk37;
 struct Party;
 struct PartyMon;
 struct Rec0200AD94;
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
@@ -69,7 +69,7 @@ void func_022022B8(Work *p, void *mon, u32 box, int hatch)
     u32 slot;
 
     POKE_TOOL_GetPartyValue(mon, 6, 0);
-    func_0200CDE0(p->ctx->dex, mon);
+    ZUKAN_SAVE_RegisterCaught(p->ctx->dex, mon);
     box = 0xFF;
     if (POKEPARTY_GetCount(p->ctx->party) == 6) {
         box = 0;

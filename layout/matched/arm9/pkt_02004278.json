@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02004278",
+   "name": "SVC_IsMmemExpanded",
    "address": "0x02004278",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020854D0",
+   "name": "OSi_ExitThread_ArgSpecified",
    "address": "0x020854D0",
    "kind": "sdk",
    "region": "arm9",

@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   DPW_TR_DeleteAsync  0x021C88FC  arm  ov114
  *
 
  * State setter: hand over the object, latch the state word at +0x28 and clear the slot.
@@ -20,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021C88FC(u8 *p);
+extern void DPW_TR_DeleteAsync(u8 *p);
 
 int func_02201D14(u8 *p)
 {
-    func_021C88FC(p);
+    DPW_TR_DeleteAsync(p);
     ((struct Obj12239 *)p)->f28 = 0x18;
     ((struct Obj12239 *)p)->fF8C = 0x0;
     return 0x2;

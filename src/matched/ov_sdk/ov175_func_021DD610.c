@@ -1,5 +1,5 @@
 /*
- * function: func_021DD610
+ * function: sakeiCheckHttpResult
  * address:  0x021DD610
  * packet:   pkt_021DD610
  * region:   ov175
@@ -17,7 +17,7 @@
 
 typedef int s32;
 
-s32 func_021DD610(s32 a)
+s32 sakeiCheckHttpResult(s32 a)
 {
     switch (a) {
     case 0:

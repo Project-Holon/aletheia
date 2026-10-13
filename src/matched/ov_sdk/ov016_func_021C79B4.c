@@ -12,11 +12,11 @@
  * sdk:      procWin (libdwcutil.TWL.HYB.a sceneseteditaddress.o)
  *
  * symbols:
- *   func_021D1568  0x021D1568  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021D1524  0x021D1524  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5E4     0x021DE5E4  data
+ *   DWCi_WINlGet  0x021D1568  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_WINlEnd  0x021D1524  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gMemSsea     0x021DE5E4  data
  *   func_021C7A0C  0x021C7A0C  arm  ov016
  */
 
@@ -24,26 +24,26 @@
 
 typedef struct MemSsea MemSsea;
 
-extern signed char func_021D1568(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021D1524();
-extern void func_021C0E40(unsigned int v);
+extern signed char DWCi_WINlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_WINlEnd();
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C7A0C();
-extern struct MemSsea *g_021DE5E4;
+extern struct MemSsea *gMemSsea;
 
 void func_021C79B4(void)
 {
-    g_021DE5E4->result = func_021D1568();
-    switch (g_021DE5E4->result) {
+    gMemSsea->result = DWCi_WINlGet();
+    switch (gMemSsea->result) {
     case 0:
-        func_021CFFAC(7);
+        DWCi_SNDlPlay(7);
         break;
     case 1:
-        func_021CFFAC(0xE);
+        DWCi_SNDlPlay(0xE);
         break;
     default:
         return;
     }
-    func_021D1524();
-    func_021C0E40((unsigned int)func_021C7A0C);
+    DWCi_WINlEnd();
+    DWCi_ChangeScene((unsigned int)func_021C7A0C);
 }

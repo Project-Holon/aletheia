@@ -1,5 +1,5 @@
 /*
- * function: func_0206C024
+ * function: NNSi_G3dFuncSbc_SHP
  * address:  0x0206C024
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -24,7 +24,7 @@
  * Byte-identical under dsi/1.1p1 as well; pinned ../2.0/sp2 with the cluster.
  *
  * symbols:
- *   tbl_020A82D8   0x020A82D8  data
+ *   gShpHandlerTable   0x020A82D8  data
  */
 
 typedef unsigned char u8;
@@ -61,7 +61,7 @@ typedef struct Ctx {
     ResShp *pResShp;
 } Ctx;
 
-extern void (*tbl_020A82D8[])(Ctx *, u32, const ItemTag *, u32);
+extern void (*gShpHandlerTable[])(Ctx *, u32, const ItemTag *, u32);
 
 static inline void *GetResDataByIdx(const Dict *dict, u32 idx)
 {
@@ -82,12 +82,12 @@ static inline const ItemTag *GetShpDataByIdx(const ResShp *mat, u32 idx)
     return 0;
 }
 
-void func_0206C024(Ctx *rs, u32 opt)
+void NNSi_G3dFuncSbc_SHP(Ctx *rs, u32 opt)
 {
     if (!(rs->flag & 0x200) && (rs->flag & 1) && !(rs->flag & 2)) {
         u32 idxShp = *(rs->c + 1);
         const ItemTag *shp = GetShpDataByIdx(rs->pResShp, idxShp);
-        (*tbl_020A82D8[shp->tag])(rs, opt, shp, idxShp);
+        (*gShpHandlerTable[shp->tag])(rs, opt, shp, idxShp);
     }
     rs->c += 2;
 }

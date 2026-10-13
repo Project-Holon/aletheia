@@ -8,11 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * 2026-10-05 (wave P16 E9): the draft with a result local (result = 1, result = 6, return result) swapped the aid and result colours (12 B). Returning from each arm (return 6; return 1;) gives the original colours. func_02082D44 is declared as the three-argument copy (src, dst, size) as in the matched sibling func_021F0754.
+ * 2026-10-05 (wave P16 E9): the draft with a result local (result = 1, result = 6, return result) swapped the aid and result colours (12 B). Returning from each arm (return 6; return 1;) gives the original colours. MI_CpuCopy8 is declared as the three-argument copy (src, dst, size) as in the matched sibling func_021F0754.
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
- *   func_02082D44 0x02082D44 arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   d_021F6EAC 0x021F6EAC data a4
  *   d_021F6EB4 0x021F6EB4 data a4
  */
@@ -23,9 +23,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32);
-extern void func_02082D44(const void *, void *, u32);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 typedef struct {u8 pad[10];u16 f0A;} Masks;
 extern struct Masks d_021F6EAC;
 extern struct Zero d_021F6EB4;
@@ -36,13 +36,13 @@ int func_021F0D34(u16 aid)
     Snapshot snap;
     u16 bit;
     bit = 1 << aid;
-    state = func_02087988();
+    state = OS_DisableInterrupts();
     if (!(d_021F6EAC.f0A & bit)) {
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         return 0;
     }
-    func_02082D44(((u8 *)&d_021F6EB4), &snap, 20);
-    func_0208799C(state);
+    MI_CpuCopy8(((u8 *)&d_021F6EB4), &snap, 20);
+    OS_RestoreInterrupts(state);
     if (snap.f04 & bit) return 2;
     if (snap.f06 & bit) return 3;
     if (snap.f08 & bit) return 4;

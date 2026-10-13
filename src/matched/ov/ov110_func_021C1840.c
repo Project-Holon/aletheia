@@ -1,5 +1,5 @@
 /*
- * function: func_021C1840
+ * function: PMS_SELECT_GRAPHIC_VBlankSceneActors
  * address:  0x021C1840
  * packet:   pkt_021C1840
  * region:   ov110
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1840 0x021C1840 thumb
+ *   PMS_SELECT_GRAPHIC_VBlankSceneActors 0x021C1840 thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
 
 extern void CLACT_VBlankSystem(void);
 
-void func_021C1840(void *a0)
+void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *a0)
 {
     CLACT_VBlankSystem();
 }

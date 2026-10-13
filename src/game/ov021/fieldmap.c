@@ -227,7 +227,7 @@
  *   func_0204044C  0x0204044C  arm
  *   FIELD_MSGBG_SetupBg  0x02190270  thumb
  *   FIELD_MSGBG_SetupBgDelayed  0x0219027C  thumb
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   G3D_SYSTEM_Exit  0x02046788  arm
  *   func_0203F9B4  0x0203F9B4  arm
  *   G3X_SetFog  0x0207DC44  arm
@@ -362,7 +362,7 @@
  *   FIELDSKILL_MAPEFF_Apply    0x021C7FB4  thumb  ov021
  *   _ll_mul          0x0209C054  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_0206A854    0x0206A854  arm
+ *   NNS_G3dGlbFlush    0x0206A854  arm
  *   FIELD_EFFECT_Draw    0x021ABE0C  thumb  ov021
  *   FIELD_G3DOBJ_DrawAll    0x021C64E0  thumb  ov021
  *   func_02050790    0x02050790  arm
@@ -641,7 +641,7 @@ extern void FIELD_MSGBG_SetupBg(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_SetupBgDelayed(struct FieldMsgBg *msgBg);
 extern u32 func_0203F9B4(u32);
 extern u32 G3D_SYSTEM_Exit(u32);
-extern u32 func_0206DB80(u32);
+extern u32 NNS_G3dGeFlushBuffer(u32);
 extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void G3X_SetFogTable(void *a);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
@@ -761,7 +761,7 @@ extern void FIELD_LIGHT_Reflect(struct FieldLight *light, int force);
 extern void FIELD_MSGBG_DrawTalkSys(struct FieldMsgBg *msgBg);
 extern void FIELDSKILL_MAPEFF_Apply(struct FieldSkillMapEff *mapEff);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
-extern u32 func_0206A854(void);
+extern u32 NNS_G3dGlbFlush(void);
 extern void FIELD_EFFECT_Draw(struct FieldEffectCont *effect);
 extern void FIELD_G3DOBJ_DrawAll(struct FieldG3dObjCtrl *g3dObjCtrl);
 extern void func_02050790(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
@@ -1639,7 +1639,7 @@ struct FldVReq *FIELDMAP_GetVReq(FieldMap *fieldMap)
 
 int FIELDMAP_ExitBgSystem(FieldMap *fieldMap)
 {
-    return func_0203F9B4(G3D_SYSTEM_Exit(func_0206DB80(BG_SYS_SetLcdSwap(1))));
+    return func_0203F9B4(G3D_SYSTEM_Exit(NNS_G3dGeFlushBuffer(BG_SYS_SetLcdSwap(1))));
 }
 
 void FIELDMAP_SetupG3d(void)
@@ -2108,7 +2108,7 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset);
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206DB80(func_0206A854());
+    NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
     FIELD_EFFECT_Draw(fieldMap->effect);
     FIELD_G3DOBJ_DrawAll(fieldMap->g3dObjCtrl);
     func_02050790(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
@@ -2119,11 +2119,11 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset / 2);
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206DB80(func_0206A854());
+    NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
     func_02050790(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     MIi_CpuCopyFast(&savedProj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
+    NNS_G3dGlbFlush();
     FIELD_SUBPROC_MGR_RunDraw(fieldMap->mapFunc);
     WEATHER_Draw(fieldMap->weather);
     FLD_EXP_OBJ_Draw(fieldMap->expObj);

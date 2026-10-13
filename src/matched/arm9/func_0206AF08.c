@@ -1,5 +1,5 @@
 /*
- * function: func_0206AF08
+ * function: NNSi_G3dAnmBlendMat
  * address:  0x0206AF08
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -28,7 +28,7 @@ struct Node0206AF08 {
     u16 v[1];
 };
 
-int func_0206AF08(u32 a0, struct Node0206AF08 *n, u32 idx)
+int NNSi_G3dAnmBlendMat(u32 a0, struct Node0206AF08 *n, u32 idx)
 {
     int r = 0;
 

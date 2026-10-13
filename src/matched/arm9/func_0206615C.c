@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206615C
+ * function: NNS_G2dPushMtx
  * address:  0x0206615C
  * packet:   pkt_02064B68
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The matrix-slot PUSH, the counterpart of src/matched/func_02066380.c.
+ * The matrix-slot PUSH, the counterpart of src/matched/NNS_G2dPopMtx.c.
  * The slot index g_02147B88.slot (+0x0c) is advanced if it stays below 0x20,
  * copying the current slot of every per-slot table into the next one: in
  * the translate-only mode (g_02147B88.unk_04 != 0) just tx/ty of g_02147D18
@@ -92,7 +92,7 @@ static inline void CopySlot(int next)
     g_02147B88.slot = next;
 }
 
-void func_0206615C(void)
+void NNS_G2dPushMtx(void)
 {
     if ((g_02147B88.obj->flags & 1) == 0) {
         int cur = g_02147B88.slot;

@@ -1,5 +1,5 @@
 /*
- * function: func_0206EB7C
+ * function: NNSi_G3dAnmCalcNsBca
  * address:  0x0206EB7C
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  no evidence class for the PC24 to func_0206EE60 at +0x34: the only
+ * blocker:  no evidence class for the PC24 to NNSi_G3dAnmCalcJntAnmNode at +0x34: the only
  *           branch anywhere in the image to 0x0206EE60 is this one, so
  *           `label` refuses it and nothing else attests it. Filing 0x0206EE60
  *           (940 B, still OPEN in this packet) as EXACT promotes this file to
@@ -16,7 +16,7 @@
  *           single function, the one site's only witness is inside the range.
  *
  * symbols:
- *   func_0206EE60    0x0206EE60  arm
+ *   NNSi_G3dAnmCalcJntAnmNode    0x0206EE60  arm
  *
  * Clamps a 20.12 fixed-point cursor into [0, (count<<12)-1] and forwards.
  *
@@ -27,8 +27,8 @@
  * argument forward of r0 the compiler lands at 56 bytes against 60.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206EB7C.c \
- *       --func func_0206EB7C --addr 0x0206EB7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNSi_G3dAnmCalcNsBca.c \
+ *       --func NNSi_G3dAnmCalcNsBca --addr 0x0206EB7C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -37,9 +37,9 @@ typedef signed int s32;
 
 typedef struct { u32 unk00; u32 unk04; u32 *p08; } Cur;
 
-extern void func_0206EE60(u32 *tab, u32 b, s32 c, void *a);
+extern void NNSi_G3dAnmCalcJntAnmNode(u32 *tab, u32 b, s32 c, void *a);
 
-void func_0206EB7C(void *a, Cur *c, u32 b)
+void NNSi_G3dAnmCalcNsBca(void *a, Cur *c, u32 b)
 {
     s32 t;
     s32 lim;
@@ -53,5 +53,5 @@ void func_0206EB7C(void *a, Cur *c, u32 b)
     } else if (t < 0) {
         t = 0;
     }
-    func_0206EE60(tab, b, t, a);
+    NNSi_G3dAnmCalcJntAnmNode(tab, b, t, a);
 }

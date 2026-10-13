@@ -1,5 +1,5 @@
 /*
- * function: func_0215AB10
+ * function: CPS_SocUse
  * address:  0x0215AB10
  * packet:   pkt_ov009_0215AB10
  * region:   ov009
@@ -19,7 +19,7 @@
 extern char g_02150FEC[];
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
 
-void func_0215AB10(void)
+void CPS_SocUse(void)
 {
     char *cur = *(char **)(g_02150FEC + 4);
     char *soc = *(char **)(cur + 0xa4);

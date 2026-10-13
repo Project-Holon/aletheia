@@ -60,7 +60,7 @@
  *   UNION_CHARA_GetBeaconIndex 0x0217AEFC thumb ov019
  *   UNION_CHARA_GetSexByObjId  0x0217AF04  thumb ov019
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   UNION_COMMAND_SendTrainerCard  0x02173BB0  thumb  ov012
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   GFL_NET_IsParentAid  0x0203D378  arm
@@ -342,7 +342,7 @@ int UNION_COMMAND_SendPartnerSelectB(int answer, ...);
 u16 UNION_CHARA_GetBeaconIndex(u32);
 int UNION_CHARA_GetSexByObjId(void *unisys, u16 requestId);
 extern void TRCARD_SYS_BuildProfile(void *out, void *save, int mode, int flag, volatile u16 heap);
-extern void func_02082D44(const void *src, void *dst, int size);
+extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern u32 UNION_COMMAND_SendTrainerCard(void *unisys);
 extern void *TRCARD_SYS_CreateEditWork(struct GameData *gameData, void *trainerCard, int heapId);
 extern u32 GFL_NET_IsParentAid(void);
@@ -1426,7 +1426,7 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
         unisys->myTrainerCard = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         unisys->recvTrainerCard = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         TRCARD_SYS_BuildProfile(unisys->myTrainerCard, unisys->parent->gameData, 1, 0, 0x41);
-        func_02082D44(unisys->myTrainerCard, unisys->recvTrainerCard, 0x678);
+        MI_CpuCopy8(unisys->myTrainerCard, unisys->recvTrainerCard, 0x678);
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_CheckLanguageVersion(unisys, situation->connect.talkParam->nation, situation->connect.talkParam->area));
         (*seq)++;

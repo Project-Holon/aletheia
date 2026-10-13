@@ -1,5 +1,5 @@
 /*
- * function: func_021BE244
+ * function: WIFICLUB_RemovePeerActor
  * address:  0x021BE244
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-void func_021BE244(char *p, void *v)
+void WIFICLUB_RemovePeerActor(char *p, void *v)
 {
     int i;
 

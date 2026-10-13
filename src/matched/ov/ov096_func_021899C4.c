@@ -1,5 +1,5 @@
 /*
- * function: func_021899C4
+ * function: TR_AI_GetMovePpChecked
  * address: 0x021899C4
  * packet: pkt_ov096_021899C4
  * region: ov096
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilWork;
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
-int func_021899C4(u8 *a, u8 *b)
+int TR_AI_GetMovePpChecked(u8 *a, u8 *b)
 {
     ((struct Obj07927 *)b)->f38 = BTL_POKEPARAM_GetMovePPChecked(((struct Obj07927 *)b)->fBC, b[1]); return ((struct Obj07927 *)b)->fC4;
 }

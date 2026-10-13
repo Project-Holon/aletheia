@@ -1,5 +1,5 @@
 /*
- * function: func_02188134
+ * function: TR_AI_GetChosenMove
  * address:  0x02188134
  * packet:   pkt_ov096_02188134
  * region:   ov096
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u8 *func_02011324(u8 *);
-u8 func_02188134(u8 *p) { return func_02011324(p)[0x46]; }
+u8 TR_AI_GetChosenMove(u8 *p) { return func_02011324(p)[0x46]; }

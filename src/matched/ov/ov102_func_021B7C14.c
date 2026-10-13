@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C14
+ * function: IRC_COMPATIBLE_MENU_SpriteSetGetActor
  * address:  0x021B7C14
  * packet:   pkt_ov102_021B7C14
  * region:   ov102
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021B7C14(u8 *p, int i)
+u32 IRC_COMPATIBLE_MENU_SpriteSetGetActor(u8 *p, int i)
 {
     return *(u32 *)(p + i * 4 + 0x10);
 }

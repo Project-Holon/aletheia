@@ -30,6 +30,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0205D074  0x0205D074  arm
  *   GAME_DATA_Delete  0x02012704  thumb
+ *   OS_ResetSystem  0x02087BCC  arm
  */
 #include "../../matched/include/Obj15614.h"
 #include "../../matched/include/Obj11242.h"
@@ -65,7 +66,7 @@ extern u8 d_0220B294[];
 extern u8 gNetSaveRetryProc[];
 
 
-int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = func_02087BCC((int)0); return 1; }
+int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; GAME_DATA_Delete((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
 
 
 /*

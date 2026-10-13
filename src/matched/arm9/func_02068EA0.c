@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Per-file compiler pin, the re-read/forward form of the "kept constants"
- * family (docs/FRONTEND-PINS.md, the func_02070BD8 row). The image RE-READS
+ * family (docs/FRONTEND-PINS.md, the NNSi_G3dAnmObjInitNsBva row). The image RE-READS
  * the font's header chain a second time before the switch dispatch,
  * `ldr r1, [r7]` at 0x02068F00 (`00 10 97 e5`) then `ldr r3, [r1, #8]` at
  * 0x02068F04 (`08 30 91 e5`), although the same chain was already loaded at

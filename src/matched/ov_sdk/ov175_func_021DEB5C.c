@@ -1,5 +1,5 @@
 /*
- * function: func_021DEB5C
+ * function: sakeiGetMyRecordsFillSoapRequest
  * address:  0x021DEB5C
  * packet:   pkt_021DEB5C
  * region:   ov175
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_02182AC0   0x02182AC0  arm  ov009
- *   func_021DE184   0x021DE184  arm  ov175
+ *   sakeiFillSoapRequestFieldNames   0x021DE184  arm  ov175
  *   g_021E3DF8      0x021E3DF8  data
  *   g_021E3EFC      0x021E3EFC  data
  *
- * Same shape as func_021DDFBC with the other descriptor pair and the
- * func_021DE184 callee.
+ * Same shape as sakeiCreateRecordFillSoapRequest with the other descriptor pair and the
+ * sakeiFillSoapRequestFieldNames callee.
  */
 
 typedef unsigned int u32;
@@ -28,15 +28,15 @@ typedef struct {
 } Blk;
 
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-extern void func_021DE184(u32 ctx, u32 *arr, int n);
+extern void sakeiFillSoapRequestFieldNames(u32 ctx, u32 *arr, int n);
 extern u32 g_021E3DF8[];
 extern u32 g_021E3EFC[];
 
-u32 func_021DEB5C(char *obj)
+u32 sakeiGetMyRecordsFillSoapRequest(char *obj)
 {
     Blk *b = *(Blk **)(obj + 8);
 
     func_02182AC0((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)g_021E3DF8), (char *)((u32)g_021E3EFC), (char *)b->f0);
-    func_021DE184((u32)obj, (u32 *)b->f4, b->f8);
+    sakeiFillSoapRequestFieldNames((u32)obj, (u32 *)b->f4, b->f8);
     return 0;
 }

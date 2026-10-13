@@ -27,7 +27,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02034FB8  0x02034FB8  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   str_020A7888   0x020A7888  data  a1
  *   MI_CpuFill8    0x02082BCC  arm
@@ -143,7 +143,7 @@ extern u32 func_020307B0(void *mem);
 extern void  func_02034F84(u32 flag);
 extern void func_02034FB8(u32 flag);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
-extern void  func_02082A60(const void *src, void *dst, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func);
@@ -1009,10 +1009,10 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     }
     if (read1 == 1 && read2 == 0) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 2);
-        func_02082A60(work1, work2, sv->data_size);
+        MIi_CpuCopy16(work1, work2, sv->data_size);
     } else if (read1 == 0 && read2 == 1) {
         BACKUP_SYSTEM_FillBlockAreas(sv, 1);
-        func_02082A60(work2, work1, sv->data_size);
+        MIi_CpuCopy16(work2, work1, sv->data_size);
     }
 
     BACKUP_SYSTEM_GetFooterInfo(info1, sv, work1, 0);
@@ -1029,14 +1029,14 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
         BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), 2);
         BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, 2);
         crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
-        func_02082A60(work1 + crc_ofs, work2 + crc_ofs, sv->crc_table_size + 0x10);
+        MIi_CpuCopy16(work1 + crc_ofs, work2 + crc_ofs, sv->crc_table_size + 0x10);
         }
     } else if (info2[0] == 0) {
         if (info1[0] != 0) {
         BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table), 1);
         BACKUP_SYSTEM_SetBlockArea(sv, SAVEDATA_GetTableMax(sv->table) + 1, 1);
         crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
-        func_02082A60(work2 + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
+        MIi_CpuCopy16(work2 + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
         }
     } else {
         if (info1[0] == 1 || info2[0] == 1) {
@@ -1123,12 +1123,12 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
     }
 
     crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
-    func_02082A60(works[pass] + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
+    MIi_CpuCopy16(works[pass] + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
     for (id = 0; id < SAVEDATA_GetTableMax(sv->table); id++) {
         if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1) {
             ofs = SAVEDATA_GetBlockOffset(sv->table, id);
             size = SAVEDATA_GetBlockSize(sv->table, id);
-            func_02082A60(work2 + ofs, work1 + ofs, size + 4);
+            MIi_CpuCopy16(work2 + ofs, work1 + ofs, size + 4);
         }
     }
     BACKUP_SYSTEM_SetSaveCount(sv, counts[pass]);

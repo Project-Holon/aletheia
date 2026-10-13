@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F6F50",
+   "name": "VS_MULTI_LIST_InitClact",
    "address": "0x021F6F50",
    "kind": "game",
    "region": "ov097",

@@ -1,5 +1,5 @@
 /*
- * function: func_02072068
+ * function: NNSi_G3dTexMtxScaleRotTrans_Max
  * address:  0x02072068
  * packet:   pkt_02072068
  * region:   arm9
@@ -92,7 +92,7 @@ typedef unsigned int   u32;
 extern void func_0207C930(u32 numer, u32 denom);
 extern s32  func_0207C86C(void);
 
-void func_02072068(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleRotTrans_Max(struct DST *d, struct SRC *s)
 {
     s32 f12, e12;
     s32 a, b, p, r;

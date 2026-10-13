@@ -1,5 +1,5 @@
 /*
- * function: func_0689CB3C
+ * function: BTL_POKESET_Clear
  * address:  0x0689CB3C
  * packet:   pkt_0689CB3C
  * region:   ov095
@@ -15,7 +15,7 @@
 
 void MI_CpuFill8(void *p, int v, int n);
 
-void func_0689CB3C(void *p)
+void BTL_POKESET_Clear(void *p)
 {
     MI_CpuFill8(p, 0, 0x48);
 }

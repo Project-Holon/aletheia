@@ -1,5 +1,5 @@
 /*
- * function: func_021C1334
+ * function: WIFICLUB_RecvRuleId
  * address:  0x021C1334
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_021BCC58  0x021BCC58  thumb  ov099
+ *   WIFICLUB_ApplyRuleId  0x021BCC58  thumb  ov099
  *
  * When the fifth argument matches the arm9 predicate, applies the first word of the third to the fourth.
  */
@@ -26,11 +26,11 @@ typedef int BOOL;
 
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void func_021BCC58(char *p, u32 x);
+extern void WIFICLUB_ApplyRuleId(char *p, u32 x);
 
-void func_021C1334(int a, int b, int *p, void *q, int e)
+void WIFICLUB_RecvRuleId(int a, int b, int *p, void *q, int e)
 {
     if (e == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
-        func_021BCC58(q, *p);
+        WIFICLUB_ApplyRuleId(q, *p);
     }
 }

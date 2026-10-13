@@ -14,6 +14,7 @@
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021DFF60     0x021DFF60  data a1
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *
  * ov228 entry (save_outside.c): allocate the 0x380-byte work object and a
  * 0x374-byte scratch, read both flash copies (0x7F800, 0x7FC00), check the
@@ -31,7 +32,7 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void func_02082D44(const void *src,void *dest,u32 size);
+extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
 extern u32 func_020307B0(void *p);
 extern const char d_021DFF60[];
 
@@ -83,7 +84,7 @@ void *func_021DFC20(u32 heap)
             ((struct Obj04656 *)obj)->f374=1;
         }
     }
-    if(sel==1)func_02082D44(buf[1],buf[0],0x374);
+    if(sel==1)MI_CpuCopy8(buf[1],buf[0],0x374);
     func_020307B0(buf[1]);
     if(sel!=-1)obj[0x378]=1;
     return obj;

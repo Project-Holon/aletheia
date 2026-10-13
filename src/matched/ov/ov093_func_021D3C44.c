@@ -1,5 +1,5 @@
 /*
- * function: func_021D3C44
+ * function: BTL_CLIENT_StepAddClientPoints
  * address: 0x021D3C44
  * packet: pkt_ov093_021D3C44
  * region: ov093
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 extern void BTL_CLIENT_AddPoints(u8 *p, u8 n);
 extern void BTL_MAIN_AddClientPoints(u8 *, u8, int);
-int func_021D3C44(u8 *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepAddClientPoints(u8 *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
     u8 value = a[1];

@@ -1,5 +1,5 @@
 /*
- * function: func_0206BEA0
+ * function: NNSi_G3dFuncSbc_MAT
  * address:  0x0206BEA0
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -24,7 +24,7 @@
  * Byte-identical under dsi/1.1p1 as well; pinned ../2.0/sp2 with the cluster.
  *
  * symbols:
- *   tbl_020A82C8   0x020A82C8  data
+ *   gMatHandlerTable   0x020A82C8  data
  */
 
 typedef unsigned char u8;
@@ -65,7 +65,7 @@ typedef struct Ctx {
     ResMat *pResMat;
 } Ctx;
 
-extern void (*tbl_020A82C8[])(Ctx *, u32, const ItemTag *, u32);
+extern void (*gMatHandlerTable[])(Ctx *, u32, const ItemTag *, u32);
 
 static inline void *GetResDataByIdx(const Dict *dict, u32 idx)
 {
@@ -86,13 +86,13 @@ static inline const ItemTag *GetMatDataByIdx(const ResMat *mat, u32 idx)
     return 0;
 }
 
-void func_0206BEA0(Ctx *rs, u32 opt)
+void NNSi_G3dFuncSbc_MAT(Ctx *rs, u32 opt)
 {
     if (!(rs->flag & 0x200)) {
         u32 idxMat = *(rs->c + 1);
         if ((rs->flag & 1) || !(rs->flag & 8) || idxMat != rs->currentMat) {
             const ItemTag *mat = GetMatDataByIdx(rs->pResMat, idxMat);
-            (*tbl_020A82C8[mat->tag])(rs, opt, mat, idxMat);
+            (*gMatHandlerTable[mat->tag])(rs, opt, mat, idxMat);
         }
     }
     rs->c += 2;

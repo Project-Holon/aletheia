@@ -1,5 +1,5 @@
 /*
- * function: func_021B8648
+ * function: IRC_RANKING_ListTransferWindows
  * address: 0x021B8648
  * packet: pkt_ov106_021B8648
  * region: ov106
@@ -18,7 +18,7 @@ struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(unsigned int);
-void func_021B8648(u8 *p) {
+void IRC_RANKING_ListTransferWindows(u8 *p) {
     int i;
     for(i=0;i<2;i++) {
         BMP_WIN_TransferChars(*(void **)((u8 *)((unsigned int *)p+i)+0x568));

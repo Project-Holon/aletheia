@@ -1,5 +1,5 @@
 /*
- * function: func_021BD174
+ * function: PMSIV_MENU_DeleteExtraItems
  * address: 0x021BD174
  * packet: pkt_ov110_021BD174
  * region: ov110
@@ -19,7 +19,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
-void func_021BD174(u8 *p)
+void PMSIV_MENU_DeleteExtraItems(u8 *p)
 {
     u8 i;
     for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x90));

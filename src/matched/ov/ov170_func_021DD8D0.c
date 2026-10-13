@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  */
 #include "../include/Obj10646.h"
 #include "../include/Obj23832.h"
@@ -21,6 +21,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern void *func_0200CA1C(void *);
-extern u32 func_0200CA38(struct Blk37 *);
-void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f17C=func_0200CA38(func_0200CA1C(**(void ** *)&((struct Obj10646 *)p)->f0)); }
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *);
+void func_021DD8D0(char *p) { *(u16 * *)&((struct Obj23832 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f180=POKE_PERSONAL_LoadFormTable(76,0);((struct Obj23834 *)(*(char * *)&((struct Obj10646 *)p)->f2C))->f17C=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(**(void ** *)&((struct Obj10646 *)p)->f0)); }

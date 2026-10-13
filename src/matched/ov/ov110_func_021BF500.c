@@ -1,5 +1,5 @@
 /*
- * function: func_021BF500
+ * function: PMS_INPUT_ClearSubHandler
  * address:  0x021BF500
  * packet:   pkt_ov110_021BF500
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021BF500(u8 *p) { ((struct Obj22384 *)p)->f30 = 0; }
+void PMS_INPUT_ClearSubHandler(u8 *p) { ((struct Obj22384 *)p)->f30 = 0; }

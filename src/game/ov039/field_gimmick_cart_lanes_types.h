@@ -52,7 +52,7 @@ struct ScriptWork;
 #define FIELD_GIMMICK_CART_LANES_GATE_OPEN_FRAME   0xF000  /* end of the gate animation (animation 0) */
 
 /*
- * Offsets of Gimmick39Save.laneState and Gimmick39Work.parkedDock. The code
+ * Offsets of FieldGimmickCartLanesSave.laneState and FieldGimmickCartLanesWork.parkedDock. The code
  * that sets up the gimmick and the per-frame task reads them through a row
  * pointer (base + lane) plus the field offset, and the compiler spills that
  * pointer as a variable of its own; the field form (base->laneState[lane])
@@ -86,13 +86,13 @@ struct ScriptWork;
 #define FIELD_GIMMICK_CART_LANES_LAYER_LEVER_B     2
 
 /* Position of a dock tile (tile x and z). */
-typedef struct Gimmick39DockCell {
+typedef struct FieldGimmickCartLanesDockCell {
     u16 x;
     u16 z;
-} Gimmick39DockCell;
+} FieldGimmickCartLanesDockCell;
 
 /* The common work of the gimmick on the field map (0x21F4 bytes, id 1). */
-typedef struct Gimmick39Work {
+typedef struct FieldGimmickCartLanesWork {
     struct Tcb *task;                       /* 0x00: per-frame task */
     u8 selectedCart;                        /* 0x04: cart being ridden, FIELD_GIMMICK_CART_LANES_NO_CART if none */
     s8 switchLane;                          /* 0x05: lane whose lever is being thrown, -1 if none */
@@ -105,25 +105,25 @@ typedef struct Gimmick39Work {
     u8 switchRequest[FIELD_GIMMICK_CART_LANES_LANE_COUNT]; /* 0x21E8: lever thrown, cart swap still waiting */
     u8 activeCart[FIELD_GIMMICK_CART_LANES_LANE_COUNT];    /* 0x21EC: cart in use of each lane (lane * 2 + state) */
     s8 parkedDock[FIELD_GIMMICK_CART_LANES_LANE_COUNT];    /* 0x21F0: dock the cart of each lane waits at, -1 if moving */
-} Gimmick39Work;
+} FieldGimmickCartLanesWork;
 
 /* The joint animation resource: the offset of the tag of each joint follows the header. */
-typedef struct Gimmick39JointAnim {
+typedef struct FieldGimmickCartLanesJointAnim {
     u8  header[0x14];
     u16 tagOffset[1];   /* per joint, from the start of the resource */
-} Gimmick39JointAnim;
+} FieldGimmickCartLanesJointAnim;
 
 /* A joint animation track: key format flags and the offset of the key array. */
-typedef struct Gimmick39JointTrack {
+typedef struct FieldGimmickCartLanesJointTrack {
     u32 info;           /* bit 29: 16 bit keys; bits 30, 31: key step 2 or 4; bits 16..28: last frame */
     u32 dataOffset;     /* from the start of the animation resource */
-} Gimmick39JointTrack;
+} FieldGimmickCartLanesJointTrack;
 
 /* The tag of a joint: flags and the tracks of the axes that are not constant. */
-typedef struct Gimmick39JointTag {
+typedef struct FieldGimmickCartLanesJointTag {
     u32 flags;
-    Gimmick39JointTrack track[3];
-} Gimmick39JointTag;
+    FieldGimmickCartLanesJointTrack track[3];
+} FieldGimmickCartLanesJointTag;
 
 #define FIELD_GIMMICK_CART_LANES_JOINT_NO_TRANSLATE    0x06    /* flags: the joint has no translation track */
 #define FIELD_GIMMICK_CART_LANES_JOINT_X_CONSTANT      0x08
@@ -141,7 +141,7 @@ extern s8 sStopDocks[][2];
 extern VecFx32 sRideAnimeOrigin;
 extern VecFx32 sLaneRideOffsets[];
 extern unsigned char sDockLanes[];
-extern Gimmick39DockCell sDockCells[];
+extern FieldGimmickCartLanesDockCell sDockCells[];
 extern VecFx32 sRideExitPos;
 extern const u32 sStopFrames[][2];
 extern const u16 sSwitchFrameLimits[];
@@ -157,7 +157,7 @@ extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern Gimmick39Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern FieldGimmickCartLanesSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
@@ -216,23 +216,23 @@ extern fx32 func_0207CBD0(const VecFx32 *v);
 
 /* Functions of the overlay. */
 u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z);
-u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(Gimmick39Work *work, int lane);
+u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(FieldGimmickCartLanesWork *work, int lane);
 void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_SaveCartFrames(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);
-u8 FIELD_GIMMICK_CART_LANES_GetDockCart(Gimmick39Work *work, int dock);
+u8 FIELD_GIMMICK_CART_LANES_GetDockCart(FieldGimmickCartLanesWork *work, int dock);
 unsigned char FIELD_GIMMICK_CART_LANES_GetDockLane(int dock);
-int FIELD_GIMMICK_CART_LANES_IsCartAtDock(Gimmick39Work *work, int dock);
+int FIELD_GIMMICK_CART_LANES_IsCartAtDock(FieldGimmickCartLanesWork *work, int dock);
 int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(FldExpObjCnt *expObj, u16 lane, u16 animeIndex);
 void FIELD_GIMMICK_CART_LANES_SetAnimeFrame(FldExpObjCnt *expObj, u8 lane, u16 animeIndex, int frame);
 struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 lane);
 int FIELD_GIMMICK_CART_LANES_SwitchEventMain(struct GameEvent *event, int *seq, void *eventWork);
 struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gameSystem);
 void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 lane);
-int FIELD_GIMMICK_CART_LANES_IsLaneLocked(Gimmick39Save *save, int lane);
-void FIELD_GIMMICK_CART_LANES_UnlockLane(Gimmick39Save *save, u8 lane);
+int FIELD_GIMMICK_CART_LANES_IsLaneLocked(FieldGimmickCartLanesSave *save, int lane);
+void FIELD_GIMMICK_CART_LANES_UnlockLane(FieldGimmickCartLanesSave *save, u8 lane);
 int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, void *eventWork);
 int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(struct GameEvent *event, int *seq, void *eventWork);
 void FIELD_GIMMICK_CART_LANES_ApplySwitch(struct FieldMap *fieldMap, FldExpObjCnt *expObj);
@@ -240,7 +240,7 @@ void FIELD_GIMMICK_CART_LANES_SwapCartAnimes(FldExpObjCnt *expObj, int oldState,
 int FIELD_GIMMICK_CART_LANES_FindStopAtFrame(u32 cart, u32 frame, u8 *stopIndex);
 int FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit(FldExpObjCnt *expObj, int lane, u8 cart);
 void FIELD_GIMMICK_CART_LANES_SampleJointTranslation(const u8 *resAnm, int jointIndex, int frame, VecFx32 *out);
-void FIELD_GIMMICK_CART_LANES_SampleJointTrack(int *out, int frame, const Gimmick39JointTrack *track, const u8 *base);
-void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, Gimmick39Work *work);
+void FIELD_GIMMICK_CART_LANES_SampleJointTrack(int *out, int frame, const FieldGimmickCartLanesJointTrack *track, const u8 *base);
+void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, FieldGimmickCartLanesWork *work);
 
 #endif

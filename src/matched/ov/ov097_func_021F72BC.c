@@ -1,5 +1,5 @@
 /*
- * function: func_021F72BC
+ * function: VS_MULTI_LIST_DeleteActors
  * address: 0x021F72BC
  * packet: pkt_ov097_021F72BC
  * region: ov097
@@ -18,7 +18,7 @@ struct Bank;
 extern void CLACT_DeleteActor(struct Obj *);
 typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-void func_021F72BC(char *p)
+void VS_MULTI_LIST_DeleteActors(char *p)
 {
     unsigned i;
     for (i = 0; i < 24; i++)

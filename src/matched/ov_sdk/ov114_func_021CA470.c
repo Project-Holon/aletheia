@@ -1,5 +1,5 @@
 /*
- * function: func_021CA470
+ * function: DWCi_EncSessionGetAsync
  * address:  0x021CA470
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA240  0x021CA240  arm  ov114
+ *   DWCi_EncSessionGetPrivateAsync  0x021CA240  arm  ov114
  *
  *
- * Forwards five arguments and a zero tail to func_021CA240.
+ * Forwards five arguments and a zero tail to DWCi_EncSessionGetPrivateAsync.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021CA240(char *url, long pid, void *data, u32 size, int (*cb)(u32 *, int), int reuseHash);
+extern int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, int (*cb)(u32 *, int), int reuseHash);
 
-int func_021CA470(void *a, u32 b, void *c, u32 d, u32 e)
+int DWCi_EncSessionGetAsync(void *a, u32 b, void *c, u32 d, u32 e)
 {
-    return func_021CA240((char *)a, b, (void *)c, d, (int (*)(u32 *, int))e, 0);
+    return DWCi_EncSessionGetPrivateAsync((char *)a, b, (void *)c, d, (int (*)(u32 *, int))e, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CCAAC
+ * function: CRYPTOi__BN_RECP_CTX_set
  * address:  0x021CCAAC
  * packet:   pkt_ov114_021CCAAC
  * region:   ov114
@@ -12,22 +12,22 @@
  * sdk:      CRYPTOi__BN_RECP_CTX_set (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CAE20  0x021CAE20  arm  ov114
- *   func_021CAEC8  0x021CAEC8  arm  ov114
- *   func_021CAB94  0x021CAB94  arm  ov114
+ *   CRYPTOi__BN_copy  0x021CAE20  arm  ov114
+ *   CRYPTOi__BN_set_word  0x021CAEC8  arm  ov114
+ *   CRYPTOi__BN_num_bits  0x021CAB94  arm  ov114
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021CAE20(u8 *a, u8 *b);
-extern int func_021CAEC8(u8 *, unsigned long);
-extern char *func_021CAB94(u8 *p);
+extern u8 *CRYPTOi__BN_copy(u8 *a, u8 *b);
+extern int CRYPTOi__BN_set_word(u8 *, unsigned long);
+extern char *CRYPTOi__BN_num_bits(u8 *p);
 
-int func_021CCAAC(u8 *p, u8 *b)
+int CRYPTOi__BN_RECP_CTX_set(u8 *p, u8 *b)
 {
-    func_021CAE20(p, b);
-    func_021CAEC8(p + 0x14, 0);
-    *(u32 *)(p + 0x28) = (u32)func_021CAB94(b);
+    CRYPTOi__BN_copy(p, b);
+    CRYPTOi__BN_set_word(p + 0x14, 0);
+    *(u32 *)(p + 0x28) = (u32)CRYPTOi__BN_num_bits(b);
     *(u32 *)(p + 0x2c) = 0;
     return 1;
 }

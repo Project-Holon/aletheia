@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK_INIT_SetGimmick40Flag",
+   "name": "GIMMICK_INIT_SetFlagAnimeFlag",
    "address": "0x021F36E8",
    "kind": "game",
    "region": "ov037",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5DC
+ * function: WIFICLUBACTOR_IsNotWalkBobbing
  * address:  0x021BA5DC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA2D4  0x021BA2D4  thumb
+ *   WIFICLUBACTOR_AnimateWalkBob  0x021BA2D4  thumb
  *
- * True unless the pointer at +0x18 is func_021BA2D4 itself.
+ * True unless the pointer at +0x18 is WIFICLUBACTOR_AnimateWalkBob itself.
  */
 
 typedef unsigned char  u8;
@@ -28,11 +28,11 @@ typedef struct {
     void *f18;
 } S;
 
-extern void func_021BA2D4(void);
+extern void WIFICLUBACTOR_AnimateWalkBob(void);
 
-BOOL func_021BA5DC(S *s)
+BOOL WIFICLUBACTOR_IsNotWalkBobbing(S *s)
 {
-    if (s->f18 != (void *)func_021BA2D4) {
+    if (s->f18 != (void *)WIFICLUBACTOR_AnimateWalkBob) {
         return 1;
     }
 

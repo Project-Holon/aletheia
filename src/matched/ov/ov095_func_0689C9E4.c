@@ -1,5 +1,5 @@
 /*
- * function: func_0689C9E4
+ * function: BTL_ID_GetItemCuredSick
  * address: 0x0689C9E4
  * packet: pkt_ov095_0689C9E4
  * region: ov095
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E374 0x0689E374 data a4
+ *   gItemCuredSickKinds 0x0689E374 data a4
  */
 
-unsigned int func_0689C9E4(unsigned a);
-extern const unsigned int d_0689E374[];
+unsigned int BTL_ID_GetItemCuredSick(unsigned a);
+extern const unsigned int gItemCuredSickKinds[];
 
-unsigned int func_0689C9E4(unsigned a)
+unsigned int BTL_ID_GetItemCuredSick(unsigned a)
 {
-    if (a < 6) return d_0689E374[a];
+    if (a < 6) return gItemCuredSickKinds[a];
     return 0;
 }

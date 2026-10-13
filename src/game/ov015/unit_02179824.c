@@ -26,7 +26,7 @@
  *   d_0217AAC6     0x0217AAC6  data   ov015  a1
  *   d_0217AAC4     0x0217AAC4  data   ov015  a1
  *   func_02034714  0x02034714  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0217A148  0x0217A148  arm    ov015
  *   d_0217AB40     0x0217AB40  data   ov015  a4
@@ -82,7 +82,7 @@ extern unsigned char func_02179D68(void);
 extern int func_02179D78(void);
 extern void func_02179CE4(void);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0217A148(int a0, int a1, int a2);
 extern void MI_CpuFill8(void *p, int v, u32 n);
@@ -291,7 +291,7 @@ void func_021798DC(void *dst, int n, u8 a, u8 b)
     d_0217AAC0.b6 = a;
     d_0217AAC0.b7 = b;
     if (dst != 0)
-        func_02082D44(dst, d_0217AAD2, 0xA6);
+        MI_CpuCopy8(dst, d_0217AAD2, 0xA6);
     d_0217AAC0.h4 = func_0203F1FC(d_0217AAC6, n + 12);
     func_0217A148((int)d_0217AAC4, (u8)(n + 14), a);
 }

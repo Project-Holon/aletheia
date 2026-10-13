@@ -20,7 +20,7 @@
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_ConvertToLinear  0x02044F64  arm
  *   func_02061CA4  0x02061CA4  arm
  *   func_02030830  0x02030830  arm
@@ -70,7 +70,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void *func_02030830(u32 heapId);
@@ -105,7 +105,7 @@ void FLD3D_CI_LoadNameTexture(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
     func_02082A7C(0, buf, 0x2000);
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 16; i++) {
-            func_02082A90(src + k * 32, buf + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(src + k * 32, buf + (i + j * 16) * 32, 32);
             k++;
         }
     }

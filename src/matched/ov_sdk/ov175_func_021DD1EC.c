@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1EC
+ * function: sakeStartup
  * address:  0x021DD1EC
  * packet:   pkt_ov175_021DD1EC
  * region:   ov175
@@ -27,7 +27,7 @@ extern int func_0217CE1C(void);
 extern void *func_0217EAB0(unsigned long size);
 extern void *func_020923B0(void *dst, int val, unsigned long n);
 
-int func_021DD1EC(SAKEInternal **sakePtr)
+int sakeStartup(SAKEInternal **sakePtr)
 {
     SAKEInternal *sake;
 

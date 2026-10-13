@@ -13,8 +13,8 @@
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
  *   func_02082B60  0x02082B60  arm
  *   NNS_G3dGlbBaseScale  0x0206AA0C  arm
- *   func_0206A854  0x0206A854  arm
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGlbFlush  0x0206A854  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   FIELD_G3D_MAP_TestModelBox  0x021699A0  thumb  ov010
  *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
  *   d_0217216C     0x0217216C  data   ov010  a4
@@ -35,9 +35,9 @@ typedef unsigned int u32;
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void func_02082B60(void *a, void *b);
 extern void NNS_G3dGlbBaseScale(void *p);
-extern void func_0206A854(void);
+extern void NNS_G3dGlbFlush(void);
 struct P02047C8C;
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern int FIELD_G3D_MAP_TestModelBox(void *p);
 extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
 extern u8 d_0217216C[];
@@ -60,10 +60,10 @@ int FIELD_G3D_MAP_Draw(u8 *p)
         func_02082B60(d_02172178, d_02148C08);
         d_02148BCC.f7c &= ~0xa4;
         NNS_G3dGlbBaseScale(d_02172160);
-        func_0206A854();
-        func_0206DDA4(0x15, 0, 0);
-        func_0206DDA4(0x17, gG3dBaseMtx43, 0xc);
-        func_0206DDA4(0x1c, p + 4, 3);
+        NNS_G3dGlbFlush();
+        NNS_G3dGeBufferOP_N(0x15, 0, 0);
+        NNS_G3dGeBufferOP_N(0x17, gG3dBaseMtx43, 0xc);
+        NNS_G3dGeBufferOP_N(0x1c, p + 4, 3);
         if (FIELD_G3D_MAP_TestModelBox(((struct Obj19051 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4) == 1) {
             G3D_SYSTEM_DrawRenderObj(((struct Obj03541 *)p)->f2C);
             r = 1;

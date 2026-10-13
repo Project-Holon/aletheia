@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FX_Inv  0x0207C778  arm
- *   func_02087AE4  0x02087AE4  arm
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   func_0207D59C  0x0207D59C  arm
  *
  * Addresses are Black-image addresses.
@@ -28,7 +28,7 @@ struct Mtx {
 };
 
 extern fx32 FX_Inv(fx32 v);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 void func_021C5874(void)
@@ -42,9 +42,9 @@ void func_021C5874(void)
     m._01 = 0;
     m._10 = 0;
     m._11 = d;
-    func_02087AE4();
+    OS_WaitVBlankIntr();
     func_0207D59C((void *)0x04001020, &m, 0x80, 0x60, 0, 0);
     func_0207D59C((void *)0x04001030, &m, 0x80, 0x60, 0, 0);
-    func_02087AE4();
+    OS_WaitVBlankIntr();
     func_0207D59C((void *)0x04000030, &m, 0x80, 0, 0, 0);
 }

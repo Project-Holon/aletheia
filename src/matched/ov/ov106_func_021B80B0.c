@@ -1,5 +1,5 @@
 /*
- * function: func_021B80B0
+ * function: IRC_RANKING_GetClactUnit
  * address:  0x021B80B0
  * packet:   pkt_ov106_021B80B0
  * region:   ov106
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unblocked by matching func_021B7FF4 in ov106 (pkt_ov106_021B7FF4).
+ * Unblocked by matching IRC_RANKING_ClactGetUnit in ov106 (pkt_ov106_021B7FF4).
  *
  * symbols:
- *   func_021B7FF4  0x021B7FF4  thumb  ov106
+ *   IRC_RANKING_ClactGetUnit  0x021B7FF4  thumb  ov106
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void *func_021B7FF4(void **p);
-void *func_021B80B0(u8 *p) { return func_021B7FF4((void **)(p + 0x10)); }
+extern void *IRC_RANKING_ClactGetUnit(void **p);
+void *IRC_RANKING_GetClactUnit(u8 *p) { return IRC_RANKING_ClactGetUnit((void **)(p + 0x10)); }

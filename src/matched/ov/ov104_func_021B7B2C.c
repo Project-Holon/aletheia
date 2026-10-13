@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B2C
+ * function: IRC_RHYTHM_InitActorSystem
  * address: 0x021B7B2C
  * packet: pkt_ov104_021B7B2C
  * region: ov104
@@ -57,7 +57,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_SetActorPaletteOffset(struct Obj *,u32,u32);
 typedef struct { u16 x,y,z,w; } Desc;
-void func_021B7B2C(u32 *p,const void *config,u16 heap) {
+void IRC_RHYTHM_InitActorSystem(u32 *p,const void *config,u16 heap) {
  void *archive; int i; Desc desc;
  MI_CpuFill8(p,0,0xb4);
  CLACT_InitSystem(&gClActorInitParam,(u32)config,heap);

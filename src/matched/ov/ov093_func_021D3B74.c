@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B74
+ * function: BTL_CLIENT_StepRegisterFieldSlot
  * address: 0x021D3B74
  * packet: pkt_ov093_021D3B74
  * region: ov093
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 v; } Slot;
 extern int BTL_FIELD_RegisterSlot(void *, u32, Slot, int);
-int func_021D3B74(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepRegisterFieldSlot(u32 *a, int *b, u32 *c)
 {
     Slot s;
     s.v = c[1];

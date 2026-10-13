@@ -12,7 +12,7 @@
  * symbols:
  *   s_clact_c      0x020A7F74  data
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
- *   func_020834C0  0x020834C0  arm
+ *   MI_UncompressLZ8  0x020834C0  arm
  *   sub_02030734   0x02030734  arm
  *   sub_020307B0   0x020307B0  arm
  *
@@ -22,7 +22,7 @@
  * form src/matched/unit_02045C44.c uses.  When the third argument is set the
  * block is treated as a compressed image: its first word carries the
  * uncompressed size in the top 24 bits, a normal-end block of that size is
- * allocated, func_020834C0 expands into it and the scratch is released.
+ * allocated, MI_UncompressLZ8 expands into it and the scratch is released.
  *
  * The heap id is computed once above the branch, which is why the `lsl #16`
  * sits before the `beq` and only the matching `lsr #16` is duplicated into
@@ -32,7 +32,7 @@
  * The decompressing arm is the fall-through, so the guard is written `!= 0`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
- * func_020834C0 takes source first and destination second here, and only two
+ * MI_UncompressLZ8 takes source first and destination second here, and only two
  * arguments: r2 still holds the allocator's clobbered register at the call and
  * the original never reloads it.  Other files in the tree declare a
  * three-argument (dest, src, size) form of the same address; the declarations
@@ -62,7 +62,7 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 sub_020307B0(void *p);
-extern void func_020834C0(const void *src, void *dest);
+extern void MI_UncompressLZ8(const void *src, void *dest);
 
 void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
 {
@@ -73,7 +73,7 @@ void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
         raw = (struct CompHeader *)ARC_TOOL_LoadHandleMember(owner, which,
                   (u16)((heapId & 0x7fff) | 0x8000));
         out = sub_02030734(heapId, raw->header >> 8, 0, s_clact_c, 0x1ba5);
-        func_020834C0(raw, out);
+        MI_UncompressLZ8(raw, out);
         sub_020307B0(raw);
     } else {
         out = ARC_TOOL_LoadHandleMember(owner, which,

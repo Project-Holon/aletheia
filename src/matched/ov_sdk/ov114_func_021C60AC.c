@@ -1,5 +1,5 @@
 /*
- * function: func_021C60AC
+ * function: DWCi_Ndi_getEncodeLenBASE64
  * address:  0x021C60AC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021C60AC(int n)
+int DWCi_Ndi_getEncodeLenBASE64(int n)
 {
     return ((n + 2) / 3) * 4;
 }

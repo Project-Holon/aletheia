@@ -1,5 +1,5 @@
 /*
- * function: func_0207368C
+ * function: NNSi_SndSeqPlayerRelease
  * address:  0x0207368C
  * packet:   pkt_02073624
  * region:   arm9
@@ -9,12 +9,12 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E018     0x0214E018  data
- *   g_0214E00C     0x0214E00C  data
+ *   gSndActiveSeqList     0x0214E018  data
+ *   gSndFreeSeqList     0x0214E00C  data
  *   func_020605B4  0x020605B4  arm
  *   func_020604AC  0x020604AC  arm
  *
- * Voice teardown, the counterpart of func_02073624: clear the back-pointer in
+ * Voice teardown, the counterpart of NNSi_SndAllocFreeSeqPlayer: clear the back-pointer in
  * the owner, unlink from the f04 sub-list, unlink from the f08 sub-list if it
  * has one, then move the node from the active list at 0x0214E018 back to the
  * free list at 0x0214E00C and clear the state byte.
@@ -30,7 +30,7 @@
  * before the FIRST func_020605B4 call and reused, not re-read.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md), the same
- * one as this packet's func_02073624.c.  The image materialises each zero
+ * one as this packet's NNSi_SndAllocFreeSeqPlayer.c.  The image materialises each zero
  * fresh: `movne r0, #0` at 0x0207369C for the owner pair, `mov r0, #0` at
  * 0x020736B8 for f04, `mov r1, #0` at 0x020736D8 for the f08 pair and
  * `mov r0, #0` at 0x020736FC for b2c.  1.1p1 -O4,p CSEs all four into one
@@ -54,14 +54,14 @@ struct Voice {
     u8  b2c;
 };
 
-extern char g_0214E018[];
-extern char g_0214E00C[];
+extern char gSndActiveSeqList[];
+extern char gSndFreeSeqList[];
 
 struct DList;
 extern void func_020605B4(volatile struct DList *list, void *elem);
 extern void func_020604AC(void *list, void *node);
 
-void func_0207368C(struct Voice *v)
+void NNSi_SndSeqPlayerRelease(struct Voice *v)
 {
     struct Sub *s;
 
@@ -77,7 +77,7 @@ void func_0207368C(struct Voice *v)
         v->f08->f0c = 0;
         v->f08 = 0;
     }
-    func_020605B4((volatile struct DList *)g_0214E018, v);
-    func_020604AC(g_0214E00C, v);
+    func_020605B4((volatile struct DList *)gSndActiveSeqList, v);
+    func_020604AC(gSndFreeSeqList, v);
     v->b2c = 0;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0200D4B8  0x0200D4B8  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryField  0x0200D4B8  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
@@ -36,20 +36,20 @@ struct Unit {
 
 struct GdsEnt;
 struct Mon;
-extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct GdsEnt *e, u32 i);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_RecalcParam(void *p);
 
 void FIELD_ENCOUNT_InitRoamerPokemon(void *mon, const struct Unit *u, void *src)
 {
-    u16 species = func_0200D4B8(src, 4);
-    u8 level = func_0200D4B8(src, 6);
-    u32 pow = func_0200D4B8(src, 2);
+    u16 species = MOVE_POKEMON_SAVE_GetEntryField(src, 4);
+    u8 level = MOVE_POKEMON_SAVE_GetEntryField(src, 6);
+    u32 pow = MOVE_POKEMON_SAVE_GetEntryField(src, 2);
 
-    POKE_TOOL_SetupPartyParamEx(mon, species, level, u->f20, pow, func_0200D4B8(src, 3));
-    POKE_TOOL_SetPartyValue(mon, 0x70, func_0200D4B8(src, 10));
-    POKE_TOOL_SetPartyValue(mon, 0x9D, func_0200D4B8(src, 7));
-    POKE_TOOL_SetPartyValue(mon, 0xA0, func_0200D4B8(src, 5));
+    POKE_TOOL_SetupPartyParamEx(mon, species, level, u->f20, pow, MOVE_POKEMON_SAVE_GetEntryField(src, 3));
+    POKE_TOOL_SetPartyValue(mon, 0x70, MOVE_POKEMON_SAVE_GetEntryField(src, 10));
+    POKE_TOOL_SetPartyValue(mon, 0x9D, MOVE_POKEMON_SAVE_GetEntryField(src, 7));
+    POKE_TOOL_SetPartyValue(mon, 0xA0, MOVE_POKEMON_SAVE_GetEntryField(src, 5));
     POKE_TOOL_RecalcParam(mon);
 }

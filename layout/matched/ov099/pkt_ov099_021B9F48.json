@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9F48",
+   "name": "WIFICLUBACTOR_ShowCursor",
    "address": "0x021B9F48",
    "kind": "game",
    "region": "ov099",

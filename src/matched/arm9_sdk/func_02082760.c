@@ -1,5 +1,5 @@
 /*
- * function: func_02082760
+ * function: MI_SendGXCommandAsync
  * address:  0x02082760
  * packet:   pkt_02082760
  * region:   arm9
@@ -84,7 +84,7 @@ static inline void G3X_SetFifoIntrCond(GXFifoIntrCond cond)
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xC0000000) | ((u32)cond << 30);
 }
 
-void func_02082760(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg)
+void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg)
 {
     if (commandLength == 0) {
         MIi_CallCallback(callback, arg);

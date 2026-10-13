@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA4C
+ * function: WIFICLUB_DrawPartyListWindow
  * address: 0x021BBA4C
  * packet: pkt_ov099_021BBA4C
  * region: ov099
@@ -56,7 +56,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
-void func_021BBA4C(char *p,void *party)
+void WIFICLUB_DrawPartyListWindow(char *p,void *party)
 {
     void *s,*t,*mon;
     int n,i,off;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E3C
+ * function: NHTTPi_SocSSLConnect
  * address:  0x021B9E3C
  * packet:   pkt_ov114_021B9E3C
  * region:   ov114
@@ -12,12 +12,12 @@
  * sdk:      NHTTPi_SocSSLConnect (libnhttp.TWL.HYB.a(nhttp_socket_ntr))
  *
  * symbols:
- *   func_021BA820 0x021BA820 arm ov114
- *   func_021BA13C 0x021BA13C arm ov114
+ *   NHTTPi_alloc 0x021BA820 arm ov114
+ *   NHTTPi_memclr 0x021BA13C arm ov114
  *   func_0215FC80 0x0215FC80 arm
- *   func_021B9C80 0x021B9C80 arm ov114
- *   func_021B9C78 0x021B9C78 arm ov114
- *   func_021B9C6C 0x021B9C6C arm ov114
+ *   NHTTPi_SetSSLseed 0x021B9C80 arm ov114
+ *   NHTTPi_CpsAuthCallbackForDebug 0x021B9C78 arm ov114
+ *   NHTTPi_CpsAuthCallback 0x021B9C6C arm ov114
  */
 
 typedef struct {
@@ -42,34 +42,34 @@ typedef struct {
     int aD8;
 } Req;
 
-extern int func_021BA820(int a, int b);
-extern void func_021BA13C(int a, int b);
+extern int NHTTPi_alloc(int a, int b);
+extern void NHTTPi_memclr(int a, int b);
 extern int func_0215FC80(int s, SslCon *con);
-extern void func_021B9C80(void);
-extern int func_021B9C78(void);
-extern int func_021B9C6C(int result);
+extern void NHTTPi_SetSSLseed(void);
+extern int NHTTPi_CpsAuthCallbackForDebug(void);
+extern int NHTTPi_CpsAuthCallback(int result);
 
-int func_021B9E3C(int unused0, int unused1, Req *req_p, int socket)
+int NHTTPi_SocSSLConnect(int unused0, int unused1, Req *req_p, int socket)
 {
     SslCon *pSslCon;
 
     pSslCon = req_p->pSslCon;
     if (pSslCon == 0) {
-        pSslCon = (SslCon *)func_021BA820(0x830, 4);
+        pSslCon = (SslCon *)NHTTPi_alloc(0x830, 4);
         req_p->pSslCon = pSslCon;
-        func_021BA13C((int)pSslCon, 0x830);
+        NHTTPi_memclr((int)pSslCon, 0x830);
     }
     pSslCon->a814 = req_p->aC0;
     pSslCon->a818 = req_p->aC4;
     pSslCon->a800 = req_p->a28;
     if (req_p->aD8) {
-        pSslCon->cb810 = (void *)func_021B9C78;
+        pSslCon->cb810 = (void *)NHTTPi_CpsAuthCallbackForDebug;
     } else {
-        pSslCon->cb810 = (void *)func_021B9C6C;
+        pSslCon->cb810 = (void *)NHTTPi_CpsAuthCallback;
     }
     if (func_0215FC80(socket, pSslCon) < 0) {
         return -1001;
     }
-    func_021B9C80();
+    NHTTPi_SetSSLseed();
     return 0;
 }

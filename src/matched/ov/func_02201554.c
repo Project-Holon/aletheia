@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_0220251C  0x0220251C  thumb  ov135
+ *   DPW_TR_DownloadAsync  0x021C87FC  arm  ov114
 
  * State 0xc, slot cleared, then publish the 0xd/0xf pair.
  */
@@ -20,12 +21,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021C87FC(u8 *p);
+extern void DPW_TR_DownloadAsync(u8 *p);
 extern void func_0220251C(u8 *p, u16 a, u16 b);
 
 int func_02201554(u8 *p)
 {
-    func_021C87FC(p + 0xe4);
+    DPW_TR_DownloadAsync(p + 0xe4);
     ((struct Obj12232 *)p)->f28 = 0xc;
     ((struct Obj12232 *)p)->fF8C = 0;
     func_0220251C(p, 0xd, 0xf);

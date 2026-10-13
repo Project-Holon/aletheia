@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C64
+ * function: IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetUnit
  * address:  0x021B7C64
  * packet:   pkt_ov103_021B7C64
  * region:   ov103
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021B7C64(u32 *p)
+u32 IRC_COMPATIBLE_TOUCH_TEST_SpriteSetGetUnit(u32 *p)
 {
     return *p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0206BF50
+ * function: NNSi_G3dFuncSbc_SHP_InternalDefault
  * address:  0x0206BF50
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -13,10 +13,10 @@
  * byte at +0x91 is read through the +0x20 hook (zero when the hook is null),
  * and stops 1, 2 and 3 each clear bit 6 of the status word at +0x08 and call
  * the hook. Only the flag/0x100 gate between stops 1 and 2 does work, handing
- * func_0206DC00 the second argument's own +0x08 offset and its +0x0c word.
+ * NNS_G3dGeSendDL the second argument's own +0x08 offset and its +0x0c word.
  *
  * PINNED ../2.0/sp2 on the re-read/forward tell (docs/FRONTEND-PINS.md), the
- * same measurement as src/matched/func_0206B94C.c one packet over. The hook
+ * same measurement as src/matched/NNSi_G3dFuncSbc_MTX.c one packet over. The hook
  * dispatch appears THREE times, at 0x0206BF74..0x0206BF88,
  * 0x0206BFD8..0x0206BFEC and 0x0206C008..0x0206C01C, and every time the image
  * loads the hook pointer AFTER the flag store has retired: `ldr r1, [r5, #8]`
@@ -30,7 +30,7 @@
  * `popne {r4, r5, r6, pc}` / `pop {r4, r5, r6, pc}`, not the ARMv4T pair.
  *
  * symbols:
- *   func_0206DC00  0x0206DC00  arm
+ *   NNS_G3dGeSendDL  0x0206DC00  arm
  */
 
 typedef unsigned int u32;
@@ -54,9 +54,9 @@ typedef struct Arg0206BF50 {
     u32 f0c;
 } Arg0206BF50;
 
-extern void func_0206DC00(const u32 *src, u32 sz);
+extern void NNS_G3dGeSendDL(const u32 *src, u32 sz);
 
-void func_0206BF50(Obj0206BF50 *p, u32 unused, Arg0206BF50 *a)
+void NNSi_G3dFuncSbc_SHP_InternalDefault(Obj0206BF50 *p, u32 unused, Arg0206BF50 *a)
 {
     u32 st;
     u32 flag;
@@ -72,7 +72,7 @@ void func_0206BF50(Obj0206BF50 *p, u32 unused, Arg0206BF50 *a)
     }
     if (flag == 0) {
         if (!(p->f08 & 0x100)) {
-            func_0206DC00((const u32 *)((u8 *)a + a->f08), a->f0c);
+            NNS_G3dGeSendDL((const u32 *)((u8 *)a + a->f08), a->f0c);
         }
     }
     if (st == 2) {

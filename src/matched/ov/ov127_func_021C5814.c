@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled: forwards a by-value {s16 x, y} pair to func_021C41DC with the
- * pointer at +4.  Blocker of ov099 func_021BA2D4 / func_021BA36C.
+ * pointer at +4.  Blocker of ov099 func_021BA2D4 / WIFICLUBACTOR_AnimateBounce.
  *
  * symbols:
  *   func_021C41DC  0x021C41DC  thumb  ov127

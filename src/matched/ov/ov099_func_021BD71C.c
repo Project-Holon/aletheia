@@ -1,5 +1,5 @@
 /*
- * function: func_021BD71C
+ * function: WIFICLUB_StateDisableAutoExitA
  * address: 0x021BD71C
  * packet: pkt_ov099_021BD71C
  * region: ov099
@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021C18C8 0x021C18C8 thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
  *   GFL_NET_SetLoginOption 0x0203D7BC arm
  */
 #include "../include/Obj22039.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C18C8(char *, int, int);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *, int, int);
 extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
-int func_021BD71C(char *p, int v)
+int WIFICLUB_StateDisableAutoExitA(char *p, int v)
 {
-    func_021C18C8(p, 1, 2);
+    WIFICLUB_SetOwnStatusAndPublish(p, 1, 2);
     GFL_NET_SetAutoExit(0);
     GFL_NET_SetLoginOption(0);
     ((struct Obj22039 *)p)->f1CC = 0xa9;

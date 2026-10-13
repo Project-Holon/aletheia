@@ -15,8 +15,8 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   SCRCMD_PROC_CreateMonFromSpec  0x0215C40C  thumb  ov010
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -34,8 +34,8 @@ extern u32 POKEPARTY_GetCount(void *p);
 struct Spec;
 extern void *SCRCMD_PROC_CreateMonFromSpec(void *a, struct Spec *s);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
 int SCRCMD_PROC_AddMonToParty(void *a, void *b)
@@ -48,7 +48,7 @@ int SCRCMD_PROC_AddMonToParty(void *a, void *b)
         return 0;
     r5 = SCRCMD_PROC_CreateMonFromSpec(a, b);
     POKEPARTY_Add(r6, r5);
-    func_0200CDE0(func_0200CA1C(a), r5);
+    ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(a), r5);
     func_020307B0(r5);
     return 1;
 }

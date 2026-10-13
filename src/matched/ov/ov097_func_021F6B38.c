@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B38
+ * function: VS_MULTI_LIST_UpdatePrintQueue
  * address:  0x021F6B38
  * packet:   pkt_ov097_021F6B38
  * region:   ov097
@@ -28,7 +28,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-void func_021F6B38(char *p)
+void VS_MULTI_LIST_UpdatePrintQueue(char *p)
 {
     unsigned i;
     char *e;

@@ -1,5 +1,5 @@
 /*
- * function: func_02058518
+ * function: DWCi_BM_GetWiFiInfo
  * address:  0x02058518
  * packet:   pkt_02058518
  * region:   arm9
@@ -31,7 +31,7 @@ typedef struct tagDWCWiFiInfo {
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern u8 Wifi[14];
 
-void func_02058518(DWCWiFiInfo *buf)
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf)
 {
     MI_CpuCopy8(&Wifi[0], &buf->attestedUserId, 6);
     buf->attestedUserId &= 0x7FFFFFFFFFFULL;

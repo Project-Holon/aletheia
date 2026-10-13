@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021542B8     0x021542B8  data
  *
  * 0x02079164..0x02079264: the callback-flush worker and its one-line
@@ -73,8 +73,8 @@ struct Iter020792B8 {
 
 extern struct Node *g_021542B8;
 
-extern u32  func_02087988(void);
-extern void func_0208799C(u32 e);
+extern u32  OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 e);
 
 void FS_EndOverlay(struct Iter020792B8 *it)
 {
@@ -97,7 +97,7 @@ void FS_EndOverlay(struct Iter020792B8 *it)
         lo = it->base;
         hi = lo + (it->len0 + it->len1);
 
-        e = func_02087988();
+        e = OS_DisableInterrupts();
 
         list = ((struct Node02079164 *)g_021542B8);
         prev = 0;
@@ -127,7 +127,7 @@ void FS_EndOverlay(struct Iter020792B8 *it)
             cur = next;
         }
 
-        func_0208799C(e);
+        OS_RestoreInterrupts(e);
 
         if (head == 0) {
             return;

@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_GetScratchBuffer  0x021C8120  thumb  ov093
  *   BTL_CALC_ListResistingTypes  0x021D7A9C  thumb  ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTLV_CORE_PackByteTwice  0x021E8CF0  thumb  ov093
@@ -33,7 +33,7 @@ extern u8 BTL_POKEPARAM_GetLastTargetPos(struct QM *p);
 extern u8 *BTL_SERVER_FLOW_GetScratchBuffer(u8 *s, int k);
 extern u8 BTL_CALC_ListResistingTypes(int a, u8 *out);
 extern int BTL_POKEPARAM_HasType(void *p, int k);
-extern void func_02082D44(u8 *src, u8 *dst, u32 n);
+extern void MI_CpuCopy8(u8 *src, u8 *dst, u32 n);
 extern u32 BTL_CALC_Random(u32 n);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern int BTLV_CORE_PackByteTwice(int a);
@@ -60,7 +60,7 @@ void HAND_WAZA_Conversion2ChangeType(int a0, u8 *s, int k)
                 while (i < n) {
                     if (BTL_POKEPARAM_HasType(q, p[i]) != 0) {
                         if ((int)(n - 1 - i) > 0)
-                            func_02082D44(p + (i + 1), p + i, n - 1 - i);
+                            MI_CpuCopy8(p + (i + 1), p + i, n - 1 - i);
                         n--;
                     } else {
                         i++;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B1C
+ * function: VS_MULTI_LIST_DeleteWindows
  * address: 0x021F6B1C
  * packet: pkt_ov097_021F6B1C
  * region: ov097
@@ -17,4 +17,4 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_WIN_Exit(void);
-void func_021F6B1C(u8 *p) { u32 i; for(i=0; i<6; i++) { BMP_WIN_Delete(*(void **)((u32)p+i*8+0x20)); } BMP_WIN_Exit(); }
+void VS_MULTI_LIST_DeleteWindows(u8 *p) { u32 i; for(i=0; i<6; i++) { BMP_WIN_Delete(*(void **)((u32)p+i*8+0x20)); } BMP_WIN_Exit(); }

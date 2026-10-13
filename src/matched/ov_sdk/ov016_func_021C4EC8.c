@@ -1,5 +1,5 @@
 /*
- * function: func_021C4EC8
+ * function: DWCi_SceneSetAossComplete
  * address:  0x021C4EC8
  * packet:   pkt_ov016_021C4EC8
  * region:   ov016
@@ -13,28 +13,28 @@
  *
  * symbols:
  *   func_021C4F04  0x021C4F04  arm  ov016
- *   func_021BD6D4  0x021BD6D4  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5D4     0x021DE5D4  data
+ *   DWCi_HLlLoadSet  0x021BD6D4  arm  ov016
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneSetAossCompleteWork     0x021DE5D4  data
  *   func_021C4F70  0x021C4F70  arm  ov016
  */
 
 extern void func_021C4F04();
-extern void func_021BD6D4();
-extern void func_021BD29C();
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_HLlLoadSet();
+extern void DWCi_CMNlMsgDraw();
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C4F70();
-extern unsigned char g_021DE5D4;
+extern unsigned char gSceneSetAossCompleteWork;
 
-void func_021C4EC8(void)
+void DWCi_SceneSetAossComplete(void)
 {
-    g_021DE5D4 = 0;
+    gSceneSetAossCompleteWork = 0;
     func_021C4F04();
-    func_021BD6D4();
-    func_021BD29C(0x23);
-    func_021CFFAC(0x10);
-    func_021C0E40((unsigned int)func_021C4F70);
+    DWCi_HLlLoadSet();
+    DWCi_CMNlMsgDraw(0x23);
+    DWCi_SNDlPlay(0x10);
+    DWCi_ChangeScene((unsigned int)func_021C4F70);
 }

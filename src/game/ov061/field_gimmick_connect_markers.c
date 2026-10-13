@@ -25,7 +25,7 @@
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers  0x021F388C  thumb  ov061
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   d_021F3974     0x021F3974  data  a4
+ *   gConnectMarkersUnitSetup     0x021F3974  data  a4
  *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
  *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -54,7 +54,7 @@ struct EventData;
 
 extern u16 FIELDMAP_GetHeapId(void *fieldMap);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
-extern Gimmick61Work *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
+extern FieldGimmickConnectMarkersWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, u16 model);
@@ -62,7 +62,7 @@ extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, unsigned int model, in
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *anime, int paused);
 extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *anime, int loop);
-extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(Gimmick61Work *work, void *fieldMap);
+extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(FieldGimmickConnectMarkersWork *work, void *fieldMap);
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);
 extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
 extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
@@ -70,7 +70,7 @@ extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct EventData *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern Gimmick61Work *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
+extern FieldGimmickConnectMarkersWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 extern int FLD_EXP_OBJ_IsAnimeStopped(u8 *anime);
 extern u16 FIELD_PLAYER_GetDirDisp(void *player);
@@ -82,8 +82,8 @@ extern u32 FIELD_PLAYER_GetStepPhase(void *player);
 void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap);
 void FIELD_GIMMICK_CONNECT_MARKERS_Exit(void *fieldMap);
 void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap);
-int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player);
-extern char d_021F3974[];
+int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(FieldGimmickConnectMarkersWork *unusedWork, void *player);
+extern char gConnectMarkersUnitSetup[];
 struct ConnectData;
 extern u16 EVENTDATA_SYSTEM_GetConnectCount(struct EventData *eventData);
 extern struct ConnectData *EVENTDATA_SYSTEM_GetConnectData(struct EventData *eventData, unsigned index);
@@ -94,14 +94,14 @@ void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap)
 {
     u16 heapId;
     void *expObj;
-    Gimmick61Work *work;
+    FieldGimmickConnectMarkersWork *work;
     int model;
     u8 *anime;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(Gimmick61Work));
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3974, 0);
+    work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(FieldGimmickConnectMarkersWork));
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, gConnectMarkersUnitSetup, 0);
     for (model = 0; model < FIELD_GIMMICK_CONNECT_MARKERS_MODEL_COUNT; model++) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)model, 1);
     }
@@ -122,7 +122,7 @@ void FIELD_GIMMICK_CONNECT_MARKERS_Exit(void *fieldMap)
 
 void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap)
 {
-    Gimmick61Work *work;
+    FieldGimmickConnectMarkersWork *work;
     void *expObj;
     void *player;
     struct EventData *eventData;
@@ -163,7 +163,7 @@ void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap)
 }
 
 /* Returns 1 while the player is in step phase 3 of step kind 0 (ready for a new step). */
-int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player)
+int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(FieldGimmickConnectMarkersWork *unusedWork, void *player)
 {
     u32 stepKind = FIELD_PLAYER_GetStepKind(player);
 
@@ -174,7 +174,7 @@ int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(Gimmick61Work *unusedWork, v
 }
 
 /* Shows a marker model (1..8) at the center of each map connection of exit type 6 and hides the others. */
-void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(Gimmick61Work *unusedWork, void *fieldMap)
+void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(FieldGimmickConnectMarkersWork *unusedWork, void *fieldMap)
 {
     struct EventData *eventData;
     int connectCount;

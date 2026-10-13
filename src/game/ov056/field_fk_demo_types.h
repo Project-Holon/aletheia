@@ -222,7 +222,7 @@ extern VecFx32 gFkBuildSoundModelPos;                                         /*
 extern int gFkBuildSoundTriggerFrame[];                                           /* trigger frames of the anime sound proc */
 extern VecFx32 gFkFrameSoundModelPos;                                         /* building model of the frame sound proc */
 extern int gFkFrameSoundFrame[];                                           /* frames of the frame sound proc */
-extern char d_021F4400[];                                          /* source file name for allocations */
+extern char gFkSoundAnimeSourceFile[];                                          /* source file name for allocations */
 
 /* Field map accessors and shared helpers (overlay 21 and arm9). */
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);

@@ -1,5 +1,5 @@
 /*
- * function: func_02067AB8
+ * function: NNS_G2dSetRndCoreAffineOverwriteMode
  * address:  0x02067AB8
  * packet:   pkt_02067AAC
  * region:   arm9
@@ -18,8 +18,8 @@
  * 0x0204CBB0+0x1c (src/matched/CLACT_SetupActorDraw.c).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067AB8.c \
- *       --func func_02067AB8 --addr 0x02067AB8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G2dSetRndCoreAffineOverwriteMode.c \
+ *       --func NNS_G2dSetRndCoreAffineOverwriteMode --addr 0x02067AB8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ struct G2dOamState {
     u32 mode;   /* 0x04 */
 };
 
-void func_02067AB8(struct G2dOamState *p, u32 mode)
+void NNS_G2dSetRndCoreAffineOverwriteMode(struct G2dOamState *p, u32 mode)
 {
     p->mode = mode;
 }

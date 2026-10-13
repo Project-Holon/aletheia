@@ -11,9 +11,9 @@
  * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `func_021F513C(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.
  *
  * symbols:
- *   func_021C7C1C  0x021C7C1C  arm  ov114
- *   func_021C866C  0x021C866C  arm  ov114
- *   func_021C86A8  0x021C86A8  arm  ov114
+ *   DPW_TR_Main  0x021C7C1C  arm  ov114
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm  ov114
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm  ov114
  *   func_021F4FC4  0x021F4FC4  thumb
  *   func_021F513C  0x021F513C  thumb
  *   func_021F4EC0  0x021F4EC0  thumb
@@ -36,9 +36,9 @@ typedef struct {
     int wait;
 } Work;
 
-extern void func_021C7C1C(void);
-extern int func_021C866C(void);
-extern int func_021C86A8(void);
+extern void DPW_TR_Main(void);
+extern int DPW_TR_IsAsyncEnd(void);
+extern int DPW_TR_GetAsyncResult(void);
 extern void func_021F4FC4(u8 *p);
 extern void func_021F513C(u8 *p);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
@@ -47,9 +47,9 @@ int func_021F8BE8(Work *p)
 {
     int code;
 
-    func_021C7C1C();
-    if (func_021C866C() != 0) {
-        code = func_021C86A8();
+    DPW_TR_Main();
+    if (DPW_TR_IsAsyncEnd() != 0) {
+        code = DPW_TR_GetAsyncResult();
         p->wait = 0;
         switch (code) {
         case 0:

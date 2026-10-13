@@ -17,7 +17,7 @@
  *   func_020949F4  0x020949F4  arm
  *   func_02193418  0x02193418  arm  ov009
  *   func_020964E0  0x020964E0  arm
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0209477C  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm  ov009
  *   func_020948E0  0x020948E0  arm
@@ -92,7 +92,7 @@ extern int func_020949F4(const unsigned char *s1, const unsigned char *s2, unsig
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
@@ -145,7 +145,7 @@ int func_0218E6DC(void **connection, GPIPeer *peer)
                 return 0;
             }
 
-            func_02084F40(buffer, g_021A4F14, iconnection->password, iconnection->profileid, pid);
+            OS_SPrintf(buffer, g_021A4F14, iconnection->password, iconnection->profileid, pid);
             func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), sigCheck);
 
             if (func_020948E0(sig, sigCheck) != 0) {

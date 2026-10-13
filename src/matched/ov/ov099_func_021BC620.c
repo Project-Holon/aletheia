@@ -1,5 +1,5 @@
 /*
- * function: func_021BC620
+ * function: WIFICLUB_StateSceneYesNo
  * address:  0x021BC620
  * packet:   pkt_ov099_021BC620
  * region:   ov099
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   func_021BA858  0x021BA858  thumb  ov099
- *   func_021BDDD0  0x021BDDD0  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_PollYesNoMenu  0x021BA858  thumb  ov099
+ *   WIFICLUB_HasEnoughPartyMembers  0x021BDDD0  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  *   func_0202EB14  0x0202EB14  thumb
  *   func_0202EB0C  0x0202EB0C  thumb
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  *
  * Lever: the +0x1CC store is written out in each arm (no early return), so the
  * compiler cross-jumps them into one shared store block.
@@ -28,33 +28,33 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 func_021BA858(char *p);
-extern int func_021BDDD0(char *p);
-extern void func_021BAAB8(char *p, int a, int b);
+extern u32 WIFICLUB_PollYesNoMenu(char *p);
+extern int WIFICLUB_HasEnoughPartyMembers(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 extern int func_0202EB14(void);
 extern u32 func_0202EB0C(void);
-extern void func_021BA8EC(char *p);
+extern void WIFICLUB_ClearTalkWindow(char *p);
 
-int func_021BC620(char *p, int v)
+int WIFICLUB_StateSceneYesNo(char *p, int v)
 {
     int r;
 
     GF_FONT_SetDefaultTextColor();
-    r = func_021BA858(p);
+    r = WIFICLUB_PollYesNoMenu(p);
     if (r == -1) {
         return v;
     }
     if (r == 0) {
-        if (func_021BDDD0(p) == 0 && ((struct Obj04413 *)p)->f132C == 0x4d) {
-            func_021BAAB8(p, 0x79, 0);
+        if (WIFICLUB_HasEnoughPartyMembers(p) == 0 && ((struct Obj04413 *)p)->f132C == 0x4d) {
+            WIFICLUB_ShowStreamedMessage(p, 0x79, 0);
             ((struct Obj04413 *)p)->f1CC = 0x96;
         } else if (func_0202EB14() == 0 && func_0202EB0C() != 0
                    && ((struct Obj04413 *)p)->f132C == 0x4c) {
-            func_021BAAB8(p, 0x95, 0);
+            WIFICLUB_ShowStreamedMessage(p, 0x95, 0);
             ((struct Obj04413 *)p)->f1CC = 0xa6;
         } else {
             ((struct Obj04413 *)p)->f1CC = 0x52;
-            func_021BA8EC(p);
+            WIFICLUB_ClearTalkWindow(p);
         }
     } else {
         ((struct Obj04413 *)p)->f1353 = 0x90;

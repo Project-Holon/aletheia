@@ -31,8 +31,8 @@
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
  *   func_02082B60  0x02082B60  arm
  *   NNS_G3dGlbBaseScale  0x0206AA0C  arm
- *   func_0206A854  0x0206A854  arm
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGlbFlush  0x0206A854  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
  *   d_0217216C     0x0217216C  data   ov010  a4
  *   d_02172178     0x02172178  data   ov010  a4
@@ -49,10 +49,10 @@
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   NNS_G3dGetTex  0x0206E964  arm
- *   func_0206A2CC  0x0206A2CC  arm
- *   func_0206A4AC  0x0206A4AC  arm
- *   func_02069D14  0x02069D14  arm
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dBindMdlTex  0x0206A2CC  arm
+ *   NNS_G3dBindMdlPltt  0x0206A4AC  arm
+ *   NNS_G3dRenderObjInit  0x02069D14  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207DEA4  0x0207DEA4  arm
  *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  */
@@ -88,8 +88,8 @@ extern void ARC_TOOL_ReadHandle(ArcFile *archive, u32 size, void *dst);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void func_02082B60(void *a, void *b);
 extern void NNS_G3dGlbBaseScale(void *p);
-extern void func_0206A854(void);
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGlbFlush(void);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void G3D_SYSTEM_DrawRenderObj(FieldG3dMapRenderObj *renderObj);
 extern void *G3D_SYSTEM_GetObjectRender(void *res);
 extern FieldG3dMapRenderObj *G3D_SYSTEM_GetRenderObj(void *res);
@@ -99,10 +99,10 @@ extern void func_0207CA00(const FieldG3dMapVec *pos, const FieldG3dMapVec *origi
 extern void *G3D_SYSTEM_GetResourceFile(void *handle);
 extern int NNS_G3dGetMdlSet(int p0);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
-extern void func_0206A2CC(void *a, void *b);
-extern void func_0206A4AC(void *a, void *b);
-extern void func_02069D14(void *a, void *b);
-extern void func_0206DB80(void);
+extern void NNS_G3dBindMdlTex(void *a, void *b);
+extern void NNS_G3dBindMdlPltt(void *a, void *b);
+extern void NNS_G3dRenderObjInit(void *a, void *b);
+extern void NNS_G3dGeFlushBuffer(void);
 extern int func_0207DEA4(int *result);
 extern void ARC_TOOL_ReadHandleMember(ArcFile *archive, u32 member, void *dst);
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
@@ -584,10 +584,10 @@ int FIELD_G3D_MAP_Draw(FieldG3dMap *map)
         func_02082B60(d_02172178, d_02148C08);
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(d_02172160);
-        func_0206A854();
-        func_0206DDA4(0x15, 0, 0);
-        func_0206DDA4(0x17, gG3dBaseMtx43, 0xc);
-        func_0206DDA4(0x1c, &map->pos, 3);
+        NNS_G3dGlbFlush();
+        NNS_G3dGeBufferOP_N(0x15, 0, 0);
+        NNS_G3dGeBufferOP_N(0x17, gG3dBaseMtx43, 0xc);
+        NNS_G3dGeBufferOP_N(0x1c, &map->pos, 3);
         if (FIELD_G3D_MAP_TestModelBox(map->renderObjRef->model) == 1) {
             G3D_SYSTEM_DrawRenderObj(map->renderObjRef);
             drawn = 1;
@@ -632,10 +632,10 @@ void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
         angleIndex = map->placementsA[i].angle >> 4;
         sinAngle = FX_SinCosTable_[angleIndex * 2];
         cosAngle = FX_SinCosTable_[angleIndex * 2 + 1];
-        func_0206DDA4(0x17, gG3dBaseMtx43, 12);
+        NNS_G3dGeBufferOP_N(0x17, gG3dBaseMtx43, 12);
         VEC_Add(&map->pos, &map->placementsA[i].pos, &mtx.trans);
         MTX_RotY33_(&mtx, sinAngle, cosAngle);
-        func_0206DDA4(0x19, &mtx, 12);
+        NNS_G3dGeBufferOP_N(0x19, &mtx, 12);
         if (FIELD_G3D_MAP_TestModelBox(model) == 1) {
             G3D_SYSTEM_DrawRenderObj(renderObj);
         }
@@ -758,10 +758,10 @@ void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes
     if (textureFile != 0)
         texture = NNS_G3dGetTex(textureFile);
     if (texture != 0) {
-        func_0206A2CC(model, texture);
-        func_0206A4AC(model, texture);
+        NNS_G3dBindMdlTex(model, texture);
+        NNS_G3dBindMdlPltt(model, texture);
     }
-    func_02069D14(renderObj, model);
+    NNS_G3dRenderObjInit(renderObj, model);
 }
 
 /* Clear the model of the render object; returns the render object. */
@@ -791,15 +791,15 @@ int FIELD_G3D_MAP_TestModelBox(FieldG3dMapModel *model)
     box[3] = info->boxW;
     box[4] = info->boxH;
     box[5] = info->boxD;
-    func_0206DDA4(0x11, 0, 0);
+    NNS_G3dGeBufferOP_N(0x11, 0, 0);
     scale[0] = info->boxPosScale;
     scale[1] = scale[0];
     scale[2] = scale[0];
-    func_0206DDA4(0x1b, scale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     if (FIELD_G3D_MAP_RunBoxTest(box) == 0)
         visible = 0;
     one = 1;
-    func_0206DDA4(0x12, &one, 1);
+    NNS_G3dGeBufferOP_N(0x12, &one, 1);
     return visible;
 }
 
@@ -812,12 +812,12 @@ u32 FIELD_G3D_MAP_RunBoxTest(const short *box)
 
     result = 1;
     polygonAttr = 0x30C1;
-    func_0206DDA4(0x29, &polygonAttr, 1);
+    NNS_G3dGeBufferOP_N(0x29, &polygonAttr, 1);
     beginMode = 0;
-    func_0206DDA4(0x40, &beginMode, 1);
-    func_0206DDA4(0x41, 0, 0);
-    func_0206DDA4(0x70, box, 3);
-    func_0206DB80();
+    NNS_G3dGeBufferOP_N(0x40, &beginMode, 1);
+    NNS_G3dGeBufferOP_N(0x41, 0, 0);
+    NNS_G3dGeBufferOP_N(0x70, box, 3);
+    NNS_G3dGeFlushBuffer();
     while (func_0207DEA4(&result) != 0)
         ;
     return result;

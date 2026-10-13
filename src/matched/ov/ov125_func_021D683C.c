@@ -14,6 +14,7 @@
  *   func_021D71CC 0x021D71CC thumb ov125
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  */
 #include "../include/Obj06472.h"
 #include "../include/Obj22996.h"
@@ -26,7 +27,7 @@ extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
 extern int func_021D7154(int, int, int *, int *);
 extern void func_021D71CC(const void *src, void *dst, u32 n);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
-extern void func_02082D44(void *, const void *, unsigned int);
+extern void MI_CpuCopy8(void *, const void *, unsigned int);
 int func_021D683C(char *p, void *dst)
 {
     char *r;
@@ -47,7 +48,7 @@ int func_021D683C(char *p, void *dst)
     ((struct Obj06472 *)p)->f5A0 = 0;
     p[0x403] = 0;
     *(char * *)&((struct Obj06472 *)p)->f174 = r;
-    func_02082D44(dst, BATTLE_REC_GetWork(), 128);
+    MI_CpuCopy8(dst, BATTLE_REC_GetWork(), 128);
     p[0x401] = 60;
     ((struct Obj06472 *)p)->f3D8 = 0x55f0;
     return 1;

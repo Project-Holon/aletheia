@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_021469FC     0x021469FC  data
- *   func_02088788  0x02088788  arm
+ *   RTC_Init  0x02088788  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_0203F46C  0x0203F46C  arm
  *
@@ -32,14 +32,14 @@ typedef unsigned int  u32;
 
 extern struct G_021469FC g_021469FC;
 
-extern void func_02088788(void);
+extern void RTC_Init(void);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 struct RtcRequest;
 extern void func_0203F46C(struct RtcRequest *req);
 
 void func_0203F3B4(void)
 {
-    func_02088788();
+    RTC_Init();
     MI_CpuFill8(&g_021469FC, 0, 0x48);
     g_021469FC.unk_00 = 0;
     g_021469FC.unk_04 = 0;

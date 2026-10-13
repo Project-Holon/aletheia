@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02070360",
+   "name": "NNSi_G3dAnmObjInitNsBma",
    "address": "0x02070360",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070434",
+   "name": "NNSi_G3dAnmCalcNsBma",
    "address": "0x02070434",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070524",
+   "name": "NNSi_G3dAnmGetTexSRTScalarData",
    "address": "0x02070524",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070624",
+   "name": "NNSi_G3dAnmGetTexSRTRotData",
    "address": "0x02070624",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070830",
+   "name": "NNSi_G3dAnmObjInitNsBta",
    "address": "0x02070830",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070948",
+   "name": "NNSi_G3dAnmObjInitNsBtp",
    "address": "0x02070948",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070AFC",
+   "name": "NNSi_G3dAnmSetPlttParam",
    "address": "0x02070AFC",
    "kind": "game",
    "region": "arm9",

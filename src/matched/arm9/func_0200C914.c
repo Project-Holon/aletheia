@@ -1,5 +1,5 @@
 /*
- * function: func_0200C914
+ * function: ZUKAN_SAVE_SetSeenFormFlag
  * address:  0x0200C914
  * packet:   pkt_0200C914
  * region:   arm9
@@ -12,11 +12,11 @@
  * The "caught" half of the musical-distribution form bookkeeping in
  * "musical_dist_save.c": it sets one bit of one of the two nine-byte form
  * bitmaps at +0x2FC (base) and +0x305 (alt), indexed by the flat form index
- * func_0200C7C0 answers for the species.
+ * ZUKAN_SAVE_GetFormBitBase answers for the species.
  *
  * Four species ids get a fixed form count and a forced start of zero: 0x15F
  * with four forms and 0x1A5 / 0x22B / 0x288 with two each.  Everything else
- * takes one form and clamps the caller's form index against func_0200CC20's
+ * takes one form and clamps the caller's form index against ZUKAN_SAVE_GetFormCount's
  * count for that species.
  *
  * What closed it, after the two things the older DIFF note
@@ -29,7 +29,7 @@
  *    for the general shape.
  *  - the "not listed" sentinel is compared as `u32`, not as `int`.  The
  *    original builds it with `movs r1, #0 / mvns r1, r1` and a register
- *    `cmp`, which is what `res == (u32)-1` emits when func_0200C7C0 is
+ *    `cmp`, which is what `res == (u32)-1` emits when ZUKAN_SAVE_GetFormBitBase is
  *    declared to return `u32`, exactly as src/matched/unit_0200C7C0.c
  *    defines it.  Declared `int` with a literal `-1` the compare folds to an
  *    immediate and the whole head reallocates; that was the "codegen,
@@ -47,14 +47,14 @@
  * truncation, so neither caller's argument changes.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/func_0200C914.c \
- *       --func func_0200C914 --addr 0x0200C914 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZUKAN_SAVE_SetSeenFormFlag.c \
+ *       --func ZUKAN_SAVE_SetSeenFormFlag --addr 0x0200C914 --cc 1.1p1 --thumb
  *   -> EXACT* (216 code bytes; the listing extent runs to 224 over the eight
  *      bytes of literal pool that follow the body)
  *
  * symbols:
- *   func_0200C7C0  0x0200C7C0  thumb
- *   func_0200CC20  0x0200CC20  thumb
+ *   ZUKAN_SAVE_GetFormBitBase  0x0200C7C0  thumb
+ *   ZUKAN_SAVE_GetFormCount  0x0200CC20  thumb
  */
 
 typedef unsigned char  u8;
@@ -62,16 +62,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_0200C7C0(u16 id);
-extern u16 func_0200CC20(u32 a);
+extern u32 ZUKAN_SAVE_GetFormBitBase(u16 id);
+extern u16 ZUKAN_SAVE_GetFormCount(u32 a);
 
-void func_0200C914(u8 *p, u32 id, u32 a2, u32 a3, u32 start)
+void ZUKAN_SAVE_SetSeenFormFlag(u8 *p, u32 id, u32 a2, u32 a3, u32 start)
 {
     u32 res;
     u32 cnt;
     u16 i;
 
-    res = func_0200C7C0((u16)id);
+    res = ZUKAN_SAVE_GetFormBitBase((u16)id);
     if (res == (u32)-1) {
         return;
     }
@@ -88,7 +88,7 @@ void func_0200C914(u8 *p, u32 id, u32 a2, u32 a3, u32 start)
         start = 0;
         cnt = 2;
     } else {
-        if (start >= func_0200CC20((u16)id)) {
+        if (start >= ZUKAN_SAVE_GetFormCount((u16)id)) {
             start = 0;
         }
         cnt = 1;

@@ -13,7 +13,7 @@
  * symbols:
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain  0x02181FD8  thumb ov018
  */
 
@@ -29,7 +29,7 @@ typedef struct {
 extern void GAME_EVENT_Change(char *p, int a1, int a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(void *, int *, void *);
 
 void EVENT_COMM_COMMON_ChangeTalkedGreetingAsTargetEvent(Obj *task, const void *src)
@@ -38,5 +38,5 @@ void EVENT_COMM_COMMON_ChangeTalkedGreetingAsTargetEvent(Obj *task, const void *
 
     GAME_EVENT_Change((char *)task, (int)EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain, 0x9C);
     dst = func_020124E8((struct Obj *)task);
-    func_02082D44(src, dst, 0x98);
+    MI_CpuCopy8(src, dst, 0x98);
 }

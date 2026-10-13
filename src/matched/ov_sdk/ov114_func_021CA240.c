@@ -1,5 +1,5 @@
 /*
- * function: func_021CA240
+ * function: DWCi_EncSessionGetPrivateAsync
  * address:  0x021CA240
  * packet:   pkt_ov114_021CA240
  * region:   ov114
@@ -17,19 +17,19 @@
  *   func_0205A1B0  0x0205A1B0  arm
  *   strlen  0x0209477C  arm
  *   func_02084F80  0x02084F80  arm
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_02092344  0x02092344  arm
- *   func_021C9858  0x021C9858  arm  ov114
- *   func_021C9D9C  0x021C9D9C  arm  ov114
- *   g_021CF7AC  0x021CF7AC  data
- *   g_021CF7A8  0x021CF7A8  data
- *   g_021CF8D0  0x021CF8D0  data
- *   g_021CF84C  0x021CF84C  data
- *   g_021CF8D8  0x021CF8D8  data
- *   g_021CF8DC  0x021CF8DC  data
- *   g_021CF900  0x021CF900  data
- *   g_021CF92C  0x021CF92C  data
- *   g_021CF8E4  0x021CF8E4  data
+ *   b64size  0x021C9858  arm  ov114
+ *   DWCi_EncSessionEncrypt  0x021C9D9C  arm  ov114
+ *   gDwcEncSession  0x021CF7AC  data
+ *   gDwcEncServerUrl  0x021CF7A8  data
+ *   sDwcEncSessionData  0x021CF8D0  data
+ *   sDwcEncSessionHash  0x021CF84C  data
+ *   sDwcEncSessionPidFormat  0x021CF8D8  data
+ *   sDwcEncSessionPid  0x021CF8DC  data
+ *   sDwcEncSessionZeroHash  0x021CF900  data
+ *   sDwcEncSessionEmptyString  0x021CF92C  data
+ *   sDwcEncSessionPidHashData  0x021CF8E4  data
  */
 
 typedef unsigned char u8;
@@ -64,61 +64,61 @@ typedef struct {
 
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern u32 func_021C9858(u32 len);
+extern u32 b64size(u32 len);
 extern unsigned long strlen(const char *s);
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
-extern int func_02084F40(char *dst, const char *fmt, ...);
-extern int func_021C9D9C(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
+extern int DWCi_EncSessionEncrypt(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen);
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
-extern Session g_021CF7AC;
-extern char *g_021CF7A8;
-extern char g_021CF8D0[];
-extern char g_021CF84C[];
-extern char g_021CF8D8[];
-extern char g_021CF8DC[];
-extern char g_021CF900[];
-extern char g_021CF92C[];
-extern char g_021CF8E4[];
+extern Session gDwcEncSession;
+extern char *gDwcEncServerUrl;
+extern char sDwcEncSessionData[];
+extern char sDwcEncSessionHash[];
+extern char sDwcEncSessionPidFormat[];
+extern char sDwcEncSessionPid[];
+extern char sDwcEncSessionZeroHash[];
+extern char sDwcEncSessionEmptyString[];
+extern char sDwcEncSessionPidHashData[];
 
-int func_021CA240(char *url, long pid, void *data, u32 size, int (*cb)(u32 *, int), int reuseHash)
+int DWCi_EncSessionGetPrivateAsync(char *url, long pid, void *data, u32 size, int (*cb)(u32 *, int), int reuseHash)
 {
     PutHeader putheader;
     char buf[16];
     int res;
 
-    if (g_021CF7AC.validated != 1)
+    if (gDwcEncSession.validated != 1)
         return 3;
-    if (g_021CF7AC.request != 0) {
-        func_0205A1B0(8, g_021CF7AC.request, 0);
-        g_021CF7AC.request = 0;
+    if (gDwcEncSession.request != 0) {
+        func_0205A1B0(8, gDwcEncSession.request, 0);
+        gDwcEncSession.request = 0;
     }
-    g_021CF7AC.request = func_0205A16C(8,
-        strlen(g_021CF7A8) + strlen(g_021CF7AC.gamename) + strlen(url)
-        + strlen(g_021CF8DC) + func_02084F80(buf, 16, g_021CF8D8, pid)
-        + strlen(g_021CF84C) + 40 + 1 + strlen(g_021CF8D0) + func_021C9858(size + 12));
-    if (g_021CF7AC.request == 0)
+    gDwcEncSession.request = func_0205A16C(8,
+        strlen(gDwcEncServerUrl) + strlen(gDwcEncSession.gamename) + strlen(url)
+        + strlen(sDwcEncSessionPid) + func_02084F80(buf, 16, sDwcEncSessionPidFormat, pid)
+        + strlen(sDwcEncSessionHash) + 40 + 1 + strlen(sDwcEncSessionData) + b64size(size + 12));
+    if (gDwcEncSession.request == 0)
         return 2;
-    func_02084F40(g_021CF7AC.request, g_021CF8E4, g_021CF7A8, g_021CF7AC.gamename, url, pid, g_021CF900, g_021CF92C);
+    OS_SPrintf(gDwcEncSession.request, sDwcEncSessionPidHashData, gDwcEncServerUrl, gDwcEncSession.gamename, url, pid, sDwcEncSessionZeroHash, sDwcEncSessionEmptyString);
     {
-        char *p = g_021CF7AC.request;
-        g_021CF7AC.data = p + strlen(p);
+        char *p = gDwcEncSession.request;
+        gDwcEncSession.data = p + strlen(p);
     }
-    g_021CF7AC.hash = g_021CF7AC.data - strlen(g_021CF8D0) - 40;
+    gDwcEncSession.hash = gDwcEncSession.data - strlen(sDwcEncSessionData) - 40;
     putheader.pid = pid;
     putheader.size = size;
-    res = func_021C9D9C((u8 *)g_021CF7AC.data, (u8 *)&putheader, 8, data, size);
+    res = DWCi_EncSessionEncrypt((u8 *)gDwcEncSession.data, (u8 *)&putheader, 8, data, size);
     if (res == 2) {
-        func_0205A1B0(8, g_021CF7AC.request, 0);
-        g_021CF7AC.request = 0;
+        func_0205A1B0(8, gDwcEncSession.request, 0);
+        gDwcEncSession.request = 0;
         return 2;
     }
     if (reuseHash) {
-        func_02092344(g_021CF7AC.hash, g_021CF7AC.lastHash, 40);
-        g_021CF7AC.state = 6;
+        func_02092344(gDwcEncSession.hash, gDwcEncSession.lastHash, 40);
+        gDwcEncSession.state = 6;
     } else {
-        g_021CF7AC.hash[-strlen(g_021CF84C)] = '\0';
-        g_021CF7AC.state = 4;
+        gDwcEncSession.hash[-strlen(sDwcEncSessionHash)] = '\0';
+        gDwcEncSession.state = 4;
     }
-    g_021CF7AC.callback = cb;
+    gDwcEncSession.callback = cb;
     return 0;
 }

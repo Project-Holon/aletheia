@@ -26,7 +26,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
@@ -40,7 +40,7 @@
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   func_02011400  0x02011400  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   TRIAL_HOUSE_CreateWork  0x021D096C  thumb
@@ -96,19 +96,19 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_0200873C  0x0200873C  thumb
- *   func_0200CA10  0x0200CA10  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   func_02007F1C  0x02007F1C  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   ENCEFF_Start  0x021CF498  thumb  ov021
- *   func_021B6100  0x021B6100  thumb  ov098
- *   func_021B6158  0x021B6158  thumb  ov098
+ *   PDC_CreateArgs  0x021B6100  thumb  ov098
+ *   PDC_GetResult  0x021B6158  thumb  ov098
  *   func_021B95A0  0x021B95A0  thumb  ov227
  *   func_021B95C8  0x021B95C8  thumb  ov227
  *   ov098_id       0x00000062  data
  *   ov227_id       0x000000E3  data
- *   d_021B6D74     0x021B6D74  data ov098
+ *   gPdcProcData     0x021B6D74  data ov098
  *   d_021B98A4     0x021B98A4  data ov227
  *   FLD_BTL_INST_TOOL_CreatePartySelectStepEvent  0x02168BF0  thumb  ov010
  *   FLD_BTL_INST_TOOL_CreateBattleEvent  0x02168CF4  thumb  ov010
@@ -237,9 +237,9 @@ extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern struct MyItem *func_0201292C(struct GameData *gameData);
 extern struct Config *func_0200873C(struct SaveControl *saveControl);
-extern struct PokedexSave *func_0200CA10(struct SaveControl *saveControl);
-extern struct PokedexSave *func_0200CA1C(struct GameData *gameData);
-extern void func_0200CFA0(struct PokedexSave *pokedex, struct PokemonParam *mon);
+extern struct PokedexSave *ZUKAN_SAVE_GetBlock(struct SaveControl *saveControl);
+extern struct PokedexSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+extern void ZUKAN_SAVE_RegisterSeen(struct PokedexSave *pokedex, struct PokemonParam *mon);
 
 /* Game events. */
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
@@ -317,9 +317,9 @@ extern int INTRUDE_COMM_GetPartnerSlot(struct GameComm *comm, struct GameData *g
 extern void INTRUDE_COMM_GetMarkerPosForPartner(struct GameComm *comm, struct GameData *gameData, VecFx32 *outPos);
 
 /* Overlay screens of the symbol Pokemon viewing event. */
-extern void *func_021B6100(struct GameData *gameData, struct PokemonParam *mon, SceneInfo *scene, struct MyStatus *myStatus,
+extern void *PDC_CreateArgs(struct GameData *gameData, struct PokemonParam *mon, SceneInfo *scene, struct MyStatus *myStatus,
                            struct MyItem *myItem, struct Config *config, struct PokedexSave *pokedex, u16 heapId);
-extern int func_021B6158(void *screen);
+extern int PDC_GetResult(void *screen);
 extern void *func_021B95A0(struct GameData *gameData, int accepted, struct PokemonParam *mon, u16 heapId);
 extern void func_021B95C8(void *screen);
 extern u32 func_02007E50(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
@@ -329,7 +329,7 @@ extern void func_02034A5C(u32 overlayId);
 extern const s16 FX_SinCosTable_[];
 extern u8 ov098_id[];
 extern u8 ov227_id[];
-extern u8 d_021B6D74[];
+extern u8 gPdcProcData[];
 extern u8 d_021B98A4[];
 
 void FORMCHANGE_RevertShaymin(struct GameData *gameData, struct Party *party);
@@ -480,7 +480,7 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
     int species;
     int form;
 
-    pokedex = func_0200CA1C(gameData);
+    pokedex = ZUKAN_SAVE_GetFromGameData(gameData);
     registered = 0;
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
@@ -490,7 +490,7 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY) {
             POKE_TOOL_ChangeForm(mon, SHAYMIN_FORM_LAND);
             if (registered == 0) {
-                func_0200CFA0(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
                 registered = 1;
             }
         }
@@ -868,7 +868,7 @@ void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party
     int deerlingRegistered;
     int sawsbuckRegistered;
 
-    pokedex = func_0200CA1C(gameData);
+    pokedex = ZUKAN_SAVE_GetFromGameData(gameData);
     deerlingRegistered = 0;
     sawsbuckRegistered = 0;
 
@@ -904,13 +904,13 @@ void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party
         if (species == SPECIES_DEERLING && form != deerlingForm) {
             POKE_TOOL_ChangeForm(mon, deerlingForm);
             if (!deerlingRegistered) {
-                func_0200CFA0(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
                 deerlingRegistered = 1;
             }
         } else if (species == SPECIES_SAWSBUCK && form != sawsbuckForm) {
             POKE_TOOL_ChangeForm(mon, sawsbuckForm);
             if (!sawsbuckRegistered) {
-                func_0200CFA0(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
                 sawsbuckRegistered = 1;
             }
         }
@@ -1220,9 +1220,9 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
 
         func_02007E50(func_0201292C(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
         func_02034AC4(FS_OVERLAY_ID(ov098));
-        work->selectScreen = func_021B6100(gameData, work->mon, &work->scene, func_02012944(gameData), func_0201292C(gameData),
-                                           func_0200873C(saveControl), func_0200CA10(saveControl), work->heapId);
-        GAME_EVENT_CallProc(event, -1, d_021B6D74, work->selectScreen);
+        work->selectScreen = PDC_CreateArgs(gameData, work->mon, &work->scene, func_02012944(gameData), func_0201292C(gameData),
+                                           func_0200873C(saveControl), ZUKAN_SAVE_GetBlock(saveControl), work->heapId);
+        GAME_EVENT_CallProc(event, -1, gPdcProcData, work->selectScreen);
         (*state)++;
         break;
     }
@@ -1231,7 +1231,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         struct PokemonParam *mon;
         SymbolKey key;
 
-        ok = func_021B6158(work->selectScreen);
+        ok = PDC_GetResult(work->selectScreen);
         mon = work->mon;
         heapId = work->heapId;
 

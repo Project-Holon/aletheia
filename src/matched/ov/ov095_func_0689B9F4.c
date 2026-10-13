@@ -1,5 +1,5 @@
 /*
- * function: func_0689B9F4
+ * function: BTL_SICK_ApplyLeechSeed
  * address: 0x0689B9F4
  * packet: pkt_ov095_0689B9F4
  * region: ov095
@@ -47,7 +47,7 @@ static inline u16 decode(Slot s)
 {
     return func_0689BACC(*(Word *)&s);
 }
-void func_0689B9F4(void *a, void *b, int c)
+void BTL_SICK_ApplyLeechSeed(void *a, void *b, int c)
 {
     u8 id;
     int x;

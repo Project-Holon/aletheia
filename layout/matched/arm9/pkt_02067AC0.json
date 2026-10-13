@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067AC0",
+   "name": "NNS_G2dSetRndCoreCurrentMtx3D",
    "address": "0x02067AC0",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067B28",
+   "name": "NNS_G2dSetRndCoreCurrentMtx2D",
    "address": "0x02067B28",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2370
+ * function: WIFICLUB_SetFriendNameWord
  * address:  0x021C2370
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -32,7 +32,7 @@ extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
-void func_021C2370(Work *w, int id)
+void WIFICLUB_SetFriendNameWord(Work *w, int id)
 {
     int r;
 

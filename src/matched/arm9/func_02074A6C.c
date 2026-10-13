@@ -1,5 +1,5 @@
 /*
- * function: func_02074A6C
+ * function: NNS_SndArcLoadSeq
  * address:  0x02074A6C
  * packet:   pkt_02074A6C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02074BEC  0x02074BEC  arm
+ *   NNSi_SndArcLoadSeq  0x02074BEC  arm
  *
  * One-line wrapper: call the byte-stream reader over a 0xff mask and invert
  * the result.
@@ -31,15 +31,15 @@
  * docs/FRONTEND-PINS.md; that file is outside this lane's write set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02074A6C.c \
- *       --func func_02074A6C --addr 0x02074A6C --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_SndArcLoadSeq.c \
+ *       --func NNS_SndArcLoadSeq --addr 0x02074A6C --arm --cc ../2.0/sp2
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadSeq(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
-u32 func_02074A6C(u32 a, u32 b)
+u32 NNS_SndArcLoadSeq(u32 a, u32 b)
 {
-    return func_02074BEC(a, 0xff, b, 1, 0) == 0;
+    return NNSi_SndArcLoadSeq(a, 0xff, b, 1, 0) == 0;
 }

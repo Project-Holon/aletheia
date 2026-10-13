@@ -58,7 +58,7 @@
  *   g_021A482C     0x021A482C  data
  *   func_0209477C  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm   ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0218FF98  0x0218FF98  arm   ov009
  *   func_0218946C  0x0218946C  arm   ov009
  *   func_0218949C  0x0218949C  arm   ov009
@@ -81,7 +81,7 @@
  *   g_021A490C     0x021A490C  data
  *   g_021A4914     0x021A4914  data
  *   g_021A4920     0x021A4920  data
- *   g_021ACEFC     0x021ACEFC  data
+ *   gGsAvailabilityGameName     0x021ACEFC  data
  *   g_021A492C     0x021A492C  data
  *   g_021A493C     0x021A493C  data
  *   g_021A494C     0x021A494C  data
@@ -440,7 +440,7 @@ extern int func_0218DD88(void **connection, const struct GPIOperation_s *operati
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int func_0218FF98(void **connection, char *nick, char *email, GPIProfile **profile);
 extern int func_0218946C(int *connection, int *buffer, const char *string);
 extern int func_0218949C(int *connection, int *buffer, int value);
@@ -514,7 +514,7 @@ extern char g_021A4900[];
 extern char g_021A490C[];
 extern char g_021A4914[];
 extern char g_021A4920[];
-extern char g_021ACEFC[];
+extern char gGsAvailabilityGameName[];
 extern char g_021A492C[];
 extern char g_021A493C[];
 extern char g_021A494C[];
@@ -759,21 +759,21 @@ int func_0218A830(void **connection, GPIConnectData *data)
     func_021858A8((unsigned char *)passphrase, func_0209477C((const u8 *)passphrase), data->passwordHash);
 
     if (iconnection->partnerID != 0)
-        func_02084F40(partnerBuffer, g_021A483C, iconnection->partnerID);
+        OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
     else
         partnerBuffer[0] = '\0';
 
     if (data->authtoken[0]) {
         user = data->authtoken;
     } else if (iconnection->uniquenick[0]) {
-        func_02084F40(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
+        OS_SPrintf(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
         user = userBuffer;
     } else {
-        func_02084F40(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
+        OS_SPrintf(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
         user = userBuffer;
     }
 
-    func_02084F40(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
+    OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                   data->userChallenge, data->serverChallenge, data->passwordHash);
     func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), response);
 
@@ -819,7 +819,7 @@ int func_0218A830(void **connection, GPIConnectData *data)
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021ACEFC);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), gGsAvailabilityGameName);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A493C);
@@ -856,7 +856,7 @@ int func_0218AC4C(void **connection, GPIConnectData *data)
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4914);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->productID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A4920);
-    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021ACEFC);
+    func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), gGsAvailabilityGameName);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A492C);
     func_0218949C((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->namespaceID);
     func_0218946C((int *)connection, (int *)(&iconnection->outputBuffer), g_021A48B4);
@@ -1009,21 +1009,21 @@ int func_0218AE9C(void **connection, GPIOperation *operation, char *input)
             iconnection->loginTicket[0] = '\0';
 
         if (iconnection->partnerID != 0)
-            func_02084F40(partnerBuffer, g_021A483C, iconnection->partnerID);
+            OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
         else
             partnerBuffer[0] = '\0';
 
         if (data->authtoken[0])
             user = data->authtoken;
         else if (iconnection->uniquenick[0]) {
-            func_02084F40(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
+            OS_SPrintf(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
             user = userBuffer;
         } else {
-            func_02084F40(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
+            OS_SPrintf(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
             user = userBuffer;
         }
 
-        func_02084F40(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
+        OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                       data->serverChallenge, data->userChallenge, data->passwordHash);
         func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), check);
 

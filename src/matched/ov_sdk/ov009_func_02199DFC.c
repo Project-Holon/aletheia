@@ -19,7 +19,7 @@
  *   func_021991C8  0x021991C8  arm  ov009
  *   func_021995E4  0x021995E4  arm  ov009
  *   func_0217ED0C  0x0217ED0C  arm  ov009
- *   g_021ACEF8     0x021ACEF8  data
+ *   gGsAvailabilityState     0x021ACEF8  data
  *   g_021A5D04     0x021A5D04  data
  *   g_021A5D44     0x021A5D44  data
  *   g_021A5D90     0x021A5D90  data
@@ -63,7 +63,7 @@ struct NATNegotiator;
 extern void func_021995E4(struct NATNegotiator *neg);
 extern int func_0217ED0C(int sock, void *addr, int *len);
 
-extern int g_021ACEF8;
+extern int gGsAvailabilityState;
 extern char g_021A5D04[];
 extern char g_021A5D44[];
 extern char g_021A5D90[];
@@ -78,7 +78,7 @@ int func_02199DFC(int gamesocket, int cookie, int clientindex,
     SOCSockAddrIn saddr;
     int namelen;
 
-    if (g_021ACEF8 != 1) {
+    if (gGsAvailabilityState != 1) {
         func_0217D254(7, 0, 4, g_021A5D04, cookie);
         return 2;
     }

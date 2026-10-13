@@ -53,9 +53,9 @@
     "MUSICAL_DIST_SAVE_GetPayload",
     "MUSICAL_DIST_SAVE_GetPayloadSize",
     "MUSICAL_DIST_SAVE_GetBlockSize",
-    "func_0200C6EC",
-    "func_0200C6F0",
-    "func_0200C720"
+    "MUSICAL_DIST_SAVE_NoOp",
+    "MUSICAL_DIST_SAVE_IsFooterSet",
+    "ZUKAN_SAVE_IsInvalidSpecies"
    ],
    "addresses": [
     "0x0200C6D8",
@@ -78,8 +78,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200C7C0",
-    "func_0200C7F4"
+    "ZUKAN_SAVE_GetFormBitBase",
+    "ZUKAN_SAVE_GetFormTableIndex"
+   ],
+   "addresses": [
+    "0x0200C7C0",
+    "0x0200C7F4"
    ]
   }
  ]

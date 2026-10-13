@@ -1,5 +1,5 @@
 /*
- * function: func_021B8434
+ * function: IRC_RESULT_UpdateScoreDisplay
  * address:  0x021B8434
  * packet:   pkt_ov105_021B8434
  * region:   ov105
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-int func_021B8434(void *a0) { return 0; }
+int IRC_RESULT_UpdateScoreDisplay(void *a0) { return 0; }

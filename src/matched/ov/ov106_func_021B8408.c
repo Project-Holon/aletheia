@@ -1,5 +1,5 @@
 /*
- * function: func_021B8408
+ * function: IRC_RANKING_ListScrollBy
  * address: 0x021B8408
  * packet: pkt_ov106_021B8408
  * region: ov106
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8A6C 0x021B8A6C thumb ov106
+ *   IRC_RANKING_RowSetScroll 0x021B8A6C thumb ov106
  */
 #include "../include/Obj01710.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
-extern void func_021B8A6C(u8 *,int);
-void func_021B8408(u8 *p,s16 delta) {
+extern void IRC_RANKING_RowSetScroll(u8 *,int);
+void IRC_RANKING_ListScrollBy(u8 *p,s16 delta) {
     int old,next;
     int i;
     old=((struct Obj01710 *)p)->f556;
@@ -34,6 +34,6 @@ void func_021B8408(u8 *p,s16 delta) {
         ((struct Obj01710 *)p)->f556+=delta;
         ((struct Obj01710 *)p)->f55E=delta;
     }
-    for(i=0;i<((struct Obj01710 *)p)->f554;i++)func_021B8A6C(p+0x188+i*32,((struct Obj01710 *)p)->f556);
+    for(i=0;i<((struct Obj01710 *)p)->f554;i++)IRC_RANKING_RowSetScroll(p+0x188+i*32,((struct Obj01710 *)p)->f556);
     ((struct Obj01710 *)p)->f594=1;
 }

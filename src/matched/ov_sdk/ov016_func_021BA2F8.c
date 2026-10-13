@@ -15,7 +15,7 @@
  *   func_021BA2EC  0x021ba2ec  thumb  ov016
  *   func_020923F0  0x020923f0  arm
  *   func_021BC608  0x021bc608  thumb  ov016
- *   g_021DAC18  0x021dac18  data
+ *   sAtermsetTable2  0x021dac18  data
  *   g_021DD480  0x021dd480  data
  *   g_021DD478  0x021dd478  data
  *   g_021DAB58  0x021dab58  data
@@ -24,7 +24,7 @@
 
 #include "../arm9_sdk/libc/string.h"
 
-extern const unsigned char g_021DAC18[];
+extern const unsigned char sAtermsetTable2[];
 extern unsigned char g_021DD480[6];
 extern unsigned char g_021DD478[6];
 extern unsigned char *g_021DAB58[];
@@ -40,7 +40,7 @@ int func_021BA2F8(unsigned char *lpkey)
     unsigned char sta_mac[6];
     int ret;
 
-    memcpy(lpkey + 12, g_021DAC18, 4);
+    memcpy(lpkey + 12, sAtermsetTable2, 4);
     memcpy(ap_mac, g_021DD480, 6);
     ap_mac[0] &= 0xfd;
     func_021BA2EC(sta_mac);

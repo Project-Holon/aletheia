@@ -1,5 +1,5 @@
 /*
- * function: func_02174CF0
+ * function: DWCi_QR2CountCallback
  * address:  0x02174CF0
  * packet:   pkt_ov009_02174CF0
  * region:   ov009
@@ -16,7 +16,7 @@
  *           0x0216CF08.  Seeded in layout/function_starts.txt.
  */
 
-int func_02174CF0(void)
+int DWCi_QR2CountCallback(void)
 {
     return 0;
 }

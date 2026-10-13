@@ -1,5 +1,5 @@
 /*
- * function: func_02072EE0
+ * function: NNS_SndPlayerCountPlayingSeqBySeqNo
  * address:  0x02072EE0
  * packet:   pkt_02072EE0
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E018     0x0214E018  data
+ *   gSndActiveSeqList     0x0214E018  data
  *   func_02060614  0x02060614  arm
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md).  The image
@@ -33,22 +33,22 @@ struct Voice {
     u16 h38;
 };
 
-extern char g_0214E018[];
+extern char gSndActiveSeqList[];
 struct DList;
 extern void *func_02060614(struct DList *list, void *elem);
 
-s32 func_02072EE0(u32 tag)
+s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 tag)
 {
     struct Voice *v;
     s32 n;
 
     n = 0;
-    v = func_02060614((struct DList *)g_0214E018, 0);
+    v = func_02060614((struct DList *)gSndActiveSeqList, 0);
     while (v != 0) {
         if (v->h34 == 1 && v->h38 == tag) {
             n++;
         }
-        v = func_02060614((struct DList *)g_0214E018, v);
+        v = func_02060614((struct DList *)gSndActiveSeqList, v);
     }
     return n;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EF8
+ * function: IRCBATTLEMATCH_StepSendMode
  * address:  0x021B9EF8
  * packet:   pkt_ov100_021B9EF8
  * region:   ov100
@@ -18,10 +18,10 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
- *   func_021B95B8  0x021B95B8  thumb  ov100
- *   func_021BA290  0x021BA290  thumb  ov100
- *   func_021B9EA4  0x021B9EA4  thumb  ov100
- *   func_021B9DB8  0x021B9DB8  thumb  ov100
+ *   IRCBATTLEMATCH_SetStep  0x021B95B8  thumb  ov100
+ *   IRCBATTLEMATCH_OpenWaitMenu  0x021BA290  thumb  ov100
+ *   IRCBATTLEMATCH_StepOpenQuitConfirm  0x021B9EA4  thumb  ov100
+ *   IRCBATTLEMATCH_StepCompareModes  0x021B9DB8  thumb  ov100
  */
 #include "../include/Obj00060.h"
 
@@ -41,12 +41,12 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
-extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021BA290(int, int);
-extern void func_021B9EA4(int a);
-extern void func_021B9DB8(int a);
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_OpenWaitMenu(int, int);
+extern void IRCBATTLEMATCH_StepOpenQuitConfirm(int a);
+extern void IRCBATTLEMATCH_StepCompareModes(int a);
 
-void func_021B9EF8(u8 *a)
+void IRCBATTLEMATCH_StepSendMode(u8 *a)
 {
     if (((struct Obj00060 *)a)->fCC0 != 0) {
         if (APP_TASKMENU_IsFinish((struct TaskMenu *)(((struct Obj00060 *)a)->fCC0)) != 0) {
@@ -54,11 +54,11 @@ void func_021B9EF8(u8 *a)
             APP_TASKMENU_CloseMenu((struct TaskMenu *)(((struct Obj00060 *)a)->fCC0));
             ((struct Obj00060 *)a)->fCC0 = 0;
             func_02041B6C(6);
-            func_021B95B8(a, (u32)((void (*)(void))func_021B9EA4));
+            IRCBATTLEMATCH_SetStep(a, (u32)((void (*)(void))IRCBATTLEMATCH_StepOpenQuitConfirm));
             return;
         }
     } else {
-        func_021BA290((int)a, 0);
+        IRCBATTLEMATCH_OpenWaitMenu((int)a, 0);
         return;
     }
     {
@@ -67,7 +67,7 @@ void func_021B9EF8(u8 *a)
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x78, k) != 0) {
             if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), k << 8, 4, (u32)(a + 0x24c)) != 0) {
                 GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x7c, k);
-                func_021B95B8(a, (u32)((void (*)(void))func_021B9DB8));
+                IRCBATTLEMATCH_SetStep(a, (u32)((void (*)(void))IRCBATTLEMATCH_StepCompareModes));
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D38
+ * function: IRC_COMPATIBLE_MENU_InitWindow
  * address: 0x021B7D38
  * packet: pkt_ov102_021B7D38
  * region: ov102
@@ -37,7 +37,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021B7D38(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16 heap)
+void IRC_COMPATIBLE_MENU_InitWindow(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16 heap)
 {
     int win;
     MI_CpuFill8(p, 0, 20);

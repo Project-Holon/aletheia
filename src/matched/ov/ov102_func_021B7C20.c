@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C20
+ * function: IRC_COMPATIBLE_MENU_InitText
  * address: 0x021B7C20
  * packet: pkt_ov102_021B7C20
  * region: ov102
@@ -28,7 +28,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-void func_021B7C20(unsigned *p,u16 heap) {
+void IRC_COMPATIBLE_MENU_InitText(unsigned *p,u16 heap) {
  MI_CpuFill8(p,0,0x10);
  func_0201DD60();
  p[0]=(unsigned int)GF_FONT_Create(0x17,0,0,0,heap);

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0207163C",
+   "name": "NNSi_G3dGetJointScaleSi3d",
    "address": "0x0207163C",
    "kind": "game",
    "region": "arm9",
@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_02071858",
+   "name": "NNSi_G3dSendTexMtx4x3",
    "address": "0x02071858",
    "kind": "game",
    "region": "arm9",

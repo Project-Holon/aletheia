@@ -12,7 +12,7 @@
  *   func_02008540 0x02008540 thumb
  *   func_0200853C 0x0200853C thumb
  *   DWC_CreateFriendKey 0x0205994C arm
- *   func_021C7BA0 0x021C7BA0 arm ov114
+ *   DPW_TR_Init 0x021C7BA0 arm ov114
  */
 #include "../include/Obj23396.h"
 #include "../include/Obj23397.h"
@@ -29,7 +29,7 @@ struct Sub0200852CObj;
 extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
-extern void func_021C7BA0(u32 a, u32 b, u32 c, int d);
+extern void DPW_TR_Init(u32 a, u32 b, u32 c, int d);
 int func_021F8AB0(u8 **p)
 {
     void *handle;
@@ -39,6 +39,6 @@ int func_021F8AB0(u8 **p)
     func_02008540(((struct Obj23397 *)(*p))->f1C, func_02009CC0(((struct Obj23398 *)(*p))->f14));
     id = func_0200853C(((struct Obj23399 *)(*p))->f1C);
     key = DWC_CreateFriendKey(handle);
-    func_021C7BA0(id, (u32)key, (u32)(key >> 32), 0);
+    DPW_TR_Init(id, (u32)key, (u32)(key >> 32), 0);
     return 1;
 }

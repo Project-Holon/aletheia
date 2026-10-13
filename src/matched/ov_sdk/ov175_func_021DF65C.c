@@ -1,5 +1,5 @@
 /*
- * function: func_021DF65C
+ * function: DWCi_HandleWSLoginError
  * address:  0x021DF65C
  * packet:   pkt_ov175_021DF65C
  * region:   ov175
@@ -22,7 +22,7 @@
 
 extern void func_02059F54(int error, int errorCode);
 
-int func_021DF65C(int result)
+int DWCi_HandleWSLoginError(int result)
 {
 	int dwcError = 20;
 	int errorCode = -43000;

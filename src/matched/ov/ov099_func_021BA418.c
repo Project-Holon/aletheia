@@ -1,5 +1,5 @@
 /*
- * function: func_021BA418
+ * function: WIFICLUBACTOR_UpdatePlayer
  * address:  0x021BA418
  * packet:   pkt_ov099_021BA418
  * region:   ov099
@@ -15,7 +15,7 @@
  * symbols:
  *   func_021C49A4  0x021C49A4  thumb  ov127
  *   KEY_GetCont  0x0203630C  arm
- *   func_021BA594  0x021BA594  thumb  ov099
+ *   WIFICLUBACTOR_QueueMoveCommand  0x021BA594  thumb  ov099
  */
 
 typedef unsigned char  u8;
@@ -33,9 +33,9 @@ typedef struct {
 
 extern int func_021C49A4(u8 *p, unsigned int i);
 extern unsigned int KEY_GetCont(void);
-extern void func_021BA594(char *p, int a, int b, int c);
+extern void WIFICLUBACTOR_QueueMoveCommand(char *p, int a, int b, int c);
 
-int func_021BA418(W *w, S *s)
+int WIFICLUBACTOR_UpdatePlayer(W *w, S *s)
 {
     int a;
     int b;
@@ -57,27 +57,27 @@ int func_021BA418(W *w, S *s)
     }
     if (KEY_GetCont() & 0x40) {
         if (a == 0) {
-            func_021BA594((char *)w, k, a, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, k, a, b);
         } else {
-            func_021BA594((char *)w, 1, 0, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, 1, 0, b);
         }
     } else if (KEY_GetCont() & 0x80) {
         if (a == 1) {
-            func_021BA594((char *)w, k, a, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, k, a, b);
         } else {
-            func_021BA594((char *)w, 1, 1, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, 1, 1, b);
         }
     } else if (KEY_GetCont() & 0x20) {
         if (a == 2) {
-            func_021BA594((char *)w, k, a, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, k, a, b);
         } else {
-            func_021BA594((char *)w, 1, 2, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, 1, 2, b);
         }
     } else if (KEY_GetCont() & 0x10) {
         if (a == 3) {
-            func_021BA594((char *)w, k, a, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, k, a, b);
         } else {
-            func_021BA594((char *)w, 1, 3, b);
+            WIFICLUBACTOR_QueueMoveCommand((char *)w, 1, 3, b);
         }
     }
     return 0;

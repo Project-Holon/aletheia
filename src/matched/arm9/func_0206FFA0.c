@@ -1,5 +1,5 @@
 /*
- * function: func_0206FFA0
+ * function: NNSi_G3dAnmDecodeRotKey
  * address:  0x0206FFA0
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -34,8 +34,8 @@
  *   g_020A199B      0x020A199B  data  a1
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206FFA0.c \
- *       --func func_0206FFA0 --addr 0x0206FFA0 --arm --cc ../2.0/sp2p2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmDecodeRotKey.c \
+ *       --func NNSi_G3dAnmDecodeRotKey --addr 0x0206FFA0 --arm --cc ../2.0/sp2p2
  */
 typedef unsigned int   u32;
 typedef signed short   s16;
@@ -47,7 +47,7 @@ extern const Perm g_020A1999[];
 extern const Perm g_020A199A[];
 extern const Perm g_020A199B[];
 
-int func_0206FFA0(int *out, s16 *a, s16 *b, u32 id)
+int NNSi_G3dAnmDecodeRotKey(int *out, s16 *a, s16 *b, u32 id)
 {
     if (id & 0x8000) {
         u32 i;

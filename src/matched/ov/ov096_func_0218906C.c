@@ -1,5 +1,5 @@
 /*
- * function: func_0218906C
+ * function: TR_AI_CmdIfMoveParam28Equal
  * address: 0x0218906C
  * packet: pkt_ov096_0218906C
  * region: ov096
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218908C 0x0218908C thumb ov096
+ *   TR_AI_CompareMoveParam28 0x0218908C thumb ov096
  */
 #include "../include/Obj21948.h"
 typedef unsigned char  u8;
-extern void func_0218908C(u8 *a, int b, int c);
-int func_0218906C(void *a, unsigned char *b) { func_0218908C(a,(int)b,2); return ((struct Obj21948 *)b)->fC4; }
+extern void TR_AI_CompareMoveParam28(u8 *a, int b, int c);
+int TR_AI_CmdIfMoveParam28Equal(void *a, unsigned char *b) { TR_AI_CompareMoveParam28(a,(int)b,2); return ((struct Obj21948 *)b)->fC4; }

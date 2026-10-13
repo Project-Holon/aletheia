@@ -12,8 +12,8 @@
  * sdk:      calcRect (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   g_021DE63C  0x021DE63C  data
- *   g_021DA8BB  0x021DA8BB  data
+ *   gScrollBar  0x021DE63C  data
+ *   sScrollBarStep  0x021DA8BB  data
  */
 
 typedef struct {
@@ -39,32 +39,32 @@ typedef struct {
 	unsigned short y1;
 } RECT;
 
-extern SB *g_021DE63C;
-extern unsigned char g_021DA8BB[];
+extern SB *gScrollBar;
+extern unsigned char sScrollBarStep[];
 
 void func_021CEE10(int idx, RECT *r)
 {
-	int x = g_021DE63C->x;
+	int x = gScrollBar->x;
 	r->x0 = x;
 	r->x1 = x + 12;
 	switch (idx) {
 	case 0:
 		break;
 	case 1:
-		r->y0 = g_021DE63C->y + g_021DE63C->pos;
-		r->y1 = r->y0 + g_021DA8BB[g_021DE63C->bar];
+		r->y0 = gScrollBar->y + gScrollBar->pos;
+		r->y1 = r->y0 + sScrollBarStep[gScrollBar->bar];
 		break;
 	case 2:
-		r->y0 = g_021DE63C->y - 13;
-		r->y1 = g_021DE63C->y;
+		r->y0 = gScrollBar->y - 13;
+		r->y1 = gScrollBar->y;
 		break;
 	case 3:
-		r->y0 = g_021DE63C->y + g_021DE63C->len;
+		r->y0 = gScrollBar->y + gScrollBar->len;
 		r->y1 = r->y0 + 13;
 		break;
 	case 4:
-		r->y0 = g_021DE63C->y;
-		r->y1 = r->y0 + g_021DE63C->len;
+		r->y0 = gScrollBar->y;
+		r->y1 = r->y0 + gScrollBar->len;
 		break;
 	}
 }

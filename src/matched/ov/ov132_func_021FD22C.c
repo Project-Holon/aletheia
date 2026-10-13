@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
@@ -21,7 +21,7 @@ extern u32 POKE_TOOL_GetBoxParamSize(void);
 typedef signed int     s32;
 struct Entry;
 extern int MYSTATUS_GetSize(void);
-extern void func_02082D44(void *,void *,u32);
+extern void MI_CpuCopy8(void *,void *,u32);
 extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021FD22C(char *p)
@@ -39,7 +39,7 @@ int func_021FD22C(char *p)
         k=i*(m+4+n);
         m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
-        func_02082D44(*(void **)(p+i*0x30+0x8c),q+k,m+4+n);
+        MI_CpuCopy8(*(void **)(p+i*0x30+0x8c),q+k,m+4+n);
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     m=MYSTATUS_GetSize();

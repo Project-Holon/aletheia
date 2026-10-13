@@ -1,5 +1,5 @@
 /*
- * function: func_021C4C50
+ * function: ghiProcessIncomingFileData
  * address:  0x021C4C50
  * packet:   pkt_ov114_021C4C50
  * region:   ov114
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   func_02094A28  0x02094A28  arm
- *   func_021C4C00  0x021C4C00  arm  ov114
- *   func_021C4BD8  0x021C4BD8  arm  ov114
+ *   ghiAppendToChunkHeaderBuffer  0x021C4C00  arm  ov114
+ *   ghiParseChunkSize  0x021C4BD8  arm  ov114
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021C4B18  0x021C4B18  arm  ov114
- *   g_021CF24C     0x021CF24C  data
- *   g_021CF25C     0x021CF25C  data
- *   g_021CF274     0x021CF274  data
- *   g_021CF28C     0x021CF28C  data
- *   g_021CF2A0     0x021CF2A0  data
+ *   ghiDeliverIncomingFileData  0x021C4B18  arm  ov114
+ *   sGhttpReadingFooter     0x021CF24C  data
+ *   sGhttpReadingByteChunk     0x021CF25C  data
+ *   sGhttpReadBytesOfChunk     0x021CF274  data
+ *   sGhttpReadChunkFooter     0x021CF28C  data
+ *   sGhttpFinishedReadingChunks     0x021CF2A0  data
  */
 
 typedef struct GHIConnection {
@@ -38,17 +38,17 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern char *func_02094A28(const char *s, int c);
-extern void func_021C4C00(GHIConnection *connection, char *data, int len);
-extern int func_021C4BD8(GHIConnection *connection);
+extern void ghiAppendToChunkHeaderBuffer(GHIConnection *connection, char *data, int len);
+extern int ghiParseChunkSize(GHIConnection *connection);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern int func_021C4B18(GHIConnection *connection, char *data, int len);
-extern char g_021CF24C[];
-extern char g_021CF25C[];
-extern char g_021CF274[];
-extern char g_021CF28C[];
-extern char g_021CF2A0[];
+extern int ghiDeliverIncomingFileData(GHIConnection *connection, char *data, int len);
+extern char sGhttpReadingFooter[];
+extern char sGhttpReadingByteChunk[];
+extern char sGhttpReadBytesOfChunk[];
+extern char sGhttpReadChunkFooter[];
+extern char sGhttpFinishedReadingChunks[];
 
-int func_021C4C50(GHIConnection *connection, char *data, int len)
+int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
 {
     char *endOfHeader;
     char *endOfFooter;
@@ -63,11 +63,11 @@ int func_021C4C50(GHIConnection *connection, char *data, int len)
                 endOfHeader = func_02094A28(data, '\n');
                 if (endOfHeader != 0)
                 {
-                    func_021C4C00(connection, data, endOfHeader - data);
+                    ghiAppendToChunkHeaderBuffer(connection, data, endOfHeader - data);
                     endOfHeader++;
                     len -= endOfHeader - data;
                     data = endOfHeader;
-                    connection->chunkBytesLeft = func_021C4BD8(connection);
+                    connection->chunkBytesLeft = ghiParseChunkSize(connection);
                     if (connection->chunkBytesLeft == -1)
                     {
                         connection->completed = 1;
@@ -77,17 +77,17 @@ int func_021C4C50(GHIConnection *connection, char *data, int len)
                     if (connection->chunkBytesLeft == 0)
                     {
                         connection->chunkReadingState = 3;
-                        func_0217D254(8, 0, 0x20, g_021CF24C);
+                        func_0217D254(8, 0, 0x20, sGhttpReadingFooter);
                     }
                     else
                     {
                         connection->chunkReadingState = 1;
-                        func_0217D254(8, 0, 0x20, g_021CF25C, connection->chunkBytesLeft);
+                        func_0217D254(8, 0, 0x20, sGhttpReadingByteChunk, connection->chunkBytesLeft);
                     }
                 }
                 else
                 {
-                    func_021C4C00(connection, data, len);
+                    ghiAppendToChunkHeaderBuffer(connection, data, len);
                     return 1;
                 }
             }
@@ -96,8 +96,8 @@ int func_021C4C50(GHIConnection *connection, char *data, int len)
                 toWrite = connection->chunkBytesLeft;
                 if (toWrite >= len)
                     toWrite = len;
-                func_0217D254(8, 0, 0x20, g_021CF274, toWrite);
-                if (!func_021C4B18(connection, data, toWrite))
+                func_0217D254(8, 0, 0x20, sGhttpReadBytesOfChunk, toWrite);
+                if (!ghiDeliverIncomingFileData(connection, data, toWrite))
                     return 0;
                 data += toWrite;
                 len -= toWrite;
@@ -117,12 +117,12 @@ int func_021C4C50(GHIConnection *connection, char *data, int len)
                 connection->chunkHeaderLen = 0;
                 connection->chunkBytesLeft = 0;
                 connection->chunkReadingState = 0;
-                func_0217D254(8, 0, 0x20, g_021CF28C);
+                func_0217D254(8, 0, 0x20, sGhttpReadChunkFooter);
             }
             else if (connection->chunkReadingState == 3)
             {
                 connection->completed = 1;
-                func_0217D254(8, 0, 0x20, g_021CF2A0);
+                func_0217D254(8, 0, 0x20, sGhttpFinishedReadingChunks);
                 return 1;
             }
             else
@@ -132,5 +132,5 @@ int func_021C4C50(GHIConnection *connection, char *data, int len)
         }
         return 1;
     }
-    return func_021C4B18(connection, data, len);
+    return ghiDeliverIncomingFileData(connection, data, len);
 }

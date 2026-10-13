@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB24
+ * function: incAscii
  * address:  0x021BAB24
  * packet:   pkt_021B9500
  * region:   ov114
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-char func_021BAB24(u8 c)
+char incAscii(u8 c)
 {
     c = (c + 1) & 0xff;
     if (c == 0x7b)

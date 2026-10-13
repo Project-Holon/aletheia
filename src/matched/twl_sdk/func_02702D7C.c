@@ -12,8 +12,8 @@
  * symbols:
  *   PM_GetExitFactor  0x0273153C  arm twl
  *   NWMi_GetSystemWork  0x027026DC  arm twl
- *   func_02087A04  0x02087A04  arm twl
- *   func_02088688  0x02088688  arm twl
+ *   OS_SpinWaitSysCycles  0x02087A04  arm twl
+ *   PXIi_HandlerRecvFifoNotEmpty  0x02088688  arm twl
  *   func_020862B8  0x020862B8  arm twl
  *   NWM_GetState  0x027028B0  arm twl
  *   NWMi_CheckState  0x027028E4  arm twl
@@ -34,8 +34,8 @@ extern void func_020862B8(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32);
 extern u32 PM_GetExitFactor(void);
-extern void func_02087A04(u32);
-extern void func_02088688(void);
+extern void OS_SpinWaitSysCycles(u32);
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
 extern u32 NWM_GetState(void);
 void NWMi_ForceUnloadDeviceCallback(void);
 extern u8 d_027341C8;
@@ -62,10 +62,10 @@ void NWMi_ForceExit(void) {
     if (base == 0) {
         return;
     }
-    func_02087A04(0x61a80);
+    OS_SpinWaitSysCycles(0x61a80);
     while ((flag_set(3) == 1 && NWM_GetState() == 1) || flag_set(1) == 1 || flag_set(0x13) == 1) {
-        func_02087A04(0x2710);
-        func_02088688();
+        OS_SpinWaitSysCycles(0x2710);
+        PXIi_HandlerRecvFifoNotEmpty();
     }
     if (NWMi_CheckState(4, 2, 3, 4, 5) != 0) {
         return;
@@ -73,8 +73,8 @@ void NWMi_ForceExit(void) {
     d_027341C8 = 0;
     NWMi_ForceUnloadDevice((u32)NWMi_ForceUnloadDeviceCallback);
     for (;;) {
-        func_02087A04(0x2710);
-        func_02088688();
+        OS_SpinWaitSysCycles(0x2710);
+        PXIi_HandlerRecvFifoNotEmpty();
         timeout -= 0x2710;
         if (timeout < 0) {
             return;

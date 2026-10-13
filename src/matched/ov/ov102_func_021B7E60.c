@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E60
+ * function: IRC_COMPATIBLE_MENU_PrintMessageCentered
  * address: 0x021B7E60
  * packet: pkt_ov102_021B7E60
  * region: ov102
@@ -9,9 +9,9 @@
  * status: EXACT
  * lever: halve before casting to u16, keeping the seventeenth input bit.
  * symbols:
- *   func_021B7CC4 0x021B7CC4 thumb ov102
- *   func_021B7CC0 0x021B7CC0 thumb ov102
- *   func_021B7CBC 0x021B7CBC thumb ov102
+ *   IRC_COMPATIBLE_MENU_TextGetMsgData 0x021B7CC4 thumb ov102
+ *   IRC_COMPATIBLE_MENU_TextGetPrintQueue 0x021B7CC0 thumb ov102
+ *   IRC_COMPATIBLE_MENU_TextGetFont 0x021B7CBC thumb ov102
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
@@ -26,9 +26,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
-extern int func_021B7CC4(void *);
-extern int func_021B7CC0(void *);
-extern int func_021B7CBC(void *);
+extern int IRC_COMPATIBLE_MENU_TextGetMsgData(void *);
+extern int IRC_COMPATIBLE_MENU_TextGetPrintQueue(void *);
+extern int IRC_COMPATIBLE_MENU_TextGetFont(void *);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef unsigned int   u32;
@@ -44,13 +44,13 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void func_021B7E60(u8 *p, void *q, int n)
+void IRC_COMPATIBLE_MENU_PrintMessageCentered(u8 *p, void *q, int n)
 {
     int a, b, c;
     u16 x, y;
-    a = func_021B7CC4(q);
-    b = func_021B7CC0(q);
-    c = func_021B7CBC(q);
+    a = IRC_COMPATIBLE_MENU_TextGetMsgData(q);
+    b = IRC_COMPATIBLE_MENU_TextGetPrintQueue(q);
+    c = IRC_COMPATIBLE_MENU_TextGetFont(q);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02809 *)p)->f0)), ((struct Obj02809 *)p)->f10);
     MSGDATA_ReadString((struct MsgBank *)a, n, (void *)(((struct Obj02809 *)p)->fC));
     x = BMP_WIN_GetWidth((struct Descriptor *)(((struct Obj02809 *)p)->f0)) * 4;

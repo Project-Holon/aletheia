@@ -12,9 +12,9 @@
  * sdk:      GHTTPCompletedCallback (dwc_ghttp.o)
  *
  * symbols:
- *   func_021BF8C0  0x021BF8C0  arm  ov114
+ *   DWCi_HandleGHTTPError  0x021BF8C0  arm  ov114
  *   DWC_Free       0x0205A1B0  arm
- *   func_021BFA70  0x021BFA70  arm  ov114
+ *   DWCi_RemoveDWCGHTTPParamEntry  0x021BFA70  arm  ov114
  */
 
 typedef void (*CompletedCallback)(char *buffer, int bufferLen, int result, void *param);
@@ -26,10 +26,10 @@ typedef struct Entry {
     int buffer_clear;
     void *data;
 } Entry;
-extern int func_021BF8C0(int result);
+extern int DWCi_HandleGHTTPError(int result);
 extern void DWC_Free(int name, void *ptr, int size);
 struct Node;
-extern void func_021BFA70(struct Node *x);
+extern void DWCi_RemoveDWCGHTTPParamEntry(struct Node *x);
 
 int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param)
 {
@@ -46,7 +46,7 @@ int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *pa
         } else if (result == 0x12) {
             callback(0, 0, result, parameter->param);
         } else {
-            func_021BF8C0(result);
+            DWCi_HandleGHTTPError(result);
             callback(0, 0, result, parameter->param);
         }
     }
@@ -57,6 +57,6 @@ int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *pa
             DWC_Free(6, parameter->data, 0);
         }
     }
-    func_021BFA70((struct Node *)parameter);
+    DWCi_RemoveDWCGHTTPParamEntry((struct Node *)parameter);
     return buffer_clear != 0;
 }

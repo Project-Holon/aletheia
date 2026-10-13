@@ -1,5 +1,5 @@
 /*
- * function: func_02176AA8
+ * function: DWCi_SetMatchmakeProfileId
  * address:  0x02176AA8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-void func_02176AA8(int v)
+void DWCi_SetMatchmakeProfileId(int v)
 {
     *(int *)(func_02175F3C() + 0x678) = v;
 }

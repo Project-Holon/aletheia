@@ -12,45 +12,45 @@
  * sdk:      endScene (libdwcutil.TWL.HYB.a(sceneend.o))
  *
  * symbols:
- *   func_021D5580  0x021D5580  arm  ov016
- *   func_021D7794  0x021D7794  arm  ov016
- *   func_021D52B0  0x021D52B0  arm  ov016
- *   func_021BD660  0x021BD660  arm  ov016
- *   func_021BD404  0x021BD404  arm  ov016
- *   func_021C1004  0x021C1004  arm  ov016
- *   func_021C0F98  0x021C0F98  arm  ov016
- *   func_021CF3F0  0x021CF3F0  arm  ov016
- *   func_021C0F0C  0x021C0F0C  arm  ov016
- *   g_021DE598  0x021DE598  data
+ *   DWCi_EFFlCheck  0x021D5580  arm  ov016
+ *   DWCi_TSKlOperate  0x021D7794  arm  ov016
+ *   DWCi_CEINlRelease  0x021D52B0  arm  ov016
+ *   DWCi_HLlEnd  0x021BD660  arm  ov016
+ *   DWCi_FOCUSlEnd  0x021BD404  arm  ov016
+ *   DWCi_MSGlRelease  0x021C1004  arm  ov016
+ *   DWCi_MSGlEnd  0x021C0F98  arm  ov016
+ *   DWCi_SETTIGNlEnd  0x021CF3F0  arm  ov016
+ *   DWCi_EndUtility  0x021C0F0C  arm  ov016
+ *   gCommentWork  0x021DE598  data
  */
 
-extern int func_021D5580(int lcd);
+extern int DWCi_EFFlCheck(int lcd);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021D7794(u32 index, u8 val);
-extern void func_021D52B0(int lcd);
-extern void func_021BD660(void);
-extern void func_021BD404(void);
-extern void func_021C1004(void *msg);
-extern void func_021C0F98(void);
-extern void func_021CF3F0(void);
-extern void func_021C0F0C(void);
-extern void *g_021DE598;
+extern void DWCi_TSKlOperate(u32 index, u8 val);
+extern void DWCi_CEINlRelease(int lcd);
+extern void DWCi_HLlEnd(void);
+extern void DWCi_FOCUSlEnd(void);
+extern void DWCi_MSGlRelease(void *msg);
+extern void DWCi_MSGlEnd(void);
+extern void DWCi_SETTIGNlEnd(void);
+extern void DWCi_EndUtility(void);
+extern void *gCommentWork;
 
 void func_021C1678(void)
 {
-	if (func_021D5580(1))
+	if (DWCi_EFFlCheck(1))
 		return;
-	if (func_021D5580(0))
+	if (DWCi_EFFlCheck(0))
 		return;
-	func_021D7794(0, 0);
-	func_021D7794(1, 0);
-	func_021D52B0(1);
-	func_021D52B0(0);
-	func_021BD660();
-	func_021BD404();
-	func_021C1004(g_021DE598);
-	func_021C0F98();
-	func_021CF3F0();
-	func_021C0F0C();
+	DWCi_TSKlOperate(0, 0);
+	DWCi_TSKlOperate(1, 0);
+	DWCi_CEINlRelease(1);
+	DWCi_CEINlRelease(0);
+	DWCi_HLlEnd();
+	DWCi_FOCUSlEnd();
+	DWCi_MSGlRelease(gCommentWork);
+	DWCi_MSGlEnd();
+	DWCi_SETTIGNlEnd();
+	DWCi_EndUtility();
 }

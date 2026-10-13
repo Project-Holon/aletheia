@@ -20,7 +20,7 @@
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
 void func_021BD4F4(u8 *p, u32 idx)
@@ -78,7 +78,7 @@ void func_021BD4F4(u8 *p, u32 idx)
         do {
             for (i = 0; i < w; i++) {
                 u16 c = *(u16 *)(row + (y + j) * 64 + i * 2);
-                func_02082A90(gfx + (c & 0x3FF) * 32, dst + (i + j * w) * 32, 0x20);
+                MIi_CpuCopy32(gfx + (c & 0x3FF) * 32, dst + (i + j * w) * 32, 0x20);
             }
             j++;
         } while (j < h);

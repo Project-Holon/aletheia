@@ -25,7 +25,7 @@
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   func_02040588  0x02040588  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02030734  0x02030734  arm
@@ -75,8 +75,8 @@
  *   KEY_GetCont  0x0203630C  arm
  *   d_0689E090     0x0689E090  data   ov095
  *   d_0689E0B0     0x0689E0B0  data   ov095
- *   d_0689E560     0x0689E560  data   ov095
- *   d_0689E704     0x0689E704  data   ov095
+ *   gBtlvScdTargetRegionsSingleB     0x0689E560  data   ov095
+ *   gBtlvScdTargetRegionsDoubleB     0x0689E704  data   ov095
  *   d_0220A598     0x0220A598  data   a4
  *   BTLV_FINGER_CURSOR_Create  0x02209A7C  thumb  ov094
  *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
@@ -90,7 +90,7 @@
  *   func_020498F4 0x020498F4 arm
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   PALANM_GetDefaultWork 0x02021728 thumb
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_020275E4 0x020275E4 thumb
  *   func_020275FC 0x020275FC thumb
@@ -173,6 +173,7 @@
  *   func_021F8A78 0x021F8A78 thumb ov094
  *   func_021F8AC0 0x021F8AC0 thumb ov094
  *   func_022005C4 0x022005C4 thumb ov094
+ *   FX_ModS32  0x0207C994  arm  arm9
  */
 #include "../../matched/include/Obj00083.h"
 #include "../../matched/include/Obj01049.h"
@@ -1276,9 +1277,9 @@ extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern u32 KEY_GetTrg(void);
 
@@ -1404,7 +1405,7 @@ extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, 
 
 extern int PALANM_GetDefaultWork(char *p, int i);
 
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 
 extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
@@ -1430,7 +1431,7 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-extern int func_0207C994(int n, int d);
+extern int FX_ModS32(int n, int d);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -1748,9 +1749,9 @@ extern u8 d_0689E090[][15];
 
 extern u8 d_0689E0B0[][15];
 
-extern Ent_v1DA0 *d_0689E560[][15];
+extern Ent_v1DA0 *gBtlvScdTargetRegionsSingleB[][15];
 
-extern Ent_v1DA0 *d_0689E704[][15];
+extern Ent_v1DA0 *gBtlvScdTargetRegionsDoubleB[][15];
 
 extern const Tbl_v1DA0 d_0220A598;
 
@@ -2296,9 +2297,9 @@ int func_02202DC4(Obj_v1DA0 *o, Cmd *c, int x)
                     else
                         cnt = d_0689E0B0[o->cur][o->sel];
                     if (o->f50 != 2)
-                        e = d_0689E560[o->cur][o->sel];
+                        e = gBtlvScdTargetRegionsSingleB[o->cur][o->sel];
                     else
-                        e = d_0689E704[o->cur][o->sel];
+                        e = gBtlvScdTargetRegionsDoubleB[o->cur][o->sel];
                     for (i = 0; i < cnt; i++) {
                         if (r == e[i].id) {
                             idx = i;
@@ -2453,7 +2454,7 @@ void func_022033F4(Main_022033F4 *m)
     func_020498F4(m->f48, 0x72, 7, 0, 0, 0, m->heap);
     PALANM_LoadHandlePaletteToSlot(m->pal, m->f48, 0x5c, m->heap, 1, 0x1e0, 0);
     if (m->f23c == 1)
-        func_02082A60((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
+        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
     m->h104 = CLACT_RegisterCharacter(m->f48, 0x73, 0, 1, m->heap);
     m->h10c = CLACT_RegisterCellAnim(m->f48, 0x75, 0x76, m->heap);
     m->h108 = CLACT_RegisterPalette(m->f48, 0x74, 1, 0, m->heap);
@@ -2943,7 +2944,7 @@ void func_022042E4(void *h, void *arg)
 
 void func_022043AC(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((struct Obj21763 *)p)->f68 &= ~1;
 }
 
@@ -2981,7 +2982,7 @@ void func_02204438(void *a0, void *arg)
 
 void func_022044A0(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_022044A0 *)(p + 0x68))->n--;
 }
 
@@ -3019,7 +3020,7 @@ void func_0220453C(void *a0, void *arg)
 
 void func_02204588(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_02204588 *)(p + 0x68))->n--;
 }
 
@@ -3059,7 +3060,7 @@ void func_0220461C(void *a0, void *arg)
 
 void func_02204678(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_02204678 *)(p + 0x68))->n--;
 }
 
@@ -3111,7 +3112,7 @@ void func_022047CC(void *a, void *arg)
 
 void func_022047F8(void *h)
 {
-    Ctx_022047F8 *c = (Ctx_022047F8 *)TCBL_IsDeletePending(h);
+    Ctx_022047F8 *c = (Ctx_022047F8 *)TCBL_GetTaskUserData(h);
     int i;
 
     for (i = 0; i < 6; i++) {
@@ -3173,7 +3174,7 @@ void func_022048A4(void *a0, void *arg)
 
 void func_02204940(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_02204940 *)(p + 0x68))->n--;
 }
 
@@ -3231,7 +3232,7 @@ void func_02204A3C(void *a, void *arg)
 
 void func_02204A70(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_02204A70 *)(p + 0x68))->mode = 0;
 }
 
@@ -3254,7 +3255,7 @@ void func_02204A88(void *a0, void *arg)
 
 void func_02204AEC(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetTaskUserData(h));
     ((Bits_02204AEC *)(p + 0x68))->n--;
 }
 
@@ -3362,7 +3363,7 @@ void func_02204C98(struct StrObj *a, int b, int *outn, int *outq)
 {
     int n = func_0201D304(a, b, 0);
     int q = n / 8;
-    if (func_0207C994(n, 8) != 0)
+    if (FX_ModS32(n, 8) != 0)
         q++;
     *outn = n;
     *outq = q;
@@ -3584,7 +3585,7 @@ void func_02204CC0(Work_v3E30 *p, const Slots *q)
             CLACT_SetActorPaletteOffset(p->obj[i], func_020275EC((u8)k), 1);
             CLACT_GetActorImageProxy(p->obj[i], (struct Struct36 *)(&buf));
             vram = VRAM_BASE;
-            func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
+            MIi_CpuCopy16(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
             GF_FONT_SetTextColor(1, 2, 0);
@@ -4132,9 +4133,9 @@ void func_02205F88(char *p)
     CLACT_GetActorImageProxy(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
-        func_02082A60(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);
-        func_02082A60(pixels + (i * 0x1c0 + 0x100), (void *)(vram + (i * 4 + 0xed) * 32 + buf.w[2]), 0x80);
-        func_02082A60(pixels + (i * 0x1c0 + 0x180), (void *)(vram + (i * 2 + 0xfd) * 32 + buf.w[2]), 0x40);
+        MIi_CpuCopy16(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);
+        MIi_CpuCopy16(pixels + (i * 0x1c0 + 0x100), (void *)(vram + (i * 4 + 0xed) * 32 + buf.w[2]), 0x80);
+        MIi_CpuCopy16(pixels + (i * 0x1c0 + 0x180), (void *)(vram + (i * 2 + 0xfd) * 32 + buf.w[2]), 0x40);
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);
@@ -4415,7 +4416,7 @@ void func_0220663C(void *task, void *arg)
 
 void func_02206710(void *h)
 {
-    (*(W_02206710 * *)TCBL_IsDeletePending((struct S02030EE8 *)h))->f68 &= 0x7fffffff;
+    (*(W_02206710 * *)TCBL_GetTaskUserData((struct S02030EE8 *)h))->f68 &= 0x7fffffff;
 }
 
 void func_02206728(char *s, char *b)
@@ -4492,7 +4493,7 @@ void func_0220687C(char *p, void *q)
     int off;
 
     if (q != 0) {
-        void *r = (void *)(W_02206710 * *)TCBL_IsDeletePending((struct S02030EE8 *)q);
+        void *r = (void *)(W_02206710 * *)TCBL_GetTaskUserData((struct S02030EE8 *)q);
         char *t = p + 0x28;
         void (*cb)(void *);
 

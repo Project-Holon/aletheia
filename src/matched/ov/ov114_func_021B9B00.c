@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B00
+ * function: NHTTP_RAP_InitTrainerInfo
  * address:  0x021B9B00
  * packet:   pkt_021B9500
  * region:   ov114
@@ -28,7 +28,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern const void *func_020084F4(const void *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 
-void func_021B9B00(u8 *p, int a)
+void NHTTP_RAP_InitTrainerInfo(u8 *p, int a)
 {
     MI_CpuFill8((int)p, 0, 0x64);
     p[0] = 0x15;

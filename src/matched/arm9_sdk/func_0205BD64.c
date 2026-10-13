@@ -1,5 +1,5 @@
 /*
- * function: func_0205BD64
+ * function: DWC_AC_GetStatus
  * address:  0x0205BD64
  * packet:   pkt_0205BD64
  * region:   arm9
@@ -22,7 +22,7 @@ typedef int BOOL;
 extern u8 DWCi_AC_GetPhase(void);
 extern int DWCi_AC_GetResult(void);
 
-int func_0205BD64(void)
+int DWC_AC_GetStatus(void)
 {
     u8 phase = DWCi_AC_GetPhase();
 

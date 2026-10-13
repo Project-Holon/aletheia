@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02034714  0x02034714  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   COMM_ENTRY_MENU_AddMember  0x021CD624  thumb  ov021
  */
@@ -25,7 +25,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void COMM_ENTRY_MENU_AddMember(u8 *p, int i, u32 a, u32 b, void *c);
 
@@ -41,6 +41,6 @@ void UNION_COMMAND_RecvColosseumEntry(int a, int x, u8 *b, u8 *p)
         func_02034714((void *)0x02175624, 0, (void *)0x02175624);
         return;
     }
-    func_02087C6C(buf);
+    OS_GetMacAddress(buf);
     COMM_ENTRY_MENU_AddMember((u8 *)r4[0x5a], a, (int)GAME_DATA_GetMyStatus((void *)r7), b[0x27], buf);
 }

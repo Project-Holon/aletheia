@@ -1,5 +1,5 @@
 /*
- * function: func_021B6578
+ * function: PDC_MAIN_StepChooseItem
  * address: 0x021B6578
  * packet: pkt_ov098_021B6578
  * region: ov098
@@ -66,14 +66,14 @@
  * symbols:
  *   ov196_id 0x000000C4 data
  *   ov197_id 0x000000C5 data
- *   func_021B614C 0x021B614C thumb ov098
- *   func_021B6140 0x021B6140 thumb ov098
- *   func_021B6364 0x021B6364 thumb ov098
- *   func_021B6504 0x021B6504 thumb ov098
- *   func_021B6988 0x021B6988 thumb ov098
- *   PDC_MSG_PrintMessageA 0x021B69C4 thumb ov098
- *   func_021B6A3C 0x021B6A3C thumb ov098
- *   func_021B6B74 0x021B6B74 thumb ov098
+ *   PDC_GetMyItem 0x021B614C thumb ov098
+ *   PDC_GetMon 0x021B6140 thumb ov098
+ *   PDC_MAIN_SetStep 0x021B6364 thumb ov098
+ *   PDC_MAIN_StepConfirm 0x021B6504 thumb ov098
+ *   PDC_MSG_PrintMessage1 0x021B6988 thumb ov098
+ *   PDC_MSG_PrintMessage2 0x021B69C4 thumb ov098
+ *   PDC_MSG_Update 0x021B6A3C thumb ov098
+ *   PDC_MSG_TakeStreamEnded 0x021B6B74 thumb ov098
  *   func_022025D8 0x022025D8 thumb ov094
  *   func_022026FC 0x022026FC thumb ov094
  *   func_0220266C 0x0220266C thumb ov094
@@ -107,14 +107,14 @@ extern char ov196_id[], ov197_id[];
 typedef signed int     s32;
 struct Obj;
 struct W;
-extern int func_021B614C(int *p);
-extern int func_021B6140(void *);
-extern void func_021B6364(u8 *, u32);
-extern int func_021B6504(char *);
-extern void func_021B6988(int, int);
-extern void PDC_MSG_PrintMessageA(int, int);
-extern int func_021B6A3C(u8 *);
-extern int func_021B6B74(u8 *);
+extern int PDC_GetMyItem(int *p);
+extern int PDC_GetMon(void *);
+extern void PDC_MAIN_SetStep(u8 *, u32);
+extern int PDC_MAIN_StepConfirm(char *);
+extern void PDC_MSG_PrintMessage1(int, int);
+extern void PDC_MSG_PrintMessage2(int, int);
+extern int PDC_MSG_Update(u8 *);
+extern int PDC_MSG_TakeStreamEnded(u8 *);
 extern void func_022025D8(char *, int);
 extern int func_022026FC(struct W *p);
 extern void func_0220266C(struct Obj *p);
@@ -133,12 +133,12 @@ extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
 extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
-int func_021B6578(struct P *p)
+int PDC_MAIN_StepChooseItem(struct P *p)
 {
     u32 t;
     switch (p->state) {
     case 0:
-        p->b1c = func_021B614C(p->parent);
+        p->b1c = PDC_GetMyItem(p->parent);
         p->w38 = p->w70;
         p->w24 = 3;
         p->w20 = p->w08;
@@ -165,35 +165,35 @@ int func_021B6578(struct P *p)
             func_0220266C((struct Obj *)p->window);
             if (p->h32 == 0) p->state = 3;
             else {
-                func_02007F1C((u8 *)func_021B614C(p->parent), p->h32, 1, p->heap);
+                func_02007F1C((u8 *)PDC_GetMyItem(p->parent), p->h32, 1, p->heap);
                 p->state = 4;
             }
         }
         break;
     case 3:
-        if (!func_022026FC((struct W *)p->window)) func_021B6364((u8 *)p, (u32)func_021B6504);
+        if (!func_022026FC((struct W *)p->window)) PDC_MAIN_SetStep((u8 *)p, (u32)PDC_MAIN_StepConfirm);
         break;
     case 4:
         if (!func_022026FC((struct W *)p->window)) {
-            func_021B6988((int)p->object, (int)p->parent);
+            PDC_MSG_PrintMessage1((int)p->object, (int)p->parent);
             (p->state)++;
         }
         break;
     case 5:
-        if (func_021B6A3C(p->object)) {
+        if (PDC_MSG_Update(p->object)) {
             func_021F7CFC(1, p->h32, 4, 1, 0);
             (p->state)++;
         }
         break;
     case 6:
         if (!func_021F7EB4()) {
-            PDC_MSG_PrintMessageA((int)p->object, (int)p->parent);
+            PDC_MSG_PrintMessage2((int)p->object, (int)p->parent);
             (p->state)++;
         }
         break;
     case 7:
-        if (func_021B6B74(p->object)) GFL_USE_CancelChangeAndPlayBgm(0x518, 0xffff);
-        if (func_021B6A3C(p->object)) (p->state)++;
+        if (PDC_MSG_TakeStreamEnded(p->object)) GFL_USE_CancelChangeAndPlayBgm(0x518, 0xffff);
+        if (PDC_MSG_Update(p->object)) (p->state)++;
         break;
     case 8:
         if (!GFL_USE_IsBgmPlaying()) {
@@ -216,7 +216,7 @@ int func_021B6578(struct P *p)
     case 11:
         if (!FADE_IsActive()) {
             t = PALANM_GetPairedCodeForFirst(p->h32);
-            POKE_TOOL_SetPartyValue((void *)func_021B6140(p->parent), 152, t);
+            POKE_TOOL_SetPartyValue((void *)PDC_GetMon(p->parent), 152, t);
             return 1;
         }
         break;

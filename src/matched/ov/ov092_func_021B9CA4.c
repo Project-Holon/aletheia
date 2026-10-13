@@ -13,8 +13,8 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  */
 
 typedef unsigned char u8;
@@ -30,8 +30,8 @@ extern u32 POKEPARTY_GetCount(void *party);
 struct Blk37;
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 
 void EVENT_BATTLE_RETURN_RegisterShayminForms(struct S *s, void *party)
 {
@@ -47,7 +47,7 @@ void EVENT_BATTLE_RETURN_RegisterShayminForms(struct S *s, void *party)
             if (s->f04[0xc2 + i] != 0) {
                 mon = POKEPARTY_GetMember(party, i);
                 if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1ec) {
-                    func_0200CFA0(func_0200CA1C((void *)s->f00), mon);
+                    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData((void *)s->f00), mon);
                 }
             }
         }

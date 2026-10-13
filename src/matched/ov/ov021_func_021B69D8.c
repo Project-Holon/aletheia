@@ -15,7 +15,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   FIELD_CLOCK_GetDate  0x021690A4  thumb  ov010
- *   func_02087C88  0x02087C88  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_0200A940  0x0200A940  thumb
  *   func_0200A8F8  0x0200A8F8  thumb
  *   func_0200A8C8  0x0200A8C8  thumb
@@ -51,7 +51,7 @@ struct Entry;
 struct Strbuf;
 extern void *FIELD_CLOCK_GetDate(int a0);
 struct OSOwnerInfo;
-extern void func_02087C88(struct OSOwnerInfo *info);
+extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern int func_0200A940(void *, int, int, void *);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
@@ -76,7 +76,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(void *a, void *b)
 
     r4 = func_0200A8A0(GAME_DATA_GetSaveControl(r5));
     r5 = FIELD_CLOCK_GetDate((int)r5);
-    func_02087C88((struct OSOwnerInfo *)(&o));
+    OS_GetOwnerInfo((struct OSOwnerInfo *)(&o));
     r6 = func_0200A940(r4, o.month, o.day, r5);
     fl = func_0200A8F8(r4, r6);
     fl = fl != 1;

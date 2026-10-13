@@ -1,5 +1,5 @@
 /*
- * function: func_021B8690
+ * function: IRC_RANKING_ListScrollTask
  * address: 0x021B8690
  * packet: pkt_ov106_021B8690
  * region: ov106
@@ -15,21 +15,21 @@
  * this caller supplies only three inputs, so the unused fourth is omitted.
  *
  * symbols:
- *   func_021B8648 0x021B8648 thumb ov106
+ *   IRC_RANKING_ListTransferWindows 0x021B8648 thumb ov106
  *   func_02040618 0x02040618 arm
  */
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_021B8648(u8 *);
+extern void IRC_RANKING_ListTransferWindows(u8 *);
 extern void func_02040618(u32, u32, u32);
 #define H(o) (*(s16 *)(p + (o)))
 #define W(o) (*(u32 *)(p + (o)))
-void func_021B8690(void *unused, u8 *p)
+void IRC_RANKING_ListScrollTask(void *unused, u8 *p)
 {
     s16 step, x, y;
     if (W(0x590)) {
-        func_021B8648(p);
+        IRC_RANKING_ListTransferWindows(p);
         W(0x590) = 0;
         W(0x598) = 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C4C
+ * function: WIFICLUBACTOR_ProcessSpawnCommands
  * address:  0x021B9C4C
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 extern int func_021C5370(void *a, void *b, const u8 *desc, int *out);
 extern void func_021C48D4(void *a, u8 *q);
 
-void func_021B9C4C(Work *w)
+void WIFICLUBACTOR_ProcessSpawnCommands(Work *w)
 {
     int a;
     int b[2];

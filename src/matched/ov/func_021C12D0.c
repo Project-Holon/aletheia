@@ -1,5 +1,5 @@
 /*
- * function: func_021C12D0
+ * function: WIFICLUB_RecvSceneResult
  * address:  0x021C12D0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -24,7 +24,7 @@ typedef int BOOL;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-void func_021C12D0(int a, int b, int c, u8 *d, int e)
+void WIFICLUB_RecvSceneResult(int a, int b, int c, u8 *d, int e)
 {
     if ((int)GFL_NET_HANDLE_GetCurrentHandle() == e) {
         d[0x1355] = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FC8
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExitText
  * address: 0x021B7FC8
  * packet: pkt_ov103_021B7FC8
  * region: ov103
@@ -20,4 +20,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p); extern void MSGDATA_Delete(void *); extern void PRINTSYS_QUE_Delete(void *); extern void GF_FONT_Delete(void *); extern void MI_CpuFill8(void *,int,u32);
-void func_021B7FC8(u8 *p) {func_0201ED04(((struct Obj07982 *)p)->fC);MSGDATA_Delete(((struct Obj07982 *)p)->f4);PRINTSYS_QUE_Delete(((struct Obj07982 *)p)->f8);GF_FONT_Delete(((struct Obj07982 *)p)->f0);MI_CpuFill8(p,0,16);}
+void IRC_COMPATIBLE_TOUCH_TEST_ExitText(u8 *p) {func_0201ED04(((struct Obj07982 *)p)->fC);MSGDATA_Delete(((struct Obj07982 *)p)->f4);PRINTSYS_QUE_Delete(((struct Obj07982 *)p)->f8);GF_FONT_Delete(((struct Obj07982 *)p)->f0);MI_CpuFill8(p,0,16);}

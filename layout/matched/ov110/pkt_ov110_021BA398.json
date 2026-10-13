@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA398",
+   "name": "PMS_INPUT_VIEW_TaskRefreshCategory",
    "address": "0x021BA398",
    "kind": "game",
    "region": "ov110",

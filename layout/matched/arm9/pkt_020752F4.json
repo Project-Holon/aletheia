@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020752F4",
+   "name": "NNSi_SndArcDisposeWave",
    "address": "0x020752F4",
    "kind": "game",
    "region": "arm9",

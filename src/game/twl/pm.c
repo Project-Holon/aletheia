@@ -17,6 +17,10 @@
  *   MI_StopNDma  0x0272FCE0  arm
  *   MI_StopAllNDma  0x0272FD18  arm
  *   OSi_DisableInterruptsAndHalt  0x020882C0  arm  arm9
+ *   GX_DispOff  0x0207D42C  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -52,11 +56,11 @@ extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern u32 data_02732FA8;
 extern void func_02084AB0(int a0, volatile u8 *p);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32 state);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32 state);
 extern void func_0208C6FC(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
-extern void func_0207D42C(void);
-extern void func_02087A04(u32 n);
+extern void GX_DispOff(void);
+extern void OS_SpinWaitSysCycles(u32 n);
 extern void func_02082658(void);
 extern void MI_StopAllNDma(void);
 extern void OSi_DisableInterruptsAndHalt(void);
@@ -128,7 +132,7 @@ void PMi_FinalizeDebugger(void)
     *(volatile u8 *)0x02FFFFF4 = 0;
     func_02084AB0(0, a);
     func_02084AB0(1, a);
-    func_02087988();
+    OS_DisableInterrupts();
     *(volatile u8 *)0x02FFFFF4 = 1;
 }
 
@@ -177,13 +181,13 @@ void PMi_CallPostExitCallbackAndReset(int flag)
     u16 buf;
 
     PMi_ExecuteList(PMi_PostExitCallbackList);
-    func_0207D42C();
+    GX_DispOff();
     *(volatile u32 *)0x04001000 &= ~0x10000;
     *(volatile u16 *)0x04000204 |= 0x8000;
     for (i = 0; i < 3; i++) {
         u32 t = *(volatile u32 *)0x02FFFC3C;
         while (t == *(volatile u32 *)0x02FFFC3C)
-            func_02087A04(0x32);
+            OS_SpinWaitSysCycles(0x32);
     }
     sel = (flag != 0);
     for (;;) {
@@ -194,14 +198,14 @@ void PMi_CallPostExitCallbackAndReset(int flag)
         }
         if (func_0208BC8C(cmd, 0, &buf) != 0) {
             do {
-                func_02087A04(0x51D23);
+                OS_SpinWaitSysCycles(0x51D23);
             } while (func_0208BC8C(cmd, 0, &buf) != 0);
         }
         if (buf == 0)
             break;
-        func_02087A04(0x51D23);
+        OS_SpinWaitSysCycles(0x51D23);
     }
-    func_02087988();
+    OS_DisableInterrupts();
     func_02082658();
     MI_StopAllNDma();
     PMi_FinalizeDebugger();
@@ -210,12 +214,12 @@ void PMi_CallPostExitCallbackAndReset(int flag)
 
 int PMi_TryLockForReset(void)
 {
-    u32 state = func_02087988();
+    u32 state = OS_DisableInterrupts();
     if (data_02732FA8 != 0) {
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         return 0;
     }
     data_02732FA8 = 1;
-    func_0208799C(state);
+    OS_RestoreInterrupts(state);
     return 1;
 }

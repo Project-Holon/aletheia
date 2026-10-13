@@ -24,10 +24,10 @@
  *   NHTTPi_encodeUrlChar             0x021ba2d0 arm
  *   NHTTPi_SendPostData              0x021bc160 arm
  *   STR_POST_TYPE_URLENCODE          0x021ce034 data
- *   g_021CE4B4                       0x021ce4b4 data
- *   g_021CE440                       0x021ce440 data
- *   g_021CE4D4                       0x021ce4d4 data
- *   g_021CE4D8                       0x021ce4d8 data
+ *   sNHTTPContentLengthHeader                       0x021ce4b4 data
+ *   sNHTTPCrLf                       0x021ce440 data
+ *   sNHTTPEquals                       0x021ce4d4 data
+ *   sNHTTPAmpersand                       0x021ce4d8 data
  */
 
 typedef unsigned long u32;
@@ -71,10 +71,10 @@ typedef struct {
 } BgnEnd;
 
 extern char STR_POST_TYPE_URLENCODE[];
-extern char g_021CE4B4[];
-extern char g_021CE440[];
-extern char g_021CE4D4[];
-extern char g_021CE4D8[];
+extern char sNHTTPContentLengthHeader[];
+extern char sNHTTPCrLf[];
+extern char sNHTTPEquals[];
+extern char sNHTTPAmpersand[];
 
 extern void *NHTTPi_GetSystemInfoP(void);
 extern void *NHTTPi_GetMutexInfoP(void *sysInfo_p);
@@ -135,7 +135,7 @@ static int NHTTPi_SendProcPostDataAscii(ThreadData *threadData_p)
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE4B4, 0x10);
+    result = NHTTPi_SendData(threadData_p, sNHTTPContentLengthHeader, 0x10);
     if (result != 0) {
         return result;
     }
@@ -143,11 +143,11 @@ static int NHTTPi_SendProcPostDataAscii(ThreadData *threadData_p)
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
-    result = NHTTPi_SendData(threadData_p, g_021CE440, 2);
+    result = NHTTPi_SendData(threadData_p, sNHTTPCrLf, 2);
     if (result != 0) {
         return result;
     }
@@ -161,7 +161,7 @@ static int NHTTPi_SendProcPostDataAscii(ThreadData *threadData_p)
                     return result;
                 }
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE4D4, 1);
+            result = NHTTPi_SendData(threadData_p, sNHTTPEquals, 1);
             if (result != 0) {
                 return result;
             }
@@ -182,7 +182,7 @@ static int NHTTPi_SendProcPostDataAscii(ThreadData *threadData_p)
             if (datalist_p == req_p->datalist_p->head) {
                 break;
             }
-            result = NHTTPi_SendData(threadData_p, g_021CE4D8, 1);
+            result = NHTTPi_SendData(threadData_p, sNHTTPAmpersand, 1);
             if (result != 0) {
                 return result;
             }

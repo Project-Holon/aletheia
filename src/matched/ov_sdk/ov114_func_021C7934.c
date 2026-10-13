@@ -1,5 +1,5 @@
 /*
- * function: func_021C7934
+ * function: DWCi_Ndi_prepareHttpCallback
  * address:  0x021C7934
  * packet:   pkt_ov114_021C7934
  * region:   ov114
@@ -14,22 +14,22 @@
  * symbols:
  *   func_02086028  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   g_021D3C20  0x021D3C20  data
- *   g_021D3B9C  0x021D3B9C  data
+ *   gDwciNdHttpMutex  0x021D3C20  data
+ *   gDwciNdStatics  0x021D3B9C  data
  */
 
 extern void func_02086028(void *m);
 extern void func_02086078(void *m);
-extern char g_021D3C20[];
-extern int g_021D3B9C[];
+extern char gDwciNdHttpMutex[];
+extern int gDwciNdStatics[];
 
-int func_021C7934(void)
+int DWCi_Ndi_prepareHttpCallback(void)
 {
 	int rc;
-	func_02086028(g_021D3C20);
-	rc = (g_021D3B9C[8] == 0);
+	func_02086028(gDwciNdHttpMutex);
+	rc = (gDwciNdStatics[8] == 0);
 	if (rc)
-		g_021D3B9C[8] = 1;
-	func_02086078(g_021D3C20);
+		gDwciNdStatics[8] = 1;
+	func_02086078(gDwciNdHttpMutex);
 	return rc;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C8DA0
+ * function: DPW_TR_GetServerStateAsync
  * address: 0x021C8DA0
  * packet: pkt_ov114_021C8DA0
  * region: ov114
@@ -8,32 +8,32 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021D3D28 0x021D3D28 data a4
- *   d_021D3D2C 0x021D3D2C data a4
- *   d_021CF538 0x021CF538 data a4
- *   d_021CF69C 0x021CF69C data a4
- *   d_021D3D40 0x021D3D40 data a4
- *   func_021C9EE4 0x021C9EE4 arm ov114
- *   func_021CA470 0x021CA470 arm ov114
- *   func_021CA1B4 0x021CA1B4 arm ov114
+ *   gDpwTrServerIndex 0x021D3D28 data a4
+ *   gDpwTrWork 0x021D3D2C data a4
+ *   gDpwTrBaseUrl 0x021CF538 data a4
+ *   gDpwTrPathGetServerState 0x021CF69C data a4
+ *   gDpwTrRequestPacket 0x021D3D40 data a4
+ *   DWCi_EncSessionInitialize 0x021C9EE4 arm ov114
+ *   DWCi_EncSessionGetAsync 0x021CA470 arm ov114
+ *   DWCi_EncSessionShutdown 0x021CA1B4 arm ov114
  */
 
 #include "../include/G_Six.h"
 
-extern void *d_021D3D28;
-extern struct Six d_021D3D40;
-extern unsigned d_021D3D2C[], d_021CF538[], d_021CF69C[];
-extern void func_021C9EE4(int server, char *initdata);
-extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
-extern void func_021CA1B4(void);
-void func_021C8DA0(void)
+extern void *gDpwTrServerIndex;
+extern struct Six gDpwTrRequestPacket;
+extern unsigned gDpwTrWork[], gDpwTrBaseUrl[], gDpwTrPathGetServerState[];
+extern void DWCi_EncSessionInitialize(int server, char *initdata);
+extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
+extern void DWCi_EncSessionShutdown(void);
+void DPW_TR_GetServerStateAsync(void)
 {
-    func_021C9EE4((int)d_021D3D28, (char *)d_021CF538);
-    if (func_021CA470(d_021CF69C, d_021D3D2C[2], ((unsigned *)&d_021D3D40), 0, 0) == 0) {
-        d_021D3D2C[0] = 20;
+    DWCi_EncSessionInitialize((int)gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    if (DWCi_EncSessionGetAsync(gDpwTrPathGetServerState, gDpwTrWork[2], ((unsigned *)&gDpwTrRequestPacket), 0, 0) == 0) {
+        gDpwTrWork[0] = 20;
         return;
     }
-    d_021D3D2C[0] = 24;
-    d_021D3D2C[1] = -13;
-    func_021CA1B4();
+    gDpwTrWork[0] = 24;
+    gDpwTrWork[1] = -13;
+    DWCi_EncSessionShutdown();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9C8
+ * function: WIFICLUB_StateRestartMatch
  * address: 0x021BE9C8
  * packet: pkt_ov099_021BE9C8
  * region: ov099
@@ -12,40 +12,40 @@
  * prototypes: SDK 414AC and 49238 preserve their original live R0 inputs despite void(void) assembly declarations.
  * symbols:
  *   GFL_NET_IsIdle 0x0203D210 arm
- *   func_021B96CC 0x021B96CC thumb ov099
+ *   WIFICLUBACTOR_IsReady 0x021B96CC thumb ov099
  *   WIPE_SYS_Start 0x0202208C thumb
- *   func_021BE26C 0x021BE26C thumb ov099
+ *   WIFICLUB_ClearPeerActors 0x021BE26C thumb ov099
  *   CLACT_FlushOamIfPending 0x0204A698 arm
- *   func_021C1A44 0x021C1A44 thumb ov099
- *   func_021C1AC0 0x021C1AC0 thumb ov099
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_IsSlotPanelOpen 0x021C1A44 thumb ov099
+ *   WIFICLUB_CloseSlotPanel 0x021C1AC0 thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   func_020414AC 0x020414AC arm
  *   func_020490F4 0x020490F4 arm
- *   func_021BE53C 0x021BE53C thumb ov099
+ *   WIFICLUB_InitPlanesAndText 0x021BE53C thumb ov099
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021BB050 0x021BB050 thumb ov099
- *   func_021BDD0C 0x021BDD0C thumb ov099
+ *   WIFICLUB_DrawHeaderWindow 0x021BB050 thumb ov099
+ *   WIFICLUB_StartNetSession 0x021BDD0C thumb ov099
  *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
- *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  */
 #include "../include/Obj02802.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 GFL_NET_IsIdle(void);
-extern int func_021B96CC(int *);
+extern int WIFICLUBACTOR_IsReady(int *);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
-extern void func_021BE26C(char *);
+extern void WIFICLUB_ClearPeerActors(char *);
 extern void CLACT_FlushOamIfPending(void);
-extern int func_021C1A44(char *);
-extern void func_021C1AC0(char *);
-extern int func_021BA8BC(void *);
+extern int WIFICLUB_IsSlotPanelOpen(char *);
+extern void WIFICLUB_CloseSlotPanel(char *);
+extern int WIFICLUB_DeleteWindow(void *);
 extern void func_020414AC(u32);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_021BE53C(char *p, int v);
+extern void WIFICLUB_InitPlanesAndText(char *p, int v);
 extern void ARC_TOOL_DeleteHandle(void *);
 struct Descriptor;
 struct Obj;
@@ -53,24 +53,24 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_021BB050(void *);
-extern void func_021BDD0C(void *, int);
+extern void WIFICLUB_DrawHeaderWindow(void *);
+extern void WIFICLUB_StartNetSession(void *, int);
 extern void GFL_NET_STATE_WifiStartMatch(void);
-extern void func_021BAAB8(char *, int, int);
-int func_021BE9C8(char *p, int v)
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+int WIFICLUB_StateRestartMatch(char *p, int v)
 {
     void *h;
     if (GFL_NET_IsIdle() == 0) {
-        if (func_021B96CC((int *)(p + 0x274)) == 1) {
+        if (WIFICLUBACTOR_IsReady((int *)(p + 0x274)) == 1) {
             WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x21);
-            func_021BE26C(p);
+            WIFICLUB_ClearPeerActors(p);
             CLACT_FlushOamIfPending();
         }
-        if (func_021C1A44(p) == 1) func_021C1AC0(p);
-        ((struct Obj02802 *)p)->f198 = (void *)func_021BA8BC(((struct Obj02802 *)p)->f198);
+        if (WIFICLUB_IsSlotPanelOpen(p) == 1) WIFICLUB_CloseSlotPanel(p);
+        ((struct Obj02802 *)p)->f198 = (void *)WIFICLUB_DeleteWindow(((struct Obj02802 *)p)->f198);
         func_020414AC(3);
         h = func_020490F4(0x21, 0x21);
-        func_021BE53C(p, (int)h);
+        WIFICLUB_InitPlanesAndText(p, (int)h);
         ARC_TOOL_DeleteHandle(h);
         ((struct Obj02802 *)p)->f1328 = 1;
         if (((struct Obj02802 *)p)->fB0 != 0) {
@@ -85,10 +85,10 @@ int func_021BE9C8(char *p, int v)
         MI_CpuFill8(p + 0x50, 0, 0x20);
         MI_CpuFill8(p + 0x70, 0, 0x20);
         MI_CpuFill8(p + 0x90, 0, 0x20);
-        func_021BB050(p);
-        func_021BDD0C(p, 0);
+        WIFICLUB_DrawHeaderWindow(p);
+        WIFICLUB_StartNetSession(p, 0);
         GFL_NET_STATE_WifiStartMatch();
-        func_021BAAB8(p, 0x17, 1);
+        WIFICLUB_ShowStreamedMessage(p, 0x17, 1);
         ((struct Obj02802 *)p)->f1CC = 5;
     }
     return v;

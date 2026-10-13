@@ -12,7 +12,7 @@
  * sdk:      CPSi_big_montmult (libssl.TWL.HYB.a(biginteger.o))
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02164358  0x02164358  arm  ov009
  *   func_02164230  0x02164230  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
@@ -22,7 +22,7 @@
  *   func_021640B8  0x021640B8  arm  ov009
  */
 
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_02164358(unsigned short *c, unsigned short *a, int digits);
 extern void func_02164230(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
@@ -35,7 +35,7 @@ static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *
                           int rdigits, unsigned short *n, unsigned short *np,
                           unsigned short *m, unsigned short *m2)
 {
-    func_02082D44(c, a, digits * 2);
+    MI_CpuCopy8(c, a, digits * 2);
     if (b == (unsigned short *)1)
         func_02164358(c, a, digits);
     else if (b != 0)

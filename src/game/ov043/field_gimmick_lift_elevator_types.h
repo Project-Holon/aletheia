@@ -51,10 +51,10 @@ typedef struct LiftHeights {
 } LiftHeights;
 
 /* Gimmick save block (7 words). */
-typedef struct Gimmick43Save {
+typedef struct FieldGimmickLiftElevatorSave {
     int liftState[FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT];   /* 1 = lift moved to its second position */
     int obstacleBroken;                    /* obstacle (model 6) destroyed by lift 5 */
-} Gimmick43Save;
+} FieldGimmickLiftElevatorSave;
 
 /* Vertical camera jitter while a lift starts or stops (0x1C bytes). */
 typedef struct CameraShake {
@@ -69,7 +69,7 @@ typedef struct CameraShake {
 } CameraShake;
 
 /* Field map common work (0x58 bytes), allocated in the setup function. */
-typedef struct Gimmick43Work {
+typedef struct FieldGimmickLiftElevatorWork {
     int liftIndex;                      /* 0x00 lift (0..5) that is moving */
     int curY;                           /* 0x04 current height (fx32) */
     int goalY;                          /* 0x08 height the lift moves to */
@@ -83,6 +83,6 @@ typedef struct Gimmick43Work {
     int isFogCheckPending;              /* 0x3C change the fog at the next threshold */
     int obstacleAnimeState;              /* 0x40 1: obstacle break just started, 2: wait for its animation */
     void *riders[FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX];  /* 0x44 field objects that move with the lift */
-} Gimmick43Work;
+} FieldGimmickLiftElevatorWork;
 
 #endif

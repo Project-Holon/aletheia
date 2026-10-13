@@ -1,5 +1,5 @@
 /*
- * function: func_021C1838
+ * function: PMS_SELECT_GRAPHIC_DrawSceneActors
  * address:  0x021C1838
  * packet:   pkt_ov110_021C1838
  * region:   ov110
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void CLACT_DrawSystem(void);
-void func_021C1838(void *a0) { CLACT_DrawSystem(); }
+void PMS_SELECT_GRAPHIC_DrawSceneActors(void *a0) { CLACT_DrawSystem(); }

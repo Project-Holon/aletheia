@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF40
+ * function: NHTTPi_GetListInfoP
  * address:  0x021BEF40
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void *func_021BEF40(int p)
+void *NHTTPi_GetListInfoP(int p)
 {
     return (void *)((char *)p + 0x28);
 }

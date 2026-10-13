@@ -14,12 +14,12 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0215AA5C  0x0215AA5C  arm  ov009
- *   func_0215C910  0x0215C910  arm  ov009
- *   func_0215AA70  0x0215AA70  arm  ov009
+ *   CPS_SocRegister  0x0215AA5C  arm  ov009
+ *   CPS_Resolve  0x0215C910  arm  ov009
+ *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   g_021A1CD8     0x021A1CD8  data
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021A82DC     0x021A82DC  data
  *   func_0215EF48  0x0215EF48  arm  ov009
  *   g_021A8278     0x021A8278  data
@@ -42,11 +42,11 @@ typedef struct {
 } CpsSoc;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_0215AA5C(int v);
-extern unsigned long func_0215C910(char *name);
-extern void func_0215AA70(void);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern void CPS_SocRegister(int v);
+extern unsigned long CPS_Resolve(char *name);
+extern void CPS_SocUnRegister(void);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long func_0215EF48(void);
 extern int OS_GetProcMode(void);
 extern void OS_Sleep(unsigned long msec);
@@ -80,9 +80,9 @@ unsigned long func_0215EDD0(char *hostname)
     soc.buf_size = 0xb68;
     soc.work_end = buffers + 0xb68;
     soc.work = 0xb9e;
-    func_0215AA5C((int)(&soc));
-    hostip = func_0215C910(hostname);
-    func_0215AA70();
+    CPS_SocRegister((int)(&soc));
+    hostip = CPS_Resolve(hostname);
+    CPS_SocUnRegister();
     g_021A1CD8->free(buffers);
     return hostip;
 }
@@ -98,15 +98,15 @@ unsigned long func_0215EE98(char *hostname)
     unsigned long dns0;
     unsigned long dns1;
 
-    enable = func_02087988();
+    enable = OS_DisableInterrupts();
     dns0 = g_021A82DC[0];
     dns1 = g_021A82DC[1];
     g_021A82DC[0] = 0;
     g_021A82DC[1] = 0;
-    hostip = func_0215C910(hostname);
+    hostip = CPS_Resolve(hostname);
     g_021A82DC[0] = dns0;
     g_021A82DC[1] = dns1;
-    func_0208799C(enable);
+    OS_RestoreInterrupts(enable);
     return hostip;
 }
 

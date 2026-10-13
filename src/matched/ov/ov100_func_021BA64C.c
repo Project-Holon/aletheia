@@ -1,5 +1,5 @@
 /*
- * function: func_021BA64C
+ * function: IRCBATTLEMATCH_DeleteActor
  * address: 0x021BA64C
  * packet: pkt_ov100_021BA64C
  * region: ov100
@@ -13,7 +13,7 @@
  */
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *);
-void func_021BA64C(unsigned a,unsigned b)
+void IRCBATTLEMATCH_DeleteActor(unsigned a,unsigned b)
 {
  if(*(unsigned *)(a+0x2c8+b*4)!=0) {
   CLACT_DeleteActor(*(struct Obj **)(a+0x2c8+b*4));

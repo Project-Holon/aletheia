@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9F8
+ * function: NHTTP_SetRequestRootCA
  * address:  0x021BE9F8
  * packet:   pkt_021B9500
  * region:   ov114
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-int func_021BE9F8(u8 *p, int a, int b)
+int NHTTP_SetRequestRootCA(u8 *p, int a, int b)
 {
     if (p == 0)
         return -1;

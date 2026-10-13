@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7F8
+ * function: WIFICLUBACTOR_RemoveNetCommands
  * address:  0x021BA7F8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern void sub_0203A5E4(u32 key);
 
-void func_021BA7F8(char *a0)
+void WIFICLUBACTOR_RemoveNetCommands(char *a0)
 {
     sub_0203A5E4(0xA00);
 }

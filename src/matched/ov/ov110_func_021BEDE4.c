@@ -1,5 +1,5 @@
 /*
- * function: func_021BEDE4
+ * function: PMS_WORDLIST_GetTopRow
  * address: 0x021BEDE4
  * packet: pkt_ov110_021BEDE4
  * region: ov110
@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: unlabelled blocker leaf for func_021BF7AC; ends at filed EDE8.
+ * note: unlabelled blocker leaf for PMS_INPUT_GetTopRow; ends at filed EDE8.
  */
 #include "../include/Obj22382.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021BEDE4(u8 *p) { return ((struct Obj22382 *)p)->f0; }
+u16 PMS_WORDLIST_GetTopRow(u8 *p) { return ((struct Obj22382 *)p)->f0; }

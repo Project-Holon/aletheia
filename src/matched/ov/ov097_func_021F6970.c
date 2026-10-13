@@ -1,5 +1,5 @@
 /*
- * function: func_021F6970
+ * function: VS_MULTI_LIST_CreateTextResources
  * address:  0x021F6970
  * packet:   pkt_ov097_021F6970
  * region:   ov097
@@ -32,7 +32,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 
-void func_021F6970(u8 *p)
+void VS_MULTI_LIST_CreateTextResources(u8 *p)
 {
     ((struct Obj00111 *)p)->f14 = func_02045B38(0, 2, 0x12, 0x71);
     ((struct Obj00111 *)p)->fC = GF_FONT_Create(0x17, 0, 0, 0, 0x71);

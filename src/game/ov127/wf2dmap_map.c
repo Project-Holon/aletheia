@@ -16,7 +16,7 @@
  *   func_02030734 0x02030734 arm
  *   d_021C6110 0x021C6110 data a1
  *   func_020307B0 0x020307B0 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   d_021C600C 0x021C600C data a4
  *   d_021C6120 0x021C6120 data a1
  *   func_021C4CB4 0x021C4CB4 thumb ov127
@@ -74,7 +74,7 @@ struct pair_021C4C88 {u16 a,b;};
 
 extern void *func_02030734(u16,u32,int,const char *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02082D44(void *,const void *,u32);
+extern void MI_CpuCopy8(void *,const void *,u32);
 extern void func_021C4CB4(u8 *p);
 extern void MI_CpuFill8(void *,int,int);
 int func_021C4790(char *p);
@@ -177,7 +177,7 @@ u16 func_021C47FC(u16 *p)
 /*
  * Follower of 021C47E4, separate because 021C47F8/47FC already have shards.
  */
-void func_021C4800(u8 *p,void *out) { func_02082D44(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }
+void func_021C4800(u8 *p,void *out) { MI_CpuCopy8(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }
 
 
 

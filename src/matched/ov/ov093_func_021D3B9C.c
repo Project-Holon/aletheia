@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B9C
+ * function: BTL_CLIENT_StepRemoveFieldHolder
  * address: 0x021D3B9C
  * packet: pkt_ov093_021D3B9C
  * region: ov093
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 struct S;
 extern void BTL_FIELD_RemoveHolderFromSlots(struct S *, u8);
-int func_021D3B9C(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepRemoveFieldHolder(char *p, int unused, unsigned int *a)
 {
     BTL_FIELD_RemoveHolderFromSlots(*(struct S * *)&((struct Obj21193 *)p)->f34, a[0]);
     return 1;

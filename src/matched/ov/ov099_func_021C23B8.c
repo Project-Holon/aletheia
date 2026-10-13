@@ -1,5 +1,5 @@
 /*
- * function: func_021C23B8
+ * function: WIFICLUB_GetFriendStatus
  * address:  0x021C23B8
  * packet:   pkt_ov099_021C23B8
  * region:   ov099
@@ -27,4 +27,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int DWC_RAP_GetFriendStatusData(int i);
-int func_021C23B8(int i) { return DWC_RAP_GetFriendStatusData(i); }
+int WIFICLUB_GetFriendStatus(int i) { return DWC_RAP_GetFriendStatusData(i); }

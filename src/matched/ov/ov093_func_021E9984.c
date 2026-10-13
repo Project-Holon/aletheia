@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D3D70 0x021D3D70 thumb ov093
+ *   BTL_CLIENT_GetClientId 0x021D3D70 thumb ov093
  *   BTL_MAIN_SyncSideParty 0x021B8F5C thumb ov093
  *   BTL_MAIN_IsCommMulti 0x021B8F38 thumb ov093
  *   BTL_MAIN_SyncPartnerSideParty 0x021B8F7C thumb ov093
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D3D70(u8 *p);
+extern u8 BTL_CLIENT_GetClientId(u8 *p);
 extern int BTL_MAIN_SyncSideParty(char *p, int k);
 extern int BTL_MAIN_IsCommMulti(unsigned char *p);
 extern int BTL_MAIN_SyncPartnerSideParty(u8 *, u32);
@@ -44,7 +44,7 @@ void BTLV_CORE_InitPartyWork(u8 *p, u8 *q, int mode, u8 x, int y)
     u32 k;
     int zero;
     int active;
-    k = func_021D3D70(((struct Obj00056 *)p)->f4);
+    k = BTL_CLIENT_GetClientId(((struct Obj00056 *)p)->f4);
     ((struct Obj00714 *)q)->f4 = BTL_MAIN_SyncSideParty((char *)(*(u8 * *)&((struct Obj00056 *)p)->f0), k);
     if (mode != 3) active = BTL_MAIN_IsCommMulti(((struct Obj00056 *)p)->f0);
     else active = 0;

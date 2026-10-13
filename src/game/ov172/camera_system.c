@@ -16,12 +16,12 @@
  *   func_02030734 0x02030734 arm
  *   func_02034F84 0x02034F84 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02088234 0x02088234 arm
- *   func_02084968 0x02084968 arm
+ *   OS_Terminate 0x02088234 arm
+ *   OS_EnableIrqMask 0x02084968 arm
  *   func_020351F8 0x020351F8 arm
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
- *   func_02085A38 0x02085A38 arm
+ *   OS_Sleep 0x02085A38 arm
  *   CAMERA_EndCore  0x02700B34  arm
  *   CAMERA_StopCore  0x02700BD0  arm
  *   CAMERA_I2CActivateCore  0x02700DB8  arm
@@ -46,7 +46,7 @@
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   ARC_TOOL_ReadMember 0x02048F4C arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   CAMERA_SizeToWidthCore  0x02702364  arm
  *   CAMERA_SizeToHeightCore  0x027023CC  arm
@@ -114,10 +114,10 @@ struct D021C88E4 {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034F84(int);
 extern int OS_IsRunOnTwl(void);
-extern void func_02088234(void);
-extern void func_02084968(int);
+extern void OS_Terminate(void);
+extern void OS_EnableIrqMask(int);
 extern void func_020351F8(u32 a, u32 b);
-extern void func_02085A38(u32 msec);
+extern void OS_Sleep(u32 msec);
 extern int DSPi_IsShutterSoundPlayingCore(void);
 extern void DSPi_UnloadG711Core(void);
 extern void CAMERA_StopCore(void);
@@ -142,7 +142,7 @@ extern u32 func_020307B0(void *p);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void GFL_NET_FreeAligned(void *p);
 extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
 void DSPi_StopSoundCore(void);
@@ -224,7 +224,7 @@ Camera *func_021B6100(int id)
     } else {
         r = 7;
     }
-    if (r == 7) func_02088234();
+    if (r == 7) OS_Terminate();
     if (r == 6) return 0;
     r = p->f2C;
     if (OS_IsRunOnTwl() == 1) CAMERA_I2CEffectExCore(r, 3, 0);
@@ -235,10 +235,10 @@ Camera *func_021B6100(int id)
     r = p->f2C;
     if (OS_IsRunOnTwl() == 1) r = CAMERA_I2CActivateCore(r);
     else r = 7;
-    if (r == 7) func_02088234();
+    if (r == 7) OS_Terminate();
     if (r == 6) return 0;
     p->f28 = 0;
-    func_02084968(0x20000000);
+    OS_EnableIrqMask(0x20000000);
     if (OS_IsRunOnTwl() == 1) CAMERA_SetVsyncCallbackCore((void *)func_021B662C);
     if (OS_IsRunOnTwl() == 1) CAMERA_SetBufferErrorCallbackCore((void *)func_021B65D8);
     if (OS_IsRunOnTwl() == 1) CAMERA_SetRebootCallbackCore((void *)func_021B6620);
@@ -255,7 +255,7 @@ Camera *func_021B6100(int id)
     if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core(buf);
     if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core(buf, 0xFF, 0xFF);
     else r = 0;
-    if (r == 0) func_02088234();
+    if (r == 0) OS_Terminate();
     func_020351F8((u32)((void *)func_021B6338), (u32)p);
     return p;
 }
@@ -268,7 +268,7 @@ void func_021B6338(Camera *p)
     /* stand-in: the goto into the loop body gives the original block order; while/for forms differ */
     goto test;
     do {
-        func_02085A38(10);
+        OS_Sleep(10);
 test:
         result = 0;
         if (OS_IsRunOnTwl() != 0) result = DSPi_IsShutterSoundPlayingCore();
@@ -373,7 +373,7 @@ void func_021B657C(Camera *obj, int mode)
     p->bufSize = size;
     p->buf = GFL_NET_AllocAligned(p->heapId, size, d_021C71C0, 0x13B);
     ARC_TOOL_ReadMember(p->buf, 0xD4, which);
-    func_020862F0(p->buf, p->bufSize);
+    DWCi_ScreenDC_FlushRange(p->buf, p->bufSize);
 }
 
 
@@ -432,7 +432,7 @@ void func_021B662C(void)
         if (p->f20 != 0) {
             v = p->f2C;
             if ((OS_IsRunOnTwl() == 1 ? CAMERA_I2CActivateCore(v) : 7) == 7)
-                func_02088234();
+                OS_Terminate();
             p->f28 = 0;
             p->f20 = 0;
         }

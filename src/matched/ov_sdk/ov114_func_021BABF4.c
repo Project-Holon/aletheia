@@ -1,5 +1,5 @@
 /*
- * function: func_021BABF4
+ * function: NHTTPi_getHdrFromList
  * address:  0x021BABF4
  * packet:   pkt_021BABF4
  * region:   ov114
@@ -16,7 +16,7 @@ typedef struct Node
     struct Node *prev;
 } Node;
 
-Node *func_021BABF4(Node **head)
+Node *NHTTPi_getHdrFromList(Node **head)
 {
     Node *n = *head;
 

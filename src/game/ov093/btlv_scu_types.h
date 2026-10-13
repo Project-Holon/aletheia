@@ -36,6 +36,13 @@ typedef int (*BtlvScuPhaseProc)(struct BtlvScu *scu, int *state);
  * frame. State: 0 shown, 1 fading out, 2 hidden, 3 fading in, 4 fade-in
  * requested.
  */
+/* Ball state shown for each party member: 0 empty, 1 healthy, 2 fainted,
+ * 3 status ailment. */
+typedef struct BtlvBallStates {
+    u16 sideFlag;
+    u16 ball[6];
+} BtlvBallStates;
+
 typedef struct BtlvScuWinSlide {
     struct BmpWin *win;
     int evA;
@@ -188,7 +195,9 @@ typedef struct BtlvScu {
     u8 quickMode;                   /* 0x150 */
     u8 reserved151[3];
     BtlvScuWinSlide slide;          /* 0x154 */
-    u8 tail[0x14];                  /* 0x16C, end of the 0x180 allocation */
+    void **partySource;             /* 0x16C, party the ball window shows */
+    BtlvBallStates ballStates;      /* 0x170 */
+    u8 reserved17E[2];              /* 0x17E, end of the 0x180 allocation */
 } BtlvScu;
 
 #endif

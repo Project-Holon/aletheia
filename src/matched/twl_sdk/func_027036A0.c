@@ -12,11 +12,12 @@
  * symbols:
  *   NWMi_GetSystemWork  0x027026DC  arm twl
  *   NWMi_CheckState  0x027028E4  arm twl
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_AddMACHeader  0x02703764  arm twl
  *   NWMi_SendCommand  0x02703A74  arm twl
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -30,11 +31,11 @@ typedef struct TwlWork {
 
 extern TwlWork *NWMi_GetSystemWork(void);
 extern u32 NWMi_CheckState(u32, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void func_020862D4(void *, u32);
 extern u32 NWMi_SendCommand(u32, u32, u32, void *, u32);
-extern void func_02082D44(u32, u32, u32);
+extern void MI_CpuCopy8(u32, u32, u32);
 void NWMi_AddMACHeader(u32 a0, u32 a1, u8 *a2, u32 a3);
 
 u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
@@ -47,9 +48,9 @@ u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
     if (r != 0 && r != 2) {
         return r;
     }
-    saved = func_02087988();
+    saved = OS_DisableInterrupts();
     if (a3 > 0x5F2) {
-        func_0208799C(saved);
+        OS_RestoreInterrupts(saved);
         return 5;
     }
     func_020862D4(a2, a3);
@@ -59,6 +60,6 @@ u32 NWM_SendFrame(u32 a0, u32 a1, u8 *a2, u32 a3) {
     if (r == 0) {
         return 2;
     }
-    func_0208799C(saved);
+    OS_RestoreInterrupts(saved);
     return r;
 }

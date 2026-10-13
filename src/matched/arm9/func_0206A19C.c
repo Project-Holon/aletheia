@@ -1,5 +1,5 @@
 /*
- * function: func_0206A19C
+ * function: NNSi_G3dBindMdlTexInternal
  * address:  0x0206A19C
  * packet:   pkt_0206A17C
  * region:   arm9
@@ -13,7 +13,7 @@
  *   FX_Div  0x0207C768  arm
  *
  * NitroSystem G3D bindMdlTex_Internal_ (static helper of NNS_G3dBindMdlTex,
- * func_0206A2CC): for every material index in a tex-to-material bind record,
+ * NNS_G3dBindMdlTex): for every material index in a tex-to-material bind record,
  * ORs the texture's TEXIMAGE_PARAM (plus the VRAM key address >> 3) into the
  * material and sets magW/magH to width/origWidth and height/origHeight as
  * fx32 (FX32_ONE fast path, else FX_Div = FX_Div).  The key comes from
@@ -28,8 +28,8 @@
  * pair is what 2.0 folds to the bic #0xe0000000).  EXACT on the first compile.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206A19C.c
- *       --func func_0206A19C --addr 0x0206A19C --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dBindMdlTexInternal.c
+ *       --func NNSi_G3dBindMdlTexInternal --addr 0x0206A19C --arm --cc ../2.0/sp2
  */
 
 typedef unsigned char  u8;
@@ -76,7 +76,7 @@ static inline u32 GetTexKeyAddr(u32 key)
     return (u32)((key & 0xffff) << 3);
 }
 
-void func_0206A19C(ResMat *pMat, TexToMatIdx *pBindData, const ResTex *pTex, const TexData *pTexData)
+void NNSi_G3dBindMdlTexInternal(ResMat *pMat, TexToMatIdx *pBindData, const ResTex *pTex, const TexData *pTexData)
 {
     u8 *base;
     u32 vramOffset;

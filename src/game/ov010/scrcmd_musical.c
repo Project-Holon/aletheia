@@ -128,32 +128,32 @@
  *   FIELDMAP_GetEncount  0x02188CE8  thumb
  *   EFFECT_ENCOUNT_LoadSetting  0x021AA7DC  thumb
  *   func_02012A38  0x02012A38  thumb
- *   func_0200D418 0x0200D418 thumb
+ *   MOVE_POKEMON_SAVE_GetBlock 0x0200D418 thumb
  *   func_02012984 0x02012984 thumb
- *   func_0200D488 0x0200D488 thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D478 0x0200D478 thumb
+ *   MOVE_POKEMON_SAVE_IsEntryActive 0x0200D488 thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryLocation 0x0200D478 thumb
  *   d_021711C6 0x021711C6 data a2
- *   func_0200D45C  0x0200D45C  thumb
- *   func_0200D50C  0x0200D50C  thumb
+ *   MOVE_POKEMON_SAVE_SetCommonArea  0x0200D45C  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryField  0x0200D50C  thumb
  *   func_020173EC  0x020173EC  thumb
  *   func_02008530  0x02008530  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_0200CA10  0x0200CA10  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
- *   func_0200D470  0x0200D470  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryState  0x0200D470  thumb
  *   d_0217293C     0x0217293C  data
- *   func_0200D468 0x0200D468 thumb
+ *   MOVE_POKEMON_SAVE_GetEntryState 0x0200D468 thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   func_02005728  0x02005728  thumb
- *   func_0200D494  0x0200D494  thumb
- *   func_0200D480  0x0200D480  thumb
+ *   MOVE_POKEMON_SAVE_InitEntry  0x0200D494  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryLocation  0x0200D480  thumb
  *   TIMEZONE_GetNowTimeZone 0x020113D8 thumb
  *   d_021711A8 0x021711A8 data ov010 a2
- *   func_0200D4B8  0x0200D4B8  thumb
+ *   MOVE_POKEMON_SAVE_GetEntryField  0x0200D4B8  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -531,22 +531,22 @@ extern void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int key, int wif
 extern void *PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int key, struct WifiList *wifiList, int index);
 
 /* move_pokemon: roaming legendary save (arm9 unit_0200C7C0.c) */
-extern void *func_0200D418(struct SaveControl *save);
-extern u8 func_0200D488(struct MovePokemonSave *block, u32 index);
-extern struct MovePokemonEntry *func_0200D4AC(struct MovePokemonSave *block, u32 index);
-extern u8 func_0200D478(struct MovePokemonSave *block, u32 index);
-extern int func_0200D45C();
-extern void func_0200D50C(struct MovePokemonEntry *entry, u32 field, u32 value);
+extern void *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *save);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *block, u32 index);
+extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSave *block, u32 index);
+extern u8 MOVE_POKEMON_SAVE_GetEntryLocation(struct MovePokemonSave *block, u32 index);
+extern int MOVE_POKEMON_SAVE_SetCommonArea();
+extern void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *entry, u32 field, u32 value);
 extern u32 func_020173EC(void);
 extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long personalId, u32 power, unsigned long long rand);
 extern u32 func_02017E1C(struct Pokemon *mon, u32 paramId, u32 buf);
-extern void *func_0200CA10(struct SaveControl *save);
-extern void func_0200CFA0(void *boxData, struct Pokemon *mon);
-extern void func_0200D470(struct MovePokemonSave *block, u32 index, u32 state);
-extern u8 func_0200D468(struct MovePokemonSave *block, u32 index);
-extern void func_0200D494(struct MovePokemonEntry *entry);
-extern void func_0200D480(struct MovePokemonSave *block, u32 index, u8 location);
-extern u32 func_0200D4B8(const struct MovePokemonEntry *entry, u32 field);
+extern void *ZUKAN_SAVE_GetBlock(struct SaveControl *save);
+extern void ZUKAN_SAVE_RegisterSeen(void *boxData, struct Pokemon *mon);
+extern void MOVE_POKEMON_SAVE_SetEntryState(struct MovePokemonSave *block, u32 index, u32 state);
+extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct MovePokemonSave *block, u32 index);
+extern void MOVE_POKEMON_SAVE_InitEntry(struct MovePokemonEntry *entry);
+extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct MovePokemonSave *block, u32 index, u8 location);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct MovePokemonEntry *entry, u32 field);
 extern void *BTL_SETUP_GetParty(BattleResultWork *work, int index);
 
 /* field encounter and field objects (ov021, ov010) */
@@ -1785,10 +1785,10 @@ void MOVE_POKEMON_MoveActiveEntries(struct GameData *gameData)
     u32 season;
     struct MovePokemonSave *block;
 
-    block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     season = func_02012984(gameData);
     for (i = 0; i < 2; i++) {
-        if (func_0200D488(block, i) != 0) MOVE_POKEMON_MoveEntry(block, season, i);
+        if (MOVE_POKEMON_SAVE_IsEntryActive(block, i) != 0) MOVE_POKEMON_MoveEntry(block, season, i);
     }
 }
 
@@ -1800,11 +1800,11 @@ void MOVE_POKEMON_MoveActiveEntriesChecked(struct GameData *gameData)
     u32 season;
     struct MovePokemonSave *block;
 
-    block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     season = func_02012984(gameData);
     for (i = 0; i < 2; i++) {
-        func_0200D4AC(block, i);
-        if (func_0200D488(block, i) != 0) {
+        MOVE_POKEMON_SAVE_GetEntry(block, i);
+        if (MOVE_POKEMON_SAVE_IsEntryActive(block, i) != 0) {
             MOVE_POKEMON_MoveEntry(block, season, i);
         }
     }
@@ -1814,7 +1814,7 @@ void MOVE_POKEMON_MoveActiveEntriesChecked(struct GameData *gameData)
 /* Zone id of the location an entry is in (319 for an invalid location). */
 u32 MOVE_POKEMON_GetEntryZoneId(struct MovePokemonSave *block, u32 slot)
 {
-    u32 location = func_0200D478(block, slot);
+    u32 location = MOVE_POKEMON_SAVE_GetEntryLocation(block, slot);
     if (location > 16) return 319;
     return d_021711C6[location];
 }
@@ -1826,7 +1826,7 @@ int MOVE_POKEMON_HasActiveEntry(struct MovePokemonSave *block)
     u8 i = 0;
 
     do {
-        if (func_0200D488(block, i) != 0)
+        if (MOVE_POKEMON_SAVE_IsEntryActive(block, i) != 0)
             return 1;
         i++;
     } while (i < 2);
@@ -1838,7 +1838,7 @@ int MOVE_POKEMON_HasActiveEntry(struct MovePokemonSave *block)
 void MOVE_POKEMON_SetCommonArea(struct MovePokemonSave *block, int value)
 {
     if (MOVE_POKEMON_HasActiveEntry(block) != 0)
-        func_0200D45C(block, value);
+        MOVE_POKEMON_SAVE_SetCommonArea(block, value);
 }
 
 
@@ -1862,8 +1862,8 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     u32 flag;
 
     save = GAME_DATA_GetSaveControl(gameData);
-    block = func_0200D418(save);
-    entry = func_0200D4AC(block, slot);
+    block = MOVE_POKEMON_SAVE_GetBlock(save);
+    entry = MOVE_POKEMON_SAVE_GetEntry(block, slot);
     switch (slot) {
     case 0:
         species = 642;
@@ -1878,22 +1878,22 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     default:
         return;
     }
-    func_0200D50C(entry, 4, species);
-    func_0200D50C(entry, 6, level);
-    func_0200D50C(entry, 9, flag);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 4, species);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 6, level);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 9, flag);
     myStatus = func_02012944(gameData);
     mon = func_02030734(0x8003, func_020173EC(), 1, d_0217293C, 0x12E);
     POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
-    func_0200D50C(entry, 7, 0);
-    func_0200D50C(entry, 8, 1);
-    func_0200D50C(entry, 2, func_02017E1C(mon, 0xAC, 0));
-    func_0200D50C(entry, 3, func_02017E1C(mon, 0, 0));
-    func_0200D50C(entry, 10, func_02017E1C(mon, 0x70, 0));
-    func_0200D50C(entry, 5, func_02017E1C(mon, 0xA1, 0));
-    func_0200CFA0(func_0200CA10(save), mon);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 7, 0);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 8, 1);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 2, func_02017E1C(mon, 0xAC, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 3, func_02017E1C(mon, 0, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 10, func_02017E1C(mon, 0x70, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, func_02017E1C(mon, 0xA1, 0));
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetBlock(save), mon);
     func_020307B0(mon);
     MOVE_POKEMON_MoveToNeighbor(block, (u32)((void *)func_02012984(gameData)), slot, 5);
-    func_0200D470(block, slot, 1);
+    MOVE_POKEMON_SAVE_SetEntryState(block, slot, 1);
 }
 
 
@@ -1901,9 +1901,9 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
 void MOVE_POKEMON_SpawnPendingEntries(struct GameData *gameData)
 {
     int i;
-    struct MovePokemonSave *block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    struct MovePokemonSave *block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     for (i = 0; i < 2; i++) {
-        if (func_0200D468(block, (u8)i) == 2) MOVE_POKEMON_SpawnEntry(gameData, i);
+        if (MOVE_POKEMON_SAVE_GetEntryState(block, (u8)i) == 2) MOVE_POKEMON_SpawnEntry(gameData, i);
     }
 }
 
@@ -1937,7 +1937,7 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
     species = func_02017E1C(mon, 5, 0);
     hp = func_02017E1C(mon, 0xA0, 0);
     status = func_02017E1C(mon, 0x9D, 0);
-    block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     entry = MOVE_POKEMON_FindEntryBySpecies(block, species);
     if (entry == 0) {
         if (func_02005728(100) < 30) {
@@ -1947,19 +1947,19 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
     }
     entryIndex = MOVE_POKEMON_GetEntryIndexBySpecies(species);
     if ((work->battleResult == 1 || work->battleResult == 2) && hp == 0) {
-        func_0200D494(entry);
-        func_0200D480(block, entryIndex, 0x10);
-        func_0200D470(block, entryIndex, 2);
+        MOVE_POKEMON_SAVE_InitEntry(entry);
+        MOVE_POKEMON_SAVE_SetEntryLocation(block, entryIndex, 0x10);
+        MOVE_POKEMON_SAVE_SetEntryState(block, entryIndex, 2);
         return;
     }
     if (work->battleResult == 5) {
-        func_0200D494(entry);
-        func_0200D480(block, entryIndex, 0x10);
-        func_0200D470(block, entryIndex, 3);
+        MOVE_POKEMON_SAVE_InitEntry(entry);
+        MOVE_POKEMON_SAVE_SetEntryLocation(block, entryIndex, 0x10);
+        MOVE_POKEMON_SAVE_SetEntryState(block, entryIndex, 3);
         return;
     }
-    func_0200D50C(entry, 5, hp);
-    func_0200D50C(entry, 7, status);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, hp);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 7, status);
     MOVE_POKEMON_MoveActiveEntries(gameData);
 }
 
@@ -1970,13 +1970,13 @@ int MOVE_POKEMON_FindEntryByZone(struct GameData *gameData, int zoneId)
     u8 i;
     struct MovePokemonSave *block;
 
-    block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
+    block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     i = 0;
-    if (func_0200D488(block, 0) != 0 && zoneId == MOVE_POKEMON_GetEntryZoneId(block, i)) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive(block, 0) != 0 && zoneId == MOVE_POKEMON_GetEntryZoneId(block, i)) {
         return 6;
     }
     i = 1;
-    if (func_0200D488(block, 1) != 0 && zoneId == MOVE_POKEMON_GetEntryZoneId(block, i)) {
+    if (MOVE_POKEMON_SAVE_IsEntryActive(block, 1) != 0 && zoneId == MOVE_POKEMON_GetEntryZoneId(block, i)) {
         return 7;
     }
     return 0xffff;
@@ -1988,8 +1988,8 @@ int MOVE_POKEMON_IsAnyEntryActive(struct GameData *gameData)
 {
     struct MovePokemonSave *block;
 
-    block = func_0200D418(GAME_DATA_GetSaveControl(gameData));
-    if (func_0200D488(block, 0) != 0 || func_0200D488(block, 1) != 0)
+    block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    if (MOVE_POKEMON_SAVE_IsEntryActive(block, 0) != 0 || MOVE_POKEMON_SAVE_IsEntryActive(block, 1) != 0)
         return 1;
     return 0;
 }
@@ -2023,7 +2023,7 @@ void MOVE_POKEMON_MoveToNeighbor(struct MovePokemonSave *block, u32 season, u16 
     int candidateCount;
     int i;
 
-    currentLocation = func_0200D478(block, slot);
+    currentLocation = MOVE_POKEMON_SAVE_GetEntryLocation(block, slot);
     links = &d_021711A8[(u16)TIMEZONE_GetNowTimeZone(season)];
     if (currentLocation != 0x10 && func_02005728(100) < 20) {
         MOVE_POKEMON_SetEntryLocation(block, slot, 0x10, 0xffff);
@@ -2044,9 +2044,9 @@ void MOVE_POKEMON_MoveToNeighbor(struct MovePokemonSave *block, u32 season, u16 
 /* Set the location of an entry and the zone id that goes with it. */
 void MOVE_POKEMON_SetEntryLocation(struct MovePokemonSave *block, u32 slot, u8 location, u32 zoneId)
 {
-    struct MovePokemonEntry *entry = func_0200D4AC(block, slot);
-    func_0200D480(block, slot, location);
-    func_0200D50C(entry, 1, zoneId);
+    struct MovePokemonEntry *entry = MOVE_POKEMON_SAVE_GetEntry(block, slot);
+    MOVE_POKEMON_SAVE_SetEntryLocation(block, slot, location);
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 1, zoneId);
 }
 
 
@@ -2057,9 +2057,9 @@ struct MovePokemonEntry *MOVE_POKEMON_FindEntryBySpecies(struct MovePokemonSave 
     struct MovePokemonEntry *entry;
 
     do {
-        if (func_0200D488(block, i) != 0) {
-            entry = func_0200D4AC(block, i);
-            if (species == func_0200D4B8(entry, 4))
+        if (MOVE_POKEMON_SAVE_IsEntryActive(block, i) != 0) {
+            entry = MOVE_POKEMON_SAVE_GetEntry(block, i);
+            if (species == MOVE_POKEMON_SAVE_GetEntryField(entry, 4))
                 return entry;
         }
         i++;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FD0
+ * function: IRC_RANKING_InertiaUpdate
  * address: 0x021B8FD0
  * packet: pkt_ov106_021B8FD0
  * region: ov106
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int a,b,v,dirty; } State;
-void func_021B8FD0(State *p) { if(p->dirty) { p->dirty=0; p->v=p->a+p->b/2; p->v=(int)(((long long)p->v*163840+2048)>>12); } }
+void IRC_RANKING_InertiaUpdate(State *p) { if(p->dirty) { p->dirty=0; p->v=p->a+p->b/2; p->v=(int)(((long long)p->v*163840+2048)>>12); } }

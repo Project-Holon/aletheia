@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689C9C0",
+   "name": "BTL_ID_IsArceusSpecies",
    "address": "0x0689C9C0",
    "kind": "game",
    "region": "ov095",

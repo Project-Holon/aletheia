@@ -1,5 +1,5 @@
 /*
- * function: func_021C1440
+ * function: PMS_SELECT_GRAPHIC_HideTouchBar
  * address: 0x021C1440
  * packet: pkt_ov110_021C1440
  * region: ov110
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void TOUCHBAR_SetAllButtonsVisible(u8 *,u32);
-int func_021C1440(void *a, u8 *p) { TOUCHBAR_SetAllButtonsVisible(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }
+int PMS_SELECT_GRAPHIC_HideTouchBar(void *a, u8 *p) { TOUCHBAR_SetAllButtonsVisible(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }

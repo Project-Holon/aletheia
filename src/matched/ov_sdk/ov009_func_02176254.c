@@ -1,5 +1,5 @@
 /*
- * function: func_02176254
+ * function: DWCi_NodeInfoList_RemoveProfileID
  * address:  0x02176254
  * packet:   pkt_ov009_02176254
  * region:   ov009
@@ -28,7 +28,7 @@ typedef struct MatchCnt {
 
 extern int func_02175F3C(void);
 
-int func_02176254(int profileID)
+int DWCi_NodeInfoList_RemoveProfileID(int profileID)
 {
     int removeIndex;
 

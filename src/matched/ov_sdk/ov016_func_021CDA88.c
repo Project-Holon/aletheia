@@ -1,5 +1,5 @@
 /*
- * function: func_021CDA88
+ * function: DWCi_SceneSetUsbComplete
  * address:  0x021CDA88
  * packet:   pkt_ov016_021CDA88
  * region:   ov016
@@ -12,32 +12,32 @@
  * sdk:      DWCi_SceneSetUsbComplete (libdwcutil.TWL.HYB.a scenesetusbcompl)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA88.c \n *       --func func_021CDA88 --addr 0x021CDA88 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA88.c \n *       --func DWCi_SceneSetUsbComplete --addr 0x021CDA88 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   g_021DE624     0x021DE624  data
+ *   gSceneSetUsbCompleteWork     0x021DE624  data
  *   func_021CDAC8  0x021CDAC8  arm  ov016
- *   func_021BD674  0x021BD674  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_HLlLoad  0x021BD674  arm  ov016
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CDB48  0x021CDB48  arm  ov016
  */
 
-extern unsigned char g_021DE624;
+extern unsigned char gSceneSetUsbCompleteWork;
 extern void func_021CDAC8(void);
-extern void func_021BD674(int idx);
-extern void func_021BD29C(int msgId);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_HLlLoad(int idx);
+extern void DWCi_CMNlMsgDraw(int msgId);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CDB48(void);
 
-void func_021CDA88(void)
+void DWCi_SceneSetUsbComplete(void)
 {
-    g_021DE624 = 0;
+    gSceneSetUsbCompleteWork = 0;
     func_021CDAC8();
-    func_021BD674(8);
-    func_021BD29C(41);
-    func_021CFFAC(16);
-    func_021C0E40((unsigned int)func_021CDB48);
+    DWCi_HLlLoad(8);
+    DWCi_CMNlMsgDraw(41);
+    DWCi_SNDlPlay(16);
+    DWCi_ChangeScene((unsigned int)func_021CDB48);
 }

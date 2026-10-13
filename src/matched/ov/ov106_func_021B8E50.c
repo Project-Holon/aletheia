@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E50
+ * function: IRC_RANKING_InputGetDrag
  * address: 0x021B8E50
  * packet: pkt_ov106_021B8E50
  * region: ov106
@@ -13,7 +13,7 @@
  */
 typedef struct { int x,y; } Pair;
 extern int TOUCHPANEL_GetCont(void);
-int func_021B8E50(char *p, Pair *a, Pair *b, Pair *c) {
+int IRC_RANKING_InputGetDrag(char *p, Pair *a, Pair *b, Pair *c) {
  if (TOUCHPANEL_GetCont()) {
  if(a) *a=*(Pair *)p;
  if(b) *b=*(Pair *)(p+8);

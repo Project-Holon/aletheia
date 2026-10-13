@@ -1,5 +1,5 @@
 /*
- * function: func_02084FB4
+ * function: OSi_GetUnusedThreadId
  * address:  0x02084FB4
  * packet:   pkt_02084FB4
  * region:   arm9
@@ -11,14 +11,14 @@
  * note:     os_thread.o OSi_GetUnusedThreadId.
  *
  * symbols:
- *   g_02150FD0  0x02150FD0  data  a4
+ *   gOsThreadBss  0x02150FD0  data  a4
  */
 
 #include "../include/G_OsThreadBss.h"
 
-extern struct OsThreadBss g_02150FD0;
+extern struct OsThreadBss gOsThreadBss;
 
-int func_02084FB4(void)
+int OSi_GetUnusedThreadId(void)
 {
-    return ++((int *)&g_02150FD0)[6];
+    return ++((int *)&gOsThreadBss)[6];
 }

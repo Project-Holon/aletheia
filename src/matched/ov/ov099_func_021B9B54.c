@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B54
+ * function: WIFICLUBACTOR_RestartBlink
  * address:  0x021B9B54
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA7BC  0x021BA7BC  thumb  ov099
+ *   WIFICLUBACTOR_RestartBlinkScript  0x021BA7BC  thumb  ov099
  *
  * Tail call on the block 0x574 bytes in.
  */
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BA7BC(char *p);
+extern void WIFICLUBACTOR_RestartBlinkScript(char *p);
 
-void func_021B9B54(char *p)
+void WIFICLUBACTOR_RestartBlink(char *p)
 {
-    func_021BA7BC(p + 0x574);
+    WIFICLUBACTOR_RestartBlinkScript(p + 0x574);
 }

@@ -13,8 +13,8 @@
  *   DWCi_SCREENlCopyPalette          0x021ce7b0 arm
  *   DWCi_SETTINGlGetSetType          0x021cf7f4 arm
  *   DWCi_CELLlSetPalette             0x021d5098 arm
- *   g_021DA7B4                      0x021da7b4 data
- *   g_021DA7B8                      0x021da7b8 data
+ *   sSceneSetSelectApBgPalette                      0x021da7b4 data
+ *   sSceneSetSelectApObjPalette                      0x021da7b8 data
  *   scenesetselectap_bss             0x021de60c data
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetselectap), symbol dispPush (name and prototype from the vendor object DWARF).
@@ -28,8 +28,8 @@
 
 /* the compiler's g_021DA7B4and g_021DA7B8initialisers, each in its own .rodata section */
 typedef struct { unsigned char v[4]; } PLT4;
-extern const PLT4 g_021DA7B4;
-extern const PLT4 g_021DA7B8;
+extern const PLT4 sSceneSetSelectApBgPalette;
+extern const PLT4 sSceneSetSelectApObjPalette;
 
 /* scenesetselectap.o .bss at 0x021DE60C, members at their vendor offsets */
 typedef struct {
@@ -53,8 +53,8 @@ extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
 
 static void dispPush(void)
 {
-    PLT4 PALETTE = g_021DA7B4;
-    PLT4 OBJ_PLTT = g_021DA7B8;
+    PLT4 PALETTE = sSceneSetSelectApBgPalette;
+    PLT4 OBJ_PLTT = sSceneSetSelectApObjPalette;
     int type = scenesetselectap_bss.FocusPos;
 
     if ((unsigned int)type > 3) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F54
+ * function: BTL_CLIENT_RequestCounterAdvance
  * address: 0x021D3F54
  * packet: pkt_ov093_021D3F54
  * region: ov093
@@ -11,4 +11,4 @@
  * Extent follower 021D3F60 is already filed separately.
  */
 typedef unsigned char u8;
-void func_021D3F54(u8 *p) { p[2] |= 8; }
+void BTL_CLIENT_RequestCounterAdvance(u8 *p) { p[2] |= 8; }

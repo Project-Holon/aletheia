@@ -1,5 +1,5 @@
 /*
- * function: func_0218A074
+ * function: TR_AI_CmdCompareStat0
  * address: 0x0218A074
  * packet: pkt_ov096_0218A074
  * region: ov096
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218A0A4 0x0218A0A4 thumb ov096
+ *   TR_AI_CompareStat 0x0218A0A4 thumb ov096
  */
 #include "../include/Obj21984.h"
 typedef unsigned char  u8;
 struct Cursor;
-extern int func_0218A0A4(struct Cursor *a, u8 *b, int c);
-int func_0218A074(struct Cursor *a, unsigned char *b) { func_0218A0A4(a,b,0); return ((struct Obj21984 *)b)->fC4; }
+extern int TR_AI_CompareStat(struct Cursor *a, u8 *b, int c);
+int TR_AI_CmdCompareStat0(struct Cursor *a, unsigned char *b) { TR_AI_CompareStat(a,b,0); return ((struct Obj21984 *)b)->fC4; }

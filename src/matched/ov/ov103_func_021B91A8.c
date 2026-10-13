@@ -1,5 +1,5 @@
 /*
- * function: func_021B91A8
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ClearStroke
  * address:  0x021B91A8
  * packet:   pkt_ov103_021B91A8
  * region:   ov103
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B91A8(void *p) { MI_CpuFill8(p, 0, 0x60); }
+void IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(void *p) { MI_CpuFill8(p, 0, 0x60); }

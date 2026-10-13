@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0F0
+ * function: WIFICLUB_StateRegisterEntryParty
  * address:  0x021BD0F0
  * packet:   pkt_ov099_021BD0F0
  * region:   ov099
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_021BCBBC  0x021BCBBC  thumb  ov099
+ *   WIFICLUB_CheckSavedRegulation  0x021BCBBC  thumb  ov099
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
  */
 #include "../include/Obj04415.h"
 
@@ -25,12 +25,12 @@ typedef unsigned long  u32;
 struct BigObj;
 struct Rec534;
 extern u32 GFL_NET_IsParentAid(void);
-extern int func_021BCBBC(int a, int b, int *out);
+extern int WIFICLUB_CheckSavedRegulation(int a, int b, int *out);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_021BAAB8(char *p, int a, int b);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
 
-int func_021BD0F0(char *p, int v)
+int WIFICLUB_StateRegisterEntryParty(char *p, int v)
 {
     int t;
     int out;
@@ -39,13 +39,13 @@ int func_021BD0F0(char *p, int v)
     if (GFL_NET_IsParentAid() == 0) {
         t = 1;
     }
-    if (func_021BCBBC(((struct Obj04415 *)p)->f1348, ((struct Obj04415 *)p)->fCC, &out) != 0
+    if (WIFICLUB_CheckSavedRegulation(((struct Obj04415 *)p)->f1348, ((struct Obj04415 *)p)->fCC, &out) != 0
         && ((struct Obj04415 *)p)->fCC == 0) {
         POKEPARTY_Copy(GAME_DATA_GetMyParty(((struct Obj04415 *)p)->fC4),
                       *(void **)(*(char * *)&((struct Obj04415 *)p)->f248 + t * 4 + 0x14));
         ((struct Obj04415 *)p)->f1CC = 0x67;
     } else {
-        func_021BAAB8(p, 0x71, 0);
+        WIFICLUB_ShowStreamedMessage(p, 0x71, 0);
         ((struct Obj04415 *)p)->f1CC = 0x65;
     }
     return v;

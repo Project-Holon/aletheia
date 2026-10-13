@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021F6AA4  0x021F6AA4  arm    ov107
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F6A24  0x021F6A24  arm    ov107
  *   g_021F7008     0x021F7008  data
  */
@@ -33,7 +33,7 @@ struct hdr {
 extern struct piece g_021F7008;
 
 extern int func_021F6AA4(int a);
-extern void func_02082D44(void *src, void *dst, unsigned long size);
+extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern u8 *func_021F6A24(struct hdr *hdr, u16 child);
 
 u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
@@ -52,7 +52,7 @@ u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
         *((u8 *)hdr + 2) = idx;
         if (idx > g_021F7008.max)
             return 0;
-        func_02082D44(recvbuf + 2, (u8 *)hdr + 3, g_021F7008.size);
+        MI_CpuCopy8(recvbuf + 2, (u8 *)hdr + 3, g_021F7008.size);
         ptr = func_021F6A24(hdr, child_id);
         break;
     case 8:
@@ -64,7 +64,7 @@ u8 *func_021F6908(u8 *recvbuf, struct hdr *hdr, u16 child_id)
         ptr = recvbuf + 3;
         hdr->h2 = recvbuf[1];
         hdr->h2 |= (recvbuf[2] << 8) & 0xFF00;
-        func_02082D44(ptr, (u8 *)hdr + 4, g_021F7008.size);
+        MI_CpuCopy8(ptr, (u8 *)hdr + 4, g_021F7008.size);
         ptr += g_021F7008.size;
         break;
     default:

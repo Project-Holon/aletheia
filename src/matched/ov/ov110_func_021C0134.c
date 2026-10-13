@@ -1,5 +1,5 @@
 /*
- * function: func_021C0134
+ * function: PMS_SELECT_GRAPHIC_ProcInit
  * address: 0x021C0134
  * packet: pkt_ov110_021C0134
  * region: ov110
@@ -19,7 +19,7 @@
  *   func_02045B38 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   PROCSYS_Create 0x02031324 arm
- *   func_021C0490 0x021C0490 thumb ov110
+ *   PMS_SELECT_GRAPHIC_Setup 0x021C0490 thumb ov110
  */
 #include "../include/Obj01713.h"
 typedef unsigned char u8;
@@ -40,8 +40,8 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *PROCSYS_Create(int a0);
-extern void func_021C0490(u8 *);
-int func_021C0134(void *owner,int unused,void **input) {
+extern void PMS_SELECT_GRAPHIC_Setup(u8 *);
+int PMS_SELECT_GRAPHIC_ProcInit(void *owner,int unused,void **input) {
     u8 *p;
     func_02034AC4((unsigned)overlay_id);
     func_0207D534((void *)0x0400006c,-16);
@@ -59,6 +59,6 @@ int func_021C0134(void *owner,int unused,void **input) {
     ((struct Obj01713 *)p)->fAC=PROCSYS_Create(((struct Obj01713 *)p)->f4);
     ((struct Obj01713 *)p)->f94=255;
     ((struct Obj01713 *)p)->f95=255;
-    func_021C0490(p);
+    PMS_SELECT_GRAPHIC_Setup(p);
     return 1;
 }

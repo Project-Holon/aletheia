@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F00
+ * function: IRC_RHYTHM_StartPulse
  * address:  0x021B8F00
  * packet:   pkt_021B8F00
  * region:   ov104
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj22236.h"
 
-void func_021B8F00(void *p)
+void IRC_RHYTHM_StartPulse(void *p)
 {
     ((struct Obj22236 *)p)->fC = 1;
 }

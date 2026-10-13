@@ -79,7 +79,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_0208068C 0x0208068C arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_02185F4C 0x02185F4C data ov219 a4
@@ -380,7 +380,7 @@ extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned func_0201ED04(struct WordSet *);
 extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
-extern void func_0208068C(unsigned),func_02082AC0(unsigned,void *,unsigned),func_02080B98(void);
+extern void func_0208068C(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),func_02080B98(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0203F8F4(unsigned),func_0203FC28(struct DispConfig *);
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
@@ -1076,11 +1076,11 @@ void func_021844E4(void)
 {
     struct DispVram cfg=d_02185F4C;
     func_0208068C(0x1ff);
-    func_02082AC0(0,(void *)0x06800000,0xa4000);func_02080B98();
-    func_02082AC0(0xc0,(void *)0x07000000,0x400);
-    func_02082AC0(0,(void *)0x05000000,0x400);
-    func_02082AC0(0xc0,(void *)0x07000400,0x400);
-    func_02082AC0(0,(void *)0x05000400,0x400);
+    MIi_CpuClearFast(0,(void *)0x06800000,0xa4000);func_02080B98();
+    MIi_CpuClearFast(0xc0,(void *)0x07000000,0x400);
+    MIi_CpuClearFast(0,(void *)0x05000000,0x400);
+    MIi_CpuClearFast(0xc0,(void *)0x07000400,0x400);
+    MIi_CpuClearFast(0,(void *)0x05000400,0x400);
     BG_SYS_SetVramBanks(&cfg);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA734
+ * function: ParseSignHash
  * address:  0x021CA734
  * packet:   pkt_ov114_021CA734
  * region:   ov114
@@ -12,20 +12,20 @@
  * sdk:      ParseSignHash (sign.o)
  *
  * symbols:
- *   func_021CA5E4  0x021CA5E4  arm  ov114
+ *   ASN1Skip  0x021CA5E4  arm  ov114
  */
 
-extern int func_021CA5E4(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp);
+extern int ASN1Skip(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp);
 
-int func_021CA734(unsigned char *data, unsigned int dlen, unsigned char **ppdgst_adrs, unsigned int *pdgst_size, unsigned char **pphash_adrs, unsigned int *phash_size)
+int ParseSignHash(unsigned char *data, unsigned int dlen, unsigned char **ppdgst_adrs, unsigned int *pdgst_size, unsigned char **pphash_adrs, unsigned int *phash_size)
 {
     unsigned int len;
 
-    if (!func_021CA5E4(&data, &dlen, 0x30, 0))
+    if (!ASN1Skip(&data, &dlen, 0x30, 0))
         return 0;
-    if (!func_021CA5E4(&data, &dlen, 0x30, 0))
+    if (!ASN1Skip(&data, &dlen, 0x30, 0))
         return 0;
-    if (!func_021CA5E4(&data, &dlen, 0x06, &len))
+    if (!ASN1Skip(&data, &dlen, 0x06, &len))
         return 0;
     if (ppdgst_adrs)
         *ppdgst_adrs = data;
@@ -35,13 +35,13 @@ int func_021CA734(unsigned char *data, unsigned int dlen, unsigned char **ppdgst
     if (dlen < len)
         return 0;
     dlen -= len;
-    if (!func_021CA5E4(&data, &dlen, 0x05, &len))
+    if (!ASN1Skip(&data, &dlen, 0x05, &len))
         return 0;
     data += len;
     if (dlen < len)
         return 0;
     dlen -= len;
-    if (!func_021CA5E4(&data, &dlen, 0x04, &len))
+    if (!ASN1Skip(&data, &dlen, 0x04, &len))
         return 0;
     if (dlen != len)
         return 0;

@@ -12,7 +12,7 @@
  * sdk:      checkParam (libdwcutil.TWL.HYB.a main.o)
  *
  * symbols:
- *   g_021DE56C     0x021DE56C  data
+ *   gDwcutilMainWork     0x021DE56C  data
  */
 
 typedef struct Param {
@@ -34,21 +34,21 @@ typedef struct UtilState {
     void (*scene)(void);
 } UtilState;
 
-extern UtilState g_021DE56C;
+extern UtilState gDwcutilMainWork;
 
 int func_021C0A2C(int lang, unsigned int param)
 {
-    g_021DE56C.lang = lang;
-    *(unsigned int *)&g_021DE56C.param = param;
+    gDwcutilMainWork.lang = lang;
+    *(unsigned int *)&gDwcutilMainWork.param = param;
     if (lang < 0 || lang > 6)
         return 0;
-    if (g_021DE56C.param.mode > 1)
+    if (gDwcutilMainWork.param.mode > 1)
         return 0;
-    if (g_021DE56C.param.flags & 2)
+    if (gDwcutilMainWork.param.flags & 2)
         return 0;
-    if (lang != 0 && (g_021DE56C.param.flags & 1))
+    if (lang != 0 && (gDwcutilMainWork.param.flags & 1))
         return 0;
-    if (lang == 0 && !(g_021DE56C.param.flags & 1))
+    if (lang == 0 && !(gDwcutilMainWork.param.flags & 1))
         return 0;
     return 1;
 

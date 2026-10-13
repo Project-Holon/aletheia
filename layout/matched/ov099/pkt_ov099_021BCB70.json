@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCB70",
+   "name": "WIFICLUB_CheckPartyAgainstRules",
    "address": "0x021BCB70",
    "kind": "game",
    "region": "ov099",

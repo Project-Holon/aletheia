@@ -15,18 +15,18 @@
  * prototype lists only arg.
  *
  * symbols:
- *   func_020591CC  0x020591CC  arm
+ *   DWCi_Acc_GetFlagDataTypeThunk  0x020591CC  arm
  *   func_0216A39C  0x0216A39C  arm  ov009
  *   func_02059A44  0x02059A44  arm
  *   func_020948E0  0x020948E0  arm
  *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_0205915C  0x0205915C  arm
  *   DWC_SetGsProfileId  0x02059A10  arm
- *   func_02059214  0x02059214  arm
+ *   DWCi_SetBuddyFriendData  0x02059214  arm
  *   func_021696B0  0x021696B0  arm  ov009
- *   func_02059240  0x02059240  arm
- *   func_0205912C  0x0205912C  arm
- *   func_02059270  0x02059270  arm
+ *   DWCi_SetReverseBuddyFlag  0x02059240  arm
+ *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWCi_SetExpIsBuddyFriendFlag  0x02059270  arm
  *   func_02169174  0x02169174  arm  ov009
  *   g_021AA860  0x021AA860  data
  */
@@ -53,7 +53,7 @@ typedef struct {
     char lastname[31];
 } GPGetInfoResponseArg;
 
-extern int func_020591CC(DWCFriendData *frienddata);
+extern int DWCi_Acc_GetFlagDataTypeThunk(DWCFriendData *frienddata);
 extern int func_0216A39C(void);
 extern void func_02059A44(void *userdata, DWCFriendData *frienddata, char *username);
 extern int func_020948E0(const char *a, const char *b);
@@ -61,12 +61,12 @@ struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_0205915C(DWCFriendData *frienddata);
 extern void DWC_SetGsProfileId(void *frienddata, int gs_profile_id);
-extern void func_02059214(DWCFriendData *frienddata);
+extern void DWCi_SetBuddyFriendData(DWCFriendData *frienddata);
 typedef unsigned char  u8;
 extern int func_021696B0(u8 *friendList, int friendListLen, int profileID);
-extern void func_02059240(void *frienddata, int setflag);
-extern int func_0205912C(DWCFriendData *frienddata);
-extern void func_02059270(void *frienddata, int setflag);
+extern void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
+extern int CTRDG_IsBitID(DWCFriendData *frienddata);
+extern void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 extern void func_02169174(int index);
 extern struct FriendGlobal g_021AA860;
 
@@ -81,21 +81,21 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
     if (arg->result != 0)
         return;
     for (i = 0; i < ((DWCFriendControl *)g_021AA860.ctl)->friendListLen; i++) {
-        if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1) {
+        if (DWCi_Acc_GetFlagDataTypeThunk(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1) {
             func_02059A44((void *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i], userName);
             if (func_020948E0(userName, arg->lastname) == 0) {
                 DWC_SetGsProfileId(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
-                func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
+                DWCi_SetBuddyFriendData(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                 listChanged = 1;
             }
-        } else if (func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 3
-                   || func_020591CC(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 2) {
+        } else if (DWCi_Acc_GetFlagDataTypeThunk(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 3
+                   || DWCi_Acc_GetFlagDataTypeThunk(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 2) {
             if (DWC_GetGsProfileId((struct DWCstAccUserData *)func_0216A39C(), &((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == arg->profile) {
                 if (func_0205915C(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]) == 1)
                     alreadyBuddy = 1;
                 else {
                     DWC_SetGsProfileId(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i], arg->profile);
-                    func_02059214(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
+                    DWCi_SetBuddyFriendData(&((DWCFriendControl *)g_021AA860.ctl)->friendList[i]);
                     listChanged = 1;
                 }
             }
@@ -105,9 +105,9 @@ void func_02169E18(void *connection, GPGetInfoResponseArg *arg)
         return;
     index = func_021696B0((u8 *)((DWCFriendControl *)g_021AA860.ctl)->friendList, ((DWCFriendControl *)g_021AA860.ctl)->friendListLen, arg->profile);
     if (!alreadyBuddy) {
-        func_02059240(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
-        if (func_0205912C(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index]))
-            func_02059270(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
+        DWCi_SetReverseBuddyFlag(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
+        if (CTRDG_IsBitID(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index]))
+            DWCi_SetExpIsBuddyFriendFlag(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
         func_02169174(index);
     }
     ((DWCFriendControl *)g_021AA860.ctl)->buddyUpdated = 1;

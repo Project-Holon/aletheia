@@ -1,5 +1,5 @@
 /*
- * function: func_02173E30
+ * function: DWCi_HandleQR2Error
  * address:  0x02173E30
  * packet:   pkt_ov009_02173E30
  * region:   ov009
@@ -14,16 +14,16 @@
  * symbols:
  *   DWC_GetState  0x0216B994  arm  ov009
  *   func_0216A3B8  0x0216A3B8  arm  ov009
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   DWCi_SetError  0x02059F54  arm
  */
 
 extern int DWC_GetState(void);
 extern void func_0216A3B8(int dwcError, int errorCode);
-extern void func_0216EB68(int dwcError, int errorCode);
+extern void DWCi_StopMatch(int dwcError, int errorCode);
 extern void DWCi_SetError(int dwcError, int errorCode);
 
-int func_02173E30(int error)
+int DWCi_HandleQR2Error(int error)
 {
     int errorCode;
     int dwcError;
@@ -57,7 +57,7 @@ int func_02173E30(int error)
         func_0216A3B8(dwcError, errorCode - 64000);
         break;
     case 4:
-        func_0216EB68(dwcError, errorCode - 84000);
+        DWCi_StopMatch(dwcError, errorCode - 84000);
         break;
     default:
         DWCi_SetError(dwcError, errorCode - 94000);

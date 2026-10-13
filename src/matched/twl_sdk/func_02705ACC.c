@@ -15,6 +15,7 @@
  *   DSP_SwitchProcessMemory 0x02705A4C arm twl
  *   MI_GetWramMapStart_B 0x027303C4 arm twl
  *   MI_GetWramMapStart_C 0x027303EC arm twl
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ typedef struct Ent {
     u32 flags;
 } Ent;
 
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void *MI_GetWramMapStart_B(void);
 extern void *MI_GetWramMapStart_C(void);
 s32 DSPi_MapAndLoadProcessImageCallback(Chan *c, Hdr *h, Ent *e);
@@ -63,8 +64,8 @@ u32 DSP_MapAndLoadProcessImage(Chan *c, void *file, u16 a, u16 b)
     c->f1a = b;
     ok = 0;
     if (DSP_EnumSections(c, DSPi_MapAndLoadProcessImageCallback)) {
-        func_020862F0(MI_GetWramMapStart_B(), 0x40000);
-        func_020862F0(MI_GetWramMapStart_C(), 0x40000);
+        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
+        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
         if (DSP_SwitchProcessMemory(c, 1, 0, 0x20000, 2)) {
             if (DSP_SwitchProcessMemory(c, 2, 0, 0x20000, 2)) {
                 ok = 1;

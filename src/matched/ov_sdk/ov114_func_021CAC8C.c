@@ -1,5 +1,5 @@
 /*
- * function: func_021CAC8C
+ * function: CRYPTOi__bn_fix_top
  * address:  0x021CAC8C
  * packet:   pkt_021CAC8C
  * region:   ov114
@@ -16,7 +16,7 @@ typedef struct
     int count;
 } Stack;
 
-void func_021CAC8C(Stack *s)
+void CRYPTOi__bn_fix_top(Stack *s)
 {
     int *p;
 

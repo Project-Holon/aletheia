@@ -1,5 +1,5 @@
 /*
- * function: func_021B67E4
+ * function: COMPATIBLE_IRC_SYS_ProfileSyncPollAck
  * address: 0x021B67E4
  * packet: pkt_ov101_021B67E4
  * region: ov101
@@ -8,4 +8,4 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021B67E4(int *p) { if(p[7]==1) { p[7]=0; return 1; } return 0; }
+int COMPATIBLE_IRC_SYS_ProfileSyncPollAck(int *p) { if(p[7]==1) { p[7]=0; return 1; } return 0; }

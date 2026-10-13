@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D90
+ * function: IRC_RESULT_ExitTextWindow
  * address: 0x021B7D90
  * packet: pkt_ov105_021B7D90
  * region: ov105
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj13752.h"
 struct U16Vec; struct Descriptor; extern void STRBUF_Delete(struct U16Vec *); extern void BMP_WIN_Delete(struct Descriptor *); extern void MI_CpuFill8(void *,unsigned char,unsigned int);
-void func_021B7D90(unsigned char *p) { STRBUF_Delete(*(struct U16Vec * *)&((struct Obj13752 *)p)->fC); BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj13752 *)p)->f0); MI_CpuFill8(p,0,20); }
+void IRC_RESULT_ExitTextWindow(unsigned char *p) { STRBUF_Delete(*(struct U16Vec * *)&((struct Obj13752 *)p)->fC); BMP_WIN_Delete(*(struct Descriptor * *)&((struct Obj13752 *)p)->f0); MI_CpuFill8(p,0,20); }

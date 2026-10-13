@@ -14,7 +14,7 @@
  * symbols:
  *   WM_StartScanEx  0x0208F698  arm
  *   func_021CF174  0x021CF174  arm  ov016
- *   g_021DE640  0x021DE640  data
+ *   gSearchWork  0x021DE640  data
  */
 
 typedef struct {
@@ -33,9 +33,9 @@ typedef struct {
 
 extern int WM_StartScanEx(void (*callback)(void *), void *param);
 extern void func_021CF174(void *arg);
-extern MS *g_021DE640;
+extern MS *gSearchWork;
 
 int func_021CF04C(void)
 {
-	return WM_StartScanEx(func_021CF174, g_021DE640->scan) == 2;
+	return WM_StartScanEx(func_021CF174, gSearchWork->scan) == 2;
 }

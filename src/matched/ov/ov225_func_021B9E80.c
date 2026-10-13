@@ -11,8 +11,8 @@
  *   d_021BC004 0x021BC004 data a1
  *   func_02030734 0x02030734 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
- *   func_020862F0 0x020862F0 arm
- *   func_0207EB78 0x0207EB78 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   GX_LoadBG2Scr 0x0207EB78 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj04650.h"
@@ -20,8 +20,8 @@ typedef unsigned short u16;
 extern const char d_021BC004[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,unsigned,unsigned *);
-extern void func_020862F0(const void *,unsigned);
-extern void func_0207EB78(const void *,unsigned,unsigned);
+extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
+extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021B9E80(char *p,unsigned id)
@@ -36,6 +36,6 @@ void func_021B9E80(char *p,unsigned id)
         } else {
             buf=ARC_UTIL_LoadHandleMemberWithSize(((struct Obj04650 *)p)->f28,((struct Obj04650 *)p)->f30,1,((struct Obj04650 *)p)->f4,&size);
         }
-        func_020862F0(buf,size);func_0207EB78(buf,0,0x18000);func_020307B0(buf);
+        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
     }
 }

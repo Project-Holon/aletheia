@@ -1,5 +1,5 @@
 /*
- * function: func_021E20B8
+ * function: DWCi_GdbGetRequestResultErrorCode
  * address:  0x021E20B8
  * packet:   pkt_021E20B8
  * region:   ov175
@@ -16,7 +16,7 @@
  *  *  header are the record layout of the table the caller indexes.
  */
 
-int func_021E20B8(int a, int b)
+int DWCi_GdbGetRequestResultErrorCode(int a, int b)
 {
     return -40000 - (a * 100 + b + 50);
 }

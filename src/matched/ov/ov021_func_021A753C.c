@@ -14,8 +14,8 @@
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02069C74  0x02069C74  arm
- *   func_02069E88  0x02069E88  arm
+ *   NNS_G3dAnmObjInit  0x02069C74  arm
+ *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -32,8 +32,8 @@ extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern int NNS_G3dGetMdlSet(int p0);
 extern u32 func_02047250(u32 a);
 extern void MI_CpuFill8(u32 *p, u32 v, u32 n);
-extern void func_02069C74(u32 *a, u32 b, u32 c, u32 d);
-extern void func_02069E88(u32 a, u32 *b);
+extern void NNS_G3dAnmObjInit(u32 *a, u32 b, u32 c, u32 d);
+extern void NNS_G3dRenderObjAddAnmObj(u32 a, u32 *b);
 
 static inline u32 *ent(Res *x, u32 idx)
 {
@@ -63,8 +63,8 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(Ctx *s, u32 b, u32 c, u32 d)
     else
         c = 0;
     MI_CpuFill8(s->buf, 0, 0x80);
-    func_02069C74(s->buf, s->v, r6, c);
-    func_02069E88(d, s->buf);
+    NNS_G3dAnmObjInit(s->buf, s->v, r6, c);
+    NNS_G3dRenderObjAddAnmObj(d, s->buf);
     s->flags = (s->flags & ~1) | 1;
     return s->flags;
 }

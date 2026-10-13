@@ -1,5 +1,5 @@
 /*
- * function: func_0689A76C
+ * function: BTLV_SCD_WaitActionTouchStep
  * address:  0x0689A76C
  * packet:   pkt_ov095_0689A76C
  * region:   ov095
@@ -16,9 +16,9 @@
  *   func_0689A81C  0x0689A81C  thumb  ov095
  *   func_0689A82C  0x0689A82C  thumb  ov095
  *   func_0689A83C  0x0689A83C  thumb  ov095
- *   d_0689D8D4     0x0689D8D4  data   ov095
- *   d_0689DF64     0x0689DF64  data   ov095
- *   d_0689D828     0x0689D828  data   ov095
+ *   gBtlvScdActionRegionsA     0x0689D8D4  data   ov095
+ *   gBtlvScdActionRegionsB     0x0689DF64  data   ov095
+ *   gBtlvScdActionButtonByRegion     0x0689D828  data   ov095
  */
 #include "../include/Obj06337.h"
 
@@ -32,21 +32,21 @@ extern void func_0689A80C(u32 h, int a, int b);
 extern void func_0689A81C(int a);
 extern void func_0689A82C(void);
 extern int func_0689A83C(u32 h);
-extern char d_0689D8D4[];
-extern char d_0689DF64[];
-extern u8 d_0689D828[];
+extern char gBtlvScdActionRegionsA[];
+extern char gBtlvScdActionRegionsB[];
+extern u8 gBtlvScdActionButtonByRegion[];
 
-int func_0689A76C(int *st, u8 *s)
+int BTLV_SCD_WaitActionTouchStep(int *st, u8 *s)
 {
     int i;
     u32 v;
 
     switch (*st) {
     case 0:
-        i = func_0689A7EC(((struct Obj06337 *)s)->fB0, d_0689D8D4, d_0689DF64);
+        i = func_0689A7EC(((struct Obj06337 *)s)->fB0, gBtlvScdActionRegionsA, gBtlvScdActionRegionsB);
         if (i == -1)
             break;
-        v = d_0689D828[i];
+        v = gBtlvScdActionButtonByRegion[i];
         ((struct Obj06337 *)s)->f98 = v;
         if (v == 4) {
             func_0689A7FC(((struct Obj06337 *)s)->f70);

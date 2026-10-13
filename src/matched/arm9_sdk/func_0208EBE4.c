@@ -1,5 +1,5 @@
 /*
- * function: func_0208EBE4
+ * function: WM_ReadStatus
  * address:  0x0208EBE4
  * packet:   pkt_0208EBE4
  * region:   arm9
@@ -63,7 +63,7 @@ extern WMErrCode WMi_CheckInitialized(void);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
 
-WMErrCode func_0208EBE4(struct WMStatus *statusBuf)
+WMErrCode WM_ReadStatus(struct WMStatus *statusBuf)
 {
     WMErrCode result;
     WMArm9Buf *p = WMi_GetSystemWork();

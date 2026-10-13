@@ -11,9 +11,9 @@
  *
  * symbols:
  *   _G3dSystem     0x02146A5C  data
- *   func_0206DB80  0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *
- * Set the context's +0x94 word to one, after letting func_0206DB80 run
+ * Set the context's +0x94 word to one, after letting NNS_G3dGeFlushBuffer run
  * first; the context pointer is read from its slot after the call, so it is
  * a fresh `ldr` and not a saved one.
  *
@@ -31,10 +31,10 @@ struct Ctx {
 };
 
 extern struct Ctx *_G3dSystem;
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 
 void G3D_SYSTEM_DrawEnd(void)
 {
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     _G3dSystem->unk_94 = 1;
 }

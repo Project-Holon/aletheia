@@ -1,5 +1,5 @@
 /*
- * function: func_021DEF58
+ * function: DWC_ScShutdown
  * address:  0x021DEF58
  * packet:   pkt_ov175_021DEF58
  * region:   ov175
@@ -14,31 +14,33 @@
  * cleanup list down and wait for the async queue to drain.
  *
  * symbols:
- *   g_021E4D08     0x021E4D08  data
- *   func_021DF5E4  0x021DF5E4  arm  ov175
- *   func_021DEFC4  0x021DEFC4  arm  ov175
+ *   gDwcScControl     0x021E4D08  data
+ *   DWCi_DWCScResultToDWCError  0x021DF5E4  arm  ov175
+ *   DWCi_ScCleanupRootCAList  0x021DEFC4  arm  ov175
+ *   DWCi_ScGetRequestErrorCode  0x021DF644  arm
+ *   scShutdown  0x021DFA3C  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 g_021E4D08[];
-extern int func_021DFA3C(void *);
-extern int func_021DF5E4(void);
-extern int func_021DF644(int, int);
+extern u32 gDwcScControl[];
+extern int scShutdown(void *);
+extern int DWCi_DWCScResultToDWCError(void);
+extern int DWCi_ScGetRequestErrorCode(int, int);
 extern void func_02059F54(int, int);
-extern void func_021DEFC4(void);
+extern void DWCi_ScCleanupRootCAList(void);
 extern void func_0217CD94(void);
 extern void func_0217CCCC(int);
 extern int func_0217CE1C(void);
 
-int func_021DEF58(void)
+int DWC_ScShutdown(void)
 {
     int r;
 
-    r = func_021DFA3C((void *)g_021E4D08[1]);
+    r = scShutdown((void *)gDwcScControl[1]);
     if (r != 0)
-        func_02059F54(func_021DF5E4(), func_021DF644(3, r));
-    func_021DEFC4();
+        func_02059F54(DWCi_DWCScResultToDWCError(), DWCi_ScGetRequestErrorCode(3, r));
+    DWCi_ScCleanupRootCAList();
     func_0217CD94();
     func_0217CCCC(0);
     if (func_0217CE1C() != 2)

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BC0
+ * function: IRC_RESULT_ExitActorSystem
  * address: 0x021B7BC0
  * packet: pkt_ov105_021B7BC0
  * region: ov105
@@ -27,7 +27,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,int);
-void func_021B7BC0(void **p) {
+void IRC_RESULT_ExitActorSystem(void **p) {
  int i;
  for(i=0;i<38;i++) if(p[i+4]) CLACT_DeleteActor(p[i+4]);
  CLACT_ReleasePalette((u32)p[1]); CLACT_ReleaseCharacter((u32)p[2]); CLACT_ReleaseCellAnim((u32)p[3]);

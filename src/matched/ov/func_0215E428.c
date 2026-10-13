@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MOVE_POKEMON_HasActiveEntry  0x0215E404  thumb  ov010
- *   func_0200D45C  0x0200D45C  thumb
+ *   MOVE_POKEMON_SAVE_SetCommonArea  0x0200D45C  thumb
  */
 
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int MOVE_POKEMON_HasActiveEntry(int a0);
-extern int func_0200D45C();
+extern int MOVE_POKEMON_SAVE_SetCommonArea();
 
 void MOVE_POKEMON_SetCommonArea(int a0, int a1)
 {
@@ -34,6 +34,6 @@ loc_0215E432:
 loc_0215E436:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_0200D45C(a0, a1);
+    a0 = MOVE_POKEMON_SAVE_SetCommonArea(a0, a1);
 loc_0215E43E:
     return;}

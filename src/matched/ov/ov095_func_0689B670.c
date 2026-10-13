@@ -1,5 +1,5 @@
 /*
- * function: func_0689B670
+ * function: BTLV_SCD_BeginCloseSequence
  * address:  0x0689B670
  * packet:   pkt_0689B670
  * region:   ov095
@@ -30,7 +30,7 @@ struct S {
     } f;
 };
 
-void func_0689B670(struct S *s)
+void BTLV_SCD_BeginCloseSequence(struct S *s)
 {
     if (s->f.b.hi)
         return;

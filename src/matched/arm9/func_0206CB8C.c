@@ -1,5 +1,5 @@
 /*
- * function: func_0206CB8C
+ * function: NNSi_G3dFuncSbc_NODEMIX
  * address:  0x0206CB8C
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -34,13 +34,13 @@
  * DISCRIMINATING PIN: dsi/1.1p1 compiles the same C to DIFF.
  *
  * symbols:
- *   g_0214A1B4     0x0214A1B4  data
- *   func_02082AC0  0x02082AC0  arm
- *   func_0206DB80  0x0206DB80  arm
+ *   gEvpCache     0x0214A1B4  data
+ *   MIi_CpuClearFast  0x02082AC0  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
  *   func_0207D918  0x0207D918  arm
- *   func_0207DC98  0x0207DC98  arm
+ *   G3X_GetClipMtx  0x0207DC98  arm
  *   func_0207D934  0x0207D934  arm
- *   func_0207DCC8  0x0207DCC8  arm
+ *   G3X_GetVectorMtx  0x0207DCC8  arm
  *   func_0207D8E0  0x0207D8E0  arm
  */
 
@@ -63,7 +63,7 @@ typedef struct {
     MtxFx44 M;
     MtxFx33 N;
 } EvpCache;
-extern EvpCache g_0214A1B4[];
+extern EvpCache gEvpCache[];
 
 typedef struct {
     u32 size;
@@ -91,12 +91,12 @@ typedef struct RS {
 #define REG_MTX_RESTORE  (*(volatile u32 *)0x04000450)
 #define REG_MTX_IDENTITY (*(volatile u32 *)0x04000454)
 
-extern void func_02082AC0(u32 v, void *p, u32 n);
-extern void func_0206DB80(void);
+extern void MIi_CpuClearFast(u32 v, void *p, u32 n);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void func_0207D918(const MtxFx43 *m);
-extern int  func_0207DC98(MtxFx44 *m);
+extern int  G3X_GetClipMtx(MtxFx44 *m);
 extern void func_0207D934(const MtxFx33 *m);
-extern int  func_0207DCC8(MtxFx33 *m);
+extern int  G3X_GetVectorMtx(MtxFx33 *m);
 extern void func_0207D8E0(const void *m);
 
 static inline u32 BitVecCheck(const u32 *vec, u32 idx)
@@ -109,7 +109,7 @@ static inline void BitVecSet(u32 *vec, u32 idx)
     vec[idx >> 5] |= 1 << (idx & 31);
 }
 
-void func_0206CB8C(RS *rs, u32 opt)
+void NNSi_G3dFuncSbc_NODEMIX(RS *rs, u32 opt)
 {
     const EvpMtx *evpMtx;
     u32 numMtx;
@@ -125,8 +125,8 @@ void func_0206CB8C(RS *rs, u32 opt)
     numMtx = rs->c[2];
     evpMtx = (const EvpMtx *)((u8 *)mdl + mdl->ofsEvpMtx);
     p = rs->c + 3;
-    func_02082AC0(0, &sumM, sizeof(sumM) + sizeof(sumN));
-    func_0206DB80();
+    MIi_CpuClearFast(0, &sumM, sizeof(sumM) + sizeof(sumN));
+    NNS_G3dGeFlushBuffer();
 
     REG_MTX_MODE = 0;
     REG_MTX_STORE = 1;
@@ -137,7 +137,7 @@ void func_0206CB8C(RS *rs, u32 opt)
         u32 idxNode = p[1];
         u32 off = idxNode * sizeof(EvpCache);
         u32 cached = BitVecCheck(rs->isEvpCached, idxNode);
-        pM = (MtxFx44 *)((u8 *)&g_0214A1B4[0].M + off);
+        pM = (MtxFx44 *)((u8 *)&gEvpCache[0].M + off);
 
         if (!cached) {
             BitVecSet(rs->isEvpCached, idxNode);
@@ -159,7 +159,7 @@ void func_0206CB8C(RS *rs, u32 opt)
         }
 
         if (!cached) {
-            while (func_0207DC98(pM))
+            while (G3X_GetClipMtx(pM))
                 ;
             REG_MTX_MODE = 2;
             func_0207D934(&evpMtx[idxNode].invN);
@@ -180,9 +180,9 @@ void func_0206CB8C(RS *rs, u32 opt)
         sumM._32 += (w * pM->_32) >> 12;
 
         p += 3;
-        pN = (MtxFx33 *)((u8 *)&g_0214A1B4[0].N + off);
+        pN = (MtxFx33 *)((u8 *)&gEvpCache[0].N + off);
         if (!cached) {
-            while (func_0207DCC8(pN))
+            while (G3X_GetVectorMtx(pN))
                 ;
         }
     }

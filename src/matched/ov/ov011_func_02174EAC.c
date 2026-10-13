@@ -15,7 +15,7 @@
  *   func_02008530  0x02008530  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
  *   INTRUDE_COMM_StorePlayerRecord  0x02174F54  thumb ov011
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
@@ -44,7 +44,7 @@ struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, unsigned int i);
 unsigned int func_02008530(const struct Sub0200852CObj *obj);
 void MYSTATUS_Copy(void *src, void *dst);
 void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, unsigned int idx);
-void func_02082D44(u8 *a, int b, int c);
+void MI_CpuCopy8(u8 *a, int b, int c);
 struct BigObj;
 void GAME_DATA_SetSlotFlag(struct BigObj *p, int i, u8 v);
 struct Ent;
@@ -73,7 +73,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q)
     flag = 1;
 skip:
     MYSTATUS_Copy(q, (void *)a);
-    func_02082D44(q + 0x20, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)ctx, idx), 0x10);
+    MI_CpuCopy8(q + 0x20, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)ctx, idx), 0x10);
     GAME_DATA_SetSlotFlag((struct BigObj *)ctx, idx, ((Q *)(q + 0x4A))->hi);
     INTRUDE_COMM_StorePlayerRecord(p, idx, (const struct Ent *)(q + 0x30), 1);
     p[0x8FB] |= (u8)(1 << idx);

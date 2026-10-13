@@ -1,5 +1,5 @@
 /*
- * function: func_02176984
+ * function: DWCi_IsLockedBuddyStatus
  * address:  0x02176984
  * packet:   pkt_02176984
  * region:   ov009
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 extern int func_021684CC(char *key, char *value, char *string, char separator);
 extern u32 sub_02095EAC(u32 a0, u32 *a1, u32 mode);
 
-unsigned char func_02176984(char *a0)
+unsigned char DWCi_IsLockedBuddyStatus(char *a0)
 {
     char buf[4] = {0};
     unsigned char r = 0;

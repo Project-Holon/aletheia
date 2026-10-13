@@ -1,5 +1,5 @@
 /*
- * function: func_02189D48
+ * function: TR_AI_CmdLoadBestDamagePoke
  * address: 0x02189D48
  * packet: pkt_ov096_02189D48
  * region: ov096
@@ -22,7 +22,7 @@
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_SERVER_FLOW_CalcPredictedMoveDamage 0x021C7E14 thumb ov093
- *   func_0218A308 0x0218A308 thumb ov096
+ *   TR_AI_GetSlotPoke 0x0218A308 thumb ov096
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,8 +39,8 @@ extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
-extern u8 *func_0218A308(void *p, u32 i);
-u32 func_02189D48(struct Cursor *a, u8 *p)
+extern u8 *TR_AI_GetSlotPoke(void *p, u32 i);
+u32 TR_AI_CmdLoadBestDamagePoke(struct Cursor *a, u8 *p)
 {
     int t, k;
     u8 x, z;
@@ -62,7 +62,7 @@ u32 func_02189D48(struct Cursor *a, u8 *p)
         return *(u32 *)(p + 0xC4);
     }
     for (j = 0; j < n; j++) {
-        u8 *m = func_0218A308(g, (u8)j);
+        u8 *m = TR_AI_GetSlotPoke(g, (u8)j);
         z = BTL_POKEPARAM_GetPokeId(m);
         if (BTL_POKEPARAM_IsAbleToBattle(m) != 0 && j != sel) {
             int i;

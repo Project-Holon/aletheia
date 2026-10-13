@@ -1,5 +1,5 @@
 /*
- * function: func_021C14F4
+ * function: DWCi_RAKUlEnd
  * address:  0x021C14F4
  * packet:   pkt_021C14F4
  * region:   ov016
@@ -10,20 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C14F4 0x021C14F4 arm
+ *   DWCi_RAKUlEnd 0x021C14F4 arm
  *   func_021BC724 0x021BC724 thumb
+ *   OS_Terminate  0x02088234  arm  arm9
+ *   DWCi_HEAPlFree_  0x021D6438  arm
  *
  * Post the event at 0x021DE594 when func_021BC724 does not report one.
  * Addresses are Black-image addresses.
  */
 
 extern int func_021BC724(void);
-extern void func_02088234(void);
-extern void func_021D6438(void **mem);
+extern void OS_Terminate(void);
+extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021C14F4(void)
+void DWCi_RAKUlEnd(void)
 {
     if (func_021BC724() != 1)
-        func_02088234();
-    func_021D6438((void *)0x021DE594);
+        OS_Terminate();
+    DWCi_HEAPlFree_((void *)0x021DE594);
 }

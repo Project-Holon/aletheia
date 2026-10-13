@@ -1,5 +1,5 @@
 /*
- * function: func_02157808
+ * function: invert_checksum
  * address:  0x02157808
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
  */
 
-unsigned int func_02157808(unsigned int x)
+unsigned int invert_checksum(unsigned int x)
 {
     unsigned int y = x ^ 0xffffu;
 

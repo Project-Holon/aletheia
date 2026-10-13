@@ -32,7 +32,7 @@
  *   func_021D7038 0x021D7038 thumb ov116
  *   func_021D7B64 0x021D7B64 thumb ov116
  *   func_021D7CF4 0x021D7CF4 thumb ov116
- *   func_021C8FA8 0x021C8FA8 arm ov114
+ *   DPW_BT_Main 0x021C8FA8 arm ov114
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -73,7 +73,7 @@ extern void func_021D6CBC(u8 *,void *,u8 *),func_021D7AA8(u8 *),func_021D7C58(u8
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
 extern int func_021D7B00(u8 *);
 extern int func_021D7B64(u8 *);
-extern void func_021D7038(u8 *),func_021C8FA8(void),func_021D7CF4(u8 *);
+extern void func_021D7038(u8 *),DPW_BT_Main(void),func_021D7CF4(u8 *);
 int func_021D6710(void *a,int *state,int b,u8 *p)
 {
     int v;
@@ -104,7 +104,7 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 20: if(func_021D7B00(p)!=0) *state=21; else *state=14; func_021D7038(p+0x1610); break;
     case 21: if(func_021D7B64(p)!=0) *state=14; break;
     }
-    if(((struct Obj00671 *)p)->fB68!=0) func_021C8FA8();
+    if(((struct Obj00671 *)p)->fB68!=0) DPW_BT_Main();
     func_021D7CF4(p+4);
     return 0;
 }

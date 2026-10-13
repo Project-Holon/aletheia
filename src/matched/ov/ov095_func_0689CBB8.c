@@ -1,5 +1,5 @@
 /*
- * function: func_0689CBB8
+ * function: BTL_POKESET_AddWithDamage
  * address:  0x0689CBB8
  * packet:   pkt_ov095_0689CBB8
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0689CB48  0x0689CB48  thumb  ov095
+ *   BTL_POKESET_Add  0x0689CB48  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -29,14 +29,14 @@ typedef struct {
     u8 f45;
 } S;
 
-void func_0689CB48(S *p, u32 id);
+void BTL_POKESET_Add(S *p, u32 id);
 
-void func_0689CBB8(S *p, u32 id, u16 amt, int flag)
+void BTL_POKESET_AddWithDamage(S *p, u32 id, u16 amt, int flag)
 {
     u32 i;
     u32 t;
 
-    func_0689CB48(p, id);
+    BTL_POKESET_Add(p, id);
     for (i = 0; i < p->n; i++) {
         t = p->id[i];
         if (t == id) {

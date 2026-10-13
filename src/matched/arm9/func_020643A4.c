@@ -1,5 +1,5 @@
 /*
- * function: func_020643A4
+ * function: NNS_G2dRestartCellAnimation
  * address:  0x020643A4
  * packet:   pkt_02064364
  * region:   arm9
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02062F90  0x02062F90  arm
- *   func_0206419C  0x0206419C  arm
+ *   NNSi_G2dRefreshCellAnimation  0x0206419C  arm
  *
  * Restarts one node's cell animation from frame 0, forces its active flag at
  * +0x0C on and marks the node's OAM cache dirty unconditionally.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020643A4.c  *       --func func_020643A4 --addr 0x020643A4 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dRestartCellAnimation.c  *       --func NNS_G2dRestartCellAnimation --addr 0x020643A4 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -33,11 +33,11 @@ struct CellAnim {
 
 struct NNSG2dAnimController;
 extern void func_02062F90(struct NNSG2dAnimController *pAnimCtrl);
-extern void func_0206419C(char *self);
+extern void NNSi_G2dRefreshCellAnimation(char *self);
 
-void func_020643A4(struct CellAnim *anim)
+void NNS_G2dRestartCellAnimation(struct CellAnim *anim)
 {
     func_02062F90((struct NNSG2dAnimController *)anim);
     anim->active = 1;
-    func_0206419C((char *)anim);
+    NNSi_G2dRefreshCellAnimation((char *)anim);
 }

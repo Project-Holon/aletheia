@@ -11,8 +11,8 @@
  *
  * symbols:
  *   data_02732FC8 0x02732FC8 data twl a2
- *   func_02087988 0x02087988 arm twl a2
- *   func_0208799C 0x0208799C arm twl a2
+ *   OS_DisableInterrupts 0x02087988 arm twl a2
+ *   OS_RestoreInterrupts 0x0208799C arm twl a2
  *   CAMERA_CheckRetryCount 0x027007C8  arm twl a2
  *   CAMERA_I2CInitAsyncCore 0x02700C18  arm twl a2
  *   CameraSendPxiCommand 0x027019B4 arm twl a2
@@ -56,6 +56,14 @@
  *   PM_DeletePostExitCallback  0x02731590  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *   PXI_Init  0x02088498  arm  arm9
+ *   OS_EnableIrqMask  0x02084968  arm  arm9
+ *   OS_DisableIrqMask  0x02084998  arm  arm9
+ *   OS_CreateThread  0x020853C0  arm  arm9
+ *   OS_KillThread  0x02085638  arm  arm9
+ *   OS_WakeupThreadDirect  0x02085868  arm  arm9
+ *   OS_Sleep  0x02085A38  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -94,13 +102,13 @@ extern u32 CAMERA_I2CAutoExposureAsyncCore(u32, s32, CamPxiCallback, u32);
 extern u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32, s32, CamPxiCallback, u32);
 extern int CAMERA_SetLEDAsyncCore(u32, CamPxiCallback, u32);
 extern u32 CameraSendPxiCommand(u32, u32, u32);
-extern u32 func_02087988(void);
-extern void func_02085A38(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_Sleep(u32);
 extern u32 func_02085E50(u32*, u32*, u32);
 extern void func_02087974(void);
 extern void CAMERA_ResetCore(void);
 extern void PXI_Init(void);
-extern u32 func_020885EC(u32, u32);
+extern u32 PXI_IsCallbackReady(u32, u32);
 extern void func_020885A0(u32, void (*)(int, u32, int));
 extern void CAMERA_StopCaptureCore(void);
 extern void CAMERA_ClearBufferCore(void);
@@ -110,18 +118,18 @@ extern void CAMERA_SetVsyncInterruptCore(u32);
 extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, TwlFn);
-extern void func_02084968(u32);
+extern void OS_EnableIrqMask(u32);
 extern void func_02085D94(u32*, u32*, u32);
-extern void func_020853C0(u32*, void (*)(void), u32, u32*, u32, u32);
-extern void func_02085868(u32*);
+extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
+extern void OS_WakeupThreadDirect(u32*);
 extern void func_0208C86C(u32*);
 extern void PM_DeletePostExitCallback(u32*);
 extern u32 CAMERA_I2CActivateCore(u32 a0);
-extern void func_02084998(u32);
-extern void func_02085638(u32*, u32);
-extern void func_02087A04(u32);
+extern void OS_DisableIrqMask(u32);
+extern void OS_KillThread(u32*, u32);
+extern void OS_SpinWaitSysCycles(u32);
 extern s32 CAMERA_IsBusyCore(void);
-extern void func_0208799C(u32);
+extern void OS_RestoreInterrupts(u32);
 void CAMERA_CameraIntr(void);
 void CAMERA_SetVsyncCallbackCore(TwlCb a0);
 void CAMERA_SetBufferErrorCallbackCore(TwlCb a0);
@@ -220,9 +228,9 @@ u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
     if (a0 != 1 && a0 != 2 && a0 != 3) {
         return 3;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.f00 != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         ret = 6;
         if (st != 6) {
             ret = 2;
@@ -230,7 +238,7 @@ u32 CAMERA_I2CInitAsyncCore(u32 a0, CamPxiCallback a1, u32 a2) {
         return ret;
     }
     data_02732FC8.f00 = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.f04 = a1;
     ret = 0;
     data_02732FC8.f0C = a2;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C80
+ * function: ghiEncryptorSslReceiveFunc
  * address:  0x021C1C80
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021C1C80(void *connection, void *encryptor, char *buffer, int *bufferLen)
+int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen)
 {
     return 1;
 }

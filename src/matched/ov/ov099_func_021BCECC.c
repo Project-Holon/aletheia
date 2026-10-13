@@ -1,5 +1,5 @@
 /*
- * function: func_021BCECC
+ * function: WIFICLUB_StateShowRulePreview
  * address:  0x021BCECC
  * packet:   pkt_ov099_021BCECC
  * region:   ov099
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   GFL_NET_IsParentAid  0x0203D378  arm
- *   func_021BCC4C  0x021BCC4C  thumb  ov099
- *   func_021BBEB4  0x021BBEB4  thumb  ov099
- *   func_021BA874  0x021BA874  thumb  ov099
- *   func_021BA978  0x021BA978  thumb  ov099
- *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_021BC090  0x021BC090  thumb  ov099
+ *   WIFICLUB_LoadOwnRegulation  0x021BCC4C  thumb  ov099
+ *   WIFICLUB_ShowRuleWindow  0x021BBEB4  thumb  ov099
+ *   WIFICLUB_SetPartnerNameWord  0x021BA874  thumb  ov099
+ *   WIFICLUB_PrintTalkMessage  0x021BA978  thumb  ov099
+ *   WIFICLUB_ShowStreamedMessage  0x021BAAB8  thumb  ov099
+ *   WIFICLUB_ResetTimeIcon  0x021BC090  thumb  ov099
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  */
@@ -28,29 +28,29 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 extern u32 GFL_NET_IsParentAid(void);
-extern void func_021BCC4C(void *a);
+extern void WIFICLUB_LoadOwnRegulation(void *a);
 struct O;
-extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
-extern void func_021BA874(char *p, int id);
-extern void func_021BA978(char *p, int a, int b, int c);
-extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(char *p);
+extern void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode);
+extern void WIFICLUB_SetPartnerNameWord(char *p, int id);
+extern void WIFICLUB_PrintTalkMessage(char *p, int a, int b, int c);
+extern void WIFICLUB_ShowStreamedMessage(char *p, int a, int b);
+extern void WIFICLUB_ResetTimeIcon(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, unsigned int a, unsigned int b);
 
-int func_021BCECC(char *p, int v)
+int WIFICLUB_StateShowRulePreview(char *p, int v)
 {
     if (GFL_NET_IsParentAid() == 0) {
-        func_021BCC4C(p);
-        func_021BBEB4((struct O *)p, 0, ((struct Obj22034 *)(*(u8 * *)&((struct Obj05262 *)p)->f248))->f48, 1);
-        func_021BA874(p, ((struct Obj05262 *)p)->f242 - 1);
-        func_021BA978(p, ((struct Obj05262 *)p)->f134C + 0x69 + (((struct Obj05262 *)p)->f134E << 2), 0, 1);
+        WIFICLUB_LoadOwnRegulation(p);
+        WIFICLUB_ShowRuleWindow((struct O *)p, 0, ((struct Obj22034 *)(*(u8 * *)&((struct Obj05262 *)p)->f248))->f48, 1);
+        WIFICLUB_SetPartnerNameWord(p, ((struct Obj05262 *)p)->f242 - 1);
+        WIFICLUB_PrintTalkMessage(p, ((struct Obj05262 *)p)->f134C + 0x69 + (((struct Obj05262 *)p)->f134E << 2), 0, 1);
         ((struct Obj05262 *)p)->f1CC = 0x7A;
     } else {
-        func_021BAAB8(p, 0x4C, 0);
-        func_021BC090(p);
+        WIFICLUB_ShowStreamedMessage(p, 0x4C, 0);
+        WIFICLUB_ResetTimeIcon(p);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0xA);
         ((struct Obj05262 *)p)->f1CC = 0x49;
     }

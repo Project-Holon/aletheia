@@ -60,7 +60,6 @@
  *   func_0207B9F0        0x0207B9F0  arm
  *   func_0207CA68        0x0207CA68  arm
  *   func_0207CAE8        0x0207CAE8  arm
- *   VEC_Normalize_Alt        0x0207CCA4  arm
  *   func_0207D8E0        0x0207D8E0  arm
  *   func_0207D918        0x0207D918  arm
  *   func_0205429C_Verts  0x020A1B38  data
@@ -72,7 +71,6 @@
  *   func_02054A68_Verts  0x020A1B38  data
  *   func_02054A68_Hooks  0x020A7FE4  data
  *   func_02054A68_Hooks2 0x020A7FDC  data
- *   MTX_MultVec43_Alt        0x0207BC08  arm
  *   func_02055B80_Verts  0x020A1B38  data
  *   func_02055FD4_Verts  0x020A1B38  data
  *   g_02146A8C     0x02146A8C  data
@@ -83,11 +81,9 @@
  *   SPLEmitter_ComputeOrthogonalAxes 0x02057830  arm
  *   VEC_Fx16CrossProduct             0x0207CB68  arm
  *   _u32_div_f                       0x0209C2B0  arm
- *   VEC_Fx16CrossProduct_Alt   0x0207CB68  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
  *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   g_020A7FEC     0x020A7FEC  data
- *   FX_SinCosTable__Alt     0x020A1B38  data
  *   func_0207AF00  0x0207AF00  thumb
  *   func_0207AF1C  0x0207AF1C  thumb
  *   func_0207AF38  0x0207AF38  thumb
@@ -1379,7 +1375,6 @@ extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
 extern int _s32_div_f(int num, int den);
 extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
-extern void VEC_Fx16CrossProduct_Alt(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
 extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
@@ -1389,7 +1384,6 @@ extern void SPLRandom_VecFx32(VecFx32 *vec);
 extern void SPLRandom_VecFx32_XY(VecFx32 *vec);
 extern void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr);
 extern void SPLUtil_TiltCoordinates(VecFx32 *ptclPos, VecFx32 *pos, SPLEmitter *emtr);
-extern void MTX_MultVec43_Alt(const void *v, const void *m, void *out);
 extern void func_0207D918(const void *);
 extern void G3_MultMtx43(const MtxFx43 *m);
 extern void MI_Copy36B(const void *pSrc, void *pDst);
@@ -1404,7 +1398,6 @@ extern void func_0207D8E0(const void *);
 extern void func_0207B598(void *);
 extern s32 func_0207CA68(const void *, const void *);
 extern void func_0207CAE8(const void *, const void *, void *);
-extern void VEC_Normalize_Alt(const void *, void *);
 extern SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
 extern void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
 extern void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate);
@@ -1473,7 +1466,6 @@ int func_02052634(char *p, int b, int c);
 int func_020525A0(char *p, int b, void (*fn)(void *));
 void func_0205250C(char *p, char *q);
 void func_020524C8(void *p);
-extern s16 FX_SinCosTable__Alt[];
 extern const struct Vec16 g_020A7FEC;
 extern const fx16 FX_SinCosTable_[];
 extern u32 g_02146A8C;
@@ -1662,15 +1654,15 @@ void func_020580A8(struct Obj_02057EF8 *o, u8 *dst)
     switch (o->f02) {
     case 0:
         idx = o->f00 >> 4;
-        func_0207AF00(buf, FX_SinCosTable__Alt[idx * 2], FX_SinCosTable__Alt[idx * 2 + 1]);
+        func_0207AF00(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 1:
         idx = o->f00 >> 4;
-        func_0207AF1C(buf, FX_SinCosTable__Alt[idx * 2], FX_SinCosTable__Alt[idx * 2 + 1]);
+        func_0207AF1C(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 2:
         idx = o->f00 >> 4;
-        func_0207AF38(buf, FX_SinCosTable__Alt[idx * 2], FX_SinCosTable__Alt[idx * 2 + 1]);
+        func_0207AF38(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     }
 
@@ -2210,8 +2202,8 @@ void func_020576D0(fx32 *out, const VecFx32 *src, const struct Mtx3 *m)
 {
     struct Vec16 v;
 
-    VEC_Fx16CrossProduct_Alt((const struct Vec16 *)(m->pad + 0x84),
-                  (const struct Vec16 *)(m->pad + 0x8a), &v);
+    VEC_Fx16CrossProduct((const VecFx16 *)(m->pad + 0x84),
+                  (const VecFx16 *)(m->pad + 0x8a), (VecFx16 *)&v);
     VEC_Fx16Normalize(&v, &v);
 
     out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
@@ -2982,7 +2974,7 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
         f.t.x = s->p1.x + s->f38;
         f.t.y = s->p1.y + s->f3c;
         f.t.z = s->p1.z + s->f40;
-        MTX_MultVec43_Alt(&f.t, mtx, &f.t);
+        MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
@@ -3004,7 +2996,7 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
         f.t.x = s->p1.x + s->f38 - p->f04;
         f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
         f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        MTX_MultVec43_Alt(&f.t, mtx, &f.t);
+        MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055FD4_Verts[2 * i];
         cs = func_02055FD4_Verts[2 * i + 1];
@@ -3058,7 +3050,7 @@ void func_02055FD4(struct Obj *obj, struct S_020524C8 *s)
  * docs/families/cluster_02052F58.h): a Z-rotation billboard.  Same top as
  * func_0205429C (POLYGON_ATTR, the three-way scale switch), then instead of
  * the basis hooks it transforms the particle position by the current matrix
- * (MTX_MultVec43, MTX_MultVec43_Alt), reads sin/cos from the Verts table at
+ * (MTX_MultVec43), reads sin/cos from the Verts table at
  * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
  * the colour and calls the quad emitter func_020565C8 DIRECTLY.
@@ -3132,7 +3124,7 @@ void func_02055B80(struct Obj *obj, struct S_020524C8 *s)
         f.t.x = s->p1.x + s->f38;
         f.t.y = s->p1.y + s->f3c;
         f.t.z = s->p1.z + s->f40;
-        MTX_MultVec43_Alt(&f.t, mtx, &f.t);
+        MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
@@ -3154,7 +3146,7 @@ void func_02055B80(struct Obj *obj, struct S_020524C8 *s)
         f.t.x = s->p1.x + s->f38 - p->f04;
         f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
         f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        MTX_MultVec43_Alt(&f.t, mtx, &f.t);
+        MTX_MultVec43((const VecFx32 *)&f.t, (const MtxFx43 *)mtx, (VecFx32 *)&f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
@@ -3897,9 +3889,9 @@ void func_0205429C(struct Obj *obj, struct S_020524C8 *s)
 
     func_0207B598(&f.m4);
     if (obj->f40->f20->f00->f48.hi == 0) {
-        VEC_Normalize_Alt(&s->p2, &f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
-        VEC_Normalize_Alt(&s->p1, &f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
         f.v0.x = -f.v0.x;
         f.v0.y = -f.v0.y;
         f.v0.z = -f.v0.z;
@@ -4060,9 +4052,9 @@ void func_02053E1C(struct Obj *obj, struct S_020524C8 *s)
 
     func_0207B598(&f.m4);
     if (obj->f40->f20->f14->f10.sel == 0) {
-        VEC_Normalize_Alt(&s->p2, &f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p2, (VecFx32 *)&f.v0);
     } else {
-        VEC_Normalize_Alt(&s->p1, &f.v0);
+        VEC_Normalize((const VecFx32 *)&s->p1, (VecFx32 *)&f.v0);
         f.v0.x = -f.v0.x;
         f.v0.y = -f.v0.y;
         f.v0.z = -f.v0.z;

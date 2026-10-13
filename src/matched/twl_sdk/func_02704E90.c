@@ -11,7 +11,7 @@
  *
  * symbols:
  *   DAT_04004006   0x04004006  data twl
- *   func_02087A04  0x02087A04  arm twl
+ *   OS_SpinWaitSysCycles  0x02087A04  arm twl
  *   DSP_ResetOnCore  0x02704F1C  arm twl
  *   DSP_PowerOffCore  0x02704EE8  arm
  *   DSP_ResetOffExCore  0x02704F4C  arm
@@ -22,15 +22,17 @@
  *   DSP_RecvDataCore  0x0270505C  arm
  *   DSP_SendFifoExCore  0x02705088  arm
  *   DSP_RecvFifoExCore  0x02705150  arm
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef int s32;
 typedef volatile u16 vu16;
 
-extern void func_02087A04(u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern void OS_SpinWaitSysCycles(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 void DSP_PowerOnCore(void);
 void DSP_PowerOffCore(void);
 void DSP_ResetOnCore(void);
@@ -61,7 +63,7 @@ void DSP_PowerOnCore(void)
 {
     REG_PWR &= 0xFFFE;
     REG_CNT = (REG_CNT & 0xFFFD) | 2;
-    func_02087A04(2);
+    OS_SpinWaitSysCycles(2);
     REG_PWR = (REG_PWR & 0xFFFE) | 1;
     DSP_ResetOnCore();
 }

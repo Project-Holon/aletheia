@@ -12,10 +12,10 @@
  * symbols:
  *   ITEMMENU_IsRepelItem  0x021B68E8  thumb  ov070
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D58C  0x0200D58C  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
  *   func_02020FE4  0x02020FE4  thumb
- *   func_0200D55C  0x0200D55C  thumb
+ *   MOVE_POKEMON_SAVE_SetCooldown  0x0200D55C  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F02C  0x0201F02C  thumb
@@ -36,10 +36,10 @@ extern int   ITEMMENU_IsRepelItem(u16 id);
 struct Big;
 struct Blk38;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *sys);
-extern u32 func_0200D58C(struct Blk38 *p);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
+extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct Blk38 *p);
 extern u32   func_02020FE4(u16 a, u32 sel, u32 id);
-extern void func_0200D55C(struct Blk38 *p, u8 v);
+extern void MOVE_POKEMON_SAVE_SetCooldown(struct Blk38 *p, u8 v);
 struct Obj;
 extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
 struct MsgBank;
@@ -59,10 +59,10 @@ void ITEMMENU_UseRepel(u8 *p)
     u8 v;
 
     if (ITEMMENU_IsRepelItem(((struct Obj00002 *)p)->f84C)) {
-        blk = func_0200D418(GAME_DATA_GetSaveControl(((struct Obj00002 *)p)->f0));
-        if (func_0200D58C(blk)) {
+        blk = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00002 *)p)->f0));
+        if (MOVE_POKEMON_SAVE_IsCooldownDone(blk)) {
             v = func_02020FE4(((struct Obj00002 *)p)->f84C, 2, ((struct Obj00002 *)p)->f544);
-            func_0200D55C(blk, v);
+            MOVE_POKEMON_SAVE_SetCooldown(blk, v);
             ITEMMENU_RemoveSelectedItems((struct Obj *)p, 1);
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3F, (void *)(((struct Obj00002 *)p)->f524));
             func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));

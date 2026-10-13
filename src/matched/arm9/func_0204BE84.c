@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02065B74  0x02065B74  arm
+ *   NNS_G2dInitRenderSurface  0x02065B74  arm
  *   CLACT_SetSurfaceType  0x0204BF28  arm
  *   g_ClactSurfaceFuncTable     0x020A1418  data
  *   g_ClactSurfaceModeTable     0x020A13F4  data
@@ -60,7 +60,7 @@ typedef struct {
 } D;
 
 struct Obj;
-extern void func_02065B74(struct Obj *p);
+extern void NNS_G2dInitRenderSurface(struct Obj *p);
 extern void CLACT_SetSurfaceType(u8 *p, u32 idx);
 extern S12  g_ClactSurfaceFuncTable[];
 extern u32  g_ClactSurfaceModeTable[];
@@ -71,7 +71,7 @@ void CLACT_InitSurface(D *a0, const T *a1)
     s16 y;
     s16 x;
 
-    func_02065B74((struct Obj *)a0);
+    NNS_G2dInitRenderSurface((struct Obj *)a0);
     x = a1->f2;
     a0->f00 = (int)a1->f0 << 12;
     y = a1->f6;

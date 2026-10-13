@@ -13,14 +13,14 @@
  *
  * symbols:
  *   DWC_GetMyAID  0x0216B838  arm  ov009
- *   func_02176410  0x02176410  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
  *   g_021AA878  0x021AA878  data
  */
 
 #include "../include/G_DwcGlobal.h"
 
 extern unsigned char DWC_GetMyAID(void);
-extern char *func_02176410(unsigned char aid);
+extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern struct DwcGlobal g_021AA878;
 
 int DWC_IsValidAID(unsigned char aid)
@@ -29,7 +29,7 @@ int DWC_IsValidAID(unsigned char aid)
 		return 0;
 	if (aid == DWC_GetMyAID())
 		return 0;
-	if (func_02176410(aid))
+	if (DWCi_NodeInfoList_GetNodeInfoForAID(aid))
 		return 1;
 	return 0;
 }

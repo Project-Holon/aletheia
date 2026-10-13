@@ -1,5 +1,5 @@
 /*
- * function: func_021CEF20
+ * function: DWCi_SEARCHlInit
  * address:  0x021CEF20
  * packet:   pkt_ov016_021CEF20
  * region:   ov016
@@ -12,8 +12,8 @@
  * sdk:      DWCi_SEARCHlInit (libdwcutil.TWL.HYB.a(search.o))
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   g_021DE640  0x021DE640  data
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   gSearchWork  0x021DE640  data
  */
 
 typedef struct {
@@ -30,11 +30,11 @@ typedef struct {
 	char pad1[3];
 } MS;
 
-extern void *func_021D6414(unsigned long size, int alignment);
-extern MS *g_021DE640;
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern MS *gSearchWork;
 
-void func_021CEF20(void)
+void DWCi_SEARCHlInit(void)
 {
-	if (g_021DE640 == 0)
-		g_021DE640 = (MS *)func_021D6414(0x1e60, 0x20);
+	if (gSearchWork == 0)
+		gSearchWork = (MS *)DWCi_HEAPlAllocEx(0x1e60, 0x20);
 }

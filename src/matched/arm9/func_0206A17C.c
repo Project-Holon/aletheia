@@ -1,5 +1,5 @@
 /*
- * function: func_0206A17C
+ * function: NNS_G3dPlttReleasePlttKey
  * address:  0x0206A17C
  * packet:   pkt_0206A12C
  * region:   arm9
@@ -24,8 +24,8 @@
  * Under the pin the C below is 32 bytes, 0 mismatches.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A17C.c \
- *       --func func_0206A17C --addr 0x0206A17C --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_G3dPlttReleasePlttKey.c \
+ *       --func NNS_G3dPlttReleasePlttKey --addr 0x0206A17C --arm --cc ../2.0/sp2
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ typedef struct {
     u16   flags;
 } S;
 
-void *func_0206A17C(S *p)
+void *NNS_G3dPlttReleasePlttKey(S *p)
 {
     void *old;
     u32   f = p->flags;

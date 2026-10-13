@@ -1,5 +1,5 @@
 /*
- * function: func_02073BB0
+ * function: NNSi_SndStrmReleaseTimer
  * address:  0x02073BB0
  * packet:   pkt_02073624
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E8E8       0x214E8E8  data
+ *   gSndStrmList       0x214E8E8  data
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
  *
  * EXACT* only because the follower at 0x02073BE0 carries no func_ label in the
@@ -28,14 +28,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct X { u8 pad00[0x2c]; u32 f2c; u8 pad2[0x48 - 0x30]; u32 f48; };
-extern char g_0214E8E8[];
+extern char gSndStrmList[];
 extern void NNS_SndWaveOutFreeChannel(u32);
 struct DList;
 extern void func_020605B4(volatile struct DList *list, void *elem);
 
-void func_02073BB0(struct X *x)
+void NNSi_SndStrmReleaseTimer(struct X *x)
 {
     NNS_SndWaveOutFreeChannel(x->f48);
-    func_020605B4((volatile struct DList *)g_0214E8E8, x);
+    func_020605B4((volatile struct DList *)gSndStrmList, x);
     x->f2c &= ~1;
 }

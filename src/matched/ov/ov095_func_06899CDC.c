@@ -1,5 +1,5 @@
 /*
- * function: func_06899CDC
+ * function: BTLV_SCD_StartInputSlideOut
  * address: 0x06899CDC
  * packet: pkt_ov095_06899CDC
  * region: ov095
@@ -18,7 +18,7 @@ typedef signed char s8;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0220266C(struct Obj *p);
-void func_06899CDC(const s8 *p)
+void BTLV_SCD_StartInputSlideOut(const s8 *p)
 {
     ((struct Obj07908 *)p)->f8C = -16;
     ((struct Obj07908 *)p)->f8D = 0;

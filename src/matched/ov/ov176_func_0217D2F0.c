@@ -20,8 +20,8 @@
  * symbols:
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
- *   func_02082D44  0x02082D44  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
@@ -44,8 +44,8 @@ struct Rec0200E6FC;
 struct Reg2;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int MYSTATUS_GetSize(void);
-extern void func_02082D44(u32 a, void *p, u32 b);
-extern void func_02087C6C(void *p);
+extern void MI_CpuCopy8(u32 a, void *p, u32 b);
+extern void OS_GetMacAddress(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
@@ -64,11 +64,11 @@ void func_0217D2F0(u8 *p, u8 *q)
 
     ((struct Obj06578 *)p)->f44 = 0x64;
     x = (u32)GAME_DATA_GetMyStatus(r);
-    func_02082D44(x, p, MYSTATUS_GetSize());
-    func_02087C6C(p + 0x20);
+    MI_CpuCopy8(x, p, MYSTATUS_GetSize());
+    OS_GetMacAddress(p + 0x20);
     func_0200E6FC(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
-    func_02082D44(a, p + 0xd4, POKE_REGULATION_GetDataSize());
+    MI_CpuCopy8(a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
     ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);

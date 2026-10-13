@@ -1,5 +1,5 @@
 /*
- * function: func_021BA454
+ * function: IRCBATTLEMATCH_PrintPlayerMessage
  * address: 0x021BA454
  * packet: pkt_ov100_021BA454
  * region: ov100
@@ -45,7 +45,7 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-void func_021BA454(int text,int a) {
+void IRCBATTLEMATCH_PrintPlayerMessage(int text,int a) {
  if(((struct Obj01246 *)a)->f280==0) {
   int v=(int)BMP_WIN_Create((int)5,(int)1,(int)8,(int)18,4,13,0);
   ((struct Obj01246 *)a)->f280=v;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBA10",
+   "name": "PMSIV_CATEGORY_DrawWordList",
    "address": "0x021BBA10",
    "kind": "game",
    "region": "ov110",

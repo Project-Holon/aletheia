@@ -1,5 +1,5 @@
 /*
- * function: func_021C4BD8
+ * function: ghiParseChunkSize
  * address:  0x021C4BD8
  * packet:   pkt_ov114_021C4BD8
  * region:   ov114
@@ -13,11 +13,11 @@
  *
  * symbols:
  *   STD_TSScanf  0x0208CF34  arm
- *   g_021CF248   0x021CF248  data
+ *   sGhttpChunkSizeFormat   0x021CF248  data
  */
 
 extern int STD_TSScanf(char *src, char *fmt, ...);
-extern char g_021CF248[];
+extern char sGhttpChunkSizeFormat[];
 
 typedef struct
 {
@@ -25,10 +25,10 @@ typedef struct
     char chunkHeader[16];
 } GHIConnection;
 
-int func_021C4BD8(GHIConnection *connection)
+int ghiParseChunkSize(GHIConnection *connection)
 {
     int num;
-    if (STD_TSScanf(connection->chunkHeader, g_021CF248, &num) != 1)
+    if (STD_TSScanf(connection->chunkHeader, sGhttpChunkSizeFormat, &num) != 1)
         return -1;
     return num;
 }

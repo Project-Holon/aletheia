@@ -16,9 +16,9 @@
  *   NNS_G3dGetTex   0x0206E964  arm
  *   func_02030734   0x02030734  arm
  *   NNS_G3dAllocRenderObj   0x0206E348  arm
- *   func_0206A2CC   0x0206A2CC  arm
- *   func_0206A4AC   0x0206A4AC  arm
- *   func_02069D14   0x02069D14  arm
+ *   NNS_G3dBindMdlTex   0x0206A2CC  arm
+ *   NNS_G3dBindMdlPltt   0x0206A4AC  arm
+ *   NNS_G3dRenderObjInit   0x02069D14  arm
  *
  * Construct a 0x7A14-tagged record (the sibling of G3D_SYSTEM_CreateAnime's 0x59D1
  * one): look the owner's +4 handle up through NNS_G3dGetMdlSet, index its
@@ -64,9 +64,9 @@ extern int NNS_G3dGetMdlSet(int p0);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *NNS_G3dAllocRenderObj(void *);
-extern void func_0206A2CC(void *, void *);
-extern void func_0206A4AC(void *, void *);
-extern void func_02069D14(void *, void *);
+extern void NNS_G3dBindMdlTex(void *, void *);
+extern void NNS_G3dBindMdlPltt(void *, void *);
+extern void NNS_G3dRenderObjInit(void *, void *);
 extern u32 _G3dSystem;
 extern char g_szG3DSystem[];
 
@@ -109,9 +109,9 @@ have:
     ((struct Obj04073 *)obj)->fC = a2;
     ((struct Obj04073 *)obj)->f4 = NNS_G3dAllocRenderObj(*(void **)&_G3dSystem);
     if (z != 0) {
-        func_0206A2CC(q, (void *)z);
-        func_0206A4AC(q, (void *)z);
+        NNS_G3dBindMdlTex(q, (void *)z);
+        NNS_G3dBindMdlPltt(q, (void *)z);
     }
-    func_02069D14(((struct Obj04073 *)obj)->f4, q);
+    NNS_G3dRenderObjInit(((struct Obj04073 *)obj)->f4, q);
     return obj;
 }

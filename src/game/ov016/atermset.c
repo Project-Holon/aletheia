@@ -1,7 +1,7 @@
 /*
  * file:     atermset.c
  * unit:     yes
- * function: APCi_Notify, APCi_MoveIdleState, func_021B93AC, APC_SearchStart, APC_Disconnect, APC_End, APC_Connect, APC_Init, APC_GetState, soAlloc, soFree, AtermApc_InitEventBuf, AtermApc_GetEvent, AtermApc_callback, alarmCallback, InitAtermApcNetwork, FreeAtermApcNetwork, ConnectAP, DisconnectAP, func_021B9A2C, ScanAP, SendFrameViaInterface, SendBroadcast, SendFrame, GetFrameData, GetElementData, GetFirstElement, func_021B9FE0, SetElementData, SetSingleElement, IsSearchCommand, GetCommandElement, SetSearchRes, func_021BA2EC, func_021BA2F8, func_021BA3F4, AsciiToHex, func_021BA67C, AutoConfigThreadEx, AutoConfigThread, func_021BAC20, func_021BADD8, aeskw_xor64, rijndaelKeySetupEnc, rijndaelKeySetupDec, rijndaelEncrypt, rijndaelDecrypt, func_021BBB98, MY_MD5Update, MY_MD5Final, MD5Transform, Encode, func_021BC500, MD5_memcpy, MD5_memset, MD5Encode, GetTickCount, func_021BC5A0, func_021BC5C4, PutHex, PutMac, func_021BC63C, ATERMi_ApConfigEnd, ATERMi_ApConfigGetState, func_021BC7F0, SendNotify
+ * function: APCi_Notify, APCi_MoveIdleState, func_021B93AC, APC_SearchStart, APC_Disconnect, APC_End, APC_Connect, APC_Init, APC_GetState, soAlloc, soFree, AtermApc_InitEventBuf, AtermApc_GetEvent, AtermApc_callback, alarmCallback, InitAtermApcNetwork, FreeAtermApcNetwork, ConnectAP, DisconnectAP, CheckAccessPoint, ScanAP, SendFrameViaInterface, SendBroadcast, SendFrame, GetFrameData, GetElementData, GetFirstElement, SetFrameData, SetElementData, SetSingleElement, IsSearchCommand, GetCommandElement, SetSearchRes, func_021BA2EC, GetMacEncKey, GetWLanSetElement, AsciiToHex, StoreNetParam, AutoConfigThreadEx, AutoConfigThread, keywrap_encrypt, keywrap_decrypt, aeskw_xor64, rijndaelKeySetupEnc, rijndaelKeySetupDec, rijndaelEncrypt, rijndaelDecrypt, MY_MD5Init, MY_MD5Update, MY_MD5Final, MD5Transform, Encode, Decode, MD5_memcpy, MD5_memset, MD5Encode, GetTickCount, Calloc, Free, PutHex, PutMac, DWCi_RakurakuATERMi_ApConfigStart, ATERMi_ApConfigEnd, ATERMi_ApConfigGetState, DWCi_RakurakuATERMi_ApConfigGetResult, SendNotify
  * address:  0x021B9038
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -20,11 +20,13 @@
  * the object, called from rakuraku.c) and soAlloc / soFree, which the vendor object
  * reaches through its own AtermSOConfig initializer; that data is defined outside this
  * file here, so they stay global or -ipa file drops them.
- * AtermApc_callback and GetMacEncKey (func_021BA2F8) are defined K&R style: DWARF gives
+ * AtermApc_callback and GetMacEncKey (GetMacEncKey) are defined K&R style: DWARF gives
  * them one parameter, and their callers (alarmCallback, AutoConfigThreadEx) pass a second
  * argument, which a prototyped definition would reject.
  *
  * symbols:
+ *   OS_GetMacAddress               0x02087C6C  arm  arm9
+ *   GetMacEncKey                   0x021BA2F8  thumb  ov016
  *   atermset_bss           0x021DCFD0  data
  *   apci_user_callback     0x021DD050  data
  *   WCM_SearchAsync        0x02165144  arm
@@ -61,7 +63,7 @@
  *   memcpy                 0x02092344  arm
  *   strlen                 0x0209477C  arm
  *   memcmp                 0x020923F0  arm
- *   g_021DABC4             0x021DABC4  data
+ *   sAtermsetTable1             0x021DABC4  data
  *   strcpy                 0x02094798  arm
  *   btAutoResult           0x021DCFD0  data
  *   lpElementData          0x021DAB58  data
@@ -74,23 +76,23 @@
  *   atermset_rodata        0x021D77C8  data
  *   btAdapterMAC           0x021DD478  data
  *   ElementData            0x021DD504  data
- *   g_021DAC18             0x021DAC18  data
- *   g_021DD224             0x021DD224  data
- *   g_021DD350             0x021DD350  data
- *   g_021DD13C             0x021DD13C  data
- *   g_021DD150             0x021DD150  data
+ *   sAtermsetTable2             0x021DAC18  data
+ *   gAtermsetBlock4             0x021DD224  data
+ *   gAtermsetBlock6             0x021DD350  data
+ *   gAtermsetBlock2             0x021DD13C  data
+ *   gAtermsetBlock3             0x021DD150  data
  *   SOC_Socket             0x0215F428  arm
  *   SOC_Bind               0x0215F454  arm
  *   SOC_Close              0x0215F644  arm
  *   SOC_RecvFrom           0x0215F500  arm
  *   GetWLanSetElement      0x021BA3F4  thumb
  *   StoreNetParam          0x021BA67C  thumb
- *   g_021DD490             0x021DD490  data
- *   g_021DDD04             0x021DDD04  data
- *   g_021DD020             0x021DD020  data
- *   g_021DD4A0             0x021DD4A0  data
- *   g_021DD4A8             0x021DD4A8  data
- *   g_021DD310             0x021DD310  data
+ *   gAtermsetBlock7             0x021DD490  data
+ *   gAtermsetBlock10             0x021DDD04  data
+ *   gAtermsetBlock1             0x021DD020  data
+ *   gAtermsetBlock8             0x021DD4A0  data
+ *   gAtermsetBlock9             0x021DD4A8  data
+ *   gAtermsetBlock5             0x021DD310  data
  *   rcon                   0x021D77D0  data
  *   Te4                    0x021D93F8  data
  *   Td0                    0x021D97F8  data
@@ -104,11 +106,10 @@
  *   Td4                    0x021D7FF8  data
  *   PADDING                0x021DABD8  data
  *   OS_GetTick             0x020870D0  arm
- *   func_020853B0          0x020853B0  arm
- *   func_020853C0          0x020853C0  arm
- *   func_02085868          0x02085868  arm
+ *   OS_IsThreadAvailable          0x020853B0  arm
+ *   OS_CreateThread          0x020853C0  arm
+ *   OS_WakeupThreadDirect          0x02085868  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
- *   OS_WakeupThreadDirect  0x02085868  arm
  *   OS_JoinThread          0x02085710  arm
  *   gAtermThread           0x021DD07C  data
  */
@@ -373,81 +374,22 @@ extern int SOC_Socket(int pf, int type, int protocol);
 extern int SOC_Bind(int s, void *sockAddr);
 extern int SOC_Close(int s);
 extern int SOC_RecvFrom(int s, void *buf, int len, int flags, void *sockFrom);
-extern void func_02087C6C(unsigned char *mac);
+extern void OS_GetMacAddress(unsigned char *mac);
 extern unsigned long long OS_GetTick(void);
-extern int func_020853B0(void);
-extern void func_020853C0(OSThread *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
-extern void func_02085868(OSThread *thread);
+extern int OS_IsThreadAvailable(void);
+extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern int OS_IsThreadTerminated(OSThread *thread);
 extern void OS_WakeupThreadDirect(OSThread *thread);
 extern void OS_JoinThread(OSThread *thread);
 
-static void APCi_Notify(WCMNotice *notice);
-static int APCi_MoveIdleState(void);
-static int func_021B93AC(WMBssDesc *buf, int max);
-static int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
-static int APC_Disconnect(void);
-static int APC_End(void);
-static int APC_Connect(struct WMBssDesc *wmbssdesc, unsigned char *wep_buf, unsigned long option);
-static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size);
-static int APC_GetState(void);
 void *soAlloc(unsigned long name, long size);
 void soFree(unsigned long name, void *ptr, long size);
-static void AtermApc_InitEventBuf(void);
-static int AtermApc_GetEvent(void);
 static void AtermApc_callback();
-static void alarmCallback(void *event);
-static int InitAtermApcNetwork(int maxap);
-static int FreeAtermApcNetwork(void);
-static int ConnectAP(void);
-static void DisconnectAP(void);
-static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo);
-static int ScanAP(void);
-static int SendFrameViaInterface(int sock, SOCSockAddrIn *target, unsigned char *ipaddr, unsigned char *lpdata, int cbdata);
-static int SendBroadcast(int sock, unsigned char *lpb, int size);
-static int SendFrame(int sock, void *target, unsigned char *lpb, int size);
-static unsigned char *GetFrameData(unsigned char *lpframe, int *pid, int *psize);
-static unsigned char *GetElementData(unsigned char **lplpb, unsigned char *lplimit, int *pid, int *psize);
-static unsigned char *GetFirstElement(unsigned char *lpelement, int *pid, int *psize);
-static int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey);
-static unsigned char *SetElementData(unsigned char *lpb, int eid, unsigned char *pele, int esize);
-static int SetSingleElement(unsigned char *lpbuff, int eid, unsigned char *pele, int esize);
-static int IsSearchCommand(unsigned char *lpframe, int *pdual);
-static int GetCommandElement(unsigned char *lpframe, int cmdid, unsigned char *lpelement, unsigned char *lpkey);
-static int SetSearchRes(unsigned char *lpframe);
-static int func_021BA2EC(unsigned char *mac);
-static int func_021BA2F8();
-static int func_021BA3F4(u8 *lpelement);
-static int AsciiToHex(unsigned char *byDest, char *szStr, int nLen);
-static int func_021BA67C(void);
-static int AutoConfigThreadEx(void);
-static void AutoConfigThread(void *arg);
-static int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
-static int func_021BADD8(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
-static void aeskw_xor64(unsigned char *srcA, unsigned char *srcB, unsigned char *dst);
-static int rijndaelKeySetupEnc(u32 *rk, u8 *cipherKey, int keyBits);
-static int rijndaelKeySetupDec(u32 *rk, u8 *cipherKey, int keyBits);
-static void rijndaelEncrypt(u32 *rk, int Nr, u8 *pt, u8 *ct);
-static void rijndaelDecrypt(u32 *rk, int Nr, u8 *ct, u8 *pt);
-static void func_021BBB98(MY_MD5_CTX *context);
-static void MY_MD5Update(MY_MD5_CTX *context, unsigned char *input, unsigned int inputLen);
-static void MY_MD5Final(unsigned char digest[16], MY_MD5_CTX *context);
-static void MD5Transform(UINT4 state[4], unsigned char block[64]);
-static void Encode(unsigned char *output, UINT4 *input, unsigned int len);
-static void func_021BC500(UINT4 *dst, unsigned char *src, unsigned int count);
-static void MD5_memcpy(unsigned char *output, unsigned char *input, unsigned int len);
-static void MD5_memset(unsigned char *output, int value, unsigned int len);
-static void MD5Encode(unsigned char *digest, unsigned char *psrc, int srclen);
-static unsigned long GetTickCount(void);
-static void *func_021BC5A0(unsigned long a, unsigned long b);
-static void func_021BC5C4(void *ptr);
-static int PutHex(char *lpwrite, char ch);
-static int PutMac(char *lpwrite, char *lps);
-int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
+static int GetMacEncKey();
+int DWCi_RakurakuATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
 int ATERMi_ApConfigEnd(void);
 int ATERMi_ApConfigGetState(ATERMApConfigState *state);
-int func_021BC7F0(int a);
-static void SendNotify(void);
+int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
 
 extern ATERMSET_BSS atermset_bss;
 extern unsigned char btAutoResult;
@@ -460,33 +402,33 @@ extern OSMutex AllocLock;
 extern int event_buf[4];
 extern ATERMSET_DATA atermset_data;
 extern SOCConfig AtermSOConfig;
-extern char g_021DABC4[7];
+extern char sAtermsetTable1[7];
 extern u8 gAPSSID[34];
 extern u8 gAPMac[6];
 extern const SUPPORTENC atermset_rodata;
 extern unsigned char btAdapterMAC[6];
 extern unsigned char ElementData[2048];
-extern const unsigned char g_021DAC18[];
-extern WS11G_PROFILE_DATA g_021DD224;
+extern const unsigned char sAtermsetTable2[];
+extern WS11G_PROFILE_DATA gAtermsetBlock4;
 /*
- * g_021DD350 is g_021DD224.EncryptData and g_021DD150 lies inside g_021DD13C (auth_mode at
- * +0x0C is g_021DD13C.auth_mode). StoreNetParam and GetWLanSetElement load these two
+ * gAtermsetBlock6 is gAtermsetBlock4.EncryptData and gAtermsetBlock3 lies inside gAtermsetBlock2 (auth_mode at
+ * +0x0C is gAtermsetBlock2.auth_mode). StoreNetParam and GetWLanSetElement load these two
  * addresses from their own pool words; written through the outer objects they get one pool
  * word fewer (DIFF), so the inner addresses keep their own declarations.
  */
-extern WS11G_ENCRYPT_DATA g_021DD350;
-extern struct _ATERMApConfigParam g_021DD13C;
+extern WS11G_ENCRYPT_DATA gAtermsetBlock6;
+extern struct _ATERMApConfigParam gAtermsetBlock2;
 extern struct {
     int pad[3];
     int auth_mode;
     int wepkeyid;
-} g_021DD150;
-extern u8 g_021DD490[16];
-extern u8 g_021DDD04[2048];
-extern int g_021DD020;
-extern u8 g_021DD4A0[8];
-extern u8 g_021DD4A8[8];
-extern signed char g_021DD310[];
+} gAtermsetBlock3;
+extern u8 gAtermsetBlock7[16];
+extern u8 gAtermsetBlock10[2048];
+extern int gAtermsetBlock1;
+extern u8 gAtermsetBlock8[8];
+extern u8 gAtermsetBlock9[8];
+extern signed char gAtermsetBlock5[];
 extern u32 rcon[10];
 extern u32 Te4[256];
 extern u32 Td0[256];
@@ -500,6 +442,65 @@ extern u32 Te3[256];
 extern u32 Td4[256];
 extern unsigned char PADDING[64];
 extern OSThread gAtermThread;
+
+static void APCi_Notify(WCMNotice *notice);
+static int APCi_MoveIdleState(void);
+static int func_021B93AC(WMBssDesc *buf, int max);
+static int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
+static int APC_Disconnect(void);
+static int APC_End(void);
+static int APC_Connect(struct WMBssDesc *wmbssdesc, unsigned char *wep_buf, unsigned long option);
+static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size);
+static int APC_GetState(void);
+static void AtermApc_InitEventBuf(void);
+static int AtermApc_GetEvent(void);
+static void alarmCallback(void *event);
+static int InitAtermApcNetwork(int maxap);
+static int FreeAtermApcNetwork(void);
+static int ConnectAP(void);
+static void DisconnectAP(void);
+static int CheckAccessPoint(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo);
+static int ScanAP(void);
+static int SendFrameViaInterface(int sock, SOCSockAddrIn *target, unsigned char *ipaddr, unsigned char *lpdata, int cbdata);
+static int SendBroadcast(int sock, unsigned char *lpb, int size);
+static int SendFrame(int sock, void *target, unsigned char *lpb, int size);
+static unsigned char *GetFrameData(unsigned char *lpframe, int *pid, int *psize);
+static unsigned char *GetElementData(unsigned char **lplpb, unsigned char *lplimit, int *pid, int *psize);
+static unsigned char *GetFirstElement(unsigned char *lpelement, int *pid, int *psize);
+static int SetFrameData(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey);
+static unsigned char *SetElementData(unsigned char *lpb, int eid, unsigned char *pele, int esize);
+static int SetSingleElement(unsigned char *lpbuff, int eid, unsigned char *pele, int esize);
+static int IsSearchCommand(unsigned char *lpframe, int *pdual);
+static int GetCommandElement(unsigned char *lpframe, int cmdid, unsigned char *lpelement, unsigned char *lpkey);
+static int SetSearchRes(unsigned char *lpframe);
+static int func_021BA2EC(unsigned char *mac);
+static int GetWLanSetElement(u8 *lpelement);
+static int AsciiToHex(unsigned char *byDest, char *szStr, int nLen);
+static int StoreNetParam(void);
+static int AutoConfigThreadEx(void);
+static void AutoConfigThread(void *arg);
+static int keywrap_encrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
+static int keywrap_decrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
+static void aeskw_xor64(unsigned char *srcA, unsigned char *srcB, unsigned char *dst);
+static int rijndaelKeySetupEnc(u32 *rk, u8 *cipherKey, int keyBits);
+static int rijndaelKeySetupDec(u32 *rk, u8 *cipherKey, int keyBits);
+static void rijndaelEncrypt(u32 *rk, int Nr, u8 *pt, u8 *ct);
+static void rijndaelDecrypt(u32 *rk, int Nr, u8 *ct, u8 *pt);
+static void MY_MD5Init(MY_MD5_CTX *context);
+static void MY_MD5Update(MY_MD5_CTX *context, unsigned char *input, unsigned int inputLen);
+static void MY_MD5Final(unsigned char digest[16], MY_MD5_CTX *context);
+static void MD5Transform(UINT4 state[4], unsigned char block[64]);
+static void Encode(unsigned char *output, UINT4 *input, unsigned int len);
+static void Decode(UINT4 *dst, unsigned char *src, unsigned int count);
+static void MD5_memcpy(unsigned char *output, unsigned char *input, unsigned int len);
+static void MD5_memset(unsigned char *output, int value, unsigned int len);
+static void MD5Encode(unsigned char *digest, unsigned char *psrc, int srclen);
+static unsigned long GetTickCount(void);
+static void *Calloc(unsigned long a, unsigned long b);
+static void Free(void *ptr);
+static int PutHex(char *lpwrite, char ch);
+static int PutMac(char *lpwrite, char *lps);
+static void SendNotify(void);
 
 static void APCi_Notify(WCMNotice *notice)
 {
@@ -1063,7 +1064,7 @@ static void DisconnectAP(void)
 }
 
 /*
- * sdk:      func_021B9A2C (libdwcutil.TWL.HYB.a(atermset.o))
+ * sdk:      CheckAccessPoint (libdwcutil.TWL.HYB.a(atermset.o))
  *
  * atermset.o carries the 3.0.0.126 stamp (the 2.0/sp1p2 front end), as the other
  * atermset.o files do. memcmp must come from a header named string.h so the
@@ -1071,7 +1072,7 @@ static void DisconnectAP(void)
  * the libc/memcmp/string.h variant declares it. The DWARF places i in r6 (the
  * stealth scan over the old list); the other ranges of i share one stack slot.
  */
-static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
+static int CheckAccessPoint(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
 {
     int flagDetect;
     int Result;
@@ -1121,7 +1122,7 @@ static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned lo
         for (i = 0; i < pOldList->NumberOfItems; i++) {
             memcpy(newSSID, pOldBss->Ssid.Ssid, 32);
             newSSID[pOldBss->Ssid.SsidLength] = 0;
-            if (memcmp(newSSID, g_021DABC4, strlen(g_021DABC4)) == 0 && pOldBss->Privacy == 0) {
+            if (memcmp(newSSID, sAtermsetTable1, strlen(sAtermsetTable1)) == 0 && pOldBss->Privacy == 0) {
                 flagOld = 1;
                 break;
             }
@@ -1130,8 +1131,8 @@ static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned lo
         for (i = 0; i < pNewList->NumberOfItems; i++) {
             memcpy(newSSID, pNewBss->Ssid.Ssid, 32);
             newSSID[pNewBss->Ssid.SsidLength] = 0;
-            if (strlen(newSSID) == strlen(g_021DABC4) &&
-                memcmp(newSSID, g_021DABC4, strlen(g_021DABC4)) == 0 && pNewBss->Privacy == 0) {
+            if (strlen(newSSID) == strlen(sAtermsetTable1) &&
+                memcmp(newSSID, sAtermsetTable1, strlen(sAtermsetTable1)) == 0 && pNewBss->Privacy == 0) {
                 flagNew = 1;
                 break;
             }
@@ -1168,10 +1169,10 @@ static int ScanAP(void)
     pOldList = 0;
     ApNo = 0;
     BssListSize = sizeof(BSSID_LIST) + atermset_bss.gMaxApList * sizeof(WLAN_BSSID);
-    pBssList = func_021BC5A0(1, BssListSize);
+    pBssList = Calloc(1, BssListSize);
     if (pBssList == 0)
         goto end;
-    pOldList = func_021BC5A0(1, BssListSize);
+    pOldList = Calloc(1, BssListSize);
     if (pOldList == 0)
         goto end;
     for (retry = 0; retry < 30 && !atermset_bss.bAtermApCanceled; retry++) {
@@ -1249,7 +1250,7 @@ static int ScanAP(void)
             n++;
         }
         pBssList->NumberOfItems = ap_count;
-        if (atermset_bss.gAtermApState != 1 && func_021B9A2C(pBssList, pOldList, &ApNo)) {
+        if (atermset_bss.gAtermApState != 1 && CheckAccessPoint(pBssList, pOldList, &ApNo)) {
             pBssid = &pBssList->Bssid[ApNo];
             atermset_bss.gAPId = ApNo;
             strcpy((char *)gAPSSID, (char *)pBssid->Ssid.Ssid);
@@ -1269,9 +1270,9 @@ static int ScanAP(void)
         retv = 1;
 end:
     if (pBssList)
-        func_021BC5C4(pBssList);
+        Free(pBssList);
     if (pOldList)
-        func_021BC5C4(pOldList);
+        Free(pOldList);
     return retv;
 }
 
@@ -1349,7 +1350,7 @@ static unsigned char *GetFirstElement(unsigned char *lpelement, int *pid, int *p
 }
 
 /*
- * sdk:      func_021B9FE0 (libdwcutil.TWL.HYB.a(atermset.o))
+ * sdk:      SetFrameData (libdwcutil.TWL.HYB.a(atermset.o))
  *
  * 2026-10-01 (w4 restart): EXACT. Closed from the Debug/Release libdwcutil
  * atermset.o (-O0): its DWARF homes size and lpb in registers (`register`)
@@ -1358,7 +1359,7 @@ static unsigned char *GetFirstElement(unsigned char *lpelement, int *pid, int *p
  * header stores, and the return as `lpb += 2; return lpb - lpframe;`.
  * Earlier lanes computed psum from lpb + size directly and lost the copy.
  */
-static int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey)
+static int SetFrameData(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey)
 {
     FRAMEHEADER *pfh = (FRAMEHEADER *)lpframe;
     ELEMENTHEADER *peh = (ELEMENTHEADER *)pbody;
@@ -1370,7 +1371,7 @@ static int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, r
     memset(peh, 0, sizeof(ELEMENTHEADER));
     peh->FullLength = SWAP16((unsigned short)(size - sizeof(ELEMENTHEADER)));
     if (lpkey) {
-        func_021BAC20((char *)(lpframe + sizeof(FRAMEHEADER)), (char *)pbody, size, (char *)lpkey, 16);
+        keywrap_encrypt((char *)(lpframe + sizeof(FRAMEHEADER)), (char *)pbody, size, (char *)lpkey, 16);
         size += 8;
     } else {
         memcpy(lpframe + sizeof(FRAMEHEADER), pbody, size);
@@ -1482,7 +1483,7 @@ static int GetCommandElement(unsigned char *lpframe, int cmdid, unsigned char *l
     if (id != cmdid)
         return 0;
     if (lpkey != 0) {
-        func_021BADD8((char *)lpelement, (char *)lpb, size, (char *)lpkey, 16);
+        keywrap_decrypt((char *)lpelement, (char *)lpb, size, (char *)lpkey, 16);
         size -= 8;
     } else {
         memcpy(lpelement, lpb, size);
@@ -1505,19 +1506,19 @@ static int SetSearchRes(unsigned char *lpframe)
     lpb = SetElementData(lpb, 3, SupportEnc.b, 7);
     if (atermset_bss.bDualCfg)
         lpb = SetElementData(lpb, 4, btAdapterMAC, 6);
-    return func_021B9FE0(lpframe, 2, ElementData, (lpb - atermset_data.lpElementData) + 8, 0);
+    return SetFrameData(lpframe, 2, ElementData, (lpb - atermset_data.lpElementData) + 8, 0);
 }
 
 static int func_021BA2EC(unsigned char *mac)
 {
-    func_02087C6C(mac);
+    OS_GetMacAddress(mac);
     return 1;
 }
 
 /*
- * sdk:      func_021BA2F8 (libdwcutil.TWL.HYB.a(atermset.o))
+ * sdk:      GetMacEncKey (libdwcutil.TWL.HYB.a(atermset.o))
  */
-static int func_021BA2F8(lpkey)
+static int GetMacEncKey(lpkey)
     unsigned char *lpkey;
 {
     char strmac[32];
@@ -1526,7 +1527,7 @@ static int func_021BA2F8(lpkey)
     unsigned char sta_mac[6];
     int ret;
 
-    memcpy(lpkey + 12, g_021DAC18, 4);
+    memcpy(lpkey + 12, sAtermsetTable2, 4);
     memcpy(ap_mac, gAPMac, 6);
     ap_mac[0] &= 0xfd;
     func_021BA2EC(sta_mac);
@@ -1546,7 +1547,7 @@ static int func_021BA2F8(lpkey)
     return 1;
 }
 
-static int func_021BA3F4(u8 *lpelement)
+static int GetWLanSetElement(u8 *lpelement)
 {
     int retv;
     u8 *lpb;
@@ -1566,46 +1567,46 @@ static int func_021BA3F4(u8 *lpelement)
     while ((lpw = GetElementData(&lpb, lpe + len, &eid, &esize)) != 0) {
         switch (eid) {
         case 0x201:
-            __builtin__clear(g_021DD224.Ssid, 32);
-            memcpy(g_021DD224.Ssid, lpw, esize);
+            __builtin__clear(gAtermsetBlock4.Ssid, 32);
+            memcpy(gAtermsetBlock4.Ssid, lpw, esize);
             retv = 1;
             break;
         case 0x202:
-            g_021DD350.type = SWAP16(*(u16 *)lpw);
+            gAtermsetBlock6.type = SWAP16(*(u16 *)lpw);
             break;
         case 0x203:
             {
                 u16 v = SWAP16(*(u16 *)lpw);
                 for (i = 0; i < 4; i++)
-                    g_021DD224.EncryptData.wep[i].keyType = v;
+                    gAtermsetBlock4.EncryptData.wep[i].keyType = v;
             }
             break;
         case 0x204:
             {
                 u16 v = SWAP16(*(u16 *)lpw);
                 for (i = 0; i < 4; i++)
-                    g_021DD224.EncryptData.wep[i].keyLen = v;
+                    gAtermsetBlock4.EncryptData.wep[i].keyLen = v;
             }
             break;
         case 0x205:
-            g_021DD350.defkey = SWAP16(*(u16 *)lpw);
+            gAtermsetBlock6.defkey = SWAP16(*(u16 *)lpw);
             break;
         case 0x206:
         case 0x207:
         case 0x208:
         case 0x209:
-            memset(g_021DD224.EncryptData.wep[eid - 0x206].key, 0, 32);
-            if (g_021DD350.wep[0].keyType == 1) {
-                wp = g_021DD224.EncryptData.wep[eid - 0x206].key;
+            memset(gAtermsetBlock4.EncryptData.wep[eid - 0x206].key, 0, 32);
+            if (gAtermsetBlock6.wep[0].keyType == 1) {
+                wp = gAtermsetBlock4.EncryptData.wep[eid - 0x206].key;
                 for (i = 0; i < esize; i++)
                     wp += PutHex(wp, *(char *)lpw++);
             } else {
-                memcpy(g_021DD224.EncryptData.wep[eid - 0x206].key, lpw, esize);
+                memcpy(gAtermsetBlock4.EncryptData.wep[eid - 0x206].key, lpw, esize);
             }
             break;
         case 0x20a:
-            __builtin__clear(g_021DD224.EncryptData.wpakey, 72);
-            memcpy(g_021DD224.EncryptData.wpakey, lpw, esize);
+            __builtin__clear(gAtermsetBlock4.EncryptData.wpakey, 72);
+            memcpy(gAtermsetBlock4.EncryptData.wpakey, lpw, esize);
             break;
         }
     }
@@ -1645,7 +1646,7 @@ static int AsciiToHex(unsigned char *byDest, char *szStr, int nLen)
     return 1;
 }
 
-static int func_021BA67C(void)
+static int StoreNetParam(void)
 {
     char szwep[36];
     int i;
@@ -1654,48 +1655,48 @@ static int func_021BA67C(void)
     int ret;
 
     ret = 1;
-    strcpy(g_021DD13C.ssid, g_021DD224.Ssid);
-    switch (g_021DD350.type) {
+    strcpy(gAtermsetBlock2.ssid, gAtermsetBlock4.Ssid);
+    switch (gAtermsetBlock6.type) {
     case 0:
-        g_021DD150.auth_mode = 0;
+        gAtermsetBlock3.auth_mode = 0;
         break;
     case 1:
-        defkey = g_021DD350.defkey;
+        defkey = gAtermsetBlock6.defkey;
         if (defkey == 0) {
             ret = -7;
             break;
         }
-        g_021DD150.wepkeyid = defkey;
+        gAtermsetBlock3.wepkeyid = defkey;
         for (i = 0; i < 4; i++) {
             lpwep = szwep;
-            memcpy(szwep, g_021DD224.EncryptData.wep[i].key, 32);
+            memcpy(szwep, gAtermsetBlock4.EncryptData.wep[i].key, 32);
             szwep[32] = 0;
             switch (strlen(szwep)) {
             case 0:
                 break;
             case 5:
-                g_021DD150.auth_mode = 1;
-                memcpy(g_021DD13C.wepkey[i], lpwep, 5);
+                gAtermsetBlock3.auth_mode = 1;
+                memcpy(gAtermsetBlock2.wepkey[i], lpwep, 5);
                 break;
             case 10:
-                g_021DD150.auth_mode = 1;
-                AsciiToHex((unsigned char *)g_021DD13C.wepkey[i], lpwep, 10);
+                gAtermsetBlock3.auth_mode = 1;
+                AsciiToHex((unsigned char *)gAtermsetBlock2.wepkey[i], lpwep, 10);
                 break;
             case 13:
-                g_021DD150.auth_mode = 2;
-                memcpy(g_021DD13C.wepkey[i], lpwep, 13);
+                gAtermsetBlock3.auth_mode = 2;
+                memcpy(gAtermsetBlock2.wepkey[i], lpwep, 13);
                 break;
             case 26:
-                g_021DD150.auth_mode = 2;
-                AsciiToHex((unsigned char *)g_021DD13C.wepkey[i], lpwep, 26);
+                gAtermsetBlock3.auth_mode = 2;
+                AsciiToHex((unsigned char *)gAtermsetBlock2.wepkey[i], lpwep, 26);
                 break;
             case 16:
-                g_021DD150.auth_mode = 3;
-                memcpy(g_021DD13C.wepkey[i], lpwep, 16);
+                gAtermsetBlock3.auth_mode = 3;
+                memcpy(gAtermsetBlock2.wepkey[i], lpwep, 16);
                 break;
             case 32:
-                g_021DD150.auth_mode = 3;
-                AsciiToHex((unsigned char *)g_021DD13C.wepkey[i], lpwep, 32);
+                gAtermsetBlock3.auth_mode = 3;
+                AsciiToHex((unsigned char *)gAtermsetBlock2.wepkey[i], lpwep, 32);
                 break;
             default:
                 ret = -7;
@@ -1704,12 +1705,12 @@ static int func_021BA67C(void)
         }
         break;
     case 2:
-        g_021DD150.auth_mode = 4;
-        memcpy(g_021DD13C.wpakey, g_021DD224.EncryptData.wpakey, 64);
+        gAtermsetBlock3.auth_mode = 4;
+        memcpy(gAtermsetBlock2.wpakey, gAtermsetBlock4.EncryptData.wpakey, 64);
         break;
     case 3:
-        g_021DD150.auth_mode = 5;
-        memcpy(g_021DD13C.wpakey, g_021DD224.EncryptData.wpakey, 64);
+        gAtermsetBlock3.auth_mode = 5;
+        memcpy(gAtermsetBlock2.wpakey, gAtermsetBlock4.EncryptData.wpakey, 64);
         break;
     default:
         ret = -7;
@@ -1792,10 +1793,10 @@ static int AutoConfigThreadEx(void)
                 break;
             }
             target.len = sizeof(target);
-            func_021BA2F8(g_021DD490, &target);
-            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            GetMacEncKey(gAtermsetBlock7, &target);
+            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
             if (n > 0) {
-                if (IsSearchCommand(g_021DDD04, &g_021DD020)) {
+                if (IsSearchCommand(gAtermsetBlock10, &gAtermsetBlock1)) {
                     atermset_data.gAtermApTimeout = GetTickCount() + 30000;
                     atermset_bss.AutoPhase = 5;
                     atermset_bss.gAtermApState = 4;
@@ -1805,8 +1806,8 @@ static int AutoConfigThreadEx(void)
             }
             break;
         case 5:
-            atermset_bss.cbFrameData = SetSearchRes(g_021DDD04);
-            SendFrame(sock, &target, g_021DDD04, atermset_bss.cbFrameData);
+            atermset_bss.cbFrameData = SetSearchRes(gAtermsetBlock10);
+            SendFrame(sock, &target, gAtermsetBlock10, atermset_bss.cbFrameData);
             dwSendTick = GetTickCount();
             atermset_bss.AutoPhase = 6;
             break;
@@ -1817,14 +1818,14 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
             if (n > 0) {
-                if (GetCommandElement(g_021DDD04, 3, ElementData, g_021DD490)) {
+                if (GetCommandElement(gAtermsetBlock10, 3, ElementData, gAtermsetBlock7)) {
                     lpe = GetFirstElement(ElementData, &eid, &esize);
                     if (eid == 257) {
                         dw = GetTickCount();
-                        memcpy(g_021DD4A0, lpe, 8);
-                        MD5Encode(g_021DD4A8, (u8 *)&dw, 4);
+                        memcpy(gAtermsetBlock8, lpe, 8);
+                        MD5Encode(gAtermsetBlock9, (u8 *)&dw, 4);
                         iretry = 0;
                         atermset_bss.AutoPhase = 7;
                         atermset_bss.gAtermApState = 5;
@@ -1842,18 +1843,18 @@ static int AutoConfigThreadEx(void)
             }
             break;
         case 7:
-            atermset_bss.cbElementData = SetSingleElement(ElementData, 258, g_021DD4A8, 8);
-            atermset_bss.cbFrameData = func_021B9FE0(g_021DDD04, 4, ElementData, atermset_bss.cbElementData, g_021DD490);
-            SendFrame(sock, &target, g_021DDD04, atermset_bss.cbFrameData);
+            atermset_bss.cbElementData = SetSingleElement(ElementData, 258, gAtermsetBlock9, 8);
+            atermset_bss.cbFrameData = SetFrameData(gAtermsetBlock10, 4, ElementData, atermset_bss.cbElementData, gAtermsetBlock7);
+            SendFrame(sock, &target, gAtermsetBlock10, atermset_bss.cbFrameData);
             dwSendTick = GetTickCount();
-            __builtin__clear(&g_021DD224, sizeof(g_021DD224));
+            __builtin__clear(&gAtermsetBlock4, sizeof(gAtermsetBlock4));
             atermset_bss.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) > 0
-                && (atermset_bss.cbElementData = GetCommandElement(g_021DDD04, 5, ElementData, g_021DD4A0)) != 0
-                && func_021BA3F4(ElementData)) {
-                if (g_021DD310[0x14] != 0)
+            if (SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target) > 0
+                && (atermset_bss.cbElementData = GetCommandElement(gAtermsetBlock10, 5, ElementData, gAtermsetBlock8)) != 0
+                && GetWLanSetElement(ElementData)) {
+                if (gAtermsetBlock5[0x14] != 0)
                     atermset_bss.btAutoResult = 1;
                 else
                     atermset_bss.btAutoResult = 0;
@@ -1873,7 +1874,7 @@ static int AutoConfigThreadEx(void)
             break;
         case 9:
             atermset_bss.cbElementData = SetSingleElement(ElementData, 769, &btAutoResult, 1);
-            atermset_bss.cbFrameData = func_021B9FE0(g_021DDD04, 6, ElementData, atermset_bss.cbElementData, g_021DD4A0);
+            atermset_bss.cbFrameData = SetFrameData(gAtermsetBlock10, 6, ElementData, atermset_bss.cbElementData, gAtermsetBlock8);
             state = APC_GetState();
             if (state != 7) {
                 dwSendTick = GetTickCount() + 1000;
@@ -1881,7 +1882,7 @@ static int AutoConfigThreadEx(void)
                 atermset_bss.AutoPhase = 10;
                 break;
             }
-            SendFrame(sock, &target, g_021DDD04, atermset_bss.cbFrameData);
+            SendFrame(sock, &target, gAtermsetBlock10, atermset_bss.cbFrameData);
             dwSendTick = GetTickCount();
             atermset_bss.AutoPhase = 10;
             break;
@@ -1890,7 +1891,7 @@ static int AutoConfigThreadEx(void)
                 break;
             if (++iretry >= 10) {
                 bfinish = 1;
-                ret = func_021BA67C();
+                ret = StoreNetParam();
                 break;
             }
             atermset_bss.AutoPhase = 9;
@@ -1920,14 +1921,14 @@ static void AutoConfigThread(void *arg)
 }
 
 /*
- * sdk:      func_021BAC20 (libdwcutil.TWL.HYB.a(atermset.o))
+ * sdk:      keywrap_encrypt (libdwcutil.TWL.HYB.a(atermset.o))
  *
  * RFC 3394 AES key wrap. The block offset is written i * sizeof(iv): the unsigned
  * product keeps i in r4 and recomputes the offset, where i * 8 is strength-reduced
  * into a second induction register. The byte swap's terms are listed low byte
  * first, which gives the object's evaluation order.
  */
-static int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
+static int keywrap_encrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
 {
     unsigned long long xort;
     unsigned long long iv;
@@ -1961,13 +1962,13 @@ static int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyp
 }
 
 /*
- * sdk:      func_021BADD8 (libdwcutil.TWL.HYB.a(atermset.o))
+ * sdk:      keywrap_decrypt (libdwcutil.TWL.HYB.a(atermset.o))
  *
- * RFC 3394 AES key unwrap, the mirror of func_021BAC20 (ov016_func_021BAC20.c).
+ * RFC 3394 AES key unwrap, the mirror of keywrap_encrypt (ov016_func_021BAC20.c).
  * The object computes n as (buflen - 1) >> 3 and copies buflen - 1 bytes; both are
  * kept as the object has them.
  */
-static int func_021BADD8(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
+static int keywrap_decrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
 {
     unsigned long long xort;
     unsigned char aes_data[16];
@@ -2331,7 +2332,7 @@ static void rijndaelDecrypt(u32 *rk, int Nr, u8 *ct, u8 *pt)
 	PUTU32(pt + 12, s3);
 }
 
-static void func_021BBB98(MY_MD5_CTX *context)
+static void MY_MD5Init(MY_MD5_CTX *context)
 {
     context->count[0] = context->count[1] = 0;
     context->state[0] = 0x67452301;
@@ -2378,7 +2379,7 @@ static void MD5Transform(UINT4 state[4], unsigned char block[64])
 {
   UINT4 a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
-  func_021BC500 (x, block, 64);
+  Decode (x, block, 64);
 
   /* Round 1 */
   FF (a, b, c, d, x[ 0], S11, 0xd76aa478); /* 1 */
@@ -2473,7 +2474,7 @@ static void Encode(unsigned char *output, UINT4 *input, unsigned int len)
     }
 }
 
-static void func_021BC500(UINT4 *dst, unsigned char *src, unsigned int count)
+static void Decode(UINT4 *dst, unsigned char *src, unsigned int count)
 {
     unsigned int i = 0;
     while (i < count) {
@@ -2506,7 +2507,7 @@ static void MD5Encode(unsigned char *digest, unsigned char *psrc, int srclen)
 {
     MY_MD5_CTX context;
 
-    func_021BBB98(&context);
+    MY_MD5Init(&context);
     MY_MD5Update(&context, psrc, srclen);
     MY_MD5Final(digest, &context);
 }
@@ -2516,7 +2517,7 @@ static unsigned long GetTickCount(void)
     return (unsigned long)((OS_GetTick() * 64) / 0x82EA);
 }
 
-static void *func_021BC5A0(unsigned long a, unsigned long b)
+static void *Calloc(unsigned long a, unsigned long b)
 {
     unsigned long n = a * b;
     void *p = atermset_bss.gAtermAlloc(n);
@@ -2526,7 +2527,7 @@ static void *func_021BC5A0(unsigned long a, unsigned long b)
     return p;
 }
 
-static void func_021BC5C4(void *ptr)
+static void Free(void *ptr)
 {
     atermset_bss.gAtermFree(ptr);
 }
@@ -2566,7 +2567,7 @@ static int PutMac(char *lpwrite, char *lps)
     return lpw - lpwrite;
 }
 
-int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize)
+int DWCi_RakurakuATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize)
 {
     int ret;
 
@@ -2589,17 +2590,17 @@ int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState
         atermset_bss.gAtermApResult = -1;
         return -1;
     }
-    if (func_020853B0() != 1) {
+    if (OS_IsThreadAvailable() != 1) {
         atermset_bss.gAtermApResult = -9;
         return -9;
     }
-    func_020853C0(&gAtermThread, AutoConfigThread, 0, (unsigned char *)atermset_bss.gThreadStack + (atermset_data.gThreadStackSize & ~7), atermset_data.gThreadStackSize, prio);
+    OS_CreateThread(&gAtermThread, AutoConfigThread, 0, (unsigned char *)atermset_bss.gThreadStack + (atermset_data.gThreadStackSize & ~7), atermset_data.gThreadStackSize, prio);
     atermset_bss.gAtermApState = 1;
     atermset_data.gAtermApTimeout = GetTickCount() + 60000;
     atermset_bss.bAtermApCanceled = 0;
-    memset(&g_021DD13C, 0, 232);
+    memset(&gAtermsetBlock2, 0, 232);
     SendNotify();
-    func_02085868(&gAtermThread);
+    OS_WakeupThreadDirect(&gAtermThread);
     atermset_bss.gAtermThreadId = 1;
     return 1;
 }
@@ -2646,9 +2647,9 @@ int ATERMi_ApConfigGetState(ATERMApConfigState *state)
     return 1;
 }
 
-int func_021BC7F0(int a)
+int DWCi_RakurakuATERMi_ApConfigGetResult(int a)
 {
-    memcpy((void *)a, &g_021DD13C, 0xe8);
+    memcpy((void *)a, &gAtermsetBlock2, 0xe8);
     return 1;
 }
 

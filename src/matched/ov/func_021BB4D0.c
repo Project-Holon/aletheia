@@ -1,5 +1,5 @@
 /*
- * function: func_021BB4D0
+ * function: WIFICLUB_DeleteTouchBar
  * address:  0x021BB4D0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern void TOUCHBAR_Delete(u8 *p);
 
-void func_021BB4D0(char *p)
+void WIFICLUB_DeleteTouchBar(char *p)
 {
     void *q = ((struct Obj00008 *)p)->f9AC;
 

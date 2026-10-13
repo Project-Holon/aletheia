@@ -80,7 +80,7 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_021C75E4  0x021C75E4  thumb
  *   func_021C76A4  0x021C76A4  thumb
  *   func_021C7744  0x021C7744  thumb
@@ -1067,7 +1067,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082AC0(int v, void *p, int size);
+extern void MIi_CpuClearFast(int v, void *p, int size);
 extern void func_021C75E4(Work_021C6FC4 *p);
 extern void func_021C76A4(Work_021C6FC4 *p);
 extern void func_021C7744(Work_021C6FC4 *p);
@@ -1740,7 +1740,7 @@ int func_021C6FC4(void *proc, int *seq, void *parent)
 
     GFL_HEAP_CreateChildHeap(1, 0x27, 0x20000);
     p = PROCSYS_AllocProcWork(proc, 0x1C8, 0x27);
-    func_02082AC0(0, p, 0x1C8);
+    MIi_CpuClearFast(0, p, 0x1C8);
     func_021C7130((Work *)p, (Parent_021C7130 *)parent);
     func_021C7208();
     func_021C7228((Work_021C7228 *)p);

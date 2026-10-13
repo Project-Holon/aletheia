@@ -21,7 +21,7 @@
  *   BTL_SERVER_FLOW_GetLockState 0x021C88E4 thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
  *   func_021BDB58 0x021BDB58 thumb ov093
- *   func_021BDB68 0x021BDB68 thumb ov093
+ *   NHTTPi_ThreadRecvHeaderProc 0x021BDB68 thumb ov093
  *   BTL_SERVER_FLOW_DispatchPokeEntryEvent 0x021BDB88 thumb ov093
  *   func_021BDB78 0x021BDB78 thumb ov093
  *   BTL_SERVER_FLOW_DispatchMemberInEndEvent 0x021BDC0C thumb ov093
@@ -41,7 +41,7 @@ extern void BTL_SERVER_FLOW_DispatchMemberInBeginEvent(u8 *);
 extern int BTL_SERVER_FLOW_GetLockState(u8 *);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
 extern void func_021BDB58(void *);
-extern u8 *func_021BDB68(void *);
+extern u8 *NHTTPi_ThreadRecvHeaderProc(void *);
 extern void BTL_SERVER_FLOW_DispatchPokeEntryEvent(u8 *, u8 *);
 extern u8 *func_021BDB78(void *);
 extern void BTL_SERVER_FLOW_DispatchMemberInEndEvent(u8 *);
@@ -68,7 +68,7 @@ int BTL_SERVER_FLOW_ProcAfterMemberIn(u8 *p)
     if (BTL_SERVER_FLOW_GetLockState(p) != 0) result = 1;
     BTL_SERVER_FLOW_EndHandExScope((u32 *)(p + 0x1d74), lock, 3102);
     func_021BDB58(p + q);
-    out = func_021BDB68(p + q);
+    out = NHTTPi_ThreadRecvHeaderProc(p + q);
     while (out != 0) {
         lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 3108);
         BTL_SERVER_FLOW_DispatchPokeEntryEvent(p, out);

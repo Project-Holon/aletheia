@@ -36,9 +36,9 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   func_0200873C 0x0200873C thumb
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CFA0 0x0200CFA0 thumb
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_RegisterSeen 0x0200CFA0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   POKE_TOOL_ChangeSpecies 0x020178D8 thumb
@@ -346,9 +346,9 @@ extern void PROCSYS_Push(void *,int,void *,void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void POKE_TOOL_ChangeSpecies(void *,u32);
@@ -658,7 +658,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
         if(A(0x10)&&func_02204F68((int)a,(int *)s)&&!W(0x24)&&(keys&2)&&func_02206078(P(0x104))){W(0x24)=1;func_020355D8(0);func_02208814(P(0x108));}break;
     case 9:
         POKE_TOOL_ChangeSpecies(P(0x10),AH(8));
-        if(A(0)){v=func_0200CA1C((void *)A(0));func_0200CFA0(v,P(0x10));func_0200CDE0(v,P(0x10));}
+        if(A(0)){v=ZUKAN_SAVE_GetFromGameData((void *)A(0));ZUKAN_SAVE_RegisterSeen(v,P(0x10));ZUKAN_SAVE_RegisterCaught(v,P(0x10));}
         func_02204FA0((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{func_022054E8((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:func_02205384(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
@@ -1567,9 +1567,9 @@ void func_022056E8(u32 *a, char *b)
     POKEPARTY_Add((void *)a[1], (void *)p);
     func_02007F1C(save, 4, 1, ((struct Obj06644 *)b)->f0);
     func_020307B0((void *)p);
-    q = (u32)func_0200CA1C((void *)a[0]);
-    func_0200CFA0((struct Blk37 *)q, (void *)p);
-    func_0200CDE0((struct Blk37 *)q, (void *)p);
+    q = (u32)ZUKAN_SAVE_GetFromGameData((void *)a[0]);
+    ZUKAN_SAVE_RegisterSeen((struct Blk37 *)q, (void *)p);
+    ZUKAN_SAVE_RegisterCaught((struct Blk37 *)q, (void *)p);
     q = (u32)GAME_DATA_GetTrainerRecord((int *)a[0]);
     func_02008DF0((struct Sub02008C20Obj *)q, 10);
     func_02008DF0((struct Sub02008C20Obj *)q, 0x58);

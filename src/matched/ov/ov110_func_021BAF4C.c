@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF4C
+ * function: PMSI_SEARCH_Delete
  * address: 0x021BAF4C
  * packet: pkt_ov110_021BAF4C
  * region: ov110
@@ -24,4 +24,4 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void MSGSEARCH_Delete(int *);
-void func_021BAF4C(unsigned p) { int i; STRBUF_Delete(((struct Obj13778 *)p)->fAD0);MSGSEARCH_Delete(*(int * *)&((struct Obj13778 *)p)->f78);for(i=0;i<27;i++)MSGDATA_Delete(*(void **)(p+i*4+0xc));func_020307B0((void *)p); }
+void PMSI_SEARCH_Delete(unsigned p) { int i; STRBUF_Delete(((struct Obj13778 *)p)->fAD0);MSGSEARCH_Delete(*(int * *)&((struct Obj13778 *)p)->f78);for(i=0;i<27;i++)MSGDATA_Delete(*(void **)(p+i*4+0xc));func_020307B0((void *)p); }

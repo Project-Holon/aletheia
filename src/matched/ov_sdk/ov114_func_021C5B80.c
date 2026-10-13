@@ -1,5 +1,5 @@
 /*
- * function: func_021C5B80
+ * function: DWC_NdCleanupAsync
  * address:  0x021C5B80
  * packet:   pkt_ov114_021C5B80
  * region:   ov114
@@ -14,10 +14,10 @@
  * symbols:
  *   func_02086028  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
- *   func_021C56CC  0x021C56CC  arm  ov114
- *   func_021C651C  0x021C651C  arm  ov114
- *   g_021D3B68     0x021D3B68  data
- *   g_021D3B84     0x021D3B84  data
+ *   DWCi_NdCleanupCallback  0x021C56CC  arm  ov114
+ *   DWCi_NdCleanupAsync  0x021C651C  arm  ov114
+ *   gDwcNdState     0x021D3B68  data
+ *   gDwcNdMutex     0x021D3B84  data
  */
 
 #include "../include/G_NdState.h"
@@ -31,25 +31,25 @@ typedef struct NdState NdState;
 
 extern void func_02086028(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
-extern void func_021C56CC(void);
-extern void func_021C651C(void (*callback)(void));
-extern struct NdState g_021D3B68;
-extern char g_021D3B84[];
+extern void DWCi_NdCleanupCallback(void);
+extern void DWCi_NdCleanupAsync(void (*callback)(void));
+extern struct NdState gDwcNdState;
+extern char gDwcNdMutex[];
 
-int func_021C5B80(void)
+int DWC_NdCleanupAsync(void)
 {
-    if (g_021D3B68.f14 == 0)
+    if (gDwcNdState.f14 == 0)
         return 0;
-    func_02086028(g_021D3B84);
-    if (g_021D3B68.f14 == 0) {
-        OS_UnlockMutex(g_021D3B84);
+    func_02086028(gDwcNdMutex);
+    if (gDwcNdState.f14 == 0) {
+        OS_UnlockMutex(gDwcNdMutex);
         return 0;
     }
-    g_021D3B68.f14 = 2;
-    OS_UnlockMutex(g_021D3B84);
-    if (((NdParam *)g_021D3B68.svl)->f40 == 0)
-        func_021C56CC();
+    gDwcNdState.f14 = 2;
+    OS_UnlockMutex(gDwcNdMutex);
+    if (((NdParam *)gDwcNdState.svl)->f40 == 0)
+        DWCi_NdCleanupCallback();
     else
-        func_021C651C(func_021C56CC);
+        DWCi_NdCleanupAsync(DWCi_NdCleanupCallback);
     return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200D144",
+   "name": "ZUKAN_SAVE_HasSeenGenderForm",
    "address": "0x0200D144",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200D288",
+   "name": "ZUKAN_SAVE_GetSpindaPersonality",
    "address": "0x0200D288",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200D298",
+   "name": "ZUKAN_SAVE_IsNationalCaughtComplete",
    "address": "0x0200D298",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200D2B0",
+   "name": "ZUKAN_SAVE_IsRegionalCaughtComplete",
    "address": "0x0200D2B0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200D2C4",
+   "name": "ZUKAN_SAVE_IsRegionalSeenComplete",
    "address": "0x0200D2C4",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C941C",
+   "name": "DPW_BT_GetRoomNumAsync",
    "address": "0x021C941C",
    "kind": "game",
    "region": "ov114",

@@ -23,7 +23,7 @@
  * sdk:      Mel_JPEGDecodeExif (libssp.TWL.HYB.a jpegdec.o)
  *
  * symbols:
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_021C0BB4  0x021C0BB4  arm  ov172
  *   g_021C88F0     0x021C88F0  data
  *   g_021C8D1C     0x021C8D1C  data ov172
@@ -79,7 +79,7 @@ typedef struct {
 extern BitState g_021C88F0;
 extern short g_021C8B1C[];
 extern unsigned char g_021C959C[];
-extern void func_02082AC0(unsigned long data, void *destp, unsigned long size);
+extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern long func_021C0BB4(unsigned char *src, unsigned long src_size, int *cur, int option);
 
 int func_021BE468(unsigned char *a, unsigned long length, int option)
@@ -92,7 +92,7 @@ int func_021BE468(unsigned char *a, unsigned long length, int option)
     g_021C88F0.esc = 0;
     g_021C88F0.bits = 0;
     g_021C8B1C[0] = g_021C8B1C[0xC0] = g_021C8B1C[0x100] = 0;
-    func_02082AC0(0, g_021C959C, 0x1000);
+    MIi_CpuClearFast(0, g_021C959C, 0x1000);
     g_021C88F0.length = length;
     if (length <= 2) return 0;
     if (a[0] != 0xFF || a[1] != 0xD8) return 0;

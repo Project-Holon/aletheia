@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB9C
+ * function: DWCi_BTNlDisable
  * address:  0x021BCB9C
  * packet:   pkt_021BCB9C
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCB9C 0x021BCB9C arm
+ *   DWCi_BTNlDisable 0x021BCB9C arm
  *
  * Set the byte at +0x18 of the object behind the global pointer at 0x021DE508.
  * Addresses are Black-image addresses.
  */
 
-void func_021BCB9C(void)
+void DWCi_BTNlDisable(void)
 {
     *(unsigned char *)(*(char **)0x021DE508 + 0x18) = 1;
 }

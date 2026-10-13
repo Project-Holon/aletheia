@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B727C, func_021B728C, func_021B72A0
+ * function: IRC_APPBAR_IsBusy, IRC_APPBAR_SetEnabled, IRC_APPBAR_SetActive
  * address: 0x021B727C
  * packet: pkt_ov101_021B727C
  * region: ov101
@@ -17,12 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-int func_021B727C(int p) { if(((struct Obj22132 *)p)->f50) return 1; return 0; }
-void func_021B728C(int p,int b) {
+int IRC_APPBAR_IsBusy(int p) { if(((struct Obj22132 *)p)->f50) return 1; return 0; }
+void IRC_APPBAR_SetEnabled(int p,int b) {
  ((struct Obj13722 *)p)->f5C=b;
  func_02040588((u8)(((struct Obj13722 *)p)->f3C),(u8)b);
 }
-void func_021B72A0(int p,int b) {
+void IRC_APPBAR_SetActive(int p,int b) {
  ((struct Obj13723 *)p)->f5C=b;
  ((struct Obj13723 *)p)->f50=0;
 }

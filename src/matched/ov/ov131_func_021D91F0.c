@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   BMP_GetPixels 0x020437D4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -36,7 +36,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -61,7 +61,7 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     pixels=*(u8 * *)&((struct Obj23153 *)(*(u8 * *)&((struct Obj10517 *)p)->f48))->f14;
     source=BMP_GetPixels(((struct Obj06484 *)entry)->fC);
     if (((struct Obj06484 *)entry)->f0==p[0x59]) pixels+=0x660;
-    func_02082D44(pixels,source,0x660);
+    MI_CpuCopy8(pixels,source,0x660);
     text=func_02045EC0(((struct Obj10517 *)p)->f50,record[5]+160);
     buffer=STRBUF_Create(32,((struct Obj10516 *)a)->f0);
     object=func_0201EC64(((struct Obj10516 *)a)->f0);

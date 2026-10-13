@@ -26,6 +26,9 @@
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
  *   POKEGRA_GetArcID 0x0202D060 thumb
  *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
+ *   ZUKAN_SAVE_GetViewGenderAndForm  0x0200CC40  thumb  arm9
+ *   ZUKAN_SAVE_GetSpindaPersonality  0x0200D288  thumb  arm9
  */
 #include "../include/Obj00146.h"
 typedef unsigned char u8;
@@ -37,12 +40,12 @@ struct Desc {u16 x,y,z;u8 a,b;u16 c,d;u32 sx,sy;u16 e,f;};
 extern u16 func_021BC3C0(int);
 struct Actor;
 extern int func_021BC3A4(int *p);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CC40(void *,u32,u32 *,u32 *,u32 *,u16);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(void *,u32,u32 *,u32 *,u32 *,u16);
 typedef signed int     s32;
 struct Blk37;
 struct Ov208Gfx;
-extern u32 func_0200D288(struct Blk37 *p, u32 which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 extern int POKEGRA_OpenHandle(int a0);
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
@@ -63,9 +66,9 @@ void func_021C2E6C(u16 *heap,u8 *p,int key,u32 slot)
     void *ctx;
     species=func_021BC3C0(key);
     special=0;
-    ctx=func_0200CA1C((void *)func_021BC3A4((int *)key));
-    func_0200CC40(ctx,species,&form,&b,&a,*heap);
-    if(species==327)special=func_0200D288(ctx,special);
+    ctx=ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key));
+    ZUKAN_SAVE_GetViewGenderAndForm(ctx,species,&form,&b,&a,*heap);
+    if(species==327)special=ZUKAN_SAVE_GetSpindaPersonality(ctx,special);
     arc=POKEGRA_OpenHandle(*heap);
     *(u32 *)((u32)p+0x44+slot*4)=POKEGRA_RegisterCgr(arc,species,a,form,b,0,0,special,1,*heap);
     *(u32 *)((u32)p+0x3c+slot*4)=POKEGRA_RegisterPalette(arc,species,a,form,b,0,0,1,(u16)(slot<<5),*heap);

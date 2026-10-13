@@ -1,5 +1,5 @@
 /*
- * function: func_0208AA2C
+ * function: TP_SetCalibrateParam
  * address:  0x0208AA2C
  * packet:   pkt_0208AA2C
  * region:   arm9
@@ -93,7 +93,7 @@ static inline long CP_GetDivResult32(void)
     return *(volatile long *)0x040002A0;
 }
 
-void func_0208AA2C(const TPCalibrateParam *param)
+void TP_SetCalibrateParam(const TPCalibrateParam *param)
 {
     u32 enabled;
 

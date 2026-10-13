@@ -12,10 +12,10 @@
  * sdk:      DWCi_HandleGT2Error (dwc_match.o)
  *
  * symbols:
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  */
 
-extern void func_0216EB68(int error, int code);
+extern void DWCi_StopMatch(int error, int code);
 
 int func_02173FB4(int result)
 {
@@ -53,6 +53,6 @@ int func_02173FB4(int result)
         break;
     }
     if (dwcError != 0)
-        func_0216EB68(dwcError, errorCode + -87000);
+        DWCi_StopMatch(dwcError, errorCode + -87000);
     return result;
 }

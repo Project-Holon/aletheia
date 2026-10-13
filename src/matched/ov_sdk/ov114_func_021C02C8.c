@@ -1,5 +1,5 @@
 /*
- * function: func_021C02C8
+ * function: ghiCallProgressCallback
  * address:  0x021C02C8
  * packet:   pkt_ov114_021C02C8
  * region:   ov114
@@ -29,7 +29,7 @@ typedef struct GHIConnection {
     int totalSize;
 } GHIConnection;
 
-void func_021C02C8(GHIConnection *connection, char *buffer, int bufferLen)
+void ghiCallProgressCallback(GHIConnection *connection, char *buffer, int bufferLen)
 {
     if (connection->progressCallback != 0)
         connection->progressCallback(connection->request, connection->state, buffer, bufferLen, connection->downloadedBytes, connection->totalSize, (int)connection->param);

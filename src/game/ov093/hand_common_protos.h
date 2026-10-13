@@ -81,7 +81,7 @@ extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int typeId);
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
 extern u32 BTL_CALC_GetMonParamWithHeap(u32 itemId, u32 paramId);
 extern u32 WAZA_TOOL_IsDamaging(u32 moveId);
-extern int func_0689C8CC(u16 moveId);
+extern int BTL_ID_IsMetronomeItemIgnoredMove(u16 moveId);
 extern void HAND_TOKUSEI_BlockIndirectDamage(struct BtlServerFlow *flow, int pokeId, int *work, int blockedCause);
 extern void HAND_TOKUSEI_ShowIndirectGuardMessage(struct BtlServerFlow *flow, int pokeId, int *work, int stringId);
 extern int HAND_TOKUSEI_AbsorbCheckMoveType(struct BtlServerFlow *flow, int pokeId, int moveType);
@@ -90,7 +90,12 @@ extern void HAND_WAZA_RemoveMoveHandlerById(int ownerId, int moveId);
 extern void HAND_WAZA_ProtectIncrementStreak(struct BtlServerFlow *flow, int pokeId, int silent);
 
 /* Item tests of overlay 095 (Arceus plates and Genesect drives). */
-extern int func_0689C980(int itemId);
-extern int func_0689C990(int itemId);
+extern int BTL_ID_IsArceusPlate(int itemId);
+extern int BTL_ID_IsGenesectDrive(int itemId);
+
+/* Shared helpers of the ability, item and move handlers (hand_common.c). */
+extern int HAND_COMMON_IsMoveTarget(int pokeId);
+extern int HAND_COMMON_IsLastToAct(struct BtlServerFlow *flow, int pokeId);
+extern int HAND_COMMON_IsItemBoundToSpecies(int speciesId, int itemId);
 
 #endif

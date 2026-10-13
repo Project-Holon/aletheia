@@ -1,5 +1,5 @@
 /*
- * function: func_021B984C
+ * function: NHTTP_RAP_WritePostHeader
  * address: 0x021B984C
  * packet: pkt_ov114_021B984C
  * region: ov114
@@ -10,7 +10,7 @@
  */
 typedef unsigned short u16;
 typedef struct { char *buffer; int cursor; char *source; } Record;
-void func_021B984C(Record *p, int x)
+void NHTTP_RAP_WritePostHeader(Record *p, int x)
 {
     char c;
     x = (u16)x;

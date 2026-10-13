@@ -14,12 +14,12 @@
  * All 584 concrete bytes are right; 36 of 40 relocation sites resolve.  The
  * four that do not are the three fan-in-1 callees of the trailing switch:
  *
- *   func_02065CE4  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
+ *   NNSi_G2dRendererDrawCellZOffset  0x02065CE4  104 bytes  -- OPEN (pkt_02065CE4), 4 bytes
  *                                            from EXACT, see
- *                                            docs/notes/func_02065CE4.c.txt
- *   func_02065D4C  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
+ *                                            docs/notes/NNSi_G2dRendererDrawCellZOffset.c.txt
+ *   NNSi_G2dRendererDrawCellTransformedZOffset  0x02065D4C  104 bytes  -- OPEN (pkt_02065D4C), twin of
  *                                            the above, same near miss
- *   func_02066080  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
+ *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  220 bytes  -- OPEN (pkt_02065D4C), unattempted
  *
  * Each has exactly one branch reference image-wide and it is the call in this
  * function, so `label` cannot see them and a single function cannot be split.
@@ -33,7 +33,7 @@
  * `(f32)(v << 12) - 0.5f` otherwise, then truncated back to s32 by the
  * soft-float runtime.  The
  * second pair is published only when the 2-bit field at 0x60 bits 18-19 is
- * set, is followed by a scale (func_020664CC, 0x1000 == FX32_ONE) and a
+ * set, is followed by a scale (NNS_G2dScale, 0x1000 == FX32_ONE) and a
  * rotation read as a pair of s16 from the table at 0x020A1B38 indexed by
  * `unk_58 >> 4`, and is then undone by publishing the negated pair.  The
  * trailing switch on +0x68 picks the draw path; case 0 splits again on bit 0
@@ -47,12 +47,12 @@
  * _fsub/_fadd addresses; 0x0209C95C is the add, 0x0209CB8C the subtract).
  *
  * symbols:
- *   func_020663D0  0x020663D0  arm
- *   func_020664CC  0x020664CC  arm
- *   func_02066620  0x02066620  arm
- *   func_02065CE4  0x02065CE4  arm
- *   func_02065D4C  0x02065D4C  arm
- *   func_02066080  0x02066080  arm
+ *   NNS_G2dTranslate  0x020663D0  arm
+ *   NNS_G2dScale  0x020664CC  arm
+ *   NNS_G2dRotZ  0x02066620  arm
+ *   NNSi_G2dRendererDrawCellZOffset  0x02065CE4  arm
+ *   NNSi_G2dRendererDrawCellTransformedZOffset  0x02065D4C  arm
+ *   NNSi_G2dRendererDrawMultiCellTransformed  0x02066080  arm
  *   FX_SinCosTable_     0x020A1B38  data
  *   _fflt          0x0209BDBC  arm
  *   _ffix          0x0209C494  arm
@@ -91,13 +91,13 @@ struct Obj {
 
 extern s16 FX_SinCosTable_[];
 
-extern void func_020663D0(s32 x, s32 y, s32 z);
-extern void func_020664CC(s32 x, s32 y, s32 z);
-extern void func_02066620(s32 a, s32 b);
-extern void func_02065CE4(void *a0);
-extern void func_02065D4C(void *p);
+extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
+extern void NNS_G2dScale(s32 x, s32 y, s32 z);
+extern void NNS_G2dRotZ(s32 a, s32 b);
+extern void NNSi_G2dRendererDrawCellZOffset(void *a0);
+extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
 struct Obj02066080;
-extern void func_02066080(struct Obj02066080 *c);
+extern void NNSi_G2dRendererDrawMultiCellTransformed(struct Obj02066080 *c);
 
 #define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
 
@@ -108,36 +108,36 @@ void CLACT_ApplyActorTransform(struct Obj *o)
 
     CONV(a, o->unk_0e);
     CONV(b, o->unk_0c);
-    func_020663D0((s32)b, (s32)a, 0);
+    NNS_G2dTranslate((s32)b, (s32)a, 0);
 
     if (o->unk_60_12 != 0) {
         CONV(a, o->unk_12);
         CONV(b, o->unk_10);
-        func_020663D0((s32)b, (s32)a, 0);
+        NNS_G2dTranslate((s32)b, (s32)a, 0);
 
-        func_020664CC(o->unk_14, o->unk_18, 0x1000);
+        NNS_G2dScale(o->unk_14, o->unk_18, 0x1000);
 
         i = o->unk_58 >> 4;
-        func_02066620(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
+        NNS_G2dRotZ(FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
 
         CONV(a, o->unk_12);
         CONV(b, o->unk_10);
-        func_020663D0(-(s32)b, -(s32)a, 0);
+        NNS_G2dTranslate(-(s32)b, -(s32)a, 0);
     }
 
     switch (o->unk_68) {
     case 0:
         if (o->unk_64_0 == 1) {
-            func_02065CE4((void *)o->unk_a4);
+            NNSi_G2dRendererDrawCellZOffset((void *)o->unk_a4);
         } else {
-            func_02065D4C(o->unk_74);
+            NNSi_G2dRendererDrawCellTransformedZOffset(o->unk_74);
         }
         break;
     case 1:
-        func_02065D4C(o->unk_74);
+        NNSi_G2dRendererDrawCellTransformedZOffset(o->unk_74);
         break;
     case 2:
-        func_02066080((struct Obj02066080 *)o->unk_74);
+        NNSi_G2dRendererDrawMultiCellTransformed((struct Obj02066080 *)o->unk_74);
         break;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BEC10
+ * function: NHTTPi_GetRequest
  * address:  0x021BEC10
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEC00  0x021BEC00  arm  ov114
+ *   NHTTPi_GetConnection  0x021BEC00  arm  ov114
  *
  *
  * Looks node `a` up and returns its +0x10 field, or `d` when absent.
@@ -21,11 +21,11 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Conn;
-extern struct Conn *func_021BEC00(int a, int b);
+extern struct Conn *NHTTPi_GetConnection(int a, int b);
 
-int func_021BEC10(int a, int d)
+int NHTTPi_GetRequest(int a, int d)
 {
-    u8 *p = (u8 *)func_021BEC00(a, d);
+    u8 *p = (u8 *)NHTTPi_GetConnection(a, d);
     if (p != 0)
         d = *(int *)(p + 0x10);
     return d;

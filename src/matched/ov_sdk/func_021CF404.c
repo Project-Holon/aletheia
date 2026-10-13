@@ -1,5 +1,5 @@
 /*
- * function: func_021CF404
+ * function: DWCi_SETTIGNlGet
  * address:  0x021CF404
  * packet:   pkt_021CF3F0
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CF404   0x021CF404  arm
+ *   DWCi_SETTIGNlGet   0x021CF404  arm
  *
  * Address of the object behind the global pointer, +0x400.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CF404.c \
- *       --func func_021CF404 --addr 0x021CF404 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SETTIGNlGet.c \
+ *       --func DWCi_SETTIGNlGet --addr 0x021CF404 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-char *func_021CF404(void)
+char *DWCi_SETTIGNlGet(void)
 {
     return *(char **)0x021DE644 + 0x400;
 }

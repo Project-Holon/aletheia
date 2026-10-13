@@ -1,5 +1,5 @@
 /*
- * function: func_021D3D9C
+ * function: BTL_CLIENT_LoadTrainerItems
  * address: 0x021D3D9C
  * packet: pkt_ov093_021D3D9C
  * region: ov093
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 BTL_MAIN_GetTrainerItem(char *p, int i, unsigned int j);
-void func_021D3D9C(u8 *p) {
+void BTL_CLIENT_LoadTrainerItems(u8 *p) {
     u32 i;
     for(i=0;i<4;i++) *(u16 *)(p+i*2+0xe8)=BTL_MAIN_GetTrainerItem(*(char * *)&((struct Obj13429 *)p)->f0,p[0x1a6],(u8)i);
 }

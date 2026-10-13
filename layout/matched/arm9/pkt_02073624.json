@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02073624",
+   "name": "NNSi_SndAllocFreeSeqPlayer",
    "address": "0x02073624",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0207368C",
+   "name": "NNSi_SndSeqPlayerRelease",
    "address": "0x0207368C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073710",
+   "name": "NNSi_SndPlayerHeapDisposeCallback",
    "address": "0x02073710",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073760",
+   "name": "NNSi_SndSeqPlayerSetPriority",
    "address": "0x02073760",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073838",
+   "name": "NNS_SndStrmAllocChannel",
    "address": "0x02073838",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073898",
+   "name": "NNS_SndStrmFreeChannel",
    "address": "0x02073898",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02073BB0",
+   "name": "NNSi_SndStrmReleaseTimer",
    "address": "0x02073BB0",
    "kind": "game",
    "region": "arm9",

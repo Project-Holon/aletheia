@@ -1,5 +1,5 @@
 /*
- * function: func_021D5904
+ * function: DWCi_FNTlEnd
  * address:  0x021D5904
  * packet:   pkt_ov016_021D5904
  * region:   ov016
@@ -15,7 +15,7 @@
  *   DWCi_ARClRelease                 0x021D4C68  arm  ov016
  *   DWCi_QUElDelete                  0x021D5450  arm  ov016
  *   DWCi_HEAPlFree_                  0x021D6438  arm  ov016
- *   g_021DE680                       0x021DE680  data
+ *   gFontWork                       0x021DE680  data
  *   g_021DE680_free                  0x021DE680  data
  */
 
@@ -41,17 +41,17 @@ typedef struct {
     int renew[2];
 } MemFont;
 
-extern MemFont *g_021DE680;
+extern MemFont *gFontWork;
 extern MemFont *g_021DE680_free;
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_QUElDelete(void *queue);
 extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021D5904(void)
+void DWCi_FNTlEnd(void)
 {
     int i;
     for (i = 0; i < 2; i++)
-        DWCi_ARClRelease(g_021DE680->file[i]);
-    DWCi_QUElDelete(g_021DE680->unused);
+        DWCi_ARClRelease(gFontWork->file[i]);
+    DWCi_QUElDelete(gFontWork->unused);
     DWCi_HEAPlFree_((void **)&g_021DE680_free);
 }

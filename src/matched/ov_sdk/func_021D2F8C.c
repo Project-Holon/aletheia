@@ -1,5 +1,5 @@
 /*
- * function: func_021D2F8C
+ * function: DWCi_MOV_WH_StateInEndParentKeyShare
  * address:  0x021D2F8C
  * packet:   pkt_021D2F8C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D2F8C 0x021D2F8C arm
+ *   DWCi_MOV_WH_StateInEndParentKeyShare 0x021D2F8C arm
  *   WM_EndKeySharing  0x02090BB8  arm  arm9
  *
  * Query the global object's tail, then reset on anything but the ready answer.
@@ -20,7 +20,7 @@
 extern int WM_EndKeySharing(int);
 extern int func_021D2A44(void);
 
-int func_021D2F8C(void)
+int DWCi_MOV_WH_StateInEndParentKeyShare(void)
 {
     int *g = (int *)0x021DE660;
 

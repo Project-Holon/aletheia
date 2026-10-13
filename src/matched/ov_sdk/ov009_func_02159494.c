@@ -1,5 +1,5 @@
 /*
- * function: func_02159494
+ * function: _tcp_send_finack
  * address:  0x02159494
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,13 +12,13 @@
  * Tail call that supplies the second argument 0x11.
  *
  * symbols:
- *   func_021593A8  0x021593A8  arm
+ *   _tcp_send_handshake  0x021593A8  arm
  */
 
-extern void func_021593A8(char *soc, unsigned char flag);
+extern void _tcp_send_handshake(char *soc, unsigned char flag);
 
-void func_02159494(int a)
+void _tcp_send_finack(int a)
 {
-    func_021593A8((char *)a, 0x11);
+    _tcp_send_handshake((char *)a, 0x11);
 }
 

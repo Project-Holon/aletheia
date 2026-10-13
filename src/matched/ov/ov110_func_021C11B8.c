@@ -1,5 +1,5 @@
 /*
- * function: func_021C11B8
+ * function: PMS_SELECT_GRAPHIC_DrawNewRow
  * address: 0x021C11B8
  * packet: pkt_ov110_021C11B8
  * region: ov110
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_021C080C 0x021C080C thumb ov110
+ *   PMS_SELECT_GRAPHIC_ColorRowBg 0x021C080C thumb ov110
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -28,7 +28,7 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_021C080C(u8 *,int,int,int);
+extern void PMS_SELECT_GRAPHIC_ColorRowBg(u8 *,int,int,int);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -36,11 +36,11 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
-void func_021C11B8(u8 *p,int index,int unused,int flag) {
+void PMS_SELECT_GRAPHIC_DrawNewRow(u8 *p,int index,int unused,int flag) {
     void *str;
     u16 color;
     str=func_02045EC0(((struct Obj10286 *)p)->f60,17);
-    func_021C080C(p+0x24,index,6,flag);
+    PMS_SELECT_GRAPHIC_ColorRowBg(p+0x24,index,6,flag);
     if (flag) {
         BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+0x6c+index*4)),14);
         color=0x44e;

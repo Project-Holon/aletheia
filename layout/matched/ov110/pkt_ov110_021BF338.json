@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF338",
+   "name": "PMS_WORDLIST_PageUp",
    "address": "0x021BF338",
    "kind": "game",
    "region": "ov110",

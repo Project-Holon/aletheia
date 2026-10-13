@@ -1,5 +1,5 @@
 /*
- * function: func_02188980
+ * function: TR_AI_CmdIfContFlag
  * address: 0x02188980
  * packet: pkt_ov096_02188980
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021889A0 0x021889A0 thumb ov096
+ *   TR_AI_CompareContFlag 0x021889A0 thumb ov096
  */
 #include "../include/Obj21930.h"
 struct Cursor;
-extern int func_021889A0(struct Cursor *a, int b, int c);
-int func_02188980(struct Cursor *a, int b)
+extern int TR_AI_CompareContFlag(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfContFlag(struct Cursor *a, int b)
 {
-    func_021889A0(a, b, 2);
+    TR_AI_CompareContFlag(a, b, 2);
     return ((struct Obj21930 *)b)->fC4;
 }

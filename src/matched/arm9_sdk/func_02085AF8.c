@@ -1,5 +1,5 @@
 /*
- * function: func_02085AF8
+ * function: OS_SetSwitchThreadCallback
  * address:  0x02085AF8
  * packet:   pkt_02085AF8
  * region:   arm9
@@ -14,7 +14,7 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_02150FD0            0x02150FD0  data
+ *   gOsThreadBss            0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -138,19 +138,19 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-OSSwitchThreadCallback func_02085AF8(OSSwitchThreadCallback callback)
+OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callback)
 {
     OSIntrMode enabled;
     OSSwitchThreadCallback prev;
 
     enabled = OS_DisableInterrupts();
-    prev = (OSSwitchThreadCallback)g_02150FD0.OSi_ThreadInfo.switchCallback;
-    g_02150FD0.OSi_ThreadInfo.switchCallback = (void *)callback;
+    prev = (OSSwitchThreadCallback)gOsThreadBss.OSi_ThreadInfo.switchCallback;
+    gOsThreadBss.OSi_ThreadInfo.switchCallback = (void *)callback;
     (void)OS_RestoreInterrupts(enabled);
     return prev;
 }

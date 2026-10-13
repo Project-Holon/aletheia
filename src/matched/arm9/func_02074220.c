@@ -1,5 +1,5 @@
 /*
- * function: func_02074220
+ * function: NNS_SndArcInitOnMemory
  * address:  0x02074220
  * packet:   pkt_020737C0
  * region:   arm9
@@ -14,11 +14,11 @@
  * file offsets at +0x10/+0x18/+0x20 into absolute pointers at +0x8C/+0x90/+0x88
  * (a zero offset stays a null pointer), clear +0x94, then walk the 0x10-byte
  * records that begin at f88+0xC and relocate each record's +8 word the same
- * way, and finally clear +0x30 and store the object into ptr_0214EA50.
+ * way, and finally clear +0x30 and store the object into gNNSSndCurrentArc.
  *
- * PINNED ../2.0/sp2, the pin six cluster siblings carry (func_020737C0,
- * func_02073AD0, func_02073B3C, func_02073CA0, func_020746E8, func_02073F3C,
- * func_02074894).
+ * PINNED ../2.0/sp2, the pin six cluster siblings carry (NNS_SndStrmInit,
+ * NNS_SndStrmSetVolume, NNS_SndStrmStop, NNSi_SndStrmAlarmHandler, NNS_SndHeapCreate, NNSi_SndCaptureReset,
+ * NNS_SndHeapSaveState).
  *
  * docs/notes/pkt_02073F3C.c.txt flagged this as the packet's best remaining
  * candidate and had the record and the loop right. Three levers closed it,
@@ -44,16 +44,16 @@
  *    (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md, read the
  *    other way round -- here the value, not the block, is what is shared).
  *
- * Both relocation sites resolve (func_02082A90 by label, ptr_0214EA50 by
+ * Both relocation sites resolve (MIi_CpuCopy32 by label, gNNSSndCurrentArc by
  * literal), so nothing further was needed.
  *
  * symbols:
- *   ptr_0214EA50   0x0214EA50  data
- *   func_02082A90  0x02082A90  arm
+ *   gNNSSndCurrentArc   0x0214EA50  data
+ *   MIi_CpuCopy32  0x02082A90  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02074220.c \
- *       --func func_02074220 --addr 0x02074220 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndArcInitOnMemory.c \
+ *       --func NNS_SndArcInitOnMemory --addr 0x02074220 --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj11683.h"
 
@@ -78,14 +78,14 @@ struct Hdr {
     u32 f94;
 };
 
-extern struct Hdr *ptr_0214EA50;
-extern void func_02082A90(void *dst, void *src, u32 n);
+extern struct Hdr *gNNSSndCurrentArc;
+extern void MIi_CpuCopy32(void *dst, void *src, u32 n);
 
-void func_02074220(struct Hdr *h, u8 *base)
+void NNS_SndArcInitOnMemory(struct Hdr *h, u8 *base)
 {
     u32 i;
 
-    func_02082A90(base, h, 0x30);
+    MIi_CpuCopy32(base, h, 0x30);
 
     if (h->f18 == 0) h->f90 = 0; else h->f90 = (u32)(base + h->f18);
     if (h->f20 == 0) h->f88 = 0; else h->f88 = (struct Tbl *)(base + h->f20);
@@ -102,5 +102,5 @@ void func_02074220(struct Hdr *h, u8 *base)
     }
 
     h->f30 = 0;
-    ptr_0214EA50 = h;
+    gNNSSndCurrentArc = h;
 }

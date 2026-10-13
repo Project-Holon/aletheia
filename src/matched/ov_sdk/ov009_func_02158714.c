@@ -1,5 +1,5 @@
 /*
- * function: func_02158714
+ * function: _send_tcp
  * address:  0x02158714
  * packet:   pkt_ov009_02158714
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      _send_tcp (libcps.TWL.HYB.a network.o, static)
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_020870D0  0x020870D0  arm
- *   func_02157700  0x02157700  arm  ov009
- *   func_02157808  0x02157808  arm  ov009
- *   func_0215832C  0x0215832C  arm  ov009
+ *   calc_checksum_do  0x02157700  arm  ov009
+ *   invert_checksum  0x02157808  arm  ov009
+ *   send_ip  0x0215832C  arm  ov009
  *   g_02150FEC     0x02150FEC  data
  *   g_021A86A4     0x021A86A4  data
  *   g_021A8328     0x021A8328  data
@@ -100,18 +100,18 @@ extern struct G_021A86A4 g_021A86A4;
 extern u8 g_021A8328[90];
 extern struct net_vars g_021A826C;
 
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32 state);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
 extern unsigned long long func_020870D0(void);
-extern u32 func_02157700(u8 *s, u32 len, u32 sum);
-extern u16 func_02157808(u16 sum);
-extern void func_0215832C(u8 *hdr, u32 hdr_len, u8 *body, u32 body_len, u32 ip_to, u8 proto);
+extern u32 calc_checksum_do(u8 *s, u32 len, u32 sum);
+extern u16 invert_checksum(u16 sum);
+extern void send_ip(u8 *hdr, u32 hdr_len, u8 *body, u32 body_len, u32 ip_to, u8 proto);
 
 #define HTONS(x) ((u16)(((u16)(x) >> 8) | ((u16)(x) << 8)))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define SET32(p, v) (*(u16 *)(p) = HTONS((v) >> 16), *(u16 *)((p) + 2) = HTONS(v))
 
-u32 func_02158714(u8 *data, u32 len, CPSSoc *soc, u8 flag)
+u32 _send_tcp(u8 *data, u32 len, CPSSoc *soc, u8 flag)
 {
     u8 *hdr;
     u32 this_tcp_size;
@@ -139,7 +139,7 @@ u32 func_02158714(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         ci_order_prev = -1;
         ci_order_max = -1;
         sack_count = 0;
-        enable = func_02087988();
+        enable = OS_DisableInterrupts();
         for (;;)
         {
             for (ci = 0; ci < 4 && soc->chunks[ci].start; ci++)
@@ -158,7 +158,7 @@ u32 func_02158714(u8 *data, u32 len, CPSSoc *soc, u8 flag)
             ci_order_prev = ci_order_max;
             ci_order_max = -1;
         }
-        func_0208799C(enable);
+        OS_RestoreInterrupts(enable);
         SET32(hdr + 20, 0x01010500 | (sack_count * 8 + 2));
         this_tcp_size = 24 + sack_count * 8;
         mss = soc->remote_mss;
@@ -196,11 +196,11 @@ u32 func_02158714(u8 *data, u32 len, CPSSoc *soc, u8 flag)
         soc->ack_pending = 0;
         soc->tick_acked = (u32)func_020870D0();
     }
-    sum = func_02157808(func_02157700(data, len, func_02157700(hdr - 12, this_tcp_size + 12, 0)));
+    sum = invert_checksum(calc_checksum_do(data, len, calc_checksum_do(hdr - 12, this_tcp_size + 12, 0)));
     *(u16 *)(hdr + 16) = HTONS(sum);
     soc->seqno += len;
     if (flag & 3)
         soc->seqno++;
-    func_0215832C(hdr, this_tcp_size, data, len, soc->remote_ip, 6);
+    send_ip(hdr, this_tcp_size, data, len, soc->remote_ip, 6);
     return len;
 }

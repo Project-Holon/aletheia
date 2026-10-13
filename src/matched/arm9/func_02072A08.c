@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214DEC0  0x0214DEC0  data
+ *   gNNSSndWaveOutState  0x0214DEC0  data
  *
- * Frees one channel of the 8-bit bitmap at g_0214DEC0+4, the matching release
- * for matched func_020729C0's allocate.
+ * Frees one channel of the 8-bit bitmap at gNNSSndWaveOutState+4, the matching release
+ * for matched NNSi_SndWaveOutAllocSlot's allocate.
  *
  * The parameter is an INDEX, not a mask: `mov r2,#1 / mvn r0, r2, lsl r0` at
  * 0x02072A0C shows the shift happening INSIDE the complement, i.e. `~(1u << b)`
@@ -27,7 +27,7 @@
  * docs/families/cluster_020726D0.h.
  *
  * This file was parked in src/pending at MATCH only because the `symbols:`
- * block was missing its g_0214DEC0 line, so the single ABS32 site had no
+ * block was missing its gNNSSndWaveOutState line, so the single ABS32 site had no
  * address to resolve; the C was always byte-correct.
  *
  * Verified with:
@@ -39,9 +39,9 @@
 
 typedef unsigned int u32;
 
-extern struct Global0214DEC0 g_0214DEC0;
+extern struct Global0214DEC0 gNNSSndWaveOutState;
 
 void NNS_SndWaveOutFreeChannel(u32 bit)
 {
-    g_0214DEC0.flags4 &= ~(1U << bit);
+    gNNSSndWaveOutState.flags4 &= ~(1U << bit);
 }

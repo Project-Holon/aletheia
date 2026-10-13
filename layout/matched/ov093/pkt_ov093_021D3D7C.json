@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D3D7C",
-    "func_021D3D84"
+    "BTL_CLIENT_GetSideData",
+    "BTL_CLIENT_GetFieldCountdownByte"
+   ],
+   "addresses": [
+    "0x021D3D7C",
+    "0x021D3D84"
    ]
   }
  ]

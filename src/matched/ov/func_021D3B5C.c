@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B5C
+ * function: BTL_CLIENT_StepResetEffectsOnSwitchOut
  * address:  0x021D3B5C
  * packet:   pkt_021D377C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D3B5C   0x021D3B5C  thumb
+ *   BTL_CLIENT_StepResetEffectsOnSwitchOut   0x021D3B5C  thumb
  *   BTL_SIDE_GetPokeByIdThunk   0x021B9934  thumb
  *   BTL_POKEPARAM_ResetEffectsOnSwitchOut   0x021D64F0  thumb
  * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl BTL_SIDE_GetPokeByIdThunk; bl BTL_POKEPARAM_ResetEffectsOnSwitchOut; movs r0, #1; pop {r3, pc}.
@@ -28,7 +28,7 @@ typedef signed int s32;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_ResetEffectsOnSwitchOut(void *p);
 
-int func_021D3B5C(u8 *p, int b, u32 *q)
+int BTL_CLIENT_StepResetEffectsOnSwitchOut(u8 *p, int b, u32 *q)
 {
     BTL_POKEPARAM_ResetEffectsOnSwitchOut(BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj18389 *)p)->f4, (u8)*q));
     return 1;

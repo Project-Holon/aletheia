@@ -1,5 +1,5 @@
 /*
- * function: func_02088788
+ * function: RTC_Init
  * address:  0x02088788
  * packet:   pkt_02088788
  * region:   arm9
@@ -69,7 +69,7 @@ BOOL PXI_IsCallbackReady(int fifotag, int proc);
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 void RtcCommonCallback(int tag, u32 data, BOOL err);
 
-void func_02088788(void)
+void RTC_Init(void)
 {
     if (g_02151428.rtcInitialized) {
         return;

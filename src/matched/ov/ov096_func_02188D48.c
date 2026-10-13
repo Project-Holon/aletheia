@@ -1,5 +1,5 @@
 /*
- * function: func_02188D48
+ * function: TR_AI_CmdLoadMovePower
  * address: 0x02188D48
  * packet: pkt_ov096_02188D48
  * region: ov096
@@ -14,4 +14,4 @@
 #include "../include/Obj10177.h"
 typedef unsigned short u16;
 extern u16 WAZA_TOOL_GetPower(void *p);
-int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=WAZA_TOOL_GetPower((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }
+int TR_AI_CmdLoadMovePower(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=WAZA_TOOL_GetPower((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }

@@ -13,7 +13,7 @@
  * symbols:
  *   UNION_SUBDISP_MoveChatLine  0x021F0A04  thumb
  *   func_0204162C  0x0204162C  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_Copy  0x0202DD24  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -40,7 +40,7 @@ typedef struct {
 struct Bmp;
 struct PmsDraw;
 extern u32 func_0204162C(int channel);
-extern void func_02082D44(void *dst, const void *src, int n);
+extern void MI_CpuCopy8(void *dst, const void *src, int n);
 extern void func_02041B6C(u32 bit);
 extern void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j);
 struct Descriptor;
@@ -65,7 +65,7 @@ void UNION_SUBDISP_MoveChatLine(O *o, int a, int b, void *c, int d)
     destOffset <<= 1;
     src = (u16 *)((u32)base + sourceOffset);
     dst = (u16 *)((u32)base + destOffset);
-    func_02082D44(dst, src, 0x1C0);
+    MI_CpuCopy8(dst, src, 0x1C0);
     func_02041B6C(6);
     if (o->k[a] == 0 && o->k[b] == 0) {
         PMS_DRAW_Copy((struct PmsDraw *)o->f7c, a, b);

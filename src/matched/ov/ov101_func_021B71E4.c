@@ -1,5 +1,5 @@
 /*
- * function: func_021B71E4
+ * function: IRC_APPBAR_Update
  * address:  0x021B71E4
  * packet:   pkt_ov101_021B71E4
  * region:   ov101
@@ -31,7 +31,7 @@ extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 
-void func_021B71E4(int a)
+void IRC_APPBAR_Update(int a)
 {
     if (((struct Obj02158 *)a)->f5C != 0) {
         switch (((struct Obj02158 *)a)->f50) {

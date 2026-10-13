@@ -84,7 +84,7 @@
  *   PLIST_MENU_UpdateTaskMenuWin  0x021BBE50  thumb  ov091
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_02061CA4  0x02061CA4  arm
  *   d_021BEBFC     0x021BEBFC  data  a1
  *   d_021BEC04     0x021BEC04  data  a1
@@ -103,7 +103,7 @@
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   func_02061C30  0x02061C30  arm
+ *   NNS_GfdResetVramTransferTaskQueue  0x02061C30  arm
  *   d_021BEC3C     0x021BEC3C  data  a4
  *   d_021BEAEC     0x021BEAEC  data  a4
  *   d_021BEAFC     0x021BEAFC  data  a4
@@ -413,7 +413,7 @@
  *   _ffix 0x0209C494 arm
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
- *   func_0200CDE0 0x0200CDE0 thumb
+ *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   func_02011400  0x02011400  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
@@ -584,7 +584,7 @@ extern void PLIST_MENU_UpdateTimer(PokelistWork *work);
 extern void PLIST_MENU_UpdateTaskMenuWin(int x);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
-extern void func_02082A60(void *src, void *dst, u32 size);
+extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearMainPlanes(void);
@@ -599,7 +599,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void func_02061C30(void);
+extern void NNS_GfdResetVramTransferTaskQueue(void);
 extern void func_0207D4B0(int,int,int);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 extern int G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
@@ -1337,7 +1337,7 @@ void POKELIST_UpdatePaletteFade(PokelistWork *work)
     PokelistBlend hi;
     PokelistBlend lo;
 
-    func_02082A60(work->palSrc, work->palDst, 0x60);
+    MIi_CpuCopy16(work->palSrc, work->palDst, 0x60);
     if (work->fadeStep != 0) {
         work->fadeStep--;
         k = work->fadeStep;
@@ -1513,7 +1513,7 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), work->heapId);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
 }
 
 
@@ -1550,13 +1550,13 @@ void POKELIST_SetupLight(PokelistWork *work)
  * `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C; .word 0x02146B80`,
  * no witness outside this range.  Leaf C tried (DIFF only, the two loads and
  * the two pool words come out swapped, 8 bytes):
- *   extern void func_02061B5C(void *); extern char d_02146B80[];
- *   void func_02061C30(void) { func_02061B5C(d_02146B80); }
- *   (`return func_02061B5C((int)d_02146B80)` with int types: same DIFF)
+ *   extern void NNSi_GfdResetVramTransferTaskQueue(void *); extern char d_02146B80[];
+ *   void NNS_GfdResetVramTransferTaskQueue(void) { NNSi_GfdResetVramTransferTaskQueue(d_02146B80); }
+ *   (`return NNSi_GfdResetVramTransferTaskQueue((int)d_02146B80)` with int types: same DIFF)
  */
 void POKELIST_ShutdownDisplay(PokelistWork *work)
 {
-    func_02061C30();
+    NNS_GfdResetVramTransferTaskQueue();
     CLACT_ExitSystem();
     POKELIST_ShutdownBgPlane0(work);
     func_020403F4(3);
@@ -1706,7 +1706,7 @@ void POKELIST_LoadGraphics(PokelistWork *work)
     work->palRes[5] = CLACT_RegisterCharacter(h2, func_020276B8(), 0, 0, work->heapId);
     work->cellRes[5] = CLACT_RegisterCellAnim(h2, func_020276BC(2), func_020276C0(2), work->heapId);
     ARC_TOOL_DeleteHandle(h2);
-    func_02082A60((void *)0x050000C0, (u8 *)work->palSrc, 0x60);
+    MIi_CpuCopy16((void *)0x050000C0, (u8 *)work->palSrc, 0x60);
 }
 
 

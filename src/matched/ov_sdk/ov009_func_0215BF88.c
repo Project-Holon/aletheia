@@ -1,5 +1,5 @@
 /*
- * function: func_0215BF88
+ * function: dhcp_analyze_response
  * address:  0x0215BF88
  * packet:   pkt_ov009_0215BF88
  * region:   ov009
@@ -23,11 +23,11 @@
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * symbols:
  *   OS_GetTick                       0x020870d0 arm
- *   func_0215B504                    0x0215b504 arm ov009
+ *   CPS_SocGetLength                    0x0215b504 arm ov009
  *   func_02157390                    0x02157390 arm ov009
- *   func_0215AEB0                    0x0215aeb0 arm ov009
- *   func_021579BC                    0x021579bc arm ov009
- *   func_0215B064                    0x0215b064 arm ov009
+ *   CPS_SocRead                    0x0215aeb0 arm ov009
+ *   maccmp                    0x021579bc arm ov009
+ *   CPS_SocConsume                    0x0215b064 arm ov009
  *   g_021A1C9C                       0x021a1c9c data
  *   g_021A82D4                       0x021a82d4 data
  *   wfailed                          0x021a826c data
@@ -73,11 +73,11 @@ static u16 ipid = 0;
 static u32 CPSDhcpMode = 0;
 static struct CPSBss cps = {0};
 extern unsigned long long OS_GetTick(void);
-extern long func_0215B504(void);
+extern long CPS_SocGetLength(void);
 extern void func_02157390(void);
-extern u8 *func_0215AEB0(u32 *len);
-extern int func_021579BC(unsigned short *a, unsigned short *b);
-extern void func_0215B064(u32 len);
+extern u8 *CPS_SocRead(u32 *len);
+extern int maccmp(unsigned short *a, unsigned short *b);
+extern void CPS_SocConsume(u32 len);
 
 #define TICK() ((u32)(OS_GetTick() >> 16))
 #define NTOHS(p) ((u16)((*(u16 *)(p) >> 8) | (*(u16 *)(p) << 8)))
@@ -85,7 +85,7 @@ extern void func_0215B064(u32 len);
 #define G16(p) ((u16)(((p)[0] << 8) | (p)[1]))
 #define G32(p) (((u32)G16(p) << 16) | G16((p) + 2))
 
-int func_0215BF88(u32 id, int retry)
+int dhcp_analyze_response(u32 id, int retry)
 {
     u8 *s;
     u8 *end;
@@ -100,12 +100,12 @@ int func_0215BF88(u32 id, int retry)
     start = TICK();
     result = 0;
     while (cps.link_is_on() && result == 0 && (long)(TICK() - start) < timeout) {
-        if (func_0215B504() == 0) {
+        if (CPS_SocGetLength() == 0) {
             func_02157390();
             continue;
         }
-        s = func_0215AEB0(&len);
-        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && func_021579BC((short unsigned int *)(s + 0x1c), (short unsigned int *)g_021A82D4) == 0) {
+        s = CPS_SocRead(&len);
+        if (len > 0xf0 && s[0] == 2 && NTOHL(s + 4) == id && maccmp((short unsigned int *)(s + 0x1c), (short unsigned int *)g_021A82D4) == 0) {
             myip_tmp = G32(s + 0x10);
             end = s + len;
             result = 3;
@@ -152,7 +152,7 @@ int func_0215BF88(u32 id, int retry)
                 }
             }
         }
-        func_0215B064(len);
+        CPS_SocConsume(len);
     }
     return result;
 }

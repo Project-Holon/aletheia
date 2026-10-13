@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B7CBC, func_021B7CC0, func_021B7CC4
+ * function: IRC_COMPATIBLE_MENU_TextGetFont, IRC_COMPATIBLE_MENU_TextGetPrintQueue, IRC_COMPATIBLE_MENU_TextGetMsgData
  * address:  0x021B7CBC
  * packet:   pkt_021B7CBC
  * region:   ov102
@@ -16,17 +16,17 @@
 #include "../include/Obj22145.h"
 #include "../include/Obj22146.h"
 
-int func_021B7CBC(void *p)
+int IRC_COMPATIBLE_MENU_TextGetFont(void *p)
 {
     return ((struct Obj22144 *)p)->f0;
 }
 
-int func_021B7CC0(void *p)
+int IRC_COMPATIBLE_MENU_TextGetPrintQueue(void *p)
 {
     return ((struct Obj22145 *)p)->f8;
 }
 
-int func_021B7CC4(void *p)
+int IRC_COMPATIBLE_MENU_TextGetMsgData(void *p)
 {
     return ((struct Obj22146 *)p)->f4;
 }

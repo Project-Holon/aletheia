@@ -11,7 +11,7 @@
  *
  * symbols:
  *   DAT_02734450  0x02734450  data twl
- *   func_02087A04  0x02087A04  arm twl
+ *   OS_SpinWaitSysCycles  0x02087A04  arm twl
  *   func_02087B20  0x02087B20  arm twl
  *   SendCommandEx  0x02704BE0  arm twl
  *   CheckState  0x02704C5C  arm twl
@@ -51,7 +51,7 @@ typedef struct {
 } State;
 
 extern State DAT_02734450;
-extern void func_02087A04(u32);
+extern void OS_SpinWaitSysCycles(u32);
 extern u32 func_02087B20(void);
 u32 SendCommandEx(u32 a0, u32 a1);
 u32 CheckState(void);
@@ -59,9 +59,9 @@ void SetSndexWork(Cb a0, void *a1, void *a2, u32 a3);
 
 #define WAIT_IDLE() \
     do { \
-        func_02087A04(0x82dc); \
+        OS_SpinWaitSysCycles(0x82dc); \
         while (CheckState() != 0) { \
-            func_02087A04(0x82dc); \
+            OS_SpinWaitSysCycles(0x82dc); \
         } \
     } while (0)
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF44
+ * function: NHTTPi_SaveBuf
  * address:  0x021BBF44
  * packet:   pkt_ov114_021BBF44
  * region:   ov114
@@ -32,7 +32,7 @@
  *
  * symbols:
  *   NHTTPi_memcpy  0x021BA100  arm  ov114
- *   func_021BA020    0x021BA020  arm  ov114
+ *   NHTTPi_SocSend    0x021BA020  arm  ov114
  */
 
 typedef struct {
@@ -40,9 +40,9 @@ typedef struct {
 } Req;
 
 extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
-extern int func_021BA020(Req *req_p, int socket, char *buf_p, int len, int flags);
+extern int NHTTPi_SocSend(Req *req_p, int socket, char *buf_p, int len, int flags);
 
-static int func_021BBF44(Req *req_p, char *commBuf_p, int socket, int *bufwp_p, char *src_p, const int srclen)
+static int NHTTPi_SaveBuf(Req *req_p, char *commBuf_p, int socket, int *bufwp_p, char *src_p, const int srclen)
 {
     int sendbyte;
     int len;
@@ -60,7 +60,7 @@ static int func_021BBF44(Req *req_p, char *commBuf_p, int socket, int *bufwp_p, 
         *bufwp_p += n;
         len -= n;
         if (*bufwp_p == 0x4000) {
-            sendbyte = func_021BA020(req_p, socket, commBuf_p, 0x4000, 0);
+            sendbyte = NHTTPi_SocSend(req_p, socket, commBuf_p, 0x4000, 0);
             if (sendbyte <= 0)
                 return sendbyte;
             *bufwp_p -= sendbyte;

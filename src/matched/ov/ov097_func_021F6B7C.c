@@ -1,5 +1,5 @@
 /*
- * function: func_021F6B7C
+ * function: VS_MULTI_LIST_PrintName
  * address: 0x021F6B7C
  * packet: pkt_ov097_021F6B7C
  * region: ov097
@@ -69,7 +69,7 @@ static inline void print_right(int p, u32 windows, u32 dirty, int i, void *windo
     *(u8 *)(dirty + i * 8) = 1;
     STRBUF_Delete(s);
 }
-void func_021F6B7C(int p, int i)
+void VS_MULTI_LIST_PrintName(int p, int i)
 {
     u32 windows, dirty, mons, mi;
     u8 gender;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0368
+ * function: ghiInitLock
  * address:  0x021C0368
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,6 +15,6 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021C0368(void)
+void ghiInitLock(void)
 {
 }

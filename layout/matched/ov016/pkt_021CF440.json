@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CF684",
+   "name": "DWCi_SETTINGlGetSsid",
    "address": "0x021CF684",
    "kind": "sdk",
    "region": "ov016",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CFFAC",
+   "name": "DWCi_SNDlPlay",
    "address": "0x021CFFAC",
    "kind": "sdk",
    "region": "ov016",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CFFF0",
+   "name": "DWCi_SNDlSetPitch",
    "address": "0x021CFFF0",
    "kind": "sdk",
    "region": "ov016",

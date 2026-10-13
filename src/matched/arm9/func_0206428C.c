@@ -1,5 +1,5 @@
 /*
- * function: func_0206428C
+ * function: NNS_G2dInitCellAnimation
  * address:  0x0206428C
  * packet:   pkt_020640DC
  * region:   arm9
@@ -12,7 +12,7 @@
  * Binds one cell-bank row to an animation object: stores the row pointer at
  * +0x34, writes the "no cell bound" sentinel -1 at +0x38, opens the SRT block
  * at +0x3c through NNSi_G2dSrtcInitControl and finishes with the object's own two-call
- * tail.  The sibling of func_020642C8, which does the same fixups after an
+ * tail.  The sibling of NNS_G2dInitCellAnimationVramTransfered, which does the same fixups after an
  * eight-argument forward.
  *
  * PIN ../2.0/sp2: the "kept constants" tell in its allocation form.  The image
@@ -39,7 +39,7 @@ extern void NNSi_G2dSrtcInitControl(struct O02064140 *o, u32 a);
 extern int func_02062F38(int a0);
 extern void func_0206434C(char *self, int v);
 
-void func_0206428C(char *self, int a1, char *c)
+void NNS_G2dInitCellAnimation(char *self, int a1, char *c)
 {
     *(char * *)&((struct Obj11539 *)self)->f34 = c;
     ((struct Obj11539 *)self)->f38 = -1;

@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/twl/unit_02702A8C.c and filed here.
  *
  * symbols:
- *   func_02088234 0x02088234 arm
+ *   OS_Terminate 0x02088234 arm
  */
 
-void func_02088234(void);
+void OS_Terminate(void);
 
-/* Tail stub: forwards to func_02088234. */
+/* Tail stub: forwards to OS_Terminate. */
 void NwmSleepCallback(void)
 {
-    func_02088234();
+    OS_Terminate();
 }

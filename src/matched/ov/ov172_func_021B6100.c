@@ -12,8 +12,8 @@
  *   func_02030734 0x02030734 arm
  *   func_02034F84 0x02034F84 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
- *   func_02088234 0x02088234 arm
- *   func_02084968 0x02084968 arm
+ *   OS_Terminate 0x02088234 arm
+ *   OS_EnableIrqMask 0x02084968 arm
  *   func_020351F8 0x020351F8 arm
  *   func_021B62A8 0x021B62A8 arm ov172
  *   func_021B62B0 0x021B62B0 arm ov172
@@ -47,8 +47,8 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034F84(int);
 extern int OS_IsRunOnTwl(void);
-extern void func_02088234(void);
-extern void func_02084968(int);
+extern void OS_Terminate(void);
+extern void OS_EnableIrqMask(int);
 extern void func_020351F8(u32 a, u32 b);
 extern int func_021B62A8(void);
 extern int func_021B62B0(int);
@@ -107,7 +107,7 @@ char *func_021B6100(int id)
     } else {
         r = 7;
     }
-    if (r == 7) func_02088234();
+    if (r == 7) OS_Terminate();
     if (r == 6) return 0;
     r = ((struct Obj00917 *)p)->f2C;
     if (OS_IsRunOnTwl() == 1) func_021B62B8(r, 3, 0);
@@ -118,10 +118,10 @@ char *func_021B6100(int id)
     r = ((struct Obj00917 *)p)->f2C;
     if (OS_IsRunOnTwl() == 1) r = func_021B62D0(r);
     else r = 7;
-    if (r == 7) func_02088234();
+    if (r == 7) OS_Terminate();
     if (r == 6) return 0;
     ((struct Obj00917 *)p)->f28 = 0;
-    func_02084968(0x20000000);
+    OS_EnableIrqMask(0x20000000);
     if (OS_IsRunOnTwl() == 1) func_021B62D8((void *)func_021B662C);
     if (OS_IsRunOnTwl() == 1) func_021B62E0((void *)func_021B65D8);
     if (OS_IsRunOnTwl() == 1) func_021B62E8((void *)func_021B6620);
@@ -138,7 +138,7 @@ char *func_021B6100(int id)
     if (OS_IsRunOnTwl() != 0) func_021B6328(buf);
     if (OS_IsRunOnTwl() != 0) r = func_021B6330(buf, 0xFF, 0xFF);
     else r = 0;
-    if (r == 0) func_02088234();
+    if (r == 0) OS_Terminate();
     func_020351F8((u32)((void *)func_021B6338), (u32)p);
     return p;
 }

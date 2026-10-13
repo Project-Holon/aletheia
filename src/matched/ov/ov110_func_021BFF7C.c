@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF7C
+ * function: PMSIV_WORDWIN_DrawCell
  * address: 0x021BFF7C
  * packet: pkt_ov110_021BFF7C
  * region: ov110
@@ -9,13 +9,13 @@
  * status: EXACT
  * lever: retain scaled actor index and wrapped blit x across calls.
  * symbols:
- *   func_021BAC44 0x021BAC44 thumb ov110
- *   func_021BF734 0x021BF734 thumb ov110
- *   func_021BF6DC 0x021BF6DC thumb ov110
- *   func_021BF724 0x021BF724 thumb ov110
+ *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
+ *   PMS_INPUT_GetListItemCount 0x021BF734 thumb ov110
+ *   PMS_INPUT_GetBrowseMode 0x021BF6DC thumb ov110
+ *   PMS_INPUT_GetCursorPos 0x021BF724 thumb ov110
  *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021BF758 0x021BF758 thumb ov110
+ *   PMS_INPUT_GetListWord 0x021BF758 thumb ov110
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
@@ -33,27 +33,27 @@ struct Obj;
 struct Descriptor;
 struct CharBuf;
 struct Bmp;
-extern u32 func_021BAC44(u8 *);
-extern u32 func_021BF734(u8 *);
-extern u8 func_021BF6DC(u8 *);
-extern u16 func_021BF724(u8 *);
+extern u32 PMS_INPUT_VIEW_GetFont(u8 *);
+extern u32 PMS_INPUT_GetListItemCount(u8 *);
+extern u8 PMS_INPUT_GetBrowseMode(u8 *);
+extern u16 PMS_INPUT_GetCursorPos(u8 *);
 extern void CLACT_SetActorPos(struct Actor *, const struct Pt *);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
-extern void func_021BF758(u8 *p, u32 a, int b);
+extern void PMS_INPUT_GetListWord(u8 *p, u32 a, int b);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern void BMP_Blit(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
-void func_021BFF7C(u8 *p, u32 n, u32 y)
+void PMSIV_WORDWIN_DrawCell(u8 *p, u32 n, u32 y)
 {
     u32 font;
     struct Pt pos;
     u32 wrap, x;
     struct Bmp *dest;
-    font = func_021BAC44(*(u8 * *)&((struct Obj01533 *)p)->f0);
-    if (n < 2 || n >= func_021BF734(*(u8 * *)&((struct Obj01533 *)p)->f4)) return;
-    if (!func_021BF6DC(*(u8 * *)&((struct Obj01533 *)p)->f4) && func_021BF724(*(u8 * *)&((struct Obj01533 *)p)->f4) == 11) {
+    font = PMS_INPUT_VIEW_GetFont(*(u8 * *)&((struct Obj01533 *)p)->f0);
+    if (n < 2 || n >= PMS_INPUT_GetListItemCount(*(u8 * *)&((struct Obj01533 *)p)->f4)) return;
+    if (!PMS_INPUT_GetBrowseMode(*(u8 * *)&((struct Obj01533 *)p)->f4) && PMS_INPUT_GetCursorPos(*(u8 * *)&((struct Obj01533 *)p)->f4) == 11) {
         x = 24 + 112 * ((n - 2) & 1);
         n = (n - 2) * 4;
         pos.x = x;
@@ -63,7 +63,7 @@ void func_021BFF7C(u8 *p, u32 n, u32 y)
         CLACT_SetActorDrawEnable(*(struct Obj **)(p + n), 1);
         return;
     }
-    func_021BF758(*(u8 * *)&((struct Obj01533 *)p)->f4, n - 2, (int)(((struct Obj01533 *)p)->f48));
+    PMS_INPUT_GetListWord(*(u8 * *)&((struct Obj01533 *)p)->f4, n - 2, (int)(((struct Obj01533 *)p)->f48));
     GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
         PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 112 * ((n - 2) & 1), y, ((struct Obj01533 *)p)->f48, (void *)font);

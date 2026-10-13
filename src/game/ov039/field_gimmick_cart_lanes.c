@@ -49,7 +49,7 @@
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
  *   GFL_USE_GetSeHandle 0x02006138 thumb
- *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
+ *   NNS_SndHandleSetVolume 0x02072F34 arm
  *   func_021BE6E8 0x021BE6E8 thumb ov021
  *   FIELD_SOUND_SYSTEM_ReleaseSlot 0x02028B50 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
@@ -119,7 +119,7 @@ u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z)
 }
 
 /* The cart in use on a lane. */
-u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(Gimmick39Work *work, int lane)
+u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(FieldGimmickCartLanesWork *work, int lane)
 {
     return work->activeCart[lane];
 }
@@ -132,9 +132,9 @@ u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(Gimmick39Work *work, int lane)
 void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
     struct GameData *gameData;
-    Gimmick39Save *save;
+    FieldGimmickCartLanesSave *save;
     struct FieldSoundSystem *soundSys;
     u32 lane;
     int n;
@@ -221,9 +221,9 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
     u8 i;
     int lane;
     FldExpObjCnt *expObj;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
     struct GameData *gameData;
-    Gimmick39Save *save;
+    FieldGimmickCartLanesSave *save;
     struct FieldSoundSystem *soundSys;
     int oldState;
     u8 cart;
@@ -281,7 +281,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
                     GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_CART_LANES_SE_CART_RUN);
                     seSlot = GFL_USE_GetSeSlot(FIELD_GIMMICK_CART_LANES_SE_CART_RUN);
                     FIELD_SOUND_SYSTEM_TransferSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP, 0x7f);
-                    NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), 0);
+                    NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(seSlot), 0);
                 }
                 parkedRow[FIELD_GIMMICK_CART_LANES_WORK_PARKED_DOCK] = -1;
             }
@@ -314,7 +314,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
 void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
-    Gimmick39Work *work = FIELDMAP_GetCommonWork(fieldMap, 1);
+    FieldGimmickCartLanesWork *work = FIELDMAP_GetCommonWork(fieldMap, 1);
 
     FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
     func_02030EAC(work->task);
@@ -325,10 +325,10 @@ void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap)
 /* Gimmick save step: keeps the frame of the active cart animation of each lane. */
 void FIELD_GIMMICK_CART_LANES_SaveCartFrames(struct FieldMap *fieldMap)
 {
-    Gimmick39Save *save;
+    FieldGimmickCartLanesSave *save;
     FldExpObjCnt *expObj;
     int i;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -349,7 +349,7 @@ void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem)
 }
 
 /* The cart in use on the lane of a dock. */
-u8 FIELD_GIMMICK_CART_LANES_GetDockCart(Gimmick39Work *work, int dock)
+u8 FIELD_GIMMICK_CART_LANES_GetDockCart(FieldGimmickCartLanesWork *work, int dock)
 {
     return FIELD_GIMMICK_CART_LANES_GetActiveCart(work, FIELD_GIMMICK_CART_LANES_GetDockLane(dock));
 }
@@ -361,7 +361,7 @@ unsigned char FIELD_GIMMICK_CART_LANES_GetDockLane(int dock)
 }
 
 /* 1 if the cart of the dock's lane waits at that dock. */
-int FIELD_GIMMICK_CART_LANES_IsCartAtDock(Gimmick39Work *work, int dock)
+int FIELD_GIMMICK_CART_LANES_IsCartAtDock(FieldGimmickCartLanesWork *work, int dock)
 {
     int parkedDock;
 
@@ -392,7 +392,7 @@ void FIELD_GIMMICK_CART_LANES_SetAnimeFrame(FldExpObjCnt *expObj, u8 lane, u16 a
 struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 lane)
 {
     struct FieldMap *fieldMap;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
     struct GameEvent *event;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -420,8 +420,8 @@ int FIELD_GIMMICK_CART_LANES_SwitchEventMain(struct GameEvent *event, int *seq, 
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
-    Gimmick39Work *work;
-    Gimmick39Save *save;
+    FieldGimmickCartLanesWork *work;
+    FieldGimmickCartLanesSave *save;
     u8 leverModelA;
     u8 leverModelB;
     FldExpObjAnime *leverAnimeA;
@@ -487,8 +487,8 @@ int FIELD_GIMMICK_CART_LANES_SwitchEventMain(struct GameEvent *event, int *seq, 
 struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gameSystem)
 {
     struct FieldMap *fieldMap;
-    Gimmick39Save *save;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesSave *save;
+    FieldGimmickCartLanesWork *work;
     struct FieldPlayer *player;
     VecFx32 playerPos;
     u8 dock;
@@ -536,7 +536,7 @@ void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem
  * turned into the index of laneUnlocked (1 -> 0, 2 -> 1); other lanes are
  * always unlocked.
  */
-int FIELD_GIMMICK_CART_LANES_IsLaneLocked(Gimmick39Save *save, int lane)
+int FIELD_GIMMICK_CART_LANES_IsLaneLocked(FieldGimmickCartLanesSave *save, int lane)
 {
     int zero = 0;
     int isGated = 0;
@@ -553,7 +553,7 @@ int FIELD_GIMMICK_CART_LANES_IsLaneLocked(Gimmick39Save *save, int lane)
 }
 
 /* Unlocks lane 1 or 2 (see FIELD_GIMMICK_CART_LANES_IsLaneLocked). */
-void FIELD_GIMMICK_CART_LANES_UnlockLane(Gimmick39Save *save, u8 lane)
+void FIELD_GIMMICK_CART_LANES_UnlockLane(FieldGimmickCartLanesSave *save, u8 lane)
 {
     int zero = 0;
     int isGated = 0;
@@ -586,7 +586,7 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
     struct FieldSoundSystem *soundSys;
     int seSlot;
     int lane;
@@ -652,7 +652,7 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
         work->rideLane = -1;
         FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
         GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_CART_LANES_SE_CART_RUN);
-        NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), 0);
+        NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(seSlot), 0);
         FIELD_SOUND_SYSTEM_TransferSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP, 0x7f);
         work->rideActive = 1;
         *seq = *seq + 1;
@@ -782,7 +782,7 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
     } else if (distance >= 0x8000) {
         priority = 0x1e;
     }
-    NNS_SndHandleSetSeqPriority(GFL_USE_GetSeHandle(seSlot), priority);
+    NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(seSlot), priority);
     return 0;
 }
 
@@ -794,7 +794,7 @@ int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(struct GameEvent *event, int *
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
-    Gimmick39Work *work;
+    FieldGimmickCartLanesWork *work;
     int lane;
     u8 model;
     FldExpObjAnime *gateAnime;
@@ -856,8 +856,8 @@ int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(struct GameEvent *event, int *
  */
 void FIELD_GIMMICK_CART_LANES_ApplySwitch(struct FieldMap *fieldMap, FldExpObjCnt *expObj)
 {
-    Gimmick39Work *work;
-    Gimmick39Save *save;
+    FieldGimmickCartLanesWork *work;
+    FieldGimmickCartLanesSave *save;
     u8 *laneState;
     u8 oldState;
     s8 lane;
@@ -944,14 +944,14 @@ void FIELD_GIMMICK_CART_LANES_SampleJointTranslation(const u8 *resAnm, int joint
 {
     u16 tagOffset;
     u32 flags;
-    const Gimmick39JointTrack *track;
+    const FieldGimmickCartLanesJointTrack *track;
     int x;
     int y;
     int z;
 
-    tagOffset = ((const Gimmick39JointAnim *)resAnm)->tagOffset[jointIndex];
-    flags = ((const Gimmick39JointTag *)(resAnm + tagOffset))->flags;
-    track = ((const Gimmick39JointTag *)(resAnm + tagOffset))->track;
+    tagOffset = ((const FieldGimmickCartLanesJointAnim *)resAnm)->tagOffset[jointIndex];
+    flags = ((const FieldGimmickCartLanesJointTag *)(resAnm + tagOffset))->flags;
+    track = ((const FieldGimmickCartLanesJointTag *)(resAnm + tagOffset))->track;
     if (flags & FIELD_GIMMICK_CART_LANES_JOINT_NO_TRANSLATE) {
         return;
     }
@@ -980,7 +980,7 @@ void FIELD_GIMMICK_CART_LANES_SampleJointTranslation(const u8 *resAnm, int joint
  * share p + idx after the first load, where p[idx] / p[idx + 1] recomputes
  * (idx + 1) * 2 and a pointer local p + idx hoists the add above the load.
  */
-void FIELD_GIMMICK_CART_LANES_SampleJointTrack(int *out, int frame, const Gimmick39JointTrack *track, const u8 *base)
+void FIELD_GIMMICK_CART_LANES_SampleJointTrack(int *out, int frame, const FieldGimmickCartLanesJointTrack *track, const u8 *base)
 {
     const u8 *keys;
     u32 f;
@@ -1070,7 +1070,7 @@ plain:
  * Register note: the byte array activeCart is a struct field indexed by the
  * lane; the CSE temp (work + lane) then takes the slot below animeIndex.
  */
-void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, Gimmick39Work *work)
+void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, FieldGimmickCartLanesWork *work)
 {
     int frame;
     struct G3dObject *cartObj;

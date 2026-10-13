@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02160E0C  0x02160E0C  arm  ov009
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0215FDA4  0x0215FDA4  arm  ov009
  *   func_02160DB4  0x02160DB4  arm  ov009
  */
@@ -29,7 +29,7 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern int func_02160E0C(unsigned char major, unsigned char minor);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void func_0215FDA4(CPSSslConnection *con);
 extern int func_02160DB4(int a0, int a1, int a2);
 
@@ -41,13 +41,13 @@ static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
     if (!func_02160E0C(s[0], s[1]))
         return;
     s += 2;
-    func_02082D44(s, con->random, 0x20);
+    MI_CpuCopy8(s, con->random, 0x20);
     s += 0x20;
     sessionID_len = *s++;
     if (sessionID_len != 0x20) {
         con->cache = 0;
     } else {
-        func_02082D44(s, con->session_id, 0x20);
+        MI_CpuCopy8(s, con->session_id, 0x20);
         func_0215FDA4(con);
     }
     s += sessionID_len;

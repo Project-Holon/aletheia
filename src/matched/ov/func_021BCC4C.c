@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC4C
+ * function: WIFICLUB_LoadOwnRegulation
  * address:  0x021BCC4C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCBD8  0x021BCBD8  thumb
+ *   WIFICLUB_LoadPickedRegulation  0x021BCBD8  thumb
  *
- * Tail call onto func_021BCBD8 with a zero second argument.
+ * Tail call onto WIFICLUB_LoadPickedRegulation with a zero second argument.
  */
 
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u32 func_021BCBD8(char *p, int m);
+extern u32 WIFICLUB_LoadPickedRegulation(char *p, int m);
 
-void func_021BCC4C(void *a)
+void WIFICLUB_LoadOwnRegulation(void *a)
 {
-    func_021BCBD8(a, 0);
+    WIFICLUB_LoadPickedRegulation(a, 0);
 }

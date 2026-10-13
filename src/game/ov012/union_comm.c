@@ -45,7 +45,7 @@
  *   memcmp            0x0203EFC8  arm
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
@@ -183,7 +183,7 @@ extern void NET_WHPIPE_ReleaseEntry(u32 index);
 extern int memcmp(const void *lhs, const void *rhs, int size);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern void func_02087C6C(void *mac);
+extern void OS_GetMacAddress(void *mac);
 extern u32 func_020084F8(const struct MyStatus *status, u16 *dest, u32 size);
 extern u8 func_02008554(const struct MyStatus *status);
 extern u32 func_02008550(const struct MyStatus *status);
@@ -680,7 +680,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     MI_CpuFill8(beacon, 0, sizeof(UnionBeacon));
     if (situation->connect.connectPc != 0) {
         if (GFL_NET_IsParentAid() == 1)
-            func_02087C6C(beacon->mac);
+            OS_GetMacAddress(beacon->mac);
         else
             MI_CpuCopy8(situation->connect.connectPc->mac, beacon->mac, 6);
     } else if (situation->connect.talkPc != 0) {
@@ -811,7 +811,7 @@ void UNION_COMM_InitConnectInfo(UnionRoomWork *work, UnionConnectInfo *connect)
     MI_CpuFill8(connect, 0, sizeof(UnionConnectInfo));
     UNION_COMM_ClearPartnerSelects(connect);
     self = &connect->group.member[0];
-    func_02087C6C(self->mac);
+    OS_GetMacAddress(self->mac);
     self->trainerView = func_02008554(work->parent->myStatus);
     self->sex = func_02008550(work->parent->myStatus);
     self->valid = 1;
@@ -1105,7 +1105,7 @@ int UNION_COMMAND_SendMyMac(void)
 {
     UnionMacPacket packet;
     MI_CpuFill8(&packet, 0, sizeof(UnionMacPacket));
-    func_02087C6C(packet.mac);
+    OS_GetMacAddress(packet.mac);
     packet.enabled = 1;
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x1403, sizeof(UnionMacPacket), &packet);
 }
@@ -1168,7 +1168,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
         func_02034714(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
-    func_02087C6C(macBuffer);
+    OS_GetMacAddress(macBuffer);
     COMM_ENTRY_MENU_AddMember(colosseum->entryMenu, netId, func_02012944(gameData), player->modeFlag, macBuffer);
 }
 
@@ -1336,7 +1336,7 @@ void UNION_COMMAND_SendAppJoinData(u32 sendMask, const UnionAppData *src)
     UnionAppMessage message;
     MI_CpuFill8(&message, 0, sizeof(UnionAppMessage));
     message.data = *src;
-    func_02087C6C(message.mac);
+    OS_GetMacAddress(message.mac);
     GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1411, sizeof(UnionAppMessage), &message, 1, 0, 0);
 }
 
@@ -1371,7 +1371,7 @@ void UNION_COMMAND_SendAppLeaveData(u32 sendMask, const UnionAppData *src)
     UnionAppMessage message;
     MI_CpuFill8(&message, 0, sizeof(UnionAppMessage));
     message.data = *src;
-    func_02087C6C(message.mac);
+    OS_GetMacAddress(message.mac);
     GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1413, sizeof(UnionAppMessage), &message, 1, 0, 0);
 }
 

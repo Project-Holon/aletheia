@@ -11,14 +11,14 @@
  * lever: fill call takes data, p and b; r1/r2 stay live across the guards.
  * symbols:
  *   gVoiceFramePool 0x021B4C24 data a4
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct E { struct E *next; u8 pad[0x474]; } E;
 typedef struct { E *cur; E *buf; } G;
 extern G gVoiceFramePool;
-extern void func_02082AC0(int, void *, u32);
+extern void MIi_CpuClearFast(int, void *, u32);
 int VCT_POOL_InitFrames(E *a, u32 b)
 {
     u32 i;
@@ -34,7 +34,7 @@ int VCT_POOL_InitFrames(E *a, u32 b)
         return 0;
     }
     i = 0;
-    func_02082AC0(i, p, b);
+    MIi_CpuClearFast(i, p, b);
     for (i = 0; i < n - 1; i++)
         gVoiceFramePool.buf[i].next = &gVoiceFramePool.buf[i + 1];
     (gVoiceFramePool.buf + n)[-1].next = 0;

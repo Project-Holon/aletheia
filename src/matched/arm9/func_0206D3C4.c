@@ -1,5 +1,5 @@
 /*
- * function: func_0206D3C4
+ * function: NNSi_G3dFuncSbc_POSSCALE
  * address:  0x0206D3C4
  * packet:   pkt_0206D3C4
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *
  * Bump a counter, and unless either of two status bits is set, push a
  * three-word packet of one repeated field (0xe0 or 0xe4, chosen by the second
@@ -42,9 +42,9 @@ struct Obj {
     u32 fe4;
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 
-void func_0206D3C4(struct Obj *o, u32 which)
+void NNSi_G3dFuncSbc_POSSCALE(struct Obj *o, u32 which)
 {
     u32 flags;
     u32 buf[3];
@@ -63,7 +63,7 @@ void func_0206D3C4(struct Obj *o, u32 which)
             buf[1] = v;
             buf[0] = v;
         }
-        func_0206DDA4(0x1b, buf, 3);
+        NNS_G3dGeBufferOP_N(0x1b, buf, 3);
     }
     o->f00 = o->f00 + 1;
 }

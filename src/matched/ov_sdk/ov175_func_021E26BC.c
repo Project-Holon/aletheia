@@ -1,5 +1,5 @@
 /*
- * function: func_021E26BC
+ * function: wsLoginCertIsValid
  * address:  0x021E26BC
  * packet:   pkt_ov175_021E26BC
  * region:   ov175
@@ -13,15 +13,15 @@
  *
  * symbols:
  *   func_02184938  0x02184938  arm  ov009
- *   func_021E26B8  0x021E26B8  arm  ov175
+ *   wsiToNetworkOrder  0x021E26B8  arm  ov175
  *   func_0218497C  0x0218497C  arm  ov009
  *   strlen  0x0209477C  arm
  *   gsLargeIntAddToMD5  0x0217E978  arm  ov009
  *   func_02184A34  0x02184A34  arm  ov009
  *   gsLargeIntSetFromHexString  0x0217E848  arm  ov009
  *   func_0217CF5C  0x0217CF5C  arm  ov009
- *   g_021E2CC8  0x021E2CC8  data
- *   g_021E2CC0  0x021E2CC0  data
+ *   sWsSignatureKeyModulus  0x021E2CC8  data
+ *   sWsSignatureKeyExponent  0x021E2CC0  data
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -57,16 +57,16 @@ typedef struct GSLoginCertificate {
 } GSLoginCertificate;
 
 extern void func_02184938(GSMD5_CTX *context);
-extern unsigned int func_021E26B8(unsigned int num);
+extern unsigned int wsiToNetworkOrder(unsigned int num);
 extern void func_0218497C(GSMD5_CTX *context, unsigned char *input, unsigned int inputLen);
 extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
 extern void func_02184A34(unsigned char *digest, GSMD5_CTX *context);
 extern int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
 extern int func_0217CF5C(gsCryptRSAKey *publicKey, unsigned char *hash, unsigned int hashLen, unsigned char *sig, unsigned int sigLen);
-extern char g_021E2CC8[];
-extern char g_021E2CC0[];
+extern char sWsSignatureKeyModulus[];
+extern char sWsSignatureKeyExponent[];
 
-int func_021E26BC(GSLoginCertificate *cert)
+int wsLoginCertIsValid(GSLoginCertificate *cert)
 {
     gsCryptRSAKey sigkeypub;
     GSMD5_CTX md5;
@@ -75,19 +75,19 @@ int func_021E26BC(GSLoginCertificate *cert)
     unsigned int temp;
 
     func_02184938(&md5);
-    temp = func_021E26B8(cert->mLength);
+    temp = wsiToNetworkOrder(cert->mLength);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mVersion);
+    temp = wsiToNetworkOrder(cert->mVersion);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mPartnerCode);
+    temp = wsiToNetworkOrder(cert->mPartnerCode);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mNamespaceId);
+    temp = wsiToNetworkOrder(cert->mNamespaceId);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mUserId);
+    temp = wsiToNetworkOrder(cert->mUserId);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mProfileId);
+    temp = wsiToNetworkOrder(cert->mProfileId);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
-    temp = func_021E26B8(cert->mExpireTime);
+    temp = wsiToNetworkOrder(cert->mExpireTime);
     func_0218497C(&md5, (unsigned char *)&temp, 4);
     func_0218497C(&md5, (unsigned char *)cert->mProfileNick, strlen(cert->mProfileNick));
     func_0218497C(&md5, (unsigned char *)cert->mUniqueNick, strlen(cert->mUniqueNick));
@@ -96,8 +96,8 @@ int func_021E26BC(GSLoginCertificate *cert)
     gsLargeIntAddToMD5(&cert->mPeerPublicKey.exponent, &md5);
     func_0218497C(&md5, cert->mServerData, 128);
     func_02184A34(hash, &md5);
-    gsLargeIntSetFromHexString(&sigkeypub.modulus, g_021E2CC8);
-    gsLargeIntSetFromHexString(&sigkeypub.exponent, g_021E2CC0);
+    gsLargeIntSetFromHexString(&sigkeypub.modulus, sWsSignatureKeyModulus);
+    gsLargeIntSetFromHexString(&sigkeypub.exponent, sWsSignatureKeyExponent);
     cryptResult = func_0217CF5C(&sigkeypub, hash, 16, cert->mSignature, 128);
     if (cryptResult == 0)
         return 1;

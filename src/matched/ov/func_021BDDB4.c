@@ -1,5 +1,5 @@
 /*
- * function: func_021BDDB4
+ * function: WIFICLUB_ShouldEnterWaitMode
  * address:  0x021BDDB4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BDD60  0x021BDD60  thumb  ov099
+ *   WIFICLUB_IsBusyPhase  0x021BDD60  thumb  ov099
  *
  * True when the arm9 predicate accepts b and the selector is 4.
  */
@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BDD60(int x);
+extern int WIFICLUB_IsBusyPhase(int x);
 
-BOOL func_021BDDB4(int a, void *b)
+BOOL WIFICLUB_ShouldEnterWaitMode(int a, void *b)
 {
-    if (func_021BDD60((int)b) != 0 && a == 4) {
+    if (WIFICLUB_IsBusyPhase((int)b) != 0 && a == 4) {
         return 1;
     }
 

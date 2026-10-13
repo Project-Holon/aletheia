@@ -1,5 +1,5 @@
 /*
- * function: func_021C0254
+ * function: WIFICLUB_StateOpenPartnerMenu
  * address:  0x021C0254
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BAD50  0x021BAD50  thumb  ov099
- *   func_021B9B64  0x021B9B64  thumb  ov099
+ *   WIFICLUB_CreateMainMenu  0x021BAD50  thumb  ov099
+ *   WIFICLUBACTOR_TickBlink  0x021B9B64  thumb  ov099
  *
  * Runs the setup, stamps selector 0x83 and re-arms the block 0x274 bytes in.
  */
@@ -25,13 +25,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BAD50(int a);
-extern void func_021B9B64(char *p);
+extern void WIFICLUB_CreateMainMenu(int a);
+extern void WIFICLUBACTOR_TickBlink(char *p);
 
-int func_021C0254(char *p, int v)
+int WIFICLUB_StateOpenPartnerMenu(char *p, int v)
 {
-    func_021BAD50((int)p);
+    WIFICLUB_CreateMainMenu((int)p);
     ((struct Obj18265 *)p)->f1CC = 0x83;
-    func_021B9B64(p + 0x274);
+    WIFICLUBACTOR_TickBlink(p + 0x274);
     return v;
 }

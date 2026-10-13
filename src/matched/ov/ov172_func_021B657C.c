@@ -12,7 +12,7 @@
  *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   ARC_TOOL_ReadMember 0x02048F4C arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   d_021C71C0 0x021C71C0 data a4
  */
 #include "../include/Obj01559.h"
@@ -22,7 +22,7 @@ extern void func_021B65C4(void *);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern const char d_021C71C0[];
 void func_021B657C(char *obj, int mode)
 {
@@ -36,5 +36,5 @@ void func_021B657C(char *obj, int mode)
     ((struct Obj01559 *)p)->f4C = size;
     ((struct Obj01559 *)p)->f48 = GFL_NET_AllocAligned(((struct Obj01559 *)p)->f0, size, d_021C71C0, 0x13B);
     ARC_TOOL_ReadMember(((struct Obj01559 *)p)->f48, 0xD4, which);
-    func_020862F0(((struct Obj01559 *)p)->f48, ((struct Obj01559 *)p)->f4C);
+    DWCi_ScreenDC_FlushRange(((struct Obj01559 *)p)->f48, ((struct Obj01559 *)p)->f4C);
 }

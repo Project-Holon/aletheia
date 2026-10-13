@@ -1,5 +1,5 @@
 /*
- * function: func_0207D42C
+ * function: GX_DispOff
  * address:  0x0207D42C
  * packet:   pkt_0207D42C
  * region:   arm9
@@ -26,7 +26,7 @@ extern void PMi_SetDispOffCount(void);
 extern struct GXDataState sIsDispOn;
 extern struct GXBssState sDispMode;
 
-void func_0207D42C(void)
+void GX_DispOff(void)
 {
     unsigned long tmp = reg_GX_DISPCNT;
 

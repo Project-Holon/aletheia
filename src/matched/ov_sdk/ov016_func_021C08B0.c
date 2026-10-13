@@ -1,5 +1,5 @@
 /*
- * function: func_021C08B0
+ * function: DWCi_AOSSlEnd
  * address:  0x021C08B0
  * packet:   pkt_ov016_021C08B0
  * region:   ov016
@@ -13,10 +13,10 @@
  *
  * symbols:
  *   AOSSi_EndLocal 0x021B85A8  thumb  ov016
- *   func_021CFABC  0x021CFABC  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE564     0x021DE564  data
- *   g_021DE568     0x021DE568  data
+ *   DWCi_SETTINGlSetAoss  0x021CFABC  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gLibaossBlock1     0x021DE564  data
+ *   gLibaossBlock2     0x021DE568  data
  */
 
 #include "../include/G_AossCtl.h"
@@ -30,17 +30,17 @@ typedef struct AossWork {
 typedef struct AossCtl AossCtl;
 
 extern int AOSSi_EndLocal();
-extern void func_021CFABC(void *area);
-extern void func_021D6438(void **mem);
-extern struct AossCtl g_021DE564;
-extern void *g_021DE568;
+extern void DWCi_SETTINGlSetAoss(void *area);
+extern void DWCi_HEAPlFree_(void **mem);
+extern struct AossCtl gLibaossBlock1;
+extern void *gLibaossBlock2;
 
-void func_021C08B0(int a)
+void DWCi_AOSSlEnd(int a)
 {
     AOSSi_EndLocal();
     if (a) {
-        if (((AossWork *)g_021DE564.work)->state == 0 && g_021DE564.status == 1)
-            func_021CFABC(((AossWork *)g_021DE564.work)->area);
+        if (((AossWork *)gLibaossBlock1.work)->state == 0 && gLibaossBlock1.status == 1)
+            DWCi_SETTINGlSetAoss(((AossWork *)gLibaossBlock1.work)->area);
     }
-    func_021D6438(&g_021DE568);
+    DWCi_HEAPlFree_(&gLibaossBlock2);
 }

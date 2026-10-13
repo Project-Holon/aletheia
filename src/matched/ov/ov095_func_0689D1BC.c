@@ -1,5 +1,5 @@
 /*
- * function: func_0689D1BC
+ * function: BTL_DEADREC_SetReported
  * address: 0x0689D1BC
  * packet: pkt_ov095_0689D1BC
  * region: ov095
@@ -22,7 +22,7 @@ typedef struct {
     u8 b[24];
 } Slot;
 
-void func_0689D1BC(Slot *s, u32 i, u32 j)
+void BTL_DEADREC_SetReported(Slot *s, u32 i, u32 j)
 {
     if (i < 4 && j < s[i].n)
         s[i].a[j] = 1;

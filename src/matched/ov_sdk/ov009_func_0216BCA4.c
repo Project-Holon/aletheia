@@ -12,20 +12,20 @@
  * sdk:      DWCi_DeleteAID (dwc_main.o)
  *
  * symbols:
- *   func_02176410  0x02176410  arm  ov009
- *   func_02176164  0x02176164  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
+ *   DWCi_NodeInfoList_RemoveAID  0x02176164  arm  ov009
  */
 
-extern char *func_02176410(unsigned char aid);
-extern int func_02176164(unsigned char aid);
+extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
+extern int DWCi_NodeInfoList_RemoveAID(unsigned char aid);
 
 int DWCi_DeleteAID(unsigned char aid)
 {
-    char *pNodeInfo = func_02176410(aid);
+    char *pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForAID(aid);
     int profileID;
 
     if (pNodeInfo == 0) return 0;
     profileID = *(int *)pNodeInfo;
-    func_02176164(aid);
+    DWCi_NodeInfoList_RemoveAID(aid);
     return profileID;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAEDC
+ * function: WIFICLUB_DrawPlayerInfoWindow
  * address: 0x021BAEDC
  * packet: pkt_ov099_021BAEDC
  * region: ov099
@@ -21,16 +21,16 @@
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_021BDD54 0x021BDD54 thumb ov099
- *   func_021BB918 0x021BB918 thumb ov099
+ *   WIFICLUB_GetStatusKind 0x021BDD48 thumb ov099
+ *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
+ *   WIFICLUB_GetVisitorMessageId 0x021BB918 thumb ov099
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
  *   func_02009864 0x02009864 thumb
  *   func_020099E4 0x020099E4 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   func_021BE4BC 0x021BE4BC thumb ov099
- *   func_021C27E0 0x021C27E0 thumb ov099
- *   func_021BE3CC 0x021BE3CC thumb ov099
+ *   WIFICLUB_DrawPhaseIcon 0x021BE4BC thumb ov099
+ *   WIFICLUB_GetStatusSeatFlag 0x021C27E0 thumb ov099
+ *   WIFICLUB_DrawTileBlock 0x021BE3CC thumb ov099
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -59,21 +59,21 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void STRBUF_Delete(struct U16Vec *);
-extern u8 func_021BDD48(int, struct S *);
-extern u8 func_021BDD54(int, struct S *);
-extern int func_021BB918(void *, u32, int *);
+extern u8 WIFICLUB_GetStatusKind(int, struct S *);
+extern u8 WIFICLUB_GetStatusPhase(int, struct S *);
+extern int WIFICLUB_GetVisitorMessageId(void *, u32, int *);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_020099E4(struct Sub020097BCObj *obj, int i, void *dest);
 extern void MSGDATA_ReadString(struct MsgBank *, u32, void *);
-extern void func_021BE4BC(char *, int, int, int, int, unsigned int, int);
-extern int func_021C27E0(struct S *);
-extern void func_021BE3CC(char *p, int a, u8 b, u8 c, u32 d, int e);
+extern void WIFICLUB_DrawPhaseIcon(char *, int, int, int, int, unsigned int, int);
+extern int WIFICLUB_GetStatusSeatFlag(struct S *);
+extern void WIFICLUB_DrawTileBlock(char *p, int a, u8 b, u8 c, u32 d, int e);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_020409B4(u32);
-void func_021BAEDC(char *p)
+void WIFICLUB_DrawPlayerInfoWindow(char *p)
 {
     struct Save *a;
     struct U16Vec *temp;
@@ -95,9 +95,9 @@ void func_021BAEDC(char *p)
         GF_FONT_SetTextColor(3, 4, 0);
     PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x194)), 32, 0, temp, *(void **)(p + 0xe8));
     STRBUF_Delete(temp);
-    kind = func_021BDD48((int)p, *(struct S **)(p + 8));
-    other = func_021BDD54((int)p, *(struct S **)(p + 8));
-    n = func_021BB918((void *)kind, other, &unused);
+    kind = WIFICLUB_GetStatusKind((int)p, *(struct S **)(p + 8));
+    other = WIFICLUB_GetStatusPhase((int)p, *(struct S **)(p + 8));
+    n = WIFICLUB_GetVisitorMessageId((void *)kind, other, &unused);
     if (other == 4 && kind == 4) {
         if (DWC_RAP_GetTargetFriendIndex() == -1) {
             MSGDATA_ReadString(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));
@@ -113,10 +113,10 @@ void func_021BAEDC(char *p)
         MSGDATA_ReadString(*(struct MsgBank **)(p + 0xe0), n, *(void **)(p + 0xf0));
     }
     PRINTSYS_Print(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x194)), 102, 0, *(void **)(p + 0xf0), *(void **)(p + 0xe8));
-    func_021BE4BC(p + 0x898, 1, 2, 1, kind, other, 48);
-    if (func_021C27E0(*(struct S **)(p + 8))) icon = 15;
+    WIFICLUB_DrawPhaseIcon(p + 0x898, 1, 2, 1, kind, other, 48);
+    if (WIFICLUB_GetStatusSeatFlag(*(struct S **)(p + 8))) icon = 15;
     else icon = 11;
-    func_021BE3CC(p + 0x898, 1, 26, 1, icon + 48, 0);
+    WIFICLUB_DrawTileBlock(p + 0x898, 1, 26, 1, icon + 48, 0);
     BMP_WIN_ClearScreen(*(struct Descriptor **)(p + 0x194));
     BMP_WIN_MakeScreen(*(struct Cfg **)(p + 0x194));
     BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0x194));

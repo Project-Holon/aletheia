@@ -17,12 +17,12 @@
  *
  * symbols:
  *   sVramTransferTaskQueue  0x02146B80  data
- *   func_02061BB0  0x02061BB0  arm
- *   func_02061BD0  0x02061BD0  arm
- *   func_02061B2C  0x02061B2C  arm
- *   func_02061860  0x02061860  arm
- *   func_02061BC0  0x02061BC0  arm
- *   func_02061B74  0x02061B74  arm
+ *   NNSi_GfdGetHeadVramTransferTask  0x02061BB0  arm
+ *   NNSi_GfdPopVramTransferTask  0x02061BD0  arm
+ *   NNSi_GfdRunVramTransferTask  0x02061B2C  arm
+ *   NNSi_GfdRingIsFull  0x02061860  arm
+ *   NNSi_GfdGetTailVramTransferTask  0x02061BC0  arm
+ *   NNSi_GfdPushVramTransferTask  0x02061B74  arm
  *   func_02061EB8 0x02061EB8 arm
  */
 struct Obj02061BD0;
@@ -34,8 +34,8 @@ typedef signed int    s32;
 
 struct GfdTransferTask {
     void *pTaskFunc;    /* 0x00 */
-    u32 dstAddr;        /* 0x04 */
-    u32 pSrc;           /* 0x08 */
+    u32 srcAddr;        /* 0x04, source address (third argument) */
+    u32 dstOffset;      /* 0x08, destination offset in VRAM (second argument) */
     s32 szByte;         /* 0x0c, byte size consumed */
 };
 
@@ -66,15 +66,15 @@ struct GfdLnkBlockList {
     struct GfdLnkBlock *head;
 };
 
-extern u32 func_02061BB0(u8 *p);
-extern u32 func_02061BD0(struct Obj02061BD0 *p);
-extern void func_02061B2C(u32 *s);
-extern int func_02061860(u8 *p);
-extern u32 func_02061BC0(u8 *p);
-extern int func_02061B74(char *p);
+extern u32 NNSi_GfdGetHeadVramTransferTask(u8 *p);
+extern u32 NNSi_GfdPopVramTransferTask(struct Obj02061BD0 *p);
+extern void NNSi_GfdRunVramTransferTask(u32 *s);
+extern int NNSi_GfdRingIsFull(u8 *p);
+extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
+extern int NNSi_GfdPushVramTransferTask(char *p);
 extern int func_02061EB8(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
 void NNS_GfdDoVramTransfer(void);
-s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte);
+s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
 u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
 void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead);
 struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count);
@@ -89,8 +89,8 @@ extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
  * dispose of the node and subtract its size field from the record's running
  * byte total at +0x10, then fetch the next head.
  *
- * Blocked at MATCH on the `matched` class: func_02061B2C (PC24 at +0x0028)
- * and func_02061BD0 (PC24 at +0x0018 and +0x004c) each have their only
+ * Blocked at MATCH on the `matched` class: NNSi_GfdRunVramTransferTask (PC24 at +0x0028)
+ * and NNSi_GfdPopVramTransferTask (PC24 at +0x0018 and +0x004c) each have their only
  * branch inside 0x02061C44..0x02061CA0, so both sites stay wildcarded.  Both
  * callees are documented dead ends in docs/notes/pkt_02061B2C.c.txt and
  * docs/notes/pkt_02061BD0.c.txt (16 and 6 concrete bytes of instruction
@@ -99,12 +99,12 @@ extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
  */
 void NNS_GfdDoVramTransfer(void)
 {
-    struct GfdTransferTask *task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
+    struct GfdTransferTask *task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
 
-    while (func_02061BD0((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
-        func_02061B2C((u32 *)task);
+    while (NNSi_GfdPopVramTransferTask((struct Obj02061BD0 *)(&sVramTransferTaskQueue)) != 0) {
+        NNSi_GfdRunVramTransferTask((u32 *)task);
         sVramTransferTaskQueue.totalSzByte -= task->szByte;
-        task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&sVramTransferTaskQueue));
+        task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
     }
 }
 
@@ -113,7 +113,7 @@ void NNS_GfdDoVramTransfer(void)
 
 /*
  * Pushes one four-word request onto the queue object at 0x02146B80 and adds
- * its size field to the queue's running byte total at +0x10. func_02061860
+ * its size field to the queue's running byte total at +0x10. NNSi_GfdRingIsFull
  * is the "queue full" test: a non-zero answer makes this return 0 without
  * touching anything, which is why the failure path is a `movne r0, #0` fused
  * into the conditional epilogue rather than a branch.
@@ -126,27 +126,27 @@ void NNS_GfdDoVramTransfer(void)
  * verdict stays SIZE-clean and the diff is only two bytes.
  *
  * This was capped at MATCH until 0x02061B74, the queue push, was matched in
- * src/matched/func_02061B74.c; that entry is the witness the `bl` needed.
- * func_02061BC0 is likewise a matched entry now.
+ * src/matched/NNSi_GfdPushVramTransferTask.c; that entry is the witness the `bl` needed.
+ * NNSi_GfdGetTailVramTransferTask is likewise a matched entry now.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_GfdRegisterNewVramTransferTask.c \
  *       --func NNS_GfdRegisterNewVramTransferTask --addr 0x02061CA4 --cc 1.1p1 --arm
  */
-s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte)
+s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte)
 {
     struct GfdTransferTask *req;
 
-    if (func_02061860((u8 *)(&sVramTransferTaskQueue)) != 0) {
+    if (NNSi_GfdRingIsFull((u8 *)(&sVramTransferTaskQueue)) != 0) {
         return 0;
     }
 
-    req = (struct GfdTransferTask *)func_02061BC0((u8 *)(&sVramTransferTaskQueue));
+    req = (struct GfdTransferTask *)NNSi_GfdGetTailVramTransferTask((u8 *)(&sVramTransferTaskQueue));
     req->pTaskFunc = pTaskFunc;
-    req->dstAddr = dstAddr;
-    req->pSrc = pSrc;
+    req->srcAddr = srcAddr;
+    req->dstOffset = dstOffset;
     req->szByte = szByte;
-    func_02061B74((char *)(&sVramTransferTaskQueue));
+    NNSi_GfdPushVramTransferTask((char *)(&sVramTransferTaskQueue));
     sVramTransferTaskQueue.totalSzByte += req->szByte;
     return 1;
 }

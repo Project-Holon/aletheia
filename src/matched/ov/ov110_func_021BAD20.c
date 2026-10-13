@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD20
+ * function: PMS_INPUT_VIEW_GetWordwinItem
  * address:  0x021BAD20
  * packet:   pkt_ov110_021BAD20
  * region:   ov110
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFE60  0x021BFE60  thumb  ov110
+ *   PMSIV_WORDWIN_GetThumbRow  0x021BFE60  thumb  ov110
  */
 #include "../include/Obj22346.h"
 
@@ -21,5 +21,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern unsigned func_021BFE60(u8 *p, unsigned n);
-unsigned func_021BAD20(u8 *p, unsigned n) { return func_021BFE60(*(u8 * *)&((struct Obj22346 *)p)->f5C, n); }
+extern unsigned PMSIV_WORDWIN_GetThumbRow(u8 *p, unsigned n);
+unsigned PMS_INPUT_VIEW_GetWordwinItem(u8 *p, unsigned n) { return PMSIV_WORDWIN_GetThumbRow(*(u8 * *)&((struct Obj22346 *)p)->f5C, n); }

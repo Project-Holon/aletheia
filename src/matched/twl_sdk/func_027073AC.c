@@ -16,6 +16,7 @@
  *   PxiCallback  0x02707310  arm
  *   AESi_InitLock  0x02707AEC  arm
  *   PXI_Init  0x02088498  arm  arm9
+ *   PXI_IsCallbackReady  0x020885EC  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -37,7 +38,7 @@ extern u32 data_02735A9C_msg[1];
 extern u32 data_02735AAC[];
 extern void func_02085D94(u32 *q, u32 *buf, u32 count);
 extern void func_020885A0(u32 tag, void (*cb)(u32, u32, u32));
-extern u32 func_020885EC(u32 tag, u32 arg);
+extern u32 PXI_IsCallbackReady(u32 tag, u32 arg);
 extern void PXI_Init(void);
 extern void AESi_InitLock(void);
 extern void PxiCallback(u32 tag, u32 data, u32 err);
@@ -50,7 +51,7 @@ void AESi_Init(void) {
     AESi_InitLock();
     PXI_Init();
     func_020885A0(0x13, PxiCallback);
-    while (func_020885EC(0x13, 1) == 0) {
+    while (PXI_IsCallbackReady(0x13, 1) == 0) {
     }
     data_02735A9C.ready = 1;
 }

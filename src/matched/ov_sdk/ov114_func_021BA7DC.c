@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7DC
+ * function: NHTTPi_InitBgnEndInfo
  * address:  0x021BA7DC
  * packet:   pkt_ov114_021BA7DC
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      NHTTPi_InitBgnEndInfo (libnhttp.TWL.HYB.a(nhttp_bgnend.o))
  *
  * symbols:
- *   func_021BA874 0x021BA874 arm ov114
- *   func_021BA87C 0x021BA87C arm ov114
+ *   NHTTPi_SetError 0x021BA874 arm ov114
+ *   NHTTPi_SetSSLError 0x021BA87C arm ov114
  */
 
 typedef struct {
@@ -29,17 +29,17 @@ typedef struct {
 } BgnEnd;
 
 typedef unsigned char  u8;
-extern void func_021BA87C(u8 *p, int v);
-extern void func_021BA874(u8 *p, int v);
+extern void NHTTPi_SetSSLError(u8 *p, int v);
+extern void NHTTPi_SetError(u8 *p, int v);
 
-void func_021BA7DC(BgnEnd *info_p)
+void NHTTPi_InitBgnEndInfo(BgnEnd *info_p)
 {
     info_p->f0 = 0;
     info_p->f4 = 0;
     info_p->f8 = 0;
     info_p->fc = -1;
-    func_021BA87C((u8 *)info_p, 0);
-    func_021BA874((u8 *)info_p, 0);
+    NHTTPi_SetSSLError((u8 *)info_p, 0);
+    NHTTPi_SetError((u8 *)info_p, 0);
     info_p->f18 = 0;
     info_p->f1c = 0;
     info_p->f20 = 0;

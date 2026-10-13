@@ -48,7 +48,7 @@
  *   gOptionMenuDispVram     0x021BB598  data  a4
  *   func_02030EAC  0x02030EAC  arm
  *   func_0201DD68  0x0201DD68  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
@@ -84,7 +84,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   gOptionMenuLabels     0x021BB820  data  ov068  a4
@@ -261,7 +261,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern struct Task *func_020056A0(void (*fn)(struct Task *, OptionMenuScreen *), OptionMenuScreen *arg, u32 priority);
 extern void func_02030EAC(struct Task *task);
 extern void func_0201DD68(void);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void func_0203F8F4(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void func_0203FC28(struct DispConfig *config);
@@ -296,7 +296,7 @@ extern u8 BMP_WIN_GetBgLayer(struct BmpWindow *window);
 extern void func_02041B6C(u32 a);
 extern void STRBUF_Delete(struct StringBuf *str);
 extern void *BMP_GetPixels(const struct Bitmap *bitmap);
-extern void func_02082A90(u32 a, u32 b, u32 size);
+extern void MIi_CpuCopy32(u32 a, u32 b, u32 size);
 extern u8 BMP_WIN_GetWidth(struct BmpWindow *window);
 extern s32 func_02061CA4(u32 kind, u32 offset, const void *src, s32 size);
 extern void CLACT_InitSystem(const struct ClInitParam *param, const void *res, u32 heapId);
@@ -674,7 +674,7 @@ void OPTION_MENU_InitGfx(OptionMenuGfx *gfx, u16 heapId)
     func_02049658(arc, 0x10, 4, 1, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
     buffer = func_02049F34(0x1b, 1, &pltt, heapId);
-    func_02082D44(pltt->colors + 0xe0, gfx->palette, 0x20);
+    MI_CpuCopy8(pltt->colors + 0xe0, gfx->palette, 0x20);
     func_020307B0(buffer);
     gfx->windows[OPTION_WINDOW_DESCRIPTION] = BMP_WIN_Create(4, 1, 0x13, 0x1e, 4, 4, 1);
     gfx->windows[OPTION_WINDOW_MESSAGE] = BMP_WIN_Create(3, 1, 1, 0x1e, 4, 0xf, 1);
@@ -762,7 +762,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
         STRBUF_Delete(str);
     }
     charData = gfx->screenData->charData;
-    func_02082A90((u32)charData, (u32)BMP_GetPixels(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE])), 0x600);
+    MIi_CpuCopy32((u32)charData, (u32)BMP_GetPixels(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE])), 0x600);
     str = func_02045EC0(msgBank, 0);
     x = BMP_WIN_GetWidth(gfx->windows[OPTION_WINDOW_TITLE]) * 4;
     x -= func_0201D304(str, font, 0) >> 1;

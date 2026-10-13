@@ -1,5 +1,5 @@
 /*
- * function: func_021C060C
+ * function: PMS_SELECT_GRAPHIC_CreateBg
  * address: 0x021C060C
  * packet: pkt_ov110_021C060C
  * region: ov110
@@ -58,7 +58,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void ARC_TOOL_DeleteHandle(void *);
-void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
+void PMS_SELECT_GRAPHIC_CreateBg(u8 *p,u16 heap,u32 font,void *print,void *bank)
 {
     void *h;
     void *str;

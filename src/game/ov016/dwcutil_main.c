@@ -1,7 +1,7 @@
 /*
  * file:     dwcutil_main.c
  * unit:     yes
- * function: func_021C0970, func_021C0A2C, func_021C0AA8, func_021C0B7C, func_021C0DE8, func_021C0E40, func_021C0E50, func_021C0E64, func_021C0E8C, func_021C0EA0, func_021C0EC8, func_021C0ED8, func_021C0EF0, func_021C0F0C, func_021C0F20
+ * function: DWC_StartUtility, checkParam, initGame, initGraph, procEnd, DWCi_ChangeScene, DWCi_SetParam_, DWCi_GetParam_, DWCi_SetParam2_, DWCi_GetParam2_, DWCi_Language, DWCi_Entry, DWCi_Flag, DWCi_EndUtility, DWCi_MoveKDWCi_Language
  * address:  0x021C0970
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -14,38 +14,37 @@
  *
  * symbols:
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_02177ED8  0x02177ED8  arm  ov009
- *   func_02177EC8  0x02177EC8  arm  ov009
- *   func_021C0B7C  0x021C0B7C  arm  ov016
- *   func_021CFEBC  0x021CFEBC  arm  ov016
+ *   DWC_Auth_GetCustomNas  0x02177ED8  arm  ov009
+ *   DWC_Auth_SetCustomNas  0x02177EC8  arm  ov009
+ *   initGraph  0x021C0B7C  arm  ov016
+ *   DWCi_SNDlInit  0x021CFEBC  arm  ov016
  *   DWCi_IPTlUpdate  0x021D656C  arm  ov016
- *   func_021D75D0  0x021D75D0  arm  ov016
- *   func_021D6BC8  0x021D6BC8  arm  ov016
- *   func_021D7448  0x021D7448  arm  ov016
- *   func_02087AE4  0x02087AE4  arm
- *   func_021C16F4  0x021C16F4  arm  ov016
- *   g_021DE56C     0x021DE56C  data
- *   g_021DB04C     0x021DB04C  data
- *   func_0207D42C  0x0207D42C  arm
- *   func_02087058  0x02087058  arm
+ *   DWCi_TSKlAct  0x021D75D0  arm  ov016
+ *   DWCi_IPTlCheckFold  0x021D6BC8  arm  ov016
+ *   DWCi_SetLedWireless  0x021D7448  arm  ov016
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
+ *   DWCi_SceneInit  0x021C16F4  arm  ov016
+ *   gDwcutilMainWork     0x021DE56C  data
+ *   sDwcutilMainTable     0x021DB04C  data
+ *   GX_DispOff  0x0207D42C  arm
+ *   OS_IsTickAvailable  0x02087058  arm
  *   OS_Terminate   0x02088234  arm
- *   func_02087244  0x02087244  arm
- *   func_0207D3E4  0x0207D3E4  arm
+ *   OS_IsAlarmAvailable  0x02087244  arm
+ *   GX_VBlankIntr  0x0207D3E4  arm
  *   FX_Init  0x0207D148  arm
- *   func_0207AD04  0x0207AD04  arm
- *   func_0208A924  0x0208A924  arm
- *   func_02088788  0x02088788  arm
- *   func_021D7274  0x021D7274  arm  ov016
- *   func_021D6360  0x021D6360  arm  ov016
- *   func_021D6C78  0x021D6C78  arm  ov016
- *   func_021D7484  0x021D7484  arm  ov016
- *   func_021D486C  0x021D486C  arm  ov016
- *   func_021D64B8  0x021D64B8  arm  ov016
- *   func_021D551C  0x021D551C  arm  ov016
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_020589D0  0x020589D0  arm
- *   func_021D6438  0x021D6438  arm  ov016
- *   GX_VBlankIntr                    0x0207d3e4 arm
+ *   FS_Init  0x0207AD04  arm
+ *   TP_Init  0x0208A924  arm
+ *   RTC_Init  0x02088788  arm
+ *   DWCi_ClearVram  0x021D7274  arm  ov016
+ *   DWCi_HEAPlInit  0x021D6360  arm  ov016
+ *   DWCi_ITRlIntr  0x021D6C78  arm  ov016
+ *   DWCi_TSKlInit  0x021D7484  arm  ov016
+ *   DWCi_ARClInit  0x021D486C  arm  ov016
+ *   DWCi_IPTlInit  0x021D64B8  arm  ov016
+ *   DWCi_EFFlInit  0x021D551C  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWC_BM_Init  0x020589D0  arm
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   GX_SetBankForBG                  0x0207fdcc arm
  *   GX_SetBankForOBJ                 0x0207ffd0 arm
  *   GX_SetGraphicsMode               0x0207d4b0 arm
@@ -59,19 +58,19 @@
  *   DWCi_OVRlInit                    0x021d6f9c arm
  *   DWCi_CELLlInit                   0x021d4cf4 arm
  *   GX_DispOn                        0x0207d46c arm
- *   func_021D7474  0x021D7474  arm  ov016
+ *   DWCi_SetLedNormal  0x021D7474  arm  ov016
  *   PM_SetLCDPower 0x0208C64C  arm
- *   func_021D6538  0x021D6538  arm  ov016
- *   func_021D6CE4  0x021D6CE4  arm  ov016
- *   func_021CFF80  0x021CFF80  arm  ov016
- *   func_021D4DC8  0x021D4DC8  arm  ov016
- *   func_021D6EEC  0x021D6EEC  arm  ov016
- *   func_021D5904  0x021D5904  arm  ov016
- *   func_021D556C  0x021D556C  arm  ov016
- *   func_021D4A20  0x021D4A20  arm  ov016
- *   func_021D7588  0x021D7588  arm  ov016
- *   func_021D63A8  0x021D63A8  arm  ov016
- *   func_021D72F8  0x021D72F8  arm  ov016
+ *   DWCi_IPTlEnd  0x021D6538  arm  ov016
+ *   DWCi_ITRlEnd  0x021D6CE4  arm  ov016
+ *   DWCi_SNDlEnd  0x021CFF80  arm  ov016
+ *   DWCi_CELLlEnd  0x021D4DC8  arm  ov016
+ *   DWCi_OBJlEnd  0x021D6EEC  arm  ov016
+ *   DWCi_FNTlEnd  0x021D5904  arm  ov016
+ *   DWCi_EFFlEnd  0x021D556C  arm  ov016
+ *   DWCi_ARClEnd  0x021D4A20  arm  ov016
+ *   DWCi_TSKlEnd  0x021D7588  arm  ov016
+ *   DWCi_HEAPlEnd  0x021D63A8  arm  ov016
+ *   DWCi_RepairVram  0x021D72F8  arm  ov016
  *   Language                         0x021DE56C  data
  */
 typedef struct Param {
@@ -115,35 +114,33 @@ struct Ov016Bits8 {
 };
 
 extern int OS_IsRunOnTwl(void);
-extern char *func_02177ED8(void);
-extern void func_02177EC8(int v);
-extern void func_021C0B7C(void);
-extern void func_021CFEBC(void);
+extern char *DWC_Auth_GetCustomNas(void);
+extern void DWC_Auth_SetCustomNas(int v);
+extern void DWCi_SNDlInit(void);
 extern void DWCi_IPTlUpdate();
-extern void func_021D75D0(int kind);
-extern void func_021D6BC8(void);
-extern void func_021D7448(void);
-extern void func_02087AE4(void);
-extern void func_021C16F4(void);
-extern void func_0207D42C(void);
-extern int func_02087058(void);
+extern void DWCi_TSKlAct(int kind);
+extern void DWCi_IPTlCheckFold(void);
+extern void DWCi_SetLedWireless(void);
+extern void OS_WaitVBlankIntr(void);
+extern void DWCi_SceneInit(void);
+extern void GX_DispOff(void);
+extern int OS_IsTickAvailable(void);
 extern void OS_Terminate(void);
-extern int func_02087244(void);
-extern long func_0207D3E4(int enable);
+extern int OS_IsAlarmAvailable(void);
 extern void FX_Init(void);
-extern void func_0207AD04(unsigned long default_dma_no);
-extern void func_0208A924(void);
-extern void func_02088788(void);
-extern void func_021D7274(void);
-extern void func_021D6360(void *address);
-extern void func_021D6C78(void);
-extern void func_021D7484(void);
-extern void func_021D486C(void);
-extern void func_021D64B8(void);
-extern void func_021D551C(void);
-extern void *func_021D6414(unsigned long size, int alignment);
-extern int func_020589D0(void *work);
-extern void func_021D6438(void **mem);
+extern void FS_Init(unsigned long default_dma_no);
+extern void TP_Init(void);
+extern void RTC_Init(void);
+extern void DWCi_ClearVram(void);
+extern void DWCi_HEAPlInit(void *address);
+extern void DWCi_ITRlIntr(void);
+extern void DWCi_TSKlInit(void);
+extern void DWCi_ARClInit(void);
+extern void DWCi_IPTlInit(void);
+extern void DWCi_EFFlInit(void);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern int DWC_BM_Init(void *work);
+extern void DWCi_HEAPlFree_(void **mem);
 extern long GX_VBlankIntr(int enable);
 extern void GX_SetBankForBG(int bg);
 extern void GX_SetBankForOBJ(int obj);
@@ -158,137 +155,131 @@ extern void DWCi_OBJlInit(void);
 extern void DWCi_OVRlInit(void);
 extern void DWCi_CELLlInit(void);
 extern void GX_DispOn(void);
-extern void func_021D7474(void);
+extern void DWCi_SetLedNormal(void);
 extern int PM_SetLCDPower(int sw);
-extern void func_021D6538(void);
-extern void func_021D6CE4(void);
-extern void func_021CFF80(void);
-extern void func_021D4DC8(void);
-extern void func_021D6EEC(void);
-extern void func_021D5904(void);
-extern void func_021D556C(void);
-extern void func_021D4A20(void);
-extern void func_021D7588(void);
-extern void func_021D63A8(void);
-extern void func_021D72F8(void);
-int func_021C0970(void *work, int language, int param);
-int func_021C0A2C(int lang, unsigned int param);
-void func_021C0AA8(void);
+extern void DWCi_IPTlEnd(void);
+extern void DWCi_ITRlEnd(void);
+extern void DWCi_SNDlEnd(void);
+extern void DWCi_CELLlEnd(void);
+extern void DWCi_OBJlEnd(void);
+extern void DWCi_FNTlEnd(void);
+extern void DWCi_EFFlEnd(void);
+extern void DWCi_ARClEnd(void);
+extern void DWCi_TSKlEnd(void);
+extern void DWCi_HEAPlEnd(void);
+extern void DWCi_RepairVram(void);
+int DWC_StartUtility(void *work, int language, int param);
 void initGraph(void);
-void func_021C0DE8(void);
-void func_021C0E40(unsigned int v);
-void func_021C0E50(unsigned int a, unsigned int b);
+void DWCi_ChangeScene(unsigned int v);
+void DWCi_SetParam_(unsigned int a, unsigned int b);
 void DWCi_GetParam_(void **param0, void **param1);
-void func_021C0E8C(unsigned int a, unsigned int b);
-void func_021C0EA0(unsigned int *a, unsigned int *b);
-unsigned char func_021C0EC8(void);
-unsigned int func_021C0ED8(void);
-int func_021C0EF0(unsigned int v);
-void func_021C0F0C(void);
-unsigned char func_021C0F20(void);
-extern UtilState g_021DE56C;
-extern char g_021DB04C[];
+void DWCi_SetParam2_(unsigned int a, unsigned int b);
+void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
+unsigned char DWCi_Language(void);
+unsigned int DWCi_Entry(void);
+int DWCi_Flag(unsigned int v);
+void DWCi_EndUtility(void);
+unsigned char DWCi_MoveKDWCi_Language(void);
+extern UtilState gDwcutilMainWork;
+extern char sDwcutilMainTable[];
 extern struct LANG Language;
-
 
 
 /*
  * sdk:      DWC_StartUtility (libdwcutil.TWL.HYB.a main.o)
  */
-int func_021C0970(void *work, int language, int param)
+
+static int checkParam(int lang, unsigned int param);
+static void initGame(void);
+static void procEnd(void);
+int DWC_StartUtility(void *work, int language, int param)
 {
     char *tempNasUrl;
     int result;
     if (OS_IsRunOnTwl())
         return -2;
-    g_021DE56C.work = work;
-    if (!func_021C0A2C(language, param))
+    gDwcutilMainWork.work = work;
+    if (!checkParam(language, param))
         return -1;
-    tempNasUrl = func_02177ED8();
-    func_02177EC8((int)g_021DB04C);
-    g_021DE56C.end = 0;
-    func_021C0AA8();
-    func_021C0B7C();
-    func_021CFEBC();
-    func_021C0E40((unsigned int)func_021C16F4);
+    tempNasUrl = DWC_Auth_GetCustomNas();
+    DWC_Auth_SetCustomNas((int)sDwcutilMainTable);
+    gDwcutilMainWork.end = 0;
+    initGame();
+    initGraph();
+    DWCi_SNDlInit();
+    DWCi_ChangeScene((unsigned int)DWCi_SceneInit);
     result = 0;
     do {
         DWCi_IPTlUpdate();
-        g_021DE56C.scene();
-        func_021D75D0(result);
-        func_021D6BC8();
-        func_021D7448();
-        func_02087AE4();
-    } while (!g_021DE56C.end);
-    func_021C0DE8();
-    func_02177EC8((int)tempNasUrl);
+        gDwcutilMainWork.scene();
+        DWCi_TSKlAct(result);
+        DWCi_IPTlCheckFold();
+        DWCi_SetLedWireless();
+        OS_WaitVBlankIntr();
+    } while (!gDwcutilMainWork.end);
+    procEnd();
+    DWC_Auth_SetCustomNas((int)tempNasUrl);
     return result;
 }
-
 
 
 /*
  * sdk:      checkParam (libdwcutil.TWL.HYB.a main.o)
  */
-int func_021C0A2C(int lang, unsigned int param)
+static int checkParam(int lang, unsigned int param)
 {
-    g_021DE56C.lang = lang;
-    *(unsigned int *)&g_021DE56C.param = param;
+    gDwcutilMainWork.lang = lang;
+    *(unsigned int *)&gDwcutilMainWork.param = param;
     if (lang < 0 || lang > 6)
         return 0;
-    if (g_021DE56C.param.mode > 1)
+    if (gDwcutilMainWork.param.mode > 1)
         return 0;
-    if (g_021DE56C.param.flags & 2)
+    if (gDwcutilMainWork.param.flags & 2)
         return 0;
-    if (lang != 0 && (g_021DE56C.param.flags & 1))
+    if (lang != 0 && (gDwcutilMainWork.param.flags & 1))
         return 0;
-    if (lang == 0 && !(g_021DE56C.param.flags & 1))
+    if (lang == 0 && !(gDwcutilMainWork.param.flags & 1))
         return 0;
     return 1;
 
 }
 
 
-
-
 /*
  * sdk:      initGame (libdwcutil.TWL.HYB.a main.o)
  */
-void func_021C0AA8(void)
+static void initGame(void)
 {
     void *work;
     int zero;
     volatile unsigned short *ime = (volatile unsigned short *)0x04000208;
     unsigned short old = *ime;
     *ime = 0;
-    func_0207D42C();
+    GX_DispOff();
     *(volatile unsigned int *)0x04001000 &= ~0x10000;
-    if (!func_02087058())
+    if (!OS_IsTickAvailable())
         OS_Terminate();
-    if (!func_02087244())
+    if (!OS_IsAlarmAvailable())
         OS_Terminate();
     zero = 0;
-    func_0207D3E4(zero);
+    GX_VBlankIntr(zero);
     FX_Init();
-    func_0207AD04(zero - 1);
-    func_0208A924();
-    func_02088788();
-    func_0207D42C();
+    FS_Init(zero - 1);
+    TP_Init();
+    RTC_Init();
+    GX_DispOff();
     *(volatile unsigned int *)0x04001000 &= ~0x10000;
-    func_021D7274();
-    func_021D6360(g_021DE56C.work);
-    func_021D6C78();
-    func_021D7484();
-    func_021D486C();
-    func_021D64B8();
-    func_021D551C();
-    work = func_021D6414(0x1000, 0x20);
-    func_020589D0(work);
-    func_021D6438(&work);
+    DWCi_ClearVram();
+    DWCi_HEAPlInit(gDwcutilMainWork.work);
+    DWCi_ITRlIntr();
+    DWCi_TSKlInit();
+    DWCi_ARClInit();
+    DWCi_IPTlInit();
+    DWCi_EFFlInit();
+    work = DWCi_HEAPlAllocEx(0x1000, 0x20);
+    DWC_BM_Init(work);
+    DWCi_HEAPlFree_(&work);
 }
-
-
-
 
 
 void initGraph(void)
@@ -352,32 +343,27 @@ void initGraph(void)
 }
 
 
-
-
-
 /*
  * sdk:      procEnd (libdwcutil.TWL.HYB.a main.o)
  */
-void func_021C0DE8(void)
+static void procEnd(void)
 {
-    func_0207D42C();
+    GX_DispOff();
     *(volatile unsigned int *)0x04001000 &= ~0x10000;
-    func_021D7474();
+    DWCi_SetLedNormal();
     PM_SetLCDPower(1);
-    func_021D6538();
-    func_021D6CE4();
-    func_021CFF80();
-    func_021D4DC8();
-    func_021D6EEC();
-    func_021D5904();
-    func_021D556C();
-    func_021D4A20();
-    func_021D7588();
-    func_021D63A8();
-    func_021D72F8();
+    DWCi_IPTlEnd();
+    DWCi_ITRlEnd();
+    DWCi_SNDlEnd();
+    DWCi_CELLlEnd();
+    DWCi_OBJlEnd();
+    DWCi_FNTlEnd();
+    DWCi_EFFlEnd();
+    DWCi_ARClEnd();
+    DWCi_TSKlEnd();
+    DWCi_HEAPlEnd();
+    DWCi_RepairVram();
 }
-
-
 
 
 /*
@@ -385,16 +371,14 @@ void func_021C0DE8(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0E40.c \
- *       --func func_021C0E40 --addr 0x021C0E40 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_ChangeScene.c \
+ *       --func DWCi_ChangeScene --addr 0x021C0E40 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0E40(unsigned int v)
+void DWCi_ChangeScene(unsigned int v)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
     p[3] = v;
 }
-
-
 
 
 /*
@@ -402,17 +386,15 @@ void func_021C0E40(unsigned int v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0E50.c \
- *       --func func_021C0E50 --addr 0x021C0E50 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SetParam_.c \
+ *       --func DWCi_SetParam_ --addr 0x021C0E50 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0E50(unsigned int a, unsigned int b)
+void DWCi_SetParam_(unsigned int a, unsigned int b)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
     p[4] = a;
     p[5] = b;
 }
-
-
 
 
 void DWCi_GetParam_(void **param0, void **param1)
@@ -424,16 +406,15 @@ void DWCi_GetParam_(void **param0, void **param1)
 }
 
 
-
 /*
  * Store two words into fields +0x18 and +0x1c of the global object.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0E8C.c \
- *       --func func_021C0E8C --addr 0x021C0E8C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SetParam2_.c \
+ *       --func DWCi_SetParam2_ --addr 0x021C0E8C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0E8C(unsigned int a, unsigned int b)
+void DWCi_SetParam2_(unsigned int a, unsigned int b)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
     p[6] = a;
@@ -441,16 +422,15 @@ void func_021C0E8C(unsigned int a, unsigned int b)
 }
 
 
-
 /*
  * Hand back fields +0x18 and +0x1c through two optional out pointers.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0EA0.c \
- *       --func func_021C0EA0 --addr 0x021C0EA0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_GetParam2_.c \
+ *       --func DWCi_GetParam2_ --addr 0x021C0EA0 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0EA0(unsigned int *a, unsigned int *b)
+void DWCi_GetParam2_(unsigned int *a, unsigned int *b)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
     if (a)
@@ -460,21 +440,18 @@ void func_021C0EA0(unsigned int *a, unsigned int *b)
 }
 
 
-
 /*
  * Read the first byte of the global object at 0x021DE56C.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0EC8.c \
- *       --func func_021C0EC8 --addr 0x021C0EC8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_Language.c \
+ *       --func DWCi_Language --addr 0x021C0EC8 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned char func_021C0EC8(void)
+unsigned char DWCi_Language(void)
 {
     return *(unsigned char *)0x021DE56C;
 }
-
-
 
 
 /*
@@ -482,15 +459,14 @@ unsigned char func_021C0EC8(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0ED8.c \
- *       --func func_021C0ED8 --addr 0x021C0ED8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_Entry.c \
+ *       --func DWCi_Entry --addr 0x021C0ED8 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned int func_021C0ED8(void)
+unsigned int DWCi_Entry(void)
 {
     struct Ov016Bits8 *p = (struct Ov016Bits8 *)0x021DE56C;
     return p->f;
 }
-
 
 
 /*
@@ -498,15 +474,14 @@ unsigned int func_021C0ED8(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0EF0.c \
- *       --func func_021C0EF0 --addr 0x021C0EF0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_Flag.c \
+ *       --func DWCi_Flag --addr 0x021C0EF0 --region ov016 --cc dsi/1.1p1 --arm
  */
-int func_021C0EF0(unsigned int v)
+int DWCi_Flag(unsigned int v)
 {
     unsigned int *p = (unsigned int *)0x021DE56C;
     return (v & (p[2] >> 4)) != 0;
 }
-
 
 
 /*
@@ -514,28 +489,26 @@ int func_021C0EF0(unsigned int v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C0F0C.c \
- *       --func func_021C0F0C --addr 0x021C0F0C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_EndUtility.c \
+ *       --func DWCi_EndUtility --addr 0x021C0F0C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021C0F0C(void)
+void DWCi_EndUtility(void)
 {
     unsigned char *p = (unsigned char *)0x021DE56C;
     p[1] = 1;
 }
 
 
-
-
 /*
  * sdk:      kDWCi_Language (libdwcutil.TWL.HYB.a main.o)
  */
-unsigned char func_021C0F20(void)
+unsigned char DWCi_MoveKDWCi_Language(void)
 {
-    if ((*(unsigned char *)&g_021DE56C) == 6)
+    if ((*(unsigned char *)&gDwcutilMainWork) == 6)
         return 0x38;
-    if ((*(unsigned char *)&g_021DE56C) == 1) {
-        if (!((*(unsigned int *)((char *)&(*(unsigned char *)&g_021DE56C) + 8) >> 4) & 2))
+    if ((*(unsigned char *)&gDwcutilMainWork) == 1) {
+        if (!((*(unsigned int *)((char *)&(*(unsigned char *)&gDwcutilMainWork) + 8) >> 4) & 2))
             return 0x37;
     }
-    return (*(unsigned char *)&g_021DE56C) + 0x31;
+    return (*(unsigned char *)&gDwcutilMainWork) + 0x31;
 }

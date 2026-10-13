@@ -13,6 +13,7 @@
  *   DSPi_ReadProcessImage 0x027053D4 arm twl
  *   DSPi_CommitWram 0x0270541C arm twl
  *   MI_GetWramMapStart 0x02730414 arm twl
+ *   MIi_CpuClearFast  0x02082AC0  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -54,7 +55,7 @@ static inline u32 clz32(u32 x)
 
 extern s32 func_0208CD94(char *a, char *b);
 extern s32 func_0208CC14(char *a, char *b);
-extern void func_02082AC0(u32 v, void *dst, u32 n);
+extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
 extern u32 MI_GetWramMapStart(s32 sel);
 u32 DSPi_ReadProcessImage(Chan *p, u32 a, void *buf, s32 len);
 u32 DSPi_CommitWram(Chan *c, s32 sel, u32 idx, s32 mode);
@@ -150,7 +151,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(Chan *c, Hdr *h, Ent *e)
                     ok = 0;
                     break;
                 }
-                func_02082AC0(0, chanPtr(c, sel, idx << 14), 0x8000);
+                MIi_CpuClearFast(0, chanPtr(c, sel, idx << 14), 0x8000);
             }
             if (flagv[k] == 0) {
                 if (!DSPi_ReadProcessImage(c, off, chanPtr(c, sel, pos / 2), chunk)) {

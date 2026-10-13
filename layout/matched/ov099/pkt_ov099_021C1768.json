@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1768",
+   "name": "WIFICLUB_StatePollRetryYesNo",
    "address": "0x021C1768",
    "kind": "game",
    "region": "ov099",

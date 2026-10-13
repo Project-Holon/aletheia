@@ -1,5 +1,5 @@
 /*
- * function: func_021B7EB8
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExitModel
  * address: 0x021B7EB8
  * packet: pkt_ov103_021B7EB8
  * region: ov103
@@ -21,4 +21,4 @@ typedef unsigned short u16;
 typedef short s16;
 struct Rec;
 extern void G3D_SYSTEM_DeleteObject(struct Rec *p); extern void G3D_SYSTEM_DeleteAnime(int); extern void G3D_SYSTEM_DeleteRender(int); extern void func_02046EFC(int); extern void MI_CpuFill8(void *,int,int);
-void func_021B7EB8(u8 *p) { int i; G3D_SYSTEM_DeleteObject((struct Rec *)(((struct Obj10242 *)p)->f10)); for(i=0;i<2;i++) {if(*(int *)(p+20+i*4))G3D_SYSTEM_DeleteAnime(*(int *)(p+20+i*4));} G3D_SYSTEM_DeleteRender(((struct Obj10242 *)p)->fC); for(i=0;i<2;i++)func_02046EFC(*(int *)(p+4+i*4)); func_02046EFC(((struct Obj10242 *)p)->f0); MI_CpuFill8(p,0,0x60); }
+void IRC_COMPATIBLE_TOUCH_TEST_ExitModel(u8 *p) { int i; G3D_SYSTEM_DeleteObject((struct Rec *)(((struct Obj10242 *)p)->f10)); for(i=0;i<2;i++) {if(*(int *)(p+20+i*4))G3D_SYSTEM_DeleteAnime(*(int *)(p+20+i*4));} G3D_SYSTEM_DeleteRender(((struct Obj10242 *)p)->fC); for(i=0;i<2;i++)func_02046EFC(*(int *)(p+4+i*4)); func_02046EFC(((struct Obj10242 *)p)->f0); MI_CpuFill8(p,0,0x60); }

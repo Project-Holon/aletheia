@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020040E2",
+   "name": "SVC_Halt",
    "address": "0x020040E2",
    "kind": "game",
    "region": "arm9",

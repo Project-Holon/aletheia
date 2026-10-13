@@ -1,5 +1,5 @@
 /*
- * function: func_021E0730
+ * function: sciWsDestroy
  * address:  0x021E0730
  * packet:   pkt_021E0730
  * region:   ov175
@@ -16,7 +16,7 @@
  * the image writes them.
  */
 
-void func_021E0730(char *p)
+void sciWsDestroy(char *p)
 {
     *(int *)(p + 0x48) = 0;
     *(int *)(p + 4) = 0;

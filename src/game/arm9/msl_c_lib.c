@@ -19,7 +19,7 @@
  *   func_02731764  0x02731764  thumb
  *   func_02731920  0x02731920  arm
  *   OSi_IsRunOnTwl    0x02085D88  arm
- *   func_02088234    0x02088234  arm
+ *   OS_Terminate    0x02088234  arm
  *   g_02153B88  0x02153B88  data
  *   func_02086028  0x02086028  arm
  *   func_020860D0  0x020860D0  arm
@@ -495,7 +495,7 @@ typedef struct {
 typedef int i32;
 
 extern int OSi_IsRunOnTwl(void);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void func_02086028(void *a0);
 extern int func_020860D0(void *a0);
 extern void func_02086078(void *a0);
@@ -710,7 +710,7 @@ void func_020911D4(void)
 void func_020911D8(u32 a)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_02731754(a);
 }
@@ -727,7 +727,7 @@ void func_020911D8(u32 a)
 void func_02091200(u32 a, u32 b, u32 c)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_02731760(a, b, c);
 }
@@ -744,7 +744,7 @@ void func_02091200(u32 a, u32 b, u32 c)
 void func_02091230(u32 a, u32 b)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_02731764(a, b);
 }
@@ -762,7 +762,7 @@ void func_02091230(u32 a, u32 b)
 void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     if (OSi_IsRunOnTwl() == 0) {
-        func_02088234();
+        OS_Terminate();
     }
     func_02731920(a, b, c, d, e);
 }

@@ -31,7 +31,7 @@
  * symbols:
  *   func_02069AC4  0x02069AC4  arm
  *   NNS_G2dFindBinaryBlock  0x02062B64  arm
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -47,7 +47,7 @@ typedef struct {
 extern void func_02069AC4(Res *base);
 struct NitroFileHeader;
 extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 
 static inline BOOL IsNftr(const Res *r)
 {
@@ -75,7 +75,7 @@ u32 func_020698F8(Res *res, void **out)
 
     if (!IsValid(res, 0x102) && !IsValid(res, 0x101)) {
         if (!IsValid(res, 0x100))
-            func_02088234();
+            OS_Terminate();
         legacy = 1;
     }
     func_02069AC4(res);

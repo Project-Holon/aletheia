@@ -1,5 +1,5 @@
 /*
- * function: func_021BEF60
+ * function: NHTTPi_SetVirtualContentLength
  * address:  0x021BEF60
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BEF60(u8 *p, u32 v)
+void NHTTPi_SetVirtualContentLength(u8 *p, u32 v)
 {
     if (p != 0)
         *(u32 *)(p + 0x2c) = v;

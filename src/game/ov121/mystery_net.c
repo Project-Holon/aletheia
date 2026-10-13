@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
@@ -50,13 +50,13 @@
  *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
  *   DELIVERY_IRC_GetResult 0x02157E6C thumb ov010
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_021C5928 0x021C5928 arm ov114
- *   func_021C5C04 0x021C5C04 arm ov114
- *   func_021C5C38 0x021C5C38 arm ov114
- *   func_021C5CFC 0x021C5CFC arm ov114
- *   func_021C5AB8 0x021C5AB8 arm ov114
- *   func_021C5E14 0x021C5E14 arm ov114
- *   func_021C5DB4 0x021C5DB4 arm ov114
+ *   DWC_NdInitAsync 0x021C5928 arm ov114
+ *   DWC_NdSetAttr 0x021C5C04 arm ov114
+ *   DWC_NdGetFileListAsync 0x021C5C38 arm ov114
+ *   DWC_NdGetFileAsync 0x021C5CFC arm ov114
+ *   DWC_NdProcess 0x021C5AB8 arm ov114
+ *   DWC_NdGetProgress 0x021C5E14 arm ov114
+ *   DWC_NdCancelAsync 0x021C5DB4 arm ov114
  *   func_0203F0A8 0x0203F0A8 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   d_021DFBD8 0x021DFBD8 data a4
@@ -64,7 +64,7 @@
  *   d_021DFBF8 0x021DFBF8 data a4
  *   d_021DFBEC 0x021DFBEC data a4
  *   d_021DFC00 0x021DFC00 data a4
- *   func_021C5B80 0x021C5B80 arm ov114
+ *   DWC_NdCleanupAsync 0x021C5B80 arm ov114
  *   d_021DFA8C 0x021DFA8C data a1
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_021DEFAC 0x021DEFAC thumb ov121
@@ -121,7 +121,7 @@ typedef unsigned long long u64;
 typedef struct { char pad[0x6e0];u32 flag; } Flag;
 
 typedef enum { NO_DIGIT = -1 } Digit;
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *,int,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -156,16 +156,16 @@ extern int DELIVERY_IRC_Delete(void *a0);
 extern void DELIVERY_IRC_Main(u8 *p);
 extern unsigned char DELIVERY_IRC_GetResult(char *p);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
-extern int func_021C5928(void (*callback)(int, int), char *gamecd, char *passwd);
-extern int func_021C5C04(char *,char *,char *);
-extern int func_021C5C38(void *,u32,u32);
-extern int func_021C5CFC(void *,char *,u32);
-extern void func_021C5AB8(void);
-extern int func_021C5E14(u32 *,u32 *);
-extern int func_021C5DB4(void);
+extern int DWC_NdInitAsync(void (*callback)(int, int), char *gamecd, char *passwd);
+extern int DWC_NdSetAttr(char *,char *,char *);
+extern int DWC_NdGetFileListAsync(void *,u32,u32);
+extern int DWC_NdGetFileAsync(void *,char *,u32);
+extern void DWC_NdProcess(void);
+extern int DWC_NdGetProgress(u32 *,u32 *);
+extern int DWC_NdCancelAsync(void);
 extern u32 func_0203F0A8(void);
 extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
-extern int func_021C5B80(void);
+extern int DWC_NdCleanupAsync(void);
 extern unsigned short STRBUF_GetEosChar(void);
 extern int func_021DEFAC(struct Rec *r, void *gs, u16 heap);
 void *func_021DE2A0(void *arg,int heap);
@@ -308,7 +308,7 @@ int func_021DE4DC(u8 *p, void *a, u32 b)
 {
     int s = *(int *)(p + 0x17A4);
     if (s == 1) {
-        func_02082D44(p + 0x7A4, a, b);
+        MI_CpuCopy8(p + 0x7A4, a, b);
         return 1;
     }
     return s;
@@ -544,18 +544,18 @@ void func_021DE958(void *task,int *state,char *p)
         MI_CpuFill8(q,0,0x734);
         Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
         W(0x17a4)=0;
-        if(!func_021C5928(func_021DEED8,d_021DFBD0,d_021DFBD8)) {
+        if(!DWC_NdInitAsync(func_021DEED8,d_021DFBD0,d_021DFBD8)) {
             W(0x17a4)=2;*state=9;
         } else {Q(0x730)=1;func_021DEE14(q,state,1);}
         break;
     case 1:
         if(Q(0x710)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);}
-        else if(!func_021C5C04(d_021DFBEC,d_021DFBF8,d_021DFBF8)) {
+        else if(!DWC_NdSetAttr(d_021DFBEC,d_021DFBF8,d_021DFBF8)) {
             W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);
         } else *state=3;
         break;
     case 3:
-        if(!func_021C5C38(q,0,10)) {W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);}
+        if(!DWC_NdGetFileListAsync(q,0,10)) {W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);}
         else func_021DEE14(q,state,2);
         break;
     case 2:
@@ -586,19 +586,19 @@ void func_021DE958(void *task,int *state,char *p)
         } else {W(0x17a4)=2;func_021DEE38((u32)q,1,state,8,8);break;}
         *state=5;break;
     case 5:
-        if(!func_021C5CFC(q+Q(0x724)*0xb0,(char *)Q(0x728),0x1000)) {
+        if(!DWC_NdGetFileAsync(q+Q(0x724)*0xb0,(char *)Q(0x728),0x1000)) {
             W(0x17a4)=2;func_021DEE38((u32)q,4,state,9,9);
         } else {
             Q(0x718)=0;d_021DFC00[1]=0;d_021DFC00[3]=0;Q(0x72c)=0;*state=6;
         }break;
     case 6:
-        func_021C5AB8();
+        DWC_NdProcess();
         if(Q(0x72c)++>7200) {
             GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
             if(Q(0x70c)) {W(0x17a4)=2;func_021DEE38((u32)q,3,state,7,7);break;}
-            if(func_021C5E14((u32 *)(q+0x71c),(u32 *)(q+0x720))==1) {
+            if(DWC_NdGetProgress((u32 *)(q+0x71c),(u32 *)(q+0x720))==1) {
                 ratio=Q(0x71c)*100/Q(0x720);
                 if(Q(0x718)!=ratio) Q(0x718)=ratio;
             }
@@ -606,11 +606,11 @@ void func_021DE958(void *task,int *state,char *p)
         else if(!Q(0x710)) {W(0x17a4)=1;func_021DEE38((u32)q,1,state,8,8);}
         else {W(0x17a4)=2;func_021DEE38((u32)q,3,state,8,8);}
         break;
-    case 7:func_021C5DB4();*state=8;break;
+    case 7:DWC_NdCancelAsync();*state=8;break;
     case 8:*state=9;break;
     case 9:Q(0x730)=0;DWC_RAP_SetErrorHookCallback(0,0);func_021DEEA4(task,func_021DEDC8);break;
     case 100:
-        func_021C5AB8();
+        DWC_NdProcess();
         if(Q(0x72c)++>7200) {
             GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;func_021DEE38((u32)q,3,state,9,9);
         }
@@ -621,7 +621,7 @@ void func_021DE958(void *task,int *state,char *p)
         } else if(Q(0x70c)) Q(0x710)=1;
         break;
     case 200:
-        func_021C5AB8();
+        DWC_NdProcess();
         if(Q(0x72c)++>7200) {GFL_NET_STATE_SetError(0,0,0,0x3f5);*state=Q(0x708);}
         if(d_021DFC00[0]) {d_021DFC00[0]=0;*state=Q(0x708);}
         else if(Q(0x70c)) Q(0x710)=1;
@@ -666,7 +666,7 @@ void func_021DEE14(char *p, int *state, int value)
 
 
 
-void func_021DEE38(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((struct Obj08104 *)p)->f708=b;((struct Obj08104 *)p)->f72C=0;*state=200;if(func_021C5B80()==0)*state=c;}
+void func_021DEE38(u32 p,int a,int *state,int b,int c) {d_021DFC00[0]=0;d_021DFC00[3]=a;((struct Obj08104 *)p)->f708=b;((struct Obj08104 *)p)->f72C=0;*state=200;if(DWC_NdCleanupAsync()==0)*state=c;}
 
 
 

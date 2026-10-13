@@ -17,19 +17,19 @@
  *   func_0215E138  0x0215E138  arm  ov009
  *   func_02086078  0x02086078  arm
  *   func_0215E2E4  0x0215E2E4  arm  ov009
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_020857B0  0x020857B0  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   OS_SleepThread  0x020857B0  arm
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   func_02082EA4  0x02082EA4  arm
- *   func_0215A970  0x0215A970  arm  ov009
+ *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   func_0215CF98  0x0215CF98  arm  ov009
  *   func_0215E450  0x0215E450  arm  ov009
- *   func_0215AAB0  0x0215AAB0  arm  ov009
+ *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   func_0215E620  0x0215E620  arm  ov009
- *   func_0215B470  0x0215B470  arm  ov009
- *   func_0215AD3C  0x0215AD3C  arm  ov009
- *   func_02085800  0x02085800  arm
+ *   CPS_SocWrite  0x0215B470  arm  ov009
+ *   CPS_TcpClose  0x0215AD3C  arm  ov009
+ *   OS_WakeupThread  0x02085800  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   g_02150FEC     0x02150FEC  data
  *   g_021AA450     0x021AA450  data
@@ -113,16 +113,16 @@ extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_020860D0(void *mutex);
 extern void func_02086028(void *mutex);
 extern void func_02086078(void *mutex);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern struct SOCLiCommandWrite *func_0215CE3C(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
-extern unsigned short func_0215A970(void);
+extern unsigned short CPS_SocGetEport(void);
 extern int func_0215CF98(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long func_0215B470(unsigned char *buf, unsigned long len);
-extern void func_0215AD3C(void);
-extern void func_02085800(void *queue);
+extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
+extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
+extern void CPS_TcpClose(void);
+extern void OS_WakeupThread(void *queue);
 extern int func_0209C0A4(int a, int b);
 extern Info g_02150FEC;
 extern struct CPSConfig g_021AA450;
@@ -242,16 +242,16 @@ static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long 
 /*
  * Pull a count out of the socket's send pipe, clamped to `n` (and, when it came
  * back short, to `m`) -- below `m` the loop instead either gives up with 0 or
- * pumps func_020857B0 on the pipe's waiting queue, depending on the low bit of
+ * pumps OS_SleepThread on the pipe's waiting queue, depending on the low bit of
  * the fifth argument.  The success path copies the pipe's `in` cursor out.  The
- * whole scan runs inside a func_02087988/func_0208799C interrupt bracket.
+ * whole scan runs inside a OS_DisableInterrupts/OS_RestoreInterrupts interrupt bracket.
  */
 /*
  * Pull a count out of the object at +0xa4, clamped to `n` (and, when it came
  * back short, to `m`) -- below `m` the loop instead either gives up with 0 or
- * pumps func_020857B0 on the +0x104 channel, depending on the low bit of the
+ * pumps OS_SleepThread on the +0x104 channel, depending on the low bit of the
  * fifth argument.  The success path copies the u16 at +0x100 out.  The whole
- * scan runs inside a func_02087988/func_0208799C interrupt bracket.
+ * scan runs inside a OS_DisableInterrupts/OS_RestoreInterrupts interrupt bracket.
  */
 int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
 {
@@ -263,7 +263,7 @@ int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
     base = socket->send_pipe;
     if (m > n)
         m = n;
-    st = func_02087988();
+    st = OS_DisableInterrupts();
     flag = f5 & 1;
     for (;;) {
         v = func_0215E2C0(socket);
@@ -277,9 +277,9 @@ int func_0215E23C(struct SOCLSocket *socket, int n, int m, int *out, int f5)
             v = 0;
             break;
         }
-        func_020857B0(&base->buffer.waiting);
+        OS_SleepThread(&base->buffer.waiting);
     }
-    func_0208799C(st);
+    OS_RestoreInterrupts(st);
     return v;
 }
 
@@ -362,7 +362,7 @@ static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long 
     send_pipe->buffer.in = command->wrtbuf_after;
     if (socket->flag_mode == 1) {
         if (socket->local_port == 0) {
-            socket->local_port = func_0215A970();
+            socket->local_port = CPS_SocGetEport();
             socket->cps_socket.local_port = socket->local_port;
         }
         command->local_port = socket->local_port;
@@ -408,7 +408,7 @@ static int func_0215E450(void *arg)
     if ((socket->flag_mode == 0 || socket->flag_mode == 4) && !(socket->state & 4))
         goto fail;
     if (cpacket->remote_ip)
-        func_0215AAB0(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
+        CPS_SocBind(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
     hdr = 0x36;
     if (!isStream(socket->flag_mode))
         hdr = 0x2a;
@@ -421,12 +421,12 @@ static int func_0215E450(void *arg)
         int n = func_0215E620(sndbuf + hdr, sndbuf_len, cpacket);
         if (n <= 0)
             goto done;
-        result = func_0215B470(sndbuf + hdr, n);
+        result = CPS_SocWrite(sndbuf + hdr, n);
         if (result <= 0) {
             if (isStream(socket->flag_mode)) {
                 socket->state &= ~0xe;
                 socket->state |= 0x80;
-                func_0215AD3C();
+                CPS_TcpClose();
             }
             copied = -0x4c;
             goto done;
@@ -438,7 +438,7 @@ fail:
     copied = -0x4c;
 done:
     send_pipe->buffer.out = cpacket->wrtbuf_after;
-    func_02085800(&send_pipe->buffer.waiting);
+    OS_WakeupThread(&send_pipe->buffer.waiting);
     return copied;
 }
 
@@ -472,7 +472,7 @@ int func_0215E588(int len)
 	int count;
 
 	soc = g_02150FEC.cur->soc;
-	enabled = func_02087988();
+	enabled = OS_DisableInterrupts();
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {
 			int w = soc->winSize;
@@ -490,7 +490,7 @@ int func_0215E588(int len)
 	} else {
 		temp = g_021AA450.bufSize << 1;
 	}
-	func_0208799C(enabled);
+	OS_RestoreInterrupts(enabled);
 	if (temp > 0) {
 		count = func_0209C0A4(len, temp);
 		if (count > 0) {

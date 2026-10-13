@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E04
+ * function: WIFICLUBACTOR_NoOpInit
  * address:  0x021B9E04
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021B9E04(void *a, int heap)
+void WIFICLUBACTOR_NoOpInit(void *a, int heap)
 {
 }

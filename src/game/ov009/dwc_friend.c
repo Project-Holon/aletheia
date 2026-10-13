@@ -15,7 +15,7 @@
  *   func_021684CC  0x021684CC  arm  ov009
  *   strtoul        0x02095EAC  arm
  *   strcpy         0x02094798  arm
- *   func_02176984  0x02176984  arm  ov009
+ *   DWCi_IsLockedBuddyStatus  0x02176984  arm  ov009
  *   g_021A2004     0x021A2004  data
  *   g_021A2008     0x021A2008  data
  *   func_0209477C  0x0209477C  arm
@@ -23,7 +23,7 @@
  *   func_0216AA70  0x0216AA70  arm  ov009
  *   func_02059B40  0x02059B40  arm
  *   func_021690D0  0x021690D0  arm  ov009
- *   func_020592A0  0x020592A0  arm
+ *   DWCi_SetSentBuddyReqFlag  0x020592A0  arm
  *   DWCi_IsError                    0x02059F38 arm
  *   IsStatsConnected                0x02193D64 arm ov009
  *   PersistThink                    0x02193D80 arm ov009
@@ -195,7 +195,7 @@ typedef struct RecvArg {
 
 extern int func_021684CC(char *key, char *value, char *string, char separator);
 extern unsigned long strtoul(const char *s, char **end, int base);
-extern int func_02176984(GPBuddyStatus *status);
+extern int DWCi_IsLockedBuddyStatus(GPBuddyStatus *status);
 extern int func_0209477C(const u8 *s);
 extern int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen);
 extern int func_0216AA70(void);
@@ -204,7 +204,7 @@ extern char g_021A2004[];
 extern char g_021A2008[];
 extern char g_021A200C[];
 extern char g_021A2010[];
-extern void func_020592A0(void *frienddata, int setflag);
+extern void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag);
 extern int DWCi_IsError(void);
 extern int IsStatsConnected(void);
 extern int PersistThink(void);
@@ -231,7 +231,6 @@ extern int DWC_IsBuddyFriendData(DWCstAccFriendData *frienddata);
 extern void DWCi_SetExpIsBuddyFriendFlag(DWCstAccFriendData *frienddata, int setflag);
 extern int DWCi_IsBuddyMsgAlreadySent(DWCstAccFriendData *frienddata);
 extern int gpGetBuddyIndex(void **connection, int profile, int *index);
-extern void DWCi_SetSentBuddyReqFlag(DWCstAccFriendData *frienddata, int setflag);
 extern void DWC_LoginIdToUserName(DWCstAccUserData *userdata, DWCstAccFriendData *frienddata, char *username);
 extern int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *email,
                             char *firstname, char *lastname, int icquin, int blocking,
@@ -335,7 +334,7 @@ u8 func_02168724(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusStrin
         if (statusString)
             strcpy(statusString, status.locationString);
         state = status.status;
-        if (func_02176984(&status))
+        if (DWCi_IsLockedBuddyStatus(&status))
             state = 2;
         return state;
     }

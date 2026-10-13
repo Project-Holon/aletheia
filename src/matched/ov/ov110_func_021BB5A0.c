@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5A0
+ * function: PMSIV_CATEGORY_MakeTitleWindow
  * address: 0x021BB5A0
  * packet: pkt_ov110_021BB5A0
  * region: ov110
@@ -23,7 +23,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
-u8 *func_021BB5A0(u8 *p,u8 *q) {
+u8 *PMSIV_CATEGORY_MakeTitleWindow(u8 *p,u8 *q) {
     u32 a;
     a=BMP_WIN_Create(1,10,3,11,2,12,1);
     BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)a),1);

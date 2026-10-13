@@ -1,5 +1,5 @@
 /*
- * function: func_021B61B0
+ * function: AOSS_MALLOC
  * address:  0x021B61B0
  * packet:   pkt_021B6178
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B61B0   0x021B61B0  thumb
+ *   AOSS_MALLOC   0x021B61B0  thumb
  *   func_021DCE20   0x021DCE20  data
  *
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
@@ -29,13 +29,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B61B0.c \
- *       --func func_021B61B0 --addr 0x021B61B0 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_MALLOC.c \
+ *       --func AOSS_MALLOC --addr 0x021B61B0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void (*func_021DCE20)(int);
 
-void func_021B61B0(int a)
+void AOSS_MALLOC(int a)
 {
     func_021DCE20(a);
 }

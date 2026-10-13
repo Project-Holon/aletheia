@@ -2607,7 +2607,7 @@ int func_0200AD78(void)
 
 
 /*
- * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with func_02082AC0 (tail call).
+ * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with MIi_CpuClearFast (tail call).
  */
 void func_0200AD7C(struct WorldTradeData *trade)
 {

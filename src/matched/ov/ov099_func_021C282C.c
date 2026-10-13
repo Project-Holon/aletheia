@@ -1,5 +1,5 @@
 /*
- * function: func_021C282C
+ * function: WIFICLUB_CopyZeroToDeviceAddr
  * address:  0x021C282C
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 typedef unsigned char u8;
 
-extern int func_02082D44(const void *a, const void *b, int n);
+extern int MI_CpuCopy8(const void *a, const void *b, int n);
 
-int func_021C282C(u8 *p)
+int WIFICLUB_CopyZeroToDeviceAddr(u8 *p)
 {
     u8 z[6] = {0, 0, 0, 0, 0, 0};
 
-    return func_02082D44(z, p + 8, 6);
+    return MI_CpuCopy8(z, p + 8, 6);
 }

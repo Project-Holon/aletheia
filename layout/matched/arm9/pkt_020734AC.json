@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020734AC",
+   "name": "NNSi_SndPlayerAllocHeap",
    "address": "0x020734AC",
    "kind": "game",
    "region": "arm9",

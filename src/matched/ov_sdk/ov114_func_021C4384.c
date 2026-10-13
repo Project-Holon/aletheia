@@ -1,5 +1,5 @@
 /*
- * function: func_021C4384
+ * function: ghiDoSendingRequest
  * address:  0x021C4384
  * packet:   pkt_ov114_021C4384
  * region:   ov114
@@ -13,34 +13,34 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021BFCEC  0x021BFCEC  arm  ov114
- *   func_021BFF7C  0x021BFF7C  arm  ov114
- *   func_021C0004  0x021C0004  arm  ov114
- *   func_021C00C0  0x021C00C0  arm  ov114
+ *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
+ *   ghiAppendHeaderToBuffer  0x021BFF7C  arm  ov114
+ *   ghiAppendCharToBuffer  0x021C0004  arm  ov114
+ *   ghiAppendIntToBuffer  0x021C00C0  arm  ov114
  *   func_02094B20  0x02094B20  arm
- *   func_02084F40  0x02084F40  arm
- *   func_021C25C8  0x021C25C8  arm  ov114
- *   func_021BFDEC  0x021BFDEC  arm  ov114
- *   func_021C00FC  0x021C00FC  arm  ov114
- *   func_021C011C  0x021C011C  arm  ov114
- *   func_021C02C8  0x021C02C8  arm  ov114
- *   g_021CF14C     0x021CF14C  data
- *   g_021CF160     0x021CF160  data
- *   g_021CF168     0x021CF168  data
- *   g_021CF170     0x021CF170  data
- *   g_021D3B2C     0x021D3B2C  data
- *   g_021CF178     0x021CF178  data
- *   g_021CF184     0x021CF184  data
- *   g_021CF18C     0x021CF18C  data
- *   g_021CF194     0x021CF194  data
- *   g_021CF198     0x021CF198  data
- *   g_021CF1A4     0x021CF1A4  data
- *   g_021CF1B4     0x021CF1B4  data
- *   g_021CF1C0     0x021CF1C0  data
- *   g_021CF1CC     0x021CF1CC  data
- *   g_021CF1D4     0x021CF1D4  data
- *   g_021CF1D8     0x021CF1D8  data
- *   g_021CF1E8     0x021CF1E8  data
+ *   OS_SPrintf  0x02084F40  arm
+ *   ghiPostGetContentType  0x021C25C8  arm  ov114
+ *   ghiEncryptDataToBuffer  0x021BFDEC  arm  ov114
+ *   ghiResetBuffer  0x021C00FC  arm  ov114
+ *   ghiSendBufferedData  0x021C011C  arm  ov114
+ *   ghiCallProgressCallback  0x021C02C8  arm  ov114
+ *   sGhttpSendingRequest     0x021CF14C  data
+ *   sGhttpPost     0x021CF160  data
+ *   sGhttpHead     0x021CF168  data
+ *   sGhttpGet     0x021CF170  data
+ *   gGhttpProxyServer     0x021D3B2C  data
+ *   sGhttpHttp3     0x021CF178  data
+ *   sGhttpHost     0x021CF184  data
+ *   sGhttpHost2     0x021CF18C  data
+ *   sGhttpLineEndProcess     0x021CF194  data
+ *   sGhttpUserAgent     0x021CF198  data
+ *   sGhttpGamespyhttp     0x021CF1A4  data
+ *   sGhttpConnection     0x021CF1B4  data
+ *   sGhttpKeepAlive     0x021CF1C0  data
+ *   sGhttpClose     0x021CF1CC  data
+ *   sGhttpIntFormatProcess     0x021CF1D4  data
+ *   sGhttpContentLength     0x021CF1D8  data
+ *   sGhttpContentType     0x021CF1E8  data
  */
 
 typedef unsigned short u16;
@@ -94,42 +94,42 @@ struct Conn;
 struct Ctx;
 struct GHIBuffer;
 struct GHIConnection;
-extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021BFF7C(GHIBuffer *buffer, const char *name, const char *value);
-extern int func_021C0004(struct Ctx *ctx, int ch);
-extern int func_021C00C0(GHIBuffer *buffer, int i);
+extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int ghiAppendHeaderToBuffer(GHIBuffer *buffer, const char *name, const char *value);
+extern int ghiAppendCharToBuffer(struct Ctx *ctx, int ch);
+extern int ghiAppendIntToBuffer(GHIBuffer *buffer, int i);
 extern u8 *func_02094B20(const u8 *s1, const u8 *s2);
-extern int func_02084F40(char *dst, const char *fmt, ...);
-extern char *func_021C25C8(struct Conn *connection);
-extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
-extern void func_021C00FC(GHIBuffer *buffer);
-extern int func_021C011C(struct GHIConnection *connection);
-extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
-extern char g_021CF14C[];
-extern char g_021CF160[];
-extern char g_021CF168[];
-extern char g_021CF170[];
-extern char *g_021D3B2C;
-extern char g_021CF178[];
-extern char g_021CF184[];
-extern char g_021CF18C[];
-extern char g_021CF194[];
-extern char g_021CF198[];
-extern char g_021CF1A4[];
-extern char g_021CF1B4[];
-extern char g_021CF1C0[];
-extern char g_021CF1CC[];
-extern char g_021CF1D4[];
-extern char g_021CF1D8[];
-extern char g_021CF1E8[];
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
+extern char *ghiPostGetContentType(struct Conn *connection);
+extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
+extern void ghiResetBuffer(GHIBuffer *buffer);
+extern int ghiSendBufferedData(struct GHIConnection *connection);
+extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
+extern char sGhttpSendingRequest[];
+extern char sGhttpPost[];
+extern char sGhttpHead[];
+extern char sGhttpGet[];
+extern char *gGhttpProxyServer;
+extern char sGhttpHttp3[];
+extern char sGhttpHost[];
+extern char sGhttpHost2[];
+extern char sGhttpLineEndProcess[];
+extern char sGhttpUserAgent[];
+extern char sGhttpGamespyhttp[];
+extern char sGhttpConnection[];
+extern char sGhttpKeepAlive[];
+extern char sGhttpClose[];
+extern char sGhttpIntFormatProcess[];
+extern char sGhttpContentLength[];
+extern char sGhttpContentType[];
 
-void func_021C4384(GHIConnection *connection)
+void ghiDoSendingRequest(GHIConnection *connection)
 {
     char buf[16];
     GHIBuffer *writeBuffer;
     char *requestType;
 
-    func_0217D254(8, (char *)3, 0x10, g_021CF14C);
+    func_0217D254(8, (char *)3, 0x10, sGhttpSendingRequest);
 
     if (connection->sendBuffer.len == 0)
     {
@@ -139,72 +139,72 @@ void func_021C4384(GHIConnection *connection)
             writeBuffer = &connection->encodeBuffer;
 
         if (connection->post != 0 && !connection->postCompleted)
-            requestType = g_021CF160;
+            requestType = sGhttpPost;
         else if (connection->type == 3)
-            requestType = g_021CF168;
+            requestType = sGhttpHead;
         else
-            requestType = g_021CF170;
-        func_021BFCEC((struct GHIBuffer *)writeBuffer, requestType, 0);
+            requestType = sGhttpGet;
+        ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, requestType, 0);
 
-        if (connection->proxyOverrideServer != 0 || g_021D3B2C != 0)
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->URL, 0);
+        if (connection->proxyOverrideServer != 0 || gGhttpProxyServer != 0)
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, connection->URL, 0);
         else
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->requestPath, 0);
-        func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF178, 0);
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, connection->requestPath, 0);
+        ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, sGhttpHttp3, 0);
 
         if (connection->serverPort == 80)
         {
-            func_021BFF7C(writeBuffer, g_021CF184, connection->serverAddress);
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpHost, connection->serverAddress);
         }
         else
         {
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF18C, 0);
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->serverAddress, 0);
-            func_021C0004((struct Ctx *)writeBuffer, ':');
-            func_021C00C0(writeBuffer, connection->serverPort);
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF194, 2);
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, sGhttpHost2, 0);
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, connection->serverAddress, 0);
+            ghiAppendCharToBuffer((struct Ctx *)writeBuffer, ':');
+            ghiAppendIntToBuffer(writeBuffer, connection->serverPort);
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, sGhttpLineEndProcess, 2);
         }
 
-        if (connection->sendHeaders == 0 || func_02094B20((const u8 *)connection->sendHeaders, (const u8 *)g_021CF198) == 0)
-            func_021BFF7C(writeBuffer, g_021CF198, g_021CF1A4);
+        if (connection->sendHeaders == 0 || func_02094B20((const u8 *)connection->sendHeaders, (const u8 *)sGhttpUserAgent) == 0)
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpUserAgent, sGhttpGamespyhttp);
 
         if (connection->persistConnection)
-            func_021BFF7C(writeBuffer, g_021CF1B4, g_021CF1C0);
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpConnection, sGhttpKeepAlive);
         else
-            func_021BFF7C(writeBuffer, g_021CF1B4, g_021CF1CC);
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpConnection, sGhttpClose);
 
         if (connection->post != 0 && !connection->postCompleted)
         {
-            func_02084F40(buf, g_021CF1D4, connection->totalBytes);
-            func_021BFF7C(writeBuffer, g_021CF1D8, buf);
-            func_021BFF7C(writeBuffer, g_021CF1E8, func_021C25C8((struct Conn *)connection));
+            OS_SPrintf(buf, sGhttpIntFormatProcess, connection->totalBytes);
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpContentLength, buf);
+            ghiAppendHeaderToBuffer(writeBuffer, sGhttpContentType, ghiPostGetContentType((struct Conn *)connection));
         }
 
         if (connection->sendHeaders != 0)
-            func_021BFCEC((struct GHIBuffer *)writeBuffer, connection->sendHeaders, 0);
-        func_021BFCEC((struct GHIBuffer *)writeBuffer, g_021CF194, 2);
+            ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, connection->sendHeaders, 0);
+        ghiAppendDataToBuffer((struct GHIBuffer *)writeBuffer, sGhttpLineEndProcess, 2);
 
         if (connection->encryptEngine != 0 && connection->sessionEstablished == 1)
         {
-            if (!func_021BFDEC((struct GHIBuffer *)(&connection->sendBuffer), writeBuffer->data, writeBuffer->len))
+            if (!ghiEncryptDataToBuffer((struct GHIBuffer *)(&connection->sendBuffer), writeBuffer->data, writeBuffer->len))
             {
                 connection->completed = 1;
                 connection->result = 0x11;
                 return;
             }
-            func_021C00FC(writeBuffer);
+            ghiResetBuffer(writeBuffer);
         }
     }
 
-    if (!func_021C011C((struct GHIConnection *)connection))
+    if (!ghiSendBufferedData((struct GHIConnection *)connection))
         return;
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
         return;
-    func_021C00FC(&connection->sendBuffer);
+    ghiResetBuffer(&connection->sendBuffer);
 
     if (connection->post != 0 && !connection->postCompleted)
         connection->state = 6;
     else
         connection->state = 7;
-    func_021C02C8((struct GHIConnection *)connection, 0, 0);
+    ghiCallProgressCallback((struct GHIConnection *)connection, 0, 0);
 }

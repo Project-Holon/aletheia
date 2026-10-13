@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0689D01C",
-    "func_0689D050",
-    "func_0689D064",
-    "func_0689D098",
-    "func_0689D0C8"
+    "BTL_WAZAREC_Add",
+    "BTL_WAZAREC_SetEffectiveLast",
+    "BTL_WAZAREC_IsUsedWaza",
+    "BTL_WAZAREC_GetUsedWazaCount",
+    "BTL_WAZAREC_GetEffectiveWaza"
+   ],
+   "addresses": [
+    "0x0689D01C",
+    "0x0689D050",
+    "0x0689D064",
+    "0x0689D098",
+    "0x0689D0C8"
    ]
   }
  ]

@@ -13,8 +13,8 @@
  *   data_02733FC8  0x02733FC8  data twl a2
  *   data_02732FC8  0x02732FC8  data twl a2
  *   CAMERA_CheckRetryCount  0x027007C8  arm twl a2
- *   func_02087988  0x02087988  arm twl a2
- *   func_0208799C  0x0208799C  arm twl a2
+ *   OS_DisableInterrupts  0x02087988  arm twl a2
+ *   OS_RestoreInterrupts  0x0208799C  arm twl a2
  *   func_02086FC8  0x02086FC8  arm twl a2
  *   CameraSendPxiData  0x02701A60  arm
  */
@@ -54,8 +54,8 @@ typedef struct CamPxiState {
 } CamPxiState;
 
 extern u32 CAMERA_CheckRetryCount(void);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern int CameraSendPxiCommand(u32, u32, u32);
 extern void CameraSendPxiData(const u8 *);
 extern CamPxiCmd data_02732FC8;
@@ -77,13 +77,13 @@ u32 CAMERA_I2CAutoWhiteBalanceAsyncCore(u32 a0, s32 a1, CamPxiCallback a2, u32 a
     if ((a0 & 2) && data_02733FC8.f180 != 0) {
         return 5;
     }
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return (st == 6) ? 6 : 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = a2;
     data_02732FC8.arg = a3;
     buf[0] = a0;

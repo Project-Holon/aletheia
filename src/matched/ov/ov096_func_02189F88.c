@@ -1,5 +1,5 @@
 /*
- * function: func_02189F88
+ * function: TR_AI_CmdIfNotEqual
  * address: 0x02189F88
  * packet: pkt_ov096_02189F88
  * region: ov096
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02189F98 0x02189F98 thumb ov096
+ *   TR_AI_CompareGeneric 0x02189F98 thumb ov096
  */
 #include "../include/Obj21982.h"
-extern int func_02189F98(unsigned char *, unsigned char *, int);
-int func_02189F88(unsigned char *a, unsigned char *b) { func_02189F98(a,b,3); return ((struct Obj21982 *)b)->fC4; }
+extern int TR_AI_CompareGeneric(unsigned char *, unsigned char *, int);
+int TR_AI_CmdIfNotEqual(unsigned char *a, unsigned char *b) { TR_AI_CompareGeneric(a,b,3); return ((struct Obj21982 *)b)->fC4; }

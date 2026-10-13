@@ -14,7 +14,7 @@
  * symbols:
  *   data_02732DC4  0x02732DC4  data twl
  *   CARD_ReadRomHashImage  0x0272F740  arm twl
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_02077008  0x02077008  arm
  *   CARD_NotifyRomHashReadAsync  0x0272EE2C  arm twl
  *   data_02150200  0x02150200  data
@@ -24,11 +24,11 @@
  *   func_02086774  0x02086774  arm
  *   func_02075E04  0x02075E04  arm
  *   CARD_CalcRomHashBufferLength  0x0272EBDC  arm twl
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   func_02087B04  0x02087B04  arm
- *   func_02084EB8  0x02084EB8  arm
- *   func_02075E10  0x02075E10  arm
- *   func_02075E80  0x02075E80  arm
+ *   OS_GetLockID  0x02084EB8  arm
+ *   CARD_LockRom  0x02075E10  arm
+ *   CARD_UnlockRom  0x02075E80  arm
  *   func_02084F10  0x02084F10  arm
  *   func_02076E4C  0x02076E4C  arm
  *   CARD_InitRomHashContext  0x0272F0BC  arm twl
@@ -61,7 +61,7 @@ struct Request {
 
 extern struct SysState data_02150200;
 extern struct Request data_02732DA8;
-extern void func_020862F0(u32, u32);
+extern void DWCi_ScreenDC_FlushRange(u32, u32);
 extern void func_02077008(struct Request *);
 extern void CARD_NotifyRomHashReadAsync(void *);
 extern struct Hook data_02150840;
@@ -72,11 +72,11 @@ extern u32 func_0208656C(int arena);
 extern void func_02086774(int arena, u32 addr);
 extern void *func_02075E04(void);
 extern u32 CARD_CalcRomHashBufferLength(void *hdr);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern int func_02087B04(void);
-extern int func_02084EB8(void);
-extern void func_02075E10(u16 id);
-extern void func_02075E80(u16 id);
+extern int OS_GetLockID(void);
+extern void CARD_LockRom(u16 id);
+extern void CARD_UnlockRom(u16 id);
 extern void func_02084F10(u16 id);
 extern int func_02076E4C(void *, void *, u32, u32);
 extern void CARD_InitRomHashContext(void *, void *, u32, u32, void *, void *, void *);
@@ -93,7 +93,7 @@ u32 CARDi_ReadCardWithHashInternalAsync(u32 a, u32 b, u32 c, u32 d)
     if (data_02150200.state == -1) {
         d = 0;
     } else {
-        func_020862F0(b, d);
+        DWCi_ScreenDC_FlushRange(b, d);
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
         data_02732DA8.a = a;
         data_02732DA8.c = c;
@@ -115,7 +115,7 @@ void CARDi_InitRomHash(void)
 
     size = CARD_CalcRomHashBufferLength(func_02075E04());
     if (lo + size > (hi & ~0x1f)) {
-        func_02088234();
+        OS_Terminate();
         return;
     }
     func_02086774(0, lo + size);
@@ -129,12 +129,12 @@ void CARDi_InitRomHash(void)
     }
     data_02150200.state = -1;
     data_02150840.callback = CARDi_ReadCardWithHash;
-    lock = func_02084EB8();
-    func_02075E10(lock);
+    lock = OS_GetLockID();
+    CARD_LockRom(lock);
     CARD_InitRomHashContext(data_02732DC4, func_02075E04(), data_02732DA0, data_02732DA4, func_02076E4C, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
     data_02732DA0 = 0;
     data_02732DA4 = 0;
-    func_02075E80(lock);
+    CARD_UnlockRom(lock);
     func_02084F10(lock);
 }
 

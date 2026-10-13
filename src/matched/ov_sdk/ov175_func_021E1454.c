@@ -1,5 +1,5 @@
 /*
- * function: func_021E1454
+ * function: DWC_GdbGetAsyncResult
  * address:  0x021E1454
  * packet:   pkt_ov175_021E1454
  * region:   ov175
@@ -13,14 +13,14 @@
  * dwc_gdb.o), ov175.  Read the +0x10 async-result word.
  *
  * symbols:
- *   g_021E5334  0x021E5334  data
+ *   gDwcGdbEntity  0x021E5334  data
  */
 
 typedef unsigned int u32;
 
-extern u32 g_021E5334[];
+extern u32 gDwcGdbEntity[];
 
-u32 func_021E1454(void)
+u32 DWC_GdbGetAsyncResult(void)
 {
-    return g_021E5334[4];
+    return gDwcGdbEntity[4];
 }

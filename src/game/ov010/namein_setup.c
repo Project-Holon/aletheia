@@ -68,15 +68,15 @@
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_02012934  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   func_021CBD08  0x021CBD08  thumb  ov021
  *   EVENT_BATTLE_CreateResultOnlyTask  0x0216E8CC  thumb  ov010
@@ -388,15 +388,15 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
 extern GameEvent *func_02014910(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
-extern void func_02082D44(const void *src, void *dst, int size);
+extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern GameData *func_020120F4(GameSystem *gameSystem);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
 extern void *func_02012934(GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern void *func_0200CA1C(GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u32 POKEPARTY_GetCount(void *party);
-extern u32 func_0200CA38(void *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *p);
 extern void BATTLE_REC_AllocWork(u32 heap);
 extern u32 func_021CBD08(EncounterContext *ctx, GameSystem *gameSystem);
 extern int EVENT_BATTLE_CreateResultOnlyTask(GameSystem *, FieldMap *, int);
@@ -895,7 +895,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         break;
     case 4:
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
-        func_02082D44(work->partyScreen.pickedSlots, work->pickedSlotsOut, 6);
+        MI_CpuCopy8(work->partyScreen.pickedSlots, work->pickedSlotsOut, 6);
         *work->pickedSlotOut = work->partyScreen.pickedSlot;
         *work->pickedSubOut = work->partyScreen.pickedSub;
         func_020307B0(work->partyScreen.regulation);
@@ -923,7 +923,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
  *
  * MATCH (2026-09-28 tree_ov010_4; levers: declaration order fieldMap, event,
  * gameData for the frame slots, the summary block pointer formed before the
- * func_0200CA1C call). The one wildcard is arm9 0x0201A354, an unlabelled
+ * ZUKAN_SAVE_GetFromGameData call). The one wildcard is arm9 0x0201A354, an unlabelled
  * Thumb thunk (`movs r0, #0x69; bx` to 0x02048F60) inside the listing's
  * ARM data run: a seed for the ARM9 session.
  */
@@ -976,7 +976,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     partyScreen->screenType = 0x16;
     partyScreen->selectMode = selectMode;
     summary = &work->summary;
-    statusData = func_0200CA1C(gameData);
+    statusData = ZUKAN_SAVE_GetFromGameData(gameData);
     MI_CpuFill8(summary, 0, sizeof(SummaryArgs));
     summary->party = party;
     summary->mode = 1;
@@ -984,7 +984,7 @@ GameEvent *NAMEIN_SETUP_StartPartyPickEvent(EncounterContext *ctx, GameSystem *g
     summary->startSlot = 0;
     summary->startPage = 0;
     summary->gameData = gameData;
-    summary->statusData = (void *)func_0200CA38(statusData);
+    summary->statusData = (void *)ZUKAN_SAVE_IsNationalDexEnabled(statusData);
     return event;
 }
 

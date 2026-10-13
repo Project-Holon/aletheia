@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B82B4",
+   "name": "AOSS_Sendto",
    "address": "0x021B82B4",
    "kind": "sdk",
    "region": "ov016",

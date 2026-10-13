@@ -1,5 +1,5 @@
 /*
- * function: func_02070B64
+ * function: NNSi_G3dAnmCalcNsBtp
  * address:  0x02070B64
  * packet:   pkt_0207010C
  * region:   arm9
@@ -10,29 +10,29 @@
  * status:   EXACT
  * symbols:
  *   NNSi_G3dTexPatAnmGetFrameValue  0x0206EA58  arm
- *   func_0206EA00  0x0206EA00  arm
- *   func_0206EA2C  0x0206EA2C  arm
- *   func_02070A24  0x02070A24  arm
- *   func_02070AFC  0x02070AFC  arm
+ *   NNSi_G3dGetTexPatAnmTexNameByIdx  0x0206EA00  arm
+ *   NNSi_G3dGetTexPatAnmPlttNameByIdx  0x0206EA2C  arm
+ *   NNSi_G3dAnmSetTexParam  0x02070A24  arm
+ *   NNSi_G3dAnmSetPlttParam  0x02070AFC  arm
  *
  * BYTE-CORRECT: 116 bytes, every concrete byte identical to the image.
  * Verdict MATCH* under `--cc ../2.0/sp2 --arm`.
  *
  * Blocked on evidence class `label`, on ALL FIVE PC24 sites at once: this
  * function is the ONLY branch anywhere in the image (arm9 and every overlay)
- * to each of NNSi_G3dTexPatAnmGetFrameValue, func_0206EA00, func_0206EA2C, func_02070A24 and
- * func_02070AFC, so every witness for every site lies inside the compared
+ * to each of NNSi_G3dTexPatAnmGetFrameValue, NNSi_G3dGetTexPatAnmTexNameByIdx, NNSi_G3dGetTexPatAnmPlttNameByIdx, NNSi_G3dAnmSetTexParam and
+ * NNSi_G3dAnmSetPlttParam, so every witness for every site lies inside the compared
  * range and `label` refuses all five.  `--suggest-split` cannot help: there is
  * only one function here to cut, and the report would name each site as
  * having no outside witness at all.  It unblocks the moment any one of the
  * five callees reaches EXACT in a manifest, which then attests it `matched`
- * (func_02070A24 and func_02070AFC are both in this packet and both still
- * open; func_02070AFC has a note at docs/notes/func_02070AFC.c.txt).
+ * (NNSi_G3dAnmSetTexParam and NNSi_G3dAnmSetPlttParam are both in this packet and both still
+ * open; NNSi_G3dAnmSetPlttParam has a note at docs/notes/NNSi_G3dAnmSetPlttParam.c.txt).
  *
  * The `*` is the unlabelled follower at 0x02070BD8, not a byte difference:
  * show --addr 0x02070B64 reports a 192-byte extent because the leaf at
  * 0x02070BD8 saves no lr and so carries no auto-label.  That follower is now
- * filed EXACT as src/matched/func_02070BD8.c; seeding 0x02070BD8 into
+ * filed EXACT as src/matched/NNSi_G3dAnmObjInitNsBva.c; seeding 0x02070BD8 into
  * layout/function_starts.txt would drop the star.
  *
  * Two spelling notes that cost real time:
@@ -52,12 +52,12 @@ typedef unsigned int   u32;
 extern u16 *NNSi_G3dTexPatAnmGetFrameValue(u16 *p, u32 arg, u32 v);
 struct NNSG3dResName;
 struct NNSG3dResTexPatAnm;
-extern const struct NNSG3dResName *func_0206EA00(const struct NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
-extern const struct NNSG3dResName *func_0206EA2C(const struct NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
-extern void  func_02070A24(void *p, u32 v, void *ctx);
+extern const struct NNSG3dResName *NNSi_G3dGetTexPatAnmTexNameByIdx(const struct NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
+extern const struct NNSG3dResName *NNSi_G3dGetTexPatAnmPlttNameByIdx(const struct NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
+extern void  NNSi_G3dAnmSetTexParam(void *p, u32 v, void *ctx);
 struct Dst70AFC;
 struct Obj70AFC;
-extern void func_02070AFC(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst);
+extern void NNSi_G3dAnmSetPlttParam(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst);
 
 struct N {
     u32   f0;
@@ -68,15 +68,15 @@ struct N {
     void *f14;
 };
 
-void func_02070B64(void *ctx, struct N *n, u32 t)
+void NNSi_G3dAnmCalcNsBtp(void *ctx, struct N *n, u32 t)
 {
     void *h;
     u8   *r;
 
     h = n->f8;
     r = (u8 *)NNSi_G3dTexPatAnmGetFrameValue(h, (t << 16) >> 16, (n->f0 << 4) >> 16);
-    func_02070A24(n->f14, (u32)func_0206EA00(h, r[2]), ctx);
+    NNSi_G3dAnmSetTexParam(n->f14, (u32)NNSi_G3dGetTexPatAnmTexNameByIdx(h, r[2]), ctx);
     if (r[3] == 0xff)
         return;
-    func_02070AFC(n->f14, (void *)((u32)func_0206EA2C(h, r[3])), ctx);
+    NNSi_G3dAnmSetPlttParam(n->f14, (void *)((u32)NNSi_G3dGetTexPatAnmPlttNameByIdx(h, r[3])), ctx);
 }

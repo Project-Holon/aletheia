@@ -1,5 +1,5 @@
 /*
- * function: func_0208F05C
+ * function: WM_GetOtherElements
  * address:  0x0208F05C
  * packet:   pkt_0208F05C
  * region:   arm9
@@ -87,7 +87,7 @@ typedef struct WMOtherElements {
     } element[16];
 } WMOtherElements;
 
-WMOtherElements func_0208F05C(WMBssDesc *bssDesc)
+WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc)
 {
     WMOtherElements elems;
     u8 *p_elem;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B44
+ * function: PMS_SELECT_GRAPHIC_CloseRowMenu
  * address:  0x021C0B44
  * packet:   pkt_ov110_021C0B44
  * region:   ov110
@@ -22,4 +22,4 @@ typedef int s32;
 
 struct TaskMenu;
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
-void func_021C0B44(struct TaskMenu *m) { APP_TASKMENU_CloseMenu(m); }
+void PMS_SELECT_GRAPHIC_CloseRowMenu(struct TaskMenu *m) { APP_TASKMENU_CloseMenu(m); }

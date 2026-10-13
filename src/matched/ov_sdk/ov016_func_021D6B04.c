@@ -1,5 +1,5 @@
 /*
- * function: func_021D6B04
+ * function: DWCi_TPlCheckATrigger
  * address:  0x021D6B04
  * packet:   pkt_ov016_021D6B04
  * region:   ov016
@@ -17,16 +17,16 @@
  *           DWARF has nothing to say about it either way).
  *
  * symbols:
- *   func_021D696C  0x021D696C  arm  ov016
+ *   DWCi_TPlCheckTrigger  0x021D696C  arm  ov016
  */
 
 typedef struct tagAREA { unsigned short x, y, w, h; } AREA;
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
 typedef unsigned short u16;
-extern int func_021D696C(u16 *a);
+extern int DWCi_TPlCheckTrigger(u16 *a);
 
-int func_021D6B04(const AREA *a)
+int DWCi_TPlCheckATrigger(const AREA *a)
 {
     RECT r;
 
@@ -36,5 +36,5 @@ int func_021D6B04(const AREA *a)
     r.t = a->y;
     r.r = a->x + a->w;
     r.b = a->y + a->h;
-    return func_021D696C((u16 *)(&r));
+    return DWCi_TPlCheckTrigger((u16 *)(&r));
 }

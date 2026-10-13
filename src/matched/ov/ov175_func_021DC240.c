@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Takes and clears the +0x144 block; when there was one, calls
  *     0x0201A918(0) and hands its result to 0x02082D44 together with the
@@ -23,7 +23,7 @@
 typedef unsigned long u32;
 
 extern int POKE_REGULATION_GetDataSize(void);
-extern void func_02082D44(char *dst, u32 arg, u32 src);
+extern void MI_CpuCopy8(char *dst, u32 arg, u32 src);
 
 u32 func_021DC240(char *obj, u32 arg)
 {
@@ -31,7 +31,7 @@ u32 func_021DC240(char *obj, u32 arg)
 
     if (v != 0) {
         ((struct Obj14345 *)obj)->f144 = 0;
-        func_02082D44(obj + 0x218, arg, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(obj + 0x218, arg, POKE_REGULATION_GetDataSize());
     }
     return v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0208AC0C
+ * function: TP_RequestAutoSamplingStartAsync
  * address:  0x0208AC0C
  * packet:   pkt_0208AC0C
  * region:   arm9
@@ -87,7 +87,7 @@ static inline BOOL TPi_SendAutoStart(u16 vcount, u8 frequence)
     return 1;
 }
 
-void func_0208AC0C(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize)
+void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize)
 {
     u32 enabled;
     u32 i;

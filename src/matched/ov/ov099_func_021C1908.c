@@ -1,5 +1,5 @@
 /*
- * function: func_021C1908
+ * function: WIFICLUB_SetOwnStatusKindPhase
  * address: 0x021C1908
  * packet: pkt_ov099_021C1908
  * region: ov099
@@ -9,38 +9,38 @@
  * status: EXACT*
  * extent: 94 bytes code, then two zero alignment bytes before 021C1968.
  * symbols:
- *   func_021BDD48 0x021BDD48 thumb ov099
- *   func_021BDD54 0x021BDD54 thumb ov099
- *   func_021BDE30 0x021BDE30 thumb ov099
- *   func_021C27D4 0x021C27D4 thumb ov099
- *   func_021C27DC 0x021C27DC thumb ov099
- *   func_021C24A4 0x021C24A4 thumb ov099
- *   func_021BAEDC 0x021BAEDC thumb ov099
+ *   WIFICLUB_GetStatusKind 0x021BDD48 thumb ov099
+ *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
+ *   WIFICLUB_ChangeNetMode 0x021BDE30 thumb ov099
+ *   WIFICLUB_SetStatusActionState 0x021C27D4 thumb ov099
+ *   WIFICLUB_SetStatusActionArg 0x021C27DC thumb ov099
+ *   WIFICLUB_StartBgmFade 0x021C24A4 thumb ov099
+ *   WIFICLUB_DrawPlayerInfoWindow 0x021BAEDC thumb ov099
  */
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
-extern u8 func_021BDD48(char *, void *);
-extern int func_021BDD54(char *, void *);
-extern void func_021BDE30(void *, int, int);
-extern void func_021C27D4(void *, u8);
-extern void func_021C27DC(void *, u8);
-extern void func_021C24A4(char *, int);
-extern void func_021BAEDC(char *);
-void func_021C1908(char *p, int kind, int value)
+extern u8 WIFICLUB_GetStatusKind(char *, void *);
+extern int WIFICLUB_GetStatusPhase(char *, void *);
+extern void WIFICLUB_ChangeNetMode(void *, int, int);
+extern void WIFICLUB_SetStatusActionState(void *, u8);
+extern void WIFICLUB_SetStatusActionArg(void *, u8);
+extern void WIFICLUB_StartBgmFade(char *, int);
+extern void WIFICLUB_DrawPlayerInfoWindow(char *);
+void WIFICLUB_SetOwnStatusKindPhase(char *p, int kind, int value)
 {
     int old;
     int oldvalue;
     if (((struct Obj00008 *)p)->f8 != 0) {
-        old = func_021BDD48(p, ((struct Obj00008 *)p)->f8);
-        oldvalue = func_021BDD54(p, ((struct Obj00008 *)p)->f8);
+        old = WIFICLUB_GetStatusKind(p, ((struct Obj00008 *)p)->f8);
+        oldvalue = WIFICLUB_GetStatusPhase(p, ((struct Obj00008 *)p)->f8);
         if (old != kind || oldvalue != value) {
-            func_021BDE30(p, kind, value);
-            func_021C27D4(((struct Obj00008 *)p)->f8, kind);
-            func_021C27DC(((struct Obj00008 *)p)->f8, value);
+            WIFICLUB_ChangeNetMode(p, kind, value);
+            WIFICLUB_SetStatusActionState(((struct Obj00008 *)p)->f8, kind);
+            WIFICLUB_SetStatusActionArg(((struct Obj00008 *)p)->f8, value);
             if (!(value == 5 && kind == 4)) {
-                if (kind != 4) func_021C24A4(p, 127);
+                if (kind != 4) WIFICLUB_StartBgmFade(p, 127);
             }
         }
-        func_021BAEDC(p);
+        WIFICLUB_DrawPlayerInfoWindow(p);
     }
 }

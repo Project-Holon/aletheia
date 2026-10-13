@@ -26,7 +26,7 @@
  *   func_020949F4  0x020949F4  arm
  *   func_0218AC4C  0x0218AC4C  arm   ov009
  *   func_0218A830  0x0218A830  arm   ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0209477C  0x0209477C  arm
  *   func_021858A8  0x021858A8  arm   ov009
  *   func_020923F0  0x020923F0  arm
@@ -182,7 +182,7 @@ extern int func_02189D78(int *connection, int a1, int a2);
 extern int func_020949F4(const u8 *s1, const u8 *s2, u32 n);
 extern int func_0218AC4C(void **connection, GPIConnectData *data);
 extern int func_0218A830(void **connection, GPIConnectData *data);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0209477C(const u8 *s);
 extern void func_021858A8(unsigned char *input, unsigned int len, char *output);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
@@ -331,21 +331,21 @@ int func_0218AE9C(void **connection, GPIOperation_s *operation, char *input)
             iconnection->loginTicket[0] = '\0';
 
         if (iconnection->partnerID != 0)
-            func_02084F40(partnerBuffer, g_021A483C, iconnection->partnerID);
+            OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
         else
             partnerBuffer[0] = '\0';
 
         if (data->authtoken[0])
             user = data->authtoken;
         else if (iconnection->uniquenick[0]) {
-            func_02084F40(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
+            OS_SPrintf(userBuffer, g_021A4840, partnerBuffer, iconnection->uniquenick);
             user = userBuffer;
         } else {
-            func_02084F40(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
+            OS_SPrintf(userBuffer, g_021A4848, partnerBuffer, iconnection->nick, iconnection->email);
             user = userBuffer;
         }
 
-        func_02084F40(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
+        OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                       data->serverChallenge, data->userChallenge, data->passwordHash);
         func_021858A8((unsigned char *)buffer, func_0209477C((const u8 *)buffer), check);
 

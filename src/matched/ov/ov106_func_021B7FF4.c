@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FF4
+ * function: IRC_RANKING_ClactGetUnit
  * address:  0x021B7FF4
  * packet:   pkt_ov106_021B7FF4
  * region:   ov106
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-void *func_021B7FF4(void **p)
+void *IRC_RANKING_ClactGetUnit(void **p)
 {
     return *p;
 }

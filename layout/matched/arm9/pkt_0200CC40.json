@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200CC40",
+   "name": "ZUKAN_SAVE_GetViewGenderAndForm",
    "address": "0x0200CC40",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200CDE0"
+    "ZUKAN_SAVE_RegisterCaught"
+   ],
+   "addresses": [
+    "0x0200CDE0"
    ]
   }
  ]

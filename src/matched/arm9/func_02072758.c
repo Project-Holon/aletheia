@@ -26,7 +26,7 @@
  * difference is gone.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three of
- * the five PC24 sites (func_020731E0, func_02073D7C, func_02075858) have no
+ * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, func_02075858) have no
  * branch anywhere in the image outside this function's own 48 bytes, and
  * nothing under src/matched/ reproduces the ranges that define them, so the
  * `label` and `matched` classes both refuse. There is nothing to split: this
@@ -36,15 +36,15 @@
  *
  * symbols:
  *   func_02089978  0x02089978  arm
- *   func_020731E0  0x020731E0  arm
- *   func_02073D7C  0x02073D7C  arm
+ *   NNS_SndPlayerMain  0x020731E0  arm
+ *   NNS_SndMain  0x02073D7C  arm
  *   func_02075858  0x02075858  arm
  *   func_02089B38  0x02089B38  arm
   *
  * 2026-09-21, unblock lane: ONE OF THE THREE BLOCKING SITES IS NOW CLEARED.
- * func_020731E0 (the +0x18 site) was promoted to src/matched/ this pass and
+ * NNS_SndPlayerMain (the +0x18 site) was promoted to src/matched/ this pass and
  * resolves `matched x1`; the file is now MATCH* with 3 of 5 relocations
- * resolved.  The two that remain are +0x1C (func_02073D7C, 128 bytes at
+ * resolved.  The two that remain are +0x1C (NNS_SndMain, 128 bytes at
  * 0x02073D7C) and +0x20 (func_02075858, 272 bytes at 0x02075858), neither of
  * which has any branch outside this function's own bytes.  Both must be
  * written and filed EXACT in their own right -- there is no second caller to
@@ -56,8 +56,8 @@ typedef int s32;
 typedef unsigned int   u32;
 struct SNDCommand;
 extern const struct SNDCommand *func_02089978(u32 flags);
-extern void func_020731E0(void);
-extern void func_02073D7C(void);
+extern void NNS_SndPlayerMain(void);
+extern void NNS_SndMain(void);
 extern void func_02075858(void);
 extern void func_02089B38(s32 a);
 
@@ -66,8 +66,8 @@ void func_02072758(void)
     while (func_02089978(0) != 0)
         ;
 
-    func_020731E0();
-    func_02073D7C();
+    NNS_SndPlayerMain();
+    NNS_SndMain();
     func_02075858();
     func_02089B38(0);
 }

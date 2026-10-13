@@ -1,5 +1,5 @@
 /*
- * function: func_021C0900
+ * function: DWCi_AOSSlStart
  * address:  0x021C0900
  * packet:   pkt_ov016_021C0900
  * region:   ov016
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   AOSSi_Init     0x021B61D0  thumb  ov016
- *   g_021DE564     0x021DE564  data
+ *   gLibaossBlock1     0x021DE564  data
  */
 
 #include "../include/G_AossCtl.h"
@@ -26,15 +26,15 @@ typedef struct AossWork {
 typedef struct AossCtl AossCtl;
 
 extern int AOSSi_Init(AossWork *work);
-extern struct AossCtl g_021DE564;
+extern struct AossCtl gLibaossBlock1;
 
-int func_021C0900(void)
+int DWCi_AOSSlStart(void)
 {
-    if (AOSSi_Init(g_021DE564.work) == 0) {
-        g_021DE564.status = 1;
+    if (AOSSi_Init(gLibaossBlock1.work) == 0) {
+        gLibaossBlock1.status = 1;
         return 1;
     }
-    if (((AossWork *)g_021DE564.work)->state == 1 || (unsigned char)(((AossWork *)g_021DE564.work)->state + 0xFD) <= 2)
+    if (((AossWork *)gLibaossBlock1.work)->state == 1 || (unsigned char)(((AossWork *)gLibaossBlock1.work)->state + 0xFD) <= 2)
         return 0;
     return 2;
 }

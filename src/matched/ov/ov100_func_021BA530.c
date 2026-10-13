@@ -1,5 +1,5 @@
 /*
- * function: func_021BA530
+ * function: IRCBATTLEMATCH_PrintRetryMessage
  * address: 0x021BA530
  * packet: pkt_ov100_021BA530
  * region: ov100
@@ -50,7 +50,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-void func_021BA530(int b,int a) {
+void IRCBATTLEMATCH_PrintRetryMessage(int b,int a) {
  if(*(int *)(a+0x280)==0) *(int *)(a+0x280)=(int)BMP_WIN_Create((int)5,(int)1,(int)8,(int)23,4,13,0);
  BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)(*(int *)(a+0x280))),(int)255);
  BMP_WIN_MakeScreen((struct Cfg *)(*(int *)(a+0x280)));

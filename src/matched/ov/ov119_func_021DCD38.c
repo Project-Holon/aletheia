@@ -33,8 +33,8 @@
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200F7C0 0x0200F7C0 thumb
- *   func_021B9774 0x021B9774 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
  *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
@@ -76,8 +76,8 @@ extern void MCSS_Draw(struct McssSys *sys);
 extern void func_021E31B4(void *);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_0200F7C0(unsigned);
-extern void func_021B9774(u8 *);
-extern void func_021B9838(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
@@ -121,7 +121,7 @@ int func_021DCD38(int a,int b,int c,char *p)
     if(func_021D8A24(p) && I(0xef8)==0 && func_0200FB24()) {
         if(B(0x11f7)) func_0200F7C0(41);
         if(P(0)) {
-            func_021B9774(P(0));func_021B9838(P(0));P(0)=0;
+            NHTTP_RAP_DeleteConnection(P(0));NHTTP_RAP_Destroy(P(0));P(0)=0;
             DWC_RAP_SetErrorCallback(0,0);DWC_RAPCOMMON_DestroySubHeap();
         }
         if(GFL_NET_IsNetTypeWifi()) DWC_RAPCOMMON_HandleNetError(1,1);

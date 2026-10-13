@@ -16,7 +16,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
@@ -45,7 +45,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, unsigned);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
@@ -74,7 +74,7 @@ int func_02212560(void *a, int unused, u8 *arg)
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
     MI_CpuFill8(p, 0, 0x8b0);
-    func_02082D44(arg, p + 4, 0x14);
+    MI_CpuCopy8(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
     if (((struct Obj01177 *)p)->f4 == 0) {
         ((struct Obj01177 *)p)->f4 = GAME_DATA_Create(1);
@@ -102,11 +102,11 @@ int func_02212560(void *a, int unused, u8 *arg)
     switch (((struct Obj01177 *)p)->f10) {
     case 0:
         v = func_02012934(((struct Obj01177 *)p)->f4);
-        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
         v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
-        func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
+        MI_CpuCopy8(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;
     }

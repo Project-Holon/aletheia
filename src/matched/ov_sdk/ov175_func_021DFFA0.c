@@ -1,5 +1,5 @@
 /*
- * function: func_021DFFA0
+ * function: sciReportSetPlayerTeamIndex
  * address:  0x021DFFA0
  * packet:   pkt_ov175_021DFFA0
  * region:   ov175
@@ -15,7 +15,7 @@
  *           16-byte connection id); the one-expression form swaps ip and r3.
  *
  * symbols:
- *   func_021E054C  0x021E054C  arm  ov175
+ *   sciSerializeInt32  0x021E054C  arm  ov175
  */
 
 struct SCIReport {
@@ -25,15 +25,15 @@ struct SCIReport {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 *func_021E054C(u8 *dst, u32 v);
+extern u8 *sciSerializeInt32(u8 *dst, u32 v);
 
-int func_021DFFA0(struct SCIReport *report, unsigned int index, unsigned int team)
+int sciReportSetPlayerTeamIndex(struct SCIReport *report, unsigned int index, unsigned int team)
 {
     unsigned int off;
 
     off = 0x44;
     off += index * 20;
     off += 16;
-    func_021E054C(report->buffer + off, team);
+    sciSerializeInt32(report->buffer + off, team);
     return 0;
 }

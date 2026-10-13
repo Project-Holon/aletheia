@@ -12,14 +12,14 @@
  * sdk:      IRCi_Init (libirc.a irc_internal.o)
  *
  * symbols:
- *   func_02084EB8  0x02084EB8  arm
+ *   OS_GetLockID  0x02084EB8  arm
  *   g_0217AAB4     0x0217AAB4  data
  *   g_0217AC90     0x0217AC90  data
  */
 
 #include "../include/G_IRCParam.h"
 
-extern long func_02084EB8(void);
+extern long OS_GetLockID(void);
 extern unsigned short g_0217AAB4;
 extern struct IRCParam g_0217AC90;
 
@@ -28,5 +28,5 @@ void func_0217A60C(void)
     (*(int *)&g_0217AC90) = 1;
     if (g_0217AAB4 != 0xFFFD)
         return;
-    g_0217AAB4 = func_02084EB8();
+    g_0217AAB4 = OS_GetLockID();
 }

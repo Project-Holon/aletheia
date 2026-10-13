@@ -17,12 +17,12 @@
  * symbols:
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  *   EVENT_FIELD_PROCLINK_ClearReturnEntry  0x02161E78  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *);
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(void *a0);
-extern void func_02082D44(char *, char *, int);
+extern void MI_CpuCopy8(char *, char *, int);
 
 #pragma opt_propagation off
 void EVENT_FIELD_PROCLINK_CompactEntryList(char *p)
@@ -37,7 +37,7 @@ void EVENT_FIELD_PROCLINK_CompactEntryList(char *p)
         if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(p + i * 0x18) == 0) {
             for (j = i + 1; j < 10; j++) {
                 if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(p + j * 0x18) != 0) {
-                    func_02082D44(p + j * 0x18, dst + i * 0x18, 0x18);
+                    MI_CpuCopy8(p + j * 0x18, dst + i * 0x18, 0x18);
                     EVENT_FIELD_PROCLINK_ClearReturnEntry(p + j * 0x18);
                     break;
                 }

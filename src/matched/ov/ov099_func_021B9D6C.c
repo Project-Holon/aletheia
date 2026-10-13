@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D6C
+ * function: WIFICLUBACTOR_InitLayer
  * address:  0x021B9D6C
  * packet:   pkt_ov099_021B9D6C
  * region:   ov099
@@ -31,7 +31,7 @@ typedef struct {
 extern Tab d_021C289C;
 extern int func_021C59F4(void *a, void *b, Tab *t, int x);
 
-void func_021B9D6C(Obj *o, int x, int unused, int c)
+void WIFICLUBACTOR_InitLayer(Obj *o, int x, int unused, int c)
 {
     Tab t = d_021C289C;
 

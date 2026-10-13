@@ -1,5 +1,5 @@
 /*
- * function: func_02072A88
+ * function: NNSi_SndWaveOutUnlockChannel
  * address:  0x02072A88
  * packet:   pkt_02072A44
  * region:   arm9
@@ -30,15 +30,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02072A88.c \
- *       --func func_02072A88 --addr 0x02072A88 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/NNSi_SndWaveOutUnlockChannel.c \
+ *       --func NNSi_SndWaveOutUnlockChannel --addr 0x02072A88 --arm --cc ../1.2/sp2
  */
 
 typedef unsigned int u32;
 
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 
-void func_02072A88(u32 *p)
+void NNSi_SndWaveOutUnlockChannel(u32 *p)
 {
     SND_CHANNEL_UnlockChannels(1 << *p);
 }

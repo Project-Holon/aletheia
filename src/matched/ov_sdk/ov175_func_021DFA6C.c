@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA6C
+ * function: scThink
  * address:  0x021DFA6C
  * packet:   pkt_021DFA6C
  * region:   ov175
@@ -13,6 +13,7 @@
  *           that follow this 44-byte body; every compiled byte matches.
  *
  * symbols:
+ *   sciWsThink  0x021E0764  arm
  *   (none)
  *
  * Null-checked release: no object reports 2, an object with no +0x50 listener
@@ -21,14 +22,14 @@
 
 typedef unsigned int u32;
 
-extern void func_021E0764(void *p);
+extern void sciWsThink(void *p);
 
-int func_021DFA6C(int *p)
+int scThink(int *p)
 {
     if (p == 0)
         return 2;
     if (p[0x14] == 0)
         return 3;
-    func_021E0764(p);
+    sciWsThink(p);
     return 0;
 }

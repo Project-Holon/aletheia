@@ -16,7 +16,7 @@
  *   func_021BE1E4 0x021BE1E4 thumb ov172
  *   func_021B8B8C 0x021B8B8C thumb ov172
  *   func_021B8BAC 0x021B8BAC thumb ov172
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   func_0207E100 0x0207E100 arm
  *   func_02082A7C 0x02082A7C arm
@@ -76,7 +76,7 @@ extern u8 func_021BE054(void *p);
 extern void func_021BE1E4(u8 *p);
 extern u32 func_021B8B8C(int unused, char *base, int i);
 extern u8 func_021B8BAC(void *unused, char *base, int i);
-extern void func_020862F0(void *p, u32 n);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *func_0207E100(void);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
@@ -102,7 +102,7 @@ void func_021B71B8(void *p, Q *q)
         return;
     if (sub == 0) {
         if (q->f10 != 0) {
-            func_020862F0((u16 *)q->f4, 0x18000);
+            DWCi_ScreenDC_FlushRange((u16 *)q->f4, 0x18000);
             func_0207ECF0(q->f4, 0, 0x18000);
             q->f10 = 0;
         }
@@ -196,22 +196,22 @@ void func_021B71B8(void *p, Q *q)
                 }
                 if (func_021B8BAC(p, (char *)base, i) == 1 && func_0202EB14() == 0) {
                     dst = (u32)(q->f4 + idx * (w * h * 2));
-                    func_020862F0((void *)dst, w * h * 2);
+                    DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
                 } else if (wide == 0) {
                     if (sub == 1) {
                         dst = (u32)q->f8;
-                        func_020862F0((void *)dst, 0xC000);
+                        DWCi_ScreenDC_FlushRange((void *)dst, 0xC000);
                     } else {
                         dst = (u32)(q->f8 + 0x3000);
-                        func_020862F0((void *)dst, 0x6000);
+                        DWCi_ScreenDC_FlushRange((void *)dst, 0x6000);
                     }
                 } else {
                     if (sub == 1) {
                         dst = (u32)q->fC;
-                        func_020862F0((void *)dst, 0x3000);
+                        DWCi_ScreenDC_FlushRange((void *)dst, 0x3000);
                     } else {
                         dst = (u32)(q->fC + 0xC00);
-                        func_020862F0((void *)dst, 0x1800);
+                        DWCi_ScreenDC_FlushRange((void *)dst, 0x1800);
                     }
                 }
                 for (j = 0; j < q->ent[i].h; j++) {

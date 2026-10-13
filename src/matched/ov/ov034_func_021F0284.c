@@ -29,8 +29,8 @@
  *   func_0200C258 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200D0AC 0x0200D0AC thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_CountSeen 0x0200D0AC thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
@@ -105,9 +105,9 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C258(struct Blk34 *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
-extern void *func_0200CA1C(void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
 struct Blk37;
-extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
@@ -176,7 +176,7 @@ void REPORT_InitWindows(u8 *p)
     print_record(p,4,dst,s4,0,0x3DC0,one);
     if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0)),0x962)==1) {
         s5=func_02045EC0(bank,5);
-        func_0201EFA4(ws,0,func_0200D0AC(func_0200CA1C(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
+        func_0201EFA4(ws,0,ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetFromGameData(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
         func_0201F250(ws,dst,s5);
         print_record(p,5,dst,s5,0,0x3DC0,one);
     }

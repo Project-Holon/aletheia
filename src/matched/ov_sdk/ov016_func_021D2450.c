@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * blocker:  none (EXACT, 796/796 bytes, 20/20 relocations resolved).
- *           Case 12 in-place pointer increment: `char *p = (char *)g_021DE65C; p += 0x1b000;`
+ *           Case 12 in-place pointer increment: `char *p = (char *)gDwcMovMbpWork; p += 0x1b000;`
  *           forces in-place `add r0, r0, #0x1b000` with the loaded values in `r1`, matching
  *           the image byte-for-byte.
  *           Other landed levers:
  *           (1) case 2 must read the work pointer into a named local *before*
- *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = g_021DE65C;`), or the
+ *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = gDwcMovMbpWork;`), or the
  *               1.1p1 allocator defers the global load to after the call, spilling
  *               the work pointer out of the callee-saved set and shifting every
  *               register in the function down one (push {r3,r4..r7,lr} + r7/r6/r3
@@ -38,7 +38,7 @@
  * sdk:      ParentStateCallback (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
  * symbols:
- *   g_021DE65C                     0x021DE65C  data
+ *   gDwcMovMbpWork                     0x021DE65C  data
  *   DWCi_MOV_MBP_GetState          0x021D2780  arm
  *   OS_DisableInterrupts           0x02087988  arm
  *   OS_RestoreInterrupts           0x0208799C  arm
@@ -84,7 +84,7 @@ typedef struct {
     u8 mac[6];
 } MBUserInfo;
 
-extern DWCi_MOV_WPB_WORK *g_021DE65C;
+extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 extern u16 DWCi_MOV_MBP_GetState(void);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
@@ -108,20 +108,20 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         break;
     case 2:
         if (DWCi_MOV_MBP_GetState() == 2) {
-            DWCi_MOV_WPB_WORK *w = g_021DE65C;
+            DWCi_MOV_WPB_WORK *w = gDwcMovMbpWork;
             u32 enabled = OS_DisableInterrupts();
             u8 *mac;
 
             w->mbpState.connectChildBmp |= 1 << child_aid;
             OS_RestoreInterrupts(enabled);
-            mac = g_021DE65C->childInfo[child_aid - 1].macAddress;
+            mac = gDwcMovMbpWork->childInfo[child_aid - 1].macAddress;
             mac[0] = userInfo->mac[0];
             mac[1] = userInfo->mac[1];
             mac[2] = userInfo->mac[2];
             mac[3] = userInfo->mac[3];
             mac[4] = userInfo->mac[4];
             mac[5] = userInfo->mac[5];
-            g_021DE65C->childInfo[child_aid - 1].playerNo = child_aid;
+            gDwcMovMbpWork->childInfo[child_aid - 1].playerNo = child_aid;
         }
         break;
     case 3:
@@ -129,12 +129,12 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
             u16 mask = ~(1 << child_aid);
             u32 enabled = OS_DisableInterrupts();
 
-            g_021DE65C->mbpState.connectChildBmp &= mask;
-            g_021DE65C->mbpState.requestChildBmp &= mask;
-            g_021DE65C->mbpState.entryChildBmp &= mask;
-            g_021DE65C->mbpState.downloadChildBmp &= mask;
-            g_021DE65C->mbpState.bootableChildBmp &= mask;
-            g_021DE65C->mbpState.rebootChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
             OS_RestoreInterrupts(enabled);
             MBPi_CheckAllReboot();
         }
@@ -147,28 +147,28 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         if (DWCi_MOV_MBP_GetState() != 2) {
             DWCi_MOV_MBP_KickChild(child_aid);
         } else {
-            g_021DE65C->mbpState.requestChildBmp |= 1 << child_aid;
+            gDwcMovMbpWork->mbpState.requestChildBmp |= 1 << child_aid;
             DWCi_MOV_MBP_AcceptChild(child_aid);
             childUser = MB_CommGetChildUser(child_aid);
             if (childUser)
-                MI_CpuCopy8(childUser, g_021DE65C->childInfo[child_aid - 1].user, 0x16);
+                MI_CpuCopy8(childUser, gDwcMovMbpWork->childInfo[child_aid - 1].user, 0x16);
         }
         break;
     case 14:
-        g_021DE65C->mbpState.requestChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.entryChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.entryChildBmp |= 1 << child_aid;
         if (DWCi_MOV_MBP_GetState() == 3)
             DWCi_MOV_MBP_StartDownload(child_aid);
         break;
     case 7:
-        g_021DE65C->mbpState.downloadChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.bootableChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.bootableChildBmp |= 1 << child_aid;
         break;
     case 8:
         break;
     case 9:
-        g_021DE65C->mbpState.bootableChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.rebootChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.rebootChildBmp |= 1 << child_aid;
         MBPi_CheckAllReboot();
         break;
     case 11:
@@ -179,13 +179,13 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         else
             DWCi_MOV_MBP_ChangeState(0);
         {
-            char *p = (char *)g_021DE65C;
+            char *p = (char *)gDwcMovMbpWork;
             p += 0x1b000;
             if (*(int *)(p + 0x144))
                 *(int *)(p + 0x144) = 0;
         }
         {
-            char *p = (char *)g_021DE65C;
+            char *p = (char *)gDwcMovMbpWork;
             p += 0x1b000;
             if (*(int *)(p + 0x140))
                 *(int *)(p + 0x140) = 0;

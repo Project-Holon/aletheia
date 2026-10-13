@@ -1,5 +1,5 @@
 /*
- * function: func_0689CC70
+ * function: BTL_POKESET_Get
  * address:  0x0689CC70
  * packet:   pkt_ov095_0689CC70
  * region:   ov095
@@ -26,7 +26,7 @@ typedef struct {
     u8 f45;
 } S;
 
-u32 func_0689CC70(S *p, u32 i)
+u32 BTL_POKESET_Get(S *p, u32 i)
 {
     if (i < p->n)
         return p->id[i];

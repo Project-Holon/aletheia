@@ -15,7 +15,7 @@
  *
  * symbols:
  *   func_0216A3B8  0x0216A3B8  arm  ov009
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  *   func_02168E50  0x02168E50  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
@@ -24,7 +24,7 @@
 
 extern struct DwcGlobal g_021AA878;
 extern void func_0216A3B8(int error, int errorCode);
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 extern void func_02168E50(int error, int errorCode);
 
 static int DWCi_HandleGPError(int result)
@@ -51,7 +51,7 @@ static int DWCi_HandleGPError(int result)
         break;
     case 4:
         errorCode += (int)0xfffec398;
-        func_0216EB68(dwcError, errorCode);
+        DWCi_StopMatch(dwcError, errorCode);
         break;
     default:
         errorCode += (int)0xfffe9c88;

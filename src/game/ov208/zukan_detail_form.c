@@ -46,9 +46,9 @@
  *   func_020355D8 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   ov208_func_021BC3A4 0x021BC3A4 thumb ov208
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ov208_func_021BC3C0 0x021BC3C0 thumb ov208
- *   func_0200CC40 0x0200CC40 thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   PM_VOICE_Play 0x02006984 thumb
  *   ov208_func_021C31CC 0x021C31CC thumb ov208
  *   func_02030734 0x02030734 arm
@@ -188,7 +188,7 @@
  *   data_021C8E40  0x021C8E40  data
  *   MCSS_GetAnimCtrl  0x02015EE8  thumb
  *   func_02063000  0x02063000  arm
- *   func_02064CBC 0x02064CBC arm
+ *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   MCSS_RequestAnimeStopAtStart  0x02016380  thumb
  *   func_020490F4  0x020490F4  arm
@@ -209,11 +209,11 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
- *   func_0200CC20  0x0200CC20  thumb
- *   func_0200D144  0x0200D144  thumb
+ *   ZUKAN_SAVE_GetFormCount  0x0200CC20  thumb
+ *   ZUKAN_SAVE_HasSeenGenderForm  0x0200D144  thumb
  *   data_021C8810  0x021C8810  data
  *   data_021C87FC  0x021C87FC  data
- *   func_0200D288  0x0200D288  thumb
+ *   ZUKAN_SAVE_GetSpindaPersonality  0x0200D288  thumb
  *   MCSS_SetPosition  0x02015C48  thumb
  *   func_021C7534 0x021C7534 thumb ov208
  *   func_021C4EAC  0x021C4EAC  thumb
@@ -253,7 +253,7 @@
  *   func_021C7D80        0x021C7D80  thumb
  *   func_021C5CF0        0x021C5CF0  thumb
  *   func_021C4E54        0x021C4E54  thumb
- *   func_0200CA98        0x0200CA98  thumb
+ *   ZUKAN_SAVE_UpdateViewFlags        0x0200CA98  thumb
  *   FX_SinCosTable_         0x020A1B38  data
  *   _fgeq                0x0209BB54  arm
  *   _fleq                0x0209BC0C  arm
@@ -484,9 +484,9 @@ extern u32 KEY_GetTrg(void);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int ov208_func_021BC3A4(int key);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u16 ov208_func_021BC3C0(int key);
-extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern void ov208_func_021C31CC(u16 *heap, struct Ov208Form *p, int key);
 extern void *func_02030734(u32 heap,u32 size,int clear,const char *file,u16 line);
@@ -616,7 +616,7 @@ extern void MCSS_SetOfsPosition(void *p, u32 *src);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void *MCSS_GetAnimCtrl(void *p);
 extern void func_02063000(int p0, int p1, int p2, int p3);
-extern void func_02064CBC(struct Obj *x);
+extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 extern void MCSS_ResetAnmStopFlag(void *p);
 extern void MCSS_RequestAnimeStopAtStart(void *o);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -640,9 +640,9 @@ extern int func_021BC3A4(int *p);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern u16 func_0200CC20(u32 id);
-extern u32 func_0200D144(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
-extern u32 func_0200D288(struct Blk37 *p, u32 which);
+extern u16 ZUKAN_SAVE_GetFormCount(u32 id);
+extern u32 ZUKAN_SAVE_HasSeenGenderForm(u8 *p, u16 id, u32 sel, u32 alt, u32 form);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void func_021C7534(u16 *heap, struct Ov208Form *p, int key);
 extern void func_021C4EAC(void *a0, struct Ov208Form *p, int key);
@@ -675,7 +675,7 @@ extern void func_021C80CC(struct Ov208Mdl *u, int k, VecF *v);
 extern void func_021C7D80(u16 *a0, struct Ov208Form *p, int ctx);
 extern void func_021C5CF0(u16 *a0, struct Ov208Form *p, int ctx);
 extern void func_021C4E54(u16 *a0, struct Ov208Form *p, int ctx);
-extern void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
+extern void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern void ov208_func_021C80CC(struct Ov208Mdl *u, int k, VecF *v);
 extern void func_021C7FF8(int, int, int);
 void func_021C31CC(int unused, char *q);
@@ -1077,9 +1077,9 @@ void ov208_func_021C3514(u16 *heap, struct Ov208Form *p, int key)
         }
     }
     if (hit != 0) {
-        pd = func_0200CA1C((void *)ov208_func_021BC3A4(key));
+        pd = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(key));
         species = ov208_func_021BC3C0(key);
-        func_0200CC40(pd, species, &o1, &o2, &form, *heap);
+        ZUKAN_SAVE_GetViewGenderAndForm(pd, species, &o1, &o2, &form, *heap);
         ((struct Obj06684 *)p)->f64 = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, 0);
         ((struct Obj06684 *)p)->f74 = 0;
         *(u64 *)((u8 *)p + 0x6c) = func_020870D0();
@@ -2357,7 +2357,7 @@ void func_021C51D4(struct Ov208Mdl *s)
         void *r = MCSS_GetAnimCtrl((void *)s->obj);
         s->state->f8 = 0;
         s->state->active = 0;
-        func_02064CBC(r);
+        NNS_G2dRestartMCAnimation(r);
         MCSS_ResetAnmStopFlag((void *)s->obj);
     }
 }
@@ -2388,7 +2388,7 @@ void ov208_func_021C5214(struct Ov208Mdl *p)
         anm = MCSS_GetAnimCtrl((void *)p->obj);
         if (p->state->active != 0) {
             MCSS_SetAnmStopFlag((void *)p->obj);
-            func_02064CBC(anm);
+            NNS_G2dRestartMCAnimation(anm);
             p->state->active = 0;
         }
     }
@@ -2508,7 +2508,7 @@ void ov208_func_021C53F4(u16 *heap, int key, struct Ov208Ent *out, u16 *count, u
   Ov208Gender3 genders = data_021C8810;
   Ov208Shiny2 shinies = data_021C87FC;
   u16 species = func_021BC3C0(key);
-  void *pd = func_0200CA1C((void *)func_021BC3A4((int *)key));
+  void *pd = ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key));
   u32 h = (u32)POKE_PERSONAL_Create(species, 0, *heap);
   u32 ratio;
   u32 forms;
@@ -2529,8 +2529,8 @@ void ov208_func_021C53F4(u16 *heap, int key, struct Ov208Ent *out, u16 *count, u
   POKE_PERSONAL_GetParam((const struct Personal *)h, 0x20);
   ratio = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
   POKE_PERSONAL_Delete((void *)h);
-  forms = func_0200CC20(species);
-  func_0200CC40(pd, species, &curGender, &curShiny, &curForm, *heap);
+  forms = ZUKAN_SAVE_GetFormCount(species);
+  ZUKAN_SAVE_GetViewGenderAndForm(pd, species, &curGender, &curShiny, &curForm, *heap);
   cur = 0;
   {
     u32 en[3] = {0, 0, 0};
@@ -2573,7 +2573,7 @@ void ov208_func_021C53F4(u16 *heap, int key, struct Ov208Ent *out, u16 *count, u
               found = 1;
             }
             else
-              if ((((forms < 2) || (curForm != i)) || (curShiny != s)) && (func_0200D144(pd, species, g, s, i) != 0))
+              if ((((forms < 2) || (curForm != i)) || (curShiny != s)) && (ZUKAN_SAVE_HasSeenGenderForm(pd, species, g, s, i) != 0))
             {
               found = 1;
             }
@@ -2669,7 +2669,7 @@ void ov208_func_021C569C(u16 *heap, struct Ov208Form *p, int key, int a, int b, 
     f152 = p->ents[idx].gender;
     f153 = p->ents[idx].shiny;
     if (species == 0x147)
-        extra = func_0200D288(func_0200CA1C((void *)func_021BC3A4((int *)key)), extra);
+        extra = ZUKAN_SAVE_GetSpindaPersonality(ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4((int *)key)), extra);
     if (a != 4) {
         ov208_func_021C5128(&p->item[a], *heap, (void *)p->cam, species, form, f152, f153, 0, 0, extra);
         func_021C80AC((int)&p->item[a], pose, (int)(&v));
@@ -3732,10 +3732,10 @@ void ov208_func_021C6E98(u16 *a0, struct Ov208Form *p, int ctx)
                 func_021C4EAC(a0, p, ctx);
                 ov208_func_021C6A10(a0, p, ctx);
                 id = ov208_func_021BC3C0(ctx);
-                obj = func_0200CA1C((void *)ov208_func_021BC3A4(ctx));
+                obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
                 f = p->ents[p->sel].gender;
                 sh = p->ents[p->sel].shiny != 0 ? 1 : 0;
-                func_0200CA98(obj, id, f, sh, p->ents[p->sel].form);
+                ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, p->ents[p->sel].form);
                 if (p->count >= 3)
                     p->w698 = 1;
             }
@@ -3926,11 +3926,11 @@ void ov208_func_021C75FC(u16 *a0, struct Ov208Form *p, int ctx)
         func_021C4EAC(a0, p, ctx);
         ov208_func_021C6A10(a0, p, ctx);
         id = ov208_func_021BC3C0(ctx);
-        obj = func_0200CA1C((void *)ov208_func_021BC3A4(ctx));
+        obj = ZUKAN_SAVE_GetFromGameData((void *)ov208_func_021BC3A4(ctx));
         f = p->ents[p->sel].gender;
         if (p->ents[p->sel].shiny != 0)
             sh = 1;
-        func_0200CA98(obj, id, f, sh, p->ents[p->sel].form);
+        ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, p->ents[p->sel].form);
         if (p->item[0].obj != 0) {
             func_021C80AC((int)&p->item[0], 0, (int)(&u));
             MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BA4
+ * function: PMS_INPUT_VIEW_AddVBlankTask
  * address:  0x021B9BA4
  * packet:   pkt_ov110_021B9BA4
  * region:   ov110
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void *func_020056A0(void (*fn)(void *, u8 *), u8 *p, int n);
-void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n) { return func_020056A0(fn, p, n); }
+void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, u8 *), u8 *p, int n) { return func_020056A0(fn, p, n); }

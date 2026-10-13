@@ -1,5 +1,5 @@
 /*
- * function: func_021BC868
+ * function: WIFICLUB_StateRuleMenu
  * address: 0x021BC868
  * packet: pkt_ov099_021BC868
  * region: ov099
@@ -13,12 +13,12 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_MENULIST_Main 0x020200CC thumb
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
- *   func_021BA874 0x021BA874 thumb ov099
- *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  */
 #include "../include/Obj00977.h"
 typedef unsigned char u8;
@@ -32,13 +32,13 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
-extern void func_021BA8EC(char *);
-extern int func_021BA8BC(void *p);
+extern void WIFICLUB_ClearTalkWindow(char *);
+extern int WIFICLUB_DeleteWindow(void *p);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void func_021BA874(void *, int);
-extern void func_021BAAB8(char *, int, int);
-int func_021BC868(char *p, int v)
+extern void WIFICLUB_SetPartnerNameWord(void *, int);
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+int WIFICLUB_StateRuleMenu(char *p, int v)
 {
     int r;
     void *q;
@@ -51,14 +51,14 @@ int func_021BC868(char *p, int v)
     }
     r = BMP_MENULIST_Main(((struct Obj00977 *)p)->fBC);
     if (r == -1) return v;
-    func_021BA8EC(p);
-    ((struct Obj00977 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj00977 *)p)->f1A4);
+    WIFICLUB_ClearTalkWindow(p);
+    ((struct Obj00977 *)p)->f1A4 = (void *)WIFICLUB_DeleteWindow(((struct Obj00977 *)p)->f1A4);
     BMP_MENULIST_Delete(((struct Obj00977 *)p)->fBC, 0, (u16 *)(p + 0x234));
     BMP_MENUWORK_Delete(((struct Obj00977 *)p)->fB8);
     if (r == -2) {
         if (((struct Obj00977 *)p)->f135C == 3 || ((struct Obj00977 *)p)->f135C == 4) {
-            func_021BA874(p, ((struct Obj00977 *)p)->f242 - 1);
-            func_021BAAB8(p, 0x60, 0);
+            WIFICLUB_SetPartnerNameWord(p, ((struct Obj00977 *)p)->f242 - 1);
+            WIFICLUB_ShowStreamedMessage(p, 0x60, 0);
             ((struct Obj00977 *)p)->f1CC = 0x45;
         } else {
             ((struct Obj00977 *)p)->f1CC = 0x1c;

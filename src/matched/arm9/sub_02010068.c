@@ -24,8 +24,8 @@
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
- *   func_020862F0  0x020862F0  arm
- *   func_02082A60  0x02082A60  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02062B30  0x02062B30  arm
  *   func_0207DFB4  0x0207DFB4  arm
@@ -71,8 +71,8 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void func_020862F0(void *p, u32 n);
-extern void func_02082A60(void *dst, const void *src, u32 n);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void MIi_CpuCopy16(void *dst, const void *src, u32 n);
 extern u32 func_020307B0(void *p);
 extern int func_02062B30(void *file, void **out);
 extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
@@ -94,10 +94,10 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     if (func_02062A4C(h, (void **)(&r0p)) != 0) {
         u32 n;
         void *src;
-        func_020862F0(r0p->ptr, r0p->len);
+        DWCi_ScreenDC_FlushRange(r0p->ptr, r0p->len);
         n = r0p->len;
         src = func_0207E24C();
-        func_02082A60(r0p->ptr, src, n);
+        MIi_CpuCopy16(r0p->ptr, src, n);
     }
     func_020307B0(h);
 
@@ -105,18 +105,18 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     if (func_02062B30(h, (void **)(&r1p)) != 0) {
         u32 n;
         void *src;
-        func_020862F0(r1p->buf, r1p->len);
+        DWCi_ScreenDC_FlushRange(r1p->buf, r1p->len);
         n = r1p->len;
         src = func_0207DFB4();
-        func_02082A60(r1p->buf, src, n);
+        MIi_CpuCopy16(r1p->buf, src, n);
     }
     func_020307B0(h);
 
     h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f6, 0, 1);
     func_02062AD4(h, (void **)(&sp0));
     if (func_02062A98(h, (void **)(&r2p)) != 0) {
-        func_020862F0(r2p->ptr, 0x20);
-        func_02082A60(r2p->ptr, (void *)0x05000000, 0x20);
+        DWCi_ScreenDC_FlushRange(r2p->ptr, 0x20);
+        MIi_CpuCopy16(r2p->ptr, (void *)0x05000000, 0x20);
     }
     func_020307B0(h);
 }

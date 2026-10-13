@@ -1,5 +1,5 @@
 /*
- * function: G3D_SBC_RunCountedCallback
+ * function: NNSi_G3dFuncSbc_NOP
  * address:  0x0206B780
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -16,8 +16,8 @@
  * counter at +0x00.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/G3D_SBC_RunCountedCallback.c \
- *       --func G3D_SBC_RunCountedCallback --addr 0x0206B780 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dFuncSbc_NOP.c \
+ *       --func NNSi_G3dFuncSbc_NOP --addr 0x0206B780 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ struct Obj0206B780 {
     void (*unk0c)(void *);
 };
 
-void G3D_SBC_RunCountedCallback(Obj0206B780 *p)
+void NNSi_G3dFuncSbc_NOP(Obj0206B780 *p)
 {
     if (p->unk0c != 0) {
         p->unk0c(p);

@@ -12,7 +12,7 @@
  *
  * symbols:
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_020882D0       0x020882D0  arm
+ *   OS_Halt       0x020882D0  arm
  *
  * Frees an owned sub-object at +8 if present, then re-registers the object
  * itself with ENV_SetResourceSet. The same shutdown/re-init shape as
@@ -29,13 +29,13 @@ struct S020314B8 {
     void *field8;
 };
 
-extern void func_020882D0(void *p);
+extern void OS_Halt(void *p);
 extern void ENV_SetResourceSet(void *p);
 
 void PROCSYS_DeleteInternal(struct S020314B8 *p)
 {
     if (p->field8 != 0) {
-        func_020882D0(p->field8);
+        OS_Halt(p->field8);
     }
     ENV_SetResourceSet(p);
 }

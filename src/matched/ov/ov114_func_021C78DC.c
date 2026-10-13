@@ -1,5 +1,5 @@
 /*
- * function: func_021C78DC
+ * function: DWCi_Ndi_freeLockGlobal
  * address:  0x021C78DC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,6 +15,6 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021C78DC(void)
+void DWCi_Ndi_freeLockGlobal(void)
 {
 }

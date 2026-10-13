@@ -36,8 +36,8 @@
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
- *   func_020862F0  0x020862F0  arm
- *   func_0207EB78  0x0207EB78  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GX_LoadBG2Scr  0x0207EB78  arm
  *   func_0207ECF0  0x0207ECF0  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021B6A40 0x021B6A40 data a4
@@ -107,8 +107,8 @@ extern void func_021B6220(void);
 extern u64 func_020870D0(void);
 extern void func_0204047C(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_020862F0(int, int);
-extern void func_0207EB78(int, int, int);
+extern void DWCi_ScreenDC_FlushRange(int, int);
+extern void GX_LoadBG2Scr(int, int, int);
 extern void func_0207ECF0(int, int, int);
 extern u32 func_020307B0(void *p);
 extern void func_021B62B8(char *p, u32 a, u32 b, u32 c);
@@ -253,9 +253,9 @@ void func_021B669C(int a, int b, int c, int d, int e)
 {
     int t = (int)ARC_UTIL_LoadHandleMember((void *)a, b, 1, 0x807f);
 
-    func_020862F0(t, d);
+    DWCi_ScreenDC_FlushRange(t, d);
     if (e == 0) {
-        func_0207EB78(t, c, d);
+        GX_LoadBG2Scr(t, c, d);
     } else {
         func_0207ECF0(t, c, d);
     }

@@ -1,7 +1,7 @@
 /*
  * file:     anime.c
  * unit:     yes
- * function: func_021BC820, func_021BC8EC, func_021BC924
+ * function: DWCi_ANIMElInitEx, DWCi_ANIMElEnd, taskAnime
  * address:  0x021BC820
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,18 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5368  0x021D5368  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
- *   g_021DE504  0x021DE504  data
- *   g_021D9FF8  0x021D9FF8  data
- *   dat_021DE504    0x021DE504  data
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_CEINlSetExObj  0x021D5368  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
+ *   gAnimeWork  0x021DE504  data
+ *   sAnimePaletteByColor  0x021D9FF8  data
+ *   gAnimeWorkSlot    0x021DE504  data
  *   DWCi_TSKlDeleteByIndex   0x021D7744  arm
- *   func_021D6F38   0x021D6F38  arm
- *   func_021D6438   0x021D6438  arm
- *   func_0207C994  0x0207C994  arm
- *   func_0207C958  0x0207C958  arm
- *   func_021D52D4  0x021D52D4  arm  ov016
+ *   DWCi_OBJlDelete   0x021D6F38  arm
+ *   DWCi_HEAPlFree_   0x021D6438  arm
+ *   FX_ModS32  0x0207C994  arm
+ *   FX_DivS32  0x0207C958  arm
+ *   DWCi_CEINlSet  0x021D52D4  arm  ov016
  */
 #include "../../matched/include/G_Ani.h"
 
@@ -46,62 +46,63 @@ typedef struct {
 	u8 cnt;
 } Ani;
 
-extern void *func_021D6414(unsigned long size, int alignment);
-extern void *func_021D5368(int a, int b);
-extern void *func_021D7680(int a, void (*fn)(void), int b, int c);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void *DWCi_CEINlSetExObj(int a, int b);
+extern void *DWCi_TSKlForm(int a, void (*fn)(void), int b, int c);
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021D6F38(unsigned int *obj);
-extern void func_021D6438(void **mem);
-extern int func_0207C994(int a, int b);
-extern int func_0207C958(int a, int b);
-extern void func_021D52D4(int a, int b, void *obj);
-void func_021BC820(int color);
-void func_021BC8EC(void);
-void func_021BC924(void);
-extern struct Ani *g_021DE504;
-extern const u8 g_021D9FF8[];
-extern unsigned char dat_021DE504[];
+extern void DWCi_OBJlDelete(unsigned int *obj);
+extern void DWCi_HEAPlFree_(void **mem);
+extern int FX_ModS32(int a, int b);
+extern int FX_DivS32(int a, int b);
+extern void DWCi_CEINlSet(int a, int b, void *obj);
+void DWCi_ANIMElInitEx(int color);
+void DWCi_ANIMElEnd(void);
+extern struct Ani *gAnimeWork;
+extern unsigned char gAnimeWorkSlot[];
+extern const u8 sAnimePaletteByColor[];
+
+static void taskAnime(void);
 
 
-void func_021BC820(int color)
+void DWCi_ANIMElInitEx(int color)
 {
 	u32 pal;
 	Obj *o;
-	g_021DE504 = func_021D6414(12, 4);
-	g_021DE504->color = color;
-	g_021DE504->obj = func_021D5368(0, 0x47);
-	pal = g_021D9FF8[color];
-	((Obj *)g_021DE504->obj)->h4 = (((Obj *)g_021DE504->obj)->h4 & ~0xc00) | 0x400;
-	o = g_021DE504->obj;
+	gAnimeWork = DWCi_HEAPlAllocEx(12, 4);
+	gAnimeWork->color = color;
+	gAnimeWork->obj = DWCi_CEINlSetExObj(0, 0x47);
+	pal = sAnimePaletteByColor[color];
+	((Obj *)gAnimeWork->obj)->h4 = (((Obj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
+	o = gAnimeWork->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	((Obj *)g_021DE504->obj)->w0 = (((Obj *)g_021DE504->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
-	g_021DE504->task = func_021D7680(1, func_021BC924, 0, 0x78);
+	((Obj *)gAnimeWork->obj)->w0 = (((Obj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	gAnimeWork->task = DWCi_TSKlForm(1, taskAnime, 0, 0x78);
 }
 
 
-void func_021BC8EC(void)
+void DWCi_ANIMElEnd(void)
 {
     unsigned char *g = (unsigned char *)0x021DE504;
 
     DWCi_TSKlDeleteByIndex(1, (void *)(**(int **)g));
-    func_021D6F38((unsigned int *)(*(int *)(*(int *)g + 4)));
-    func_021D6438((void **)((int)dat_021DE504));
+    DWCi_OBJlDelete((unsigned int *)(*(int *)(*(int *)g + 4)));
+    DWCi_HEAPlFree_((void **)((int)gAnimeWorkSlot));
 }
 
 
-void func_021BC924(void)
+static void taskAnime(void)
 {
 	int name;
 	u32 pal;
 	Obj *o;
-	g_021DE504->cnt = func_0207C994(g_021DE504->cnt + 1, 40);
-	name = func_0207C958(g_021DE504->cnt, 5) + 0x47;
-	func_021D52D4(0, name, g_021DE504->obj);
-	((Obj *)g_021DE504->obj)->h4 = (((Obj *)g_021DE504->obj)->h4 & ~0xc00) | 0x400;
-	pal = g_021D9FF8[g_021DE504->color];
-	o = g_021DE504->obj;
+	gAnimeWork->cnt = FX_ModS32(gAnimeWork->cnt + 1, 40);
+	name = FX_DivS32(gAnimeWork->cnt, 5) + 0x47;
+	DWCi_CEINlSet(0, name, gAnimeWork->obj);
+	((Obj *)gAnimeWork->obj)->h4 = (((Obj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
+	pal = sAnimePaletteByColor[gAnimeWork->color];
+	o = gAnimeWork->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	((Obj *)g_021DE504->obj)->w0 = (((Obj *)g_021DE504->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	((Obj *)gAnimeWork->obj)->w0 = (((Obj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
 }

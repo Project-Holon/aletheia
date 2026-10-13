@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9F4
+ * function: WIFICLUB_CreateLevelMenu
  * address:  0x021BB9F4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021C3B30  0x021C3B30  data
- *   func_021BAC24  0x021BAC24  thumb  ov099
+ *   gWifiClubMenuHeaderSlot  0x021C3B30  data
+ *   WIFICLUB_CreateMenuList  0x021BAC24  thumb  ov099
  *   data_021C3B34  0x021C3B34  data
- *   data_021C3A00  0x021C3A00  data
+ *   gWifiClubLevelMenuItems  0x021C3A00  data
  *
  * Writes the two halfwords at 0x021C3B44 and runs the script pair with 3 / 2 / 0x11.
  */
@@ -26,14 +26,14 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u8 data_021C3B30[];
-extern void func_021BAC24(int a, void *b, void *c, int d, int e, int f);
+extern u8 gWifiClubMenuHeaderSlot[];
+extern void WIFICLUB_CreateMenuList(int a, void *b, void *c, int d, int e, int f);
 
-void func_021BB9F4(int a)
+void WIFICLUB_CreateLevelMenu(int a)
 {
-    u16 *r = (u16 *)data_021C3B30;
+    u16 *r = (u16 *)gWifiClubMenuHeaderSlot;
 
     r[0xA] = 3;
     r[0xB] = 3;
-    func_021BAC24(a, (void *)0x021C3B34, (void *)0x021C3A00, 3, 2, 0x11);
+    WIFICLUB_CreateMenuList(a, (void *)0x021C3B34, (void *)0x021C3A00, 3, 2, 0x11);
 }

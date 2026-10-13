@@ -1,5 +1,5 @@
 /*
- * function: func_02074770
+ * function: NNS_SndHeapClear
  * address:  0x02074770
  * packet:   pkt_020737C0
  * region:   arm9
@@ -15,8 +15,8 @@
  * +0x14). Each exhausted list is unlinked with func_020605B4 and the outer walk
  * restarts from the head, so the loop terminates when the list is empty. The
  * tail then releases the heap through func_02061158(o->f00, 3), calls
- * func_02074A34 once if any callback ran at all, and finishes with
- * func_020749F8(o).
+ * NNSi_SndHeapFlushCommands once if any callback ran at all, and finishes with
+ * NNSi_SndHeapAllocLevel(o).
  *
  * PINNED ../2.0/sp2, the pin seven cluster siblings carry.
  *
@@ -41,12 +41,12 @@
  *   func_0206062C  0x0206062C  arm
  *   func_020605B4  0x020605B4  arm
  *   func_02061158  0x02061158  arm
- *   func_02074A34  0x02074A34  arm
- *   func_020749F8  0x020749F8  arm
+ *   NNSi_SndHeapFlushCommands  0x02074A34  arm
+ *   NNSi_SndHeapAllocLevel  0x020749F8  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02074770.c \
- *       --func func_02074770 --addr 0x02074770 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNS_SndHeapClear.c \
+ *       --func NNS_SndHeapClear --addr 0x02074770 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -67,10 +67,10 @@ extern void *func_0206062C(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
 struct Table;
 extern void func_02061158(void *p, int flags);
-extern void  func_02074A34(void);
-extern int func_020749F8(struct Table *t);
+extern void  NNSi_SndHeapFlushCommands(void);
+extern int NNSi_SndHeapAllocLevel(struct Table *t);
 
-void func_02074770(struct Obj *o)
+void NNS_SndHeapClear(struct Obj *o)
 {
     void *a;
     u32 any;
@@ -92,6 +92,6 @@ void func_02074770(struct Obj *o)
     }
 
     func_02061158((void *)o->f00, 3);
-    if (any != 0) func_02074A34();
-    func_020749F8((struct Table *)o);
+    if (any != 0) NNSi_SndHeapFlushCommands();
+    NNSi_SndHeapAllocLevel((struct Table *)o);
 }

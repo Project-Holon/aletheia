@@ -30,7 +30,7 @@
  *   func_020056A0     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_020307B0   0x020307B0  arm
  *   func_02030EAC   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
@@ -38,7 +38,7 @@
  *   func_020490F4         0x020490F4  arm
  *   ENV_SetResourceSet_2  0x02049238  arm
  *   MCSS_FreeResource  0x02016BA0  thumb
- *   func_0206DB80    0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   MTX_Inverse43    0x0207B67C  arm
  *   MI_Copy36B       0x02082B60  arm
  *   MTX_Copy33To44_  0x0207ADE8  arm
@@ -62,12 +62,12 @@
  *   func_02063000  0x02063000  arm
  *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
  *   func_020627D8  0x020627D8  arm
- *   func_0206469C  0x0206469C  arm
+ *   NNS_G2dSetAnimSequenceToMCAnimation  0x0206469C  arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02030DA8  0x02030DA8  arm
- *   func_02082A60  0x02082A60  arm
  *   MIi_CpuCopy16  0x02082A60  arm
- *   func_02064CBC  0x02064CBC  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
+ *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  *   func_02063A54  0x02063A54  arm
  *   func_02063E54  0x02063E54  arm
  *   sub_02030EAC   0x02030EAC  arm
@@ -102,6 +102,9 @@
  *   ARC_UTIL_LoadMultiAnimBankFromArchive  0x0204A13C  arm
  *   ARC_UTIL_LoadMultiAnimBankFromHandle  0x0204A17C  arm
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   NNS_G2dInitMCAnimation  0x02064754  arm
+ *   NNS_G2dGetMCWorkAreaSize  0x020648B4  arm
+ *   NNS_G2dTickMCAnimation  0x020649D4  arm
  */
 
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
@@ -462,16 +465,16 @@ extern void func_020637D4(u32 *proxy);
 extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
 extern void *func_020056A0(void *fn, void *work, u32 priority);
 extern void MCSS_CloseHandle(McssSys *sys);
-extern void *TCBL_IsDeletePending(void *task);
+extern void *TCBL_GetTaskUserData(void *task);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(void *task);
 extern void MCSS_Del(McssSys *sys, McssWork *work);
-extern void func_020649D4(McssAnimCtrl *ctrl, fx32 speed);
+extern void NNS_G2dTickMCAnimation(McssAnimCtrl *ctrl, fx32 speed);
 extern void MCSS_RestartAnime(McssWork *work);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void  ENV_SetResourceSet_2(void *arcHandle);
 extern void MCSS_FreeResource(McssWork *work);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern int  MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Copy33To44_(const MtxFx33 *src, MtxFx44 *dst);
@@ -489,12 +492,12 @@ extern void MCSS_DeleteTextureTask(void *taskHandle);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 extern void *func_020627D8(struct AnimBank *bank, u32 idx);
-extern void func_0206469C(McssAnimCtrl *ctrl, void *seq);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
 extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
-extern void  func_02082A60(const void *src, void *dst, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void func_02064CBC(McssAnimCtrl *ctrl);
+extern void NNS_G2dRestartMCAnimation(McssAnimCtrl *ctrl);
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
@@ -510,8 +513,8 @@ extern void *func_02049DF4(void *arcHandle, u32 member, u32 flag, McssTransTask 
 extern void *func_02049F78(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
 extern void func_02063A54(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
 extern void func_02063E54(McssPlttData *pltt, u32 dst, int mode, McssPlttProxy *out);
-extern int func_020648B4(void *multiCellBank, int kind);
-extern void func_02064754(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank, void *cellBank, void *multiCellBank, int kind);
+extern int NNS_G2dGetMCWorkAreaSize(void *multiCellBank, int kind);
+extern void NNS_G2dInitMCAnimation(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank, void *cellBank, void *multiCellBank, int kind);
 extern double _s32_to_double(s32 v);
 extern double func_0209AB80(double base, double exponent);
 extern s32 _d2s(double d);
@@ -839,7 +842,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 
 /*
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
- * (three frees through the handle returned by TCBL_IsDeletePending, then the handle
+ * (three frees through the handle returned by TCBL_GetTaskUserData, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
  * one through MCSS_Del, finally the array and the record itself.
  *
@@ -853,7 +856,7 @@ void MCSS_Exit(McssSys *sys)
 
     MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
-        McssTransTask *task = TCBL_IsDeletePending(sys->shadowPlttTask);
+        McssTransTask *task = TCBL_GetTaskUserData(sys->shadowPlttTask);
 
         func_020307B0(task->plttData->data);
         func_020307B0(task->plttData);
@@ -917,12 +920,12 @@ void MCSS_Main(McssSys *sys)
         if (sys->works[i] == 0)
             continue;
         if (sys->works[i]->flags.bits.anmStopFlag == 0)
-            func_020649D4(&sys->works[i]->animCtrl, sys->works[i]->animeSpeed);
+            NNS_G2dTickMCAnimation(&sys->works[i]->animCtrl, sys->works[i]->animeSpeed);
         if (sys->works[i]->flags.bits.paletteFadeFlag != 0)
             MCSS_UpdatePaletteFade(sys, sys->works[i]);
         if (sys->works[i]->requestFlags.bits.stopAtStart == 1) {
             MCSS_RestartAnime(sys->works[i]);
-            func_020649D4(&sys->works[i]->animCtrl, 0);
+            NNS_G2dTickMCAnimation(&sys->works[i]->animCtrl, 0);
             sys->works[i]->requestFlags.raw &= ~1u;
         }
     }
@@ -1111,7 +1114,7 @@ void MCSS_Draw(McssSys *sys)
     fx32 sinRot;
     int billboard;
 
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     REG_MTX_PUSH = 0;
     REG_MTX_MODE = 0;
     REG_MTX_STORE = 0;
@@ -2256,7 +2259,7 @@ void MCSS_SetPaletteTransAdrs(McssSys *sys, unsigned int adrs)
  * lsls/lsrs #0x10 pair in the original is exactly that narrowing cast in
  * the callee, not something the caller is trusted to have done), releases
  * the handle at +0x98 through func_020307B0 if one is set, calls
- * MCSS_InitAnimCtrl(a, 1), passes the derived value into func_0206469C on the
+ * MCSS_InitAnimCtrl(a, 1), passes the derived value into NNS_G2dSetAnimSequenceToMCAnimation on the
  * member at +0x34, then clears bit 0 of the word at +0x144.
  *
  * Every concrete byte matches; MCSS_InitAnimCtrl (0x02016984, later in this
@@ -2281,7 +2284,7 @@ void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
     }
 
     MCSS_InitAnimCtrl(work, 1);
-    func_0206469C(&work->animCtrl, seq);
+    NNS_G2dSetAnimSequenceToMCAnimation(&work->animCtrl, seq);
     work->requestFlags.raw &= ~1u;
 }
 
@@ -2421,7 +2424,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
                   task->plttData->data,
                   (u16)((s32)work->plttByteSize / 2),
                   fadeLevel, (u16)fadeColor);
-    func_02082A60(task->plttData->data,
+    MIi_CpuCopy16(task->plttData->data,
                   work->plttCurrent, work->plttByteSize);
 
     if (work->paletteTask != 0) {
@@ -2492,7 +2495,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
  * A single matched function.
  *
  * alias: an argument-adjusting tail call: it shifts the object pointer to
- * a member 0x34 bytes in and hands off to func_02064CBC. See
+ * a member 0x34 bytes in and hands off to NNS_G2dRestartMCAnimation. See
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  *
  * Verified with:
@@ -2501,7 +2504,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
  */
 void MCSS_RestartAnime(McssWork *work)
 {
-    func_02064CBC(&work->animCtrl);
+    NNS_G2dRestartMCAnimation(&work->animCtrl);
 }
 
 
@@ -2809,9 +2812,9 @@ void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
 void MCSS_InitAnimCtrl(McssWork *work, int kind)
 {
     work->animWork = func_02030734((unsigned short)work->heapId,
-                                   func_020648B4(work->multiCellBank, kind),
+                                   NNS_G2dGetMCWorkAreaSize(work->multiCellBank, kind),
                                    0, sFileMcss, 0x970);
-    func_02064754(&work->animCtrl, work->animWork, work->cellAnimBank,
+    NNS_G2dInitMCAnimation(&work->animCtrl, work->animWork, work->cellAnimBank,
                   work->cellBank, work->multiCellBank, kind);
 }
 
@@ -2943,7 +2946,7 @@ dec:
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
  * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
- * an object through TCBL_IsDeletePending, releases one or two of the object's own
+ * an object through TCBL_GetTaskUserData, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through func_02030EAC.
  *
@@ -2990,7 +2993,7 @@ void MCSS_FreeResource(McssWork *work)
 
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
 
     if (task->texBuf != 0) {
         func_020307B0(task->texBuf);
@@ -3005,7 +3008,7 @@ void MCSS_DeleteTextureTask(void *taskHandle)
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
     func_020307B0(task->plttData->data);
     func_020307B0(task->plttData);
     func_020307B0(task);

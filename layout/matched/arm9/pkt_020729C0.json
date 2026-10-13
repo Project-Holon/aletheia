@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020729C0",
+   "name": "NNSi_SndWaveOutAllocSlot",
    "address": "0x020729C0",
    "kind": "game",
    "region": "arm9",

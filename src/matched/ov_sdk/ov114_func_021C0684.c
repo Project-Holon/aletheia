@@ -1,5 +1,5 @@
 /*
- * function: func_021C0684
+ * function: ghiDoSend
  * address:  0x021C0684
  * packet:   pkt_ov114_021C0684
  * region:   ov114
@@ -12,7 +12,7 @@
  * sdk:      ghiDoSend (libdwcgsghttp.TWL.HYB.a ghttpcommon.o)
  *
  * symbols:
- *   func_021C1C78  0x021c1c78  arm  ov114
+ *   ghiEncryptorSslSendFunc  0x021c1c78  arm  ov114
  *   send           0x0217ec90  arm  ov009
  *   GOAGetLastError 0x0217ed54 arm  ov009
  */
@@ -40,11 +40,11 @@ typedef struct GHIConnection {
     int f1ac;
 } GHIConnection;
 
-extern int func_021C1C78(void *a0, void *a1, char *a2, int a3, int *a4);
+extern int ghiEncryptorSslSendFunc(void *a0, void *a1, char *a2, int a3, int *a4);
 extern int send(int, char *, int, int);
 extern int GOAGetLastError(int);
 
-int func_021C0684(GHIConnection *connection, char *buffer, int len)
+int ghiDoSend(GHIConnection *connection, char *buffer, int len)
 {
     int rcode;
     int bytesSent;
@@ -54,7 +54,7 @@ int func_021C0684(GHIConnection *connection, char *buffer, int len)
         return 0;
     if (connection->f198 != 0 && connection->f1a4 == 1 && connection->f1ac == 1) {
         bytesSent = 0;
-        if (func_021C1C78(connection, &connection->f194, buffer, len, &bytesSent) == 1) {
+        if (ghiEncryptorSslSendFunc(connection, &connection->f194, buffer, len, &bytesSent) == 1) {
             rcode = bytesSent;
             if (rcode == -1)
                 return -2;

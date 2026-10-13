@@ -20,7 +20,7 @@ extern void BTL_SERVER_FLOW_TryFinishMainCounter(u8 *, int);
 void HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone(int a, u8 *b, int c);
 
 /*
- * Sibling of func_021DF3B0 against the func_021DFE08 probe.
+ * Sibling of DWC_ScReportEnd against the scReportAddByteValue probe.
  */
 void HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone(int a, u8 *b, int c)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021E216C
+ * function: DWCi_GdbSetUseSSL
  * address:  0x021E216C
  * packet:   pkt_ov175_021E216C
  * region:   ov175
@@ -14,17 +14,17 @@
  * symbols:
  *   func_02084F80  0x02084F80  arm
  *   func_021BF520  0x021BF520  arm  ov114
- *   func_021DD4B0  0x021DD4B0  arm  ov175
- *   func_021DD3F8  0x021DD3F8  arm  ov175
- *   g_021E4C88  0x021E4C88  data
+ *   sakeSetFileUploadURL  0x021DD4B0  arm  ov175
+ *   sakeSetFileDownloadURL  0x021DD3F8  arm  ov175
+ *   gDwcGdbStorageServerUrl  0x021E4C88  data
  *   g_021AE01C  0x021AE01C  data
- *   g_021E47DC  0x021E47DC  data
- *   g_021E4830  0x021E4830  data
- *   g_021E4878  0x021E4878  data
- *   g_021E48C4  0x021E48C4  data
- *   g_021E4914  0x021E4914  data
- *   g_021E495C  0x021E495C  data
- *   g_021E5334  0x021E5334  data
+ *   sDwcGdbStorageUrlFormatSecure2  0x021E47DC  data
+ *   sDwcGdbUploadUrlFormatSecure2  0x021E4830  data
+ *   sDwcGdbDownloadUrlFormatSecure2  0x021E4878  data
+ *   sDwcGdbStorageUrlFormatSecure  0x021E48C4  data
+ *   sDwcGdbUploadUrlFormatSecure  0x021E4914  data
+ *   sDwcGdbDownloadUrlFormatSecure  0x021E495C  data
+ *   gDwcGdbEntity  0x021E5334  data
  */
 
 typedef unsigned char u8;
@@ -53,42 +53,42 @@ typedef struct {
 
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_021BF520(int a);
-extern int func_021DD4B0(char *a, char *b);
-extern int func_021DD3F8(char *a, char *b);
-extern char g_021E4C88[];
+extern int sakeSetFileUploadURL(char *a, char *b);
+extern int sakeSetFileDownloadURL(char *a, char *b);
+extern char gDwcGdbStorageServerUrl[];
 extern char g_021AE01C[];
-extern char g_021E47DC[];
-extern char g_021E4830[];
-extern char g_021E4878[];
-extern char g_021E48C4[];
-extern char g_021E4914[];
-extern char g_021E495C[];
-extern DWCiGdbEntity g_021E5334;
+extern char sDwcGdbStorageUrlFormatSecure2[];
+extern char sDwcGdbUploadUrlFormatSecure2[];
+extern char sDwcGdbDownloadUrlFormatSecure2[];
+extern char sDwcGdbStorageUrlFormatSecure[];
+extern char sDwcGdbUploadUrlFormatSecure[];
+extern char sDwcGdbDownloadUrlFormatSecure[];
+extern DWCiGdbEntity gDwcGdbEntity;
 
-void func_021E216C(int ssl_type)
+void DWCi_GdbSetUseSSL(int ssl_type)
 {
     char upload_url[128];
     char download_url[128];
 
     switch (ssl_type) {
     case 1:
-        func_02084F80(g_021E4C88, 128, g_021E47DC, g_021AE01C);
-        func_021BF520((int)g_021E4C88);
-        func_02084F80(upload_url, 128, g_021E4830, g_021AE01C);
+        func_02084F80(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure2, g_021AE01C);
+        func_021BF520((int)gDwcGdbStorageServerUrl);
+        func_02084F80(upload_url, 128, sDwcGdbUploadUrlFormatSecure2, g_021AE01C);
         func_021BF520((int)upload_url);
-        func_02084F80(download_url, 128, g_021E4878, g_021AE01C);
+        func_02084F80(download_url, 128, sDwcGdbDownloadUrlFormatSecure2, g_021AE01C);
         func_021BF520((int)download_url);
         break;
     case 0:
     default:
-        func_02084F80(g_021E4C88, 128, g_021E48C4, g_021AE01C);
-        func_021BF520((int)g_021E4C88);
-        func_02084F80(upload_url, 128, g_021E4914, g_021AE01C);
+        func_02084F80(gDwcGdbStorageServerUrl, 128, sDwcGdbStorageUrlFormatSecure, g_021AE01C);
+        func_021BF520((int)gDwcGdbStorageServerUrl);
+        func_02084F80(upload_url, 128, sDwcGdbUploadUrlFormatSecure, g_021AE01C);
         func_021BF520((int)upload_url);
-        func_02084F80(download_url, 128, g_021E495C, g_021AE01C);
+        func_02084F80(download_url, 128, sDwcGdbDownloadUrlFormatSecure, g_021AE01C);
         func_021BF520((int)download_url);
         break;
     }
-    func_021DD4B0(g_021E5334.sake, upload_url);
-    func_021DD3F8(g_021E5334.sake, download_url);
+    sakeSetFileUploadURL(gDwcGdbEntity.sake, upload_url);
+    sakeSetFileDownloadURL(gDwcGdbEntity.sake, download_url);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02157E54
+ * function: send_arprequest
  * address:  0x02157E54
  * packet:   pkt_ov009_02157E54
  * region:   ov009
@@ -14,14 +14,14 @@
  * symbols:
  *   MI_CpuFill8              0x02082BCC  arm
  *   MI_CpuCopy               0x02082EA4  arm
- *   func_021579E8            0x021579E8  arm  ov009
+ *   send_packet            0x021579E8  arm  ov009
  *   g_021A82D4               0x021A82D4  data
  *   g_021A826C               0x021A826C  data
  */
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
-extern void func_021579E8(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
+extern void send_packet(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len);
 extern unsigned char g_021A82D4[6];
 extern unsigned char g_021A826C;
 
@@ -34,7 +34,7 @@ static inline void put_ip(unsigned char *p, unsigned long v)
 	*(unsigned short *)(p + 2) = SWAP16((unsigned short)v);
 }
 
-void func_02157E54(unsigned long ip)
+void send_arprequest(unsigned long ip)
 {
 	unsigned char buf[42];
 
@@ -49,5 +49,5 @@ void func_02157E54(unsigned long ip)
 	MI_CpuCopy(g_021A82D4, buf + 22, 6);
 	put_ip(buf + 28, NV(0x50, unsigned long));
 	put_ip(buf + 38, ip);
-	func_021579E8(buf, 42, 0, 0);
+	send_packet(buf, 42, 0, 0);
 }

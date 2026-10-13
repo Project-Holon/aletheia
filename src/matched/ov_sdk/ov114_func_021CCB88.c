@@ -1,5 +1,5 @@
 /*
- * function: func_021CCB88
+ * function: CRYPTOi__BN_div_recp
  * address:  0x021CCB88
  * packet:   pkt_ov114_021CCB88
  * region:   ov114
@@ -12,15 +12,15 @@
  * sdk:      CRYPTOi__BN_div_recp (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CB078  0x021CB078  arm  ov114
- *   func_021CAEC8  0x021CAEC8  arm  ov114
- *   func_021CAE20  0x021CAE20  arm  ov114
- *   func_021CAB94  0x021CAB94  arm  ov114
- *   func_021CCDFC  0x021CCDFC  arm  ov114
- *   func_021CB2A4  0x021CB2A4  arm  ov114
- *   func_021CB9BC  0x021CB9BC  arm  ov114
- *   func_021CB764  0x021CB764  arm  ov114
- *   func_021CB3B4  0x021CB3B4  arm  ov114
+ *   CRYPTOi__BN_ucmp  0x021CB078  arm  ov114
+ *   CRYPTOi__BN_set_word  0x021CAEC8  arm  ov114
+ *   CRYPTOi__BN_copy  0x021CAE20  arm  ov114
+ *   CRYPTOi__BN_num_bits  0x021CAB94  arm  ov114
+ *   CRYPTOi__BN_reciprocal  0x021CCDFC  arm  ov114
+ *   CRYPTOi__BN_rshift  0x021CB2A4  arm  ov114
+ *   CRYPTOi__BN_mul  0x021CB9BC  arm  ov114
+ *   CRYPTOi__BN_usub  0x021CB764  arm  ov114
+ *   CRYPTOi__BN_add_word  0x021CB3B4  arm  ov114
  */
 
 typedef unsigned int BN_ULONG;
@@ -52,18 +52,18 @@ typedef struct
     int flags;
 } BN_RECP_CTX;
 
-extern int func_021CB078(const BIGNUM *, const BIGNUM *);
+extern int CRYPTOi__BN_ucmp(const BIGNUM *, const BIGNUM *);
 typedef unsigned char  u8;
-extern int func_021CAEC8(u8 *a, unsigned long w);
-extern u8 *func_021CAE20(u8 *a, u8 *b);
-extern char *func_021CAB94(u8 *p);
-extern int func_021CCDFC(BIGNUM *, const BIGNUM *, int, BN_CTX *);
-extern int func_021CB2A4(BIGNUM *, const BIGNUM *, int);
-extern int func_021CB9BC(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
-extern int func_021CB764(BIGNUM *, const BIGNUM *, const BIGNUM *);
-extern int func_021CB3B4(BIGNUM *, BN_ULONG);
+extern int CRYPTOi__BN_set_word(u8 *a, unsigned long w);
+extern u8 *CRYPTOi__BN_copy(u8 *a, u8 *b);
+extern char *CRYPTOi__BN_num_bits(u8 *p);
+extern int CRYPTOi__BN_reciprocal(BIGNUM *, const BIGNUM *, int, BN_CTX *);
+extern int CRYPTOi__BN_rshift(BIGNUM *, const BIGNUM *, int);
+extern int CRYPTOi__BN_mul(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
+extern int CRYPTOi__BN_usub(BIGNUM *, const BIGNUM *, const BIGNUM *);
+extern int CRYPTOi__BN_add_word(BIGNUM *, BN_ULONG);
 
-int func_021CCB88(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BN_RECP_CTX *recp, BN_CTX *ctx)
+int CRYPTOi__BN_div_recp(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BN_RECP_CTX *recp, BN_CTX *ctx)
 {
     int i, j, tos, ret = 0, ex;
     BIGNUM *a, *b, *d, *r;
@@ -80,15 +80,15 @@ int func_021CCB88(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BN_RECP_CTX *recp, BN_CTX 
     else
         r = &(ctx->bn[ctx->tos++]);
 
-    if (func_021CB078(m, &(recp->N)) < 0)
+    if (CRYPTOi__BN_ucmp(m, &(recp->N)) < 0)
     {
-        func_021CAEC8((u8 *)d, 0);
-        func_021CAE20((u8 *)r, (u8 *)m);
+        CRYPTOi__BN_set_word((u8 *)d, 0);
+        CRYPTOi__BN_copy((u8 *)r, (u8 *)m);
         ctx->tos = tos;
         return 1;
     }
 
-    i = (int)func_021CAB94((u8 *)m);
+    i = (int)CRYPTOi__BN_num_bits((u8 *)m);
 
     j = recp->num_bits * 2;
     if (j > i)
@@ -104,29 +104,29 @@ int func_021CCB88(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, BN_RECP_CTX *recp, BN_CTX 
     j = i / 2;
 
     if (i != recp->shift)
-        recp->shift = func_021CCDFC(&(recp->Nr), &(recp->N), i, ctx);
+        recp->shift = CRYPTOi__BN_reciprocal(&(recp->Nr), &(recp->N), i, ctx);
 
-    if (!func_021CB2A4(a, m, j - ex))
+    if (!CRYPTOi__BN_rshift(a, m, j - ex))
         goto err;
-    if (!func_021CB9BC(b, a, &(recp->Nr), ctx))
+    if (!CRYPTOi__BN_mul(b, a, &(recp->Nr), ctx))
         goto err;
-    if (!func_021CB2A4(d, b, j + ex))
+    if (!CRYPTOi__BN_rshift(d, b, j + ex))
         goto err;
     d->neg = 0;
-    if (!func_021CB9BC(b, &(recp->N), d, ctx))
+    if (!CRYPTOi__BN_mul(b, &(recp->N), d, ctx))
         goto err;
-    if (!func_021CB764(r, m, b))
+    if (!CRYPTOi__BN_usub(r, m, b))
         goto err;
     r->neg = 0;
 
     j = 0;
-    while (func_021CB078(r, &(recp->N)) >= 0)
+    while (CRYPTOi__BN_ucmp(r, &(recp->N)) >= 0)
     {
         if (j++ > 2)
             goto err;
-        if (!func_021CB764(r, r, &(recp->N)))
+        if (!CRYPTOi__BN_usub(r, r, &(recp->N)))
             goto err;
-        if (!func_021CB3B4(d, 1))
+        if (!CRYPTOi__BN_add_word(d, 1))
             goto err;
     }
 

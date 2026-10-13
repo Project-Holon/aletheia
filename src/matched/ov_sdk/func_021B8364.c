@@ -1,5 +1,5 @@
 /*
- * function: func_021B8364
+ * function: AOSS_Strlen
  * address:  0x021B8364
  * packet:   pkt_021B82C8
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8364   0x021B8364  thumb
+ *   AOSS_Strlen   0x021B8364  thumb
  *
  * Length of a NUL-terminated signed-char string.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B8364.c \
- *       --func func_021B8364 --addr 0x021B8364 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/AOSS_Strlen.c \
+ *       --func AOSS_Strlen --addr 0x021B8364 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-int func_021B8364(const char *p)
+int AOSS_Strlen(const char *p)
 {
     int n = 0;
     while (p[n] != 0)

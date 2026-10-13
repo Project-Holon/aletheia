@@ -1,5 +1,5 @@
 /*
- * function: sub_0200C818
+ * function: ZUKAN_SAVE_SetSeenGenderFlag
  * address:  0x0200C818
  * packet:   pkt_0200C818
  * region:   arm9
@@ -29,8 +29,8 @@
  *    lsls/lsrs #0x18 pair around the mask.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0200C818.c \
- *       --func sub_0200C818 --addr 0x0200C818 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZUKAN_SAVE_SetSeenGenderFlag.c \
+ *       --func ZUKAN_SAVE_SetSeenGenderFlag --addr 0x0200C818 --cc 1.1p1 --thumb
  *   -> EXACT* (250 of 250 bytes; the listing extent runs two bytes long
  *      over the pool padding after the body)
  */
@@ -39,7 +39,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void sub_0200C818(u8 *p, u32 idx, int sel, int half)
+void ZUKAN_SAVE_SetSeenGenderFlag(u8 *p, u32 idx, int sel, int half)
 {
     if (sel == 0) {
         if (half == 1) {

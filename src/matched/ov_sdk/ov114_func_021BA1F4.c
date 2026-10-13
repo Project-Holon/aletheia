@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1F4
+ * function: NHTTPi_getUrlEncodedSize
  * address:  0x021BA1F4
  * packet:   pkt_021BA1F4
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BA1F4(char *s)
+int NHTTPi_getUrlEncodedSize(char *s)
 {
     int w = 0;
     char c;

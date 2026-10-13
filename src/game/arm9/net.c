@@ -21,8 +21,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
  *   GFL_NET_HANDLE_GetNetHandle   0x0203996C  arm
- *   func_02082D44  0x02082D44  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02034F84  0x02034F84  arm
  *   gGFLNetMain     0x021469E0  data
@@ -101,8 +101,8 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
-extern void func_02082D44(const void *src, void *dst, int n);
-extern void func_02087C6C(void *dst);
+extern void MI_CpuCopy8(const void *src, void *dst, int n);
+extern void OS_GetMacAddress(void *dst);
 extern s32 func_0203EFC8(const u8 *lhs, const u8 *rhs, u32 size);
 extern void func_02034F84(u32 flag);
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
@@ -352,7 +352,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
         func_02034714(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
         req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, userArg);
-    func_02082D44(req, session, 0x70);
+    MI_CpuCopy8(req, session, 0x70);
     switch (req->bNetType) {
     case 1:
     case 2:
@@ -2622,7 +2622,7 @@ void GFL_NET_GetIrcParams(u32 *outParamA, u32 *outParamB)
  */
 void GFL_NET_CopyInitParam(void *dst)
 {
-    func_02082D44(dst, GFL_NET_GetSession(), 0x70);
+    MI_CpuCopy8(dst, GFL_NET_GetSession(), 0x70);
 }
 
 
@@ -2949,7 +2949,7 @@ void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac)
         u8 emptyMac[6] = {0, 0, 0, 0, 0, 0};
         for (i = 0; i < 4; i++) {
             if (func_0203EFC8(emptyMac, gNetIrcWirelessLink->macs.mac[i].addr, 6) == 0) {
-                func_02082D44(mac, gNetIrcWirelessLink->macs.mac[i].addr, 6);
+                MI_CpuCopy8(mac, gNetIrcWirelessLink->macs.mac[i].addr, 6);
                 gNetIrcWirelessLink->macs.count = i;
                 return;
             }
@@ -2971,7 +2971,7 @@ void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot)
     NetIrcWirelessLink *link = gNetIrcWirelessLink;
 
     if (link != 0) {
-        func_02082D44(link->macs.mac[slot].addr, dst, 6);
+        MI_CpuCopy8(link->macs.mac[slot].addr, dst, 6);
     } else {
         func_02034714(sNetIrcWirelessFileName, 0x109, (const char *)str_020A7D48);
     }
@@ -3168,7 +3168,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         u8 *scanEntry;
 
         scanIndex = 0;
-        func_02087C6C(ownMac);
+        OS_GetMacAddress(ownMac);
         for (;; scanIndex++) {
             scanEntry = (u8 *)GFL_NET_GetScanResult((int)scanIndex);
             if (scanEntry == 0)
@@ -3271,7 +3271,7 @@ void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *beaconArg)
     if (link == 0)
         return 0;
     beaconData = link->savedGetBeaconDataFunc(beaconArg);
-    func_02082D44(beaconData, link->beaconCopy, 0x4C);
+    MI_CpuCopy8(beaconData, link->beaconCopy, 0x4C);
     return &link->macs;
 }
 

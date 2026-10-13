@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215A108",
+   "name": "dispatch_tcp",
    "address": "0x0215A108",
    "kind": "sdk",
    "region": "ov009",

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   UNION_CHARA_CheckMemberUnique  0x0217B158  thumb  ov019
  *   UNION_CHARA_AddSlot  0x0217AFE4  thumb  ov019
@@ -41,7 +41,7 @@ typedef struct {
     u8 *slot[5];
 } Obj;
 
-extern void func_02087C6C(void *);
+extern void OS_GetMacAddress(void *);
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, unsigned int n);
 struct ent;
@@ -62,7 +62,7 @@ void UNION_CHARA_AddBeaconMembers(int a, int b, int c, int d, Obj *e)
 
     if (e->f6c == 0)
         return;
-    func_02087C6C(buf);
+    OS_GetMacAddress(buf);
     for (i = 0; i < 5; i++) {
         if (e->slot[i] == 0 && e->tab[i].f1 == 1
             && func_0203EFC8(buf, (const u8 *)(&e->tab[i]), 6) != 0

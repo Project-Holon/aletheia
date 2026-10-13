@@ -1,5 +1,5 @@
 /*
- * function: func_0689B790
+ * function: BTLV_SCD_PollCounterTouch
  * address:  0x0689B790
  * packet:   pkt_0689B790
  * region:   ov095
@@ -15,8 +15,8 @@
  *
  * symbols:
  *   func_02202DC4   0x02202DC4  thumb  ov094
- *   d_0689D934      0x0689D934  data   ov095
- *   d_0689DEBC      0x0689DEBC  data   ov095
+ *   gBtlvScdCounterRegionsA      0x0689D934  data   ov095
+ *   gBtlvScdCounterRegionsB      0x0689DEBC  data   ov095
  */
 #include "../include/Obj21901.h"
 
@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02202DC4(void *, void *, void *);
-extern char d_0689D934[];
-extern char d_0689DEBC[];
+extern char gBtlvScdCounterRegionsA[];
+extern char gBtlvScdCounterRegionsB[];
 
-void func_0689B790(void *p)
+void BTLV_SCD_PollCounterTouch(void *p)
 {
-    func_02202DC4(((struct Obj21901 *)p)->fB0, d_0689D934, d_0689DEBC);
+    func_02202DC4(((struct Obj21901 *)p)->fB0, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
 }

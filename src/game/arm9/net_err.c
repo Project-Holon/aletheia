@@ -26,7 +26,7 @@
  *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   DWC_GetGsProfileId      0x020598EC  arm
  *   DWC_IsValidFriendData   0x020596D8  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   MYSTATUS_CreateNameStrbuf   0x02008510  thumb
  *   MYSTATUS_GetId   0x02008530  thumb
  *   MYSTATUS_GetProfileId   0x0200853C  thumb
@@ -86,7 +86,7 @@
  *   func_02082A7C  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02062AD4  0x02062AD4  arm
  *   func_02062A98  0x02062A98  arm
@@ -293,7 +293,7 @@ extern u32 func_02009A34(struct WifiFriendSave *save);
 extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
 extern void DWC_CreateFriendKeyToken(DWCFriendData *token, u64 friendKey);
 extern int  DWC_IsValidFriendData(const void *friendData);
-extern void  func_02082D44(void *dst, const void *src, u32 size);
+extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern struct U16String *MYSTATUS_CreateNameStrbuf(struct PlayerProfileSrc *profile, int heapId);
 extern u32 MYSTATUS_GetId(const struct PlayerProfileSrc *profile);
 extern u32 MYSTATUS_GetProfileId(const struct PlayerProfileSrc *profile);
@@ -355,7 +355,7 @@ extern void GX_SetBankForSubBG(u32 bank);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
 extern s32 func_02062A4C(struct NitroResFile *file, void **out);
-extern void func_020862F0(void *p, u32 size);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 size);
 extern int func_02062B30(void *file, void **out);
 extern s32 func_02062AD4(struct NitroResFile *file, void **out);
 extern s32 func_02062A98(struct NitroResFile *file, void **out);
@@ -566,7 +566,7 @@ int func_0200F4E4(void *friendData)
     if (searchResult == 0) {
         /* nothing */
     } else if (searchResult == 1) {
-        func_02082D44(friendData, (unsigned char *)friendList + slot * 0xc, 0xc);
+        MI_CpuCopy8(friendData, (unsigned char *)friendList + slot * 0xc, 0xc);
     } else if (searchResult == 2) {
         result = 1;
     }
@@ -600,7 +600,7 @@ void sub_0200F594(void *saveData, void *profile, void *friendData, int slot, voi
     void *record = WIFILIST_GetDwcFriendData(saveBlock, slot);
 
     if (mode != 2) {
-        func_02082D44(friendData, record, 0xc);
+        MI_CpuCopy8(friendData, record, 0xc);
     }
     if (mode == 0) {
         sub_0200F520(saveBlock, profile, slot, (int)heapId, 1);
@@ -1365,7 +1365,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     if (func_02062A4C(file, (void **)(&charData)) != 0) {
         u32 size;
         void *dst;
-        func_020862F0(charData->pixels, charData->size);
+        DWCi_ScreenDC_FlushRange(charData->pixels, charData->size);
         size = charData->size;
         dst = G2_GetBG1CharPtr();
         MIi_CpuCopy16(charData->pixels, dst, size);
@@ -1376,7 +1376,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     if (func_02062B30(file, (void **)(&scrnData)) != 0) {
         u32 size;
         void *dst;
-        func_020862F0(scrnData->data, scrnData->size);
+        DWCi_ScreenDC_FlushRange(scrnData->data, scrnData->size);
         size = scrnData->size;
         dst = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(scrnData->data, dst, size);
@@ -1386,7 +1386,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
     func_02062AD4(file, (void **)(&unusedData));
     if (func_02062A98(file, (void **)(&plttData)) != 0) {
-        func_020862F0(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
+        DWCi_ScreenDC_FlushRange(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);
         MIi_CpuCopy16(plttData->colors, (void *)HW_BG_PLTT, NET_ERR_PLTT_BACKUP_SIZE);
     }
     func_020307B0(file);

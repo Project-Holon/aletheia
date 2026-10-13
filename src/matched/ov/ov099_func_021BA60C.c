@@ -1,5 +1,5 @@
 /*
- * function: func_021BA60C
+ * function: WIFICLUBACTOR_InitBlink
  * address: 0x021BA60C
  * packet: pkt_ov099_021BA60C
  * region: ov099
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void MI_CpuFill8(void *, u32, u32);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern const u16 d_021C2878[];
-void func_021BA60C(char *a, char *p, u32 unused, u32 arc)
+void WIFICLUBACTOR_InitBlink(char *a, char *p, u32 unused, u32 arc)
 {
     MI_CpuFill8(p, 0, 20);
     ((struct Obj06351 *)p)->f0 = func_02049F34(arc, 9, (u32)(p + 4), (u16)(((struct Obj22018 *)a)->f4));

@@ -59,7 +59,7 @@
  *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
  *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
- *   func_02082A90 0x02082A90 arm
+ *   MIi_CpuCopy32 0x02082A90 arm
  *   func_021C2B74 0x021C2B74 arm ov172
  *   func_021BDFDC 0x021BDFDC thumb ov172
  *   func_021B7740 0x021B7740 thumb ov172
@@ -100,7 +100,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   d_021C7200 0x021C7200 data a4
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
@@ -416,7 +416,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
 extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
-extern void func_02082A90(const void *, void *, u32);
+extern void MIi_CpuCopy32(const void *, void *, u32);
 extern unsigned long func_021C2B74(void *src, unsigned char *dst, int limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
 extern u32 func_021BDFDC(void *);
 extern void func_021B7740(void *, char *, int, int);
@@ -457,7 +457,7 @@ extern void func_021B6E88(char *p, void *q);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
-extern void func_02082A60(const void *, void *, u32);
+extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(void *, u32, u32, u32, u32);
@@ -1429,7 +1429,7 @@ void func_021B8154(void *a, char *b)
                         r7 = func_021BDFDC(a);
                         s18 = func_021B7818(a, (void *)r7);
                         s1c = func_021B785C(a, r7);
-                        func_02082A90((void *)s18, (void *)W(0x18c), s1c);
+                        MIi_CpuCopy32((void *)s18, (void *)W(0x18c), s1c);
                         s20 = func_021B77B8(a, r7);
                         s24 = func_021B77E8(a, r7);
                         res = func_021C2B74((void *)W(0x18c), (unsigned char *)W(0x190), s1c, (unsigned char *)W(0x188), s20, s24, 0x46, 1, 4);
@@ -2250,7 +2250,7 @@ char *func_021B8C3C(char *unused, u16 heap)
     ((struct Obj04552 *)q)->f20 = ((struct Obj04552 *)q)->f1C;
     *(char * *)&((struct Obj04552 *)q)->f24 = *(char * *)&((struct Obj04552 *)q)->f1C + 8;
     ((struct Obj04552 *)q)->fD = 4;
-    func_02082A60((void *)0x05000420, q + 0x5a, 32);
+    MIi_CpuCopy16((void *)0x05000420, q + 0x5a, 32);
     for (i = 0; i < 16; i++) *(u16 *)(q + i * 2 + 0x3a) = 32767;
     return q;
 }

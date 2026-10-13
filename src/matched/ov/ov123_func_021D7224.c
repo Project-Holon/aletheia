@@ -11,7 +11,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   d_021DAB78 0x021DAB78 data a1
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
@@ -33,7 +33,7 @@ extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
-extern void func_02082D44(void *,void *,int);
+extern void MI_CpuCopy8(void *,void *,int);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
 extern void *POKE_TOOL_GetBoxParam(void *p);
@@ -56,7 +56,7 @@ void func_021D7224(char *p)
     if (func_020076D0(((struct Obj01736 *)p)->f24,(int *)(p+0x48),(int *)(p+0x4c))) {
         q=func_02030734(((struct Obj01736 *)p)->f0,POKE_TOOL_GetPartyParamSize(),1,d_021DAB78,0x245);
         size=POKE_TOOL_GetPartyParamSize();
-        func_02082D44(func_02009290(g),q,size);
+        MI_CpuCopy8(func_02009290(g),q,size);
         if (((struct Obj01736 *)p)->f6C) {
             n=POKE_TOOL_GetPartyValue(q,158,0);
             if (n==100) ((struct Obj01736 *)p)->f6C=0;

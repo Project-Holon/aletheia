@@ -1,5 +1,5 @@
 /*
- * function: func_020593B8
+ * function: DWC_Acc_FriendKeyToGsProfileId
  * address:  0x020593B8
  * packet:   pkt_020593B8
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern int DWC_Acc_CheckFriendKey(unsigned long long friendkey, unsigned long gamecode, int method);
 
-int func_020593B8(unsigned long long friendkey, unsigned long gamecode)
+int DWC_Acc_FriendKeyToGsProfileId(unsigned long long friendkey, unsigned long gamecode)
 {
     int i;
 

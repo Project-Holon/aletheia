@@ -1,5 +1,5 @@
 /*
- * function: func_021B7560
+ * function: IRC_RANKING_ProcInit
  * address: 0x021B7560
  * packet: pkt_ov106_021B7560
  * region: ov106
@@ -17,25 +17,25 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   func_021B8B9C 0x021B8B9C thumb ov106
- *   func_021B7FF8 0x021B7FF8 thumb ov106
- *   func_021B80B0 0x021B80B0 thumb ov106
+ *   IRC_RANKING_DataCreate 0x021B8B9C thumb ov106
+ *   IRC_RANKING_DisplayInit 0x021B7FF8 thumb ov106
+ *   IRC_RANKING_GetClactUnit 0x021B80B0 thumb ov106
  *   BMP_OAM_CreateSys 0x02025538 thumb
- *   func_021B7890 0x021B7890 thumb ov106
- *   func_021B78E0 0x021B78E0 thumb ov106
- *   func_021B8D90 0x021B8D90 thumb ov106
- *   func_021B8FB8 0x021B8FB8 thumb ov106
- *   func_021B80AC 0x021B80AC thumb ov106
- *   func_021B80D0 0x021B80D0 thumb ov106
- *   func_021B70DC 0x021B70DC thumb ov101
+ *   IRC_RANKING_SeqInit 0x021B7890 thumb ov106
+ *   IRC_RANKING_SeqFadeIn 0x021B78E0 thumb ov106
+ *   IRC_RANKING_InputInit 0x021B8D90 thumb ov106
+ *   IRC_RANKING_InertiaInit 0x021B8FB8 thumb ov106
+ *   IRC_RANKING_GetDisplay 0x021B80AC thumb ov106
+ *   IRC_RANKING_ListInit 0x021B80D0 thumb ov106
+ *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   func_020490F4 0x020490F4 arm
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021B92D4 0x021B92D4 thumb ov106
- *   func_021B93D8 0x021B93D8 thumb ov106
- *   func_021B93DC 0x021B93DC thumb ov106
- *   func_021B9380 0x021B9380 thumb ov106
- *   d_021B94D4 0x021B94D4 data a4
+ *   IRC_RANKING_LabelCreate 0x021B92D4 thumb ov106
+ *   IRC_RANKING_LabelSetColor 0x021B93D8 thumb ov106
+ *   IRC_RANKING_LabelSetAlign 0x021B93DC thumb ov106
+ *   IRC_RANKING_LabelSetText 0x021B9380 thumb ov106
+ *   gIrcRankingLabelDefs 0x021B94D4 data a4
  */
 #include "../include/Obj00978.h"
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ typedef unsigned int u32;
 typedef struct { s16 x,y; u16 a,b; } Entry;
 typedef struct { s16 x,y; u16 flags; u8 a,b; } Pos;
 #define SLOT(p,i) (*(u8 **)((u8 *)((u32 *)(p)+(i))+0x62c))
-extern const Entry d_021B94D4[];
+extern const Entry gIrcRankingLabelDefs[];
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
@@ -58,22 +58,22 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_021B8B9C(void *sys, u16 heap);
-extern void func_021B7FF8(u8 *,void *,u32);
-extern void *func_021B80B0(u8 *);
-extern u32 func_021B80AC(u8 *);
+extern void *IRC_RANKING_DataCreate(void *sys, u16 heap);
+extern void IRC_RANKING_DisplayInit(u8 *,void *,u32);
+extern void *IRC_RANKING_GetClactUnit(u8 *);
+extern u32 IRC_RANKING_GetDisplay(u8 *);
 extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
-extern void func_021B7890(unsigned char *p, unsigned int a, unsigned int b);
-extern void func_021B78E0(u8 *a, int *state, u8 *p);
-extern void func_021B8D90(void *,u32),func_021B8FB8(void *);
-extern void func_021B80D0(u8 *p, u32 a1, u8 a2, u8 a3, u8 s0, u32 s1, void *s2, void *s3, u8 *s4, u16 heap);
-extern void *func_021B70DC(u32 a, u32 b, u16 layer, u16 x, u8 y, u32 extra, u32 c, u32 d, u16 heap);
+extern void IRC_RANKING_SeqInit(unsigned char *p, unsigned int a, unsigned int b);
+extern void IRC_RANKING_SeqFadeIn(u8 *a, int *state, u8 *p);
+extern void IRC_RANKING_InputInit(void *,u32),IRC_RANKING_InertiaInit(void *);
+extern void IRC_RANKING_ListInit(u8 *p, u32 a1, u8 a2, u8 a3, u8 s0, u32 s1, void *s2, void *s3, u8 *s4, u16 heap);
+extern void *IRC_APPBAR_Create(u32 a, u32 b, u16 layer, u16 x, u8 y, u32 extra, u32 c, u32 d, u16 heap);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void *func_021B92D4(const u8 *,u8,u8,int,u8,int,void *,void *,u16);
-extern void func_021B93D8(u8 *,u16),func_021B93DC(u8 *,u32,u32,u32),func_021B9380(u8 *,void *,void *,int);
-int func_021B7560(void *sys,u32 unused,void **args) {
+extern void *IRC_RANKING_LabelCreate(const u8 *,u8,u8,int,u8,int,void *,void *,u16);
+extern void IRC_RANKING_LabelSetColor(u8 *,u16),IRC_RANKING_LabelSetAlign(u8 *,u32,u32,u32),IRC_RANKING_LabelSetText(u8 *,void *,void *,int);
+int IRC_RANKING_ProcInit(void *sys,u32 unused,void **args) {
     u8 *p;
     u32 e;
     void *arc;
@@ -87,25 +87,25 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     *(u32 *)&((struct Obj00978 *)p)->f61C=PRINTSYS_QUE_Create((void *)67);
     ((struct Obj00978 *)p)->f618=(u32)GF_FONT_Create(23,0,0,0,67);
     ((struct Obj00978 *)p)->f620=func_02045B38(0,2,50,67);
-    ((struct Obj00978 *)p)->f63C=(unsigned int)func_021B8B9C(((struct Obj00978 *)p)->f628,67);
-    func_021B7FF8(p,((struct Obj00978 *)p)->f628,67);
-    ((struct Obj00978 *)p)->f624=BMP_OAM_CreateSys(67,func_021B80B0(p));
-    func_021B7890(p+0x28,(unsigned int)p,(u32)func_021B78E0);
-    func_021B8D90(p+0x5d4,67);func_021B8FB8(p+0x600);
-    e=func_021B80AC(p);
-    func_021B80D0(p+0x38,1,2,5,6,e,func_021B80B0(p),((struct Obj00978 *)p)->f620,(u8 *)(((struct Obj00978 *)p)->f63C),67);
-    ((struct Obj00978 *)p)->f614=func_021B70DC(2,(u32)func_021B80B0(p),4,13,0,2,((struct Obj00978 *)p)->f618,*(u32 *)&((struct Obj00978 *)p)->f61C,67);
+    ((struct Obj00978 *)p)->f63C=(unsigned int)IRC_RANKING_DataCreate(((struct Obj00978 *)p)->f628,67);
+    IRC_RANKING_DisplayInit(p,((struct Obj00978 *)p)->f628,67);
+    ((struct Obj00978 *)p)->f624=BMP_OAM_CreateSys(67,IRC_RANKING_GetClactUnit(p));
+    IRC_RANKING_SeqInit(p+0x28,(unsigned int)p,(u32)IRC_RANKING_SeqFadeIn);
+    IRC_RANKING_InputInit(p+0x5d4,67);IRC_RANKING_InertiaInit(p+0x600);
+    e=IRC_RANKING_GetDisplay(p);
+    IRC_RANKING_ListInit(p+0x38,1,2,5,6,e,IRC_RANKING_GetClactUnit(p),((struct Obj00978 *)p)->f620,(u8 *)(((struct Obj00978 *)p)->f63C),67);
+    ((struct Obj00978 *)p)->f614=IRC_APPBAR_Create(2,(u32)IRC_RANKING_GetClactUnit(p),4,13,0,2,((struct Obj00978 *)p)->f618,*(u32 *)&((struct Obj00978 *)p)->f61C,67);
     arc=func_020490F4(23,67);
     ((struct Obj00978 *)p)->f644=CLACT_RegisterPaletteCompressed(arc,5,0,448,67);
     ARC_TOOL_DeleteHandle(arc);
     fill(&pos,0,8);
     pos.x=8;pos.y=41;pos.a=0;pos.b=0;
     for(i=0;i<4;i++) {
-        pos.x=d_021B94D4[i].x;pos.y=d_021B94D4[i].y;
-        SLOT(p,i)=func_021B92D4((u8 *)&pos,d_021B94D4[i].a,d_021B94D4[i].b,*(int *)&((struct Obj00978 *)p)->f644,3,0,((struct Obj00978 *)p)->f624,((struct Obj00978 *)p)->f61C,67);
-        func_021B93D8(SLOT(p,i),1088);
-        func_021B93DC(SLOT(p,i),0,0,1);
-        func_021B9380(SLOT(p,i),((struct Obj00978 *)p)->f620,(void *)(i+1),*(int *)&((struct Obj00978 *)p)->f618);
+        pos.x=gIrcRankingLabelDefs[i].x;pos.y=gIrcRankingLabelDefs[i].y;
+        SLOT(p,i)=IRC_RANKING_LabelCreate((u8 *)&pos,gIrcRankingLabelDefs[i].a,gIrcRankingLabelDefs[i].b,*(int *)&((struct Obj00978 *)p)->f644,3,0,((struct Obj00978 *)p)->f624,((struct Obj00978 *)p)->f61C,67);
+        IRC_RANKING_LabelSetColor(SLOT(p,i),1088);
+        IRC_RANKING_LabelSetAlign(SLOT(p,i),0,0,1);
+        IRC_RANKING_LabelSetText(SLOT(p,i),((struct Obj00978 *)p)->f620,(void *)(i+1),*(int *)&((struct Obj00978 *)p)->f618);
     }
     return 1;
 }

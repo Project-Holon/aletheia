@@ -1,5 +1,5 @@
 /*
- * function: func_02189400
+ * function: TR_AI_CmdLoadItemEffect
  * address:  0x02189400
  * packet:   pkt_ov096_02189400
  * region:   ov096
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_0218A3F4  0x0218A3F4  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetItemField  0x0218A3F4  thumb  ov096
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   VM_GetU32  0x0201134C  thumb
  */
@@ -26,19 +26,19 @@ typedef int s32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_0218A3F4(int a, int b, int c);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
+extern int TR_AI_GetItemField(int a, int b, int c);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 
-int func_02189400(struct Cursor *a, int b) {
+int TR_AI_CmdLoadItemEffect(struct Cursor *a, int b) {
     int t;
     u8 s;
     t = VM_GetU32(a);
-    s = func_0218A160((u8 *)b, t);
-    t = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, s));
-    t = func_0218A3F4(b, (u16)t, 1);
+    s = TR_AI_GetPosition((u8 *)b, t);
+    t = BTL_POKEPARAM_GetItem((struct QI *)TR_AI_GetPoke((u8 *)b, s));
+    t = TR_AI_GetItemField(b, (u16)t, 1);
     ((struct Obj13659 *)b)->f38 = t;
     return ((struct Obj13659 *)b)->fC4;
 }

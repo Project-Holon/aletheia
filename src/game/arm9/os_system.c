@@ -1,7 +1,7 @@
 /*
  * file:     os_system.c
  * unit:     yes
- * function: func_02087974, func_02087988, func_0208799C, func_020879B4, func_020879C8, func_020879E0, func_020879EC, func_020879F8, OS_SpinWaitSysCycles, func_02087A3C, func_02087AE4
+ * function: func_02087974, OS_DisableInterrupts, OS_RestoreInterrupts, func_020879B4, func_020879C8, func_020879E0, func_020879EC, func_020879F8, OS_SpinWaitSysCycles, func_02087A3C, OS_WaitVBlankIntr
  * address:  0x02087974
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   OS_SpinWaitCpuCycles           0x020879F8  arm
  *   OS_Halt                        0x020882D0  arm
  *   SDK_AUTOLOAD_DTCM_START        0x02FE0000  data
- *   func_02004490                  0x02004490  thumb
+ *   SVC_WaitByLoop                  0x02004490  thumb
  *   func_0208459C                  0x0208459C  arm
  */
 typedef unsigned long u32;
@@ -41,7 +41,7 @@ asm void func_020879F8(void);
 void OS_SpinWaitSysCycles(u32 cycle);
 extern void OS_Halt(void);
 extern char SDK_AUTOLOAD_DTCM_START[];
-extern void func_02004490(int v);
+extern void SVC_WaitByLoop(int v);
 extern void func_0208459C(int clear, u32 irqFlags);
 
 
@@ -188,8 +188,8 @@ void func_02087A3C(BOOL clear, u32 irqFlags)
     (void)OS_RestoreInterrupts(cpsrIrq);
 }
 
-void func_02087AE4(void)
+void OS_WaitVBlankIntr(void)
 {
-    func_02004490(1);
+    SVC_WaitByLoop(1);
     func_0208459C(1, 1);
 }

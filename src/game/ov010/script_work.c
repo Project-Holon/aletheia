@@ -41,7 +41,7 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   SCRCMD_WORK_DeleteCommon  0x0215A554  thumb  ov010
  *   FLDMMDL_GetObjId 0x0216D588 thumb ov010
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   gScriptCheckFlags 0x02172BA0 data a4
  *   gScriptCheckHandlers     0x021705F0  data  ov010
  *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
@@ -96,7 +96,7 @@ extern void *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
 extern int func_0201ED04();
 extern int SCRCMD_WORK_DeleteCommon();
 extern u16 FLDMMDL_GetObjId(void *obj);
-extern void func_02082A60(const void *src, void *dst, unsigned int size);
+extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 extern void *SCRCMD_WORK_GetScriptWork(ScriptVm *vm);
 extern void func_02011290(ScriptVm *vm);
 extern int SCRCMD_WORK_CountDownWait(void *cmdWork);
@@ -328,14 +328,14 @@ int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, 
 void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work)
 {
     void *backup = func_02030734(work->heapId, 0x7e, 1, sScriptWorkFileName, 0x21b);
-    func_02082A60(SCRIPT_WORK_GetLocalWork(work, 0x8020), backup, 0x7e);
+    MIi_CpuCopy16(SCRIPT_WORK_GetLocalWork(work, 0x8020), backup, 0x7e);
     return backup;
 }
 
 void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup)
 {
     u16 *localWorks = SCRIPT_WORK_GetLocalWork(work, 0x8020);
-    func_02082A60(backup, localWorks, 0x7e);
+    MIi_CpuCopy16(backup, localWorks, 0x7e);
     func_020307B0(backup);
 }
 

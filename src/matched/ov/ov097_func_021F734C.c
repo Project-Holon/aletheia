@@ -1,5 +1,5 @@
 /*
- * function: func_021F734C
+ * function: VS_MULTI_LIST_CreateBgFrames
  * address: 0x021F734C
  * packet: pkt_ov097_021F734C
  * region: ov097
@@ -19,7 +19,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020414EC 0x020414EC arm
  *   MIi_CpuCopy16 0x02082A60 arm
- *   d_021F78C0 0x021F78C0 data a4
+ *   gVsMultiListSrcName 0x021F78C0 data a4
  */
 #include "../include/Obj21995.h"
 #include "../include/Obj21996.h"
@@ -34,7 +34,7 @@ struct P {
     u8 *parent; u32 pad04; struct WinMgr *window; u8 pad0c[20];
     struct Pair images[6]; u8 pad50[0xa8]; void *mons[6];
 };
-extern const char d_021F78C0[];
+extern const char gVsMultiListSrcName[];
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
@@ -46,7 +46,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern void func_020414EC(u32);
 extern void MIi_CpuCopy16(const void *, void *, u32);
-void func_021F734C(struct P *p)
+void VS_MULTI_LIST_CreateBgFrames(struct P *p)
 {
     u16 i;
     u8 *palette, *buf;
@@ -57,7 +57,7 @@ void func_021F734C(struct P *p)
         BGWINFRM_PutBmpWin(p->window, i + 6, p->images[i].data);
     }
     palette = (u8 *)func_0204162C(1);
-    buf = func_02030734(0x8071, 0xc0, 0, d_021F78C0, 0x606);
+    buf = func_02030734(0x8071, 0xc0, 0, gVsMultiListSrcName, 0x606);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + i * 64, buf + i * 32, 32);
     for (i = 0; i < 6; i++) if (p->mons[i]) BGWINFRM_SetFrameData(p->window, i, buf);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + (i + 18) * 64, buf + i * 32, 32);

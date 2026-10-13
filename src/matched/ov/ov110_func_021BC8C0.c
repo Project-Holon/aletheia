@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8C0
+ * function: PMSIV_FADE_BlendTask
  * address: 0x021BC8C0
  * packet: pkt_ov110_021BC8C0
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_0207D63C(void *, int, int, int, int);
-void func_021BC8C0(void *task, u8 *p)
+void PMSIV_FADE_BlendTask(void *task, u8 *p)
 {
     int level;
     if (((struct Obj03754 *)p)->f14 != 0) {

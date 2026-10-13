@@ -11,8 +11,8 @@
  * ABI: ov095 D588 forwards the same table pointer and key to D5C8;
  * original keeps r1 live and has no narrowing, so retain a full-word key.
  * symbols:
- *   func_0689D588 0x0689D588 thumb ov095
+ *   BTL_POSPOKE_IsPokeInside 0x0689D588 thumb ov095
  */
 typedef unsigned char u8;
-extern int func_0689D588(u8 *, int);
-int BTL_SERVER_FLOW_IsPokeInPosTable(u8 *p, int v) { return func_0689D588(p+0x1ab8,v); }
+extern int BTL_POSPOKE_IsPokeInside(u8 *, int);
+int BTL_SERVER_FLOW_IsPokeInPosTable(u8 *p, int v) { return BTL_POSPOKE_IsPokeInside(p+0x1ab8,v); }

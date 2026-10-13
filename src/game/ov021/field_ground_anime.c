@@ -23,13 +23,13 @@
  *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02069C74  0x02069C74  arm
- *   func_02069E88  0x02069E88  arm
+ *   NNS_G3dAnmObjInit  0x02069C74  arm
+ *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
  *   _s32_div_f  0x0209C0A4  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
  *   func_02061CA4  0x02061CA4  arm
- *   func_0206E7EC  0x0206E7EC  arm
+ *   NNS_G3dGetResDictIdxByName  0x0206E7EC  arm
  *   func_0209C2B0  0x0209C2B0  arm
  *   gTexDimensionTable     0x021D8B08  data  a2
  *   gTexPixelsPerByteTable     0x021D8B00  data  a1
@@ -327,12 +327,12 @@ extern void *G3D_SYSTEM_GetResourceFile(void *resource);
 extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
 extern TexRes *func_02047250(void *resource);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
-extern void func_02069C74(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
-extern void func_02069E88(void *renderObj, NNSG3dAnmObj *anmObj);
+extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
+extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-extern int func_0206E7EC(const Dict *dict, const void *name);
+extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
 extern u32 func_0209C2B0(u32 a, u32 b);
 extern void *FLDMMDL_FreeAcmd(char *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
@@ -598,8 +598,8 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texR
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
-    func_02069C74(entry->anmObj, entry->pResAnm, pResMdl, texRes);
-    func_02069E88((void *)renderObj, entry->anmObj);
+    NNS_G3dAnmObjInit(entry->anmObj, entry->pResAnm, pResMdl, texRes);
+    NNS_G3dRenderObjAddAnmObj((void *)renderObj, entry->anmObj);
     entry->flags.word = (entry->flags.word & ~1) | 1;
     return entry->flags.word;
 }
@@ -788,7 +788,7 @@ int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 
     animTex = func_02047250(animRes);
     texName = animTex ? DictGetNameByIdx(&animTex->dict, animTexIdx) : 0;
     if (modelTex) {
-        modelTexIdx = func_0206E7EC(&modelTex->dict, texName);
+        modelTexIdx = NNS_G3dGetResDictIdxByName(&modelTex->dict, texName);
     } else {
         modelTexIdx = -1;
     }

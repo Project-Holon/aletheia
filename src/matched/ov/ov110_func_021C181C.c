@@ -1,5 +1,5 @@
 /*
- * function: func_021C181C
+ * function: PMS_SELECT_GRAPHIC_ExitSceneActors
  * address: 0x021C181C
  * packet: pkt_ov110_021C181C
  * region: ov110
@@ -20,4 +20,4 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,u32);
-void func_021C181C(void **p) { CLACT_DeleteUnit(*p); CLACT_ExitSystem(); MI_CpuFill8(p,0,4); }
+void PMS_SELECT_GRAPHIC_ExitSceneActors(void **p) { CLACT_DeleteUnit(*p); CLACT_ExitSystem(); MI_CpuFill8(p,0,4); }

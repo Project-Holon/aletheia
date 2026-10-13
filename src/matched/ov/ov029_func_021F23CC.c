@@ -22,7 +22,7 @@
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
- *   func_0200C6F0  0x0200C6F0  thumb
+ *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
  *   func_02040B1C  0x02040B1C  arm
  *   func_02040E78  0x02040E78  arm
  *   func_02040AE0  0x02040AE0  arm
@@ -53,7 +53,7 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern u16 func_0200910C(const struct Sub020090B0Obj *obj);
 struct Buf2000;
-extern u32 func_0200C6F0(struct Buf2000 *p);
+extern u32 MUSICAL_DIST_SAVE_IsFooterSet(struct Buf2000 *p);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
@@ -81,7 +81,7 @@ int C_GEAR_LoadCustomBackground(u8 *p, int a)
         crc = func_0203F1FC(buf, 0x2600);
         x = func_0200910C((const struct Sub020090B0Obj *)func_02009210((void *)h));
         base = (u16)((struct Obj20396 *)p)->f14;
-        if (crc == x && func_0200C6F0((struct Buf2000 *)buf) != 0) {
+        if (crc == x && MUSICAL_DIST_SAVE_IsFooterSet((struct Buf2000 *)buf) != 0) {
             result = 1;
             for (i = 0; i < 15; i++) {
                 func_02040B1C(6, buf + i * 0x220, 0x220, base + (i + 5) * 0x20);

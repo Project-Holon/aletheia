@@ -1,16 +1,16 @@
 /*
- * function: func_02073FB8
+ * function: NNS_SndArcInit
  * address:  0x02073FB8
  * packet:   pkt_020737C0
  * status:   EXACT
  * isa:      arm
  * compiler: ../2.0/sp2
  * symbols:
- *   ptr_0214EA50   0x0214EA50  data
+ *   gNNSSndCurrentArc   0x0214EA50  data
  *   func_020788D8  0x020788D8  arm
- *   func_020788AC  0x020788AC  arm
+ *   FS_InitFile  0x020788AC  arm
  *   func_020789A4  0x020789A4  arm
- *   func_02074048  0x02074048  arm
+ *   NNSi_SndArcLoadTables  0x02074048  arm
  *
  * The archive open path.  The second parameter is the archive's path string
  * (the only caller, GFL_USE_InitSound, loads 0x020A7010 into r1) and it is
@@ -36,23 +36,23 @@ struct Ctx {
     u32 f94;
 };
 
-extern struct Ctx *ptr_0214EA50;
+extern struct Ctx *gNNSSndCurrentArc;
 extern u32  func_020788D8(struct Pair *p, const char *path);
-extern void func_020788AC(void *p);
+extern void FS_InitFile(void *p);
 extern u32  func_020789A4(void *p, struct Pair v);
-extern u32  func_02074048(struct Ctx *c, u32 a, u32 b);
+extern u32  NNSi_SndArcLoadTables(struct Ctx *c, u32 a, u32 b);
 
-u32 func_02073FB8(struct Ctx *c, const char *path, u32 a, u32 b)
+u32 NNS_SndArcInit(struct Ctx *c, const char *path, u32 a, u32 b)
 {
     c->f90 = 0;
     c->f88 = 0;
     c->f8c = 0;
     c->f94 = 0;
     if (func_020788D8(&c->f7c, path) == 0) return 0;
-    func_020788AC(c->f34);
+    FS_InitFile(c->f34);
     if (func_020789A4(c->f34, c->f7c) == 0) return 0;
     c->f30 = 1;
-    if (func_02074048(c, a, b) == 0) return 0;
-    ptr_0214EA50 = c;
+    if (NNSi_SndArcLoadTables(c, a, b) == 0) return 0;
+    gNNSSndCurrentArc = c;
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D38DC
+ * function: DWCi_MOV_WH_GetSharedDataAdr
  * address:  0x021D38DC
  * packet:   pkt_021D38DC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D38DC 0x021D38DC arm
+ *   DWCi_MOV_WH_GetSharedDataAdr 0x021D38DC arm
  *   WM_GetSharedDataAddress  0x02090B18  arm  arm9
  *
  * Tail-call WM_GetSharedDataAddress with two views of the block behind 0x021DE660.
@@ -19,7 +19,7 @@
 
 extern void WM_GetSharedDataAddress(void *, void *, int);
 
-void func_021D38DC(int a)
+void DWCi_MOV_WH_GetSharedDataAdr(int a)
 {
     int *g = (int *)0x021DE660;
     char *p = (char *)g[1];

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6CC
+ * function: PMS_INPUT_SetExitState
  * address:  0x021BF6CC
  * packet:   pkt_ov110_021BF6CC
  * region:   ov110
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021BF6CC(u8 *p, u8 a, u8 b) { p[0] = b; p[1] = a; }
+void PMS_INPUT_SetExitState(u8 *p, u8 a, u8 b) { p[0] = b; p[1] = a; }

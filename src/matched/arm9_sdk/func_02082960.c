@@ -1,5 +1,5 @@
 /*
- * function: func_02082960
+ * function: MI_SendGXCommandAsyncFast
  * address:  0x02082960
  * packet:   pkt_02082960
  * region:   arm9
@@ -65,7 +65,7 @@ static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)
     }
 }
 
-void func_02082960(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg)
+void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg)
 {
     if (commandLength == 0) {
         MIi_CallCallback(callback, arg);

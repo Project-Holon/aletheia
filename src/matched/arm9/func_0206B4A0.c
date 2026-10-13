@@ -1,5 +1,5 @@
 /*
- * function: func_0206B4A0
+ * function: NNSi_G3dRenderObjRunSbc
  * address:  0x0206B4A0
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -18,7 +18,7 @@
  * picks keyed by the blob's +0x15/+0x16 bytes, two words copied from +0x1c
  * and +0x20, an optional (index, byte) pair into the +0x0c/+0x8c arrays,
  * four flag bits mirrored out of the config's +0x00 word, an optional
- * caller hook, and finally the driver loop func_0206B458.
+ * caller hook, and finally the driver loop NNSi_G3dSbcRun.
  *
  * Two spellings are load-bearing, both recorded as walls in
  * docs/notes/pkt_0206AFE4.c.txt:
@@ -26,7 +26,7 @@
  *     +0x00 and +0x04 stores into `stm r5, {r0, r4}` and the function comes
  *     out four bytes short; the qualifier restores the original's two
  *     separate `str`s and changes nothing else.  Same lever family as
- *     src/matched/func_0206AF74.c's `volatile s32 *dst`.
+ *     src/matched/NNSi_G3dAnmBlendJntVec.c's `volatile s32 *dst`.
  *   - the local `q = cfg->f04;` in front of the +0xd8/+0xdc pointer
  *     assembly.  Spelled through `cfg->f04` directly, the `&&` materialises
  *     a boolean (`movne r1,#1 / cmp r1,#0`) and re-loads the offset, 28
@@ -37,10 +37,10 @@
  *
  * symbols:
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   func_0206B458     0x0206B458  arm
- *   g_020A829C        0x020A829C  data
- *   g_020A8290        0x020A8290  data
- *   g_020A82A8        0x020A82A8  data
+ *   NNSi_G3dSbcRun     0x0206B458  arm
+ *   gJntScaleFuncTable        0x020A829C  data
+ *   gJntMtxFuncTable        0x020A8290  data
+ *   gMatTexMtxFuncTable        0x020A82A8  data
  */
 #include "../include/Obj07047.h"
 #include "../include/Obj16563.h"
@@ -86,12 +86,12 @@ struct Obj0206B4A0 {
 };
 
 extern void MIi_CpuClearFast(u32 val, void *dst, u32 len);
-extern void func_0206B458(Obj0206B4A0 *p);
-extern u32 g_020A829C[];
-extern u32 g_020A8290[];
-extern u32 g_020A82A8[];
+extern void NNSi_G3dSbcRun(Obj0206B4A0 *p);
+extern u32 gJntScaleFuncTable[];
+extern u32 gJntMtxFuncTable[];
+extern u32 gMatTexMtxFuncTable[];
 
-void func_0206B4A0(Obj0206B4A0 *o, Cfg0206B4A0 *cfg)
+void NNSi_G3dRenderObjRunSbc(Obj0206B4A0 *o, Cfg0206B4A0 *cfg)
 {
     u8 *q;
 
@@ -105,9 +105,9 @@ void func_0206B4A0(Obj0206B4A0 *o, Cfg0206B4A0 *cfg)
     o->fd8 = q != 0 && ((struct Obj07047 *)q)->f8 != 0 ? q + ((struct Obj07047 *)q)->f8 : 0;
     q = cfg->f04;
     o->fdc = q != 0 && ((struct Obj07047 *)q)->fC != 0 ? q + ((struct Obj07047 *)q)->fC : 0;
-    o->fe8 = g_020A829C[cfg->f04[0x15]];
-    o->fec = g_020A8290[cfg->f04[0x15]];
-    o->ff0 = g_020A82A8[cfg->f04[0x16]];
+    o->fe8 = gJntScaleFuncTable[cfg->f04[0x15]];
+    o->fec = gJntMtxFuncTable[cfg->f04[0x15]];
+    o->ff0 = gMatTexMtxFuncTable[cfg->f04[0x16]];
     o->fe0 = ((struct Obj16564 *)(cfg->f04))->f1C;
     o->fe4 = ((struct Obj16565 *)(cfg->f04))->f20;
     if (cfg->f20 != 0 && cfg->f24 < 0x20) {
@@ -119,6 +119,6 @@ void func_0206B4A0(Obj0206B4A0 *o, Cfg0206B4A0 *cfg)
     if (cfg->f00 & 4)   o->f08 |= 0x200;
     if (cfg->f00 & 8)   o->f08 |= 0x400;
     if (cfg->f28 != 0) cfg->f28(o);
-    func_0206B458(o);
+    NNSi_G3dSbcRun(o);
     cfg->f00 &= ~1u;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3C0
+ * function: NHTTPi_InitRequestInfo
  * address:  0x021BB3C0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BB3C0(u8 *p)
+void NHTTPi_InitRequestInfo(u8 *p)
 {
     *(u32 *)(p + 0) = 0;
 }

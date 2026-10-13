@@ -8,17 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with func_02082AC0 (tail call).
+ * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with MIi_CpuClearFast (tail call).
  *
  * symbols:
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_02082AC0(u32 val, void *dst, u32 size);
+extern void MIi_CpuClearFast(u32 val, void *dst, u32 size);
 
 void func_0200AD7C(void *rec)
 {
-    func_02082AC0(0, rec, 0xF8);
+    MIi_CpuClearFast(0, rec, 0xF8);
 }

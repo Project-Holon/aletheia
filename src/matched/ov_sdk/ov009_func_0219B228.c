@@ -1,5 +1,5 @@
 /*
- * function: func_0219B228
+ * function: qr2_check_queries
  * address:  0x0219B228
  * packet:   pkt_ov009_0219B228
  * region:   ov009
@@ -16,7 +16,7 @@
  *   func_0217EC60  0x0217EC60  arm   ov009
  *   func_0217D254  0x0217D254  arm   ov009
  *   func_0217D32C  0x0217D32C  arm   ov009
- *   func_0219C7C0  0x0219C7C0  arm   ov009
+ *   qr2_parse_queryA  0x0219C7C0  arm   ov009
  *   func_0217ED54  0x0217ED54  arm   ov009
  *   g_021AE9F8     0x021AE9F8  data
  *   g_021A74AC     0x021A74AC  data
@@ -82,14 +82,14 @@ extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
-extern void func_0219C7C0(qr2_implementation_s *qrec, char *query, int len, SOCSockAddrIn *sender);
+extern void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockAddrIn *sender);
 extern int func_0217ED54(int sock);
 extern char g_021AE9F8[];
 extern char g_021A74AC[];
 extern char g_021A74D0[];
 extern char g_021A751C[];
 
-void func_0219B228(qr2_implementation_s *qrec)
+void qr2_check_queries(qr2_implementation_s *qrec)
 {
     SOCSockAddrIn saddr;
     int saddrlen = sizeof(SOCSockAddrIn);
@@ -102,7 +102,7 @@ void func_0219B228(qr2_implementation_s *qrec)
             g_021AE9F8[error] = 0;
             func_0217D254(3, 0, 16, g_021A74AC, error);
             func_0217D32C(3, 0, 32, g_021AE9F8, error);
-            func_0219C7C0(qrec, g_021AE9F8, error, &saddr);
+            qr2_parse_queryA(qrec, g_021AE9F8, error, &saddr);
         } else if (error == 0) {
             func_0217D254(3, 0, 16, g_021A74D0, error);
         } else {

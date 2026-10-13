@@ -1,5 +1,5 @@
 /*
- * function: func_0219D928
+ * function: SBQueryEngineUpdateServer
  * address:  0x0219D928
  * packet:   pkt_ov009_0219D928
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      SBQueryEngineUpdateServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_queryengine.o))
  *
  * symbols:
- *   func_0219D5C4  0x0219D5C4  arm  ov009
- *   func_0219D4E8  0x0219D4E8  arm  ov009
- *   func_0219D4B4  0x0219D4B4  arm  ov009
+ *   QEStartQuery  0x0219D5C4  arm  ov009
+ *   FIFOAddFront  0x0219D4E8  arm  ov009
+ *   FIFOAddRear  0x0219D4B4  arm  ov009
  */
 
 struct SBServer {
@@ -43,11 +43,11 @@ struct SBQueryEngine {
     struct SBServerFIFO pendinglist;
 };
 
-extern void func_0219D5C4(struct SBQueryEngine *engine, struct SBServer *server);
-extern void func_0219D4E8(int **p, int *q);
-extern void func_0219D4B4(int *p, int *n);
+extern void QEStartQuery(struct SBQueryEngine *engine, struct SBServer *server);
+extern void FIFOAddFront(int **p, int *q);
+extern void FIFOAddRear(int *p, int *n);
 
-void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge)
+void SBQueryEngineUpdateServer(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge)
 {
     server->state &= 0x43;
     server->splitResponseBitmap = 0;
@@ -65,11 +65,11 @@ void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int ad
     if (usequerychallenge && querytype <= 1)
         server->state |= 0x80;
     if (engine->querylist.c < engine->maxupdates) {
-        func_0219D5C4(engine, server);
+        QEStartQuery(engine, server);
         return;
     }
     if (addfront)
-        func_0219D4E8((int **)(&engine->pendinglist), (int *)server);
+        FIFOAddFront((int **)(&engine->pendinglist), (int *)server);
     else
-        func_0219D4B4((int *)(&engine->pendinglist), (int *)server);
+        FIFOAddRear((int *)(&engine->pendinglist), (int *)server);
 }

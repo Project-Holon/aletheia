@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B652C",
+   "name": "COMPATIBLE_IRC_SYS_PollProfileRequest",
    "address": "0x021B652C",
    "kind": "game",
    "region": "ov101",

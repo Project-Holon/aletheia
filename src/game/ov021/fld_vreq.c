@@ -24,7 +24,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_0207D658  0x0207D658  arm
  *   func_0207D67C  0x0207D67C  arm
- *   func_0207D6C0  0x0207D6C0  arm
+ *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -67,7 +67,7 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_0207D67C(u32 reg, int a, int b, int c, int d, int e);
-extern void func_0207D6C0(u32 addr, int brightness);
+extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 FldVReq *FLD_VREQ_Create(u32 heapId);
 void FLD_VREQ_Delete(FldVReq *vreq);
 void FLD_VREQ_VBlank(FldVReq *vreq);
@@ -242,8 +242,8 @@ void FLD_VREQ_ApplyBlendAlphaEv(u32 *params, int isMain)
 void FLD_VREQ_ApplyChangeBlendBrightness(u32 *params, int isMain)
 {
     if (isMain) {
-        func_0207D6C0(_REG_MAIN_BLDCNT, params[0]);
+        DWCi_WindowG2x_ChangeBlendBrightness_(_REG_MAIN_BLDCNT, params[0]);
     } else {
-        func_0207D6C0(_REG_SUB_BLDCNT, params[0]);
+        DWCi_WindowG2x_ChangeBlendBrightness_(_REG_SUB_BLDCNT, params[0]);
     }
 }

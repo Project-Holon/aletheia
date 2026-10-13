@@ -17,7 +17,7 @@
  *   func_02059F54  0x02059F54  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_IsThreadTerminated  0x0208574C  arm
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   func_020948E0  0x020948E0  arm
  *   func_0217956C  0x0217956C  arm  ov009
  *   func_02178F4C  0x02178F4C  arm  ov009
@@ -172,7 +172,7 @@ typedef struct DWCAuthHttpParam {
 extern void func_02059F54(int error, int errorCode);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int OS_IsThreadTerminated(OSThread *thread);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern int func_020948E0(const char *s1, const char *s2) __attribute__((pure));
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern int func_02178F4C(void *cal);
@@ -255,7 +255,7 @@ int func_0217C144(char *svc, DWCSvlResult *result)
     MI_CpuFill8(result, 0, sizeof(DWCSvlResult));
 
     if (g_021ACEF4->http.thread.id != 0 && !OS_IsThreadTerminated(&g_021ACEF4->http.thread))
-        func_02088234();
+        OS_Terminate();
 
     httpparam.url = g_021A2358.url;
     httpparam.action = 0;

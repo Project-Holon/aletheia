@@ -1,5 +1,5 @@
 /*
- * function: func_02073CA0
+ * function: NNSi_SndStrmAlarmHandler
  * address:  0x02073CA0
  * packet:   pkt_020737C0
  * region:   arm9
@@ -12,10 +12,10 @@
  * Sound-object teardown guarded on bit 1 of the flags word at +0x2C: releases
  * the channel mask built from +0x48 with the handle at +0x4C, then brackets
  * func_02089B38(1) with the save/restore pair func_02089D40 / func_02089CD4.
- * It is func_02073B3C's tail with the two sub-object teardowns removed.
+ * It is NNS_SndStrmStop's tail with the two sub-object teardowns removed.
  *
  * PINNED ../2.0/sp2 on the repeated-small-constant tell, exactly as its
- * cluster siblings func_02073AD0 and func_02073B3C already are (see
+ * cluster siblings NNS_SndStrmSetVolume and NNS_SndStrmStop already are (see
  * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md and
  * those two files' headers). The literal 1 is live twice (the `1 << o->f48`
  * shift argument and the func_02089B38 argument); under dsi/1.1p1 -O4,p this
@@ -36,8 +36,8 @@
  *   func_02089CD4  0x02089CD4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02073CA0.c \
- *       --func func_02073CA0 --addr 0x02073CA0 --cc ../2.0/sp2 --arm
+ *   python tools/match.py one --src src/matched/NNSi_SndStrmAlarmHandler.c \
+ *       --func NNSi_SndStrmAlarmHandler --addr 0x02073CA0 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char  u8;
@@ -59,7 +59,7 @@ extern u32  func_02089D40(void);
 extern void func_02089B38(u32 a);
 extern void func_02089CD4(u32 a);
 
-void func_02073CA0(struct Obj *o)
+void NNSi_SndStrmAlarmHandler(struct Obj *o)
 {
     u32 saved;
 

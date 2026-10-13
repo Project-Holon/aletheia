@@ -33,7 +33,7 @@
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02082A60  0x02082A60  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *
  * Closed in the second pass (2026-09-22) from the 12-byte prologue-spill
  * near miss in docs/notes/MCSS_CreatePaletteTransTask.c.txt.  The lever is the THIRD
@@ -80,7 +80,7 @@ extern int   func_020056A0(int fn, int arg, int n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern int   func_02030DA8(int owner, int fn, int arg, int n);
 extern u32 func_020307B0(void *p);
-extern void  func_02082A60(int a, int b, int c);
+extern void  MIi_CpuCopy16(int a, int b, int c);
 
 void MCSS_CreatePaletteTransTask(char *a0, char *a1, u16 a2, int a3)
 {
@@ -111,7 +111,7 @@ void MCSS_CreatePaletteTransTask(char *a0, char *a1, u16 a2, int a3)
                   ((struct Obj15679 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
                   (u16)(((struct Obj01093 *)a1)->fDC / 2),
                   a2, (u16)a3);
-    func_02082A60(((struct Obj15680 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
+    MIi_CpuCopy16(((struct Obj15680 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
                   ((struct Obj01093 *)a1)->fD8, ((struct Obj01093 *)a1)->fDC);
 
     if (((struct Obj01093 *)a1)->f8 != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02074A98
+ * function: NNS_SndArcLoadWaveArc
  * address:  0x02074A98
  * packet:   pkt_02074A6C
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02074E10  0x02074E10  arm
+ *   NNSi_SndArcLoadWaveArc  0x02074E10  arm
  *
- * Sibling of func_02074A6C: the identical wrapper over the other byte-stream
+ * Sibling of NNS_SndArcLoadSeq: the identical wrapper over the other byte-stream
  * reader in the same unit.
  *
  * PER-FILE PIN (../2.0/sp2), same byte evidence and same tell as
- * func_02074A6C (docs/FRONTEND-PINS.md, "kept constants"): the image
+ * NNS_SndArcLoadSeq (docs/FRONTEND-PINS.md, "kept constants"): the image
  * materialises 0xff / 1 / 0 at the call and the boolean from immediates
  * (44 bytes), `dsi/1.1p1` keeps 1 and 0 live in callee-saved r4/r5 and needs
  * 48 bytes (35 differing), `../2.0/sp2` reproduces the image exactly.
@@ -24,15 +24,15 @@
  * write set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02074A98.c \
- *       --func func_02074A98 --addr 0x02074A98 --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNS_SndArcLoadWaveArc.c \
+ *       --func NNS_SndArcLoadWaveArc --addr 0x02074A98 --arm --cc ../2.0/sp2
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadWaveArc(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
-u32 func_02074A98(u32 a, u32 b)
+u32 NNS_SndArcLoadWaveArc(u32 a, u32 b)
 {
-    return func_02074E10(a, 0xff, b, 1, 0) == 0;
+    return NNSi_SndArcLoadWaveArc(a, 0xff, b, 1, 0) == 0;
 }

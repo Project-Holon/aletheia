@@ -13,7 +13,7 @@
  *
  * Closed by giving the socket its own home: the object loads
  * bgnEndInfo_p->socket into r2 because that value is the third ARGUMENT of
- * NHTTPi_SocClose (= func_021B9CFC, see the sibling NHTTPi_ThreadReqEnd at
+ * NHTTPi_SocClose (= NHTTPi_SocClose, see the sibling NHTTPi_ThreadReqEnd at
  * 0x021BD270), so it stays live to the call.  Declaring the callee with the
  * (mutexInfo_p, req_p, socket) signature and passing the field through makes
  * the load land in r2 and the compare follow it: 140 bytes, EXACT, no other

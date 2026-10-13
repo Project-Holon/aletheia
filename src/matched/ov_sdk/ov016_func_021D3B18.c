@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B18
+ * function: DWCi_MOVInit
  * address:  0x021D3B18
  * packet:   pkt_ov016_021D3B18
  * region:   ov016
@@ -17,7 +17,7 @@
  *   OS_GetTick                       0x020870D0  arm
  *   DWCi_BACKUPlRead                 0x02058770  arm
  *   DWCi_SETTINGlGetMemMap           0x021CFBD4  arm  ov016
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -73,33 +73,33 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern void DWCi_MOV_MBP_MemInit(void *mw);
 extern void Parent_InitDataShare(void);
 extern u32 OS_GetTick(void);
 extern int DWCi_BACKUPlRead(void *mem);
 extern void *DWCi_SETTINGlGetMemMap(void);
 
-void func_021D3B18(Wk *wm, MovData *md)
+void DWCi_MOVInit(Wk *wm, MovData *md)
 {
-    g_021DE668 = wm;
+    gDwcMoveidWork = wm;
     DWCi_MOV_MBP_MemInit((char *)wm + 0xb00);
-    g_021DE668->moveid_tgid = 0;
-    g_021DE668->moveid_sChannel = 0;
-    g_021DE668->mov_stt = 1;
-    g_021DE668->mov_stt_old = 1;
-    g_021DE668->cnt = 0;
+    gDwcMoveidWork->moveid_tgid = 0;
+    gDwcMoveidWork->moveid_sChannel = 0;
+    gDwcMoveidWork->mov_stt = 1;
+    gDwcMoveidWork->mov_stt_old = 1;
+    gDwcMoveidWork->cnt = 0;
     Parent_InitDataShare();
-    g_021DE668->game_registry.romFilePathp = md->romFilePathp;
-    g_021DE668->game_registry.gameNamep = md->gameNamep;
-    g_021DE668->game_registry.gameIntroductionp = md->gameIntroductionp;
-    g_021DE668->game_registry.iconCharPathp = md->iconCharPathp;
-    g_021DE668->game_registry.iconPalettePathp = md->iconPalettePathp;
-    g_021DE668->game_registry.ggid = md->ggid;
-    g_021DE668->language = md->language;
-    g_021DE668->game_registry.maxPlayerNum = 2;
+    gDwcMoveidWork->game_registry.romFilePathp = md->romFilePathp;
+    gDwcMoveidWork->game_registry.gameNamep = md->gameNamep;
+    gDwcMoveidWork->game_registry.gameIntroductionp = md->gameIntroductionp;
+    gDwcMoveidWork->game_registry.iconCharPathp = md->iconCharPathp;
+    gDwcMoveidWork->game_registry.iconPalettePathp = md->iconPalettePathp;
+    gDwcMoveidWork->game_registry.ggid = md->ggid;
+    gDwcMoveidWork->language = md->language;
+    gDwcMoveidWork->game_registry.maxPlayerNum = 2;
     OS_GetTick();
-    DWCi_BACKUPlRead(g_021DE668->dummy_userinfo);
+    DWCi_BACKUPlRead(gDwcMoveidWork->dummy_userinfo);
     OS_GetTick();
-    g_021DE668->p_user_info = DWCi_SETTINGlGetMemMap();
+    gDwcMoveidWork->p_user_info = DWCi_SETTINGlGetMemMap();
 }

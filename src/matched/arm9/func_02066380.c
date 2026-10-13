@@ -1,5 +1,5 @@
 /*
- * function: func_02066380
+ * function: NNS_G2dPopMtx
  * address:  0x02066380
  * packet:   pkt_02064B68
  * region:   arm9
@@ -9,11 +9,11 @@
  * isa:      arm
  * status:   EXACT
  *
- * The matrix-slot POP, the counterpart of func_0206615C.  Returns at once
+ * The matrix-slot POP, the counterpart of NNS_G2dPushMtx.  Returns at once
  * when the slot index g_02147B88.slot (+0x0c) is already 0; otherwise
  * decrements it and, if the "first modified slot" halfword g_020A81F8 now
  * lies above the new index, resets it to the 0xFFFE sentinel.  Every
- * caller passes 1 in r0 (func_020659D4, func_02065878, func_02066080) and
+ * caller passes 1 in r0 (NNSi_G2dRendererDrawCellEntryTransformed, NNSi_G2dRendererDrawCellTransformed, NNSi_G2dRendererDrawMultiCellTransformed) and
  * the body never reads it, so the parameter is kept, unused.
  *
  * TWO LEVERS, both needed (EXACT under dsi/1.1p1 and equally under
@@ -24,7 +24,7 @@
  *      if/else, ternary) folds to a predicated body 24 bytes short, which is
  *      why the earlier drafts in docs/notes/pkt_02065D4C.c.txt and
  *      docs/notes/pkt_02065020.c.txt needed a fake `u16 *` return.  Same
- *      lever as src/matched/func_02065878.c's `!(x == -1)`.
+ *      lever as src/matched/NNSi_G2dRendererDrawCellTransformed.c's `!(x == -1)`.
  *   2. The image loads g_020A81F8 BETWEEN the slot load and the subtract
  *      (`ldr r3, [r1, #0xc]` / `ldrh r2, [r0]` / `sub` / `str` / `cmp r2,
  *      r3`).  Without volatile both compilers sink the ldrh below the store
@@ -54,7 +54,7 @@ typedef struct
 extern Manager g_02147B88;
 extern struct Scr g_020A81F8;
 
-void func_02066380(int n)
+void NNS_G2dPopMtx(int n)
 {
     int r = !(g_02147B88.slot > 0);
     if (r != 0)

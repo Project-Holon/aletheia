@@ -1,7 +1,7 @@
 /*
  * file:     g2.c
  * unit:     yes
- * function: func_0207D59C, func_0207D63C, func_0207D658, func_0207D67C, func_0207D6C0
+ * function: func_0207D59C, func_0207D63C, func_0207D658, func_0207D67C, DWCi_WindowG2x_ChangeBlendBrightness_
  * address:  0x0207D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -65,7 +65,7 @@ void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x
 void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 void func_0207D658(u32 addr, int plane, int brightness);
 void func_0207D67C(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
-void func_0207D6C0(u32 addr, int brightness);
+void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 
 
 #define reg_GX_VRAMCNT   (*(vu32 *)0x04000240)
@@ -149,7 +149,7 @@ void func_0207D67C(u32 addr, int plane1, int plane2, int ev1, int ev2, int brigh
 /*
  * sdk:      G2x_ChangeBlendBrightness_ (libgx.TWL.HYB.a g2.o)
  */
-void func_0207D6C0(u32 addr, int brightness)
+void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness)
 {
     u16 tmp = *(vu16 *)addr;
 

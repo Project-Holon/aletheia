@@ -14,13 +14,13 @@
  *
  * symbols:
  *   gVoiceFramePool 0x021B4C24 data a4
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  */
 #include "vct_types.h"
 
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 VctRxPacket *VCT_POOL_AllocFrame(void);
 void VCT_POOL_FreeFrame(VctRxPacket *frame);
 
@@ -28,22 +28,22 @@ void VCT_POOL_FreeFrame(VctRxPacket *frame);
 VctRxPacket *VCT_POOL_AllocFrame(void)
 {
     VctRxPacket *result=0;
-    int irq=func_02087988();
+    int irq=OS_DisableInterrupts();
     if(gVoiceFramePool.freeHead != 0) {
         result=gVoiceFramePool.freeHead;
         gVoiceFramePool.freeHead=gVoiceFramePool.freeHead->freeLink;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return result;
 }
 
 /* Clear the list links of a frame buffer and put it back on the free list. */
 void VCT_POOL_FreeFrame(VctRxPacket *frame)
 {
-    int irq=func_02087988();
+    int irq=OS_DisableInterrupts();
     frame->freeLink=gVoiceFramePool.freeHead;
     gVoiceFramePool.freeHead=frame;
     frame->prev=0;
     frame->next=0;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

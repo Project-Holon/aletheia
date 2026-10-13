@@ -1,5 +1,5 @@
 /*
- * function: func_021CB764
+ * function: CRYPTOi__BN_usub
  * address:  0x021CB764
  * packet:   pkt_ov114_021CB764
  * region:   ov114
@@ -14,8 +14,8 @@
  * sdk:      CRYPTOi__BN_usub (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CADAC  0x021CADAC  arm  ov114
- *   func_021CAC8C  0x021CAC8C  arm  ov114
+ *   CRYPTOi__bn_expand2  0x021CADAC  arm  ov114
+ *   CRYPTOi__bn_fix_top  0x021CAC8C  arm  ov114
  *
  * lane13 (2026-10-01): EXACT. a and b are plain `BIGNUM *` (no const) with OpenSSL's
  *   `int i, carry`. The const qualifier was what put max/min after the parameters in the
@@ -42,12 +42,12 @@ typedef struct
     int depth;
 } BN_CTX;
 
-extern BIGNUM *func_021CADAC(BIGNUM *, int);
-extern void func_021CAC8C(BIGNUM *);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *, int);
+extern void CRYPTOi__bn_fix_top(BIGNUM *);
 
-#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : func_021CADAC((a), (w)))
+#define bn_wexpand(a, w) (((w) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (w)))
 
-int func_021CB764(BIGNUM *r, BIGNUM *a, BIGNUM *b)
+int CRYPTOi__BN_usub(BIGNUM *r, BIGNUM *a, BIGNUM *b)
 {
     int max, min;
     register BN_ULONG t1, t2, *ap, *bp, *rp;
@@ -110,6 +110,6 @@ int func_021CB764(BIGNUM *r, BIGNUM *a, BIGNUM *b)
         }
     }
     r->top = max;
-    func_021CAC8C(r);
+    CRYPTOi__bn_fix_top(r);
     return 1;
 }

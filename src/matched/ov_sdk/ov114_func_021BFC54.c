@@ -1,5 +1,5 @@
 /*
- * function: func_021BFC54
+ * function: ghiInitFixedBuffer
  * address:  0x021BFC54
  * packet:   pkt_021BFC54
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BFC54(int a, int *out, char *buf, int n)
+int ghiInitFixedBuffer(int a, int *out, char *buf, int n)
 {
     if (a == 0)
         return 0;

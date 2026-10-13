@@ -12,20 +12,20 @@
  * sdk:      kDWCi_Language (libdwcutil.TWL.HYB.a main.o)
  *
  * symbols:
- *   g_021DE56C     0x021DE56C  data
+ *   gDwcutilMainWork     0x021DE56C  data
  */
 
 #include "../include/G_UtilState.h"
 
-extern struct UtilState g_021DE56C;
+extern struct UtilState gDwcutilMainWork;
 
 unsigned char func_021C0F20(void)
 {
-    if ((*(unsigned char *)&g_021DE56C) == 6)
+    if ((*(unsigned char *)&gDwcutilMainWork) == 6)
         return 0x38;
-    if ((*(unsigned char *)&g_021DE56C) == 1) {
-        if (!((*(unsigned int *)((char *)&(*(unsigned char *)&g_021DE56C) + 8) >> 4) & 2))
+    if ((*(unsigned char *)&gDwcutilMainWork) == 1) {
+        if (!((*(unsigned int *)((char *)&(*(unsigned char *)&gDwcutilMainWork) + 8) >> 4) & 2))
             return 0x37;
     }
-    return (*(unsigned char *)&g_021DE56C) + 0x31;
+    return (*(unsigned char *)&gDwcutilMainWork) + 0x31;
 }

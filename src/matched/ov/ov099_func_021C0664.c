@@ -1,5 +1,5 @@
 /*
- * function: func_021C0664
+ * function: WIFICLUB_StateDisconnectToLobby
  * address: 0x021C0664
  * packet: pkt_ov099_021C0664
  * region: ov099
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
- *   func_021C18C8 0x021C18C8 thumb ov099
- *   func_021C2408 0x021C2408 thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
+ *   WIFICLUB_DisableTouchBar 0x021C2408 thumb ov099
  */
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BA8EC(char *);
+extern void WIFICLUB_ClearTalkWindow(char *);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern void func_021C18C8(char *,int,int);
-extern void func_021C2408(char *);
-int func_021C0664(char *p,int ret){func_021BA8EC(p);GFL_NET_STATE_WifiDisconnect(1);func_021C18C8(p,1,2);((struct Obj00008 *)p)->f1F0=-1;func_021C2408(p);((struct Obj00008 *)p)->f1CC=11;return ret;}
+extern void WIFICLUB_SetOwnStatusAndPublish(char *,int,int);
+extern void WIFICLUB_DisableTouchBar(char *);
+int WIFICLUB_StateDisconnectToLobby(char *p,int ret){WIFICLUB_ClearTalkWindow(p);GFL_NET_STATE_WifiDisconnect(1);WIFICLUB_SetOwnStatusAndPublish(p,1,2);((struct Obj00008 *)p)->f1F0=-1;WIFICLUB_DisableTouchBar(p);((struct Obj00008 *)p)->f1CC=11;return ret;}

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215EFB0  0x0215EFB0  arm  ov009
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  */
 
 typedef struct {
@@ -23,7 +23,7 @@ typedef struct {
 } PollFD;
 
 extern int func_0215EFB0(int s);
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 
 int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 {
@@ -57,7 +57,7 @@ int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout)
 		if (is_enable_timeout && time <= 0) {
 			break;
 		}
-		func_02085A38(1);
+		OS_Sleep(1);
 		time -= 523;
 	}
 	return num_good;

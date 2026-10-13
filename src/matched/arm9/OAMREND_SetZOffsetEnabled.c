@@ -1,5 +1,5 @@
 /*
- * function: OAMREND_SetZOffsetEnabled
+ * function: NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled
  * address:  0x02066DEC
  * packet:   pkt_02066DEC
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148B2C 0x02148B2C data
+ *   sUVFlipState 0x02148B2C data
  */
 
 struct UVFlipState { void *pFunc; int f04; unsigned int f08; };
-extern struct UVFlipState g_02148B2C;
+extern struct UVFlipState sUVFlipState;
 
-void OAMREND_SetZOffsetEnabled(unsigned int callback)
+void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(unsigned int callback)
 {
-    g_02148B2C.f08 = callback;
+    sUVFlipState.f08 = callback;
 }

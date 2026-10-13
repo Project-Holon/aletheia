@@ -1,7 +1,7 @@
 /*
  * file:     dwc_mov_wh.c
  * unit:     yes
- * function: func_021D298C, func_021D29C8, func_021D2A44, func_021D2A64, func_021D2AA8, DWCi_MOV_WH_StateInSetParentWEPKey, func_021D2B74, func_021D2BAC, DWCi_MOV_WH_StateOutStartParent, DWCi_MOV_WH_StateInStartParentMP, DWCi_MOV_WH_StateOutStartParentMP, func_021D2F50, func_021D2F8C, DWCi_MOV_WH_StateInEndParentMP, func_021D2FEC, func_021D3040, func_021D3068, func_021D308C, func_021D30D8, DWCi_MOV_WH_StateOutEndChildMP, DWCi_MOV_WH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, DWCi_MOV_WH_StateInReset, DWCi_MOV_WH_StateOutReset, func_021D3200, func_021D3228, func_021D323C, func_021D3250, DWCi_MOV_WH_StartMeasureChannel, DWCi_MOV_WH_StateInMeasureChannel, func_021D33E0, func_021D34C0, func_021D34E0, func_021D3554, func_021D3638, func_021D36B0, func_021D36D0, func_021D371C, func_021D376C, func_021D38C8, func_021D38DC, func_021D3904, func_021D39A4, func_021D39C0, func_021D3AC8
+ * function: DWCi_MOV_WH_MemInit, DWCi_MOV_WH_ChangeSysState, DWCi_MOV_WH_SetError, DWCi_MOV_WH_StateInSetParentParam, DWCi_MOV_WH_StateOutSetParentParam, DWCi_MOV_WH_StateInSetParentWEPKey, DWCi_MOV_WH_StateOutSetParentWEPKey, DWCi_MOV_WH_StateInStartParent, DWCi_MOV_WH_StateOutStartParent, DWCi_MOV_WH_StateInStartParentMP, DWCi_MOV_WH_StateOutStartParentMP, DWCi_MOV_WH_StateInStartParentKeyShare, DWCi_MOV_WH_StateInEndParentKeyShare, DWCi_MOV_WH_StateInEndParentMP, DWCi_MOV_WH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_StateInEndChildKeyShare, DWCi_MOV_WH_StateInEndChildMP, DWCi_MOV_WH_StateOutEndChildMP, DWCi_MOV_WH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, DWCi_MOV_WH_StateInReset, DWCi_MOV_WH_StateOutReset, DWCi_MOV_WH_StateOutEnd, DWCi_MOV_WH_SetGgid, DWCi_MOV_WH_GetBitmap, DWCi_MOV_WH_GetSystemState, DWCi_MOV_WH_StartMeasureChannel, DWCi_MOV_WH_StateInMeasureChannel, DWCi_MOV_WH_StateOutMeasureChannel, DWCi_DwcMovWhWHi_MeasureChannel, DWCi_MOV_WH_GetMeasureChannel, DWCi_DwcMovWhSelectChannel, DWCi_MOV_WH_Initialize, DWCi_MOV_WH_IndicateHandler, DWCi_MOV_WH_StateInInitialize, DWCi_MOV_WH_StateOutInitialize, DWCi_MOV_WH_ParentConnect, DWCi_MOV_WH_SetJudgeAcceptFunc, DWCi_MOV_WH_GetSharedDataAdr, DWCi_MOV_WH_StepDS, DWCi_MOV_WH_Reset, DWCi_MOV_WH_Finalize, DWCi_MOV_WH_End
  * address:  0x021D298C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
+ *   WM_StartKeySharing             0x02090B9C  arm  arm9
  *   dwc_mov_wh_bss                   0x021DE660  data
  *   wh_statenames                    0x021DBD8C  data
  *   dwc_mov_wh_str_13637             0x021DBDB4  data
@@ -161,17 +162,16 @@ typedef struct {
 typedef struct { unsigned short apiid; unsigned short errcode; unsigned short state; } WMIndCallback;
 
 extern int WM_SetParentParameter(int, int);
-extern int func_021D29C8(int);
-extern void DWCi_MOV_WH_SetError(int code);
+void DWCi_MOV_WH_SetError(unsigned int v);
 extern int WM_SetWEPKey(void (*callback)(void *), unsigned short wepmode, unsigned short *wepkey);
 extern int WM_StartParent(void (*callback)(void *));
 extern int WM_Disconnect(void (*callback)(void *), unsigned short aid);
 extern int WM_StartMP(void (*callback)(void *), unsigned short *recvBuf, unsigned short recvBufSize,
                       unsigned short *sendBuf, unsigned short sendBufSize, unsigned short mpFreq);
-extern int DWCi_MOV_WH_StateInStartParentKeyShare(void);
+int DWCi_MOV_WH_StateInStartParentKeyShare(void);
 extern int WM_StartDataSharing(void *dsInfo, unsigned short port, unsigned short aidBitmap,
                                unsigned short dataLength, int doubleMode);
-extern int func_02090B9C(int, int);
+extern int WM_StartKeySharing(int, int);
 extern int WM_EndKeySharing(int);
 extern int WM_EndMP(void (*callback)(void *));
 extern int WM_EndParent(void (*callback)(void *));
@@ -181,37 +181,30 @@ extern unsigned short WM_GetAllowedChannel(void);
 extern int WM_MeasureChannel(void (*callback)(void *), unsigned short ccaMode, unsigned short edThreshold,
                              unsigned short channel, unsigned short measureTime);
 extern void OS_Terminate(void);
-extern int DWCi_MOV_WH_StateInInitialize(void);
+int DWCi_MOV_WH_StateInInitialize(void);
 extern int WM_Initialize(int, int, int);
 extern int WM_SetIndCallback(void (*callback)(void *));
 extern unsigned short WM_GetDispersionBeaconPeriod(void);
-extern int DWCi_MOV_WH_StateInSetParentParam(void);
+int DWCi_MOV_WH_StateInSetParentParam(void);
 extern void WM_GetSharedDataAddress(void *, void *, int);
 extern int WM_StepDataSharing(void *dsInfo, unsigned short *sendData, void *receiveData);
-extern int DWCi_MOV_WH_StateInEndChildKeyShare(void);
-extern int DWCi_MOV_WH_StateInEndParentKeyShare(void);
-extern void func_02088234(void);
+int DWCi_MOV_WH_StateInEndChildKeyShare(void);
+int DWCi_MOV_WH_StateInEndParentKeyShare(void);
 extern int WM_End(int);
 void DWCi_MOV_WH_MemInit(void *mw);
-void func_021D2A44(unsigned int v);
-int func_021D2A64(void);
-int func_021D2F50(void);
-int func_021D2F8C(void);
-int func_021D308C(void);
-void func_021D3228(unsigned int v);
-unsigned short func_021D323C(void);
-unsigned int func_021D3250(void);
+void DWCi_MOV_WH_SetGgid(unsigned int v);
+unsigned short DWCi_MOV_WH_GetBitmap(void);
+unsigned int DWCi_MOV_WH_GetSystemState(void);
 int DWCi_MOV_WH_StartMeasureChannel(void);
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void);
-int func_021D3638(void);
-int func_021D36D0(void);
+int DWCi_MOV_WH_Initialize(void);
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel);
-void func_021D38C8(unsigned int v);
-void func_021D38DC(int a);
+void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
+void DWCi_MOV_WH_GetSharedDataAdr(int a);
 int DWCi_MOV_WH_StepDS(void *data);
 void DWCi_MOV_WH_Reset(void);
 void DWCi_MOV_WH_Finalize(void);
-int func_021D3AC8(void);
+int DWCi_MOV_WH_End(void);
 extern struct DWC_MOV_WH_BSS dwc_mov_wh_bss;
 extern const char *const wh_statenames[];
 extern const char dwc_mov_wh_str_13637[];
@@ -231,10 +224,31 @@ extern const char dwc_mov_wh_str_14362[];
 extern const char dwc_mov_wh_str_14400[];
 extern const char dwc_mov_wh_str_14401[];
 
-
-
-
-
+static void DWCi_MOV_WH_ChangeSysState(int state);
+static void DWCi_MOV_WH_StateOutSetParentParam(void *arg);
+static int DWCi_MOV_WH_StateInSetParentWEPKey(void);
+static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg);
+static int DWCi_MOV_WH_StateInStartParent(void);
+static void DWCi_MOV_WH_StateOutStartParent(void *arg);
+static int DWCi_MOV_WH_StateInStartParentMP(void);
+static void DWCi_MOV_WH_StateOutStartParentMP(void *arg);
+static int DWCi_MOV_WH_StateInEndParentMP(void);
+static void DWCi_MOV_WH_StateOutEndParentMP(void *arg);
+static int DWCi_MOV_WH_StateInEndParent(void);
+static void DWCi_MOV_WH_StateOutEndParent(void *arg);
+static int DWCi_MOV_WH_StateInEndChildMP(void);
+static void DWCi_MOV_WH_StateOutEndChildMP(void *arg);
+static int DWCi_MOV_WH_StateInEndChild(void);
+static void DWCi_MOV_WH_StateOutEndChild(void *arg);
+static int DWCi_MOV_WH_StateInReset(void);
+static void DWCi_MOV_WH_StateOutReset(void *arg);
+static void DWCi_MOV_WH_StateOutEnd(void *arg);
+static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel);
+static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg);
+static int WHi_MeasureChannel(void (*func)(void *), unsigned short channel);
+static short SelectChannel(unsigned short bitmap);
+static void DWCi_MOV_WH_IndicateHandler(void *arg);
+static void DWCi_MOV_WH_StateOutInitialize(void *arg);
 
 
 void DWCi_MOV_WH_MemInit(void *mw)
@@ -247,11 +261,6 @@ void DWCi_MOV_WH_MemInit(void *mw)
 }
 
 
-
-
-
-
-
 static void DWCi_MOV_WH_ChangeSysState(int state)
 {
     if (dwc_mov_wh_bss.wh_trace)
@@ -262,18 +271,15 @@ static void DWCi_MOV_WH_ChangeSysState(int state)
 }
 
 
-
-
-
 /*
  * Store v unless the state word at +0x40 is 9 or 10.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D2A44.c \
- *       --func func_021D2A44 --addr 0x021D2A44 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_WH_SetError.c \
+ *       --func DWCi_MOV_WH_SetError --addr 0x021D2A44 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D2A44(unsigned int v)
+void DWCi_MOV_WH_SetError(unsigned int v)
 {
     char **p = (char **)0x021DE660;
     char *q = p[1];
@@ -282,48 +288,23 @@ void func_021D2A44(unsigned int v)
 }
 
 
-
-
-static void DWCi_MOV_WH_ChangeSysState(int state);
-
-
-
-
-static int DWCi_MOV_WH_StateInStartParent(void);
-
-
-
-
-static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg);
-
-
-
-
-
-
-
 /*
  * Select port 3, poll the global tail against the table at 0x021D2AA8, then fall back.
  * Addresses are Black-image addresses.
  */
-int func_021D2A64(void)
+int DWCi_MOV_WH_StateInSetParentParam(void)
 {
     int *g = (int *)0x021DE660;
     int rs;
 
-    func_021D29C8(3);
+    DWCi_MOV_WH_ChangeSysState(3);
     rs = WM_SetParentParameter((int)0x021D2AA8, g[1]);
     if (rs == 2)
         return 1;
-    func_021D2A44(rs);
-    func_021D29C8(9);
+    DWCi_MOV_WH_SetError(rs);
+    DWCi_MOV_WH_ChangeSysState(9);
     return 0;
 }
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutSetParentParam(void *arg)
@@ -345,10 +326,6 @@ static void DWCi_MOV_WH_StateOutSetParentParam(void *arg)
 }
 
 
-
-
-
-
 static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
 {
     unsigned short wepmode;
@@ -365,13 +342,6 @@ static int DWCi_MOV_WH_StateInSetParentWEPKey(void)
 }
 
 
-
-static void DWCi_MOV_WH_StateOutStartParent(void *arg);
-
-
-
-
-
 static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -384,9 +354,6 @@ static void DWCi_MOV_WH_StateOutSetParentWEPKey(void *arg)
     if (!DWCi_MOV_WH_StateInStartParent())
         DWCi_MOV_WH_ChangeSysState(9);
 }
-
-
-
 
 
 static int DWCi_MOV_WH_StateInStartParent(void)
@@ -404,11 +371,6 @@ static int DWCi_MOV_WH_StateInStartParent(void)
     ((WHWork *)dwc_mov_wh_bss.wh)->bitmap = 1;
     return 1;
 }
-
-
-static void DWCi_MOV_WH_StateOutStartParentMP(void *arg);
-
-
 
 
 static void DWCi_MOV_WH_StateOutStartParent(void *arg)
@@ -455,8 +417,6 @@ static void DWCi_MOV_WH_StateOutStartParent(void *arg)
 }
 
 
-
-
 static int DWCi_MOV_WH_StateInStartParentMP(void)
 {
     int result;
@@ -472,26 +432,6 @@ static int DWCi_MOV_WH_StateInStartParentMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-static void DWCi_MOV_WH_StateOutEndParentMP(void *arg);
-
-
-
-
-
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
@@ -541,51 +481,29 @@ static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Select port 6, start key sharing on the global object's tail, then reset on mismatch.
  * Addresses are Black-image addresses.
  */
-int func_021D2F50(void)
+int DWCi_MOV_WH_StateInStartParentKeyShare(void)
 {
     int *g = (int *)0x021DE660;
     int rs;
 
-    func_021D29C8(6);
-    rs = func_02090B9C(g[1] + 0x1e00, 0xd);
+    DWCi_MOV_WH_ChangeSysState(6);
+    rs = WM_StartKeySharing(g[1] + 0x1e00, 0xd);
     if (rs == 2)
         return 1;
-    func_021D2A44(rs);
+    DWCi_MOV_WH_SetError(rs);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
  * Query the global object's tail, then reset on anything but the ready answer.
  * Addresses are Black-image addresses.
  */
-int func_021D2F8C(void)
+int DWCi_MOV_WH_StateInEndParentKeyShare(void)
 {
     int *g = (int *)0x021DE660;
     int rs;
@@ -593,18 +511,9 @@ int func_021D2F8C(void)
     rs = WM_EndKeySharing(g[1] + 0x1e00);
     if (rs == 2)
         return 1;
-    func_021D2A44(rs);
+    DWCi_MOV_WH_SetError(rs);
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 static int DWCi_MOV_WH_StateInEndParentMP(void)
@@ -618,25 +527,6 @@ static int DWCi_MOV_WH_StateInEndParentMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-static void DWCi_MOV_WH_StateOutEndParent(void *arg);
-
-
-
-
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutEndParentMP(void *arg)
@@ -656,15 +546,6 @@ static void DWCi_MOV_WH_StateOutEndParentMP(void *arg)
 }
 
 
-
-
-
-
-
-
-
-
-
 static int DWCi_MOV_WH_StateInEndParent(void)
 {
     int result;
@@ -675,23 +556,6 @@ static int DWCi_MOV_WH_StateInEndParent(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
-
-
-
-
-
-
-
-static void DWCi_MOV_WH_StateOutEndChildMP(void *arg);
-
-
-
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutEndParent(void *arg)
@@ -706,40 +570,24 @@ static void DWCi_MOV_WH_StateOutEndParent(void *arg)
 }
 
 
-
-
-
-
-
-
-
-
 /*
  * Only in state 6, select port 3 and query the global tail for the ready answer.
  * Addresses are Black-image addresses.
  */
-int func_021D308C(void)
+int DWCi_MOV_WH_StateInEndChildKeyShare(void)
 {
     int *g = (int *)0x021DE660;
     int rs;
 
     if (*(int *)(g[1] + 0x40) != 6)
         return 0;
-    func_021D29C8(3);
+    DWCi_MOV_WH_ChangeSysState(3);
     rs = WM_EndKeySharing(g[1] + 0x1e00);
     if (rs == 2)
         return 1;
-    func_021D2A44(rs);
+    DWCi_MOV_WH_SetError(rs);
     return 0;
 }
-
-
-
-
-
-
-
-
 
 
 static int DWCi_MOV_WH_StateInEndChildMP(void)
@@ -753,21 +601,6 @@ static int DWCi_MOV_WH_StateInEndChildMP(void)
     DWCi_MOV_WH_SetError(result);
     return 0;
 }
-
-
-
-
-
-
-
-static void DWCi_MOV_WH_StateOutEndChild(void *arg);
-
-
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutEndChildMP(void *arg)
@@ -785,13 +618,6 @@ static void DWCi_MOV_WH_StateOutEndChildMP(void *arg)
 }
 
 
-
-
-
-
-
-
-
 static int DWCi_MOV_WH_StateInEndChild(void)
 {
     int result;
@@ -806,19 +632,6 @@ static int DWCi_MOV_WH_StateInEndChild(void)
 }
 
 
-
-
-
-
-static void DWCi_MOV_WH_StateOutReset(void *arg);
-
-
-
-
-
-
-
-
 static void DWCi_MOV_WH_StateOutEndChild(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -829,12 +642,6 @@ static void DWCi_MOV_WH_StateOutEndChild(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
-
-
-
-
-
 
 
 static int DWCi_MOV_WH_StateInReset(void)
@@ -850,19 +657,6 @@ static int DWCi_MOV_WH_StateInReset(void)
 }
 
 
-
-
-
-static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel);
-
-
-
-
-
-
-
-
-
 static void DWCi_MOV_WH_StateOutReset(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
@@ -874,14 +668,6 @@ static void DWCi_MOV_WH_StateOutReset(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
-
-
-
-
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutEnd(void *arg)
@@ -896,22 +682,15 @@ static void DWCi_MOV_WH_StateOutEnd(void *arg)
 }
 
 
-
-
-
-
-
-
-
 /*
  * Store a word at +0x08 of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D3228.c \
- *       --func func_021D3228 --addr 0x021D3228 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_WH_SetGgid.c \
+ *       --func DWCi_MOV_WH_SetGgid --addr 0x021D3228 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D3228(unsigned int v)
+void DWCi_MOV_WH_SetGgid(unsigned int v)
 {
     char **p = (char **)0x021DE660;
     unsigned int *q = (unsigned int *)(p[1] + 4);
@@ -919,22 +698,15 @@ void func_021D3228(unsigned int v)
 }
 
 
-
-
-
-
-
-
-
 /*
  * Halfword at +0x52 of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D323C.c \
- *       --func func_021D323C --addr 0x021D323C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_WH_GetBitmap.c \
+ *       --func DWCi_MOV_WH_GetBitmap --addr 0x021D323C --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned short func_021D323C(void)
+unsigned short DWCi_MOV_WH_GetBitmap(void)
 {
     char **p = (char **)0x021DE660;
     unsigned short *q = (unsigned short *)(p[1] + 0x52);
@@ -942,20 +714,15 @@ unsigned short func_021D323C(void)
 }
 
 
-
-
-
-
-
 /*
  * Word at +0x40 of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D3250.c \
- *       --func func_021D3250 --addr 0x021D3250 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_WH_GetSystemState.c \
+ *       --func DWCi_MOV_WH_GetSystemState --addr 0x021D3250 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned int func_021D3250(void)
+unsigned int DWCi_MOV_WH_GetSystemState(void)
 {
     char **p = (char **)0x021DE660;
     unsigned int *q = (unsigned int *)(p[1] + 0x40);
@@ -963,20 +730,10 @@ unsigned int func_021D3250(void)
 }
 
 
-
-
-
-
-
 static inline unsigned long OS_GetVBlankCount(void)
 {
     return *(volatile unsigned long *)0x02FFFC3C;
 }
-
-
-
-
-
 
 
 int DWCi_MOV_WH_StartMeasureChannel(void)
@@ -1005,19 +762,6 @@ int DWCi_MOV_WH_StartMeasureChannel(void)
 }
 
 
-
-
-static int WHi_MeasureChannel(void (*func)(void *), unsigned short channel);
-
-
-
-
-static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg);
-
-
-
-
-
 static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel)
 {
     unsigned short allowedChannel;
@@ -1040,13 +784,6 @@ static unsigned short DWCi_MOV_WH_StateInMeasureChannel(unsigned short channel)
     }
     return WHi_MeasureChannel(DWCi_MOV_WH_StateOutMeasureChannel, channel);
 }
-
-
-
-static short SelectChannel(unsigned short bitmap);
-
-
-
 
 
 static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg)
@@ -1079,16 +816,10 @@ static void DWCi_MOV_WH_StateOutMeasureChannel(void *arg)
 }
 
 
-
-
-
 static int WHi_MeasureChannel(void (*func)(void *), unsigned short channel)
 {
     return WM_MeasureChannel(func, 3, 17, channel, 30);
 }
-
-
-
 
 
 unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
@@ -1101,17 +832,6 @@ unsigned short DWCi_MOV_WH_GetMeasureChannel(void)
         dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14204, ((WHWork *)dwc_mov_wh_bss.wh)->channel);
     return ((WHWork *)dwc_mov_wh_bss.wh)->channel;
 }
-
-
-static int DWCi_MOV_WH_StateInReset(void);
-
-
-static int DWCi_MOV_WH_StateInEndChildMP(void);
-
-
-static int DWCi_MOV_WH_StateInEndParentMP(void);
-
-
 
 
 static short SelectChannel(unsigned short bitmap)
@@ -1143,15 +863,10 @@ static short SelectChannel(unsigned short bitmap)
 }
 
 
-
-
 static void *wh_trace = 0;
 
 
-
 static Wh *wh = 0;
-
-
 
 
 /*
@@ -1229,7 +944,7 @@ static Wh *wh = 0;
  *   asm-mode lever); re-measured `return call ? 1 : 0` (coalesces onto the 1
  *   register instead, 15 B). No new lever.
  */
-int func_021D3638(void)
+int DWCi_MOV_WH_Initialize(void)
 {
     wh->f12a4 = 0;
     wh->f12a0 = 0;
@@ -1250,8 +965,6 @@ int func_021D3638(void)
 }
 
 
-
-
 static void DWCi_MOV_WH_IndicateHandler(void *arg)
 {
     WMIndCallback *cb = (WMIndCallback *)arg;
@@ -1263,27 +976,23 @@ static void DWCi_MOV_WH_IndicateHandler(void *arg)
 }
 
 
-
-
 /*
  * Select port 3, run the 0x021D371C script on the global tail, then fall back.
  * Addresses are Black-image addresses.
  */
-int func_021D36D0(void)
+int DWCi_MOV_WH_StateInInitialize(void)
 {
     int *g = (int *)0x021DE660;
     int rs;
 
-    func_021D29C8(3);
+    DWCi_MOV_WH_ChangeSysState(3);
     rs = WM_Initialize(g[1] + 0x80, (int)0x021D371C, 2);
     if (rs == 2)
         return 1;
-    func_021D2A44(rs);
-    func_021D29C8(0xa);
+    DWCi_MOV_WH_SetError(rs);
+    DWCi_MOV_WH_ChangeSysState(0xa);
     return 0;
 }
-
-
 
 
 static void DWCi_MOV_WH_StateOutInitialize(void *arg)
@@ -1304,8 +1013,6 @@ static void DWCi_MOV_WH_StateOutInitialize(void *arg)
     }
     DWCi_MOV_WH_ChangeSysState(1);
 }
-
-
 
 
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel)
@@ -1343,16 +1050,15 @@ int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short chan
 }
 
 
-
 /*
  * Store a word at +0x4c of the object behind the pointer at 0x021DE664.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D38C8.c \
- *       --func func_021D38C8 --addr 0x021D38C8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_WH_SetJudgeAcceptFunc.c \
+ *       --func DWCi_MOV_WH_SetJudgeAcceptFunc --addr 0x021D38C8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D38C8(unsigned int v)
+void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v)
 {
     char **p = (char **)0x021DE660;
     unsigned int *q = (unsigned int *)(p[1] + 0x4c);
@@ -1360,21 +1066,17 @@ void func_021D38C8(unsigned int v)
 }
 
 
-
-
 /*
  * Tail-call WM_GetSharedDataAddress with two views of the block behind 0x021DE660.
  * Addresses are Black-image addresses.
  */
-void func_021D38DC(int a)
+void DWCi_MOV_WH_GetSharedDataAdr(int a)
 {
     int *g = (int *)0x021DE660;
     char *p = (char *)g[1];
 
     WM_GetSharedDataAddress(p + 0x13e0, p + 0x1c00, a);
 }
-
-
 
 
 int DWCi_MOV_WH_StepDS(void *data)
@@ -1401,16 +1103,12 @@ int DWCi_MOV_WH_StepDS(void *data)
 }
 
 
-
-
 void DWCi_MOV_WH_Reset(void)
 {
     if (DWCi_MOV_WH_StateInReset())
         return;
     DWCi_MOV_WH_ChangeSysState(10);
 }
-
-
 
 
 void DWCi_MOV_WH_Finalize(void)
@@ -1451,21 +1149,19 @@ void DWCi_MOV_WH_Finalize(void)
 }
 
 
-
-
 /*
  * Wake the sound system when idle, select port 3 and run the 0x021D3200 script.
  * Addresses are Black-image addresses.
  */
-int func_021D3AC8(void)
+int DWCi_MOV_WH_End(void)
 {
     int *g = (int *)0x021DE660;
 
     if (*(int *)(g[1] + 0x40) != 1)
-        func_02088234();
-    func_021D29C8(3);
+        OS_Terminate();
+    DWCi_MOV_WH_ChangeSysState(3);
     if (WM_End((int)0x021D3200) == 2)
         return 1;
-    func_021D29C8(9);
+    DWCi_MOV_WH_ChangeSysState(9);
     return 0;
 }

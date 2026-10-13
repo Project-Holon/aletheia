@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCE0
+ * function: WIFICLUB_GetFirstFriendEntry
  * address:  0x021BDCE0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -31,7 +31,7 @@ struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 
-void func_021BDCE0(char *p)
+void WIFICLUB_GetFirstFriendEntry(char *p)
 {
     func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18250 *)p)->fC4), 0);
 }

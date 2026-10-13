@@ -1,5 +1,5 @@
 /*
- * function: func_0207D46C
+ * function: GX_DispOn
  * address:  0x0207D46C
  * packet:   pkt_0207D46C
  * region:   arm9
@@ -28,7 +28,7 @@ typedef volatile u32 vu32;
 extern struct GXBssState sDispMode;
 extern struct GXDataState sIsDispOn;
 
-void func_0207D46C(void)
+void GX_DispOn(void)
 {
     (*(u16 *)&sIsDispOn) = 1;
     if ((*(u16 *)&sDispMode))

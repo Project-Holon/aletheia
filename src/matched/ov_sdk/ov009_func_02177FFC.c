@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_02086004  0x02086004  arm
- *   func_0208574C  0x0208574C  arm
- *   func_020853C0  0x020853C0  arm
- *   func_02085868  0x02085868  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
+ *   OS_CreateThread  0x020853C0  arm
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   func_021783BC  0x021783BC  arm  ov009
  *   g_021AB184     0x021AB184  data
  *   g_021AB188     0x021AB188  data
@@ -42,9 +42,9 @@ extern struct DWCAuthGlobal g_021AB184;
 extern struct DWCAuthCtx *g_021AB188;
 
 extern void func_02086004(void *mutex);
-extern int func_0208574C(void *thread);
-extern void func_020853C0(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
-extern void func_02085868(void *thread);
+extern int OS_IsThreadTerminated(void *thread);
+extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
+extern void OS_WakeupThreadDirect(void *thread);
 extern void func_021783BC(void);
 
 void func_02177FFC(void)
@@ -52,9 +52,9 @@ void func_02177FFC(void)
 	func_02086004(&g_021AB184.ctx->mutex);
 	g_021AB184.ctx->abort_flag = 0;
 	if (g_021AB184.ctx->started != 0) {
-		if (func_0208574C(g_021AB184.ctx->thread) == 0)
+		if (OS_IsThreadTerminated(g_021AB184.ctx->thread) == 0)
 			return;
 	}
-	func_020853C0(g_021AB184.ctx->thread, (void (*)(void *))func_021783BC, &g_021AB188, (unsigned char *)g_021AB184.ctx + 0x1000, 0x1000, 0x10);
-	func_02085868(g_021AB184.ctx->thread);
+	OS_CreateThread(g_021AB184.ctx->thread, (void (*)(void *))func_021783BC, &g_021AB188, (unsigned char *)g_021AB184.ctx + 0x1000, 0x1000, 0x10);
+	OS_WakeupThreadDirect(g_021AB184.ctx->thread);
 }

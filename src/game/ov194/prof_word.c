@@ -17,7 +17,7 @@
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   func_0203F37C 0x0203F37C arm
  *   d_021F57B8 0x021F57B8 data a1
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  */
@@ -37,7 +37,7 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short
 extern int ARC_UTIL_LoadMemberWithSize(int, int, int, int, unsigned *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 extern u32 func_020307B0(void *p);
-extern void func_02082D44(const void *,void *,unsigned);
+extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern u16 STRBUF_GetEosChar(void);
 Resources *func_021F5304(unsigned short heap);
 void func_021F5354(u8 *p);
@@ -86,7 +86,7 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
     u32 size;
     int i,result;
     u32 data;
-    func_02082D44(input,buf,64);
+    MI_CpuCopy8(input,buf,64);
     for(i=0;i<32;i++) {
         u32 c=buf[i];
         if(c>=0x30a1 && c<=0x30f4) buf[i]=c-0x60;

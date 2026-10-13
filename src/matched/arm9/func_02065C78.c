@@ -1,5 +1,5 @@
 /*
- * function: func_02065C78
+ * function: NNS_G2dEndRendering
  * address:  0x02065C78
  * packet:   pkt_02065020
  * region:   arm9
@@ -19,11 +19,11 @@
  *
  * symbols:
  *   g_02147B88    0x02147B88  data
- *   NNSi_G2dOamSoftEmuEnd 0x02067CB0  arm
+ *   NNS_G2dRndCoreEndRendering 0x02067CB0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02065C78.c \
- *       --func func_02065C78 --addr 0x02065C78 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G2dEndRendering.c \
+ *       --func NNS_G2dEndRendering --addr 0x02065C78 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -43,9 +43,9 @@ struct Bank {
 };
 
 extern struct Bank g_02147B88;
-extern void NNSi_G2dOamSoftEmuEnd(void);
+extern void NNS_G2dRndCoreEndRendering(void);
 
-void func_02065C78(u32 a)
+void NNS_G2dEndRendering(u32 a)
 {
     u32 f;
     struct Obj *o;
@@ -59,7 +59,7 @@ void func_02065C78(u32 a)
             g_02147B88.unk_04 = 0;
         if (f & 2) {
             o->unk_74 = 0;
-            NNSi_G2dOamSoftEmuEnd();
+            NNS_G2dRndCoreEndRendering();
         }
         g_02147B88.obj->unk_7c = 0;
     }

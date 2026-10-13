@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BC93C",
-    "func_021BC964"
+    "PMSIV_FADE_IsBrightnessDone",
+    "PMSIV_FADE_BrightnessTask"
+   ],
+   "addresses": [
+    "0x021BC93C",
+    "0x021BC964"
    ]
   }
  ]

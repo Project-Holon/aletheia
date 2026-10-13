@@ -1,5 +1,5 @@
 /*
- * function: func_021C5DB4
+ * function: DWC_NdCancelAsync
  * address:  0x021C5DB4
  * packet:   pkt_ov114_021C5DB4
  * region:   ov114
@@ -15,9 +15,9 @@
  *   func_02059F38  0x02059F38  arm
  *   func_02086028  0x02086028  arm
  *   OS_UnlockMutex 0x02086078  arm
- *   func_021C666C  0x021C666C  arm  ov114
- *   g_021D3B84     0x021D3B84  data
- *   g_021D3B68     0x021D3B68  data
+ *   DWCi_NdCancelAsync  0x021C666C  arm  ov114
+ *   gDwcNdMutex     0x021D3B84  data
+ *   gDwcNdState     0x021D3B68  data
  */
 
 #include "../include/G_NdState.h"
@@ -27,19 +27,19 @@ typedef struct NdState NdState;
 extern int func_02059F38(void);
 extern void func_02086028(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
-extern int func_021C666C(void);
-extern char g_021D3B84[];
-extern struct NdState g_021D3B68;
+extern int DWCi_NdCancelAsync(void);
+extern char gDwcNdMutex[];
+extern struct NdState gDwcNdState;
 
-int func_021C5DB4(void)
+int DWC_NdCancelAsync(void)
 {
     if (func_02059F38())
         return 0;
-    func_02086028(g_021D3B84);
-    if (g_021D3B68.f14 != 2) {
-        OS_UnlockMutex(g_021D3B84);
+    func_02086028(gDwcNdMutex);
+    if (gDwcNdState.f14 != 2) {
+        OS_UnlockMutex(gDwcNdMutex);
         return 0;
     }
-    OS_UnlockMutex(g_021D3B84);
-    return func_021C666C() != 0;
+    OS_UnlockMutex(gDwcNdMutex);
+    return DWCi_NdCancelAsync() != 0;
 }

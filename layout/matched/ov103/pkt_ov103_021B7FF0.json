@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7FF0",
+   "name": "IRC_COMPATIBLE_TOUCH_TEST_UpdateTextQueue",
    "address": "0x021B7FF0",
    "kind": "game",
    "region": "ov103",

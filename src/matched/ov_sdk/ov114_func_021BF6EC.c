@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6EC
+ * function: DWCi_GHTTPGetEx
  * address:  0x021BF6EC
  * packet:   pkt_ov114_021BF6EC
  * region:   ov114
@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_02059F38  0x02059F38  arm
- *   func_021BFA08  0x021BFA08  arm  ov114
- *   func_021BF8C0  0x021BF8C0  arm  ov114
+ *   DWCi_AppendDWCGHTTPParam  0x021BFA08  arm  ov114
+ *   DWCi_HandleGHTTPError  0x021BF8C0  arm  ov114
  *   func_0205A16C  0x0205A16C  arm
- *   func_021BFA70  0x021BFA70  arm  ov114
- *   func_021C20A4  0x021C20A4  arm  ov114
+ *   DWCi_RemoveDWCGHTTPParamEntry  0x021BFA70  arm  ov114
+ *   ghttpGetExA  0x021C20A4  arm  ov114
  *   func_0205A1B0  0x0205A1B0  arm
- *   func_021C22EC  0x021C22EC  arm  ov114
+ *   ghttpSetMaxRecvTime  0x021C22EC  arm  ov114
  *   func_021BF67C  0x021BF67C  arm  ov114
  *   func_021BF5D8  0x021BF5D8  arm  ov114
  */
@@ -43,19 +43,19 @@ typedef struct DWCGHTTPParamEntry {
 } DWCGHTTPParamEntry;
 
 extern int func_02059F38(void);
-extern DWCGHTTPParamEntry *func_021BFA08(DWCGHTTPParam *param);
-extern int func_021BF8C0(int result);
+extern DWCGHTTPParamEntry *DWCi_AppendDWCGHTTPParam(DWCGHTTPParam *param);
+extern int DWCi_HandleGHTTPError(int result);
 extern void *func_0205A16C(int name, unsigned long size);
 struct Node;
-extern void func_021BFA70(struct Node *x);
-extern int func_021C20A4(char *url, char *headers, char *buffer, int bufferSize, void *post,
+extern void DWCi_RemoveDWCGHTTPParamEntry(struct Node *x);
+extern int ghttpGetExA(char *url, char *headers, char *buffer, int bufferSize, void *post,
                          int throttle, int blocking, void *progressCallback, void *completedCallback, void *param);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
-extern void func_021C22EC(int a, int b);
+extern void ghttpSetMaxRecvTime(int a, int b);
 extern void func_021BF67C();
 extern int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param);
 
-int func_021BF6EC(char *url, int bufferlen, int buffer_clear, void **post,
+int DWCi_GHTTPGetEx(char *url, int bufferlen, int buffer_clear, void **post,
                   ProgressCb progressCallback, CompletedCb completedCallback, void *param)
 {
     char *buffer = 0;
@@ -69,32 +69,32 @@ int func_021BF6EC(char *url, int bufferlen, int buffer_clear, void **post,
     parameter_instance.completedCallback = completedCallback;
     parameter_instance.progressCallback = progressCallback;
     parameter_instance.buffer_clear = buffer_clear;
-    entry = func_021BFA08(&parameter_instance);
+    entry = DWCi_AppendDWCGHTTPParam(&parameter_instance);
     if (entry == 0) {
-        func_021BF8C0(-5);
+        DWCi_HandleGHTTPError(-5);
         completedCallback(0, 0, -5, param);
         return -5;
     }
     if (bufferlen > 0) {
         buffer = func_0205A16C(6, bufferlen);
         if (buffer == 0) {
-            func_021BF8C0(-5);
+            DWCi_HandleGHTTPError(-5);
             completedCallback(0, 0, -5, param);
-            func_021BFA70((struct Node *)entry);
+            DWCi_RemoveDWCGHTTPParamEntry((struct Node *)entry);
             return -5;
         }
         entry->buf = buffer;
     }
-    req = func_021C20A4(url, 0, buffer, bufferlen, post == 0 ? 0 : *post, 0, 0,
+    req = ghttpGetExA(url, 0, buffer, bufferlen, post == 0 ? 0 : *post, 0, 0,
                         progressCallback == 0 ? 0 : (void *)func_021BF67C, (void *)func_021BF5D8, entry);
     if (req < 0) {
-        func_021BF8C0(req);
+        DWCi_HandleGHTTPError(req);
         completedCallback(0, 0, req, param);
         if (entry->buf != 0)
             func_0205A1B0(6, entry->buf, 0);
-        func_021BFA70((struct Node *)entry);
+        DWCi_RemoveDWCGHTTPParamEntry((struct Node *)entry);
     }
     entry->req = req;
-    func_021C22EC(req, 1);
+    ghttpSetMaxRecvTime(req, 1);
     return req;
 }

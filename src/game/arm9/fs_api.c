@@ -1,7 +1,7 @@
 /*
  * file:     fs_api.c
  * unit:     yes
- * function: func_0207AD04, func_0207AD30, func_0207AD40
+ * function: FS_Init, func_0207AD30, func_0207AD40
  * address:  0x0207AD04
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,9 +18,9 @@
  *   is_init                          0x02150e04 data
  *   .bss                             0x02150e04 data
  */
-extern void func_0207AB10(unsigned long default_dma_no);
+extern void FSi_InitRomArchive(unsigned long default_dma_no);
 extern void func_02078C40(void);
-void func_0207AD04(unsigned long default_dma_no);
+void FS_Init(unsigned long default_dma_no);
 int func_0207AD30(void);
 asm void func_0207AD40(void);
 extern int is_init;
@@ -34,13 +34,13 @@ static int is_init = 0;
 /*
  * sdk:      FS_Init (fs_api.o)
  */
-void func_0207AD04(unsigned long default_dma_no)
+void FS_Init(unsigned long default_dma_no)
 {
     if (is_init) {
         return;
     }
     is_init = 1;
-    func_0207AB10(default_dma_no);
+    FSi_InitRomArchive(default_dma_no);
     func_02078C40();
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02073484
+ * function: NNSi_SndSeqPlayerPause
  * address:  0x02073484
  * packet:   pkt_020733E8
  * region:   arm9
@@ -19,8 +19,8 @@
  * cached one at +0x2E, then caches it.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02073484.c \
- *       --func func_02073484 --addr 0x02073484 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNSi_SndSeqPlayerPause.c \
+ *       --func NNSi_SndSeqPlayerPause --addr 0x02073484 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ typedef struct {
 
 extern void func_02089398(int playerNo, int flag);
 
-void func_02073484(Obj02073484 *p, u8 v)
+void NNSi_SndSeqPlayerPause(Obj02073484 *p, u8 v)
 {
     if (p != 0 && v != p->unk2e) {
         func_02089398(p->unk3c, v);

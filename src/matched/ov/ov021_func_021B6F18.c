@@ -14,8 +14,8 @@
  *   SCRCMD_POKEMON_FLD_CreateGiftMon  0x021B6EE0  thumb  ov021
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -29,8 +29,8 @@ struct Blk37;
 extern int SCRCMD_POKEMON_FLD_CreateGiftMon(u32 a, u32 b);
 extern u32 POKEPARTY_GetCount(void *p);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
 void SCRCMD_POKEMON_FLD_ReceiveGiftMon(int a, int b, int c)
@@ -42,7 +42,7 @@ void SCRCMD_POKEMON_FLD_ReceiveGiftMon(int a, int b, int c)
     m = (void *)SCRCMD_POKEMON_FLD_CreateGiftMon(a, c);
     if ((int)POKEPARTY_GetCount(l) < 6 && m != 0) {
         POKEPARTY_Add(l, m);
-        func_0200CDE0(func_0200CA1C((void *)b), m);
+        ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData((void *)b), m);
         func_020307B0(m);
     }
 }

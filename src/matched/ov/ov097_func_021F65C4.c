@@ -1,5 +1,5 @@
 /*
- * function: func_021F65C4
+ * function: VS_MULTI_LIST_ProcExit
  * address: 0x021F65C4
  * packet: pkt_ov097_021F65C4
  * region: ov097
@@ -17,4 +17,4 @@ typedef unsigned int u32;
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-int func_021F65C4(void *p) { func_020315D4(p); func_020306F0(0x71); return 1; }
+int VS_MULTI_LIST_ProcExit(void *p) { func_020315D4(p); func_020306F0(0x71); return 1; }

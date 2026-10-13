@@ -14,10 +14,10 @@
  * symbols:
  *   func_0217EAB0  0x0217EAB0  arm  ov009
  *   func_0219F9A8  0x0219F9A8  arm  ov009
- *   func_0219D864  0x0219D864  arm  ov009
+ *   SBQueryEngineInit  0x0219D864  arm  ov009
  *   func_0219E9F4  0x0219E9F4  arm  ov009
  *   func_0219EBC4  0x0219EBC4  arm  ov009
- *   g_021ACEF8  0x021ACEF8  data
+ *   gGsAvailabilityState  0x021ACEF8  data
  */
 
 struct SBServer;
@@ -38,12 +38,12 @@ struct ServerBrowser {
 extern void *func_0217EAB0(unsigned long size);
 extern void func_0219F9A8(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
-extern void func_0219D864(void *engine, int maxupdates, int queryversion, int lanBrowse,
+extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
 struct SBServerList;
 extern void func_0219E9F4(struct SBServerList *serverlist, int reason, struct SBServer *server, void *instance);
 extern void func_0219EBC4(int unused, unsigned int reason, struct SBServer *server, void *inst);
-extern int g_021ACEF8;
+extern int gGsAvailabilityState;
 
 struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                                     int queryFromVersion, int maxConcUpdates, int queryVersion,
@@ -51,7 +51,7 @@ struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamen
 {
     struct ServerBrowser *sb;
 
-    if (lanBrowse == 0 && g_021ACEF8 != 1)
+    if (lanBrowse == 0 && gGsAvailabilityState != 1)
         return 0;
     sb = func_0217EAB0(0x858);
     if (sb == 0)
@@ -62,6 +62,6 @@ struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamen
     sb->dontUpdate = 0;
     func_0219F9A8(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, func_0219E9F4, sb);
-    func_0219D864(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
+    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, func_0219EBC4, sb);
     return sb;
 }

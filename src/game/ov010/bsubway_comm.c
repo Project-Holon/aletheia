@@ -18,7 +18,7 @@
  *   d_02172014  0x02172014  data  ov010
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
- *   func_02087C6C 0x02087C6C arm
+ *   OS_GetMacAddress 0x02087C6C arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_02171FD4  0x02171FD4  data  ov010  a4
  *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
@@ -31,7 +31,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   BSUBWAY_SCR_GetWinCount  0x021CA234  thumb  ov021
  *   BSUBWAY_SCR_GetStageNo  0x021CA2CC  thumb  ov021
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
@@ -50,7 +50,7 @@ typedef unsigned short u16;
 extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *, void *);
-extern void func_02087C6C(void *);
+extern void OS_GetMacAddress(void *);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -62,7 +62,7 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u16 BSUBWAY_SCR_GetWinCount(u8 *p);
 extern u16 BSUBWAY_SCR_GetStageNo(u16 v);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern u32 func_0200FB24(void);
 extern int GFL_NET_SendToHandle(struct NetHandle *a, u32 b, u32 c, u32 d);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -117,7 +117,7 @@ void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work)
     BsubwayCommInfo *info;
     info = &work->commInfo;
     MYSTATUS_Copy(GAME_DATA_GetMyStatus(work->gameData), info);
-    func_02087C6C(info->macAddress);
+    OS_GetMacAddress(info->macAddress);
     info->magic = 0x3a0b;
     return info;
 }
@@ -195,7 +195,7 @@ void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData)
  */
 void BSUBWAY_COMM_SetSendTrainerData(BsubwayScrWork *work)
 {
-    func_02082D44(work->trainerNo, work->sendBuf.raw, 0x1C);
+    MI_CpuCopy8(work->trainerNo, work->sendBuf.raw, 0x1C);
 }
 
 
@@ -231,7 +231,7 @@ void BSUBWAY_COMM_SetSendWord7(BsubwayScrWork *work, u32 value)
 
 
 /*
- * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
+ * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =MI_CpuCopy8; movs r2, #0x20; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
  * from the raw bl sites elsewhere in the image (ov018 0x0217FDEC, ov021 0x021CD548, ov088 0x021BC32A and more), so the call
  * attests as `label`.
@@ -351,7 +351,7 @@ void BSUBWAY_COMM_RecvTrainerData(u16 netId, int size, void *data, BsubwayScrWor
 {
     work->recvCount++;
     if (netId != GFL_NET_SYSTEM_GetCurrentAid() && GFL_NET_SYSTEM_GetCurrentAid() != 0)
-        func_02082D44(data, work->trainerNo, 0x1c);
+        MI_CpuCopy8(data, work->trainerNo, 0x1c);
 }
 
 
@@ -370,7 +370,7 @@ void BSUBWAY_COMM_RecvMyStatus(u16 netId, int size, void *data, BsubwayScrWork *
 {
     work->recvCount++;
     if (netId != GFL_NET_SYSTEM_GetCurrentAid())
-        func_02082D44(data, &work->partnerMyStatus, 0x20);
+        MI_CpuCopy8(data, &work->partnerMyStatus, 0x20);
 }
 
 

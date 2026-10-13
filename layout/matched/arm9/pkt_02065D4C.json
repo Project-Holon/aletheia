@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02065D4C",
+   "name": "NNSi_G2dRendererDrawCellTransformedZOffset",
    "address": "0x02065D4C",
    "kind": "game",
    "region": "arm9",

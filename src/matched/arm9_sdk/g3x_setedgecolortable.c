@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082A60   0x02082A60  arm
+ *   MIi_CpuCopy16   0x02082A60  arm
  *
  * Original (24 bytes):
  *   ldr r1, [pc, #8]   ; 0x04000330
@@ -21,9 +21,9 @@
  * Tail call: MIi_CpuCopy16(src, REG, 16).
  */
 
-extern void func_02082A60(const void *src, void *dst, unsigned int size);
+extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 
 void G3X_SetEdgeColorTable(const void *src)
 {
-    func_02082A60(src, (void *)0x04000330, 0x10);
+    MIi_CpuCopy16(src, (void *)0x04000330, 0x10);
 }

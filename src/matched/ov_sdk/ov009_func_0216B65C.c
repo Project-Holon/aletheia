@@ -14,16 +14,16 @@
  * symbols:
  *   DWC_CancelMatch              0x0216C858 arm   ov009
  *   func_02059F38                0x02059F38 arm
- *   func_0217603C                0x0217603C arm   ov009
- *   func_0216F20C                0x0216F20C arm   ov009
+ *   DWCi_NodeInfoList_GetCount                0x0217603C arm   ov009
+ *   DWCi_GPSetServerStatus                0x0216F20C arm   ov009
  *   DWCi_NNFreeNegotiateList     0x02176B34 arm   ov009
  *   DWCi_SetState                0x0216BC84 arm   ov009
  *   DWCi_ClearQR2Key             0x0216EC18 arm   ov009
- *   func_0217601C                0x0217601C arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
- *   func_0216F6C0                0x0216F6C0 arm   ov009
+ *   DWCi_NodeInfoList_Clear                0x0217601C arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
+ *   DWCi_CloseMatch                0x0216F6C0 arm   ov009
  *   func_02195DE4                0x02195DE4 arm   ov009
- *   func_0217637C                0x0217637C arm   ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex                0x0217637C arm   ov009
  *   DWCi_GT2ClosedProcess                0x0216C230 arm   ov009
  *   DWC_GetState                0x0216B994 arm   ov009
  *   g_021AA878                   0x021AA878 data
@@ -59,17 +59,17 @@ extern void *g_021AA8A0[32];
 
 extern int DWC_CancelMatch(void);
 extern int func_02059F38(void);
-extern int func_0217603C(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 struct GTI2Connection;
-extern int func_0216F20C(int status);
+extern int DWCi_GPSetServerStatus(int status);
 extern void DWCi_NNFreeNegotiateList(void);
 extern void DWCi_SetState(int state);
 extern void DWCi_ClearQR2Key(void);
-extern void func_0217601C(void);
-extern void func_02175F4C(int state);
-extern void func_0216F6C0(void);
+extern void DWCi_NodeInfoList_Clear(void);
+extern void DWCi_SetMatchStatus(int state);
+extern void DWCi_CloseMatch(void);
 extern void func_02195DE4(int *p);
-extern char *func_0217637C(int index);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern int DWC_GetState(void);
 
@@ -92,29 +92,29 @@ int DWC_CloseAllConnectionsHard(void)
         }
     }
     if (anyGT2ConnectionExist == 0) {
-        func_0217603C();
-        func_0216F20C(1);
+        DWCi_NodeInfoList_GetCount();
+        DWCi_GPSetServerStatus(1);
         DWCi_NNFreeNegotiateList();
         DWCi_SetState(3);
         DWCi_ClearQR2Key();
-        func_0217601C();
-        func_02175F4C(0);
-        func_0216F6C0();
+        DWCi_NodeInfoList_Clear();
+        DWCi_SetMatchStatus(0);
+        DWCi_CloseMatch();
         return 1;
     }
     ((struct DWCControl *)g_021AA878.st)->f2d = 1;
     func_02195DE4((int *)((struct DWCControl *)g_021AA878.st)->socket);
-    while (func_0217603C() > 1) {
-        for (i = 0; i < func_0217603C(); i++) {
-            pNodeInfo = (struct DWCstNodeInfo *)func_0217637C(i);
+    while (DWCi_NodeInfoList_GetCount() > 1) {
+        for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
+            pNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
             if (pNodeInfo->profileID != ((struct DWCControl *)g_021AA878.st)->myProfileID)
                 DWCi_GT2ClosedProcess(0, 0, 1, pNodeInfo->aid);
         }
     }
     ((struct DWCControl *)g_021AA878.st)->f2d = 0;
-    func_0217601C();
-    func_02175F4C(0);
-    func_0216F6C0();
+    DWCi_NodeInfoList_Clear();
+    DWCi_SetMatchStatus(0);
+    DWCi_CloseMatch();
     if (DWC_GetState() != 3) {
         DWCi_NNFreeNegotiateList();
         DWCi_SetState(3);

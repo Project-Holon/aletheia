@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   DPW_TR_UploadFinishAsync  0x021C8978  arm  ov114
  *
 
  * State setter: hand over the object, latch the state word at +0x28 and clear the slot.
@@ -20,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_021C8978(u8 *p);
+extern void DPW_TR_UploadFinishAsync(u8 *p);
 
 int func_02201E1C(u8 *p)
 {
-    func_021C8978(p);
+    DPW_TR_UploadFinishAsync(p);
     ((struct Obj12243 *)p)->f28 = 0x1b;
     ((struct Obj12243 *)p)->fF8C = 0x0;
     return 0x2;

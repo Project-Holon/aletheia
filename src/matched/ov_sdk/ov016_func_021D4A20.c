@@ -1,5 +1,5 @@
 /*
- * function: func_021D4A20
+ * function: DWCi_ARClEnd
  * address:  0x021D4A20
  * packet:   pkt_ov016_021D4A20
  * region:   ov016
@@ -50,7 +50,7 @@ extern struct tagMEMARCHIVE *MemArchive_b;
 
 #define DWCi_HEAPlFree(p) DWCi_HEAPlFree_((void **)&(p))
 
-void func_021D4A20(void)
+void DWCi_ARClEnd(void)
 {
     FS_ChangeDir("rom:/");
     FS_UnloadArchiveTables(&MemArchive->archive);

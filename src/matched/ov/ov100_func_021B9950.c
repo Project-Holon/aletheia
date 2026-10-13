@@ -1,5 +1,5 @@
 /*
- * function: func_021B9950
+ * function: IRCBATTLEMATCH_RecvMacAddressHandler
  * address: 0x021B9950
  * packet: pkt_ov100_021B9950
  * region: ov100
@@ -22,7 +22,7 @@ extern unsigned GFL_NET_IsParentAid(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-void func_021B9950(int a,int b,void *c,int d,int e)
+void IRCBATTLEMATCH_RecvMacAddressHandler(int a,int b,void *c,int d,int e)
 {
  u8 *p;
  int i;

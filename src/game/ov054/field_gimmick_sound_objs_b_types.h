@@ -34,7 +34,7 @@ struct SoundObj;
 #define FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT 11
 
 /* Work of the gimmick (0x28 bytes, common work id 0 of the field map). */
-typedef struct Gimmick54Work {
+typedef struct FieldGimmickSoundObjsBWork {
     u16 heapId;                                         /* 0x00 */
     u16 reserved02;
     struct Iss3dsSys *iss3ds;                           /* 0x04 */
@@ -42,17 +42,17 @@ typedef struct Gimmick54Work {
     int waitFrames[FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT];          /* 0x10: frames left before the animation starts again; 0 while it plays */
     int minWait[FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT];             /* 0x18: shortest wait */
     int maxWait[FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT];             /* 0x20: longest wait */
-} Gimmick54Work;
+} FieldGimmickSoundObjsBWork;
 
 /* The animation frames (in whole frames) in the gimmick work. */
-typedef struct Gimmick54Save {
+typedef struct FieldGimmickSoundObjsBSave {
     int animeFrame[FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT];
-} Gimmick54Save;
+} FieldGimmickSoundObjsBSave;
 
 /* Archive members that hold the wait limits of each object. */
-typedef struct Gimmick54WaitMembers {
+typedef struct FieldGimmickSoundObjsBWaitMembers {
     int member[FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT];
-} Gimmick54WaitMembers;
+} FieldGimmickSoundObjsBWaitMembers;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
@@ -79,11 +79,11 @@ extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 
 extern u32 func_020307B0(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern Gimmick54Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern FieldGimmickSoundObjsBSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
 extern unsigned func_02005728(unsigned limit);
 
-void FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(Gimmick54Work *work, int index);
+void FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(FieldGimmickSoundObjsBWork *work, int index);
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF3F0
+ * function: DWCi_SETTIGNlEnd
  * address:  0x021CF3F0
  * packet:   pkt_021CF3F0
  * region:   ov016
@@ -10,19 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CF3F0   0x021CF3F0  arm
+ *   DWCi_SETTIGNlEnd   0x021CF3F0  arm
+ *   DWCi_HEAPlFree_  0x021D6438  arm
  *
- * Tail-call func_021D6438 with the address of 0x021DE644.
+ * Tail-call DWCi_HEAPlFree_ with the address of 0x021DE644.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CF3F0.c \
- *       --func func_021CF3F0 --addr 0x021CF3F0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_SETTIGNlEnd.c \
+ *       --func DWCi_SETTIGNlEnd --addr 0x021CF3F0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D6438(void **mem);
+extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021CF3F0(void)
+void DWCi_SETTIGNlEnd(void)
 {
-    func_021D6438((void *)0x021DE644);
+    DWCi_HEAPlFree_((void *)0x021DE644);
 }

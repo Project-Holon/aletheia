@@ -28,7 +28,7 @@
  *  *   loads; a plain field folds them into one and the member is four bytes
  *  *   short.
  *  *
- *  * func_020730B8 (0x020730B8), an otherwise identical two-statement member of
+ *  * NNSi_SndHandleSetSeqNo (0x020730B8), an otherwise identical two-statement member of
  *  * the same family, is NOT in this unit: this front end if-converts a
  *  * two-statement arm and the original used `bxeq lr`, so it stays a DIFF near
  *  * miss. See docs/notes/pkt_02072EA8.c.txt.

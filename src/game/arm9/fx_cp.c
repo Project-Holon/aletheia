@@ -1,7 +1,7 @@
 /*
  * file:     fx_cp.c
  * unit:     yes
- * function: func_0207C768, FX_Inv, func_0207C788, func_0207C7B4, func_0207C7E8, func_0207C848, func_0207C86C, func_0207C8A0, func_0207C8D0, func_0207C904, func_0207C930, func_0207C958, func_0207C994
+ * function: func_0207C768, FX_Inv, func_0207C788, func_0207C7B4, func_0207C7E8, func_0207C848, func_0207C86C, func_0207C8A0, func_0207C8D0, func_0207C904, func_0207C930, FX_DivS32, FX_ModS32
  * address:  0x0207C768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -80,7 +80,7 @@ void func_0207C8D0(fx32 x);
 fx32 func_0207C904(void);
 void sub_0207C930(u32_0207C788 numer, u32_0207C788 denom);
 s32 FX_DivS32(s32 numer, s32 denom);
-fx32 func_0207C994(fx32 a, fx32 b);
+fx32 FX_ModS32(fx32 a, fx32 b);
 
 
 
@@ -381,7 +381,7 @@ s32 FX_DivS32(s32 numer, s32 denom)
 /*
  * sdk:      FX_ModS32 (libfx.TWL.HYB.a fx_cp.o)
  */
-fx32 func_0207C994(fx32 a, fx32 b)
+fx32 FX_ModS32(fx32 a, fx32 b)
 {
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER32 = (u32_0207C788)a;

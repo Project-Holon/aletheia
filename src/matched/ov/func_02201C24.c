@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021F513C  0x021F513C  thumb  ov135
- *   func_021C866C  0x021C866C  arm
- *   func_021C86A8  0x021C86A8  arm
+ *   DPW_TR_IsAsyncEnd  0x021C866C  arm
+ *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *
  * Small sparse switch on the 0x021C86A8 index: state 0x30 for the +15 index
  * 3 and for the 0/1/13 group, the plain redraw for index 2, and a
@@ -23,7 +23,7 @@
  * overlay listing (see the wave-5 residue note for the one-line fix).
  
  *
- * UNBLOCKED: func_021C866C (0x021C866C) and func_021C86A8
+ * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
@@ -35,16 +35,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_021C866C(u8 *p);
-extern s32 func_021C86A8(void);
+extern u32 DPW_TR_IsAsyncEnd(u8 *p);
+extern s32 DPW_TR_GetAsyncResult(void);
 extern void func_021F513C(u8 *p);
 
 int func_02201C24(u8 *p)
 {
     s32 n;
 
-    if (func_021C866C(p) != 0) {
-        n = func_021C86A8();
+    if (DPW_TR_IsAsyncEnd(p) != 0) {
+        n = DPW_TR_GetAsyncResult();
         switch (n) {
         case -12:
             ((struct Obj07255 *)p)->f28 = 0x30;

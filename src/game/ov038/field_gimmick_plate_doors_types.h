@@ -9,9 +9,9 @@ typedef struct VecFx32 {
 
 /*
  * Runtime state of gimmick 38 (FIELDMAP common work, block 1, 0x24 bytes).
- * The saved state is Gimmick38Work (src/game/ov037/gimmick_save_types.h).
+ * The saved state is FieldGimmickPlateDoorsWork (src/game/ov037/gimmick_save_types.h).
  */
-typedef struct Gimmick38Runtime {
+typedef struct FieldGimmickPlateDoorsRuntime {
     unsigned char switchIdx;        /* 0x00 switch of the running switch event */
     unsigned char plateIdx;         /* 0x01 plate of the running plate event */
     unsigned char scriptVariant;    /* 0x02 selects the script of the scripted event */
@@ -25,6 +25,6 @@ typedef struct Gimmick38Runtime {
     int acmdDone;                   /* 0x18 the push animation has ended */
     int acmdActive;                 /* 0x1C the push animation was started */
     int slideSePlayed;              /* 0x20 the slide sound was started */
-} Gimmick38Runtime;
+} FieldGimmickPlateDoorsRuntime;
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_02085560
+ * function: OSi_ExitThread_Destroy
  * address:  0x02085560
  * packet:   pkt_02085560
  * region:   arm9
@@ -20,7 +20,7 @@
  *   OS_EnableScheduler                0x02085B60  arm
  *   OS_RescheduleThread               0x020858BC  arm
  *   OS_Terminate                      0x02088234  arm
- *   g_02150FD0                        0x02150FD0  data
+ *   gOsThreadBss                        0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -144,7 +144,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -158,9 +158,9 @@ extern void OS_WakeupThread(OSThreadQueue *queue);
 extern void OS_RescheduleThread(void);
 extern void OS_Terminate(void);
 
-void func_02085560(void)
+void OSi_ExitThread_Destroy(void)
 {
-    OSThread *currentThread = *g_02150FD0.OSi_CurrentThreadPtr;
+    OSThread *currentThread = *gOsThreadBss.OSi_CurrentThreadPtr;
 
     (void)OS_DisableScheduler();
     OSi_UnlockAllMutex(currentThread);

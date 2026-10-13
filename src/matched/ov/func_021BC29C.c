@@ -1,5 +1,5 @@
 /*
- * function: func_021BC29C
+ * function: WIFICLUB_StateOpenMainMenu
  * address:  0x021BC29C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
- *   func_021BAD50  0x021BAD50  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
+ *   WIFICLUB_CreateMainMenu  0x021BAD50  thumb  ov099
  *
  * Early-returns the selector when the guard is false, else runs the second setup and stamps 0x46.
  */
@@ -25,16 +25,16 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA928(void *p, int v);
-extern void func_021BAD50(int a);
+extern int WIFICLUB_UpdateTalkStream(void *p, int v);
+extern void WIFICLUB_CreateMainMenu(int a);
 
-int func_021BC29C(char *p, int v)
+int WIFICLUB_StateOpenMainMenu(char *p, int v)
 {
-    if (func_021BA928(p, v) == 0) {
+    if (WIFICLUB_UpdateTalkStream(p, v) == 0) {
         return v;
     }
 
-    func_021BAD50((int)p);
+    WIFICLUB_CreateMainMenu((int)p);
     *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x46;
     return v;
 }

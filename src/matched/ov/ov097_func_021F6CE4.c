@@ -1,5 +1,5 @@
 /*
- * function: func_021F6CE4
+ * function: VS_MULTI_LIST_PrintLevel
  * address: 0x021F6CE4
  * packet: pkt_ov097_021F6CE4
  * region: ov097
@@ -56,7 +56,7 @@ static inline void print_window(Owner *a, Index b, void *t)
                   a->ink, 0x3dc0);
     a->window[(u32)b].dirty = 1;
 }
-void func_021F6CE4(Owner *a, Index b)
+void VS_MULTI_LIST_PrintLevel(Owner *a, Index b)
 {
     struct U16Vec *t;
     void *u;

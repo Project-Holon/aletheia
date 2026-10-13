@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF7C
+ * function: PMSIV_MENU_SetActiveEntry
  * address: 0x021BCF7C
  * packet: pkt_ov110_021BCF7C
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
-void func_021BCF7C(u8 *p, int n, int v) {
+void PMSIV_MENU_SetActiveEntry(u8 *p, int n, int v) {
     int i;
     void **a = (void **)(p + 0x64);
     if (a[n]) {

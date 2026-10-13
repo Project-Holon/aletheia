@@ -53,7 +53,7 @@
  *   FIELD_RAIL_KEY_TurnLeft  0x021B9434  thumb
  *   FIELD_RAIL_KEY_TurnRight  0x021B9404  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gRailDefaultCamera     0x021D9A0C  data  a4
  *   gRailDefaultLinePos     0x021D9A30  data  a4
  *   FIELD_RAIL_POINT_FindLine  0x021B8514  thumb  ov021

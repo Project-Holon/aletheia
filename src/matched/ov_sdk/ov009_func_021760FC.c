@@ -1,5 +1,5 @@
 /*
- * function: func_021760FC
+ * function: DWCi_NodeInfoList_Append
  * address:  0x021760FC
  * packet:   pkt_ov009_021760FC
  * region:   ov009
@@ -21,7 +21,7 @@ struct node_s {
 
 extern char *func_02175F3C(void);
 
-int func_021760FC(struct node_s *newNode)
+int DWCi_NodeInfoList_Append(struct node_s *newNode)
 {
     if (*(int *)(func_02175F3C() + 0x50) == 32)
         return 0;

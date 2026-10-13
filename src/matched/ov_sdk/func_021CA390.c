@@ -12,13 +12,13 @@
  * symbols:
  *   func_021CA390   0x021CA390  arm
  *   tbl_021DA61C   0x021DA61C  data
- *   func_021CE7B0   0x021CE7B0  arm
+ *   DWCi_SCREENlCopyPalette   0x021CE7B0  arm
  *
  * Index the shared byte table and tail-call the dispatcher.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021CE7B0(void *src, int sColor, int dColor);
+extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 extern unsigned char tbl_021DA61C[];
 
 void func_021CA390(void)
@@ -27,6 +27,6 @@ void func_021CA390(void)
     int i = *g - 0xb;
     int y = tbl_021DA61C[i];
 
-    func_021CE7B0((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
+    DWCi_SCREENlCopyPalette((void *)(*(int *)(*(int *)(g + 8) + 0x10)), y, y);
 }
 

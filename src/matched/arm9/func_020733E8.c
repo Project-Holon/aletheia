@@ -1,5 +1,5 @@
 /*
- * function: func_020733E8
+ * function: NNSi_SndPlayerStartSeqPlayer
  * address:  0x020733E8
  * packet:   pkt_02073098
  * region:   arm9
@@ -13,7 +13,7 @@
  *   SND_PrepareSeq                  0x02089350  arm
  *   SND_SetTrackAllocatableChannel  0x0208948C  arm
  *   SND_GetCurrentCommandTag        0x02089D40  arm
- *   func_02073500                   0x02073500  arm
+ *   NNSi_SndSeqPlayerResetState                   0x02073500  arm
  *
  * Start a sequence on a voice (the NitroSystem sound-player layer over the
  * TwlSDK SND driver): prepare the sequence on the voice's player number,
@@ -31,8 +31,8 @@
  * four arguments.  The pin is ../2.0/sp2 (1.1p1: 9 bytes out).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020733E8.c \
- *       --func func_020733E8 --addr 0x020733E8 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_SndPlayerStartSeqPlayer.c \
+ *       --func NNSi_SndPlayerStartSeqPlayer --addr 0x020733E8 --arm --cc ../2.0/sp2
  */
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -53,17 +53,17 @@ struct Obj {
 
 extern void SND_PrepareSeq(int playerNo, const void *seqBase, u32 seqOffset, const void *bankData);
 extern void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask);
-extern int func_02073500(int a0);
+extern int NNSi_SndSeqPlayerResetState(int a0);
 extern u32  SND_GetCurrentCommandTag(void);
 
-void func_020733E8(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData)
+void NNSi_SndPlayerStartSeqPlayer(struct Obj *o, const void *seqBase, u32 seqOffset, const void *bankData)
 {
     struct Sub *s = o->f4;
     SND_PrepareSeq(o->b3c, seqBase, seqOffset, bankData);
     if (s->f1c != 0) {
         SND_SetTrackAllocatableChannel(o->b3c, 0xFFFF, s->f1c);
     }
-    func_02073500((int)o);
+    NNSi_SndSeqPlayerResetState((int)o);
     o->f30 = SND_GetCurrentCommandTag();
     o->b2f = 1;
     o->b2c = 1;

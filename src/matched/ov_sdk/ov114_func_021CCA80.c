@@ -1,5 +1,5 @@
 /*
- * function: func_021CCA80
+ * function: CRYPTOi__BN_RECP_CTX_free
  * address:  0x021CCA80
  * packet:   pkt_ov114_021CCA80
  * region:   ov114
@@ -12,19 +12,19 @@
  * sdk:      CRYPTOi__BN_RECP_CTX_free (crypto_bobj1.o)
  *
  * symbols:
- *   func_021CABDC  0x021CABDC  arm  ov114
- *   func_021CAAE8  0x021CAAE8  arm  ov114
+ *   CRYPTOi__BN_free  0x021CABDC  arm  ov114
+ *   CRYPTOi_MyFree  0x021CAAE8  arm  ov114
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021CABDC(u8 *);
-extern void func_021CAAE8(void *);
+extern void CRYPTOi__BN_free(u8 *);
+extern void CRYPTOi_MyFree(void *);
 
-void func_021CCA80(u8 *p)
+void CRYPTOi__BN_RECP_CTX_free(u8 *p)
 {
-    func_021CABDC(p);
-    func_021CABDC(p + 0x14);
+    CRYPTOi__BN_free(p);
+    CRYPTOi__BN_free(p + 0x14);
     if (*(u32 *)(p + 0x30) & 1)
-        func_021CAAE8(p);
+        CRYPTOi_MyFree(p);
 }

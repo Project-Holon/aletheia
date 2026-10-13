@@ -1,5 +1,5 @@
 /*
- * function: func_021C0FAC
+ * function: DWCi_MSGlRead
  * address:  0x021C0FAC
  * packet:   pkt_ov016_021C0FAC
  * region:   ov016
@@ -12,9 +12,9 @@
  * sdk:      DWCi_MSGlRead (libdwcutil.TWL.HYB.a(message.o))
  *
  * symbols:
- *   func_021D54C4  0x021D54C4  arm  ov016
- *   func_021D4B68  0x021D4B68  arm  ov016
- *   g_021DE58C  0x021DE58C  data
+ *   DWCi_QUElPopBack  0x021D54C4  arm  ov016
+ *   DWCi_ARClReadEx  0x021D4B68  arm  ov016
+ *   gMessageWork  0x021DE58C  data
  */
 
 #include "../include/G_MemMsg.h"
@@ -25,19 +25,19 @@ typedef struct {
 	int c;
 } Info;
 
-extern void *func_021D54C4(void *que);
-extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
-extern struct MemMsg *g_021DE58C;
+extern void *DWCi_QUElPopBack(void *que);
+extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
+extern struct MemMsg *gMessageWork;
 
-void *func_021C0FAC(char *file)
+void *DWCi_MSGlRead(char *file)
 {
 	unsigned long size;
 	Info *info;
 	char *msg;
 	int *hdr;
 
-	info = (Info *)func_021D54C4(*(void **)(((char *)g_021DE58C) + 0x60));
-	msg = func_021D4B68(file, &size, 4);
+	info = (Info *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
+	msg = DWCi_ARClReadEx(file, &size, 4);
 	hdr = (int *)(msg + 0x20);
 	info->c = (int)msg;
 	info->a = (int)(hdr + 4);

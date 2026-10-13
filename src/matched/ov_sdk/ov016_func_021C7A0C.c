@@ -12,11 +12,11 @@
  * sdk:      procWin1 (libdwcutil.TWL.HYB.a sceneseteditaddress.o)
  *
  * symbols:
- *   func_021D157C  0x021D157C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   func_021C0EA0  0x021C0EA0  arm  ov016
- *   g_021DB4DC     0x021DB4DC  data
- *   g_021DE5E4     0x021DE5E4  data
+ *   DWCi_WINlIsInit  0x021D157C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   DWCi_GetParam2_  0x021C0EA0  arm  ov016
+ *   sSceneSetEditAddressDefaultGetters     0x021DB4DC  data
+ *   gMemSsea     0x021DE5E4  data
  *   func_021C7314  0x021C7314  arm  ov016
  *   func_021C77F4  0x021C77F4  arm  ov016
  */
@@ -35,27 +35,27 @@ typedef struct FuncTable {
     void (*f[5])(char *);
 } FuncTable;
 
-extern int func_021D157C();
-extern void func_021C0E40(unsigned int v);
-extern void func_021C0EA0(unsigned int *a, unsigned int *b);
+extern int DWCi_WINlIsInit();
+extern void DWCi_ChangeScene(unsigned int v);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void func_021C7314();
 extern void func_021C77F4();
-extern struct MemSsea *g_021DE5E4;
-extern FuncTable g_021DB4DC;
+extern struct MemSsea *gMemSsea;
+extern FuncTable sSceneSetEditAddressDefaultGetters;
 
 void func_021C7A0C(void)
 {
-    FuncTable FUNC = g_021DB4DC;
+    FuncTable FUNC = sSceneSetEditAddressDefaultGetters;
     int prm;
 
-    if (func_021D157C())
+    if (DWCi_WINlIsInit())
         return;
-    if (g_021DE5E4->result == 0) {
-        ((GXOamAttr *)g_021DE5E4->caret)->attr01 &= 0xC1FFFCFF;
-        func_021C0E40((unsigned int)func_021C7314);
+    if (gMemSsea->result == 0) {
+        ((GXOamAttr *)gMemSsea->caret)->attr01 &= 0xC1FFFCFF;
+        DWCi_ChangeScene((unsigned int)func_021C7314);
         return;
     }
-    func_021C0EA0((unsigned int *)(&prm), 0);
-    FUNC.f[prm]((char *)g_021DE5E4 + 8);
-    func_021C0E40((unsigned int)func_021C77F4);
+    DWCi_GetParam2_((unsigned int *)(&prm), 0);
+    FUNC.f[prm]((char *)gMemSsea + 8);
+    DWCi_ChangeScene((unsigned int)func_021C77F4);
 }

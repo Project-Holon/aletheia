@@ -1,5 +1,5 @@
 /*
- * function: func_021D3A40
+ * function: BTL_CLIENT_StepRecordMoveUse
  * address: 0x021D3A40
  * packet: pkt_ov093_021D3A40
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct UtilWork;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_RecordMoveUse(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
-int func_021D3A40(u32 *a, int *b, const u32 *c)
+int BTL_CLIENT_StepRecordMoveUse(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
     x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);

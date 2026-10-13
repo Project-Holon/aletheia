@@ -1,5 +1,5 @@
 /*
- * function: func_068998F4
+ * function: HAND_SIDE_GetHandlersSeaOfFire
  * address: 0x068998F4
  * packet: pkt_ov095_068998F4
  * region: ov095
@@ -10,12 +10,12 @@
  * status: EXACT
  * Follower after the 068998E4 linker veneer; ends at 06899900.
  * symbols:
- *   d_0689D6F8 0x0689D6F8 data ov095 a4
+ *   gHandSideSeaOfFireHandlers 0x0689D6F8 data ov095 a4
  */
 typedef unsigned int u32;
-extern unsigned char d_0689D6F8[];
-unsigned char *func_068998F4(u32 *p)
+extern unsigned char gHandSideSeaOfFireHandlers[];
+unsigned char *HAND_SIDE_GetHandlersSeaOfFire(u32 *p)
 {
     *p = 1;
-    return d_0689D6F8;
+    return gHandSideSeaOfFireHandlers;
 }

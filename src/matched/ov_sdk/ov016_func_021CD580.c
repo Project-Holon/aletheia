@@ -1,5 +1,5 @@
 /*
- * function: func_021CD580
+ * function: DWCi_SceneSetTestCompletet
  * address:  0x021CD580
  * packet:   pkt_ov016_021CD580
  * region:   ov016
@@ -12,26 +12,26 @@
  * sdk:      DWCi_SceneSetTestCompletet (libdwcutil.TWL.HYB.a scenesettestcomp)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD580.c \n *       --func func_021CD580 --addr 0x021CD580 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD580.c \n *       --func DWCi_SceneSetTestCompletet --addr 0x021CD580 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
- *   g_021DE620     0x021DE620  data
+ *   gScenesettestcompleteWork     0x021DE620  data
  *   func_021CD5B0  0x021CD5B0  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CD61C  0x021CD61C  arm  ov016
  */
 
-extern unsigned char g_021DE620;
+extern unsigned char gScenesettestcompleteWork;
 extern void func_021CD5B0(void);
-extern void func_021BD29C(int msgId);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw(int msgId);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD61C(void);
 
-void func_021CD580(void)
+void DWCi_SceneSetTestCompletet(void)
 {
-    g_021DE620 = 0;
+    gScenesettestcompleteWork = 0;
     func_021CD5B0();
-    func_021BD29C(45);
-    func_021C0E40((unsigned int)func_021CD61C);
+    DWCi_CMNlMsgDraw(45);
+    DWCi_ChangeScene((unsigned int)func_021CD61C);
 }

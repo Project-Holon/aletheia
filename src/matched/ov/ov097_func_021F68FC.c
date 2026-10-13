@@ -1,5 +1,5 @@
 /*
- * function: func_021F68FC
+ * function: VS_MULTI_LIST_LoadBgGraphics
  * address:  0x021F68FC
  * packet:   pkt_ov097_021F68FC
  * region:   ov097
@@ -32,7 +32,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02040EBC(u32 a, u32 b);
 
-void func_021F68FC(int a0)
+void VS_MULTI_LIST_LoadBgGraphics(int a0)
 {
     void *h;
     h = func_020490F4(0x64, 0x8071);

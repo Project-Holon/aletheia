@@ -1,5 +1,5 @@
 /*
- * function: func_02176674
+ * function: DWCi_StopMeshMaking
  * address:  0x02176674
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02176554  0x02176554  arm  ov009
+ *   DWCi_TempNewNodeInfo_IsValid  0x02176554  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02199FB4  0x02199FB4  arm  ov009
- *   func_02171F68  0x02171F68  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
- *   func_0217653C  0x0217653C  arm  ov009
+ *   DWCi_CancelReservation  0x02171F68  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
+ *   DWCi_TempNewNodeInfo_Clear  0x0217653C  arm  ov009
  */
 
 typedef struct {
@@ -26,21 +26,21 @@ typedef struct {
 } NodeInfo;
 
 extern char *func_02175F3C(void);
-extern int func_02176554(void);
+extern int DWCi_TempNewNodeInfo_IsValid(void);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void func_02199FB4(int cookie);
-extern int func_02171F68(int unused);
-extern int func_021719A4(int error);
-extern void func_0217653C(void);
+extern int DWCi_CancelReservation(int unused);
+extern int DWCi_HandleMatchCommandError(int error);
+extern void DWCi_TempNewNodeInfo_Clear(void);
 
-int func_02176674(void)
+int DWCi_StopMeshMaking(void)
 {
     if (*(int *)(func_02175F3C() + 0x5a4) == 0) {
         return 0;
     }
     *(int *)(func_02175F3C() + 0x5a4) = 0;
     *(int *)(func_02175F3C() + 0x5a8) = *(int *)(func_02175F3C() + 0x61c);
-    if (func_02176554() != 0) {
+    if (DWCi_TempNewNodeInfo_IsValid() != 0) {
         *(NodeInfo *)(func_02175F3C() + 0x5ac) = *(NodeInfo *)(func_02175F3C() + 0x554);
     } else {
         MI_CpuFill8(func_02175F3C() + 0x5ac, 0, 0x28);
@@ -56,14 +56,14 @@ int func_02176674(void)
         *(int *)(func_02175F3C() + 0x61c) == 6 || *(int *)(func_02175F3C() + 0x61c) == 14 ||
         *(int *)(func_02175F3C() + 0x61c) == 15) {
         if (*(int *)(func_02175F3C() + 0x67c) != 0) {
-            if (func_021719A4(func_02171F68(0)) != 0) {
-                func_0217653C();
+            if (DWCi_HandleMatchCommandError(DWCi_CancelReservation(0)) != 0) {
+                DWCi_TempNewNodeInfo_Clear();
                 return 1;
             }
         }
         *(unsigned char *)(func_02175F3C() + 0x18) = 0;
         *(int *)(func_02175F3C() + 0x5dc) = 0;
     }
-    func_0217653C();
+    DWCi_TempNewNodeInfo_Clear();
     return 1;
 }

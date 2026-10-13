@@ -1,5 +1,5 @@
 /*
- * function: func_021B78F4
+ * function: IRC_RESULT_InitBackgrounds
  * address: 0x021B78F4
  * packet: pkt_ov105_021B78F4
  * region: ov105
@@ -22,10 +22,10 @@
  *   func_02040C14 0x02040C14 arm
  *   func_02049740 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   d_021B8964 0x021B8964 data ov105 a4
- *   d_021B89B8 0x021B89B8 data a4
- *   d_021B8A08 0x021B8A08 data ov105 a4
- *   d_021B8998 0x021B8998 data ov105 a4
+ *   sResultDisplayConfig 0x021B8964 data ov105 a4
+ *   sResultBackgroundLayers 0x021B89B8 data a4
+ *   sResultBackgroundTemplates 0x021B8A08 data ov105 a4
+ *   sResultBackgroundTypes 0x021B8998 data ov105 a4
  */
 typedef unsigned char u8;
 extern void func_0203F8F4(int);
@@ -44,16 +44,16 @@ extern void func_020498F4(void *,int,int,int,int,int,int);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void *func_02049740(void *,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern const u8 d_021B8964[],d_021B8A08[];
-extern const int d_021B89B8[],d_021B8998[];
-void func_021B78F4(void **p,int heap)
+extern const u8 sResultDisplayConfig[],sResultBackgroundTemplates[];
+extern const int sResultBackgroundLayers[],sResultBackgroundTypes[];
+void IRC_RESULT_InitBackgrounds(void **p,int heap)
 {
     int i,id;
     void *archive;
-    func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021B8964);
+    func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)sResultDisplayConfig);
     for(i=0;i<8;++i) {
-        id=d_021B89B8[i];
-        func_0203FCA0((u8)id,(const struct BgTemplate *)(d_021B8A08+i*32),(u8)d_021B8998[i]);
+        id=sResultBackgroundLayers[i];
+        func_0203FCA0((u8)id,(const struct BgTemplate *)(sResultBackgroundTemplates+i*32),(u8)sResultBackgroundTypes[i]);
         func_020414AC((u8)id); func_02040588((u8)id,1);
     }
     archive=func_020490F4(0x5e,heap);

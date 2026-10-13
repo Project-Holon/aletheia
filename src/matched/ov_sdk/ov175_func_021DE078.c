@@ -1,5 +1,5 @@
 /*
- * function: func_021DE078
+ * function: sakeiUpdateRecordFillSoapRequest
  * address:  0x021DE078
  * packet:   pkt_021DE078
  * region:   ov175
@@ -13,9 +13,10 @@
  *           next function's leaf and pool words; every compiled byte matches.
  *
  * symbols:
- *   g_021E3A8C   0x021E3A8C  data
- *   g_021E3B4C   0x021E3B4C  data
- *   g_021E3B54   0x021E3B54  data
+ *   sModifyXmlNamespacePrefix   0x021E3A8C  data
+ *   sModifyTagTableid   0x021E3B4C  data
+ *   sModifyTagRecordid   0x021E3B54  data
+ *   sakeiFillSoapRequestFieldValues  0x021DDBE4  arm
  *
  * Object teardown: the object's +8 table supplies the two title strings that
  * get unregistered from the shared group, then the object's own four table
@@ -28,17 +29,17 @@ extern void func_02182AC0(int a, int b, int c, int d);
 extern void func_02182CF0(int a, int b, int c, int d);
 struct SAKEField;
 struct SAKERequestInternal;
-extern void func_021DDBE4(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
-extern u32  g_021E3A8C[];
-extern u32  g_021E3B4C[];
-extern u32  g_021E3B54[];
+extern void sakeiFillSoapRequestFieldValues(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
+extern u32  sModifyXmlNamespacePrefix[];
+extern u32  sModifyTagTableid[];
+extern u32  sModifyTagRecordid[];
 
-int func_021DE078(int *p)
+int sakeiUpdateRecordFillSoapRequest(int *p)
 {
     int *q = (int *)p[2];
 
-    func_02182AC0(p[6], (int)g_021E3A8C, (int)g_021E3B4C, q[0]);
-    func_02182CF0(p[6], (int)g_021E3A8C, (int)g_021E3B54, q[1]);
-    func_021DDBE4((struct SAKERequestInternal *)p, (struct SAKEField *)q[2], q[3]);
+    func_02182AC0(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagTableid, q[0]);
+    func_02182CF0(p[6], (int)sModifyXmlNamespacePrefix, (int)sModifyTagRecordid, q[1]);
+    sakeiFillSoapRequestFieldValues((struct SAKERequestInternal *)p, (struct SAKEField *)q[2], q[3]);
     return 0;
 }

@@ -12,20 +12,20 @@
  * sdk:      taskLoad (libdwcutil.TWL.HYB.a headline.o)
  *
  * symbols:
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   GX_LoadBG1Scr  0x0207EA00  arm
- *   func_021D7724  0x021D7724  arm  ov016
- *   g_021DE554     0x021DE554  data
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
+ *   gHeadlineWork     0x021DE554  data
  */
 
-extern void func_020862F0(void *addr, unsigned long n);
+extern void DWCi_ScreenDC_FlushRange(void *addr, unsigned long n);
 extern void GX_LoadBG1Scr(void *src, unsigned long off, unsigned long sz);
-extern void func_021D7724(int kind, void *task);
-extern unsigned short *g_021DE554;
+extern void DWCi_TSKlDelete(int kind, void *task);
+extern unsigned short *gHeadlineWork;
 
 void func_021BD704(void *task)
 {
-    func_020862F0(g_021DE554, 0xC0);
-    GX_LoadBG1Scr(g_021DE554, 0, 0xC0);
-    func_021D7724(1, task);
+    DWCi_ScreenDC_FlushRange(gHeadlineWork, 0xC0);
+    GX_LoadBG1Scr(gHeadlineWork, 0, 0xC0);
+    DWCi_TSKlDelete(1, task);
 }

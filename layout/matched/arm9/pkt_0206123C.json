@@ -101,7 +101,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061840",
+   "name": "NNSi_GfdRingNextIndex",
    "address": "0x02061840",
    "kind": "game",
    "region": "arm9",
@@ -113,7 +113,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061860",
+   "name": "NNSi_GfdRingIsFull",
    "address": "0x02061860",
    "kind": "game",
    "region": "arm9",
@@ -125,7 +125,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061878",
+   "name": "NNSi_GfdRingIsEmpty",
    "address": "0x02061878",
    "kind": "game",
    "region": "arm9",
@@ -209,7 +209,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061B5C",
+   "name": "NNSi_GfdResetVramTransferTaskQueue",
    "address": "0x02061B5C",
    "kind": "game",
    "region": "arm9",
@@ -221,7 +221,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061BB0",
+   "name": "NNSi_GfdGetHeadVramTransferTask",
    "address": "0x02061BB0",
    "kind": "game",
    "region": "arm9",
@@ -233,7 +233,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02061BC0",
+   "name": "NNSi_GfdGetTailVramTransferTask",
    "address": "0x02061BC0",
    "kind": "game",
    "region": "arm9",

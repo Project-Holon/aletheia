@@ -1,5 +1,5 @@
 /*
- * function: func_02073898
+ * function: NNS_SndStrmFreeChannel
  * address:  0x02073898
  * packet:   pkt_02073624
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct X { u8 pad00[0x4c]; u32 f4c; u32 f50; };
 extern void SND_CHANNEL_UnlockChannels(u32);
 
-void func_02073898(struct X *x)
+void NNS_SndStrmFreeChannel(struct X *x)
 {
     if (x->f4c == 0) return;
     SND_CHANNEL_UnlockChannels(x->f4c);

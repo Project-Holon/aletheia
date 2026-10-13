@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   BSUBWAY_RECORD_LIST_InitWork  0x021B96D4  thumb  ov069
  *   BSUBWAY_RECORD_LIST_SetupVramBanks  0x021B97D4  thumb  ov069
@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void  func_02082AC0(u32 val, void *dst, u32 size);
+extern void  MIi_CpuClearFast(u32 val, void *dst, u32 size);
 extern void  WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 struct Obj;
 struct WorkObj;
@@ -64,7 +64,7 @@ int BSUBWAY_RECORD_LIST_Init(void *a, u32 b, u32 c)
 
     GFL_HEAP_CreateChildHeap(1, 0x80, 0x20000);
     p = PROCSYS_AllocProcWork(a, 0x168, 0x80);
-    func_02082AC0(0, p, 0x168);
+    MIi_CpuClearFast(0, p, 0x168);
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     BSUBWAY_RECORD_LIST_InitWork(p, c);

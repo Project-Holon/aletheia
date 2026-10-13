@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CF8
+ * function: WIFICLUBACTOR_FindActorFacing
  * address:  0x021B9CF8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -31,7 +31,7 @@ typedef int BOOL;
 
 extern u8 *func_021C4BA4(u8 *p, void *list, int n);
 
-void *func_021B9CF8(char *p, u32 *q, int c)
+void *WIFICLUBACTOR_FindActorFacing(char *p, u32 *q, int c)
 {
     void *v = func_021C4BA4((void *)*q, ((struct Obj18152 *)p)->f58C, c);
     int i;

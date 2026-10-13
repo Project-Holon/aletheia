@@ -1,5 +1,5 @@
 /*
- * function: func_021C2DB0
+ * function: ghiPostXmlStateDoPosting
  * address:  0x021C2DB0
  * packet:   pkt_ov114_021C2DB0
  * region:   ov114
@@ -18,11 +18,11 @@
  * symbols:
  *   func_02181E20  0x02181E20  arm   ov009
  *   func_02181E18  0x02181E18  arm   ov009
- *   func_021BFCEC  0x021BFCEC  arm   ov114
- *   func_021BFDEC  0x021BFDEC  arm   ov114
- *   func_021C00FC  0x021C00FC  arm   ov114
- *   func_021C011C  0x021C011C  arm   ov114
- *   func_021C07B8  0x021C07B8  arm   ov114
+ *   ghiAppendDataToBuffer  0x021BFCEC  arm   ov114
+ *   ghiEncryptDataToBuffer  0x021BFDEC  arm   ov114
+ *   ghiResetBuffer  0x021C00FC  arm   ov114
+ *   ghiSendBufferedData  0x021C011C  arm   ov114
+ *   ghiTrySendThenBuffer  0x021C07B8  arm   ov114
  */
 
 typedef enum { GERR, GOK, GBUF } GRes;
@@ -68,13 +68,13 @@ typedef struct GHIConnection {
 
 extern int func_02181E20(void *);
 extern char *func_02181E18(void *);
-extern int func_021BFCEC(GHIBuffer *, char *, int);
-extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
-extern void func_021C00FC(GHIBuffer *);
-extern int func_021C011C(GHIConnection *);
-extern GRes func_021C07B8(GHIConnection *, char *, int);
+extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
+extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
+extern void ghiResetBuffer(GHIBuffer *);
+extern int ghiSendBufferedData(GHIConnection *);
+extern GRes ghiTrySendThenBuffer(GHIConnection *, char *, int);
 
-GRes func_021C2DB0(GHIPostState *state, GHIConnection *connection)
+GRes ghiPostXmlStateDoPosting(GHIPostState *state, GHIConnection *connection)
 {
     void *xml = state->data->xml;
     char pad[3] = {0, 0, 0};
@@ -87,20 +87,20 @@ GRes func_021C2DB0(GHIPostState *state, GHIConnection *connection)
             padlen = 0;
     }
     if (connection->encrypted != 0 && connection->encryptState == 1) {
-        if (func_021BFCEC(&connection->sendBuffer, func_02181E18(xml), func_02181E20(xml)) == 0 ||
-            func_021BFCEC(&connection->sendBuffer, pad, padlen) == 0 ||
-            func_021BFDEC(&connection->encoded, connection->sendBuffer.data, connection->sendBuffer.size) == 0)
+        if (ghiAppendDataToBuffer(&connection->sendBuffer, func_02181E18(xml), func_02181E20(xml)) == 0 ||
+            ghiAppendDataToBuffer(&connection->sendBuffer, pad, padlen) == 0 ||
+            ghiEncryptDataToBuffer(&connection->encoded, connection->sendBuffer.data, connection->sendBuffer.size) == 0)
             return 0;
-        func_021C00FC(&connection->sendBuffer);
-        if (func_021C011C(connection) == 0)
+        ghiResetBuffer(&connection->sendBuffer);
+        if (ghiSendBufferedData(connection) == 0)
             return 0;
         if (connection->encoded.pos == connection->encoded.size)
-            func_021C00FC(&connection->encoded);
+            ghiResetBuffer(&connection->encoded);
         return 1;
     }
-    if (func_021C07B8(connection, func_02181E18(xml), func_02181E20(xml)) == 0)
+    if (ghiTrySendThenBuffer(connection, func_02181E18(xml), func_02181E20(xml)) == 0)
         return 0;
-    result = func_021C07B8(connection, pad, padlen);
+    result = ghiTrySendThenBuffer(connection, pad, padlen);
     if (result == 0)
         return 0;
     return 1;

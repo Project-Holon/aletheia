@@ -1,5 +1,5 @@
 /*
- * function: func_021BACC8
+ * function: IRCBATTLEMATCH_StepRedrawWaitMenu
  * address: 0x021BACC8
  * packet: pkt_ov100_021BACC8
  * region: ov100
@@ -8,31 +8,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA5F4 0x021BA5F4 thumb ov100
- *   func_021BA3A4 0x021BA3A4 thumb ov100
- *   func_021BA290 0x021BA290 thumb ov100
- *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_021BB270 0x021BB270 thumb ov100
+ *   IRCBATTLEMATCH_FreeMessageWindows 0x021BA5F4 thumb ov100
+ *   IRCBATTLEMATCH_PrintMainMessage 0x021BA3A4 thumb ov100
+ *   IRCBATTLEMATCH_OpenWaitMenu 0x021BA290 thumb ov100
+ *   IRCBATTLEMATCH_SetStep 0x021B95B8 thumb ov100
+ *   IRCBATTLEMATCH_StepWaitSession 0x021BB270 thumb ov100
  */
 #include "../include/Obj10217.h"
 struct Word { int x; };
-extern void func_021BA5F4(unsigned a);
-extern void func_021BA3A4(struct Word *,int);
-extern void func_021BA290(int,int);
+extern void IRCBATTLEMATCH_FreeMessageWindows(unsigned a);
+extern void IRCBATTLEMATCH_PrintMainMessage(struct Word *,int);
+extern void IRCBATTLEMATCH_OpenWaitMenu(int,int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021B95B8(u8 *p, u32 v);
-extern void func_021BB270(int p);
-void func_021BACC8(int a) {
+extern void IRCBATTLEMATCH_SetStep(u8 *p, u32 v);
+extern void IRCBATTLEMATCH_StepWaitSession(int p);
+void IRCBATTLEMATCH_StepRedrawWaitMenu(int a) {
  struct Word x;
- func_021BA5F4(a);
+ IRCBATTLEMATCH_FreeMessageWindows(a);
  x.x=((struct Obj10217 *)a)->fCB0;
- func_021BA3A4(&x,a);
+ IRCBATTLEMATCH_PrintMainMessage(&x,a);
  if(((struct Obj10217 *)a)->f24C==9 && ((struct Obj10217 *)a)->fCE8>0) {
-  func_021BA290(a,1);
-  func_021B95B8((u8 *)a,(u32)func_021BB270);
+  IRCBATTLEMATCH_OpenWaitMenu(a,1);
+  IRCBATTLEMATCH_SetStep((u8 *)a,(u32)IRCBATTLEMATCH_StepWaitSession);
   return;
  }
- func_021BA290(a,0);
- func_021B95B8((u8 *)a,(u32)func_021BB270);
+ IRCBATTLEMATCH_OpenWaitMenu(a,0);
+ IRCBATTLEMATCH_SetStep((u8 *)a,(u32)IRCBATTLEMATCH_StepWaitSession);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA70
+ * function: CPS_SocUnRegister
  * address:  0x0215AA70
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_02150FEC[];
 
-void func_0215AA70(void)
+void CPS_SocUnRegister(void)
 {
     int *p = *(int **)(g_02150FEC + 4);
 

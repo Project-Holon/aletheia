@@ -17,7 +17,7 @@
  *   SOCLi_CreateCommandPacket         0x0215CE3C  arm  ov009
  *   SOCLi_ExecCommandPacketInSendPipe 0x0215CF98  arm  ov009
  *   SOCLi_ShutdownCallBack            0x0215E764  arm  ov009
- *   func_0215AD00  0x0215AD00  arm  ov009
+ *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  */
 typedef struct SOCLSocket SOCLSocket;
 
@@ -52,7 +52,7 @@ extern SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                      long flag);
 extern int SOCLi_ExecCommandPacketInSendPipe(SOCLSocket *socket,
                                              SOCLiCommandPacket *command);
-extern void func_0215AD00(void);
+extern void CPS_TcpShutdown(void);
 int SOCL_Shutdown(int s);
 int func_0215E764(void *arg);
 
@@ -109,6 +109,6 @@ int func_0215E764(void *arg)
     Socket *socket = ((Cmd *)arg)->socket;
 
     if (IsTcp(socket->mode))
-        func_0215AD00();
+        CPS_TcpShutdown();
     return 0;
 }

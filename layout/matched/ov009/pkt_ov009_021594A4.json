@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021594A4",
+   "name": "_tcp_send_rst",
    "address": "0x021594A4",
    "kind": "sdk",
    "region": "ov009",

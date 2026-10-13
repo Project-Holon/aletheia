@@ -17,7 +17,7 @@
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E804 0x0207E804 arm
  *   func_020307B0 0x020307B0 arm
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern int ARC_UTIL_LoadMember(int,int,int,int);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
-extern void func_020862F0(void *,u32);
+extern void DWCi_ScreenDC_FlushRange(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
@@ -55,9 +55,9 @@ void func_021FA99C(u8 *p,u16 slot,int resource,u32 type)
     palSize=*(u16 *)(tex+0x30)*8;
     dst=(u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p+0x28),1);
     dst+=(slot<<11);
-    func_020862F0(tex+palOffset,palSize);
+    DWCi_ScreenDC_FlushRange(tex+palOffset,palSize);
     func_0207E5D0(tex+palOffset,slot*32,palSize);
-    func_020862F0(src,charSize);
+    DWCi_ScreenDC_FlushRange(src,charSize);
     switch(type) {
     case 34: x=2; y=2; type=4; height=4; break;
     case 35: x=2; type=4; height=8; break;

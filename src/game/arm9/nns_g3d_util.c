@@ -17,9 +17,9 @@
  *   MTX_MultVec43  0x0207BC08  arm
  *   func_0207C8A0  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
- *   func_0206AE94  0x0206AE94  arm
+ *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
  *   func_0207C768  0x0207C768  arm
- *   func_0206AE2C  0x0206AE2C  arm
+ *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
  */
 typedef int s32;
 
@@ -75,9 +75,9 @@ typedef unsigned int   u32;
 extern void MTX_MultVec43(const VecFx32_0206DF3C *src, const MtxFx43 *m, VecFx32_0206DF3C *dst);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
-extern void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
+extern void NNS_G3dGlbGetViewPort(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void *func_0206AE2C(void);
+extern void *NNS_G3dGlbGetInvVPMtx(void);
 int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py);
 int func_0206E0C4(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFar);
 extern Glb g_renderState;
@@ -93,7 +93,7 @@ inline static fx32 FX_Mul32x64c(fx32 v32, fx64c v64c)
  * NitroSystem G3D NNS_G3dWorldPosToScrPos (util.c): world position to screen
  * pixel. The camera matrix and projection matrix are members of the G3D
  * global state object at 0x02148B4C (NNS_G3dGlb: prjMtx at +8, cameraMtx at
- * +0x4c, viewport word at +0xa0 which func_0206AE94 unpacks). Returns -1 when
+ * +0x4c, viewport word at +0xa0 which NNS_G3dGlbGetViewPort unpacks). Returns -1 when
  * the point projects outside [0, FX32_ONE] in x or y, else 0.
  *
  * Levers found by tools/permuter.py (hill + anneal, 149 -> 25 bytes) and by
@@ -137,7 +137,7 @@ int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py)
     if (x < 0 || y < 0 || x > 0x1000 || y > 0x1000)
         ret = -1;
 
-    func_0206AE94((u32 *)(&x1), (u32 *)(&y1), (u32 *)(&x2), (u32 *)(&y2));                   /* NNS_G3dGlbGetViewPort */
+    NNS_G3dGlbGetViewPort((u32 *)(&x1), (u32 *)(&y1), (u32 *)(&x2), (u32 *)(&y2));                   /* NNS_G3dGlbGetViewPort */
     {
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -151,9 +151,9 @@ int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py)
 /*
  * NitroSystem G3D NNS_G3dScrPosToWorldLine (util.c): screen pixel to the
  * world-space near point (and, when pFar is non-null, far point) through the
- * inverse view-projection matrix func_0206AE2C returns. FX_Div is
+ * inverse view-projection matrix NNS_G3dGlbGetInvVPMtx returns. FX_Div is
  * func_0207C768, FX_InvAsync func_0207C8A0, FX_GetInvResultFx64c
- * func_0207C848, the viewport unpack func_0206AE94. Returns -1 when the
+ * func_0207C848, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
  * pixel is outside the viewport, else 0.
  *
  * Two levers: the viewport extents are named locals dx/dy (dy = y2 - y1 is
@@ -171,7 +171,7 @@ int func_0206E0C4(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFa
     fx32 w, nx, ny, nz, fw, fx, fy, fz;
     fx64c invW;
 
-    func_0206AE94((unsigned int *)(&x1), (unsigned int *)(&y1), (unsigned int *)(&x2), (unsigned int *)(&y2));
+    NNS_G3dGlbGetViewPort((unsigned int *)(&x1), (unsigned int *)(&y1), (unsigned int *)(&x2), (unsigned int *)(&y2));
     {
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -185,7 +185,7 @@ int func_0206E0C4(int px, int py, VecFx32_0206DF3C *pNear, VecFx32_0206DF3C *pFa
     x = (x - 0x800) * 2;
     y = (y - 0x800) * 2;
 
-    m = func_0206AE2C();
+    m = NNS_G3dGlbGetInvVPMtx();
     w = (fx32)(((fx64)x * m->_03 + (fx64)y * m->_13) >> 12) + m->_33;
     func_0207C8A0(w - m->_23);
     nx = (fx32)(((fx64)x * m->_00 + (fx64)y * m->_10) >> 12) + m->_30;

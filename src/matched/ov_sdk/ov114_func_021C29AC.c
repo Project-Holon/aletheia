@@ -1,5 +1,5 @@
 /*
- * function: func_021C29AC
+ * function: ghiPostStateInit
  * address:  0x021C29AC
  * packet:   pkt_ov114_021C29AC
  * region:   ov114
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern s32 func_02091D38(u32 a0);
 extern int func_02092120(void *);
 
-int func_021C29AC(Obj *o)
+int ghiPostStateInit(Obj *o)
 {
     int t = *o->f0;
 

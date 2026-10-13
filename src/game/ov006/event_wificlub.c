@@ -51,7 +51,7 @@
  *   EVENT_WIFICLUB_BuildBattleEntry 0x0215444C thumb ov006
  *   EVENT_WIFICLUB_SetBattleParty 0x021544BC thumb ov006
  *   EVENT_WIFICLUB_SetupBattle 0x021542C0 thumb ov006
- *   func_021C2850 0x021C2850 thumb ov099
+ *   WIFICLUB_RunPeerAddrRoutine 0x021C2850 thumb ov099
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   gNetSaveRetryProc 0x021D654C data ov115 a4
  *   d_021C37E8 0x021C37E8 data ov099 a4
@@ -139,7 +139,7 @@ extern u32 func_0201283C(const struct GameData *gameData);
 extern u32 func_02009A34(void *battleRecord);
 extern int func_02034AC4(int overlayId);
 extern void func_02034A5C(int overlayId);
-extern void func_021C2850(char *scratchBuffer);
+extern void WIFICLUB_RunPeerAddrRoutine(char *scratchBuffer);
 extern int BTL_SETUP_Delete(int battleSetup);
 extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
 extern void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, u32 gameData, int seq);
@@ -198,7 +198,7 @@ void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work)
 
 /*
  * blockers: code-start witnesses for ov006 EVENT_WIFICLUB_SetBattleParty and ov099
- * func_021C2850; overlay-ID consumer evidence for GAME_EVENT_CallProc:r1
+ * WIFICLUB_RunPeerAddrRoutine; overlay-ID consumer evidence for GAME_EVENT_CallProc:r1
  * (IDs 127,134,8,119,195,172). All concrete bytes match.
  * Matching levers: typed Sel table folds the u16 field offset into its
  * pool word; Pair struct copies to SP; char-pointer field addressing
@@ -212,11 +212,11 @@ void EVENT_WIFICLUB_ResetSound(WifiClubEventWork *work)
  * 02031354(int) and 020314F4(obj,u32,u32,u32); 0200F7B8 receives the
  * explicitly loaded zero despite its legacy void declaration.
  * 2026-10-04 note (wave D2 lane 15): still MATCH, bytes identical. Unresolved after re-run:
- * THM_CALL func_021C2850 (ov099 hint present, but 021C2850 is a Thumb veneer in ov099, 64 bytes
+ * THM_CALL WIFICLUB_RunPeerAddrRoutine (ov099 hint present, but 021C2850 is a Thumb veneer in ov099, 64 bytes
  * incl. data, no matched witness exists) and six single-use overlay-id words (ov008 0x8,
  * ov119 0x77, ov127 0x7f, ov134 0x86, ov172 0xac, ov195 0xc3) with no witness outside this
  * function. Nothing left to change in the C.
- * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is func_021C2850, a Thumb veneer in ov099). No change possible in C.
+ * 2026-10-05 note (D4-14): re-run, still MATCH (1484 bytes, 111 of 112 relocations resolve; the open one is WIFICLUB_RunPeerAddrRoutine, a Thumb veneer in ov099). No change possible in C.
  */
 int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *work)
 {
@@ -313,7 +313,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 11:
         func_02034AC4((int)ov099_id);
         func_02034AC4((int)ov067_id);
-        func_021C2850((char *)work->session->scratchBuffer);
+        WIFICLUB_RunPeerAddrRoutine((char *)work->session->scratchBuffer);
         if (work->battleSetup) { BTL_SETUP_Delete((int)work->battleSetup); work->battleSetup = 0; }
         GAME_EVENT_CallProc(work->event, (u32)ov127_id, (u32)d_021C37E8, (u32)work->session);
         ++*seq;

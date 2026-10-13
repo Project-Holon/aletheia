@@ -109,7 +109,7 @@
  *   MCSS_Del 0x02015BA4 thumb
  *   MCSS_SetAnimeIndex 0x02016028 thumb
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
- *   func_02064CBC 0x02064CBC arm
+ *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_02063000 0x02063000 arm
  *   MCSS_TOOL_SetAnimeStopCallback 0x020173B4 thumb
@@ -297,7 +297,7 @@ extern void MCSS_Del(void *,void *);
  * It reads no caller r1-r3. 02016028 retains live incoming flag in r1. */
 extern void MCSS_SetAnimeIndex(void *,unsigned);
 extern void *MCSS_GetAnimCtrl(void *);
-extern void func_02064CBC(struct Obj *x);
+extern void NNS_G2dRestartMCAnimation(struct Obj *x);
 extern void MCSS_ResetAnmStopFlag(void *);
 extern void func_02063000(int p0, int p1, int p2, int p3);
 extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
@@ -970,7 +970,7 @@ void func_021F6CCC(char *p,unsigned flag,int enable)
     void *obj;
     MCSS_SetAnimeIndex(((struct Obj06707 *)p)->f34,flag);
     obj=MCSS_GetAnimCtrl(((struct Obj06707 *)p)->f34);
-    func_02064CBC(obj);
+    NNS_G2dRestartMCAnimation(obj);
     MCSS_ResetAnmStopFlag(((struct Obj06707 *)p)->f34);
     if(enable) {
         func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);

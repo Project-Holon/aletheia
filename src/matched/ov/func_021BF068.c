@@ -1,5 +1,5 @@
 /*
- * function: func_021BF068
+ * function: WIFICLUB_IsNetStateDisconnecting
  * address:  0x021BF068
  * packet:   pkt_021BF068
  * region:   ov099
@@ -30,7 +30,7 @@ typedef int BOOL;
 
 extern int GFL_NET_STATE_GetWifiState(void);
 
-BOOL func_021BF068(char *a0)
+BOOL WIFICLUB_IsNetStateDisconnecting(char *a0)
 {
     int v = GFL_NET_STATE_GetWifiState();
 

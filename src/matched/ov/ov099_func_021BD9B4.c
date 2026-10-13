@@ -1,5 +1,5 @@
 /*
- * function: func_021BD9B4
+ * function: WIFICLUB_StateSendReplyCode
  * address: 0x021BD9B4
  * packet: pkt_ov099_021BD9B4
  * region: ov099
@@ -20,7 +20,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, u32, u32);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-int func_021BD9B4(char *p, int v)
+int WIFICLUB_StateSendReplyCode(char *p, int v)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 10) != 0) {
         if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xa05, 1, (u32)(p + 0x1353)) != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3BE0
+ * function: BTL_CLIENT_StepPassEffects
  * address: 0x021D3BE0
  * packet: pkt_ov093_021D3BE0
  * region: ov093
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 struct Work;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_PassEffects(struct Work *, struct Work *);
-int func_021D3BE0(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepPassEffects(char *p, int unused, unsigned int *a)
 {
     u8 *first = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[0]);
     u8 *second = BTL_SIDE_GetPokeByIdThunk(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[1]);

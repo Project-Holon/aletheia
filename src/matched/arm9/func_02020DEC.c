@@ -12,8 +12,8 @@
  *
  * symbols:
  *   func_0200575C  0x0200575C  thumb
- *   func_020788AC  0x020788AC  arm
- *   func_02078C18  0x02078C18  arm
+ *   FS_InitFile  0x020788AC  arm
+ *   FS_OpenFile  0x02078C18  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/FILE_UTIL_OpenById.c \
@@ -23,14 +23,14 @@
 typedef unsigned int u32;
 
 extern void *func_0200575C(u32 x);
-extern void  func_020788AC(void *p);
-extern void  func_02078C18(void *p, void *q);
+extern void  FS_InitFile(void *p);
+extern void  FS_OpenFile(void *p, void *q);
 
 void FILE_UTIL_OpenById(void *p, u32 x)
 {
     void *q;
 
     q = func_0200575C(x);
-    func_020788AC(p);
-    func_02078C18(p, q);
+    FS_InitFile(p);
+    FS_OpenFile(p, q);
 }

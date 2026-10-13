@@ -1,5 +1,5 @@
 /*
- * function: func_021C3EC0
+ * function: ghiDoConnecting
  * address:  0x021C3EC0
  * packet:   pkt_ov114_021C3EC0
  * region:   ov114
@@ -19,11 +19,11 @@
  *   func_0217EF00  0x0217EF00  arm  ov009
  *   func_0217EC08  0x0217EC08  arm  ov009
  *   func_0217ED64  0x0217ED64  arm  ov009
- *   func_021C02C8  0x021C02C8  arm  ov114
- *   g_021CF12C     0x021CF12C  data
- *   g_021CE5B0     0x021CE5B0  data
- *   g_021D3B2C     0x021D3B2C  data
- *   g_021D3B28     0x021D3B28  data
+ *   ghiCallProgressCallback  0x021C02C8  arm  ov114
+ *   sGhttpConnecting     0x021CF12C  data
+ *   gGhttpThrottleBufferSize     0x021CE5B0  data
+ *   gGhttpProxyServer     0x021D3B2C  data
+ *   gGhttpProxyPort     0x021D3B28  data
  */
 
 typedef unsigned char u8;
@@ -77,13 +77,13 @@ extern int func_0217EE50(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
-extern char g_021CF12C[];
-extern int g_021CE5B0;
-extern char *g_021D3B2C;
-extern u16 g_021D3B28;
+extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
+extern char sGhttpConnecting[];
+extern int gGhttpThrottleBufferSize;
+extern char *gGhttpProxyServer;
+extern u16 gGhttpProxyPort;
 
-void func_021C3EC0(GHIConnection *connection)
+void ghiDoConnecting(GHIConnection *connection)
 {
     int rcode;
     int socketError;
@@ -91,7 +91,7 @@ void func_021C3EC0(GHIConnection *connection)
     int writeFlag;
     int exceptFlag;
 
-    func_0217D254(8, (char *)3, 0x10, g_021CF12C);
+    func_0217D254(8, (char *)3, 0x10, sGhttpConnecting);
 
     if (connection->socket == -1)
     {
@@ -111,7 +111,7 @@ void func_021C3EC0(GHIConnection *connection)
             return;
         }
         if (connection->throttle)
-            func_0217EF00(connection->socket, g_021CE5B0);
+            func_0217EF00(connection->socket, gGhttpThrottleBufferSize);
 
         if (connection->encryptor.engine == 4)
         {
@@ -132,8 +132,8 @@ void func_021C3EC0(GHIConnection *connection)
         address.family = 2;
         if (connection->proxyOverrideServer)
             address.port = SOC_HTONS(connection->proxyOverridePort);
-        else if (g_021D3B2C)
-            address.port = SOC_HTONS(g_021D3B28);
+        else if (gGhttpProxyServer)
+            address.port = SOC_HTONS(gGhttpProxyPort);
         else
             address.port = SOC_HTONS(connection->serverPort);
         address.addr = connection->serverIP;
@@ -170,6 +170,6 @@ void func_021C3EC0(GHIConnection *connection)
             connection->state = 5;
         else
             connection->state = 4;
-        func_021C02C8(connection, 0, 0);
+        ghiCallProgressCallback(connection, 0, 0);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C154C",
+   "name": "PMS_SELECT_GRAPHIC_StepOpenEditScreen",
    "address": "0x021C154C",
    "kind": "game",
    "region": "ov110",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D63C8
+ * function: DWCi_HEAPlAlloc
  * address:  0x021D63C8
  * packet:   pkt_ov016_021D63C8
  * region:   ov016
@@ -16,7 +16,7 @@
  *   func_02060CA0  0x02060CA0  arm
  *   OS_Terminate   0x02088234  arm
  *   OS_EnableIrqMask 0x02084968  arm
- *   g_021DE684     0x021DE684  data
+ *   gHeapWork     0x021DE684  data
  */
 
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
@@ -26,14 +26,14 @@ typedef unsigned int   u32;
 struct ExpHeap;
 extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern void OS_Terminate(void);
-extern void *g_021DE684;
+extern void *gHeapWork;
 
-void *func_021D63C8(unsigned long size, int alignment)
+void *DWCi_HEAPlAlloc(unsigned long size, int alignment)
 {
     void *mem;
     unsigned long irq;
     irq = OS_DisableIrqMask(1);
-    mem = func_02060CA0(g_021DE684, size, alignment);
+    mem = func_02060CA0(gHeapWork, size, alignment);
     if (mem == 0)
         OS_Terminate();
     OS_EnableIrqMask(irq);

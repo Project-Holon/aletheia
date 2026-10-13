@@ -16,7 +16,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021D43B8 0x021D43B8 thumb ov123
  *   func_020307B0 0x020307B0 arm
  *   func_02049740 0x02049740 arm
@@ -45,7 +45,7 @@ typedef signed int     s32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern void func_021D43B8(u16 *p, const u16 *add, int n);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
@@ -70,8 +70,8 @@ void func_021D4884(char *p)
     func_02049B68(h, 1, 4, 0, 0, ((struct Obj00471 *)p)->fC);
     func_02049B68(h, 0, 0, 0, 0, ((struct Obj00471 *)p)->fC);
     allocated = ARC_UTIL_LoadPaletteBlockFromHandle(h, 1, (u32)(&record), ((struct Obj00471 *)p)->fC);
-    func_02082D44(((struct Obj13968 *)record)->fC, p + 0x44, 0xe0);
-    func_02082D44(((struct Obj13968 *)record)->fC, p + 0x124, 0xe0);
+    MI_CpuCopy8(((struct Obj13968 *)record)->fC, p + 0x44, 0xe0);
+    MI_CpuCopy8(((struct Obj13968 *)record)->fC, p + 0x124, 0xe0);
     func_021D43B8((u16 *)(p + 0x124), (const u16 *)d_021DA9D0, 7);
     func_020307B0(allocated);
     ((struct Obj00471 *)p)->f40 = func_02049740(h, 4, 4, 0, 0, ((struct Obj00471 *)p)->fC);

@@ -1,5 +1,5 @@
 /*
- * function: func_0207A980
+ * function: FSi_IsUnreadableRomOffset
  * address:  0x0207A980
  * packet:   pkt_0207A980
  * region:   arm9
@@ -32,7 +32,7 @@ extern int OS_IsRunOnTwl(void);
 extern const char g_020A84B0[]; /* "rom", the vendor object's @12296 */
 extern CARDRomHeader *CARD_GetOwnRomHeader(void);
 
-int func_0207A980(FSArchive *arc, unsigned long offset)
+int FSi_IsUnreadableRomOffset(FSArchive *arc, unsigned long offset)
 {
     int result = 0;
 

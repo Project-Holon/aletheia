@@ -1,5 +1,5 @@
 /*
- * function: func_02085AD8
+ * function: OSi_SleepAlarmCallback
  * address:  0x02085AD8
  * packet:   pkt_02085AD8
  * region:   arm9
@@ -13,6 +13,7 @@
  *
  * symbols:
  *   OS_WakeupThreadDirect  0x02085868  arm
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -136,14 +137,14 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OS_WakeupThreadDirect(OSThread *thread);
 
-void func_02085AD8(void *arg)
+void OSi_SleepAlarmCallback(void *arg)
 {
     OSThread **pp_thread = (OSThread **)arg;
     OSThread *p_thread = *pp_thread;

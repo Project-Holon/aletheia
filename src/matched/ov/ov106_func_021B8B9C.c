@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B9C
+ * function: IRC_RANKING_DataCreate
  * address: 0x021B8B9C
  * packet: pkt_ov106_021B8B9C
  * region: ov106
@@ -29,7 +29,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetString 0x02045924 arm
- *   d_021B9680 0x021B9680 data a1
+ *   gIrcRankingFileName 0x021B9680 data a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,7 +40,7 @@ typedef struct {
  u16 number;
  u8 a,b,c,active,pad[2];
 } Item;
-extern const char d_021B9680[];
+extern const char gIrcRankingFileName[];
 typedef signed int     s32;
 struct Big;
 struct Entry;
@@ -60,11 +60,11 @@ extern u8 func_0200A8D0(struct Rec *r, u32 index);
 extern u16 func_0200A8E4(struct Rec *r, u32 index);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern void func_0200A908(void *,u32,u16 *,u8 *,u8 *,u8 *);
-void *func_021B8B9C(void *sys,u16 heap) {
+void *IRC_RANKING_DataCreate(void *sys,u16 heap) {
  void *src; u16 count; u8 *out; Item *item; u32 i; u8 prev,seq,active;
  src=func_0200A8A0(GAME_DATA_GetSaveControl(sys));
  count=func_0200A8AC(src);
- out=func_02030734(heap,count*16+4,0,d_021B9680,2724);
+ out=func_02030734(heap,count*16+4,0,gIrcRankingFileName,2724);
  MI_CpuFill8(out,0,count*16+4);
  *(u32 *)out=count;
  if(count) {

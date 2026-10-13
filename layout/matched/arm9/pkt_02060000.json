@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "ENV_SetResourceSet",
+   "name": "NNS_G2dSetCellAnimationSequence",
    "address": "0x0206434C",
    "kind": "sdk",
    "region": "arm9",

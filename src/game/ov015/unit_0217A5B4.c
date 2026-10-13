@@ -15,7 +15,7 @@
  * symbols:
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_02084EB8  0x02084EB8  arm
+ *   OS_GetLockID  0x02084EB8  arm
  *   g_0217AAB4     0x0217AAB4  data
  *   g_0217AC90     0x0217AC90  data
  *   func_02084F10  0x02084F10  arm
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern unsigned long long func_020870D0(void);
-extern long func_02084EB8(void);
+extern long OS_GetLockID(void);
 extern void func_02084F10(unsigned short lockID);
 unsigned char func_0217A674(struct IRCParam *p);
 void func_0217A718(struct IRCParam *p);
@@ -80,7 +80,7 @@ void func_0217A60C(void)
     (*(int *)&g_0217AC90) = 1;
     if (g_0217AAB4 != 0xFFFD)
         return;
-    g_0217AAB4 = func_02084EB8();
+    g_0217AAB4 = OS_GetLockID();
 }
 
 

@@ -62,7 +62,7 @@
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030DA8  0x02030DA8  arm
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   func_02030EAC  0x02030EAC  arm
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
@@ -159,7 +159,7 @@ extern void *func_020124E8(GameEvent *event);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u32 func_020307B0(void *block);
 extern void func_02030DA8(TcblSys *tcblSys, void (*func)(), void *work, u32 priority);
-extern void *TCBL_IsDeletePending(TcblTask *task);
+extern void *TCBL_GetTaskUserData(TcblTask *task);
 extern u32 func_02030EAC(TcblTask *task);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern int func_0209C0A4(int dividend, int divisor);
@@ -465,12 +465,12 @@ void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 att
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(TcblTask *task)
 {
-    return ((HopWork *)TCBL_IsDeletePending(task))->done;
+    return ((HopWork *)TCBL_GetTaskUserData(task))->done;
 }
 
 int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(TcblTask *task)
 {
-    func_020307B0(TCBL_IsDeletePending(task));
+    func_020307B0(TCBL_GetTaskUserData(task));
     return func_02030EAC(task);
 }
 
@@ -568,12 +568,12 @@ void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 at
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(TcblTask *task)
 {
-    return ((JumpWork *)TCBL_IsDeletePending(task))->done;
+    return ((JumpWork *)TCBL_GetTaskUserData(task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(TcblTask *task)
 {
-    func_020307B0(TCBL_IsDeletePending(task));
+    func_020307B0(TCBL_GetTaskUserData(task));
     func_02030EAC(task);
 }
 

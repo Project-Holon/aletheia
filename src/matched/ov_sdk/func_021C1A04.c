@@ -11,21 +11,21 @@
  *
  * symbols:
  *   func_021C1A04   0x021C1A04  arm
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   func_021BD170   0x021BD170  arm  ov016
- *   func_021D4B68   0x021D4B68  arm  ov016
- *   dat_021DA498    0x021DA498  data
- *   dat_021DB270    0x021DB270  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_021DB288    0x021DB288  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_021DB2A0    0x021DB2A0  data
- *   dat_0207EB78    0x0207EB78  data
- *   dat_021DE59C    0x021DE59C  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   DWCi_Char   0x021BD170  arm  ov016
+ *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
+ *   sSceneMenuPathYbBgStep11Pltt    0x021DA498  data
+ *   sSceneMenuPathJbBgStep1Char    0x021DB270  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   sSceneMenuPathJbBgStep1Pltt    0x021DB288  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   sSceneMenuPathJb2MenuScr    0x021DB2A0  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
+ *   gSceneMenuWork    0x021DE59C  data
  *
  * Copy a 0x16-byte NCL descriptor (name + two flags) from the static table to
- * a stack buffer, load three tilemaps through func_021BD1D4, publish the
- * buffer through func_021BD170/func_021D4B68 into the 0x021DE59C record, then
+ * a stack buffer, load three tilemaps through DWCi_CMNlLoadResource, publish the
+ * buffer through DWCi_Char/DWCi_ARClReadEx into the 0x021DE59C record, then
  * set the low two bits of the 0x04001008 and 0x0400000A halfword pairs.
  * Addresses are Black-image addresses.
  *
@@ -43,28 +43,28 @@ typedef struct {
     u8 f15;
 } T;
 
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern unsigned char *func_021BD170(unsigned char *name);
-extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
-extern T dat_021DA498;
-extern unsigned char dat_021DB270[];
-extern unsigned char dat_0207F0B8[];
-extern unsigned char dat_021DB288[];
-extern unsigned char dat_0207E3D0[];
-extern unsigned char dat_021DB2A0[];
-extern unsigned char dat_0207EB78[];
-extern unsigned char dat_021DE59C[];
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern unsigned char *DWCi_Char(unsigned char *name);
+extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
+extern T sSceneMenuPathYbBgStep11Pltt;
+extern unsigned char sSceneMenuPathJbBgStep1Char[];
+extern unsigned char GX_LoadBG2Char[];
+extern unsigned char sSceneMenuPathJbBgStep1Pltt[];
+extern unsigned char GX_LoadBGPltt[];
+extern unsigned char sSceneMenuPathJb2MenuScr[];
+extern unsigned char GX_LoadBG2Scr[];
+extern unsigned char gSceneMenuWork[];
 
 void func_021C1A04(void)
 {
     T buf;
     u16 *p;
 
-    buf = dat_021DA498;
-    func_021BD1D4((char *)((int)dat_021DB270), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB288), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB2A0), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
-    ((int *)dat_021DE59C)[1] = (int)func_021D4B68((char *)((int)func_021BD170((unsigned char *)(&buf))), 0, 4);
+    buf = sSceneMenuPathYbBgStep11Pltt;
+    DWCi_CMNlLoadResource((char *)((int)sSceneMenuPathJbBgStep1Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneMenuPathJbBgStep1Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneMenuPathJb2MenuScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
+    ((int *)gSceneMenuWork)[1] = (int)DWCi_ARClReadEx((char *)((int)DWCi_Char((unsigned char *)(&buf))), 0, 4);
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;

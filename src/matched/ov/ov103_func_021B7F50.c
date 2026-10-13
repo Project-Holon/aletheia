@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F50
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ModelSetPosition
  * address: 0x021B7F50
  * packet: pkt_ov103_021B7F50
  * region: ov103
@@ -11,7 +11,7 @@
  */
 typedef unsigned int u32;
 struct V3 { u32 a, b, c; };
-void func_021B7F50(char *p, struct V3 *q)
+void IRC_COMPATIBLE_TOUCH_TEST_ModelSetPosition(char *p, struct V3 *q)
 {
     *(struct V3 *)(p + 0x1c) = *q;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7E0
+ * function: PMS_INPUT_ResetSearch
  * address: 0x021BF7E0
  * packet: pkt_ov110_021BF7E0
  * region: ov110
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAFE4 0x021BAFE4 thumb ov110
+ *   PMSI_SEARCH_ClearInput 0x021BAFE4 thumb ov110
  */
 #include "../include/Obj22396.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern void func_021BAFE4(u32 p);
-void func_021BF7E0(u8 *p) { func_021BAFE4((u32)(*(u8 * *)&((struct Obj22396 *)p)->f1C)); }
+extern void PMSI_SEARCH_ClearInput(u32 p);
+void PMS_INPUT_ResetSearch(u8 *p) { PMSI_SEARCH_ClearInput((u32)(*(u8 * *)&((struct Obj22396 *)p)->f1C)); }

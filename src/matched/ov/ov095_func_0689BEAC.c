@@ -1,5 +1,5 @@
 /*
- * function: func_0689BEAC
+ * function: BTL_SICK_EndEncoreWhenPpEmpty
  * address:  0x0689BEAC
  * packet:   pkt_ov095_0689BEAC
  * region:   ov095
@@ -33,7 +33,7 @@ extern int func_0689BF0C(void *, int);
 extern Rec *func_0689BF1C(void *, int, int);
 extern void func_0689BF2C(void *, Rec *);
 
-void func_0689BEAC(void *a, void *b, int c)
+void BTL_SICK_EndEncoreWhenPpEmpty(void *a, void *b, int c)
 {
     Rec *r;
     int t;

@@ -12,7 +12,7 @@
  * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -26,9 +26,9 @@ typedef struct Obj {
     u8 b668[0x1C];
 } Obj;
 
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 
 void BSUBWAY_COMM_SetSendTrainerData(Obj *o)
 {
-    func_02082D44(o->b32, o->b668, 0x1C);
+    MI_CpuCopy8(o->b32, o->b668, 0x1C);
 }

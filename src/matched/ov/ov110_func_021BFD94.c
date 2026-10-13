@@ -1,5 +1,5 @@
 /*
- * function: func_021BFD94
+ * function: PMSIV_WORDWIN_GetThumb
  * address: 0x021BFD94
  * packet: pkt_ov110_021BFD94
  * region: ov110
@@ -22,4 +22,4 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 struct Actor;
 struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=CLACT_GetActorDrawEnable(((struct Obj13803 *)p)->f1C); CLACT_GetActorSurfacePos(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }
+u32 PMSIV_WORDWIN_GetThumb(u8 *p,Vec2 *out) { u32 result; result=CLACT_GetActorDrawEnable(((struct Obj13803 *)p)->f1C); CLACT_GetActorSurfacePos(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }

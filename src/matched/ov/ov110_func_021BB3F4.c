@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3F4
+ * function: PMSIV_CATEGORY_MakeCategoryButtons
  * address: 0x021BB3F4
  * packet: pkt_ov110_021BB3F4
  * region: ov110
@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: declare x,y before bank,font to place the four spilled locals.
  * symbols:
- *   d_021C38C4 0x021C38C4 data ov110 a1
- *   func_021BAC44 0x021BAC44 thumb ov110
+ *   sPmsivCategoryLabelIds 0x021C38C4 data ov110 a1
+ *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   func_021B999C 0x021B999C thumb ov110
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -29,8 +29,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern const u8 d_021C38C4[];
-extern u32 func_021BAC44(u8 *);
+extern const u8 sPmsivCategoryLabelIds[];
+extern u32 PMS_INPUT_VIEW_GetFont(u8 *);
 extern u32 func_021B999C(u8 *, int);
 struct Cfg;
 struct CharBuf;
@@ -51,7 +51,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-u8 *func_021BB3F4(u8 *p, u8 *q)
+u8 *PMSIV_CATEGORY_MakeCategoryButtons(u8 *p, u8 *q)
 {
     int x, y;
     void *bank;
@@ -59,14 +59,14 @@ u8 *func_021BB3F4(u8 *p, u8 *q)
     int i;
     void *str, *win;
     u32 width;
-    font = func_021BAC44(*(u8 * *)&((struct Obj03240 *)p)->f0);
+    font = PMS_INPUT_VIEW_GetFont(*(u8 * *)&((struct Obj03240 *)p)->f0);
     bank = func_02045B38(0, 2, 145, 42);
     x = 1;
     y = 9;
     for (i = 0; i < 12; i++) {
         if (i != 0 && i % 3 == 0) { x = 1; y += 3; }
         if (func_021B999C(*(u8 * *)&((struct Obj03240 *)p)->f8, i)) {
-            str = func_02045EC0(bank, d_021C38C4[i]);
+            str = func_02045EC0(bank, sPmsivCategoryLabelIds[i]);
             GF_FONT_SetTextColor(1, 2, 15);
         } else {
             str = func_02045EC0(bank, 13);

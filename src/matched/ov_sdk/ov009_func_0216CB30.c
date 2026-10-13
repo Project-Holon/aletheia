@@ -1,5 +1,5 @@
 /*
- * function: func_0216CB30
+ * function: DWC_GetMatchIntValue
  * address:  0x0216CB30
  * packet:   pkt_ov009_0216CB30
  * region:   ov009
@@ -24,7 +24,7 @@ extern int func_0219F058(int a, int b);
 struct SBServer;
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 
-int func_0216CB30(int a, int b, int c)
+int DWC_GetMatchIntValue(int a, int b, int c)
 {
     int t;
 

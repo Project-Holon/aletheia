@@ -1,5 +1,5 @@
 /*
- * function: func_02066E30
+ * function: NNSi_G2dDrawSoftEmuSprite
  * address:  0x02066E30
  * packet:   pkt_02066E30
  * region:   arm9
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02066B84   0x02066B84  arm
- *   g_02148B2C      0x02148B2C  data
- *   tbl_020A17F0    0x020A17F0  data
- *   tbl_020A17D8    0x020A17D8  data
- *   g_020A8218      0x020A8218  data
+ *   NNSi_G2dCalcSpriteParams   0x02066B84  arm
+ *   sUVFlipState      0x02148B2C  data
+ *   NNSi_objSizeWTbl    0x020A17F0  data
+ *   NNSi_objSizeHTbl    0x020A17D8  data
+ *   sOamSoftEmuAutoZOffsetStep      0x020A8218  data
  *
  * The composer's 3D-geometry emitter: one textured unit quad per call.
- * func_02066B84 fills a six-word UV/extent buffer from the OAM entry; an
+ * NNSi_G2dCalcSpriteParams fills a six-word UV/extent buffer from the OAM entry; an
  * affine-double entry is re-centred by half its object extent (objWidth /
  * objHeight tables at 0x020A17F0 / 0x020A17D8); then MTX_TRANSLATE (depth
  * biased by the render context's polygon counter when its gate is set),
@@ -107,29 +107,29 @@ static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
     return (GXOamShape)(oam->attr01 & (0x0000c000 | 0xc0000000));
 }
 
-extern struct G_02148B2C g_02148B2C;
-extern const u16 tbl_020A17F0[3][4];
-extern const u16 tbl_020A17D8[3][4];
-extern const fx32 g_020A8218;
-extern void func_02066B84(const GXOamAttr *oam, u32 a, u32 b, u32 c, fx32 *uv);
+extern struct G_02148B2C sUVFlipState;
+extern const u16 NNSi_objSizeWTbl[3][4];
+extern const u16 NNSi_objSizeHTbl[3][4];
+extern const fx32 sOamSoftEmuAutoZOffsetStep;
+extern void NNSi_G2dCalcSpriteParams(const GXOamAttr *oam, u32 a, u32 b, u32 c, fx32 *uv);
 
-void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6)
+void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6)
 {
     fx32 uv[6];
 
-    func_02066B84(oam, a4, a5, a6, uv);
+    NNSi_G2dCalcSpriteParams(oam, a4, a5, a6, uv);
     if (G2_GetOBJEffect(oam) == GX_OAM_EFFECT_AFFINE_DOUBLE) {
         GXOamShape shape;
         int h;
         int w;
         shape = G2_GetOBJShape(oam);
-        w = *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
-        h = *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        w = *(u16 *)((u8 *)NNSi_objSizeWTbl + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        h = *(u16 *)((u8 *)NNSi_objSizeHTbl + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
         G3_Translate((x + (w >> 1)) << 12, (y + (h >> 1)) << 12,
-                     g_02148B2C.f08 ? g_02148B2C.f04 + (z << 12) : z << 12);
+                     sUVFlipState.f08 ? sUVFlipState.f04 + (z << 12) : z << 12);
     } else {
         G3_Translate(x << 12, y << 12,
-                     g_02148B2C.f08 ? g_02148B2C.f04 + (z << 12) : z << 12);
+                     sUVFlipState.f08 ? sUVFlipState.f04 + (z << 12) : z << 12);
     }
     G3_Scale(uv[4] << 12, uv[5] << 12, FX32_ONE);
     G3_Begin(1);
@@ -142,6 +142,6 @@ void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u3
     G3_TexCoord(uv[0], uv[1]);
     G3_Vtx10(0, 0, 0);
     G3_End();
-    if (g_02148B2C.f08)
-        g_02148B2C.f04 += g_020A8218;
+    if (sUVFlipState.f08)
+        sUVFlipState.f04 += sOamSoftEmuAutoZOffsetStep;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBDFC",
+   "name": "NHTTPi_GetResponseHeaderAll",
    "address": "0x021BBDFC",
    "kind": "sdk",
    "region": "ov114",

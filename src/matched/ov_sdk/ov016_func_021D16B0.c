@@ -12,17 +12,17 @@
  * sdk:      taskMain (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
- *   func_021D600C  0x021D600C  arm  ov016
- *   func_021D696C  0x021D696C  arm  ov016
- *   func_021D6824  0x021D6824  arm  ov016
+ *   DWCi_Coord2Rect  0x021D600C  arm  ov016
+ *   DWCi_TPlCheckTrigger  0x021D696C  arm  ov016
+ *   DWCi_IPTlCheckTrigger  0x021D6824  arm  ov016
  *   func_021D1A80  0x021D1A80  arm  ov016
- *   g_021DE658  0x021DE658  data
- *   g_021DA9A6  0x021DA9A6  data
- *   g_021DAA2E  0x021DAA2E  data
- *   g_021DA9B4  0x021DA9B4  data
- *   g_021DA9D2  0x021DA9D2  data
- *   g_021DA9BE  0x021DA9BE  data
- *   g_021DA9BF  0x021DA9BF  data
+ *   gWindowWork  0x021DE658  data
+ *   sWindowTable2  0x021DA9A6  data
+ *   sWindowTable14  0x021DAA2E  data
+ *   sWindowTable4  0x021DA9B4  data
+ *   sWindowTable8  0x021DA9D2  data
+ *   sWindowTable5  0x021DA9BE  data
+ *   sWindowTable6  0x021DA9BF  data
  */
 
 #include "../include/G_MemWinT.h"
@@ -56,40 +56,40 @@ typedef struct {
 
 struct tagCOORD;
 struct tagRECT;
-extern void func_021D600C(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
-extern int func_021D696C(u16 *a);
-extern int func_021D6824(unsigned int f);
+extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
+extern int DWCi_TPlCheckTrigger(u16 *a);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void func_021D1A80(int idx);
-extern struct MemWinT *g_021DE658;
-extern u8 g_021DA9A6[6];
-extern struct G_021DAA2E g_021DAA2E[][2];
-extern u8 g_021DA9B4[][2];
-extern CoordT g_021DA9D2[];
-extern signed char g_021DA9BE[][2];
-extern signed char g_021DA9BF[][2];
+extern struct MemWinT *gWindowWork;
+extern u8 sWindowTable2[6];
+extern struct G_021DAA2E sWindowTable14[][2];
+extern u8 sWindowTable4[][2];
+extern CoordT sWindowTable8[];
+extern signed char sWindowTable5[][2];
+extern signed char sWindowTable6[][2];
 
 void func_021D16B0(void)
 {
     RectT r;
     int i;
 
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        func_021D600C((const struct tagCOORD *)(&g_021DAA2E[g_021DE658->type][g_021DA9B4[g_021DE658->type][i]]),
-                      (const struct tagCOORD *)(&g_021DA9D2[g_021DE658->type]), (struct tagRECT *)(&r));
-        if (func_021D696C((u16 *)(&r))) {
-            g_021DE658->input = i;
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        DWCi_Coord2Rect((const struct tagCOORD *)(&sWindowTable14[gWindowWork->type][sWindowTable4[gWindowWork->type][i]]),
+                      (const struct tagCOORD *)(&sWindowTable8[gWindowWork->type]), (struct tagRECT *)(&r));
+        if (DWCi_TPlCheckTrigger((u16 *)(&r))) {
+            gWindowWork->input = i;
             break;
         }
     }
-    if (func_021D6824(1))
-        g_021DE658->input = g_021DA9BE[g_021DE658->type][0];
-    if (func_021D6824(2))
-        g_021DE658->input = g_021DA9BF[g_021DE658->type][0];
-    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
-        if (i == g_021DE658->input) {
+    if (DWCi_IPTlCheckTrigger(1))
+        gWindowWork->input = sWindowTable5[gWindowWork->type][0];
+    if (DWCi_IPTlCheckTrigger(2))
+        gWindowWork->input = sWindowTable6[gWindowWork->type][0];
+    for (i = 0; i < sWindowTable2[gWindowWork->type]; i++) {
+        if (i == gWindowWork->input) {
             func_021D1A80(i);
             return;
         }
     }
-    g_021DE658->input = -1;
+    gWindowWork->input = -1;
 }

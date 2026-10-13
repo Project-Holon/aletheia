@@ -1,5 +1,5 @@
 /*
- * function: func_0689CC8C
+ * function: BTL_POKESET_SeekNext
  * address:  0x0689CC8C
  * packet:   pkt_0689CC8C
  * region:   ov095
@@ -21,7 +21,7 @@ struct S {
     u8 f44;
 };
 
-int func_0689CC8C(struct S *s)
+int BTL_POKESET_SeekNext(struct S *s)
 {
     u8 a = s->f44;
 

@@ -11,19 +11,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207E3D0  0x0207E3D0  arm
+ *   GX_LoadBGPltt  0x0207E3D0  arm
  *   func_0207E468  0x0207E468  arm
  */
 
 typedef unsigned int u32;
 
-extern void func_0207E3D0(u32 *p, u32 b, u32 c);
+extern void GX_LoadBGPltt(u32 *p, u32 b, u32 c);
 extern void func_0207E468(u32 *p, u32 b, u32 c);
 
 void WIPE_SetBackColor(u32 a)
 {
     u32 *p = &a;
 
-    func_0207E3D0(p, 0, 2);
+    GX_LoadBGPltt(p, 0, 2);
     func_0207E468(p, 0, 2);
 }

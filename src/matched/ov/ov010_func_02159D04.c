@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082A48  0x02082A48  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuClear16  0x02082A48  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *
  * The map-matrix decoder: unpack one a/0/0/9 sub-file into the runtime matrix
  * object. File = { u16 mode; u16 pad; u16 width; u16 height; u32 cells[] },
@@ -49,8 +49,8 @@ struct MapMatrix {
     u32 map_grid[900];
 };
 
-extern void func_02082A48(u32 value, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuClear16(u32 value, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 void MAP_MATRIX_SetupFromFile(struct MapMatrix *dst, const struct MatrixFile *src,
                    u32 matrix_id, u16 zone_id)
@@ -69,7 +69,7 @@ void MAP_MATRIX_SetupFromFile(struct MapMatrix *dst, const struct MatrixFile *sr
     dst->mode = src->mode;
     dst->width = src->width;
     cells = src->cells;
-    func_02082A90(cells, dst->map_grid, n * 4);
+    MIi_CpuCopy32(cells, dst->map_grid, n * 4);
 
     zone_grid = dst->zone_grid;
     if (dst->mode == 1) {
@@ -77,6 +77,6 @@ void MAP_MATRIX_SetupFromFile(struct MapMatrix *dst, const struct MatrixFile *sr
         for (i = 0; i < dst->count; i++)
             zone_grid[i] = (u16)second[i];
     } else {
-        func_02082A48(zone_id, zone_grid, 0x708);
+        MIi_CpuClear16(zone_id, zone_grid, 0x708);
     }
 }

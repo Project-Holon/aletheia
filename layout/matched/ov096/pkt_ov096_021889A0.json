@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021889A0",
+   "name": "TR_AI_CompareContFlag",
    "address": "0x021889A0",
    "kind": "game",
    "region": "ov096",

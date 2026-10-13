@@ -12,14 +12,14 @@
  * sdk:      moveBar (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   func_021D68E4  0x021D68E4  arm  ov016
- *   func_021D6B64  0x021D6B64  arm  ov016
+ *   DWCi_TPlCheck  0x021D68E4  arm  ov016
+ *   DWCi_TPlGet  0x021D6B64  arm  ov016
  *   func_021CEC24  0x021CEC24  arm  ov016
  *   func_021CEEE8  0x021CEEE8  arm  ov016
- *   func_021D0014  0x021D0014  arm  ov016
- *   g_021DAA7C  0x021DAA7C  data
- *   g_021DE63C  0x021DE63C  data
- *   g_021DA8BB  0x021DA8BB  data
+ *   DWCi_SNDlStop  0x021D0014  arm  ov016
+ *   sScrollbarTable  0x021DAA7C  data
+ *   gScrollBar  0x021DE63C  data
+ *   sScrollBarStep  0x021DA8BB  data
  */
 
 #include "../include/G_tagRECT.h"
@@ -47,14 +47,14 @@ typedef struct {
 
 typedef unsigned short u16;
 struct tagCOORD;
-extern int func_021D68E4(u16 *a);
-extern int func_021D6B64(struct tagCOORD *c);
+extern int DWCi_TPlCheck(u16 *a);
+extern int DWCi_TPlGet(struct tagCOORD *c);
 extern void func_021CEC24(int pos);
 extern void func_021CEEE8(int pos);
-extern void func_021D0014();
-extern struct tagRECT g_021DAA7C;
-extern SB *g_021DE63C;
-extern unsigned char g_021DA8BB[];
+extern void DWCi_SNDlStop();
+extern struct tagRECT sScrollbarTable;
+extern SB *gScrollBar;
+extern unsigned char sScrollBarStep[];
 
 void func_021CEB54(void)
 {
@@ -62,24 +62,24 @@ void func_021CEB54(void)
 	int pos;
 	int s;
 
-	if (func_021D68E4((u16 *)((char *)&g_021DAA7C))) {
-		func_021D6B64((struct tagCOORD *)(&c));
-		if (c.x >= g_021DE63C->x - 30) {
-			pos = g_021DE63C->base + (c.y - g_021DE63C->off);
+	if (DWCi_TPlCheck((u16 *)((char *)&sScrollbarTable))) {
+		DWCi_TPlGet((struct tagCOORD *)(&c));
+		if (c.x >= gScrollBar->x - 30) {
+			pos = gScrollBar->base + (c.y - gScrollBar->off);
 			if (pos < 0)
 				pos = 0;
 			else {
-				s = g_021DA8BB[g_021DE63C->bar];
-				if (pos >= g_021DE63C->len - s)
-					pos = g_021DE63C->len - s;
+				s = sScrollBarStep[gScrollBar->bar];
+				if (pos >= gScrollBar->len - s)
+					pos = gScrollBar->len - s;
 			}
 			func_021CEC24(pos);
 			func_021CEEE8(pos);
-			g_021DE63C->b = 2;
+			gScrollBar->b = 2;
 			return;
 		}
 	}
-	func_021D0014();
-	g_021DE63C->a = 0;
-	g_021DE63C->b = 3;
+	DWCi_SNDlStop();
+	gScrollBar->a = 0;
+	gScrollBar->b = 3;
 }

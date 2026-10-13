@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D0C
+ * function: IRC_RHYTHM_DrawActorSystem
  * address:  0x021B7D0C
  * packet:   pkt_ov104_021B7D0C
  * region:   ov104
@@ -19,7 +19,7 @@
 
 extern void CLACT_DrawSystem(int);
 
-void func_021B7D0C(int x)
+void IRC_RHYTHM_DrawActorSystem(int x)
 {
     CLACT_DrawSystem(x);
 }

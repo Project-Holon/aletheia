@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02067B40
+ * function: NNS_G2dSetRndCore3DSoftSpriteZvalue
  * address:  0x02067B40
  * packet:   pkt_02067AAC
  * region:   arm9
@@ -16,10 +16,10 @@
  * The composer state's +0x24 word carries the two flip bits:
  *   bit0  flip horizontally
  *   bit1  flip vertically
- * func_02067B78 (0x02067B78, not in this file, see
+ * NNS_G2dSetRndCoreFlipMode (0x02067B78, not in this file, see
  * docs/notes/g2d_flip_setter.c.txt) sets both from two BOOLs;
- * func_02067B50 and func_02067B64 answer them one at a time.  The functions that consume them are
- * func_0206775C and func_02067998, and the arithmetic there is the whole
+ * NNSi_G2dIsRndCoreFlipH and NNSi_G2dIsRndCoreFlipV answer them one at a time.  The functions that consume them are
+ * NNSi_G2dDrawOam3D and NNSi_G2dDrawCellToSurface3D, and the arithmetic there is the whole
  * reason this lane matters to a rig composer: with the flip bit set, the
  * OAM entry's own position field is replaced by
  *
@@ -32,7 +32,7 @@
  * but leaves the entry's x/y alone lands every flipped part at the wrong
  * place by its own width or height.
  *
- * func_02067B40 and func_02067B48 are plain word stores and none of these
+ * NNS_G2dSetRndCore3DSoftSpriteZvalue and NNS_G2dSetRndCoreSurface are plain word stores and none of these
  * saves lr, so they all print as a `.word` run in the listing
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
@@ -50,22 +50,22 @@ struct G2dOamState {
     u32 f34;       /* +0x34 */
 };
 
-void func_02067B40(struct G2dOamState *p, u32 v)
+void NNS_G2dSetRndCore3DSoftSpriteZvalue(struct G2dOamState *p, u32 v)
 {
     p->f34 = v;
 }
 
-void func_02067B48(u32 *p, u32 v)
+void NNS_G2dSetRndCoreSurface(u32 *p, u32 v)
 {
     *p = v;
 }
 
-u32 func_02067B50(const struct G2dOamState *p)
+u32 NNSi_G2dIsRndCoreFlipH(const struct G2dOamState *p)
 {
     return (p->flip & 1) != 0;
 }
 
-u32 func_02067B64(const struct G2dOamState *p)
+u32 NNSi_G2dIsRndCoreFlipV(const struct G2dOamState *p)
 {
     return (p->flip & 2) != 0;
 }

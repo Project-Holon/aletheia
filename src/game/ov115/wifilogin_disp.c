@@ -55,8 +55,8 @@
  *   func_0200B078 0x0200B078 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_0202EB4C 0x0202EB4C thumb
- *   func_020597C8 0x020597C8 arm
- *   func_02059760 0x02059760 arm
+ *   DWC_CheckHasProfile 0x020597C8 arm
+ *   DWC_CheckValidConsole 0x02059760 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_02167FA8 0x02167FA8 arm ov009
@@ -74,7 +74,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0204363C 0x0204363C arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
@@ -112,13 +112,13 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   PALANM_BlendColors 0x02021F64 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0207D63C 0x0207D63C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
  *   func_02040618 0x02040618 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
@@ -410,8 +410,8 @@ extern void func_02009800(void *p);
 extern s32_021D42A8 func_0200B078(struct Reg2 *p, u32 id);
 extern int func_0202EB44(u8 *);
 extern u32 func_0202EB4C(void);
-extern int func_020597C8(struct DWCstAccUserData *userdata);
-extern int func_02059760(struct DWCstAccUserData *userdata);
+extern int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
+extern int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int func_02167FA8(char *svl, void *result);
@@ -428,7 +428,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0204363C(u32);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -447,13 +447,13 @@ extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
-extern void func_020862F0(void *, int);
+extern void DWCi_ScreenDC_FlushRange(void *, int);
 extern void *func_020056A0(void *, void *, int);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_0207E3D0(void *, int, int);
+extern void GX_LoadBGPltt(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
@@ -1023,7 +1023,7 @@ void func_021D497C(u8 *p)
         func_021D426C(p,(u32)func_021D46CC);
         return;
     }
-    if(func_020597C8((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
+    if(DWC_CheckHasProfile((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
         ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C((u8 *)((int)(P(0x38))));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),18);
@@ -1031,7 +1031,7 @@ void func_021D497C(u8 *p)
         func_021D426C(p,(u32)func_021D45D0);
         return;
     }
-    if(func_02059760((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
+    if(DWC_CheckValidConsole((struct DWCstAccUserData *)func_02009860((struct Sub020097BCObj *)P(0x3c)))==0) {
         ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C((u8 *)((int)(P(0x38))));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),20);
@@ -1236,7 +1236,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     *(volatile u16 *)0x04000050=0;
     func_0204363C(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(((struct Obj00198 *)p)->fC);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021D65E4);
     func_0203FC28((struct DispConfig *)d_021D65D4);
@@ -1497,8 +1497,8 @@ void func_021D532C(char *p)
     heap = *(u16 *)(p + 0xc);
     MI_CpuFill8(p + 0x10, 0, 0x970);
     allocated = func_02049F78(h, 2, (u32)&record, heap);
-    func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x18, 0x1e0);
-    func_02082D44(*(void **)((u8 *)record + 0xc), p + 0x1f8, 0x1e0);
+    MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x18, 0x1e0);
+    MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x1f8, 0x1e0);
     func_020307B0(allocated);
     for (i = 0; i < 15; i++) {
         base1 = (u16 *)(p + 0x1f8);
@@ -1522,7 +1522,7 @@ void func_021D532C(char *p)
             }
         }
     }
-    func_020862F0(p + 0x1f8, 0x780);
+    DWCi_ScreenDC_FlushRange(p + 0x1f8, 0x780);
     *(u32 *)(p + 0x14) = 1;
     *(void **)(p + 0x10) = func_020056A0((void *)func_021D5528, p + 0x10, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
@@ -1543,7 +1543,7 @@ void func_021D5528(void *unused, u8 *p) {
     if (((struct Obj03251 *)p)->f4 == 0) return;
     ((struct Obj03251 *)p)->f96B ^= 1;
     if (((struct Obj03251 *)p)->f96B & 1) return;
-    func_0207E3D0(p + 0x1f0 + ((struct Obj03251 *)p)->f968 * 32, 40, 14);
+    GX_LoadBGPltt(p + 0x1f0 + ((struct Obj03251 *)p)->f968 * 32, 40, 14);
     func_0207E468(p + 0x1f0 + ((struct Obj03251 *)p)->f968 * 32, 40, 14);
     ++((struct Obj03251 *)p)->f968;
     if (((struct Obj03251 *)p)->f968 >= 60) ((struct Obj03251 *)p)->f968 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFA0
+ * function: NHTTPi_findNextLineHdrRecvBuf
  * address:  0x021BAFA0
  * packet:   pkt_ov114_021BAFA0
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      NHTTPi_findNextLineHdrRecvBuf (libnhttp.TWL.HYB.a(nhttp_recvbuf.o))
  *
  * symbols:
- *   func_021BAED4 0x021BAED4 arm ov114
- *   func_021BAF2C 0x021BAF2C arm ov114
+ *   setupGetcharFromHdrRecvBuf 0x021BAED4 arm ov114
+ *   getcharFromHdrRecvBuf 0x021BAF2C arm ov114
  */
 
 typedef struct {
@@ -21,10 +21,10 @@ typedef struct {
     void *hdrBufBlock_p;
 } Res;
 
-extern void func_021BAED4(Res *res_p, int pos, void *hdrbuf_pp, int *blockpos_p);
-extern char func_021BAF2C(Res *res_p, void *hdrbuf_pp, int *blockpos_p);
+extern void setupGetcharFromHdrRecvBuf(Res *res_p, int pos, void *hdrbuf_pp, int *blockpos_p);
+extern char getcharFromHdrRecvBuf(Res *res_p, void *hdrbuf_pp, int *blockpos_p);
 
-int func_021BAFA0(Res *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p)
+int NHTTPi_findNextLineHdrRecvBuf(Res *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p)
 {
     void *hdrbuf_p;
     int blockpos;
@@ -38,9 +38,9 @@ int func_021BAFA0(Res *res_p, int pos, int limit, int *colon_pos_p, int *return_
     if (pos < limit) {
         return_pos = -1;
         findCR = 0;
-        func_021BAED4(res_p, pos, &hdrbuf_p, &blockpos);
+        setupGetcharFromHdrRecvBuf(res_p, pos, &hdrbuf_p, &blockpos);
         for (; pos < limit; pos++) {
-            c = func_021BAF2C(res_p, &hdrbuf_p, &blockpos);
+            c = getcharFromHdrRecvBuf(res_p, &hdrbuf_p, &blockpos);
             if (c == ':') {
                 if (colon_pos_p && *colon_pos_p < 0) {
                     *colon_pos_p = pos;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206A19C",
+   "name": "NNSi_G3dBindMdlTexInternal",
    "address": "0x0206A19C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A2CC",
+   "name": "NNS_G3dBindMdlTex",
    "address": "0x0206A2CC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A3CC",
+   "name": "NNSi_G3dBindMdlPlttInternal",
    "address": "0x0206A3CC",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A4AC",
+   "name": "NNS_G3dBindMdlPltt",
    "address": "0x0206A4AC",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A854",
+   "name": "NNS_G3dGlbFlush",
    "address": "0x0206A854",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206A8FC",
+   "name": "NNS_G3dGlbFlushWVP",
    "address": "0x0206A8FC",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AB18",
+   "name": "MTX_Inverse44",
    "address": "0x0206AB18",
    "kind": "game",
    "region": "arm9",

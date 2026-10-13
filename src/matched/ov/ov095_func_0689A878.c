@@ -1,5 +1,5 @@
 /*
- * function: func_0689A878
+ * function: BTLV_SCD_OpenMoveMenuStep
  * address:  0x0689A878
  * packet:   pkt_ov095_0689A878
  * region:   ov095
@@ -40,7 +40,7 @@ extern u32 func_0689A958(u32 a, u32 b, u32 c);
 extern u32 func_0689A968(u32 a, u32 b);
 extern void func_0689A978(u32 h, int k, R *r);
 
-int func_0689A878(int unused, u8 *s)
+int BTLV_SCD_OpenMoveMenuStep(int unused, u8 *s)
 {
     R r;
     u8 t[2];

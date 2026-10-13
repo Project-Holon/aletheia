@@ -33,16 +33,16 @@ struct GimmickWork;
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 /* The common work of the gimmick on the field map (4 bytes, id 1). */
-typedef struct Gimmick40Work {
+typedef struct FieldGimmickFlagAnimeWork {
     u16 modelIndex;     /* 0x00: model whose animation the event plays */
     u16 reserved;       /* 0x02 */
-} Gimmick40Work;
+} FieldGimmickFlagAnimeWork;
 
 /* Where the model stands (x and z in fx32). */
-typedef struct Gimmick40ModelPos {
+typedef struct FieldGimmickFlagAnimeModelPos {
     fx32 x;
     fx32 z;
-} Gimmick40ModelPos;
+} FieldGimmickFlagAnimeModelPos;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);

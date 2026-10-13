@@ -1,5 +1,5 @@
 /*
- * function: func_021BF6F0
+ * function: PMS_INPUT_GetWord
  * address: 0x021BF6F0
  * packet: pkt_ov110_021BF6F0
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 PMSI_PARAM_GetWordRaw(void *,u32);
-u32 func_021BF6F0(u8 *p,u32 i) {
+u32 PMS_INPUT_GetWord(u8 *p,u32 i) {
     if(((struct Obj22387 *)p)->f4==2) return PMSI_PARAM_GetWordRaw(p+8,i);
     return *(u16 *)((u32)p+i*2+0x10);
 }

@@ -12,7 +12,7 @@
  * Tail call passing three fields (the last doubled).
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -20,10 +20,10 @@
 
 typedef unsigned char u8;
 
-extern int func_02082D44(int, int, int);
+extern int MI_CpuCopy8(int, int, int);
 
 int func_021C2D88(char *p)
 {
-    return func_02082D44(((struct Obj10968 *)p)->fC, ((struct Obj10968 *)p)->f8,
+    return MI_CpuCopy8(((struct Obj10968 *)p)->fC, ((struct Obj10968 *)p)->f8,
                          ((struct Obj10968 *)p)->f10 << 1);
 }

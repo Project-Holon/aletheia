@@ -1,5 +1,5 @@
 /*
- * function: func_021C9B60
+ * function: DWCi_EncSessionProgressCallback
  * address:  0x021C9B60
  * packet:   pkt_ov114_021C9B60
  * region:   ov114
@@ -16,6 +16,6 @@
  *           0x021CA184.  Seeded in layout/function_starts.txt.
  */
 
-void func_021C9B60(void)
+void DWCi_EncSessionProgressCallback(void)
 {
 }

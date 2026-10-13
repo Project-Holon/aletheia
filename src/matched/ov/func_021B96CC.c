@@ -1,5 +1,5 @@
 /*
- * function: func_021B96CC
+ * function: WIFICLUBACTOR_IsReady
  * address:  0x021B96CC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,7 +13,7 @@
  * listing carries it only because something branches to it.
  */
 
-int func_021B96CC(int *p)
+int WIFICLUBACTOR_IsReady(int *p)
 {
     return *p;
 }

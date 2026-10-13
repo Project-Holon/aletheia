@@ -1,5 +1,5 @@
 /*
- * function: func_02074AE8
+ * function: NNSi_SndArcLoadGroup
  * address:  0x02074AE8
  * packet:   pkt_02074AC4
  * region:   arm9
@@ -10,10 +10,10 @@
  * status:   EXACT
  * symbols:
  *   NNS_SndArcGetGroupInfo  0x02074518  arm
- *   func_02074BEC  0x02074BEC  arm
- *   func_02074C70  0x02074C70  arm
- *   func_02074CD0  0x02074CD0  arm
- *   func_02074E10  0x02074E10  arm
+ *   NNSi_SndArcLoadSeq  0x02074BEC  arm
+ *   NNSi_SndArcLoadSeqArc  0x02074C70  arm
+ *   NNSi_SndArcLoadBank  0x02074CD0  arm
+ *   NNSi_SndArcLoadWaveArc  0x02074E10  arm
  *
  * Event-list walker: look the list up by index, then run each 8-byte entry
  * {u8 kind; u8 b1; u16; u32 f4} through one of four handlers chosen by a dense
@@ -55,12 +55,12 @@ struct Entry { u8 kind; u8 b1; u16 h2; u32 f4; };
 struct Table { u32 count; struct Entry entries[1]; };
 
 extern void *NNS_SndArcGetGroupInfo(int index);
-extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32 func_02074C70(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out);
-extern u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadSeq(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadSeqArc(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadBank(u32 a, u32 flags, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadWaveArc(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
-u32 func_02074AE8(u32 index, u32 arg)
+u32 NNSi_SndArcLoadGroup(u32 index, u32 arg)
 {
     struct Table *t;
     u32 i;
@@ -77,25 +77,25 @@ u32 func_02074AE8(u32 index, u32 arg)
         do {
         switch (e->kind) {
         case 0:
-            r = func_02074BEC(e->f4, e->b1, arg, 1, 0);
+            r = NNSi_SndArcLoadSeq(e->f4, e->b1, arg, 1, 0);
             if (r != 0) {
                 return r;
             }
             break;
         case 3:
-            r = func_02074C70(e->f4, e->b1, arg, 1, 0);
+            r = NNSi_SndArcLoadSeqArc(e->f4, e->b1, arg, 1, 0);
             if (r != 0) {
                 return r;
             }
             break;
         case 1:
-            r = func_02074CD0(e->f4, e->b1, arg, 1, 0);
+            r = NNSi_SndArcLoadBank(e->f4, e->b1, arg, 1, 0);
             if (r != 0) {
                 return r;
             }
             break;
         case 2:
-            r = func_02074E10(e->f4, e->b1, arg, 1, 0);
+            r = NNSi_SndArcLoadWaveArc(e->f4, e->b1, arg, 1, 0);
             if (r != 0) {
                 return r;
             }

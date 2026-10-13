@@ -1,5 +1,5 @@
 /*
- * function: func_021C304C
+ * function: ghiPostFileMemoryStateDoPosting
  * address:  0x021C304C
  * packet:   pkt_ov114_021C304C
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      ghiPostFileMemoryStateDoPosting (ghttppost.o, static)
  *
  * symbols:
- *   func_021C0684                    0x021c0684 arm  ov114
- *   func_021C07B8                    0x021c07b8 arm  ov114
+ *   ghiDoSend                    0x021c0684 arm  ov114
+ *   ghiTrySendThenBuffer                    0x021c07b8 arm  ov114
  */
 
 typedef struct GHIPostData {
@@ -39,10 +39,10 @@ typedef struct GHIConnection {
     int engine;                 /* +0x198 */
 } GHIConnection;
 
-extern int func_021C0684(struct GHIConnection *connection, char *buffer, int len);
-extern int func_021C07B8(struct GHIConnection *connection, char *buffer, int len);
+extern int ghiDoSend(struct GHIConnection *connection, char *buffer, int len);
+extern int ghiTrySendThenBuffer(struct GHIConnection *connection, char *buffer, int len);
 
-int func_021C304C(GHIPostState *state, GHIConnection *connection)
+int ghiPostFileMemoryStateDoPosting(GHIPostState *state, GHIConnection *connection)
 {
     if (state->data->len == 0)
         return 1;
@@ -50,7 +50,7 @@ int func_021C304C(GHIPostState *state, GHIConnection *connection)
     if (connection->engine == 0) {
         int rcode;
         do {
-            rcode = func_021C0684(connection, state->data->buffer + state->pos,
+            rcode = ghiDoSend(connection, state->data->buffer + state->pos,
                                   state->data->len - state->pos);
             if (rcode == -1)
                 return 0;
@@ -60,7 +60,7 @@ int func_021C304C(GHIPostState *state, GHIConnection *connection)
                     char pad[3] = { 0, 0, 0 };
                     int padlen = 4 - (state->data->len % 4);
                     if (padlen != 4 && padlen > 0) {
-                        if (!func_021C07B8(connection, pad, padlen))
+                        if (!ghiTrySendThenBuffer(connection, pad, padlen))
                             return 0;
                     }
                 }
@@ -74,7 +74,7 @@ int func_021C304C(GHIPostState *state, GHIConnection *connection)
             int len = state->data->len - state->pos;
             if (len >= 0x3f01)
                 len = 0x3f01;
-            result = func_021C07B8(connection, state->data->buffer + state->pos, len);
+            result = ghiTrySendThenBuffer(connection, state->data->buffer + state->pos, len);
             if (!result)
                 return 0;
             state->pos += len;
@@ -83,7 +83,7 @@ int func_021C304C(GHIPostState *state, GHIConnection *connection)
                     char pad[3] = { 0, 0, 0 };
                     int padlen = 4 - (state->data->len % 4);
                     if (padlen != 4 && padlen > 0) {
-                        if (!func_021C07B8(connection, pad, padlen))
+                        if (!ghiTrySendThenBuffer(connection, pad, padlen))
                             return 0;
                     }
                 }

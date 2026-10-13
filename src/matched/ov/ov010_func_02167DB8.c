@@ -9,15 +9,15 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void func_02082D44(void *, void *, unsigned int);
+extern void MI_CpuCopy8(void *, void *, unsigned int);
 void BSUBWAY_COMM_RecvTrainerData(u16 a, int b, void *c, u8 *p)
 {
     p[0x724]++;
     if (a != GFL_NET_SYSTEM_GetCurrentAid() && GFL_NET_SYSTEM_GetCurrentAid() != 0)
-        func_02082D44(c, p + 0x32, 0x1c);
+        MI_CpuCopy8(c, p + 0x32, 0x1c);
 }

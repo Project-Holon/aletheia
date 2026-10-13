@@ -1,5 +1,5 @@
 /*
- * function: func_021BFDA8
+ * function: WIFICLUB_StateWaitVchatEnd
  * address: 0x021BFDA8
  * packet: pkt_ov099_021BFDA8
  * region: ov099
@@ -20,7 +20,7 @@ struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
-int func_021BFDA8(char *p, int ret) {
+int WIFICLUB_StateWaitVchatEnd(char *p, int ret) {
  if (!DWC_RAP_IsVchatActive()) { GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),24,10); ((struct Obj22052 *)p)->f1CC=172; }
  return ret;
 }

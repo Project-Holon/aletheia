@@ -1,5 +1,5 @@
 /*
- * function: func_0689C91C, func_0689C93C
+ * function: BTL_ID_IsAbilityRolePlayBlocked, BTL_ID_IsAbilityEntrainmentBlocked
  * address: 0x0689C91C
  * packet: pkt_ov095_0689C91C
  * region: ov095
@@ -10,19 +10,19 @@
  * status: EXACT
  * unit: yes
  * symbols:
- *   func_0689C974 0x0689C974 thumb ov095
- *   func_0689C888 0x0689C888 thumb ov095
- *   func_0689C944 0x0689C944 thumb ov095
- *   d_0689E2E6 0x0689E2E6 data a2
+ *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
+ *   BTL_ID_IsInList 0x0689C888 thumb ov095
+ *   BTL_ID_IsAbilityTraceBlocked 0x0689C944 thumb ov095
+ *   gRolePlayBlockedAbilities 0x0689E2E6 data a2
  */
 
-extern int func_0689C974(int a);
-extern int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-extern int func_0689C944(unsigned a);
-extern unsigned short d_0689E2E6[];
-int func_0689C91C(unsigned a)
+extern int BTL_ID_IsMultitypeAbility(int a);
+extern int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+extern int BTL_ID_IsAbilityTraceBlocked(unsigned a);
+extern unsigned short gRolePlayBlockedAbilities[];
+int BTL_ID_IsAbilityRolePlayBlocked(unsigned a)
 {
-    if (func_0689C974(a)) return 1;
-    return func_0689C888(a, d_0689E2E6, 8);
+    if (BTL_ID_IsMultitypeAbility(a)) return 1;
+    return BTL_ID_IsInList(a, gRolePlayBlockedAbilities, 8);
 }
-int func_0689C93C(unsigned a) { return func_0689C944(a); }
+int BTL_ID_IsAbilityEntrainmentBlocked(unsigned a) { return BTL_ID_IsAbilityTraceBlocked(a); }

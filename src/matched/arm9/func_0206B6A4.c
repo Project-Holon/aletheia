@@ -1,5 +1,5 @@
 /*
- * function: func_0206B6A4
+ * function: NNS_G3dDraw
  * address:  0x0206B6A4
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -12,10 +12,10 @@
  *           unresolved sites' only witnesses are inside this range).
  *
  * symbols:
- *   g_02148DB0      0x02148DB0  data
+ *   gCurrentRS      0x02148DB0  data
  *   func_02082A7C   0x02082A7C  arm
- *   func_0206B63C   0x0206B63C  arm
- *   func_0206B4A0   0x0206B4A0  arm
+ *   NNSi_G3dAnmObjMarkExistMap   0x0206B63C  arm
+ *   NNSi_G3dRenderObjRunSbc   0x0206B4A0  arm
  *
  * Promote-first callee of src/pending/G3D_SYSTEM_DrawRenderObj.c (parks lane 2).
  * Release the object's three eight-byte sub-blocks when the +0x10 flag is
@@ -44,15 +44,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206B6A4.c \
- *       --func func_0206B6A4 --addr 0x0206B6A4 --cc ../2.0/sp2 --arm \
+ *   python tools/match.py one --src src/pending/NNS_G3dDraw.c \
+ *       --func NNS_G3dDraw --addr 0x0206B6A4 --cc ../2.0/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
   *
- * 2026-09 lane5: 0x0206B63C is now an EXACT manifest entry (src/matched/func_0206B63C.c,
+ * 2026-09 lane5: 0x0206B63C is now an EXACT manifest entry (src/matched/NNSi_G3dAnmObjMarkExistMap.c,
  * packet pkt_0206AFE4, --cc ../2.0/sp2), so the three calls to it resolve as
  * `matched` and this file is down to two unresolved sites, both the
- * `bl func_0206B4A0` at +0x00a8/+0x00c0.  0x0206B4A0 is still unfiled:
- * src/matched/func_0206B458.c (72 B) is filed, but 0x0206B4A0 itself is a
+ * `bl NNSi_G3dRenderObjRunSbc` at +0x00a8/+0x00c0.  0x0206B4A0 is still unfiled:
+ * src/matched/NNSi_G3dSbcRun.c (72 B) is filed, but 0x0206B4A0 itself is a
  * DIFF near miss (4 bytes short; residue in docs/notes/pkt_0206AFE4.c.txt).
 */
 
@@ -79,13 +79,13 @@ struct Obj0206B6A4 {
     u32 f38;
 };
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 
 extern void func_02082A7C(u32 val, void *dst, u32 len);
-extern void func_0206B63C(void *p, u32 v);
-extern void func_0206B4A0(void *a, void *b);
+extern void NNSi_G3dAnmObjMarkExistMap(void *p, u32 v);
+extern void NNSi_G3dRenderObjRunSbc(void *a, void *b);
 
-void func_0206B6A4(struct Obj0206B6A4 *p)
+void NNS_G3dDraw(struct Obj0206B6A4 *p)
 {
     u8 work[0x188];
 
@@ -94,18 +94,18 @@ void func_0206B6A4(struct Obj0206B6A4 *p)
         func_02082A7C(0, (char *)p + 0x44, 8);
         func_02082A7C(0, (char *)p + 0x4c, 8);
         if (p->f08 != 0)
-            func_0206B63C((char *)p + 0x3c, p->f08);
+            NNSi_G3dAnmObjMarkExistMap((char *)p + 0x3c, p->f08);
         if (p->f10 != 0)
-            func_0206B63C((char *)p + 0x44, p->f10);
+            NNSi_G3dAnmObjMarkExistMap((char *)p + 0x44, p->f10);
         if (p->f18 != 0)
-            func_0206B63C((char *)p + 0x4c, p->f18);
+            NNSi_G3dAnmObjMarkExistMap((char *)p + 0x4c, p->f18);
         p->f00 &= ~0x10;
     }
-    if ((*(u32 *)&g_02148DB0) != 0) {
-        func_0206B4A0((void *)(*(u32 *)&g_02148DB0), p);
+    if ((*(u32 *)&gCurrentRS) != 0) {
+        NNSi_G3dRenderObjRunSbc((void *)(*(u32 *)&gCurrentRS), p);
     } else {
-        (*(u32 *)&g_02148DB0) = (u32)work;
-        func_0206B4A0(work, p);
-        (*(u32 *)&g_02148DB0) = 0;
+        (*(u32 *)&gCurrentRS) = (u32)work;
+        NNSi_G3dRenderObjRunSbc(work, p);
+        (*(u32 *)&gCurrentRS) = 0;
     }
 }

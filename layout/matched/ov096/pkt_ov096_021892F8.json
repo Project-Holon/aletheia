@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021892F8",
-    "func_021893AC",
-    "func_021893B4",
-    "func_021893CC",
-    "func_021893D4"
+    "TR_AI_CompareKnowsMoveParam28",
+    "TR_AI_CmdNop2",
+    "TR_AI_CmdSetNoMoveFlag",
+    "TR_AI_CmdNop3",
+    "TR_AI_CmdNop4"
+   ],
+   "addresses": [
+    "0x021892F8",
+    "0x021893AC",
+    "0x021893B4",
+    "0x021893CC",
+    "0x021893D4"
    ]
   }
  ]

@@ -20,7 +20,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_GetPixels 0x020437D4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_Delete 0x020437AC arm
  */
@@ -49,7 +49,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Delete(struct Obj020437AC *p);
 void BTLV_GAUGE_DrawNickname(char *o, E *e, void *data)
@@ -74,16 +74,16 @@ void BTLV_GAUGE_DrawNickname(char *o, E *e, void *data)
     CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
-        func_02082A60(pixels, (void *)(vram + 0x40 + buf.w[1]), 0xc0);
-        func_02082A60(pixels + 0x100, (void *)(vram + 0x140 + buf.w[1]), 0xc0);
-        func_02082A60(pixels + 0xc0, (void *)(vram + 0x400 + buf.w[1]), 0x40);
-        func_02082A60(pixels + 0x1c0, (void *)(vram + 0x500 + buf.w[1]), 0x40);
+        MIi_CpuCopy16(pixels, (void *)(vram + 0x40 + buf.w[1]), 0xc0);
+        MIi_CpuCopy16(pixels + 0x100, (void *)(vram + 0x140 + buf.w[1]), 0xc0);
+        MIi_CpuCopy16(pixels + 0xc0, (void *)(vram + 0x400 + buf.w[1]), 0x40);
+        MIi_CpuCopy16(pixels + 0x1c0, (void *)(vram + 0x500 + buf.w[1]), 0x40);
     } else {
         vram = VRAM_BASE;
-        func_02082A60(pixels, (void *)(vram + 0x20 + buf.w[1]), 0xe0);
-        func_02082A60(pixels + 0x100, (void *)(vram + 0x120 + buf.w[1]), 0xe0);
-        func_02082A60(pixels + 0xe0, (void *)(vram + 0x400 + buf.w[1]), 0x20);
-        func_02082A60(pixels + 0x1e0, (void *)(vram + 0x500 + buf.w[1]), 0x20);
+        MIi_CpuCopy16(pixels, (void *)(vram + 0x20 + buf.w[1]), 0xe0);
+        MIi_CpuCopy16(pixels + 0x100, (void *)(vram + 0x120 + buf.w[1]), 0xe0);
+        MIi_CpuCopy16(pixels + 0xe0, (void *)(vram + 0x400 + buf.w[1]), 0x20);
+        MIi_CpuCopy16(pixels + 0x1e0, (void *)(vram + 0x500 + buf.w[1]), 0x20);
     }
     STRBUF_Delete(v);
     BMP_Delete(bmp);

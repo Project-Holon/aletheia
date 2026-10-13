@@ -1,5 +1,5 @@
 /*
- * function: func_021D68E4
+ * function: DWCi_TPlCheck
  * address:  0x021D68E4
  * packet:   pkt_021D68E4
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D68E4   0x021D68E4  arm
+ *   DWCi_TPlCheck   0x021D68E4  arm
  *
  * Validity test for a records window: bails out unless the shared flag word
  * (0x02FFFFA8 bit 0x8000) and bit 0 of the current record's +0x38 byte are
@@ -32,7 +32,7 @@ typedef struct {
     unsigned char f7 : 1;
 } ByteBits;
 
-int func_021D68E4(u16 *a)
+int DWCi_TPlCheck(u16 *a)
 {
     u8 *g = (u8 *)0x021DE688;
     u8 *p;

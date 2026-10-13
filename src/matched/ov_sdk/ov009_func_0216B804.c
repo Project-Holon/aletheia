@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_IsGetAIDValid  0x0216C82C  arm  ov009
- *   func_0217603C  0x0217603C  arm  ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
  *   g_021AA878     0x021AA878  data
  */
 
@@ -21,7 +21,7 @@
 
 extern struct DwcGlobal g_021AA878;
 extern int DWCi_IsGetAIDValid(void);
-extern int func_0217603C(void);
+extern int DWCi_NodeInfoList_GetCount(void);
 
 int DWC_GetNumConnectionHost(void)
 {
@@ -30,7 +30,7 @@ int DWC_GetNumConnectionHost(void)
     if (*(char **)(((char *)&g_021AA878) + 4) == 0 || DWCi_IsGetAIDValid() == 0) {
         num = 0;
     } else {
-        num = func_0217603C();
+        num = DWCi_NodeInfoList_GetCount();
     }
     return num;
 }

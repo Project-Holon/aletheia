@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F18
+ * function: IRC_COMPATIBLE_MENU_SetFinished
  * address:  0x021B7F18
  * packet:   pkt_ov102_021B7F18
  * region:   ov102
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B7F18(u8 *p) { ((struct Obj22148 *)p)->f488 = 1; }
+void IRC_COMPATIBLE_MENU_SetFinished(u8 *p) { ((struct Obj22148 *)p)->f488 = 1; }

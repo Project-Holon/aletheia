@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DFC
+ * function: WIFICLUBACTOR_DeleteCursorActors
  * address:  0x021B9DFC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9F34  0x021B9F34  thumb
+ *   WIFICLUBACTOR_DeleteClactActors  0x021B9F34  thumb
  *
- * Tail call thunk onto func_021B9F34.
+ * Tail call thunk onto WIFICLUBACTOR_DeleteClactActors.
  */
 
 typedef unsigned char  u8;
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B9F34(void *a);
+extern void WIFICLUBACTOR_DeleteClactActors(void *a);
 
-void func_021B9DFC(void *a)
+void WIFICLUBACTOR_DeleteCursorActors(void *a)
 {
-    func_021B9F34(a);
+    WIFICLUBACTOR_DeleteClactActors(a);
 }

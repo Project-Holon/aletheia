@@ -1,5 +1,5 @@
 /*
- * function: func_021CABC0
+ * function: CRYPTOi__BN_clear_free
  * address:  0x021CABC0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CABDC  0x021CABDC  arm  ov114
- *   func_021CAE94  0x021CAE94  arm  ov114
+ *   CRYPTOi__BN_free  0x021CABDC  arm  ov114
+ *   CRYPTOi__BN_clear  0x021CAE94  arm  ov114
  *
  *
  * Null-guarded flush: seals the pending batch, then drains `a`.
@@ -19,13 +19,13 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021CAE94(u8 *p);
-extern void func_021CABDC(u8 *p);
+extern void CRYPTOi__BN_clear(u8 *p);
+extern void CRYPTOi__BN_free(u8 *p);
 
-void func_021CABC0(int a)
+void CRYPTOi__BN_clear_free(int a)
 {
     if (a == 0)
         return;
-    func_021CAE94((u8 *)a);
-    func_021CABDC((u8 *)a);
+    CRYPTOi__BN_clear((u8 *)a);
+    CRYPTOi__BN_free((u8 *)a);
 }

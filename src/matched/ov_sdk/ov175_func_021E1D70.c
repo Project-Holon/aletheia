@@ -1,5 +1,5 @@
 /*
- * function: func_021E1D70
+ * function: DWCi_GdbStartupResultToError
  * address:  0x021E1D70
  * packet:   pkt_021E1D70
  * region:   ov175
@@ -18,7 +18,7 @@
 
 typedef int s32;
 
-s32 func_021E1D70(s32 a, s32 *p)
+s32 DWCi_GdbStartupResultToError(s32 a, s32 *p)
 {
     switch (a) {
     case 0:

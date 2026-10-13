@@ -1,5 +1,5 @@
 /*
- * function: func_021BFF7C
+ * function: ghiAppendHeaderToBuffer
  * address:  0x021BFF7C
  * packet:   pkt_ov114_021BFF7C
  * region:   ov114
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   ghiAppendDataToBuffer  0x021BFCEC arm ov114
- *   g_021CE58C             0x021CE58C data
- *   g_021CE590             0x021CE590 data
+ *   sGhttpHeaderSeparator             0x021CE58C data
+ *   sGhttpLineEndBuffer             0x021CE590 data
  */
 
 typedef struct {
@@ -29,18 +29,18 @@ typedef struct {
 } GHIBuffer;
 
 extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
-extern char g_021CE58C[];
-extern char g_021CE590[];
+extern char sGhttpHeaderSeparator[];
+extern char sGhttpLineEndBuffer[];
 
-int func_021BFF7C(GHIBuffer *buffer, char *name, char *value)
+int ghiAppendHeaderToBuffer(GHIBuffer *buffer, char *name, char *value)
 {
     if (ghiAppendDataToBuffer(buffer, name, 0) == 0)
         return 0;
-    if (ghiAppendDataToBuffer(buffer, g_021CE58C, 2) == 0)
+    if (ghiAppendDataToBuffer(buffer, sGhttpHeaderSeparator, 2) == 0)
         return 0;
     if (ghiAppendDataToBuffer(buffer, value, 0) == 0)
         return 0;
-    if (ghiAppendDataToBuffer(buffer, g_021CE590, 2) == 0)
+    if (ghiAppendDataToBuffer(buffer, sGhttpLineEndBuffer, 2) == 0)
         return 0;
     return 1;
 }

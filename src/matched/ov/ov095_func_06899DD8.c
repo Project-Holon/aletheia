@@ -1,5 +1,5 @@
 /*
- * function: func_06899DD8
+ * function: BTLV_SCD_Delete
  * address: 0x06899DD8
  * packet: pkt_ov095_06899DD8
  * region: ov095
@@ -19,7 +19,7 @@ extern void func_06899DFC(u32);
 extern void func_06899E0C(u32);
 extern void func_06899E14(u32);
 extern void func_06899E24(void *);
-void func_06899DD8(unsigned char *p) {
+void BTLV_SCD_Delete(unsigned char *p) {
  func_06899DFC(((struct Obj10162 *)p)->f14);
  func_06899E0C(((struct Obj10162 *)p)->fC);
  func_06899E14(((struct Obj10162 *)p)->fB0);

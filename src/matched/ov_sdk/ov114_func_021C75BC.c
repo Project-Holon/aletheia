@@ -1,5 +1,5 @@
 /*
- * function: func_021C75BC
+ * function: DWCi_Ndi_response_count
  * address:  0x021C75BC
  * packet:   pkt_ov114_021C75BC
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      DWCi_Ndi_response_count (libdwcnd.TWL.HYB.a(dwci_nd.o))
  *
  * symbols:
- *   func_021BF3E4  0x021BF3E4  arm  ov114
- *   func_021C7A5C  0x021C7A5C  arm  ov114
+ *   NHTTP_GetBodyBuffer  0x021BF3E4  arm  ov114
+ *   DWCi_Ndi_strToInt  0x021C7A5C  arm  ov114
  */
 
 typedef struct {
@@ -21,17 +21,17 @@ typedef struct {
 	int *count;
 } HTTPREQ;
 
-extern int func_021BF3E4(void *handle, char **value_pp, unsigned long *size_p);
-extern int func_021C7A5C(char *p, int len);
+extern int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p);
+extern int DWCi_Ndi_strToInt(char *p, int len);
 
-int func_021C75BC(void *res, HTTPREQ *hrq)
+int DWCi_Ndi_response_count(void *res, HTTPREQ *hrq)
 {
 	char *body;
 	int bodyLen;
 	unsigned long bodyBufSize;
-	bodyLen = func_021BF3E4(res, &body, &bodyBufSize);
+	bodyLen = NHTTP_GetBodyBuffer(res, &body, &bodyBufSize);
 	if (bodyLen >= 0) {
-		*hrq->count = func_021C7A5C(body, bodyLen);
+		*hrq->count = DWCi_Ndi_strToInt(body, bodyLen);
 		return *hrq->count >= 0;
 	}
 	return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A40
+ * function: IRC_COMPATIBLE_MENU_InitLinearStep
  * address: 0x021B8A40
  * packet: pkt_ov102_021B8A40
  * region: ov102
@@ -14,7 +14,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
-void func_021B8A40(int *p, int a, int b, int n)
+void IRC_COMPATIBLE_MENU_InitLinearStep(int *p, int a, int b, int n)
 {
     int d;
     float f;

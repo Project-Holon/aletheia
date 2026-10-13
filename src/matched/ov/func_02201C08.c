@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C89F0  0x021C89F0  arm  ov114
+ *   DPW_TR_CancelAsync  0x021C89F0  arm  ov114
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12238.h"
 
-extern void func_021C89F0(void);
+extern void DPW_TR_CancelAsync(void);
 
 int func_02201C08(char *p)
 {
     ((struct Obj12238 *)p)->fF8C = 0;
-    func_021C89F0();
+    DPW_TR_CancelAsync();
     ((struct Obj12238 *)p)->f28 = 0x2f;
     return 2;
 }

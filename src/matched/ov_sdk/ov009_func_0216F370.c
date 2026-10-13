@@ -1,5 +1,5 @@
 /*
- * function: func_0216F370
+ * function: DWCi_IsShutdownMatch
  * address:  0x0216F370
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_0216F370(void)
+int DWCi_IsShutdownMatch(void)
 {
     return func_02175F3C() == 0;
 }

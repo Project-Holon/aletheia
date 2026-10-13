@@ -1,5 +1,5 @@
 /*
- * function: func_021CE984
+ * function: DWCi_SBlGet
  * address:  0x021CE984
  * packet:   pkt_ov016_021CE984
  * region:   ov016
@@ -16,16 +16,16 @@
  * src/pending/ov016_func_021C8C88.c via the `matched` class.
  *
  * symbols:
- *   dat_021DE63C  0x021DE63C  data
+ *   gScrollBar  0x021DE63C  data
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 
-extern u8 *dat_021DE63C;
+extern u8 *gScrollBar;
 
-u8 func_021CE984(void)
+u8 DWCi_SBlGet(void)
 {
-    return dat_021DE63C[0x1a];
+    return gScrollBar[0x1a];
 }

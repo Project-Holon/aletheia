@@ -15,8 +15,8 @@
  *   FIELDSKILL_MAPEFF_Apply    0x021C7FB4  thumb  ov021
  *   _ll_mul          0x0209C054  arm
  *   MIi_CpuCopyFast  0x02082B0C  arm
- *   func_0206A854    0x0206A854  arm
- *   func_0206DB80    0x0206DB80  arm
+ *   NNS_G3dGlbFlush    0x0206A854  arm
+ *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   FIELD_EFFECT_Draw    0x021ABE0C  thumb  ov021
  *   FIELD_G3DOBJ_DrawAll    0x021C64E0  thumb  ov021
  *   func_02050790    0x02050790  arm
@@ -52,8 +52,8 @@ extern void FIELD_MSGBG_DrawTalkSys(u8 *p);
 extern void FIELD_G3D_MAPPER_Draw(char *p, int a, int m);
 extern void FIELDSKILL_MAPEFF_Apply(u32 a);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
-extern void func_0206A854(void);
-extern void func_0206DB80(void);
+extern void NNS_G3dGlbFlush(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void FIELD_EFFECT_Draw(u32 a);
 extern void FIELD_G3DOBJ_DrawAll(u32 a);
 struct tagLISTCB;
@@ -82,8 +82,8 @@ void FIELDMAP_Draw3dNormal(u8 *p)
     m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104);
     MIi_CpuCopyFast(&m, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     FIELD_EFFECT_Draw(((struct Obj00704 *)p)->f94);
     FIELD_G3DOBJ_DrawAll(((struct Obj00704 *)p)->f130);
     func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB0), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
@@ -95,13 +95,13 @@ void FIELDMAP_Draw3dNormal(u8 *p)
     m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104 / 2);
     MIi_CpuCopyFast(&m, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
-    func_0206DB80();
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     func_02050790((struct tagLISTCB *)(((struct Obj00704 *)p)->fB4), ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
 
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    func_0206A854();
+    NNS_G3dGlbFlush();
 
     FIELD_SUBPROC_MGR_RunDraw((u8 *)(((struct Obj00704 *)p)->fBC));
     WEATHER_Draw((u32 *)(((struct Obj00704 *)p)->f20));

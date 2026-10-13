@@ -56,7 +56,7 @@
  *   Open idea: an identical statement in the r == 0 path and after the DWC call that survives cross-jumping
  *   and then vanishes (coalesced copy); no natural source found. Draft code unchanged.
  * 2026-10-05 (wD9r lane83): still 4 bytes (440 vs 436). Callee prototypes from matched definitions:
- *   func_021C5B80 (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, GPOWER_GetSpecialPowerId returns
+ *   DWC_NdCleanupAsync (ov114) returns int, DWC_GdbShutdown (ov175 021E1340) returns int, GPOWER_GetSpecialPowerId returns
  *   u32; all three applied: same 440 B (kept the draft's void externs). Tried: `if (r == 0) goto tail;`
  *   with case 4 ending `goto tail;` (both edges to one label): same bne/b. Scan of asm/overlays: 483 far
  *   Thumb conditional branches land on a `b`; in matched code the reused `b` is always itself the kept
@@ -126,7 +126,7 @@
  *   func_0205CC20  0x0205CC20  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   DWC_ShutdownFriendsMatch  0x0216AD50  arm  ov009
- *   func_021C5B80  0x021C5B80  arm  ov114
+ *   DWC_NdCleanupAsync  0x021C5B80  arm  ov114
  *   DWC_GdbShutdown  0x021E1340  arm
  */
 
@@ -144,7 +144,7 @@ extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern void func_0205CC20(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void DWC_ShutdownFriendsMatch(void);
-extern int func_021C5B80(void);
+extern int DWC_NdCleanupAsync(void);
 extern void DWC_GdbShutdown(void);
 
 int DWC_RAP_HandleError(void)
@@ -189,7 +189,7 @@ int DWC_RAP_HandleError(void)
         }
         break;
     case 5:
-        func_021C5B80();
+        DWC_NdCleanupAsync();
         break;
     case 3:
     case 6:

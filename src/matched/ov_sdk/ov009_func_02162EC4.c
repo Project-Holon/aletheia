@@ -12,9 +12,9 @@
  * sdk:      CPSi_SslPeriodical (ssl.o)
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02085868  0x02085868  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   g_021AA664     0x021AA664  data
  *   g_02150FEC     0x02150FEC  data
  */
@@ -52,9 +52,9 @@ struct OSiThreadInfo {
     struct _OSThread *list;
 };
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
-extern void func_02085868(struct _OSThread *thread);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 extern struct CPSSslSession g_021AA664[4];
 extern struct OSiThreadInfo g_02150FEC;
 
@@ -65,13 +65,13 @@ void func_02162EC4(unsigned long now)
     struct _OSThread *t;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
     for (i = 0; i < 4; i++) {
         struct CPSSslSession *p = &g_021AA664[i];
         if (p->valid && (long)(now - p->when) > 957)
             p->valid = 0;
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
 
     for (t = g_02150FEC.list; t != 0; t = t->next) {
         soc = (struct _CPSSoc *)t->specific[0];
@@ -80,7 +80,7 @@ void func_02162EC4(unsigned long now)
             (long)(now - soc->when) > 239 && soc->block_type == 2) {
             soc->state = 0;
             soc->block_type = 0;
-            func_02085868(soc->thread);
+            OS_WakeupThreadDirect(soc->thread);
         }
     }
 }

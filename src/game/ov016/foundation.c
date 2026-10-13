@@ -1,7 +1,7 @@
 /*
  * file:     foundation.c
  * unit:     yes
- * function: func_021D5FE8, func_021D5FF4, func_021D600C
+ * function: DWCi_InputCoord, DWCi_InputRect, DWCi_Coord2Rect
  * address:  0x021D5FE8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -16,11 +16,12 @@ typedef struct tagCOORD { unsigned short x, y; } COORD;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
-void func_021D5FE8(int a, int b, unsigned short *p);
-void func_021D5FF4(unsigned short a, unsigned short b, unsigned short c, unsigned short d, unsigned short *p);
-void func_021D600C(const COORD *coord, const COORD *size, RECT *rect);
+void DWCi_InputCoord(int a, int b, unsigned short *p);
+void DWCi_InputRect(unsigned short a, unsigned short b, unsigned short c, unsigned short d, unsigned short *p);
+void DWCi_Coord2Rect(const COORD *coord, const COORD *size, RECT *rect);
 
-void func_021D5FE8(int a, int b, unsigned short *p)
+
+void DWCi_InputCoord(int a, int b, unsigned short *p)
 {
     p[0] = a;
     p[1] = b;
@@ -31,10 +32,10 @@ void func_021D5FE8(int a, int b, unsigned short *p)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D5FF4.c \
- *       --func func_021D5FF4 --addr 0x021D5FF4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_InputRect.c \
+ *       --func DWCi_InputRect --addr 0x021D5FF4 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D5FF4(unsigned short a, unsigned short b, unsigned short c,
+void DWCi_InputRect(unsigned short a, unsigned short b, unsigned short c,
                    unsigned short d, unsigned short *p)
 {
     p[0] = a;
@@ -49,7 +50,7 @@ void func_021D5FF4(unsigned short a, unsigned short b, unsigned short c,
  *
  * notes:    const inputs let all four halfwords load before the first store.
  */
-void func_021D600C(const COORD *coord, const COORD *size, RECT *rect)
+void DWCi_Coord2Rect(const COORD *coord, const COORD *size, RECT *rect)
 {
     rect->l = coord->x;
     rect->t = coord->y;

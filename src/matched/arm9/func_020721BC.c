@@ -1,5 +1,5 @@
 /*
- * function: func_020721BC
+ * function: NNSi_G3dTexMtxRotTrans_Max
  * address:  0x020721BC
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -57,7 +57,7 @@ struct DST {
 extern void func_0207C930(u32 numer, u32 denom);
 extern u32 func_0207C86C(void);
 
-void func_020721BC(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxRotTrans_Max(struct DST *d, struct SRC *s)
 {
     s32 e12, f12, t, h1, h2;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6E4
+ * function: WIFICLUB_PublishOwnStatus
  * address:  0x021BE6E4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern int DWC_RAP_SetOwnStatus(char *a, int b);
 
-void func_021BE6E4(char *s)
+void WIFICLUB_PublishOwnStatus(char *s)
 {
     DWC_RAP_SetOwnStatus(((struct Obj00008 *)s)->f8, 0x20);
 }

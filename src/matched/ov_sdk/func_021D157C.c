@@ -1,5 +1,5 @@
 /*
- * function: func_021D157C
+ * function: DWCi_WINlIsInit
  * address:  0x021D157C
  * packet:   pkt_021D1568
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D157C   0x021D157C  arm
+ *   DWCi_WINlIsInit   0x021D157C  arm
  *
  * True when the global pointer at 0x021DE658 is non-null.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D157C.c \
- *       --func func_021D157C --addr 0x021D157C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_WINlIsInit.c \
+ *       --func DWCi_WINlIsInit --addr 0x021D157C --region ov016 --cc dsi/1.1p1 --arm
  */
 
-int func_021D157C(void)
+int DWCi_WINlIsInit(void)
 {
     return *(void **)0x021DE658 != 0;
 }

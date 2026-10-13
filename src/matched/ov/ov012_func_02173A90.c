@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_02087C6C 0x02087C6C arm
+ *   OS_GetMacAddress 0x02087C6C arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  * 020399A8 leaves the used r0 payload live. Send forwards its pointer
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 pad[6]; u8 flag; u8 tail; } Packet;
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -29,7 +29,7 @@ int UNION_COMMAND_SendMyMac(void)
 {
     Packet p;
     MI_CpuFill8(&p, 0, 8);
-    func_02087C6C(&p);
+    OS_GetMacAddress(&p);
     p.flag = 1;
     return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x1403, 8, (u32)&p);
 }

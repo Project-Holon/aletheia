@@ -1,5 +1,5 @@
 /*
- * function: func_020858D8
+ * function: OS_YieldThread
  * address:  0x020858D8
  * packet:   pkt_020858D8
  * region:   arm9
@@ -15,7 +15,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OSi_RescheduleThread  0x020851A0  arm
- *   g_02150FD0            0x02150FD0  data
+ *   gOsThreadBss            0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -139,14 +139,14 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
 extern void OSi_RescheduleThread(void);
 
-void func_020858D8(void)
+void OS_YieldThread(void)
 {
     OSThread *pre = 0;
     OSThread *lastThread = 0;
@@ -156,9 +156,9 @@ void func_020858D8(void)
     OSThread *tPre;
     OSThread *current;
 
-    current = g_02150FD0.OSi_ThreadInfo.current;
+    current = gOsThreadBss.OSi_ThreadInfo.current;
     enable = OS_DisableInterrupts();
-    t = g_02150FD0.OSi_ThreadInfo.list;
+    t = gOsThreadBss.OSi_ThreadInfo.list;
     tPre = 0;
 
     while (t) {
@@ -179,7 +179,7 @@ void func_020858D8(void)
     }
 
     if (!pre) {
-        g_02150FD0.OSi_ThreadInfo.list = current->next;
+        gOsThreadBss.OSi_ThreadInfo.list = current->next;
     } else {
         pre->next = current->next;
     }

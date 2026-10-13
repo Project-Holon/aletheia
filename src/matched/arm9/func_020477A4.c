@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02069E88  0x02069E88  arm
+ *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
  *
  * Dispatch one slot of the G3D system's object table, reporting whether the
  * slot was occupied.  The empty case is the conditional early return
@@ -45,7 +45,7 @@ struct G3dSys {
     struct G3dSlot  **slots;
 };
 
-extern void func_02069E88(void *a, void *b);
+extern void NNS_G3dRenderObjAddAnmObj(void *a, void *b);
 
 u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx)
 {
@@ -55,6 +55,6 @@ u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx)
         return 0;
     }
 
-    func_02069E88(sys->unk_04->unk_04, slot->unk_04);
+    NNS_G3dRenderObjAddAnmObj(sys->unk_04->unk_04, slot->unk_04);
     return 1;
 }

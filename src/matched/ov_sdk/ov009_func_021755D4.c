@@ -1,5 +1,5 @@
 /*
- * function: func_021755D4
+ * function: DWCi_SetupGameServer_InterChange
  * address:  0x021755D4
  * packet:   pkt_ov009_021755D4
  * region:   ov009
@@ -14,10 +14,10 @@
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_02175530  0x02175530  arm  ov009
- *   func_02176344  0x02176344  arm  ov009
- *   func_02175F4C  0x02175F4C  arm  ov009
+ *   DWCi_NodeInfoList_GetMyNodeInfo  0x02176344  arm  ov009
+ *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   func_02175F84  0x02175F84  arm  ov009
- *   func_0216F20C  0x0216F20C  arm  ov009
+ *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
  *   func_02173D28  0x02173D28  arm  ov009
  */
 
@@ -44,13 +44,13 @@ typedef struct NodeInfo {
 
 extern int func_02175F3C(void);
 extern int func_02175530(void);
-extern char *func_02176344(void);
-extern void func_02175F4C(int status);
+extern char *DWCi_NodeInfoList_GetMyNodeInfo(void);
+extern void DWCi_SetMatchStatus(int status);
 extern void func_02175F84(int status);
-extern int func_0216F20C(int matchType);
+extern int DWCi_GPSetServerStatus(int matchType);
 extern int func_02173D28(int error);
 
-void func_021755D4(int init)
+void DWCi_SetupGameServer_InterChange(int init)
 {
     NodeInfo *pMyNodeInfo;
     int matchType;
@@ -58,12 +58,12 @@ void func_021755D4(int init)
 
     if (init) {
         ((MatchCnt *)func_02175F3C())->f790 = func_02175530();
-        pMyNodeInfo = (NodeInfo *)func_02176344();
+        pMyNodeInfo = (NodeInfo *)DWCi_NodeInfoList_GetMyNodeInfo();
         pMyNodeInfo->f16 = 0;
         ((MatchCnt *)func_02175F3C())->f7C4 = 1;
     }
     ((MatchCnt *)func_02175F3C())->f14 = 2;
-    func_02175F4C(13);
+    DWCi_SetMatchStatus(13);
     func_02175F84(2);
     ((MatchCnt *)func_02175F3C())->f5DC = 0;
     ((MatchCnt *)func_02175F3C())->f18 = 0;
@@ -76,7 +76,7 @@ void func_021755D4(int init)
     }
     if (((MatchCnt *)func_02175F3C())->f15 == 3)
         ((MatchCnt *)func_02175F3C())->f15 = 2;
-    gpResult = func_0216F20C(matchType);
+    gpResult = DWCi_GPSetServerStatus(matchType);
     func_02173D28(gpResult);
     ((MatchCnt *)func_02175F3C())->f67C = 0;
 }

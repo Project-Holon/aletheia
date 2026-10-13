@@ -34,7 +34,7 @@
  *   STRBUF_SetString 0x02045924 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   CONFIG_Copy  0x02008314  thumb
  */
 #include "../../matched/include/Obj00685.h"
@@ -109,7 +109,7 @@ extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u16 STRBUF_GetEosChar(void);
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 extern void CONFIG_Copy(void *a, void *b);
 void func_021EE920(struct Mon *p,char *q);
 void func_021EEBF0(char *p,struct Mon *q);
@@ -442,7 +442,7 @@ int func_021EF1AC(char *p, char *q)
 
         if (b < 0xc00) {
             ((struct Obj24896 *)q)->f34 = b;
-            func_02082D44((void *)a, q + 0x38, b);
+            MI_CpuCopy8((void *)a, q + 0x38, b);
             return 1;
         }
     }
@@ -456,7 +456,7 @@ int func_021EF1D8(char *p, char *a1)
     int v = ((struct Obj24897 *)a1)->f34;
 
     ((struct Obj02907 *)p)->f98 = v;
-    func_02082D44(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
+    MI_CpuCopy8(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
     return 1;
 }
 

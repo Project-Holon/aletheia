@@ -1,5 +1,5 @@
 /*
- * function: func_021CAD48
+ * function: CRYPTOi__BN_CTX_init
  * address:  0x021CAD48
  * packet:   pkt_021B9500
  * region:   ov114
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021CAD48(u8 *p)
+void CRYPTOi__BN_CTX_init(u8 *p)
 {
     MI_CpuFill8(p, 0, 0x110);
     *(u32 *)p = 0;

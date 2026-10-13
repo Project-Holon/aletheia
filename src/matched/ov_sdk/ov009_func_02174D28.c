@@ -1,5 +1,5 @@
 /*
- * function: func_02174D28
+ * function: DWCi_QR2NatnegCallback
  * address:  0x02174D28
  * packet:   pkt_ov009_02174D28
  * region:   ov009
@@ -14,10 +14,10 @@
  * symbols:
  *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0217695C  0x0217695C  arm  ov009
- *   func_02175F4C  0x02175F4C  arm  ov009
+ *   DWCi_IsFullMesh  0x0217695C  arm  ov009
+ *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   func_0216FC34  0x0216FC34  arm  ov009
- *   func_02173EF8  0x02173EF8  arm  ov009
+ *   DWCi_HandleNNError  0x02173EF8  arm  ov009
  */
 
 typedef struct MatchCnt {
@@ -37,21 +37,21 @@ typedef struct MatchCnt {
 
 extern int DWC_IsServerMyself(void);
 extern int func_02175F3C(void);
-extern int func_0217695C(void);
-extern void func_02175F4C(int status);
+extern int DWCi_IsFullMesh(void);
+extern void DWCi_SetMatchStatus(int status);
 extern int func_0216FC34(int type, int cookie, void *param);
-extern int func_02173EF8(int nnError);
+extern int DWCi_HandleNNError(int nnError);
 
-void func_02174D28(int cookie)
+void DWCi_QR2NatnegCallback(int cookie)
 {
     int nnError;
 
     if (DWC_IsServerMyself() == 0 && ((MatchCnt *)func_02175F3C())->f57C != 0)
         return;
     if (((MatchCnt *)func_02175F3C())->f61C == 1) {
-        if (func_0217695C() == 0)
+        if (DWCi_IsFullMesh() == 0)
             return;
-        func_02175F4C(5);
+        DWCi_SetMatchStatus(5);
     } else if (((MatchCnt *)func_02175F3C())->f61C != 5 && ((MatchCnt *)func_02175F3C())->f61C != 14) {
         return;
     }
@@ -63,7 +63,7 @@ void func_02174D28(int cookie)
     }
     ((MatchCnt *)func_02175F3C())->f600 = 0;
     nnError = func_0216FC34(1, cookie, ((MatchCnt *)func_02175F3C())->f554);
-    if (func_02173EF8(nnError) != 0)
+    if (DWCi_HandleNNError(nnError) != 0)
         return;
     ((MatchCnt *)func_02175F3C())->f6D8 = 0xFF;
 }

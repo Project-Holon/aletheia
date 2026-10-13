@@ -12,13 +12,13 @@
  * sdk:      button (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
  *
  * symbols:
- *   func_021BCB14  0x021BCB14  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_02058518  0x02058518  arm
- *   func_021BCB44  0x021BCB44  arm  ov016
+ *   DWCi_BTNlGet  0x021BCB14  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_BM_GetWiFiInfo  0x02058518  arm
+ *   DWCi_BTNlSetForce  0x021BCB44  arm  ov016
  *   func_021C3130  0x021C3130  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
- *   g_021DE5A8  0x021DE5A8  data
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
+ *   gSceneOptMenuWork  0x021DE5A8  data
  *   func_021C2F14  0x021C2F14  arm  ov016
  */
 
@@ -36,37 +36,37 @@ typedef struct {
 	int c[3];
 } WiFiInfoT;
 
-extern signed char func_021BCB14(void);
-extern void func_021CFFAC(unsigned int v);
+extern signed char DWCi_BTNlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
 struct tagDWCWiFiInfo;
-extern void func_02058518(struct tagDWCWiFiInfo *buf);
-extern void func_021BCB44(int idx);
+extern void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
+extern void DWCi_BTNlSetForce(int idx);
 extern void func_021C3130(void);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C2F14(void);
-extern struct FocusPosT g_021DE5A8;
+extern struct FocusPosT gSceneOptMenuWork;
 
 void func_021C2E6C(void)
 {
 	WiFiInfoT info;
 
-	switch (func_021BCB14()) {
+	switch (DWCi_BTNlGet()) {
 	case 0:
-		func_021CFFAC(7);
+		DWCi_SNDlPlay(7);
 		break;
 	case 1:
-		func_02058518((struct tagDWCWiFiInfo *)(&info));
-		if (g_021DE5A8.idx != 0 && info.a == 0) {
-			func_021CFFAC(9);
-			func_021BCB44(-1);
+		DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)(&info));
+		if (gSceneOptMenuWork.idx != 0 && info.a == 0) {
+			DWCi_SNDlPlay(9);
+			DWCi_BTNlSetForce(-1);
 			return;
 		}
-		func_021CFFAC(6);
+		DWCi_SNDlPlay(6);
 		func_021C3130();
-		g_021DE5A8.flag = 1;
+		gSceneOptMenuWork.flag = 1;
 		break;
 	default:
 		return;
 	}
-	func_021C0E40((unsigned int)func_021C2F14);
+	DWCi_ChangeScene((unsigned int)func_021C2F14);
 }

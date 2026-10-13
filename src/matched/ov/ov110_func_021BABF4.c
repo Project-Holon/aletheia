@@ -1,5 +1,5 @@
 /*
- * function: func_021BABF4
+ * function: PMS_INPUT_VIEW_GetEditEntry
  * address:  0x021BABF4
  * packet:   pkt_ov110_021BABF4
  * region:   ov110
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unblocked by matching func_021BC6E0 in ov110 (pkt_ov110_021BC6E0).
+ * Unblocked by matching PMSIV_EDIT_GetSlotWordId in ov110 (pkt_ov110_021BC6E0).
  *
  * symbols:
- *   func_021BC6E0  0x021BC6E0  thumb  ov110
+ *   PMSIV_EDIT_GetSlotWordId  0x021BC6E0  thumb  ov110
  */
 #include "../include/Obj22337.h"
 
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u16 func_021BC6E0(u8 *p, int i);
-int func_021BABF4(u8 *p, int i) { return func_021BC6E0(*(u8 * *)&((struct Obj22337 *)p)->f54, i); }
+extern u16 PMSIV_EDIT_GetSlotWordId(u8 *p, int i);
+int PMS_INPUT_VIEW_GetEditEntry(u8 *p, int i) { return PMSIV_EDIT_GetSlotWordId(*(u8 * *)&((struct Obj22337 *)p)->f54, i); }

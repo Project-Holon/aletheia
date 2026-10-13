@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_0218F4BC  0x0218F4BC  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_02189750  0x02189750  arm  ov009
  *   func_0218F51C  0x0218F51C  arm  ov009
  *   g_021A5698  0x021A5698  data
@@ -32,7 +32,7 @@ struct GPITransferID {
 };
 
 extern int func_0218F4BC(void **connection, void *peer, int type, struct GPITransferID *transferID);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, void *peer, char *string);
 extern int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int len);
 extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
@@ -58,7 +58,7 @@ int func_02192F24(void **connection, struct GPITransferID *transferID, void *pee
     r = func_0218F4BC(connection, peer, 0xc9, transferID);
     if (r != 0)
         return r;
-    func_02084F40(buffer, g_021A569C, 1, result);
+    OS_SPrintf(buffer, g_021A569C, 1, result);
     r = func_02189750(connection, peer, buffer);
     if (r != 0)
         return r;

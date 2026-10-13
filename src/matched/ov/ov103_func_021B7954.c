@@ -1,5 +1,5 @@
 /*
- * function: func_021B7954
+ * function: IRC_COMPATIBLE_TOUCH_TEST_GetMarkers
  * address:  0x021B7954
  * packet:   pkt_ov103_021B7954
  * region:   ov103
@@ -19,4 +19,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 *func_021B7954(u8 *p) { return p + 0x160; }
+u8 *IRC_COMPATIBLE_TOUCH_TEST_GetMarkers(u8 *p) { return p + 0x160; }

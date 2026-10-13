@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B96EC",
+   "name": "IRCBATTLEMATCH_LoadActorResources",
    "address": "0x021B96EC",
    "kind": "game",
    "region": "ov100",

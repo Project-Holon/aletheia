@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AB4
+ * function: IRCBATTLEMATCH_GetSharedBattleReadyCount
  * address: 0x021B9AB4
  * packet: pkt_ov100_021B9AB4
  * region: ov100
@@ -14,7 +14,7 @@
 #include "../include/Obj13708.h"
 typedef unsigned int   u32;
 extern u32 POKEPARTY_GetBattleReadyCount(void *p);
-int func_021B9AB4(unsigned a)
+int IRCBATTLEMATCH_GetSharedBattleReadyCount(unsigned a)
 {
  int x; int y;
  x=POKEPARTY_GetBattleReadyCount((void *)(*(int *)(((struct Obj13708 *)a)->f244+8)));

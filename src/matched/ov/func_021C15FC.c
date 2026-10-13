@@ -1,5 +1,5 @@
 /*
- * function: func_021C15FC
+ * function: WIFICLUB_StateClearTalkToLobby
  * address:  0x021C15FC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
  *
  * Runs the setup for selector 0x0B and stamps it 0x1CC bytes in.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BA8EC(char *p);
+extern void WIFICLUB_ClearTalkWindow(char *p);
 
-int func_021C15FC(char *p, int v)
+int WIFICLUB_StateClearTalkToLobby(char *p, int v)
 {
-    func_021BA8EC(p);
+    WIFICLUB_ClearTalkWindow(p);
     ((struct Obj18279 *)p)->f1CC = 0x0B;
     return v;
 }

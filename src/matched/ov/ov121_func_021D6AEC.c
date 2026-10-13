@@ -16,7 +16,7 @@
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -37,7 +37,7 @@ extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *,void *,int);
+extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *,int,int);
@@ -59,9 +59,9 @@ void func_021D6AEC(char *p, void *owner, u16 heap)
     *(int *)&((struct Obj01403 *)p)->f4=CLACT_RegisterCharacter(arc,16,0,2,heap);
     allocation=func_02049F78(arc,8,(u32)(&res),heap);
     data=*(char * *)&((struct Obj22851 *)res)->fC;
-    func_02082D44(data,p+0xda,32);
+    MI_CpuCopy8(data,p+0xda,32);
     data+=32;
-    func_02082D44(data,p+0xba,32);
+    MI_CpuCopy8(data,p+0xba,32);
     func_020307B0(allocation);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&point,0,8);

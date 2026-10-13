@@ -25,7 +25,7 @@
  *   func_021CAC34 0x021CAC34 thumb ov093
  *   func_021CAC44 0x021CAC44 thumb ov093
  *   func_021CAC54 0x021CAC54 thumb ov093
- *   func_021CAC64 0x021CAC64 thumb ov093
+ *   DWCi_SceneSetRakuButton1 0x021CAC64 thumb ov093
  *   func_021CAC74 0x021CAC74 thumb ov093
  *   func_021CAC84 0x021CAC84 thumb ov093
  *   func_021CAC94 0x021CAC94 thumb ov093
@@ -33,7 +33,7 @@
  *   func_021CACB4 0x021CACB4 thumb ov093
  *   func_021CACC4 0x021CACC4 thumb ov093
  *   func_021CACD4 0x021CACD4 thumb ov093
- *   func_021CACE4 0x021CACE4 thumb ov093
+ *   CRYPTOi__BN_new 0x021CACE4 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern void func_021CAC24(void *, void *);
 extern void func_021CAC34(void *, void *);
 extern void func_021CAC44(void *, void *);
 extern void func_021CAC54(void *, void *);
-extern void func_021CAC64(void *, void *);
+extern void DWCi_SceneSetRakuButton1(void *, void *);
 extern void func_021CAC74(void *, void *);
 extern void func_021CAC84(void *, void *);
 extern void func_021CAC94(void *, void *);
@@ -59,7 +59,7 @@ extern void func_021CACA4(void *, void *);
 extern void func_021CACB4(void *, void *);
 extern void func_021CACC4(void *, void *);
 extern void func_021CACD4(void *, void *);
-extern void func_021CACE4(void *, void *);
+extern void CRYPTOi__BN_new(void *, void *);
 int BTL_SERVER_FLOW_DecideMoveTargetsDouble(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
 {
     int n = BTL_MAIN_GetTrainerSlotOfPoke(*(void **)(p + 4), *(void **)(p + 8), BTL_POKEPARAM_GetPokeId(a));
@@ -83,7 +83,7 @@ int BTL_SERVER_FLOW_DecideMoveTargetsDouble(u8 *p, u8 *a, u16 move, u8 *q, int i
     case 4:
         func_021CAC44(out, BTL_SERVER_FLOW_GetPartnerPoke(p, n));
         func_021CAC54(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)0));
-        func_021CAC64(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)1));
+        DWCi_SceneSetRakuButton1(out, BTL_SERVER_FLOW_GetEnemyPokeAtLane(p, (int)n, (u8)1));
         return 3;
     case 8:
         func_021CAC74(out, a);
@@ -113,7 +113,7 @@ int BTL_SERVER_FLOW_DecideMoveTargetsDouble(u8 *p, u8 *a, u16 move, u8 *q, int i
     if (b) {
         selected = BTL_SERVER_FLOW_ProcTargetChange(p, a, q, BTL_POKEPARAM_GetPokeId(b));
         if (selected != 31) b = (u8 *)BTL_SIDE_GetPokeByIdThunk(*(char **)(p + 8), selected);
-        func_021CACE4(out, b);
+        CRYPTOi__BN_new(out, b);
         return 1;
     }
     return 0;

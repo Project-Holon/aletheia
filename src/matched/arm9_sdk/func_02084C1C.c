@@ -9,16 +9,16 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02004490    0x02004490  thumb
+ *   SVC_WaitByLoop    0x02004490  thumb
  */
 
 extern int func_02084CFC(int a, int b, int c, int d);
-extern void func_02004490(int v);
+extern void SVC_WaitByLoop(int v);
 void func_02084C1C(int a, int b, int c, int d)
 {
     if (func_02084CFC(a, b, c, d) <= 0)
         return;
     do {
-        func_02004490(0x400);
+        SVC_WaitByLoop(0x400);
     } while (func_02084CFC(a, b, c, d) > 0);
 }

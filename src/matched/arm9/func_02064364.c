@@ -1,5 +1,5 @@
 /*
- * function: func_02064364
+ * function: NNS_G2dTickCellAnimation
  * address:  0x02064364
  * packet:   pkt_02064364
  * region:   arm9
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02062D4C  0x02062D4C  arm
- *   func_0206419C  0x0206419C  arm
+ *   NNSi_G2dRefreshCellAnimation  0x0206419C  arm
  *
  * Advances one multi-cell node's cell animation by a fx32 tick and, only if
  * that actually changed the displayed frame, marks the node's OAM cache dirty
- * through func_0206419C.
+ * through NNSi_G2dRefreshCellAnimation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02064364.c  *       --func func_02064364 --addr 0x02064364 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dTickCellAnimation.c  *       --func NNS_G2dTickCellAnimation --addr 0x02064364 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -30,11 +30,11 @@ typedef signed int     s32;
 struct CellAnim;
 
 extern s32  func_02062D4C(struct CellAnim *anim, s32 frames);
-extern void func_0206419C(char *self);
+extern void NNSi_G2dRefreshCellAnimation(char *self);
 
-void func_02064364(struct CellAnim *anim, s32 frames)
+void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames)
 {
     if (func_02062D4C(anim, frames) != 0) {
-        func_0206419C((char *)anim);
+        NNSi_G2dRefreshCellAnimation((char *)anim);
     }
 }

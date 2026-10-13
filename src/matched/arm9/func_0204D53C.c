@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020643A4  0x020643A4  arm
+ *   NNS_G2dRestartCellAnimation  0x020643A4  arm
  *
  * The same 0xc-biased tail call to the other callee of the pair.
  */
@@ -18,9 +18,9 @@
 typedef unsigned char  u8;
 
 struct CellAnim;
-extern void func_020643A4(struct CellAnim *anim);
+extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
 
 void CLACT_ResetMultiCellAnim(u8 *a0)
 {
-    func_020643A4((struct CellAnim *)(a0 + 0xc));
+    NNS_G2dRestartCellAnimation((struct CellAnim *)(a0 + 0xc));
 }

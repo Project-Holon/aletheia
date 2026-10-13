@@ -14,7 +14,7 @@
  *
  * Unlabelled ov093 leaf hidden in a .word run: returns the unsigned halfword
  * at +0x146 of its argument.  Matched to supply the `matched` witness for the
- * pending ov096 caller func_02189A9C.
+ * pending ov096 caller TR_AI_CmdLoadTurnCountOfPoke.
  */
 #include "../include/Obj18410.h"
 

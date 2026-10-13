@@ -9,18 +9,18 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  */
 
-int func_02087988(void);
-void func_0208799C(int);
+int OS_DisableInterrupts(void);
+void OS_RestoreInterrupts(int);
 
 void MI_WaitNDma(int ch)
 {
-    int irq = func_02087988();
+    int irq = OS_DisableInterrupts();
     volatile unsigned int *reg = (volatile unsigned int *)(0x0400411C + ch * 0x1C);
     while (*reg & 0x80000000) {
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }

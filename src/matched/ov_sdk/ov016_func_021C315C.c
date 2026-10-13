@@ -1,5 +1,5 @@
 /*
- * function: func_021C315C
+ * function: DWCi_SceneOptMovComm
  * address:  0x021C315C
  * packet:   pkt_ov016_021C315C
  * region:   ov016
@@ -13,28 +13,28 @@
  *
  * symbols:
  *   func_021C3194  0x021C3194  arm  ov016
- *   func_021BD29C  0x021BD29C  arm  ov016
- *   func_021BC820  0x021BC820  arm  ov016
- *   func_021BD744  0x021BD744  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_CMNlMsgDraw  0x021BD29C  arm  ov016
+ *   DWCi_ANIMElInitEx  0x021BC820  arm  ov016
+ *   DWCi_ICONlInit  0x021BD744  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021C3214  0x021C3214  arm  ov016
  */
 
 extern void func_021C3194(void);
-extern void func_021BD29C(int msg);
-extern void func_021BC820(int color);
-extern void func_021BD744(int type);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_CMNlMsgDraw(int msg);
+extern void DWCi_ANIMElInitEx(int color);
+extern void DWCi_ICONlInit(int type);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3214(void);
 
-void func_021C315C(void)
+void DWCi_SceneOptMovComm(void)
 {
 	func_021C3194();
-	func_021BD29C(0x1e);
-	func_021BC820(0);
-	func_021BD744(1);
-	func_021CFFAC(0xb);
-	func_021C0E40((unsigned int)func_021C3214);
+	DWCi_CMNlMsgDraw(0x1e);
+	DWCi_ANIMElInitEx(0);
+	DWCi_ICONlInit(1);
+	DWCi_SNDlPlay(0xb);
+	DWCi_ChangeScene((unsigned int)func_021C3214);
 }

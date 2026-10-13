@@ -10,15 +10,15 @@
  * status:   EXACT
  * leaf:     Sole game blocker of assigned ov012 caller; root claim granted.
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02082D44(const void *src, void *dst, u32 len);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
 
 void UNION_APP_SetSetting(void *p, const void *value)
 {
-    func_02082D44(value, p, 4);
+    MI_CpuCopy8(value, p, 4);
 }

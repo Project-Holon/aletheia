@@ -1,5 +1,5 @@
 /*
- * function: func_021889F8
+ * function: TR_AI_CmdIfNotSideEffect
  * address: 0x021889F8
  * packet: pkt_ov096_021889F8
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188A08 0x02188A08 thumb ov096
+ *   TR_AI_CompareSideEffect 0x02188A08 thumb ov096
  */
 #include "../include/Obj21933.h"
 struct Cursor;
-extern int func_02188A08(struct Cursor *a, int b, int c);
-int func_021889F8(struct Cursor *a, int b)
+extern int TR_AI_CompareSideEffect(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfNotSideEffect(struct Cursor *a, int b)
 {
-    func_02188A08(a, b, 3);
+    TR_AI_CompareSideEffect(a, b, 3);
     return ((struct Obj21933 *)b)->fC4;
 }

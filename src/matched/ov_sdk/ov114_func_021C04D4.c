@@ -1,5 +1,5 @@
 /*
- * function: func_021C04D4
+ * function: ghiDoReceive
  * address:  0x021C04D4
  * packet:   pkt_ov114_021C04D4
  * region:   ov114
@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_0217F264                    0x0217f264 arm  ov009
- *   func_021C1C80                    0x021c1c80 arm  ov114
+ *   ghiEncryptorSslReceiveFunc                    0x021c1c80 arm  ov114
  *   func_0217EC4C                    0x0217ec4c arm  ov009
  *   func_0217ED54                    0x0217ed54 arm  ov009
  *   func_0217D254                    0x0217d254 arm  ov009
- *   g_021CE5AC                       0x021ce5ac data
- *   g_021CE60C                       0x021ce60c data
+ *   gGhttpThrottle                       0x021ce5ac data
+ *   sGhttpReceivedBytes                       0x021ce60c data
  */
 
 #include "../include/G_GHIThrottle.h"
@@ -47,14 +47,14 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern unsigned int func_0217F264(void);
-extern int func_021C1C80(void *connection, void *encryptor, char *buffer, int *bufferLen);
+extern int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217ED54(int sock);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern struct GHIThrottle g_021CE5AC;
-extern char g_021CE60C[];
+extern struct GHIThrottle gGhttpThrottle;
+extern char sGhttpReceivedBytes[];
 
-int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen)
+int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen)
 {
     int rcode;
     int socketError;
@@ -64,18 +64,18 @@ int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen)
 
     if (connection->throttle) {
         unsigned int now = func_0217F264();
-        if (now < connection->lastThrottleRecv + g_021CE5AC.timeDelay)
+        if (now < connection->lastThrottleRecv + gGhttpThrottle.timeDelay)
             return 1;
         connection->lastThrottleRecv = now;
-        if (len >= g_021CE5AC.bufferSize)
-            len = g_021CE5AC.bufferSize;
+        if (len >= gGhttpThrottle.bufferSize)
+            len = gGhttpThrottle.bufferSize;
     }
 
     if (connection->engine != 0 && connection->sessionEstablished == 1 &&
         connection->encryptOnSend == 1) {
         int result;
         int recvLength = len;
-        result = func_021C1C80(connection, connection->encryptor, buffer, &recvLength);
+        result = ghiEncryptorSslReceiveFunc(connection, connection->encryptor, buffer, &recvLength);
         if (result == 1) {
             if (recvLength == -1)
                 return 1;
@@ -112,6 +112,6 @@ int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen)
 
     buffer[rcode] = 0;
     *bufferLen = rcode;
-    func_0217D254(8, 0, 0x20, g_021CE60C, rcode);
+    func_0217D254(8, 0, 0x20, sGhttpReceivedBytes, rcode);
     return 0;
 }

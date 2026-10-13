@@ -1,5 +1,5 @@
 /*
- * function: func_021BD014
+ * function: WIFICLUB_StateCancelOnKey
  * address:  0x021BD014
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -28,7 +28,7 @@ typedef int BOOL;
 
 extern u32 KEY_GetTrg(void);
 
-int func_021BD014(char *p, int v)
+int WIFICLUB_StateCancelOnKey(char *p, int v)
 {
     if (KEY_GetTrg() != 0) {
         ((struct Obj12114 *)p)->f1353 = 0x6E;

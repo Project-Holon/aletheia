@@ -82,7 +82,7 @@
  *   func_021FD1C4 0x021FD1C4 thumb ov186
  *   func_021FD640  0x021FD640  thumb  ov186
  *   func_021FD12C 0x021FD12C thumb ov186
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   func_021FFBD4 0x021FFBD4 thumb ov186
  *   func_021FFE5C 0x021FFE5C thumb ov186
  *   func_021FFE70 0x021FFE70 thumb ov186
@@ -218,7 +218,7 @@ extern void func_021FC734(u8 *p);
 extern char *func_021FD1C4(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
 extern void func_021FD640(int *p);
 extern void *func_021FD12C(int a, void *owner, u16 heap);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern char *func_021FFBD4(void *owner, void *table, int a, int b, int c, int d, int e, unsigned short heap);
 extern void func_021FFE5C(char *);
 extern void func_021FFE70(char *p);
@@ -741,7 +741,7 @@ void func_021F8EFC(char *p,int *source)
         if(*(int *)&((struct Obj00278 *)p)->f4==0)
             ((struct Obj00278 *)p)->f4=func_021FD12C((int)((void *)source[3]),(void *)(*(int *)&((struct Obj00278 *)p)->f2C),((struct Obj00278 *)p)->f30);
         func_021FD170(((struct Obj00278 *)p)->f4,(void *)source[3],(void *)0x2c);
-        result=func_021FFBD4(func_0200CA1C((void *)source[6]),(void *)source[3],c,*(int *)&((struct Obj00278 *)p)->f28,source[0],((struct Obj00278 *)p)->f38,((struct Obj00278 *)p)->f3C,((struct Obj00278 *)p)->f30);
+        result=func_021FFBD4(ZUKAN_SAVE_GetFromGameData((void *)source[6]),(void *)source[3],c,*(int *)&((struct Obj00278 *)p)->f28,source[0],((struct Obj00278 *)p)->f38,((struct Obj00278 *)p)->f3C,((struct Obj00278 *)p)->f30);
         *(char * *)&((struct Obj00278 *)p)->f0=result;
         func_021FFE5C(result);
     }

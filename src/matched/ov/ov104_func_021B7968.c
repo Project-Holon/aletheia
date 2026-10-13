@@ -1,5 +1,5 @@
 /*
- * function: func_021B7968
+ * function: IRC_RHYTHM_GetScreenActor
  * address:  0x021B7968
  * packet:   pkt_ov104_021B7968
  * region:   ov104
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7D1C  0x021B7D1C  thumb  ov104
+ *   IRC_RHYTHM_GetActor  0x021B7D1C  thumb  ov104
  *
- * Target leaf func_021B7D1C filed EXACT in src/matched; this thunk now attests.
+ * Target leaf IRC_RHYTHM_GetActor filed EXACT in src/matched; this thunk now attests.
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_021B7D1C(u8 *p, int i);
-int func_021B7968(u8 *p, int i) { return func_021B7D1C(p + 4, i); }
+extern int IRC_RHYTHM_GetActor(u8 *p, int i);
+int IRC_RHYTHM_GetScreenActor(u8 *p, int i) { return IRC_RHYTHM_GetActor(p + 4, i); }

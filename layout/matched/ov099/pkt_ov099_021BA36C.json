@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA36C",
+   "name": "WIFICLUBACTOR_AnimateBounce",
    "address": "0x021BA36C",
    "kind": "game",
    "region": "ov099",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3C70
+ * function: BTL_CLIENT_StepUpdateIllusion
  * address: 0x021D3C70
  * packet: pkt_ov093_021D3C70
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 struct Arr;
 extern char *BTL_SIDE_GetSlotOfClient(char *, int);
 extern void BTL_SLOT_UpdateIllusion(char *, struct Arr *, int);
-int func_021D3C70(char *p, int unused, unsigned int *a)
+int BTL_CLIENT_StepUpdateIllusion(char *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
     struct Arr *obj = (struct Arr *)BTL_SIDE_GetSlotOfClient(*(char * *)&((struct Obj13426 *)p)->f4, index);

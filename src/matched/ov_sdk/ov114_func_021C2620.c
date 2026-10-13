@@ -1,5 +1,5 @@
 /*
- * function: func_021C2620
+ * function: ghiPostGetNoFilesContentLength
  * address:  0x021C2620
  * packet:   pkt_ov114_021C2620
  * region:   ov114
@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 extern int func_0209477C(const u8 *s);
 extern int func_02181E20(void *);
 
-int func_021C2620(GHIConnection *connection)
+int ghiPostGetNoFilesContentLength(GHIConnection *connection)
 {
     GHIPost *post;
     GHIPostData *data;

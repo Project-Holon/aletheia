@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02067AAC",
+   "name": "NNS_G2dSetRndCoreOamRegisterFunc",
    "address": "0x02067AAC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067AB8",
+   "name": "NNS_G2dSetRndCoreAffineOverwriteMode",
    "address": "0x02067AB8",
    "kind": "game",
    "region": "arm9",
@@ -42,11 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02067B40"
+    "NNS_G2dSetRndCore3DSoftSpriteZvalue"
+   ],
+   "addresses": [
+    "0x02067B40"
    ]
   },
   {
-   "name": "func_02067B78",
+   "name": "NNS_G2dSetRndCoreFlipMode",
    "address": "0x02067B78",
    "kind": "game",
    "region": "arm9",

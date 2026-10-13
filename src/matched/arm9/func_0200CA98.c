@@ -1,5 +1,5 @@
 /*
- * function: func_0200CA98
+ * function: ZUKAN_SAVE_UpdateViewFlags
  * address:  0x0200CA98
  * packet:   pkt_0200CA98
  * region:   arm9
@@ -15,7 +15,7 @@
  * clamps the caller's form index to the species' count and sets that one
  * form bit in the row `alt` picks; then, for every species, it clears the
  * id's bit in the four 0x54-byte rows at +0x1AC and sets it in the row
- * chosen by (sel, alt), with the same six-arm shape as sub_0200C818.
+ * chosen by (sel, alt), with the same six-arm shape as ZUKAN_SAVE_SetSeenGenderFlag.
  *
  * Written from the start (wave 20, lane musical_fresh) after five lanes
  * iterated on one inherited source and stopped at 89 bytes out; see
@@ -37,12 +37,12 @@
  *    stack, which was the tail's register rotation.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/func_0200CA98.c \
- *       --func func_0200CA98 --addr 0x0200CA98
+ *   python tools/match.py one --src src/matched/ZUKAN_SAVE_UpdateViewFlags.c \
+ *       --func ZUKAN_SAVE_UpdateViewFlags --addr 0x0200CA98
  *   -> EXACT (392 bytes, both table literals resolved)
  *
  * symbols:
- *   func_0200CA98_Table  0x0209DE4C  data
+ *   sZukanFormTable  0x0209DE4C  data
  */
 
 typedef unsigned char  u8;
@@ -65,7 +65,7 @@ struct FormCount {
     u16 unk02;
 };
 
-extern const struct FormCount func_0200CA98_Table[];
+extern const struct FormCount sZukanFormTable[];
 
 static inline void FormSetBit(u8 *a, u16 no)
 {
@@ -89,7 +89,7 @@ static inline void ResetBit(u8 *a, u16 no)
     a[no >> 3] &= (u8)((1 << (no & 7)) ^ 0xFF);
 }
 
-void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form)
+void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form)
 {
     u32 i;
     u32 j;
@@ -98,12 +98,12 @@ void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form)
     off = 0;
     i = 0;
     do {
-        if (id == func_0200CA98_Table[i].unk00) {
-            for (j = 0; j < func_0200CA98_Table[i].unk02; j++) {
+        if (id == sZukanFormTable[i].unk00) {
+            for (j = 0; j < sZukanFormTable[i].unk02; j++) {
                 FormResetBit((u8 *)p->unk2FC[2], off + j);
                 FormResetBit((u8 *)p->unk2FC[3], off + j);
             }
-            if (form >= func_0200CA98_Table[i].unk02) {
+            if (form >= sZukanFormTable[i].unk02) {
                 form = 0;
             }
             if (alt == 1) {
@@ -113,9 +113,9 @@ void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form)
             }
             break;
         }
-        off += func_0200CA98_Table[i].unk02;
+        off += sZukanFormTable[i].unk02;
         i++;
-    } while (func_0200CA98_Table[i].unk00 != 0);
+    } while (sZukanFormTable[i].unk00 != 0);
 
     for (i = 0; i < 4; i++) {
         ResetBit((u8 *)p->unk1AC[i], id);

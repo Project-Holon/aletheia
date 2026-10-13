@@ -1,5 +1,5 @@
 /*
- * function: func_021B80B8
+ * function: IRC_RHYTHM_ClearTextWindow
  * address: 0x021B80B8
  * packet: pkt_ov104_021B80B8
  * region: ov104
@@ -22,4 +22,4 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-void func_021B80B8(u8 *p) { BMP_Clear(BMP_WIN_GetBmp(((struct Obj10245 *)p)->f0),((struct Obj10245 *)p)->f10); BMP_WIN_TransferChars(((struct Obj10245 *)p)->f0); }
+void IRC_RHYTHM_ClearTextWindow(u8 *p) { BMP_Clear(BMP_WIN_GetBmp(((struct Obj10245 *)p)->f0),((struct Obj10245 *)p)->f10); BMP_WIN_TransferChars(((struct Obj10245 *)p)->f0); }

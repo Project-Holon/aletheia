@@ -114,7 +114,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02008FEC 0x02008FEC thumb
  *   PROCSYS_Create 0x02031324 arm
  *   func_021C68A0 0x021C68A0 thumb
@@ -293,7 +293,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void CLACT_ExitSystem(void);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02082AC0(int,void *,int);
+extern void MIi_CpuClearFast(int,void *,int);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *PROCSYS_Create(int);
 extern int func_021C68A0(u8 *p, int *st);
@@ -1082,7 +1082,7 @@ int func_021C5480(void *a, int unused, void **arg)
     u8 *p;
     GFL_HEAP_CreateChildHeap(1,101,65536);
     p = PROCSYS_AllocProcWork(a,52,101);
-    func_02082AC0(0,p,52);
+    MIi_CpuClearFast(0,p,52);
     ((struct MbSeqCtx *)p)->f4 = arg;
     ((struct MbSeqCtx *)p)->f0 = func_02008FEC(*arg);
     *(int *)&((struct MbSeqCtx *)p)->f28 = 8;

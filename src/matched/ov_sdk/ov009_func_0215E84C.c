@@ -12,9 +12,9 @@
  * sdk:      SOCL_Close (libsoc.TWL.HYB.a(socl_close.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_0215F404  0x0215F404  arm  ov009
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0215F3D0  0x0215F3D0  arm  ov009
  *   func_0215CEB0  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
@@ -41,8 +41,8 @@ struct SOCLSocket {
 
 extern struct SOCLResource g_021AA4AC;
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0215F404(int b);
 extern int func_0215F3D0(struct SOCLSocket *socket);
 extern int func_0215CEB0(int a0, char *a1);
@@ -59,13 +59,13 @@ int func_0215E84C(int s)
 
 	if (s <= 0)
 		return -0x1c;
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	if (func_0215F404((int)socket) != 0) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
 	if (func_0215F3D0(socket) != 0) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return result;
 	}
 	{
@@ -74,15 +74,15 @@ int func_0215E84C(int s)
 		if (socket != 0)
 			flag = (socket->state & 1) != 0;
 		if (flag == 0) {
-			func_0208799C(enable);
+			OS_RestoreInterrupts(enable);
 			return -0x27;
 		}
 	}
 	if (socket->state & 0x10) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 	socket->state |= 0x18;
 	{
 		int mode = 1;

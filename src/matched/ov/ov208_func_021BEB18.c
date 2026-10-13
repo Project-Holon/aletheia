@@ -42,10 +42,10 @@
  *   func_021BE82C 0x021BE82C thumb
  *   func_021BE844 0x021BE844 thumb
  *   func_021BF308 0x021BF308 thumb
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   func_021BC3A8 0x021BC3A8 thumb
  *   func_021BCF4C 0x021BCF4C thumb
- *   func_0200CA70 0x0200CA70 thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
  *   func_021BF4FC 0x021BF4FC thumb
  *   func_021BC3B0 0x021BC3B0 thumb
  *   func_021B9E68 0x021B9E68 thumb ov206
@@ -110,10 +110,10 @@ extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
 extern void func_021BE844(void *s);
 extern void func_021BF308(u16 *heap, char *p, int key);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern int func_021BC3A8(int *ctx);
 extern int func_021BCF4C(char *p);
-extern u32 func_0200CA70(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void func_021BF4FC(const u16 *heap, u8 *p, int key, u16 *out1, u16 *out2, u16 *out3, u16 *out4, u32 *out5, u32 *out6, u32 *out7);
 extern int func_021BC3B0(int *ctx);
 extern void *func_021B9E68(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
@@ -172,9 +172,9 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
             func_021BE844(icon);
         }
         func_021BF308((u16 *)h, (char *)p, (int)ctx);
-        t = (int)func_0200CA1C((void *)func_021BC3A4(ctx));
+        t = (int)ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(ctx));
         v40 = func_021BCF4C((char *)func_021BC3A8(ctx));
-        v44 = func_0200CA70((void *)t);
+        v44 = ZUKAN_SAVE_GetViewMode((void *)t);
         func_021BF4FC((const u16 *)h, (u8 *)p, (int)ctx, &w[3], &w[2], &w[1], &w[0], &v54, &v50, tbl);
         p->f4 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 0, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
         p->f8 = func_021B9E68(h->heap, w[3], w[2], w[1], w[0], v54, v44, v50, 2, 1, 1, v40, (u32)p->font, func_021BC3B0(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);

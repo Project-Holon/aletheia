@@ -13,7 +13,7 @@
  *   d_0220AF20     0x0220AF20  data   ov094
  *   sub_020307B0   0x020307B0  arm
  *   sub_02030EAC   0x02030EAC  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_021F899C  0x021F899C  thumb  ov094
  */
 typedef struct {
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern int func_021F899C(void *h);
 struct Node;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern void sub_02030EAC(struct Node *n);
 extern u32 sub_020307B0(void *p);
 
@@ -41,7 +41,7 @@ void func_021F89BC(void *h)
 
     if (h == 0)
         return;
-    w = (void *)TCBL_IsDeletePending(h);
+    w = (void *)TCBL_GetTaskUserData(h);
     if (d_0220AF20->cb[i] != 0)
         d_0220AF20->cb[i](h);
     if (w != 0)

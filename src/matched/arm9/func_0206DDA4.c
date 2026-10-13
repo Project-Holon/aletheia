@@ -1,5 +1,5 @@
 /*
- * function: func_0206DDA4
+ * function: NNS_G3dGeBufferOP_N
  * address:  0x0206DDA4
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -12,8 +12,8 @@
  * NitroSystem G3D NNS_G3dGeBufferOP_N (gecom.c): append op + num argument
  * words to the current geometry command buffer while a display-list send is
  * in flight and the buffer has room (0xc0 words); otherwise flush the buffer
- * (func_0206DB80) or wait out the send (func_0206DBDC), then write op to
- * GXFIFO 0x04000400 and send the arguments after it (func_02082AA8).
+ * (NNS_G3dGeFlushBuffer) or wait out the send (NNS_G3dGeWaitSendDL), then write op to
+ * GXFIFO 0x04000400 and send the arguments after it (MIi_CpuSend32).
  *
  * The last 46 bytes were one hoisted load: the fix is that the in-flight word
  * at +4 is a VOLATILE FIELD of the one global (never CSE'd between the
@@ -22,50 +22,50 @@
  * ../2.0/sp2 as the rest of the cluster.
  *
  * symbols:
- *   g_0214BAB4     0x0214BAB4  data
- *   func_02082B0C  0x02082B0C  arm
- *   func_02082AA8  0x02082AA8  arm
- *   func_0206DB80  0x0206DB80  arm
- *   func_0206DBDC  0x0206DBDC  arm
+ *   gNnsG3dGeState     0x0214BAB4  data
+ *   MIi_CpuCopyFast  0x02082B0C  arm
+ *   MIi_CpuSend32  0x02082AA8  arm
+ *   NNS_G3dGeFlushBuffer  0x0206DB80  arm
+ *   NNS_G3dGeWaitSendDL  0x0206DBDC  arm
  */
 
 typedef unsigned int u32;
 
 struct GxList { u32 count; u32 cmds[1]; };
 struct GxState { struct GxList *list; volatile u32 unk_04; };
-extern struct GxState g_0214BAB4;
+extern struct GxState gNnsG3dGeState;
 
-extern void func_02082B0C(const void *src, void *dst, u32 n);
-extern void func_02082AA8(const void *src, void *dst, u32 n);
-extern void func_0206DB80(void);
-extern void func_0206DBDC(void);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
+extern void MIi_CpuSend32(const void *src, void *dst, u32 n);
+extern void NNS_G3dGeFlushBuffer(void);
+extern void NNS_G3dGeWaitSendDL(void);
 
-void func_0206DDA4(u32 cmd, const void *params, u32 n)
+void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n)
 {
-    if (g_0214BAB4.list != 0) {
-        if (g_0214BAB4.unk_04 != 0) {
-            u32 count = g_0214BAB4.list->count;
+    if (gNnsG3dGeState.list != 0) {
+        if (gNnsG3dGeState.unk_04 != 0) {
+            u32 count = gNnsG3dGeState.list->count;
             if (count + 1 + n <= 0xc0) {
-                g_0214BAB4.list->count = count + 1;
-                g_0214BAB4.list->cmds[count] = cmd;
+                gNnsG3dGeState.list->count = count + 1;
+                gNnsG3dGeState.list->cmds[count] = cmd;
                 if (n == 0)
                     return;
-                func_02082B0C(params,
-                              &g_0214BAB4.list->cmds[g_0214BAB4.list->count],
+                MIi_CpuCopyFast(params,
+                              &gNnsG3dGeState.list->cmds[gNnsG3dGeState.list->count],
                               n * 4);
-                g_0214BAB4.list->count += n;
+                gNnsG3dGeState.list->count += n;
                 return;
             }
         }
-        if (g_0214BAB4.list->count != 0) {
-            func_0206DB80();
-        } else if (g_0214BAB4.unk_04 != 0) {
-            func_0206DBDC();
+        if (gNnsG3dGeState.list->count != 0) {
+            NNS_G3dGeFlushBuffer();
+        } else if (gNnsG3dGeState.unk_04 != 0) {
+            NNS_G3dGeWaitSendDL();
         }
-    } else if (g_0214BAB4.unk_04 != 0) {
-        func_0206DBDC();
+    } else if (gNnsG3dGeState.unk_04 != 0) {
+        NNS_G3dGeWaitSendDL();
     }
     *(u32 *)0x04000400 = cmd;
-    func_02082AA8(params, (void *)0x04000400, n * 4);
+    MIi_CpuSend32(params, (void *)0x04000400, n * 4);
 }
 

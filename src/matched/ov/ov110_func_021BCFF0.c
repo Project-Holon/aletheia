@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFF0
+ * function: PMSIV_MENU_IsEntryFinished
  * address: 0x021BCFF0
  * packet: pkt_ov110_021BCFF0
  * region: ov110
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
-u32 func_021BCFF0(char *p,u32 index) { return APP_TASKMENU_WIN_IsFinish(*(u8 **)((u32)p+index*4+0x64)); }
+u32 PMSIV_MENU_IsEntryFinished(char *p,u32 index) { return APP_TASKMENU_WIN_IsFinish(*(u8 **)((u32)p+index*4+0x64)); }

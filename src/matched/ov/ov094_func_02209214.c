@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
+ *   TCBL_GetTaskUserData  0x02030EE8  arm  arm9
  */
 
 typedef struct { char pad[0xd8]; int fd8; } W;
-extern W **TCBL_IsDeletePending(void *h);
+extern W **TCBL_GetTaskUserData(void *h);
 
 void BTLV_B_GAUGE_PartyBallBarTaskDeleted(void *h)
 {
-    (*TCBL_IsDeletePending(h))->fd8 = 0;
+    (*TCBL_GetTaskUserData(h))->fd8 = 0;
 }

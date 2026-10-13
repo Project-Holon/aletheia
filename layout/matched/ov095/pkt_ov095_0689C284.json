@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689C284",
+   "name": "BTL_SICK_GetCureStringId",
    "address": "0x0689C284",
    "kind": "game",
    "region": "ov095",

@@ -1,5 +1,5 @@
 /*
- * function: func_0689AB48
+ * function: BTLV_SCD_OpenRotateMenuStep
  * address:  0x0689AB48
  * packet:   pkt_ov095_0689AB48
  * region:   ov095
@@ -30,7 +30,7 @@ typedef struct {
 
 extern void func_0689AB90(u32 h, int k, L *l);
 
-int func_0689AB48(int unused, u8 *s)
+int BTLV_SCD_OpenRotateMenuStep(int unused, u8 *s)
 {
     L l;
     int i;

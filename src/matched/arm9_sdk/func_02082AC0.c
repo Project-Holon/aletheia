@@ -1,5 +1,5 @@
 /*
- * function: func_02082AC0
+ * function: MIi_CpuClearFast
  * address:  0x02082AC0
  * packet:   pkt_02082AC0
  * region:   arm9
@@ -15,7 +15,7 @@
  * void MIi_CpuClearFast(u32 data, void *destp, u32 size).
  */
 
-asm void func_02082AC0(void)
+asm void MIi_CpuClearFast(void)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9}
     add r9, r1, r2

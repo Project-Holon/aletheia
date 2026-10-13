@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069C74",
+   "name": "NNS_G3dAnmObjInit",
    "address": "0x02069C74",
    "kind": "game",
    "region": "arm9",
@@ -110,7 +110,7 @@
    }
   },
   {
-   "name": "func_02069D14",
+   "name": "NNS_G3dRenderObjInit",
    "address": "0x02069D14",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    }
   },
   {
-   "name": "func_02069FD0",
+   "name": "NNS_G3dTexGetRequiredSize",
    "address": "0x02069FD0",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069FE4",
+   "name": "NNS_G3dTex4x4GetRequiredSize",
    "address": "0x02069FE4",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02069FF8",
+   "name": "NNS_G3dTexSetTexKey",
    "address": "0x02069FF8",
    "kind": "game",
    "region": "arm9",

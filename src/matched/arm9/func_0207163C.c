@@ -1,5 +1,5 @@
 /*
- * function: func_0207163C
+ * function: NNSi_G3dGetJointScaleSi3d
  * address:  0x0207163C
  * packet:   pkt_02071360
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   MIi_CpuCopy32  0x02082A90  arm
- *   g_02148DB0     0x02148DB0  data
+ *   gCurrentRS     0x02148DB0  data
  *   g_02149BB4     0x02149BB4  data
  *
  * The matrix-slot propagation step of the cluster_02071360 transform
@@ -42,8 +42,8 @@
  * bytes, 0 out, first compile.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0207163C.c \
- *       --func func_0207163C --addr 0x0207163C --arm --cc ../2.0/sp2
+ *   python tools/match.py one --src src/matched/NNSi_G3dGetJointScaleSi3d.c \
+ *       --func NNSi_G3dGetJointScaleSi3d --addr 0x0207163C --arm --cc ../2.0/sp2
  */
 
 #include "../include/G_Root.h"
@@ -68,18 +68,18 @@ struct Idx {
 };
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 extern s32 g_02149BB4[][6];
 
-void func_0207163C(struct Obj *o, s32 *m, struct Idx *idx, u32 flags)
+void NNSi_G3dGetJointScaleSi3d(struct Obj *o, s32 *m, struct Idx *idx, u32 flags)
 {
     u32 a = idx->a;
     u32 b = idx->b;
 
     if (flags & 4) {
         o->flags |= 1;
-        if (g_02148DB0->bits[b >> 5] & (1 << (b & 0x1f))) {
-            g_02148DB0->bits[a >> 5] |= 1 << (a & 0x1f);
+        if (gCurrentRS->bits[b >> 5] & (1 << (b & 0x1f))) {
+            gCurrentRS->bits[a >> 5] |= 1 << (a & 0x1f);
             o->flags |= 0x18;
             return;
         }
@@ -91,13 +91,13 @@ void func_0207163C(struct Obj *o, s32 *m, struct Idx *idx, u32 flags)
     o->f04 = m[0];
     o->f08 = m[1];
     o->f0c = m[2];
-    if (g_02148DB0->bits[b >> 5] & (1 << (b & 0x1f))) {
+    if (gCurrentRS->bits[b >> 5] & (1 << (b & 0x1f))) {
         MIi_CpuCopy32(m, g_02149BB4[a], 0x18);
-        g_02148DB0->bits[a >> 5] &= ~(1 << (a & 0x1f));
+        gCurrentRS->bits[a >> 5] &= ~(1 << (a & 0x1f));
         o->flags |= 0x18;
         return;
     }
-    g_02148DB0->bits[a >> 5] &= ~(1 << (a & 0x1f));
+    gCurrentRS->bits[a >> 5] &= ~(1 << (a & 0x1f));
     g_02149BB4[a][0] = (s32)(((s64)m[0] * g_02149BB4[b][0]) >> 12);
     g_02149BB4[a][1] = (s32)(((s64)m[1] * g_02149BB4[b][1]) >> 12);
     g_02149BB4[a][2] = (s32)(((s64)m[2] * g_02149BB4[b][2]) >> 12);

@@ -37,8 +37,8 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02034714  0x02034714  arm
  *   POKEPARTY_Create  0x0201A920  thumb
@@ -152,8 +152,8 @@ extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32   GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32   POKEPARTY_GetCount(void *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 func_0200FB24(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct Party *POKEPARTY_Create(u32 heap);
@@ -236,7 +236,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         s->fd = 0;
         s->ff = w->f3c;
         s->f10 = 0;
-        s->f18 = func_0200CA38(func_0200CA1C(s->f8));
+        s->f18 = ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(s->f8));
         GAMESYSTEM_CallProc((void *)a0, (u32)ov131_id, gPokeStatusProcData, s);
         (*state)++;
         break;

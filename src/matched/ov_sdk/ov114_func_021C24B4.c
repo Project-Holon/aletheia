@@ -1,5 +1,5 @@
 /*
- * function: func_021C24B4
+ * function: ghiPostAddFileFromMemory
  * address:  0x021C24B4
  * packet:   pkt_ov114_021C24B4
  * region:   ov114
@@ -39,7 +39,7 @@ extern char *func_0217F1E0(char *src);
 extern void func_0217EAE0(void *ptr);
 extern void func_02184234(void *array, void *newElem);
 
-int func_021C24B4(GHIPost *_post, char *name, char *buffer, int bufferLen,
+int ghiPostAddFileFromMemory(GHIPost *_post, char *name, char *buffer, int bufferLen,
                   char *reportFilename, char *contentType)
 {
     char *nameLocal;

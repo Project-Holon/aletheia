@@ -1,5 +1,5 @@
 /*
- * function: func_021C2464
+ * function: ghiFreePost
  * address:  0x021C2464
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern void func_021841B0(u32);
 extern void func_0217EAE0(u8 *);
 
-void func_021C2464(u8 *p)
+void ghiFreePost(u8 *p)
 {
     if (*(u32 *)p != 0)
         func_021841B0(*(u32 *)p);

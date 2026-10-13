@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06899D3C",
+   "name": "BTLV_SCD_CloseInputIfOpen",
    "address": "0x06899D3C",
    "kind": "game",
    "region": "ov095",

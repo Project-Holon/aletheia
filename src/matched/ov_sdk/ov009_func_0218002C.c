@@ -12,7 +12,7 @@
  * sdk:      gsiSoapTaskCancel (gssoap.o)
  *
  * symbols:
- *   func_021C22A4                  0x021C22A4  arm
+ *   ghttpCancelRequest                  0x021C22A4  arm
  */
 
 typedef struct GSSoapTask {
@@ -22,7 +22,7 @@ typedef struct GSSoapTask {
     int completed;
 } GSSoapTask;
 
-extern void func_021C22A4(int request);
+extern void ghttpCancelRequest(int request);
 
 void func_0218002C(void *theTask)
 {
@@ -30,6 +30,6 @@ void func_0218002C(void *theTask)
     if (soapTask->completed != 0)
         return;
     if (soapTask->request >= 0)
-        func_021C22A4(soapTask->request);
+        ghttpCancelRequest(soapTask->request);
     soapTask->result = 18;
 }

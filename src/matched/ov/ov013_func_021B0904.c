@@ -25,7 +25,7 @@
  *   VCT_AUDIO_GetReadyCount  0x021B19AC  arm  ov013
  *   func_020870D0  0x020870D0  arm
  *   VCT_AUDIO_PeekReadyPacket  0x021B190C  arm  ov013
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
  *   VCT_AUDIO_SetLastPacket  0x021B1A74  arm  ov013
  */
@@ -72,7 +72,7 @@ extern Slot gVctReceiveSources[3];
 extern int VCT_AUDIO_GetReadyCount(u32 idx);
 extern u64 func_020870D0(void);
 extern void *VCT_AUDIO_PeekReadyPacket(unsigned int i);
-extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern void VCT_POOL_FreeFrame(Pkt *p);
 extern int VCT_AUDIO_SetLastPacket(Slot *s, Pkt *p);
 
@@ -96,7 +96,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask)
             if (pkt->f46C > now + 0x34) {
                 if (pkt->f45C == 0 && slot->f3C != 0) {
                     slot->f20++;
-                    func_02082B0C(slot->f3C->f474, dst, size);
+                    MIi_CpuCopyFast(slot->f3C->f474, dst, size);
                     VCT_POOL_FreeFrame(slot->f3C);
                     slot->f3C = 0;
                     if (mask != 0) {
@@ -130,7 +130,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask)
             slot->f28 = d;
             slot->f2C = slot->f28 + ((diff - slot->f28) >> 4);
             slot->f0 = slot->f2C;
-            func_02082B0C(pkt->f474, dst, size);
+            MIi_CpuCopyFast(pkt->f474, dst, size);
             VCT_AUDIO_SetLastPacket(slot, pkt);
             if (mask != 0) {
                 *mask |= 1 << pkt->f10;

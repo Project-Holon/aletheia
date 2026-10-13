@@ -33,7 +33,7 @@
  * History: docs/notes/pkt_02014D2C_boundary.c.txt.
  *
  * symbols:
- *   func_0206DB80    0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   MTX_Inverse43    0x0207B67C  arm
  *   MI_Copy36B       0x02082B60  arm
  *   MTX_Copy33To44_  0x0207ADE8  arm
@@ -76,7 +76,7 @@ typedef struct { fx32 m[4][3]; } MtxFx43;
 typedef struct { fx32 m[3][3]; } MtxFx33;
 typedef struct { fx32 m[4][4]; } MtxFx44;
 
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern int  MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Copy33To44_(const MtxFx33 *src, MtxFx44 *dst);
@@ -280,7 +280,7 @@ void MCSS_Draw(struct McssSys *sys)
     int billboard;
     int param;
 
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
     REG_MTX_PUSH = 0;
     REG_MTX_MODE = 0;
     REG_MTX_STORE = 0;

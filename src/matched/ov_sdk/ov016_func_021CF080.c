@@ -1,5 +1,5 @@
 /*
- * function: func_021CF080
+ * function: DWCi_SEARCHlStop
  * address:  0x021CF080
  * packet:   pkt_ov016_021CF080
  * region:   ov016
@@ -16,7 +16,7 @@
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
  *   func_021CF174  0x021CF174  arm  ov016
- *   g_021DE640  0x021DE640  data
+ *   gSearchWork  0x021DE640  data
  */
 
 typedef struct {
@@ -52,21 +52,21 @@ extern int WM_ReadStatus(void *statusBuf);
 extern int WM_Reset(void (*callback)(void *));
 extern int WM_End(void (*callback)(void *));
 extern void func_021CF174(void *arg);
-extern MS *g_021DE640;
+extern MS *gSearchWork;
 
-int func_021CF080(void)
+int DWCi_SEARCHlStop(void)
 {
 	int rs;
 
-	g_021DE640->flag = 1;
-	WM_ReadStatus(&g_021DE640->status);
-	if (g_021DE640->status.state != 2) {
+	gSearchWork->flag = 1;
+	WM_ReadStatus(&gSearchWork->status);
+	if (gSearchWork->status.state != 2) {
 		rs = WM_Reset(func_021CF174);
 		if (rs != 2)
 			return 0;
 		do {
-			WM_ReadStatus(&g_021DE640->status);
-		} while (g_021DE640->status.state != 2);
+			WM_ReadStatus(&gSearchWork->status);
+		} while (gSearchWork->status.state != 2);
 	}
 	rs = WM_End(func_021CF174);
 	if (rs != 2)

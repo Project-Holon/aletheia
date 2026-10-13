@@ -1,5 +1,5 @@
 /*
- * function: func_021C23E4
+ * function: ghiNewPost
  * address:  0x021C23E4
  * packet:   pkt_ov114_021C23E4
  * region:   ov114
@@ -19,7 +19,7 @@
  *   func_0217EAB0                  0x0217EAB0  arm ov009
  *   func_02184144                  0x02184144  arm ov009
  *   func_0217EAE0                  0x0217EAE0  arm ov009
- *   func_021C235C                  0x021C235C  arm ov114
+ *   ghiPostDataFree                  0x021C235C  arm ov114
  */
 
 #include "../arm9_sdk/libc/string.h"
@@ -42,9 +42,9 @@ extern void *func_0217EAB0(unsigned long size);
 extern struct DArrayImplementation *func_02184144(int elemSize, int numElemsToAllocate,
                                                   void (*elemFreeFn)(void *));
 extern void func_0217EAE0(void *ptr);
-extern void func_021C235C(void *elem);
+extern void ghiPostDataFree(void *elem);
 
-GHIPost *func_021C23E4(void)
+GHIPost *ghiNewPost(void)
 {
     GHIPost *post;
 
@@ -53,7 +53,7 @@ GHIPost *func_021C23E4(void)
         return 0;
     memset(post, 0, sizeof(GHIPost));
     post->autoFree = GHTTPTrue;
-    post->data = func_02184144(0x18, 0, func_021C235C);
+    post->data = func_02184144(0x18, 0, ghiPostDataFree);
     if (post->data == 0) {
         func_0217EAE0(post);
         return 0;

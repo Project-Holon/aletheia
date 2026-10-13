@@ -14,17 +14,17 @@
  *   relocation, and needs no witness.
  *
  * symbols:
- *   func_02088610  0x02088610  arm twl a2
+ *   PXI_SendWordByFifo  0x02088610  arm twl a2
  */
 
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern s32 func_02088610(u32, u32, u32);
+extern s32 PXI_SendWordByFifo(u32, u32, u32);
 
 u32 MicexStopLimitedSampling(void) {
     u32 res = 0;
-    if (func_02088610(9, 0x03004500, 0) >= 0) {
+    if (PXI_SendWordByFifo(9, 0x03004500, 0) >= 0) {
         res = 1;
     }
     return res;

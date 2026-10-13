@@ -14,8 +14,8 @@
  *   func_02030734       0x02030734  arm
  *   ARC_TOOL_OpenArchive       0x02048DDC  arm
  *   ARC_TOOL_SeekMember       0x02048E34  arm
- *   func_02078A80       0x02078A80  arm
- *   func_02078B70       0x02078B70  arm
+ *   FS_CloseFile       0x02078A80  arm
+ *   FS_ReadFile       0x02078B70  arm
  *
  * The allocating twin of ARC_TOOL_ReadMemberRangeImpl: bind a temporary 0x48-byte archive
  * handle to `archive_id`, size the member, take a block of exactly that size
@@ -51,8 +51,8 @@ extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
 typedef signed int     s32;
 struct FSFile;
 extern u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void func_02078A80(struct ArcHandle *h);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern void FS_CloseFile(struct ArcHandle *h);
 
 void *ARC_TOOL_LoadMemberRangeImpl(u32 archive_id, u32 member, u32 heap, u32 mode,
                     u32 *size_out)
@@ -64,7 +64,7 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archive_id, u32 member, u32 heap, u32 mod
     ARC_TOOL_OpenArchive((struct ArcFile *)(&h), archive_id);
     size = ARC_TOOL_SeekMember(&h, member, mode, (u32)size_out);
     buf = func_02030734(heap, size, 0, arc_tool_file, 0xbb);
-    func_02078B70((struct FSFile *)(&h), buf, size);
-    func_02078A80(&h);
+    FS_ReadFile((struct FSFile *)(&h), buf, size);
+    FS_CloseFile(&h);
     return buf;
 }

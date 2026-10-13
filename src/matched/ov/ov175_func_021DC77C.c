@@ -22,13 +22,13 @@
  *       }
  *   }
  * symbols:
- *   func_021B95D4 0x021B95D4 thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   func_021DC610 0x021DC610 thumb ov175
  *   GFL_NET_ERR_RaiseFatal 0x0200FB4C thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -36,13 +36,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u32 a,b;} Pair;
-extern int func_021B95D4(int,u8 *);
-extern int func_021B9748(u8 *);
-extern void func_021B9838(u8 *);
-extern int func_021B99DC(u8 *);
-extern int func_021B9790(u8 *);
-extern u8 *func_021B97F4(u8 *);
-extern void func_021B9774(u8 *);
+extern int NHTTP_RAP_CreateRequest(int,u8 *);
+extern int NHTTP_RAP_StartConnection(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
 extern int func_021DC610(u32);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern void MI_CpuFill8(void *,int,int);
@@ -53,17 +53,17 @@ int func_021DC77C(u8 *p)
     if(*(u8 **)(p+0x121c)==0)return 2;
     switch(*(u32 *)(p+0x12c)) {
     case 0:
-        if(func_021B95D4(5,*(u8 **)(p+0x121c))!=0)*(u32 *)(p+0x12c)=1;
+        if(NHTTP_RAP_CreateRequest(5,*(u8 **)(p+0x121c))!=0)*(u32 *)(p+0x12c)=1;
         break;
     case 1:
-        if(func_021B9748(*(u8 **)(p+0x121c))==0) {*(u32 *)(p+0x12c)=2;break;}
-        if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
+        if(NHTTP_RAP_StartConnection(*(u8 **)(p+0x121c))==0) {*(u32 *)(p+0x12c)=2;break;}
+        if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
         return 2;
     case 2:
-        query=func_021B99DC(*(u8 **)(p+0x121c));
-        status=func_021B9790(*(u8 **)(p+0x121c));
+        query=NHTTP_RAP_GetResultCode(*(u8 **)(p+0x121c));
+        status=NHTTP_RAP_PollConnection(*(u8 **)(p+0x121c));
         if(status==0) {
-            r=func_021B97F4(*(u8 **)(p+0x121c));
+            r=NHTTP_RAP_GetRecvBuffer(*(u8 **)(p+0x121c));
             if(query!=0x1f6) {
                 if(query==0x1f7) {*(u32 *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(62);return 0;}
             } else {*(u32 *)(p+0x12c)=4;GFL_NET_ERR_RaiseFatal(63);return 0;}
@@ -71,18 +71,18 @@ int func_021DC77C(u8 *p)
             if(*(u32 *)r==0)*(u32 *)(p+0x12c)=3;
             else {GFL_NET_ERR_RaiseFatal(func_021DC610(*(u32 *)r));*(u32 *)(p+0x12c)=4;}
         } else if(status!=15) {
-            if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
+            if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
             return 2;
         }
         break;
     case 4:
         MI_CpuFill8(p+0x1220,0,8);
         if(*(u8 **)(p+0x121c)!=0) {
-            func_021B9774(*(u8 **)(p+0x121c));func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;
+            NHTTP_RAP_DeleteConnection(*(u8 **)(p+0x121c));NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;
         }
         return 3;
     case 3:
-        if(*(u8 **)(p+0x121c)!=0) {func_021B9838(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
+        if(*(u8 **)(p+0x121c)!=0) {NHTTP_RAP_Destroy(*(u8 **)(p+0x121c));*(u32 *)(p+0x121c)=0;}
         return 1;
     }
     return 0;

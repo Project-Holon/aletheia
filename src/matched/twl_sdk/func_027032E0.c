@@ -15,7 +15,7 @@
  *   func_020862B8  0x020862B8  arm twl
  *   func_020862D4  0x020862D4  arm twl
  *   NWMi_SetCallbackTable  0x02703A34  arm twl
- *   func_02082D44  0x02082D44  arm twl
+ *   MI_CpuCopy8  0x02082D44  arm twl
  *   NWMi_SendCommandDirect  0x02703B24  arm twl
  *   DAT_027341cc   0x027341cc  data twl
  */
@@ -41,7 +41,7 @@ extern TwlWork *NWMi_GetSystemWork(void);
 extern void func_020862B8(u8 *, u32);
 extern void func_020862D4(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 NWMi_SendCommandDirect(void *, u32);
 extern u32 DAT_027341cc[];
 
@@ -84,7 +84,7 @@ u32 NWM_Connect(u32 a0, u32 a1, const u16 *a2) {
     msg.buf = (u32)DAT_027341cc;
     msg.len = 8;
     msg.idx = a1;
-    func_02082D44(a2, DAT_027341cc, a2[0]);
+    MI_CpuCopy8(a2, DAT_027341cc, a2[0]);
     func_020862D4((void *)msg.buf, 0x200);
     func_020862D4(&msg, 8);
     r = NWMi_SendCommandDirect(&msg, 8);

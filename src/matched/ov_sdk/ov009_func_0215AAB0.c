@@ -1,5 +1,5 @@
 /*
- * function: func_0215AAB0
+ * function: CPS_SocBind
  * address:  0x0215AAB0
  * packet:   pkt_ov009_0215AAB0
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      CPS_SocBind (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_0215A970  0x0215A970  arm  ov009
+ *   CPS_SocGetEport  0x0215A970  arm  ov009
  *   g_02150FEC  0x02150FEC  data
  *   g_021A826C  0x021A826C  data
  */
 
 extern char g_02150FEC[];
 extern char g_021A826C[];
-extern unsigned short func_0215A970(void);
+extern unsigned short CPS_SocGetEport(void);
 
-void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
+void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip)
 {
     char *soc = *(char **)(*(char **)(g_02150FEC + 4) + 0xa4);
 
@@ -36,5 +36,5 @@ void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsign
     if (local_port != 0)
         *(unsigned short *)(soc + 0xa) = local_port;
     else
-        *(unsigned short *)(soc + 0xa) = func_0215A970();
+        *(unsigned short *)(soc + 0xa) = CPS_SocGetEport();
 }

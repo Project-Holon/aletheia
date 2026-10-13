@@ -13,7 +13,7 @@
  *
  * symbols:
  *   MI_CpuFill8                      0x02082BCC  arm
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -53,12 +53,12 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
 void func_021D45E0(void)
 {
-    MI_CpuFill8(g_021DE668->sRecvBuf, 0, 256);
-    MI_CpuFill8(g_021DE668->sSendBuf, 0, 256);
-    g_021DE668->sShareDataPtr = g_021DE668;
+    MI_CpuFill8(gDwcMoveidWork->sRecvBuf, 0, 256);
+    MI_CpuFill8(gDwcMoveidWork->sSendBuf, 0, 256);
+    gDwcMoveidWork->sShareDataPtr = gDwcMoveidWork;
 }

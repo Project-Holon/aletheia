@@ -12,10 +12,10 @@
  * sdk:      taskMain1 (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
- *   func_021D7724  0x021D7724  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
- *   func_021D1B3C  0x021D1B3C  arm  ov016
- *   g_021DE658     0x021DE658  data
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
+ *   DWCi_WindowTaskEnd  0x021D1B3C  arm  ov016
+ *   gWindowWork     0x021DE658  data
  */
 
 #include "../include/G_MemWinT.h"
@@ -37,17 +37,17 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void func_021D7724();
-extern void *func_021D7680();
-extern void func_021D1B3C(void *task);
-extern struct MemWinT *g_021DE658;
+extern void DWCi_TSKlDelete();
+extern void *DWCi_TSKlForm();
+extern void DWCi_WindowTaskEnd(void *task);
+extern struct MemWinT *gWindowWork;
 
 void func_021D17FC(void *task)
 {
-    g_021DE658->input = -1;
-    g_021DE658->countWait++;
-    if (g_021DE658->countWait < 0x78)
+    gWindowWork->input = -1;
+    gWindowWork->countWait++;
+    if (gWindowWork->countWait < 0x78)
         return;
-    func_021D7724(0, task);
-    g_021DE658->task = func_021D7680(1, func_021D1B3C, 0, 0x78);
+    DWCi_TSKlDelete(0, task);
+    gWindowWork->task = DWCi_TSKlForm(1, DWCi_WindowTaskEnd, 0, 0x78);
 }

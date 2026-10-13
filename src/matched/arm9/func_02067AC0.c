@@ -1,5 +1,5 @@
 /*
- * function: func_02067AC0
+ * function: NNS_G2dSetRndCoreCurrentMtx3D
  * address:  0x02067AC0
  * packet:   pkt_02067AC0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   sOamSoftEmuContext   0x02148B48  data
+ *   sRndCoreInstance   0x02148B48  data
  *
  * Seeds the multi-cell renderer's working block from the caller's parameter
  * record: the record pointer at +0x2C, six of its words copied to +0x40..+0x50
@@ -19,8 +19,8 @@
  * +0x6C.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02067AC0.c \
- *       --func func_02067AC0 --addr 0x02067AC0 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dSetRndCoreCurrentMtx3D.c \
+ *       --func NNS_G2dSetRndCoreCurrentMtx3D --addr 0x02067AC0 --arm --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -55,11 +55,11 @@ struct Work02067AC0 {
     u32 unk_6c;
 };
 
-extern struct Work02067AC0 *sOamSoftEmuContext;
+extern struct Work02067AC0 *sRndCoreInstance;
 
-void func_02067AC0(struct Src02067AC0 *src)
+void NNS_G2dSetRndCoreCurrentMtx3D(struct Src02067AC0 *src)
 {
-    struct Work02067AC0 *w = sOamSoftEmuContext;
+    struct Work02067AC0 *w = sRndCoreInstance;
 
     w->unk_2c = (u32)src;
     w->unk_40 = src->unk_00;

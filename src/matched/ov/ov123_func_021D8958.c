@@ -14,8 +14,8 @@
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
- *   func_021B95D4 0x021B95D4 thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
+ *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D81E4 0x021D81E4 thumb ov123
  *   func_021D88C0 0x021D88C0 thumb ov123
@@ -36,8 +36,8 @@ extern int func_0203F540(struct RtcDate *);
 extern int GFL_NET_GetRunState(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern int func_021B95D4(int index, u8 *p);
-extern int func_021B9748(u8 *p);
+extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
+extern int NHTTP_RAP_StartConnection(u8 *p);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D81E4(char *);
 extern void func_021D88C0(char *);
@@ -62,7 +62,7 @@ void func_021D8958(char *p)
         return;
     }
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(1,((struct Obj06468 *)p)->f10) && !func_021B9748(((struct Obj06468 *)p)->f10))
+        if (NHTTP_RAP_CreateRequest(1,((struct Obj06468 *)p)->f10) && !NHTTP_RAP_StartConnection(((struct Obj06468 *)p)->f10))
             func_021D6EE0((u8 *)p,(int)func_021D88C0,0x871);
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())

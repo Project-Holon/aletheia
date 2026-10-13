@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EB8
+ * function: WIFICLUBACTOR_CreateClactActors
  * address:  0x021B9EB8
  * packet:   pkt_ov099_021B9EB8
  * region:   ov099
@@ -38,7 +38,7 @@ extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, un
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnim(struct Obj *a, u32 b);
 
-void func_021B9EB8(Obj *o, int a)
+void WIFICLUBACTOR_CreateClactActors(Obj *o, int a)
 {
     Rec r;
 

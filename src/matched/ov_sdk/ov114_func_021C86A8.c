@@ -1,5 +1,5 @@
 /*
- * function: func_021C86A8
+ * function: DPW_TR_GetAsyncResult
  * address:  0x021C86A8
  * packet:   pkt_ov114_021C86A8
  * region:   ov114
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * Unlabelled ARM leaf in a .word run.  Extent 0x021C86A8..0x021C86B8
- * (16 bytes): ldr/ldr/bx plus one pool word naming d_021D3D2C.
+ * (16 bytes): ldr/ldr/bx plus one pool word naming gDpwTrWork.
  *
  * symbols:
- *   d_021D3D2C  0x021D3D2C  data  a4
+ *   gDpwTrWork  0x021D3D2C  data  a4
  */
 
-extern unsigned int d_021D3D2C[];
+extern unsigned int gDpwTrWork[];
 
-int func_021C86A8(void)
+int DPW_TR_GetAsyncResult(void)
 {
-    return d_021D3D2C[1];
+    return gDpwTrWork[1];
 }

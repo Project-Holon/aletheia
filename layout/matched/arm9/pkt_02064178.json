@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206419C",
+   "name": "NNSi_G2dRefreshCellAnimation",
    "address": "0x0206419C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020642C8",
+   "name": "NNS_G2dInitCellAnimationVramTransfered",
    "address": "0x020642C8",
    "kind": "game",
    "region": "arm9",

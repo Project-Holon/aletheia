@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC69C",
+   "name": "PMSIV_EDIT_SetCursorPressed",
    "address": "0x021BC69C",
    "kind": "game",
    "region": "ov110",

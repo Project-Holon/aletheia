@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_06899D2C",
-    "func_06899D30"
+    "BTLV_SCD_OnSlideInDone",
+    "BTLV_SCD_OnSlideOutStart"
+   ],
+   "addresses": [
+    "0x06899D2C",
+    "0x06899D30"
    ]
   }
  ]

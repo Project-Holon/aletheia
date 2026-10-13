@@ -1,5 +1,5 @@
 /*
- * function: func_021E054C
+ * function: sciSerializeInt32
  * address:  0x021E054C
  * packet:   pkt_021E054C
  * region:   ov175
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 *func_021E054C(u8 *dst, u32 v)
+u8 *sciSerializeInt32(u8 *dst, u32 v)
 {
     u32 w = ((v >> 24) & 0xff) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000)
           | ((v << 24) & 0xff000000);

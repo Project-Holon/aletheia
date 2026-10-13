@@ -1,5 +1,5 @@
 /*
- * function: func_021C96CC
+ * function: DPW_BT_GetServerStateAsync
  * address: 0x021C96CC
  * packet: pkt_ov114_021C96CC
  * region: ov114
@@ -8,32 +8,32 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021D3EFC 0x021D3EFC data a4
- *   d_021D4084 0x021D4084 data a4
- *   d_021CF6D4 0x021CF6D4 data a4
- *   d_021CF770 0x021CF770 data a4
- *   d_021D4098 0x021D4098 data a4
- *   func_021C9EE4 0x021C9EE4 arm ov114
- *   func_021CA470 0x021CA470 arm ov114
- *   func_021CA1B4 0x021CA1B4 arm ov114
+ *   gDpwBtServerIndex 0x021D3EFC data a4
+ *   gDpwBtWork 0x021D4084 data a4
+ *   gDpwBtBaseUrl 0x021CF6D4 data a4
+ *   gDpwBtPathGetServerState 0x021CF770 data a4
+ *   gDpwBtRequestPacket 0x021D4098 data a4
+ *   DWCi_EncSessionInitialize 0x021C9EE4 arm ov114
+ *   DWCi_EncSessionGetAsync 0x021CA470 arm ov114
+ *   DWCi_EncSessionShutdown 0x021CA1B4 arm ov114
  */
 
 #include "../include/G_Block.h"
 
-extern void *d_021D3EFC;
-extern struct Block d_021D4098;
-extern unsigned d_021D4084[], d_021CF6D4[], d_021CF770[];
-extern void func_021C9EE4(int server, char *initdata);
-extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
-extern void func_021CA1B4(void);
-void func_021C96CC(void)
+extern void *gDpwBtServerIndex;
+extern struct Block gDpwBtRequestPacket;
+extern unsigned gDpwBtWork[], gDpwBtBaseUrl[], gDpwBtPathGetServerState[];
+extern void DWCi_EncSessionInitialize(int server, char *initdata);
+extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
+extern void DWCi_EncSessionShutdown(void);
+void DPW_BT_GetServerStateAsync(void)
 {
-    func_021C9EE4((int)d_021D3EFC, (char *)d_021CF6D4);
-    if (func_021CA470(d_021CF770, d_021D4084[2], ((unsigned *)&d_021D4098), 0, 0) == 0) {
-        d_021D4084[0] = 8;
+    DWCi_EncSessionInitialize((int)gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    if (DWCi_EncSessionGetAsync(gDpwBtPathGetServerState, gDpwBtWork[2], ((unsigned *)&gDpwBtRequestPacket), 0, 0) == 0) {
+        gDpwBtWork[0] = 8;
         return;
     }
-    d_021D4084[0] = 12;
-    d_021D4084[1] = -5;
-    func_021CA1B4();
+    gDpwBtWork[0] = 12;
+    gDpwBtWork[1] = -5;
+    DWCi_EncSessionShutdown();
 }

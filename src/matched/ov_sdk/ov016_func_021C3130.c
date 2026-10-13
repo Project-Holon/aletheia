@@ -12,9 +12,9 @@
  * sdk:      dispPush (libdwcutil.TWL.HYB.a(sceneoptmenu.o))
  *
  * symbols:
- *   g_021DE5A8  0x021DE5A8  data
- *   g_021DA4B0  0x021DA4B0  data
- *   func_021CE7B0  0x021CE7B0  arm  ov016
+ *   gSceneOptMenuWork  0x021DE5A8  data
+ *   sSceneOptMenuEntryCount  0x021DA4B0  data
+ *   DWCi_SCREENlCopyPalette  0x021CE7B0  arm  ov016
  */
 
 #include "../include/G_FocusPosT.h"
@@ -26,12 +26,12 @@ typedef struct {
 	void *ptr;
 } FocusPosT;
 
-extern void func_021CE7B0(void *p, int a, int b);
-extern struct FocusPosT g_021DE5A8;
-extern unsigned char g_021DA4B0[3];
+extern void DWCi_SCREENlCopyPalette(void *p, int a, int b);
+extern struct FocusPosT gSceneOptMenuWork;
+extern unsigned char sSceneOptMenuEntryCount[3];
 
 void func_021C3130(void)
 {
-	int n = g_021DA4B0[g_021DE5A8.idx];
-	func_021CE7B0(g_021DE5A8.ptr, n, n);
+	int n = sSceneOptMenuEntryCount[gSceneOptMenuWork.idx];
+	DWCi_SCREENlCopyPalette(gSceneOptMenuWork.ptr, n, n);
 }

@@ -23,7 +23,7 @@
  *   func_021D8B0C 0x021D8B0C thumb ov119
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_02061CA4 0x02061CA4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -54,7 +54,7 @@ struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
-extern void func_02082D44(int src, int dst, int n);
+extern void MI_CpuCopy8(int src, int dst, int n);
 extern int POKE_TOOL_GetIconPalette(void *a0);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -106,11 +106,11 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
                 if (func_02061CA4((void *)0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
                     vram = VRAM_BASE;
-                    func_02082D44(*(int *)(p + 0x1184) + idx * 0x200, vram + info.c, 0x200);
+                    MI_CpuCopy8(*(int *)(p + 0x1184) + idx * 0x200, vram + info.c, 0x200);
                 }
             } else {
                 vram = VRAM_BASE;
-                func_02082D44(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
+                MI_CpuCopy8(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
             CLACT_SetActorPaletteOffset(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), POKE_TOOL_GetIconPalette((void *)rec), 1);

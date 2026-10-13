@@ -1,5 +1,5 @@
 /*
- * function: func_02188A74
+ * function: TR_AI_CmdIfValueEqual
  * address: 0x02188A74
  * packet: pkt_ov096_02188A74
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188AB4 0x02188AB4 thumb ov096
+ *   TR_AI_CompareValue 0x02188AB4 thumb ov096
  */
 #include "../include/Obj21937.h"
 struct Cursor;
-extern int func_02188AB4(struct Cursor *a, unsigned char *b, int c);
-int func_02188A74(int a, int b)
+extern int TR_AI_CompareValue(struct Cursor *a, unsigned char *b, int c);
+int TR_AI_CmdIfValueEqual(int a, int b)
 {
-    func_02188AB4((struct Cursor *)a, (unsigned char *)b, 2);
+    TR_AI_CompareValue((struct Cursor *)a, (unsigned char *)b, 2);
     return ((struct Obj21937 *)b)->fC4;
 }

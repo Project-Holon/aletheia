@@ -1,5 +1,5 @@
 /*
- * function: func_021CB8B0
+ * function: CRYPTOi__BN_sub
  * address:  0x021CB8B0
  * packet:   pkt_ov114_021CB8B0
  * region:   ov114
@@ -11,10 +11,10 @@
  *
  * sdk:      CRYPTOi__BN_sub (libcrypto.TWL.HYB.a crypto_bobj1.o)
  * symbols:
- *   func_021CB664                    0x021cb664 arm ov114
- *   func_021CADAC                    0x021cadac arm ov114
- *   func_021CB078                    0x021cb078 arm ov114
- *   func_021CB764                    0x021cb764 arm ov114
+ *   CRYPTOi__BN_uadd                    0x021cb664 arm ov114
+ *   CRYPTOi__bn_expand2                    0x021cadac arm ov114
+ *   CRYPTOi__BN_ucmp                    0x021cb078 arm ov114
+ *   CRYPTOi__BN_usub                    0x021cb764 arm ov114
  */
 
 typedef unsigned long BN_ULONG;
@@ -27,14 +27,14 @@ typedef struct {
     int flags;
 } BIGNUM;
 
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
-extern int func_021CB664(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
-extern int func_021CB078(const BIGNUM *a, const BIGNUM *b);
-extern int func_021CB764(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
+extern int CRYPTOi__BN_uadd(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
+extern int CRYPTOi__BN_ucmp(const BIGNUM *a, const BIGNUM *b);
+extern int CRYPTOi__BN_usub(BIGNUM *r, const BIGNUM *a, const BIGNUM *b);
 
-#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : func_021CADAC((a), (words)))
+#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (words)))
 
-int func_021CB8B0(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
+int CRYPTOi__BN_sub(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
 {
     int max;
     int add = 0, neg = 0;
@@ -57,7 +57,7 @@ int func_021CB8B0(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
     }
 
     if (add) {
-        if (!func_021CB664(r, a, b))
+        if (!CRYPTOi__BN_uadd(r, a, b))
             return 0;
         r->neg = neg;
         return 1;
@@ -66,12 +66,12 @@ int func_021CB8B0(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
     max = (a->top > b->top) ? a->top : b->top;
     if (bn_wexpand(r, max) == 0)
         return 0;
-    if (func_021CB078(a, b) < 0) {
-        if (!func_021CB764(r, b, a))
+    if (CRYPTOi__BN_ucmp(a, b) < 0) {
+        if (!CRYPTOi__BN_usub(r, b, a))
             return 0;
         r->neg = 1;
     } else {
-        if (!func_021CB764(r, a, b))
+        if (!CRYPTOi__BN_usub(r, a, b))
             return 0;
         r->neg = 0;
     }

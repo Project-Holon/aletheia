@@ -1,5 +1,5 @@
 /*
- * function: func_021DD3D0
+ * function: sakeGetSpecificRecords
  * address:  0x021DD3D0
  * packet:   pkt_021DD3D0
  * region:   ov175
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DD2D4  0x021DD2D4  arm
+ *   sakeiRunRequest  0x021DD2D4  arm
  *
- * Register the 0x021DECE8 callback with func_021DD2D4: forwards the four
+ * Register the 0x021DECE8 callback with sakeiRunRequest: forwards the four
  * incoming register arguments and appends (5, callback).
  */
 
-extern void func_021DD2D4(int, int, int, int, int, int);
+extern void sakeiRunRequest(int, int, int, int, int, int);
 
-void func_021DD3D0(int a, int b, int c, int d)
+void sakeGetSpecificRecords(int a, int b, int c, int d)
 {
-    func_021DD2D4(a, b, c, d, 5, 0x021DECE8);
+    sakeiRunRequest(a, b, c, d, 5, 0x021DECE8);
 }
 

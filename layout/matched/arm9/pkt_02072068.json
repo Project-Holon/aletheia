@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02072068",
+   "name": "NNSi_G3dTexMtxScaleRotTrans_Max",
    "address": "0x02072068",
    "kind": "game",
    "region": "arm9",

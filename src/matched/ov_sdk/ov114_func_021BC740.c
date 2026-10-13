@@ -1,5 +1,5 @@
 /*
- * function: func_021BC740
+ * function: NHTTPi_RecvProxyConnectHeader
  * address:  0x021BC740
  * packet:   pkt_ov114_021BC740
  * region:   ov114
@@ -23,15 +23,15 @@
  * sdk:      NHTTPi_RecvProxyConnectHeader (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF48  0x021BEF48  arm  ov114
- *   func_021BEF50  0x021BEF50  arm  ov114
- *   func_021BEF3C  0x021BEF3C  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
- *   func_021B9F94  0x021B9F94  arm  ov114
- *   func_021BA448  0x021BA448  arm  ov114
- *   func_021BA150  0x021BA150  arm  ov114
- *   g_021CE4A8  0x021CE4A8  data
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetReqInfoP  0x021BEF48  arm  ov114
+ *   NHTTPi_GetThreadInfoP  0x021BEF50  arm  ov114
+ *   NHTTPi_GetBgnEndInfoP  0x021BEF3C  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
+ *   NHTTPi_SocRecv  0x021B9F94  arm  ov114
+ *   NHTTPi_strToInt  0x021BA448  arm  ov114
+ *   NHTTPi_strnicmp  0x021BA150  arm  ov114
+ *   sNHTTPHttpPrefix  0x021CE4A8  data
  */
 
 typedef struct {
@@ -65,23 +65,23 @@ typedef struct {
 } NHTTPThreadInfo;
 
 typedef unsigned char  u8;
-extern u8 *func_021BEF08(void);
-extern void *func_021BEF48(int p);
-extern void *func_021BEF50(int p);
-extern NHTTPBgnEndInfo *func_021BEF3C(void *sysInfo_p);
-extern void *func_021BEF58(int p);
-extern int func_021B9F94(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
-extern int func_021BA448(signed char *s, int len);
-extern int func_021BA150(const char *p1_p, const char *p2_p, int size);
-extern char g_021CE4A8[];
+extern u8 *NHTTPi_GetSystemInfoP(void);
+extern void *NHTTPi_GetReqInfoP(int p);
+extern void *NHTTPi_GetThreadInfoP(int p);
+extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(void *sysInfo_p);
+extern void *NHTTPi_GetMutexInfoP(int p);
+extern int NHTTPi_SocRecv(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
+extern int NHTTPi_strToInt(signed char *s, int len);
+extern int NHTTPi_strnicmp(const char *p1_p, const char *p2_p, int size);
+extern char sNHTTPHttpPrefix[];
 
-static int func_021BC740(void)
+static int NHTTPi_RecvProxyConnectHeader(void)
 {
-    void *sysInfo_p = func_021BEF08();
-    NHTTPReqInfo *reqInfo_p = func_021BEF48((int)sysInfo_p);
-    NHTTPThreadInfo *threadInfo_p = func_021BEF50((int)sysInfo_p);
-    NHTTPBgnEndInfo *bgnEndInfo_p = func_021BEF3C(sysInfo_p);
-    void *mutexInfo_p = func_021BEF58((int)sysInfo_p);
+    void *sysInfo_p = NHTTPi_GetSystemInfoP();
+    NHTTPReqInfo *reqInfo_p = NHTTPi_GetReqInfoP((int)sysInfo_p);
+    NHTTPThreadInfo *threadInfo_p = NHTTPi_GetThreadInfoP((int)sysInfo_p);
+    NHTTPBgnEndInfo *bgnEndInfo_p = NHTTPi_GetBgnEndInfoP(sysInfo_p);
+    void *mutexInfo_p = NHTTPi_GetMutexInfoP((int)sysInfo_p);
     char *commBuf_p;
     NHTTPReq *req_p;
     NHTTPRes *res_p;
@@ -97,11 +97,11 @@ static int func_021BC740(void)
     connectFlag = 0;
     totalRecvbyte = 0;
     while (1) {
-        recvbyte = func_021B9F94(mutexInfo_p, req_p, bgnEndInfo_p->socket, &tmpbuf[totalRecvbyte],
+        recvbyte = NHTTPi_SocRecv(mutexInfo_p, req_p, bgnEndInfo_p->socket, &tmpbuf[totalRecvbyte],
                                  512 - totalRecvbyte, 0);
         totalRecvbyte += recvbyte;
-        res_p->httpStatus = func_021BA448((signed char *)(&tmpbuf[9]), 3);
-        if (func_021BA150(tmpbuf, g_021CE4A8, 5) == 0 && tmpbuf[8] == ' ' && res_p->httpStatus == 200)
+        res_p->httpStatus = NHTTPi_strToInt((signed char *)(&tmpbuf[9]), 3);
+        if (NHTTPi_strnicmp(tmpbuf, sNHTTPHttpPrefix, 5) == 0 && tmpbuf[8] == ' ' && res_p->httpStatus == 200)
             connectFlag = 1;
         for (endFlag = i = 0; i < totalRecvbyte; i++) {
             if (i > 1 && tmpbuf[i - 1] == 0x0d && tmpbuf[i] == 0x0d) {
@@ -119,7 +119,7 @@ static int func_021BC740(void)
             return 0;
         if (totalRecvbyte >= 512) {
             commBuf_p = threadInfo_p->commBuf;
-            recvbyte = func_021B9F94(mutexInfo_p, req_p, bgnEndInfo_p->socket, commBuf_p, 1, 0);
+            recvbyte = NHTTPi_SocRecv(mutexInfo_p, req_p, bgnEndInfo_p->socket, commBuf_p, 1, 0);
             if (recvbyte < 0)
                 return 0;
             if (recvbyte != 0)

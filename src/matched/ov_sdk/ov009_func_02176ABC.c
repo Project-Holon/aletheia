@@ -1,5 +1,5 @@
 /*
- * function: func_02176ABC
+ * function: DWCi_RegisterMatchmakeKeys
  * address:  0x02176ABC
  * packet:   pkt_ov009_02176ABC
  * region:   ov009
@@ -31,7 +31,7 @@ extern char g_021A20E0[];
 extern char g_021A217C[];
 extern void func_0219D158(int keyid, char *key);
 
-void func_02176ABC(void)
+void DWCi_RegisterMatchmakeKeys(void)
 {
     func_0219D158(0x32, g_021A20A4);
     func_0219D158(0x33, g_021A2170);

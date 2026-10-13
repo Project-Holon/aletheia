@@ -12,10 +12,10 @@
  * Maps a match-command error to a DWC error and stops the match.
  *
  * symbols:
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  */
 
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 
 int func_02173D28(int error)
 {
@@ -43,6 +43,6 @@ int func_02173D28(int error)
         errorCode = -20;
         break;
     }
-    func_0216EB68(dwcError, errorCode + -81000);
+    DWCi_StopMatch(dwcError, errorCode + -81000);
     return error;
 }

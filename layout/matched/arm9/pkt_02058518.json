@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02058518",
+   "name": "DWCi_BM_GetWiFiInfo",
    "address": "0x02058518",
    "kind": "sdk",
    "region": "arm9",

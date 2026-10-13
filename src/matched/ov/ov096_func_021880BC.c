@@ -1,5 +1,5 @@
 /*
- * function: func_021880BC
+ * function: TR_AI_Start
  * address:  0x021880BC
  * packet:   pkt_ov096_021880BC
  * region:   ov096
@@ -23,7 +23,7 @@ struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern u32 func_0203F0A8(void);
 
-void func_021880BC(int a, u8 *b, int c)
+void TR_AI_Start(int a, u8 *b, int c)
 {
     u8 *p;
     int i;

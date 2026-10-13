@@ -1,5 +1,5 @@
 /*
- * function: func_021D3B28
+ * function: BTL_CLIENT_StepReplaceMove
  * address: 0x021D3B28
  * packet: pkt_ov093_021D3B28
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct UtilWork;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_ReplaceMove(u8 *p, u8 i, u16 a, u8 b, u32 c);
-int func_021D3B28(u32 *a, int *b, const u32 *c)
+int BTL_CLIENT_StepReplaceMove(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
     x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC40
+ * function: PMS_INPUT_VIEW_GetClactUnit
  * address:  0x021BAC40
  * packet:   pkt_ov110_021BAC40
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021BAC40(u8 *p) { return ((struct Obj22341 *)p)->f20; }
+u32 PMS_INPUT_VIEW_GetClactUnit(u8 *p) { return ((struct Obj22341 *)p)->f20; }

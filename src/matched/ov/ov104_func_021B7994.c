@@ -1,5 +1,5 @@
 /*
- * function: func_021B7994
+ * function: IRC_RHYTHM_InitBackgrounds
  * address: 0x021B7994
  * packet: pkt_ov104_021B7994
  * region: ov104
@@ -24,10 +24,10 @@
  *   func_02049740 0x02049740 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
- *   d_021B8F30 0x021B8F30 data ov104
- *   d_021B8F5C 0x021B8F5C data
- *   d_021B8FB4 0x021B8FB4 data
- *   d_021B8F40 0x021B8F40 data ov104
+ *   sRhythmDisplayConfig 0x021B8F30 data ov104
+ *   sRhythmBackgroundLayers 0x021B8F5C data
+ *   sRhythmBackgroundTemplates 0x021B8FB4 data
+ *   sRhythmBackgroundTypes 0x021B8F40 data ov104
  */
 #include "../include/Obj22217.h"
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ typedef unsigned int u32;
 typedef enum { BG0=0 } BgId;
 struct DispConfig;
 struct BgTemplate { u8 bytes[32]; };
-extern struct DispConfig d_021B8F30;
-extern const u32 d_021B8F5C[];
-extern const struct BgTemplate d_021B8FB4[];
-extern const u32 d_021B8F40[];
+extern struct DispConfig sRhythmDisplayConfig;
+extern const u32 sRhythmBackgroundLayers[];
+extern const struct BgTemplate sRhythmBackgroundTemplates[];
+extern const u32 sRhythmBackgroundTypes[];
 extern void func_0203F8F4(u16);
 extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
@@ -54,14 +54,14 @@ extern void func_02040C14(u32,u32,u32,u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-void func_021B7994(void *p,u16 heap) {
+void IRC_RHYTHM_InitBackgrounds(void *p,u16 heap) {
  int i; BgId bg; void *archive;
  func_0203F8F4(heap);
  BMP_WIN_Init(heap);
- func_0203FC28(&d_021B8F30);
+ func_0203FC28(&sRhythmDisplayConfig);
  for(i=0;i<7;i++) {
-  bg=d_021B8F5C[i];
-  func_0203FCA0((u8)bg,&d_021B8FB4[i],(u8)d_021B8F40[i]);
+  bg=sRhythmBackgroundLayers[i];
+  func_0203FCA0((u8)bg,&sRhythmBackgroundTemplates[i],(u8)sRhythmBackgroundTypes[i]);
   func_020414AC(bg);
   func_02040588(bg,1);
  }

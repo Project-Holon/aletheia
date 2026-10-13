@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_021D3250  0x021D3250  arm  ov016
- *   func_021D376C  0x021D376C  arm  ov016
+ *   DWCi_MOV_WH_ParentConnect  0x021D376C  arm  ov016
  *   func_021D4624  0x021D4624  arm  ov016
  *   func_021D4770  0x021D4770  arm  ov016
  *   func_021D4854  0x021D4854  arm  ov016
- *   g_021DE668     0x021DE668  data
+ *   gDwcMoveidWork     0x021DE668  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -73,49 +73,49 @@ typedef struct {
 } Wk;
 
 extern unsigned int func_021D3250(void);
-extern int func_021D376C(int mode, u16 tgid, u16 channel);
+extern int DWCi_MOV_WH_ParentConnect(int mode, u16 tgid, u16 channel);
 extern void func_021D4624(u16 kind, u16 counter, u8 *data);
 extern void func_021D4770(void);
 extern u16 func_021D4854(void);
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 
 void func_021D43C8(void)
 {
     switch (func_021D3250()) {
     case 1:
-        func_021D376C(4, g_021DE668->moveid_tgid + 1, g_021DE668->moveid_sChannel);
+        DWCi_MOV_WH_ParentConnect(4, gDwcMoveidWork->moveid_tgid + 1, gDwcMoveidWork->moveid_sChannel);
         break;
     case 4:
     case 5:
     case 6:
-        func_021D4624(0, g_021DE668->data_seq_num,
-                      (u8 *)g_021DE668->p_user_info + (g_021DE668->data_seq_num % 16) * 64);
+        func_021D4624(0, gDwcMoveidWork->data_seq_num,
+                      (u8 *)gDwcMoveidWork->p_user_info + (gDwcMoveidWork->data_seq_num % 16) * 64);
         func_021D4770();
-        if (g_021DE668->mov_stt == 0x1b)
+        if (gDwcMoveidWork->mov_stt == 0x1b)
             break;
-        if (g_021DE668->parent_step_data_share_error_cnt > 0x1e0) {
-            g_021DE668->mov_stt = 0x1b;
+        if (gDwcMoveidWork->parent_step_data_share_error_cnt > 0x1e0) {
+            gDwcMoveidWork->mov_stt = 0x1b;
             break;
         }
         if (func_021D4854() == 0x10 || func_021D4854() == 0x20) {
             func_021D4854();
-            g_021DE668->mov_stt = 0xa;
+            gDwcMoveidWork->mov_stt = 0xa;
         } else if (func_021D4854() == 0x40) {
-            g_021DE668->mov_stt = 0xb;
+            gDwcMoveidWork->mov_stt = 0xb;
         } else if (func_021D4854() == 0xff) {
-            g_021DE668->mov_stt = 0x1b;
+            gDwcMoveidWork->mov_stt = 0x1b;
         } else if (func_021D4854() == 0x50) {
-            g_021DE668->mov_stt = 0x15;
+            gDwcMoveidWork->mov_stt = 0x15;
         } else if (func_021D4854() == 0x60) {
-            g_021DE668->mov_stt = 0x18;
+            gDwcMoveidWork->mov_stt = 0x18;
         } else if (func_021D4854() == 0x70) {
-            g_021DE668->mov_stt = 0x1b;
+            gDwcMoveidWork->mov_stt = 0x1b;
         } else if (func_021D4854() == 0) {
-            g_021DE668->mov_stt = 8;
+            gDwcMoveidWork->mov_stt = 8;
         } else if (func_021D4854() == 0xbd) {
-            g_021DE668->mov_stt = 9;
+            gDwcMoveidWork->mov_stt = 9;
         } else {
-            g_021DE668->mov_stt = 0x1f;
+            gDwcMoveidWork->mov_stt = 0x1f;
         }
         break;
     }

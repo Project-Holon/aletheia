@@ -1,5 +1,5 @@
 /*
- * function: func_020040E2
+ * function: SVC_Halt
  * address:  0x020040E2
  * packet:   pkt_020040E2
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_Halt), `swi N; bx lr` in the BIOS call table */
 
-asm void func_020040E2(void)
+asm void SVC_Halt(void)
 {
     swi 0x6
     bx lr

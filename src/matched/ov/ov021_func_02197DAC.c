@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetTaskUserData  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 extern int FLDMMDL_EndAcmd(char *p);
 extern u32 func_020307B0(void *p);
 struct Node;
@@ -34,7 +34,7 @@ void FLDMMDL_ACMD_ListDelete(void *a)
 {
     u32 *p;
 
-    p = (u32 *)TCBL_IsDeletePending(a);
+    p = (u32 *)TCBL_GetTaskUserData(a);
     FLDMMDL_EndAcmd((char *)p[3]);
     func_020307B0(p);
     func_02030EAC(a);

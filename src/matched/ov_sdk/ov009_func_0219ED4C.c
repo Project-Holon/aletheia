@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021A0340  0x021A0340  arm  ov009
- *   func_0219D8FC  0x0219D8FC  arm  ov009
+ *   SBEngineCleanup  0x0219D8FC  arm  ov009
  *   func_0219922C  0x0219922C  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
  */
@@ -26,14 +26,14 @@ struct ServerBrowser {
 
 struct SBServerList;
 extern void func_021A0340(struct SBServerList *slist);
-extern void func_0219D8FC(void *engine);
+extern void SBEngineCleanup(void *engine);
 extern void func_0219922C(void);
 extern void func_0217EAE0(void *ptr);
 
 void func_0219ED4C(struct ServerBrowser *sb)
 {
     func_021A0340((struct SBServerList *)(&sb->list));
-    func_0219D8FC(&sb->engine);
+    SBEngineCleanup(&sb->engine);
     if (sb->ConnectCallback != 0)
         func_0219922C();
     func_0217EAE0(sb);

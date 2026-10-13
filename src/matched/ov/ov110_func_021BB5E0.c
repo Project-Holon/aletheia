@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5E0
+ * function: PMSIV_CATEGORY_MakeListWindow
  * address: 0x021BB5E0
  * packet: pkt_ov110_021BB5E0
  * region: ov110
@@ -18,4 +18,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8); extern void BMP_WIN_MakeScreen(u32); extern void func_020409B4(u32); extern void func_02040618(u32,u32,u32);
-void func_021BB5E0(u8 *p) { u32 win; win=BMP_WIN_Create(6,1,1,30,22,0,1); BMP_WIN_MakeScreen(win); func_020409B4(6); func_02040618(6,3,-192); ((struct Obj22360 *)p)->f98=win; }
+void PMSIV_CATEGORY_MakeListWindow(u8 *p) { u32 win; win=BMP_WIN_Create(6,1,1,30,22,0,1); BMP_WIN_MakeScreen(win); func_020409B4(6); func_02040618(6,3,-192); ((struct Obj22360 *)p)->f98=win; }

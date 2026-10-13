@@ -1,5 +1,5 @@
 /*
- * function: func_021DDF74
+ * function: sakeiCreateRecordValidateInput
  * address:  0x021DDF74
  * packet:   pkt_021DDF74
  * region:   ov175
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DDB38  0x021DDB38  arm
+ *   sakeiValidateRequestFields  0x021DDB38  arm
  *
- * Pre-flight check of the +0x08 block, the signed sibling of func_021DEB1C:
+ * Pre-flight check of the +0x08 block, the signed sibling of sakeiGetMyRecordsValidateInput:
  * missing head or non-positive count rejected with 4 or 6, a missing name
  * table with 5 when the count is still positive, else the table is handed to
- * func_021DDB38 with the count as its second argument.
+ * sakeiValidateRequestFields with the count as its second argument.
  */
 
 typedef int s32;
 
-extern s32 func_021DDB38(s32, s32);
+extern s32 sakeiValidateRequestFields(s32, s32);
 
-s32 func_021DDF74(char *p)
+s32 sakeiCreateRecordValidateInput(char *p)
 {
     s32 *q = *(s32 **)(p + 8);
 
@@ -34,5 +34,5 @@ s32 func_021DDF74(char *p)
         if (q[2] > 0)
             return 5;
     }
-    return func_021DDB38(q[1], q[2]);
+    return sakeiValidateRequestFields(q[1], q[2]);
 }

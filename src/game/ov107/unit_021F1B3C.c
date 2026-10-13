@@ -15,9 +15,9 @@
  * symbols:
  *   mbc   0x021F6FA0  data
  *   g_021F6FA0  0x021F6FA0  data
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   func_02082D44  0x02082D44  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F2EE8  0x021F2EE8  arm  ov107
  *   func_021F1D58  0x021F1D58  arm  ov107
  *   MI_CpuFill8  0x02082BCC  arm
@@ -28,7 +28,7 @@
  *   func_021F62B4  0x021F62B4  arm  ov107
  *   func_021F3FC8  0x021F3FC8  arm  ov107
  *   func_021F2F04  0x021F2F04  arm  ov107
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   g_021F6EEC                     0x021F6EEC  data
  *   MBi_SetRecvBufferFromChild     0x021F6908  arm
  *   MI_CpuCopy8                    0x02082D44  arm
@@ -43,10 +43,10 @@
  *   func_02077EB8 0x02077EB8 arm
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   func_02075E04 0x02075E04 arm
- *   func_020788AC 0x020788AC arm
+ *   FS_InitFile 0x020788AC arm
  *   func_02078964 0x02078964 arm
- *   func_02078B70 0x02078B70 arm
- *   func_02078A80 0x02078A80 arm
+ *   FS_ReadFile 0x02078B70 arm
+ *   FS_CloseFile 0x02078A80 arm
  *   g_021F6E4C 0x021F6E4C data
  *   MBi_calc_sendblock           0x021F2E58  arm  ov107
  *   MBi_get_blockinfo            0x021F3A58  arm  ov107
@@ -54,7 +54,7 @@
  *   MBi_IsTaskBusy               0x021F6640  arm  ov107
  *   OS_Terminate                 0x02088234  arm
  *   MBi_SetTask                  0x021F6658  arm  ov107
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F276C  0x021F276C  arm  ov107
  *   func_021F2A44  0x021F2A44  arm  ov107
  */
@@ -133,9 +133,7 @@ struct bitmap {
 
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enabled);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
-extern void func_02082D44(void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int func_021F2EE8(unsigned short child_aid);
 extern void func_021F1D58(unsigned short child, int state, void *arg);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
@@ -146,9 +144,8 @@ extern u16 func_021F62A0(void);
 extern u8 func_021F62B4(void);
 extern void func_021F3FC8(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
-extern void func_02082AC0(u32 data, void *destp, u32 size);
+extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
 extern struct WMMpRecvData *func_0208ED70(const struct WMMpRecvHeader *header, u16 aid);
 extern void func_021F2200(void *arg, unsigned short child);
@@ -157,10 +154,10 @@ extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 extern struct FSArchive *func_02077EB8(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
 extern RomHeader *func_02075E04(void);
-extern void func_020788AC(void *file);
+extern void FS_InitFile(void *file);
 extern int func_02078964(void *file, void *arc, u32 top, u32 bottom, u32 id);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern int func_02078A80(void *file);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern int FS_CloseFile(void *file);
 extern void MBi_calc_sendblock(u8 file_id);
 extern int MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
                              u32 block, MbDownloadFileInfoHeader *mdfi);
@@ -169,7 +166,7 @@ extern int MBi_IsTaskBusy(MBiTaskInfo *pt);
 extern void OS_Terminate(void);
 extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
                         void (*callback)(MBiTaskInfo *), u32 priority);
-extern void func_02082A48(u16 data, void *destp, u32 size);
+extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern int func_021F276C(u8 type, u16 pollbmp);
 extern int func_021F2A44(void);
 void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback);
@@ -218,14 +215,14 @@ void MB_CommSetParentStateCallback(WMCallback_021F1B3C callback)
  */
 void *func_021F1B64(unsigned short child_aid)
 {
-    unsigned long enabled = func_02087988();
+    unsigned long enabled = OS_DisableInterrupts();
 
     if (mbc && func_021F2EE8(child_aid)) {
-        func_02082D44(&pPwork->childUser[child_aid - 1], &pPwork->childUserCopy, 0x16);
-        func_0208799C(enabled);
+        MI_CpuCopy8(&pPwork->childUser[child_aid - 1], &pPwork->childUserCopy, 0x16);
+        OS_RestoreInterrupts(enabled);
         return &pPwork->childUserCopy;
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 0;
 }
 
@@ -262,7 +259,7 @@ int func_021F1C30(unsigned short child_aid, int ack)
     int state;
     unsigned long enabled;
 
-    enabled = func_02087988();
+    enabled = OS_DisableInterrupts();
 
     switch (ack) {
     case 0:
@@ -282,17 +279,17 @@ int func_021F1C30(unsigned short child_aid, int ack)
         req = 5;
         break;
     default:
-        func_0208799C(enabled);
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
     if (mbc && func_021F2EE8(child_aid)) {
         if (state == pPwork->p_comm_state[child_aid - 1]) {
             pPwork->req2child[child_aid - 1] = req;
-            func_0208799C(enabled);
+            OS_RestoreInterrupts(enabled);
             return 1;
         }
     }
-    func_0208799C(enabled);
+    OS_RestoreInterrupts(enabled);
     return 0;
 }
 
@@ -490,7 +487,7 @@ void func_021F1D80(u16 type, void *arg)
 
     if (type == 0x11) {
         MBCommPStateCallback tmpCb = pPwork->parent_callback;
-        func_02082AC0(0, mbc, 0x7D00);
+        MIi_CpuClearFast(0, mbc, 0x7D00);
         mbc = 0;
         if (tmpCb)
             tmpCb(0, 12, 0);
@@ -696,7 +693,7 @@ int func_021F27A8(void)
     hd.fid = send_candidate_fid;
     databuf = MBi_MakeParentSendBuffer(&hd, (u8 *)pPwork->common.sendbuf);
     if (databuf)
-        func_02082D44(pPwork->fileinfo[send_candidate_fid].dl_fileinfo, databuf, 0xe4);
+        MI_CpuCopy8(pPwork->fileinfo[send_candidate_fid].dl_fileinfo, databuf, 0xe4);
     return MBi_BlockHeaderEnd(0xea, pollbmp, pPwork->common.sendbuf);
 }
 
@@ -736,12 +733,12 @@ void func_021F2938(MBiTaskInfo *p_task)
             length = boundary_ltd - p_info->src;
         }
     }
-    func_020788AC(file);
+    FS_InitFile(file);
     if (func_02078964(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
-        if (length == func_02078B70((struct FSFile *)file, p_info->ptr, length)) {
+        if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }
-        func_02078A80(file);
+        FS_CloseFile(file);
     }
     if (p_info->state != 2) {
         p_info->src = 0;
@@ -835,7 +832,7 @@ static int func_021F2CBC(void)
     u16 child;
     struct bitmap bmp;
 
-    func_02082A48(0, &bmp, sizeof(bmp));
+    MIi_CpuClear16(0, &bmp, sizeof(bmp));
 
     for (child = 1; child <= 15; child++) {
         switch (pPwork->p_comm_state[child - 1]) {

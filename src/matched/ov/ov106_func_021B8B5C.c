@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B5C
+ * function: IRC_RANKING_WriteRowScreen
  * address: 0x021B8B5C
  * packet: pkt_ov106_021B8B5C
  * region: ov106
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02041090(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
-void func_021B8B5C(u8 *p, u32 a, int b, u8 c) {
+void IRC_RANKING_WriteRowScreen(u8 *p, u32 a, int b, u8 c) {
     if(a>=4) p+=192;
     func_02041090(a,(u32)p,0,(u8)b,32,3);
     func_020413B0(a,0,b,32,3,c);

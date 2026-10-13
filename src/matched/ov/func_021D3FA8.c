@@ -1,5 +1,5 @@
 /*
- * function: func_021D3FA8
+ * function: BTL_CLIENT_GetCounterTarget
  * address:  0x021D3FA8
  * packet:   pkt_021D3FA8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D3FA8   0x021D3FA8  thumb ov093
+ *   BTL_CLIENT_GetCounterTarget   0x021D3FA8  thumb ov093
  *
  * ldrh at #0x8
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021D3FA8(u8 *p)
+u16 BTL_CLIENT_GetCounterTarget(u8 *p)
 {
     return *(u16 *)&p[0x8];
 }

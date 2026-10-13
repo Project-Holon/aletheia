@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBA0
+ * function: PMSIV_WORDWIN_FinishClose
  * address: 0x021BFBA0
  * packet: pkt_ov110_021BFBA0
  * region: ov110
@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 0x021BFBD8 reads WINOUT; 0x021BFBFC reads DISPCNT.
  * symbols:
- *   func_021BC898 0x021BC898 thumb ov110
+ *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   func_02040588 0x02040588 arm
  */
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef struct { unsigned char plane:5; unsigned char effect:1; unsigned char rest:2; } Wnd;
 typedef unsigned int   u32;
 struct Obj;
-extern int func_021BC898(u8 *p);
+extern int PMSIV_FADE_IsBlendDone(u8 *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void func_02040588(unsigned char which, unsigned char enable);
 static inline void outside(int wnd,int effect) {
@@ -31,10 +31,10 @@ static inline void outside(int wnd,int effect) {
 static inline void visible(int window) {
     *(volatile unsigned *)0x04000000=(*(volatile unsigned *)0x04000000 & ~0xe000) | (window<<13);
 }
-int func_021BFBA0(u8 *p) {
+int PMSIV_WORDWIN_FinishClose(u8 *p) {
     int i;
     if(((struct Obj13800 *)p)->f88==0) {
-    if(func_021BC898(p+0x4c)) {
+    if(PMSIV_FADE_IsBlendDone(p+0x4c)) {
         for(i=0;i<10;i++) CLACT_SetActorDrawEnable(*(void **)(p+0x20+4*i),0);
         func_02040588(2,0);
         outside(((Wnd *)(p+0x8c))->plane,((Wnd *)(p+0x8c))->effect);

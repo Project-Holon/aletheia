@@ -1,5 +1,5 @@
 /*
- * function: G3D_SBC_RunCallbackSetDone
+ * function: NNSi_G3dFuncSbc_RET
  * address:  0x0206B7A8
  * packet:   pkt_0206AF08
  * region:   arm9
@@ -15,8 +15,8 @@
  * the object itself, then bit 5 of the status word at +0x08 is set.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/G3D_SBC_RunCallbackSetDone.c \
- *       --func G3D_SBC_RunCallbackSetDone --addr 0x0206B7A8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNSi_G3dFuncSbc_RET.c \
+ *       --func NNSi_G3dFuncSbc_RET --addr 0x0206B7A8 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ struct Obj0206B7A8 {
     void (*unk10)(void *);
 };
 
-void G3D_SBC_RunCallbackSetDone(Obj0206B7A8 *p)
+void NNSi_G3dFuncSbc_RET(Obj0206B7A8 *p)
 {
     if (p->unk10 != 0) {
         p->unk10(p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B61E8
+ * function: PDC_MAIN_Create
  * address: 0x021B61E8
  * packet: pkt_ov098_021B61E8
  * region: ov098
@@ -13,24 +13,24 @@
  *   declares it void; this file declares it int. Owner file needs the return fixed.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_021B636C 0x021B636C thumb ov098
+ *   PDC_MAIN_InitGraphics 0x021B636C thumb ov098
  *   GF_FONT_Create 0x0201D7EC thumb
- *   func_021B6144 0x021B6144 thumb ov098
+ *   PDC_GetScene 0x021B6144 thumb ov098
  *   func_021F73F0 0x021F73F0 thumb ov094
  *   func_021F7544 0x021F7544 thumb ov094
  *   func_020307B0 0x020307B0 arm
- *   func_021B613C 0x021B613C thumb ov098
+ *   PDC_GetGameData 0x021B613C thumb ov098
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_02202058 0x02202058 thumb ov094
  *   TCBL_Create 0x0203101C arm
- *   func_021B6140 0x021B6140 thumb ov098
- *   func_021B6150 0x021B6150 thumb ov098
- *   func_021B67D4 0x021B67D4 thumb ov098
+ *   PDC_GetMon 0x021B6140 thumb ov098
+ *   PDC_GetConfig 0x021B6150 thumb ov098
+ *   PDC_MSG_Create 0x021B67D4 thumb ov098
  *   func_02008254 0x02008254 thumb
- *   func_021B6364 0x021B6364 thumb ov098
- *   d_021B6E68 0x021B6E68 data a1
- *   d_021B6D80 0x021B6D80 data a2
- *   func_021B644C 0x021B644C thumb ov098
+ *   PDC_MAIN_SetStep 0x021B6364 thumb ov098
+ *   gPdcMainSrcName 0x021B6E68 data a1
+ *   gPdcViewParams 0x021B6D80 data a2
+ *   PDC_MAIN_StepIntro 0x021B644C thumb ov098
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,51 +38,51 @@ typedef unsigned int u32;
 struct GfFont;
 struct Tcbl;
 struct Halves { u16 a,b,c,d; };
-extern const char d_021B6E68[];
-extern const struct Halves d_021B6D80;
+extern const char gPdcMainSrcName[];
+extern const struct Halves gPdcViewParams;
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_021B636C(u16);
+extern void PDC_MAIN_InitGraphics(u16);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern int func_021B6144(void *);
+extern int PDC_GetScene(void *);
 extern void *func_021F73F0(int,int,void *,int,u16 *,int,int,u16);
 extern void func_021F7544(void *,int,u16);
 extern u32 func_020307B0(void *p);
-extern int func_021B613C(void *);
+extern int PDC_GetGameData(void *);
 extern int func_021F86E0(void);
 struct Obj;
 extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern int func_021B6140(void *);
-extern u32 func_021B6150(u8 *);
-extern u8 *func_021B67D4(void *,void *,void *,u32);
+extern int PDC_GetMon(void *);
+extern u32 PDC_GetConfig(u8 *);
+extern u8 *PDC_MSG_Create(void *,void *,void *,u32);
 extern void *func_02008254(u32);
-extern void func_021B6364(u8 *,u32);
-extern int func_021B644C(char *p);
+extern void PDC_MAIN_SetStep(u8 *,u32);
+extern int PDC_MAIN_StepIntro(char *p);
 #define P(k) (*(void **)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
-u8 *func_021B61E8(void *input,u8 heap)
+u8 *PDC_MAIN_Create(void *input,u8 heap)
 {
     u8 *p;
     struct Halves h;
     void *q;
     int ctx;
-    p=func_02030734(heap,0x78,1,d_021B6E68,0x5e);
+    p=func_02030734(heap,0x78,1,gPdcMainSrcName,0x5e);
     H(0x6c)=heap;
     P(0)=input;
-    func_021B636C(H(0x6c));
+    PDC_MAIN_InitGraphics(H(0x6c));
     P(8)=GF_FONT_Create(23,0,0,0,H(0x6c));
     P(12)=GF_FONT_Create(23,2,0,0,H(0x6c));
     *(u32 *)(p+0x60)=0;
-    h=d_021B6D80;
-    q=func_021F73F0(0,0,(void *)func_021B6144(input),0,(u16 *)&h,0,0,H(0x6c));
+    h=gPdcViewParams;
+    q=func_021F73F0(0,0,(void *)PDC_GetScene(input),0,(u16 *)&h,0,0,H(0x6c));
     func_021F7544(q,(int)P(12),H(0x6c));
     func_020307B0(q);
-    ctx=func_021B613C(input);
+    ctx=PDC_GetGameData(input);
     P(16)=(void *)func_02202058(ctx,0,func_021F86E0(),(int)P(8),(int)(p+0x74),H(0x6c));
     P(24)=TCBL_Create(heap,heap,64,128);
-    *(int *)(p+4)=func_021B6140(input);
-    P(20)=func_021B67D4(P(8),(void *)func_021B6150(input),P(24),H(0x6c));
+    *(int *)(p+4)=PDC_GetMon(input);
+    P(20)=PDC_MSG_Create(P(8),(void *)PDC_GetConfig(input),P(24),H(0x6c));
     P(0x70)=func_02008254(H(0x6c));
-    func_021B6364(p,(u32)func_021B644C);
+    PDC_MAIN_SetStep(p,(u32)PDC_MAIN_StepIntro);
     return p;
 }

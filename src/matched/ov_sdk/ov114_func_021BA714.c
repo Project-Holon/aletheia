@@ -1,5 +1,5 @@
 /*
- * function: func_021BA714
+ * function: NHTTPi_Base64Encode
  * address:  0x021BA714
  * packet:   pkt_ov114_021BA714
  * region:   ov114
@@ -12,14 +12,14 @@
  * sdk:      NHTTPi_Base64Encode (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
  *
  * symbols:
- *   func_021BA118  0x021BA118  arm
- *   g_021CE3BC     0x021CE3BC  data
+ *   NHTTPi_strlen  0x021BA118  arm
+ *   sNHTTPBase64Chars     0x021CE3BC  data
  */
 
-extern char g_021CE3BC[];
-extern int func_021BA118(char *str_p);
+extern char sNHTTPBase64Chars[];
+extern int NHTTPi_strlen(char *str_p);
 
-int func_021BA714(char *dst_p, const char *src_p)
+int NHTTPi_Base64Encode(char *dst_p, const char *src_p)
 {
     char *tbl;
     char *wp;
@@ -27,8 +27,8 @@ int func_021BA714(char *dst_p, const char *src_p)
     int len;
 
     wp = dst_p;
-    tbl = g_021CE3BC;
-    len = func_021BA118((char *)src_p);
+    tbl = sNHTTPBase64Chars;
+    len = NHTTPi_strlen((char *)src_p);
 
     for (i = 0; i < len; i += 3, src_p += 3, wp += 4) {
         wp[0] = tbl[src_p[0] >> 2];
@@ -43,5 +43,5 @@ int func_021BA714(char *dst_p, const char *src_p)
         wp[-1] = '=';
     }
     *wp = 0;
-    return func_021BA118(dst_p);
+    return NHTTPi_strlen(dst_p);
 }

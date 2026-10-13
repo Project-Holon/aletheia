@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE18
+ * function: sakeiGetRandomRecordFreeData
  * address:  0x021DEE18
  * packet:   pkt_021DEE18
  * region:   ov175
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DE840  0x021DE840  arm
+ *   sakeiFreeOutputRecord  0x021DE840  arm
  *
  * Voice state tail: the +0x0c cursor is the gate -- a null one returns
  * immediately; otherwise the +0x08 block's third word and the cursor's head
- * word are handed to func_021DE840.
+ * word are handed to sakeiFreeOutputRecord.
  */
 
 struct SAKEField;
-extern void func_021DE840(int numFields, struct SAKEField *record);
+extern void sakeiFreeOutputRecord(int numFields, struct SAKEField *record);
 
-void func_021DEE18(char *p)
+void sakeiGetRandomRecordFreeData(char *p)
 {
     int *q = *(int **)(p + 0xc);
     int *r = *(int **)(p + 8);
 
     if (q == 0)
         return;
-    func_021DE840(r[2], (struct SAKEField *)q[0]);
+    sakeiFreeOutputRecord(r[2], (struct SAKEField *)q[0]);
 }
 

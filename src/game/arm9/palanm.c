@@ -27,10 +27,10 @@
  *   func_02049F34  0x02049F34  arm
  *   func_02049F78  0x02049F78  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_020862F0   0x020862F0  arm
- *   func_0207E3D0   0x0207E3D0  arm
+ *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
+ *   GX_LoadBGPltt   0x0207E3D0  arm
  *   func_0207E468   0x0207E468  arm
- *   func_0207E51C   0x0207E51C  arm
+ *   GX_LoadOBJPltt   0x0207E51C  arm
  *   func_0207E5D0   0x0207E5D0  arm
  *   func_0207F308   0x0207F308  arm
  *   func_0207F394   0x0207F394  arm
@@ -157,13 +157,13 @@ struct Rgb555 {
 
 extern u32 func_02030EAC(struct Node *n);
 
-extern void func_020862F0(void *a, u32 b);
+extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
 
-extern void func_0207E3D0(void *a, u32 b, u32 c);
+extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 
 extern void func_0207E468(void *a, u32 b, u32 c);
 
-extern void func_0207E51C(void *a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(void *a, u32 b, u32 c);
 
 extern void func_0207E5D0(void *a, u32 b, u32 c);
 
@@ -1123,16 +1123,16 @@ void PALANM_TransferPalettes(PaletteFade *p)
             }
         }
         c = &p->work[i];
-        func_020862F0(c->transWork, c->size);
+        DWCi_ScreenDC_FlushRange(c->transWork, c->size);
         switch (i) {
         case 0:
-            func_0207E3D0(c->transWork, 0, c->size);
+            GX_LoadBGPltt(c->transWork, 0, c->size);
             break;
         case 1:
             func_0207E468(c->transWork, 0, c->size);
             break;
         case 2:
-            func_0207E51C(c->transWork, 0, c->size);
+            GX_LoadOBJPltt(c->transWork, 0, c->size);
             break;
         case 3:
             func_0207E5D0(c->transWork, 0, c->size);

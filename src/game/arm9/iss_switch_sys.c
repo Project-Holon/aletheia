@@ -124,6 +124,7 @@
  *   BagParamFileName  0x020A77C4  data
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 struct IssSwitchSys;
@@ -446,7 +447,7 @@ extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
 extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
 extern void *func_0201292C(const struct BigObj *p);
-extern void  func_02082D44(void *src, void *dst, int n);
+extern void  MI_CpuCopy8(void *src, void *dst, int n);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
 u8 *ISS_SWITCH_SYS_Create(u16 heapId);
@@ -3523,9 +3524,9 @@ u32 func_0202E448(u32 id)
  * func_02030734 is the pool-relative caller tag (0x37 here, the same 0x3c/
  * 0x3d/0x83/0x84 tags in the neighbours are the same convention).
  *
- * Argument order of func_02082D44 is (src, dst, n): the original loads r1
+ * Argument order of MI_CpuCopy8 is (src, dst, n): the original loads r1
  * with `p + 0x14` *before* r0 with a1, so r1 - the second slot - is the
- * destination.  Writing the copy as `func_02082D44(dst, src, n)` reverses the
+ * destination.  Writing the copy as `MI_CpuCopy8(dst, src, n)` reverses the
  * two registers and costs seven bytes.
  *
  * The pool word 0x020A77C4 is a `string` site: it is the `__FILE__`-style
@@ -3546,7 +3547,7 @@ void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, i
     param->saveWork = GAME_DATA_GetMapMatrix(gameData);
     param->config = func_0201292C((const struct BigObj *)gameData);
     if (itemCheck != 0) {
-        func_02082D44((void *)itemCheck, param->itemCheck, 0x18);
+        MI_CpuCopy8((void *)itemCheck, param->itemCheck, 0x18);
     }
     param->mode = mode;
     param->cycleFlag = func_02012B28(func_020127A4((struct SaveBlock *)gameData)) == 1;

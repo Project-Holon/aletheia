@@ -1,5 +1,5 @@
 /*
- * function: func_0689B7A8
+ * function: BTL_SICK_ProcAddedOrTurnEnd
  * address:  0x0689B7A8
  * packet:   pkt_ov095_0689B7A8
  * region:   ov095
@@ -16,8 +16,8 @@
  *
  * symbols:
  *   func_0689B7EC  0x0689B7EC  thumb  ov095
- *   func_0689BF3C  0x0689BF3C  thumb  ov095
- *   func_0689B7FC  0x0689B7FC  thumb  ov095
+ *   BTL_SICK_OnAdded  0x0689BF3C  thumb  ov095
+ *   BTL_SICK_ProcTurnEnd  0x0689B7FC  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -25,16 +25,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_0689B7EC(u32 a);
-extern void func_0689BF3C(u32 e, u32 a, u32 x, u32 b, u32 c);
-extern void func_0689B7FC(void *a, void *b, u32 c, int t);
+extern void BTL_SICK_OnAdded(u32 e, u32 a, u32 x, u32 b, u32 c);
+extern void BTL_SICK_ProcTurnEnd(void *a, void *b, u32 c, int t);
 
-void func_0689B7A8(void *a, u32 b, u32 c, int d)
+void BTL_SICK_ProcAddedOrTurnEnd(void *a, u32 b, u32 c, int d)
 {
     u32 x;
 
     x = func_0689B7EC((u32)a);
     if (d != 0)
-        func_0689BF3C((&c)[2], (u32)a, x, b, c);
+        BTL_SICK_OnAdded((&c)[2], (u32)a, x, b, c);
     else
-        func_0689B7FC((void *)((&c)[2]), a, x, b);
+        BTL_SICK_ProcTurnEnd((void *)((&c)[2]), a, x, b);
 }

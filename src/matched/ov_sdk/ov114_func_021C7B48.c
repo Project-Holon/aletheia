@@ -1,5 +1,5 @@
 /*
- * function: func_021C7B48
+ * function: DWCi_Ndi_hexToStrFigure
  * address:  0x021C7B48
  * packet:   pkt_ov114_021C7B48
  * region:   ov114
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_021C7B48(char *p, unsigned long n, int figure)
+int DWCi_Ndi_hexToStrFigure(char *p, unsigned long n, int figure)
 {
 	int i;
 	unsigned long x;

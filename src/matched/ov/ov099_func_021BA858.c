@@ -1,5 +1,5 @@
 /*
- * function: func_021BA858
+ * function: WIFICLUB_PollYesNoMenu
  * address: 0x021BA858
  * packet: pkt_ov099_021BA858
  * region: ov099
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
-u32 func_021BA858(char *p)
+u32 WIFICLUB_PollYesNoMenu(char *p)
 {
     u32 r = BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj00008 *)p)->f108);
     if (r != 0xFFFFFFFF)

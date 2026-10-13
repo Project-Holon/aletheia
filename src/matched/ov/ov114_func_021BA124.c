@@ -1,5 +1,5 @@
 /*
- * function: func_021BA124
+ * function: NHTTPi_strnlen
  * address:  0x021BA124
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0208CCFC(void);
 
-void func_021BA124(void)
+void NHTTPi_strnlen(void)
 {
     func_0208CCFC();
 }

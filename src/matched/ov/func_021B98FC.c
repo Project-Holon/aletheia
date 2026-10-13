@@ -1,5 +1,5 @@
 /*
- * function: func_021B98FC
+ * function: WIFICLUBACTOR_GetMode
  * address:  0x021B98FC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Loads the word at +0xC; getter for the store func_021B98F8 makes.  A leaf that saves nothing.
+ * Loads the word at +0xC; getter for the store WIFICLUBACTOR_SetMode makes.  A leaf that saves nothing.
  */
 
 typedef unsigned char  u8;
@@ -24,7 +24,7 @@ typedef struct {
     u32 f00, f04, f08, f0C;
 } S;
 
-u32 func_021B98FC(S *s)
+u32 WIFICLUBACTOR_GetMode(S *s)
 {
     return s->f0C;
 }

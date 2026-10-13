@@ -1,5 +1,5 @@
 /*
- * function: func_021BE5B8
+ * function: WIFICLUB_InitSprites
  * address:  0x021BE5B8
  * packet:   pkt_ov099_021BE5B8
  * region:   ov099
@@ -35,7 +35,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 
-void func_021BE5B8(char *p, void *a1)
+void WIFICLUB_InitSprites(char *p, void *a1)
 {
     CLACT_InitSystem((const struct Cfg *)d_021C3740, (u32)d_021C3AA0, 0x21);
     *(void **)(p + 0x110) = CLACT_CreateUnit(0x64, 0, 0x21);

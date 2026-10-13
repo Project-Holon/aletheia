@@ -15,18 +15,18 @@
  * symbols:
  *   func_0207C930  0x0207C930  arm
  *   func_0207C86C  0x0207C86C  arm
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   data_020A8478  0x020A8478  data
  *   g_0214BAC0     0x0214BAC0  data
  *   SND_Init       0x02089848  arm
  *   PM_PrependPostSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback   0x0208C828  arm
  *   NNS_SndWaveOutInit  0x02072A28  arm
- *   func_02073D5C  0x02073D5C  arm
- *   func_0207312C  0x0207312C  arm
+ *   NNSi_SndMainReset  0x02073D5C  arm
+ *   NNS_SndPlayerInit  0x0207312C  arm
  *   func_02089978  0x02089978  arm
- *   func_020731E0  0x020731E0  arm
- *   func_02073D7C  0x02073D7C  arm
+ *   NNS_SndPlayerMain  0x020731E0  arm
+ *   NNS_SndMain  0x02073D7C  arm
  *   func_02075858  0x02075858  arm
  *   func_02089B38  0x02089B38  arm
  *   func_0208970C  0x0208970C  arm
@@ -38,7 +38,7 @@
  *   DC_InvalidateRange        0x020862B8  arm
  *   SND_FlushCommand          0x02089B38  arm
  *   func_0208A0A4 0x0208A0A4  arm
- *   func_02073F3C  0x02073F3C  arm
+ *   NNSi_SndCaptureReset  0x02073F3C  arm
  *   NNS_SndStartTimer  0x02073EE4  arm
  */
 struct SNDCommand;
@@ -162,16 +162,16 @@ typedef signed char s8;
 
 extern void func_0207C930(s32 a, s32 b);
 extern s32  func_0207C86C(void);
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void SND_Init(void);
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
 extern void NNS_SndWaveOutInit(void);
-extern void func_02073D5C(void);
-extern void func_0207312C(void);
+extern void NNSi_SndMainReset(void);
+extern void NNS_SndPlayerInit(void);
 extern const struct SNDCommand *func_02089978(u32 flags);
-extern void func_020731E0(void);
-extern void func_02073D7C(void);
+extern void NNS_SndPlayerMain(void);
+extern void NNS_SndMain(void);
 extern void func_02075858(void);
 extern void func_02089B38(s32 a);
 extern void func_0208970C(int volume);
@@ -188,7 +188,7 @@ extern void NNS_SndStartTimer(void);
 extern void func_020894DC(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_02089D40(void);
 extern void func_02089CD4(u32 a);
-extern void func_02073F3C(void);
+extern void NNSi_SndCaptureReset(void);
 void func_02072374(struct DST_02072374 *d, struct SRC_02072374 *s);
 void func_02072440(struct DST_02072374 *d, struct SRC_02072440 *s);
 void func_020724E4(struct DST_02072374 *d, struct SRC_02072440 *s);
@@ -418,7 +418,7 @@ void func_020724E4(struct DST_02072374 *d, struct SRC_02072440 *s)
  * 0x02072524 and 0x02072524.
  *
  * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md),
- * the same measurement already taken for src/matched/func_020713A4.c: the
+ * the same measurement already taken for src/matched/NNSi_G3dTexMtxIdentity.c: the
  * image materialises the unit scale FIRST, `mov r2, #0x1000`
  * (`01 2a a0 e3`) at 0x02072524 followed by `str r2, [r0]`, and only then
  * `mov r1, #0` (`00 10 a0 e3`) at 0x0207252C. dsi/1.1p1 -O4,p schedules the
@@ -448,7 +448,7 @@ void func_02072524(struct DST_02072524 *d)
  * low three bits of the object's flag word through a pointer table, then
  * applies the object's f30/f34 scales to the two rows -- each through the
  * family's `>> 12` on an s64_02072524 product, which folds to `lsr #0xc` +
- * `orr ..., lsl #20` -- and hands the record to func_0206DDA4.
+ * `orr ..., lsl #20` -- and hands the record to NNS_G3dGeBufferOP_N.
  *
  * Each scale is skipped outright when it is already the unit 0x1000, so
  * both are guarded compares against 0x1000 rather than multiplies by one.
@@ -478,16 +478,16 @@ void func_02072524(struct DST_02072524 *d)
  *     constants.  Declaration order and binding the constants to locals
  *     at all are both insensitive.
  *
- * Derived from src/matched/func_02071F20.c, its sibling and the other caller of
+ * Derived from src/matched/NNSi_G3dSendTexMtx.c, its sibling and the other caller of
  * the 0x02071CDC constructor family (docs/notes/pkt_02071DD4.c.txt, "NOT
  * ATTEMPTED").  Same 0x4c-byte stack record, same two header constants
  * (0x00101610 / 0x00101810), same 2x3 fill dispatched through the low three
- * flag bits -- through data_020A8478 here rather than data_020A8458 -- and the
+ * flag bits -- through data_020A8478 here rather than gNNSiG3dTexMtxFuncTable -- and the
  * same two f30/f34 scale blocks.  L1, L2 and L3 above all transferred
  * unchanged, including the `volatile` f30/f34 with the guard's own load bound
  * to `s`, and were not re-derived.
  *
- * What this one adds over func_02071F20: three flag-guarded writes back into
+ * What this one adds over NNSi_G3dSendTexMtx: three flag-guarded writes back into
  * the OBJECT, ahead of the dispatch -- bit 0 sets f1c and f18 to the unit
  * scale, bit 1 sets h22 to 0x1000 and h20 to 0, bit 2 clears f28 and f24.  The
  * store order inside each pair is high field first, and each guard re-reads
@@ -568,7 +568,7 @@ void func_02072548(Obj *o)
 
     {
         s32_02072548 *base = (s32_02072548 *)&r;
-        func_0206DDA4(r.hdr, base + 1, 0x12);
+        NNS_G3dGeBufferOP_N(r.hdr, base + 1, 0x12);
     }
 }
 
@@ -586,9 +586,9 @@ void func_02072548(Obj *o)
  * own 136 bytes --
  *   +0x1C  SND_Init (0x02089848): the `bl` here is the only branch to it
  *          anywhere in the image, arm9 and all overlays.
- *   +0x54  func_02073D5C: only src/pending/func_02073D5C.c names it, and a
+ *   +0x54  NNSi_SndMainReset: only src/pending/NNSi_SndMainReset.c names it, and a
  *          `pending` file is never a `matched` witness.
- *   +0x58  func_0207312C: same, src/pending/func_0207312C.c, which is itself
+ *   +0x58  NNS_SndPlayerInit: same, src/pending/NNS_SndPlayerInit.c, which is itself
  *          parked for want of a `literal` witness on 0x0214E024 (see its
  *          header and docs/FRONTEND-PINS.md).
  * Promoting either of those two pending files promotes this one with it; there
@@ -624,8 +624,8 @@ void func_020726D0(void)
     PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);
     NNS_SndWaveOutInit();
-    func_02073D5C();
-    func_0207312C();
+    NNSi_SndMainReset();
+    NNS_SndPlayerInit();
     g_0214BAC0.idx = -1;
     g_0214BAC0.pending = 1;
 }
@@ -652,7 +652,7 @@ void func_020726D0(void)
  * difference is gone.
  *
  * CAPPED AT MATCH for lack of an outside witness, not for codegen. Three of
- * the five PC24 sites (func_020731E0, func_02073D7C, func_02075858) have no
+ * the five PC24 sites (NNS_SndPlayerMain, NNS_SndMain, func_02075858) have no
  * branch anywhere in the image outside this function's own 48 bytes, and
  * nothing under src/matched/ reproduces the ranges that define them, so the
  * `label` and `matched` classes both refuse. There is nothing to split: this
@@ -661,9 +661,9 @@ void func_020726D0(void)
  * is filed EXACT elsewhere, or a second caller of one is decompiled.
  *
  * 2026-09-21, unblock lane: ONE OF THE THREE BLOCKING SITES IS NOW CLEARED.
- * func_020731E0 (the +0x18 site) was promoted to src/matched/ this pass and
+ * NNS_SndPlayerMain (the +0x18 site) was promoted to src/matched/ this pass and
  * resolves `matched x1`; the file is now MATCH* with 3 of 5 relocations
- * resolved.  The two that remain are +0x1C (func_02073D7C, 128 bytes at
+ * resolved.  The two that remain are +0x1C (NNS_SndMain, 128 bytes at
  * 0x02073D7C) and +0x20 (func_02075858, 272 bytes at 0x02075858), neither of
  * which has any branch outside this function's own bytes.  Both must be
  * written and filed EXACT in their own right -- there is no second caller to
@@ -675,8 +675,8 @@ void func_02072758(void)
     while (func_02089978(0) != 0)
         ;
 
-    func_020731E0();
-    func_02073D7C();
+    NNS_SndPlayerMain();
+    NNS_SndMain();
     func_02075858();
     func_02089B38(0);
 }
@@ -800,5 +800,5 @@ void func_020728E8(void)
 
 void func_02072920(void *p)
 {
-    func_02073F3C();
+    NNSi_SndCaptureReset();
 }

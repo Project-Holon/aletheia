@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA14
+ * function: WIFICLUB_StateLevelMenu
  * address:  0x021BCA14
  * packet:   pkt_ov099_021BCA14
  * region:   ov099
@@ -14,12 +14,12 @@
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_MENULIST_Main  0x020200CC  thumb
- *   func_021BA8EC  0x021BA8EC  thumb  ov099
- *   func_021BA8BC  0x021BA8BC  thumb  ov099
+ *   WIFICLUB_ClearTalkWindow  0x021BA8EC  thumb  ov099
+ *   WIFICLUB_DeleteWindow  0x021BA8BC  thumb  ov099
  *   BMP_MENULIST_Delete  0x0202020C  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *
- * Twin of func_021BC958 (+0x22 byte, +0x134e halfword, +0x238 out slot).
+ * Twin of WIFICLUB_StateKindMenu (+0x22 byte, +0x134e halfword, +0x238 out slot).
  */
 #include "../include/Obj01916.h"
 #include "../include/Obj22030.h"
@@ -36,12 +36,12 @@ struct PrintSys;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
-extern void func_021BA8EC(char *p);
-extern int func_021BA8BC(void *p);
+extern void WIFICLUB_ClearTalkWindow(char *p);
+extern int WIFICLUB_DeleteWindow(void *p);
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-int func_021BCA14(char *p, int v)
+int WIFICLUB_StateLevelMenu(char *p, int v)
 {
     int r;
     int q;
@@ -62,8 +62,8 @@ int func_021BCA14(char *p, int v)
         ((struct Obj22030 *)(*(char * *)&((struct Obj01916 *)p)->f248))->f22 = r;
     }
     ((struct Obj01916 *)p)->f1CC = 0x4e;
-    func_021BA8EC(p);
-    ((struct Obj01916 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj01916 *)p)->f1A4);
+    WIFICLUB_ClearTalkWindow(p);
+    ((struct Obj01916 *)p)->f1A4 = (void *)WIFICLUB_DeleteWindow(((struct Obj01916 *)p)->f1A4);
     BMP_MENULIST_Delete((struct Obj *)(((struct Obj01916 *)p)->fBC), 0, (u16 *)(p + 0x238));
     BMP_MENUWORK_Delete((void *)(((struct Obj01916 *)p)->fB8));
     return v;

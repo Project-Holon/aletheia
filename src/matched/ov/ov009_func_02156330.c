@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf blocker of the ov099 func_021BC104 +0022 call site. Sibling of
+ * Leaf blocker of the ov099 WIFICLUB_StartVoiceChat +0022 call site. Sibling of
  * DWC_RAP_SetVchatEnabled (same block, halfword at +0x782); this one stamps +0x794.
  *
  * symbols:

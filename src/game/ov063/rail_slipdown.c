@@ -28,7 +28,7 @@
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   RAIL_SLIPDOWN_TaskMain  0x021F377C  thumb  ov063
- *   d_021F3D80     0x021F3D80  data  a1
+ *   gRailSlipdownSourceFile     0x021F3D80  data  a1
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
  *   FLDMMDL_RAIL_GetDrawOffset 0x0219E764 thumb ov021
@@ -98,7 +98,7 @@ extern u32 func_020307B0(void *p);
 RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
-extern const char d_021F3D80[];
+extern const char gRailSlipdownSourceFile[];
 typedef long long s64;
 extern int FLDMMDL_RAIL_GetDrawOffset(struct Mmdl *mmdl, SlipdownDir *out);
 extern void VEC_Fx16Normalize(SlipdownDir *in, SlipdownDir *out);
@@ -148,7 +148,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
 {
     RailSlipdown *slipdown;
 
-    slipdown = func_02030734(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, d_021F3D80, 0x80);
+    slipdown = func_02030734(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, gRailSlipdownSourceFile, 0x80);
     slipdown->nogridMapper = FIELDMAP_GetNogridMapper(fieldMap);
     slipdown->mmdl = mmdl;
     slipdown->railWork = FLDMMDL_RAIL_GetRailWork(mmdl);

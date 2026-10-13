@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -64,7 +64,7 @@
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
- *   func_0216CB30 0x0216CB30 arm ov009
+ *   DWC_GetMatchIntValue 0x0216CB30 arm ov009
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
  *   func_02012944 0x02012944 thumb
@@ -72,7 +72,7 @@
  *   func_021D8590 0x021D8590 thumb ov120
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_02009CA8 0x02009CA8 thumb
- *   func_0216C8DC 0x0216C8DC arm ov009
+ *   DWC_AddMatchKeyInt 0x0216C8DC arm ov009
  *   func_0208D7E0 0x0208D7E0 arm
  *   DWC_RAP_StartMatchWithFilter 0x0215580C thumb ov009
  *   GFL_NET_STATE_WifiEnterFriendMatch 0x0203C35C arm
@@ -172,7 +172,7 @@
  *   func_02034AC4 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   func_0204363C 0x0204363C arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -215,7 +215,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -422,7 +422,7 @@ typedef struct Vec { s16 x, y; } Vec;
 
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern int MYSTATUS_GetSize(void);
 extern void func_020355D8(u8 v);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -480,13 +480,13 @@ extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void func_021D7B38(char *p);
 extern void func_021D8648(u8 *p);
-extern int func_0216CB30(int, int, int);
+extern int DWC_GetMatchIntValue(int, int, int);
 extern void *func_02009EC8(void *);
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
 extern void func_021D8590(u8 *, int, int);
 extern void GFL_NET_SetWaitMode(int);
 extern void func_02009CA8(void *account, void *out);
-extern u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc);
+extern u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
 extern int func_0208D7E0(char *, const char *, ...);
 extern int DWC_RAP_StartMatchWithFilter(int, int, int, int);
 extern u32 GFL_NET_STATE_WifiEnterFriendMatch(void);
@@ -582,7 +582,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02034AC4(int);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void func_0204363C(u32 swap);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -619,7 +619,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *,int);
-extern void func_020862F0(void *,unsigned long);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -756,17 +756,17 @@ void func_021D4244(void *p, void *fn, int line) { func_021D4240(p, fn); }
 
 
 
-void func_021D424C(u32 id,int b,const void *src,struct GtsnegoDispCtx *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&p->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) func_02082D44(src,q+12,8); }
+void func_021D424C(u32 id,int b,const void *src,struct GtsnegoDispCtx *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&p->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,q+12,8); }
 
 
 
 
-void func_021D4278(u32 id,int b,const void *src,struct GtsnegoDispCtx *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&p->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) func_02082D44(src,((struct GtsnegoDispCtx2 *)q)->f18,MYSTATUS_GetSize()); }
+void func_021D4278(u32 id,int b,const void *src,struct GtsnegoDispCtx *p,struct Entry *entry) { u8 *q; q=*(u8 * *)&p->f48; if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,((struct GtsnegoDispCtx2 *)q)->f18,MYSTATUS_GetSize()); }
 
 
 
 
-void func_021D42A8(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) func_02082D44(src,p+0x174,12); }
+void func_021D42A8(u32 id,int b,const void *src,u8 *p,struct Entry *entry) { if(entry==GFL_NET_HANDLE_GetCurrentHandle() && id!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) MI_CpuCopy8(src,p+0x174,12); }
 
 
 
@@ -1164,11 +1164,11 @@ int func_021D4A20(int a, u8 *p)
     int group;
     int i;
     u8 *q = *(u8 * *)&((struct GtsnegoDispCtx *)p)->f48;
-    mode = func_0216CB30(a, (int)(p + 0x76), -1);
-    x = func_0216CB30(a, (int)(p + 0x8e), -1);
-    y = func_0216CB30(a, (int)(p + 0x82), -1);
-    id = func_0216CB30(a, (int)(p + 0x5e), 0);
-    group = func_0216CB30(a, (int)(p + 0xb2), 0);
+    mode = DWC_GetMatchIntValue(a, (int)(p + 0x76), -1);
+    x = DWC_GetMatchIntValue(a, (int)(p + 0x8e), -1);
+    y = DWC_GetMatchIntValue(a, (int)(p + 0x82), -1);
+    id = DWC_GetMatchIntValue(a, (int)(p + 0x5e), 0);
+    group = DWC_GetMatchIntValue(a, (int)(p + 0xb2), 0);
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {
@@ -1246,9 +1246,9 @@ void func_021D4B48(u8 *p)
         }
         for (i = 0; i < 8; i++) {
             r = (Record_021D47D4 *)(p + 0x58) + i;
-            func_02082D44(d_021D8B40 + i, &r->detail, 2);
+            MI_CpuCopy8(d_021D8B40 + i, &r->detail, 2);
             r->value = values[i];
-            r->kind = func_0216C8DC(r->kind, (char *)(&r->detail), (int *)r);
+            r->kind = DWC_AddMatchKeyInt(r->kind, (char *)(&r->detail), (int *)r);
         }
         func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(unsigned int *)&((struct GtsnegoDispCtx *)p)->f138, 1);
         if (DWC_RAP_StartMatchWithFilter((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
@@ -2225,7 +2225,7 @@ u8 *func_021D5E88(u32 heap,void *arg)
     BG_SYS_SetSubVisiblePlanes(0);
     func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(((struct GtsnegoMsgCtx *)p)->fF4);
     CLACT_InitSystem((const struct Cfg *)d_021D8974,(u32)(&d_021D8B98),((struct GtsnegoMsgCtx *)p)->fF4);
     ((struct GtsnegoMsgCtx *)p)->f10=CLACT_CreateUnit(64,0,((struct GtsnegoMsgCtx *)p)->fF4);
@@ -2400,11 +2400,11 @@ void func_021D6328(struct GtsnegoMsgCtx *p,int bank,int *offset,int *size,int co
     for(i=0;i<count;i++) {
         switch(bank) {
         case 3:
-            func_020862F0(buffer+offset[i]*32,size[i]*32);
+            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
             func_0207E5D0(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         case 1:
-            func_020862F0(buffer+offset[i]*32,size[i]*32);
+            DWCi_ScreenDC_FlushRange(buffer+offset[i]*32,size[i]*32);
             func_0207E468(buffer+offset[i]*32,offset[i]*32,size[i]*32);
             break;
         }
@@ -2426,8 +2426,8 @@ void func_021D6328(struct GtsnegoMsgCtx *p,int bank,int *offset,int *size,int co
 void func_021D63F4(struct GtsnegoMsgCtx *p,int flag,int mode)
 {
     if(flag) {
-        func_02082D44((void *)0x05000600,p->f124,0x200);
-        func_02082D44((void *)0x05000400,p->f128,0x200);
+        MI_CpuCopy8((void *)0x05000600,p->f124,0x200);
+        MI_CpuCopy8((void *)0x05000400,p->f128,0x200);
         switch(mode) {
         case 2: {
             Word a={0};
@@ -2463,9 +2463,9 @@ void func_021D63F4(struct GtsnegoMsgCtx *p,int flag,int mode)
         }
         }
     } else {
-        func_020862F0(p->f124,0x200);
+        DWCi_ScreenDC_FlushRange(p->f124,0x200);
         func_0207E5D0(p->f124,0,0x200);
-        func_020862F0(p->f128,0x200);
+        DWCi_ScreenDC_FlushRange(p->f128,0x200);
         func_0207E468(p->f128,0,0x200);
     }
 }

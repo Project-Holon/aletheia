@@ -1,5 +1,5 @@
 /*
- * function: func_0215A23C
+ * function: dispatch_udp
  * address:  0x0215A23C
  * packet:   pkt_ov009_0215A23C
  * region:   ov009
@@ -11,7 +11,7 @@
  *
  * sdk:      dispatch_udp (libcps.TWL.HYB.a network.o)
  * symbols:
- *   func_02157838                    0x02157838 arm ov009
+ *   check_tcpudpsum                    0x02157838 arm ov009
  *   OS_DisableInterrupts             0x02087988 arm
  *   MI_CpuCopy                       0x02082ea4 arm
  *   OS_WakeupThreadDirect            0x02085868 arm
@@ -56,7 +56,7 @@ struct OSThreadInfo {
 };
 
 extern struct OSThreadInfo g_02150FEC;
-extern u32 func_02157838(u8 *tcpudp_hdr, u32 len, u8 *ip_hdr, u16 proto);
+extern u32 check_tcpudpsum(u8 *tcpudp_hdr, u32 len, u8 *ip_hdr, u16 proto);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 enabled);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
@@ -65,7 +65,7 @@ extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 #define NTOHS(p) ((u16)((*(u16 *)(p) >> 8) | (*(u16 *)(p) << 8)))
 #define NTOHL(p) (((u32)NTOHS(p) << 16) | NTOHS((u8 *)(p) + 2))
 
-void func_0215A23C(u8 *iphdr, u8 *udphdr, u32 len)
+void dispatch_udp(u8 *iphdr, u8 *udphdr, u32 len)
 {
     struct _CPSSoc *soc;
     struct _OSThread *t;
@@ -73,7 +73,7 @@ void func_0215A23C(u8 *iphdr, u8 *udphdr, u32 len)
 
     if (len < 8)
         return;
-    if (*(u16 *)(udphdr + 6) != 0 && func_02157838(udphdr, len, iphdr, 0x11) != 0)
+    if (*(u16 *)(udphdr + 6) != 0 && check_tcpudpsum(udphdr, len, iphdr, 0x11) != 0)
         return;
     enabled = OS_DisableInterrupts();
     for (t = g_02150FEC.list; t != 0; t = t->next) {

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020862F0   0x020862F0  arm
- *   func_0207E3D0   0x0207E3D0  arm
+ *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
+ *   GX_LoadBGPltt   0x0207E3D0  arm
  *   func_0207E468   0x0207E468  arm
- *   func_0207E51C   0x0207E51C  arm
+ *   GX_LoadOBJPltt   0x0207E51C  arm
  *   func_0207E5D0   0x0207E5D0  arm
  *   func_0207F308   0x0207F308  arm
  *   func_0207F394   0x0207F394  arm
@@ -74,10 +74,10 @@ struct S02021D50 {
 };
 
 extern u8 PALANM_CheckBit(u32 val, int bit);
-extern void func_020862F0(void *a, u32 b);
-extern void func_0207E3D0(void *a, u32 b, u32 c);
+extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
+extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);
-extern void func_0207E51C(void *a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(void *a, u32 b, u32 c);
 extern void func_0207E5D0(void *a, u32 b, u32 c);
 extern void func_0207F308(void);
 extern void func_0207F394(void *a, u32 b, u32 c);
@@ -113,16 +113,16 @@ void PALANM_TransferPalettes(struct S02021D50 *p)
             }
         }
         c = &p->ch[i];
-        func_020862F0(c->f4, c->f8);
+        DWCi_ScreenDC_FlushRange(c->f4, c->f8);
         switch (i) {
         case 0:
-            func_0207E3D0(c->f4, 0, c->f8);
+            GX_LoadBGPltt(c->f4, 0, c->f8);
             break;
         case 1:
             func_0207E468(c->f4, 0, c->f8);
             break;
         case 2:
-            func_0207E51C(c->f4, 0, c->f8);
+            GX_LoadOBJPltt(c->f4, 0, c->f8);
             break;
         case 3:
             func_0207E5D0(c->f4, 0, c->f8);

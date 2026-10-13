@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C0C
+ * function: IRC_COMPATIBLE_MENU_VBlankSpriteSystem
  * address: 0x021B7C0C
  * packet: pkt_ov102_021B7C0C
  * region: ov102
@@ -11,4 +11,4 @@
  * CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void CLACT_VBlankSystem(void);
-void func_021B7C0C(void *p) { CLACT_VBlankSystem(); }
+void IRC_COMPATIBLE_MENU_VBlankSpriteSystem(void *p) { CLACT_VBlankSystem(); }

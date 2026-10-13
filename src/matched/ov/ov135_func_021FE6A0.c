@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C8B18 0x021C8B18 arm ov114
- *   func_021C8BC4 0x021C8BC4 arm ov114
+ *   DPW_TR_DownloadMatchDataAsync 0x021C8B18 arm ov114
+ *   DPW_TR_DownloadMatchDataRawAsync 0x021C8BC4 arm ov114
  *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj01161.h"
@@ -18,14 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short id; s8 a, b, c, d; u8 mode, flag; } Request;
-extern void func_021C8B18(void *, int, void *);
-extern void func_021C8BC4(const void *p, unsigned int x);
+extern void DPW_TR_DownloadMatchDataAsync(void *, int, void *);
+extern void DPW_TR_DownloadMatchDataRawAsync(const void *p, unsigned int x);
 extern void MI_CpuFill8(void *, int, u32);
 int func_021FE6A0(u8 *p)
 {
     Request q;
     if (((struct Obj01161 *)p)->fF84 == 0) {
-        func_021C8B18(p + 0xb56, 7, p + 0x20c);
+        DPW_TR_DownloadMatchDataAsync(p + 0xb56, 7, p + 0x20c);
     } else {
         MI_CpuFill8(&q, 0, 8);
         q.id = *(short *)&((struct Obj01161 *)p)->fB56;
@@ -35,7 +35,7 @@ int func_021FE6A0(u8 *p)
         q.d = *(s8 *)(p + 0xb5b);
         q.mode = 7;
         q.flag = ((struct Obj01161 *)p)->fF84;
-        func_021C8BC4(&q, (unsigned int)(p + 0x20c));
+        DPW_TR_DownloadMatchDataRawAsync(&q, (unsigned int)(p + 0x20c));
     }
     ((struct Obj01161 *)p)->fB5C = ((struct Obj01161 *)p)->fB56;
     ((struct Obj01161 *)p)->fB5E = ((struct Obj01161 *)p)->fB58;

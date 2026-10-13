@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689B1E4",
+   "name": "BTLV_SCD_WaitTargetTouchStep",
    "address": "0x0689B1E4",
    "kind": "game",
    "region": "ov095",

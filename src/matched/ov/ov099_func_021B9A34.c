@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A34
+ * function: WIFICLUBACTOR_FreeActor
  * address:  0x021B9A34
  * packet:   pkt_ov099_021BF2C4
  * region:   ov099
@@ -29,7 +29,7 @@ typedef struct {
     char pad[0x14];
 } Obj;
 
-void func_021B9A34(Obj *p)
+void WIFICLUBACTOR_FreeActor(Obj *p)
 {
     func_021C5704(p->f4);
     func_021C4948(p->f0);

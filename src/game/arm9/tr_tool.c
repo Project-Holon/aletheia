@@ -31,6 +31,7 @@
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
@@ -116,7 +117,7 @@ struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct MsgBank *rec);
-extern void  func_02082A60(const void *src, void *dest, u32 size);
+extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 void func_0202A440(u32 id, struct Out *out, u16 heap);
 
@@ -142,7 +143,7 @@ void func_0202A440(u32 id, struct Out *out, u16 heap)
     MSGDATA_ReadString(bank, id, (void *)out->f14);
     MSGDATA_Delete(bank);
 
-    func_02082A60(t->f04, &out->f0c, 8);
+    MIi_CpuCopy16(t->f04, &out->f0c, 8);
     PMSI_PARAM_ClearSentence(&out->f18);
     PMSI_PARAM_ClearSentence(&out->f20);
 

@@ -121,7 +121,7 @@
  *   func_02049F34  0x02049F34  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_ConvertToLinear  0x02044F64  arm
  *   func_02061CA4  0x02061CA4  arm
  *   FADE_Start  0x0204E720  arm
@@ -164,6 +164,7 @@
  *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
  */
 #include "fld3d_ci_types.h"
 
@@ -282,7 +283,7 @@ extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02082A90(const void *src, void *dst, u32 size);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -293,7 +294,7 @@ extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02012944(void *gameData);
 extern u8 func_02008550(const void *playerStatus);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern int func_0206E62C(void *dict, Fld3dCiNameKey *key);
+extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 extern int func_0208CC78(const char *s);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC64(u32 heap);
@@ -1267,25 +1268,25 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     func_02082A7C(0, tileBuf, 0x2000);
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
             tile++;
         }
     }
     for (j = 0; j < 8; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
             tile++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 0; i < 8; i++) {
-            func_02082A90(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
             tile++;
         }
     }
     for (j = 8; j < 12; j++) {
         for (i = 8; i < 12; i++) {
-            func_02082A90(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + 0x440 + (i + j * 16) * 32, 32);
             tile++;
         }
     }
@@ -1391,7 +1392,7 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
     func_02082A7C(0, tileBuf, 0x2000);
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 16; i++) {
-            func_02082A90(chrSrc + tile * 32, tileBuf + (i + j * 16) * 32, 32);
+            MIi_CpuCopy32(chrSrc + tile * 32, tileBuf + (i + j * 16) * 32, 32);
             tile++;
         }
     }
@@ -1509,7 +1510,7 @@ int FLD3D_CI_FindTexture(Fld3dCiTexBlock *texBlock, const char *name)
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0)
-        entry = func_0206E62C((u8 *)texBlock + 0x3C, &key);
+        entry = NNS_G3dGetResDataByName((u8 *)texBlock + 0x3C, &key);
     else
         entry = 0;
     if (entry == 0)
@@ -1525,7 +1526,7 @@ int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name)
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0 && texBlock->plttDictOffset != 0)
-        entry = func_0206E62C((u8 *)texBlock + texBlock->plttDictOffset, &key);
+        entry = NNS_G3dGetResDataByName((u8 *)texBlock + texBlock->plttDictOffset, &key);
     else
         entry = 0;
     if (entry == 0)

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02188E90",
-    "func_02188F08"
+    "TR_AI_CmdLoadAbleBackupCount",
+    "TR_AI_CmdLoadCurrentMove"
+   ],
+   "addresses": [
+    "0x02188E90",
+    "0x02188F08"
    ]
   }
  ]

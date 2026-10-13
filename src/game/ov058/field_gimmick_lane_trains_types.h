@@ -61,20 +61,20 @@ struct GimmickWork;
 #define FIELD_GIMMICK_LANE_TRAINS_HEAR_DISTANCE    0x40000
 
 /* Movement state of one train (8 bytes). */
-typedef struct Gimmick58Train {
+typedef struct FieldGimmickLaneTrainsTrain {
     int  step;          /* 0x00: frames moved along the track, 1.0 per frame */
     u16  waitFrames;    /* 0x04: frames to wait before the next run */
     u16  lane;          /* 0x06: lane (0..2) of the current run */
-} Gimmick58Train;
+} FieldGimmickLaneTrainsTrain;
 
 /* The common work of the gimmick on the field map (0x20 bytes, id 1). */
-typedef struct Gimmick58Work {
+typedef struct FieldGimmickLaneTrainsWork {
     u8             pad00[8];            /* 0x00: never read */
-    Gimmick58Train eastbound;           /* 0x08: moves towards larger x */
+    FieldGimmickLaneTrainsTrain eastbound;           /* 0x08: moves towards larger x */
     int            eastSoundPlayed;     /* 0x10: the pass sound was started for this run */
-    Gimmick58Train westbound;           /* 0x14: moves towards smaller x */
+    FieldGimmickLaneTrainsTrain westbound;           /* 0x14: moves towards smaller x */
     int            westSoundPlayed;     /* 0x1C */
-} Gimmick58Work;
+} FieldGimmickLaneTrainsWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);

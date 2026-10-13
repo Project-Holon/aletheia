@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A80
+ * function: IRC_RESULT_VBlankBackgrounds
  * address:  0x021B7A80
  * packet:   pkt_ov105_021B7A80
  * region:   ov105
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_020419E4(void);
-void func_021B7A80(void *a0) { func_020419E4(); }
+void IRC_RESULT_VBlankBackgrounds(void *a0) { func_020419E4(); }

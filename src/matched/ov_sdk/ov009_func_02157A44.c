@@ -1,5 +1,5 @@
 /*
- * function: func_02157A44
+ * function: put_in_buffer
  * address:  0x02157A44
  * packet:   pkt_ov009_02157A44
  * region:   ov009
@@ -35,7 +35,7 @@ extern struct CPSGlobal g_021A826C;
 extern u8 g_021A1CC0[];
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 
-void func_02157A44(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2)
+void put_in_buffer(u8 *srcAddr, u8 *dstAddr, u8 *buf1, u32 size1, u8 *buf2, u32 size2)
 {
     u32 size;
     u32 new_putpnt;

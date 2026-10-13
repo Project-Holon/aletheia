@@ -1,5 +1,5 @@
 /*
- * function: func_02189548
+ * function: TR_AI_CmdLoadMoveStreak
  * address: 0x02189548
  * packet: pkt_ov096_02189548
  * region: ov096
@@ -15,8 +15,8 @@
  * note: 2026-10-05 (wD4 lane20): tried swapped declaration order of q and v, and the nested call chain split into three statements (a = f(x); a = g(p,a); q = h(p,a)); p stays r5, q r4. Residue unchanged: whole-body p/q colour swap (10 bytes).
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   func_0218A160 0x0218A160 thumb ov096
- *   func_0218A2FC 0x0218A2FC thumb ov096
+ *   TR_AI_GetPosition 0x0218A160 thumb ov096
+ *   TR_AI_GetPoke 0x0218A2FC thumb ov096
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   BTL_POKEPARAM_GetMoveStreak 0x021D679C thumb ov093
  */
@@ -26,14 +26,14 @@ typedef unsigned int u32;
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 struct QL;
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u16 BTL_POKEPARAM_GetMoveStreak(u8 *p);
-u32 func_02189548(struct Cursor *x, u8 *p)
+u32 TR_AI_CmdLoadMoveStreak(struct Cursor *x, u8 *p)
 {
     u8 *q;
-    q = func_0218A2FC(p, func_0218A160(p, VM_GetU32(x)));
+    q = TR_AI_GetPoke(p, TR_AI_GetPosition(p, VM_GetU32(x)));
     if (BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xB6 && BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xC5 && BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xCB)
         *(u32 *)(p + 0x38) = 0;
     else

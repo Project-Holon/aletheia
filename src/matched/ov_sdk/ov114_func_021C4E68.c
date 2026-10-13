@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E68
+ * function: ghiFreeTempBuffer
  * address:  0x021C4E68
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0217EAE0(int);
 
-void func_021C4E68(int a)
+void ghiFreeTempBuffer(int a)
 {
     if (a == 0)
         return;

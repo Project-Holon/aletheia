@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021DF918 0x021DF918 thumb ov119
  *   d_021E80E0 0x021E80E0 data ov119 a4
  */
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082D44(void *,const void *,int);
+extern void MI_CpuCopy8(void *,const void *,int);
 extern void func_021DF918(void *,int,void *);
 extern const char d_021E80E0[];
 typedef struct State {
@@ -44,7 +44,7 @@ int func_021DD428(State *p,int side,int a,int b,void *value)
             p->b[side][i]=b;
             if(p->value[side][i]==0)
                 p->value[side][i]=func_02030734(((struct Obj00001 *)p)->f5F4,POKE_TOOL_GetPartyParamSize(),1,d_021E80E0,0x14c);
-            func_02082D44(value,p->value[side][i],POKE_TOOL_GetPartyParamSize());
+            MI_CpuCopy8(value,p->value[side][i],POKE_TOOL_GetPartyParamSize());
             func_021DF918(p,side,value);
             return i;
         }

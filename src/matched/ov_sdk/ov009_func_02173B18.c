@@ -1,5 +1,5 @@
 /*
- * function: func_02173B18
+ * function: DWCi_ClearGameMatchKeys
  * address:  0x02173B18
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -27,7 +27,7 @@ extern MatchKey g_021AAA40[];
 extern void DWC_Free(int kind, void *p, int size);
 extern void MIi_CpuClear32(int v, void *p, int size);
 
-void func_02173B18(void)
+void DWCi_ClearGameMatchKeys(void)
 {
     int i;
 

@@ -15,7 +15,7 @@
  *   memcpy  0x02092344  arm
  *   strlen  0x0209477C  arm
  *   memcmp  0x020923F0  arm
- *   g_021DABC4  0x021DABC4  data
+ *   sAtermsetTable1  0x021DABC4  data
  *
  * atermset.o carries the 3.0.0.126 stamp (the 2.0/sp1p2 front end), as the other
  * atermset.o files do. memcmp must come from a header named string.h so the
@@ -43,7 +43,7 @@ typedef struct _BSSID_LIST {
     WLAN_BSSID Bssid[1];
 } BSSID_LIST;
 
-extern char g_021DABC4[7];
+extern char sAtermsetTable1[7];
 
 static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
 {
@@ -95,7 +95,7 @@ static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned lo
         for (i = 0; i < pOldList->NumberOfItems; i++) {
             memcpy(newSSID, pOldBss->Ssid.Ssid, 32);
             newSSID[pOldBss->Ssid.SsidLength] = 0;
-            if (memcmp(newSSID, g_021DABC4, strlen(g_021DABC4)) == 0 && pOldBss->Privacy == 0) {
+            if (memcmp(newSSID, sAtermsetTable1, strlen(sAtermsetTable1)) == 0 && pOldBss->Privacy == 0) {
                 flagOld = 1;
                 break;
             }
@@ -104,8 +104,8 @@ static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned lo
         for (i = 0; i < pNewList->NumberOfItems; i++) {
             memcpy(newSSID, pNewBss->Ssid.Ssid, 32);
             newSSID[pNewBss->Ssid.SsidLength] = 0;
-            if (strlen(newSSID) == strlen(g_021DABC4) &&
-                memcmp(newSSID, g_021DABC4, strlen(g_021DABC4)) == 0 && pNewBss->Privacy == 0) {
+            if (strlen(newSSID) == strlen(sAtermsetTable1) &&
+                memcmp(newSSID, sAtermsetTable1, strlen(sAtermsetTable1)) == 0 && pNewBss->Privacy == 0) {
                 flagNew = 1;
                 break;
             }

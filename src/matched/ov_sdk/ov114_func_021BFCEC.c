@@ -1,5 +1,5 @@
 /*
- * function: func_021BFCEC
+ * function: ghiAppendDataToBuffer
  * address:  0x021BFCEC
  * packet:   pkt_ov114_021BFCEC
  * region:   ov114
@@ -38,9 +38,9 @@ typedef struct GHIBuffer {
 
 extern unsigned int strlen(const char *);
 extern void *memcpy(void *, const void *, unsigned int);
-extern int func_021BFB90(GHIBuffer *, int);
+extern int ghiResizeBuffer(GHIBuffer *, int);
 
-int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen)
+int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen)
 {
     int newLen;
     if (buffer == 0)
@@ -60,7 +60,7 @@ int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen)
             buffer->f0->f40 = 2;
             return 0;
         }
-        if (func_021BFB90(buffer, buffer->f14) == 0) {
+        if (ghiResizeBuffer(buffer, buffer->f14) == 0) {
             buffer->f0->f124 = 1;
             buffer->f0->f40 = 1;
             return 0;

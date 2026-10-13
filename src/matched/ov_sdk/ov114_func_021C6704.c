@@ -1,5 +1,5 @@
 /*
- * function: func_021C6704
+ * function: DWCi_Ndi_getApInfo
  * address:  0x021C6704
  * packet:   pkt_ov114_021C6704
  * region:   ov114
@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0205CD24  0x0205CD24  arm
- *   func_021C7A68  0x021C7A68  arm  ov114
- *   func_021C7A44  0x021C7A44  arm  ov114
- *   func_021C60C8  0x021C60C8  arm  ov114
- *   g_021CE0E4  0x021CE0E4  data
- *   g_021D3C8C  0x021D3C8C  data
+ *   DWCi_Ndi_intToStr  0x021C7A68  arm  ov114
+ *   DWCi_Ndi_memcpy  0x021C7A44  arm  ov114
+ *   DWCi_Ndi_encodeBASE64  0x021C60C8  arm  ov114
+ *   sDwciNdEmptyMacAddress  0x021CE0E4  data
+ *   gDwciNdApInfo  0x021D3C8C  data
  */
 
 typedef struct {
@@ -33,26 +33,26 @@ typedef struct {
 
 extern int func_0205CD24(ApInfo *apinfo);
 typedef unsigned int   u32;
-extern void func_021C7A68(char *p, u32 n);
-extern void func_021C7A44(void *dst, void *src, int size);
-extern int func_021C60C8(char *encstr, char *srcbin, int length);
-extern B13 g_021CE0E4;
-extern ApInfo g_021D3C8C;
+extern void DWCi_Ndi_intToStr(char *p, u32 n);
+extern void DWCi_Ndi_memcpy(void *dst, void *src, int size);
+extern int DWCi_Ndi_encodeBASE64(char *encstr, char *srcbin, int length);
+extern B13 sDwciNdEmptyMacAddress;
+extern ApInfo gDwciNdApInfo;
 
-int func_021C6704(char *apinfo)
+int DWCi_Ndi_getApInfo(char *apinfo)
 {
-	B13 strAp = g_021CE0E4;
-	if (func_0205CD24(&g_021D3C8C)) {
-		if (g_021D3C8C.type >= 0 && g_021D3C8C.type < 10)
-			strAp.b[1] = g_021D3C8C.type + '0';
-		else if (g_021D3C8C.type >= 10 && g_021D3C8C.type < 100)
-			func_021C7A68(strAp.b, g_021D3C8C.type);
-		if (g_021D3C8C.type == 4 || g_021D3C8C.type == 8) {
-			if (g_021D3C8C.idx >= 0 && g_021D3C8C.idx < 10)
-				strAp.b[3] = g_021D3C8C.idx + '0';
-			func_021C7A44(&strAp.b[4], g_021D3C8C.bssid, 9);
+	B13 strAp = sDwciNdEmptyMacAddress;
+	if (func_0205CD24(&gDwciNdApInfo)) {
+		if (gDwciNdApInfo.type >= 0 && gDwciNdApInfo.type < 10)
+			strAp.b[1] = gDwciNdApInfo.type + '0';
+		else if (gDwciNdApInfo.type >= 10 && gDwciNdApInfo.type < 100)
+			DWCi_Ndi_intToStr(strAp.b, gDwciNdApInfo.type);
+		if (gDwciNdApInfo.type == 4 || gDwciNdApInfo.type == 8) {
+			if (gDwciNdApInfo.idx >= 0 && gDwciNdApInfo.idx < 10)
+				strAp.b[3] = gDwciNdApInfo.idx + '0';
+			DWCi_Ndi_memcpy(&strAp.b[4], gDwciNdApInfo.bssid, 9);
 		}
-		func_021C60C8(apinfo, strAp.b, 13);
+		DWCi_Ndi_encodeBASE64(apinfo, strAp.b, 13);
 		return 1;
 	}
 	return 0;

@@ -16,7 +16,7 @@
  * that section.
  *
  * symbols:
- *   g_02151398            0x02151398  data
+ *   gOsTerminateBss            0x02151398  data
  *   OS_GetProcMode        0x020879EC  arm
  *   OS_EnableInterrupts   0x02087974  arm
  *   OS_IsRunOnTwl         0x02085D3C  arm
@@ -50,10 +50,10 @@ typedef struct OsTerminateBss {
     BOOL terminated;
 } OsTerminateBss;
 
-extern OsTerminateBss g_02151398;
-#define OSi_TerminateCallbackArg (g_02151398.OSi_TerminateCallbackArg)
-#define OSi_TerminateCallback    (g_02151398.OSi_TerminateCallback)
-#define terminated               (g_02151398.terminated)
+extern OsTerminateBss gOsTerminateBss;
+#define OSi_TerminateCallbackArg (gOsTerminateBss.OSi_TerminateCallbackArg)
+#define OSi_TerminateCallback    (gOsTerminateBss.OSi_TerminateCallback)
+#define terminated               (gOsTerminateBss.terminated)
 
 #define reg_OS_IME (*(vu16 *)0x04000208)
 

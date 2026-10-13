@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206BA18",
+   "name": "NNSi_G3dFuncSbc_MAT_InternalDefault",
    "address": "0x0206BA18",
    "kind": "game",
    "region": "arm9",

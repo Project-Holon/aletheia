@@ -1,5 +1,5 @@
 /*
- * function: func_021D2794
+ * function: DWCi_MOV_MBP_GetChildBmp
  * address:  0x021D2794
  * packet:   pkt_ov016_021D2794
  * region:   ov016
@@ -12,8 +12,8 @@
  * sdk:      DWCi_MOV_MBP_GetChildBmp (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
  * symbols:
- *   g_021DE65C  0x021de65c  data
- *   g_021DB9D4  0x021db9d4  data
+ *   gDwcMovMbpWork  0x021de65c  data
+ *   sDwcMovMbpTable  0x021db9d4  data
  *   g_021DB9D4_b  0x021DB9D4  data
  */
 
@@ -42,18 +42,18 @@ typedef struct {
     DWCi_MOV_MBPChildInfo childInfo[1];
 } DWCi_MOV_WPB_WORK;
 
-extern DWCi_MOV_WPB_WORK *g_021DE65C;
+extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
 
-extern u16 *g_021DB9D4[6];
+extern u16 *sDwcMovMbpTable[6];
 extern u16 *g_021DB9D4_b[6];
 
-u16 func_021D2794(int bmpType)
+u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
 {
-    g_021DB9D4[0] = &g_021DE65C->mbpState.connectedBmp;
-    g_021DB9D4[1] = &g_021DE65C->mbpState.entryBmp;
-    g_021DB9D4[2] = &g_021DE65C->mbpState.requestBmp;
-    g_021DB9D4[3] = &g_021DE65C->mbpState.downloadBmp;
-    g_021DB9D4[4] = &g_021DE65C->mbpState.bootBmp;
-    g_021DB9D4[5] = &g_021DE65C->mbpState.endBmp;
+    sDwcMovMbpTable[0] = &gDwcMovMbpWork->mbpState.connectedBmp;
+    sDwcMovMbpTable[1] = &gDwcMovMbpWork->mbpState.entryBmp;
+    sDwcMovMbpTable[2] = &gDwcMovMbpWork->mbpState.requestBmp;
+    sDwcMovMbpTable[3] = &gDwcMovMbpWork->mbpState.downloadBmp;
+    sDwcMovMbpTable[4] = &gDwcMovMbpWork->mbpState.bootBmp;
+    sDwcMovMbpTable[5] = &gDwcMovMbpWork->mbpState.endBmp;
     return *g_021DB9D4_b[bmpType];
 }

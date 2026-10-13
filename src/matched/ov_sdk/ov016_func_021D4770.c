@@ -12,7 +12,7 @@
  * sdk:      Parent_data_receive_progress (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  *
  * symbols:
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -68,7 +68,7 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 typedef struct {
     u16 kind;
     u8 data[0x42];
@@ -79,26 +79,26 @@ void func_021D4770(void)
     long i;
     GShareData *sd;
     for (i = 0; i < 16; i++) {
-        if (g_021DE668->sRecvFlag[i] == 0)
+        if (gDwcMoveidWork->sRecvFlag[i] == 0)
             continue;
-        sd = &((GShareData *)g_021DE668->sRecvBuf)[i];
+        sd = &((GShareData *)gDwcMoveidWork->sRecvBuf)[i];
         if (i != 1)
             continue;
-        if (g_021DE668->language_send_f == 1) {
+        if (gDwcMoveidWork->language_send_f == 1) {
             if (sd->kind != 0x10)
                 return;
-            g_021DE668->data_send_cnt++;
-            if (g_021DE668->data_send_cnt & 1)
+            gDwcMoveidWork->data_send_cnt++;
+            if (gDwcMoveidWork->data_send_cnt & 1)
                 continue;
-            g_021DE668->data_seq_num++;
-            if (g_021DE668->data_seq_num >= 0x24)
-                g_021DE668->data_seq_num = 0;
+            gDwcMoveidWork->data_seq_num++;
+            if (gDwcMoveidWork->data_seq_num >= 0x24)
+                gDwcMoveidWork->data_seq_num = 0;
         } else {
-            g_021DE668->send_data_kind = 0xbc;
+            gDwcMoveidWork->send_data_kind = 0xbc;
             if (sd->kind == 0xbd) {
-                g_021DE668->language_send_f = 1;
-                g_021DE668->data_seq_num = 0;
-                g_021DE668->data_send_cnt = 0;
+                gDwcMoveidWork->language_send_f = 1;
+                gDwcMoveidWork->data_seq_num = 0;
+                gDwcMoveidWork->data_send_cnt = 0;
             }
         }
     }

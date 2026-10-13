@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_02084C68 0x02084C68 arm
- *   func_02084EB8 0x02084EB8 arm
+ *   OS_GetLockID 0x02084EB8 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02084C68(u32, void *, void *);
-extern u32 func_02084EB8(void);
+extern u32 OS_GetLockID(void);
 
 void MI_LockWramManager(u16 *p)
 {
-    *p = func_02084EB8();
+    *p = OS_GetLockID();
     func_02084C68(*p, (void *)0x02FFF680, 0);
 }

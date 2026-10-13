@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD64C",
+   "name": "sakeiCheckSakeResult",
    "address": "0x021DD64C",
    "kind": "sdk",
    "region": "ov175",

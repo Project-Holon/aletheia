@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_06899FD4, func_06899FDC, func_06899FE8, func_0689A008, func_0689A020, func_0689A028
+ * function: BTLV_SCD_WaitMoveMenu, BTLV_SCD_ReopenMenu, BTLV_SCD_StartMoveInfoMenu, BTLV_SCD_StartTargetMenu, BTLV_SCD_WaitTargetMenu, BTLV_SCD_CancelMenus
  * address:  0x06899FD4
  * packet:   pkt_ov095_06899FD4
  * region:   ov095
@@ -15,13 +15,13 @@
  * tail-call stubs after it (0x06899FD4..0x0689A030) are this unit.
  *
  * symbols:
- *   func_06899E68  0x06899E68  thumb  ov095
- *   func_06899E48  0x06899E48  thumb  ov095
- *   func_06899E2C  0x06899E2C  thumb  ov095
- *   func_0689A878  0x0689A878  thumb  ov095
- *   func_0689A84C  0x0689A84C  thumb  ov095
- *   func_0689B0D4  0x0689B0D4  thumb  ov095
- *   func_0689B1E4  0x0689B1E4  thumb  ov095
+ *   BTLV_SCD_RunTask  0x06899E68  thumb  ov095
+ *   BTLV_SCD_PushTask  0x06899E48  thumb  ov095
+ *   BTLV_SCD_ClearTasks  0x06899E2C  thumb  ov095
+ *   BTLV_SCD_OpenMoveMenuStep  0x0689A878  thumb  ov095
+ *   BTLV_SCD_WaitBackTouchStep  0x0689A84C  thumb  ov095
+ *   BTLV_SCD_OpenTargetMenuStep  0x0689B0D4  thumb  ov095
+ *   BTLV_SCD_WaitTargetTouchStep  0x0689B1E4  thumb  ov095
  */
 #include "../include/Obj10164.h"
 #include "../include/Obj13634.h"
@@ -31,46 +31,46 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_06899E68(void);
+extern void BTLV_SCD_RunTask(void);
 struct Q;
-extern void func_06899E48(struct Q *p, void *a, void *b);
-extern void func_06899E2C(void);
-extern int func_0689A878(int unused, u8 *s);
-extern int func_0689A84C(u32 unused, u32 p);
-extern int func_0689B0D4(int unused, u8 *s);
-extern int func_0689B1E4(int *state, u8 *s);
+extern void BTLV_SCD_PushTask(struct Q *p, void *a, void *b);
+extern void BTLV_SCD_ClearTasks(void);
+extern int BTLV_SCD_OpenMoveMenuStep(int unused, u8 *s);
+extern int BTLV_SCD_WaitBackTouchStep(u32 unused, u32 p);
+extern int BTLV_SCD_OpenTargetMenuStep(int unused, u8 *s);
+extern int BTLV_SCD_WaitTargetTouchStep(int *state, u8 *s);
 
-void func_06899FD4(void)
+void BTLV_SCD_WaitMoveMenu(void)
 {
-    func_06899E68();
+    BTLV_SCD_RunTask();
 }
 
-void func_06899FDC(u8 *p)
+void BTLV_SCD_ReopenMenu(u8 *p)
 {
-    func_06899E48((struct Q *)p, 0, (void *)((struct Obj21890 *)p)->f68);
+    BTLV_SCD_PushTask((struct Q *)p, 0, (void *)((struct Obj21890 *)p)->f68);
 }
 
-void func_06899FE8(u8 *p, u32 a, u32 b)
+void BTLV_SCD_StartMoveInfoMenu(u8 *p, u32 a, u32 b)
 {
     ((struct Obj10164 *)p)->f6C = a;
     ((struct Obj10164 *)p)->f70 = b;
     ((struct Obj10164 *)p)->f98 = 0;
-    func_06899E48((struct Q *)p, (void *)func_0689A878, (void *)func_0689A84C);
+    BTLV_SCD_PushTask((struct Q *)p, (void *)BTLV_SCD_OpenMoveMenuStep, (void *)BTLV_SCD_WaitBackTouchStep);
 }
 
-void func_0689A008(u8 *p, u32 a, u32 b)
+void BTLV_SCD_StartTargetMenu(u8 *p, u32 a, u32 b)
 {
     ((struct Obj13634 *)p)->f6C = a;
     ((struct Obj13634 *)p)->f70 = b;
-    func_06899E48((struct Q *)p, (void *)func_0689B0D4, (void *)func_0689B1E4);
+    BTLV_SCD_PushTask((struct Q *)p, (void *)BTLV_SCD_OpenTargetMenuStep, (void *)BTLV_SCD_WaitTargetTouchStep);
 }
 
-void func_0689A020(void)
+void BTLV_SCD_WaitTargetMenu(void)
 {
-    func_06899E68();
+    BTLV_SCD_RunTask();
 }
 
-void func_0689A028(void)
+void BTLV_SCD_CancelMenus(void)
 {
-    func_06899E2C();
+    BTLV_SCD_ClearTasks();
 }

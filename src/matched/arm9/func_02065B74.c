@@ -1,5 +1,5 @@
 /*
- * function: func_02065B74
+ * function: NNS_G2dInitRenderSurface
  * address:  0x02065B74
  * packet:   pkt_02064B68
  * region:   arm9
@@ -29,8 +29,8 @@
  *   MIi_CpuClear16   0x02082A48  arm
  *   NNSi_G2dRendererBeforeDrawCell    0x02065020  arm
  *   NNSi_G2dRendererAfterDrawCell    0x02065134  arm
- *   func_020651B8    0x020651B8  arm
- *   func_020653A4    0x020653A4  arm
+ *   NNSi_G2dRendererPreDrawOam    0x020651B8  arm
+ *   NNSi_G2dRendererCallSurfaceOamFunc    0x020653A4  arm
  */
 
 typedef unsigned char u8;
@@ -52,10 +52,10 @@ struct Cell;
 struct Host;
 extern void NNSi_G2dRendererBeforeDrawCell(struct Host *h, void *a1);
 extern void NNSi_G2dRendererAfterDrawCell(void *a0, void *a1);
-extern void func_020651B8(struct Cell *c, void *a1, void *a2);
-extern void func_020653A4(void *a0, void *a1, void *a2);
+extern void NNSi_G2dRendererPreDrawOam(struct Cell *c, void *a1, void *a2);
+extern void NNSi_G2dRendererCallSurfaceOamFunc(void *a0, void *a1, void *a2);
 
-void func_02065B74(struct Obj *p)
+void NNS_G2dInitRenderSurface(struct Obj *p)
 {
     MIi_CpuClear16(0, p, 0x48);
 
@@ -64,6 +64,6 @@ void func_02065B74(struct Obj *p)
 
     p->fn18 = (u32)NNSi_G2dRendererBeforeDrawCell;
     p->fn1c = (u32)NNSi_G2dRendererAfterDrawCell;
-    p->fn20 = (u32)func_020651B8;
-    p->fn24 = (u32)func_020653A4;
+    p->fn20 = (u32)NNSi_G2dRendererPreDrawOam;
+    p->fn24 = (u32)NNSi_G2dRendererCallSurfaceOamFunc;
 }

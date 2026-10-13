@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021F9C6C  0x021F9C6C  thumb  ov186
  */
 #include "../include/Obj24811.h"
@@ -22,12 +22,12 @@ typedef struct {
     void *unk_68;
 } S;
 
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 extern void func_021F9C6C(S *);
 
 void func_021F9C50(S *p)
 {
-    func_02082D44(p->unk_4c, p->unk_68, 0x18);
+    MI_CpuCopy8(p->unk_4c, p->unk_68, 0x18);
     ((struct Obj24811 *)((char *)p->unk_68))->f18 = p->unk_64;
     func_021F9C6C(p);
 }

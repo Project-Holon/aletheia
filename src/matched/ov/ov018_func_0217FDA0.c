@@ -18,7 +18,7 @@
  *   MYSTATUS_Copy 0x02008494 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   INTRUDE_COMM_GetActiveSessionRequest 0x02175B34 thumb ov011
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   EVENT_COMM_COMMON_InitMsgBox 0x0217F2B4 thumb ov018
  *   INTRUDE_COMM_SetState 0x02174E14 thumb ov011
  *   INTRUDE_COMM_ClearNotice 0x02175368 thumb ov011
@@ -37,7 +37,7 @@ int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
 void MYSTATUS_Copy(void *src, void *dst);
 int INTRUDE_COMM_IsSessionActive(u8 *a);
 u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
-void func_02082D44(void *src, void *dst, int n);
+void MI_CpuCopy8(void *src, void *dst, int n);
 void EVENT_COMM_COMMON_InitMsgBox(void *a, int b);
 void INTRUDE_COMM_SetState(u8 *a, int b);
 void INTRUDE_COMM_ClearNotice(char *p);
@@ -55,7 +55,7 @@ void EVENT_COMM_COMMON_InitCommonWork(int a, u8 *b, u8 *c, int d, int e, int f, 
     c[0x42] = EVENT_COMM_COMMON_GetPeerTalkStatus(b, (u8)f);
     MYSTATUS_Copy((void *)GAME_DATA_GetMyStatusByNetId(GAMESYSTEM_GetGameData((const struct Ctx *)a), loc), c + 0x78);
     if (INTRUDE_COMM_IsSessionActive(b + 0x1ac) == 1) {
-        func_02082D44(INTRUDE_COMM_GetActiveSessionRequest(b + 0x1ac), c + 0x44, 0x34);
+        MI_CpuCopy8(INTRUDE_COMM_GetActiveSessionRequest(b + 0x1ac), c + 0x44, 0x34);
     }
     EVENT_COMM_COMMON_InitMsgBox(c + 0x10, a);
     INTRUDE_COMM_SetState(b, 1);

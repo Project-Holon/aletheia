@@ -1,5 +1,5 @@
 /*
- * function: func_0207524C
+ * function: NNSi_SndArcDisposeSeq
  * address:  0x0207524C
  * packet:   pkt_0207524C
  * region:   arm9
@@ -13,25 +13,25 @@
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
- *   func_020751F4    0x020751F4  arm
+ *   NNSi_SndArcForgetFileAddress    0x020751F4  arm
  *   func_020896AC    0x020896AC  arm
  *
  * Reads a bank header, then invalidates the range [p, p + len) of sequence
  * data; the length survives in r4 across the first call.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0207524C.c \
- *       --func func_0207524C --addr 0x0207524C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/NNSi_SndArcDisposeSeq.c \
+ *       --func NNSi_SndArcDisposeSeq --addr 0x0207524C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_020751F4(u32 a, u32 b, u32 c);
+extern void NNSi_SndArcForgetFileAddress(u32 a, u32 b, u32 c);
 extern void func_020896AC(const void *start, const void *end);
 
-void func_0207524C(u8 *p, u32 len, u32 b, u32 c)
+void NNSi_SndArcDisposeSeq(u8 *p, u32 len, u32 b, u32 c)
 {
-    func_020751F4((u32)p, b, c);
+    NNSi_SndArcForgetFileAddress((u32)p, b, c);
     func_020896AC(p, p + len);
 }

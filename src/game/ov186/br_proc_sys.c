@@ -82,7 +82,7 @@
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
  *   d_02200D14 0x02200D14 data a1
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../../matched/include/Obj00387.h"
 #include "../../matched/include/Obj24764.h"
@@ -295,7 +295,7 @@ extern void func_0203133C(struct S020314B8 *);
 extern u32 func_020307B0(void *p);
 extern void PROCSYS_Push(u32_021F9A80,u32_021F9A80,u32_021F9A80,void *);
 extern u32_021F9A80 PROCSYS_Main(void *);
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 int func_021F90C0(void *obj,int unused,char *q);
 int func_021F9244(int sys,int unused,int unused2,int *p);
 int func_021F92F4(int sys,int *state,int unused,int *p);
@@ -1057,7 +1057,7 @@ void func_021F9BF4(unsigned *ctx, unsigned index)
 
 void func_021F9C50(S_021F9A80 *p)
 {
-    func_02082D44(p->unk_4c, p->unk_68, 0x18);
+    MI_CpuCopy8(p->unk_4c, p->unk_68, 0x18);
     ((struct Obj24811 *)((char *)p->unk_68))->f18 = p->unk_64;
     func_021F9C6C((S_021F9C6C *)p);
 }

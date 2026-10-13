@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0689C8EC",
+   "name": "BTL_ID_IsGemIgnoredMove",
    "address": "0x0689C8EC",
    "kind": "game",
    "region": "ov095",

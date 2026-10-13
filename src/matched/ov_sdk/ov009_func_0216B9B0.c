@@ -13,13 +13,13 @@
  *
  * symbols:
  *   g_021AA878  0x021AA878  data
- *   func_0217637C  0x0217637C  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
  */
 
 #include "../include/G_DwcGlobal.h"
 
 extern struct DwcGlobal g_021AA878;
-extern char *func_0217637C(int index);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 
 unsigned char DWC_GetServerAID(void)
 {
@@ -31,7 +31,7 @@ unsigned char DWC_GetServerAID(void)
         *(unsigned char *)(p + 0x35d) == 0 || *(unsigned char *)(p + 0x366) == 0) {
         return 0xff;
     }
-    node = (unsigned char *)func_0217637C(0);
+    node = (unsigned char *)DWCi_NodeInfoList_GetNodeInfoForIndex(0);
     if (node == 0) {
         return 0xff;
     }

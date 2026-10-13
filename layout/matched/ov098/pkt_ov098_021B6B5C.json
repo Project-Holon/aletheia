@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6B5C",
-    "func_021B6B68"
+    "PDC_MSG_StartFadeIn",
+    "PDC_MSG_IsFadeIdle"
+   ],
+   "addresses": [
+    "0x021B6B5C",
+    "0x021B6B68"
    ]
   }
  ]

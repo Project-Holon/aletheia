@@ -1,5 +1,5 @@
 /*
- * function: func_021719A4
+ * function: DWCi_HandleMatchCommandError
  * address:  0x021719A4
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -13,18 +13,18 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02173D9C  0x02173D9C  arm  ov009
+ *   DWCi_HandleSBError  0x02173D9C  arm  ov009
  *   func_02173D28  0x02173D28  arm  ov009
  */
 
 extern int func_02175F3C(void);
-extern int func_02173D9C(int error);
+extern int DWCi_HandleSBError(int error);
 extern int func_02173D28(int error);
 
-int func_021719A4(int error)
+int DWCi_HandleMatchCommandError(int error)
 {
     if (*(unsigned char *)(func_02175F3C() + 0x15) == 0) {
-        return func_02173D9C(error);
+        return DWCi_HandleSBError(error);
     }
     return func_02173D28(error);
 }

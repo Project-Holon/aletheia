@@ -1,5 +1,5 @@
 /*
- * function: func_02188080
+ * function: TR_AI_Delete
  * address: 0x02188080
  * packet: pkt_ov096_02188080
  * region: ov096
@@ -15,7 +15,7 @@
  *   VM_Delete 0x02011264 thumb
  *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
  *   WAZA_TOOL_DeleteCache 0x0201C3C0 thumb
- *   func_0218A458 0x0218A458 thumb ov096
+ *   TR_AI_FreeScriptCache 0x0218A458 thumb ov096
  */
 #include "../include/Obj13649.h"
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ extern u32 func_020307B0(void *p);
 extern void VM_Delete(void *);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_DeleteCache(void);
-extern void func_0218A458(void);
-void func_02188080(void *a)
+extern void TR_AI_FreeScriptCache(void);
+void TR_AI_Delete(void *a)
 {
     u8 *p;
     p = func_02011324(a);
@@ -37,5 +37,5 @@ void func_02188080(void *a)
     func_020307B0(p);
     VM_Delete(a);
     if (WAZA_TOOL_IsCacheCreated() == 1) WAZA_TOOL_DeleteCache();
-    func_0218A458();
+    TR_AI_FreeScriptCache();
 }

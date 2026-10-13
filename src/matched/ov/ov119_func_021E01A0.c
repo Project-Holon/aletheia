@@ -12,8 +12,8 @@
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0200C9EC  0x0200C9EC  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetSize  0x0200C9EC  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   d_021E8130     0x021E8130  data  ov119
  *
  * Addresses are Black-image addresses.
@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 func_0200C9EC(void);
-extern void *func_0200CA1C(void *p);
+extern u32 ZUKAN_SAVE_GetSize(void);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
 extern const char d_021E8130[];
 
 static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
@@ -36,8 +36,8 @@ static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
 
 void *func_021E01A0(void *src, u16 heapId)
 {
-    void *buf = sub_02030734(heapId, func_0200C9EC(), 0, d_021E8130, 0x1BD);
+    void *buf = sub_02030734(heapId, ZUKAN_SAVE_GetSize(), 0, d_021E8130, 0x1BD);
 
-    GFL_STD_MemCopy(func_0200CA1C(src), buf, func_0200C9EC());
+    GFL_STD_MemCopy(ZUKAN_SAVE_GetFromGameData(src), buf, ZUKAN_SAVE_GetSize());
     return buf;
 }

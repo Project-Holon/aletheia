@@ -1,5 +1,5 @@
 /*
- * function: func_021DF110
+ * function: DWCi_ScSetReportIntentionCallback
  * address:  0x021DF110
  * packet:   pkt_ov175_021DF110
  * region:   ov175
@@ -14,14 +14,14 @@
  * trailing arguments are forwarded to the stored +0xc handler.
  *
  * symbols:
- *   g_021E4D08  0x021E4D08  data
+ *   gDwcScControl  0x021E4D08  data
  */
 
 typedef unsigned int u32;
 
-extern u32 g_021E4D08[];
+extern u32 gDwcScControl[];
 
-void func_021DF110(int a, int b, int c, int d)
+void DWCi_ScSetReportIntentionCallback(int a, int b, int c, int d)
 {
-    ((void (*)(int, int))g_021E4D08[3])(c, d);
+    ((void (*)(int, int))gDwcScControl[3])(c, d);
 }

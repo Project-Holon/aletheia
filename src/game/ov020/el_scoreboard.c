@@ -71,7 +71,7 @@
  *   d_02187DBC     0x02187DBC  data  ov020  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_020084F4 0x020084F4 thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm

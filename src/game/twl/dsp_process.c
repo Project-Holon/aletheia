@@ -20,7 +20,7 @@
  *   MI_GetWramMapStart 0x02730414 arm twl
  *   MI_GetWramMapStart_B 0x027303C4 arm twl
  *   MI_GetWramMapStart_C 0x027303EC arm twl
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   DSP_PowerOnCore  0x02704E90  arm
  *   DSP_PowerOffCore  0x02704EE8  arm
  *   DSP_ResetOnCore  0x02704F1C  arm
@@ -36,6 +36,14 @@
  *   PMi_InsertPostExitCallbackEx  0x0273156C  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
+ *   FS_ReadFile  0x02078B70  arm  arm9
+ *   FS_Init  0x0207AD04  arm  arm9
+ *   MIi_CpuClearFast  0x02082AC0  arm  arm9
+ *   OS_EnableIrqMask  0x02084968  arm  arm9
+ *   OS_DisableIrqMask  0x02084998  arm  arm9
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -117,22 +125,22 @@ extern DspGlobals DAT_027344AC;
 extern DspProc *DSPi_ProcList;
 extern s32 func_0208CD94(const char *a, const char *b);
 extern s32 func_0208CC14(char *a, char *b);
-extern void func_02082AC0(u32 v, void *dst, u32 n);
+extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
 extern void MI_CpuFill8(void *p, s32 v, u32 n);
 extern void func_0208CADC(void *dst, void *src);
-extern s32 func_02087988(void);
-extern void func_0208799C(s32);
-extern void func_020862F0(void *, u32);
+extern s32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(s32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern s32 OS_IsRunOnTwl(void);
 extern int func_0207AD30(void);
-extern void func_0207AD04(u32 v);
+extern void FS_Init(u32 v);
 extern void func_02084774(u32 mask, void (*fn)(void));
-extern u32 func_02084968(u32 mask);
-extern u32 func_02084998(u32 mask);
+extern u32 OS_EnableIrqMask(u32 mask);
+extern u32 OS_DisableIrqMask(u32 mask);
 extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
 extern void func_0208C848(void *p, u32 v);
 extern void func_0208C86C(void *p);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void DSP_PowerOnCore(void);
 extern void DSP_PowerOffCore(void);
 extern void DSP_ResetOnCore(void);
@@ -141,7 +149,7 @@ extern void DSP_MaskSemaphoreCore(u32 v);
 extern void DSP_SendDataCore(u32 ch, u32 v);
 extern u16 DSP_RecvDataCore(u32 ch);
 extern s32 func_02078B44(void *file, u32 a, u32 b);
-extern s32 func_02078B70(void *file, void *buf, s32 len);
+extern s32 FS_ReadFile(void *file, void *buf, s32 len);
 extern void DSP_InitPipe(void);
 extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
 extern void DSP_WritePipe(DspRing *r, void *src, u16 count);
@@ -205,10 +213,10 @@ void DSPi_ShutdownCallback(void)
     }
 }
 
-/* Tail stub: forwards to func_02088234. */
+/* Tail stub: forwards to OS_Terminate. */
 void DSPi_PreSleepCallback(void)
 {
-    func_02088234();
+    OS_Terminate();
 }
 
 void DSPi_MasterInterrupts(void)
@@ -242,7 +250,7 @@ u32 DSPi_ReadProcessImage(DspProc *p, u32 a, void *buf, s32 len)
 {
     u32 ok = 0;
     if (func_02078B44(p->file, a, 0)) {
-        s32 n = func_02078B70(p->file, buf, len);
+        s32 n = FS_ReadFile(p->file, buf, len);
         if (len == n) {
             ok = 1;
         }
@@ -357,7 +365,7 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
                     ok = 0;
                     break;
                 }
-                func_02082AC0(0, chanPtr(c, sel, idx << 14), 0x8000);
+                MIi_CpuClearFast(0, chanPtr(c, sel, idx << 14), 0x8000);
             }
             if (flagv[k] == 0) {
                 if (!DSPi_ReadProcessImage(c, off, chanPtr(c, sel, pos / 2), chunk)) {
@@ -451,8 +459,8 @@ u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b)
     c->f1a = b;
     ok = 0;
     if (DSP_EnumSections(c, DSPi_MapAndLoadProcessImageCallback)) {
-        func_020862F0(MI_GetWramMapStart_B(), 0x40000);
-        func_020862F0(MI_GetWramMapStart_C(), 0x40000);
+        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
+        DWCi_ScreenDC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
         if (DSP_SwitchProcessMemory(c, 1, 0, 0x20000, 2)) {
             if (DSP_SwitchProcessMemory(c, 2, 0, 0x20000, 2)) {
                 ok = 1;
@@ -464,7 +472,7 @@ u32 DSP_MapAndLoadProcessImage(DspProc *c, void *file, u16 a, u16 b)
 
 void DSP_SetProcessHook(DspProc *s, s32 mask, void (*h)(u32), u32 arg)
 {
-    s32 en = func_02087988();
+    s32 en = OS_DisableInterrupts();
     vu16 *r = (vu16 *)0x04004308;
     s32 i;
     u16 a, b;
@@ -489,7 +497,7 @@ void DSP_SetProcessHook(DspProc *s, s32 mask, void (*h)(u32), u32 arg)
         r[6] = b | lo;
         s->mask &= ~mask;
     }
-    func_0208799C(en);
+    OS_RestoreInterrupts(en);
 }
 
 void DSP_HookPostStartProcess(void)
@@ -506,14 +514,14 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
     u16 dis;
     vu16 v;
     if (func_0207AD30() == 0) {
-        func_0207AD04(-1);
+        FS_Init(-1);
     }
     DSP_InitPipe();
     func_02084774(0x1000000, DSPi_MasterInterrupts);
     DSP_SetProcessHook(p, 0x48000, DSP_HookPipeNotification, 0);
-    func_02084968(0x1000000);
+    OS_EnableIrqMask(0x1000000);
     if (DSP_MapAndLoadProcessImage(p, a, b, c) != 0) {
-        irq = func_02087988();
+        irq = OS_DisableInterrupts();
         pp = &DSPi_ProcList;
         while (*pp != 0 && *pp != p) {
             pp = &(*pp)->next;
@@ -553,7 +561,7 @@ u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c)
         }
         DSPi_MasterInterrupts();
         ret = 1;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
     }
     return ret;
 }
@@ -564,14 +572,14 @@ void DSP_QuitProcess(DspProc *p)
     DspProc *q;
     DspProc **pp;
     DSP_StopDSPComponent();
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (OS_IsRunOnTwl() == 1) {
         DSP_ResetOnCore();
     }
     if (OS_IsRunOnTwl() == 1) {
         DSP_PowerOffCore();
     }
-    func_02084998(0x1000000);
+    OS_DisableIrqMask(0x1000000);
     func_02084774(0x1000000, 0);
     MI_FreeWram(1, 2);
     MI_FreeWram(2, 2);
@@ -586,7 +594,7 @@ void DSP_QuitProcess(DspProc *p)
         q = q->next;
     }
     p->next = 0;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     func_0208C86C(&DAT_027344AC.preFn);
     DAT_027344AC.preInit = 0;
 }
@@ -595,14 +603,14 @@ DspProc *DSP_FindProcess(const char *name)
 {
     DspProc *p;
     u32 irq;
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     p = DAT_027344AC.head;
     if (name != 0) {
         while (p != 0 && func_0208CD94(p->name, name) != 0) {
             p = p->next;
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return p;
 }
 

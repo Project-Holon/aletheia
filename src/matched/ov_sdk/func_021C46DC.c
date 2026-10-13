@@ -11,21 +11,25 @@
  *
  * symbols:
  *   func_021C46DC 0x021C46DC arm
+ *   DWCi_BTNlDisable  0x021BCB9C  arm
+ *   DWCi_ChangeScene  0x021C0E40  arm
+ *   DWCi_MOVlEnd  0x021C115C  arm
+ *   DWCi_EFFlWait  0x021D5790  arm
  *
  * Wake the sub-state, flag it and post the event at 0x021C4714.
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C115C(void);
-extern void func_021BCB9C(void);
-extern void func_021D5790(int);
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_MOVlEnd(void);
+extern void DWCi_BTNlDisable(void);
+extern void DWCi_EFFlWait(int);
+extern void DWCi_ChangeScene(unsigned int v);
 
 void func_021C46DC(void)
 {
     if (*(unsigned char *)0x021DE5C8 == 0)
-        func_021C115C();
-    func_021BCB9C();
-    func_021D5790(8);
-    func_021C0E40((unsigned int)((void *)0x021C4714));
+        DWCi_MOVlEnd();
+    DWCi_BTNlDisable();
+    DWCi_EFFlWait(8);
+    DWCi_ChangeScene((unsigned int)((void *)0x021C4714));
 }

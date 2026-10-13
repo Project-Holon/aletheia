@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FE4
+ * function: IRC_RANKING_ClactDraw
  * address:  0x021B7FE4
  * packet:   pkt_ov106_021B7FE4
  * region:   ov106
@@ -17,7 +17,7 @@
 
 extern void CLACT_DrawSystem(void);
 
-void func_021B7FE4(void *a0)
+void IRC_RANKING_ClactDraw(void *a0)
 {
     CLACT_DrawSystem();
 }

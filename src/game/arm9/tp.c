@@ -1,7 +1,7 @@
 /*
  * file:     tp.c
  * unit:     yes
- * function: TPi_TpCallback, func_0208A924, func_0208A998, func_0208AA2C, func_0208AB1C, func_0208ABB8, func_0208AC0C, func_0208AD14, func_0208ADB4, func_0208AF08, func_0208AF18, func_0208B104, func_0208B220, func_0208B238
+ * function: TPi_TpCallback, TP_Init, TP_GetUserInfo, TP_SetCalibrateParam, func_0208AB1C, func_0208ABB8, TP_RequestAutoSamplingStartAsync, TP_RequestAutoSamplingStopAsync, func_0208ADB4, TP_GetLatestIndexInAuto, func_0208AF18, TP_GetCalibratedPoint, TP_WaitBusy, TP_CheckError
  * address:  0x0208A6B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -127,20 +127,19 @@ int TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 x1, u16 y1, u16 dx1, 
 u32 OS_DisableInterrupts(void);
 u32 OS_RestoreInterrupts(u32 state);
 int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-void TP_WaitBusy(u32 command_flgs);
-void func_0208A924(void);
-BOOL func_0208A998(TPCalibrateParam *calibrate);
-void func_0208AA2C(const TPCalibrateParam *param);
+void TP_Init(void);
+BOOL TP_GetUserInfo(TPCalibrateParam *calibrate);
+void TP_SetCalibrateParam(const TPCalibrateParam *param);
 void func_0208AB1C(void);
 u32 func_0208ABB8(TPData *result);
-void func_0208AC0C(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize);
-void func_0208AD14(void);
+void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize);
+void TP_RequestAutoSamplingStopAsync(void);
 void func_0208ADB4(TPData *result);
-u16 func_0208AF08(void);
+u16 TP_GetLatestIndexInAuto(void);
 u32 func_0208AF18(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1, u16 raw_x2, u16 raw_y2, u16 dx2, u16 dy2);
-void func_0208B104(TPData *disp, const TPData *raw);
-void func_0208B220(unsigned int command_flgs);
-unsigned int func_0208B238(unsigned int command_flgs);
+void TP_GetCalibratedPoint(TPData *disp, const TPData *raw);
+void TP_WaitBusy(unsigned int command_flgs);
+unsigned int TP_CheckError(unsigned int command_flgs);
 extern TpBss g_02152FA4;
 extern void OS_Terminate(void);
 
@@ -243,7 +242,7 @@ terminate:
 /*
  * sdk:      TP_Init (libspi.TWL.HYB.a tp.o)
  */
-void func_0208A924(void)
+void TP_Init(void)
 {
     if (tpState.initial) {
         return;
@@ -274,7 +273,7 @@ void func_0208A924(void)
  * The base pointer w is not in the DWARF; without it the compiler folds
  * 0x02FFFC80+0x58 into one pool constant.
  */
-BOOL func_0208A998(TPCalibrateParam *calibrate)
+BOOL TP_GetUserInfo(TPCalibrateParam *calibrate)
 {
     u16 x1, y1, x2, y2, dx1, dy1, dx2, dy2;
     NvTpPoints *w = (NvTpPoints *)0x02FFFC80;
@@ -332,7 +331,7 @@ static inline long CP_GetDivResult32(void)
 /*
  * sdk:      TP_SetCalibrateParam (libspi.TWL.HYB.a tp.o)
  */
-void func_0208AA2C(const TPCalibrateParam *param)
+void TP_SetCalibrateParam(const TPCalibrateParam *param)
 {
     u32 enabled;
 
@@ -445,7 +444,7 @@ static inline BOOL TPi_SendAutoStart(u16 vcount, u8 frequence)
  * The send result is tested through a u8 cast (tst #0xff); a BOOL or u8
  * return type alone gives cmp #0.
  */
-void func_0208AC0C(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize)
+void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize)
 {
     u32 enabled;
     u32 i;
@@ -477,7 +476,7 @@ void func_0208AC0C(u16 vcount, u16 frequence, TPData samplingBufs[], u16 bufSize
 /*
  * sdk:      TP_RequestAutoSamplingStopAsync (libspi.TWL.HYB.a tp.o)
  */
-void func_0208AD14(void)
+void TP_RequestAutoSamplingStopAsync(void)
 {
     u32 enabled;
 
@@ -554,7 +553,7 @@ void func_0208ADB4(TPData *result)
 /*
  * sdk:      TP_GetLatestIndexInAuto (libspi.TWL.HYB.a tp.o)
  */
-u16 func_0208AF08(void)
+u16 TP_GetLatestIndexInAuto(void)
 {
     return tpState.index;
 }
@@ -628,7 +627,7 @@ u32 func_0208AF18(NvTpData *calibrate, u16 raw_x1, u16 raw_y1, u16 dx1, u16 dy1,
 /*
  * sdk:      TP_GetCalibratedPoint (libspi.TWL.HYB.a tp.o)
  */
-void func_0208B104(TPData *disp, const TPData *raw)
+void TP_GetCalibratedPoint(TPData *disp, const TPData *raw)
 {
     TPiCalibrateParam *cal;
 
@@ -667,7 +666,7 @@ void func_0208B104(TPData *disp, const TPData *raw)
 /*
  * note:     spi/ARM9/tp.o TP_WaitBusy.
  */
-void func_0208B220(unsigned int command_flgs)
+void TP_WaitBusy(unsigned int command_flgs)
 {
     while (tpState.command_flg & command_flgs) {
     }
@@ -678,7 +677,7 @@ void func_0208B220(unsigned int command_flgs)
 /*
  * note:     spi/ARM9/tp.o TP_CheckError.
  */
-unsigned int func_0208B238(unsigned int command_flgs)
+unsigned int TP_CheckError(unsigned int command_flgs)
 {
     return (unsigned int)(tpState.err_flg & command_flgs);
 }

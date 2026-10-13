@@ -13,6 +13,9 @@
  *
  * symbols:
  *   MICEXi_GetLimitedSamplingCallback  0x0208B7B0  arm  arm9
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   PXI_SendWordByFifo  0x02088610  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -38,12 +41,12 @@ typedef struct {
 } MicexState;
 
 extern MicexState *MICEXi_GetLimitedSamplingCallback(void);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void func_02085D94(u32 *, u32 *, u32);
 extern u32 func_02085E50(u32 *, u32 *, u32);
 extern u32 func_02085DBC(u32, u32, u32);
-extern s32 func_02088610(u32, u32, u32);
+extern s32 PXI_SendWordByFifo(u32, u32, u32);
 extern u32 data_02150FEC[];
 
 u32 MICEXi_StartLimitedSampling(const MicexReq *a0);
@@ -124,13 +127,13 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *a0, u32 a1, u32 a2) {
         tmp = mode & ~0x10;
     }
     flags = tmp & ~0x20;
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     if (st->busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 1;
     }
     st->busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     st->cb = a1;
     st->arg = a2;
     st->val10 = a0->arg0;
@@ -162,14 +165,14 @@ u32 MICEXi_StopLimitedSampling(void) {
 
 u32 MICEXi_StopLimitedSamplingAsync(u32 a0, u32 a1) {
     MicexState *st = MICEXi_GetLimitedSamplingCallback();
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
 
     if (st->busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 1;
     }
     st->busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     st->cb = a0;
     st->arg = a1;
     if (MicexStopLimitedSampling() == 0) {
@@ -184,25 +187,25 @@ void MicexSyncCallback(u32 a0, u32 a1) {
 }
 
 u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3) {
-    if (func_02088610(9, a3 | 0x02004400, 0) < 0) {
+    if (PXI_SendWordByFifo(9, a3 | 0x02004400, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a0 >> 16) | 0x10000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a0 >> 16) | 0x10000, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a0 & 0xFFFF) | 0x20000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a0 & 0xFFFF) | 0x20000, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a1 >> 16) | 0x30000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a1 >> 16) | 0x30000, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a1 & 0xFFFF) | 0x40000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a1 & 0xFFFF) | 0x40000, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a2 >> 16) | 0x50000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a2 >> 16) | 0x50000, 0) < 0) {
         return 0;
     }
-    if (func_02088610(9, (a2 & 0xFFFF) | 0x01060000, 0) < 0) {
+    if (PXI_SendWordByFifo(9, (a2 & 0xFFFF) | 0x01060000, 0) < 0) {
         return 0;
     }
     return 1;
@@ -215,7 +218,7 @@ u32 MicexStartLimitedSampling(u32 a0, u32 a1, u32 a2, u32 a3) {
  */
 u32 MicexStopLimitedSampling(void) {
     u32 res = 0;
-    if (func_02088610(9, 0x03004500, 0) >= 0) {
+    if (PXI_SendWordByFifo(9, 0x03004500, 0) >= 0) {
         res = 1;
     }
     return res;

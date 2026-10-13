@@ -44,9 +44,9 @@
  *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   ov90_id 0x0000005A data a1
  *   func_02012944   0x02012944  thumb
- *   func_0200CA1C   0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   POKEPARTY_GetCount   0x0201AA18  thumb
- *   func_0200CA38   0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled   0x0200CA38  thumb
  *   func_021E5B1C  0x021E5B1C  thumb  ov178
  *   ov067_id 0x00000043 data a1
  *   ov114_id 0x00000072 data a1
@@ -155,9 +155,9 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void PLIST_COMM_Start(u8 *);
 extern u8 *func_02012944(void *p);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern unsigned int POKEPARTY_GetCount(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void func_021E5B1C(int *p, void *c);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
@@ -369,7 +369,7 @@ void func_021E57E0(int *r5, int *r6, char *r4)
     int b;
     a = (int)GAME_DATA_GetSaveControl((struct Big *)r5[5]);
     func_02012944((void *)r5[5]);
-    b = (int)func_0200CA1C((void *)r5[5]);
+    b = (int)ZUKAN_SAVE_GetFromGameData((void *)r5[5]);
     ((struct Obj01763 *)r4)->f0 = r6[1];
     ((struct Obj01763 *)r4)->f8 = r5[5];
     ((struct Obj01763 *)r4)->f4 = (int)func_0200873C((void *)a);
@@ -381,7 +381,7 @@ void func_021E57E0(int *r5, int *r6, char *r4)
     ((struct Obj01763 *)r4)->f11 = 0;
     ((struct Obj01763 *)r4)->f12 = 0;
     ((struct Obj01763 *)r4)->f14 = 0;
-    ((struct Obj01763 *)r4)->f18 = func_0200CA38((struct Blk37 *)b);
+    ((struct Obj01763 *)r4)->f18 = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)b);
     ((struct Obj01763 *)r4)->f20 = 0;
     ((struct Obj01763 *)r4)->f24 = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C659C
+ * function: DWCi_NdSetError
  * address:  0x021C659C
  * packet:   pkt_ov114_021C659C
  * region:   ov114
@@ -17,7 +17,7 @@
 
 extern void func_02059F54(int error, int errorCode);
 
-void func_021C659C(int err, int servererror)
+void DWCi_NdSetError(int err, int servererror)
 {
 	switch (err) {
 	case 1:

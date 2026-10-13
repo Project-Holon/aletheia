@@ -1,5 +1,5 @@
 /*
- * function: func_021B816C
+ * function: IRC_RHYTHM_StartCountdown
  * address:  0x021B816C
  * packet:   pkt_ov104_021B816C
  * region:   ov104
@@ -20,4 +20,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B816C(u8 *p) { ((struct Obj10246 *)p)->fC = 0; ((struct Obj10246 *)p)->f10 = 0; ((struct Obj10246 *)p)->f14 = 1; }
+void IRC_RHYTHM_StartCountdown(u8 *p) { ((struct Obj10246 *)p)->fC = 0; ((struct Obj10246 *)p)->f10 = 0; ((struct Obj10246 *)p)->f14 = 1; }

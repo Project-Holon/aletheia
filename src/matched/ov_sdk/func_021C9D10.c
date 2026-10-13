@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C9D10   0x021C9D10  arm
- *   func_0207C958   0x0207C958  arm
+ *   FX_DivS32   0x0207C958  arm
  *
  * Scan four consecutive halfword entries of the global table for the argument,
  * returning the index of the hit or -1.  Every concrete byte matches the image
@@ -28,13 +28,13 @@
  *       --func func_021C9D10 --addr 0x021C9D10 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_0207C958(int, int);
+extern int FX_DivS32(int, int);
 
 int func_021C9D10(int a)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int i;
-    int v = func_0207C958(*(unsigned short *)(g + 4), 0x1d);
+    int v = FX_DivS32(*(unsigned short *)(g + 4), 0x1d);
 
     for (i = 0; i < 4; i++) {
         if (v == a)

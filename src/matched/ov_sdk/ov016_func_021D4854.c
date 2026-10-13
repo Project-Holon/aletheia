@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021DE668  0x021DE668  data
+ *   gDwcMoveidWork  0x021DE668  data
 */
 
 typedef unsigned char u8;
@@ -21,9 +21,9 @@ typedef struct {
     u8 sRecvBuf[256];
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 
 u16 Parent_get_child_data_kind(void)
 {
-    return *(u16 *)(g_021DE668->sRecvBuf + 0x44);
+    return *(u16 *)(gDwcMoveidWork->sRecvBuf + 0x44);
 }

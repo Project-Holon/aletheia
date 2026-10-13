@@ -1,5 +1,5 @@
 /*
- * function: func_021C011C
+ * function: ghiSendBufferedData
  * address:  0x021C011C
  * packet:   pkt_ov114_021C011C
  * region:   ov114
@@ -14,7 +14,7 @@
  * symbols:
  *   GSISocketSelect  0x0217ed64  arm  ov009
  *   GOAGetLastError  0x0217ed54  arm  ov009
- *   func_021C0684    0x021c0684  arm  ov114
+ *   ghiDoSend    0x021c0684  arm  ov114
  *
  * The -2/-1 tail needs the goto spelling (return-1 label between the
  * return-0 and the loop continuation) to keep the returns unpredicated.
@@ -41,9 +41,9 @@ typedef struct GHIConnection {
 
 extern int GSISocketSelect(int, int *, int *, int *);
 extern int GOAGetLastError(int);
-extern int func_021C0684(GHIConnection *, char *, int);
+extern int ghiDoSend(GHIConnection *, char *, int);
 
-int func_021C011C(GHIConnection *connection)
+int ghiSendBufferedData(GHIConnection *connection)
 {
     int writeFlag;
     int exceptFlag;
@@ -61,7 +61,7 @@ int func_021C011C(GHIConnection *connection)
             if (rcode < 1 || writeFlag == 0)
                 return 1;
         }
-        rcode = func_021C0684(connection, connection->f5c + connection->f68, connection->f64 - connection->f68);
+        rcode = ghiDoSend(connection, connection->f5c + connection->f68, connection->f64 - connection->f68);
         if (rcode == -2)
             goto done;
         if (rcode != -1)

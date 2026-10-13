@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C60
+ * function: PDC_MSG_BlendStartFadeIn
  * address:  0x021B6C60
  * packet:   pkt_ov098_021B6C60
  * region:   ov098
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf inside the handed extent of func_021B6C34.
+ * Unlabelled leaf inside the handed extent of PDC_MSG_InitBlend.
  */
 #include "../include/Obj04409.h"
 
 typedef unsigned char u8;
 
-void func_021B6C60(char *p)
+void PDC_MSG_BlendStartFadeIn(char *p)
 {
     u8 s = ((struct Obj04409 *)p)->f14;
 

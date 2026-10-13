@@ -13,7 +13,7 @@
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -29,7 +29,7 @@ extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_020862F0(void *, u32);
+extern void DWCi_ScreenDC_FlushRange(void *, u32);
 extern void func_0207E780(void *, void *, u32);
 extern int ITEMMENU_IsBrowseMode(u8 *p);
 struct Obj;
@@ -46,7 +46,7 @@ void ITEMMENU_UploadSlotGraphics(char *p)
     for (i = 0; i < 8; i++) {
         src = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(p + i * 4 + 0x5F4), 0);
         dst = BMP_GetPixels(*(void **)(p + i * 4 + 0x614));
-        func_020862F0(dst, BMP_GetByteSize(*(void **)(p + i * 4 + 0x614)));
+        DWCi_ScreenDC_FlushRange(dst, BMP_GetByteSize(*(void **)(p + i * 4 + 0x614)));
         func_0207E780(dst + 0x100, src + 0x80, 0x80);
         func_0207E780(dst + 0x280, src + 0x100, 0x80);
         func_0207E780(dst, src + 0x300, 0x100);

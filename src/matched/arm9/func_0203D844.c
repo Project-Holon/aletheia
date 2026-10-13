@@ -17,15 +17,16 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *GFL_NET_GetSession(void);
-extern void func_02082D44(void *dst, const void *src, u32 size);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 void GFL_NET_CopyInitParam(void *dst)
 {
-    func_02082D44(dst, GFL_NET_GetSession(), 0x70);
+    MI_CpuCopy8(dst, GFL_NET_GetSession(), 0x70);
 }

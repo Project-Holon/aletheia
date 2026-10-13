@@ -1,5 +1,5 @@
 /*
- * function: func_0689C7A4
+ * function: BTL_SICK_ShowIngrainRoots
  * address:  0x0689C7A4
  * packet:   pkt_ov095_0689C7A4
  * region:   ov095
@@ -27,7 +27,7 @@ void func_0689C838(char *a, int b, int c);
 void func_0689C848(char *a, int b);
 void func_0689C858(int a, char *b);
 
-void func_0689C7A4(int p, int x)
+void BTL_SICK_ShowIngrainRoots(int p, int x)
 {
     int n;
     char *q;

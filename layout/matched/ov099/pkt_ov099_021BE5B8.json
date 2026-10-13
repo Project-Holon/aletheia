@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE5B8",
+   "name": "WIFICLUB_InitSprites",
    "address": "0x021BE5B8",
    "kind": "game",
    "region": "ov099",

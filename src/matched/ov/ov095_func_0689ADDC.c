@@ -1,5 +1,5 @@
 /*
- * function: func_0689ADDC
+ * function: BTLV_SCD_PickTargetFromTouch
  * address:  0x0689ADDC
  * packet:   pkt_ov095_0689ADDC
  * region:   ov095
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0689AE24  0x0689AE24  thumb  ov095
- *   d_0689D82C     0x0689D82C  data   ov095
+ *   gBtlvScdViewPosByRegion     0x0689D82C  data   ov095
  */
 
 typedef unsigned char u8;
@@ -21,14 +21,14 @@ typedef unsigned int u32;
 typedef struct { u8 n; u8 pad[2]; u8 d[16]; } St;
 
 extern u8 func_0689AE24(u32 a, u8 b);
-extern u8 d_0689D82C[];
+extern u8 gBtlvScdViewPosByRegion[];
 
-int func_0689ADDC(St *st, int idx, u32 a, u8 *out)
+int BTLV_SCD_PickTargetFromTouch(St *st, int idx, u32 a, u8 *out)
 {
     u8 i;
 
     if (st->n != 0) {
-        *out = func_0689AE24(a, d_0689D82C[idx]);
+        *out = func_0689AE24(a, gBtlvScdViewPosByRegion[idx]);
         for (i = 0; i < st->n; i++) {
             if (*out == st->d[i])
                 return 1;

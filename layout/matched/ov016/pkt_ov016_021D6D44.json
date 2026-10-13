@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D6D44",
+   "name": "DWCi_LSTlForm",
    "address": "0x021D6D44",
    "kind": "sdk",
    "region": "ov016",

@@ -29,8 +29,8 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_GetAnimeLastFrame  0x021BE748  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
- *   gGimmick40ModelPos     0x021F38D4  data  a4
- *   gGimmick40UnitSetup     0x021F38EC  data  a4
+ *   gFlagAnimeModelPos     0x021F38D4  data  a4
+ *   gFlagAnimeUnitSetup     0x021F38EC  data  a4
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
@@ -51,25 +51,25 @@ void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap);
 int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap);
 struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex);
 
-extern Gimmick40ModelPos gGimmick40ModelPos;
-extern G3dUtilSetup gGimmick40UnitSetup;
+extern FieldGimmickFlagAnimeModelPos gFlagAnimeModelPos;
+extern G3dUtilSetup gFlagAnimeUnitSetup;
 
 /* Set up the model and show its animation at the last frame when it was played before. */
 void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
-    Gimmick40Save *save;
+    FieldGimmickFlagAnimeSave *save;
     FldExpObjAnime *anime;
     VecFx32 pos;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    FLD_EXP_OBJ_AddUnit(expObj, &gGimmick40UnitSetup, 0);
+    FLD_EXP_OBJ_AddUnit(expObj, &gFlagAnimeUnitSetup, 0);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
-    pos.x = gGimmick40ModelPos.x;
+    pos.x = gFlagAnimeModelPos.x;
     pos.y = 0;
-    pos.z = gGimmick40ModelPos.z;
+    pos.z = gFlagAnimeModelPos.z;
     FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans = pos;
     anime = FLD_EXP_OBJ_GetAnime(expObj, 0, 0, 0);
     FLD_EXP_OBJ_SetAnimePaused(anime, 1);
@@ -97,7 +97,7 @@ void FIELD_GIMMICK_FLAG_ANIME_Update(struct FieldMap *fieldMap)
 /* Script command: set the gimmick flag. */
 void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap)
 {
-    Gimmick40Save *save;
+    FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
@@ -109,7 +109,7 @@ void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap)
  */
 int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap)
 {
-    Gimmick40Save *save;
+    FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
@@ -119,7 +119,7 @@ int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap)
 /* Create the event that plays the animation of one model; null for an unknown model. */
 struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex)
 {
-    Gimmick40Work *work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
+    FieldGimmickFlagAnimeWork *work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
     struct GameEvent *event;
 
     if (modelIndex >= 1)
@@ -134,8 +134,8 @@ int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, v
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
-    Gimmick40Work *gimmickWork;
-    Gimmick40Save *save;
+    FieldGimmickFlagAnimeWork *gimmickWork;
+    FieldGimmickFlagAnimeSave *save;
     FldExpObjAnime *anime;
     u8 modelIndex;
 

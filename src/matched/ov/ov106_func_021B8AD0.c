@@ -1,5 +1,5 @@
 /*
- * function: func_021B8AD0
+ * function: IRC_RANKING_LoadRowScreens
  * address: 0x021B8AD0
  * packet: pkt_ov106_021B8AD0
  * region: ov106
@@ -18,7 +18,7 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B7F7C 0x021B7F7C thumb ov106
+ *   IRC_RANKING_GfxGetCharRegion 0x021B7F7C thumb ov106
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -26,18 +26,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,int);
-extern u32 func_021B7F7C(u8 *,u32);
+extern u32 IRC_RANKING_GfxGetCharRegion(u8 *,u32);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u16);
 extern u32 func_020307B0(void *p);
-void func_021B8AD0(u8 *p,u8 *a,u16 b) {
+void IRC_RANKING_LoadRowScreens(u8 *p,u8 *a,u16 b) {
     void *data;
     void *allocation;
     int table;
     u16 x,y;
     int i,j;
     MI_CpuFill8(p,0,384);
-    x=func_021B7F7C(a,1);
-    y=func_021B7F7C(a,0);
+    x=IRC_RANKING_GfxGetCharRegion(a,1);
+    y=IRC_RANKING_GfxGetCharRegion(a,0);
     allocation=ARC_UTIL_LoadPaletteDataFromArchive(77,5,0,(u32)&data,b);
     table=(int)data+12;
     for(i=0;i<3;i++) {

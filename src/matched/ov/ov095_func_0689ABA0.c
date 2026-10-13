@@ -1,5 +1,5 @@
 /*
- * function: func_0689ABA0
+ * function: BTLV_SCD_WaitRotateTouchStep
  * address:  0x0689ABA0
  * packet:   pkt_ov095_0689ABA0
  * region:   ov095
@@ -41,7 +41,7 @@ extern void func_0689ACBC(u32 p);
 
 typedef struct { u8 b; u32 w; } T;
 
-int func_0689ABA0(int unused, u8 *s)
+int BTLV_SCD_WaitRotateTouchStep(int unused, u8 *s)
 {
     T t;
     u32 flag;

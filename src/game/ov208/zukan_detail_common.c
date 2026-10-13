@@ -17,8 +17,8 @@
  *   d_021C8D80 0x021C8D80 data a1
  *   func_020307B0 0x020307B0  arm
  *   d_021C8D98     0x021C8D98  data  ov208  a4
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   func_0207D67C  0x0207D67C  arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
@@ -53,7 +53,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_0200CA54 0x0200CA54 thumb
+ *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
  *   func_021BD8C0 0x021BD8C0 thumb
  *   func_021BE710 0x021BE710 thumb
  *   FADE_Start 0x0204E720 arm
@@ -215,8 +215,8 @@ typedef enum {ShadeToon=0,ShadeHighlight=1} GXShading;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern void func_0207D67C(unsigned int, int, int, int, int, int);
 extern u32 func_02030CB0(u32);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
@@ -249,7 +249,7 @@ extern void func_021BCEC0(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern int func_020056A0(void (*fn)(void), void *arg, int n);
-extern u32 func_0200CA54(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
 extern char *func_021BD8C0(u16 heap, unsigned arg);
 extern struct Ov208Icon *func_021BE710(u16 heap, unsigned arg);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -524,13 +524,13 @@ unsigned short func_021BC3C0(S *p)
 void func_021BC3CC(char *p)
 {
     unsigned short old=**(unsigned short * *)&((struct Obj01178 *)p)->f20;
-    void *owner=func_0200CA1C((void *)(*(int *)&((struct Obj01178 *)p)->f0));
+    void *owner=ZUKAN_SAVE_GetFromGameData((void *)(*(int *)&((struct Obj01178 *)p)->f0));
     do {
         ++**(unsigned short * *)&((struct Obj01178 *)p)->f20;
         if(**(unsigned short * *)&((struct Obj01178 *)p)->f20>=((struct Obj01178 *)p)->f1C)
             **(unsigned short * *)&((struct Obj01178 *)p)->f20=0;
         if(**(unsigned short * *)&((struct Obj01178 *)p)->f20==old)break;
-    }while(func_0200D064(owner,(*(unsigned short **)(p+0x18))[**(unsigned short * *)&((struct Obj01178 *)p)->f20])==0);
+    }while(ZUKAN_SAVE_IsSeen(owner,(*(unsigned short **)(p+0x18))[**(unsigned short * *)&((struct Obj01178 *)p)->f20])==0);
 }
 
 
@@ -538,7 +538,7 @@ void func_021BC3CC(char *p)
 void func_021BC40C(struct Ov208Cur *p)
 {
     u16 start = *p->cur;
-    u32 h = (u32)func_0200CA1C(p->blk);
+    u32 h = (u32)ZUKAN_SAVE_GetFromGameData(p->blk);
     do {
         if (*p->cur == 0)
             *p->cur = p->wrap - 1;
@@ -546,7 +546,7 @@ void func_021BC40C(struct Ov208Cur *p)
             *p->cur = *p->cur - 1;
         if (*p->cur == start)
             break;
-    } while (func_0200D064((struct Blk37 *)h, p->ids[*p->cur]) == 0);
+    } while (ZUKAN_SAVE_IsSeen((struct Blk37 *)h, p->ids[*p->cur]) == 0);
 }
 
 
@@ -952,7 +952,7 @@ int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
     p->gfx = (void *)PRINTSYS_QUE_Create((void *)p->heap);
     p->task = func_020056A0(func_021BCC80, p, 1);
 
-    p->f14 = func_021BD8C0(p->heap, func_0200CA54(func_0200CA1C(args->src)));
+    p->f14 = func_021BD8C0(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
     p->f18 = func_021BE710(p->heap, (unsigned int)p->font);
     p->fsm = func_021BC35C(p->heap, args->src, p->disp, p->font, p->gfx, p->f14, p->f18, args->f8, args->fc, &args->fe);
     p->f20 = 0;

@@ -17,7 +17,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_021641FC  0x021641FC  arm  ov009
  *   MI_CpuFill8                      0x02082bcc arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_021644A0  0x021644A0  arm  ov009
  *   func_02164490  0x02164490  arm  ov009
  *   func_02092364  0x02092364  arm
@@ -44,7 +44,7 @@ int count_digits(unsigned short *a, int digits);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_02082D44(const void *srcp, void *dstp, u32 size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern u64 func_021644A0(u16 *s);
 extern u64 func_02164490(u16 *s);
 extern void *func_02092364(void *dst, const void *src, u32 n);
@@ -426,9 +426,9 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
     if (digits_a > 0 && digits_b > 0) {
         i = digits_b + (digits - digits_a) - 1;
         if (i >= digits) {
-            func_02082D44(a, cca, digits * 2);
+            MI_CpuCopy8(a, cca, digits * 2);
         } else {
-            func_02082D44(a, ca + i, digits_a * 2);
+            MI_CpuCopy8(a, ca + i, digits_a * 2);
             if (digits_b > 2)
                 msd = func_021644A0(b + digits_b - 1);
             else if (digits_b > 1)
@@ -452,9 +452,9 @@ void func_021644D0(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work)
         }
     }
     if (c)
-        func_02082D44(ca, c, digits * 2);
+        MI_CpuCopy8(ca, c, digits * 2);
     if (r)
-        func_02082D44(cca, r, digits * 2);
+        MI_CpuCopy8(cca, r, digits * 2);
 }
 
 
@@ -485,19 +485,19 @@ void func_0216469C(u16 *c, u16 *a, u16 *b, int digits, u16 *n)
     c[0] = 1;
     for (i = (digits - func_02163F24(b, digits)) * 16; i < digits * sizeof(u16) * 8; i++) {
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {
-            func_02082D44(a, c, digits * sizeof(u16));
+            MI_CpuCopy8(a, c, digits * sizeof(u16));
             i++;
             break;
         }
     }
     for (; i < digits * sizeof(u16) * 8; i++) {
         func_02164358(tmp, c, digits);
-        func_02082D44(tmp, c, digits * sizeof(u16));
+        MI_CpuCopy8(tmp, c, digits * sizeof(u16));
         if (n)
             func_021644D0(0, c, n, c, digits, divwork);
         if (b[digits - (i >> 4) - 1] & (0x8000u >> (i & 15))) {
             func_02164230(tmp, c, a, digits);
-            func_02082D44(tmp, c, digits * sizeof(u16));
+            MI_CpuCopy8(tmp, c, digits * sizeof(u16));
             if (n)
                 func_021644D0(0, c, n, c, digits, divwork);
         }
@@ -528,17 +528,17 @@ static void func_02164830(unsigned short *c, unsigned short *a, unsigned short *
     w = v + digits;
     divwork = w + digits;
 
-    func_02082D44(a, tmp_var, digits * 2);
-    func_02082D44(n, t, digits * 2);
+    MI_CpuCopy8(a, tmp_var, digits * 2);
+    MI_CpuCopy8(n, t, digits * 2);
     u[0] = 1;
     while (func_02163F4C(tmp_var, digits) > 0) {
         func_021644D0(q, t, tmp_var, w, digits, divwork);
-        func_02082D44(tmp_var, t, digits * 2);
-        func_02082D44(w, tmp_var, digits * 2);
+        MI_CpuCopy8(tmp_var, t, digits * 2);
+        MI_CpuCopy8(w, tmp_var, digits * 2);
         func_02164230(w, q, u, digits);
         func_021640B8(w, v, w, digits);
-        func_02082D44(u, v, digits * 2);
-        func_02082D44(w, u, digits * 2);
+        MI_CpuCopy8(u, v, digits * 2);
+        MI_CpuCopy8(w, u, digits * 2);
     }
     func_02163F7C(v, v, n, digits);
     func_021644D0(0, v, n, c, digits, divwork);
@@ -554,7 +554,7 @@ static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *
                           int rdigits, unsigned short *n, unsigned short *np,
                           unsigned short *m, unsigned short *m2)
 {
-    func_02082D44(c, a, digits * 2);
+    MI_CpuCopy8(c, a, digits * 2);
     if (b == (unsigned short *)1)
         func_02164358(c, a, digits);
     else if (b != 0)

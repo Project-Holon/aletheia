@@ -1,5 +1,5 @@
 /*
- * function: func_02188E24
+ * function: TR_AI_CmdCompareSpeed
  * address:  0x02188E24
  * packet:   pkt_ov096_02188E24
  * region:   ov096
@@ -13,7 +13,7 @@
  * relocation sites resolve; trailing two-byte padding is EXACT*.
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A0F4  0x0218A0F4  thumb  ov096
+ *   TR_AI_Compare  0x0218A0F4  thumb  ov096
  *   BTL_SERVER_FLOW_CalcPokeSpeedWrapper  0x021C81C8  thumb  ov093
  */
 #include "../include/Obj06341.h"
@@ -24,10 +24,10 @@ typedef unsigned int u32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern int func_0218A0F4(u8 *, int, int, int, int);
+extern int TR_AI_Compare(u8 *, int, int, int, int);
 extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(u8 *, u8 *, int);
 
-int func_02188E24(struct Cursor *a, u8 *b)
+int TR_AI_CmdCompareSpeed(struct Cursor *a, u8 *b)
 {
     int k;
     int m;
@@ -49,6 +49,6 @@ int func_02188E24(struct Cursor *a, u8 *b)
         k = 2;
         break;
     }
-    func_0218A0F4((u8 *)a, k, x, y, m);
+    TR_AI_Compare((u8 *)a, k, x, y, m);
     return ((struct Obj06341 *)b)->fC4;
 }

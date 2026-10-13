@@ -1,5 +1,5 @@
 /*
- * function: func_02159A30
+ * function: push_rwin_chunks
  * address:  0x02159A30
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 struct S { int a, b, c; };
 
-void func_02159A30(char *p, int i)
+void push_rwin_chunks(char *p, int i)
 {
     int j;
 

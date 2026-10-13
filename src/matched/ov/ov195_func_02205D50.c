@@ -19,7 +19,7 @@
  *   func_022063AC 0x022063AC thumb ov195
  *   func_02206768 0x02206768 thumb ov195
  *   MCSS_GetAnimCtrl 0x02015EE8 thumb
- *   func_02064CBC 0x02064CBC arm
+ *   NNS_G2dRestartMCAnimation 0x02064CBC arm
  *   func_022067BC 0x022067BC thumb ov195
  *   func_022067FC 0x022067FC thumb ov195
  *   func_0220672C 0x0220672C thumb ov195
@@ -46,7 +46,7 @@ extern int MCSS_CheckPaletteFade(void *);
 extern void func_022063AC(char *,u32);
 extern void func_02206768(char *,u32,u32,u32);
 extern void *MCSS_GetAnimCtrl(void *);
-extern void func_02064CBC(struct Obj *);
+extern void NNS_G2dRestartMCAnimation(struct Obj *);
 extern void func_022067BC(struct Owner *);
 extern int func_022067FC(char *);
 extern void func_0220672C(struct Owner *);
@@ -92,7 +92,7 @@ void func_02205D50(char *p)
         func_022063AC(p,0x100000);
         func_02206768(p,0,0xfffff800,0);
         W(0x5c)=0;
-        func_02064CBC((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
+        NNS_G2dRestartMCAnimation((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
         break;
     case 7:
         if(W(0x18)>=1){W(0x14)=8;W(0x18)=0;}

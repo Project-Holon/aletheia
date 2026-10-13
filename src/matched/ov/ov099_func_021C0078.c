@@ -1,5 +1,5 @@
 /*
- * function: func_021C0078
+ * function: WIFICLUB_StateLeaveCancel
  * address: 0x021C0078
  * packet: pkt_ov099_021C0078
  * region: ov099
@@ -31,59 +31,59 @@
  * diagnosis: caller-only tu --suggest-split MATCH 188 bytes; no viable split.
  * symbols:
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
- *   func_021BE900 0x021BE900 thumb ov099
- *   func_021BA928 0x021BA928 thumb ov099
+ *   WIFICLUB_OnFatalError 0x021BE900 thumb ov099
+ *   WIFICLUB_UpdateTalkStream 0x021BA928 thumb ov099
  *   KEY_GetTrg 0x020362DC arm
- *   func_021B97F4 0x021B97F4 thumb ov099
- *   func_021BE2A8 0x021BE2A8 thumb ov099
- *   func_021B9AE0 0x021B9AE0 thumb ov099
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021C18C8 0x021C18C8 thumb ov099
+ *   WIFICLUBACTOR_GetPickResult 0x021B97F4 thumb ov099
+ *   WIFICLUB_FindPeerActor 0x021BE2A8 thumb ov099
+ *   WIFICLUBACTOR_RestoreActorUpdate 0x021B9AE0 thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
- *   func_021BDD0C 0x021BDD0C thumb ov099
- *   func_021B96CC 0x021B96CC thumb ov099
- *   func_021BE4F0 0x021BE4F0 thumb ov099
- *   func_021C19A8 0x021C19A8 thumb ov099
- *   func_021BAEDC 0x021BAEDC thumb ov099
- *   func_021C2408 0x021C2408 thumb ov099
+ *   WIFICLUB_StartNetSession 0x021BDD0C thumb ov099
+ *   WIFICLUBACTOR_IsReady 0x021B96CC thumb ov099
+ *   WIFICLUB_BeginIdle 0x021BE4F0 thumb ov099
+ *   WIFICLUB_ResetOwnSeatStatus 0x021C19A8 thumb ov099
+ *   WIFICLUB_DrawPlayerInfoWindow 0x021BAEDC thumb ov099
+ *   WIFICLUB_DisableTouchBar 0x021C2408 thumb ov099
  */
 extern int GFL_NET_STATE_IsFatalError(void);
-extern void func_021BE900(char *);
-extern int func_021BA928(char *);
+extern void WIFICLUB_OnFatalError(char *);
+extern int WIFICLUB_UpdateTalkStream(char *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 KEY_GetTrg(void);
-extern int func_021B97F4(char *);
-extern void *func_021BE2A8(char *,int);
-extern void func_021B9AE0(void *w, u8 *s);
-extern void func_021BA8EC(char *);
-extern void func_021C18C8(char *,int,int);
+extern int WIFICLUBACTOR_GetPickResult(char *);
+extern void *WIFICLUB_FindPeerActor(char *,int);
+extern void WIFICLUBACTOR_RestoreActorUpdate(void *w, u8 *s);
+extern void WIFICLUB_ClearTalkWindow(char *);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *,int,int);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern void func_021BDD0C(void *p, int on);
-extern int func_021B96CC(int *p);
-extern int func_021BE4F0(char *,int);
-extern void func_021C19A8(char *);
-extern void func_021BAEDC(char *);
-extern void func_021C2408(char *);
-int func_021C0078(char *p,int ret)
+extern void WIFICLUB_StartNetSession(void *p, int on);
+extern int WIFICLUBACTOR_IsReady(int *p);
+extern int WIFICLUB_BeginIdle(char *,int);
+extern void WIFICLUB_ResetOwnSeatStatus(char *);
+extern void WIFICLUB_DrawPlayerInfoWindow(char *);
+extern void WIFICLUB_DisableTouchBar(char *);
+int WIFICLUB_StateLeaveCancel(char *p,int ret)
 {
-    if(GFL_NET_STATE_IsFatalError()){func_021BE900(p);return ret;}
-    if(!func_021BA928(p)){*(int *)(p+0x1e0)=30;return ret;}
+    if(GFL_NET_STATE_IsFatalError()){WIFICLUB_OnFatalError(p);return ret;}
+    if(!WIFICLUB_UpdateTalkStream(p)){*(int *)(p+0x1e0)=30;return ret;}
     --*(int *)(p+0x1e0);
     if((KEY_GetTrg()&3)||!*(int *)(p+0x1e0)){
-        func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
-        func_021BA8EC(p);
-        func_021C18C8(p,1,2);
+        WIFICLUBACTOR_RestoreActorUpdate(p+0x274,WIFICLUB_FindPeerActor(p,WIFICLUBACTOR_GetPickResult(p+0x274)));
+        WIFICLUB_ClearTalkWindow(p);
+        WIFICLUB_SetOwnStatusAndPublish(p,1,2);
         GFL_NET_STATE_WifiDisconnect(1);
-        func_021BDD0C(p,0);
-        if(!func_021B96CC((int *)(p+0x274))){
-            *(int *)(p+0x1cc)=func_021BE4F0(p,0);
+        WIFICLUB_StartNetSession(p,0);
+        if(!WIFICLUBACTOR_IsReady((int *)(p+0x274))){
+            *(int *)(p+0x1cc)=WIFICLUB_BeginIdle(p,0);
         }else{
-            func_021C19A8(p);
-            func_021BAEDC(p);
+            WIFICLUB_ResetOwnSeatStatus(p);
+            WIFICLUB_DrawPlayerInfoWindow(p);
             *(int *)(p+0x1f0)=-1;
             *(int *)(p+0x1cc)=11;
-            func_021C2408(p);
+            WIFICLUB_DisableTouchBar(p);
         }
     }
     return ret;

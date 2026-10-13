@@ -30,14 +30,14 @@
  *   gVctClientAllowTable 0x021B3B84 data ov013 a1
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  *   gVoiceFramePool 0x021B4C24 data a4
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  */
 #include "vct_types.h"
 
 extern u64 func_020870D0(void);
 extern int func_02176E90(int peerId, VctPacket *packet, int length);
 extern void *func_020923B0(void *, int, unsigned int);
-extern void func_02082AC0(int, void *, u32);
+extern void MIi_CpuClearFast(int, void *, u32);
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
 extern int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int command, unsigned char *buf, unsigned int length);
@@ -549,7 +549,7 @@ int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size)
         return 0;
     }
     i = 0;
-    func_02082AC0(i, area, size);
+    MIi_CpuClearFast(i, area, size);
     for (i = 0; i < count - 1; i++)
         gVoiceFramePool.base[i].freeLink = &gVoiceFramePool.base[i + 1];
     (gVoiceFramePool.base + count)[-1].freeLink = 0;

@@ -43,12 +43,12 @@
  *   func_021F15B0 0x021F15B0 thumb ov107
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020461E4 0x020461E4 arm
- *   func_020788AC 0x020788AC arm
- *   func_02078C18 0x02078C18 arm
+ *   FS_InitFile 0x020788AC arm
+ *   FS_OpenFile 0x02078C18 arm
  *   func_02078B44 0x02078B44 arm
  *   FS_GetLength 0x02078C28 arm
- *   func_02078B70 0x02078B70 arm
- *   func_02078A80 0x02078A80 arm
+ *   FS_ReadFile 0x02078B70 arm
+ *   FS_CloseFile 0x02078A80 arm
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
@@ -146,7 +146,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_020774A0 0x020774A0 arm
  *   ov014_id 0x0000000E data
@@ -164,7 +164,7 @@
  *   func_021F1B38 0x021F1B38 thumb ov107
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   WIH_End 0x02179570 thumb ov014
- *   func_0208EE9C 0x0208EE9C arm
+ *   WM_GetLinkLevel 0x0208EE9C arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
  *   GFL_NET_WM_ICON_EasyMain 0x02037154 arm
  *   d_021F6D68 0x021F6D68 data ov107 a4
@@ -172,7 +172,7 @@
  *   d_021F6D60 0x021F6D60 data ov107 a4
  *   d_021F6C40 0x021F6C40 data ov107 a4
  *   WIH_GetMeasureChannel 0x02179024 thumb ov014
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   KEY_GetTrg 0x020362DC arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
@@ -184,12 +184,12 @@
  *   func_0200C1A4 0x0200C1A4 thumb
  *   func_0208459C 0x0208459C arm
  *   func_0200C18C 0x0200C18C thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_02008DAC  0x02008DAC  thumb
  *   func_0202F27C  0x0202F27C  thumb
  *   func_020074D8  0x020074D8  thumb
  *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
- *   func_0200CDE0  0x0200CDE0  thumb
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   func_021F1B08 0x021F1B08 thumb ov107
  *   func_020056EC 0x020056EC thumb
  *   GAME_DATA_SaveStart 0x02012DAC thumb
@@ -231,8 +231,8 @@
  *   func_021F3544 0x021F3544 arm ov107
  *   func_021F1C30 0x021F1C30 arm ov107
  *   func_021F5FB0 0x021F5FB0 arm ov107
- *   func_02087988 0x02087988 arm
- *   func_0208799C 0x0208799C arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
  *   func_021F1BE0 0x021F1BE0 arm ov107
  *   func_021F5F74 0x021F5F74 arm ov107
  *   func_021F1B64 0x021F1B64 arm ov107
@@ -646,11 +646,11 @@ extern void func_021F1A24(u8 *p);
 extern u32 func_020461E4(int);
 extern u32 func_0200C184(struct Blk34 *p);
 extern void *func_0200575C(u32);
-extern void func_020788AC(File *);
-extern int func_02078C18(File *,const char *);
-extern int func_02078A80(File *);
+extern void FS_InitFile(File *);
+extern int FS_OpenFile(File *,const char *);
+extern int FS_CloseFile(File *);
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern u32 FS_GetLength(struct FSFile *a0);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -728,7 +728,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern int func_02034AC4(s32_021EF444 handle);
 extern void func_020774A0(int (*callback)(void));
 extern void func_02034A5C(int);
@@ -745,11 +745,11 @@ extern void func_021F17E0(void *,int);
 extern void func_021F1B38(u8 *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int WIH_End(void (*cb)(int));
-extern int func_0208EE9C(void);
+extern int WM_GetLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void GFL_NET_WM_ICON_EasyMain(void);
 extern u16 WIH_GetMeasureChannel(void);
-extern void func_02082D44(const void *,void *,unsigned);
+extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int func_021F19C8(unsigned char *a);
 extern u32 KEY_GetTrg(void);
@@ -760,12 +760,12 @@ extern void func_021F19B8(unsigned char *a);
 extern u8 func_0200C1A4(struct Blk34 *p);
 extern void func_0208459C(int clear, u32 irqFlags);
 extern void func_0200C18C(struct Blk34 *p, u32 v);
-void *func_0200CA1C(void *);
+void *ZUKAN_SAVE_GetFromGameData(void *);
 u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 void func_0202F27C(void *);
 int func_020074D8(void **save, const struct Sub02007454Entry *src);
 void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
-void func_0200CDE0(struct Blk37 *p, void *m);
+void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern int func_021F1B08(void *);
 extern u32 func_020056EC(u32);
 extern int GAME_DATA_SaveStart(int);
@@ -803,8 +803,8 @@ extern int func_021F2FA0(void *,void *,u32);
 extern int func_021F3544(void *,void *);
 extern int func_021F1C30(u16,int);
 extern void func_021F5FB0(u16);
-extern u32 func_02087988(void);
-extern u32 func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32);
 extern int func_021F1BE0(u16);
 extern void func_021F5F74(void);
 extern void *func_021F1B64(u16);
@@ -989,12 +989,12 @@ void func_021EE824(u8 *p) {
 
 static inline void load_payload(u8 *p) {
  File file; void *name;
- name=func_0200575C(142);func_020788AC(&file);
- if(!func_02078C18(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
+ name=func_0200575C(142);FS_InitFile(&file);
+ if(!FS_OpenFile(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
  func_02078B44((struct FSFile *)(&file),0,0);W(100)=FS_GetLength((struct FSFile *)(&file));
  P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
- func_02078B70((struct FSFile *)(&file),P(96),W(100));
- if(!func_02078A80(&file))func_02034714(d_021F6E08,0,d_021F6E08);
+ FS_ReadFile((struct FSFile *)(&file),P(96),W(100));
+ if(!FS_CloseFile(&file))func_02034714(d_021F6E08,0,d_021F6E08);
  W(32)=13;
 }
 
@@ -1328,10 +1328,10 @@ void func_021EF588(u8 *p)
     lb = (u32)STRBUF_GetLength(b);
     dst = w->f50;
     src = STRBUF_GetChars(a);
-    func_02082A60(src, dst, la * 2);
+    MIi_CpuCopy16(src, dst, la * 2);
     dst = w->f54;
     src = STRBUF_GetChars(b);
-    func_02082A60(src, dst, lb * 2);
+    MIi_CpuCopy16(src, dst, lb * 2);
     STRBUF_Delete(a);
     STRBUF_Delete(b);
     w->f50[la] = 0;
@@ -1431,7 +1431,7 @@ int func_021EF79C(u8 *p)
  case 6:d_021F6EA0.f8=0;WIH_End((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;
  case 7:if(d_021F6EA0.f8==1){func_020351F8(0,0);WIH_FreeWork();return 1;}break;
  }
- GFL_NET_WM_ICON_EasySetLevel(3-func_0208EE9C());GFL_NET_WM_ICON_EasyMain();return 0;
+ GFL_NET_WM_ICON_EasySetLevel(3-WM_GetLinkLevel());GFL_NET_WM_ICON_EasyMain();return 0;
 }
 
 
@@ -1449,7 +1449,7 @@ void func_021EF96C(u8 *p) {
  Pair a=d_021F6D68,b=d_021F6D70,c=d_021F6D60;
  Config cfg=d_021F6C40;
  int v=WIH_GetMeasureChannel();
- func_02082D44(&cfg,p+128,60);
+ MI_CpuCopy8(&cfg,p+128,60);
  ((struct Obj00072 *)p)->f80=p[40]==0?a.a:a.b;
  ((struct Obj00072 *)p)->f8C=b.b;((struct Obj00072 *)p)->f90=c.b;
  ((struct Obj00072 *)p)->f84=((struct Obj00072 *)p)->f50;((struct Obj00072 *)p)->f88=((struct Obj00072 *)p)->f54;
@@ -1640,7 +1640,7 @@ void func_021EFD98(Ov107Ctx *p)
     unsigned char i;
 
     party = (void *)func_0201293C(p->f08->f04);
-    box = func_0200CA1C(p->f08->f04);
+    box = ZUKAN_SAVE_GetFromGameData(p->f08->f04);
     n = func_021F11C4(p->f0C);
     if (p->f28 == 0) {
         dex = GAME_DATA_GetTrainerRecord(p->f08->f04);
@@ -1652,7 +1652,7 @@ void func_021EFD98(Ov107Ctx *p)
         func_0202F27C(mon);
         ok = func_020074D8(party, mon);
         mon = POKE_TOOL_CreateFromBoxParam(mon, p->f00);
-        func_0200CDE0(box, mon);
+        ZUKAN_SAVE_RegisterCaught(box, mon);
         func_020307B0(mon);
         if (ok != 1) {
             func_02034714(d_021F6E08, 0, d_021F6E08);
@@ -2120,7 +2120,7 @@ int func_021F0728(int a,int b,int c,u8 *p) { if(func_021EE894(p)==1)return 1;if(
 
 
 void func_021F0754(int a,int b){User user;MBUser mb;u8 buffer[20];Zero *zero;
-func_02087D28((struct OSOwnerInfoEx *)(&user));mb.f00=user.f01;mb.f01=user.f1A;func_02082D44(user.f04,mb.f02,user.f1A*2);mb.f00hi=0;
+func_02087D28((struct OSOwnerInfoEx *)(&user));mb.f00=user.f01;mb.f01=user.f1A;MI_CpuCopy8(user.f04,mb.f02,user.f1A*2);mb.f00hi=0;
 zero=(Zero *)buffer;zero->words[0]=0;zero->words[1]=0;zero->words[2]=0;zero->words[3]=0;zero->words[4]=0;d_021F6EB4=*zero;
 d_021F6EAC.f04=GFL_NET_AllocAligned(93,45312,d_021F6E1C,158);
 if(func_021F5904(d_021F6EAC.f04,&mb,a,b,1))func_02034714(d_021F6E24, 0, d_021F6E24);
@@ -2149,9 +2149,9 @@ void func_021F080C(void *p,int channel){
 
 
 int func_021F0850(const char **p){File file;File *fp;int result;
-result=0;if(!*p)fp=0;else{fp=&file;func_020788AC(fp);if(!func_02078C18(fp,*p))return 0;}
+result=0;if(!*p)fp=0;else{fp=&file;FS_InitFile(fp);if(!FS_OpenFile(fp,*p))return 0;}
 if(func_021F2F1C(fp)){d_021F6EAC.f00=func_02030734(93,65536,1,d_021F6E1C,287);if(d_021F6EAC.f00){if(func_021F2FA0(fp,d_021F6EAC.f00,65536)){if(func_021F3544(p,d_021F6EAC.f00))result=1;}if(!result)func_020307B0(d_021F6EAC.f00);}}
-if(fp==&file)func_02078A80(&file);return result;}
+if(fp==&file)FS_CloseFile(&file);return result;}
 
 
 
@@ -2162,14 +2162,14 @@ if(fp==&file)func_02078A80(&file);return result;}
 void func_021F08E4(u16 aid){
  u16 mask; u32 state;
  if(!func_021F1C30(aid,1)){
- mask=~(1<<aid);state=func_02087988();
+ mask=~(1<<aid);state=OS_DisableInterrupts();
  d_021F6EAC.f0A&=mask;
  d_021F6EAC.f0C&=mask;
  d_021F6EAC.f0E&=mask;
  d_021F6EAC.f10&=mask;
  d_021F6EAC.f12&=mask;
  d_021F6EAC.f14&=mask;
- func_0208799C(state);func_021F5FB0(aid);
+ OS_RestoreInterrupts(state);func_021F5FB0(aid);
  }
 }
 
@@ -2181,8 +2181,8 @@ void func_021F08E4(u16 aid){
 
 
 void func_021F0938(u16 aid){u16 mask;u32 state;
-if(!func_021F1C30(aid,0)){mask=~(1<<aid);state=func_02087988();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;func_0208799C(state);func_021F5FB0(aid);}
-else {state=func_02087988();d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0A&=(u16)~(1<<aid);func_0208799C(state);}}
+if(!func_021F1C30(aid,0)){mask=~(1<<aid);state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}
+else {state=OS_DisableInterrupts();d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0A&=(u16)~(1<<aid);OS_RestoreInterrupts(state);}}
 
 
 
@@ -2192,8 +2192,8 @@ else {state=func_02087988();d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0A&=(u16)
 
 
 void func_021F09B0(u16 aid){u16 mask;u32 state;u16 bit;
-if(!func_021F1C30(aid,2)){mask=~(1<<aid);state=func_02087988();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;func_0208799C(state);func_021F5FB0(aid);}
-else {state=func_02087988();mask=~(1<<aid);bit=1<<aid;d_021F6EAC.f0E&=mask;d_021F6EAC.f10|=bit;func_0208799C(state);}}
+if(!func_021F1C30(aid,2)){mask=~(1<<aid);state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}
+else {state=OS_DisableInterrupts();mask=~(1<<aid);bit=1<<aid;d_021F6EAC.f0E&=mask;d_021F6EAC.f10|=bit;OS_RestoreInterrupts(state);}}
 
 
 
@@ -2212,7 +2212,7 @@ int func_021F0A28(void) { u16 i; if(!d_021F6EAC.f0A)return 0;for(i=1;i<16;i++){i
 
 
 void func_021F0A64(void){u32 active;u16 aid;int bit;u16 mask;u32 state;
-active=0;for(aid=1;aid<16;aid++){bit=1<<aid;if(d_021F6EAC.f12&bit){if(!func_021F1C30(aid,3)){mask=~bit;state=func_02087988();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;func_0208799C(state);func_021F5FB0(aid);}else active|=(u16)bit;}}
+active=0;for(aid=1;aid<16;aid++){bit=1<<aid;if(d_021F6EAC.f12&bit){if(!func_021F1C30(aid,3)){mask=~bit;state=OS_DisableInterrupts();d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;OS_RestoreInterrupts(state);func_021F5FB0(aid);}else active|=(u16)bit;}}
 if(!active){func_021F0D1C(7);return;}func_021F0D1C(4);}
 
 
@@ -2242,7 +2242,7 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
  switch(event){
  case 2:
   if(func_021F0D28()!=2)break;
-  state=func_02087988();d_021F6EAC.f0A|=(u16)(1<<aid);func_0208799C(state);
+  state=OS_DisableInterrupts();d_021F6EAC.f0A|=(u16)(1<<aid);OS_RestoreInterrupts(state);
   offset=30*(aid-1);
   *(u8 *)((u32)d_021F6EDE+offset)=p[10];
   *(u8 *)((u32)d_021F6EDF+offset)=p[11];
@@ -2253,13 +2253,13 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
   *(u16 *)((u32)d_021F6EE4+offset)=aid;break;
  case 3:
   if(func_021F0D34(aid)==6)break;
-  mask=~(1<<aid);state=func_02087988();
+  mask=~(1<<aid);state=OS_DisableInterrupts();
   d_021F6EAC.f0A&=mask;d_021F6EAC.f0C&=mask;d_021F6EAC.f0E&=mask;d_021F6EAC.f10&=mask;d_021F6EAC.f12&=mask;d_021F6EAC.f14&=mask;
-  func_0208799C(state);func_021F0B04();break;
+  OS_RestoreInterrupts(state);func_021F0B04();break;
  case 10:
   if(func_021F0D28()!=2){func_021F0938(aid);break;}
   d_021F6EAC.f0C|=(u16)(1<<aid);func_021F08E4(aid);
-  q=func_021F1B64(aid);if(q)func_02082D44(q,(void *)((u32)d_021F6EC8+30*(aid-1)),22);break;
+  q=func_021F1B64(aid);if(q)MI_CpuCopy8(q,(void *)((u32)d_021F6EC8+30*(aid-1)),22);break;
  case 14:
   d_021F6EAC.f0C&=(u16)~(1<<aid);d_021F6EAC.f0E|=(u16)(1<<aid);func_021F09B0(aid);break;
  case 7:
@@ -2302,13 +2302,13 @@ int func_021F0D34(u16 aid)
     Snapshot snap;
     u16 bit;
     bit = 1 << aid;
-    state = func_02087988();
+    state = OS_DisableInterrupts();
     if (!(d_021F6EAC.f0A & bit)) {
-        func_0208799C(state);
+        OS_RestoreInterrupts(state);
         return 0;
     }
-    func_02082D44(((u8 *)&d_021F6EB4), &snap, 20);
-    func_0208799C(state);
+    MI_CpuCopy8(((u8 *)&d_021F6EB4), &snap, 20);
+    OS_RestoreInterrupts(state);
     if (snap.f04 & bit) return 2;
     if (snap.f06 & bit) return 3;
     if (snap.f08 & bit) return 4;

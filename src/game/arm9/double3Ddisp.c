@@ -16,8 +16,8 @@
  *   func_02030734  0x02030734  arm
  *   double3Ddisp_File 0x020A7F94  data
  *   g_02146A80     0x02146A80  data
- *   func_020862F0  0x020862F0  arm
- *   func_0207E708  0x0207E708  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GXS_LoadOAM  0x0207E708  arm
  *   func_02080B98  0x02080B98  arm
  *   func_02080BAC  0x02080BAC  arm
  *   func_02080BC0  0x02080BC0  arm
@@ -98,8 +98,8 @@ extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char double3Ddisp_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020862F0(void *p, u32 n);
-extern void func_0207E708(void *p, u32 off, u32 n);
+extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void GXS_LoadOAM(void *p, u32 off, u32 n);
 extern void func_02080B98(void);
 extern void func_02080BAC(void);
 extern void func_02080BC0(void);
@@ -172,8 +172,8 @@ void func_0204E8C0(u32 heap)
  * double3Ddisp.c, second function (the TU starts at func_0204E8C0).  Builds
  * the twelve sub-engine sprites that carry the doubled 3D image, a 4 x 3
  * grid of 64 x 64 cells over 256 x 192, then flushes the OAM copy
- * (func_020862F0, DC_FlushRange) and loads it at OAM offset 0x3A0
- * (func_0207E708, GXS_LoadOAM).
+ * (DWCi_ScreenDC_FlushRange, DC_FlushRange) and loads it at OAM offset 0x3A0
+ * (GXS_LoadOAM, GXS_LoadOAM).
  *
  * The lever that closed it (wave 17, from 15 bytes out): the inner loop
  * takes a pointer to the ENTRY, `oam = &g_02146A80->oam[k]`, and stores both
@@ -209,8 +209,8 @@ void func_0204E914(void)
         }
     }
 
-    func_020862F0(g_02146A80->oam, 0x60);
-    func_0207E708(g_02146A80->oam, 0x3a0, 0x60);
+    DWCi_ScreenDC_FlushRange(g_02146A80->oam, 0x60);
+    GXS_LoadOAM(g_02146A80->oam, 0x3a0, 0x60);
 }
 
 int func_0204EA0C(void)

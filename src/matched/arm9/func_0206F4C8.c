@@ -1,5 +1,5 @@
 /*
- * function: func_0206F4C8
+ * function: NNSi_G3dAnmGetScaleData
  * address:  0x0206F4C8
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Vector-2 keyframe sampler without the lerp (func_0206EE60 calls it when the
+ * Vector-2 keyframe sampler without the lerp (NNSi_G3dAnmCalcJntAnmNode calls it when the
  * cursor has no fraction or root->f08 bit 0 is clear): the NitroSystem G3D
  * joint-animation scale fetch, which reads a (scale, inverse scale) pair per
  * key.  Written from the start in the library's shape (wave 20, lane
@@ -39,8 +39,8 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206F4C8.c \
- *       --func func_0206F4C8 --addr 0x0206F4C8 --cc ../2.0/sp2p2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetScaleData.c \
+ *       --func NNSi_G3dAnmGetScaleData --addr 0x0206F4C8 --cc ../2.0/sp2p2 --arm
  */
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -65,7 +65,7 @@ typedef struct { u32 info; u32 offset; } NNSG3dJntAnmSInfo;
 typedef struct { fx16 s; fx16 invs; } ScaleFx16;
 typedef struct { fx32 s; fx32 invs; } ScaleFx32;
 
-void func_0206F4C8(fx32 *s_invs, fx32 Frame, const NNSG3dJntAnmSInfo *pData, const u8 *pJntAnm)
+void NNSi_G3dAnmGetScaleData(fx32 *s_invs, fx32 Frame, const NNSG3dJntAnmSInfo *pData, const u8 *pJntAnm)
 {
     u32 frame = (u32)FX_Whole(Frame);
     const void *pArray = (const void *)(pJntAnm + pData->offset);

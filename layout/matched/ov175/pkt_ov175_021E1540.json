@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E1540",
+   "name": "DWC_GdbUpdateRecordAsync",
    "address": "0x021E1540",
    "kind": "sdk",
    "region": "ov175",

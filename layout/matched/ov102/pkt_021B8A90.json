@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8A90",
+   "name": "IRC_COMPATIBLE_MENU_StepLinear",
    "address": "0x021B8A90",
    "kind": "game",
    "region": "ov102",

@@ -1,5 +1,5 @@
 /*
- * function: func_0207DCC8
+ * function: G3X_GetVectorMtx
  * address:  0x0207DCC8
  * packet:   pkt_0207DCC8
  * region:   arm9
@@ -56,7 +56,7 @@ typedef union {
 
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 
-int func_0207DCC8(MtxFx33 *m)
+int G3X_GetVectorMtx(MtxFx33 *m)
 {
     if (reg_G3X_GXSTAT & 0x08000000) {
         return -1;

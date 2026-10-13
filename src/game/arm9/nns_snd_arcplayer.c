@@ -15,33 +15,34 @@
  * symbols:
  *   NNS_SndArcGetSeqArcInfo  0x02074388  arm
  *   NNS_SndArcGetFileAddress  0x0207466C  arm
- *   func_02073344  0x02073344  arm
- *   func_020734AC  0x020734AC  arm
- *   func_02074CD0  0x02074CD0  arm
- *   func_02074BEC  0x02074BEC  arm
- *   func_020733DC  0x020733DC  arm
- *   func_020733E8  0x020733E8  arm
- *   NNS_SndHandleSetPlayerPriority  0x02072F48  arm
+ *   NNSi_SndPlayerAllocSeqPlayer  0x02073344  arm
+ *   NNSi_SndPlayerAllocHeap  0x020734AC  arm
+ *   NNSi_SndArcLoadBank  0x02074CD0  arm
+ *   NNSi_SndArcLoadSeq  0x02074BEC  arm
+ *   NNSi_SndPlayerFreeSeqPlayer  0x020733DC  arm
+ *   NNSi_SndPlayerStartSeqPlayer  0x020733E8  arm
+ *   NNS_SndHandleSetInitialVolume  0x02072F48  arm
  *   NNS_SndHandlePause  0x02072F88  arm
- *   func_020730B8  0x020730B8  arm
- *   NNS_SndHandleSetSweep  0x020730DC  arm
+ *   NNSi_SndHandleSetSeqNo  0x020730B8  arm
+ *   NNSi_SndHandleSetSeqArc  0x020730DC  arm
  *   data_0214EAC0  0x0214EAC0  data
  *   data_020A5D08  0x020A5D08  data
- *   func_02073A60  0x02073A60  arm
- *   func_02073AD0  0x02073AD0  arm
+ *   NNS_SndStrmStart  0x02073A60  arm
+ *   NNS_SndStrmSetVolume  0x02073AD0  arm
  *   NNS_SndFaderGet  0x02075BD4  arm
  *   NNS_SndFaderUpdate  0x02075C08  arm
  *   NNS_SndFaderIsFinished  0x02075C20  arm
  *   g_02150178  0x02150178  data
  *   g_0214EA90  0x0214EA90  data
  *   g_02150190  0x02150190  data
- *   func_02073898  0x02073898  arm
- *   func_02087988 0x02087988  arm
- *   func_0208799C 0x0208799C  arm
+ *   NNS_SndStrmFreeChannel  0x02073898  arm
+ *   OS_DisableInterrupts 0x02087988  arm
+ *   OS_RestoreInterrupts 0x0208799C  arm
  *   func_02060614 0x02060614  arm
  *   func_020605B4 0x020605B4  arm
  *   func_020604AC 0x020604AC  arm
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
+ *   NNSi_SndStrmStopIfSetup  0x02073AB4  arm
  */
 
 struct Entry;
@@ -120,28 +121,28 @@ struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
 extern void *NNS_SndArcGetSeqInfo(int index);
 extern void *NNS_SndArcGetSeqArcInfo(int index);
 extern u32   NNS_SndArcGetFileAddress(u32 a);
-extern struct Node *func_02073344(struct SndTrack *o, s32 idx, s32 pri);
-extern void *func_020734AC(s32 idx, void *owner);
-extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern void  func_020733DC(void *h);
-extern void func_020733E8(struct SndTrack *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void NNS_SndHandleSetPlayerPriority(struct SndTrack *o, u8 v);
+extern struct Node *NNSi_SndPlayerAllocSeqPlayer(struct SndTrack *o, s32 idx, s32 pri);
+extern void *NNSi_SndPlayerAllocHeap(s32 idx, void *owner);
+extern u32   NNSi_SndArcLoadBank(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern u32 NNSi_SndArcLoadSeq(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern void  NNSi_SndPlayerFreeSeqPlayer(void *h);
+extern void NNSi_SndPlayerStartSeqPlayer(struct SndTrack *o, const void *seqBase, u32 seqOffset, const void *bankData);
+extern void NNS_SndHandleSetInitialVolume(struct SndTrack *o, u8 v);
 extern void NNS_SndHandlePause(struct SndTrack *o, u32 v);
-extern void  func_020730B8(u32 a, u32 b);
-extern void NNS_SndHandleSetSweep(struct SndTrack *o, u32 a, u32 b);
-extern void func_02073A60(struct SndTrack *a);
-extern void func_02073AD0(struct SndTrack *, s32);
+extern void  NNSi_SndHandleSetSeqNo(u32 a, u32 b);
+extern void NNSi_SndHandleSetSeqArc(struct SndTrack *o, u32 a, u32 b);
+extern void NNS_SndStrmStart(struct SndTrack *a);
+extern void NNS_SndStrmSetVolume(struct SndTrack *, s32);
 extern s32 NNS_SndFaderGet(struct LerpObj *o);
 extern void NNS_SndFaderUpdate(struct LerpObj *obj);
 extern int NNS_SndFaderIsFinished(struct LerpObj *obj);
 extern void func_02086028(void *p);
 extern void func_02086078(void *p);
-extern void func_02073AB4(struct SndTrack *o);
-extern void func_02073898(struct SndTrack *x);
+extern void NNSi_SndStrmStopIfSetup(struct SndTrack *o);
+extern void NNS_SndStrmFreeChannel(struct SndTrack *x);
 extern void func_020604AC(void *list, void *object);
-extern u32  func_02087988(void);
-extern void func_0208799C(u32);
+extern u32  OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
 u32 func_02075560(u32 a, u32 b);
@@ -245,8 +246,8 @@ u32 func_02075618(u32 a, u32 b, u32 c)
 
 /*
  * Sibling of src/matched/func_02075794.c (same open / bind / release shape):
- * open a handle with func_02073344, bind a slot through func_02074CD0 (kind
- * 6) and a block through func_02074BEC (kind 1, keyed by the sixth argument),
+ * open a handle with NNSi_SndPlayerAllocSeqPlayer, bind a slot through NNSi_SndArcLoadBank (kind
+ * 6) and a block through NNSi_SndArcLoadSeq (kind 1, keyed by the sixth argument),
  * releasing the handle on either failure; then attach the block's +0x18
  * payload to the handle and apply the descriptor's bytes 6 and 7.  Called by
  * func_02075560 and func_020755A8 with the record pointer as s0 and the
@@ -265,23 +266,23 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
     struct SndBlock *blk;
     u32 slot;
 
-    h = func_02073344((struct SndTrack *)a0, a1, a3);
+    h = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
-    v = (u32)func_020734AC(a1, h);
-    if (func_02074CD0(a2, 6, v, 0, &slot) != 0) {
-        func_020733DC(h);
+    v = (u32)NNSi_SndPlayerAllocHeap(a1, h);
+    if (NNSi_SndArcLoadBank(a2, 6, v, 0, &slot) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(h);
         return 0;
     }
-    if (func_02074BEC(s1, 1, v, 0, (u32 *)(&blk)) != 0) {
-        func_020733DC(h);
+    if (NNSi_SndArcLoadSeq(s1, 1, v, 0, (u32 *)(&blk)) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(h);
         return 0;
     }
-    func_020733E8(h, (u32 *)((u8 *)blk + blk->f18), 0, (const void *)slot);
-    NNS_SndHandleSetPlayerPriority((struct SndTrack *)a0, s0->f6);
+    NNSi_SndPlayerStartSeqPlayer(h, (u32 *)((u8 *)blk + blk->f18), 0, (const void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndTrack *)a0, s0->f6);
     NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
-    func_020730B8(a0, s1);
+    NNSi_SndHandleSetSeqNo(a0, s1);
     return 1;
 }
 
@@ -292,8 +293,8 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
 
 /*
  * The four-step open/bind path behind func_02075618 and func_02075698: take a
- * voice handle (func_02073344), read its slot (func_020734AC), load the wave
- * data through func_02074CD0 and release the handle if that fails, then bind
+ * voice handle (NNSi_SndPlayerAllocSeqPlayer), read its slot (NNSi_SndPlayerAllocHeap), load the wave
+ * data through NNSi_SndArcLoadBank and release the handle if that fails, then bind
  * the loaded data and push the three per-voice parameters.  Eight arguments,
  * four in registers and four on the stack.
  *
@@ -307,7 +308,7 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, u32 s1)
  *     s0     r6         r7
  *     h      r5         r6
  *
- * with the extra instruction being `mov r5, #0; mov r3, r5` for func_02074CD0's
+ * with the extra instruction being `mov r5, #0; mov r3, r5` for NNSi_SndArcLoadBank's
  * fourth argument where the image emits `mov r3, #0` directly.  That is
  * verbatim the "kept constants" tell of docs/FRONTEND-PINS.md, and the note
  * measured every one of its seven spellings under the project default 1.1p1.
@@ -330,22 +331,22 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, struct Entry *s0, struct SndBl
     u32 v;
     u32 slot;
 
-    h = func_02073344((struct SndTrack *)a0, a1, a3);
+    h = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)a0, a1, a3);
     if (h == 0) {
         return 0;
     }
 
-    v = (u32)func_020734AC(a1, h);
+    v = (u32)NNSi_SndPlayerAllocHeap(a1, h);
 
-    if (func_02074CD0(a2, 6, v, 0, &slot) != 0) {
-        func_020733DC(h);
+    if (NNSi_SndArcLoadBank(a2, 6, v, 0, &slot) != 0) {
+        NNSi_SndPlayerFreeSeqPlayer(h);
         return 0;
     }
 
-    func_020733E8(h, (u32 *)((u8 *)s1 + s1->f18), s0->f0, (const void *)slot);
-    NNS_SndHandleSetPlayerPriority((struct SndTrack *)a0, s0->f6);
+    NNSi_SndPlayerStartSeqPlayer(h, (u32 *)((u8 *)s1 + s1->f18), s0->f0, (const void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndTrack *)a0, s0->f6);
     NNS_SndHandlePause((struct SndTrack *)a0, s0->f7);
-    NNS_SndHandleSetSweep((struct SndTrack *)a0, s2, s3);
+    NNSi_SndHandleSetSeqArc((struct SndTrack *)a0, s2, s3);
     return 1;
 }
 
@@ -396,7 +397,7 @@ void func_02075858(void)
                 goto next;
             } else {
                 if (s->b2 && s->f120 != 0) {
-                    func_02073A60(s);
+                    NNS_SndStrmStart(s);
                     s->b1 = 1;
                     s->b2 = 0;
                 }
@@ -409,7 +410,7 @@ void func_02075858(void)
                     v = data_020A5D08[c] + (d + a);
 
                     if (v != s->f164) {
-                        func_02073AD0(s, v);
+                        NNS_SndStrmSetVolume(s, v);
                         s->f164 = v;
                     }
                     if (s->b3) {
@@ -487,7 +488,7 @@ void func_02075994(struct SndTrack *o)
     if (p != 0)
         func_02086028(p + 0x10c8);
     if (o->b1 != 0)
-        func_02073AB4(o);
+        NNSi_SndStrmStopIfSetup(o);
     if (o->b0 != 0)
         o->cb(o);
     func_02075A2C(o);
@@ -531,7 +532,7 @@ void func_02075A94(struct SndTrack *obj)
 {
     if (obj->ref_count != 0) {
         if (--obj->ref_count == 0) {
-            func_02073898(obj);
+            NNS_SndStrmFreeChannel(obj);
         }
     }
 }
@@ -547,7 +548,7 @@ void func_02075A94(struct SndTrack *obj)
  */
 void func_02075AB8(void *a, u32 v)
 {
-    u32 state = func_02087988();
+    u32 state = OS_DisableInterrupts();
     void *p = func_02060614(a, 0);
 
     while (p != 0) {
@@ -559,16 +560,16 @@ void func_02075AB8(void *a, u32 v)
         }
         p = n;
     }
-    func_0208799C(state);
+    OS_RestoreInterrupts(state);
 }
 
 
 
 void func_02075B28(void *p)
 {
-    u32 state = func_02087988();
+    u32 state = OS_DisableInterrupts();
     func_020604AC(g_0214EA90 + 0xc, p);
-    func_0208799C(state);
+    OS_RestoreInterrupts(state);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02174930
+ * function: DWCi_RandomizeServers
  * address:  0x02174930
  * packet:   pkt_ov009_02174930
  * region:   ov009
@@ -41,7 +41,7 @@ extern void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey
 extern int g_021A19C0[6];
 extern char g_021A21BC[];
 
-void func_02174930(void)
+void DWCi_RandomizeServers(void)
 {
     unsigned long rand;
     int tmpEval;

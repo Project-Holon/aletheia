@@ -1,7 +1,7 @@
 /*
  * file:     keyboard10.c
  * unit:     yes
- * function: func_021BF390, func_021BF6B0, func_021BF6E0, func_021BF6F4, func_021BF708, func_021BF71C, func_021BF730, func_021BF74C, func_021BF7B8, func_021BF824, func_021BF890, func_021BF8FC, func_021BF970, func_021BF988, func_021BFB38, func_021BFCF8, func_021BFED0, func_021BFF14, disp, changeColor, func_021C03F0, func_021C0480, func_021C0528, func_021C0588, func_021C05E0, func_021C0638, func_021C0690, func_021C06E8
+ * function: DWCi_KB10lInit, DWCi_KB10lEnd, DWCi_KB10lGet, DWCi_KB10lSetErase, DWCi_KB10lSetInput, DWCi_KB10lSetShift, DWCi_KB10lIsInit, DWCi_Keyboard10TaskStart0, DWCi_Keyboard10TaskStart1, DWCi_Keyboard10TaskStart2, DWCi_Keyboard10TaskStart3, DWCi_Keyboard10TaskStart4, taskMain, touchTriger, touchRelease, touch, DWCi_Keyboard10ExchangeBack, key, disp, changeColor, dispFocus, DWCi_Keyboard10MoveFocus, DWCi_Keyboard10TaskEnd0, DWCi_Keyboard10TaskEnd1, DWCi_Keyboard10TaskEnd2, DWCi_Keyboard10TaskEnd3, DWCi_Keyboard10TaskEnd4, DWCi_Keyboard10TaskEnd5
  * address:  0x021BF390
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,11 +12,11 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Call func_021BF988, func_021BFB38, func_021BFCF8, func_021BFF14.
+ * Call touchTriger, touchRelease, touch, key.
  * Addresses are Black-image addresses.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BF970.c \
- *       --func func_021BF970 --addr 0x021BF970 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/taskMain.c \
+ *       --func taskMain --addr 0x021BF970 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   DWCi_CEINlSet                    0x021D52D4  arm
@@ -54,7 +54,7 @@
  *   DWCi_TSKlForm                    0x021D7680  arm
  *   MemKb10                          0x021DE560  data
  *   dispFocus                        0x021C03F0  arm
- *   exchangeBack                     0x021BFED0  arm
+ *   DWCi_Keyboard10ExchangeBack                     0x021BFED0  arm
  *   keyboard10_rodata                0x021DA35C  data
  *   keyboard10_str_20601             0x021DA460  data
  *   keyboard10_str_20862             0x021DA450  data
@@ -62,17 +62,13 @@
  *   keyboard10_str_20866             0x021DA448  data
  *   taskMain                         0x021BF970  arm
  *   DWCi_TSKlSetParam  0x021D771C  arm
- *   func_021C0328   0x021C0328  arm
+ *   changeColor   0x021C0328  arm
  *   C_KEY  0x021DA3B0  data
  *   C_SKEY  0x021DA37A  data
  *   C_BTN  0x021DA382  data
- *   func_021D4FE0  0x021D4FE0  arm
- *   func_021D52D4  0x021D52D4  arm
- *   func_021D51F0  0x021D51F0  arm
- *   func_021D5118  0x021D5118  arm
- *   g_021DE560     0x021DE560  data
- *   d_021DA3D8     0x021DA3D8  data
- *   d_021DA3DA     0x021DA3DA  data
+ *   gKeyboard10Work     0x021DE560  data
+ *   sKeyboard10CellPosX     0x021DA3D8  data
+ *   sKeyboard10CellPosY     0x021DA3DA  data
  *   keyboard10_bss                   0x021DE560  data
  *   @20862                           0x021DA450  data
  *   @20864                           0x021DA458  data
@@ -182,27 +178,14 @@ extern bool DWCi_IPTlCheckTrigger(unsigned short input);
 extern bool DWCi_TPlCheck(RECT *r);
 extern bool DWCi_TPlCheckRelease(RECT *r);
 extern bool DWCi_TPlCheckTrigger(RECT *r);
-extern void func_021D4F60(u8 *p);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
-extern void func_021BF988(void);
-extern void func_021BFB38(void);
-extern void func_021BFCF8(void);
-extern void func_021BFF14(void);
-extern void func_021C0328(int, int);
-extern char *func_021D4FE0(char *p, unsigned int i);
-extern void  func_021D52D4(int a, int b, int c);
-extern void func_021D51F0(void *cell, int idx, int priority);
-extern void func_021D5118(void *cell, int idx, int x, int y);
 void DWCi_KB10lInit(void);
-void func_021BF6B0(void);
-unsigned char func_021BF6E0(void);
-void func_021BF6F4(unsigned char v);
-void func_021BF708(unsigned char v);
-void func_021BF71C(unsigned char v);
-int func_021BF730(void);
-void func_021BF970(void);
-void func_021BFED0(int a);
-void func_021C03F0(void);
+void DWCi_KB10lEnd(void);
+unsigned char DWCi_KB10lGet(void);
+void DWCi_KB10lSetErase(unsigned char v);
+void DWCi_KB10lSetInput(unsigned char v);
+void DWCi_KB10lSetShift(unsigned char v);
+int DWCi_KB10lIsInit(void);
 /* keyboard10.o .bss at 0x021DE560 */
 extern MEMKB10 *MemKb10;
 extern const KEYBOARD10_RODATA keyboard10_rodata;
@@ -217,75 +200,10 @@ extern const unsigned short KEY_CHR[13];
 extern const COORD C_KEY[10];
 extern const COORD C_SKEY[2];
 extern const COORD C_BTN[2];
-extern struct G *g_021DE560;
-extern u16   d_021DA3D8[][2];
-extern u16   d_021DA3DA[][2];
+extern struct G *gKeyboard10Work;
+extern u16   sKeyboard10CellPosX[][2];
+extern u16   sKeyboard10CellPosY[][2];
 extern KEYBOARD10_BSS keyboard10_bss;
-
-
-
-static void changeColor(int idx, bool push);
-
-
-static void disp(int line, int y);
-
-
-static void dispFocus(void);
-
-
-static void exchangeBack(int idx);
-
-
-static void key(void);
-
-
-static void moveFocus(int dir);
-
-
-static void taskEnd0(void *task);
-
-
-static void taskEnd1(void *task);
-
-
-static void taskEnd2(void *task);
-
-
-static void taskEnd3(void *task);
-
-
-static void taskEnd4(void *task);
-
-
-static void taskEnd5(void *task);
-
-
-static void taskMain(void *task);
-
-
-static void taskStart0(void *task);
-
-
-static void taskStart1(void *task);
-
-
-static void taskStart2(void *task);
-
-
-static void taskStart3(void *task);
-
-
-static void taskStart4(void *task);
-
-
-static void touch(void);
-
-
-static void touchRelease(void);
-
-
-static void touchTriger(void);
-
 
 
 static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, unsigned long *y)
@@ -295,13 +213,11 @@ static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, uns
 }
 
 
-
 static inline void G2_SetOBJMode(GXOamAttr *oam, int mode, int cParam)
 {
     oam->attr01 = (oam->attr01 & ~0x0C00) | (mode << 10);
     oam->attr2 = (unsigned short)((oam->attr2 & ~0xF000) | (cParam << 12));
 }
-
 
 
 static inline void G2_SetOBJEffect(GXOamAttr *oam, int effect, int affine)
@@ -310,12 +226,10 @@ static inline void G2_SetOBJEffect(GXOamAttr *oam, int effect, int affine)
 }
 
 
-
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
     oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
-
 
 
 static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
@@ -323,6 +237,27 @@ static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
     oam->attr2 = (unsigned short)((oam->attr2 & ~0xC00) | (priority << 10));
 }
 
+static void taskStart0(void *task);
+static void taskStart1(void *task);
+static void taskStart2(void *task);
+static void taskStart3(void *task);
+static void taskStart4(void *task);
+static void taskMain(void *task);
+static void touchTriger(void);
+static void touchRelease(void);
+static void touch(void);
+static void DWCi_Keyboard10ExchangeBack(int a);
+static void key(void);
+static void disp(int line, int y);
+static void changeColor(int idx, bool push);
+static void dispFocus(void);
+static void moveFocus(int dir);
+static void taskEnd0(void *task);
+static void taskEnd1(void *task);
+static void taskEnd2(void *task);
+static void taskEnd3(void *task);
+static void taskEnd4(void *task);
+static void taskEnd5(void *task);
 
 
 void DWCi_KB10lInit(void)
@@ -377,19 +312,18 @@ void DWCi_KB10lInit(void)
 }
 
 
-
 /*
  * Feed the two words at +0x58 and +0x5c of the object behind 0x021DE560 to the library.
  * Addresses are Black-image addresses.
  */
-void func_021BF6B0(void)
+void DWCi_KB10lEnd(void)
 {
-    func_021D4F60((u8 *)(*(int *)(*(char **)0x021DE560 + 0x58)));
+    DWCi_CELLlDelete((u8 *)(*(int *)(*(char **)0x021DE560 + 0x58)));
     DWCi_TSKlSetParam((char *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
 }
 
 
-unsigned char func_021BF6E0(void)
+unsigned char DWCi_KB10lGet(void)
 {
     return *(unsigned char *)(*(char **)0x021DE560 + 0x60);
 }
@@ -400,22 +334,22 @@ unsigned char func_021BF6E0(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BF6F4.c \
- *       --func func_021BF6F4 --addr 0x021BF6F4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_KB10lSetErase.c \
+ *       --func DWCi_KB10lSetErase --addr 0x021BF6F4 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021BF6F4(unsigned char v)
+void DWCi_KB10lSetErase(unsigned char v)
 {
     *(unsigned char *)(*(char **)0x021DE560 + 0x66) = v;
 }
 
 
-void func_021BF708(unsigned char v)
+void DWCi_KB10lSetInput(unsigned char v)
 {
     *(unsigned char *)(*(char **)0x021DE560 + 0x67) = v;
 }
 
 
-void func_021BF71C(unsigned char v)
+void DWCi_KB10lSetShift(unsigned char v)
 {
     *(unsigned char *)(*(char **)0x021DE560 + 0x68) = v;
 }
@@ -426,14 +360,13 @@ void func_021BF71C(unsigned char v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BF730.c \
- *       --func func_021BF730 --addr 0x021BF730 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_KB10lIsInit.c \
+ *       --func DWCi_KB10lIsInit --addr 0x021BF730 --region ov016 --cc dsi/1.1p1 --arm
  */
-int func_021BF730(void)
+int DWCi_KB10lIsInit(void)
 {
     return *(void **)0x021DE560 != 0;
 }
-
 
 
 static void taskStart0(void *task)
@@ -452,7 +385,6 @@ static void taskStart0(void *task)
 }
 
 
-
 static void taskStart1(void *task)
 {
     int x, y;
@@ -467,7 +399,6 @@ static void taskStart1(void *task)
         DWCi_TSKlChangeFunc(task, taskStart2);
     }
 }
-
 
 
 static void taskStart2(void *task)
@@ -486,7 +417,6 @@ static void taskStart2(void *task)
 }
 
 
-
 static void taskStart3(void *task)
 {
     int x, y;
@@ -501,7 +431,6 @@ static void taskStart3(void *task)
         DWCi_TSKlChangeFunc(task, taskStart4);
     }
 }
-
 
 
 static void taskStart4(void *task)
@@ -520,17 +449,13 @@ static void taskStart4(void *task)
 }
 
 
-void func_021BF970(void)
+static void taskMain(void *task)
 {
-    func_021BF988();
-    func_021BFB38();
-    func_021BFCF8();
-    func_021BFF14();
+    touchTriger();
+    touchRelease();
+    touch();
+    key();
 }
-
-
-
-
 
 
 static void touchTriger(void)
@@ -574,10 +499,6 @@ static void touchTriger(void)
         }
     }
 }
-
-
-
-
 
 
 static void touchRelease(void)
@@ -624,10 +545,6 @@ static void touchRelease(void)
 }
 
 
-
-
-
-
 static void touch(void)
 {
     int i;
@@ -639,7 +556,7 @@ static void touch(void)
             if (DWCi_TPlCheck(&r)) {
                 if (MemKb10->push != i)
                     goto out;
-                exchangeBack(i);
+                DWCi_Keyboard10ExchangeBack(i);
                 goto end;
             }
         }
@@ -648,7 +565,7 @@ static void touch(void)
             if (DWCi_TPlCheck(&r)) {
                 if (MemKb10->push != i + 10)
                     goto out;
-                exchangeBack(i + 10);
+                DWCi_Keyboard10ExchangeBack(i + 10);
                 if (i == 0) {
                     MemKb10->repeat++;
                     if (MemKb10->repeat >= 40) {
@@ -670,37 +587,29 @@ static void touch(void)
             if (DWCi_TPlCheck(&r)) {
                 if (MemKb10->push != i + 12)
                     goto out;
-                exchangeBack(i + 12);
+                DWCi_Keyboard10ExchangeBack(i + 12);
                 goto end;
             }
         }
     }
 out:
-    exchangeBack(-1);
+    DWCi_Keyboard10ExchangeBack(-1);
 end:
     MemKb10->repeat = 0;
 }
 
 
-
-
-
-
-void func_021BFED0(int a)
+static void DWCi_Keyboard10ExchangeBack(int a)
 {
     unsigned char **g = (unsigned char **)0x021DE560;
     unsigned char *p = *g;
 
     if (a == *(signed char *)(p + 0x62))
         return;
-    func_021C0328(a, 1);
-    func_021C0328(*(signed char *)(*g + 0x62), 0);
+    changeColor(a, 1);
+    changeColor(*(signed char *)(*g + 0x62), 0);
     *(char *)(*g + 0x62) = a;
 }
-
-
-
-
 
 
 static void key(void)
@@ -750,8 +659,6 @@ static void key(void)
 }
 
 
-
-
 static void disp(int line, int y)
 {
     const KB10_N5 N_KEY = keyboard10_str_20862;
@@ -778,8 +685,6 @@ static void disp(int line, int y)
 }
 
 
-
-
 static void changeColor(int idx, bool push)
 {
     if (idx < 0)
@@ -794,28 +699,22 @@ static void changeColor(int idx, bool push)
 }
 
 
-
-
-
-void func_021C03F0(void)
+static void dispFocus(void)
 {
     struct G *g;
     int sel = 0x44;
     int v;
 
-    g = g_021DE560;
+    g = gKeyboard10Work;
     if (g->f63 > 0xb)
         sel = 0x45;
-    v = (int)func_021D4FE0((char *)g->f58, 0);
-    func_021D52D4(0, sel, v);
-    g = g_021DE560;
-    func_021D51F0((void *)g->f58, -1, 2);
-    g = g_021DE560;
-    func_021D5118((void *)g->f58, -1, d_021DA3D8[g->f63][0], d_021DA3DA[g->f63][0]);
+    v = (int)DWCi_CELLlGetObj((char *)g->f58, 0);
+    DWCi_CEINlSet(0, sel, (GXOamAttr *)v);
+    g = gKeyboard10Work;
+    DWCi_CELLlSetPriority((void *)g->f58, -1, 2);
+    g = gKeyboard10Work;
+    DWCi_CELLlSetPosition((void *)g->f58, -1, sKeyboard10CellPosX[g->f63][0], sKeyboard10CellPosY[g->f63][0]);
 }
-
-
-
 
 
 static void moveFocus(int dir)
@@ -842,9 +741,6 @@ static void moveFocus(int dir)
 }
 
 
-
-
-
 static void taskEnd0(void *task)
 {
     GXOamAttr *obj;
@@ -857,9 +753,6 @@ static void taskEnd0(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd1);
 }
-
-
-
 
 
 static void taskEnd1(void *task)
@@ -876,9 +769,6 @@ static void taskEnd1(void *task)
 }
 
 
-
-
-
 static void taskEnd2(void *task)
 {
     GXOamAttr *obj;
@@ -891,9 +781,6 @@ static void taskEnd2(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd3);
 }
-
-
-
 
 
 static void taskEnd3(void *task)
@@ -910,9 +797,6 @@ static void taskEnd3(void *task)
 }
 
 
-
-
-
 static void taskEnd4(void *task)
 {
     GXOamAttr *obj;
@@ -925,9 +809,6 @@ static void taskEnd4(void *task)
     if (y >= 192)
         DWCi_TSKlChangeFunc(task, taskEnd5);
 }
-
-
-
 
 
 static void taskEnd5(void *task)

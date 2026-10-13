@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B34
+ * function: IRC_COMPATIBLE_TOUCH_TEST_BackgroundVBlank
  * address:  0x021B7B34
  * packet:   pkt_ov103_021B7B34
  * region:   ov103
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_020419E4(void);
-void func_021B7B34(void *a0) { func_020419E4(); }
+void IRC_COMPATIBLE_TOUCH_TEST_BackgroundVBlank(void *a0) { func_020419E4(); }

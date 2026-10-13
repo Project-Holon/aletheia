@@ -1,5 +1,5 @@
 /*
- * function: EXT_TestResetCounter
+ * function: DPW_TR_End
  * address:  0x021C8658
  * packet:   pkt_ov114_021C8658
  * region:   ov114
@@ -13,7 +13,7 @@
  */
 typedef unsigned long u32;
 
-void EXT_TestResetCounter(void)
+void DPW_TR_End(void)
 {
     *(u32 *)0x021D3D2C = 0;
 }

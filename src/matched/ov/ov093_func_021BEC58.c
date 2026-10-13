@@ -21,7 +21,7 @@
  *   func_021BF00C 0x021BF00C thumb ov093
  *   func_021BF01C 0x021BF01C thumb ov093
  *   func_021BF02C 0x021BF02C thumb ov093
- *   func_021BF03C 0x021BF03C thumb ov093
+ *   WIFICLUB_IsNetStateConnected 0x021BF03C thumb ov093
  *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
  *   BTL_SERVER_FLOW_SetupTurnState 0x021BD200 thumb ov093
  *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
@@ -87,7 +87,7 @@ extern void func_021BEFFC(struct S *);
 extern int func_021BF00C(struct S *);
 extern int func_021BF01C(struct S *);
 extern int func_021BF02C(struct S *);
-extern void func_021BF03C(struct O *);
+extern void WIFICLUB_IsNetStateConnected(struct O *);
 extern u32 BTL_SERVER_CMD_Reserve(struct Buf *, u32);
 struct Unk021BD200;
 extern void BTL_SERVER_FLOW_SetupTurnState(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
@@ -208,7 +208,7 @@ int BTL_SERVER_FLOW_ProcMoveExecute(u8 *p, u8 *a, u16 key, u8 *d)
         s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a != 0) {
             if (s->b == 0) BTL_SERVER_FLOW_PushPendingHpRecovery(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
-            func_021BF03C((struct O *)(p + 0x1c));
+            WIFICLUB_IsNetStateConnected((struct O *)(p + 0x1c));
             if (!BTL_POKEPARAM_IsFainted(a) && WAZA_TOOL_GetFlag(key, 2)) BTL_SERVER_FLOW_SetContFlag(p, a, 12);
             BTL_SERVER_FLOW_NotifyMoveSucceeded(p, id, key);
         } else {

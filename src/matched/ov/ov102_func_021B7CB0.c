@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CB0
+ * function: IRC_COMPATIBLE_MENU_UpdateTextQueue
  * address:  0x021B7CB0
  * packet:   pkt_ov102_021B7CB0
  * region:   ov102
@@ -23,4 +23,4 @@ typedef int s32;
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-void func_021B7CB0(u8 *p) { PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22143 *)p)->f8)); }
+void IRC_COMPATIBLE_MENU_UpdateTextQueue(u8 *p) { PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22143 *)p)->f8)); }

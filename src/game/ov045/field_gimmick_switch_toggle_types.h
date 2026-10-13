@@ -21,14 +21,14 @@ typedef signed int s32;
 #define FIELD_GIMMICK_SWITCH_TOGGLE_SE_SWITCH_DONE 0x6f0
 
 /* Gimmick block of the field save (block 9). */
-typedef struct Gimmick45Save {
+typedef struct FieldGimmickSwitchToggleSave {
     int switchOn[FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT];  /* nonzero: the switch is on */
-} Gimmick45Save;
+} FieldGimmickSwitchToggleSave;
 
 /* Common work of the gimmick (allocated by the setup function). */
-typedef struct Gimmick45Work {
+typedef struct FieldGimmickSwitchToggleWork {
     int switchIndex;  /* switch that the running event animates */
-} Gimmick45Work;
+} FieldGimmickSwitchToggleWork;
 
 /* Fixed-point position of a model. */
 typedef struct Vec3Fx {

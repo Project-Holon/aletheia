@@ -16,6 +16,7 @@
  *           layout/symbols_sdk.json
  * symbols:
  *   gWihDwc     0x021461E0  data
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj01818.h"
 #include "../include/G_WihCtx.h"
@@ -25,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern struct WihCtx gWihDwc;
-extern void func_02082D44(u8 *p, u8 *rec);
+extern void MI_CpuCopy8(u8 *p, u8 *rec);
 
 void WIH_DWC_TickTimers(void)
 {

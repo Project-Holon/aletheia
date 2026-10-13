@@ -18,21 +18,21 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200D418  0x0200D418  thumb
- *   func_0200D4AC  0x0200D4AC  thumb
- *   func_0200D50C  0x0200D50C  thumb
+ *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
+ *   MOVE_POKEMON_SAVE_GetEntry  0x0200D4AC  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryField  0x0200D50C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   func_02008530  0x02008530  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_0200CA10  0x0200CA10  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   func_020307B0  0x020307B0  arm
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   MOVE_POKEMON_MoveToNeighbor  0x0215E740  thumb  ov010
- *   func_0200D470  0x0200D470  thumb
+ *   MOVE_POKEMON_SAVE_SetEntryState  0x0200D470  thumb
  *   d_0217293C     0x0217293C  data
  */
 
@@ -48,22 +48,22 @@ struct GdsEnt;
 struct Mon;
 struct Sub0200852CObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200D418(void *save);
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *save);
+extern struct GdsEnt *MOVE_POKEMON_SAVE_GetEntry(struct Blk38 *p, u32 i);
+extern void MOVE_POKEMON_SAVE_SetEntryField(struct GdsEnt *e, u32 i, u32 v);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void *func_0200CA10(void *save);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void *ZUKAN_SAVE_GetBlock(void *save);
+extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 struct BigObj;
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern void MOVE_POKEMON_MoveToNeighbor(void *a, u32 b, u16 c, int d);
-extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
+extern void MOVE_POKEMON_SAVE_SetEntryState(struct Blk38 *p, u32 i, u32 v);
 extern const char d_0217293C[];
 
 void MOVE_POKEMON_SpawnEntry(void *sys, u8 which)
@@ -78,8 +78,8 @@ void MOVE_POKEMON_SpawnEntry(void *sys, u8 which)
     u32 flag;
 
     save = GAME_DATA_GetSaveControl(sys);
-    a = func_0200D418(save);
-    rec = func_0200D4AC(a, which);
+    a = MOVE_POKEMON_SAVE_GetBlock(save);
+    rec = MOVE_POKEMON_SAVE_GetEntry(a, which);
     switch (which) {
     case 0:
         species = 642;
@@ -94,20 +94,20 @@ void MOVE_POKEMON_SpawnEntry(void *sys, u8 which)
     default:
         return;
     }
-    func_0200D50C(rec, 4, species);
-    func_0200D50C(rec, 6, level);
-    func_0200D50C(rec, 9, flag);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 4, species);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 6, level);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 9, flag);
     party = GAME_DATA_GetMyStatus(sys);
     mon = func_02030734(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
     POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(party), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
-    func_0200D50C(rec, 7, 0);
-    func_0200D50C(rec, 8, 1);
-    func_0200D50C(rec, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
-    func_0200D50C(rec, 3, POKE_TOOL_GetPartyValue(mon, 0, 0));
-    func_0200D50C(rec, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
-    func_0200D50C(rec, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
-    func_0200CFA0(func_0200CA10(save), mon);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 7, 0);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 8, 1);
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 3, POKE_TOOL_GetPartyValue(mon, 0, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(rec, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
+    ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetBlock(save), mon);
     func_020307B0(mon);
     MOVE_POKEMON_MoveToNeighbor(a, (u32)((void *)GAME_DATA_GetSeason(sys)), which, 5);
-    func_0200D470(a, which, 1);
+    MOVE_POKEMON_SAVE_SetEntryState(a, which, 1);
 }

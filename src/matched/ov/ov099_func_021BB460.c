@@ -1,5 +1,5 @@
 /*
- * function: func_021BB460
+ * function: WIFICLUB_CreateTouchBar
  * address:  0x021BB460
  * packet:   pkt_ov099_021BB460
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021C388C     0x021C388C  data   ov099  a4
+ *   gWifiClubTouchBarTable     0x021C388C  data   ov099  a4
  *   MI_CpuFill8  0x02082BCC  arm
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
  *   TOUCHBAR_SetButtonKeyMask  0x021B6578  thumb  ov067
@@ -35,18 +35,18 @@ typedef struct {
     int f1c;
 } A;
 
-extern const T8 d_021C388C;
+extern const T8 gWifiClubTouchBarTable;
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *TOUCHBAR_Create(A *a, int heap);
 extern void TOUCHBAR_SetButtonKeyMask(unsigned char *p, unsigned int id, int v);
 
-void func_021BB460(char *p, int x)
+void WIFICLUB_CreateTouchBar(char *p, int x)
 {
     T8 t;
     A a;
     void *r;
 
-    t = d_021C388C;
+    t = gWifiClubTouchBarTable;
     if (((struct Obj07942 *)p)->f9AC == 0) {
         MI_CpuFill8(&a, 0, 0x20);
         a.f0 = &t;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A44
+ * function: WIFICLUB_IsSlotPanelOpen
  * address:  0x021C1A44
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-BOOL func_021C1A44(char *p)
+BOOL WIFICLUB_IsSlotPanelOpen(char *p)
 {
     if (((struct Obj18281 *)p)->f8C8 != 0) {
         return 1;

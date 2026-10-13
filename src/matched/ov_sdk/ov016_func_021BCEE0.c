@@ -12,10 +12,10 @@
  * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a(button.o))
  *
  * symbols:
- *   func_021D7724  0x021d7724  arm  ov016
- *   func_021D4F60  0x021d4f60  arm  ov016
- *   func_021D6438  0x021d6438  arm  ov016
- *   g_021DE508  0x021de508  data
+ *   DWCi_TSKlDelete  0x021d7724  arm  ov016
+ *   DWCi_CELLlDelete  0x021d4f60  arm  ov016
+ *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
+ *   gButtonWork  0x021de508  data
  *   g_021DE508_b  0x021DE508  data
  */
 
@@ -25,25 +25,25 @@ typedef _Bool bool;
 
 typedef struct tagMEMBTN MEMBTN;
 
-extern struct tagMEMBTN *g_021DE508;
+extern struct tagMEMBTN *gButtonWork;
 
-extern void func_021D7724(int kind, void *task);
+extern void DWCi_TSKlDelete(int kind, void *task);
 typedef unsigned char  u8;
-extern void func_021D4F60(u8 *p);
-extern void func_021D6438(void **mem);
+extern void DWCi_CELLlDelete(u8 *p);
+extern void DWCi_HEAPlFree_(void **mem);
 extern struct tagMEMBTN *g_021DE508_b;
 
 void func_021BCEE0(void *task)
 {
     int i;
 
-    func_021D7724(0, task);
-    if (g_021DE508->release)
-        func_021D7724(0, g_021DE508->release);
+    DWCi_TSKlDelete(0, task);
+    if (gButtonWork->release)
+        DWCi_TSKlDelete(0, gButtonWork->release);
     for (i = 0; i < 2; i++) {
-        if (g_021DE508->cellButton[i])
-            func_021D4F60(g_021DE508->cellButton[i]);
+        if (gButtonWork->cellButton[i])
+            DWCi_CELLlDelete(gButtonWork->cellButton[i]);
     }
-    func_021D4F60(g_021DE508->cellBack);
-    func_021D6438((void **)&g_021DE508_b);
+    DWCi_CELLlDelete(gButtonWork->cellBack);
+    DWCi_HEAPlFree_((void **)&g_021DE508_b);
 }

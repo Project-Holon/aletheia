@@ -11,12 +11,12 @@
  *
  * symbols:
  *   _G3dSystem   0x02146A5C  data
- *   func_0206B6A4 0x0206B6A4  arm
+ *   NNS_G3dDraw 0x0206B6A4  arm
  *
  * Add two halfwords of the object's +4 pointer into the global's two
  * counters (0x26 first, then 0x24), then run the global context's +0x98
  * callback if it is set - passing the object itself, which is still in r0,
- * and the +0x9c argument - and finally hand the object to func_0206B6A4.
+ * and the +0x9c argument - and finally hand the object to NNS_G3dDraw.
  *
  * blocker:  label/matched: the only branch to 0x0206B6A4 in the image is the `bl` at +0x4c inside this function, so its PC24 has no outside witness and no cut can free it (the call is inside the only function that makes it).  Closing 0x0206B6A4 as an EXACT entry would promote this file with no change to the C.
  *
@@ -56,7 +56,7 @@ struct Ov {
 
 extern struct G02146A5C _G3dSystem;
 struct Obj0206B6A4;
-extern void func_0206B6A4(struct Obj0206B6A4 *p);
+extern void NNS_G3dDraw(struct Obj0206B6A4 *p);
 
 void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p)
 {
@@ -64,5 +64,5 @@ void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p)
     _G3dSystem.f8 += p->f4->h24;
     if (_G3dSystem.obj->f98 != 0)
         _G3dSystem.obj->f98(p, _G3dSystem.obj->f9c);
-    func_0206B6A4((struct Obj0206B6A4 *)p);
+    NNS_G3dDraw((struct Obj0206B6A4 *)p);
 }

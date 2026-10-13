@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021DEDCC 0x021DEDCC thumb ov170
  *   func_021EDBE8 0x021EDBE8 thumb ov170
@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern int func_021DEDCC(char *p, int box);
 extern void func_021EDBE8(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n);
@@ -30,7 +30,7 @@ void func_021EDAB0(char *p, int i)
 {
     void *t;
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
-    func_02082D44(((struct Obj24024 *)t)->f14, *(char * *)&((struct Obj00000 *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
+    MI_CpuCopy8(((struct Obj24024 *)t)->f14, *(char * *)&((struct Obj00000 *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
     func_020307B0(q);
     func_021EDBE8((int)p, (unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x3e70 + i * 0x400), func_021DEDCC((char *)p, i), 8, 0x400);
     func_021EDC0C((int **)p, i, (unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x3e70 + i * 0x400));

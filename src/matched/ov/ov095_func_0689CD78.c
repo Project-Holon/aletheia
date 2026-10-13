@@ -1,5 +1,5 @@
 /*
- * function: func_0689CD78
+ * function: BTL_POKESET_CopyAlive
  * address:  0x0689CD78
  * packet:   pkt_ov095_0689CD78
  * region:   ov095
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689CB3C  0x0689CB3C  thumb
- *   func_0689CD38  0x0689CD38  thumb  ov095
- *   func_0689CC70  0x0689CC70  thumb  ov095
+ *   BTL_POKESET_Clear  0x0689CB3C  thumb
+ *   BTL_POKESET_GetCount  0x0689CD38  thumb  ov095
+ *   BTL_POKESET_Get  0x0689CC70  thumb  ov095
  *   func_0689CDBC  0x0689CDBC  thumb
- *   func_0689CB48  0x0689CB48  thumb  ov095
+ *   BTL_POKESET_Add  0x0689CB48  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -33,24 +33,24 @@ typedef struct {
     u8 f45;
 } S;
 
-void func_0689CB3C(void *p);
-int func_0689CD38(S *p);
-u32 func_0689CC70(S *p, u32 i);
+void BTL_POKESET_Clear(void *p);
+int BTL_POKESET_GetCount(S *p);
+u32 BTL_POKESET_Get(S *p, u32 i);
 int func_0689CDBC(u32 x);
-void func_0689CB48(S *p, u32 id);
+void BTL_POKESET_Add(S *p, u32 id);
 
-int func_0689CD78(S *p, S *q)
+int BTL_POKESET_CopyAlive(S *p, S *q)
 {
     u32 i;
     u32 n;
     u32 x;
 
-    func_0689CB3C(q);
-    n = func_0689CD38(p);
+    BTL_POKESET_Clear(q);
+    n = BTL_POKESET_GetCount(p);
     for (i = 0; i < n; i++) {
-        x = func_0689CC70(p, i);
+        x = BTL_POKESET_Get(p, i);
         if (!func_0689CDBC(x))
-            func_0689CB48(q, x);
+            BTL_POKESET_Add(q, x);
     }
-    return func_0689CD38(q);
+    return BTL_POKESET_GetCount(q);
 }

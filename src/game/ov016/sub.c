@@ -1,7 +1,7 @@
 /*
  * file:     sub.c
  * unit:     yes
- * function: func_021D7274, func_021D72F8, func_021D73BC, func_021D7448, func_021D7474
+ * function: DWCi_ClearVram, DWCi_RepairVram, clearVram, DWCi_SetLedWireless, DWCi_SetLedNormal
  * address:  0x021D7274
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -27,7 +27,7 @@
  *   GX_DisableBankForARM7  0x02080B84  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
  *   GX_SetBankForARM7  0x020805E8  arm
- *   g_021DE6B0  0x021DE6B0  data
+ *   gSubWork  0x021DE6B0  data
  *   GX_SetBankForBG  0x0207FDCC  arm
  *   GX_SetBankForOBJ  0x0207FFD0  arm
  *   GX_SetBankForBGExtPltt  0x02080100  arm
@@ -91,57 +91,57 @@ extern void GX_SetBankForLCDC(int lcdc);
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern unsigned long PM_GetLEDPattern(int *patternBuf);
 extern unsigned long PMi_SendLEDPatternCommand(int pattern);
-extern unsigned int func_0208C6A4(unsigned int pattern);
-void func_021D7274(void);
-void func_021D72F8(void);
-void func_021D73BC(void);
-void func_021D7448(void);
-void func_021D7474(void);
-extern struct VRAMBANK g_021DE6B0;
+void DWCi_ClearVram(void);
+void DWCi_RepairVram(void);
+void DWCi_SetLedWireless(void);
+void DWCi_SetLedNormal(void);
+extern struct VRAMBANK gSubWork;
 
 
 /*
  * sdk:      DWCi_ClearVram (libdwcutil.TWL.HYB.a(sub.o))
  */
-void func_021D7274(void)
+
+static void clearVram(void);
+void DWCi_ClearVram(void)
 {
-	g_021DE6B0.bg = GX_DisableBankForBG();
-	g_021DE6B0.obj = GX_DisableBankForOBJ();
-	g_021DE6B0.bgExt = GX_DisableBankForBGExtPltt();
-	g_021DE6B0.objExt = GX_DisableBankForOBJExtPltt();
-	g_021DE6B0.tex = GX_DisableBankForTex();
-	g_021DE6B0.texPltt = GX_DisableBankForTexPltt();
-	g_021DE6B0.clrImg = GX_DisableBankForClearImage();
-	g_021DE6B0.subBg = GX_DisableBankForSubBG();
-	g_021DE6B0.subObj = GX_DisableBankForSubOBJ();
-	g_021DE6B0.subBgExt = GX_DisableBankForSubBGExtPltt();
-	g_021DE6B0.subObjExt = GX_DisableBankForSubOBJExtPltt();
-	g_021DE6B0.arm7 = GX_DisableBankForARM7();
-	g_021DE6B0.lcdc = GX_DisableBankForLCDC();
-	GX_SetBankForARM7(g_021DE6B0.arm7);
-	func_021D73BC();
+	gSubWork.bg = GX_DisableBankForBG();
+	gSubWork.obj = GX_DisableBankForOBJ();
+	gSubWork.bgExt = GX_DisableBankForBGExtPltt();
+	gSubWork.objExt = GX_DisableBankForOBJExtPltt();
+	gSubWork.tex = GX_DisableBankForTex();
+	gSubWork.texPltt = GX_DisableBankForTexPltt();
+	gSubWork.clrImg = GX_DisableBankForClearImage();
+	gSubWork.subBg = GX_DisableBankForSubBG();
+	gSubWork.subObj = GX_DisableBankForSubOBJ();
+	gSubWork.subBgExt = GX_DisableBankForSubBGExtPltt();
+	gSubWork.subObjExt = GX_DisableBankForSubOBJExtPltt();
+	gSubWork.arm7 = GX_DisableBankForARM7();
+	gSubWork.lcdc = GX_DisableBankForLCDC();
+	GX_SetBankForARM7(gSubWork.arm7);
+	clearVram();
 }
 
 
-void func_021D72F8(void)
+void DWCi_RepairVram(void)
 {
 	GX_DisableBankForBG();
 	GX_DisableBankForOBJ();
 	GX_DisableBankForSubBG();
 	GX_DisableBankForSubOBJ();
-	func_021D73BC();
-	GX_SetBankForBG(g_021DE6B0.bg);
-	GX_SetBankForOBJ(g_021DE6B0.obj);
-	GX_SetBankForBGExtPltt(g_021DE6B0.bgExt);
-	GX_SetBankForOBJExtPltt(g_021DE6B0.objExt);
-	GX_SetBankForTex(g_021DE6B0.tex);
-	GX_SetBankForTexPltt(g_021DE6B0.texPltt);
-	GX_SetBankForClearImage(g_021DE6B0.clrImg);
-	GX_SetBankForSubBG(g_021DE6B0.subBg);
-	GX_SetBankForSubOBJ(g_021DE6B0.subObj);
-	GX_SetBankForSubBGExtPltt(g_021DE6B0.subBgExt);
-	GX_SetBankForSubOBJExtPltt(g_021DE6B0.subObjExt);
-	GX_SetBankForLCDC(g_021DE6B0.lcdc);
+	clearVram();
+	GX_SetBankForBG(gSubWork.bg);
+	GX_SetBankForOBJ(gSubWork.obj);
+	GX_SetBankForBGExtPltt(gSubWork.bgExt);
+	GX_SetBankForOBJExtPltt(gSubWork.objExt);
+	GX_SetBankForTex(gSubWork.tex);
+	GX_SetBankForTexPltt(gSubWork.texPltt);
+	GX_SetBankForClearImage(gSubWork.clrImg);
+	GX_SetBankForSubBG(gSubWork.subBg);
+	GX_SetBankForSubOBJ(gSubWork.subObj);
+	GX_SetBankForSubBGExtPltt(gSubWork.subBgExt);
+	GX_SetBankForSubOBJExtPltt(gSubWork.subObjExt);
+	GX_SetBankForLCDC(gSubWork.lcdc);
 	*(volatile unsigned short *)0x04000050 = 0;
 	*(volatile unsigned short *)0x04001050 = 0;
 	*(volatile unsigned int *)0x04000010 = 0;
@@ -158,7 +158,7 @@ void func_021D72F8(void)
 /*
  * sdk:      clearVram (libdwcutil.TWL.HYB.a(sub.o))
  */
-void func_021D73BC(void)
+static void clearVram(void)
 {
 	GX_SetBankForLCDC(0x1f3);
 	MIi_CpuClearFast(0, (void *)0x06800000, 0x40000);
@@ -174,7 +174,7 @@ void func_021D73BC(void)
 /*
  * sdk:      DWCi_SetLedWireless (libdwcutil.TWL.HYB.a(sub.o))
  */
-void func_021D7448(void)
+void DWCi_SetLedWireless(void)
 {
 	int pat;
 
@@ -185,7 +185,7 @@ void func_021D7448(void)
 }
 
 
-void func_021D7474(void)
+void DWCi_SetLedNormal(void)
 {
-    func_0208C6A4(1);
+    PMi_SendLEDPatternCommand(1);
 }

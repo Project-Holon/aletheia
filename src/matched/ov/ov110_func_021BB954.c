@@ -1,5 +1,5 @@
 /*
- * function: func_021BB954
+ * function: PMSIV_CATEGORY_IsReady
  * address:  0x021BB954
  * packet:   pkt_ov110_021BB954
  * region:   ov110
@@ -19,4 +19,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-int func_021BB954(u8 *a0) { return 1; }
+int PMSIV_CATEGORY_IsReady(u8 *a0) { return 1; }

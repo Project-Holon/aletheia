@@ -1,5 +1,5 @@
 /*
- * function: func_0207312C
+ * function: NNS_SndPlayerInit
  * address:  0x0207312C
  * packet:   pkt_0207312C
  * region:   arm9
@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   g_0214E00C  0x0214E00C  data
- *   g_0214E018  0x0214E018  data
- *   g_0214E024  0x0214E024  data
- *   g_0214E464  0x0214E464  data
+ *   gSndFreeSeqList  0x0214E00C  data
+ *   gSndActiveSeqList  0x0214E018  data
+ *   gSndSeqPlayers  0x0214E024  data
+ *   gSndPlayers  0x0214E464  data
  *   func_02060468  0x02060468  arm
  *   func_020604AC  0x020604AC  arm
  *
@@ -47,30 +47,30 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32; 
 struct Chan { u8 p00[0x2c]; u8 b2c; u8 p2d[0x3c - 0x2d]; u8 b3c; u8 p3d[0x44 - 0x3d]; };
 struct Slot { u8 p00[0x0c]; u8 p0c[0x18 - 0x0c]; u32 f18; u32 f1c; u8 b20; u8 p21[0x24 - 0x21]; };
 
-extern char g_0214E00C[];
-extern char g_0214E018[];
-extern struct Chan g_0214E024[];
-extern struct Slot g_0214E464[];
+extern char gSndFreeSeqList[];
+extern char gSndActiveSeqList[];
+extern struct Chan gSndSeqPlayers[];
+extern struct Slot gSndPlayers[];
 
 extern void func_02060468(int p0, int p1);
 extern void func_020604AC(void *list, void *node);
 
-void func_0207312C(void)
+void NNS_SndPlayerInit(void)
 {
     s32 i;
     struct Chan *c;
     struct Slot *s;
 
-    func_02060468((int)g_0214E018, 0x14);
-    func_02060468((int)g_0214E00C, 0x14);
+    func_02060468((int)gSndActiveSeqList, 0x14);
+    func_02060468((int)gSndFreeSeqList, 0x14);
 
-    for (i = 0, c = g_0214E024; i < 0x10; i++, c++) {
+    for (i = 0, c = gSndSeqPlayers; i < 0x10; i++, c++) {
         c->b2c = 0;
         c->b3c = (u8)i;
-        func_020604AC(g_0214E00C, c);
+        func_020604AC(gSndFreeSeqList, c);
     }
 
-    for (i = 0, s = g_0214E464; i < 0x20; i++, s++) {
+    for (i = 0, s = gSndPlayers; i < 0x20; i++, s++) {
         func_02060468((int)s, 0xc);
         func_02060468((int)(&s->p0c), 0);
         s->b20 = 0x7f;

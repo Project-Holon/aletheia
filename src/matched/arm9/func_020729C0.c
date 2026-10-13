@@ -1,5 +1,5 @@
 /*
- * function: func_020729C0
+ * function: NNSi_SndWaveOutAllocSlot
  * address:  0x020729C0
  * packet:   pkt_020729C0
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214DEC0  0x0214DEC0  data
+ *   gNNSSndWaveOutState  0x0214DEC0  data
  *
- * Channel allocator, allocate-by-index over the 8-bit bitmap at g_0214DEC0+4.
+ * Channel allocator, allocate-by-index over the 8-bit bitmap at gNNSSndWaveOutState+4.
  * Walks i = 0..7 with a running bit that starts at 1 and doubles, sets and
  * returns the first free index, returns -1 (`mvn r0,#0`) when all eight are
  * taken.  Matched src/matched/NNS_SndWaveOutFreeChannel.c is the matching free.
@@ -22,8 +22,8 @@
  *     sizeof or a field.
  *   - the hit arm RE-READS the bitmap (`ldr r1,[pc,#0x24] / ldr r2,[r1,#4]`)
  *     rather than reusing the `flags` copy the guard tested.  That is what the
- *     separate `flags` local plus the plain `g_0214DEC0.flags4 |= bit` store
- *     spells; writing `flags |= bit; g_0214DEC0.flags4 = flags;` reuses the
+ *     separate `flags` local plus the plain `gNNSSndWaveOutState.flags4 |= bit` store
+ *     spells; writing `flags |= bit; gNNSSndWaveOutState.flags4 = flags;` reuses the
  *     cached load and loses the second pool word.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md, and
@@ -36,22 +36,22 @@
  * same C is 72 bytes, 0 mismatches.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020729C0.c \
- *       --func func_020729C0 --addr 0x020729C0 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_SndWaveOutAllocSlot.c \
+ *       --func NNSi_SndWaveOutAllocSlot --addr 0x020729C0 --cc ../2.0/sp2 --arm
  */
 
 #include "../include/G_Global0214DEC0.h"
 
-extern struct Global0214DEC0 g_0214DEC0;
+extern struct Global0214DEC0 gNNSSndWaveOutState;
 
-int func_020729C0(void)
+int NNSi_SndWaveOutAllocSlot(void)
 {
     int bit = 1;
-    int flags = g_0214DEC0.flags4;
+    int flags = gNNSSndWaveOutState.flags4;
     int i;
     for (i = 0; i < 8; i++) {
         if ((flags & bit) == 0) {
-            g_0214DEC0.flags4 |= bit;
+            gNNSSndWaveOutState.flags4 |= bit;
             return i;
         }
         bit <<= 1;

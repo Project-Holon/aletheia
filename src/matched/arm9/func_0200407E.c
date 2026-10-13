@@ -1,5 +1,5 @@
 /*
- * function: func_0200407E
+ * function: SVC_UncompressLZ16FromDevice
  * address:  0x0200407E
  * packet:   pkt_0200407E
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_UncompressLZ16FromDevice), `swi N; bx lr` in the BIOS call table */
 
-asm void func_0200407E(void)
+asm void SVC_UncompressLZ16FromDevice(void)
 {
     swi 0x12
     bx lr

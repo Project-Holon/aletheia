@@ -1,7 +1,7 @@
 /*
  * file:     gx.c
  * unit:     yes
- * function: func_0207D204, func_0207D384, func_0207D3AC, func_0207D3E4, func_0207D41C, func_0207D42C, func_0207D46C, func_0207D4B0, func_0207D518, func_0207D534, func_0207D55C
+ * function: func_0207D204, func_0207D384, func_0207D3AC, GX_VBlankIntr, func_0207D41C, GX_DispOff, GX_DispOn, func_0207D4B0, func_0207D518, func_0207D534, func_0207D55C
  * address:  0x0207D204
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -96,12 +96,12 @@ extern GXDataState sIsDispOn;
 #define reg_G2S_DB_BG3PD    (*(vu16 *)0x04001036)
 extern void PMi_SetDispOffCount(void);
 long func_0207D3AC(int enable);
-long func_0207D3E4(int enable);
+long GX_VBlankIntr(int enable);
 u16 GX_IsDispOn(void);
-void func_0207D42C(void);
+void GX_DispOff(void);
 typedef unsigned int u32_0;
 typedef unsigned long u32_0207D534;
-void func_0207D46C(void);
+void GX_DispOn(void);
 void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 void GXS_SetGraphicsMode(u32_0 mode);
 void func_0207D534(vu16 *reg, int brightness);
@@ -185,7 +185,7 @@ long func_0207D3AC(int enable)
 /*
  * sdk:      GX_VBlankIntr (gx.o)
  */
-long func_0207D3E4(int enable)
+long GX_VBlankIntr(int enable)
 {
     long rval = reg_GX_DISPSTAT & 0x8;
 
@@ -209,7 +209,7 @@ u16 GX_IsDispOn(void)
 /*
  * sdk:      GX_DispOff (gx.o)
  */
-void func_0207D42C(void)
+void GX_DispOff(void)
 {
     unsigned long tmp = reg_GX_DISPCNT;
 
@@ -222,7 +222,7 @@ void func_0207D42C(void)
 /*
  * sdk:      GX_DispOn (libgx.TWL.HYB.a gx.o)
  */
-void func_0207D46C(void)
+void GX_DispOn(void)
 {
     sIsDispOn.isDispOn = 1;
     if (sDispMode.dispMode)

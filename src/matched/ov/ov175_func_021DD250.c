@@ -1,5 +1,5 @@
 /*
- * function: func_021DD250
+ * function: sakeShutdown
  * address:  0x021DD250
  * packet:   pkt_021DD250
  * region:   ov175
@@ -18,7 +18,7 @@
 
 extern void func_0217EAE0(void);
 
-void func_021DD250(void *sake)
+void sakeShutdown(void *sake)
 {
     func_0217EAE0();
 }

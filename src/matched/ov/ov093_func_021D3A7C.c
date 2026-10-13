@@ -1,5 +1,5 @@
 /*
- * function: func_021D3A7C
+ * function: BTL_CLIENT_StepSetContFlag
  * address: 0x021D3A7C
  * packet: pkt_ov093_021D3A7C
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct UtilWork;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern void BTL_POKEPARAM_SetContFlag(u8 *, u32);
-int func_021D3A7C(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepSetContFlag(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);

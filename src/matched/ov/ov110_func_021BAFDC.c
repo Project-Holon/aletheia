@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFDC
+ * function: PMSI_SEARCH_GetInputCount
  * address:  0x021BAFDC
  * packet:   pkt_ov110_021BAFDC
  * region:   ov110
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021BAFDC(u8 *p)
+u8 PMSI_SEARCH_GetInputCount(u8 *p)
 {
     return p[0xaf0];
 }

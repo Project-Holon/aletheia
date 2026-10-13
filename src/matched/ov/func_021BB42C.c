@@ -1,5 +1,5 @@
 /*
- * function: func_021BB42C
+ * function: WIFICLUB_DeleteTrainerActor
  * address:  0x021BB42C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -39,7 +39,7 @@ typedef struct {
     void *f18C;
 } S;
 
-void func_021BB42C(S *s)
+void WIFICLUB_DeleteTrainerActor(S *s)
 {
     if (s->f180 != 0) {
         CLACT_DeleteActor(s->f180);

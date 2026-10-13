@@ -1,5 +1,5 @@
 /*
- * function: func_021D3F04
+ * function: BTL_CLIENT_ResetCounter
  * address:  0x021D3F04
  * packet:   pkt_ov093_021D3F04
  * region:   ov093
@@ -30,7 +30,7 @@ typedef struct {
     u16 h12;
 } S;
 
-void func_021D3F04(S *p)
+void BTL_CLIENT_ResetCounter(S *p)
 {
     p->b1 = 0;
     p->f3 = 0;

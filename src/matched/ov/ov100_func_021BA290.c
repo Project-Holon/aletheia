@@ -1,5 +1,5 @@
 /*
- * function: func_021BA290
+ * function: IRCBATTLEMATCH_OpenWaitMenu
  * address: 0x021BA290
  * packet: pkt_ov100_021BA290
  * region: ov100
@@ -28,7 +28,7 @@ extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *a
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int APP_TASKMENU_SetDisableKey(int a0, int a1);
-void func_021BA290(int a,int flag) {
+void IRCBATTLEMATCH_OpenWaitMenu(int a,int flag) {
  struct Template t;
  int v;
  t.heap=((struct Obj00060 *)a)->f278;

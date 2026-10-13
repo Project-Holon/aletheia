@@ -1,5 +1,5 @@
 /*
- * function: func_021D4F60
+ * function: DWCi_CELLlDelete
  * address:  0x021D4F60
  * packet:   pkt_021D4F60
  * region:   ov016
@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_021D6D8C  0x021D6D8C  arm
- *   func_021D546C  0x021D546C  arm
- *   g_021DE670     0x021DE670  data
+ *   DWCi_QUElPushBack  0x021D546C  arm
+ *   gCellWork     0x021DE670  data
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_021D6D8C(void *p);
-extern void func_021D546C(void *queue, void *data);
-extern u8  *g_021DE670;
+extern void DWCi_QUElPushBack(void *queue, void *data);
+extern u8  *gCellWork;
 
-void func_021D4F60(u8 *p)
+void DWCi_CELLlDelete(u8 *p)
 {
     u32 *q;
     int i;
@@ -35,8 +35,8 @@ void func_021D4F60(u8 *p)
         q += 2;
     }
     func_021D6D8C(p);
-    base = g_021DE670;
+    base = gCellWork;
     if (p >= base + 0x228)
         sel = 1;
-    func_021D546C((void *)(*(u32 *)(base + sel * 0x228 + 0x224)), p);
+    DWCi_QUElPushBack((void *)(*(u32 *)(base + sel * 0x228 + 0x224)), p);
 }

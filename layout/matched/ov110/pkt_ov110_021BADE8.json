@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BADE8",
+   "name": "PMS_INPUT_VIEW_FlushHelpText",
    "address": "0x021BADE8",
    "kind": "game",
    "region": "ov110",

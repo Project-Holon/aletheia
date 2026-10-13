@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C20
+ * function: IRC_RESULT_InitTextSystem
  * address: 0x021B7C20
  * packet: pkt_ov105_021B7C20
  * region: ov105
@@ -25,7 +25,7 @@ extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-void func_021B7C20(u32 *p, int flag, int heap) {
+void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap) {
  MI_CpuFill8(p, 0, 0x10);
  func_0201DD60();
  if (flag == 0) {

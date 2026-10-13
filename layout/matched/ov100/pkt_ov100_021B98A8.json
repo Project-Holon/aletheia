@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B98A8",
-    "func_021B98F0"
+    "IRCBATTLEMATCH_RecvMyStatusHandler",
+    "IRCBATTLEMATCH_NoOp"
+   ],
+   "addresses": [
+    "0x021B98A8",
+    "0x021B98F0"
    ]
   }
  ]

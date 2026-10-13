@@ -1,7 +1,7 @@
 /*
  * file:     nns_gfd_vram_man.c
  * unit:     yes
- * function: func_020616CC, func_02061808, func_02061824, func_02061840, func_02061860, func_02061878, func_0206188C, func_020618B8, func_020618E4, func_02061908, func_0206192C, func_02061938, func_02061944, func_02061950, func_0206195C, func_02061968, func_02061974, func_02061980, func_0206198C, func_02061998, func_020619A4, func_020619B0
+ * function: func_020616CC, func_02061808, func_02061824, NNSi_GfdRingNextIndex, NNSi_GfdRingIsFull, NNSi_GfdRingIsEmpty, func_0206188C, func_020618B8, func_020618E4, func_02061908, func_0206192C, func_02061938, func_02061944, func_02061950, func_0206195C, func_02061968, func_02061974, func_02061980, func_0206198C, func_02061998, func_020619A4, func_020619B0
  * address:  0x020616CC
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -15,6 +15,11 @@
  * symbols:
  *   g_02146B74     0x02146B74  data
  *   _u32_div_f   0x0209C2B0  arm
+ *   GX_LoadBGPltt  0x0207E3D0  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
+ *   GX_LoadBG2Scr  0x0207EB78  arm
+ *   GX_LoadBG0Char  0x0207EE68  arm
+ *   GX_LoadBG2Char  0x0207F0B8  arm
  */
 #include "../../matched/include/Obj11496.h"
 #include "../../matched/include/Obj16393.h"
@@ -46,26 +51,26 @@ extern void func_0207FC48(u32 a, u32 c);
 u32 func_020616CC(u32 size, u32 flag, u32 dir);
 void func_02061808(struct Arena02146B74 *dst);
 void func_02061824(void *p0);
-u32 func_02061840(u8 *p, u32 v);
-int func_02061860(u8 *p);
-int func_02061878(struct Obj02061BD0 *p);
+u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
+int NNSi_GfdRingIsFull(u8 *p);
+int NNSi_GfdRingIsEmpty(struct Obj02061BD0 *p);
 void func_0206188C(u32 a, u32 b, u32 c);
 void func_020618B8(u32 a, u32 b, u32 c);
 void func_020618E4(u32 a, u32 b, u32 c);
 void func_02061908(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
-extern void func_0207EE68(u32 a, u32 b, u32 c);
+extern void GX_LoadBG0Char(u32 a, u32 b, u32 c);
 extern void func_0207EF90(u32 a, u32 b, u32 c);
-extern void func_0207F0B8(u32 a, u32 b, u32 c);
+extern void GX_LoadBG2Char(u32 a, u32 b, u32 c);
 extern void func_0207F1E0(u32 a, u32 b, u32 c);
 extern void func_0207E888(u32 a, u32 b, u32 c);
 extern void func_0207EA00(u32 a, u32 b, u32 c);
-extern void func_0207EB78(u32 a, u32 b, u32 c);
+extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
 extern void func_0207ECF0(u32 a, u32 b, u32 c);
-extern void func_0207EB78(u32 a, u32 b, u32 c);
+extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
 extern void func_0207ECF0(u32 a, u32 b, u32 c);
-extern void func_0207E51C(u32 a, u32 b, u32 c);
-extern void func_0207E3D0(u32 a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
+extern void GX_LoadBGPltt(u32 a, u32 b, u32 c);
 void func_0206192C(u32 a, u32 b, u32 c);
 void func_02061938(u32 a, u32 b, u32 c);
 void func_02061944(u32 a, u32 b, u32 c);
@@ -257,10 +262,10 @@ void func_02061824(void *p0)
  * Returns (value + 1) modulo the +4 word, truncated to a halfword.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02061840.c \
- *       --func func_02061840 --addr 0x02061840 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_GfdRingNextIndex.c \
+ *       --func NNSi_GfdRingNextIndex --addr 0x02061840 --arm --cc 1.1p1
  */
-u32 func_02061840(u8 *p, u32 v)
+u32 NNSi_GfdRingNextIndex(u8 *p, u32 v)
 {
     return (u16)((v + 1) % ((struct Obj16393 *)p)->f4);
 }
@@ -272,10 +277,10 @@ u32 func_02061840(u8 *p, u32 v)
  * Returns whether the +0xc halfword equals the +4 word.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02061860.c \
- *       --func func_02061860 --addr 0x02061860 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_GfdRingIsFull.c \
+ *       --func NNSi_GfdRingIsFull --addr 0x02061860 --arm --cc 1.1p1
  */
-int func_02061860(u8 *p)
+int NNSi_GfdRingIsFull(u8 *p)
 {
     u16 a = ((struct Obj04778 *)p)->fC;
     u32 b = ((struct Obj04778 *)p)->f4;
@@ -290,10 +295,10 @@ int func_02061860(u8 *p)
  * Returns whether the +0xc halfword is zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02061878.c \
- *       --func func_02061878 --addr 0x02061878 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNSi_GfdRingIsEmpty.c \
+ *       --func NNSi_GfdRingIsEmpty --addr 0x02061878 --arm --cc 1.1p1
  */
-int func_02061878(struct Obj02061BD0 *p)
+int NNSi_GfdRingIsEmpty(struct Obj02061BD0 *p)
 {
     return ((struct Obj16394 *)p)->fC == 0 ? 1 : 0;
 }
@@ -375,7 +380,7 @@ void func_02061908(u32 a, u32 b, u32 c)
 
 void func_0206192C(u32 a, u32 b, u32 c)
 {
-    func_0207EE68(a, b, c);
+    GX_LoadBG0Char(a, b, c);
 }
 
 
@@ -387,7 +392,7 @@ void func_02061938(u32 a, u32 b, u32 c)
 
 void func_02061944(u32 a, u32 b, u32 c)
 {
-    func_0207F0B8(a, b, c);
+    GX_LoadBG2Char(a, b, c);
 }
 
 
@@ -411,7 +416,7 @@ void func_02061968(u32 a, u32 b, u32 c)
 
 void func_02061974(u32 a, u32 b, u32 c)
 {
-    func_0207EB78(a, b, c);
+    GX_LoadBG2Scr(a, b, c);
 }
 
 
@@ -423,7 +428,7 @@ void func_02061980(u32 a, u32 b, u32 c)
 
 void func_0206198C(u32 a, u32 b, u32 c)
 {
-    func_0207EB78(a, b, c);
+    GX_LoadBG2Scr(a, b, c);
 }
 
 
@@ -435,11 +440,11 @@ void func_02061998(u32 a, u32 b, u32 c)
 
 void func_020619A4(u32 a, u32 b, u32 c)
 {
-    func_0207E51C(a, b, c);
+    GX_LoadOBJPltt(a, b, c);
 }
 
 
 void func_020619B0(u32 a, u32 b, u32 c)
 {
-    func_0207E3D0(a, b, c);
+    GX_LoadBGPltt(a, b, c);
 }

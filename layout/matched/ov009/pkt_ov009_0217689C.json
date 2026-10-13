@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217689C",
+   "name": "DWCi_AutoSuspendComplete",
    "address": "0x0217689C",
    "kind": "sdk",
    "region": "ov009",

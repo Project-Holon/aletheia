@@ -1,5 +1,5 @@
 /*
- * function: func_021BF758
+ * function: PMS_INPUT_GetListWord
  * address: 0x021BF758
  * packet: pkt_ov110_021BF758
  * region: ov110
@@ -11,15 +11,15 @@
  * note: two trailing zero alignment bytes.
  * symbols:
  *   func_021B99A4 0x021B99A4 thumb ov110
- *   func_021BB1CC 0x021BB1CC thumb ov110
+ *   PMSI_SEARCH_GetResultString 0x021BB1CC thumb ov110
  */
 #include "../include/Obj08009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B99A4(u32,u32,u32,int);
-extern int func_021BB1CC(u8 *p, u8 i, int c);
-void func_021BF758(u8 *p,u32 a,int b) {
+extern int PMSI_SEARCH_GetResultString(u8 *p, u8 i, int c);
+void PMS_INPUT_GetListWord(u8 *p,u32 a,int b) {
     if(p[0x69]==0) func_021B99A4(((struct Obj08009 *)p)->f18,((struct Obj08009 *)p)->f4C,a,b);
-    else func_021BB1CC(*(u8 * *)&((struct Obj08009 *)p)->f1C,a,b);
+    else PMSI_SEARCH_GetResultString(*(u8 * *)&((struct Obj08009 *)p)->f1C,a,b);
 }

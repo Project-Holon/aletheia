@@ -1,5 +1,5 @@
 /*
- * function: func_0208EE60
+ * function: WM_GetAllowedChannel
  * address:  0x0208EE60
  * packet:   pkt_0208EE60
  * region:   arm9
@@ -61,7 +61,7 @@ extern BOOL OS_IsRunOnTwl(void);
 extern BOOL WMi_CheckEnableFlag(void);
 extern WMErrCode WMi_CheckInitialized(void);
 
-u16 func_0208EE60(void)
+u16 WM_GetAllowedChannel(void)
 {
     WMErrCode result;
 

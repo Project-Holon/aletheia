@@ -19,7 +19,7 @@
  *   NNS_SndArcGetSeqInfo  0x02074324  arm
  *   NNS_SndArcGetBankInfo  0x020743EC  arm
  *   GFL_USE_SaveSeqBankState   0x0200597C  thumb
- *   func_02074A98  0x02074A98  arm
+ *   NNS_SndArcLoadWaveArc  0x02074A98  arm
  *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   GFL_USE_FinishBgmLoad   0x020059A0  thumb
  *
@@ -60,7 +60,7 @@ extern char _SndState[];
 extern void *NNS_SndArcGetSeqInfo(int index);
 extern void *NNS_SndArcGetBankInfo(int index);
 extern void   GFL_USE_SaveSeqBankState(void);
-extern u32 func_02074A98(u32 a, u32 b);
+extern u32 NNS_SndArcLoadWaveArc(u32 a, u32 b);
 extern void   NNS_SndArcSetFileAddress(u32 a, u32 b);
 extern int GFL_USE_FinishBgmLoad(u32 a);
 
@@ -81,7 +81,7 @@ int GFL_USE_InstallBgmBuffers(u32 a0, u32 a1, u32 a2)
     GFL_USE_SaveSeqBankState();
     for (i = 0; i < 4; i++) {
         if (*(u16 *)((char *)q + 4 + i * 2) != 0xFFFF) {
-            if (func_02074A98(*(u16 *)((char *)q + 4 + i * 2),
+            if (NNS_SndArcLoadWaveArc(*(u16 *)((char *)q + 4 + i * 2),
                               *(u32 *)(_SndState + 0x10)) == 0) {
                 return 0;
             }

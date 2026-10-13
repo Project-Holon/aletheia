@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B685C",
+   "name": "COMPATIBLE_IRC_SYS_ProfileSyncGetPartnerProfile",
    "address": "0x021B685C",
    "kind": "game",
    "region": "ov101",

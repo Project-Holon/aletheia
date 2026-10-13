@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_ROOT_H
 #define ALETHEIA_G_ROOT_H
-/* g_02148DB0 (arm9) */
+/* gCurrentRS (arm9) */
 struct Root {
     void *h;
     unsigned char pad_4[0xC0];

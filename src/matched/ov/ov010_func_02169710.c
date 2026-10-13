@@ -19,7 +19,7 @@
  * symbols:
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
- *   func_0206DDA4  0x0206DDA4  arm
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
  *   FIELD_G3D_MAP_TestModelBox  0x021699A0  thumb  ov010
@@ -74,7 +74,7 @@ extern char g_renderStateDrawParams[];
 extern int G3D_SYSTEM_GetObjectRender(int *p);
 extern int G3D_SYSTEM_GetRenderObj(int *p);
 struct P02047C8C;
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void  VEC_Add(const Vec *a, const Vec *b, Vec *dst);
 extern void  MTX_RotY33_(void *m, s16 sinv, s16 cosv);
 extern int   FIELD_G3D_MAP_TestModelBox(void *p);
@@ -109,10 +109,10 @@ void FIELD_G3D_MAP_DrawPlacedModels(Obj *obj)
         a = obj->ents[i].angle >> 4;
         s = FX_SinCosTable_[a * 2];
         c = FX_SinCosTable_[a * 2 + 1];
-        func_0206DDA4(0x17, g_renderStateDrawParams, 12);
+        NNS_G3dGeBufferOP_N(0x17, g_renderStateDrawParams, 12);
         VEC_Add(&obj->pos, &obj->ents[i].pos, &m.t);
         MTX_RotY33_(&m, s, c);
-        func_0206DDA4(0x19, &m, 12);
+        NNS_G3dGeBufferOP_N(0x19, &m, 12);
         if (FIELD_G3D_MAP_TestModelBox(mdl) == 1) {
             G3D_SYSTEM_DrawRenderObj(r);
         }

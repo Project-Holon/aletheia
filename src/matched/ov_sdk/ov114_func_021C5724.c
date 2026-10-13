@@ -1,5 +1,5 @@
 /*
- * function: func_021C5724
+ * function: DWCi_SVLTokenWaitThread
  * address:  0x021C5724
  * packet:   pkt_ov114_021C5724
  * region:   ov114
@@ -17,13 +17,13 @@
  *   func_021C58C8  0x021C58C8  arm  ov114
  *   func_02084F80  0x02084F80  arm
  *   func_02059B40  0x02059B40  arm
- *   func_021C6348  0x021C6348  arm  ov114
+ *   DWCi_NdStartup  0x021C6348  arm  ov114
  *   func_02059E18  0x02059E18  arm
  *   func_02059F54  0x02059F54  arm
- *   func_02085A38  0x02085A38  arm
- *   func_021C569C  0x021C569C  arm  ov114
- *   func_021C56B4  0x021C56B4  arm  ov114
- *   g_021D3B68     0x021D3B68  data
+ *   OS_Sleep  0x02085A38  arm
+ *   DWCi_NdAlloc  0x021C569C  arm  ov114
+ *   DWCi_NdFree  0x021C56B4  arm  ov114
+ *   gDwcNdState     0x021D3B68  data
  *   @16277         0x021CF348  data
  *   @16278         0x021CF35C  data
  *
@@ -47,22 +47,22 @@ typedef struct SvlResult {
     char svltoken[1];           /* +0x89 */
 } SvlResult;
 
-extern struct NdState g_021D3B68;
+extern struct NdState gDwcNdState;
 
 extern int func_02168040(void);
 extern void func_021C58C8(int reason, int error, int servererror);
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_02059B40(char *src, u32 srclen, char *dst, u32 dstlen);
-extern int func_021C6348(void *(*alloc)(u32, int), void (*free)(void *), char *url,
+extern int DWCi_NdStartup(void *(*alloc)(u32, int), void (*free)(void *), char *url,
                          char *token, char *gamecd, char *passwd,
                          void (*callback)(int, int, int));
 extern int func_02059E18(int *errorCode);
 extern void func_02059F54(int error, int errorCode);
-extern void func_02085A38(u32 msec);
-extern void *func_021C569C(u32 size, int align);
-extern void func_021C56B4(void *ptr);
+extern void OS_Sleep(u32 msec);
+extern void *DWCi_NdAlloc(u32 size, int align);
+extern void DWCi_NdFree(void *ptr);
 
-static void func_021C5724(void)
+static void DWCi_SVLTokenWaitThread(void)
 {
     char url[256];
     char token[400];
@@ -71,22 +71,22 @@ static void func_021C5724(void)
     while (1) {
         switch (func_02168040()) {
         case 3:
-            if (strlen(((SvlResult *)g_021D3B68.svl)->svlhost) + strlen("https:///download") > sizeof(url) - 1) {
+            if (strlen(((SvlResult *)gDwcNdState.svl)->svlhost) + strlen("https:///download") > sizeof(url) - 1) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            func_02084F80(url, sizeof(url), "https://%s/download", ((SvlResult *)g_021D3B68.svl)->svlhost);
-            if (func_02059B40(((SvlResult *)g_021D3B68.svl)->svltoken, strlen(((SvlResult *)g_021D3B68.svl)->svltoken),
+            func_02084F80(url, sizeof(url), "https://%s/download", ((SvlResult *)gDwcNdState.svl)->svlhost);
+            if (func_02059B40(((SvlResult *)gDwcNdState.svl)->svltoken, strlen(((SvlResult *)gDwcNdState.svl)->svltoken),
                               token, sizeof(token)) < 0) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            if (!func_021C6348(func_021C569C, func_021C56B4, url, token, ((SvlResult *)g_021D3B68.svl)->gamecd,
-                               ((SvlResult *)g_021D3B68.svl)->passwd, func_021C58C8)) {
+            if (!DWCi_NdStartup(DWCi_NdAlloc, DWCi_NdFree, url, token, ((SvlResult *)gDwcNdState.svl)->gamecd,
+                               ((SvlResult *)gDwcNdState.svl)->passwd, func_021C58C8)) {
                 func_021C58C8(0, 8, -1);
                 return;
             }
-            ((SvlResult *)g_021D3B68.svl)->status = 1;
+            ((SvlResult *)gDwcNdState.svl)->status = 1;
             func_021C58C8(0, 0, -1);
             return;
         case 4:
@@ -98,6 +98,6 @@ static void func_021C5724(void)
             func_021C58C8(0, 6, -1);
             return;
         }
-        func_02085A38(100);
+        OS_Sleep(100);
     }
 }

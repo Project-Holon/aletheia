@@ -1,5 +1,5 @@
 /*
- * function: func_0206E62C
+ * function: NNS_G3dGetResDataByName
  * address:  0x0206E62C
  * packet:   pkt_0206E62C
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * NitroSystem g3d resource-dictionary lookup by 16-byte name, returning the
  * entry's DATA POINTER (0 when absent); shape of NNS_G3dGetResDataByName.
- * The same body as src/matched/func_0206E7EC.c (the index variant) with the
+ * The same body as src/matched/NNS_G3dGetResDictIdxByName.c (the index variant) with the
  * two hits returning through the inlined data accessor
  * (&hdr->data[0] + sizeUnit * idx, the `mla`).  Pinned to ../2.0/sp2 for the
  * same reason: only 2.0 strength-reduces the scan's name pointer.  Derived
@@ -54,7 +54,7 @@ static inline void *GetResDataByIdx(const ResDict *dict, u32 idx)
     }
 }
 
-void *func_0206E62C(const ResDict *dict, const ResName *name)
+void *NNS_G3dGetResDataByName(const ResDict *dict, const ResName *name)
 {
     if (name == 0)
         return 0;

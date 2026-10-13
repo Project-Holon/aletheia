@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CE4
+ * function: NHTTPi_SocOpen
  * address:  0x021B9CE4
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0215F428(int, int, int);
 
-void func_021B9CE4(void)
+void NHTTPi_SocOpen(void)
 {
     func_0215F428(2, 1, 0);
 }

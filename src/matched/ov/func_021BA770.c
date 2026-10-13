@@ -1,5 +1,5 @@
 /*
- * function: func_021BA770
+ * function: WIFICLUBACTOR_EndBlinkScript
  * address:  0x021BA770
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -30,7 +30,7 @@ typedef struct {
     u8 f10;
 } S;
 
-void func_021BA770(S *s)
+void WIFICLUBACTOR_EndBlinkScript(S *s)
 {
     s->f08 = (u8)(s->f08 | (u8)(1 << s->f0C));
     s->f0C = 0;

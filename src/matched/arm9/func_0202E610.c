@@ -22,7 +22,7 @@
  *   GX_SetBankForLCDC  0x0208068C  arm
  *   GX_SetBankForTex   0x02080294  arm
  *   MIi_CpuCopyFast    0x02082B0C  arm
- *   func_02087AE4   0x02087AE4  arm
+ *   OS_WaitVBlankIntr   0x02087AE4  arm
  *   func_02080B98   0x02080B98  arm
  *   func_02080964   0x02080964  arm
  *
@@ -52,7 +52,7 @@ extern u32  GX_GetBankForTex(void);
 extern void GX_SetBankForLCDC(u32 a);
 extern void GX_SetBankForTex(u32 a);
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
-extern void func_02087AE4(void);
+extern void OS_WaitVBlankIntr(void);
 extern void func_02080B98(void);
 extern int func_02080964(void);
 
@@ -64,8 +64,8 @@ void SCREENTEX_CaptureDisplay(u32 a0, u32 a1)
     GX_SetBankForLCDC(SCREENTEX_CaptureBanks[a0].f0);
     *(u32 *)0x04000064 = (SCREENTEX_CaptureBanks[a0].f4 << 16) | 0x80300010;
 
-    func_02087AE4();
-    func_02087AE4();
+    OS_WaitVBlankIntr();
+    OS_WaitVBlankIntr();
     func_02080B98();
     GX_SetBankForTex(prev);
 

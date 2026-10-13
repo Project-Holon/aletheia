@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * evidence: func_0200CDE0 receives the entry r1 Pokemon pointer; fifth parameter is reassigned in its incoming stack slot.
+ * evidence: ZUKAN_SAVE_RegisterCaught receives the entry r1 Pokemon pointer; fifth parameter is reassigned in its incoming stack slot.
  * symbols:
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -17,6 +17,7 @@
  *   POKEPARTY_Add 0x0201A98C thumb
  *   func_022026BC 0x022026BC thumb ov135
  *   func_0220246C 0x0220246C thumb ov135
+ *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb  arm9
  */
 #include "../include/Obj02864.h"
 #include "../include/Obj23476.h"
@@ -29,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
-extern void func_0200CDE0(struct Blk37 *, void *);
+extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *, void *);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
@@ -45,7 +46,7 @@ extern void func_0220246C(void *,int);
 void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
-    func_0200CDE0(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f10,mon);
+    ZUKAN_SAVE_RegisterCaught(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f10,mon);
     index=0xFF;
     if(POKEPARTY_GetCount(((struct Obj23477 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8)==6) index=0;
     POKE_TOOL_SetPartyValue(mon,9,0x46);

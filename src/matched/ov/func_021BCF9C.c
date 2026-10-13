@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF9C
+ * function: WIFICLUB_StateOpenEntryPrompt
  * address:  0x021BCF9C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA828  0x021BA828  thumb  ov099
+ *   WIFICLUB_OpenYesNoMenu  0x021BA828  thumb  ov099
  *
  * Runs the setup for selector 0x61 and stamps it 0x1CC bytes in.
  */
@@ -24,11 +24,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BA828(char *p);
+extern void WIFICLUB_OpenYesNoMenu(char *p);
 
-int func_021BCF9C(char *p, int v)
+int WIFICLUB_StateOpenEntryPrompt(char *p, int v)
 {
-    func_021BA828(p);
+    WIFICLUB_OpenYesNoMenu(p);
     *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x61;
     return v;
 }

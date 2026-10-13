@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208A998",
+   "name": "TP_GetUserInfo",
    "address": "0x0208A998",
    "kind": "sdk",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B98E4
+ * function: WIFICLUBACTOR_ResumeActorSprite
  * address:  0x021B98E4
  * packet:   pkt_ov099_021B98E4
  * region:   ov099
@@ -28,4 +28,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021C584C(u8 *p, int a);
-void func_021B98E4(int a, u8 *b) { func_021C584C((u8 *)(((struct Obj22009 *)b)->f4), 1); }
+void WIFICLUBACTOR_ResumeActorSprite(int a, u8 *b) { func_021C584C((u8 *)(((struct Obj22009 *)b)->f4), 1); }

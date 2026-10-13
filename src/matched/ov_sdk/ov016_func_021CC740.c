@@ -22,8 +22,8 @@
  *   DWCi_WINlEnd                     0x021D1524  arm
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   g_021DE60C                       0x021DE60C  data
- *   g_021DA72C                       0x021DA72C  data
- *   g_021DA72E                       0x021DA72E  data
+ *   C_CELL                       0x021DA72C  data
+ *   sSceneSetSelectApCellPosY                       0x021DA72E  data
  *   procErase1                       0x021CC8A0  arm   ov016
  */
 
@@ -50,8 +50,8 @@ extern void DWCi_CELLlDelete(void *cell);
 extern void DWCi_WINlEnd(void);
 extern void DWCi_ChangeScene(void (*scene)());
 extern struct SCENESETSELECTAP_BSS g_021DE60C;
-extern struct tagCOORD g_021DA72C[6];
-extern struct tagCOORD g_021DA72E[6];
+extern struct tagCOORD C_CELL[6];
+extern struct tagCOORD sSceneSetSelectApCellPosY[6];
 
 static void procErase1(void);
 
@@ -65,7 +65,7 @@ static void procErase(void)
         DWCi_SNDlPlay(14);
         DWCi_SETTINGlErasePage(ix);
         DWCi_CEINlSet(0, 0x56, DWCi_CELLlGetObj(g_021DE60C.MemSssa->a[ix], 0));
-        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->a[ix], -1, g_021DA72C[ix].x, g_021DA72E[ix].x);
+        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->a[ix], -1, C_CELL[ix].x, sSceneSetSelectApCellPosY[ix].x);
         DWCi_CELLlSetPriority(g_021DE60C.MemSssa->a[ix], -1, 3);
         DWCi_CELLlDelete(g_021DE60C.MemSssa->b[ix]);
         g_021DE60C.MemSssa->b[ix] = 0;
@@ -73,7 +73,7 @@ static void procErase(void)
     case 0:
         DWCi_SNDlPlay(7);
         DWCi_CEINlSet(0, 0x11, DWCi_CELLlGetObj(g_021DE60C.MemSssa->b[ix], 0));
-        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->b[ix], -1, g_021DA72C[ix + 3].x, g_021DA72E[ix + 3].x);
+        DWCi_CELLlSetPosition(g_021DE60C.MemSssa->b[ix], -1, C_CELL[ix + 3].x, sSceneSetSelectApCellPosY[ix + 3].x);
         DWCi_CELLlSetPriority(g_021DE60C.MemSssa->b[ix], -1, 3);
         break;
     default:

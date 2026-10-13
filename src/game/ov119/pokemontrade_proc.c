@@ -42,7 +42,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -222,8 +222,8 @@
  *   ov118_id 0x00000076 data a1
  *   func_02034AC4 0x02034AC4 arm
  *   func_0204363C 0x0204363C arm
- *   func_0200CA1C 0x0200CA1C thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   CLACT_CreateUnit 0x0204B100 arm
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021E7614 0x021E7614 data a4
@@ -257,8 +257,8 @@
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200F7C0 0x0200F7C0 thumb
- *   func_021B9774 0x021B9774 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
@@ -510,7 +510,7 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern u32 POKEPARTY_GetCount(void *m);
 extern void *POKEPARTY_GetMember(void *m, u32 c);
 extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
-extern void func_02082D44(void *dst, const void *src, int n);
+extern void MI_CpuCopy8(void *dst, const void *src, int n);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
@@ -670,8 +670,8 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern int func_02034AC4(int);
 extern void func_0204363C(unsigned int swap);
-extern void *func_0200CA1C(void *);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,unsigned);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
@@ -702,8 +702,8 @@ extern void MCSS_Draw(struct McssSys *sys);
 extern void func_021E31B4(void *);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_0200F7C0(unsigned);
-extern void func_021B9774(u8 *);
-extern void func_021B9838(u8 *);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
@@ -1305,7 +1305,7 @@ void *func_021D8D4C(void **a, int b, int c, char *p)
         {
             void *mon = POKE_TOOL_Create(1, 1, 1, ((TradeWork *)p)->f5F4);
             int sz = func_020173EC();
-            func_02082D44(POKEPARTY_GetMember(m, c), mon, sz);
+            MI_CpuCopy8(POKEPARTY_GetMember(m, c), mon, sz);
             res = mon;
         }
     }
@@ -1463,7 +1463,7 @@ void *func_021D8FA4(void *p, int idx)
 void func_021D8FE4(int idx,int a,int b,void *p,int id) {
  if(id==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
  int n=func_020173EC();
- func_02082D44(*(void **)((char *)p+idx*4+0x1064),*(void **)((char *)p+idx*4+0x5dc),n);
+ MI_CpuCopy8(*(void **)((char *)p+idx*4+0x1064),*(void **)((char *)p+idx*4+0x5dc),n);
  if(idx!=GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
  ((TradeWork *)p)->fF9C=idx+1;
  ((TradeWork *)p)->f11FB=(((TradeWork *)p)->f11FB&~0xf0)|0x10;
@@ -1699,7 +1699,7 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
     if (p == (void *)GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     saved = func_02009470(GAME_DATA_GetSaveControl(((TradeWork *)a3)->f82C));
-    func_02082D44(a2, buf, 0x28);
+    MI_CpuCopy8(a2, buf, 0x28);
     x = func_0200856C((const struct Sub0200852CObj *)buf);
     y = func_02008570((const struct Sub0200852CObj *)buf);
     r1 = func_02025C1C(x, y, func_02008564((const struct Sub0200852CObj *)buf));
@@ -4492,7 +4492,7 @@ int func_021DC894(void *a,int b,char *q,char *p,int n)
     I(0x5e0)=(int)func_02030734(0x91,func_020173EC(),1,d_021E80B0,0x110c);
     I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
     I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
-    ((TradeWork *)p)->f11F6=func_0200CA38(func_0200CA1C(((struct Obj04478 *)q)->f14));
+    ((TradeWork *)p)->f11F6=ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(((struct Obj04478 *)q)->f14));
     if(q) func_021DC538(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
     func_021DC5F0(p);func_021DC3EC(p);func_021DC458(p);
     I(0x9c4)=(int)CLACT_CreateUnit(0x154,0,H(0x5f4));
@@ -4593,8 +4593,8 @@ void func_021DCB30(void *a,int b,char *c) {const char *q=*(char * *)&((struct Ob
 
 void func_021DCBA4(char *a, char *p)
 {
-    func_02082D44(((struct Obj01728 *)a)->f34,((TradeWork *)p)->f5DC,func_020173EC());
-    func_02082D44(((struct Obj01728 *)a)->f38,((TradeWork *)p)->f5E0,func_020173EC());
+    MI_CpuCopy8(((struct Obj01728 *)a)->f34,((TradeWork *)p)->f5DC,func_020173EC());
+    MI_CpuCopy8(((struct Obj01728 *)a)->f38,((TradeWork *)p)->f5E0,func_020173EC());
     func_021E36C8(p,0,1,((struct Obj01728 *)a)->f34,1);
     func_021E36C8(p,1,1,((struct Obj01728 *)a)->f38,1);
     MCSS_SetVanishFlag((void *)(*(unsigned *)(p+(func_021D8AA8(p) == 0 ? 0x848 : 0x844))));
@@ -4740,7 +4740,7 @@ int func_021DCD38(int a,int b,int c,char *p)
     if(func_021D8A24(p) && I(0xef8)==0 && func_0200FB24()) {
         if(B(0x11f7)) func_0200F7C0(41);
         if(P(0)) {
-            func_021B9774(P(0));func_021B9838(P(0));P(0)=0;
+            NHTTP_RAP_DeleteConnection(P(0));NHTTP_RAP_Destroy(P(0));P(0)=0;
             DWC_RAP_SetErrorCallback(0,0);DWC_RAPCOMMON_DestroySubHeap();
         }
         if(GFL_NET_IsNetTypeWifi()) DWC_RAPCOMMON_HandleNetError(1,1);
@@ -5081,7 +5081,7 @@ int func_021DD34C(char *p, int a, int b)
 
 void func_021DD380(char *p,int i,void *src)
 {
-    *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=func_02030734(((TradeWork *)p)->f5F4,func_020173EC(),1,(void *)d_021E80E0,0x122);func_02082D44(src,*(void **)(p+0xfe4+i*4),func_020173EC());
+    *(int *)(p+0xfb0+i*4)=i; *(int *)(p+0xfc8+i*4)=i; if(*(void **)(p+0xfe4+i*4)==0) *(void **)(p+0xfe4+i*4)=func_02030734(((TradeWork *)p)->f5F4,func_020173EC(),1,(void *)d_021E80E0,0x122);MI_CpuCopy8(src,*(void **)(p+0xfe4+i*4),func_020173EC());
 }
 
 
@@ -5141,7 +5141,7 @@ int func_021DD428(State_021DCAD4 *p,int side,int a,int b,void *value)
             p->b[side][i]=b;
             if(p->value[side][i]==0)
                 p->value[side][i]=func_02030734(((TradeWork *)p)->f5F4,func_020173EC(),1,d_021E80E0,0x14c);
-            func_02082D44(value,p->value[side][i],func_020173EC());
+            MI_CpuCopy8(value,p->value[side][i],func_020173EC());
             func_021DF918(p,side,value);
             return i;
         }
@@ -5750,7 +5750,7 @@ void func_021DE12C(char *p)
         obj=((TradeWork *)p)->fFD8;
         func_021D9468(p,1,obj);
         n=func_020173EC();
-        func_02082D44(obj,func_021D8FA4(p,1),n);
+        MI_CpuCopy8(obj,func_021D8FA4(p,1),n);
         func_021D8E84(p,(int)func_021DDF74);
         return;
     }
@@ -6076,7 +6076,7 @@ int func_021DE754(char *p,int idx)
         func_021D8E84(p,(int)func_021DDAD4);
     } else {
         func_021D9468(p,row,mon);
-        func_02082D44(mon,((TradeWork *)p)->f106C,func_020173EC());
+        MI_CpuCopy8(mon,((TradeWork *)p)->f106C,func_020173EC());
         func_021D8F60(p,0,value);
         func_021D8E84(p,(int)func_021DE70C);
     }

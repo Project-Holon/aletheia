@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC24
+ * function: WIFICLUB_CreateMenuList
  * address: 0x021BAC24
  * packet: pkt_ov099_021BAC24
  * region: ov099
@@ -12,7 +12,7 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
- *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   WIFICLUB_DeleteWindow 0x021BA8BC thumb ov099
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_0201F73C 0x0201F73C thumb
@@ -39,7 +39,7 @@ extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct Slot *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *, u32, u32, u32, u32);
-extern int func_021BA8BC(void *);
+extern int WIFICLUB_DeleteWindow(void *);
 struct Src;
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -49,7 +49,7 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
 extern void func_02041B6C(u32);
-void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 width)
+void WIFICLUB_CreateMenuList(char *p, Desc *out, Pair *items, int count, int kind, u32 width)
 {
     int i;
     int y;
@@ -58,7 +58,7 @@ void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 wid
     *(struct Slot * *)&((struct Obj00976 *)p)->fB8 = BMP_MENUWORK_Create(count, 0x21);
     for (i = 0; i < count; i++)
         BMP_MENUWORK_AddMsgItem(*(struct Slot * *)&((struct Obj00976 *)p)->fB8, ((struct Obj00976 *)p)->fE0, items[i].a, items[i].b, 0x21);
-    *(int *)&((struct Obj00976 *)p)->f1A4 = func_021BA8BC(((struct Obj00976 *)p)->f1A4);
+    *(int *)&((struct Obj00976 *)p)->f1A4 = WIFICLUB_DeleteWindow(((struct Obj00976 *)p)->f1A4);
     y = 5;
     if (kind == 5)
         y = 13;

@@ -1,5 +1,5 @@
 /*
- * function: func_02085760
+ * function: OS_SleepThreadDirect
  * address:  0x02085760
  * packet:   pkt_02085760
  * region:   arm9
@@ -16,6 +16,7 @@
  *   OS_RestoreInterrupts   0x0208799C  arm
  *   OSi_InsertLinkToQueue  0x02084FCC  arm
  *   OSi_RescheduleThread   0x020851A0  arm
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -139,7 +140,7 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -147,7 +148,7 @@ extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void OSi_InsertLinkToQueue(OSThreadQueue *queue, OSThread *thread);
 extern void OSi_RescheduleThread(void);
 
-void func_02085760(OSThread *thread, OSThreadQueue *queue)
+void OS_SleepThreadDirect(OSThread *thread, OSThreadQueue *queue)
 {
     OSIntrMode bak_intr = OS_DisableInterrupts();
 

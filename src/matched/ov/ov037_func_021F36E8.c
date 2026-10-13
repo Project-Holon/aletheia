@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK_INIT_SetGimmick40Flag
+ * function: GIMMICK_INIT_SetFlagAnimeFlag
  * address: 0x021F36E8
  * packet: pkt_ov037_021F36E8
  * region: ov037
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
-void GIMMICK_INIT_SetGimmick40Flag(void *a, int v)
+void GIMMICK_INIT_SetFlagAnimeFlag(void *a, int v)
 {
     void *save;
     int *p;

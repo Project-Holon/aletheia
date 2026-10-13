@@ -1,7 +1,7 @@
 /*
  * file:     scenesetlistsave.c
  * unit:     yes
- * function: func_021CA5D0, func_021CA5F0, procInit, func_021CA6EC, func_021CA740, DWCi_SceneSetListSave_input, DWCi_SceneSetListSave_draw, func_021CA770, func_021CA7B4, func_021CA818
+ * function: DWCi_SceneSetListSave, initGraphics, procInit, DWCi_SceneSetListSaveProcInit1, DWCi_SceneSetListSaveProcScene, DWCi_SceneSetListSave_input, DWCi_SceneSetListSave_draw, DWCi_SceneSetListSaveEndScene, DWCi_SceneSetListSaveEndScene1, DWCi_IsFold
  * address:  0x021CA5D0
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -23,21 +23,21 @@
  *       --func procInit --addr 0x021CA684 --region ov016 --cc 1.1p1 --arm --lang c99
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
  * Addresses are Black-image addresses.
- *   python tools/match.py one --src src/matched/func_021CA818.c \
- *       --func func_021CA818 --addr 0x021CA818 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
+ *       --func DWCi_IsFold --addr 0x021CA818 --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
  *   initGraphics                     0x021ca5f0 arm
  *   DWCi_HLlLoadSet                  0x021bd6d4 arm
  *   DWCi_SETTINGlSet                 0x021cf8d8 arm
  *   DWCi_ChangeScene                 0x021c0e40 arm
- *   func_021BD1D4   0x021BD1D4  arm  ov016
- *   dat_021DB600    0x021DB600  data
- *   dat_0207F0B8    0x0207F0B8  data
- *   dat_021DB618    0x021DB618  data
- *   dat_0207E3D0    0x0207E3D0  data
- *   dat_021DB630    0x021DB630  data
- *   dat_0207EB78    0x0207EB78  data
+ *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
+ *   sSceneSetListSavePathJbBgStep3Char    0x021DB600  data
+ *   GX_LoadBG2Char    0x0207F0B8  data
+ *   sSceneSetListSavePathYbBgStep3Pltt    0x021DB618  data
+ *   GX_LoadBGPltt    0x0207E3D0  data
+ *   sSceneSetListSavePathXb4NoneScr    0x021DB630  data
+ *   GX_LoadBG2Scr    0x0207EB78  data
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm
  *   DWCi_BTNlGet                     0x021BCB14  arm
@@ -96,7 +96,7 @@ typedef struct { unsigned char v[2]; } PALETTE_INIT;
 extern void DWCi_HLlLoadSet(void);
 extern void DWCi_SETTINGlSet(void);
 extern void DWCi_ChangeScene(void (*scene)());
-extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
@@ -117,30 +117,28 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 extern bool DWCi_WINlIsInit(void);
 extern bool DWCi_COMMENTlDelete(void);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_SetParam_(void *param0, void *param1);
+extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 void DWCi_SceneSetListSave(void);
-void func_021CA5F0(void);
 void DWCi_SceneSetListSave_input(void);
 void DWCi_SceneSetListSave_draw(void);
-int func_021CA818(void);
-extern unsigned short dat_021DB600[];
-extern unsigned short dat_0207F0B8[];
-extern unsigned short dat_021DB618[];
-extern unsigned short dat_0207E3D0[];
-extern unsigned short dat_021DB630[];
-extern unsigned short dat_0207EB78[];
+int DWCi_IsFold(void);
+extern unsigned short sSceneSetListSavePathJbBgStep3Char[];
+extern unsigned short GX_LoadBG2Char[];
+extern unsigned short sSceneSetListSavePathYbBgStep3Pltt[];
+extern unsigned short GX_LoadBGPltt[];
+extern unsigned short sSceneSetListSavePathXb4NoneScr[];
+extern unsigned short GX_LoadBG2Scr[];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
 extern int DWCi_SceneSetSelectAp;
 
-
-
 static void initGraphics(void);
-
-
 static void procInit(void);
-
+static void procInit1(void);
+static void procScene(void);
+static void endScene(void);
+static void endScene1(void);
 
 
 void DWCi_SceneSetListSave(void)
@@ -152,19 +150,18 @@ void DWCi_SceneSetListSave(void)
 }
 
 
-
 /*
- * Load three tilemaps through func_021BD1D4, then set the low two bits of
+ * Load three tilemaps through DWCi_CMNlLoadResource, then set the low two bits of
  * 0x04001008, 0x0400100A, 0x0400000A and 0x0400000C.
  * Addresses are Black-image addresses.
  */
-void func_021CA5F0(void)
+static void initGraphics(void)
 {
     u16 *p;
 
-    func_021BD1D4((char *)((int)dat_021DB600), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207F0B8));
-    func_021BD1D4((char *)((int)dat_021DB618), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207E3D0));
-    func_021BD1D4((char *)((int)dat_021DB630), (void (*)(void *, long unsigned int,  long unsigned int))((int)dat_0207EB78));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetListSavePathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetListSavePathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
+    DWCi_CMNlLoadResource((char *)((int)sSceneSetListSavePathXb4NoneScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -175,15 +172,8 @@ void func_021CA5F0(void)
 }
 
 
-static void procInit1(void);
-
 static void procInit2(void);
 
-static void procScene(void);
-
-static void endScene(void);
-
-static void endScene1(void);
 
 static void endScene2(void);
 
@@ -202,7 +192,6 @@ static void procInit(void)
 }
 
 
-
 static void procInit1(void)
 {
     if (DWCi_EFFlCheck(1) || DWCi_EFFlCheck(0)) {
@@ -213,12 +202,10 @@ static void procInit1(void)
 }
 
 
-
 static void input(void);
 
 
 static void draw(void);
-
 
 
 static void procScene(void)
@@ -258,14 +245,12 @@ void DWCi_SceneSetListSave_draw(void)
 }
 
 
-
 static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 
 static void endScene1(void)
@@ -276,11 +261,11 @@ static void endScene1(void)
     DWCi_COMMENTlDelete();
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x14);
-    DWCi_SetParam_((void *)2, (void *)1);
+    DWCi_SetParam_(2, 1);
     DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectAp);
 }
 
-int func_021CA818(void)
+int DWCi_IsFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }

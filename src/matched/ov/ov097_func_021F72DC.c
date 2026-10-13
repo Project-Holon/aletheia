@@ -1,5 +1,5 @@
 /*
- * function: func_021F72DC
+ * function: VS_MULTI_LIST_MoveActorX
  * address: 0x021F72DC
  * packet: pkt_ov097_021F72DC
  * region: ov097
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021F72DC(unsigned p, unsigned i, int dx)
+void VS_MULTI_LIST_MoveActorX(unsigned p, unsigned i, int dx)
 {
     struct PtS pt;
     unsigned base = p + 0x54;

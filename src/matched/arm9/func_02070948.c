@@ -1,5 +1,5 @@
 /*
- * function: func_02070948
+ * function: NNSi_G3dAnmObjInitNsBtp
  * address:  0x02070948
  * packet:   pkt_02070360
  * region:   arm9
@@ -9,21 +9,21 @@
  * isa:      arm
  * status:   EXACT
  *
- * Third member of the func_02070360 / func_02070830 binder set.  Same body
+ * Third member of the NNSi_G3dAnmObjInitNsBma / NNSi_G3dAnmObjInitNsBta binder set.  Same body
  * with two differences: it also records the source resource in ctx->f08
  * (the u32 store is why the clear's size re-reads ctx->b19 from memory: the
  * store may alias it), and its name dictionary sits at src+0xc (count at
  * +0xd, entry offset at +0x12) instead of src+8.  Seeds ctx->f0c from
- * data_020A822C (= &func_02070B64).  Same levers: GetName/Lookup inline
+ * data_020A822C (= &NNSi_G3dAnmCalcNsBtp).  Same levers: GetName/Lookup inline
  * helpers, `volatile` count byte, `i` declared before `names`, ../2.0/sp2.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070948.c
- *       --func func_02070948 --addr 0x02070948 --arm --cc ../2.0/sp2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmObjInitNsBtp.c
+ *       --func NNSi_G3dAnmObjInitNsBtp --addr 0x02070948 --arm --cc ../2.0/sp2
  *
  * symbols:
  *   MIi_CpuClear16   0x02082A48  arm
- *   func_0206E7EC    0x0206E7EC  arm
+ *   NNS_G3dGetResDictIdxByName    0x0206E7EC  arm
  *   data_020A822C    0x020A822C  data
  */
 #include "../include/Obj16648.h"
@@ -60,7 +60,7 @@ struct Arg70948 {
 extern u32 data_020A822C;
 
 void MIi_CpuClear16(u16 value, void *dest, u32 size);
-s32 func_0206E7EC(void *name, void *ent);
+s32 NNS_G3dGetResDictIdxByName(void *name, void *ent);
 
 static inline void *GetName(struct Src70948 *src, u32 idx)
 {
@@ -75,11 +75,11 @@ static inline void *GetName(struct Src70948 *src, u32 idx)
 static inline s32 Lookup(u8 *names, void *ent)
 {
     if (names != 0)
-        return func_0206E7EC(names + 4, ent);
+        return NNS_G3dGetResDictIdxByName(names + 4, ent);
     return -1;
 }
 
-void func_02070948(struct Ctx70948 *ctx, struct Src70948 *src, struct Arg70948 *arg)
+void NNSi_G3dAnmObjInitNsBtp(struct Ctx70948 *ctx, struct Src70948 *src, struct Arg70948 *arg)
 {
     u32 i;
     u8 *names;

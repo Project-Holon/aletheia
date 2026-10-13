@@ -23,8 +23,8 @@
  *   ov208_func_021C6A10  0x021C6A10  thumb
  *   func_021BC3C0        0x021BC3C0  thumb
  *   func_021BC3A4        0x021BC3A4  thumb
- *   func_0200CA1C        0x0200CA1C  thumb
- *   func_0200CA98        0x0200CA98  thumb
+ *   ZUKAN_SAVE_GetFromGameData        0x0200CA1C  thumb
+ *   ZUKAN_SAVE_UpdateViewFlags        0x0200CA98  thumb
  *   ov208_func_021C7448  0x021C7448  thumb
  *   _fflt                0x0209BDBC  arm
  *   _fdiv                0x0209CE10  arm
@@ -68,8 +68,8 @@ extern void ov208_func_021C6A10(void *a0, u8 *p, void *ctx);
 extern u16  func_021BC3C0(void *ctx);
 struct Blk37;
 extern int func_021BC3A4(int *p);
-extern void *func_0200CA1C(void *a);
-extern void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern void ZUKAN_SAVE_UpdateViewFlags(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern void ov208_func_021C7448(void *a0, u8 *p, void *ctx);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -144,11 +144,11 @@ void ov208_func_021C75FC(void *a0, u8 *p, void *ctx)
         func_021C4EAC(a0, p, ctx);
         ov208_func_021C6A10(a0, p, ctx);
         id = func_021BC3C0(ctx);
-        obj = func_0200CA1C((void *)func_021BC3A4(ctx));
+        obj = ZUKAN_SAVE_GetFromGameData((void *)func_021BC3A4(ctx));
         f = *(p + H(0x54e) * 16 + 0x152);
         if (*(p + H(0x54e) * 16 + 0x153) != 0)
             sh = 1;
-        func_0200CA98(obj, id, f, sh, *(u16 *)(p + H(0x54e) * 16 + 0x154));
+        ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, *(u16 *)(p + H(0x54e) * 16 + 0x154));
         if (W(0xc) != 0) {
             func_021C80AC((int)(p + 0xc), 0, (int)(&u));
             MCSS_SetPosition((void *)W(0xc), (u32 *)(&u));

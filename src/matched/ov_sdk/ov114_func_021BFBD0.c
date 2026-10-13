@@ -1,5 +1,5 @@
 /*
- * function: func_021BFBD0
+ * function: ghiInitBuffer
  * address:  0x021BFBD0
  * packet:   pkt_ov114_021BFBD0
  * region:   ov114
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFB90 0x021BFB90  arm
+ *   ghiResizeBuffer 0x021BFB90  arm
  */
 
-extern int func_021BFB90(unsigned int *, int);
+extern int ghiResizeBuffer(unsigned int *, int);
 
-int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3)
+int ghiInitBuffer(unsigned int a0, unsigned int *a1, int a2, int a3)
 {
     if (a0 == 0)
         return 0;
@@ -34,7 +34,7 @@ int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3)
     a1[6] = 0;
     a1[7] = 0;
     a1[8] = 0;
-    if (func_021BFB90(a1, a2) == 0)
+    if (ghiResizeBuffer(a1, a2) == 0)
         return 0;
     *(char *)a1[1] = 0;
     return 1;

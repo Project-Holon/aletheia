@@ -1,5 +1,5 @@
 /*
- * function: func_0689B92C
+ * function: BTL_SICK_GetDamageStringId
  * address:  0x0689B92C
  * packet:   pkt_ov095_0689B92C
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0689B92C(int a)
+int BTL_SICK_GetDamageStringId(int a)
 {
     switch (a) {
     case 5:

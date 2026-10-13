@@ -1,5 +1,5 @@
 /*
- * function: func_021C2224
+ * function: WIFICLUB_DrawSlotFrame
  * address:  0x021C2224
  * packet:   pkt_ov099_021C2224
  * region:   ov099
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 
-void func_021C2224(char *p, u32 a1, u32 a2, u32 mode, u8 slot)
+void WIFICLUB_DrawSlotFrame(char *p, u32 a1, u32 a2, u32 mode, u8 slot)
 {
     u16 x;
     u16 y;

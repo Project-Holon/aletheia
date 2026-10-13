@@ -1,5 +1,5 @@
 /*
- * function: func_02067A60
+ * function: NNS_G2dInitRndCore
  * address:  0x02067A60
  * packet:   pkt_02067A60
  * region:   arm9
@@ -18,7 +18,7 @@
  * (`mov r1, #0` at 0x02067A78) under `push {r4, lr}`; 1.1p1 keeps one zero
  * live across the call in r4 and needs `push {r3, r4, r5, lr}` (42 bytes out,
  * docs/notes/pkt_02066E30.c.txt).  Under ../2.0/sp2 the same C is 64 bytes,
- * 0 mismatches.  Sole caller: src/matched/func_02065AA8.c (+0x08).
+ * 0 mismatches.  Sole caller: src/matched/NNS_G2dInitRenderer.c (+0x08).
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -30,7 +30,7 @@ typedef struct S {
 } S;
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 
-void func_02067A60(S *p)
+void NNS_G2dInitRndCore(S *p)
 {
     MIi_CpuClear16(0, p, 0x70);
     p->f00 = 0;

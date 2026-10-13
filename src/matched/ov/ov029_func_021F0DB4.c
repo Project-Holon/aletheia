@@ -25,7 +25,7 @@
  *   PALANM_GetDefaultWork  0x02021728  thumb
  *   PALANM_GetTransWork  0x02021730  thumb
  *   PALANM_BlendColors  0x02021F64  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   d_021F31B6     0x021F31B6  data  a2
  */
 
@@ -36,7 +36,7 @@ extern u16 d_021F31B6[];
 extern int PALANM_GetDefaultWork(char *p, int i);
 extern int PALANM_GetTransWork(char *p, int i);
 extern void PALANM_BlendColors(u16 *src, u16 *dst, int count, int weight, u16 color);
-extern void func_02082D44(void *src, void *dst, int n);
+extern void MI_CpuCopy8(void *src, void *dst, int n);
 
 void C_GEAR_TintPalettes(char *p, int mode)
 {
@@ -50,7 +50,7 @@ void C_GEAR_TintPalettes(char *p, int mode)
             if (0xFBEE & (1 << i)) {
                 PALANM_BlendColors((u16 *)(a + i * 0x20), (u16 *)(a + i * 0x20), 0x10, 8,
                               d_021F31B6[*(u8 *)(p + 0x459)]);
-                func_02082D44(a + i * 0x20, b + i * 0x20, 0x20);
+                MI_CpuCopy8(a + i * 0x20, b + i * 0x20, 0x20);
             }
         }
         a = (char *)PALANM_GetDefaultWork(*(char **)(p + 0x210), 1);
@@ -59,7 +59,7 @@ void C_GEAR_TintPalettes(char *p, int mode)
             if (0x3E & (1 << i)) {
                 PALANM_BlendColors((u16 *)(a + i * 0x20), (u16 *)(a + i * 0x20), 0x10, 8,
                               d_021F31B6[*(u8 *)(p + 0x459)]);
-                func_02082D44(a + i * 0x20, b + i * 0x20, 0x20);
+                MI_CpuCopy8(a + i * 0x20, b + i * 0x20, 0x20);
             }
         }
     }

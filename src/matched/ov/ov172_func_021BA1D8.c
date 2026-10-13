@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_02072A88 with the field at +0x20.
+ * Tail call to NNSi_SndWaveOutUnlockChannel with the field at +0x20.
  *
  * symbols:
- *   func_02072A88  0x02072A88  arm
+ *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02072A88(u32 *p);
+extern void NNSi_SndWaveOutUnlockChannel(u32 *p);
 
 void func_021BA1D8(void *p)
 {
-    func_02072A88((u32 *)((struct Obj24096 *)p)->f20);
+    NNSi_SndWaveOutUnlockChannel((u32 *)((struct Obj24096 *)p)->f20);
 }

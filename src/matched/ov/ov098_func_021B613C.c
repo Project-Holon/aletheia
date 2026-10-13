@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B613C, func_021B6140, func_021B6144
+ * function: PDC_GetGameData, PDC_GetMon, PDC_GetScene
  * address:  0x021B613C
  * packet:   pkt_021B613C
  * region:   ov098
@@ -16,17 +16,17 @@
 #include "../include/Obj21999.h"
 #include "../include/Obj22000.h"
 
-int func_021B613C(void *p)
+int PDC_GetGameData(void *p)
 {
     return ((struct Obj21998 *)p)->f0;
 }
 
-int func_021B6140(void *p)
+int PDC_GetMon(void *p)
 {
     return ((struct Obj21999 *)p)->f4;
 }
 
-int func_021B6144(void *p)
+int PDC_GetScene(void *p)
 {
     return ((struct Obj22000 *)p)->f8;
 }

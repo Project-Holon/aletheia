@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK_INIT_ResetGimmick46Panels
+ * function: GIMMICK_INIT_ResetRotatingRoomPanels
  * address:  0x021F3800
  * packet:   pkt_ov037_021F3800
  * region:   ov037
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 
-void GIMMICK_INIT_ResetGimmick46Panels(unsigned int a0)
+void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int a0)
 {
     int *p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)a0)), 10);
     int *q;

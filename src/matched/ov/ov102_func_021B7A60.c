@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B7A60, func_021B7AAC
+ * function: IRC_COMPATIBLE_MENU_ExitBackgrounds, IRC_COMPATIBLE_MENU_BackgroundVBlank
  * address: 0x021B7A60
  * packet: pkt_ov102_021B7A60
  * region: ov102
@@ -17,7 +17,7 @@
  * BMP_WIN_Exit 0x020450C8 arm
  * func_0203F9B4 0x0203F9B4 arm
  * func_020419E4 0x020419E4 arm
- * d_021B8AEC 0x021B8AEC data a4
+ * IRC_COMPATIBLE_MENU_BgLayerIds 0x021B8AEC data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,16 +30,16 @@ extern void func_020403F4(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020419E4(void);
-extern unsigned d_021B8AEC[];
-void func_021B7A60(unsigned *p) {
+extern unsigned IRC_COMPATIBLE_MENU_BgLayerIds[];
+void IRC_COMPATIBLE_MENU_ExitBackgrounds(unsigned *p) {
  int i;
  unsigned q;
  func_02030EAC((struct Node *)p[1]);
  q=p[0];
  func_0203FB44(5,(u16)q,(u16)(q>>16));
  func_02040DA8(5,1,0);
- for(i=0;i<8;i++) func_020403F4((u8)d_021B8AEC[i]);
+ for(i=0;i<8;i++) func_020403F4((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
  BMP_WIN_Exit();
  func_0203F9B4();
 }
-void func_021B7AAC(void) { func_020419E4(); }
+void IRC_COMPATIBLE_MENU_BackgroundVBlank(void) { func_020419E4(); }

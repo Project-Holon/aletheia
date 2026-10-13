@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptinfo.c
  * unit:     yes
- * function: func_021C255C, func_021C2590, func_021C2610, func_021C2820, func_021C2888, func_021C28C4, DWCi_SceneOptInfo_procScene, func_021C28FC, DWCi_SceneOptInfo_draw, func_021C2920, func_021C2948, func_021C2968, func_021C29C4
+ * function: DWCi_SceneOptInfo, initGraphics, DWCi_SceneOptInfoDrawInfo, DWCi_SceneOptInfoProcInit, DWCi_SceneOptInfoProcInit1, DWCi_SceneOptInfoProcInit2, DWCi_SceneOptInfo_procScene, input, DWCi_SceneOptInfo_draw, button, DWCi_SceneOptInfoEndScene, DWCi_SceneOptInfoEndScene1, DWCi_SceneOptInfoEndScene2
  * address:  0x021C255C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -12,24 +12,26 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Call func_021C28FC, DWCi_SceneOptInfo_draw, func_021C2920.
+ * Call input, DWCi_SceneOptInfo_draw, button.
  * Addresses are Black-image addresses.
  * Verified with:
  *   python tools/match.py one --src src/matched/DWCi_SceneOptInfo_procScene.c \
  *       --func DWCi_SceneOptInfo_procScene --addr 0x021C28E8 --region ov016 --cc dsi/1.1p1 --arm
- * Guard: if (func_021D6824(2)) call func_021D6824.
- *   python tools/match.py one --src src/matched/func_021C28FC.c \
- *       --func func_021C28FC --addr 0x021C28FC --region ov016 --cc dsi/1.1p1 --arm
+ * Guard: if (DWCi_IPTlCheckTrigger(2)) call DWCi_IPTlCheckTrigger.
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C28FC --region ov016 --cc dsi/1.1p1 --arm
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  *   python tools/match.py one --src src/matched/DWCi_SceneOptInfo_draw.c \
  *       --func DWCi_SceneOptInfo_draw --addr 0x021C291C --region ov016 --cc dsi/1.1p1 --arm
  *
  * symbols:
+ *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
+ *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   initGraphics        0x021C2590  arm
  *   DWCi_HLlLoad        0x021BD674  arm
  *   DWCi_COMMENTlDispEx 0x021BD060  arm
  *   DWCi_ChangeScene    0x021C0E40  arm
- *   func_021BD1D4  0x021BD1D4  arm
+ *   DWCi_CMNlLoadResource  0x021BD1D4  arm
  *   DWCi_FNTlFormBgEx                    0x021D5A58  arm
  *   OS_GetMacAddress                     0x02087C6C  arm
  *   OS_SNPrintf                          0x02084F80  arm
@@ -39,9 +41,9 @@
  *   _ll_udiv                             0x0209C00C  arm
  *   _ull_mod                             0x0209C018  arm
  *   DWCi_FNTlRenewBg                     0x021D5FC4  arm
- *   g_021DB2F0                           0x021DB2F0  data  a1
- *   g_021DB310                           0x021DB310  data  a1
- *   g_021DB324                           0x021DB324  data  a1
+ *   sSceneOptInfoTable1                           0x021DB2F0  data  a1
+ *   sSceneOptInfoTable2                           0x021DB310  data  a1
+ *   sSceneOptInfoTable3                           0x021DB324  data  a1
  *   DWCi_EFFlFade     0x021D55A4  arm
  *   DWCi_GXlVisible   0x021D603C  arm
  *   DWCi_EFFlCheck    0x021D5580  arm
@@ -72,11 +74,10 @@ struct tagDWCWiFiInfo {
     unsigned char pad[12];
 };
 
-void initGraphics(void);
 void DWCi_HLlLoad(int idx);
 int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 void DWCi_ChangeScene(void (*scene)(void));
-void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
+void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 void *DWCi_FNTlFormBgEx(int lcd, int font);
 void OS_GetMacAddress(unsigned char *macAddress);
 int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
@@ -91,9 +92,8 @@ void DWCi_CMNlButton(int kind);
 int DWCi_BTNlGet(void);
 void DWCi_BTNlEnable(void);
 void procScene(void);
-extern void func_021C2920(void);
-extern int func_021D6824(unsigned int f);
-extern void func_021BCB28(signed char v);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_BTNlSet(signed char v);
 void DWCi_SNDlPlay(int no);
 void DWCi_BTNlDisable(void);
 int DWCi_EFFlWait(int frame);
@@ -105,22 +105,22 @@ void DWCi_GXlInvisible(int lcd, int plane);
 void DWCi_SetParam_(unsigned int param0, unsigned int param1);
 void DWCi_SceneOptMenu(void);
 void DWCi_SceneOptInfo(void);
-void func_021C2590(void);
 void drawInfo(void);
 void procInit(void);
 void procInit1(void);
 void procInit2(void);
 void DWCi_SceneOptInfo_procScene(void);
-void func_021C28FC(void);
 void DWCi_SceneOptInfo_draw(void);
 void button(void);
 void endScene(void);
 void endScene1(void);
 void endScene2(void);
-extern char g_021DB2F0[];
-extern char g_021DB310[];
-extern char g_021DB324[];
+extern char sSceneOptInfoTable1[];
+extern char sSceneOptInfoTable2[];
+extern char sSceneOptInfoTable3[];
 
+static void initGraphics(void);
+static void input(void);
 
 
 void DWCi_SceneOptInfo(void)
@@ -133,17 +133,15 @@ void DWCi_SceneOptInfo(void)
 }
 
 
-
-void func_021C2590(void)
+static void initGraphics(void)
 {
-    func_021BD1D4((void *)0x021DB2DC, (void *)0x0207EB78);
+    DWCi_CMNlLoadResource((void *)0x021DB2DC, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;
     ((BgCnt *)0x0400100A)->priority = 3;
     ((BgCnt *)0x04000008)->priority = 3;
     ((BgCnt *)0x0400000A)->priority = 3;
     ((BgCnt *)0x0400000C)->priority = 3;
 }
-
 
 
 void drawInfo(void)
@@ -159,7 +157,7 @@ void drawInfo(void)
 
     canvas = DWCi_FNTlFormBgEx(0, 0);
     OS_GetMacAddress(mac);
-    OS_SNPrintf(tmpbuf, 20, g_021DB2F0, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable1, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     DWCi_FNTlDrawRect(canvas, 8, 0x40, 0xf0, 0x1c, 2, 0x480, buf);
     DWCi_BM_GetWiFiInfo(&info);
@@ -171,16 +169,15 @@ void drawInfo(void)
             tmp[2 - i] = (int)(id % 10000);
             id /= 10000;
         }
-        OS_SNPrintf(tmpbuf, 20, g_021DB310, tmp[0], tmp[1], tmp[2], tmp[3]);
+        OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable2, tmp[0], tmp[1], tmp[2], tmp[3]);
         DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     } else {
-        OS_SNPrintf(tmpbuf, 20, g_021DB324);
+        OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable3);
         DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     }
     DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);
     DWCi_FNTlRenewBg(canvas);
 }
-
 
 
 void procInit(void)
@@ -193,7 +190,6 @@ void procInit(void)
 }
 
 
-
 void procInit1(void)
 {
     if (DWCi_EFFlCheck(1)) return;
@@ -201,7 +197,6 @@ void procInit1(void)
     DWCi_CMNlButton(2);
     DWCi_ChangeScene(procInit2);
 }
-
 
 
 void procInit2(void)
@@ -214,22 +209,21 @@ void procInit2(void)
 
 void DWCi_SceneOptInfo_procScene(void)
 {
-    func_021C28FC();
+    input();
     DWCi_SceneOptInfo_draw();
-    func_021C2920();
+    button();
 }
 
 
-void func_021C28FC(void)
+static void input(void)
 {
-    if (func_021D6824(2))
-        func_021BCB28(0);
+    if (DWCi_IPTlCheckTrigger(2))
+        DWCi_BTNlSet(0);
 }
 
 void DWCi_SceneOptInfo_draw(void)
 {
 }
-
 
 
 void button(void)
@@ -240,14 +234,12 @@ void button(void)
 }
 
 
-
 void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
     DWCi_ChangeScene(endScene1);
 }
-
 
 
 void endScene1(void)
@@ -258,7 +250,6 @@ void endScene1(void)
     DWCi_EFFlFade(3, 0, 0x15, 8);
     DWCi_ChangeScene(endScene2);
 }
-
 
 
 void endScene2(void)

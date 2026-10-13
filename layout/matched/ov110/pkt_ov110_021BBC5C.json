@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBC5C",
+   "name": "PMSIV_EDIT_Create",
    "address": "0x021BBC5C",
    "kind": "game",
    "region": "ov110",

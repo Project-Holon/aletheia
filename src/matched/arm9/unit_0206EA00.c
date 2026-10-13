@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0206EA00, func_0206EA2C
+ * function: NNSi_G3dGetTexPatAnmTexNameByIdx, NNSi_G3dGetTexPatAnmPlttNameByIdx
  * address:  0x0206EA00
  * packet:   pkt_0206EA00
  * region:   arm9
@@ -48,7 +48,7 @@ typedef struct NNSG3dResTexPatAnm {
     u16 ofsPlttName;
 } NNSG3dResTexPatAnm;
 
-const NNSG3dResName *func_0206EA00(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx)
+const NNSG3dResName *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx)
 {
     if (pPatAnm && texIdx < pPatAnm->numTex) {
         const NNSG3dResName *pNameArray
@@ -60,7 +60,7 @@ const NNSG3dResName *func_0206EA00(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx)
     return 0;
 }
 
-const NNSG3dResName *func_0206EA2C(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx)
+const NNSG3dResName *NNSi_G3dGetTexPatAnmPlttNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx)
 {
     if (pPatAnm && plttIdx < pPatAnm->numPltt) {
         const NNSG3dResName *pNameArray

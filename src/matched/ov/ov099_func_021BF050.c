@@ -1,5 +1,5 @@
 /*
- * function: func_021BF050
+ * function: WIFICLUB_HasNewClientAid
  * address:  0x021BF050
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@
  * (ov010 holds the tail of another function there).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_021BF050.c --func func_021BF050 --addr 0x021BF050 \n    --region ov099 --thumb --cc dsi/1.1p1
+ *   python tools/match.py one --src src/pending/WIFICLUB_HasNewClientAid.c --func WIFICLUB_HasNewClientAid --addr 0x021BF050 \n    --region ov099 --thumb --cc dsi/1.1p1
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ typedef int BOOL;
 
 extern int DWC_RAP_GetNewClientAid(void);
 
-BOOL func_021BF050(char *p)
+BOOL WIFICLUB_HasNewClientAid(char *p)
 {
     if (DWC_RAP_GetNewClientAid() != -1) {
         return 1;

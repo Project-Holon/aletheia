@@ -1,5 +1,5 @@
 /*
- * function: func_0689D5C8
+ * function: BTL_POSPOKE_SearchPosByPokeId
  * address:  0x0689D5C8
  * packet:   pkt_0689D5C8
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0689D5C8   0x0689D5C8  thumb
+ *   BTL_POSPOKE_SearchPosByPokeId   0x0689D5C8  thumb
  *
  * Scan a table of 3-byte records: find the first record whose first byte is
  * non-zero and whose third byte equals `key`; return its index (0..5), or 6.
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 func_0689D5C8(u8 *base, u8 key)
+u8 BTL_POSPOKE_SearchPosByPokeId(u8 *base, u8 key)
 {
     u32 i;
 

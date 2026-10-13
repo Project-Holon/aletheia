@@ -1,5 +1,5 @@
 /*
- * function: func_021C2438
+ * function: WIFICLUB_UpdateBgmFade
  * address: 0x021C2438
  * packet: pkt_ov099_021C2438
  * region: ov099
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
-int func_021C2438(char *p)
+int WIFICLUB_UpdateBgmFade(char *p)
 {
     int remaining;
     int start;

@@ -1,5 +1,5 @@
 /*
- * function: func_0206D2E8
+ * function: NNSi_G3dFuncSbc_CALLDL
  * address:  0x0206D2E8
  * packet:   pkt_0206CB8C
  * region:   arm9
@@ -12,10 +12,10 @@
  * A script-opcode step: run the 0x34 hook in mode 1, decode the nine-byte
  * instruction word at [s] into a byte offset (p[1..4]) and a payload
  * (p[5..8]), both assembled byte-by-byte because the stream is unaligned,
- * hand them to func_0206DC00 unless flag 0x100 or the hook's own 0x40 bit
+ * hand them to NNS_G3dGeSendDL unless flag 0x100 or the hook's own 0x40 bit
  * is set, run the hook again in mode 3, and advance the cursor by 9.
  *
- * PIN ../2.0/sp2: the re-read/forward tell (the func_02070BD8 /
+ * PIN ../2.0/sp2: the re-read/forward tell (the NNSi_G3dAnmObjInitNsBva /
  * func_02068EA0 family of docs/FRONTEND-PINS.md).  The hook dispatch appears
  * twice, at 0x0206D308..0x0206D31C and 0x0206D39C..0x0206D3B0, and both times
  * the image loads the hook pointer AFTER the flag store has retired:
@@ -32,12 +32,12 @@
  * under 1.1p1.  Under the pin the same C is 220 bytes, 0 mismatches.
  *
  * symbols:
- *   func_0206DC00  0x0206DC00  arm
+ *   NNS_G3dGeSendDL  0x0206DC00  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0206DC00(const u32 *src, u32 sz);
+extern void NNS_G3dGeSendDL(const u32 *src, u32 sz);
 
 struct S0206D2E8 {
     u8 *cur;        /* 0x00 */
@@ -49,7 +49,7 @@ struct S0206D2E8 {
     u8 mode;        /* 0x96 */
 };
 
-void func_0206D2E8(struct S0206D2E8 *s)
+void NNSi_G3dFuncSbc_CALLDL(struct S0206D2E8 *s)
 {
     u32 m;
     u32 g;
@@ -65,7 +65,7 @@ void func_0206D2E8(struct S0206D2E8 *s)
     }
     if ((s->flags & 0x100) == 0 && g == 0) {
         p = s->cur;
-        func_0206DC00((const u32 *)(p + (p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24))),
+        NNS_G3dGeSendDL((const u32 *)(p + (p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24))),
                       p[5] | (p[6] << 8) | (p[7] << 16) | (p[8] << 24));
     }
     if (m == 3) {

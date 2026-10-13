@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B85A4",
-    "func_021B871C",
-    "func_021B8730"
+    "IRC_RESULT_UpdateRankFade",
+    "IRC_RESULT_StartRankFade",
+    "IRC_RESULT_IsRankFadeFinished"
+   ],
+   "addresses": [
+    "0x021B85A4",
+    "0x021B871C",
+    "0x021B8730"
    ],
    "evidence": {
     "sole-ref": [

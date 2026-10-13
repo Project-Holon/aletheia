@@ -1,5 +1,5 @@
 /*
- * function: func_021B66A4
+ * function: COMPATIBLE_IRC_SYS_RecvValueAckHandler
  * address: 0x021B66A4
  * packet: pkt_ov101_021B66A4
  * region: ov101
@@ -12,4 +12,4 @@
  */
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) d[28]=1; }
+void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) d[28]=1; }

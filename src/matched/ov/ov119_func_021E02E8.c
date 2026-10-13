@@ -11,7 +11,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02008FEC 0x02008FEC thumb
  *   func_02008FFC 0x02008FFC thumb
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008C20 0x02008C20 thumb
@@ -47,7 +47,7 @@ extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 extern u32 func_02008FFC(void);
 extern u32 func_02008C20(void);
 extern u32 func_02007AEC(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
 extern void func_021E017C(void *,void *);
 extern void func_021E01E0(void *,void *);
@@ -66,14 +66,14 @@ void func_021E02E8(char *p)
         GAME_DATA_GetSaveControl(src);
         src=func_02008FEC(src);
         n=func_02008FFC();
-        func_02082D44(dest,src,n);
+        MI_CpuCopy8(dest,src,n);
         func_020307B0(dest);
     }
     dest=((struct Obj00589 *)p)->f610;
     if(dest) {
         src=GAME_DATA_GetTrainerRecord(((struct Obj00589 *)p)->f82C);
         n=func_02008C20();
-        func_02082D44(dest,src,n);
+        MI_CpuCopy8(dest,src,n);
         func_020307B0(dest);
     }
     if(((struct Obj00589 *)p)->f614) func_021E017C(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f614);
@@ -88,7 +88,7 @@ void func_021E02E8(char *p)
     if(((struct Obj00589 *)p)->f624) {
         n=func_02007AEC();
         src=func_02007AF4(((struct Obj00589 *)p)->f828,((struct Obj22755 *)(*(char * *)&((struct Obj00589 *)p)->f8))->f28);
-        func_02082D44(((struct Obj00589 *)p)->f624,src,n);
+        MI_CpuCopy8(((struct Obj00589 *)p)->f624,src,n);
         func_020307B0(((struct Obj00589 *)p)->f624);
     }
     if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((struct Obj00589 *)p)->f82C));

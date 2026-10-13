@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A18
+ * function: DWCi_Ndi_strlen
  * address:  0x021C7A18
  * packet:   pkt_021B9500
  * region:   ov114
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0209477C(const u8 *s);
 
-u32 func_021C7A18(const u8 *a0)
+u32 DWCi_Ndi_strlen(const u8 *a0)
 {
     return func_0209477C(a0);
 }

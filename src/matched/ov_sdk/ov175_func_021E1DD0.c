@@ -1,5 +1,5 @@
 /*
- * function: func_021E1DD0
+ * function: DWCi_GdbStartRequestResultToError
  * address:  0x021E1DD0
  * packet:   pkt_021E1DD0
  * region:   ov175
@@ -19,7 +19,7 @@
 
 typedef signed int s32;
 
-s32 func_021E1DD0(s32 a, s32 *st)
+s32 DWCi_GdbStartRequestResultToError(s32 a, s32 *st)
 {
     *st = 0x13;
     switch (a) {

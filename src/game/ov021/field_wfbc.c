@@ -54,7 +54,7 @@
  *   FIELD_WFBC_DATA_LOCAL_ClearPeopleList  0x0218609C  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList  0x021860B8  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_GetNpcId  0x021867B0  thumb  ov020
- *   func_02082D44  0x02082D44  arm  arm9
+ *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
  */
 struct ArcHandle;
@@ -111,7 +111,7 @@ extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *d
 extern void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
 extern void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data);
 extern int FIELD_WFBC_DATA_LOCAL_GetNpcId(const WfbcPerson *person);
-extern void func_02082D44(const void *src, void *dst, int size);
+extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern int FIELD_WFBC_DATA_LOCAL_CountPeople(const WfbcData *data, int which);
 FieldWfbc *FIELD_WFBC_Create(u32 heapId);
 u32 FIELD_WFBC_Delete(FieldWfbc *wfbc);
@@ -517,8 +517,8 @@ void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, 
 {
     EVENT_FIELD_PROCLINK_IsReturnEntryValid(person);
     people->isActive = 1;
-    func_02082D44(person, &people->person, sizeof(WfbcPerson));
-    func_02082D44(npcRecord, &people->npcRecord, sizeof(WfbcNpcRecord));
+    MI_CpuCopy8(person, &people->person, sizeof(WfbcPerson));
+    MI_CpuCopy8(npcRecord, &people->npcRecord, sizeof(WfbcNpcRecord));
     people->gridX = gridPos[0];
     people->gridZ = gridPos[1];
 }
@@ -526,14 +526,14 @@ void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, 
 void FIELD_WFBC_PEOPLE_LoadPerson(FieldWfbcPeople *people, const WfbcPerson *src)
 {
     if (people->isActive == 1) {
-        func_02082D44(src, &people->person, sizeof(WfbcPerson));
+        MI_CpuCopy8(src, &people->person, sizeof(WfbcPerson));
     }
 }
 
 void FIELD_WFBC_PEOPLE_StorePerson(FieldWfbcPeople *people, WfbcPerson *dst)
 {
     if (people->isActive == 1) {
-        func_02082D44(&people->person, dst, sizeof(WfbcPerson));
+        MI_CpuCopy8(&people->person, dst, sizeof(WfbcPerson));
     }
 }
 

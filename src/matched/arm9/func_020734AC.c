@@ -1,5 +1,5 @@
 /*
- * function: func_020734AC
+ * function: NNSi_SndPlayerAllocHeap
  * address:  0x020734AC
  * packet:   pkt_020734AC
  * region:   arm9
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0214E464     0x0214E464  data
+ *   gSndPlayers     0x0214E464  data
  *   func_02060614  0x02060614  arm
  *   func_020605B4  0x020605B4  arm
- *   func_02074770  0x02074770  arm
+ *   NNS_SndHeapClear  0x02074770  arm
  *
  * Takes the head node off the free list embedded at +0x0c of slot `idx` of the
- * g_0214E464 table, binds it to `owner` in both directions, drains the owner's
- * deferred requests through func_02074770, and returns the owner back.
+ * gSndPlayers table, binds it to `owner` in both directions, drains the owner's
+ * deferred requests through NNS_SndHeapClear, and returns the owner back.
  * Returns 0 when the free list is empty.
  *
  * THE TABLE STRIDE IS 0x24 AND THE LIST IS EMBEDDED AT +0x0c.  Both are fixed
  * by the head: `mov r2, #0x24 / mla r5, r0, r2, r3` is an indexed subscript on
- * a 0x24-stride array (the same table and stride matched func_0207312C and
- * func_02073344 already use), and the list argument is `add r0, r5, #0xc`, the
+ * a 0x24-stride array (the same table and stride matched NNS_SndPlayerInit and
+ * NNSi_SndPlayerAllocSeqPlayer already use), and the list argument is `add r0, r5, #0xc`, the
  * ADDRESS of an embedded object, not a loaded pointer.  Declaring the +0x0c
  * field as a `void *` and passing it emits an extra `ldr` and loses the add.
  *
  * THE LAST TWO STATEMENTS RE-READ n->f08 RATHER THAN REUSING `owner`.  The
- * image loads `ldr r0, [r4, #8]` twice, once for func_02074770's argument and
+ * image loads `ldr r0, [r4, #8]` twice, once for NNS_SndHeapClear's argument and
  * once for the return value, even though the value was just stored there from
- * r4's own `str r4, [r6, #8]`.  Writing `func_02074770(owner); return owner;`
+ * r4's own `str r4, [r6, #8]`.  Writing `NNS_SndHeapClear(owner); return owner;`
  * folds both loads away and is 8 bytes short.  The re-read is what the C above
  * spells literally, and it is also why the two stores are written in the order
  * f0c-then-f08: the compiler does not reorder them and the second store is what
@@ -47,8 +47,8 @@
  * pin the same C is 84 bytes, 0 concrete mismatches.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_020734AC.c \
- *       --func func_020734AC --addr 0x020734AC --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_SndPlayerAllocHeap.c \
+ *       --func NNSi_SndPlayerAllocHeap --addr 0x020734AC --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -58,21 +58,21 @@ typedef signed int    s32;
 struct Node { u8 pad00[8]; void *f08; void *f0c; };
 struct Slot { u8 pad00[0x0c]; u8 list[0x24 - 0x0c]; };
 
-extern struct Slot g_0214E464[];
+extern struct Slot gSndPlayers[];
 struct DList;
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
 struct Obj;
-extern void func_02074770(struct Obj *o);
+extern void NNS_SndHeapClear(struct Obj *o);
 
-void *func_020734AC(s32 idx, void *owner)
+void *NNSi_SndPlayerAllocHeap(s32 idx, void *owner)
 {
-    struct Slot *s = &g_0214E464[idx];
+    struct Slot *s = &gSndPlayers[idx];
     struct Node *n = func_02060614((struct DList *)s->list, 0);
     if (n == 0) return 0;
     func_020605B4((volatile struct DList *)s->list, n);
     n->f0c = owner;
     ((struct Node *)owner)->f08 = n;
-    func_02074770(n->f08);
+    NNS_SndHeapClear(n->f08);
     return n->f08;
 }

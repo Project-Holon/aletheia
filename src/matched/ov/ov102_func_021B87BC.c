@@ -1,5 +1,5 @@
 /*
- * function: func_021B87BC
+ * function: IRC_COMPATIBLE_MENU_ExitScrollEffect
  * address: 0x021B87BC
  * packet: pkt_ov102_021B87BC
  * region: ov102
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *, int, u32);
-void func_021B87BC(void *p) { MI_CpuFill8(p,0,28); }
+void IRC_COMPATIBLE_MENU_ExitScrollEffect(void *p) { MI_CpuFill8(p,0,28); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0689D0FC
+ * function: BTL_DEADREC_ClearTurn
  * address: 0x0689D0FC
  * packet: pkt_ov095_0689D0FC
  * region: ov095
@@ -10,7 +10,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_0689D0FC(u8 *p)
+void BTL_DEADREC_ClearTurn(u8 *p)
 {
     u32 i;
     p[0] = 0;

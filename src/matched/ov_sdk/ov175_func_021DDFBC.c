@@ -1,5 +1,5 @@
 /*
- * function: func_021DDFBC
+ * function: sakeiCreateRecordFillSoapRequest
  * address:  0x021DDFBC
  * packet:   pkt_021DDFBC
  * region:   ov175
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02182AC0   0x02182AC0  arm  ov009
- *   func_021DDBE4   0x021DDBE4  arm  ov175
- *   g_021E3A8C      0x021E3A8C  data
- *   g_021E3B4C      0x021E3B4C  data
+ *   sakeiFillSoapRequestFieldValues   0x021DDBE4  arm  ov175
+ *   sModifyXmlNamespacePrefix      0x021E3A8C  data
+ *   sModifyTagTableid      0x021E3B4C  data
  *
  * Forwarder: registers the two descriptor tables with the ov009 helper
  * using the +8 block's first word and the object's +0x18 cursor, then
- * hands the object and the block's next two words to func_021DDBE4.
+ * hands the object and the block's next two words to sakeiFillSoapRequestFieldValues.
  */
 
 typedef unsigned int u32;
@@ -31,15 +31,15 @@ typedef struct {
 struct SAKEField;
 struct SAKERequestInternal;
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-extern void func_021DDBE4(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
-extern u32 g_021E3A8C[];
-extern u32 g_021E3B4C[];
+extern void sakeiFillSoapRequestFieldValues(struct SAKERequestInternal *request, struct SAKEField *fields, int numFields);
+extern u32 sModifyXmlNamespacePrefix[];
+extern u32 sModifyTagTableid[];
 
-u32 func_021DDFBC(char *obj)
+u32 sakeiCreateRecordFillSoapRequest(char *obj)
 {
     Blk *b = *(Blk **)(obj + 8);
 
-    func_02182AC0((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)g_021E3A8C), (char *)((u32)g_021E3B4C), (char *)b->f0);
-    func_021DDBE4((struct SAKERequestInternal *)((u32)obj), (struct SAKEField *)b->f4, b->f8);
+    func_02182AC0((void *)(*(u32 *)(obj + 0x18)), (char *)((u32)sModifyXmlNamespacePrefix), (char *)((u32)sModifyTagTableid), (char *)b->f0);
+    sakeiFillSoapRequestFieldValues((struct SAKERequestInternal *)((u32)obj), (struct SAKEField *)b->f4, b->f8);
     return 0;
 }

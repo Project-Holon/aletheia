@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CA0
+ * function: IRC_COMPATIBLE_TOUCH_TEST_SetMarkerActive
  * address: 0x021B8CA0
  * packet: pkt_ov103_021B8CA0
  * region: ov103
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B7F60 0x021B7F60 thumb ov103
+ *   IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive 0x021B7F60 thumb ov103
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B7F60(u8 *,int);
-void func_021B8CA0(u8 **p,int i,int v) { func_021B7F60(p[i],v); }
+extern void IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive(u8 *,int);
+void IRC_COMPATIBLE_TOUCH_TEST_SetMarkerActive(u8 **p,int i,int v) { IRC_COMPATIBLE_TOUCH_TEST_ModelSetActive(p[i],v); }

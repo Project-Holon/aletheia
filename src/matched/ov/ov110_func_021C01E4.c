@@ -1,5 +1,5 @@
 /*
- * function: func_021C01E4
+ * function: PMS_SELECT_GRAPHIC_ProcExit
  * address: 0x021C01E4
  * packet: pkt_ov110_021C01E4
  * region: ov110
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C05B0 0x021C05B0 thumb ov110
+ *   PMS_SELECT_GRAPHIC_Teardown 0x021C05B0 thumb ov110
  *   func_0203133C 0x0203133C arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
@@ -20,7 +20,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  */
 #include "../include/Obj06394.h"
-extern void func_021C05B0(char *p);
+extern void PMS_SELECT_GRAPHIC_Teardown(char *p);
 struct PrintSys;
 struct Rec;
 struct S020314B8;
@@ -35,8 +35,8 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov067_id[];
-int func_021C01E4(void *p, int a, int b, char *q) {
-    func_021C05B0(q);
+int PMS_SELECT_GRAPHIC_ProcExit(void *p, int a, int b, char *q) {
+    PMS_SELECT_GRAPHIC_Teardown(q);
     func_0203133C(((struct Obj06394 *)q)->fAC);
     PRINTSYS_QUE_Clear(((struct Obj06394 *)q)->f5C);
     PRINTSYS_QUE_Delete(((struct Obj06394 *)q)->f5C);

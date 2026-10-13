@@ -1,5 +1,5 @@
 /*
- * function: func_0215AB5C
+ * function: CPS_SocRelease
  * address:  0x0215AB5C
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_02150FEC[];
 
-void func_0215AB5C(void)
+void CPS_SocRelease(void)
 {
     char *p = *(char **)(g_02150FEC + 4);
     int *q = *(int **)(p + 0xa4);

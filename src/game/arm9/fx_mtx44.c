@@ -1,7 +1,7 @@
 /*
  * file:     fx_mtx44.c
  * unit:     yes
- * function: func_0207BDB4, func_0207BDE0, func_0207BE14, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
+ * function: func_0207BDB4, MTX_Copy44To43_, func_0207BE14, MTX_FrustumW, MTX_PerspectiveW, MTX_OrthoW
  * address:  0x0207BDB4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -85,7 +85,7 @@ fx64c FX_GetDivResultFx64c(void);
 fx32 FX_Div(fx32 numer, fx32 denom);
 fx32 FX_GetDivResult(void);
 asm void func_0207BDB4(MtxFx44_0207BDB4 *pDst);
-asm void func_0207BDE0(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst);
+asm void MTX_Copy44To43_(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst);
 void MTX_Concat44(const MtxFx44_2 *a, const MtxFx44_2 *b, MtxFx44_2 *ab);
 void MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 void MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
@@ -116,7 +116,7 @@ asm void func_0207BDB4(MtxFx44_0207BDB4 *pDst)
  *
  * asm:      fixed-register ldm/stm block copy (ldmia r0!/stmia r1!, {r2, r3, r12}) has no C spelling
  */
-asm void func_0207BDE0(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst)
+asm void MTX_Copy44To43_(MtxFx44_0207BDE0 *pSrc, MtxFx43 *pDst)
 {
     ldmia r0!, {r2, r3, r12}
     add r0, r0, #4

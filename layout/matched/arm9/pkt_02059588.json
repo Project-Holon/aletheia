@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02059588",
+   "name": "DWCi_Acc_CreateTempLoginId",
    "address": "0x02059588",
    "kind": "sdk",
    "region": "arm9",

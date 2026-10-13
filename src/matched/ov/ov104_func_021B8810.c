@@ -1,5 +1,5 @@
 /*
- * function: func_021B8810
+ * function: IRC_RHYTHM_OnRecordReceived
  * address: 0x021B8810
  * packet: pkt_ov104_021B8810
  * region: ov104
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-void func_021B8810(int a,int b,int c,u8 *p,int e) { if(e==(int)GFL_NET_HANDLE_GetCurrentHandle() && a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22233 *)p)->f194=1; }
+void IRC_RHYTHM_OnRecordReceived(int a,int b,int c,u8 *p,int e) { if(e==(int)GFL_NET_HANDLE_GetCurrentHandle() && a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22233 *)p)->f194=1; }

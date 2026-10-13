@@ -1,5 +1,5 @@
 /*
- * function: func_021E08E8
+ * function: sciWsCreateSessionCallback
  * address:  0x021E08E8
  * packet:   pkt_ov175_021E08E8
  * region:   ov175
@@ -16,15 +16,15 @@
  *   func_021834E8  0x021834E8  arm  ov009
  *   func_02183A24  0x02183A24  arm  ov009
  *   func_0218372C  0x0218372C  arm  ov009
- *   func_021DF928  0x021DF928  arm  ov175
- *   func_021DF948  0x021DF948  arm  ov175
- *   g_021E4250  0x021E4250  data
- *   g_021E4268  0x021E4268  data
- *   g_021E4288  0x021E4288  data
- *   g_021E429C  0x021E429C  data
- *   g_021E42BC  0x021E42BC  data
- *   g_021E42C4  0x021E42C4  data
- *   g_021E42CC  0x021E42CC  data
+ *   sciInterfaceSetSessionId  0x021DF928  arm  ov175
+ *   sciInterfaceSetConnectionId  0x021DF948  arm  ov175
+ *   sSciTagCreateSessionResponse  0x021E4250  data
+ *   sSciTagCreateMatchlessSessionResponse  0x021E4268  data
+ *   sSciTagCreateSessionResult  0x021E4288  data
+ *   sSciTagCreateMatchlessSessionResult  0x021E429C  data
+ *   sSciTagResult  0x021E42BC  data
+ *   sSciTagCsid  0x021E42C4  data
+ *   sSciTagCcid  0x021E42CC  data
  *
  * The DWARF prototype lists three parameters; the object takes the response in r2
  * and the user data in r3, so an unused word sits in r1 (as in sciWsSetReportIntentionCallback).
@@ -57,17 +57,17 @@ extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern void func_021DF928(char *obj, int v);
-extern void func_021DF948(char *obj, int v);
-extern char g_021E4250[];
-extern char g_021E4268[];
-extern char g_021E4288[];
-extern char g_021E429C[];
-extern char g_021E42BC[];
-extern char g_021E42C4[];
-extern char g_021E42CC[];
+extern void sciInterfaceSetSessionId(char *obj, int v);
+extern void sciInterfaceSetConnectionId(char *obj, int v);
+extern char sSciTagCreateSessionResponse[];
+extern char sSciTagCreateMatchlessSessionResponse[];
+extern char sSciTagCreateSessionResult[];
+extern char sSciTagCreateMatchlessSessionResult[];
+extern char sSciTagResult[];
+extern char sSciTagCsid[];
+extern char sSciTagCcid[];
 
-void func_021E08E8(int theHttpResult, int unused, void *theResponseData, void *theUserData)
+void sciWsCreateSessionCallback(int theHttpResult, int unused, void *theResponseData, void *theUserData)
 {
     int aTranslatedResult = 7;
     SCWebServices *aWebServices = (SCWebServices *)theUserData;
@@ -81,20 +81,20 @@ void func_021E08E8(int theHttpResult, int unused, void *theResponseData, void *t
         createResult = 0;
         if (!func_021834D0(theResponseData))
             aTranslatedResult = 9;
-        else if (!func_021834E8(theResponseData, g_021E4250) && !func_021834E8(theResponseData, g_021E4268))
+        else if (!func_021834E8(theResponseData, sSciTagCreateSessionResponse) && !func_021834E8(theResponseData, sSciTagCreateMatchlessSessionResponse))
             aTranslatedResult = 9;
-        if (!func_021834E8(theResponseData, g_021E4288) && !func_021834E8(theResponseData, g_021E429C))
+        if (!func_021834E8(theResponseData, sSciTagCreateSessionResult) && !func_021834E8(theResponseData, sSciTagCreateMatchlessSessionResult))
             aTranslatedResult = 9;
-        if (!func_02183A24(theResponseData, g_021E42BC, &createResult))
+        if (!func_02183A24(theResponseData, sSciTagResult, &createResult))
             aTranslatedResult = 9;
         else if (aTranslatedResult != 9) {
             if (createResult == 0) {
-                if (!func_0218372C(theResponseData, g_021E42C4, csid, 255) ||
-                    !func_0218372C(theResponseData, g_021E42CC, ccid, 255)) {
+                if (!func_0218372C(theResponseData, sSciTagCsid, csid, 255) ||
+                    !func_0218372C(theResponseData, sSciTagCcid, ccid, 255)) {
                     aTranslatedResult = 9;
                 } else {
-                    func_021DF928(aWebServices->mInterface, (int)csid);
-                    func_021DF948(aWebServices->mInterface, (int)ccid);
+                    sciInterfaceSetSessionId(aWebServices->mInterface, (int)csid);
+                    sciInterfaceSetConnectionId(aWebServices->mInterface, (int)ccid);
                     aTranslatedResult = 0;
                 }
             } else {

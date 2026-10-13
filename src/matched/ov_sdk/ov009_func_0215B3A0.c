@@ -1,5 +1,5 @@
 /*
- * function: func_0215B3A0
+ * function: CPSi_SocWrite2
  * address:  0x0215B3A0
  * packet:   pkt_ov009_0215B3A0
  * region:   ov009
@@ -12,10 +12,10 @@
  * sdk:      CPSi_SocWrite2 (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_021585D8  0x021585D8  arm  ov009
- *   func_02158524  0x02158524  arm  ov009
+ *   send_udp  0x021585D8  arm  ov009
+ *   send_ping  0x02158524  arm  ov009
  *   func_02162CA0  0x02162CA0  arm  ov009
- *   func_0215B198  0x0215B198  arm  ov009
+ *   CPSi_TcpWrite2Raw  0x0215B198  arm  ov009
  *   g_02150FEC  0x02150FEC  data
  *   g_021A826C  0x021A826C  data
  */
@@ -40,14 +40,14 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CPSSoc;
 struct _CPSSoc;
-extern void func_021585D8(unsigned char *data, unsigned long len, struct _CPSSoc *soc);
-extern void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc);
+extern void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc);
+extern void send_ping(unsigned char *pattern, unsigned long len, struct Soc *soc);
 extern unsigned long func_02162CA0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct CPSSoc *soc);
-extern u32 func_0215B198(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
+extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern struct ThreadInfo g_02150FEC;
 extern unsigned char g_021A826C;
 
-unsigned long func_0215B3A0(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2)
+unsigned long CPSi_SocWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2)
 {
 	struct Soc *soc;
 	unsigned long total_written;
@@ -56,20 +56,20 @@ unsigned long func_0215B3A0(unsigned char *buf, unsigned long len, unsigned char
 	if (soc != 0) {
 		if (soc->state == 10) {
 			if (len)
-				func_021585D8(buf, len, (struct _CPSSoc *)soc);
+				send_udp(buf, len, (struct _CPSSoc *)soc);
 			if (len2)
-				func_021585D8(buf2, len2, (struct _CPSSoc *)soc);
+				send_udp(buf2, len2, (struct _CPSSoc *)soc);
 			total_written = len + len2;
 		} else if (soc->state == 11) {
 			if (len)
-				func_02158524(buf, len, soc);
+				send_ping(buf, len, soc);
 			if (len2)
-				func_02158524(buf2, len2, soc);
+				send_ping(buf2, len2, soc);
 			total_written = len + len2;
 		} else if (soc->ssl) {
 			total_written = func_02162CA0(buf, len, buf2, len2, (struct CPSSoc *)soc);
 		} else {
-			total_written = func_0215B198(buf, len, buf2, len2, (struct _CPSSoc *)soc);
+			total_written = CPSi_TcpWrite2Raw(buf, len, buf2, len2, (struct _CPSSoc *)soc);
 		}
 		if (!g_021A826C)
 			return total_written;

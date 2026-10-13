@@ -19,6 +19,7 @@
  *   DSP_SetPipeCallback  0x02706D28  arm
  *   DSP_LoadPipe  0x02706D44  arm
  *   DSP_ReadPipe  0x02706EC0  arm
+ *   OS_Terminate  0x02088234  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,7 +54,7 @@ typedef struct DspSys {
 
 extern DspSys data_027344D8;
 extern int data_02732D78;
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void *DSP_FindProcess(int);
 extern void DSP_WriteProcessPipe(void *, int, void *, u16);
 extern u32 SNDEXi_PreProcessForShutterSound(void);
@@ -81,10 +82,10 @@ u32 DSPi_IsShutterSoundPlayingCore(void);
 void DSPiShutterPostProcessCallback(u32 mode)
 {
     if (mode == 3) {
-        func_02088234();
+        OS_Terminate();
     }
     if (mode != 0) {
-        func_02088234();
+        OS_Terminate();
     }
     data_027344D8.f14 = 0;
 }

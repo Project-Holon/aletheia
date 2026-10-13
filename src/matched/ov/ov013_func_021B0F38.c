@@ -25,7 +25,7 @@
  *   VCT_AUDIO_TrackPacketTiming  0x021B1B94  arm  ov013
  *   VCT_AUDIO_QueuePending  0x021B1404  arm  ov013
  *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
 typedef unsigned char u8;
@@ -102,7 +102,7 @@ extern int VCT_AUDIO_TrackPacketTiming(struct Src *s, struct Pkt *pkt);
 struct Node;
 extern int VCT_AUDIO_QueuePending(struct Node *n);
 extern void VCT_POOL_FreeFrame(Voice *v);
-extern void func_02082D44(void *src, void *dst, u32 n);
+extern void MI_CpuCopy8(void *src, void *dst, u32 n);
 
 int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
 {
@@ -156,7 +156,7 @@ int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
     }
 
     dst = &v->buf[sizeof(v->buf)] - (size - 0xc);
-    func_02082D44(hdr->data, dst, size - 0xc);
+    MI_CpuCopy8(hdr->data, dst, size - 0xc);
     v->f11 = ch->f34;
     v->fC = mode;
     v->f474 = dst;

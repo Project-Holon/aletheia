@@ -14,16 +14,16 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   func_02084F80  0x02084F80  arm
- *   func_02088234  0x02088234  arm
- *   func_02082D44  0x02082D44  arm
- *   func_02087C6C  0x02087C6C  arm
- *   func_02084F40  0x02084F40  arm
- *   func_02087C88  0x02087C88  arm
+ *   OS_Terminate  0x02088234  arm
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
+ *   OS_SPrintf  0x02084F40  arm
+ *   OS_GetOwnerInfo  0x02087C88  arm
  *   func_020889C0  0x020889C0  arm
- *   func_02087988  0x02087988  arm
+ *   OS_DisableInterrupts  0x02087988  arm
  *   func_02166384  0x02166384  arm  ov009
  *   func_020862B8  0x020862B8  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0205BDD0  0x0205BDD0  arm
  *   func_021663C8  0x021663C8  arm  ov009
  *   func_0205BE00  0x0205BE00  arm
@@ -88,16 +88,16 @@ typedef struct OSOwnerInfo {
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
-extern void func_02088234(void);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
-extern void func_02087C6C(unsigned char *macAddress);
-extern int func_02084F40(char *dst, const char *fmt, ...);
-extern void func_02087C88(OSOwnerInfo *info);
+extern void OS_Terminate(void);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+extern void OS_GetMacAddress(unsigned char *macAddress);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
+extern void OS_GetOwnerInfo(OSOwnerInfo *info);
 extern int func_020889C0(RTCDate *date, RTCTime *time);
-extern unsigned long func_02087988(void);
+extern unsigned long OS_DisableInterrupts(void);
 extern unsigned char *func_02166384(void);
 extern void func_020862B8(void *startAddr, unsigned long nBytes);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned char func_0205BDD0(void);
 extern unsigned char *func_021663C8(unsigned short *length);
 extern int func_0205BE00(unsigned char *apSpotInfo);
@@ -131,23 +131,23 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     func_02084F80(cal->passwd, sizeof(cal->passwd), g_021A2498, wifiinfo->pass);
 
     if (*(unsigned char *)0x02FFFE0C == 0)
-        func_02088234();
-    func_02082D44((void *)0x02FFFE0C, cal->gamecd, 4);
+        OS_Terminate();
+    MI_CpuCopy8((void *)0x02FFFE0C, cal->gamecd, 4);
     if (*(unsigned char *)0x02FFFE10 == 0)
-        func_02088234();
-    func_02082D44((void *)0x02FFFE10, cal->makercd, 2);
+        OS_Terminate();
+    MI_CpuCopy8((void *)0x02FFFE10, cal->makercd, 2);
 
     cal->unitcd[0] = '0';
 
-    func_02087C6C(macaddr);
+    OS_GetMacAddress(macaddr);
     for (i = 0; i < 6; i++)
-        func_02084F40(&cal->macadr[i * 2], g_021A24A0, macaddr[i]);
+        OS_SPrintf(&cal->macadr[i * 2], g_021A24A0, macaddr[i]);
 
-    func_02087C88(&ownerinfo);
+    OS_GetOwnerInfo(&ownerinfo);
     if (ownerinfo.language >= 8)
         ownerinfo.language = 1;
     func_02084F80(cal->lang, sizeof(cal->lang), g_021A24A0, ownerinfo.language);
-    func_02082D44(ownerinfo.nickName, cal->devname, 20);
+    MI_CpuCopy8(ownerinfo.nickName, cal->devname, 20);
     func_02084F80(cal->birth, sizeof(cal->birth), g_021A24A8,
                   ownerinfo.birthday.month, ownerinfo.birthday.day);
 
@@ -157,16 +157,16 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
                   rtcdate.year, rtcdate.month, rtcdate.day,
                   rtctime.hour, rtctime.minute, rtctime.second);
 
-    preirq = func_02087988();
+    preirq = OS_DisableInterrupts();
 
     wcmbssid = func_02166384();
     func_020862B8(wcmbssid, 6);
     if (wcmbssid == 0) {
-        func_0208799C(preirq);
+        OS_RestoreInterrupts(preirq);
         return 0;
     }
     for (i = 0; i < 6; i++)
-        func_02084F40(&cal->bssid[i * 2], g_021A24A0, wcmbssid[i]);
+        OS_SPrintf(&cal->bssid[i * 2], g_021A24A0, wcmbssid[i]);
 
     aptype = func_0205BDD0();
     if (aptype == 0xff || aptype > 99)
@@ -176,12 +176,12 @@ int func_02178F78(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo)
     wcmessid = func_021663C8(&wcmessidlen);
     func_020862B8(wcmessid, 32);
     if (wcmessid == 0) {
-        func_0208799C(preirq);
+        OS_RestoreInterrupts(preirq);
         return 0;
     }
-    func_02082D44(wcmessid, cal->ssid, 32);
+    MI_CpuCopy8(wcmessid, cal->ssid, 32);
     func_0205BE00((unsigned char *)&cal->apinfo[3]);
 
-    func_0208799C(preirq);
+    OS_RestoreInterrupts(preirq);
     return 1;
 }

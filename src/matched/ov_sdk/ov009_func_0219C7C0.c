@@ -24,16 +24,16 @@
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   func_0219AB8C  0x0219AB8C  arm  ov009
- *   func_0219BA84  0x0219BA84  arm  ov009
- *   func_0219C5B8  0x0219C5B8  arm  ov009
+ *   qr_add_packet_header  0x0219BA84  arm  ov009
+ *   qr2_process_ip_verify  0x0219C5B8  arm  ov009
  *   func_0219C724  0x0219C724  arm  ov009
- *   func_0219C154  0x0219C154  arm  ov009
+ *   qr_process_query  0x0219C154  arm  ov009
  *   func_0208CF34  0x0208CF34  arm
- *   func_0219BB54  0x0219BB54  arm  ov009
- *   func_0219BAB4  0x0219BAB4  arm  ov009
+ *   handle_public_address  0x0219BB54  arm  ov009
+ *   compute_challenge_response  0x0219BAB4  arm  ov009
  *   func_02092344  0x02092344  arm
  *   func_0219C554  0x0219C554  arm  ov009
- *   func_0219C3A4  0x0219C3A4  arm  ov009
+ *   qr_process_client_message  0x0219C3A4  arm  ov009
  *   func_0217ECA4  0x0217ECA4  arm  ov009
  *   func_0217D32C  0x0217D32C  arm  ov009
  *   current_rec    0x021A6600  data
@@ -110,20 +110,20 @@ extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
                           const char *theTokenStr, ...);
 extern int func_020923F0(const void *s1, const void *s2, int n);
 extern void func_0219AB8C(char *data, int len, SOCSockAddrIn *fromaddr);
-extern void func_0219BA84(qr2_buffer_s *buf, char ptype, char *reqkey);
-extern int func_0219C5B8(qr2_implementation_s *qrec, qr2_buffer_s *buf,
+extern void qr_add_packet_header(qr2_buffer_s *buf, char ptype, char *reqkey);
+extern int qr2_process_ip_verify(qr2_implementation_s *qrec, qr2_buffer_s *buf,
                          SOCSockAddrIn *sender);
 extern int func_0219C724(qr2_implementation_s *qrec, SOCSockAddrIn *sender,
                          unsigned int ipverify);
-extern void func_0219C154(qr2_implementation_s *qrec, qr2_buffer_s *buf,
+extern void qr_process_query(qr2_implementation_s *qrec, qr2_buffer_s *buf,
                           unsigned char *qdata, int len, SOCSockAddr *sender);
 extern int func_0208CF34(char *src, char *fmt, ...);
-extern void func_0219BB54(qr2_implementation_s *qrec, char *buffer);
-extern void func_0219BAB4(qr2_implementation_s *qrec, qr2_buffer_s *buf,
+extern void handle_public_address(qr2_implementation_s *qrec, char *buffer);
+extern void compute_challenge_response(qr2_implementation_s *qrec, qr2_buffer_s *buf,
                           char *challenge, int challengelen);
 extern void func_02092344(void *dst, void *src, unsigned long size);
 extern int func_0219C554(qr2_implementation_s *qrec, int msgkey);
-extern void func_0219C3A4(qr2_implementation_s *qrec, char *buf, int len);
+extern void qr_process_client_message(qr2_implementation_s *qrec, char *buf, int len);
 extern int func_0217ECA4(int sock, char *buf, int len, int flags,
                          SOCSockAddr *addr, int tolen);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel,
@@ -166,12 +166,12 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
     ptype = query[2];
     pos = query + 7;
     len -= 7;
-    func_0219BA84(&buf, ptype, reqkey);
+    qr_add_packet_header(&buf, ptype, reqkey);
 
     switch (ptype) {
     case 9:
         func_0217D254(3, 0, 8, g_021A791C);
-        if (func_0219C5B8(qrec, &buf, (SOCSockAddrIn *)sender) == 0)
+        if (qr2_process_ip_verify(qrec, &buf, (SOCSockAddrIn *)sender) == 0)
             return;
         break;
     case 0:
@@ -185,7 +185,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
             if (func_0219C724(qrec, (SOCSockAddrIn *)sender, SWAP32((unsigned int)i)) == 0)
                 return;
         }
-        func_0219C154(qrec, &buf, (unsigned char *)pos, len, sender);
+        qr_process_query(qrec, &buf, (unsigned char *)pos, len, sender);
         return;
     case 1:
         func_0217D254(3, 0, 8, g_021A7960);
@@ -197,11 +197,11 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
             qrec->backendoptions = (unsigned char)backendoptions;
             func_0217D254(3, 4, 8, g_021A7988, qrec->backendoptions);
             if (qrec->pa_callback != 0)
-                func_0219BB54(qrec, pos + len - 13);
+                handle_public_address(qrec, pos + len - 13);
             else
                 func_0217D254(3, 0, 8, g_021A79A8);
         }
-        func_0219BAB4(qrec, &buf, pos, len);
+        compute_challenge_response(qrec, &buf, pos, len);
         break;
     case 2:
         func_0217D254(3, 0, 8, g_021A79D8);
@@ -235,7 +235,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         buf.len += 4;
         memcpy(&i, pos, 4);
         if (func_0219C554(qrec, i) == 0)
-            func_0219C3A4(qrec, pos + 4, len - 4);
+            qr_process_client_message(qrec, pos + 4, len - 4);
         break;
     case 8:
         func_0217D254(3, 0, 0x10, g_021A7A38);

@@ -1,7 +1,7 @@
 /*
  * file:     step.c
  * unit:     yes
- * function: DWCi_STEPlBegin, taskBegin0, taskBegin1, taskBegin2, taskBegin3, taskBegin4, taskBegin5, DWCi_STEPlEnd, DWCi_STEPlChange, func_021D0684, taskEnd0, taskEnd1, taskEnd2, taskEnd3, taskEnd4, DWCi_STEPlIsEnd, DWCi_STEPlChangeScr, taskChange
+ * function: DWCi_STEPlBegin, taskBegin0, taskBegin1, taskBegin2, taskBegin3, taskBegin4, taskBegin5, DWCi_STEPlEnd, DWCi_STEPlChange, DWCi_STEPlGet, taskEnd0, taskEnd1, taskEnd2, taskEnd3, taskEnd4, DWCi_STEPlIsEnd, DWCi_STEPlChangeScr, taskChange
  * address:  0x021D0040
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -95,121 +95,18 @@ extern const COORD C_POS[5];
 /* step.o .data */
 extern char *FILE_NAME[5];
 
-
-
-
-
-
-
-
 static void taskBegin0(void *task);
-
-
-
-
-
-
-
-
 static void taskBegin1(void *task);
-
-
-
-
-
-
-
-
 static void taskBegin2(void *task);
-
-
-
-
-
-
-
-
 static void taskBegin3(void *task);
-
-
-
-
-
-
-
-
 static void taskBegin4(void *task);
-
-
-
-
-
-
-
-
 static void taskBegin5(void *task);
-
-
-
-
-
-
-
-
 static void taskEnd0(void *task);
-
-
-
-
-
-
-
-
 static void taskEnd1(void *task);
-
-
-
-
-
-
-
-
 static void taskEnd2(void *task);
-
-
-
-
-
-
-
-
 static void taskEnd3(void *task);
-
-
-
-
-
-
-
-
 static void taskEnd4(void *task);
-
-
-
-
-
-
-
-
 static void taskChange(void *task);
-
-
-
-
-
-
-
-
 
 
 void DWCi_STEPlBegin(int step)
@@ -227,14 +124,6 @@ void DWCi_STEPlBegin(int step)
     DWCi_STEPlChangeScr(step);
     DWCi_SNDlPlay(13);
 }
-
-
-
-
-
-
-
-
 
 
 static void taskBegin0(void *task)
@@ -257,13 +146,6 @@ static void taskBegin0(void *task)
 }
 
 
-
-
-
-
-
-
-
 static void taskBegin1(void *task)
 {
     int i;
@@ -282,12 +164,6 @@ static void taskBegin1(void *task)
         DWCi_TSKlChangeFunc(task, taskBegin2);
     }
 }
-
-
-
-
-
-
 
 
 static void taskBegin2(void *task)
@@ -310,11 +186,6 @@ static void taskBegin2(void *task)
 }
 
 
-
-
-
-
-
 static void taskBegin3(void *task)
 {
     int i;
@@ -335,11 +206,6 @@ static void taskBegin3(void *task)
 }
 
 
-
-
-
-
-
 static void taskBegin4(void *task)
 {
     int x;
@@ -357,9 +223,6 @@ static void taskBegin4(void *task)
 }
 
 
-
-
-
 static void taskBegin5(void *task)
 {
     DWCi_TSKlDelete(0, task);
@@ -367,14 +230,11 @@ static void taskBegin5(void *task)
 }
 
 
-
-
 void DWCi_STEPlEnd(void)
 {
     MemStep->end = 1;
     MemStep->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskEnd0, 0, 0x78);
 }
-
 
 
 void DWCi_STEPlChange(int step)
@@ -395,22 +255,15 @@ void DWCi_STEPlChange(int step)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D0684.c \
- *       --func func_021D0684 --addr 0x021D0684 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_STEPlGet.c \
+ *       --func DWCi_STEPlGet --addr 0x021D0684 --region ov016 --cc dsi/1.1p1 --arm
  */
-int func_021D0684(void)
+int DWCi_STEPlGet(void)
 {
     char **p = (char **)0x021DE64C;
     unsigned int *q = (unsigned int *)(p[1] + 0x14);
     return *q != 0;
 }
-
-
-
-
-
-
-
 
 
 static void taskEnd0(void *task)
@@ -428,13 +281,6 @@ static void taskEnd0(void *task)
         DWCi_TSKlChangeFunc(task, taskEnd1);
     }
 }
-
-
-
-
-
-
-
 
 
 static void taskEnd1(void *task)
@@ -457,12 +303,6 @@ static void taskEnd1(void *task)
 }
 
 
-
-
-
-
-
-
 static void taskEnd2(void *task)
 {
     int i;
@@ -481,11 +321,6 @@ static void taskEnd2(void *task)
         DWCi_TSKlChangeFunc(task, taskEnd3);
     }
 }
-
-
-
-
-
 
 
 static void taskEnd3(void *task)
@@ -508,10 +343,6 @@ static void taskEnd3(void *task)
 }
 
 
-
-
-
-
 static void taskEnd4(void *task)
 {
     int i;
@@ -531,17 +362,12 @@ static void taskEnd4(void *task)
 }
 
 
-
-
-
 bool DWCi_STEPlIsEnd(void)
 {
     if (MemStep == 0)
         return 1;
     return MemStep->end == 0;
 }
-
-
 
 
 void DWCi_STEPlChangeScr(int step)
@@ -551,7 +377,6 @@ void DWCi_STEPlChangeScr(int step)
     File = DWCi_ARClReadEx(n, 0, 4);
     DWCi_TSKlForm(1, (void (*)(void *, void *))taskChange, 0, 0x78);
 }
-
 
 
 static void taskChange(void *task)

@@ -14,7 +14,7 @@
  * symbols:
  *   func_020948E0  0x020948E0  arm
  *   func_0217956C  0x0217956C  arm  ov009
- *   func_02058518  0x02058518  arm
+ *   DWCi_BM_GetWiFiInfo  0x02058518  arm
  *   func_02178A94  0x02178A94  arm  ov009
  *   func_0217967C  0x0217967C  arm  ov009
  *   OS_GetThreadPriority  0x02085A30  arm
@@ -64,7 +64,7 @@ typedef struct
 extern int func_020948E0(const char *, const char *);
 extern int func_0217956C(struct DWCHttp *http, struct DWCHttpParam *param);
 struct tagDWCWiFiInfo;
-extern void func_02058518(struct tagDWCWiFiInfo *buf);
+extern void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
 extern int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
 extern int func_0217967C(char *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
@@ -91,7 +91,7 @@ int func_021782B4(int getwifiinfofromflash)
         return 4;
 
     if (getwifiinfofromflash == 1)
-        func_02058518((struct tagDWCWiFiInfo *)g_021AB190);
+        DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)g_021AB190);
 
     AUTH_RESULT = func_02178A94(AUTH_HTTP, ((char *)g_021AB184.auth) + 0x1200, (unsigned short *)(((char *)g_021AB184.auth) + 0x11cc));
     if (AUTH_RESULT != 0)

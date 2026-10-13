@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200407E",
+   "name": "SVC_UncompressLZ16FromDevice",
    "address": "0x0200407E",
    "kind": "game",
    "region": "arm9",

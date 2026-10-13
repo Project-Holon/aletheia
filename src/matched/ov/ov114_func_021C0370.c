@@ -1,5 +1,5 @@
 /*
- * function: func_021C0370
+ * function: ghiLock
  * address:  0x021C0370
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,6 +15,6 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021C0370(void)
+void ghiLock(void)
 {
 }

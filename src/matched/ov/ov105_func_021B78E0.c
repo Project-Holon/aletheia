@@ -1,5 +1,5 @@
 /*
- * function: func_021B78E0
+ * function: IRC_RESULT_ScreenVBlankTask
  * address: 0x021B78E0
  * packet: pkt_ov105_021B78E0
  * region: ov105
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B7A80 0x021B7A80 thumb ov105
- *   func_021B7C0C 0x021B7C0C thumb ov105
+ *   IRC_RESULT_VBlankBackgrounds 0x021B7A80 thumb ov105
+ *   IRC_RESULT_VBlankActorSystem 0x021B7C0C thumb ov105
  */
-extern void func_021B7A80(void *); extern void func_021B7C0C(void *);
-void func_021B78E0(int a, unsigned char *p) { func_021B7A80(p); func_021B7C0C(p+4); }
+extern void IRC_RESULT_VBlankBackgrounds(void *); extern void IRC_RESULT_VBlankActorSystem(void *);
+void IRC_RESULT_ScreenVBlankTask(int a, unsigned char *p) { IRC_RESULT_VBlankBackgrounds(p); IRC_RESULT_VBlankActorSystem(p+4); }

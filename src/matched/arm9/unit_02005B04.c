@@ -17,12 +17,12 @@
  *   _SndStack  0x020AA1AC  data
  *   GFL_USE_BeginSndSlot      0x02005834  thumb
  *   GFL_USE_EndSndSlot      0x02005858  thumb
- *   func_020748E0     0x020748E0  arm
+ *   NNS_SndHeapLoadState     0x020748E0  arm
  *
  * Close the current connection slot with a status word taken from the
  * second word of the argument block.  Its own byte range because the
  * function immediately before it, 0x02005A98, cannot be attested: the only
- * `blx` to func_02074A6C anywhere in the image is the one inside it.
+ * `blx` to NNS_SndArcLoadSeq anywhere in the image is the one inside it.
  */
 
 typedef unsigned short u16;
@@ -39,13 +39,13 @@ extern struct Sub02005B04Cur _SndStack;
 
 extern void GFL_USE_BeginSndSlot(u32 v);
 extern void GFL_USE_EndSndSlot(void);
-extern void func_020748E0(u32 *a, u32 b);
+extern void NNS_SndHeapLoadState(u32 *a, u32 b);
 
 void GFL_USE_ReleaseWaveArcSet(const u32 *arg)
 {
     u32 v = arg[1];
 
     GFL_USE_EndSndSlot();
-    func_020748E0(*_SndStack.unk08, v);
+    NNS_SndHeapLoadState(*_SndStack.unk08, v);
     GFL_USE_BeginSndSlot(v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4DC8
+ * function: DWCi_CELLlEnd
  * address:  0x021D4DC8
  * packet:   pkt_ov016_021D4DC8
  * region:   ov016
@@ -12,10 +12,10 @@
  * sdk:      DWCi_CELLlEnd (libdwcutil.TWL.HYB.a(cell.o))
  *
  * symbols:
- *   func_021D6D70  0x021d6d70  arm  ov016
- *   func_021D5450  0x021d5450  arm  ov016
- *   func_021D6438  0x021d6438  arm  ov016
- *   g_021DE670  0x021de670  data
+ *   DWCi_LSTlDelete  0x021d6d70  arm  ov016
+ *   DWCi_QUElDelete  0x021d5450  arm  ov016
+ *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
+ *   gCellWork  0x021de670  data
  *   g_021DE670_free  0x021DE670  data
  */
 
@@ -37,20 +37,20 @@ typedef struct tagMEMCELL {
     CELLPRM c[2];
 } MEMCELL;
 
-extern MEMCELL *g_021DE670;
+extern MEMCELL *gCellWork;
 
 extern MEMCELL *g_021DE670_free;
-extern void func_021D6D70(void *list);
-extern void func_021D5450(void *queue);
-extern void func_021D6438(void **mem);
+extern void DWCi_LSTlDelete(void *list);
+extern void DWCi_QUElDelete(void *queue);
+extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021D4DC8(void)
+void DWCi_CELLlEnd(void)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_021D6D70(g_021DE670->c[i].list);
-        func_021D5450(g_021DE670->c[i].queue);
+        DWCi_LSTlDelete(gCellWork->c[i].list);
+        DWCi_QUElDelete(gCellWork->c[i].queue);
     }
-    func_021D6438((void **)&g_021DE670_free);
+    DWCi_HEAPlFree_((void **)&g_021DE670_free);
 }

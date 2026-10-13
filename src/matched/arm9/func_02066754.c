@@ -1,5 +1,5 @@
 /*
- * function: func_02066754
+ * function: NNSi_G2dMtxConcat32
  * address:  0x02066754
  * packet:   pkt_02066754
  * region:   arm9
@@ -35,7 +35,7 @@ typedef struct MtxFx23 {
 
 #define FX32_SHIFT 12
 
-void func_02066754(const MtxFx23 *a, const MtxFx23 *b, MtxFx23 *ab)
+void NNSi_G2dMtxConcat32(const MtxFx23 *a, const MtxFx23 *b, MtxFx23 *ab)
 {
     MtxFx23 tmp;
     MtxFx23 *p;

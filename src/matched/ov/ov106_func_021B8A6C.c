@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A6C
+ * function: IRC_RANKING_RowSetScroll
  * address: 0x021B8A6C
  * packet: pkt_ov106_021B8A6C
  * region: ov106
@@ -23,7 +23,7 @@ extern void CLACT_AddActorSurfacePos(void *,Pair *,u16);
 typedef unsigned int   u32;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021B8A6C(u8 *p,int delta) {
+void IRC_RANKING_RowSetScroll(u8 *p,int delta) {
     Pair pos;
     int offsets[2];
     int i;

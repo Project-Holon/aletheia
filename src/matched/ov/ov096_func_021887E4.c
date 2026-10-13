@@ -1,5 +1,5 @@
 /*
- * function: func_021887E4
+ * function: TR_AI_CmdIfHpNotEqual
  * address: 0x021887E4
  * packet: pkt_ov096_021887E4
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021887F4 0x021887F4 thumb ov096
+ *   TR_AI_CompareHpRatio 0x021887F4 thumb ov096
  */
 #include "../include/Obj21923.h"
 struct Cursor;
-extern int func_021887F4(struct Cursor *a, int b, int c);
-int func_021887E4(struct Cursor *a, int b)
+extern int TR_AI_CompareHpRatio(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfHpNotEqual(struct Cursor *a, int b)
 {
-    func_021887F4(a, b, 3);
+    TR_AI_CompareHpRatio(a, b, 3);
     return ((struct Obj21923 *)((unsigned int)b))->fC4;
 }

@@ -14,15 +14,15 @@
  * FIELD_CAMERA_LoadAreas.  EXACT* (unlabelled follower 0x0218F134).
  *
  * symbols:
- *   func_02082D44   0x02082D44  arm
+ *   MI_CpuCopy8   0x02082D44  arm
  */
 #include "../include/Obj12594.h"
 #include "../include/Obj19570.h"
 
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 
 void FIELD_CAMERA_CopyAreas(char *arg0, char *arg1)
 {
-    func_02082D44(arg1 + 4, arg0 + 0x88, 0x18 * ((struct Obj12594 *)arg1)->f0);
+    MI_CpuCopy8(arg1 + 4, arg0 + 0x88, 0x18 * ((struct Obj12594 *)arg1)->f0);
     ((struct Obj19570 *)arg0)->fE8 = ((struct Obj12594 *)arg1)->f0;
 }

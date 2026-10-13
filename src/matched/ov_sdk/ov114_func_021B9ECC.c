@@ -1,5 +1,5 @@
 /*
- * function: func_021B9ECC
+ * function: NHTTPi_SocRecv_sub
  * address:  0x021B9ECC
  * packet:   pkt_ov114_021B9ECC
  * region:   ov114
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0215F4DC 0x0215F4DC arm
- *   func_021BA100 0x021BA100 arm ov114
- *   func_021BA13C 0x021BA13C arm ov114
+ *   NHTTPi_memcpy 0x021BA100 arm ov114
+ *   NHTTPi_memclr 0x021BA13C arm ov114
  */
 
 typedef struct {
@@ -25,10 +25,10 @@ typedef struct {
 } Con;
 
 extern int func_0215F4DC(int s, void *buf, int len, int flags);
-extern void func_021BA100(void *dst_p, void *src_p, int size);
-extern void func_021BA13C(int a, int b);
+extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memclr(int a, int b);
 
-int func_021B9ECC(Con *connection_p, int socket, char *buf_p, int len, int flags)
+int NHTTPi_SocRecv_sub(Con *connection_p, int socket, char *buf_p, int len, int flags)
 {
     char *tmpBuf_p;
     int ret;
@@ -51,12 +51,12 @@ int func_021B9ECC(Con *connection_p, int socket, char *buf_p, int len, int flags
             if ((unsigned long)len <= size) {
                 size = len;
             }
-            func_021BA100(buf_p, tmpBuf_p + connection_p->pos, size);
+            NHTTPi_memcpy(buf_p, tmpBuf_p + connection_p->pos, size);
             connection_p->size -= size;
             if (connection_p->size != 0) {
                 connection_p->pos += size;
             } else {
-                func_021BA13C((int)tmpBuf_p, 0x8000);
+                NHTTPi_memclr((int)tmpBuf_p, 0x8000);
                 connection_p->pos = 0;
             }
             ret = size;

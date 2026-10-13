@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02070730",
+   "name": "NNSi_G3dAnmGetTexSRTData",
    "address": "0x02070730",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070904",
+   "name": "NNSi_G3dAnmCalcNsBta",
    "address": "0x02070904",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070A24",
+   "name": "NNSi_G3dAnmSetTexParam",
    "address": "0x02070A24",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070B64",
+   "name": "NNSi_G3dAnmCalcNsBtp",
    "address": "0x02070B64",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02070BD8",
+   "name": "NNSi_G3dAnmObjInitNsBva",
    "address": "0x02070BD8",
    "kind": "game",
    "region": "arm9",

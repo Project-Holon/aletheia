@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   FIELD_3DBG_LoadBillboardTexture  0x021A1698  thumb  ov021
  *   FIELD_3DBG_SetBillboardVisible  0x021A16D4  thumb  ov021
  *   FIELD_3DBG_SetBillboardPolygonId  0x021A16D8  thumb  ov021
@@ -38,7 +38,7 @@ typedef struct {
 extern unsigned char gWeatherBillboardTextureDesc[12];
 extern unsigned char d_021EE710b[12];
 
-void func_02082D44(void *src, void *dst, int n);
+void MI_CpuCopy8(void *src, void *dst, int n);
 int FIELD_3DBG_LoadBillboardTexture(unsigned int a, int b, void *c, int d);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -47,7 +47,7 @@ void FIELD_3DBG_SetBillboardPolygonId(u8 *p, u8 v);
 
 void WEATHER_TASK_InitBillboard(Obj *o, int idx, void *p, void *src, unsigned short x)
 {
-    func_02082D44(src, gWeatherBillboardTextureDesc, 12);
+    MI_CpuCopy8(src, gWeatherBillboardTextureDesc, 12);
     if (d_021EE710b[8] != 0x1f) {
         d_021EE710b[8] = 0x1f;
     }

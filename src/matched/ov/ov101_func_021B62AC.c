@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B62AC,func_021B62FC
+ * function: COMPATIBLE_IRC_SYS_StepSyncTiming,COMPATIBLE_IRC_SYS_IsPartnerReady
  * address: 0x021B62AC
  * packet: pkt_ov101_021B62AC
  * region: ov101
@@ -18,7 +18,7 @@ struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
-int func_021B62AC(int *p)
+int COMPATIBLE_IRC_SYS_StepSyncTiming(int *p)
 {
     if(p[30]) return 1;
     switch(p[17]) {
@@ -35,4 +35,4 @@ int func_021B62AC(int *p)
     }
     return 0;
 }
-int func_021B62FC(int *p) { if(p[30]) return 1; return p[20]; }
+int COMPATIBLE_IRC_SYS_IsPartnerReady(int *p) { if(p[30]) return 1; return p[20]; }

@@ -18,21 +18,21 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   func_021DC2C0 0x021DC2C0 thumb ov175
  *   func_021DC2D8 0x021DC2D8 thumb ov175
- *   func_021DEE3C 0x021DEE3C arm ov175
+ *   DWC_ScInitialize 0x021DEE3C arm ov175
  *   func_021DCE24 0x021DCE24 thumb ov175
  *   func_021DCE08 0x021DCE08 thumb ov175
- *   func_021DF490 0x021DF490 arm ov175
+ *   DWC_ScGetLoginCertificate 0x021DF490 arm ov175
  *   GFL_NET_IsParentAid 0x0203D378 arm
- *   func_021DF018 0x021DF018 arm ov175
- *   func_021DF20C 0x021DF20C arm ov175
- *   func_02082D44 0x02082D44 arm
- *   func_021DEFDC 0x021DEFDC arm ov175
- *   func_021DF224 0x021DF224 arm ov175
+ *   DWC_ScCreateSessionAsync 0x021DF018 arm ov175
+ *   DWC_ScGetSessionId 0x021DF20C arm ov175
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   DWC_ScProcess 0x021DEFDC arm ov175
+ *   DWC_ScGetConnectionId 0x021DF224 arm ov175
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_021DF1C8 0x021DF1C8 arm ov175
- *   func_021DF09C 0x021DF09C arm ov175
+ *   DWC_ScSetSessionId 0x021DF1C8 arm ov175
+ *   DWC_ScSetReportIntentionAsync 0x021DF09C arm ov175
  *   func_021DAE54 0x021DAE54 thumb ov175
- *   func_021DF130 0x021DF130 arm ov175
+ *   DWC_ScSubmitReportAsync 0x021DF130 arm ov175
  *   func_021DADB4 0x021DADB4 thumb ov175
  *   func_021DADCC 0x021DADCC thumb ov175
  *   func_021DAE00 0x021DAE00 thumb ov175
@@ -57,21 +57,21 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern int func_021DC2C0(u32 ignored, void *p);
 extern u32 func_021DC2D8(char *, u32 *);
-extern int func_021DEE3C(int theGameId, int ssl_type);
+extern int DWC_ScInitialize(int theGameId, int ssl_type);
 extern void func_021DCE24(char *, int, int);
 extern void func_021DCE08(char *, u32, int);
-extern int func_021DF490(void **p);
+extern int DWC_ScGetLoginCertificate(void **p);
 extern u32 GFL_NET_IsParentAid(void);
-extern int func_021DF018(u32 a0, u32 a1, u32 a2);
-extern void *func_021DF20C(void);
-extern void func_02082D44(const void *, void *, u32);
-extern s32 func_021DEFDC(void);
-extern void *func_021DF224(void);
+extern int DWC_ScCreateSessionAsync(u32 a0, u32 a1, u32 a2);
+extern void *DWC_ScGetSessionId(void);
+extern void MI_CpuCopy8(const void *, void *, u32);
+extern s32 DWC_ScProcess(void);
+extern void *DWC_ScGetConnectionId(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern u32 func_021DF1C8(u32 a);
-extern int func_021DF09C(u32 a0, u32 a1, u32 a2, u32 a3);
+extern u32 DWC_ScSetSessionId(u32 a);
+extern int DWC_ScSetReportIntentionAsync(u32 a0, u32 a1, u32 a2, u32 a3);
 extern int func_021DAE54(char *, char *, char *, u32, u32, u32, u32, u32);
-extern int func_021DF130(u32 a0, u32 a1, u32 a2, u32 a3, char *a4);
+extern int DWC_ScSubmitReportAsync(u32 a0, u32 a1, u32 a2, u32 a3, char *a4);
 extern void func_021DADB4(int result, char *obj);
 extern void func_021DADCC(int result, char *obj);
 extern void func_021DAE00(int result, char *obj);
@@ -139,7 +139,7 @@ int func_021DA6B8(char *p, u32 *out)
     case 4:
         *(u32 *)(p + 0x134) = 0;
         *(u32 *)(p + 0x170) = 1;
-        r = func_021DEE3C(0xb5f, 0);
+        r = DWC_ScInitialize(0xb5f, 0);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x751);
             func_021DAE18(p);
@@ -148,7 +148,7 @@ int func_021DA6B8(char *p, u32 *out)
         *(u32 *)(p + 0x12c) = 5;
         break;
     case 5:
-        r = func_021DF490((void **)(*(char **)(p + 0x1464) + 4));
+        r = DWC_ScGetLoginCertificate((void **)(*(char **)(p + 0x1464) + 4));
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x761);
             func_021DAE18(p);
@@ -159,7 +159,7 @@ int func_021DA6B8(char *p, u32 *out)
     case 6:
         if (GFL_NET_IsParentAid() != 0 || *(u32 *)(p + 0x160) != 0) {
         (*(u32 *)(p + 0x134))++;
-        r = func_021DF018((u32)func_021DADB4, 100, (u32)p);
+        r = DWC_ScCreateSessionAsync((u32)func_021DADB4, 100, (u32)p);
         *(u32 *)(p + 0x164) = 1;
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x773);
@@ -174,8 +174,8 @@ int func_021DA6B8(char *p, u32 *out)
     case 7:
         if (*(u32 *)(p + 0x134) == 0) {
             dst = *(char **)(p + 0x1464) + 0xc;
-            src = func_021DF20C();
-            func_02082D44(src, dst, 0x28);
+            src = DWC_ScGetSessionId();
+            MI_CpuCopy8(src, dst, 0x28);
             *(u32 *)(p + 0x12c) = 8;
             break;
         }
@@ -184,7 +184,7 @@ int func_021DA6B8(char *p, u32 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32 *)(p + 0x15c), 0x797);
             func_021DAE18(p);
@@ -197,8 +197,8 @@ int func_021DA6B8(char *p, u32 *out)
             break;
         }
         dst = *(char **)(p + 0x1464) + 0x34;
-        src = func_021DF224();
-        func_02082D44(src, dst, 0x28);
+        src = DWC_ScGetConnectionId();
+        MI_CpuCopy8(src, dst, 0x28);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24);
         *(u32 *)(p + 0x12c) = 9;
         break;
@@ -212,10 +212,10 @@ int func_021DA6B8(char *p, u32 *out)
                 *(u32 *)(p + 0x12c) = 0xb;
         } else if (*(u32 *)(p + 0x138) != 0 || *(u32 *)(p + 0x160) != 0) {
             *(u32 *)(p + 0x138) = 0;
-            r = func_021DF1C8((u32)(*(char **)(p + 0x1464) + 0x74));
+            r = DWC_ScSetSessionId((u32)(*(char **)(p + 0x1464) + 0x74));
             dst = *(char **)(p + 0x1464) + 0xc;
-            src = func_021DF20C();
-            func_02082D44(src, dst, 0x28);
+            src = DWC_ScGetSessionId();
+            MI_CpuCopy8(src, dst, 0x28);
             if (r != 0) {
                 func_021DCE24(p + 0x18, r, 0x7cd);
                 func_021DAE18(p);
@@ -226,7 +226,7 @@ int func_021DA6B8(char *p, u32 *out)
         break;
     case 11:
         (*(u32 *)(p + 0x134))++;
-        r = func_021DF09C(*(u32 *)(p + 0x1a8), (u32)func_021DADCC, 100, (u32)p);
+        r = DWC_ScSetReportIntentionAsync(*(u32 *)(p + 0x1a8), (u32)func_021DADCC, 100, (u32)p);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x7dd);
             func_021DAE18(p);
@@ -245,7 +245,7 @@ int func_021DA6B8(char *p, u32 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32 *)(p + 0x15c), 0x7fa);
             func_021DAE18(p);
@@ -306,7 +306,7 @@ int func_021DA6B8(char *p, u32 *out)
         break;
     case 20:
         (*(u32 *)(p + 0x134))++;
-        r = func_021DF130(*(u32 *)(*(char **)(p + 0x1464) + 8), *(u32 *)(p + 0x1a8), (u32)func_021DAE00, 100, p);
+        r = DWC_ScSubmitReportAsync(*(u32 *)(*(char **)(p + 0x1464) + 8), *(u32 *)(p + 0x1a8), (u32)func_021DAE00, 100, p);
         if (r != 0) {
             func_021DCE24(p + 0x18, r, 0x87c);
             func_021DAE18(p);
@@ -325,7 +325,7 @@ int func_021DA6B8(char *p, u32 *out)
             func_021DAE18(p);
             return 2;
         }
-        func_021DEFDC();
+        DWC_ScProcess();
         if (*(u32 *)(p + 0x15c) != 0) {
             func_021DCE24(p + 0x18, *(u32 *)(p + 0x15c), 0x898);
             func_021DAE18(p);

@@ -1,5 +1,5 @@
 /*
- * function: func_02059474
+ * function: DWCi_Acc_LoginIdToUserName
  * address:  0x02059474
  * packet:   pkt_02059474
  * region:   arm9
@@ -27,7 +27,7 @@ extern void DWCi_Acc_U64ToString32(unsigned long long num, int bitnum, char *res
 extern unsigned long DWCi_Acc_GetPlayerId(struct DWCstAccLoginId *userdata);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 
-void func_02059474(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username)
+void DWCi_Acc_LoginIdToUserName(struct DWCstAccLoginId *loginid, unsigned long gamecode, char *username)
 {
     char userid[21];
     char playerid[21];

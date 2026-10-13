@@ -1,7 +1,7 @@
 /*
  * file:     usbap.c
  * unit:     yes
- * function: func_021D0B44, func_021D0CB8, func_021D0CEC, func_021D0DC8, func_021D0DE0, func_021D0E74, func_021D0FCC, func_021D10D8
+ * function: DWCi_USBAPlBegin, startScan, DWCi_USBAPlEnd, DWCi_USBAPlSetCallback, cbWm, scanFirst, scanWait, taskFirst
  * address:  0x021D0B44
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,29 +13,28 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  *   OS_GetTick  0x020870D0  arm
  *   WM_Initialize  0x0208F370  arm
  *   WM_ReadStatus  0x0208EBE4  arm
  *   WM_GetDispersionScanPeriod  0x0208EFC4  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   func_021D7680  0x021D7680  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE654  0x021DE654  data
- *   g_021DA958  0x021DA958  data
- *   g_021DA94E  0x021DA94E  data
- *   func_0208F698  0x0208F698  arm
- *   func_0208EBE4  0x0208EBE4  arm
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gUsbapWork  0x021DE654  data
+ *   sUsbApScanParam  0x021DA958  data
+ *   sUsbApSsid  0x021DA94E  data
+ *   WM_StartScanEx  0x0208F698  arm
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
  *   g_021DE654_b   0x021DE654  data
- *   func_02088234  0x02088234  arm
+ *   OS_Terminate  0x02088234  arm
  *   DC_InvalidateRange  0x020862B8  arm
  *   memcmp  0x020923F0  arm
- *   g_021DA948  0x021DA948  data
- *   func_021D7724  0x021D7724  arm  ov016
+ *   sUsbApZeroBssid  0x021DA948  data
+ *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 
@@ -119,41 +118,30 @@ enum WMErrCode {
     WM_ERRCODE_OPERATING = 2
 };
 
-extern void *func_021D6414(unsigned long size, int alignment);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern u64 OS_GetTick(void);
 extern int WM_Initialize(void *wmBuf, void (*callback)(void *), int dmaNo);
 extern void WM_ReadStatus(void *status);
 extern u16 WM_GetDispersionScanPeriod(void);
 extern void OS_GetOwnerInfo(OwnerT *info);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
-extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void func_021D6438(void **mem);
-extern int func_0208F698();
-extern int func_0208EBE4(struct WMStatus *statusBuf);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
+extern void DWCi_HEAPlFree_(void **mem);
+extern int WM_StartScanEx();
 extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
-extern void func_021D7724(int kind, void *task);
-int func_021D0B44(void (*callback)(int));
-int func_021D0CB8(void);
-int func_021D0CEC(void);
-void func_021D0DC8(unsigned int v);
-void func_021D0DE0(void *arg);
-void func_021D0E74(ScanCbT *prm);
-void func_021D0FCC(ScanCbT *prm);
-void func_021D10D8(void *task);
-extern MemUsbT *g_021DE654;
-extern ScanParamT g_021DA958;
-extern char g_021DA94E[9];
+extern void DWCi_TSKlDelete(int kind, void *task);
+int DWCi_USBAPlBegin(void (*callback)(int));
+int DWCi_USBAPlEnd(void);
+void DWCi_USBAPlSetCallback(unsigned int v);
+extern MemUsbT *gUsbapWork;
+extern ScanParamT sUsbApScanParam;
+extern char sUsbApSsid[9];
 extern MemUsbT *g_021DE654_b;
-extern u8 g_021DA948[6];
-
-
-
-
-
+extern u8 sUsbApZeroBssid[6];
 
 
 /*
@@ -169,59 +157,55 @@ extern u8 g_021DA948[6];
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D0B44.c \
- *       --func func_021D0B44 --addr 0x021D0B44 --region ov016 --cc 1.1p1 --arm --lang c99
+ *       --func DWCi_USBAPlBegin --addr 0x021D0B44 --region ov016 --cc 1.1p1 --arm --lang c99
  */
-int func_021D0B44(void (*callback)(int))
+
+static int startScan(void);
+static void cbWm(void *arg);
+static void scanFirst(ScanCbT *prm);
+static void scanWait(ScanCbT *prm);
+static void taskFirst(void *task);
+int DWCi_USBAPlBegin(void (*callback)(int))
 {
     OwnerT owner;
     int rs;
     u64 tick;
 
-    g_021DE654 = func_021D6414(0x1ba0, 0x20);
-    g_021DE654->callback = callback;
+    gUsbapWork = DWCi_HEAPlAllocEx(0x1ba0, 0x20);
+    gUsbapWork->callback = callback;
     tick = OS_GetTick();
-    g_021DE654->start = tick;
-    rs = WM_Initialize(*(MemUsbT *volatile *)&g_021DE654, func_021D0DE0, 3);
+    gUsbapWork->start = tick;
+    rs = WM_Initialize(*(MemUsbT *volatile *)&gUsbapWork, cbWm, 3);
     if (rs != 2)
         goto fail;
     do {
-        WM_ReadStatus(&g_021DE654->status);
-    } while (g_021DE654->status.state != 2);
-    g_021DE654->param = g_021DA958;
-    g_021DE654->param.scanBuf = g_021DE654->scanBuf;
-    g_021DE654->param.maxChannelTime = WM_GetDispersionScanPeriod();
+        WM_ReadStatus(&gUsbapWork->status);
+    } while (gUsbapWork->status.state != 2);
+    gUsbapWork->param = sUsbApScanParam;
+    gUsbapWork->param.scanBuf = gUsbapWork->scanBuf;
+    gUsbapWork->param.maxChannelTime = WM_GetDispersionScanPeriod();
     OS_GetOwnerInfo(&owner);
-    MI_CpuCopy8(g_021DA94E, g_021DE654->param.ssid, 8);
-    g_021DE654->param.ssid[9] = 1;
-    MI_CpuCopy8(owner.nickName, &g_021DE654->param.ssid[12], owner.nickNameLength * 2);
-    if (!func_021D0CB8())
+    MI_CpuCopy8(sUsbApSsid, gUsbapWork->param.ssid, 8);
+    gUsbapWork->param.ssid[9] = 1;
+    MI_CpuCopy8(owner.nickName, &gUsbapWork->param.ssid[12], owner.nickNameLength * 2);
+    if (!startScan())
         goto fail;
-    g_021DE654->task = func_021D7680(0, func_021D10D8, 0, 0x78);
+    gUsbapWork->task = DWCi_TSKlForm(0, taskFirst, 0, 0x78);
     return 1;
 fail:
-    func_021D6438((void *)0x021DE654);
+    DWCi_HEAPlFree_((void *)0x021DE654);
     return 0;
 }
-
-
-
-
-
 
 
 /*
  * sdk:      startScan (libdwcutil.TWL.HYB.a usbap.o)
  */
-int func_021D0CB8(void)
+static int startScan(void)
 {
-    int rs = func_0208F698(func_021D0DE0, &g_021DE654->param);
+    int rs = WM_StartScanEx(cbWm, &gUsbapWork->param);
     return rs == 2;
 }
-
-
-
-
-
 
 
 /*
@@ -232,7 +216,7 @@ int func_021D0CB8(void)
  *           and passes r4 on -- it takes the task pointer as a *second*
  *           argument.  The image keeps `g->task` in r1 across the guard
  *           because the guarded call passes that same value again:
- *           `DWCi_TSKlDeleteByIndex(0, g_021DE654->task)`.  The one-argument spelling
+ *           `DWCi_TSKlDeleteByIndex(0, gUsbapWork->task)`.  The one-argument spelling
  *           lets the dying base coalesce into the load destination, which is
  *           the 2-byte residue.  The general lever is
  *           docs/idioms/a-guard-value-still-in-r1-at-the-call-is-the-callees-second-argument.md.
@@ -274,33 +258,29 @@ int func_021D0CB8(void)
  * has been matched yet; the site resolves on the `sdk` class from
  * layout/symbols_sdk.json, so it never gated this function.
  */
-int func_021D0CEC(void)
+int DWCi_USBAPlEnd(void)
 {
     enum WMErrCode rs;
-    g_021DE654->end = 1;
-    func_0208EBE4((struct WMStatus *)(&g_021DE654->status.state));
-    if (g_021DE654->status.state != WM_ERRCODE_OPERATING) {
-        rs = WM_Reset(func_021D0DE0);
+    gUsbapWork->end = 1;
+    WM_ReadStatus((struct WMStatus *)(&gUsbapWork->status.state));
+    if (gUsbapWork->status.state != WM_ERRCODE_OPERATING) {
+        rs = WM_Reset(cbWm);
         if (rs != WM_ERRCODE_OPERATING)
             return 0;
         do {
-            func_0208EBE4((struct WMStatus *)(&g_021DE654->status.state));
-        } while (g_021DE654->status.state != WM_ERRCODE_OPERATING);
+            WM_ReadStatus((struct WMStatus *)(&gUsbapWork->status.state));
+        } while (gUsbapWork->status.state != WM_ERRCODE_OPERATING);
     }
-    rs = WM_End(func_021D0DE0);
+    rs = WM_End(cbWm);
     if (rs != WM_ERRCODE_OPERATING)
         return 0;
-    if (g_021DE654->task != 0)
-        DWCi_TSKlDeleteByIndex(0, g_021DE654->task);
-    while (g_021DE654->end != 2)
+    if (gUsbapWork->task != 0)
+        DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
+    while (gUsbapWork->end != 2)
         ;
-    func_021D6438((void **)(&g_021DE654_b));
+    DWCi_HEAPlFree_((void **)(&g_021DE654_b));
     return 1;
 }
-
-
-
-
 
 
 /*
@@ -308,16 +288,13 @@ int func_021D0CEC(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D0DC8.c \
- *       --func func_021D0DC8 --addr 0x021D0DC8 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_USBAPlSetCallback.c \
+ *       --func DWCi_USBAPlSetCallback --addr 0x021D0DC8 --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D0DC8(unsigned int v)
+void DWCi_USBAPlSetCallback(unsigned int v)
 {
     *(unsigned int *)(*(char **)0x021DE654 + 0x1370) = v;
 }
-
-
-
 
 
 /*
@@ -337,40 +314,38 @@ void func_021D0DC8(unsigned int v)
  *   superseded.  The if/else-if spelling with a volatile field still predicates;
  *   the arm needs the explicit `return` and the 0x26 test as a separate guard.
  */
-void func_021D0DE0(void *arg)
+static void cbWm(void *arg)
 {
     ScanCbT *prm = (ScanCbT *)arg;
 
     if (prm->errcode != 0)
         return;
-    if (g_021DE654->end != 0) {
+    if (gUsbapWork->end != 0) {
         if (prm->apiid == 2)
-            g_021DE654->end = 2;
+            gUsbapWork->end = 2;
         return;
     }
     if (prm->apiid != 0x26)
         return;
     switch (prm->state) {
     case 5:
-        if (g_021DE654->wait)
-            func_021D0FCC(prm);
+        if (gUsbapWork->wait)
+            scanWait(prm);
         else
-            func_021D0E74(prm);
-        func_021D0CB8();
+            scanFirst(prm);
+        startScan();
         break;
     case 4:
-        func_021D0CB8();
+        startScan();
         break;
     default:
-        func_02088234();
+        OS_Terminate();
         break;
     }
 }
 
 
-
-
-void func_021D0E74(ScanCbT *prm)
+static void scanFirst(ScanCbT *prm)
 {
     BssDescT *info;
     int i;
@@ -379,23 +354,23 @@ void func_021D0E74(ScanCbT *prm)
     for (i = 0; i < prm->bssDescCount; i++) {
         info = prm->bssDesc[i];
         DC_InvalidateRange(info, 0xc0);
-        if (memcmp(info->ssid, g_021DA94E, 8) != 0)
+        if (memcmp(info->ssid, sUsbApSsid, 8) != 0)
             continue;
         for (j = 0; j < 16; j++) {
-            if (memcmp(info->bssid, g_021DE654->ap[j].bssid, 6) == 0) {
-                if (g_021DE654->ap[j].used)
+            if (memcmp(info->bssid, gUsbapWork->ap[j].bssid, 6) == 0) {
+                if (gUsbapWork->ap[j].used)
                     goto next;
                 if (!(info->ssid[9] & 1))
                     goto next;
-                if (g_021DE654->callback)
-                    g_021DE654->callback(1);
+                if (gUsbapWork->callback)
+                    gUsbapWork->callback(1);
                 return;
             }
         }
         for (j = 0; j < 16; j++) {
-            if (memcmp(g_021DE654->ap[j].bssid, g_021DA948, 6) == 0) {
-                MI_CpuCopy8(info->bssid, ((UsbApT *)g_021DE654->ap)[j].bssid, 6);
-                g_021DE654->ap[j].used = (info->ssid[9] & 1) ? 1 : 0;
+            if (memcmp(gUsbapWork->ap[j].bssid, sUsbApZeroBssid, 6) == 0) {
+                MI_CpuCopy8(info->bssid, ((UsbApT *)gUsbapWork->ap)[j].bssid, 6);
+                gUsbapWork->ap[j].used = (info->ssid[9] & 1) ? 1 : 0;
                 break;
             }
         }
@@ -404,37 +379,36 @@ void func_021D0E74(ScanCbT *prm)
 }
 
 
-
 /*
  * sdk:      scanWait (libdwcutil.TWL.HYB.a usbap.o)
  */
-void func_021D0FCC(ScanCbT *prm)
+static void scanWait(ScanCbT *prm)
 {
     BssDescT *info;
     int i;
     int j;
 
-    if (g_021DE654->stack) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(g_021DE654->stack);
+    if (gUsbapWork->stack) {
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(gUsbapWork->stack);
         return;
     }
-    DC_InvalidateRange(g_021DE654->scanBuf, 1024);
+    DC_InvalidateRange(gUsbapWork->scanBuf, 1024);
     for (i = 0; i < prm->bssDescCount; i++) {
         info = prm->bssDesc[i];
-        if (memcmp(info->ssid, g_021DA94E, 8) != 0)
+        if (memcmp(info->ssid, sUsbApSsid, 8) != 0)
             continue;
         if (!(info->ssid[9] & 1))
             continue;
         for (j = 0; j < 16; j++) {
-            if (memcmp(info->bssid, g_021DE654->ap[j].bssid, 6) == 0) {
-                if (g_021DE654->ap[j].used)
+            if (memcmp(info->bssid, gUsbapWork->ap[j].bssid, 6) == 0) {
+                if (gUsbapWork->ap[j].used)
                     goto next;
-                if (g_021DE654->callback == 0) {
-                    g_021DE654->stack = 1;
+                if (gUsbapWork->callback == 0) {
+                    gUsbapWork->stack = 1;
                     return;
                 }
-                g_021DE654->callback(1);
+                gUsbapWork->callback(1);
                 return;
             }
         }
@@ -446,7 +420,7 @@ void func_021D0FCC(ScanCbT *prm)
 /*
  * sdk:      taskFirst (libdwcutil.TWL.HYB.a usbap.o)
  */
-void func_021D10D8(void *task)
+static void taskFirst(void *task)
 {
     u64 tick;
     int i;
@@ -454,29 +428,29 @@ void func_021D10D8(void *task)
     int not;
 
     tick = OS_GetTick();
-    if (tick < g_021DE654->start + 0x17F898)
+    if (tick < gUsbapWork->start + 0x17F898)
         return;
     not = 0;
     admit = 0;
     for (i = 0; i < 16; i++) {
-        if (memcmp(g_021DE654->ap[i].bssid, g_021DA948, 6) != 0) {
-            if (g_021DE654->ap[i].used)
+        if (memcmp(gUsbapWork->ap[i].bssid, sUsbApZeroBssid, 6) != 0) {
+            if (gUsbapWork->ap[i].used)
                 admit = 1;
             else
                 not = 1;
         }
     }
     if (admit && not) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(2);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(2);
     } else if (admit) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(1);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(1);
     } else if (!not) {
-        if (g_021DE654->callback)
-            g_021DE654->callback(0);
+        if (gUsbapWork->callback)
+            gUsbapWork->callback(0);
     }
-    g_021DE654->task = 0;
-    g_021DE654->wait = 1;
-    func_021D7724(0, task);
+    gUsbapWork->task = 0;
+    gUsbapWork->wait = 1;
+    DWCi_TSKlDelete(0, task);
 }

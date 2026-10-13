@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0215ED60  0x0215ED60  arm  ov009
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  *   func_0215CDD0  0x0215CDD0  arm  ov009
  *   func_0215EC90  0x0215EC90  arm  ov009
  *   func_0215F0D4  0x0215F0D4  arm  ov009
@@ -38,7 +38,7 @@ typedef struct {
 } SOCConfig;
 
 extern int func_0215ED60(void);
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 extern int func_0215CDD0(void);
 extern void func_0215EC90(void);
 extern void func_0215F0D4(void);
@@ -56,7 +56,7 @@ int func_0215EBF0(void)
 	}
 	result = func_0215ED60();
 	while (result == -26) {
-		func_02085A38(100);
+		OS_Sleep(100);
 		result = func_0215ED60();
 	}
 	result = func_0215CDD0();

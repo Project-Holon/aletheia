@@ -1,5 +1,5 @@
 /*
- * function: func_02173D9C
+ * function: DWCi_HandleSBError
  * address:  0x02173D9C
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -12,12 +12,12 @@
  * DWCi_HandleSBError: maps a server browsing error to a DWC error and stops the match.
  *
  * symbols:
- *   func_0216EB68  0x0216EB68  arm  ov009
+ *   DWCi_StopMatch  0x0216EB68  arm  ov009
  */
 
-extern void func_0216EB68(int error, int errorCode);
+extern void DWCi_StopMatch(int error, int errorCode);
 
-int func_02173D9C(int error)
+int DWCi_HandleSBError(int error)
 {
     int dwcError;
     int errorCode;
@@ -51,6 +51,6 @@ int func_02173D9C(int error)
         errorCode = -2;
         break;
     }
-    func_0216EB68(dwcError, errorCode + -85000);
+    DWCi_StopMatch(dwcError, errorCode + -85000);
     return error;
 }

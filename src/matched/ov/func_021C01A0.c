@@ -1,5 +1,5 @@
 /*
- * function: func_021C01A0
+ * function: WIFICLUB_StateWaitPrompt
  * address:  0x021C01A0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9B64  0x021B9B64  thumb  ov099
- *   func_021BA928  0x021BA928  thumb  ov099
- *   func_021BA828  0x021BA828  thumb  ov099
+ *   WIFICLUBACTOR_TickBlink  0x021B9B64  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
+ *   WIFICLUB_OpenYesNoMenu  0x021BA828  thumb  ov099
  *
  * Re-arms the block 0x274 bytes in, then runs the setup and stamps selector
  * 0x21 when the guard answers true; returns the selector.
@@ -26,16 +26,16 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern void func_021B9B64(char *p);
-extern int func_021BA928(void *p);
-extern void func_021BA828(char *p);
+extern void WIFICLUBACTOR_TickBlink(char *p);
+extern int WIFICLUB_UpdateTalkStream(void *p);
+extern void WIFICLUB_OpenYesNoMenu(char *p);
 
-int func_021C01A0(char *p, int v)
+int WIFICLUB_StateWaitPrompt(char *p, int v)
 {
-    func_021B9B64(p + 0x274);
+    WIFICLUBACTOR_TickBlink(p + 0x274);
 
-    if (func_021BA928(p) != 0) {
-        func_021BA828(p);
+    if (WIFICLUB_UpdateTalkStream(p) != 0) {
+        WIFICLUB_OpenYesNoMenu(p);
         *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x21;
     }
 

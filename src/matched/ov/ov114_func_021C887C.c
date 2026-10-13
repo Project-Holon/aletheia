@@ -1,5 +1,5 @@
 /*
- * function: func_021C887C
+ * function: DPW_TR_ReturnAsync
  * address:  0x021C887C
  * packet:   pkt_ov114_021C887C
  * region:   ov114
@@ -9,42 +9,42 @@
  * isa:      arm
  * status:   EXACT
  *
- * Twin of func_021C87FC: same shape, a different packet-descriptor
- * constant (d_021CF5D4) and a success code of 8 instead of 6.  Overlay
+ * Twin of DPW_TR_DownloadAsync: same shape, a different packet-descriptor
+ * constant (gDpwTrPathReturn) and a success code of 8 instead of 6.  Overlay
  * hints omitted for the same overlapping-bss reason.
  *
  * symbols:
- *   d_021D3D28   0x021D3D28  data  a4
- *   d_021D3D2C   0x021D3D2C  data  a4
- *   d_021CF538   0x021CF538  data  a4
- *   d_021CF5D4   0x021CF5D4  data  a4
- *   d_021D3D40   0x021D3D40  data  a4
- *   func_021C9EE4 0x021C9EE4  arm
- *   func_021CA470 0x021CA470  arm
- *   func_021CA1B4 0x021CA1B4  arm
+ *   gDpwTrServerIndex   0x021D3D28  data  a4
+ *   gDpwTrWork   0x021D3D2C  data  a4
+ *   gDpwTrBaseUrl   0x021CF538  data  a4
+ *   gDpwTrPathReturn   0x021CF5D4  data  a4
+ *   gDpwTrRequestPacket   0x021D3D40  data  a4
+ *   DWCi_EncSessionInitialize 0x021C9EE4  arm
+ *   DWCi_EncSessionGetAsync 0x021CA470  arm
+ *   DWCi_EncSessionShutdown 0x021CA1B4  arm
  */
 
 #include "../include/G_Six.h"
 
-extern unsigned int *d_021D3D28;
-extern unsigned int d_021D3D2C[];
-extern unsigned int d_021CF538[];
-extern unsigned int d_021CF5D4[];
-extern struct Six d_021D3D40;
+extern unsigned int *gDpwTrServerIndex;
+extern unsigned int gDpwTrWork[];
+extern unsigned int gDpwTrBaseUrl[];
+extern unsigned int gDpwTrPathReturn[];
+extern struct Six gDpwTrRequestPacket;
 
-extern void func_021C9EE4(int server, char *initdata);
-extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
-extern void func_021CA1B4(void);
+extern void DWCi_EncSessionInitialize(int server, char *initdata);
+extern int DWCi_EncSessionGetAsync(void *, unsigned int, void *, unsigned int, unsigned int);
+extern void DWCi_EncSessionShutdown(void);
 
-void func_021C887C(unsigned int x)
+void DPW_TR_ReturnAsync(unsigned int x)
 {
-    d_021D3D2C[0x72] = x;
-    func_021C9EE4((int)((void *)d_021D3D28), (char *)d_021CF538);
-    if (func_021CA470(d_021CF5D4, d_021D3D2C[2], ((unsigned int *)&d_021D3D40), 0x1b0, 0) == 0) {
-        d_021D3D2C[0] = 8;
+    gDpwTrWork[0x72] = x;
+    DWCi_EncSessionInitialize((int)((void *)gDpwTrServerIndex), (char *)gDpwTrBaseUrl);
+    if (DWCi_EncSessionGetAsync(gDpwTrPathReturn, gDpwTrWork[2], ((unsigned int *)&gDpwTrRequestPacket), 0x1b0, 0) == 0) {
+        gDpwTrWork[0] = 8;
         return;
     }
-    d_021D3D2C[0] = 0x18;
-    d_021D3D2C[1] = -0x0d;
-    func_021CA1B4();
+    gDpwTrWork[0] = 0x18;
+    gDpwTrWork[1] = -0x0d;
+    DWCi_EncSessionShutdown();
 }

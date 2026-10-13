@@ -1,5 +1,5 @@
 /*
- * function: func_021C2810
+ * function: WIFICLUB_CountChangeAndCopyPeerAddr
  * address:  0x021C2810
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * Bumps the counter at +0x1C and tails onto the arm9 routine with the block 8 bytes in.
  */
@@ -28,10 +28,10 @@ typedef struct {
     u8 f1C;
 } S;
 
-extern void func_02082D44(void *a, void *b, int c);
+extern void MI_CpuCopy8(void *a, void *b, int c);
 
-void func_021C2810(S *s, char *q)
+void WIFICLUB_CountChangeAndCopyPeerAddr(S *s, char *q)
 {
     s->f1C++;
-    func_02082D44(q + 0xE, (char *)s + 8, 6);
+    MI_CpuCopy8(q + 0xE, (char *)s + 8, 6);
 }

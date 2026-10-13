@@ -1,5 +1,5 @@
 /*
- * function: func_021BC73C
+ * function: WIFICLUB_StateCountdownExit
  * address:  0x021BC73C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
  *
  * Ages the counter at +0x1E0 into the guard call, then stamps the byte at
  * +0x1353 and selector 0x8A when it has gone negative; returns the selector.
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed long    s32;
 
-extern int func_021BA928(void *p, int v);
+extern int WIFICLUB_UpdateTalkStream(void *p, int v);
 
-int func_021BC73C(char *p, int v)
+int WIFICLUB_StateCountdownExit(char *p, int v)
 {
-    func_021BA928(p, --((struct Obj07225 *)p)->f1E0);
+    WIFICLUB_UpdateTalkStream(p, --((struct Obj07225 *)p)->f1E0);
 
     if (((struct Obj07225 *)p)->f1E0 < 0) {
         ((struct Obj07225 *)p)->f1353 = 0x79;

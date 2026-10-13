@@ -14,7 +14,7 @@
  * symbols:
  *   func_021DD044 0x021DD044 thumb ov175
  *   func_0203F028 0x0203F028 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   d_021E2F7C 0x021E2F7C data a4
  *   d_021E2F8C 0x021E2F8C data a4
  */
@@ -26,7 +26,7 @@ union Payload { u32 value; struct Blob blob; };
 struct Field { const char *name;u32 type;union Payload payload; };
 extern int func_021DD044(int);
 extern int func_0203F028(const char *,const char *);
-extern void func_02082D44(const void *,void *,unsigned long);
+extern void MI_CpuCopy8(const void *,void *,unsigned long);
 extern const char d_021E2F7C[],d_021E2F8C[];
 void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
 {
@@ -43,7 +43,7 @@ void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
             else if(func_0203F028(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
             else if(func_0203F028(f->name,d_021E2F8C)==0) {
                 const struct Blob *blob=&f->payload.blob;
-                func_02082D44(blob->data,p+24,blob->size);
+                MI_CpuCopy8(blob->data,p+24,blob->size);
             }
         }
     }

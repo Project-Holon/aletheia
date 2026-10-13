@@ -1,5 +1,5 @@
 /*
- * function: func_021D5280
+ * function: DWCi_CEINlRead
  * address:  0x021D5280
  * packet:   pkt_ov016_021D5280
  * region:   ov016
@@ -12,8 +12,8 @@
  * sdk:      DWCi_CEINlRead (libdwcutil.TWL.HYB.a(cellinfo.o))
  *
  * symbols:
- *   func_021D4B68  0x021d4b68  arm  ov016
- *   g_021DE674  0x021de674  data
+ *   DWCi_ARClReadEx  0x021d4b68  arm  ov016
+ *   gCellinfoWork  0x021de674  data
  */
 
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; 
 typedef struct tagOAMATTR { u16 attr0; u16 attr1; u16 attr2; } OAMATTR;
 typedef struct tagSELLINFO { u16 num; u16 attr; u32 offset; } SELLINFO;
 
-extern void *g_021DE674[2];
+extern void *gCellinfoWork[2];
 
-extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
+extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 
-void func_021D5280(int lcd, char *file)
+void DWCi_CEINlRead(int lcd, char *file)
 {
     unsigned long size;
 
-    g_021DE674[lcd] = func_021D4B68(file, &size, 4);
+    gCellinfoWork[lcd] = DWCi_ARClReadEx(file, &size, 4);
 }

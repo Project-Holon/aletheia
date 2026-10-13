@@ -1,5 +1,5 @@
 /*
- * function: func_021C27F8
+ * function: WIFICLUB_IsPeerAddrOfStatus
  * address:  0x021C27F8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-BOOL func_021C27F8(char *p, char *q)
+BOOL WIFICLUB_IsPeerAddrOfStatus(char *p, char *q)
 {
     if (func_0203EFC8((const u8 *)(p + 0xE), (const u8 *)(q + 8), 6) == 0) {
         return 1;

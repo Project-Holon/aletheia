@@ -19,8 +19,8 @@
  *   sub_02030734   0x02030734  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -83,8 +83,8 @@ struct Hdr;
 struct Sub02008700Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200CA1C(void *sys);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKEPARTY_GetCount(void *party);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
@@ -107,11 +107,11 @@ Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, S
     s = sub_02030734(4, sizeof(Setup), 1, d_02172978, 0x4DE);
     sys = GAMESYSTEM_GetGameData(w->f18->f00);
     save = GAME_DATA_GetSaveControl(sys);
-    t = func_0200CA1C(sys);
+    t = ZUKAN_SAVE_GetFromGameData(sys);
     s->f0c = 1;
     s->sys = sys;
     s->f24 = 0;
-    s->f18 = func_0200CA38(t);
+    s->f18 = ZUKAN_SAVE_IsNationalDexEnabled(t);
     if (mode == 0) {
         party = src->party;
         link = src->f0c;

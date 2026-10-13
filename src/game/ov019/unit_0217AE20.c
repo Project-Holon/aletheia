@@ -29,7 +29,7 @@
  *   UNION_EFF_DeleteIcon  0x0217F958  thumb  ov019
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *   func_0217F894  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
@@ -126,7 +126,7 @@ extern void *func_0201210C(struct GameSystem *gameSystem);
 extern u32 FIELDMAP_GetUnionEff(void *fieldMap);
 extern void UNION_EFF_DeleteIcon(char *markSys, u32 mmdl);
 extern void FLDMMDL_DeleteMmdl(void *mmdl);
-extern void func_02087C6C(void *ownMac);
+extern void OS_GetMacAddress(void *ownMac);
 extern int func_0217F894(void *wifiFriends, UnionBeaconPc *beaconPc);
 extern int func_0200EDC4(void *metTrainers, u32 trainerId);
 extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
@@ -413,7 +413,7 @@ void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifi
 
     if (beaconPc->life == 0)
         return;
-    func_02087C6C(ownMac);
+    OS_GetMacAddress(ownMac);
     for (i = 0; i < UNION_MEMBER_MAX; i++) {
         if (beaconPc->charaSlot[i] == 0 && beaconPc->beacon.group.member[i].valid == 1
             && memcmp(ownMac, (const u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
@@ -830,7 +830,7 @@ void UNION_CHARA_OnBeaconUpdate(UnionRoomWork *work, UnionBeaconPc *beaconPc)
 
     UNION_CHAT_LOG_Add(work, beaconPc, 0, 0);
     if (situation->playCategory == 0 && situation->nextPlayCategory == 0 && beaconPc->beacon.playCategory == 5 && beaconPc->life != 0) {
-        func_02087C6C(ownMac);
+        OS_GetMacAddress(ownMac);
         if (memcmp(beaconPc->beacon.mac, ownMac, 6) == 0 && UNION_ONESELF_SetNextPlayCategoryInMainPhase(work, 6) == 1) {
             UNION_COMM_SetSituationParam(work, 2, (u32)beaconPc);
             UNION_COMM_SetSituationParam(work, 0, (u32)beaconPc);

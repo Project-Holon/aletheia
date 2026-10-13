@@ -15,7 +15,7 @@
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *
  * beacon_status.c, 0x02027634..0x020276C4: load the beacon status palette,
@@ -45,7 +45,7 @@ struct BeaconGfx {
 
 extern u32 func_0204162C(int channel);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 id, u32 comp, void **out, u32 heap);
-extern void  func_02082D44(void *dst, const void *src, u32 size);
+extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
 extern u32 func_020307B0(void *p);
 
 void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
@@ -57,7 +57,7 @@ void func_02027634(void *arc, int id, u32 heap, int base, u32 pal)
 
     g = (struct BeaconGfx *)func_0204162C(id);
     h = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x1d, 0, &data, heap);
-    func_02082D44(((struct BeaconGfx *)((u8 *)data + 0xc))->pal, g->pal, 0xc0);
+    MI_CpuCopy8(((struct BeaconGfx *)((u8 *)data + 0xc))->pal, g->pal, 0xc0);
     func_020307B0(h);
     for (i = 0; i < 0x60; i++)
         g->pal[i] = (pal << 12) + (base + (g->pal[i] & 0xfff));

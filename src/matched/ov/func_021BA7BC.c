@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7BC
+ * function: WIFICLUBACTOR_RestartBlinkScript
  * address:  0x021BA7BC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA78C  0x021BA78C  thumb
+ *   WIFICLUBACTOR_RequestBlinkRestart  0x021BA78C  thumb
  *
- * When the byte at +0x0D is set, runs the reset at func_021BA78C on the block.
+ * When the byte at +0x0D is set, runs the reset at WIFICLUBACTOR_RequestBlinkRestart on the block.
  */
 
 typedef unsigned char  u8;
@@ -28,11 +28,11 @@ typedef struct {
     u8 f0D;
 } S;
 
-extern void func_021BA78C(S *s);
+extern void WIFICLUBACTOR_RequestBlinkRestart(S *s);
 
-void func_021BA7BC(S *s)
+void WIFICLUBACTOR_RestartBlinkScript(S *s)
 {
     if (s->f0D != 0) {
-        func_021BA78C(s);
+        WIFICLUBACTOR_RequestBlinkRestart(s);
     }
 }

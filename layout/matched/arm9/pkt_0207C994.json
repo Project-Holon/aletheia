@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207C994",
+   "name": "FX_ModS32",
    "address": "0x0207C994",
    "kind": "sdk",
    "region": "arm9",

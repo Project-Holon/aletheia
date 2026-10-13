@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B7CBC",
-    "func_021B7CC0",
-    "func_021B7CC4"
+    "IRC_COMPATIBLE_MENU_TextGetFont",
+    "IRC_COMPATIBLE_MENU_TextGetPrintQueue",
+    "IRC_COMPATIBLE_MENU_TextGetMsgData"
+   ],
+   "addresses": [
+    "0x021B7CBC",
+    "0x021B7CC0",
+    "0x021B7CC4"
    ]
   }
  ]

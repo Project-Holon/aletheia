@@ -1,5 +1,5 @@
 /*
- * function: func_021C0318
+ * function: ghiCallPostCallback
  * address:  0x021C0318
  * packet:   pkt_ov114_021C0318
  * region:   ov114
@@ -30,7 +30,7 @@ typedef struct GHIConnection {
 
 extern int ArrayLength(void *array);
 
-void func_021C0318(GHIConnection *connection)
+void ghiCallPostCallback(GHIConnection *connection)
 {
     if (connection->postCallback != 0)
         connection->postCallback(connection->request, connection->postingTotalBytes, connection->postingCurrentFile, connection->postingFileBytesPosted, ArrayLength(connection->postingState), connection->param);

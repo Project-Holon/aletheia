@@ -16,7 +16,7 @@
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   func_02087C6C  0x02087C6C  arm
+ *   OS_GetMacAddress  0x02087C6C  arm
  *
  * Seeds the current record's +0x4a state byte: state 2 re-arms the eight-slot
  * table through GFL_NET_SendToHandle with a 3-byte payload built in a 12-byte stack
@@ -45,7 +45,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void *GFL_NET_GetSession(void);
 extern void *GFL_NET_GetInitParam(void);
-extern void func_02087C6C(void *p);
+extern void OS_GetMacAddress(void *p);
 
 int GFL_NET_HANDLE_CheckNegotiation(void)
 {
@@ -62,7 +62,7 @@ int GFL_NET_HANDLE_CheckNegotiation(void)
     if (GFL_NET_SYSTEM_IsConnectMember(GFL_NET_SYSTEM_GetCurrentAid()) != 0) {
         f = ((struct Obj11357 *)p)->f4A;
         if (f == 2) {
-            func_02087C6C(buf);
+            OS_GetMacAddress(buf);
             buf[6] = v;
             buf[7] = ((struct Obj11358 *)q)->f67;
             buf[8] = ((struct Obj11358 *)q)->f6E;

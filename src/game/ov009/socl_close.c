@@ -17,29 +17,29 @@
  *   SOCL_SocketIsInTrash   0x0215f404 arm
  *   OS_RestoreInterrupts   0x0208799c arm
  *   SOCL_SocketIsInvalid   0x0215f3d0 arm
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0215CEB0  0x0215CEB0  arm  ov009
  *   func_0215CE3C  0x0215CE3C  arm  ov009
  *   func_0215CEFC  0x0215CEFC  arm  ov009
  *   g_021AA4AC     0x021AA4AC  data
- *   func_02085710  0x02085710  arm
- *   func_0215AD00  0x0215AD00  arm  ov009
- *   func_0215AD3C  0x0215AD3C  arm  ov009
- *   func_0215AB5C  0x0215AB5C  arm  ov009
- *   func_0215AA70  0x0215AA70  arm  ov009
+ *   OS_JoinThread  0x02085710  arm
+ *   CPS_TcpShutdown  0x0215AD00  arm  ov009
+ *   CPS_TcpClose  0x0215AD3C  arm  ov009
+ *   CPS_SocRelease  0x0215AB5C  arm  ov009
+ *   CPS_SocUnRegister  0x0215AA70  arm  ov009
  *   func_0215F31C  0x0215F31C  arm  ov009
  *   func_0215F304  0x0215F304  arm  ov009
  *   func_0215EB14  0x0215EB14  arm  ov009
- *   func_02085800  0x02085800  arm
+ *   OS_WakeupThread  0x02085800  arm
  *   func_0215F3B8  0x0215F3B8  arm  ov009
  *   g_021A1CD8     0x021A1CD8  data
- *   func_02085B30  0x02085B30  arm
+ *   OS_DisableScheduler  0x02085B30  arm
  *   func_02085E50  0x02085E50  arm
  *   func_02085DBC  0x02085DBC  arm
  *   func_0215CE7C  0x0215CE7C  arm  ov009
- *   func_02085B60  0x02085B60  arm
- *   func_020858BC  0x020858BC  arm
+ *   OS_EnableScheduler  0x02085B60  arm
+ *   OS_RescheduleThread  0x020858BC  arm
  *   func_0215EA1C  0x0215EA1C  arm  ov009
  *   g_021AA4B8  0x021AA4B8  data
  */
@@ -91,16 +91,16 @@ extern unsigned long OS_DisableInterrupts(void);
 extern int SOCL_SocketIsInTrash(Socket * socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int SOCL_SocketIsInvalid(Socket * socket);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0215CEB0(int a0, char *a1);
 extern struct SOCLCommand *func_0215CE3C(int (*handler)(void *), Socket *socket, long flag);
 extern void func_0215CEFC(int a, int b);
-extern void func_02085710(void *thread);
-extern void func_0215AD00(void);
-extern void func_0215AD3C(void);
-extern void func_0215AB5C(void);
-extern void func_0215AA70(void);
+extern void OS_JoinThread(void *thread);
+extern void CPS_TcpShutdown(void);
+extern void CPS_TcpClose(void);
+extern void CPS_SocRelease(void);
+extern void CPS_SocUnRegister(void);
 extern void func_0215F31C(int a);
 extern void func_0215F304(int a);
 /* * sdk: SOCL_IsClosed (libsoc.TWL.HYB.a(socl_close.o)) */ int func_0215E794(int s);
@@ -115,14 +115,14 @@ typedef struct {
 	void *reply;
 } Command;
 extern void func_0215EB14(unsigned char *pipe);
-extern void func_02085800(void *queue);
+extern void OS_WakeupThread(void *queue);
 extern void func_0215F3B8(int a);
-extern unsigned long func_02085B30(void);
+extern unsigned long OS_DisableScheduler(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
 extern int func_02085DBC(void *mq, void *msg, long flags);
 extern void func_0215CE7C(void *ptr);
-extern unsigned long func_02085B60(void);
-extern void func_020858BC(void);
+extern unsigned long OS_EnableScheduler(void);
+extern void OS_RescheduleThread(void);
 void func_0215EA1C(Socket *socket);
 void func_0215EBB4(void);
 
@@ -184,13 +184,13 @@ int func_0215E84C(int s)
 
 	if (s <= 0)
 		return -0x1c;
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	if (func_0215F404((int)socket) != 0) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
 	if (func_0215F3D0(socket) != 0) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return result;
 	}
 	{
@@ -199,15 +199,15 @@ int func_0215E84C(int s)
 		if (socket != 0)
 			flag = (socket->state & 1) != 0;
 		if (flag == 0) {
-			func_0208799C(enable);
+			OS_RestoreInterrupts(enable);
 			return -0x27;
 		}
 	}
 	if (socket->state & 0x10) {
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 	socket->state |= 0x18;
 	{
 		int mode = 1;
@@ -248,18 +248,18 @@ int func_0215E980(void *arg)
 
 	socket = ((Cmd *)arg)->socket;
 	if (IsStream(socket)) {
-		func_02085710(socket->send_pipe + 0x20);
-		func_0215AD00();
-		func_0215AD3C();
-		func_0215AB5C();
+		OS_JoinThread(socket->send_pipe + 0x20);
+		CPS_TcpShutdown();
+		CPS_TcpClose();
+		CPS_SocRelease();
 	}
-	func_0215AA70();
+	CPS_SocUnRegister();
 	socket->state &= ~6;
 	func_0215CEB0((int)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F304((int)socket);
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;
 }
@@ -291,16 +291,16 @@ void func_0215EA1C(Socket *socket)
 		socket->recv_pipe->udpdata.size = 0;
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
-		func_02085800(socket->recv_pipe->udpdata.queue);
+		OS_WakeupThread(socket->recv_pipe->udpdata.queue);
 		func_0215EB14((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
 		func_0215EB14(socket->send_pipe);
 	}
-	enable = func_02087988();
+	enable = OS_DisableInterrupts();
 	func_0215F31C((int)socket);
 	func_0215F3B8((int)socket);
 	g_021A1CD8->free(socket);
-	func_0208799C(enable);
+	OS_RestoreInterrupts(enable);
 }
 
 
@@ -315,9 +315,9 @@ void func_0215EB14(unsigned char *pipe)
 	if (pipe == 0) {
 		return;
 	}
-	func_02085710(pipe + 0x20);
-	enable = func_02087988();
-	func_02085B30();
+	OS_JoinThread(pipe + 0x20);
+	enable = OS_DisableInterrupts();
+	OS_DisableScheduler();
 	while (func_02085E50(pipe, (void **)&command, 0)) {
 		if (command != 0) {
 			if (command->reply != 0) {
@@ -326,9 +326,9 @@ void func_0215EB14(unsigned char *pipe)
 			func_0215CE7C(command);
 		}
 	}
-	func_02085B60();
-	func_020858BC();
-	func_0208799C(enable);
+	OS_EnableScheduler();
+	OS_RescheduleThread();
+	OS_RestoreInterrupts(enable);
 }
 
 

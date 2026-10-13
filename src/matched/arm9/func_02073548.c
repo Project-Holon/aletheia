@@ -1,5 +1,5 @@
 /*
- * function: func_02073548
+ * function: NNSi_SndPlayerInsertSeqPlayer
  * address:  0x02073548
  * packet:   pkt_02073548
  * region:   arm9
@@ -28,7 +28,7 @@ struct DList;
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_02060550(volatile struct DList *list, void *before, void *elem);
 
-void func_02073548(void *list, Obj_02073548 *obj)
+void NNSi_SndPlayerInsertSeqPlayer(void *list, Obj_02073548 *obj)
 {
     Obj_02073548 *curr = (Obj_02073548 *)func_02060614(list, 0);
     while (curr != 0) {

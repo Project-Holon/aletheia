@@ -21,11 +21,11 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D746C 0x021D746C thumb ov123
  *   func_021D6FF0 0x021D6FF0 thumb ov123
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
  *   func_02030734 0x02030734 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   d_021DAB78 0x021DAB78 data ov123 a1
  */
 #include "../include/Obj00063.h"
@@ -37,12 +37,12 @@ extern int func_021D6EBC(u8 *p);
 extern void func_021D66D0(u8 *,int);
 extern int func_021D6E08(char *,int);
 struct Sub02009448Obj;
-extern int func_021B99DC(u8 *p);
-extern int func_021B9790(u8 *p);
-extern char *func_021B97F4(void *);
+extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_PollConnection(u8 *p);
+extern char *NHTTP_RAP_GetRecvBuffer(void *);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_02082D44(const void *,void *,u32);
+extern void MI_CpuCopy8(const void *,void *,u32);
 extern void func_021D7E58(u8 *p, void *h, u8 *q, int *r);
 extern int func_021D5950(u8 *,int);
 extern void func_021D59E4(char *);
@@ -60,14 +60,14 @@ void func_021D7F9C(char *p)
     if (func_021D6E70((u8 *)p) && !func_021D6EBC((u8 *)p)) {
         if (((struct Obj00063 *)p)->f70<30) ++((struct Obj00063 *)p)->f70;
         func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f70);
-        if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
-        if (func_021B9790(((struct Obj00063 *)p)->f10)) return;
-        q=func_021B97F4(((struct Obj00063 *)p)->f10);
+        if (func_021D6E08(p,NHTTP_RAP_GetResultCode(((struct Obj00063 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((struct Obj00063 *)p)->f10)) return;
+        q=NHTTP_RAP_GetRecvBuffer(((struct Obj00063 *)p)->f10);
         v=func_02009448(((struct Obj00063 *)p)->f28);
         data=q+0x80;
         allocated=func_02030734(((struct Obj00063 *)p)->f0,0x11c,1,d_021DAB78,0x573);
         ((struct Obj00063 *)p)->f38=allocated;
-        func_02082D44(data,allocated,0x11c);
+        MI_CpuCopy8(data,allocated,0x11c);
         func_021D7E58((u8 *)p,v,(u8 *)data,(int *)q);
         return;
     } else {

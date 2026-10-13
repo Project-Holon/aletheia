@@ -1,5 +1,5 @@
 /*
- * function: func_021F69E4
+ * function: VS_MULTI_LIST_AddVBlankTask
  * address: 0x021F69E4
  * packet: pkt_ov097_021F69E4
  * region: ov097
@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   func_020056A0 0x020056A0 thumb
- *   func_021F6A08 0x021F6A08 thumb ov097
+ *   VS_MULTI_LIST_VBlankCallback 0x021F6A08 thumb ov097
  */
 #include "../include/Obj00111.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_020056A0(void (*)(void), void *, u32);
-extern void func_021F6A08(void);
-void func_021F69E4(u8 *p) { ((struct Obj00111 *)p)->f4 = func_020056A0(func_021F6A08, p, 0); }
+extern void VS_MULTI_LIST_VBlankCallback(void);
+void VS_MULTI_LIST_AddVBlankTask(u8 *p) { ((struct Obj00111 *)p)->f4 = func_020056A0(VS_MULTI_LIST_VBlankCallback, p, 0); }

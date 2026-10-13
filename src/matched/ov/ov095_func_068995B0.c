@@ -1,5 +1,5 @@
 /*
- * function: func_068995B0
+ * function: HAND_SIDE_SpikesHurtOnEnter
  * address:  0x068995B0
  * packet:   pkt_ov095_068995B0
  * region:   ov095
@@ -38,7 +38,7 @@ extern void func_06899698(u8 *p, int n, int c);
 extern void func_068996A8(u8 *p, int v);
 extern void func_068996B8(int p, u8 *q);
 
-void func_068995B0(int a, int p, int x)
+void HAND_SIDE_SpikesHurtOnEnter(int a, int p, int x)
 {
     u8 v;
     int n;

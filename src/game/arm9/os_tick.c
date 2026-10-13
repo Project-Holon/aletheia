@@ -1,7 +1,7 @@
 /*
  * file:     os_tick.c
  * unit:     yes
- * function: func_02086FE8, func_02087058, func_02087068, func_020870D0, func_02087170
+ * function: func_02086FE8, OS_IsTickAvailable, func_02087068, func_020870D0, func_02087170
  * address:  0x02086FE8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -53,7 +53,7 @@ extern u32 OS_EnableIrqMask(u32 intr);
 extern void OSi_CountUpTick(void);
 extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void), void *arg);
 void func_02086FE8(void);
-BOOL func_02087058(void);
+BOOL OS_IsTickAvailable(void);
 void func_02087068(void);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
@@ -98,7 +98,7 @@ void func_02086FE8(void)
 }
 
 
-BOOL func_02087058(void)
+BOOL OS_IsTickAvailable(void)
 {
     return g_02151330.OSi_UseTick;
 }

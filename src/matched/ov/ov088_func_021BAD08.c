@@ -43,8 +43,8 @@
  *   func_02008748  0x02008748  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
- *   func_0200CA10  0x0200CA10  thumb
- *   func_0200D0AC  0x0200D0AC  thumb
+ *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
+ *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C258  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
@@ -111,8 +111,8 @@ extern void ZONEDATA_Exit(void);
 extern struct PlayTime *func_02008748(void *sys);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
-extern void *func_0200CA10(void *);
-extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
+extern void *ZUKAN_SAVE_GetBlock(void *);
+extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
 extern void *func_0200C0F0(void *);
 extern u32 func_0200C258(struct Blk34 *p);
 
@@ -179,7 +179,7 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
 
     if (ZONEDATA_CheckEventFlag(p->f10, 0x962) == 1) {
         a = func_02045EC0(p->f5c, 10);
-        func_0201EFA4(p->f60, 0, func_0200D0AC(func_0200CA10(p->f00), 11), 3, 0, 1);
+        func_0201EFA4(p->f60, 0, ZUKAN_SAVE_CountSeen(ZUKAN_SAVE_GetBlock(p->f00), 11), 3, 0, 1);
         func_0201F250(p->f60, p->f64, a);
         bg = p->f68;
         PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[4].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);

@@ -10,7 +10,7 @@
  * status: EXACT
  * extent: unit includes the 28-byte store-and-tail stub at 021D706C.
  * symbols:
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   func_021D584C 0x021D584C thumb ov123
  *   func_021D5950 0x021D5950 thumb ov123
  *   func_021D5960 0x021D5960 thumb ov123
@@ -22,7 +22,7 @@
 #include "../include/Obj22956.h"
 #include "../include/Obj22957.h"
 typedef unsigned char  u8;
-extern void func_021B9774(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern void func_021D584C(char *);
 typedef unsigned int   u32;
 extern int func_021D5950(u8 *p, int x);
@@ -33,7 +33,7 @@ extern void func_021D6F04(char *);
 void func_021D6FF0(char *p)
 {
     int n=((struct Obj02182 *)p)->f80+29;
-    if (((struct Obj02182 *)p)->f10) func_021B9774(((struct Obj02182 *)p)->f10);
+    if (((struct Obj02182 *)p)->f10) NHTTP_RAP_DeleteConnection(((struct Obj02182 *)p)->f10);
     if (((struct Obj02182 *)p)->f80==0xfff0) n=39;
     else if (((struct Obj02182 *)p)->f80==0xfff1) n=40;
     else if (((struct Obj02182 *)p)->f80==0xfff2) n=41;

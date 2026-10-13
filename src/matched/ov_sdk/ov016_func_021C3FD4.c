@@ -12,20 +12,20 @@
  * sdk:      endScene (libdwcutil.TWL.HYB.a sceneoptmovfailure.o)
  *
  * symbols:
- *   func_021BCB9C  0x021BCB9C  arm  ov016
- *   func_021D5790  0x021D5790  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_BTNlDisable  0x021BCB9C  arm  ov016
+ *   DWCi_EFFlWait  0x021D5790  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021C3FF4  0x021C3FF4  arm  ov016
  */
 
-extern void func_021BCB9C();
-extern void func_021D5790();
-extern void func_021C0E40(unsigned int v);
+extern void DWCi_BTNlDisable();
+extern void DWCi_EFFlWait();
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3FF4();
 
 void func_021C3FD4(void)
 {
-    func_021BCB9C();
-    func_021D5790(8);
-    func_021C0E40((unsigned int)func_021C3FF4);
+    DWCi_BTNlDisable();
+    DWCi_EFFlWait(8);
+    DWCi_ChangeScene((unsigned int)func_021C3FF4);
 }

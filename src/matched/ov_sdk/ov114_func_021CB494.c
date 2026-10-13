@@ -1,5 +1,5 @@
 /*
- * function: func_021CB494
+ * function: CRYPTOi__BN_sub_word
  * address:  0x021CB494
  * packet:   pkt_ov114_021CB494
  * region:   ov114
@@ -11,8 +11,8 @@
  *
  * sdk:      CRYPTOi__BN_sub_word (libcrypto.TWL.HYB.a crypto_bobj1.o)
  * symbols:
- *   func_021CADAC                    0x021cadac arm ov114
- *   func_021CB3B4                    0x021cb3b4 arm ov114
+ *   CRYPTOi__bn_expand2                    0x021cadac arm ov114
+ *   CRYPTOi__BN_add_word                    0x021cb3b4 arm ov114
  */
 
 typedef unsigned long BN_ULONG;
@@ -25,12 +25,12 @@ typedef struct {
     int flags;
 } BIGNUM;
 
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
-extern int func_021CB3B4(BIGNUM *a, BN_ULONG w);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
+extern int CRYPTOi__BN_add_word(BIGNUM *a, BN_ULONG w);
 
-#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : func_021CADAC((a), (words)))
+#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (words)))
 
-int func_021CB494(BIGNUM *a, BN_ULONG w)
+int CRYPTOi__BN_sub_word(BIGNUM *a, BN_ULONG w)
 {
     int i;
 
@@ -38,7 +38,7 @@ int func_021CB494(BIGNUM *a, BN_ULONG w)
         return 1;
     if (a->neg) {
         a->neg = 0;
-        i = func_021CB3B4(a, w);
+        i = CRYPTOi__BN_add_word(a, w);
         a->neg = 1;
         return i;
     }

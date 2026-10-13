@@ -28,7 +28,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_GetPixels  0x020437D4  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   MSGDATA_Delete  0x02045C04  arm
@@ -76,7 +76,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 a);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void func_02082A90(u32 a, u32 b, u32 n);
+extern void MIi_CpuCopy32(u32 a, u32 b, u32 n);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -121,7 +121,7 @@ void OPTION_MENU_CreateLabelWindows(u32 *p)
         STRBUF_Delete((struct U16Vec *)str);
     }
     w = *(u32 *)(p[22] + 0x14);
-    func_02082A90(w, (u32)BMP_GetPixels((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[16]))), 0x600);
+    MIi_CpuCopy32(w, (u32)BMP_GetPixels((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p[16]))), 0x600);
     str = (u32)func_02045EC0((struct MsgBank *)msg, 0);
     x = BMP_WIN_GetWidth((struct Descriptor *)p[16]) * 4;
     x -= func_0201D304((struct StrObj *)str, font, 0) >> 1;

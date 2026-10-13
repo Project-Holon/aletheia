@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B694C",
+   "name": "PDC_MSG_PrintMessage3",
    "address": "0x021B694C",
    "kind": "game",
    "region": "ov098",

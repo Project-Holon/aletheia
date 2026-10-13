@@ -1,5 +1,5 @@
 /*
- * function: func_02064648
+ * function: NNS_G2dGetMCBankNumCellAnimRequired
  * address:  0x02064648
  * packet:   pkt_02064364
  * region:   arm9
@@ -19,7 +19,7 @@
  * byte runs 0, 1, 2, ... across a multi-cell's nodes rather than naming a cell.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02064648.c  *       --func func_02064648 --addr 0x02064648 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/NNS_G2dGetMCBankNumCellAnimRequired.c  *       --func NNS_G2dGetMCBankNumCellAnimRequired --addr 0x02064648 --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ struct MultiCellBank {
 
 extern struct MultiCellData *func_020629E8(struct MultiCellBank *bank, u32 idx);
 
-u16 func_02064648(struct MultiCellBank *bank)
+u16 NNS_G2dGetMCBankNumCellAnimRequired(struct MultiCellBank *bank)
 {
     u16 max = 0;
     u16 i = 0;

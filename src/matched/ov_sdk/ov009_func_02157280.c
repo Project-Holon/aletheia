@@ -1,5 +1,5 @@
 /*
- * function: func_02157280
+ * function: CPS_SetCheckNConfigCallback
  * address:  0x02157280
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char g_021A826C[];
 
-void func_02157280(int v)
+void CPS_SetCheckNConfigCallback(int v)
 {
     *(int *)(g_021A826C + 0x48) = v;
 }

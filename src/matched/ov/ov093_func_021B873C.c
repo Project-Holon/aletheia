@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0200CF28  0x0200CF28  thumb
+ *   ZUKAN_SAVE_CountCaughtNational  0x0200CF28  thumb
  */
 #include "../include/Obj20961.h"
 
 typedef unsigned short u16;
 struct Blk37;
-u16 func_0200CF28(struct Blk37 *p);
+u16 ZUKAN_SAVE_CountCaughtNational(struct Blk37 *p);
 
 typedef unsigned int   u32;
 u32 BTL_MAIN_GetZukanSeenCount(char **p)
 {
-    return func_0200CF28((struct Blk37 *)(((struct Obj20961 *)(*p))->f68));
+    return ZUKAN_SAVE_CountCaughtNational((struct Blk37 *)(((struct Obj20961 *)(*p))->f68));
 }

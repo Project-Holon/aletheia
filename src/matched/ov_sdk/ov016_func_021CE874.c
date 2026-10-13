@@ -1,5 +1,5 @@
 /*
- * function: func_021CE874
+ * function: DWCi_SBlInit
  * address:  0x021CE874
  * packet:   pkt_ov016_021CE874
  * region:   ov016
@@ -12,15 +12,15 @@
  * sdk:      DWCi_SBlInit (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   func_021D6414  0x021D6414  arm  ov016
- *   func_021D5FE8  0x021D5FE8  arm  ov016
- *   func_021D5394  0x021D5394  arm  ov016
- *   func_021D5118  0x021D5118  arm  ov016
- *   func_021D51F0  0x021D51F0  arm  ov016
- *   func_021D7680  0x021D7680  arm  ov016
+ *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
+ *   DWCi_InputCoord  0x021D5FE8  arm  ov016
+ *   DWCi_CEINlSetExCell  0x021D5394  arm  ov016
+ *   DWCi_CELLlSetPosition  0x021D5118  arm  ov016
+ *   DWCi_CELLlSetPriority  0x021D51F0  arm  ov016
+ *   DWCi_TSKlForm  0x021D7680  arm  ov016
  *   func_021CE9E8  0x021CE9E8  arm  ov016
- *   g_021DE63C  0x021DE63C  data
- *   g_021DA8B8  0x021DA8B8  data
+ *   gScrollBar  0x021DE63C  data
+ *   sScrollBarCellIds  0x021DA8B8  data
  */
 
 typedef struct {
@@ -39,25 +39,25 @@ typedef struct {
 	unsigned char b;
 } SB;
 
-extern void *func_021D6414(unsigned long size, int alignment);
-extern void func_021D5FE8(int a, int b, unsigned short *p);
-extern void *func_021D5394(int a, int kind, int c);
-extern void func_021D5118(void *cell, int idx, int x, int y);
-extern void func_021D51F0(void *cell, int idx, int prio);
-extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void DWCi_InputCoord(int a, int b, unsigned short *p);
+extern void *DWCi_CEINlSetExCell(int a, int kind, int c);
+extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
+extern void DWCi_CELLlSetPriority(void *cell, int idx, int prio);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void func_021CE9E8(void);
-extern SB *g_021DE63C;
-extern unsigned char g_021DA8B8[];
+extern SB *gScrollBar;
+extern unsigned char sScrollBarCellIds[];
 
-void func_021CE874(int kind, int max, int x, int y, int pos)
+void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
 {
-	g_021DE63C = (SB *)func_021D6414(0x20, 4);
-	g_021DE63C->bar = kind;
-	g_021DE63C->len = max;
-	g_021DE63C->pos = pos;
-	func_021D5FE8(x, y, &g_021DE63C->x);
-	g_021DE63C->cell = func_021D5394(0, g_021DA8B8[kind], 1);
-	func_021D5118(g_021DE63C->cell, -1, x, y + pos);
-	func_021D51F0(g_021DE63C->cell, -1, 1);
-	g_021DE63C->task = func_021D7680(0, (void (*)(void *))func_021CE9E8, 0, 0x80);
+	gScrollBar = (SB *)DWCi_HEAPlAllocEx(0x20, 4);
+	gScrollBar->bar = kind;
+	gScrollBar->len = max;
+	gScrollBar->pos = pos;
+	DWCi_InputCoord(x, y, &gScrollBar->x);
+	gScrollBar->cell = DWCi_CEINlSetExCell(0, sScrollBarCellIds[kind], 1);
+	DWCi_CELLlSetPosition(gScrollBar->cell, -1, x, y + pos);
+	DWCi_CELLlSetPriority(gScrollBar->cell, -1, 1);
+	gScrollBar->task = DWCi_TSKlForm(0, (void (*)(void *))func_021CE9E8, 0, 0x80);
 }

@@ -21,7 +21,7 @@
  *   func_0207C768  0x0207C768  arm
  *   func_02030DA8  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   func_02030734  0x02030734  arm
  *   d_0220AE88  0x0220AE88  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -80,9 +80,9 @@ extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32
 
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16_021F6560 step, u8 b, u8 c, u16 d, void *ctx);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -370,7 +370,7 @@ void func_02201F98(void *a, void *b)
 
 void func_02201FD8(void *h)
 {
-    int *q = (int *)TCBL_IsDeletePending(h);
+    int *q = (int *)TCBL_GetTaskUserData(h);
     char *p = (char *)q[0];
     ((struct Obj21735 *)p)->f78 &= (1 << q[4]) ^ -1;
 }
@@ -392,7 +392,7 @@ void func_02201FF4(void *a, void *b)
 
 void func_0220203C(void *h)
 {
-    int *q = (int *)TCBL_IsDeletePending(h);
+    int *q = (int *)TCBL_GetTaskUserData(h);
     char *p = (char *)q[0];
     ((struct Obj21736 *)p)->f7C &= (1 << q[4]) ^ -1;
 }

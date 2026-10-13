@@ -1,5 +1,5 @@
 /*
- * function: func_021BC78C
+ * function: PMSIV_BGSCROLL_Start
  * address: 0x021BC78C
  * packet: pkt_ov110_021BC78C
  * region: ov110
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 extern unsigned int func_02041648(u8 channel);
 typedef unsigned int   u32;
 extern u32 func_02041664(u8 channel);
-void func_021BC78C(u8 *p, int a, int b, int step, int n)
+void PMSIV_BGSCROLL_Start(u8 *p, int a, int b, int step, int n)
 {
     ((struct Obj02461 *)p)->f0=a;
     if (b==0) {

@@ -19,7 +19,7 @@
  * symbols:
  *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ typedef struct {
 
 void BTL_CALC_ActionSetRecordError(u32 *p);
 void BTL_CALC_ActionSetRecordReset(u32 *p);
-void func_02082D44(const void *src, void *dst, u32 n);
+void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
 u32 *BTL_REC_ReadRecord(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
 {
@@ -72,7 +72,7 @@ u32 *BTL_REC_ReadRecord(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
                 if (id != idx) {
                     pos[idx] += sz * 4;
                 } else {
-                    func_02082D44(dd + pos[idx], r->buf[idx], sz * 4);
+                    MI_CpuCopy8(dd + pos[idx], r->buf[idx], sz * 4);
                     res = r->buf[idx];
                     pos[idx] += sz * 4;
                     *outLen = sz;

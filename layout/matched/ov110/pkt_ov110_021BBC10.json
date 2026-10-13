@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBC10",
+   "name": "PMSIV_CATEGORY_IsSelectAnimDone",
    "address": "0x021BBC10",
    "kind": "game",
    "region": "ov110",

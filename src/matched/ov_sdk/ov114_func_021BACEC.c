@@ -1,5 +1,5 @@
 /*
- * function: func_021BACEC
+ * function: NHTTPi_InitListInfo
  * address:  0x021BACEC
  * packet:   pkt_021B9500
  * region:   ov114
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BACEC(u8 *p)
+void NHTTPi_InitListInfo(u8 *p)
 {
     *(u32 *)(p + 0) = 0;
     *(u32 *)(p + 4) = 0;

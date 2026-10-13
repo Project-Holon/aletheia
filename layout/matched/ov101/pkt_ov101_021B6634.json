@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6634",
-    "func_021B6650",
-    "func_021B6658",
-    "func_021B665C",
-    "func_021B6668",
-    "func_021B6670",
-    "func_021B6674"
+    "COMPATIBLE_IRC_SYS_SetPlayerReady",
+    "COMPATIBLE_IRC_SYS_GetRecvBuffer",
+    "COMPATIBLE_IRC_SYS_GetRecvSize",
+    "COMPATIBLE_IRC_SYS_IsEqual",
+    "COMPATIBLE_IRC_SYS_ClearPartnerReady",
+    "COMPATIBLE_IRC_SYS_StartSessionCallback",
+    "COMPATIBLE_IRC_SYS_ExitCallback"
+   ],
+   "addresses": [
+    "0x021B6634",
+    "0x021B6650",
+    "0x021B6658",
+    "0x021B665C",
+    "0x021B6668",
+    "0x021B6670",
+    "0x021B6674"
    ]
   }
  ]

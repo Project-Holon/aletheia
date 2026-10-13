@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FF4
+ * function: IRCBATTLEMATCH_OnChangeoverResult
  * address: 0x021B9FF4
  * packet: pkt_ov100_021B9FF4
  * region: ov100
@@ -11,7 +11,7 @@
 
  */
 #include "../include/Obj05266.h"
-void func_021B9FF4(int a,int b) {
+void IRCBATTLEMATCH_OnChangeoverResult(int a,int b) {
  ((struct Obj05266 *)a)->fC7C=b;
  ((struct Obj05266 *)a)->fC8C=1;
  ((struct Obj05266 *)a)->fC94=1;

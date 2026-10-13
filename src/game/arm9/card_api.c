@@ -1,7 +1,7 @@
 /*
  * file:     card_api.c
  * unit:     yes
- * function: func_02075C38, func_02075C90, func_02075CAC, func_02075DA0, func_02075DB0, func_02075DC8, func_02075DD8, func_02075DEC, func_02075DF8, func_02075E04, func_02075E10, func_02075E80, func_02075E9C, func_02075EAC
+ * function: func_02075C38, func_02075C90, func_02075CAC, func_02075DA0, func_02075DB0, func_02075DC8, func_02075DD8, func_02075DEC, func_02075DF8, func_02075E04, CARD_LockRom, CARD_UnlockRom, func_02075E9C, func_02075EAC
  * address:  0x02075C38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,7 +30,7 @@
  *   cardi_rom_base  0x02150840  data
  *   CARDi_OldTypeTaskThread  0x020761E4  arm
  *   s_data_0215019C  0x0215019C  data
- *   func_02088234   0x02088234  arm
+ *   OS_Terminate   0x02088234  arm
  *   CARDi_LockResource  0x02075ED4  arm
  *   OS_InitEvent  0x020882DC  arm
  *   OS_CreateVAlarm  0x020876A4  arm
@@ -148,7 +148,7 @@ extern void CARDi_InitRom(void);
 extern void CARD_Enable(BOOL enable);
 extern void CARD_InitPulledOutCallback(void);
 extern void CARDi_OldTypeTaskThread(void *arg);
-extern void func_02088234(void);
+extern void OS_Terminate(void);
 extern void CARDi_LockResource(s32_02075E10 owner, int target);
 extern void OS_InitEvent(OSEvent *event);
 extern void OS_CreateVAlarm(OSiVAlarm *alarm);
@@ -170,7 +170,7 @@ int CARD_GetResultCode(void);
 void *CARD_GetRomHeader(void);
 void *CARD_GetOwnRomHeader(void);
 void *CARD_GetOwnRomHeaderTWL(void);
-void func_02075E10(u16 lock_id);
+void CARD_LockRom(u16 lock_id);
 void CARD_UnlockRom(unsigned int id);
 void CARD_LockBackup(s32 owner);
 void func_02075EAC(u16 lock_id);
@@ -269,7 +269,7 @@ void CARD_CheckEnabled(void)
 {
     if (func_02075DA0() != 0)
         return;
-    func_02088234();
+    OS_Terminate();
 }
 
 
@@ -314,7 +314,7 @@ void *CARD_GetOwnRomHeaderTWL(void)
 /*
  * sdk:      CARD_LockRom (libcard.TWL.HYB.a card_api.o)
  */
-void func_02075E10(u16 lock_id)
+void CARD_LockRom(u16 lock_id)
 {
     CARDEventListener el[1];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C080C
+ * function: PMS_SELECT_GRAPHIC_ColorRowBg
  * address: 0x021C080C
  * packet: pkt_ov110_021C080C
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32);
-void func_021C080C(char *p, u8 idx, u32 pal, int flag)
+void PMS_SELECT_GRAPHIC_ColorRowBg(char *p, u8 idx, u32 pal, int flag)
 {
     int i;
     int n;

@@ -17,7 +17,7 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   sub_0203F49C                 0x0203F49C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   OS_GetMacAddress      0x02087C6C  arm
  *   OS_GetOwnerInfo       0x02087C88  arm
  *   OS_GetOwnerRtcOffset  0x02087D08  arm
@@ -208,7 +208,7 @@ extern u32 RTC_ConvertDateToDay(const struct RTCDate *date);
 extern void OS_GetMacAddress(u8 *mac);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern s64  OS_GetOwnerRtcOffset(void);
-extern void func_02082AC0(u32 value, void *dest, u32 size);
+extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
@@ -408,7 +408,7 @@ u32 sub_02008AEC(void)
 
 void func_02008AF0(struct ConsoleStamp *stamp)
 {
-    func_02082AC0(0, stamp, sizeof(struct ConsoleStamp));
+    MIi_CpuClearFast(0, stamp, sizeof(struct ConsoleStamp));
     sub_02008B9C(&stamp->clock);
 }
 

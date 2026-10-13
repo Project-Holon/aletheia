@@ -1,5 +1,5 @@
 /*
- * function: func_0216EC84
+ * function: DWCi_ProcessMatchSynPacketSub_Hybrid
  * address:  0x0216EC84
  * packet:   pkt_ov009_0216EC84
  * region:   ov009
@@ -94,7 +94,7 @@ extern void DWCi_PostProcessConnection(int type);
 
 #define MC() DWCi_GetMatchCnt()
 
-void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data)
+void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data)
 {
     struct DWCstNodeInfo tempNodeInfo;
     struct DWCstNodeInfo tempNodeInfo2;

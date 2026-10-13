@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DD4
+ * function: IRC_RHYTHM_RunPrintQueue
  * address:  0x021B7DD4
  * packet:   pkt_ov104_021B7DD4
  * region:   ov104
@@ -23,4 +23,4 @@ typedef int s32;
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-int func_021B7DD4(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22219 *)p)->f8)); }
+int IRC_RHYTHM_RunPrintQueue(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22219 *)p)->f8)); }

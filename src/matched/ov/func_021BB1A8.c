@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1A8
+ * function: WIFICLUB_CreateTextBuffers
  * address:  0x021BB1A8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -48,7 +48,7 @@ typedef struct {
     void *f1C0;
 } S;
 
-void func_021BB1A8(char *s)
+void WIFICLUB_CreateTextBuffers(char *s)
 {
     ((struct Obj03526 *)s)->fF4 = STRBUF_Create(0x17C, 0x21);
     ((struct Obj03526 *)s)->fFC = STRBUF_Create(0x17C, 0x21);

@@ -1,5 +1,5 @@
 /*
- * function: func_0206EBB8
+ * function: NNSi_G3dGetNodeTransFromMdl
  * address:  0x0206EBB8
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -17,7 +17,7 @@
  * the original's 152. Under ../2.0/sp2 the same C is 152 bytes, 0 mismatches.
  *
  * symbols:
- *   g_02148DB0      0x02148DB0  data
+ *   gCurrentRS      0x02148DB0  data
  *
  * Same inlined two-step resolve as src/matched/unit_0206E394.c, but over the
  * global stash at 0x02148DB0: root -> bank (+0xD4), bank -> entry (indexed
@@ -36,11 +36,11 @@ typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; } Root;
 typedef struct { u16 flags; u32 f04; u32 f08; u32 f0C; } Node;
 typedef struct { u32 rel00; } Ent;
 
-extern struct Root *g_02148DB0;
+extern struct Root *gCurrentRS;
 
-void func_0206EBB8(u32 *out)
+void NNSi_G3dGetNodeTransFromMdl(u32 *out)
 {
-    Root *r = ((Root *)g_02148DB0);
+    Root *r = ((Root *)gCurrentRS);
     Bank *b;
     Node *n;
     u8 *t;

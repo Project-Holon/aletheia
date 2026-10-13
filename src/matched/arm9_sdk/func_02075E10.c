@@ -1,5 +1,5 @@
 /*
- * function: func_02075E10
+ * function: CARD_LockRom
  * address:  0x02075E10
  * packet:   pkt_02075E10
  * region:   arm9
@@ -53,7 +53,7 @@ extern void CARDi_PeekEventListener(void *arg);
 extern u32 OS_WaitEventEx(OSEvent *event, u32 pattern, int mode, u32 clearBit);
 extern BOOL CARDi_LockBusCondition(void *userdata);
 
-void func_02075E10(u16 lock_id)
+void CARD_LockRom(u16 lock_id)
 {
     CARDEventListener el[1];
 

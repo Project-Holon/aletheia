@@ -1,5 +1,5 @@
 /*
- * function: func_021C1064, func_021C10A0, func_021C10A4
+ * function: WIFICLUB_StateLeaveLinkToLobby, WIFICLUB_StateUnusedD, WIFICLUB_StateUnusedE
  * address: 0x021C1064
  * packet: pkt_ov099_021C1064
  * region: ov099
@@ -9,28 +9,28 @@
  * status: EXACT
  * unit: yes
  * symbols:
- *   func_021C19A8 0x021C19A8 thumb ov099
- *   func_021C18C8 0x021C18C8 thumb ov099
+ *   WIFICLUB_ResetOwnSeatStatus 0x021C19A8 thumb ov099
+ *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
- *   func_021C2408 0x021C2408 thumb ov099
- *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   WIFICLUB_DisableTouchBar 0x021C2408 thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
  */
 #include "../include/Obj00008.h"
-extern void func_021C19A8(char *);
+extern void WIFICLUB_ResetOwnSeatStatus(char *);
 typedef unsigned int   u32;
-extern void func_021C18C8(char *p, int kind, int value);
+extern void WIFICLUB_SetOwnStatusAndPublish(char *p, int kind, int value);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern void func_021C2408(char *);
-extern void func_021BA8EC(char *);
-int func_021C1064(char *p,int ret) {
-    func_021C19A8(p);
-    func_021C18C8(p,1,2);
+extern void WIFICLUB_DisableTouchBar(char *);
+extern void WIFICLUB_ClearTalkWindow(char *);
+int WIFICLUB_StateLeaveLinkToLobby(char *p,int ret) {
+    WIFICLUB_ResetOwnSeatStatus(p);
+    WIFICLUB_SetOwnStatusAndPublish(p,1,2);
     GFL_NET_STATE_WifiDisconnect(1);
     ((struct Obj00008 *)p)->f1F0=-1;
     ((struct Obj00008 *)p)->f1CC=11;
-    func_021C2408(p);
-    func_021BA8EC(p);
+    WIFICLUB_DisableTouchBar(p);
+    WIFICLUB_ClearTalkWindow(p);
     return ret;
 }
-int func_021C10A0(char *p,int ret){return ret;}
-int func_021C10A4(char *p,int ret){return ret;}
+int WIFICLUB_StateUnusedD(char *p,int ret){return ret;}
+int WIFICLUB_StateUnusedE(char *p,int ret){return ret;}

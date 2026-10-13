@@ -1,5 +1,5 @@
 /*
- * function: func_021B80D0
+ * function: IRC_RANKING_ListInit
  * address: 0x021B80D0
  * packet: pkt_ov106_021B80D0
  * region: ov106
@@ -15,20 +15,20 @@
  *   and -40 is built fresh (`movs r1,#0; subs r1,#0x28`) while 0x20 keeps r7.
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   func_021B8D8C 0x021B8D8C thumb ov106
+ *   IRC_RANKING_DataGetCount 0x021B8D8C thumb ov106
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
- *   func_021B8AD0 0x021B8AD0 thumb ov106
+ *   IRC_RANKING_LoadRowScreens 0x021B8AD0 thumb ov106
  *   func_020490F4 0x020490F4 arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021B87B0 0x021B87B0 thumb ov106
+ *   IRC_RANKING_RowInit 0x021B87B0 thumb ov106
  *   BMP_WIN_Create 0x020450F0 arm
  *   func_02040618 0x02040618 arm
- *   func_021B8524 0x021B8524 thumb ov106
- *   func_021B8648 0x021B8648 thumb ov106
- *   func_021B8690 0x021B8690 thumb ov106
+ *   IRC_RANKING_ListDrawRows 0x021B8524 thumb ov106
+ *   IRC_RANKING_ListTransferWindows 0x021B8648 thumb ov106
+ *   IRC_RANKING_ListScrollTask 0x021B8690 thumb ov106
  *   func_020056A0 0x020056A0 thumb
  */
 typedef unsigned char u8;
@@ -38,22 +38,22 @@ typedef unsigned int u32;
 struct GfFont;
 struct WordSet;
 extern void MI_CpuFill8(void *,int,int);
-extern u32 func_021B8D8C(u8 *);
+extern u32 IRC_RANKING_DataGetCount(u8 *);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void func_021B8AD0(u8 *,u8 *,u16);
+extern void IRC_RANKING_LoadRowScreens(u8 *,u8 *,u16);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021B87B0(u8 *,const u8 *,void *,u32,u32,void *,u32,void *,void *,s16,s16,u16);
+extern void IRC_RANKING_RowInit(u8 *,const u8 *,void *,u32,u32,void *,u32,void *,void *,s16,s16,u16);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_021B8524(u8 *);
-extern void func_021B8648(u8 *);
-extern void func_021B8690(void *unused, u8 *p);
+extern void IRC_RANKING_ListDrawRows(u8 *);
+extern void IRC_RANKING_ListTransferWindows(u8 *);
+extern void IRC_RANKING_ListScrollTask(void *unused, u8 *p);
 extern u32 func_020056A0(void (*)(void),void *,u32);
-void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s4,u16 heap) {
+void IRC_RANKING_ListInit(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s4,u16 heap) {
     void *arc;
     int i;
     int m;
@@ -65,17 +65,17 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     *(u8 *)(p+0x54A) = a3;
     *(u8 *)(p+0x54B) = s0;
     *(u8 **)(p+0x550) = s4;
-    *(u16 *)(p+0x554) = func_021B8D8C(s4);
+    *(u16 *)(p+0x554) = IRC_RANKING_DataGetCount(s4);
     *(struct GfFont **)(p+0x570) = GF_FONT_Create(23,0,0,1,heap);
     *(void **)(p+0x574) = s3;
     *(struct WordSet **)(p+0x588) = func_0201EC64(heap);
-    func_021B8AD0(p+8,(u8 *)s1,heap);
+    IRC_RANKING_LoadRowScreens(p+8,(u8 *)s1,heap);
     arc = func_020490F4(7,heap);
     *(int *)p = CLACT_RegisterPaletteCompressed(arc,func_0201BC3C(),0,0x20,heap);
     *(int *)(p+4) = CLACT_RegisterPaletteCompressed(arc,func_0201BC3C(),1,0x20,heap);
     ARC_TOOL_DeleteHandle(arc);
-    for (i = 0; i < func_021B8D8C(s4); i++) {
-        func_021B87B0(p+0x188+i*32,s4+4+i*16,s2,*(u32 *)p,*(u32 *)(p+4),*(void **)(p+0x574),*(u32 *)(p+0x570),*(void **)(p+0x588),p+8,i*24+0x52,i*24-0x70,heap);
+    for (i = 0; i < IRC_RANKING_DataGetCount(s4); i++) {
+        IRC_RANKING_RowInit(p+0x188+i*32,s4+4+i*16,s2,*(u32 *)p,*(u32 *)(p+4),*(void **)(p+0x574),*(u32 *)(p+0x570),*(void **)(p+0x588),p+8,i*24+0x52,i*24-0x70,heap);
     }
     *(u32 *)(p+0x568) = BMP_WIN_Create(a2,0,0,0x20,0x20,14,1);
     *(u32 *)(p+0x56C) = BMP_WIN_Create(s0,0,0,0x20,0x20,14,1);
@@ -91,7 +91,7 @@ void func_021B80D0(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s3,u8 *s
     *(u16 *)(p+0x55A) = *(u16 *)(p+0x554) * 24 - 0x120;
     if (*(s16 *)(p+0x55A) > 0) m = *(s16 *)(p+0x55A);
     *(u16 *)(p+0x55A) = m;
-    func_021B8524(p);
-    func_021B8648(p);
-    *(u32 *)(p+0x58C) = func_020056A0((void (*)(void))func_021B8690,p,0);
+    IRC_RANKING_ListDrawRows(p);
+    IRC_RANKING_ListTransferWindows(p);
+    *(u32 *)(p+0x58C) = func_020056A0((void (*)(void))IRC_RANKING_ListScrollTask,p,0);
 }

@@ -8,10 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 
-extern void func_02082D44(void *dst, void *src, int n);
+extern void MI_CpuCopy8(void *dst, void *src, int n);
 void CONFIG_Copy(void *a0, void *a1)
 {
-    func_02082D44(a0, a1, 4);
+    MI_CpuCopy8(a0, a1, 4);
 }

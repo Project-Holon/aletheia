@@ -14,7 +14,7 @@
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
@@ -48,7 +48,7 @@ extern int UNION_ONESELF_CheckNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void TRCARD_SYS_BuildProfile(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
-extern void func_02082D44(void *a, void *b, int c);
+extern void MI_CpuCopy8(void *a, void *b, int c);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
@@ -80,7 +80,7 @@ int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
         ((struct Obj00610 *)a)->f3540 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         TRCARD_SYS_BuildProfile(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);
-        func_02082D44(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
+        MI_CpuCopy8(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
         GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
         UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_CheckLanguageVersion((int **)a, b->f14[0x26], b->f14[0x27]));
         (*d)++;

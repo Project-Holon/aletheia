@@ -1,5 +1,5 @@
 /*
- * function: func_021B9838
+ * function: NHTTP_RAP_Destroy
  * address:  0x021B9838
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B99B8  0x021B99B8  thumb  ov114
+ *   NHTTP_RAP_FreePostData  0x021B99B8  thumb  ov114
  *
  *
  * Frees the record's buffer, then the record itself.
@@ -18,13 +18,13 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021B99B8(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
 extern u32 func_020307B0(void *p);
 
-void func_021B9838(u8 *p)
+void NHTTP_RAP_Destroy(u8 *p)
 {
     if (p == 0)
         return;
-    func_021B99B8(p);
+    NHTTP_RAP_FreePostData(p);
     func_020307B0(p);
 }

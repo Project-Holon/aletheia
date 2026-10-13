@@ -1,5 +1,5 @@
 /*
- * function: func_02175AA4
+ * function: DWCi_StartMatch
  * address:  0x02175AA4
  * packet:   pkt_ov009_02175AA4
  * region:   ov009
@@ -14,13 +14,13 @@
  * symbols:
  *   func_02175F3C                0x02175F3C arm   ov009
  *   func_0219F00C                0x0219F00C arm   ov009
- *   func_02175F4C                0x02175F4C arm   ov009
+ *   DWCi_SetMatchStatus                0x02175F4C arm   ov009
  *   func_02171C08                0x02171C08 arm   ov009
- *   func_021719A4                0x021719A4 arm   ov009
+ *   DWCi_HandleMatchCommandError                0x021719A4 arm   ov009
  *   gpIsBuddy                    0x021861A8 arm   ov009
  *   func_021719D0                0x021719D0 arm   ov009
  *   func_0216F770                0x0216F770 arm   ov009
- *   func_02173D9C                0x02173D9C arm   ov009
+ *   DWCi_HandleSBError                0x02173D9C arm   ov009
  */
 
 typedef unsigned char u8;
@@ -43,15 +43,15 @@ struct DWCstMatchControl {
 
 extern int func_02175F3C(void);
 extern void func_0219F00C(char *p);
-extern void func_02175F4C(int state);
+extern void DWCi_SetMatchStatus(int state);
 extern int func_02171C08(int delay, int init, int resendPid);
-extern int func_021719A4(int error);
+extern int DWCi_HandleMatchCommandError(int error);
 extern int gpIsBuddy(void **connection, int profile);
 extern int func_021719D0(int profileID, int delay);
 extern int func_0216F770(int profileID);
-extern int func_02173D9C(int error);
+extern int DWCi_HandleSBError(int error);
 
-int func_02175AA4(void)
+int DWCi_StartMatch(void)
 {
     int result;
     int sbError;
@@ -59,30 +59,30 @@ int func_02175AA4(void)
     if (((struct DWCstMatchControl *)func_02175F3C())->sbObj != 0)
         func_0219F00C(((struct DWCstMatchControl *)func_02175F3C())->sbObj);
     if (((struct DWCstMatchControl *)func_02175F3C())->f798 != 0) {
-        func_02175F4C(0xc);
+        DWCi_SetMatchStatus(0xc);
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 0) {
-        func_02175F4C(2);
+        DWCi_SetMatchStatus(2);
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 1) {
-        func_02175F4C(3);
+        DWCi_SetMatchStatus(3);
         result = 1;
-        if (func_021719A4(func_02171C08(0, 1, 0)))
+        if (DWCi_HandleMatchCommandError(func_02171C08(0, 1, 0)))
             result = 0;
         return result;
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 2) {
-        func_02175F4C(0xd);
+        DWCi_SetMatchStatus(0xd);
         ((struct DWCstMatchControl *)func_02175F3C())->f0d = 1;
         return 1;
     } else if (((struct DWCstMatchControl *)func_02175F3C())->qr2MatchTypeExt == 3) {
         if (gpIsBuddy(((struct DWCstMatchControl *)func_02175F3C())->connection, ((struct DWCstMatchControl *)func_02175F3C())->f554)) {
-            func_02175F4C(3);
-            result = func_021719A4(func_021719D0(((struct DWCstMatchControl *)func_02175F3C())->f554, 0));
+            DWCi_SetMatchStatus(3);
+            result = DWCi_HandleMatchCommandError(func_021719D0(((struct DWCstMatchControl *)func_02175F3C())->f554, 0));
             if (result)
                 return 0;
         }
         return 1;
     }
     ((struct DWCstMatchControl *)func_02175F3C())->f67c = 0;
-    sbError = func_02173D9C(func_0216F770(((struct DWCstMatchControl *)func_02175F3C())->f67c));
+    sbError = DWCi_HandleSBError(func_0216F770(((struct DWCstMatchControl *)func_02175F3C())->f67c));
     result = 0;
     if (sbError == 0)
         result = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02157928
+ * function: is_multicast
  * address:  0x02157928
  * packet:   pkt_02155168
  * region:   ov009
@@ -11,10 +11,10 @@
  *
  * True when the top nibble is the ARM co-processor space 0xE.
  * symbols:
- *   func_02157928  0x02157928  arm
+ *   is_multicast  0x02157928  arm
  */
 
-int func_02157928(unsigned v)
+int is_multicast(unsigned v)
 {
     return (v & 0xF0000000u) == 0xE0000000u;
 }

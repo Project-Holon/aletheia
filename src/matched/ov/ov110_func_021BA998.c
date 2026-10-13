@@ -1,5 +1,5 @@
 /*
- * function: func_021BA998
+ * function: PMS_INPUT_VIEW_TaskSetCategoryPosition
  * address: 0x021BA998
  * packet: pkt_ov110_021BA998
  * region: ov110
@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BF724 0x021BF724 thumb ov110
- *   func_021BB6A0 0x021BB6A0 thumb ov110
- *   func_021B9CBC 0x021B9CBC thumb ov110
+ *   PMS_INPUT_GetCursorPos 0x021BF724 thumb ov110
+ *   PMSIV_CATEGORY_MoveCursor 0x021BB6A0 thumb ov110
+ *   PMS_INPUT_VIEW_EndTask 0x021B9CBC thumb ov110
  */
 #include "../include/Obj00135.h"
 #include "../include/Obj13772.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021BF724(u8 *);
-extern void func_021BB6A0(u8 *, u32);
-extern void func_021B9CBC(u8 *);
-void func_021BA998(void *unused, u8 *p)
+extern u16 PMS_INPUT_GetCursorPos(u8 *);
+extern void PMSIV_CATEGORY_MoveCursor(u8 *, u32);
+extern void PMS_INPUT_VIEW_EndTask(u8 *);
+void PMS_INPUT_VIEW_TaskSetCategoryPosition(void *unused, u8 *p)
 {
     u8 *q;
     q = *(u8 * *)&((struct Obj00135 *)p)->f0;
-    func_021BB6A0(*(u8 * *)&((struct Obj13772 *)q)->f58, func_021BF724(*(u8 * *)&((struct Obj13772 *)q)->f18));
-    func_021B9CBC(p);
+    PMSIV_CATEGORY_MoveCursor(*(u8 * *)&((struct Obj13772 *)q)->f58, PMS_INPUT_GetCursorPos(*(u8 * *)&((struct Obj13772 *)q)->f18));
+    PMS_INPUT_VIEW_EndTask(p);
 }

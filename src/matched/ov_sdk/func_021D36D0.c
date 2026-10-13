@@ -1,5 +1,5 @@
 /*
- * function: func_021D36D0
+ * function: DWCi_MOV_WH_StateInInitialize
  * address:  0x021D36D0
  * packet:   pkt_021D36D0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D36D0 0x021D36D0 arm
+ *   DWCi_MOV_WH_StateInInitialize 0x021D36D0 arm
  *   WM_Initialize  0x0208F370  arm  arm9
  *
  * Select port 3, run the 0x021D371C script on the global tail, then fall back.
@@ -21,7 +21,7 @@ extern int WM_Initialize(int, int, int);
 extern int func_021D29C8(int);
 extern int func_021D2A44(void);
 
-int func_021D36D0(void)
+int DWCi_MOV_WH_StateInInitialize(void)
 {
     int *g = (int *)0x021DE660;
 

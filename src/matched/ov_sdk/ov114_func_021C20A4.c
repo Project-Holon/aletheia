@@ -1,5 +1,5 @@
 /*
- * function: func_021C20A4
+ * function: ghttpGetExA
  * address:  0x021C20A4
  * packet:   pkt_ov114_021C20A4
  * region:   ov114
@@ -12,16 +12,16 @@
  * sdk:      ghttpGetExA (ghttpmain.o)
  *
  * symbols:
- *   func_021C1FF8                    0x021c1ff8 arm  ov114
- *   func_021C0998                    0x021c0998 arm  ov114
+ *   ghttpStartup                    0x021c1ff8 arm  ov114
+ *   ghiNewConnection                    0x021c0998 arm  ov114
  *   func_0217F1E0                    0x0217f1e0 arm  ov009
- *   func_021C0D40                    0x021c0d40 arm  ov114
- *   func_021BFC54                    0x021bfc54 arm  ov114
- *   func_021BFBD0                    0x021bfbd0 arm  ov114
- *   func_021C2A78                    0x021c2a78 arm  ov114
- *   func_021C1DEC                    0x021c1dec arm  ov114
+ *   ghiFreeConnection                    0x021c0d40 arm  ov114
+ *   ghiInitFixedBuffer                    0x021bfc54 arm  ov114
+ *   ghiInitBuffer                    0x021bfbd0 arm  ov114
+ *   ghiPostInitState                    0x021c2a78 arm  ov114
+ *   ghiProcessConnection                    0x021c1dec arm  ov114
  *   msleep                    0x0217f2bc arm  ov009
- *   g_021D3B64                       0x021d3b64 data
+ *   gGhttpInitCount                       0x021d3b64 data
  */
 
 typedef void (*GHTTPProgressCallback)(int request, int state, const char *buffer,
@@ -54,18 +54,18 @@ typedef struct GHIConnection {
     void *post;                 /* +0x164 */
 } GHIConnection;
 
-extern void func_021C1FF8(void);
-extern GHIConnection *func_021C0998(void);
+extern void ghttpStartup(void);
+extern GHIConnection *ghiNewConnection(void);
 extern char *func_0217F1E0(const char *src);
-extern int func_021C0D40(GHIConnection *connection);
-extern int func_021BFC54(int a, int *out, char *buf, int n);
-extern int func_021BFBD0(unsigned int a0, unsigned int *a1, int a2, int a3);
-extern int func_021C2A78(GHIConnection *connection);
-extern int func_021C1DEC(GHIConnection *connection);
+extern int ghiFreeConnection(GHIConnection *connection);
+extern int ghiInitFixedBuffer(int a, int *out, char *buf, int n);
+extern int ghiInitBuffer(unsigned int a0, unsigned int *a1, int a2, int a3);
+extern int ghiPostInitState(GHIConnection *connection);
+extern int ghiProcessConnection(GHIConnection *connection);
 extern void msleep(unsigned int msec);
-extern int g_021D3B64;
+extern int gGhttpInitCount;
 
-int func_021C20A4(const char *URL, const char *headers, char *buffer, int bufferSize,
+int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSize,
                   void *post, int throttle, int blocking,
                   GHTTPProgressCallback progressCallback,
                   GHTTPCompletedCallback completedCallback, void *param)
@@ -80,23 +80,23 @@ int func_021C20A4(const char *URL, const char *headers, char *buffer, int buffer
     if (buffer && !bufferSize)
         return -1;
 
-    if (!g_021D3B64)
-        func_021C1FF8();
+    if (!gGhttpInitCount)
+        ghttpStartup();
 
-    connection = func_021C0998();
+    connection = ghiNewConnection();
     if (!connection)
         return -1;
 
     connection->type = 0;
     connection->URL = func_0217F1E0(URL);
     if (!connection->URL) {
-        func_021C0D40(connection);
+        ghiFreeConnection(connection);
         return -1;
     }
     if (headers && *headers) {
         connection->sendHeaders = func_0217F1E0(headers);
         if (!connection->sendHeaders) {
-            func_021C0D40(connection);
+            ghiFreeConnection(connection);
             return -1;
         }
     }
@@ -109,23 +109,23 @@ int func_021C20A4(const char *URL, const char *headers, char *buffer, int buffer
     connection->userBufferSupplied = (buffer != 0);
 
     if (connection->userBufferSupplied)
-        bResult = func_021BFC54((int)connection, (int *)connection->getFileBuffer, buffer, bufferSize);
+        bResult = ghiInitFixedBuffer((int)connection, (int *)connection->getFileBuffer, buffer, bufferSize);
     else
-        bResult = func_021BFBD0((unsigned int)connection, (unsigned int *)connection->getFileBuffer, 0x800, 0x800);
+        bResult = ghiInitBuffer((unsigned int)connection, (unsigned int *)connection->getFileBuffer, 0x800, 0x800);
     if (!bResult) {
-        func_021C0D40(connection);
+        ghiFreeConnection(connection);
         return -1;
     }
 
     if (post) {
-        if (!func_021C2A78(connection)) {
-            func_021C0D40(connection);
+        if (!ghiPostInitState(connection)) {
+            ghiFreeConnection(connection);
             return -1;
         }
     }
 
     if (blocking) {
-        while (!func_021C1DEC(connection))
+        while (!ghiProcessConnection(connection))
             msleep(10);
         return 0;
     }

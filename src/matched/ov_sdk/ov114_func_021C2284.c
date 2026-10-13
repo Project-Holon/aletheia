@@ -1,5 +1,5 @@
 /*
- * function: func_021C2284
+ * function: ghttpRequestThink
  * address:  0x021C2284
  * packet:   pkt_ov114_021C2284
  * region:   ov114
@@ -21,7 +21,7 @@ typedef struct GHIConnection GHIConnection;
 extern GHIConnection *ghiRequestToConnection(int request);
 extern int ghiProcessConnection(GHIConnection *connection);
 
-int func_021C2284(int request)
+int ghttpRequestThink(int request)
 {
     GHIConnection *connection = ghiRequestToConnection(request);
     if (connection == 0)

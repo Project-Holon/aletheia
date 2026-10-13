@@ -24,7 +24,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
  *   func_020774A0 0x020774A0 arm
@@ -73,7 +73,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 typedef signed int     s32;
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern int func_02034AC4(s32 handle);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020774A0(int (*callback)(void));
@@ -117,10 +117,10 @@ void func_021EF588(u8 *p)
     lb = (u32)STRBUF_GetLength(b);
     dst = w->f50;
     src = STRBUF_GetChars(a);
-    func_02082A60(src, dst, la * 2);
+    MIi_CpuCopy16(src, dst, la * 2);
     dst = w->f54;
     src = STRBUF_GetChars(b);
-    func_02082A60(src, dst, lb * 2);
+    MIi_CpuCopy16(src, dst, lb * 2);
     STRBUF_Delete(a);
     STRBUF_Delete(b);
     w->f50[la] = 0;

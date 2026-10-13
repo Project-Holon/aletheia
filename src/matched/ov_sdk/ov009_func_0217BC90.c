@@ -12,7 +12,7 @@
  * sdk:      DWC_CheckProfanityProcess (libdwcauth.TWL.HYB.a dwc_prof.o)
  *
  * symbols:
- *   func_0208574C  0x0208574C  arm
+ *   OS_IsThreadTerminated  0x0208574C  arm
  *   func_0205BDD0  0x0205BDD0  arm
  *   func_0217BDA8  0x0217BDA8  arm  ov009
  *   func_02059F54  0x02059F54  arm
@@ -45,7 +45,7 @@ typedef struct DWCProfWorkarea {
     int wordsnum;
 } DWCProfWorkarea;
 
-extern int func_0208574C(OSThread *thread);
+extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char func_0205BDD0(void);
 extern int func_0217BDA8(void);
 extern void func_02059F54(int error, int errorCode);
@@ -61,7 +61,7 @@ int func_0217BC90(void)
 
     if (g_021ACEF0 == 0 || g_021ACEF0->http.thread.id == 0)
         return 0;
-    if (func_0208574C(&g_021ACEF0->http.thread) == 1) {
+    if (OS_IsThreadTerminated(&g_021ACEF0->http.thread) == 1) {
         aptype = func_0205BDD0();
         if (aptype == 0xff || aptype > 99)
             aptype = 99;

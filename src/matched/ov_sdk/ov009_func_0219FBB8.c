@@ -14,7 +14,7 @@
  * symbols:
  *   func_0219FB64  0x0219FB64  arm  ov009
  *   func_021803BC  0x021803BC  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0217ED38  0x0217ED38  arm  ov009
  *   SOC_GetHostByName  0x0215F650  arm  ov009
  *   func_0217EB18  0x0217EB18  arm  ov009
@@ -57,7 +57,7 @@ extern char g_021A8234[];
 
 extern int func_0219FB64(char *s, int numbuckets);
 extern u32 func_021803BC(char *dst, char *src, u32 size);
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern u32 func_0217ED38(char *name);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int func_0217EB18(int pf, int type, int protocol);
@@ -75,7 +75,7 @@ int func_0219FBB8(SBServerList *slist)
     if ((*(char * *)&g_021AEB04))
         func_021803BC(masterHostname, (*(char * *)&g_021AEB04), 128);
     else
-        func_02084F40(masterHostname, g_021A8234, slist->gamename, masterIndex);
+        OS_SPrintf(masterHostname, g_021A8234, slist->gamename, masterIndex);
     saddr.family = 2;
     saddr.port = 0xEE70;
     saddr.addr = func_0217ED38(masterHostname);

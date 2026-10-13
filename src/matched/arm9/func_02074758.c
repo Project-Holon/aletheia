@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02074758
+ * function: NNS_SndHeapDestroy
  * address:  0x02074758
  * packet:   pkt_020746E8
  * region:   arm9
@@ -9,14 +9,17 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNS_SndHeapClear  0x02074770  arm
  */
 
 struct Obj;
-extern void func_02074770(struct Obj *o);
+extern void NNS_SndHeapClear(struct Obj *o);
 extern void func_02061118(void *heap);
 
-void func_02074758(void **a0)
+void NNS_SndHeapDestroy(void **a0)
 {
-    func_02074770((struct Obj *)a0);
+    NNS_SndHeapClear((struct Obj *)a0);
     func_02061118(*a0);
 }

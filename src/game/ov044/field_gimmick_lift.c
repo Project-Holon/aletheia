@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sGimmick44ExpObjUnitDesc     0x021F39E8  data  ov044
- *   sGimmick44LiftStartPos     0x021F3A1C  data  a4
+ *   sLiftExpObjUnitDesc     0x021F39E8  data  ov044
+ *   sLiftLiftStartPos     0x021F3A1C  data  a4
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
@@ -83,10 +83,10 @@ void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap);
 void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
 void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending);
 int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq);
-int FIELD_GIMMICK_LIFT_IsLiftArrived(Gimmick44Work *work);
+int FIELD_GIMMICK_LIFT_IsLiftArrived(FieldGimmickLiftWork *work);
 void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj);
-extern int sGimmick44ExpObjUnitDesc;
-extern VecFx32 sGimmick44LiftStartPos;
+extern int sLiftExpObjUnitDesc;
+extern VecFx32 sLiftLiftStartPos;
 
 void FIELD_GIMMICK_LIFT_Init(void *fieldMap)
 {
@@ -96,10 +96,10 @@ void FIELD_GIMMICK_LIFT_Init(void *fieldMap)
     int animeIdx;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick44Work));
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sGimmick44ExpObjUnitDesc, 0);
+    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickLiftWork));
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sLiftExpObjUnitDesc, 0);
     modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0);
-    *modelPos = sGimmick44LiftStartPos;
+    *modelPos = sLiftLiftStartPos;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     for (animeIdx = 0; animeIdx < 2; animeIdx++) {
         anime = FLD_EXP_OBJ_GetAnime(expObj, 0, 0, (u16)animeIdx);
@@ -127,7 +127,7 @@ void FIELD_GIMMICK_LIFT_Update(void *fieldMap)
 void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
 {
     void *fieldMap;
-    Gimmick44Work *work;
+    FieldGimmickLiftWork *work;
     void *expObj;
     int step;
 
@@ -163,7 +163,7 @@ int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
 {
     void *fieldMap;
     void *expObj;
-    Gimmick44Work *work;
+    FieldGimmickLiftWork *work;
     u8 *camera;
     void *player;
     VecFx32 pos;
@@ -219,7 +219,7 @@ int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
 /*
  * Unlabelled leaf called only from FIELD_GIMMICK_LIFT_LiftEventMain.
  */
-int FIELD_GIMMICK_LIFT_IsLiftArrived(Gimmick44Work *work)
+int FIELD_GIMMICK_LIFT_IsLiftArrived(FieldGimmickLiftWork *work)
 {
     if (work->stepY < 0) {
         if (work->goalY >= work->curY) {
@@ -251,7 +251,7 @@ void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem)
 {
     void *fieldMap;
     void *expObj;
-    Gimmick44Work *work;
+    FieldGimmickLiftWork *work;
     u8 *camera;
     void *player;
     VecFx32 pos;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D28
+ * function: IRC_RHYTHM_InitTextSystem
  * address: 0x021B7D28
  * packet: pkt_ov104_021B7D28
  * region: ov104
@@ -28,7 +28,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-void func_021B7D28(unsigned *p, int mode, u16 heap) {
+void IRC_RHYTHM_InitTextSystem(unsigned *p, int mode, u16 heap) {
  MI_CpuFill8(p,0,0x10);
  func_0201DD60();
  switch (mode) {

@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
  *   ov037_id       0x00000025  data
  */
 
@@ -26,7 +26,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void GIMMICK_INIT_SetGimmick39Flags(unsigned int a0, int a1, int a2);
+extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int a0, int a1, int a2);
 extern char ov037_id[];
 
 int SCRCMD_PROC_Ov037InitFromVars(void *a, void *b)
@@ -35,7 +35,7 @@ int SCRCMD_PROC_Ov037InitFromVars(void *a, void *b)
     u16 *p = SCRIPT_WORK_ReadWorkPointer(a, b);
     u16 *q = SCRIPT_WORK_ReadWorkPointer(a, b);
     func_02034AC4((u32)ov037_id);
-    GIMMICK_INIT_SetGimmick39Flags((unsigned int)h, *p, *q);
+    GIMMICK_INIT_SetCartLanesFlags((unsigned int)h, *p, *q);
     func_02034A5C((u32)ov037_id);
     return 0;
 }

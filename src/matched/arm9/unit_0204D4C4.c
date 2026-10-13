@@ -12,7 +12,7 @@
  *
  * symbols:
  *   g_ClactTables  0x020A7F3C  data
- *   sub_020643C4   0x020643C4  arm
+ *   NNS_G2dSetCellAnimationSpeed   0x020643C4  arm
  *
  * A dispatch thunk and the first two of the three handlers its table row
  * names, 60 bytes end to end.  Each handler steps the pointer past the
@@ -32,7 +32,7 @@
  * of the range: its tail-call target 0x02064B68 is named only by its own
  * pool word, so including it caps the whole unit at MATCH.  It is parked
  * byte-correct in src/pending/CLACT_UpdateVramAnim.c, and it graduates when
- * 0x02064B68 does (docs/notes/sub_02064B68.c.txt).
+ * 0x02064B68 does (docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D4C4.c \
@@ -53,7 +53,7 @@ typedef void (*DispatchFn)(struct Obj *o, u32 arg);
 extern DispatchFn const g_ClactTables[];
 
 struct MultiCellAnim;
-extern void sub_020643C4(struct MultiCellAnim *mca, u32 value);
+extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
 
 void CLACT_UpdateAnim(struct Obj *o, u32 arg)
 {
@@ -62,11 +62,11 @@ void CLACT_UpdateAnim(struct Obj *o, u32 arg)
 
 void CLACT_UpdateCellAnim(struct Obj *o, u32 arg)
 {
-    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
+    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(&o->unk_0c), arg);
 }
 
 void CLACT_UpdateMultiCellAnim(struct Obj *o, u32 arg)
 {
-    sub_020643C4((struct MultiCellAnim *)(&o->unk_0c), arg);
+    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(&o->unk_0c), arg);
 }
 

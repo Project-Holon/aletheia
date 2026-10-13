@@ -1,5 +1,5 @@
 /*
- * function: func_021CCAE4
+ * function: CRYPTOi__BN_mod_mul_reciprocal
  * address:  0x021CCAE4
  * packet:   pkt_ov114_021CCAE4
  * region:   ov114
@@ -12,9 +12,9 @@
  * sdk:      CRYPTOi__BN_mod_mul_reciprocal (libcrypto.TWL.HYB.a(crypto_bobj1.o))
  *
  * symbols:
- *   func_021CC178  0x021CC178  arm  ov114
- *   func_021CB9BC  0x021CB9BC  arm  ov114
- *   func_021CCB88  0x021CCB88  arm  ov114
+ *   CRYPTOi__BN_sqr  0x021CC178  arm  ov114
+ *   CRYPTOi__BN_mul  0x021CB9BC  arm  ov114
+ *   CRYPTOi__BN_div_recp  0x021CCB88  arm  ov114
  */
 
 typedef struct {
@@ -30,11 +30,11 @@ typedef struct {
 	BIGNUM bn[16];
 } BN_CTX;
 
-extern int func_021CC178(BIGNUM *r, BIGNUM *a, BN_CTX *ctx);
-extern int func_021CB9BC(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx);
-extern int func_021CCB88(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, void *recp, BN_CTX *ctx);
+extern int CRYPTOi__BN_sqr(BIGNUM *r, BIGNUM *a, BN_CTX *ctx);
+extern int CRYPTOi__BN_mul(BIGNUM *r, BIGNUM *a, BIGNUM *b, BN_CTX *ctx);
+extern int CRYPTOi__BN_div_recp(BIGNUM *dv, BIGNUM *rem, BIGNUM *m, void *recp, BN_CTX *ctx);
 
-int func_021CCAE4(BIGNUM *r, BIGNUM *x, BIGNUM *y, void *recp, BN_CTX *ctx)
+int CRYPTOi__BN_mod_mul_reciprocal(BIGNUM *r, BIGNUM *x, BIGNUM *y, void *recp, BN_CTX *ctx)
 {
 	int ret = 0;
 	BIGNUM *a;
@@ -42,16 +42,16 @@ int func_021CCAE4(BIGNUM *r, BIGNUM *x, BIGNUM *y, void *recp, BN_CTX *ctx)
 	a = &ctx->bn[ctx->tos++];
 	if (y != 0) {
 		if (x == y) {
-			if (func_021CC178(a, x, ctx) == 0)
+			if (CRYPTOi__BN_sqr(a, x, ctx) == 0)
 				goto err;
 		} else {
-			if (func_021CB9BC(a, x, y, ctx) == 0)
+			if (CRYPTOi__BN_mul(a, x, y, ctx) == 0)
 				goto err;
 		}
 	} else {
 		a = x;
 	}
-	func_021CCB88(0, r, a, recp, ctx);
+	CRYPTOi__BN_div_recp(0, r, a, recp, ctx);
 	ret = 1;
 err:
 	ctx->tos--;

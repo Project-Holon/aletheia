@@ -1,5 +1,5 @@
 /*
- * function: func_02072DE8
+ * function: NNS_SndPlayerCreateHeap
  * address:  0x02072DE8
  * packet:   pkt_02072DE8
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02073710  0x02073710  arm
- *   g_0214E464     0x0214E464  data
- *   func_0207482C  0x0207482C  arm
- *   func_020746E8  0x020746E8  arm
+ *   NNSi_SndPlayerHeapDisposeCallback  0x02073710  arm
+ *   gSndPlayers     0x0214E464  data
+ *   NNS_SndHeapAlloc  0x0207482C  arm
+ *   NNS_SndHeapCreate  0x020746E8  arm
  *   func_020604AC  0x020604AC  arm
  *
- * Allocate a node through func_0207482C with func_02073710 as its destructor,
+ * Allocate a node through NNS_SndHeapAlloc with NNSi_SndPlayerHeapDisposeCallback as its destructor,
  * seed three fields, load it from `src`, and on success link it into the
- * per-index list at g_0214E464[idx].f0c.  Either failure returns 0.
+ * per-index list at gSndPlayers[idx].f0c.  Either failure returns 0.
  *
  * ARGUMENT ORDER of the allocator is (a, src + 0x14, destructor, 0, 0): the
  * image does `mov r0, r1` at 0x02072DF8 and loads the pool word into r2 at
@@ -25,8 +25,8 @@
  * second, not the other way round.  Swapped, the whole prologue permutes.
  *
  * The table stride is 0x24 (`mov r1, #0x24` / `mla r2, r6, r1, r2` at
- * 0x02072E50/54) with the list head at +0x0c, the same g_0214E464 layout
- * docs/notes/pkt_02073624.c.txt settled for func_02073710: the padding to 0x24
+ * 0x02072E50/54) with the list head at +0x0c, the same gSndPlayers layout
+ * docs/notes/pkt_02073624.c.txt settled for NNSi_SndPlayerHeapDisposeCallback: the padding to 0x24
  * has to be written out or the offset folds into the multiply.
  *
  * PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md).  The image
@@ -48,30 +48,30 @@ struct Node { u8 p00[8]; u32 f08; u32 f0c; u32 f10; u8 f14; };
 struct Slot { u8 p00[0xc]; u8 f0c; u8 p0d[0x24 - 0x0d]; };
 
 struct A;
-extern void func_02073710(struct A *a);
-extern struct Slot g_0214E464[];
+extern void NNSi_SndPlayerHeapDisposeCallback(struct A *a);
+extern struct Slot gSndPlayers[];
 
-extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_020746E8(u32 off, u32 size);
+extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32 NNS_SndHeapCreate(u32 off, u32 size);
 extern void func_020604AC(void *list, void *node);
 
-u32 func_02072DE8(int idx, u32 a, void *src)
+u32 NNS_SndPlayerCreateHeap(int idx, u32 a, void *src)
 {
     struct Node *n;
     u32 r;
 
-    n = (struct Node *)func_0207482C((u32 *)a, (u32)((char *)src + 0x14), (u32)func_02073710, 0, 0);
+    n = (struct Node *)NNS_SndHeapAlloc((u32 *)a, (u32)((char *)src + 0x14), (u32)NNSi_SndPlayerHeapDisposeCallback, 0, 0);
     if (n == 0) {
         return 0;
     }
     n->f0c = 0;
     n->f10 = idx;
     n->f08 = 0;
-    r = func_020746E8((u32)(&n->f14), (u32)src);
+    r = NNS_SndHeapCreate((u32)(&n->f14), (u32)src);
     if (r == 0) {
         return 0;
     }
     n->f08 = r;
-    func_020604AC(&g_0214E464[idx].f0c, n);
+    func_020604AC(&gSndPlayers[idx].f0c, n);
     return 1;
 }

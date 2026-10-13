@@ -1,5 +1,5 @@
 /*
- * function: func_02004278
+ * function: SVC_IsMmemExpanded
  * address:  0x02004278
  * packet:   pkt_02004278
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_IsMmemExpanded), `swi N; bx lr` in the BIOS call table */
 
-asm void func_02004278(void)
+asm void SVC_IsMmemExpanded(void)
 {
     swi 0xF
     bx lr

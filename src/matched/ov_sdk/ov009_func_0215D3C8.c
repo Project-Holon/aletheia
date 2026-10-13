@@ -22,7 +22,7 @@
  * The layouts below are the ones the two adds confirm: the message queue sits
  * at +0, the thread at +0x20 and the mutex at +0xe0, so sizeof(OSMessageQueue)
  * = 0x20 and sizeof(OSThread) = 0xc0. Both are the definitions already proven
- * in src/matched/arm9_sdk/func_02085D94.c and func_020853C0.c, not fresh
+ * in src/matched/arm9_sdk/func_02085D94.c and OS_CreateThread.c, not fresh
  * guesses. The four-byte thread param is fixed independently by
  * func_0215D280 (SOCLi_GetSizeCommandPipe: +0 is the stack size, +2 a priority
  * byte, +3 the message count) and by func_0215D200 (pipe1/pipe2 are 4 bytes).

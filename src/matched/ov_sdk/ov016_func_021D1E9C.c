@@ -1,5 +1,5 @@
 /*
- * function: func_021D1E9C
+ * function: DWCi_MOV_MBP_RegistFile
  * address:  0x021D1E9C
  * packet:   pkt_ov016_021D1E9C
  * region:   ov016
@@ -18,7 +18,7 @@
  *   MB_ReadSegment                   0x021F2FA0  arm
  *   MB_RegisterFile                  0x021F3544  arm
  *   FS_CloseFile                     0x02078A80  arm
- *   g_021DE65C                       0x021DE65C  data
+ *   gDwcMovMbpWork                       0x021DE65C  data
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ typedef struct {
     u8 *sFilebuf;
 } Wb;
 
-extern Wb *g_021DE65C;
+extern Wb *gDwcMovMbpWork;
 extern void FS_InitFile(FSFile *file);
 extern int FS_OpenFile(FSFile *file, char *path);
 extern u32 MB_GetSegmentLength(FSFile *file);
@@ -48,7 +48,7 @@ extern int MB_ReadSegment(FSFile *file, void *buf, u32 len);
 extern int MB_RegisterFile(MBGameRegistry *game_reg, void *buf);
 extern int FS_CloseFile(FSFile *file);
 
-int func_021D1E9C(MBGameRegistry *gameInfo)
+int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo)
 {
     FSFile file;
     FSFile *p_file;
@@ -65,10 +65,10 @@ int func_021D1E9C(MBGameRegistry *gameInfo)
     }
     bufferSize = MB_GetSegmentLength(p_file);
     if (bufferSize) {
-        g_021DE65C->sFilebuf = g_021DE65C->boot_seg_buf;
-        if (g_021DE65C->sFilebuf) {
-            if (MB_ReadSegment(p_file, g_021DE65C->sFilebuf, 0x10000)) {
-                if (MB_RegisterFile(gameInfo, g_021DE65C->sFilebuf))
+        gDwcMovMbpWork->sFilebuf = gDwcMovMbpWork->boot_seg_buf;
+        if (gDwcMovMbpWork->sFilebuf) {
+            if (MB_ReadSegment(p_file, gDwcMovMbpWork->sFilebuf, 0x10000)) {
+                if (MB_RegisterFile(gameInfo, gDwcMovMbpWork->sFilebuf))
                     ret = 1;
             }
         }

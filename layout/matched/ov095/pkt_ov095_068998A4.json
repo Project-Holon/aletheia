@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_068998A4",
+   "name": "HAND_SIDE_RainbowForceCriticalFlag",
    "address": "0x068998A4",
    "kind": "game",
    "region": "ov095",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B97F4",
+   "name": "NHTTP_RAP_GetRecvBuffer",
    "address": "0x021B97F4",
    "kind": "game",
    "region": "ov114",

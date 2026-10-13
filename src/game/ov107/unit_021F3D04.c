@@ -14,14 +14,13 @@
  *   MIi_CpuClear16   0x02082A48  arm
  *   MIi_CpuClearFast 0x02082AC0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
- *   func_020788AC  0x020788AC  arm
+ *   FS_InitFile  0x020788AC  arm
  *   func_020789FC  0x020789FC  arm
  *   func_02078A94  0x02078A94  arm
- *   func_02078A80  0x02078A80  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_CloseFile  0x02078A80  arm
+ *   FS_ReadFile  0x02078B70  arm
  *   func_021F628C  0x021F628C  arm  ov107
  *   func_021F62A0  0x021F62A0  arm  ov107
- *   WM_SetGameInfo_Alt  0x02090CD4  arm
  *   MBi_calc_cksum  0x021F3CB8  arm  ov107
  *   WM_SetGameInfo  0x02090CD4  arm
  *   sMb 0x021F6EF4 data
@@ -111,14 +110,13 @@ typedef struct {
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
-extern void func_020788AC(FSFile *file);
+extern void FS_InitFile(FSFile *file);
 extern int func_020789FC(FSFile *file, const char *path, u32 mode);
 extern u32 func_02078A94(FSFile *file);
-extern int func_02078A80(FSFile *file);
-extern s32 func_02078B70(FSFile *file, void *buffer, s32 length);
+extern int FS_CloseFile(FSFile *file);
+extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern u32 func_021F628C(void);
 extern u16 func_021F62A0(void);
-extern int WM_SetGameInfo_Alt(void *callback, void *userGameInfo, u16 size, u32 ggid, u16 tgid, u8 attr);
 extern u16 MBi_calc_cksum(u16 *buf, int length);
 extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
                           u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
@@ -210,15 +208,15 @@ int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
         iconp += 0x20;
     if (filePathp == 0)
         return 0;
-    func_020788AC(&file);
+    FS_InitFile(&file);
     if (!func_020789FC(&file, filePathp, 1))
         return 0;
     if (size != func_02078A94(&file)) {
-        func_02078A80(&file);
+        FS_CloseFile(&file);
         return 0;
     }
-    func_02078B70(&file, iconp, size);
-    func_02078A80(&file);
+    FS_ReadFile(&file, iconp, size);
+    FS_CloseFile(&file);
     return 1;
 }
 
@@ -326,7 +324,7 @@ int func_021F4054(void)
 
     if (mbss.top == 0) {
         u32 ggid = func_021F628C();
-        WM_SetGameInfo_Alt(0, &bsendBuff, 0x70, ggid, func_021F62A0(), 8);
+        WM_SetGameInfo(0, (u16 *)&bsendBuff, 0x70, ggid, func_021F62A0(), 8);
         return 0;
     }
     if (mbss.nowGInfop != 0 && (nextGameInfop = mbss.nowGInfop->next) != 0) {

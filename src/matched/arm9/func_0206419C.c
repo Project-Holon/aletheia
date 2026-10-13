@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206419C
+ * function: NNSi_G2dRefreshCellAnimation
  * address:  0x0206419C
  * packet:   pkt_02064178
  * region:   arm9
@@ -31,7 +31,7 @@ struct Obj02064100;
 extern void func_02064100(struct Obj02064100 *obj, u16 val);
 extern int NNSi_G2dRequestCellTransferState(int a0, int a1, int a2);
 
-void func_0206419C(char *self)
+void NNSi_G2dRefreshCellAnimation(char *self)
 {
     char *p;
     char *o;

@@ -1,5 +1,5 @@
 /*
- * function: func_02176358
+ * function: DWCi_NodeInfoList_GetServerNodeInfo
  * address:  0x02176358
  * packet:   pkt_02155168
  * region:   ov009
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void *func_02176358(void)
+void *DWCi_NodeInfoList_GetServerNodeInfo(void)
 {
     int func_02175F3C(void);
     void *p = (void *)func_02175F3C();

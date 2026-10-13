@@ -1,5 +1,5 @@
 /*
- * function: func_021BC484
+ * function: PMSIV_EDIT_ParserFree
  * address:  0x021BC484
  * packet:   pkt_ov110_021BC484
  * region:   ov110
@@ -23,4 +23,4 @@ typedef int s32;
 
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-void func_021BC484(u8 *p) { STRBUF_Delete((struct U16Vec *)(((struct Obj22372 *)p)->f0)); }
+void PMSIV_EDIT_ParserFree(u8 *p) { STRBUF_Delete((struct U16Vec *)(((struct Obj22372 *)p)->f0)); }

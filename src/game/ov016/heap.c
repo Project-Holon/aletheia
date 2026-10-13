@@ -1,7 +1,7 @@
 /*
  * file:     heap.c
  * unit:     yes
- * function: func_021D6360, func_021D63A8, func_021D63C8, func_021D6414, func_021D6438, func_021D647C
+ * function: DWCi_HEAPlInit, DWCi_HEAPlEnd, DWCi_HEAPlAlloc, DWCi_HEAPlAllocEx, DWCi_HEAPlFree_, DWCi_HEAPlFree2
  * address:  0x021D6360
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02060C5C  0x02060C5C  arm
  *   OS_Terminate   0x02088234  arm
- *   g_021DE684     0x021DE684  data
+ *   gHeapWork     0x021DE684  data
  *   func_02060C94  0x02060C94  arm
  *   OS_DisableIrqMask 0x02084998  arm
  *   func_02060CA0  0x02060CA0  arm
@@ -36,23 +36,24 @@ extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern void func_02060E30(struct ExpHeap *heap, void *block);
-void func_021D6360(void *address);
-void func_021D63A8(void);
-void *func_021D63C8(unsigned long size, int alignment);
-void *func_021D6414(unsigned long size, int alignment);
-void func_021D6438(void **mem);
-void func_021D647C(void *mem);
-extern void *g_021DE684;
+void DWCi_HEAPlInit(void *address);
+void DWCi_HEAPlEnd(void);
+void *DWCi_HEAPlAlloc(unsigned long size, int alignment);
+void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+void DWCi_HEAPlFree_(void **mem);
+void DWCi_HEAPlFree2(void *mem);
+extern void *gHeapWork;
 
 
 /*
  * sdk:      DWCi_HEAPlInit (libdwcutil.TWL.HYB.a heap.o)
  */
-void func_021D6360(void *address)
+
+void DWCi_HEAPlInit(void *address)
 {
     MI_CpuFill8(address, 0, 0x40000);
-    g_021DE684 = func_02060C5C(address, 0x40000, 0);
-    if (g_021DE684 == 0)
+    gHeapWork = func_02060C5C(address, 0x40000, 0);
+    if (gHeapWork == 0)
         OS_Terminate();
 }
 
@@ -60,19 +61,19 @@ void func_021D6360(void *address)
 /*
  * sdk:      DWCi_HEAPlEnd (libdwcutil.TWL.HYB.a heap.o)
  */
-void func_021D63A8(void)
+void DWCi_HEAPlEnd(void)
 {
-    func_02060C94(g_021DE684);
-    g_021DE684 = 0;
+    func_02060C94(gHeapWork);
+    gHeapWork = 0;
 }
 
 
-void *func_021D63C8(unsigned long size, int alignment)
+void *DWCi_HEAPlAlloc(unsigned long size, int alignment)
 {
     void *mem;
     unsigned long irq;
     irq = OS_DisableIrqMask(1);
-    mem = func_02060CA0(g_021DE684, size, alignment);
+    mem = func_02060CA0(gHeapWork, size, alignment);
     if (mem == 0)
         OS_Terminate();
     OS_EnableIrqMask(irq);
@@ -83,9 +84,9 @@ void *func_021D63C8(unsigned long size, int alignment)
 /*
  * sdk:      DWCi_HEAPlAllocEx (libdwcutil.TWL.HYB.a heap.o)
  */
-void *func_021D6414(unsigned long size, int alignment)
+void *DWCi_HEAPlAllocEx(unsigned long size, int alignment)
 {
-    void *mem = func_021D63C8(size, alignment);
+    void *mem = DWCi_HEAPlAlloc(size, alignment);
     MI_CpuFill8(mem, 0, size);
     return mem;
 }
@@ -94,12 +95,12 @@ void *func_021D6414(unsigned long size, int alignment)
 /*
  * sdk:      DWCi_HEAPlFree_ (libdwcutil.TWL.HYB.a heap.o)
  */
-void func_021D6438(void **mem)
+void DWCi_HEAPlFree_(void **mem)
 {
     unsigned long irq = OS_DisableIrqMask(1);
     if (*mem == 0)
         return;
-    func_02060E30(g_021DE684, *mem);
+    func_02060E30(gHeapWork, *mem);
     OS_EnableIrqMask(irq);
     *mem = 0;
 }
@@ -108,11 +109,11 @@ void func_021D6438(void **mem)
 /*
  * sdk:      DWCi_HEAPlFree2 (libdwcutil.TWL.HYB.a heap.o)
  */
-void func_021D647C(void *mem)
+void DWCi_HEAPlFree2(void *mem)
 {
     unsigned long irq = OS_DisableIrqMask(1);
     if (mem == 0)
         return;
-    func_02060E30(g_021DE684, mem);
+    func_02060E30(gHeapWork, mem);
     OS_EnableIrqMask(irq);
 }

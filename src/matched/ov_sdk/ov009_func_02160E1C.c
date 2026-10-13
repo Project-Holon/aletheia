@@ -15,7 +15,7 @@
  *   func_02160E0C  0x02160E0C  arm  ov009
  *   func_02160DB4  0x02160DB4  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *
  * The offset `pairlist_len + 8 + sessionID_len` needs a local of its own
  * (`offset`); accumulating it back into pairlist_len colours r4/r5/r6/r7 as
@@ -41,7 +41,7 @@ typedef struct CPSSslConnection {
 extern int func_02160E0C(unsigned char major, unsigned char minor);
 extern int func_02160DB4(int a0, int a1, int a2);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
+extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
 static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
 {
@@ -63,10 +63,10 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     con->cache = 0;
     offset = pairlist_len + 8 + sessionID_len;
     if (random_len >= 0x20) {
-        func_02082D44(s + offset, con->random, 0x20);
+        MI_CpuCopy8(s + offset, con->random, 0x20);
     } else {
         MI_CpuFill8(con->random, 0, 0x20 - random_len);
-        func_02082D44(s + offset, con->random + 0x20 - random_len, random_len);
+        MI_CpuCopy8(s + offset, con->random + 0x20 - random_len, random_len);
     }
     con->state = 1;
 }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02082AC0    0x02082AC0  arm
+ *   MIi_CpuClearFast    0x02082AC0  arm
  *
  * Fill a sub-rectangle of ONE 8x8 tile with a pixel word.  dst is the tile,
  * (x, y) the sub-rectangle's offset inside it, (w, h) its extent, val the
  * expanded pixel word (func_02068A18's expansion) and bpp 4 or 8.  A whole
- * tile goes to func_02082AC0 (MIi_CpuClearFast) in one call; otherwise each
+ * tile goes to MIi_CpuClearFast (MIi_CpuClearFast) in one call; otherwise each
  * of the h rows is masked in place, one word per row at 4bpp and two at
  * 8bpp, where the 64-bit row mask is built longhand from two 32-bit halves
  * with the >= 32 shift cases spelled out.  Called seven-argument from
@@ -39,12 +39,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02082AC0(u32 data, void *dst, int size);
+extern void MIi_CpuClearFast(u32 data, void *dst, int size);
 
 void func_020682F8(u32 *dst, int x, int y, int w, int h, u32 val, int bpp)
 {
     if (w == 8 && h == 8) {
-        func_02082AC0(val, dst, bpp << 3);
+        MIi_CpuClearFast(val, dst, bpp << 3);
         return;
     }
     if (bpp == 4) {

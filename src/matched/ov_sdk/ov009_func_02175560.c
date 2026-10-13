@@ -1,5 +1,5 @@
 /*
- * function: func_02175560
+ * function: DWCi_SetConnectionAttemptParam
  * address:  0x02175560
  * packet:   pkt_ov009_02175560
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern char *func_02175F3C(void);
 
-void func_02175560(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam)
+void DWCi_SetConnectionAttemptParam(void *attemptCallback, unsigned char *connectionUserData, void *attemptParam)
 {
     *(void **)(func_02175F3C() + 0x7b8) = attemptCallback;
     if (connectionUserData)

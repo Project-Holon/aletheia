@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F3C
+ * function: VS_MULTI_LIST_ExitIcons
  * address: 0x021F6F3C
  * packet: pkt_ov097_021F6F3C
  * region: ov097
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F72BC 0x021F72BC thumb ov097
- *   func_021F7108 0x021F7108 thumb ov097
- *   func_021F6F80 0x021F6F80 thumb ov097
+ *   VS_MULTI_LIST_DeleteActors 0x021F72BC thumb ov097
+ *   VS_MULTI_LIST_ReleaseIconResources 0x021F7108 thumb ov097
+ *   VS_MULTI_LIST_ExitClact 0x021F6F80 thumb ov097
  */
-extern void func_021F72BC(char *);
-extern void func_021F7108(char *);
-extern void func_021F6F80(void);
-void func_021F6F3C(char *p)
+extern void VS_MULTI_LIST_DeleteActors(char *);
+extern void VS_MULTI_LIST_ReleaseIconResources(char *);
+extern void VS_MULTI_LIST_ExitClact(void);
+void VS_MULTI_LIST_ExitIcons(char *p)
 {
-    func_021F72BC(p);
-    func_021F7108(p);
-    func_021F6F80();
+    VS_MULTI_LIST_DeleteActors(p);
+    VS_MULTI_LIST_ReleaseIconResources(p);
+    VS_MULTI_LIST_ExitClact();
 }

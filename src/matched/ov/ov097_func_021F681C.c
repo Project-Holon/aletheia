@@ -1,5 +1,5 @@
 /*
- * function: func_021F681C
+ * function: VS_MULTI_LIST_EnterWaitState
  * address: 0x021F681C
  * packet: pkt_ov097_021F681C
  * region: ov097
@@ -13,4 +13,4 @@
 #include "../include/Obj00111.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_021F681C(u8 *p, int count, int result) { ((struct Obj00111 *)p)->f11C = count; ((struct Obj00111 *)p)->f114 = result; return 3; }
+int VS_MULTI_LIST_EnterWaitState(u8 *p, int count, int result) { ((struct Obj00111 *)p)->f11C = count; ((struct Obj00111 *)p)->f114 = result; return 3; }

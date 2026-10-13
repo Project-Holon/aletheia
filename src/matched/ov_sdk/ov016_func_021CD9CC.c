@@ -17,29 +17,29 @@
  * symbols:
  *   DWCi_SceneSetTestConfNopA  0x021CDA0C  arm  ov016
  *   DWCi_SceneSetTestConfNopB  0x021CDA10  arm  ov016
- *   func_021D1568  0x021D1568  arm  ov016
- *   func_021CFFAC  0x021CFFAC  arm  ov016
- *   func_021D1524  0x021D1524  arm  ov016
- *   func_021C0E40  0x021C0E40  arm  ov016
+ *   DWCi_WINlGet  0x021D1568  arm  ov016
+ *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
+ *   DWCi_WINlEnd  0x021D1524  arm  ov016
+ *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   func_021CDA14  0x021CDA14  arm  ov016
  */
 
 extern void DWCi_SceneSetTestConfNopA(void);
 extern void DWCi_SceneSetTestConfNopB(void);
-extern signed char func_021D1568(void);
-extern void func_021CFFAC(unsigned int v);
-extern void func_021D1524(void);
-extern void func_021C0E40(unsigned int v);
+extern signed char DWCi_WINlGet(void);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern void DWCi_WINlEnd(void);
+extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CDA14(void);
 
 void func_021CD9CC(void)
 {
     DWCi_SceneSetTestConfNopA();
     DWCi_SceneSetTestConfNopB();
-    if (func_021D1568())
+    if (DWCi_WINlGet())
         return;
-    func_021CFFAC(6);
-    func_021D1524();
-    func_021CFFAC(6);
-    func_021C0E40((unsigned int)func_021CDA14);
+    DWCi_SNDlPlay(6);
+    DWCi_WINlEnd();
+    DWCi_SNDlPlay(6);
+    DWCi_ChangeScene((unsigned int)func_021CDA14);
 }

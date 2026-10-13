@@ -13,7 +13,7 @@
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_IsSendQueueEntryOfHandle  0x0203D578  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
@@ -21,7 +21,7 @@ int INTRUDE_COMM_IsLinked(void);
 struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 int GFL_NET_IsSendQueueEntryOfHandle(int a, int b);
-void func_02082D44(void *d, void *s, int n);
+void MI_CpuCopy8(void *d, void *s, int n);
 typedef unsigned int   u32;
 u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
@@ -33,6 +33,6 @@ int INTRUDE_CMD_SendResultRecord(char *a, char *b)
     if (GFL_NET_IsSendQueueEntryOfHandle((int)GFL_NET_HANDLE_GetCurrentHandle(), 0x218) == 1) {
         return 0;
     }
-    func_02082D44(b + 0xac, a + 0x424, 0x3c);
+    MI_CpuCopy8(b + 0xac, a + 0x424, 0x3c);
     return GFL_NET_SendData((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x218, 0x3c, (u32)(a + 0x424), 0, 0, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1F74
+ * function: WIFICLUB_DeleteSlotPanelWindows
  * address: 0x021C1F74
  * packet: pkt_ov099_021C1F74
  * region: ov099
@@ -21,7 +21,7 @@ typedef struct {
     void *windows[8];
     void *pairs[8][2];
 } Work;
-void func_021C1F74(char *p)
+void WIFICLUB_DeleteSlotPanelWindows(char *p)
 {
     int i;
     int j;

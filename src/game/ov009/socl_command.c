@@ -22,10 +22,10 @@
  *   func_02085DBC  0x02085DBC  arm
  *   func_02085E50  0x02085E50  arm
  *   func_02085F8C  0x02085F8C  arm
- *   func_02087988  0x02087988  arm
- *   func_02085B30  0x02085B30  arm
- *   func_02085B60  0x02085B60  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_DisableScheduler  0x02085B30  arm
+ *   OS_EnableScheduler  0x02085B60  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 #include "../../matched/include/G_021A1CD8.h"
 #include "../../matched/include/G_Cmd.h"
@@ -71,10 +71,10 @@ extern void func_02085D94(struct OSMessageQueue *mq, void **msgArray, s32 msgCou
 extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, long flags);
 extern int func_02085DBC(struct OSMessageQueue *mq, void *msg, long flags);
 extern int func_02085F8C(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern unsigned long func_02087988(void);
-extern unsigned long func_02085B30(void);
-extern unsigned long func_02085B60(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_DisableScheduler(void);
+extern unsigned long OS_EnableScheduler(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 int func_0215CD3C(int n);
 int func_0215CDD0(void);
 struct SOCLiCommandPacket *SOCLi_AllocCommandPacket(long flag);
@@ -308,8 +308,8 @@ void func_0215CFC0(void *arg)
 			return;
 		}
 		result = command->exec(command);
-		enable = func_02087988();
-		func_02085B30();
+		enable = OS_DisableInterrupts();
+		OS_DisableScheduler();
 		OS_ReceiveMessage((struct OSMessageQueue *)cpipe, 0, 0);
 		if (command->reply != 0) {
 			command->reply->result = result;
@@ -318,7 +318,7 @@ void func_0215CFC0(void *arg)
 			func_02085DBC((struct OSMessageQueue *)command->response_queue, (void *)result, 0);
 		}
 		func_0215CE7C(command);
-		func_02085B60();
-		func_0208799C(enable);
+		OS_EnableScheduler();
+		OS_RestoreInterrupts(enable);
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0764
+ * function: sciWsThink
  * address:  0x021E0764
  * packet:   pkt_021E0764
  * region:   ov175
@@ -18,7 +18,7 @@
 
 extern void func_0217CCCC(unsigned int theMS);
 
-void func_021E0764(void *p)
+void sciWsThink(void *p)
 {
     func_0217CCCC(0);
 }

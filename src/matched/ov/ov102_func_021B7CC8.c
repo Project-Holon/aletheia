@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CC8
+ * function: IRC_COMPATIBLE_MENU_InitTitleWindow
  * address: 0x021B7CC8
  * packet: pkt_ov102_021B7CC8
  * region: ov102
@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: sibling of func_021B7D38 (same window builder, slot 1, chr 0xF); narrow u8 c parameter places its reload immediately before the call.
+ * lever: sibling of IRC_COMPATIBLE_MENU_InitWindow (same window builder, slot 1, chr 0xF); narrow u8 c parameter places its reload immediately before the call.
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -43,7 +43,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-void func_021B7CC8(Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 heap)
+void IRC_COMPATIBLE_MENU_InitTitleWindow(Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 heap)
 {
     int win;
     MI_CpuFill8(p, 0, 20);

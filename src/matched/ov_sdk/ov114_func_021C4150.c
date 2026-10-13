@@ -1,5 +1,5 @@
 /*
- * function: func_021C4150
+ * function: ghiDoSecuringSession
  * address:  0x021C4150
  * packet:   pkt_ov114_021C4150
  * region:   ov114
@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
- *   func_021C02C8  0x021C02C8  arm  ov114
- *   func_021C011C  0x021C011C  arm  ov114
- *   func_021C00FC  0x021C00FC  arm  ov114
- *   func_021C04D4  0x021C04D4  arm  ov114
- *   func_021BFCEC  0x021BFCEC  arm  ov114
- *   func_021C0378  0x021C0378  arm  ov114
- *   g_021CF138     0x021CF138  data
+ *   ghiCallProgressCallback  0x021C02C8  arm  ov114
+ *   ghiSendBufferedData  0x021C011C  arm  ov114
+ *   ghiResetBuffer  0x021C00FC  arm  ov114
+ *   ghiDoReceive  0x021C04D4  arm  ov114
+ *   ghiAppendDataToBuffer  0x021BFCEC  arm  ov114
+ *   ghiDecryptReceivedData  0x021C0378  arm  ov114
+ *   sGhttpSecuringSession     0x021CF138  data
  */
 
 typedef struct GHIConnection GHIConnection;
@@ -59,16 +59,16 @@ struct GHIConnection {
 };
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
-extern int func_021C011C(struct GHIConnection *connection);
-extern void func_021C00FC(GHIBuffer *buffer);
-extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
+extern void ghiCallProgressCallback(struct GHIConnection *connection, char *buffer, int bufferLen);
+extern int ghiSendBufferedData(struct GHIConnection *connection);
+extern void ghiResetBuffer(GHIBuffer *buffer);
+extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
 struct GHIBuffer;
-extern int func_021BFCEC(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C0378(struct GHIConnection *connection);
-extern char g_021CF138[];
+extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
+extern int ghiDecryptReceivedData(struct GHIConnection *connection);
+extern char sGhttpSecuringSession[];
 
-void func_021C4150(GHIConnection *connection)
+void ghiDoSecuringSession(GHIConnection *connection)
 {
     int bufferLen;
     char buffer[1025];
@@ -76,7 +76,7 @@ void func_021C4150(GHIConnection *connection)
 
     if (!connection->encryptor.initialized)
     {
-        func_0217D254(8, (char *)3, 0x10, g_021CF138);
+        func_0217D254(8, (char *)3, 0x10, sGhttpSecuringSession);
         if (connection->encryptor.processFunc != 0)
         {
             if (connection->encryptor.processFunc(connection, &connection->encryptor) == 3)
@@ -89,7 +89,7 @@ void func_021C4150(GHIConnection *connection)
         if (connection->encryptor.sessionEstablished)
         {
             connection->state = 5;
-            func_021C02C8(connection, 0, 0);
+            ghiCallProgressCallback(connection, 0, 0);
             return;
         }
     }
@@ -108,21 +108,21 @@ void func_021C4150(GHIConnection *connection)
         if (!connection->encryptor.sessionEstablished)
             return;
         connection->state = 5;
-        func_021C02C8(connection, 0, 0);
+        ghiCallProgressCallback(connection, 0, 0);
         return;
     }
 
     if (connection->sendBuffer.pos < connection->sendBuffer.len)
     {
-        if (!func_021C011C(connection))
+        if (!ghiSendBufferedData(connection))
             return;
         if (connection->sendBuffer.pos < connection->sendBuffer.len)
             return;
-        func_021C00FC(&connection->sendBuffer);
+        ghiResetBuffer(&connection->sendBuffer);
     }
 
     bufferLen = sizeof(buffer);
-    result = func_021C04D4(connection, buffer, &bufferLen);
+    result = ghiDoReceive(connection, buffer, &bufferLen);
     if (result == 2 || result == 3)
     {
         connection->completed = 1;
@@ -131,9 +131,9 @@ void func_021C4150(GHIConnection *connection)
     }
     if (result != 0)
         return;
-    if (!func_021BFCEC((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
+    if (!ghiAppendDataToBuffer((struct GHIBuffer *)(&connection->decodeBuffer), buffer, bufferLen))
         return;
-    if (!func_021C0378(connection))
+    if (!ghiDecryptReceivedData(connection))
     {
         connection->completed = 1;
         connection->result = 0x11;
@@ -142,5 +142,5 @@ void func_021C4150(GHIConnection *connection)
     if (!connection->encryptor.sessionEstablished)
         return;
     connection->state = 5;
-    func_021C02C8(connection, 0, 0);
+    ghiCallProgressCallback(connection, 0, 0);
 }

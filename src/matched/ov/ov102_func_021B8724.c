@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B8724,func_021B8794
+ * function: IRC_COMPATIBLE_MENU_ResetButtonPalettes,IRC_COMPATIBLE_MENU_ButtonCallback
  * address: 0x021B8724
  * packet: pkt_ov102_021B8724
  * region: ov102
@@ -23,7 +23,7 @@ struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern void func_020409B4(u32);
-void func_021B8724(u8 *p)
+void IRC_COMPATIBLE_MENU_ResetButtonPalettes(u8 *p)
 {
     int i;
     u32 win;
@@ -47,7 +47,7 @@ void func_021B8724(u8 *p)
         func_020409B4(win);
     }
 }
-void func_021B8794(u16 value, int flag, u8 *p)
+void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, u8 *p)
 {
     if (flag == 0) ((struct Obj22167 *)p)->f30 = value;
 }

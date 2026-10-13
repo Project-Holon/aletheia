@@ -11,8 +11,11 @@
  *
  * symbols:
  *   func_021C35BC   0x021C35BC  arm
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
+ *   PM_ForceToPowerOff  0x0208BEA4  arm  arm9
+ *   DWCi_EFFlCheck  0x021D5580  arm
  *
- * Bail out on two func_021D5580 probes, then arm timer 0x800000 and kick func_0208BEA4.
+ * Bail out on two DWCi_EFFlCheck probes, then arm timer 0x800000 and kick PM_ForceToPowerOff.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,16 +23,16 @@
  *       --func func_021C35BC --addr 0x021C35BC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D5580(int);
-extern void func_02087A04(int);
-extern void func_0208BEA4(void);
+extern int DWCi_EFFlCheck(int);
+extern void OS_SpinWaitSysCycles(int);
+extern void PM_ForceToPowerOff(void);
 
 void func_021C35BC(void)
 {
-    if (func_021D5580(1))
+    if (DWCi_EFFlCheck(1))
         return;
-    if (func_021D5580(0))
+    if (DWCi_EFFlCheck(0))
         return;
-    func_02087A04(0x800000);
-    func_0208BEA4();
+    OS_SpinWaitSysCycles(0x800000);
+    PM_ForceToPowerOff();
 }

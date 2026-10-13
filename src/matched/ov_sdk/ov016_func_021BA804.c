@@ -29,7 +29,7 @@
  *   declaration (the image sets r1 before the call); bfinish = 0 as a statement after
  *   iretry; the AutoProfile check as if/else stores; and two second names: the
  *   SetSingleElement argument is `&btAutoResult` (its own pool word at the same address
- *   as the .bss base) and the Ssid test reads g_021DD310[0x14] (pool word AutoProfile+0xec,
+ *   as the .bss base) and the Ssid test reads gAtermsetBlock5[0x14] (pool word AutoProfile+0xec,
  *   index 0x14; every AutoProfile spelling folds to +0x100/#0). Residue: three Thumb
  *   branch-island targets (+010E, +011A, +01B0 jump to the `b` at +01FC, image +01EA);
  *   case-6 spelled with gotos, &&/if-else, nested ifs and else-if all pick +01FC.
@@ -85,14 +85,14 @@
  *   g_021DCFD0        0x021dcfd0 data
  *   btAutoResult      0x021dcfd0 data
  *   g_021DAB58        0x021dab58 data
- *   g_021DD490        0x021dd490 data
- *   g_021DDD04        0x021ddd04 data
- *   g_021DD020        0x021dd020 data
+ *   gAtermsetBlock7        0x021dd490 data
+ *   gAtermsetBlock10        0x021ddd04 data
+ *   gAtermsetBlock1        0x021dd020 data
  *   g_021DD504        0x021dd504 data
- *   g_021DD4A0        0x021dd4a0 data
- *   g_021DD4A8        0x021dd4a8 data
- *   g_021DD224        0x021dd224 data
- *   g_021DD310        0x021dd310 data
+ *   gAtermsetBlock8        0x021dd4a0 data
+ *   gAtermsetBlock9        0x021dd4a8 data
+ *   gAtermsetBlock4        0x021dd224 data
+ *   gAtermsetBlock5        0x021dd310 data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "../include/G_ATERMSET_DATA.h"
@@ -160,14 +160,14 @@ extern unsigned char btAutoResult;
 #define OS_Printf(fmt, arg) ((void)0)
 
 extern struct ATERMSET_DATA g_021DAB58;
-extern u8 g_021DD490[16];
-extern u8 g_021DDD04[2048];
-extern int g_021DD020;
+extern u8 gAtermsetBlock7[16];
+extern u8 gAtermsetBlock10[2048];
+extern int gAtermsetBlock1;
 extern u8 g_021DD504[2048];
-extern u8 g_021DD4A0[8];
-extern u8 g_021DD4A8[8];
-extern WS11G_PROFILE_DATA g_021DD224;
-extern signed char g_021DD310[];
+extern u8 gAtermsetBlock8[8];
+extern u8 gAtermsetBlock9[8];
+extern WS11G_PROFILE_DATA gAtermsetBlock4;
+extern signed char gAtermsetBlock5[];
 
 extern void OS_Sleep(u32 msec);
 extern int ScanAP(void);
@@ -262,10 +262,10 @@ static int AutoConfigThreadEx(void)
                 break;
             }
             target.len = sizeof(target);
-            GetMacEncKey(g_021DD490, &target);
-            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            GetMacEncKey(gAtermsetBlock7, &target);
+            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
             if (n > 0) {
-                if (IsSearchCommand(g_021DDD04, &g_021DD020)) {
+                if (IsSearchCommand(gAtermsetBlock10, &gAtermsetBlock1)) {
                     g_021DAB58.gAtermApTimeout = GetTickCount() + 30000;
                     g_021DCFD0.AutoPhase = 5;
                     g_021DCFD0.gAtermApState = 4;
@@ -275,8 +275,8 @@ static int AutoConfigThreadEx(void)
             }
             break;
         case 5:
-            g_021DCFD0.cbFrameData = SetSearchRes(g_021DDD04);
-            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
+            g_021DCFD0.cbFrameData = SetSearchRes(gAtermsetBlock10);
+            SendFrame(sock, &target, gAtermsetBlock10, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
             g_021DCFD0.AutoPhase = 6;
             break;
@@ -287,14 +287,14 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
             if (n > 0) {
-                if (GetCommandElement(g_021DDD04, 3, g_021DD504, g_021DD490)) {
+                if (GetCommandElement(gAtermsetBlock10, 3, g_021DD504, gAtermsetBlock7)) {
                     lpe = GetFirstElement(g_021DD504, &eid, &esize);
                     if (eid == 257) {
                         dw = GetTickCount();
-                        memcpy(g_021DD4A0, lpe, 8);
-                        MD5Encode(g_021DD4A8, (u8 *)&dw, 4);
+                        memcpy(gAtermsetBlock8, lpe, 8);
+                        MD5Encode(gAtermsetBlock9, (u8 *)&dw, 4);
                         iretry = 0;
                         g_021DCFD0.AutoPhase = 7;
                         g_021DCFD0.gAtermApState = 5;
@@ -313,18 +313,18 @@ static int AutoConfigThreadEx(void)
             }
             break;
         case 7:
-            g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 258, g_021DD4A8, 8);
-            g_021DCFD0.cbFrameData = SetFrameData(g_021DDD04, 4, g_021DD504, g_021DCFD0.cbElementData, g_021DD490);
-            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
+            g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 258, gAtermsetBlock9, 8);
+            g_021DCFD0.cbFrameData = SetFrameData(gAtermsetBlock10, 4, g_021DD504, g_021DCFD0.cbElementData, gAtermsetBlock7);
+            SendFrame(sock, &target, gAtermsetBlock10, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
-            __builtin__clear(&g_021DD224, sizeof(g_021DD224));
+            __builtin__clear(&gAtermsetBlock4, sizeof(gAtermsetBlock4));
             g_021DCFD0.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) > 0
-                && (g_021DCFD0.cbElementData = GetCommandElement(g_021DDD04, 5, g_021DD504, g_021DD4A0)) != 0
+            if (SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target) > 0
+                && (g_021DCFD0.cbElementData = GetCommandElement(gAtermsetBlock10, 5, g_021DD504, gAtermsetBlock8)) != 0
                 && GetWLanSetElement(g_021DD504)) {
-                if (g_021DD310[0x14] != 0)
+                if (gAtermsetBlock5[0x14] != 0)
                     g_021DCFD0.btAutoResult = 1;
                 else
                     g_021DCFD0.btAutoResult = 0;
@@ -344,7 +344,7 @@ static int AutoConfigThreadEx(void)
             break;
         case 9:
             g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 769, &btAutoResult, 1);
-            g_021DCFD0.cbFrameData = SetFrameData(g_021DDD04, 6, g_021DD504, g_021DCFD0.cbElementData, g_021DD4A0);
+            g_021DCFD0.cbFrameData = SetFrameData(gAtermsetBlock10, 6, g_021DD504, g_021DCFD0.cbElementData, gAtermsetBlock8);
             state = APC_GetState();
             if (state != 7) {
                 dwSendTick = GetTickCount() + 1000;
@@ -352,7 +352,7 @@ static int AutoConfigThreadEx(void)
                 g_021DCFD0.AutoPhase = 10;
                 break;
             }
-            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
+            SendFrame(sock, &target, gAtermsetBlock10, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
             g_021DCFD0.AutoPhase = 10;
             break;

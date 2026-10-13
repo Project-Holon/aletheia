@@ -13,14 +13,14 @@
  *
  * symbols:
  *   func_02175FB8  0x02175FB8  arm  ov009
- *   func_02176344  0x02176344  arm  ov009
+ *   DWCi_NodeInfoList_GetMyNodeInfo  0x02176344  arm  ov009
  *   func_021758C4  0x021758C4  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_0217637C  0x0217637C  arm  ov009
- *   func_0216FF2C  0x0216FF2C  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
+ *   DWCi_SendMatchCommand  0x0216FF2C  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
  *
  * The object reads the tick before it calls DWCi_GetMatchCnt for the store, which
  * a block-local copy reproduces (the DWARF lists no tick variable).
@@ -54,13 +54,13 @@ struct DWCstNodeInfo {
 };
 
 extern unsigned char func_02175FB8(void);
-extern struct DWCstNodeInfo *func_02176344(void);
+extern struct DWCstNodeInfo *DWCi_NodeInfoList_GetMyNodeInfo(void);
 extern int func_021758C4(u8 AID, int suspend, int immediate);
 extern int func_02175F3C(void);
 extern u64 func_020870D0(void);
-extern char *func_0217637C(int index);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
-extern int func_021719A4(int error);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
+extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern int DWCi_HandleMatchCommandError(int error);
 
 static int func_02175D10(int suspend)
 {
@@ -70,7 +70,7 @@ static int func_02175D10(int suspend)
     int result;
 
     if (func_02175FB8() == 2)
-        return func_021758C4(func_02176344()->aid, suspend, 0);
+        return func_021758C4(DWCi_NodeInfoList_GetMyNodeInfo()->aid, suspend, 0);
     if (((struct DWCstMatchControl *)func_02175F3C())->f61c != 1)
         return 1;
     if (((struct DWCstMatchControl *)func_02175F3C())->f30) {
@@ -78,15 +78,15 @@ static int func_02175D10(int suspend)
             return 1;
     }
     if (((func_020870D0() - ((struct DWCstMatchControl *)func_02175F3C())->f20) * 64) / 33514 > 3000) {
-        pMyNodeInfo = func_02176344();
-        pServerNodeInfo = (struct DWCstNodeInfo *)func_0217637C(0);
+        pMyNodeInfo = DWCi_NodeInfoList_GetMyNodeInfo();
+        pServerNodeInfo = (struct DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(0);
         senddata[0] = ((struct DWCstMatchControl *)func_02175F3C())->f678;
         senddata[1] = 0;
         senddata[2] = suspend;
         senddata[3] = pMyNodeInfo->aid;
-        result = func_0216FF2C(0x82, pServerNodeInfo->profileID, pServerNodeInfo->ip,
+        result = DWCi_SendMatchCommand(0x82, pServerNodeInfo->profileID, pServerNodeInfo->ip,
                                pServerNodeInfo->port, (const unsigned int *)senddata, 4);
-        if (func_021719A4(result))
+        if (DWCi_HandleMatchCommandError(result))
             return 0;
         {
             u64 now = func_020870D0();

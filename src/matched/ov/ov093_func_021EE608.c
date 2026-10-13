@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj07866.h"
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 
 void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n)
 {
@@ -30,7 +30,7 @@ void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n)
         n = n - 1;
         end = pos + n;
         if (end <= 0xC00) {
-            func_02082D44(src + 1, p + 8 + pos, n);
+            MI_CpuCopy8(src + 1, p + 8 + pos, n);
             ((struct Obj07866 *)p)->f0 = end;
         } else {
             p[2] = 1;

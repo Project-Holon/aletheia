@@ -16,7 +16,7 @@
  *
  * symbols:
  *   BMP_GetByteSize  0x020437EC  arm
- *   func_02082A90  0x02082A90  arm
+ *   MIi_CpuCopy32  0x02082A90  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_CopyPixels.c \
@@ -35,7 +35,7 @@ struct Bmp {
 };
 
 extern u32  BMP_GetByteSize(const struct Bmp *bmp);
-extern void func_02082A90(void *dst, const void *src, u32 size);
+extern void MIi_CpuCopy32(void *dst, const void *src, u32 size);
 
 void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src)
 {
@@ -48,5 +48,5 @@ void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src)
     if (other < size)
         size = other;
 
-    func_02082A90(dst->pixels, src->pixels, size);
+    MIi_CpuCopy32(dst->pixels, src->pixels, size);
 }

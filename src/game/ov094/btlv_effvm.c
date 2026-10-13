@@ -24,7 +24,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   func_02030DA8  0x02030DA8  arm
  *   func_02040588  0x02040588  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetTaskUserData   0x02030EE8  arm
  *   d_0220AE68     0x0220AE68  data   ov094  a1
  *   d_02209DCC     0x02209DCC  data   ov094  a4
  *   func_02030734  0x02030734  arm
@@ -34,7 +34,7 @@
  *   func_02011324  0x02011324  thumb
  *   VM_Delete 0x02011264 thumb
  *   VM_Start  0x0201127C  thumb
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   PM_VOICE_StopSlot 0x02006BB4 thumb
  *   VM_GetU32  0x0201134C  thumb
  *   d_0220ACA0  0x0220ACA0  data  a4
@@ -128,7 +128,7 @@
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
  *   GFL_USE_GetSeHandle  0x02006138  thumb
  *   GFL_USE_SetSeSlotParams  0x02006268  thumb
- *   NNS_SndHandleSetSeqPriority  0x02072F34  arm
+ *   NNS_SndHandleSetVolume  0x02072F34  arm
  *   NNS_SndHandleSetTrackModDepth  0x02073058  arm
  *   NNS_SndHandleSetTrackModSpeed  0x02073078  arm
  *   _s32_div_f 0x0209C0A4 arm
@@ -454,9 +454,9 @@ extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -472,7 +472,7 @@ extern void VM_Delete(void *);
 
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 
-extern void func_02082A48(u16 data, void *destp, u32 size);
+extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 
 extern void PM_VOICE_StopSlot(u32 i);
 
@@ -628,7 +628,7 @@ extern u32 *GFL_USE_GetSeHandle(int i);
 
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 
-extern void NNS_SndHandleSetSeqPriority(char *p, unsigned int v);
+extern void NNS_SndHandleSetVolume(char *p, unsigned int v);
 
 extern void NNS_SndHandleSetTrackModDepth(struct Obj_vD04C *o, u32 v, u32 w);
 
@@ -1191,7 +1191,7 @@ BtlvEffVmWork *t;
     if (q != 0)
         t->params = *q;
     else
-        func_02082A48(0, &t->params, 0x10);
+        MIi_CpuClear16(0, &t->params, 0x10);
     t->attackerPos = a1;
     t->defenderPos = a2;
     t->layoutMode = 1;
@@ -4433,7 +4433,7 @@ void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f
     } else {
         GFL_USE_PlaySeInSlot((void *)a0, m);
     }
-    NNS_SndHandleSetSeqPriority((char *)GFL_USE_GetSeHandle(m), e);
+    NNS_SndHandleSetVolume((char *)GFL_USE_GetSeHandle(m), e);
     GFL_USE_SetSeSlotParams(m, -1, -1, a2);
     GFL_USE_SetSeSlotParams(m, -1, a3, -1);
     if (f) {
@@ -4778,7 +4778,7 @@ void func_021FE54C(void *h, void *arg)
 
 void func_021FE580(void *h)
 {
-    unsigned int *p = *((unsigned int **)TCBL_IsDeletePending(h));
+    unsigned int *p = *((unsigned int **)TCBL_GetTaskUserData(h));
 
     *p &= ~4u;
 }
@@ -4824,7 +4824,7 @@ void func_021FE594(void *h, void *arg)
             s[6] = _ffix(_fsub(_fflt(v << 12), 0.5f));
         switch (s[3]) {
         case 0: GFL_USE_SetSeSlotParams(s[1], -1, v, -1); break;
-        case 1: NNS_SndHandleSetSeqPriority((char *)GFL_USE_GetSeHandle(s[1]), v); break;
+        case 1: NNS_SndHandleSetVolume((char *)GFL_USE_GetSeHandle(s[1]), v); break;
         case 2: GFL_USE_SetSeSlotParams(s[1], -1, -1, v); break;
         }
         if (s[9] == 0) {
@@ -4851,7 +4851,7 @@ void func_021FE594(void *h, void *arg)
 
 void func_021FE690(void *h)
 {
-    unsigned int *p = *((unsigned int **)TCBL_IsDeletePending(h));
+    unsigned int *p = *((unsigned int **)TCBL_GetTaskUserData(h));
 
     *p &= ~8u;
 }
@@ -4880,7 +4880,7 @@ void func_021FE6A4(void *h, void *arg)
 
 void func_021FE750(void *h)
 {
-    unsigned int *p = *((unsigned int **)TCBL_IsDeletePending(h));
+    unsigned int *p = *((unsigned int **)TCBL_GetTaskUserData(h));
 
     *p &= ~0x800u;
 }
@@ -4952,7 +4952,7 @@ void func_021FE79C(void *h, void *arg)
 
 void func_021FE8AC(void *h)
 {
-    Ctx_021FE254 *c = (Ctx_021FE254 *)TCBL_IsDeletePending(h);
+    Ctx_021FE254 *c = (Ctx_021FE254 *)TCBL_GetTaskUserData(h);
 
     if (c->k24 == 0)
         *(volatile unsigned int *)0x04000000 &= ~0xE000u;

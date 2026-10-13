@@ -1,5 +1,5 @@
 /*
- * function: func_02059644
+ * function: DWCi_Acc_CheckConsoleUserId
  * address:  0x02059644
  * packet:   pkt_02059644
  * region:   arm9
@@ -46,7 +46,7 @@ typedef struct DWCAuthWiFiId {
 extern void DWC_Auth_GetId(DWCAuthWiFiId *id);
 extern unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *userdata);
 
-int func_02059644(struct DWCstAccLoginId *loginid)
+int DWCi_Acc_CheckConsoleUserId(struct DWCstAccLoginId *loginid)
 {
     DWCAuthWiFiId authid;
 

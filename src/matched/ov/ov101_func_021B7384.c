@@ -1,5 +1,5 @@
 /*
- * function: func_021B7384
+ * function: IRC_APPBAR_ReleaseResources
  * address: 0x021B7384
  * packet: pkt_ov101_021B7384
  * region: ov101
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj06364.h"
 extern void CLACT_ReleaseCellAnim(unsigned); extern void CLACT_ReleaseCharacter(unsigned); extern void CLACT_ReleasePalette(unsigned);
-void func_021B7384(unsigned p) { CLACT_ReleaseCellAnim(((struct Obj06364 *)p)->f38); CLACT_ReleaseCharacter(((struct Obj06364 *)p)->f34); CLACT_ReleasePalette(((struct Obj06364 *)p)->f30); }
+void IRC_APPBAR_ReleaseResources(unsigned p) { CLACT_ReleaseCellAnim(((struct Obj06364 *)p)->f38); CLACT_ReleaseCharacter(((struct Obj06364 *)p)->f34); CLACT_ReleasePalette(((struct Obj06364 *)p)->f30); }

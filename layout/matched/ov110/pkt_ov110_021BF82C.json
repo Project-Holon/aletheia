@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF82C",
+   "name": "PMS_INPUT_ResetCursor",
    "address": "0x021BF82C",
    "kind": "game",
    "region": "ov110",

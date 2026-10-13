@@ -1,7 +1,7 @@
 /*
  * file:     dwc_mov_mbp.c
  * unit:     yes
- * function: func_021D1D04, func_021D1D40, func_021D1E54, func_021D1E9C, func_021D1F6C, func_021D200C, func_021D20E8, func_021D21CC, func_021D22AC, func_021D2314, func_021D240C, func_021D2420, func_021D2450, func_021D276C, func_021D2780, func_021D2794, func_021D27EC, func_021D28B4, func_021D28E4
+ * function: DWCi_MOV_MBP_MemInit, DWCi_MOV_MBP_Init, DWCi_MOV_MBP_Start, DWCi_MOV_MBP_RegistFile, DWCi_MOV_MBP_AcceptChild, DWCi_MOV_MBP_KickChild, DWCi_MOV_MBP_StartDownload, DWCi_MOV_MBP_StartDownloadAll, DWCi_MOV_MBP_IsBootableAll, DWCi_MOV_MBP_StartRebootAll, DWCi_MOV_MBP_Cancel, MBPi_CheckAllReboot, ParentStateCallback, DWCi_MOV_MBP_ChangeState, DWCi_MOV_MBP_GetState, DWCi_MOV_MBP_GetChildBmp, DWCi_MOV_MBP_GetChildState, DWCi_MOV_MBP_GetChildInfo, DWCi_MOV_MBP_GetPlayerNo
  * address:  0x021D1D04
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -13,28 +13,26 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02082D44 0x02082D44 arm
- *   func_021F5904 0x021F5904 arm
- *   func_02088234 0x02088234 arm
- *   func_021F5B4C 0x021F5B4C arm
- *   func_021F1B3C 0x021F1B3C arm
- *   func_021D2450 0x021D2450 arm ov016
- *   g_021DE65C 0x021DE65C data
- *   func_021F5E7C  0x021f5e7c  arm  ov107
+ *   DWCi_MOV_WH_MemInit            0x021D298C  arm  ov016
+ *   DWCi_DwcMoveidMB_EndToIdle     0x021F5F74  arm  ov016
+ *   MI_CpuCopy8 0x02082D44 arm
+ *   MB_Init 0x021F5904 arm
+ *   OS_Terminate 0x02088234 arm
+ *   MB_SetParentCommParam 0x021F5B4C arm
+ *   MB_CommSetParentStateCallback 0x021F1B3C arm
+ *   ParentStateCallback 0x021D2450 arm ov016
+ *   gDwcMovMbpWork 0x021DE65C data
+ *   MB_StartParentFromIdle  0x021f5e7c  arm  ov107
  *   FS_InitFile                      0x020788AC  arm
  *   FS_OpenFile                      0x02078C18  arm
  *   MB_GetSegmentLength              0x021F2F1C  arm
  *   MB_ReadSegment                   0x021F2FA0  arm
  *   MB_RegisterFile                  0x021F3544  arm
  *   FS_CloseFile                     0x02078A80  arm
- *   func_021F1C30  0x021F1C30  arm  ov107
- *   func_021F5FB0  0x021F5FB0  arm  ov107
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
- *   MB_CommResponseRequest           0x021F1C30  arm
- *   OS_DisableInterrupts             0x02087988  arm
- *   OS_RestoreInterrupts             0x0208799C  arm
- *   MB_DisconnectChild               0x021F5FB0  arm
+ *   MB_CommResponseRequest  0x021F1C30  arm  ov107
+ *   MB_DisconnectChild  0x021F5FB0  arm  ov107
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   DWCi_MOV_MBP_ChangeState         0x021D276C  arm  ov016
  *   DWCi_MOV_MBP_StartDownload       0x021D20E8  arm  ov016
  *   MB_CommIsBootable                0x021F1BE0  arm
@@ -45,9 +43,7 @@
  *   DWCi_MOV_MBP_KickChild         0x021D200C  arm
  *   DWCi_MOV_MBP_AcceptChild       0x021D1F6C  arm
  *   MB_CommGetChildUser            0x021F1B64  arm  ov107
- *   MI_CpuCopy8                    0x02082D44  arm
- *   OS_Terminate                   0x02088234  arm
- *   g_021DB9D4  0x021db9d4  data
+ *   sDwcMovMbpTable  0x021db9d4  data
  *   g_021DB9D4_b  0x021DB9D4  data
  */
 typedef unsigned char u8;
@@ -119,164 +115,111 @@ typedef enum {
     CS_REBOOT
 } ChildState;
 
-extern void func_021D298C(int);
-extern void func_02082D44(void *srcp, void *dstp, u32 size);
-extern int func_021F5904(void *work, MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
-extern void func_02088234(void);
-extern int func_021F5B4C(u16 sendSize, u16 maxChildren);
-extern void func_021F1B3C(void (*cb)(u16, u32, void *));
-extern void func_021D2450(u16, u32, void *);
-extern int func_021F5E7C(int channel);
+extern void DWCi_MOV_WH_MemInit(int);
+extern int MB_Init(void *work, MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
+extern int MB_SetParentCommParam(u16 sendSize, u16 maxChildren);
+extern void MB_CommSetParentStateCallback(void (*cb)(u16, u32, void *));
+extern int MB_StartParentFromIdle(int channel);
 extern void FS_InitFile(FSFile *file);
 extern int FS_OpenFile(FSFile *file, char *path);
 extern u32 MB_GetSegmentLength(FSFile *file);
 extern int MB_ReadSegment(FSFile *file, void *buf, u32 len);
 extern int MB_RegisterFile(MBGameRegistry *game_reg, void *buf);
 extern int FS_CloseFile(FSFile *file);
-extern int func_021F1C30(unsigned short child_aid, int ack);
-extern void func_021F5FB0(u16 aid);
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern int MB_CommResponseRequest(u16 child_aid, int ack);
 extern void MB_DisconnectChild(u16 aid);
-extern void DWCi_MOV_MBP_ChangeState(u16 state);
-extern void DWCi_MOV_MBP_StartDownload(u16 child_aid);
+void DWCi_MOV_MBP_ChangeState(unsigned short v);
+void DWCi_MOV_MBP_StartDownload(u16 child_aid);
 extern int MB_CommIsBootable(u16 child_aid);
 extern void MB_EndToIdle(void);
-extern void func_021F5F74(void);
-extern u16 DWCi_MOV_MBP_GetState(void);
-extern int DWCi_MOV_MBP_GetChildState(u16 aid);
-extern void MBPi_CheckAllReboot(void);
-extern void DWCi_MOV_MBP_KickChild(u16 child_aid);
-extern void DWCi_MOV_MBP_AcceptChild(u16 child_aid);
+extern void DWCi_DwcMoveidMB_EndToIdle(void);
+unsigned short DWCi_MOV_MBP_GetState(void);
+ChildState DWCi_MOV_MBP_GetChildState(u16 aid);
+void DWCi_MOV_MBP_KickChild(u16 child_aid);
+void DWCi_MOV_MBP_AcceptChild(u16 aid);
 extern void *MB_CommGetChildUser(u16 child_aid);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern void OS_Terminate(void);
-void func_021D1D04(int x);
-void func_021D1D40(u32 ggid, u16 tgid);
-void func_021D1E54(MBGameRegistry *gameInfo, u16 channel);
-int func_021D1E9C(MBGameRegistry *gameInfo);
-void func_021D1F6C(u16 aid);
-void func_021D200C(u16 child_aid);
-void func_021D20E8(u16 child_aid);
-void func_021D21CC(void);
-int func_021D22AC(void);
-void func_021D2314(void);
+void DWCi_MOV_MBP_MemInit(int x);
+void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
+void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
+int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo);
+void DWCi_MOV_MBP_StartDownloadAll(void);
+int DWCi_MOV_MBP_IsBootableAll(void);
+void DWCi_MOV_MBP_StartRebootAll(void);
 void DWCi_MOV_MBP_Cancel(void);
-void func_021D2420(void);
-void func_021D276C(unsigned short v);
-unsigned short func_021D2780(void);
-u16 func_021D2794(int bmpType);
-ChildState func_021D27EC(u16 aid);
-DWCi_MOV_MBPChildInfo *func_021D28B4(u16 child_aid);
-u16 func_021D28E4(u8 *macAddress);
-extern DWCi_MOV_WPB_WORK *g_021DE65C;
-extern u16 *g_021DB9D4[6];
+u16 DWCi_MOV_MBP_GetChildBmp(int bmpType);
+DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
+u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress);
+extern DWCi_MOV_WPB_WORK *gDwcMovMbpWork;
+extern u16 *sDwcMovMbpTable[6];
 extern u16 *g_021DB9D4_b[6];
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
  * Publish the object, initialise the tail region, and clear its two control words.
  * Addresses are Black-image addresses.
  */
-void func_021D1D04(int x)
+
+static void MBPi_CheckAllReboot(void);
+static void ParentStateCallback(u16 child_aid, u32 status, void *arg);
+void DWCi_MOV_MBP_MemInit(int x)
 {
     int *g = (int *)0x021DE65C;
 
     g[0] = x;
-    func_021D298C(x + 0x160 + 0x1b000);
+    DWCi_MOV_WH_MemInit(x + 0x160 + 0x1b000);
     *(int *)(g[0] + 0x1b000 + 0x140) = 0;
     *(int *)(g[0] + 0x1b000 + 0x144) = 0;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_MOV_MBP_Init (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D1D40(u32 ggid, u16 tgid)
+void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid)
 {
     MBUserInfo myUser;
     u8 *own = (u8 *)0x02fffc80;
     myUser.favoriteColor = 1;
     myUser.nameLength = own[0x1a];
-    func_02082D44(own + 6, myUser.name, 0x14);
+    MI_CpuCopy8(own + 6, myUser.name, 0x14);
     myUser.playerNo = 0;
     {
         DWCi_MOV_MBPState h = {0};
-        g_021DE65C->mbpState = h;
+        gDwcMovMbpWork->mbpState = h;
     }
-    g_021DE65C->sCWork = g_021DE65C->work_area_for_mb;
-    if (func_021F5904(g_021DE65C->sCWork, &myUser, ggid, tgid, 2))
-        func_02088234();
-    func_021F5B4C(0x100, 1);
-    func_021F1B3C(func_021D2450);
-    func_021D276C(1);
+    gDwcMovMbpWork->sCWork = gDwcMovMbpWork->work_area_for_mb;
+    if (MB_Init(gDwcMovMbpWork->sCWork, &myUser, ggid, tgid, 2))
+        OS_Terminate();
+    MB_SetParentCommParam(0x100, 1);
+    MB_CommSetParentStateCallback(ParentStateCallback);
+    DWCi_MOV_MBP_ChangeState(1);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_Start (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D1E54(MBGameRegistry *gameInfo, u16 channel)
+void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel)
 {
-    func_021D276C(2);
-    if (func_021F5E7C(channel)) {
-        func_021D276C(7);
+    DWCi_MOV_MBP_ChangeState(2);
+    if (MB_StartParentFromIdle(channel)) {
+        DWCi_MOV_MBP_ChangeState(7);
         return;
     }
-    if (func_021D1E9C(gameInfo))
+    if (DWCi_MOV_MBP_RegistFile(gameInfo))
         return;
-    func_02088234();
+    OS_Terminate();
 }
-
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_RegistFile (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-int func_021D1E9C(MBGameRegistry *gameInfo)
+int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo)
 {
     FSFile file;
     FSFile *p_file;
@@ -293,10 +236,10 @@ int func_021D1E9C(MBGameRegistry *gameInfo)
     }
     bufferSize = MB_GetSegmentLength(p_file);
     if (bufferSize) {
-        g_021DE65C->sFilebuf = g_021DE65C->boot_seg_buf;
-        if (g_021DE65C->sFilebuf) {
-            if (MB_ReadSegment(p_file, g_021DE65C->sFilebuf, 0x10000)) {
-                if (MB_RegisterFile(gameInfo, g_021DE65C->sFilebuf))
+        gDwcMovMbpWork->sFilebuf = gDwcMovMbpWork->boot_seg_buf;
+        if (gDwcMovMbpWork->sFilebuf) {
+            if (MB_ReadSegment(p_file, gDwcMovMbpWork->sFilebuf, 0x10000)) {
+                if (MB_RegisterFile(gameInfo, gDwcMovMbpWork->sFilebuf))
                     ret = 1;
             }
         }
@@ -307,14 +250,6 @@ int func_021D1E9C(MBGameRegistry *gameInfo)
 }
 
 
-
-
-
-
-
-
-
-
 /*
  * sdk:      DWCi_MOV_MBP_AcceptChild (libdwcutil.TWL.HYB.a dwc_mov_mbp.o)
  *
@@ -322,124 +257,98 @@ int func_021D1E9C(MBGameRegistry *gameInfo)
  *           the vendor global `wb` (a pointer to a struct whose first 0xe bytes are
  *           halfwords) gives the object's registers (pool address in r1, pointee r3).
  */
-void func_021D1F6C(u16 aid)
+void DWCi_MOV_MBP_AcceptChild(u16 aid)
 {
-    if (func_021F1C30(aid, 1) != 0)
+    if (MB_CommResponseRequest(aid, 1) != 0)
         return;
     {
         u16 m = ~(1 << aid);
-        unsigned long e = func_02087988();
-        g_021DE65C->mbpState.connectChildBmp &= m;
-        g_021DE65C->mbpState.requestChildBmp &= m;
-        g_021DE65C->mbpState.entryChildBmp &= m;
-        g_021DE65C->mbpState.downloadChildBmp &= m;
-        g_021DE65C->mbpState.bootableChildBmp &= m;
-        g_021DE65C->mbpState.rebootChildBmp &= m;
-        func_0208799C(e);
+        unsigned long e = OS_DisableInterrupts();
+        gDwcMovMbpWork->mbpState.connectChildBmp &= m;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= m;
+        gDwcMovMbpWork->mbpState.entryChildBmp &= m;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= m;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= m;
+        gDwcMovMbpWork->mbpState.rebootChildBmp &= m;
+        OS_RestoreInterrupts(e);
     }
-    func_021F5FB0(aid);
+    MB_DisconnectChild(aid);
 }
-
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_KickChild (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D200C(u16 child_aid)
+void DWCi_MOV_MBP_KickChild(u16 child_aid)
 {
     u32 enabled;
     if (!MB_CommResponseRequest(child_aid, 0)) {
         u16 mask = ~(1 << child_aid);
         enabled = OS_DisableInterrupts();
-        g_021DE65C->mbpState.connectChildBmp &= mask;
-        g_021DE65C->mbpState.requestChildBmp &= mask;
-        g_021DE65C->mbpState.entryChildBmp &= mask;
-        g_021DE65C->mbpState.downloadChildBmp &= mask;
-        g_021DE65C->mbpState.bootableChildBmp &= mask;
-        g_021DE65C->mbpState.rebootChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
         OS_RestoreInterrupts(enabled);
         MB_DisconnectChild(child_aid);
         return;
     }
     enabled = OS_DisableInterrupts();
-    g_021DE65C->mbpState.requestChildBmp &= (u16)~(1 << child_aid);
-    g_021DE65C->mbpState.connectChildBmp &= (u16)~(1 << child_aid);
+    gDwcMovMbpWork->mbpState.requestChildBmp &= (u16)~(1 << child_aid);
+    gDwcMovMbpWork->mbpState.connectChildBmp &= (u16)~(1 << child_aid);
     OS_RestoreInterrupts(enabled);
 }
-
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_StartDownload (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D20E8(u16 child_aid)
+void DWCi_MOV_MBP_StartDownload(u16 child_aid)
 {
     u32 enabled;
     if (!MB_CommResponseRequest(child_aid, 2)) {
         u16 mask = ~(1 << child_aid);
         enabled = OS_DisableInterrupts();
-        g_021DE65C->mbpState.connectChildBmp &= mask;
-        g_021DE65C->mbpState.requestChildBmp &= mask;
-        g_021DE65C->mbpState.entryChildBmp &= mask;
-        g_021DE65C->mbpState.downloadChildBmp &= mask;
-        g_021DE65C->mbpState.bootableChildBmp &= mask;
-        g_021DE65C->mbpState.rebootChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
         OS_RestoreInterrupts(enabled);
         MB_DisconnectChild(child_aid);
         return;
     }
     enabled = OS_DisableInterrupts();
-    g_021DE65C->mbpState.entryChildBmp &= (u16)~(1 << child_aid);
-    g_021DE65C->mbpState.downloadChildBmp |= (u16)(1 << child_aid);
+    gDwcMovMbpWork->mbpState.entryChildBmp &= (u16)~(1 << child_aid);
+    gDwcMovMbpWork->mbpState.downloadChildBmp |= (u16)(1 << child_aid);
     OS_RestoreInterrupts(enabled);
 }
-
-
-
-
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_StartDownloadAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D21CC(void)
+void DWCi_MOV_MBP_StartDownloadAll(void)
 {
     u16 i;
     DWCi_MOV_MBP_ChangeState(3);
     for (i = 1; i < 16; i++) {
-        if (!(g_021DE65C->mbpState.connectChildBmp & (1 << i)))
+        if (!(gDwcMovMbpWork->mbpState.connectChildBmp & (1 << i)))
             continue;
-        if (g_021DE65C->mbpState.requestChildBmp & (1 << i))
+        if (gDwcMovMbpWork->mbpState.requestChildBmp & (1 << i))
             continue;
-        if (!(g_021DE65C->mbpState.entryChildBmp & (1 << i))) {
+        if (!(gDwcMovMbpWork->mbpState.entryChildBmp & (1 << i))) {
             u16 mask = ~(1 << i);
             u32 enabled = OS_DisableInterrupts();
-            g_021DE65C->mbpState.connectChildBmp &= mask;
-            g_021DE65C->mbpState.requestChildBmp &= mask;
-            g_021DE65C->mbpState.entryChildBmp &= mask;
-            g_021DE65C->mbpState.downloadChildBmp &= mask;
-            g_021DE65C->mbpState.bootableChildBmp &= mask;
-            g_021DE65C->mbpState.rebootChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
             OS_RestoreInterrupts(enabled);
             MB_DisconnectChild(i);
         } else {
@@ -449,55 +358,43 @@ void func_021D21CC(void)
 }
 
 
-
-
-
-
-
-
 /*
  * sdk:      DWCi_MOV_MBP_IsBootableAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-int func_021D22AC(void)
+int DWCi_MOV_MBP_IsBootableAll(void)
 {
     u16 i;
-    if (g_021DE65C->mbpState.connectChildBmp == 0)
+    if (gDwcMovMbpWork->mbpState.connectChildBmp == 0)
         return 0;
     for (i = 1; i < 16; i++) {
-        if ((g_021DE65C->mbpState.connectChildBmp & (1 << i)) && !MB_CommIsBootable(i))
+        if ((gDwcMovMbpWork->mbpState.connectChildBmp & (1 << i)) && !MB_CommIsBootable(i))
             return 0;
     }
     return 1;
 }
 
 
-
-
-
-
-
-
 /*
  * sdk:      DWCi_MOV_MBP_StartRebootAll (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-void func_021D2314(void)
+void DWCi_MOV_MBP_StartRebootAll(void)
 {
     u16 i;
     u16 sentChild = 0;
     for (i = 1; i < 16; i++) {
-        if (g_021DE65C->mbpState.bootableChildBmp & (1 << i)) {
+        if (gDwcMovMbpWork->mbpState.bootableChildBmp & (1 << i)) {
             if (MB_CommResponseRequest(i, 3)) {
                 sentChild |= (u16)(1 << i);
             } else {
                 u32 enabled;
                 u16 mask = ~(1 << i);
                 enabled = OS_DisableInterrupts();
-                g_021DE65C->mbpState.connectChildBmp &= mask;
-                g_021DE65C->mbpState.requestChildBmp &= mask;
-                g_021DE65C->mbpState.entryChildBmp &= mask;
-                g_021DE65C->mbpState.downloadChildBmp &= mask;
-                g_021DE65C->mbpState.bootableChildBmp &= mask;
-                g_021DE65C->mbpState.rebootChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+                gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
                 OS_RestoreInterrupts(enabled);
                 MB_DisconnectChild(i);
             }
@@ -510,12 +407,6 @@ void func_021D2314(void)
 }
 
 
-
-
-
-
-
-
 void DWCi_MOV_MBP_Cancel(void)
 {
 	DWCi_MOV_MBP_ChangeState(6);
@@ -523,16 +414,11 @@ void DWCi_MOV_MBP_Cancel(void)
 }
 
 
-
-
-
-
-
 /*
  * Guard on the kind and the paired words of the object at 0x021DE65C.
  * Addresses are Black-image addresses.
  */
-void func_021D2420(void)
+static void MBPi_CheckAllReboot(void)
 {
     unsigned short *p = *(unsigned short **)0x021DE65C;
 
@@ -540,13 +426,8 @@ void func_021D2420(void)
         return;
     if (p[1] != p[6])
         return;
-    func_021F5F74();
+    DWCi_DwcMoveidMB_EndToIdle();
 }
-
-
-
-
-
 
 
 static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
@@ -559,20 +440,20 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         break;
     case 2:
         if (DWCi_MOV_MBP_GetState() == 2) {
-            DWCi_MOV_WPB_WORK *w = g_021DE65C;
+            DWCi_MOV_WPB_WORK *w = gDwcMovMbpWork;
             u32 enabled = OS_DisableInterrupts();
             u8 *mac;
 
             w->mbpState.connectChildBmp |= 1 << child_aid;
             OS_RestoreInterrupts(enabled);
-            mac = g_021DE65C->childInfo[child_aid - 1].macAddress;
+            mac = gDwcMovMbpWork->childInfo[child_aid - 1].macAddress;
             mac[0] = userInfo->mac[0];
             mac[1] = userInfo->mac[1];
             mac[2] = userInfo->mac[2];
             mac[3] = userInfo->mac[3];
             mac[4] = userInfo->mac[4];
             mac[5] = userInfo->mac[5];
-            g_021DE65C->childInfo[child_aid - 1].playerNo = child_aid;
+            gDwcMovMbpWork->childInfo[child_aid - 1].playerNo = child_aid;
         }
         break;
     case 3:
@@ -580,12 +461,12 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
             u16 mask = ~(1 << child_aid);
             u32 enabled = OS_DisableInterrupts();
 
-            g_021DE65C->mbpState.connectChildBmp &= mask;
-            g_021DE65C->mbpState.requestChildBmp &= mask;
-            g_021DE65C->mbpState.entryChildBmp &= mask;
-            g_021DE65C->mbpState.downloadChildBmp &= mask;
-            g_021DE65C->mbpState.bootableChildBmp &= mask;
-            g_021DE65C->mbpState.rebootChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+            gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
             OS_RestoreInterrupts(enabled);
             MBPi_CheckAllReboot();
         }
@@ -598,28 +479,28 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         if (DWCi_MOV_MBP_GetState() != 2) {
             DWCi_MOV_MBP_KickChild(child_aid);
         } else {
-            g_021DE65C->mbpState.requestChildBmp |= 1 << child_aid;
+            gDwcMovMbpWork->mbpState.requestChildBmp |= 1 << child_aid;
             DWCi_MOV_MBP_AcceptChild(child_aid);
             childUser = MB_CommGetChildUser(child_aid);
             if (childUser)
-                MI_CpuCopy8(childUser, g_021DE65C->childInfo[child_aid - 1].user, 0x16);
+                MI_CpuCopy8(childUser, gDwcMovMbpWork->childInfo[child_aid - 1].user, 0x16);
         }
         break;
     case 14:
-        g_021DE65C->mbpState.requestChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.entryChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.entryChildBmp |= 1 << child_aid;
         if (DWCi_MOV_MBP_GetState() == 3)
             DWCi_MOV_MBP_StartDownload(child_aid);
         break;
     case 7:
-        g_021DE65C->mbpState.downloadChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.bootableChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.bootableChildBmp |= 1 << child_aid;
         break;
     case 8:
         break;
     case 9:
-        g_021DE65C->mbpState.bootableChildBmp &= ~(1 << child_aid);
-        g_021DE65C->mbpState.rebootChildBmp |= 1 << child_aid;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= ~(1 << child_aid);
+        gDwcMovMbpWork->mbpState.rebootChildBmp |= 1 << child_aid;
         MBPi_CheckAllReboot();
         break;
     case 11:
@@ -629,10 +510,10 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
             DWCi_MOV_MBP_ChangeState(5);
         else
             DWCi_MOV_MBP_ChangeState(0);
-        if (g_021DE65C->sFilebuf)
-            g_021DE65C->sFilebuf = 0;
-        if (g_021DE65C->sCWork)
-            g_021DE65C->sCWork = 0;
+        if (gDwcMovMbpWork->sFilebuf)
+            gDwcMovMbpWork->sFilebuf = 0;
+        if (gDwcMovMbpWork->sCWork)
+            gDwcMovMbpWork->sCWork = 0;
         break;
     }
     case 13:
@@ -656,25 +537,18 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
 }
 
 
-
-
-
-
 /*
  * Store a halfword at the head of the object behind the global pointer.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D276C.c \
- *       --func func_021D276C --addr 0x021D276C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_MBP_ChangeState.c \
+ *       --func DWCi_MOV_MBP_ChangeState --addr 0x021D276C --region ov016 --cc dsi/1.1p1 --arm
  */
-void func_021D276C(unsigned short v)
+void DWCi_MOV_MBP_ChangeState(unsigned short v)
 {
-    g_021DE65C->mbpState.state = v;
+    gDwcMovMbpWork->mbpState.state = v;
 }
-
-
-
 
 
 /*
@@ -682,49 +556,43 @@ void func_021D276C(unsigned short v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021D2780.c \
- *       --func func_021D2780 --addr 0x021D2780 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_MOV_MBP_GetState.c \
+ *       --func DWCi_MOV_MBP_GetState --addr 0x021D2780 --region ov016 --cc dsi/1.1p1 --arm
  */
-unsigned short func_021D2780(void)
+unsigned short DWCi_MOV_MBP_GetState(void)
 {
-    return g_021DE65C->mbpState.state;
+    return gDwcMovMbpWork->mbpState.state;
 }
-
-
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_GetChildBmp (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-u16 func_021D2794(int bmpType)
+u16 DWCi_MOV_MBP_GetChildBmp(int bmpType)
 {
-    g_021DB9D4[0] = &g_021DE65C->mbpState.connectChildBmp;
-    g_021DB9D4[1] = &g_021DE65C->mbpState.requestChildBmp;
-    g_021DB9D4[2] = &g_021DE65C->mbpState.entryChildBmp;
-    g_021DB9D4[3] = &g_021DE65C->mbpState.downloadChildBmp;
-    g_021DB9D4[4] = &g_021DE65C->mbpState.bootableChildBmp;
-    g_021DB9D4[5] = &g_021DE65C->mbpState.rebootChildBmp;
+    sDwcMovMbpTable[0] = &gDwcMovMbpWork->mbpState.connectChildBmp;
+    sDwcMovMbpTable[1] = &gDwcMovMbpWork->mbpState.requestChildBmp;
+    sDwcMovMbpTable[2] = &gDwcMovMbpWork->mbpState.entryChildBmp;
+    sDwcMovMbpTable[3] = &gDwcMovMbpWork->mbpState.downloadChildBmp;
+    sDwcMovMbpTable[4] = &gDwcMovMbpWork->mbpState.bootableChildBmp;
+    sDwcMovMbpTable[5] = &gDwcMovMbpWork->mbpState.rebootChildBmp;
     return *g_021DB9D4_b[bmpType];
 }
-
-
 
 
 /*
  * sdk:      DWCi_MOV_MBP_GetChildState (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-ChildState func_021D27EC(u16 aid)
+ChildState DWCi_MOV_MBP_GetChildState(u16 aid)
 {
     DWCi_MOV_MBPState tmpState;
     u32 enabled;
     enabled = OS_DisableInterrupts();
-    if (!(g_021DE65C->mbpState.connectChildBmp & (u16)(1 << aid))) {
+    if (!(gDwcMovMbpWork->mbpState.connectChildBmp & (u16)(1 << aid))) {
         OS_RestoreInterrupts(enabled);
         return CS_NONE;
     }
-    MI_CpuCopy8(&g_021DE65C->mbpState, &tmpState, sizeof(DWCi_MOV_MBPState));
+    MI_CpuCopy8(&gDwcMovMbpWork->mbpState, &tmpState, sizeof(DWCi_MOV_MBPState));
     OS_RestoreInterrupts(enabled);
     if (tmpState.requestChildBmp & (u16)(1 << aid))
         return CS_REQUEST;
@@ -740,14 +608,13 @@ ChildState func_021D27EC(u16 aid)
 }
 
 
-
 /*
  * sdk:      DWCi_MOV_MBP_GetChildInfo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-DWCi_MOV_MBPChildInfo *func_021D28B4(u16 child_aid)
+DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid)
 {
-    if (g_021DE65C->mbpState.connectChildBmp & (1 << child_aid))
-        return &g_021DE65C->childInfo[child_aid - 1];
+    if (gDwcMovMbpWork->mbpState.connectChildBmp & (1 << child_aid))
+        return &gDwcMovMbpWork->childInfo[child_aid - 1];
     return 0;
 }
 
@@ -762,12 +629,12 @@ static inline int cmpmac(u8 *a, u8 *b)
 /*
  * sdk:      DWCi_MOV_MBP_GetPlayerNo (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  */
-u16 func_021D28E4(u8 *macAddress)
+u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress)
 {
     u16 i;
     for (i = 1; i < 2; i++) {
-        if ((g_021DE65C->mbpState.connectChildBmp & (1 << i)) && cmpmac(macAddress, g_021DE65C->childInfo[i - 1].macAddress))
-            return g_021DE65C->childInfo[i - 1].playerNo;
+        if ((gDwcMovMbpWork->mbpState.connectChildBmp & (1 << i)) && cmpmac(macAddress, gDwcMovMbpWork->childInfo[i - 1].macAddress))
+            return gDwcMovMbpWork->childInfo[i - 1].playerNo;
     }
     return 0;
 }

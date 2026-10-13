@@ -24,8 +24,8 @@
  *   VCT_AUDIO_UnlinkPending  0x021B14F8  arm  ov013
  *   VCT_AUDIO_InsertReadyPacket  0x021B1810  arm  ov013
  *   VCT_POOL_FreeFrame  0x021B2FE4  arm  ov013
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef unsigned char u8;
@@ -57,8 +57,8 @@ struct Node;
 extern u32 VCT_AUDIO_UnlinkPending(struct Node *n);
 extern int VCT_AUDIO_InsertReadyPacket(struct Node *n, u32 idx);
 extern void VCT_POOL_FreeFrame(void *p);
-extern int func_02087988(void);
-extern void func_0208799C(int);
+extern int OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(int);
 
 int VCT_AUDIO_DecodePendingFrames(void)
 {
@@ -74,7 +74,7 @@ int VCT_AUDIO_DecodePendingFrames(void)
     if (v == 0)
         return 0;
 
-    irq = func_02087988();
+    irq = OS_DisableInterrupts();
     id = v->f11;
     n = VCT_AUDIO_GetPendingCount(id);
     for (i = 0; i < n; i++) {
@@ -91,6 +91,6 @@ int VCT_AUDIO_DecodePendingFrames(void)
         if (VCT_AUDIO_InsertReadyPacket((struct Node *)q, q->f11) < 0)
             VCT_POOL_FreeFrame(q);
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return n;
 }

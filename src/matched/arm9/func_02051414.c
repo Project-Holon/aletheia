@@ -23,7 +23,7 @@
  *   func_020526A8   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
- *   func_0206DB80   0x0206DB80  arm
+ *   NNS_G3dGeFlushBuffer   0x0206DB80  arm
  *   MI_Copy36B      0x02082B60  arm
  *   MTX_Identity33_ 0x0207ADC4  arm
  *
@@ -85,7 +85,7 @@ extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_020526A8(struct Head *h, u32 a);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void NNS_G3dGlbBaseScale(VecFx32 *p);
-extern void func_0206DB80(void);
+extern void NNS_G3dGeFlushBuffer(void);
 extern void MI_Copy36B(const void *src, void *dst);
 extern void MTX_Identity33_(MtxFx33 *p);
 
@@ -109,7 +109,7 @@ void PARTICLE_DrawSystem(u8 *a0)
         }
         G3D_CAMERA_Reset((struct Light *)(((struct Obj06994 *)a0)->f20));
         G3D_SYSTEM_ApplyLookAt();
-        func_0206DB80();
+        NNS_G3dGeFlushBuffer();
     }
     func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_renderStateDrawParams);
     if (((struct Obj06994 *)a0)->f20 == 0)
@@ -117,5 +117,5 @@ void PARTICLE_DrawSystem(u8 *a0)
     G3D_SYSTEM_SetProjection((const u32 *)(&b));
     G3D_SYSTEM_SetLookAt((u8 *)(&g));
     G3D_SYSTEM_ApplyLookAt();
-    func_0206DB80();
+    NNS_G3dGeFlushBuffer();
 }

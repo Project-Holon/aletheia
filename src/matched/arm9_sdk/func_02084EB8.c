@@ -1,5 +1,5 @@
 /*
- * function: func_02084EB8
+ * function: OS_GetLockID
  * address:  0x02084EB8
  * packet:   pkt_02084EB8
  * region:   arm9
@@ -17,7 +17,7 @@
 
 typedef long s32;
 
-asm s32 func_02084EB8(void)
+asm s32 OS_GetLockID(void)
 {
     ldr     r3, =0x02FFFFB0
     ldr     r1, [r3, #0]

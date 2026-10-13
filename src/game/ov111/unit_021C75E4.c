@@ -107,7 +107,7 @@
  *   RTC_ConvertDateTimeToSecond  0x02089004  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
  *   _ll_sdiv  0x0209BE5C  arm
- *   func_0207E51C  0x0207E51C  arm
+ *   GX_LoadOBJPltt  0x0207E51C  arm
  *   func_02048A0C  0x02048A0C  arm
  *   func_02047250  0x02047250  arm
  *   func_02061CA4  0x02061CA4  arm
@@ -1559,7 +1559,7 @@ extern void sub_02008ADC(struct Sub020089A8Obj *obj, int i, int value);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 extern unsigned long long sub_02008A44(const struct Sub020089A8Obj *obj);
 extern u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i);
-extern void func_0207E51C(const void *src, int ofs, int size);
+extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 extern u32 func_02048A0C(u8 *a0, int i);
 extern Tex *func_02047250(void *p);
 extern s32_021C7EF8 func_02061CA4(void *p, u32 a, u32 b, s32_021C7EF8 size);
@@ -2398,7 +2398,7 @@ void func_021C829C(Work_021C829C *p, int idx, int k)
     if (k > 2) {
         k = 2;
     }
-    func_0207E51C((unsigned short *)p->res[k]->fC + idx * 16, idx * 32, 32);
+    GX_LoadOBJPltt((unsigned short *)p->res[k]->fC + idx * 16, idx * 32, 32);
 }
 
 

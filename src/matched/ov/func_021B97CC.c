@@ -1,5 +1,5 @@
 /*
- * function: func_021B97CC
+ * function: WIFICLUBACTOR_UpdatePickRequests
  * address:  0x021B97CC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9788  0x021B9788  thumb  ov099
+ *   WIFICLUBACTOR_UpdatePickRequest  0x021B9788  thumb  ov099
  *
  * Feeds every occupied one of the 0x30 records at +0x30 to the pair handler.
  */
@@ -23,15 +23,15 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021B9788(int a, int *b);
+extern int WIFICLUBACTOR_UpdatePickRequest(int a, int *b);
 
-void func_021B97CC(char *p)
+void WIFICLUBACTOR_UpdatePickRequests(char *p)
 {
     int i;
 
     for (i = 0; i < 0x30; i++) {
         if (*(u32 *)(p + i * 0x1C + 0x30) != 0) {
-            func_021B9788((int)p, (int *)(p + 0x30 + i * 0x1C));
+            WIFICLUBACTOR_UpdatePickRequest((int)p, (int *)(p + 0x30 + i * 0x1C));
         }
     }
 }

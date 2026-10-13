@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D5C
+ * function: WIFICLUBACTOR_ExitSpriteManager
  * address:  0x021B9D5C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -26,7 +26,7 @@ typedef int BOOL;
 
 extern void func_021C5608(u8 *p);
 
-void func_021B9D5C(char *p)
+void WIFICLUBACTOR_ExitSpriteManager(char *p)
 {
     func_021C5608(((struct Obj18154 *)p)->f590);
 }

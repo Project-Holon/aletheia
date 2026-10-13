@@ -19,7 +19,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_GetPixels 0x020437D4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_Delete 0x020437AC arm
  */
@@ -46,7 +46,7 @@ extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_02082A60(const void *, void *, int);
+extern void MIi_CpuCopy16(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Delete(struct Obj020437AC *p);
 void BTLV_GAUGE_DrawLevel(O *o, E *e)
@@ -73,15 +73,15 @@ void BTLV_GAUGE_DrawLevel(O *o, E *e)
         off += 0x38;
         addr = base;
         addr = addr + off;
-        func_02082A60(pixels, (void *)(addr + buf.w[1]), 0x60);
-        func_02082A60(pixels + 0x60, (void *)(base + 0x580 + buf.w[1]), 0x60);
+        MIi_CpuCopy16(pixels, (void *)(addr + buf.w[1]), 0x60);
+        MIi_CpuCopy16(pixels + 0x60, (void *)(base + 0x580 + buf.w[1]), 0x60);
     } else {
         base = VRAM;
         off += 0x18;
         addr = base;
         addr = addr + off;
-        func_02082A60(pixels, (void *)(addr + buf.w[1]), 0x60);
-        func_02082A60(pixels + 0x60, (void *)(base + 0x560 + buf.w[1]), 0x60);
+        MIi_CpuCopy16(pixels, (void *)(addr + buf.w[1]), 0x60);
+        MIi_CpuCopy16(pixels + 0x60, (void *)(base + 0x560 + buf.w[1]), 0x60);
     }
     STRBUF_Delete(v);
     BMP_Delete(bmp);

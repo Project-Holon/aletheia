@@ -11,9 +11,9 @@
  *
  * symbols:
  *   DAT_02734450  0x02734450  data twl
- *   func_02087988  0x02087988  arm twl
- *   func_0208799C  0x0208799C  arm twl
- *   func_02088610  0x02088610  arm twl
+ *   OS_DisableInterrupts  0x02087988  arm twl
+ *   OS_RestoreInterrupts  0x0208799C  arm twl
+ *   PXI_SendWordByFifo  0x02088610  arm twl
  */
 
 typedef unsigned int u32;
@@ -48,18 +48,18 @@ typedef struct {
 } State;
 
 extern State DAT_02734450;
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
-extern int func_02088610(u32, u32, u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
+extern int PXI_SendWordByFifo(u32, u32, u32);
 
 u32 SendCommand(u32 a0, u8 a1) {
-    u32 irq = func_02087988();
-    int r = func_02088610(0x18, ((a0 << 16) & 0xff0000) | (a1 & 0xff), 0);
+    u32 irq = OS_DisableInterrupts();
+    int r = PXI_SendWordByFifo(0x18, ((a0 << 16) & 0xff0000) | (a1 & 0xff), 0);
     if (r < 0) {
         DAT_02734450.state = 2;
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 0;
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     return 1;
 }

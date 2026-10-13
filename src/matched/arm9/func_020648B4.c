@@ -1,5 +1,5 @@
 /*
- * function: func_020648B4
+ * function: NNS_G2dGetMCWorkAreaSize
  * address:  0x020648B4
  * packet:   pkt_0206469C
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02064648    0x02064648  arm
- *   func_020648E0    0x020648E0  arm
+ *   NNS_G2dGetMCBankNumCellAnimRequired    0x02064648  arm
+ *   NNS_G2dGetMCBankNumNodesRequired    0x020648E0  arm
  */
 
 typedef unsigned char u8;
@@ -19,17 +19,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct MultiCellBank;
-extern u16 func_02064648(struct MultiCellBank *bank);
-extern u16 func_020648E0(struct MultiCellBank *bank);
+extern u16 NNS_G2dGetMCBankNumCellAnimRequired(struct MultiCellBank *bank);
+extern u16 NNS_G2dGetMCBankNumNodesRequired(struct MultiCellBank *bank);
 
-int func_020648B4(u32 a, u32 b)
+int NNS_G2dGetMCWorkAreaSize(u32 a, u32 b)
 {
     u32 v;
 
     if (b == 1) {
-        v = func_02064648((struct MultiCellBank *)a) * 0x5c;
+        v = NNS_G2dGetMCBankNumCellAnimRequired((struct MultiCellBank *)a) * 0x5c;
     } else {
-        v = func_020648E0((struct MultiCellBank *)a) << 7;
+        v = NNS_G2dGetMCBankNumNodesRequired((struct MultiCellBank *)a) << 7;
     }
     return v;
 }

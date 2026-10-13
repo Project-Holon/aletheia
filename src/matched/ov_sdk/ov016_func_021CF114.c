@@ -1,5 +1,5 @@
 /*
- * function: func_021CF114
+ * function: DWCi_SEARCHlGetApInfo
  * address:  0x021CF114
  * packet:   pkt_ov016_021CF114
  * region:   ov016
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   memcmp  0x020923F0  arm
- *   g_021DE640  0x021DE640  data
- *   g_021DA8C4  0x021DA8C4  data
+ *   gSearchWork  0x021DE640  data
+ *   sSearchZeroBssid  0x021DA8C4  data
  */
 
 typedef struct {
@@ -32,20 +32,20 @@ typedef struct {
 } MS;
 
 extern int memcmp(const void *a, const void *b, unsigned long n);
-extern MS *g_021DE640;
-extern unsigned char g_021DA8C4[6];
+extern MS *gSearchWork;
+extern unsigned char sSearchZeroBssid[6];
 
-int func_021CF114(APINFO **info)
+int DWCi_SEARCHlGetApInfo(APINFO **info)
 {
 	int num;
 	int i;
 	APINFO *ap;
 
 	num = 0;
-	ap = g_021DE640->ap;
+	ap = gSearchWork->ap;
 	*info = ap;
 	for (i = 0; i < 20; i++) {
-		if (memcmp(ap[i].essid, g_021DA8C4, 6) != 0)
+		if (memcmp(ap[i].essid, sSearchZeroBssid, 6) != 0)
 			num++;
 	}
 	return num;

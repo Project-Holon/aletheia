@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02061C0C",
+   "name": "NNS_GfdInitVramTransferTaskQueue",
    "address": "0x02061C0C",
    "kind": "game",
    "region": "arm9",

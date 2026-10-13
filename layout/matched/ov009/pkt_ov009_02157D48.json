@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157D48",
+   "name": "throw_packet",
    "address": "0x02157D48",
    "kind": "sdk",
    "region": "ov009",

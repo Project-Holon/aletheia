@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB88
+ * function: NHTTPi_CommitConnectionList
  * address:  0x021BEB88
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEAB8  0x021BEAB8  arm  ov114
+ *   NHTTPi_ControlConnectionList  0x021BEAB8  arm  ov114
  *
  *
  * Unlinks node `a` from list class 3: 0 on success, -1 when absent.
@@ -19,9 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Conn;
-extern struct Conn *func_021BEAB8(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
+extern struct Conn *NHTTPi_ControlConnectionList(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
 
-int func_021BEB88(int a, int b)
+int NHTTPi_CommitConnectionList(int a, int b)
 {
-    return -(func_021BEAB8((void *)a, (struct Conn *)b, 3) == 0);
+    return -(NHTTPi_ControlConnectionList((void *)a, (struct Conn *)b, 3) == 0);
 }

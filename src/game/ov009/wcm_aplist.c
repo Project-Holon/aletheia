@@ -20,8 +20,8 @@
  *   WCM_PointApListEx  0x02165CAC  arm  ov009
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   WCM_CompareBssID       0x021666B8  arm
- *   func_02082AC0  0x02082AC0  arm
- *   func_02082B0C  0x02082B0C  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
+ *   MIi_CpuCopyFast  0x02082B0C  arm
  *   func_02082E74  0x02082E74  arm
  *   func_02082EA4  0x02082EA4  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
@@ -49,8 +49,8 @@ extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
-extern void func_02082AC0(u32 data, void *destp, u32 size);
-extern void func_02082B0C(const void *srcp, void *destp, u32 size);
+extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
+extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
 extern int func_02082E74(const void *mem1, const void *mem2, u32 size);
 extern void func_02082EA4(const void *srcp, void *destp, u32 size);
 extern int OS_IsRunOnTwl(void);
@@ -380,8 +380,8 @@ void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
     u8 len;
 
     w = WCMi_GetSystemWork();
-    func_02082AC0(0, destBssDesc, sizeof(WMBssDesc));
-    func_02082B0C(srcBssDesc, destBssDesc, 0x40);
+    MIi_CpuClearFast(0, destBssDesc, sizeof(WMBssDesc));
+    MIi_CpuCopyFast(srcBssDesc, destBssDesc, 0x40);
     destBssDesc->elementCount = 0;
     if (w->deviceId == 1)
         destBssDesc->length = 0x20;

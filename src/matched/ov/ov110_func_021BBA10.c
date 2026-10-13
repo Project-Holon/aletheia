@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA10
+ * function: PMSIV_CATEGORY_DrawWordList
  * address: 0x021BBA10
  * packet: pkt_ov110_021BBA10
  * region: ov110
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAC4C 0x021BAC4C thumb ov110
- *   func_021BAC44 0x021BAC44 thumb ov110
- *   func_021BF814 0x021BF814 thumb ov110
- *   func_021BC78C 0x021BC78C thumb ov110
+ *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
+ *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
+ *   PMS_INPUT_GetInitialWord 0x021BF814 thumb ov110
+ *   PMSIV_BGSCROLL_Start 0x021BC78C thumb ov110
  *   STRBUF_Create 0x020457B0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -27,8 +27,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned u32;
-extern u32 func_021BAC4C(u8 *);
-extern u32 func_021BAC44(u8 *);
+extern u32 PMS_INPUT_VIEW_GetPrintQue(u8 *);
+extern u32 PMS_INPUT_VIEW_GetFont(u8 *);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
@@ -36,28 +36,28 @@ struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021BF814(u8 *p, u32 a, int b);
+extern void PMS_INPUT_GetInitialWord(u8 *p, u32 a, int b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_02040804(unsigned);
-extern void func_021BC78C(u8 *,int,int,int,int);
+extern void PMSIV_BGSCROLL_Start(u8 *,int,int,int,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021BBA10(u8 *p,unsigned n)
+void PMSIV_CATEGORY_DrawWordList(u8 *p,unsigned n)
 {
     u32 owner,font;
     void *str;
     int i,x,height,base;
-    owner=func_021BAC4C(*(u8 * *)&((struct Obj02460 *)p)->f0);
-    font=func_021BAC44(*(u8 * *)&((struct Obj02460 *)p)->f0);
+    owner=PMS_INPUT_VIEW_GetPrintQue(*(u8 * *)&((struct Obj02460 *)p)->f0);
+    font=PMS_INPUT_VIEW_GetFont(*(u8 * *)&((struct Obj02460 *)p)->f0);
     str=STRBUF_Create(15,42);
     BMP_Clear(BMP_WIN_GetBmp(((struct Obj02460 *)p)->f98),15);
     ((struct Obj02460 *)p)->f9C=((struct Obj02460 *)p)->f98;
     p[0xa0]=0;
     for(i=0;i<n;i++) {
         if(i%2==0) x=8; else x=128;
-        func_021BF814(*(u8 * *)&((struct Obj02460 *)p)->f4,i,(int)str);
+        PMS_INPUT_GetInitialWord(*(u8 * *)&((struct Obj02460 *)p)->f4,i,(int)str);
         PRINTSYS_PrintQueColor((void *)owner,(u32)BMP_WIN_GetBmp(((struct Obj02460 *)p)->f9C),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
         p[0xa0]=1;
     }
@@ -66,7 +66,7 @@ void func_021BBA10(u8 *p,unsigned n)
     height=((n+1)/2)*16+8;
     if(height>192) height=192;
     else if(height<48) height=48;
-    func_021BC78C(p+0x38,6,1,height-base,8);
+    PMSIV_BGSCROLL_Start(p+0x38,6,1,height-base,8);
     BMP_WIN_MakeScreen(((struct Obj02460 *)p)->f98);
     func_02041B6C(6);
     func_02040588(6,1);

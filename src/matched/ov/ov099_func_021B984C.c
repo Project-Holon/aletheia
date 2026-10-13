@@ -1,5 +1,5 @@
 /*
- * function: func_021B984C
+ * function: WIFICLUBACTOR_GetCursorTileBelowAttr
  * address:  0x021B984C
  * packet:   pkt_ov099_021B984C
  * region:   ov099
@@ -30,7 +30,7 @@ extern Pos func_021C4AC4(void *v);
 typedef unsigned char  u8;
 extern u32 func_021C4864(u8 *p, u16 x, u16 y);
 
-void func_021B984C(Work *w)
+void WIFICLUBACTOR_GetCursorTileBelowAttr(Work *w)
 {
     Pos b = func_021C4AC4(*w->f570);
 

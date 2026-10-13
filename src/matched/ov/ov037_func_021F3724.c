@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK_INIT_SetGimmick42Flags
+ * function: GIMMICK_INIT_SetButtonStatesFlags
  * address:  0x021F3724
  * packet:   pkt_ov037_021F3724
  * region:   ov037
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 
-void GIMMICK_INIT_SetGimmick42Flags(unsigned int a0, int a1)
+void GIMMICK_INIT_SetButtonStatesFlags(unsigned int a0, int a1)
 {
     unsigned char *p = (unsigned char *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)a0)), 4);
     unsigned char i;

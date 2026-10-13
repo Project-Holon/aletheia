@@ -44,7 +44,7 @@
  *   func_020306F0 0x020306F0 arm
  *   func_0204363C 0x0204363C arm
  *   func_0208068C 0x0208068C arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02049B40 0x02049B40 arm
@@ -193,7 +193,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_0204363C(u32);
 extern void func_0208068C(u32);
-extern void func_02082AC0(u32,u32,u32);
+extern void MIi_CpuClearFast(u32,u32,u32);
 extern void func_02080B98(void);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
@@ -379,7 +379,7 @@ int func_021B9864(void *p)
     return 1;
 }
 
-void func_021B9874(char *p, const char *a1) { func_0204363C(1);func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();func_021B9970(*(u16 *)p);*(struct GfFont **)(p+0x10)=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)(p+0x14)=func_02045B38(0,2,*(u16 *)(p+2),*(u16 *)p);*(struct WordSet **)(p+0x18)=func_0201EC64(*(u16 *)p);func_0201F5BC(0,1,12,0,*(u16 *)p);*(u32 *)(p+0x1c)=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)(p+0x24)=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)(p+12)=STRBUF_Create(1024,*(u16 *)p); }
+void func_021B9874(char *p, const char *a1) { func_0204363C(1);func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();func_021B9970(*(u16 *)p);*(struct GfFont **)(p+0x10)=GF_FONT_Create(23,0,0,0,*(u16 *)p);func_02049B40(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)(p+0x14)=func_02045B38(0,2,*(u16 *)(p+2),*(u16 *)p);*(struct WordSet **)(p+0x18)=func_0201EC64(*(u16 *)p);func_0201F5BC(0,1,12,0,*(u16 *)p);*(u32 *)(p+0x1c)=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)(p+0x24)=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)(p+12)=STRBUF_Create(1024,*(u16 *)p); }
 
 void func_021B9928(char *p)
 {
@@ -470,7 +470,7 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
     keys=KEY_GetTrg();
     switch(*state){
     case 0:
-        func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();
+        func_0208068C(511);MIi_CpuClearFast(0,0x6800000,0xa4000);func_02080B98();
         func_021B9D58(((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->f18=GF_FONT_Create(23,0,0,0,((struct Obj01293 *)p)->f0);
         ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);

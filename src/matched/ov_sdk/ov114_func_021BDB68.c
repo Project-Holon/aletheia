@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB68
+ * function: NHTTPi_ThreadRecvHeaderProc
  * address:  0x021BDB68
  * packet:   pkt_ov114_021BDB68
  * region:   ov114
@@ -12,15 +12,15 @@
  * sdk:      NHTTPi_ThreadRecvHeaderProc (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:
- *   func_021BEF08  0x021BEF08  arm  ov114
- *   func_021BEF48  0x021BEF48  arm  ov114
- *   func_021BEF58  0x021BEF58  arm  ov114
- *   func_021BEBE0  0x021BEBE0  arm  ov114
- *   func_021BEF3C  0x021BEF3C  arm  ov114
- *   func_021BA13C  0x021BA13C  arm  ov114
- *   func_021B9F94  0x021B9F94  arm  ov114
- *   func_021BA820  0x021BA820  arm  ov114
- *   func_021BBEC0  0x021BBEC0  arm  ov114
+ *   NHTTPi_GetSystemInfoP  0x021BEF08  arm  ov114
+ *   NHTTPi_GetReqInfoP  0x021BEF48  arm  ov114
+ *   NHTTPi_GetMutexInfoP  0x021BEF58  arm  ov114
+ *   NHTTPi_Request2Connection  0x021BEBE0  arm  ov114
+ *   NHTTPi_GetBgnEndInfoP  0x021BEF3C  arm  ov114
+ *   NHTTPi_memclr  0x021BA13C  arm  ov114
+ *   NHTTPi_SocRecv  0x021B9F94  arm  ov114
+ *   NHTTPi_alloc  0x021BA820  arm  ov114
+ *   NHTTPi_CheckHeaderEnd  0x021BBEC0  arm  ov114
  *   memset         0x020923B0  arm
  *
  * note: NHTTPRes.headerLen is declared volatile. The object stores headerLen and
@@ -79,18 +79,18 @@ typedef struct _NHTTPThreadData {
     int result;                         /* +0x330 */
 } NHTTPThreadData;
 
-extern NHTTPSysInfo *func_021BEF08(void);
-extern NHTTPReqInfo *func_021BEF48();
-extern NHTTPMutexInfo *func_021BEF58();
-extern NHTTPConnection *func_021BEBE0(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern NHTTPBgnEndInfo *func_021BEF3C();
-extern void func_021BA13C(void *p_p, int size);
-extern int func_021B9F94(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket,
+extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
+extern NHTTPReqInfo *NHTTPi_GetReqInfoP();
+extern NHTTPMutexInfo *NHTTPi_GetMutexInfoP();
+extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
+extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP();
+extern void NHTTPi_memclr(void *p_p, int size);
+extern int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket,
                          char *buf_p, int len, int flags);
-extern void *func_021BA820(unsigned long size, int align);
-extern int func_021BBEC0(char *buf_p, int bufwp);
+extern void *NHTTPi_alloc(unsigned long size, int align);
+extern int NHTTPi_CheckHeaderEnd(char *buf_p, int bufwp);
 
-static int func_021BDB68(NHTTPThreadData *threadData_p)
+static int NHTTPi_ThreadRecvHeaderProc(NHTTPThreadData *threadData_p)
 {
     NHTTPSysInfo *sysInfo_p;
     NHTTPReqInfo *reqInfo_p;
@@ -104,18 +104,18 @@ static int func_021BDB68(NHTTPThreadData *threadData_p)
     NHTTPi_HDRBUFLIST *headerBuf_p;
     int wp;
 
-    sysInfo_p = func_021BEF08();
-    reqInfo_p = func_021BEF48();
+    sysInfo_p = NHTTPi_GetSystemInfoP();
+    reqInfo_p = NHTTPi_GetReqInfoP();
     req_p = reqInfo_p->reqCurrent->req_p;
     res_p = req_p->res_p;
-    mutexInfo_p = func_021BEF58(sysInfo_p);
-    connection_p = func_021BEBE0(mutexInfo_p, req_p);
-    bgnEndInfo_p = func_021BEF3C(sysInfo_p);
+    mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
+    connection_p = NHTTPi_Request2Connection(mutexInfo_p, req_p);
+    bgnEndInfo_p = NHTTPi_GetBgnEndInfoP(sysInfo_p);
     memset(tmpBuf, 0, 4);
     if (connection_p)
         connection_p->status = 3;
     res_p->headerLen = 0;
-    func_021BA13C(threadData_p->tmpHeaderBuf, 14);
+    NHTTPi_memclr(threadData_p->tmpHeaderBuf, 14);
     headerBuf_p = res_p->hdrBufBlock_p;
     threadData_p->recvBufwp = 0;
 
@@ -123,16 +123,16 @@ static int func_021BDB68(NHTTPThreadData *threadData_p)
         if (req_p->doCancel)
             return 0;
         if (threadData_p->recvBufwp < 0x400) {
-            recvbyte = func_021B9F94(mutexInfo_p, req_p, bgnEndInfo_p->socket,
+            recvbyte = NHTTPi_SocRecv(mutexInfo_p, req_p, bgnEndInfo_p->socket,
                                      res_p->hdrBufFirst + threadData_p->recvBufwp, 1, 0);
             tmpBuf[threadData_p->recvBufwp & 3] = res_p->hdrBufFirst[threadData_p->recvBufwp];
         } else {
             wp = threadData_p->recvBufwp & 0x1ff;
             if (wp == 0) {
                 if (headerBuf_p) {
-                    headerBuf_p = headerBuf_p->next_p = func_021BA820(0x204, 4);
+                    headerBuf_p = headerBuf_p->next_p = NHTTPi_alloc(0x204, 4);
                 } else {
-                    headerBuf_p = func_021BA820(0x204, 4);
+                    headerBuf_p = NHTTPi_alloc(0x204, 4);
                     res_p->hdrBufBlock_p = headerBuf_p;
                 }
                 if (headerBuf_p == 0) {
@@ -141,7 +141,7 @@ static int func_021BDB68(NHTTPThreadData *threadData_p)
                 }
                 headerBuf_p->next_p = 0;
             }
-            recvbyte = func_021B9F94(mutexInfo_p, req_p, bgnEndInfo_p->socket,
+            recvbyte = NHTTPi_SocRecv(mutexInfo_p, req_p, bgnEndInfo_p->socket,
                                      headerBuf_p->block + wp, 1, 0);
             tmpBuf[threadData_p->recvBufwp & 3] = headerBuf_p->block[wp];
         }
@@ -150,7 +150,7 @@ static int func_021BDB68(NHTTPThreadData *threadData_p)
             return 0;
         }
         threadData_p->recvBufwp += recvbyte;
-        if (func_021BBEC0(tmpBuf, threadData_p->recvBufwp))
+        if (NHTTPi_CheckHeaderEnd(tmpBuf, threadData_p->recvBufwp))
             break;
     }
     res_p->headerLen = threadData_p->recvBufwp;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D24
+ * function: IRC_RHYTHM_GetActorUnit
  * address:  0x021B7D24
  * packet:   pkt_ov104_021B7D24
  * region:   ov104
@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021B7D24(u32 *p)
+u32 IRC_RHYTHM_GetActorUnit(u32 *p)
 {
     return *p;
 }

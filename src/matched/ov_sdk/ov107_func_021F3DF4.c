@@ -12,25 +12,25 @@
  * sdk:      MBi_ReadIconInfo (libmb.TWL.HYB.a(mb_gameinfo.o))
  *
  * symbols:
- *   func_020788AC  0x020788AC  arm
+ *   FS_InitFile  0x020788AC  arm
  *   func_020789FC  0x020789FC  arm
  *   func_02078A94  0x02078A94  arm
- *   func_02078A80  0x02078A80  arm
- *   func_02078B70  0x02078B70  arm
+ *   FS_CloseFile  0x02078A80  arm
+ *   FS_ReadFile  0x02078B70  arm
  */
 
 typedef struct {
     unsigned char b[0x48];
 } FSFile;
 
-extern void func_020788AC(FSFile *file);
+extern void FS_InitFile(FSFile *file);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct FSFile;
 extern int func_020789FC(struct FSFile *file, const char *path, u32 mode);
 extern u32 func_02078A94(struct FSFile *file);
-extern int func_02078A80(FSFile *file);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern int FS_CloseFile(FSFile *file);
+extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 
 int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
 {
@@ -45,14 +45,14 @@ int func_021F3DF4(char *filePathp, unsigned char *iconp, int char_flag)
         iconp += 0x20;
     if (filePathp == 0)
         return 0;
-    func_020788AC(&file);
+    FS_InitFile(&file);
     if (!func_020789FC((struct FSFile *)(&file), filePathp, 1))
         return 0;
     if (size != func_02078A94((struct FSFile *)(&file))) {
-        func_02078A80(&file);
+        FS_CloseFile(&file);
         return 0;
     }
-    func_02078B70((struct FSFile *)(&file), iconp, size);
-    func_02078A80(&file);
+    FS_ReadFile((struct FSFile *)(&file), iconp, size);
+    FS_CloseFile(&file);
     return 1;
 }

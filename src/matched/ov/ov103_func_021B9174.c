@@ -1,5 +1,5 @@
 /*
- * function: func_021B9174
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ExitTrail
  * address: 0x021B9174
  * packet: pkt_ov103_021B9174
  * region: ov103
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MI_CpuFill8(void *,int,int);
-void func_021B9174(void *p) { MI_CpuFill8(p,0,0x590); }
+void IRC_COMPATIBLE_TOUCH_TEST_ExitTrail(void *p) { MI_CpuFill8(p,0,0x590); }

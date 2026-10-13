@@ -23,8 +23,8 @@
  * pointer parameters is neutral.
  *
  * symbols:
- *   tbl_020A17D8   0x020A17D8  data
- *   tbl_020A17F0   0x020A17F0  data
+ *   NNSi_objSizeHTbl   0x020A17D8  data
+ *   NNSi_objSizeWTbl   0x020A17F0  data
  *   CLACT_IsRectInView  0x0204C3CC  arm
  */
 typedef unsigned char u8;
@@ -66,8 +66,8 @@ struct Box {
     s32 f14;
 };
 
-extern const u16 tbl_020A17D8[4][4];
-extern const u16 tbl_020A17F0[4][4];
+extern const u16 NNSi_objSizeHTbl[4][4];
+extern const u16 NNSi_objSizeWTbl[4][4];
 
 struct C;
 struct M;
@@ -88,12 +88,12 @@ static inline s32 RepeatY(s16 y)
 }
 static inline u16 SizeX(s32 shape)
 {
-    return tbl_020A17F0[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+    return NNSi_objSizeWTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
 static inline u16 SizeY(s32 shape)
 {
-    return tbl_020A17D8[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+    return NNSi_objSizeHTbl[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
 }
 
 void CLACT_CullOam(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box)

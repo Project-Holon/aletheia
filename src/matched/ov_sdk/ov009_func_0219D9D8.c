@@ -1,5 +1,5 @@
 /*
- * function: func_0219D9D8
+ * function: ParseSingleQR2Reply
  * address:  0x0219D9D8
  * packet:   pkt_ov009_0219D9D8
  * region:   ov009
@@ -15,8 +15,8 @@
  *   g_021A7C90  0x021A7C90  data
  *   g_021A8104  0x021A8104  data
  *   func_020964E0  0x020964E0  arm
- *   func_0219D544  0x0219D544  arm  ov009
- *   func_0219D5C4  0x0219D5C4  arm  ov009
+ *   FIFORemove  0x0219D544  arm  ov009
+ *   QEStartQuery  0x0219D5C4  arm  ov009
  *   func_0219F978  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
@@ -69,8 +69,8 @@ extern char g_021A8104[];
 
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
-extern void func_0219D544(_SBServerFIFO *fifo, _SBServer *server);
-extern void func_0219D5C4(_SBQueryEngine *engine, _SBServer *server);
+extern void FIFORemove(_SBServerFIFO *fifo, _SBServer *server);
+extern void QEStartQuery(_SBQueryEngine *engine, _SBServer *server);
 extern int func_0219F978(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
@@ -80,7 +80,7 @@ extern void func_0219E5B8(_SBServer *server, char *data, int len);
 extern void func_0219E3CC(_SBServer *server, char *data, int len);
 extern unsigned int func_0217F264(void);
 
-void func_0219D9D8(_SBQueryEngine *engine, _SBServer *server, char *data, int len)
+void ParseSingleQR2Reply(_SBQueryEngine *engine, _SBServer *server, char *data, int len)
 {
     int i;
     int dlen;
@@ -93,8 +93,8 @@ void func_0219D9D8(_SBQueryEngine *engine, _SBServer *server, char *data, int le
         server->state &= (unsigned char)~0x80;
         if (len > 0) {
             server->querychallenge = (unsigned int)func_020964E0((u32)data);
-            func_0219D544(&engine->querylist, server);
-            func_0219D5C4(engine, server);
+            FIFORemove(&engine->querylist, server);
+            QEStartQuery(engine, server);
             engine->ListCallback(engine, 3, server, engine->instance);
             return;
         }
@@ -122,6 +122,6 @@ void func_0219D9D8(_SBQueryEngine *engine, _SBServer *server, char *data, int le
     }
     server->state &= (unsigned char)~(0x04 | 0x08);
     server->updatetime = func_0217F264() - server->updatetime;
-    func_0219D544(&engine->querylist, server);
+    FIFORemove(&engine->querylist, server);
     engine->ListCallback(engine, 0, server, engine->instance);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0689CC14
+ * function: BTL_POKESET_Remove
  * address:  0x0689CC14
  * packet:   pkt_ov095_0689CC14
  * region:   ov095
@@ -26,7 +26,7 @@ typedef struct {
     u8 f45;
 } S;
 
-void func_0689CC14(S *p, u32 id)
+void BTL_POKESET_Remove(S *p, u32 id)
 {
     u32 i;
     u32 j;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BC0
+ * function: IRC_COMPATIBLE_MENU_ExitSprites
  * address: 0x021B7BC0
  * packet: pkt_ov102_021B7BC0
  * region: ov102
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *,int,unsigned);
-void func_021B7BC0(void *p) {
+void IRC_COMPATIBLE_MENU_ExitSprites(void *p) {
  int i;
  for(i=0;i<32;i++) {
   if(*(void **)((char *)p+16+i*4)) CLACT_DeleteActor(*(void **)((char *)p+16+i*4));

@@ -10,7 +10,7 @@
  * symbols:
  *   func_02008FEC 0x02008FEC thumb
  *   func_02030734 0x02030734 arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MAIL_Create 0x02008F08 thumb
  *   func_02008EAC 0x02008EAC thumb
@@ -28,7 +28,7 @@ struct Big;
 struct Sub02008EACObj;
 struct Sub02008EACObjLayout;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02082AC0(unsigned, void *, unsigned);
+extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MAIL_Create(int a0);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
@@ -39,7 +39,7 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
     unsigned v;
     v = (unsigned int)func_02008FEC(a);
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
-    func_02082AC0(0, p, 0x1C);
+    MIi_CpuClearFast(0, p, 0x1C);
     p[0xF] = d;
     p[0xE] = c;
     ((struct Obj01163 *)p)->f18 = v;

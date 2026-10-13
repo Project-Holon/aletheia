@@ -1,5 +1,5 @@
 /*
- * function: func_021C2050
+ * function: WIFICLUB_GetSlotState
  * address:  0x021C2050
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-u8 func_021C2050(char *p, int i)
+u8 WIFICLUB_GetSlotState(char *p, int i)
 {
     return *(u8 *)(p + i + 0x8CB);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6DC
+ * function: WIFICLUBACTOR_TickBlinkScript
  * address:  0x021BA6DC
  * packet:   pkt_ov099_021BA6DC
  * region:   ov099
@@ -13,8 +13,8 @@
  * decides how the pool loads and ldrb group.
  *
  * symbols:
- *   func_021BA764  0x021BA764  thumb  ov099
- *   func_021BA770  0x021BA770  thumb  ov099
+ *   WIFICLUBACTOR_GetBlinkColors  0x021BA764  thumb  ov099
+ *   WIFICLUBACTOR_EndBlinkScript  0x021BA770  thumb  ov099
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C287C     0x021C287C  data  ov099  a1
  */
@@ -36,13 +36,13 @@ typedef struct {
 } E;
 
 extern const E d_021C287C[];
-extern u16 *func_021BA764(S *s, int i);
-extern void func_021BA770(S *s);
+extern u16 *WIFICLUBACTOR_GetBlinkColors(S *s, int i);
+extern void WIFICLUBACTOR_EndBlinkScript(S *s);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021BA6DC(S *s)
+void WIFICLUBACTOR_TickBlinkScript(S *s)
 {
     int a = 0;
     int b = 0;
@@ -60,7 +60,7 @@ void func_021BA6DC(S *s)
     if (c != 0) {
         s->fd = s->fd + 1;
         if (s->fd >= 8) {
-            func_021BA770(s);
+            WIFICLUBACTOR_EndBlinkScript(s);
             return;
         }
         s->fe = d_021C287C[s->fd].b;
@@ -68,6 +68,6 @@ void func_021BA6DC(S *s)
         b = d_021C287C[s->fd].d;
     }
     if (a != 0) {
-        func_02061CA4((void *)0xf, (s->fc + 1) * 2 + 0xe0, (u32)func_021BA764(s, b), 2);
+        func_02061CA4((void *)0xf, (s->fc + 1) * 2 + 0xe0, (u32)WIFICLUBACTOR_GetBlinkColors(s, b), 2);
     }
 }

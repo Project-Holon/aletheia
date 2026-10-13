@@ -12,15 +12,15 @@
  * sdk:      intrVBlank (libdwcutil.TWL.HYB.a interrupt.o)
  *
  * symbols:
- *   func_021D75D0  0x021D75D0  arm  ov016
- *   g_02FE0000     0x02FE0000  data
+ *   DWCi_TSKlAct  0x021D75D0  arm  ov016
+ *   sInterruptTable     0x02FE0000  data
  */
 
-extern void func_021D75D0(int kind);
-extern int g_02FE0000;
+extern void DWCi_TSKlAct(int kind);
+extern int sInterruptTable;
 
 void func_021D6D1C(void)
 {
-    func_021D75D0(1);
-    *(volatile unsigned int *)((unsigned int)&g_02FE0000 + 0x3FF8) |= 1;
+    DWCi_TSKlAct(1);
+    *(volatile unsigned int *)((unsigned int)&sInterruptTable + 0x3FF8) |= 1;
 }

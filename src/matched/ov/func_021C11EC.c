@@ -11,8 +11,9 @@
  *
  * symbols:
  *   DWCi_MOVlAdmitChild   0x021C11EC  arm
+ *   DWCi_MOVStartDownloadandBootChild  0x021D3D8C  arm
  *
- * ARM tail-call thunk into func_021D3D8C.
+ * ARM tail-call thunk into DWCi_MOVStartDownloadandBootChild.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,9 +21,9 @@
  *       --func DWCi_MOVlAdmitChild --addr 0x021C11EC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D3D8C(void);
+extern int DWCi_MOVStartDownloadandBootChild(void);
 
 void DWCi_MOVlAdmitChild(void)
 {
-    func_021D3D8C();
+    DWCi_MOVStartDownloadandBootChild();
 }

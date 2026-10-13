@@ -1,5 +1,5 @@
 /*
- * function: NNS_SndHandleSetSweep
+ * function: NNSi_SndHandleSetSeqArc
  * address:  0x020730DC
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -12,7 +12,7 @@
  * Three statements that each re-read o->p, so `volatile` on the pointer field
  *  * is load-bearing here too: it is what keeps the three loads. The three
  *  * statements also keep the early `bxeq lr`; the two-statement sibling
- *  * func_020730B8, byte for byte otherwise, is if-converted instead (see
+ *  * NNSi_SndHandleSetSeqNo, byte for byte otherwise, is if-converted instead (see
  *  * docs/notes/pkt_02072EA8.c.txt).
  */
 
@@ -29,7 +29,7 @@ struct Sub {
 };
 struct Obj { struct Sub * volatile p; };
 
-void NNS_SndHandleSetSweep(struct Obj *o, u32 a, u32 b)
+void NNSi_SndHandleSetSeqArc(struct Obj *o, u32 a, u32 b)
 {
     if (o->p == 0) return;
     o->p->h34 = 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_0689BB7C
+ * function: BTL_SICK_RecoverHpIngrain
  * address:  0x0689BB7C
  * packet:   pkt_ov095_0689BB7C
  * region:   ov095
@@ -36,7 +36,7 @@ extern void func_0689BC00(void *, int, int);
 extern void func_0689BC10(void *, int);
 extern void func_0689BC20(void *, void *);
 
-void func_0689BB7C(void *a, void *b, int c)
+void BTL_SICK_RecoverHpIngrain(void *a, void *b, int c)
 {
     Rec *r;
 

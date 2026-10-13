@@ -12,7 +12,7 @@
  * Levers (from the DIFF note): case 0 is the call written in each arm, `!= 4` arm first
  * (a-boolean-argument-is-a-call-in-each-arm.md; a flag value hoists `movs r1,#1`);
  * func_021F84E8 takes two arguments as its own file says, the second being the 0xe4
- * halfword still live in r1 from the || test; func_021D3FA8 is declared u32 here because
+ * halfword still live in r1 from the || test; BTL_CLIENT_GetCounterTarget is declared u32 here because
  * the original narrows its result before the u16 parameter of BTLV_CORE_ShowCounterValue.
  *
  * symbols:
@@ -25,7 +25,7 @@
  *   func_021F8504  0x021F8504  thumb  ov094
  *   BTL_CLIENT_StoreMonParam  0x021CDECC  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021D3FA8  0x021D3FA8  thumb  ov093
+ *   BTL_CLIENT_GetCounterTarget  0x021D3FA8  thumb  ov093
  *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  */
 #include "../include/Obj01689.h"
@@ -43,7 +43,7 @@ extern void func_021F84E8(int a, int b);
 extern void func_021F8504(u32 a, u32 b, u32 c);
 extern void BTL_CLIENT_StoreMonParam(u8 *p);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern u16 func_021D3FA8(u8 *p);
+extern u16 BTL_CLIENT_GetCounterTarget(u8 *p);
 extern void BTLV_CORE_ShowCounterValue(u8 *p, int v);
 
 int BTL_CLIENT_StepOpenBattleWindow(u8 *p, int *st)
@@ -71,7 +71,7 @@ int BTL_CLIENT_StepOpenBattleWindow(u8 *p, int *st)
         }
         BTL_CLIENT_StoreMonParam(p);
         if (BTL_CLIENT_IsMainStepActive(p) != 0) {
-            BTLV_CORE_ShowCounterValue(((struct Obj01689 *)p)->f54, (u16)((u32)func_021D3FA8(p + 0x18)));
+            BTLV_CORE_ShowCounterValue(((struct Obj01689 *)p)->f54, (u16)((u32)BTL_CLIENT_GetCounterTarget(p + 0x18)));
         }
         return 1;
     }

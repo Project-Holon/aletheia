@@ -2,7 +2,8 @@
 #define UNIT_06898F04_TYPES_H
 /*
  * ov095 side effect handlers (factor type 2): Safeguard, Mist, Tailwind, Lucky
- * Chant, Stealth Rock, Wide Guard and Quick Guard. Each effect has a getter that
+ * Chant, Stealth Rock, Wide Guard, Quick Guard, Spikes, Toxic Spikes and the
+ * three Pledge combinations (Rainbow, Swamp, Sea of Fire). Each effect has a getter that
  * stores the handler count and returns its handler table (event id plus
  * function). The owner id of a side effect factor is the side it protects, so
  * the third handler argument is a side, not a Pokemon id.
@@ -38,7 +39,9 @@ enum {
     BTL_MSG_MIST_BLOCKED = 0x34A,
     BTL_MSG_WIDE_GUARD_BLOCKED = 0x31D,
     BTL_MSG_QUICK_GUARD_BLOCKED = 0x320,
-    BTL_MSG_STEALTH_ROCK_HURT = 0x356
+    BTL_MSG_STEALTH_ROCK_HURT = 0x356,
+    BTL_MSG_SPIKES_HURT = 0x353,
+    BTL_MSG_SEA_OF_FIRE_HURT = 0x484
 };
 
 /* Move data fields (WAZA_TOOL_GetParam). */
@@ -64,6 +67,36 @@ enum {
 
 /* Record kind 7: hurt one Pokemon, then show a message. */
 #define HANDEX_KIND_DAMAGE 7
+
+/* Record kind 12 (HandExAddSick) and 0x1a (remove a side effect), kind 0x37 (play an effect). */
+#define HANDEX_KIND_REMOVE_SIDE_EFFECT 0x1A
+#define HANDEX_KIND_PLAY_EFFECT 0x37
+#define HAND_SIDE_EFFECT_ID_TOXIC_SPIKES 3
+#define HAND_RATIO_QUARTER 0x400
+#define BTL_SICK_POISON 5
+
+/* HANDEX_KIND_REMOVE_SIDE_EFFECT: end a side effect (the layers byte is rebuilt by an inline helper). */
+typedef struct HandExRemoveSideEffect {
+    u32 header;
+    u8 effectCont[3];
+    u8 side;
+} HandExRemoveSideEffect;
+
+/* HANDEX_KIND_PLAY_EFFECT: play a battle animation on a Pokemon, then show a message. */
+typedef struct HandExPlayEffect {
+    u32 header;
+    u16 effectId;
+    u8 viewPos;
+    u8 mode;
+} HandExPlayEffect;
+
+extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlSvFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlSvFlow *flow, u8 pokeId);
+extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlSvFlow *flow, int pokeId);
+extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int typeId);
+extern u32 BTLV_CORE_MakeSlotKind1Empty(void);
+extern u32 BTLV_CORE_MakeSlotKind1Index15(void);
+extern int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
 
 extern u8 BTL_MAIN_IsPokeIdInSecondPair(u32 pokeId);
 extern int BTL_CALC_HasDefaultSickCont(int sickIndex);

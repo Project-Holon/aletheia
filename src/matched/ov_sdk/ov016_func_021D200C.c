@@ -1,5 +1,5 @@
 /*
- * function: func_021D200C
+ * function: DWCi_MOV_MBP_KickChild
  * address:  0x021D200C
  * packet:   pkt_ov016_021D200C
  * region:   ov016
@@ -16,7 +16,7 @@
  *   OS_DisableInterrupts             0x02087988  arm
  *   OS_RestoreInterrupts             0x0208799C  arm
  *   MB_DisconnectChild               0x021F5FB0  arm
- *   g_021DE65C                       0x021DE65C  data
+ *   gDwcMovMbpWork                       0x021DE65C  data
  */
 
 typedef unsigned short u16;
@@ -36,30 +36,30 @@ typedef struct {
     MBPState mbpState;
 } Wb;
 
-extern Wb *g_021DE65C;
+extern Wb *gDwcMovMbpWork;
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern int MB_CommResponseRequest(u16 child_aid, int ack);
 extern void MB_DisconnectChild(u16 aid);
 
-void func_021D200C(u16 child_aid)
+void DWCi_MOV_MBP_KickChild(u16 child_aid)
 {
     u32 enabled;
     if (!MB_CommResponseRequest(child_aid, 0)) {
         u16 mask = ~(1 << child_aid);
         enabled = OS_DisableInterrupts();
-        g_021DE65C->mbpState.connectChildBmp &= mask;
-        g_021DE65C->mbpState.requestChildBmp &= mask;
-        g_021DE65C->mbpState.entryChildBmp &= mask;
-        g_021DE65C->mbpState.downloadChildBmp &= mask;
-        g_021DE65C->mbpState.bootableChildBmp &= mask;
-        g_021DE65C->mbpState.rebootChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.connectChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.requestChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.entryChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.downloadChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.bootableChildBmp &= mask;
+        gDwcMovMbpWork->mbpState.rebootChildBmp &= mask;
         OS_RestoreInterrupts(enabled);
         MB_DisconnectChild(child_aid);
         return;
     }
     enabled = OS_DisableInterrupts();
-    g_021DE65C->mbpState.requestChildBmp &= (u16)~(1 << child_aid);
-    g_021DE65C->mbpState.connectChildBmp &= (u16)~(1 << child_aid);
+    gDwcMovMbpWork->mbpState.requestChildBmp &= (u16)~(1 << child_aid);
+    gDwcMovMbpWork->mbpState.connectChildBmp &= (u16)~(1 << child_aid);
     OS_RestoreInterrupts(enabled);
 }

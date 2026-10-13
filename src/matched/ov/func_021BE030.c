@@ -1,5 +1,5 @@
 /*
- * function: func_021BE030
+ * function: WIFICLUB_InitVram
  * address:  0x021BE030
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -28,7 +28,7 @@ struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern u8 data_021C3AA0[];
 
-void func_021BE030(void)
+void WIFICLUB_InitVram(void)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)data_021C3AA0);
 }

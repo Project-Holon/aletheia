@@ -1,5 +1,5 @@
 /*
- * function: func_021DFF78
+ * function: sciReportSetPlayerConnectionId
  * address:  0x021DFF78
  * packet:   pkt_ov175_021DFF78
  * region:   ov175
@@ -15,7 +15,7 @@
  *           the one-expression form swaps the buffer and offset registers.
  *
  * symbols:
- *   func_021E05AC  0x021E05AC  arm  ov175
+ *   sciSerializeGUID  0x021E05AC  arm  ov175
  */
 
 struct SCIReport {
@@ -23,14 +23,14 @@ struct SCIReport {
     unsigned char *buffer;
 };
 
-extern unsigned char *func_021E05AC(unsigned char *cursor, unsigned char *guid);
+extern unsigned char *sciSerializeGUID(unsigned char *cursor, unsigned char *guid);
 
-int func_021DFF78(struct SCIReport *report, unsigned int index, unsigned char *connectionId)
+int sciReportSetPlayerConnectionId(struct SCIReport *report, unsigned int index, unsigned char *connectionId)
 {
     unsigned int off;
 
     off = 0x44;
     off += index * 20;
-    func_021E05AC(report->buffer + off, connectionId);
+    sciSerializeGUID(report->buffer + off, connectionId);
     return 0;
 }

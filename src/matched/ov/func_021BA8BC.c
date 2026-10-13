@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8BC
+ * function: WIFICLUB_DeleteWindow
  * address:  0x021BA8BC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -27,7 +27,7 @@ struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-int func_021BA8BC(void *p)
+int WIFICLUB_DeleteWindow(void *p)
 {
     if (p != 0) {
         func_0201F7A8(p, 0);

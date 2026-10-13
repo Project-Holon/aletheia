@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC34
+ * function: WIFICLUB_CreatePartyIcons
  * address: 0x021BBC34
  * packet: pkt_ov099_021BBC34
  * region: ov099
@@ -36,7 +36,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j
 extern int POKE_TOOL_GetIconPalette(void *);
 struct Obj;
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-void func_021BBC34(char *p, void *a, int k, u32 o)
+void WIFICLUB_CreatePartyIcons(char *p, void *a, int k, u32 o)
 {
     int i,n;
     char *base,*dst;

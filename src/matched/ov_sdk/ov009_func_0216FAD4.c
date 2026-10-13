@@ -1,5 +1,5 @@
 /*
- * function: func_0216FAD4
+ * function: DWCi_GetDefaultMatchFilter
  * address:  0x0216FAD4
  * packet:   pkt_ov009_0216FAD4
  * region:   ov009
@@ -36,7 +36,7 @@ extern char g_021A217C[];
 extern char g_021A2108[];
 extern char g_021A2164[];
 
-int func_0216FAD4(char *filter, int profileID, unsigned char numEntry, unsigned char matchType,
+int DWCi_GetDefaultMatchFilter(char *filter, int profileID, unsigned char numEntry, unsigned char matchType,
                   unsigned char hostState)
 {
     char tempFilter[511];

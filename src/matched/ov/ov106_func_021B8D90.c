@@ -1,5 +1,5 @@
 /*
- * function: func_021B8D90
+ * function: IRC_RANKING_InputInit
  * address:  0x021B8D90
  * packet:   pkt_ov106_021B8D90
  * region:   ov106
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MI_CpuFill8(void *, int, int);
-void func_021B8D90(void *p) { MI_CpuFill8(p, 0, 0x2c); }
+void IRC_RANKING_InputInit(void *p) { MI_CpuFill8(p, 0, 0x2c); }

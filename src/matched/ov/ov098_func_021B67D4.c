@@ -1,5 +1,5 @@
 /*
- * function: func_021B67D4
+ * function: PDC_MSG_Create
  * address: 0x021B67D4
  * packet: pkt_ov098_021B67D4
  * region: ov098
@@ -26,9 +26,9 @@
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
- *   func_021B6C34 0x021B6C34 thumb ov098
- *   d_021B6E74 0x021B6E74 data a4
- *   d_021B6E24 0x021B6E24 data a4
+ *   PDC_MSG_InitBlend 0x021B6C34 thumb ov098
+ *   gPdcMsgSrcName 0x021B6E74 data a4
+ *   gPdcMsgBgTemplate 0x021B6E24 data a4
  */
 #include "../include/Obj01704.h"
 typedef unsigned char u8;
@@ -40,8 +40,8 @@ struct U16Vec;
 struct WordSet;
 struct PalAnmSlot;
 struct Cfg;
-extern const char d_021B6E74[];
-extern const struct BgTemplate d_021B6E24;
+extern const char gPdcMsgSrcName[];
+extern const struct BgTemplate gPdcMsgBgTemplate;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
@@ -59,13 +59,13 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void BMP_WIN_DrawFrame(struct Cfg *, u16, u32);
 extern void func_020409B4(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021B6C34(char *, int);
-u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
+extern void PDC_MSG_InitBlend(char *, int);
+u8 *PDC_MSG_Create(void *a, void *b, void *c, u32 heap)
 {
     u8 *p;
     u32 idx;
-    p = func_02030734(heap, 0x48, 1, d_021B6E74, 0x82);
-    func_0203FCA0(1, &d_021B6E24, 0);
+    p = func_02030734(heap, 0x48, 1, gPdcMsgSrcName, 0x82);
+    func_0203FCA0(1, &gPdcMsgBgTemplate, 0);
     ((struct Obj01704 *)p)->f44 = heap;
     ((struct Obj01704 *)p)->f28 = c;
     *(struct MsgBank * *)&((struct Obj01704 *)p)->f20 = func_02045B38(0, 2, 0x56, ((struct Obj01704 *)p)->f44);
@@ -82,6 +82,6 @@ u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
     BMP_WIN_DrawFrame(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);
     func_020409B4(1);
     func_02040588(1, 0);
-    func_021B6C34((char *)p + 4, *(int *)&((struct Obj01704 *)p)->f1C);
+    PDC_MSG_InitBlend((char *)p + 4, *(int *)&((struct Obj01704 *)p)->f1C);
     return p;
 }

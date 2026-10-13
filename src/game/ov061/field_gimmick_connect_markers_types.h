@@ -25,10 +25,10 @@ typedef struct VecFx32 {
 } VecFx32;
 
 /* Field map common work (0xC bytes), allocated in the setup function. */
-typedef struct Gimmick61Work {
+typedef struct FieldGimmickConnectMarkersWork {
     int effectActive;       /* 0x00 nonzero while the effect model plays */
     VecFx32 *effectPos;     /* 0x04 position of the effect model in the expansion object */
     int zoneId;             /* 0x08 zone the markers were built for */
-} Gimmick61Work;
+} FieldGimmickConnectMarkersWork;
 
 #endif

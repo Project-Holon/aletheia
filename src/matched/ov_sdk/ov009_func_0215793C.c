@@ -1,5 +1,5 @@
 /*
- * function: func_0215793C
+ * function: ip_isme
  * address:  0x0215793C
  * packet:   pkt_ov009_0215793C
  * region:   ov009
@@ -12,16 +12,16 @@
  * sdk:      ip_isme (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_021578EC  0x021578EC  arm  ov009
- *   func_02157928  0x02157928  arm  ov009
+ *   is_broadcast  0x021578EC  arm  ov009
+ *   is_multicast  0x02157928  arm  ov009
  *   g_021A826C  0x021A826C  data
  */
 
 extern char g_021A826C[];
-extern unsigned long func_021578EC(unsigned long ip);
-extern int func_02157928(unsigned v);
+extern unsigned long is_broadcast(unsigned long ip);
+extern int is_multicast(unsigned v);
 
-unsigned long func_0215793C(unsigned long ip)
+unsigned long ip_isme(unsigned long ip)
 {
     unsigned long my = *(unsigned long *)(g_021A826C + 0x50);
     int d = 1;
@@ -33,9 +33,9 @@ unsigned long func_0215793C(unsigned long ip)
         a = 0;
     if (!a && ip != 0x7f000001)
         b = 0;
-    if (!b && func_021578EC(ip) == 0)
+    if (!b && is_broadcast(ip) == 0)
         c = 0;
-    if (!c && func_02157928(ip) == 0)
+    if (!c && is_multicast(ip) == 0)
         d = 0;
     return d;
 }

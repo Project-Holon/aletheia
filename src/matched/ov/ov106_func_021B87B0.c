@@ -1,5 +1,5 @@
 /*
- * function: func_021B87B0
+ * function: IRC_RANKING_RowInit
  * address: 0x021B87B0
  * packet: pkt_ov106_021B87B0
  * region: ov106
@@ -66,7 +66,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-void func_021B87B0(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *msg,u32 font,void *set,void *bg,s16 y1,s16 y2,u16 heap) {
+void IRC_RANKING_RowInit(u8 *p,const Item *item,void *sys,u32 first,u32 second,void *msg,u32 font,void *set,void *bg,s16 y1,s16 y2,u16 heap) {
  Param cfg; u32 member,mode1,mode2; void *arc; void *a,*b,*c,*text; int i,width; u32 token;
  i=0;
  MI_CpuFill8(p,0,32);

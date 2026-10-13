@@ -1,5 +1,5 @@
 /*
- * function: func_021C208C
+ * function: WIFICLUB_EmptyHook
  * address:  0x021C208C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021C208C(char *a0)
+void WIFICLUB_EmptyHook(char *a0)
 {
 }

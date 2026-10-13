@@ -41,8 +41,8 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_0200873C  0x0200873C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -103,8 +103,8 @@ struct Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *func_0200CA1C(void *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
@@ -136,7 +136,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(Work021B4D60 *c, void *vm)
     sys = SCRCMD_WORK_GetGameSystem(vm);
     w = GAMESYSTEM_GetGameData(sys);
     x = GAME_DATA_GetSaveControl(w);
-    y = func_0200CA1C(w);
+    y = ZUKAN_SAVE_GetFromGameData(w);
     z = GAMESYSTEM_GetFieldMap(sys);
     r7 = SCRIPT_WORK_ReadWorkPointer(c, vm);
     kind = SCRIPT_WORK_ReadWorkValue(c, vm);
@@ -147,7 +147,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(Work021B4D60 *c, void *vm)
     c->f0C = (u32)GAME_DATA_GetMyItem(w);
     c->f10 = GAME_DATA_GetMyStatus(w);
     c->f18 = (u32)func_0200873C(x);
-    c->f1C = func_0200CA38(y);
+    c->f1C = ZUKAN_SAVE_IsNationalDexEnabled(y);
     c->kind = kind;
     c->f14 = 0;
     if (kind == 4) {

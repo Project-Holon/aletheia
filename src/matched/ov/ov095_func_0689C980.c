@@ -1,5 +1,5 @@
 /*
- * function: func_0689C980
+ * function: BTL_ID_IsArceusPlate
  * address: 0x0689C980
  * packet: pkt_ov095_0689C980
  * region: ov095
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E38C 0x0689E38C data a2
- *   func_0689C888 0x0689C888 thumb
+ *   gArceusPlateItems 0x0689E38C data a2
+ *   BTL_ID_IsInList 0x0689C888 thumb
  */
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-int func_0689C980(unsigned a);
-extern unsigned short d_0689E38C[];
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsArceusPlate(unsigned a);
+extern unsigned short gArceusPlateItems[];
 
-int func_0689C980(unsigned a)
+int BTL_ID_IsArceusPlate(unsigned a)
 {
-    return func_0689C888(a, d_0689E38C, 16);
+    return BTL_ID_IsInList(a, gArceusPlateItems, 16);
 }

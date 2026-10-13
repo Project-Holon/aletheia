@@ -1,5 +1,5 @@
 /*
- * function: func_0206F6B0
+ * function: NNSi_G3dAnmGetScaleDataEx
  * address:  0x0206F6B0
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * Vector-2 lerp sampler: the two-component sibling of func_0206F36C (same
- * record, same header, same flag cascade), called by func_0206EE60 for the
+ * Vector-2 lerp sampler: the two-component sibling of NNSi_G3dAnmGetTransDataEx (same
+ * record, same header, same flag cascade), called by NNSi_G3dAnmCalcJntAnmNode for the
  * three vector channels when the cursor has a fraction and root->f08 bit 0 is
  * set.  Keys are V2i (8-byte stride) or, with flags bit 29, V2s (4-byte).
  * The last key either wraps against key 0 (hdr->f08 bit 1, k2 = 0 into the
@@ -32,8 +32,8 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206F6B0.c \
- *       --func func_0206F6B0 --addr 0x0206F6B0 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetScaleDataEx.c \
+ *       --func NNSi_G3dAnmGetScaleDataEx --addr 0x0206F6B0 --cc ../2.0/sp2 --arm
  */
 typedef unsigned int   u32;
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; } Hdr;
 typedef struct { s16 x; s16 y; } V2s;
 typedef struct { int x; int y; } V2i;
 
-void func_0206F6B0(int *out, int t, Rec *r, Hdr *h)
+void NNSi_G3dAnmGetScaleDataEx(int *out, int t, Rec *r, Hdr *h)
 {
     u8 *p = (u8 *)h + r->off04;
     u32 f = r->flags;

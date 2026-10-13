@@ -23,8 +23,8 @@
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
- *   d_021F3C20     0x021F3C20  data  a4
- *   d_021F3C30     0x021F3C30  data  a4
+ *   gArcEffectPlayerUnitSetup     0x021F3C20  data  a4
+ *   gArcEffectDefaultUnitSetup     0x021F3C30  data  a4
  *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
@@ -51,7 +51,7 @@ struct GameEvent;
 
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
 extern u16 FIELDMAP_GetHeapId(void *fieldMap);
-extern Gimmick64Work *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
+extern FieldGimmickArcEffectWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
@@ -69,7 +69,7 @@ extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int mode
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, u16 animeIdx, int frame);
 extern struct GameEvent *func_020122C0(void *owner, void *a, int (*eventFunc)(void *event, int *seq), u32 size);
 extern void *GAME_EVENT_GetGameSystem(void *event);
-extern Gimmick64Work *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
+extern FieldGimmickArcEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
 extern int FLD_EXP_OBJ_GetAnimeFrame(void *expObj, int unit, int model, int animeIdx);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u8 *anime);
 extern void GFL_USE_StopAllSe(void);
@@ -88,24 +88,24 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem)
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
 int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
 int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
-extern char d_021F3C20[];
-extern char d_021F3C30[];
+extern char gArcEffectPlayerUnitSetup[];
+extern char gArcEffectDefaultUnitSetup[];
 extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
 
 void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap)
 {
     void *expObj;
-    Gimmick64Work *work;
+    FieldGimmickArcEffectWork *work;
     int animeIdx;
     u8 *anime;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    work = FIELDMAP_AllocCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick64Work));
+    work = FIELDMAP_AllocCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickArcEffectWork));
     work->fadeWait = 0;
     if (GPOWER_GetSpecialPowerId() == FIELD_GIMMICK_ARC_EFFECT_SPECIAL_POWER_ID) {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3C20, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, gArcEffectPlayerUnitSetup, 0);
     } else {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3C30, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, gArcEffectDefaultUnitSetup, 0);
     }
     work->fadeTarget = 4;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 1);
@@ -165,7 +165,7 @@ int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq)
 {
     void *fieldMap;
     void *expObj;
-    Gimmick64Work *work;
+    FieldGimmickArcEffectWork *work;
     int frame;
     int lastFrame;
 
@@ -224,7 +224,7 @@ void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *st
     int animeIdx;
     void *fieldMap;
     void *expObj;
-    Gimmick64Work *work;
+    FieldGimmickArcEffectWork *work;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work = FIELDMAP_GetCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
@@ -280,7 +280,7 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem)
 int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq)
 {
     VecFx32 pos;
-    Gimmick64Work *work;
+    FieldGimmickArcEffectWork *work;
     void *fieldMap;
     void *expObj;
     int frame;

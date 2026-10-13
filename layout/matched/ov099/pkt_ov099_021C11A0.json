@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C11A0",
+   "name": "WIFICLUB_StateWaitNegotiation",
    "address": "0x021C11A0",
    "kind": "game",
    "region": "ov099",

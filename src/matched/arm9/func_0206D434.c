@@ -1,5 +1,5 @@
 /*
- * function: func_0206D434
+ * function: NNSi_G3dFuncSbc_ENVMAP
  * address:  0x0206D434
  * packet:   pkt_0206BEA0
  * region:   arm9
@@ -18,7 +18,7 @@
  * from origWidth/origHeight (+0x2c/+0x2e); timing B = the material's effect
  * matrix (MATFLAG 0x2000, skipping the optional scale/rot/trans words);
  * timing C = MTX_MULT_3x3 by the camera (and the 3x3 at NNS_G3dGlb+0xbc when
- * flag bit 0) and the current vector matrix from func_0206DE88
+ * flag bit 0) and the current vector matrix from NNS_G3dGeResetGX
  * (NNS_G3dGetCurrentMtx). Ends with MTX_MODE(POSITION_VECTOR).
  *
  * Levers: w/h are `int` (tools/permuter.py --types found it: u16 swaps r4 and
@@ -28,9 +28,9 @@
  *
  * symbols:
  *   g_renderState     0x02148B4C  data
- *   g_020A82B8     0x020A82B8  data
- *   func_0206DDA4  0x0206DDA4  arm
- *   func_0206DE88  0x0206DE88  arm
+ *   gTexImageParamCmd     0x020A82B8  data
+ *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
+ *   NNS_G3dGeResetGX  0x0206DE88  arm
  */
 
 #include "../include/G_TexImageCmd.h"
@@ -65,7 +65,7 @@ typedef struct {
     u32 op;
     u32 prm;
 } TexImageCmd;
-extern struct TexImageCmd g_020A82B8;
+extern struct TexImageCmd gTexImageParamCmd;
 
 typedef struct {
     u8  pad00[0x10];
@@ -108,8 +108,8 @@ struct RS {
     ResMat *pResMat;
 };
 
-extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern void func_0206DE88(void *a, void *b);
+extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+extern void NNS_G3dGeResetGX(void *a, void *b);
 
 static inline void *GetResDataByIdx(const Dict *dict, u32 idx)
 {
@@ -167,7 +167,7 @@ static inline u32 CallBackCheck_C(RS *rs, u32 cmd, u32 timing)
     return 0;
 }
 
-void func_0206D434(RS *rs, u32 opt)
+void NNSi_G3dFuncSbc_ENVMAP(RS *rs, u32 opt)
 {
     if (!(rs->flag & 0x200) && (rs->flag & 1)) {
         MtxFx33 n;
@@ -177,12 +177,12 @@ void func_0206D434(RS *rs, u32 opt)
         if ((rs->pMatAnmResult->prmTexImage & 0xc0000000) != 0x80000000) {
             rs->pMatAnmResult->prmTexImage &= ~0xc0000000;
             rs->pMatAnmResult->prmTexImage |= 0x80000000;
-            g_020A82B8.prm = rs->pMatAnmResult->prmTexImage;
-            func_0206DDA4(g_020A82B8.op, &g_020A82B8.prm, 1);
+            gTexImageParamCmd.prm = rs->pMatAnmResult->prmTexImage;
+            NNS_G3dGeBufferOP_N(gTexImageParamCmd.op, &gTexImageParamCmd.prm, 1);
         }
         {
             u32 arg = 3;
-            func_0206DDA4(0x10, &arg, 1);
+            NNS_G3dGeBufferOP_N(0x10, &arg, 1);
         }
 
         timing = CheckPossibilityOfCallback(rs, 12);
@@ -193,9 +193,9 @@ void func_0206D434(RS *rs, u32 opt)
             scale.x = w << 15;
             scale.y = -h << 15;
             scale.z = 0x10000;
-            func_0206DDA4(0x1b, &scale, 3);
+            NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
             arg = (u32)(u16)(s16)(w << 3) | ((u32)(u16)(s16)(h << 3) << 16);
-            func_0206DDA4(0x22, &arg, 1);
+            NNS_G3dGeBufferOP_N(0x22, &arg, 1);
         }
 
         if (!CallBackCheck_B(rs, 12, &timing)) {
@@ -205,34 +205,34 @@ void func_0206D434(RS *rs, u32 opt)
                 if (!(mat->flag & 2)) p += 8;
                 if (!(mat->flag & 4)) p += 4;
                 if (!(mat->flag & 8)) p += 8;
-                func_0206DDA4(0x18, p, 16);
+                NNS_G3dGeBufferOP_N(0x18, p, 16);
             }
         }
 
         if (!CallBackCheck_C(rs, 12, timing)) {
             {
                 u32 arg = 2;
-                func_0206DDA4(0x10, &arg, 1);
+                NNS_G3dGeBufferOP_N(0x10, &arg, 1);
             }
-            func_0206DE88(0, &n);
+            NNS_G3dGeResetGX(0, &n);
             {
                 u32 arg = 3;
-                func_0206DDA4(0x10, &arg, 1);
+                NNS_G3dGeBufferOP_N(0x10, &arg, 1);
             }
             if (g_renderState.flag & 1) {
-                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
-                func_0206DDA4(0x1a, &g_renderState.unkBC, 9);
-                func_0206DDA4(0x1a, &n, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &g_renderState.cameraMtx, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &g_renderState.unkBC, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &n, 9);
             } else if (g_renderState.flag & 2) {
-                func_0206DDA4(0x1a, &g_renderState.cameraMtx, 9);
-                func_0206DDA4(0x1a, &n, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &g_renderState.cameraMtx, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &n, 9);
             } else {
-                func_0206DDA4(0x1a, &n, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &n, 9);
             }
         }
         {
             u32 arg = 2;
-            func_0206DDA4(0x10, &arg, 1);
+            NNS_G3dGeBufferOP_N(0x10, &arg, 1);
         }
     }
     rs->c += 3;

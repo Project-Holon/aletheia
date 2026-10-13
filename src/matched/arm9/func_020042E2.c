@@ -1,5 +1,5 @@
 /*
- * function: func_020042E2
+ * function: SVC_Div
  * address:  0x020042E2
  * packet:   pkt_020042E2
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_Div), `swi N; bx lr` in the BIOS call table */
 
-asm void func_020042E2(void)
+asm void SVC_Div(void)
 {
     swi 0x9
     bx lr

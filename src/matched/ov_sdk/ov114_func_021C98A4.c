@@ -1,5 +1,5 @@
 /*
- * function: func_021C98A4
+ * function: my_rand
  * address:  0x021C98A4
  * packet:   pkt_ov114_021C98A4
  * region:   ov114
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   _u32_div_f     0x0209C2B0  arm
- *   g_021CF7AC     0x021CF7AC  data
- *   g_021D4228     0x021D4228  data
+ *   gDwcEncSession     0x021CF7AC  data
+ *   gDwcEncRandState     0x021D4228  data
  */
 
 #include "../include/G_Session.h"
@@ -25,11 +25,11 @@ typedef struct {
     unsigned int add;
     unsigned int mod;
 } Session;
-extern struct Session g_021CF7AC;
-extern int g_021D4228;
+extern struct Session gDwcEncSession;
+extern int gDwcEncRandState;
 
-unsigned char func_021C98A4(void)
+unsigned char my_rand(void)
 {
-    g_021D4228 = (g_021CF7AC.key1 * g_021D4228 + g_021CF7AC.key2) % g_021CF7AC.key3;
-    return g_021D4228 >> 16;
+    gDwcEncRandState = (gDwcEncSession.key1 * gDwcEncRandState + gDwcEncSession.key2) % gDwcEncSession.key3;
+    return gDwcEncRandState >> 16;
 }

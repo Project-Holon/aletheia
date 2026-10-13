@@ -1,5 +1,5 @@
 /*
- * function: func_021F6F80
+ * function: VS_MULTI_LIST_ExitClact
  * address:  0x021F6F80
  * packet:   pkt_ov097_021F6F80
  * region:   ov097
@@ -21,4 +21,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void CLACT_ExitSystem(void);
-void func_021F6F80(void) { CLACT_ExitSystem(); }
+void VS_MULTI_LIST_ExitClact(void) { CLACT_ExitSystem(); }

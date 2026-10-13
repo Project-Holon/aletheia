@@ -25,7 +25,7 @@
  *   SAVE_CONTROL_EraseExtraSave  0x02007400  thumb
  *   func_020072A4  0x020072A4  thumb
  *   func_0200566C  0x0200566C  thumb
- *   func_02087BCC  0x02087BCC  arm
+ *   OS_ResetSystem  0x02087BCC  arm
  *   d_021BDA20     0x021BDA20  data  a4
  *   ov228_id       0x000000E4  data
  */
@@ -59,7 +59,7 @@ extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void SAVE_CONTROL_EraseExtraSave(char *a0, u32 a1, u32 a2);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
-extern void func_02087BCC(u32 parameter);
+extern void OS_ResetSystem(u32 parameter);
 
 void STARTMENU_SaveEraseStepErase(u8 *p, int *a1)
 {
@@ -81,6 +81,6 @@ void STARTMENU_SaveEraseStepErase(u8 *p, int *a1)
             func_020072A4(r, i);
         }
         func_0200566C();
-        func_02087BCC(0);
+        OS_ResetSystem(0);
     }
 }

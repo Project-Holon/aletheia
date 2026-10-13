@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F4C
+ * function: IRC_COMPATIBLE_TOUCH_TEST_ModelHasLooped
  * address:  0x021B7F4C
  * packet:   pkt_ov103_021B7F4C
  * region:   ov103
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B7F4C(u8 *p) { return ((struct Obj22183 *)p)->f5C; }
+u32 IRC_COMPATIBLE_TOUCH_TEST_ModelHasLooped(u8 *p) { return ((struct Obj22183 *)p)->f5C; }

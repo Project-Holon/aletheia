@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ *
+ * symbols:
+ *   NNSi_SndStrmUpdate  0x02073BF0  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -26,17 +31,17 @@ struct A {
     u32 f50;
 };
 
-extern void func_02073BF0(struct A *, u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern void NNSi_SndStrmUpdate(struct A *, u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern void func_020894B4(u32, u32, u32, u32);
 void func_02073CEC(struct A *a) {
     u32 r;
     if (!a->b1) return;
     while (a->f40 != 0) {
-        r = func_02087988();
-        func_02073BF0(a, 1);
-        func_0208799C(r);
+        r = OS_DisableInterrupts();
+        NNSi_SndStrmUpdate(a, 1);
+        OS_RestoreInterrupts(r);
     }
     func_020894B4(a->f4c, 0, 1u << a->f48, 0);
 }

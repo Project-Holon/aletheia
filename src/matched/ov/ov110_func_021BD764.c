@@ -1,5 +1,5 @@
 /*
- * function: func_021BD764
+ * function: PMS_INPUT_Destroy
  * address: 0x021BD764
  * packet: pkt_ov110_021BD764
  * region: ov110
@@ -19,11 +19,11 @@
  * symbols:
  *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
- *   func_021B9B20 0x021B9B20 thumb ov110
+ *   PMS_INPUT_VIEW_Delete 0x021B9B20 thumb ov110
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021B95F4 0x021B95F4 thumb ov110
- *   func_021BAF4C 0x021BAF4C thumb ov110
+ *   PMSI_SEARCH_Delete 0x021BAF4C thumb ov110
  *   func_020315D4 0x020315D4 arm
  */
 typedef unsigned char u8;
@@ -33,21 +33,21 @@ typedef short s16;
 typedef unsigned int u32;
 extern void PMSI_PARAM_SetUiInputMode(void *,void *);
 extern void BUTTON_MAN_Delete(void *);
-extern void func_021B9B20(u8 *);
+extern void PMS_INPUT_VIEW_Delete(u8 *);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
 extern void func_021B95F4(char *);
-extern void func_021BAF4C(unsigned);
+extern void PMSI_SEARCH_Delete(unsigned);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-void func_021BD764(u8 *p,void *a)
+void PMS_INPUT_Destroy(u8 *p,void *a)
 {
     PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));
     BUTTON_MAN_Delete(*(void **)(p+0x44));
-    func_021B9B20(*(u8 **)(p+0x14));
+    PMS_INPUT_VIEW_Delete(*(u8 **)(p+0x14));
     func_02030DA4(*(void **)(p+0x7c));
     func_020307B0(*(void **)(p+0x78));
     func_021B95F4(*(char **)(p+0x18));
-    func_021BAF4C(*(u32 *)(p+0x1c));
+    PMSI_SEARCH_Delete(*(u32 *)(p+0x1c));
     func_020315D4(a);
 }

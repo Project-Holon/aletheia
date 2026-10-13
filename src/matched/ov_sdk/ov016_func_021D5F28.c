@@ -1,5 +1,5 @@
 /*
- * function: func_021D5F28
+ * function: DWCi_FNTlDisp
  * address:  0x021D5F28
  * packet:   pkt_ov016_021D5F28
  * region:   ov016
@@ -17,6 +17,7 @@
  *   DWCi_CELLlSetPalette             0x021D5098  arm  ov016
  *   DWCi_CELLlSetPriority            0x021D51F0  arm  ov016
  *   NNS_G2dArrangeOBJ1D              0x020691E0  arm
+ *   gFontWork  0x021DE680  data
  */
 
 typedef unsigned char u8;
@@ -41,14 +42,14 @@ typedef struct {
     int renew[2];
 } MemFont;
 
-extern MemFont *g_021DE680;
+extern MemFont *gFontWork;
 extern void *DWCi_CELLlGetObj(void *cell, int idx);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
 extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void NNS_G2dArrangeOBJ1D(void *oam, int w, int h, int x, int y, int a, int name, int b);
 
-void func_021D5F28(void *canvas, int x, int y, void *cell, int prio)
+void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio)
 {
     Canvas *cnv = canvas;
     void *oam;

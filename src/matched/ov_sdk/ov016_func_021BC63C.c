@@ -35,16 +35,16 @@
  *
  * symbols:
  *   func_021B97A8  0x021b97a8  thumb  ov016
- *   func_020853B0  0x020853b0  arm
- *   func_020853C0  0x020853c0  arm
+ *   OS_IsThreadAvailable  0x020853b0  arm
+ *   OS_CreateThread  0x020853c0  arm
  *   func_021BC584  0x021bc584  thumb  ov016
  *   func_021BC804  0x021bc804  thumb  ov016
- *   func_02085868  0x02085868  arm
+ *   OS_WakeupThreadDirect  0x02085868  arm
  *   g_021DCFD0  0x021dcfd0  data
  *   g_021DAB58  0x021dab58  data
  *   g_021DD07C  0x021dd07c  data
  *   func_021BABE8  0x021babe8  thumb  ov016
- *   g_021DD13C  0x021dd13c  data
+ *   gAtermsetBlock2  0x021dd13c  data
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -110,14 +110,14 @@ extern struct ATERMSET_DATA g_021DAB58;
 struct _OSThread;
 
 extern struct _OSThread g_021DD07C;
-extern struct _ATERMApConfigParam g_021DD13C;
+extern struct _ATERMApConfigParam gAtermsetBlock2;
 
 extern int func_021B97A8(int maxap);
-extern int func_020853B0(void);
-extern void func_020853C0(struct _OSThread *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
+extern int OS_IsThreadAvailable(void);
+extern void OS_CreateThread(struct _OSThread *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern unsigned long func_021BC584(void);
 extern void func_021BC804(void);
-extern void func_02085868(struct _OSThread *thread);
+extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 extern void func_021BABE8(void *arg);
 
 #define BSS g_021DCFD0
@@ -146,17 +146,17 @@ int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState
         BSS.gAtermApResult = -1;
         return -1;
     }
-    if (func_020853B0() != 1) {
+    if (OS_IsThreadAvailable() != 1) {
         BSS.gAtermApResult = -9;
         return -9;
     }
-    func_020853C0(&g_021DD07C, func_021BABE8, 0, (unsigned char *)BSS.gThreadStack + (DAT.gThreadStackSize & ~7), DAT.gThreadStackSize, prio);
+    OS_CreateThread(&g_021DD07C, func_021BABE8, 0, (unsigned char *)BSS.gThreadStack + (DAT.gThreadStackSize & ~7), DAT.gThreadStackSize, prio);
     BSS.gAtermApState = 1;
     DAT.gAtermApTimeout = func_021BC584() + 60000;
     BSS.bAtermApCanceled = 0;
-    memset(&g_021DD13C, 0, 232);
+    memset(&gAtermsetBlock2, 0, 232);
     func_021BC804();
-    func_02085868(&g_021DD07C);
+    OS_WakeupThreadDirect(&g_021DD07C);
     BSS.gAtermThreadId = 1;
     return 1;
 }

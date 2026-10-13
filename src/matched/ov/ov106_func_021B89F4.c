@@ -1,5 +1,5 @@
 /*
- * function: func_021B89F4
+ * function: IRC_RANKING_RowExit
  * address: 0x021B89F4
  * packet: pkt_ov106_021B89F4
  * region: ov106
@@ -25,4 +25,4 @@ extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void BMP_Delete(struct Obj020437AC *);
 extern void MI_CpuFill8(void *,int,int);
-void func_021B89F4(u8 *p) { int i; for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+8+i*4)); CLACT_ReleaseCharacter(((struct Obj10254 *)p)->f14); CLACT_ReleaseCellAnim(((struct Obj10254 *)p)->f18); BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); MI_CpuFill8(p,0,32); }
+void IRC_RANKING_RowExit(u8 *p) { int i; for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+8+i*4)); CLACT_ReleaseCharacter(((struct Obj10254 *)p)->f14); CLACT_ReleaseCellAnim(((struct Obj10254 *)p)->f18); BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); MI_CpuFill8(p,0,32); }

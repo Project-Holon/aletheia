@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E90
+ * function: IRC_RHYTHM_InitPulse
  * address: 0x021B8E90
  * packet: pkt_ov104_021B8E90
  * region: ov104
@@ -18,7 +18,7 @@
  */
 extern void MI_CpuFill8(void *, int, int);
 
-void func_021B8E90(int *p, int a1)
+void IRC_RHYTHM_InitPulse(int *p, int a1)
 {
     MI_CpuFill8(p, 0, 16);
     p[1] = 1;

@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_MOV_MBP_GetPlayerNo         0x021D28E4  arm  ov016
  *   DWCi_MOV_MBP_GetChildInfo        0x021D28B4  arm  ov016
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ typedef struct {
     void *sChildInfo[1];
 } Wk;
 
-extern Wk *g_021DE668;
+extern Wk *gDwcMoveidWork;
 
 typedef struct {
     u16 apiid;
@@ -45,6 +45,6 @@ int func_021D45A4(WMStartParentCallback *cb)
     u16 playerNo = DWCi_MOV_MBP_GetPlayerNo(cb->macAddress);
     if (playerNo == 0)
         return 0;
-    g_021DE668->sChildInfo[playerNo - 1] = DWCi_MOV_MBP_GetChildInfo(playerNo);
+    gDwcMoveidWork->sChildInfo[playerNo - 1] = DWCi_MOV_MBP_GetChildInfo(playerNo);
     return 1;
 }

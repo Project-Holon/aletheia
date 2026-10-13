@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02087058 0x02087058 arm
+ *   OS_IsTickAvailable 0x02087058 arm
  *   func_02086FE8 0x02086FE8 arm
  *   d_021D9E40 0x021D9E40 data a4
  *   func_021D7874  0x021D7874  arm  ov125
@@ -24,7 +24,7 @@
  *   d_021D9F80 0x021D9F80 data a4
  *   d_021DA258 0x021DA258 data a4
  *   func_0215F428 0x0215F428 arm ov009
- *   func_0215C910 0x0215C910 arm ov009
+ *   CPS_Resolve 0x0215C910 arm ov009
  *   func_0215FC80 0x0215FC80 arm ov009
  *   func_021D8C5C 0x021D8C5C arm ov125
  *   SOC_Shutdown 0x0215F638 arm ov009
@@ -39,10 +39,10 @@
  *   func_0215F4DC 0x0215F4DC arm ov009
  *   d_021D9E40b 0x021D9E40 data a4
  *   d_021DA18C 0x021DA18C data a4 ov125
- *   func_020853C0 0x020853C0 arm
- *   func_02085868 0x02085868 arm
- *   func_020855BC 0x020855BC arm
- *   func_02085A38  0x02085A38  arm
+ *   OS_CreateThread 0x020853C0 arm
+ *   OS_WakeupThreadDirect 0x02085868 arm
+ *   OS_DestroyThread 0x020855BC arm
+ *   OS_Sleep  0x02085A38  arm
  *   func_02167FA8 0x02167FA8 arm ov009
  *   func_02168040 0x02168040 arm ov009
  *   func_02059E38 0x02059E38 arm
@@ -62,7 +62,7 @@
  *   d_021DAA88 0x021DAA88 data a4
  *   d_021DAAAC 0x021DAAAC data a4
  *   d_021D8D38 0x021D8D38 data a4
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_0208CC78 0x0208CC78 arm
  *   func_021D7C7C 0x021D7C7C arm ov125
  *   func_0208CADC 0x0208CADC arm
@@ -116,16 +116,16 @@ typedef struct {int a,b;} Pair;
 
 typedef struct { int words[8]; } Table;
 
-extern int func_02087058(void);
+extern int OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
 extern void func_021D7874(void);
-extern void func_020853C0(void *, void (*)(void *), int, void *, int, unsigned);
-extern void func_02085868(void *);
+extern void OS_CreateThread(void *, void (*)(void *), int, void *, int, unsigned);
+extern void OS_WakeupThreadDirect(void *);
 extern void *SOC_GetHostByName(const char *);
 extern char *func_0215FA9C(unsigned);
 extern char *func_02094798(char *dst, const char *src);
 extern int func_0215F428(int, int, int);
-extern unsigned long func_0215C910(char *name);
+extern unsigned long CPS_Resolve(char *name);
 extern int func_0215FC80(int s, void *con);
 extern int SOC_Shutdown(int s, int how);
 extern int SOC_Close(int s);
@@ -136,8 +136,8 @@ extern void func_021D7CAC(void);
 extern void func_021D7CC0(void);
 extern int func_0215F590(int, void *, int, int);
 extern int func_0215F4DC(int, void *, int, int);
-extern void func_020855BC(void *);
-extern void func_02085A38(u32_021D8438 msec);
+extern void OS_DestroyThread(void *);
+extern void OS_Sleep(u32_021D8438 msec);
 extern int func_02167FA8(char *svl, void *result);
 extern int func_02168040(void);
 extern int func_02059E38(int *, int *);
@@ -152,7 +152,7 @@ extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern void func_02088168(u32 *buffer);
 extern void func_02162248(void *, u32);
 extern void MI_CpuFill8(void *, u32, u32);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_0208CC78(const char *);
 extern char *func_021D7C7C(u32);
 extern char *func_0208CADC(char *destp, const char *srcp);
@@ -220,7 +220,7 @@ int func_021D7CEC(void *p){return 1;}
 
 
 
-int func_021D7CF4(void){if(!func_02087058())func_02086FE8();*(int*)(((char *)&d_021D9E40)+0x270)=16;return 1;}
+int func_021D7CF4(void){if(!OS_IsTickAvailable())func_02086FE8();*(int*)(((char *)&d_021D9E40)+0x270)=16;return 1;}
 
 
 
@@ -240,8 +240,8 @@ void func_021D7D24(void *p)
 
 
 int func_021D7D30(void) {
- func_020853C0(d_021DA0B4, func_021D7D24, 0, d_021D9640, 0x800, ((u32 *)d_021D9E40)[0x270/4]);
- func_02085868(d_021DA0B4);
+ OS_CreateThread(d_021DA0B4, func_021D7D24, 0, d_021D9640, 0x800, ((u32 *)d_021D9E40)[0x270/4]);
+ OS_WakeupThreadDirect(d_021DA0B4);
  return 1;
 }
 
@@ -310,7 +310,7 @@ int func_021D7E80(void)
         ((u32 *)d_021D9E40)[0x250/4] = 5;
         return 0;
     }
-    value = func_0215C910(out);
+    value = CPS_Resolve(out);
     value = ((value >> 8) & 0x00ff00ff) | ((value << 8) & 0xff00ff00);
     ((u32 *)d_021D9E40)[0x264/4] = (value >> 16) | (value << 16);
     func_021D8C14(d_021D9F80, d_021DA258);
@@ -447,16 +447,16 @@ int func_021D824C(void)
     int ret = 0;
 
     t0 = OS_GetTick();
-    func_020853C0(d_021DA18C, func_021D81EC, 0, ((u8 *)&d_021D9E40b), 0x800, ((u32 *)&d_021D9E40)[0x270 / 4]);
+    OS_CreateThread(d_021DA18C, func_021D81EC, 0, ((u8 *)&d_021D9E40b), 0x800, ((u32 *)&d_021D9E40)[0x270 / 4]);
     ((u32 *)&d_021D9E40)[0x40C / 4] = -6;
     ((u32 *)&d_021D9E40)[0x410 / 4] = 0;
     ((u32 *)&d_021D9E40)[0x414 / 4] = 0;
-    func_02085868(d_021DA18C);
+    OS_WakeupThreadDirect(d_021DA18C);
     start = t0 / 0x7fd88;
     for (;;) {
         if (((u32 *)&d_021D9E40)[0x24C / 4] != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= (int)((u32 *)&d_021D9E40)[0x24C / 4]) {
             ((u32 *)&d_021D9E40)[0x250 / 4] = 12;
-            func_020855BC(d_021DA18C);
+            OS_DestroyThread(d_021DA18C);
             return ret;
         }
         if (((u32 *)&d_021D9E40)[0x414 / 4] == 0) {
@@ -466,7 +466,7 @@ int func_021D824C(void)
         if (r != -6) {
             if (r <= 0) {
                 ((u32 *)&d_021D9E40)[0x250 / 4] = 9;
-                func_020855BC(d_021DA18C);
+                OS_DestroyThread(d_021DA18C);
                 return 0;
             }
             count += r;
@@ -487,14 +487,14 @@ int func_021D824C(void)
         if (((u32 *)&d_021D9E40)[0x268 / 4] == 1) {
             ((u32 *)&d_021D9E40)[0x250 / 4] = 13;
             func_021D7CC0();
-            func_020855BC(d_021DA18C);
+            OS_DestroyThread(d_021DA18C);
             return 0;
         }
         func_021D7CC0();
         ((u32 *)&d_021D9E40)[0x414 / 4] = zero;
         func_021D8438(1);
     }
-    func_020855BC(d_021DA18C);
+    OS_DestroyThread(d_021DA18C);
     return 1;
 }
 
@@ -510,7 +510,7 @@ int func_021D824C(void)
  */
 void func_021D8438(int msec)
 {
-    func_02085A38(msec);
+    OS_Sleep(msec);
 }
 
 
@@ -930,7 +930,7 @@ void func_021D8BF8(int a, int b)
 
 void func_021D8C14(const char *s, u8 *p)
 {
-    func_02082D44(d_021DAA88, p, 0x830);
+    MI_CpuCopy8(d_021DAA88, p, 0x830);
     if (s) {
         *(char * *)&((struct Obj14013 *)p)->f800 = func_021D7C7C(func_0208CC78(s) + 1);
         func_0208CADC(*(char * *)&((struct Obj14013 *)p)->f800, s);

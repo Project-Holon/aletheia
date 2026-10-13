@@ -1,5 +1,5 @@
 /*
- * function: func_021C2344
+ * function: ghttpSetRootCAList
  * address:  0x021C2344
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C1184  0x021C1184  arm  ov114
+ *   ghiEncyptorSetRootCAList  0x021C1184  arm  ov114
  *
  *
  * ov114 tail-call thunk via `ldr ip,pool; bx ip`.
@@ -18,9 +18,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C1184(void);
+extern void ghiEncyptorSetRootCAList(void);
 
-void func_021C2344(void)
+void ghttpSetRootCAList(void)
 {
-    func_021C1184();
+    ghiEncyptorSetRootCAList();
 }

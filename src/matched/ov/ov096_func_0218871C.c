@@ -1,5 +1,5 @@
 /*
- * function: func_0218871C
+ * function: TR_AI_CmdIfRandomLess
  * address: 0x0218871C
  * packet: pkt_ov096_0218871C
  * region: ov096
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218875C 0x0218875C thumb ov096
+ *   TR_AI_CompareRandom 0x0218875C thumb ov096
  */
 #include "../include/Obj21916.h"
 typedef unsigned char u8;
 struct Cursor;
-extern int func_0218875C(struct Cursor *a, int unused, int c);
-int func_0218871C(struct Cursor *p, int q)
+extern int TR_AI_CompareRandom(struct Cursor *a, int unused, int c);
+int TR_AI_CmdIfRandomLess(struct Cursor *p, int q)
 {
-    func_0218875C(p, q, 0);
+    TR_AI_CompareRandom(p, q, 0);
     return ((struct Obj21916 *)q)->fC4;
 }

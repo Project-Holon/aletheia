@@ -1,5 +1,5 @@
 /*
- * function: func_0206F36C
+ * function: NNSi_G3dAnmGetTransDataEx
  * address:  0x0206F36C
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Scalar lerp sampler over the animation record (flags word, data offset)
- * and the animation root (key count at +4, flags at +8).  func_0206EE60
+ * and the animation root (key count at +4, flags at +8).  NNSi_G3dAnmCalcJntAnmNode
  * calls it for the three scalar channels when the cursor has a fraction and
  * root->f08 bit 0 is set.  The last key either wrap-blends against key 0
  * (root->f08 bit 1) or is fetched plain; every other key picks a
@@ -26,7 +26,7 @@
  * Closing levers over the earlier 185-byte residue in
  * docs/notes/pkt_0206EB00.c.txt: every width choice is written s16-arm
  * FIRST as a plain if/else (no goto to a shared label); the lerp tail's two
- * arms are spelled exactly as src/matched/func_02070524.c's `two:` block
+ * arms are spelled exactly as src/matched/NNSi_G3dAnmGetTexSRTScalarData.c's `two:` block
  * (s16 via a byte offset `k << 1` plus a pointer `g`, word via a pointer
  * `w` built inside the arm); and in `last:` the mask is assigned before
  * `mul = 1`.
@@ -34,8 +34,8 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206F36C.c \
- *       --func func_0206F36C --addr 0x0206F36C --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetTransDataEx.c \
+ *       --func NNSi_G3dAnmGetTransDataEx --addr 0x0206F36C --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj04095.h"
 #include "../include/Obj16636.h"
@@ -47,7 +47,7 @@ typedef unsigned char  u8;
 typedef struct { u32 flags; u32 off04; } Rec;
 typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; } Hdr;
 
-void func_0206F36C(int *out, int t, Rec *r, Hdr *h)
+void NNSi_G3dAnmGetTransDataEx(int *out, int t, Rec *r, Hdr *h)
 {
     u8 *p = (u8 *)h + r->off04;
     u32 f = r->flags;

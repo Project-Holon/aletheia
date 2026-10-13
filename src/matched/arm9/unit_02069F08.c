@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02069F08
+ * function: NNSi_G3dAnmObjUnlink
  * address:  0x02069F08
  * packet:   pkt_02069D68
  * region:   arm9
@@ -11,23 +11,23 @@
  * status:   EXACT
  *
  * The list-removal pair, folded into one translation unit so that
- * func_02069F7C's three calls to func_02069F08 are `local` relocations
+ * NNS_G3dRenderObjRemoveAnmObj's three calls to NNSi_G3dAnmObjUnlink are `local` relocations
  * attested by the unit's own layout rather than by a separate manifest
  * entry.
  *
- * func_02069F08  unlinks `target` from the list rooted at *head (next at
+ * NNSi_G3dAnmObjUnlink  unlinks `target` from the list rooted at *head (next at
  *                +0x10), returning 1 on success and clearing the removed
  *                node's own next pointer.
- * func_02069F7C  tries all three of the owner's lists (+0x08, +0x10, +0x18)
+ * NNS_G3dRenderObjRemoveAnmObj  tries all three of the owner's lists (+0x08, +0x10, +0x18)
  *                in turn and sets bit 4 of the owner's word at +0x00 if any
  *                of them claimed the node.
  *
  * Two shape notes from the derivation:
- *  - In func_02069F08, `q` must be DECLARED BEFORE `p`; with the natural
+ *  - In NNSi_G3dAnmObjUnlink, `q` must be DECLARED BEFORE `p`; with the natural
  *    order the trailing cursor takes r0 instead of r2 and eleven bytes go
  *    wrong across the search loop. The inner unlink is `p->next = q->next`,
  *    not `p->next = target->next`, so the load comes off the cursor.
- *  - In func_02069F7C the three guards must NEST (each failure falling into
+ *  - In NNS_G3dRenderObjRemoveAnmObj the three guards must NEST (each failure falling into
  *    the next attempt) so the three success paths share one tail; three
  *    separate early returns duplicate the flag store.
  *
@@ -54,7 +54,7 @@ typedef struct {
     Node *l18;
 } Owner;
 
-u32 func_02069F08(Node **head, Node *target)
+u32 NNSi_G3dAnmObjUnlink(Node **head, Node *target)
 {
     Node *q;
     Node *p;
@@ -77,11 +77,11 @@ u32 func_02069F08(Node **head, Node *target)
     return 0;
 }
 
-void func_02069F7C(Owner *o, Node *item)
+void NNS_G3dRenderObjRemoveAnmObj(Owner *o, Node *item)
 {
-    if (!func_02069F08(&o->l08, item)) {
-        if (!func_02069F08(&o->l10, item)) {
-            if (!func_02069F08(&o->l18, item)) {
+    if (!NNSi_G3dAnmObjUnlink(&o->l08, item)) {
+        if (!NNSi_G3dAnmObjUnlink(&o->l10, item)) {
+            if (!NNSi_G3dAnmObjUnlink(&o->l18, item)) {
                 return;
             }
         }

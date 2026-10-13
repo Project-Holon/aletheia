@@ -35,7 +35,7 @@
  *   func_0200F17C  0x0200F17C  thumb
  *   func_02034714  0x02034714  arm
  *   GFL_NET_IRC_WIRELESS_Create  0x0203D8F0  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_NET_STATE_DeviceInitialize  0x0203AFCC  arm
  *   GFL_NET_HANDLE_InitWork  0x02039834  arm
  *   GFL_NET_COMMAND_Init  0x0203A494  arm
@@ -89,7 +89,7 @@ extern int func_0200F17C(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
 struct Base;
 extern struct Base *GFL_NET_IRC_WIRELESS_Create(const struct Base *src, u32 a1);
-extern void  func_02082D44(void *dst, void *src, u32 n);
+extern void  MI_CpuCopy8(void *dst, void *src, u32 n);
 extern void GFL_NET_STATE_DeviceInitialize(void *a, u32 b);
 extern void  GFL_NET_HANDLE_InitWork(struct Sess *s);
 extern void  GFL_NET_COMMAND_Init(u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -113,7 +113,7 @@ void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3)
         func_02034714(sNetFileName, 0x6f, str_020A7CA8);
     if (req->f65 == 4)
         req = (struct Req *)GFL_NET_IRC_WIRELESS_Create((const struct Base *)req, a3);
-    func_02082D44(req, s, 0x70);
+    MI_CpuCopy8(req, s, 0x70);
     switch (req->f65) {
     case 1:
     case 2:

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2F10
+ * function: ghiPostFileDiskStateDoPosting
  * address:  0x021C2F10
  * packet:   pkt_ov114_021C2F10
  * region:   ov114
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020916D4  0x020916D4  arm
- *   func_021C07B8  0x021C07B8  arm   ov114
+ *   ghiTrySendThenBuffer  0x021C07B8  arm   ov114
  */
 
 typedef struct GHIPostData {
@@ -40,9 +40,9 @@ typedef struct GHIConnection {
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_020916D4(void *a0, u32 a1, u32 a2, u32 a3);
-extern int func_021C07B8(GHIConnection *, char *, int);
+extern int ghiTrySendThenBuffer(GHIConnection *, char *, int);
 
-int func_021C2F10(GHIPostState *state, GHIConnection *connection)
+int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection)
 {
     char buffer[4096];
     int len;
@@ -61,7 +61,7 @@ int func_021C2F10(GHIPostState *state, GHIConnection *connection)
             connection->completed = 1;
             return 0;
         }
-        result = func_021C07B8(connection, buffer, len);
+        result = ghiTrySendThenBuffer(connection, buffer, len);
         if (result == 0)
             return 0;
         if (state->pos == state->length) {
@@ -70,7 +70,7 @@ int func_021C2F10(GHIPostState *state, GHIConnection *connection)
                 int padlen = 4 - (state->length % 4);
 
                 if (padlen != 4 && padlen > 0) {
-                    result = func_021C07B8(connection, pad, padlen);
+                    result = ghiTrySendThenBuffer(connection, pad, padlen);
                     if (result == 0)
                         return 0;
                 }

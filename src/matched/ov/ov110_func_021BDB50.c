@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB50
+ * function: PMS_INPUT_HitSentenceTypeTab
  * address: 0x021BDB50
  * packet: pkt_ov110_021BDB50
  * region: ov110
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-int func_021BDB50(u32 *p) {
+int PMS_INPUT_HitSentenceTypeTab(u32 *p) {
  u32 x,y;
  int result;
  if(PMSI_PARAM_HasInitialSentence((const u8 *)(*p))) return -1;

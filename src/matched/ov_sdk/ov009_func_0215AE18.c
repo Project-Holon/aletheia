@@ -1,5 +1,5 @@
 /*
- * function: func_0215AE18
+ * function: CPSi_TcpReadRaw
  * address:  0x0215AE18
  * packet:   pkt_ov009_0215AE18
  * region:   ov009
@@ -12,35 +12,35 @@
  * sdk:      CPSi_TcpReadRaw (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
- *   func_02159404  0x02159404  arm  ov009
- *   func_02087988  0x02087988  arm
- *   func_020857B0  0x020857B0  arm
- *   func_0208799C  0x0208799C  arm
- *   func_020858D8  0x020858D8  arm
+ *   _tcp_send_ack  0x02159404  arm  ov009
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_SleepThread  0x020857B0  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
+ *   OS_YieldThread  0x020858D8  arm
  */
 
-extern void func_02159404(void *soc, int flush);
-extern unsigned long func_02087988(void);
-extern void func_020857B0(void *queue);
-extern unsigned long func_0208799C(unsigned long state);
-extern void func_020858D8(void);
+extern void _tcp_send_ack(void *soc, int flush);
+extern unsigned long OS_DisableInterrupts(void);
+extern void OS_SleepThread(void *queue);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
+extern void OS_YieldThread(void);
 
-unsigned char *func_0215AE18(unsigned long *len, char *soc)
+unsigned char *CPSi_TcpReadRaw(unsigned long *len, char *soc)
 {
     unsigned long enable;
     unsigned long n;
 
     if (*(unsigned char *)(soc + 8) == 4)
-        func_02159404(soc, 1);
+        _tcp_send_ack(soc, 1);
     if (*(unsigned long *)(soc + 0x50) == 0 && *(unsigned char *)(soc + 8) == 4) {
-        enable = func_02087988();
+        enable = OS_DisableInterrupts();
         while (*(unsigned long *)(soc + 0x50) == 0 && *(unsigned char *)(soc + 8) == 4) {
             *(unsigned long *)(soc + 4) = 2;
-            func_020857B0(0);
+            OS_SleepThread(0);
         }
-        func_0208799C(enable);
+        OS_RestoreInterrupts(enable);
     } else {
-        func_020858D8();
+        OS_YieldThread();
     }
     n = *(unsigned long *)(soc + 0x50);
     *len = n;

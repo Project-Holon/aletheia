@@ -13,26 +13,26 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02085A38  0x02085A38  arm
+ *   OS_Sleep  0x02085A38  arm
  *   func_0215CDD0  0x0215CDD0  arm  ov009
  *   func_0215F0D4  0x0215F0D4  arm  ov009
  *   g_021AA444     0x021AA444  data
  *   g_021A82BC     0x021A82BC  data
  *   g_021A1CD8     0x021A1CD8  data
  *   g_021AA450     0x021AA450  data
- *   func_02157640  0x02157640  arm  ov009
- *   func_02157630  0x02157630  arm  ov009
- *   func_02157280  0x02157280  arm  ov009
+ *   CPS_Cleanup  0x02157640  arm  ov009
+ *   CPS_SetScavengerCallback  0x02157630  arm  ov009
+ *   CPS_SetCheckNConfigCallback  0x02157280  arm  ov009
  *   func_02166424  0x02166424  arm  ov009
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0215E84C  0x0215E84C  arm  ov009
  *   g_021AA44C     0x021AA44C  data
  *   g_021AA4B4     0x021AA4B4  data
  *   g_021AA4B8     0x021AA4B8  data
  *   func_0215E794  0x0215E794  arm  ov009
  *   func_0215EBB4  0x0215EBB4  arm  ov009
- *   func_021575DC  0x021575DC  arm  ov009
+ *   CPS_CalmDown  0x021575DC  arm  ov009
  */
 #include "../../matched/include/G_CPSConfig.h"
 #include "../../matched/include/G_Sock.h"
@@ -53,19 +53,19 @@ typedef struct {
 
 typedef struct Socket Socket;
 
-extern void func_02085A38(unsigned long msec);
+extern void OS_Sleep(unsigned long msec);
 extern int func_0215CDD0(void);
 extern void func_0215F0D4(void);
-extern void func_02157640(void);
-extern void func_02157630(int v);
-extern void func_02157280(int v);
+extern void CPS_Cleanup(void);
+extern void CPS_SetScavengerCallback(int v);
+extern void CPS_SetCheckNConfigCallback(int v);
 extern void func_02166424(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0215E84C(int s);
 extern int func_0215E794(int s);
 extern void func_0215EBB4(void);
-extern int func_021575DC(void);
+extern int CPS_CalmDown(void);
 int func_0215EBF0(void);
 void func_0215EC90(void);
 int func_0215ECB8(void);
@@ -91,7 +91,7 @@ int func_0215EBF0(void)
 	}
 	result = func_0215ED60();
 	while (result == -26) {
-		func_02085A38(100);
+		OS_Sleep(100);
 		result = func_0215ED60();
 	}
 	result = func_0215CDD0();
@@ -112,9 +112,9 @@ int func_0215EBF0(void)
  */
 void func_0215EC90(void)
 {
-	func_02157640();
-	func_02157630(0);
-	func_02157280(0);
+	CPS_Cleanup();
+	CPS_SetScavengerCallback(0);
+	CPS_SetCheckNConfigCallback(0);
 	func_02166424(0);
 }
 
@@ -128,13 +128,13 @@ int func_0215ECB8(void)
 	Socket *socket;
 
 	for (;;) {
-		enable = func_02087988();
+		enable = OS_DisableInterrupts();
 		for (socket = ((Socket *)g_021AA4B4); socket != 0; socket = socket->next) {
 			if (socket != ((Socket *)g_021AA44C) && (socket->state & 0x10) == 0) {
 				break;
 			}
 		}
-		func_0208799C(enable);
+		OS_RestoreInterrupts(enable);
 		if (socket == 0) {
 			break;
 		}
@@ -167,7 +167,7 @@ int func_0215ED60(void)
 		}
 		func_0215EBB4();
 	} else {
-		if (func_021575DC() == 0) {
+		if (CPS_CalmDown() == 0) {
 			result = -26;
 		} else {
 			result = 0;

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020653A4
+ * function: NNSi_G2dRendererCallSurfaceOamFunc
  * address:  0x020653A4
  * packet:   pkt_02064B68
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The actor object's fourth in-object callback (func_02065B74 stores it at
+ * The actor object's fourth in-object callback (NNS_G2dInitRenderSurface stores it at
  * +0x24): dispatches the live actor vtable's +0x44 slot as
  * (obj, vtbl, a1, a2, matrix), the matrix going on the stack; a null slot
  * returns at once.
@@ -19,7 +19,7 @@
  * ELSE-FIRST with early returns: if (f04 != 0) copy tx/ty and return the
  * scratch matrix, else return &g_02147D18[slot].  The eq-first spelling (the
  * one NNSi_G2dRendererBeforeDrawCell matches with) is a register-allocation tie here: 2 bytes
- * out (lr/r4) on NNSi_G2dRendererAfterDrawCell and 31 out on func_020653A4, where whether
+ * out (lr/r4) on NNSi_G2dRendererAfterDrawCell and 31 out on NNSi_G2dRendererCallSurfaceOamFunc, where whether
  * the two arms' slot reads land in the same register decides whether they
  * are merged above the test.  Neither the permuter (hill + anneal 2000, no
  * single mutation moves it) nor any other compiler build closed the
@@ -77,7 +77,7 @@ static inline Mtx *GetMtx(void)
     return &((Mtx *)g_02147D18)[g_02147B88.f0c];
 }
 
-void func_020653A4(void *a0, void *a1, void *a2)
+void NNSi_G2dRendererCallSurfaceOamFunc(void *a0, void *a1, void *a2)
 {
     struct Obj *o = g_02147B88.f08;
     struct Obj74 *v = o->f74;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F7C
+ * function: IRC_RANKING_GfxGetCharRegion
  * address:  0x021B7F7C
  * packet:   pkt_ov106_021B7F7C
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B7F7C(u8 *p, u32 i) { return i ? ((struct Obj13758 *)p)->f4 : ((struct Obj13758 *)p)->f8; }
+u32 IRC_RANKING_GfxGetCharRegion(u8 *p, u32 i) { return i ? ((struct Obj13758 *)p)->f4 : ((struct Obj13758 *)p)->f8; }

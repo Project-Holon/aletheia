@@ -1,5 +1,5 @@
 /*
- * function: func_021C1154
+ * function: WIFICLUB_HandleNetFailure
  * address: 0x021C1154
  * packet: pkt_ov099_021C1154
  * region: ov099
@@ -23,23 +23,23 @@
  * symbols:
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
- *   func_021BA874 0x021BA874 thumb ov099
- *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_021BE900 0x021BE900 thumb ov099
+ *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
+ *   WIFICLUB_OnFatalError 0x021BE900 thumb ov099
  */
 extern int GFL_NET_STATE_GetWifiState(void);
 extern int GFL_NET_STATE_IsFatalError(void);
-extern void func_021BA874(char *, int);
-extern void func_021BAAB8(char *, int, int);
-extern void func_021BE900(char *);
-int func_021C1154(char *p)
+extern void WIFICLUB_SetPartnerNameWord(char *, int);
+extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
+extern void WIFICLUB_OnFatalError(char *);
+int WIFICLUB_HandleNetFailure(char *p)
 {
     if (GFL_NET_STATE_GetWifiState() >= 3) {
-        func_021BA874(p, *(int *)(p + 0x1f0));
-        func_021BAAB8(p, 15, 0);
+        WIFICLUB_SetPartnerNameWord(p, *(int *)(p + 0x1f0));
+        WIFICLUB_ShowStreamedMessage(p, 15, 0);
         *(int *)(p + 0x1cc) = 19;
     } else {
-        if (GFL_NET_STATE_IsFatalError() != 0) func_021BE900(p);
+        if (GFL_NET_STATE_IsFatalError() != 0) WIFICLUB_OnFatalError(p);
         else return 0;
     }
     *(unsigned short *)(p + 0x244) = 0;

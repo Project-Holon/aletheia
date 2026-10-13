@@ -1,5 +1,5 @@
 /*
- * function: func_021BA648
+ * function: WIFICLUBACTOR_ExitBlink
  * address:  0x021BA648
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -29,7 +29,7 @@ typedef int BOOL;
 extern u32 sub_020307B0(void *p);
 extern void sub_02082BCC(void *p, int c, u32 n);
 
-void func_021BA648(int unused, void *p)
+void WIFICLUBACTOR_ExitBlink(int unused, void *p)
 {
     sub_020307B0(((struct Obj18161 *)p)->f0);
     sub_02082BCC(p, 0, 0x14);

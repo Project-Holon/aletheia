@@ -1,5 +1,5 @@
 /*
- * function: func_021D600C
+ * function: DWCi_Coord2Rect
  * address:  0x021D600C
  * packet:   pkt_ov016_021D600C
  * region:   ov016
@@ -20,7 +20,7 @@
 typedef struct tagCOORD { unsigned short x, y; } COORD;
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
-void func_021D600C(const COORD *coord, const COORD *size, RECT *rect)
+void DWCi_Coord2Rect(const COORD *coord, const COORD *size, RECT *rect)
 {
     rect->l = coord->x;
     rect->t = coord->y;

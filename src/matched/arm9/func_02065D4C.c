@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02065D4C
+ * function: NNSi_G2dRendererDrawCellTransformedZOffset
  * address:  0x02065D4C
  * packet:   pkt_02065D4C
  * region:   arm9
@@ -12,11 +12,11 @@
  *
  * symbols:
  *   g_02147B88  0x02147B88  data  a4
- *   func_02066E20  0x02066E20  arm
+ *   NNS_G2dGetOamSoftEmuAutoZOffsetStep  0x02066E20  arm
  *   func_02066DEC  0x02066DEC  arm
- *   func_02066E10  0x02066E10  arm
+ *   NNS_G2dSetOamSoftEmuAutoZOffsetStep  0x02066E10  arm
  *   func_02066DFC  0x02066DFC  arm
- *   func_02065878  0x02065878  arm
+ *   NNSi_G2dRendererDrawCellTransformed  0x02065878  arm
  */
 
 typedef struct
@@ -33,29 +33,29 @@ typedef struct
 
 extern Ctx g_02147B88;
 
-extern int func_02066E20(void);
+extern int NNS_G2dGetOamSoftEmuAutoZOffsetStep(void);
 extern void func_02066DEC(int);
-extern void func_02066E10(int);
+extern void NNS_G2dSetOamSoftEmuAutoZOffsetStep(int);
 extern void func_02066DFC(void);
 struct Obj02065878;
-extern void func_02065878(struct Obj02065878 *c);
+extern void NNSi_G2dRendererDrawCellTransformed(struct Obj02065878 *c);
 
-void func_02065D4C(void *a0)
+void NNSi_G2dRendererDrawCellTransformedZOffset(void *a0)
 {
     int saved;
 
     if (((volatile Ctx *)&g_02147B88)->f8->f80 != 0)
     {
-        saved = func_02066E20();
+        saved = NNS_G2dGetOamSoftEmuAutoZOffsetStep();
         func_02066DEC(1);
-        func_02066E10(((volatile Ctx *)&g_02147B88)->f8->f80);
-        func_02065878(a0);
+        NNS_G2dSetOamSoftEmuAutoZOffsetStep(((volatile Ctx *)&g_02147B88)->f8->f80);
+        NNSi_G2dRendererDrawCellTransformed(a0);
         func_02066DEC(0);
-        func_02066E10(saved);
+        NNS_G2dSetOamSoftEmuAutoZOffsetStep(saved);
         func_02066DFC();
     }
     else
     {
-        func_02065878(a0);
+        NNSi_G2dRendererDrawCellTransformed(a0);
     }
 }

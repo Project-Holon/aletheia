@@ -16,17 +16,17 @@
  *   func_020860D0  0x020860D0  arm
  *   func_02086028  0x02086028  arm
  *   func_02086078  0x02086078  arm
- *   func_0215AEB0  0x0215AEB0  arm  ov009
- *   func_02085A38  0x02085A38  arm
- *   func_0215B504  0x0215B504  arm  ov009
+ *   CPS_SocRead  0x0215AEB0  arm  ov009
+ *   OS_Sleep  0x02085A38  arm
+ *   CPS_SocGetLength  0x0215B504  arm  ov009
  *   MI_CpuCopy     0x02082EA4  arm
  *   CPS_SocConsume 0x0215B064  arm  ov009
  *   SOCLi_CreateCommandPacket          0x0215CE3C  arm  ov009
  *   SOCLi_ExecCommandPacketInRecvPipe  0x0215CF88  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   func_020857B0  0x020857B0  arm
- *   func_02085800  0x02085800  arm
+ *   OS_SleepThread  0x020857B0  arm
+ *   OS_WakeupThread  0x02085800  arm
  *   g_021A1CD8  0x021A1CD8  data
  *   g_021AA4A4  0x021AA4A4  data
  */
@@ -104,17 +104,17 @@ extern int func_020879EC(void);
 extern int func_020860D0(void *mutex);
 extern void func_02086028(void *mutex);
 extern void func_02086078(void *mutex);
-extern unsigned char *func_0215AEB0(unsigned long *len);
-extern void func_02085A38(unsigned long msec);
-extern long func_0215B504(void);
+extern unsigned char *CPS_SocRead(unsigned long *len);
+extern void OS_Sleep(unsigned long msec);
+extern long CPS_SocGetLength(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void CPS_SocConsume(unsigned long len);
 extern struct SOCLiCommandRead *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket, struct SOCLiCommandRead *command);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_020857B0(void *queue);
-extern void func_02085800(void *queue);
+extern void OS_SleepThread(void *queue);
+extern void OS_WakeupThread(void *queue);
 extern struct G_021A1CD8 *g_021A1CD8;
 extern unsigned long g_021AA4A4[2];
 
@@ -391,7 +391,7 @@ static int func_0215DB0C(void *arg)
     remote_ip = cpacket->remote_ip;
     consumed = recv_pipe->consumed;
     for (;;) {
-        cpsbuffer = func_0215AEB0(&cpsbuffer_len);
+        cpsbuffer = CPS_SocRead(&cpsbuffer_len);
         if (cpsbuffer == 0)
             break;
         if ((long)cpsbuffer_len - consumed > 0)
@@ -400,7 +400,7 @@ static int func_0215DB0C(void *arg)
             cpsbuffer = 0;
             break;
         }
-        func_02085A38(10);
+        OS_Sleep(10);
     }
     if (socket->state & 0x80)
         return -0xf;
@@ -451,12 +451,12 @@ static int func_0215DC5C(void *arg)
     consumed = recv_pipe->consumed;
     if (*(volatile short *)&socket->state & 0x80)
         return -15;
-    datalen = func_0215B504();
+    datalen = CPS_SocGetLength();
     if (datalen == 0)
         return -6;
     if (datalen == -1)
         return 0;
-    cpsbuffer = func_0215AEB0(&cpsbuffer_len);
+    cpsbuffer = CPS_SocRead(&cpsbuffer_len);
     if (cpsbuffer != 0 && (long)cpsbuffer_len - consumed <= 0) {
         if (isStream(socket->flag_mode) && socket->cps_socket.state != 4)
             cpsbuffer = 0;
@@ -537,7 +537,7 @@ static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len
                 result = -6;
                 break;
             }
-            func_020857B0(&pipe->waiting);
+            OS_SleepThread(&pipe->waiting);
             if (func_0215F3D0(socket) || !isNotReady(socket)) {
                 result = -0x38;
                 break;
@@ -605,7 +605,7 @@ int func_0215DF08(unsigned char *data, unsigned long len, struct SOCLSocket *soc
     socket->cps_socket.remote_ip = socket->cps_socket.remote_ip2;
     if (socket->local_port == 0)
         socket->local_port = socket->cps_socket.local_port;
-    func_02085800(&pipe->waiting);
+    OS_WakeupThread(&pipe->waiting);
     OS_RestoreInterrupts(enable);
     return 1;
 }

@@ -12,20 +12,20 @@
  * sdk:      taskTransfer (libdwcutil.TWL.HYB.a(obj.o))
  *
  * symbols:
- *   func_020862F0  0x020862F0  arm
- *   func_0207E684  0x0207E684  arm
- *   func_0207E708  0x0207E708  arm
- *   g_021DE6A8  0x021DE6A8  data
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   GX_LoadOAM  0x0207E684  arm
+ *   GXS_LoadOAM  0x0207E708  arm
+ *   gObjWork  0x021DE6A8  data
  */
 
-extern void func_020862F0(void *start, unsigned long n);
-extern void func_0207E684(void *src, unsigned long off, unsigned long sz);
-extern void func_0207E708(void *src, unsigned long off, unsigned long sz);
-extern char *g_021DE6A8;
+extern void DWCi_ScreenDC_FlushRange(void *start, unsigned long n);
+extern void GX_LoadOAM(void *src, unsigned long off, unsigned long sz);
+extern void GXS_LoadOAM(void *src, unsigned long off, unsigned long sz);
+extern char *gObjWork;
 
 void func_021D6EA4(void)
 {
-	func_020862F0(g_021DE6A8, 0x800);
-	func_0207E684(g_021DE6A8, 0, 0x400);
-	func_0207E708(g_021DE6A8 + 0x400, 0, 0x400);
+	DWCi_ScreenDC_FlushRange(gObjWork, 0x800);
+	GX_LoadOAM(gObjWork, 0, 0x400);
+	GXS_LoadOAM(gObjWork + 0x400, 0, 0x400);
 }

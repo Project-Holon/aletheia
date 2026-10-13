@@ -16,7 +16,7 @@
  *   GAME_EVENT_Change  0x0201232C  thumb
  *   EVENT_COMM_COMMON_MsgScriptEventMain  0x02182AA4  thumb  ov018
  *   func_020124E8  0x020124E8  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02034714  0x02034714  arm
  *   d_02183B50     0x02183B50  data   a1
@@ -59,7 +59,7 @@ extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void EVENT_COMM_COMMON_MsgScriptEventMain();
 extern void *func_020124E8(struct Obj *p);
-extern void func_02082D44(void *, void *, int);
+extern void MI_CpuCopy8(void *, void *, int);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B50[];
@@ -74,7 +74,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(void *a, Src *b)
     v = (Ctx *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(a))));
     GAME_EVENT_Change(a, (int)EVENT_COMM_COMMON_MsgScriptEventMain, 0xA0);
     p = func_020124E8(a);
-    func_02082D44(b, p, 0x98);
+    MI_CpuCopy8(b, p, 0x98);
     if (v != 0) {
         m = 0;
         p->f9C = d_02183ABC[b->f42];

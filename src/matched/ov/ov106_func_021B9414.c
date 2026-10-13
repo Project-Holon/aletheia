@@ -1,5 +1,5 @@
 /*
- * function: func_021B9414
+ * function: IRC_RANKING_LabelCalcTextPos
  * address:  0x021B9414
  * packet:   pkt_ov106_021B9414
  * region:   ov106
@@ -49,7 +49,7 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 
-void func_021B9414(Obj_021B9414 *o, int b, int *out)
+void IRC_RANKING_LabelCalcTextPos(Obj_021B9414 *o, int b, int *out)
 {
     switch (o->f14) {
     case 0: {

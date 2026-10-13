@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0206775C
+ * function: NNSi_G2dDrawOam3D
  * address:  0x0206775C
  * packet:   pkt_02066740
  * region:   arm9
@@ -12,20 +12,20 @@
  *
  * symbols:
  *   func_0207D8E0   0x0207D8E0  arm
- *   func_02067B50   0x02067B50  arm
- *   func_02067B64   0x02067B64  arm
- *   func_02066E30   0x02066E30  arm
- *   sOamSoftEmuContext      0x02148B48  data
- *   tbl_020A17F0    0x020A17F0  data
- *   tbl_020A17D8    0x020A17D8  data
+ *   NNSi_G2dIsRndCoreFlipH   0x02067B50  arm
+ *   NNSi_G2dIsRndCoreFlipV   0x02067B64  arm
+ *   NNSi_G2dDrawSoftEmuSprite   0x02066E30  arm
+ *   sRndCoreInstance      0x02148B48  data
+ *   NNSi_objSizeWTbl    0x020A17F0  data
+ *   NNSi_objSizeHTbl    0x020A17D8  data
  *
  * NitroSystem g2d renderer core, the 3D (software sprite) per-OAM draw:
  * load the instance's 3D matrix (func_0207D8E0 on rig +0x40), and when the
  * rig's flip flag (+0x24) is set, mirror x/y about the sprite's own extent
- * (func_02067B50 / func_02067B64 are IsFlipH / IsFlipV), write the combined
- * flip bits back into the OAM, then draw it through func_02066E30 with
+ * (NNSi_G2dIsRndCoreFlipH / NNSi_G2dIsRndCoreFlipV are IsFlipH / IsFlipV), write the combined
+ * flip bits back into the OAM, then draw it through NNSi_G2dDrawSoftEmuSprite with
  * z = -1, &imageProxy->attr (rig +0x08, +0xc) and the two VRAM bases at
- * rig +0x14 / +0x18.  Sibling of func_02067340 (the 2D path).
+ * rig +0x14 / +0x18.  Sibling of NNSi_G2dDrawCellToSurface2D (the 2D path).
  *
  * FRONT END: a ../2.0/sp2 pin row (sp2p2 gives the same bytes; 1.1p1 is
  * 556 bytes).  Levers, each measured against the wave-10 572/95 source:
@@ -71,14 +71,14 @@ struct Rig {
     u32 mtx[12];    /* +0x40 */
 };
 
-extern struct Rig *sOamSoftEmuContext;
-extern const u16 tbl_020A17F0[3][4];
-extern const u16 tbl_020A17D8[3][4];
+extern struct Rig *sRndCoreInstance;
+extern const u16 NNSi_objSizeWTbl[3][4];
+extern const u16 NNSi_objSizeHTbl[3][4];
 extern void func_0207D8E0(const void *m);
 struct G2dOamState;
-extern u32 func_02067B50(const struct G2dOamState *p);
-extern u32 func_02067B64(const struct G2dOamState *p);
-extern void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
+extern u32 NNSi_G2dIsRndCoreFlipH(const struct G2dOamState *p);
+extern u32 NNSi_G2dIsRndCoreFlipV(const struct G2dOamState *p);
+extern void NNSi_G2dDrawSoftEmuSprite(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
 
 static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
 {
@@ -103,38 +103,38 @@ static inline int OamY(const GXOamAttr *oam)
 
 static inline u16 PosX_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B50((const struct G2dOamState *)sOamSoftEmuContext)) {
+    if (NNSi_G2dIsRndCoreFlipH((const struct G2dOamState *)sRndCoreInstance)) {
         int x = OamX(oam);
-        return -(x + *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
+        return -(x + *(u16 *)((u8 *)NNSi_objSizeWTbl + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
         return OamX(oam);
 }
 static inline u16 PosY_(const GXOamAttr *oam, GXOamShape shape)
 {
-    if (func_02067B64((const struct G2dOamState *)sOamSoftEmuContext)) {
+    if (NNSi_G2dIsRndCoreFlipV((const struct G2dOamState *)sRndCoreInstance)) {
         int y = OamY(oam);
-        return -(y + *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
+        return -(y + *(u16 *)((u8 *)NNSi_objSizeHTbl + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
     } else
         return OamY(oam);
 }
-void func_0206775C(GXOamAttr *oam)
+void NNSi_G2dDrawOam3D(GXOamAttr *oam)
 {
-    func_0207D8E0(sOamSoftEmuContext->mtx);
-    if (sOamSoftEmuContext->f24 != 0) {
+    func_0207D8E0(sRndCoreInstance->mtx);
+    if (sRndCoreInstance->f24 != 0) {
         GXOamShape shape = G2_GetOBJShape(oam);
         s16 x = PosX_(oam, shape);
         s16 y = PosY_(oam, shape);
         int hf; u32 vf;
         hf = oam->a.f.flipH;
-        hf = func_02067B50((const struct G2dOamState *)sOamSoftEmuContext) ^ hf;
+        hf = NNSi_G2dIsRndCoreFlipH((const struct G2dOamState *)sRndCoreInstance) ^ hf;
         vf = oam->a.f.flipV;
-        vf = func_02067B64((const struct G2dOamState *)sOamSoftEmuContext) ^ vf;
+        vf = NNSi_G2dIsRndCoreFlipV((const struct G2dOamState *)sRndCoreInstance) ^ vf;
         oam->a.attr01 &= ~0x10000000;
         oam->a.attr01 |= hf << 28;
         oam->a.attr01 &= ~0x20000000;
         oam->a.attr01 |= vf << 29;
-        func_02066E30(x, y, -1, oam, sOamSoftEmuContext->f08 + 0xc, sOamSoftEmuContext->f14, sOamSoftEmuContext->f18);
+        NNSi_G2dDrawSoftEmuSprite(x, y, -1, oam, sRndCoreInstance->f08 + 0xc, sRndCoreInstance->f14, sRndCoreInstance->f18);
     } else {
-        func_02066E30(OamX(oam), OamY(oam), -1, oam, sOamSoftEmuContext->f08 + 0xc, sOamSoftEmuContext->f14, sOamSoftEmuContext->f18);
+        NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, sRndCoreInstance->f08 + 0xc, sRndCoreInstance->f14, sRndCoreInstance->f18);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6538
+ * function: DWCi_IPTlEnd
  * address:  0x021D6538
  * packet:   pkt_021D6538
  * region:   ov016
@@ -10,24 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6538 0x021D6538 arm
+ *   DWCi_IPTlEnd 0x021D6538 arm
+ *   TP_RequestAutoSamplingStopAsync  0x0208AD14  arm  arm9
+ *   TP_WaitBusy  0x0208B220  arm  arm9
+ *   TP_CheckError  0x0208B238  arm  arm9
+ *   DWCi_HEAPlFree_  0x021D6438  arm
  *
  * Drain the channel-4 queue, then post the event at 0x021DE68C.
  * Addresses are Black-image addresses.
  */
 
-extern void func_0208AD14(void);
-extern void func_0208B220(unsigned int command_flgs);
-extern unsigned int func_0208B238(unsigned int command_flgs);
-extern void func_021D6438(void **mem);
+extern void TP_RequestAutoSamplingStopAsync(void);
+extern void TP_WaitBusy(unsigned int command_flgs);
+extern unsigned int TP_CheckError(unsigned int command_flgs);
+extern void DWCi_HEAPlFree_(void **mem);
 
-void func_021D6538(void)
+void DWCi_IPTlEnd(void)
 {
     int v = 4;
 
     do {
-        func_0208AD14();
-        func_0208B220(v);
-    } while (func_0208B238(v) != 0);
-    func_021D6438((void *)0x021DE68C);
+        TP_RequestAutoSamplingStopAsync();
+        TP_WaitBusy(v);
+    } while (TP_CheckError(v) != 0);
+    DWCi_HEAPlFree_((void *)0x021DE68C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA150
+ * function: NHTTPi_strnicmp
  * address:  0x021BA150
  * packet:   pkt_ov114_021BA150
  * region:   ov114
@@ -17,7 +17,7 @@
 
 #define LOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
-int func_021BA150(const char *p1_p, const char *p2_p, int size)
+int NHTTPi_strnicmp(const char *p1_p, const char *p2_p, int size)
 {
     char c2;
     char c1;

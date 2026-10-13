@@ -1,5 +1,5 @@
 /*
- * function: func_021D40F4
+ * function: DWCi_MOVGetStatus
  * address:  0x021D40F4
  * packet:   pkt_ov016_021D40F4
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      DWCi_MOVGetStatus (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  *
  * symbols:
- *   g_021DE668                       0x021DE668  data
+ *   gDwcMoveidWork                       0x021DE668  data
  */
 
 typedef unsigned char u8;
@@ -31,13 +31,13 @@ typedef struct {
     u32 ggid;
 } Wk;
 
-extern Wk *g_021DE668;
-void func_021D40F4(u8 *stt, u8 *change_f)
+extern Wk *gDwcMoveidWork;
+void DWCi_MOVGetStatus(u8 *stt, u8 *change_f)
 {
-    *stt = g_021DE668->mov_stt;
-    if (g_021DE668->mov_stt != g_021DE668->mov_stt_old)
+    *stt = gDwcMoveidWork->mov_stt;
+    if (gDwcMoveidWork->mov_stt != gDwcMoveidWork->mov_stt_old)
         *change_f = 1;
     else
         *change_f = 0;
-    g_021DE668->mov_stt_old = g_021DE668->mov_stt;
+    gDwcMoveidWork->mov_stt_old = gDwcMoveidWork->mov_stt;
 }

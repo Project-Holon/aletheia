@@ -29,8 +29,8 @@
  *   func_021D0FCC  0x021D0FCC  arm  ov016
  *   func_021D0E74  0x021D0E74  arm  ov016
  *   func_021D0CB8  0x021D0CB8  arm  ov016
- *   func_02088234  0x02088234  arm
- *   g_021DE654     0x021DE654  data
+ *   OS_Terminate  0x02088234  arm
+ *   gUsbapWork     0x021DE654  data
  */
 
 typedef unsigned short u16;
@@ -56,8 +56,8 @@ typedef struct {
 extern void func_021D0FCC(ScanCbT *prm);
 extern void func_021D0E74(ScanCbT *prm);
 extern int func_021D0CB8(void);
-extern void func_02088234(void);
-extern MemUsbT *g_021DE654;
+extern void OS_Terminate(void);
+extern MemUsbT *gUsbapWork;
 
 void func_021D0DE0(void *arg)
 {
@@ -65,16 +65,16 @@ void func_021D0DE0(void *arg)
 
     if (prm->errcode != 0)
         return;
-    if (g_021DE654->end != 0) {
+    if (gUsbapWork->end != 0) {
         if (prm->apiid == 2)
-            g_021DE654->end = 2;
+            gUsbapWork->end = 2;
         return;
     }
     if (prm->apiid != 0x26)
         return;
     switch (prm->state) {
     case 5:
-        if (g_021DE654->wait)
+        if (gUsbapWork->wait)
             func_021D0FCC(prm);
         else
             func_021D0E74(prm);
@@ -84,7 +84,7 @@ void func_021D0DE0(void *arg)
         func_021D0CB8();
         break;
     default:
-        func_02088234();
+        OS_Terminate();
         break;
     }
 }

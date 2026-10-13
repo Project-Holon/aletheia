@@ -1,5 +1,5 @@
 /*
- * function: func_021C0134
+ * function: WIFICLUB_StateUnusedA
  * address: 0x021C0134
  * packet: pkt_ov099_021C0134
  * region: ov099
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov099/unit_021BF050.c and filed here.
  */
 
-int func_021C0134(int a, int b);
+int WIFICLUB_StateUnusedA(int a, int b);
 
-int func_021C0134(int a, int b) { return b; }
+int WIFICLUB_StateUnusedA(int a, int b) { return b; }

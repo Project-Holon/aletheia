@@ -27,10 +27,10 @@ typedef struct VecFx32 {
 } VecFx32;
 
 /* Field map common work (4 bytes), allocated in the setup function. */
-typedef struct Gimmick60Work {
+typedef struct FieldGimmickGaugeEffectWork {
     u8 shownIntrudeId;      /* 0x00 intrude ID whose gauges are on show */
     u8 effectActive;        /* 0x01 nonzero while the effect model plays */
     u8 reserved02[2];
-} Gimmick60Work;
+} FieldGimmickGaugeEffectWork;
 
 #endif

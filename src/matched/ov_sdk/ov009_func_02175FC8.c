@@ -1,5 +1,5 @@
 /*
- * function: func_02175FC8
+ * function: DWCi_IsServerChangeEnabled
  * address:  0x02175FC8
  * packet:   pkt_02155168
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int func_02175F3C(void);
 
-int func_02175FC8(void)
+int DWCi_IsServerChangeEnabled(void)
 {
     return *(int *)(func_02175F3C() + 0x7b0) != 1;
 }

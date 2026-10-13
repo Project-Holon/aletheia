@@ -1,5 +1,5 @@
 /*
- * function: func_021B795C
+ * function: IRC_RHYTHM_DrawScreen
  * address:  0x021B795C
  * packet:   pkt_ov104_021B795C
  * region:   ov104
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Byte-correct but witness-blocked (MATCH).
- * +0008 ABS32 func_021B7D0C          -> unresolved: 021B7D0C (arm, from name) has no witness outside 021B795C..021B7968; 16 overlays overlap this address (ov016, ov021, ov067, ov070, ov071, ov091, ov093, ov102, ov103, ov104, ov105, ov106, ov133, ov172, ov173, ov180), none resolvable without a region hint on the symbols: line
+ * +0008 ABS32 IRC_RHYTHM_DrawActorSystem          -> unresolved: 021B7D0C (arm, from name) has no witness outside 021B795C..021B7968; 16 overlays overlap this address (ov016, ov021, ov067, ov070, ov071, ov091, ov093, ov102, ov103, ov104, ov105, ov106, ov133, ov172, ov173, ov180), none resolvable without a region hint on the symbols: line
  
  * symbols:
- *   func_021B7D0C  0x021B7D0C  thumb  ov104
+ *   IRC_RHYTHM_DrawActorSystem  0x021B7D0C  thumb  ov104
  *
- * UNBLOCKED: func_021B7D0C is now an EXACT entry in layout/matched/ov104;
+ * UNBLOCKED: IRC_RHYTHM_DrawActorSystem is now an EXACT entry in layout/matched/ov104;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
@@ -26,5 +26,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021B7D0C(int x);
-void func_021B795C(u8 *p) { func_021B7D0C((int)(p + 4)); }
+extern void IRC_RHYTHM_DrawActorSystem(int x);
+void IRC_RHYTHM_DrawScreen(u8 *p) { IRC_RHYTHM_DrawActorSystem((int)(p + 4)); }

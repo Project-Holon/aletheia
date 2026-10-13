@@ -15,7 +15,7 @@
  *   func_021CF1D4  0x021CF1D4  arm  ov016
  *   func_021CF04C  0x021CF04C  arm  ov016
  *   OS_Terminate  0x02088234  arm
- *   g_021DE640  0x021DE640  data
+ *   gSearchWork  0x021DE640  data
  */
 
 typedef struct {
@@ -42,13 +42,13 @@ typedef struct {
 extern void func_021CF1D4(SCANCB *prm);
 extern int func_021CF04C(void);
 extern void OS_Terminate(void);
-extern MS *g_021DE640;
+extern MS *gSearchWork;
 
 void func_021CF174(void *arg)
 {
 	SCANCB *prm = (SCANCB *)arg;
 
-	if (prm->err != 0 || g_021DE640->flag != 0 || prm->api != 0x26)
+	if (prm->err != 0 || gSearchWork->flag != 0 || prm->api != 0x26)
 		return;
 	switch (prm->state) {
 	case 5:

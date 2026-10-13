@@ -13,14 +13,14 @@
  * interface: 02019B58 receives the visibly loaded record pointer: its
  * empty 020185F0 call preserves r0 for 02019B64, which reads that input.
  * symbols:
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_021B99F0 0x021B99F0 thumb ov114
- *   func_021B99F4 0x021B99F4 thumb ov114
- *   func_021B9774 0x021B9774 thumb ov114
- *   func_021B99B8 0x021B99B8 thumb ov114
- *   func_021B9838 0x021B9838 thumb ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_RecordList_GetCount 0x021B99F0 thumb ov114
+ *   NHTTP_RAP_RecordList_GetValue 0x021B99F4 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
+ *   NHTTP_RAP_FreePostData 0x021B99B8 thumb ov114
+ *   NHTTP_RAP_Destroy 0x021B9838 thumb ov114
  *   func_021D89EC 0x021D89EC thumb ov119
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -44,14 +44,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B99DC(u8 *);
-extern int func_021B9790(u8 *);
-extern u8 *func_021B97F4(u8 *);
-extern int func_021B99F0(u8 *p);
-extern u32 func_021B99F4(u32 p, u32 i);
-extern void func_021B9774(u8 *);
-extern void func_021B99B8(u8 *);
-extern void func_021B9838(u8 *);
+extern int NHTTP_RAP_GetResultCode(u8 *);
+extern int NHTTP_RAP_PollConnection(u8 *);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *);
+extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
+extern void NHTTP_RAP_DeleteConnection(u8 *);
+extern void NHTTP_RAP_FreePostData(u8 *);
+extern void NHTTP_RAP_Destroy(u8 *);
 struct MsgBank;
 struct Rec;
 struct Sub02008F80Obj;
@@ -82,12 +82,12 @@ void func_021DEF1C(u8 *p)
     const u16 *heap;
     void *mon, *bank, *text, *name;
     u32 value;
-    status=func_021B99DC(*(u8 * *)&((struct Obj01927 *)p)->f0);
-    result=func_021B9790(*(u8 * *)&((struct Obj01927 *)p)->f0);
+    status=NHTTP_RAP_GetResultCode(*(u8 * *)&((struct Obj01927 *)p)->f0);
+    result=NHTTP_RAP_PollConnection(*(u8 * *)&((struct Obj01927 *)p)->f0);
     if(result==0) {
     if(status==200) {
-        data=func_021B97F4(*(u8 * *)&((struct Obj01927 *)p)->f0);
-        p[0x11e6]=func_021B99F0(data);
+        data=NHTTP_RAP_GetRecvBuffer(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        p[0x11e6]=NHTTP_RAP_RecordList_GetCount(data);
         if(p[0x11e6]==1) {
             off1=0x109a;
             if(*(u16 *)(p+off1)==0) {
@@ -99,7 +99,7 @@ void func_021DEF1C(u8 *p)
                 do {
                     if(func_021D89EC(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
-                        if(func_021B99F4((u32)data,n)) {
+                        if(NHTTP_RAP_RecordList_GetValue((u32)data,n)) {
                             value=POKE_TOOL_GetPartyValue(mon,6,0);
                             bank=func_02045B38(0,2,81,((struct Obj01927 *)p)->f5F4);
                             text=func_02045EC0(bank,15);
@@ -138,13 +138,13 @@ failed:
         default: error=255; break;
         }
         p[0x11e6]=error;
-        func_021B9774(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        NHTTP_RAP_DeleteConnection(*(u8 * *)&((struct Obj01927 *)p)->f0);
     }
     func_021D8E84(p,(int)func_021DEEA8);
 cleanup:
     if(*(u8 * *)&((struct Obj01927 *)p)->f0) {
-        func_021B99B8(*(u8 * *)&((struct Obj01927 *)p)->f0);
-        func_021B9838(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        NHTTP_RAP_FreePostData(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        NHTTP_RAP_Destroy(*(u8 * *)&((struct Obj01927 *)p)->f0);
         *(u8 * *)&((struct Obj01927 *)p)->f0=0;
         DWC_RAPCOMMON_DestroySubHeap();
         DWC_RAP_SetErrorCallback(0,0);

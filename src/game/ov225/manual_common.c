@@ -40,8 +40,8 @@
  *   func_021B99A0 0x021B99A0 thumb ov225
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021B99F4 0x021B99F4 thumb ov225
- *   func_020862F0 0x020862F0 arm
- *   func_0207EB78 0x0207EB78 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   GX_LoadBG2Scr 0x0207EB78 arm
  *   func_02040588 0x02040588 arm
  *   ov067_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
@@ -434,8 +434,8 @@ extern unsigned int GF_FONT_Delete(void *ptr);
 extern void func_021B99A0(char *);
 extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern void func_021B99F4(char *);
-extern void func_020862F0(const void *,unsigned);
-extern void func_0207EB78(const void *,unsigned,unsigned);
+extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
+extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern int func_02034AC4(int);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
@@ -793,7 +793,7 @@ void func_021B9E80(char *p,unsigned id)
         } else {
             buf=ARC_UTIL_LoadHandleMemberWithSize(((struct Obj04650 *)p)->f28,((struct Obj04650 *)p)->f30,1,((struct Obj04650 *)p)->f4,&size);
         }
-        func_020862F0(buf,size);func_0207EB78(buf,0,0x18000);func_020307B0(buf);
+        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
     }
 }
 

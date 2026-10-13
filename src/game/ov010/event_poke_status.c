@@ -27,8 +27,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   d_021728CC  0x021728CC  data
- *   func_0200CA1C  0x0200CA1C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
@@ -93,8 +93,8 @@ extern u32 func_020307B0(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
@@ -164,7 +164,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
 {
     void *gameData = GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
-    int zukanSave = (int)func_0200CA1C(gameData);
+    int zukanSave = (int)ZUKAN_SAVE_GetFromGameData(gameData);
     PokeListParam *listParam = func_02030734(4, 0x98, 1, d_021728CC, 0x90);
     PStatusParam *statusParam;
     void *event;
@@ -180,7 +180,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
     statusParam->mode = 1;
     statusParam->max = POKEPARTY_GetCount(party);
     statusParam->page = 0;
-    statusParam->isNationalDex = func_0200CA38((struct Blk37 *)zukanSave);
+    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)zukanSave);
     statusParam->canUseButtons = 0;
     event = func_020122C0((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = func_020124E8(event);

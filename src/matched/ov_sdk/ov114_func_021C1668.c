@@ -1,5 +1,5 @@
 /*
- * function: func_021C1668
+ * function: SslAuthCallback
  * address:  0x021C1668
  * packet:   pkt_ov114_021C1668
  * region:   ov114
@@ -13,16 +13,16 @@
  *
  * symbols:
  *   func_0217D254                    0x0217d254 arm  ov009
- *   g_021CE7B0                       0x021ce7b0 data
- *   g_021CE686                       0x021ce686 data
- *   g_021CE8F8                       0x021ce8f8 data
- *   g_021CE920                       0x021ce920 data
- *   g_021CE93C                       0x021ce93c data
- *   g_021CE970                       0x021ce970 data
- *   g_021CE9AC                       0x021ce9ac data
- *   g_021CE9E4                       0x021ce9e4 data
- *   g_021CEA14                       0x021cea14 data
- *   g_021CEA44                       0x021cea44 data
+ *   sGhttpEncryptionFileName                       0x021ce7b0 data
+ *   sFuncNameSslAuthCallback                       0x021ce686 data
+ *   sGhttpSslReceivedCertficate                       0x021ce8f8 data
+ *   sGhttpLSCnI                       0x021ce920 data
+ *   sGhttpCertificateIsOutOfDate                       0x021ce93c data
+ *   sGhttpSslServerNameDoesNot                       0x021ce970 data
+ *   sGhttpSslNoRootCaInstalled                       0x021ce9ac data
+ *   sGhttpSslBadSignatureDoNot                       0x021ce9e4 data
+ *   sGhttpSslUnknownSignatureAlgorithm                       0x021cea14 data
+ *   sGhttpSslUnknownPublicKeyAlrorithm                       0x021cea44 data
  */
 
 typedef struct CPSSslConnection {
@@ -33,28 +33,28 @@ typedef struct CPSSslConnection {
 } CPSSslConnection;
 
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
-extern char g_021CE7B0[];       /* __FILE__ */
-extern char g_021CE686[];       /* __FUNCTION__ */
-extern char g_021CE8F8[];
-extern char g_021CE920[];
-extern char g_021CE93C[];
-extern char g_021CE970[];
-extern char g_021CE9AC[];
-extern char g_021CE9E4[];
-extern char g_021CEA14[];
-extern char g_021CEA44[];
+extern char sGhttpEncryptionFileName[];       /* __FILE__ */
+extern char sFuncNameSslAuthCallback[];       /* __FUNCTION__ */
+extern char sGhttpSslReceivedCertficate[];
+extern char sGhttpLSCnI[];
+extern char sGhttpCertificateIsOutOfDate[];
+extern char sGhttpSslServerNameDoesNot[];
+extern char sGhttpSslNoRootCaInstalled[];
+extern char sGhttpSslBadSignatureDoNot[];
+extern char sGhttpSslUnknownSignatureAlgorithm[];
+extern char sGhttpSslUnknownPublicKeyAlrorithm[];
 
-int func_021C1668(int result, CPSSslConnection *con, int level)
+int SslAuthCallback(int result, CPSSslConnection *con, int level)
 {
-    func_0217D254(8, (char *)4, 8, g_021CE8F8, g_021CE7B0, g_021CE686, 938);
-    func_0217D254(8, (char *)4, 8, g_021CE920, level, con->issuer, con->name, con->subject);
+    func_0217D254(8, (char *)4, 8, sGhttpSslReceivedCertficate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 938);
+    func_0217D254(8, (char *)4, 8, sGhttpLSCnI, level, con->issuer, con->name, con->subject);
 
     if (result & 0x8000) {
-        func_0217D254(8, (char *)4, 2, g_021CE93C, g_021CE7B0, g_021CE686, 946);
+        func_0217D254(8, (char *)4, 2, sGhttpCertificateIsOutOfDate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 946);
         result &= ~0x8000;
     }
     if (result & 0x4000) {
-        func_0217D254(8, (char *)4, 2, g_021CE970, g_021CE7B0, g_021CE686, 954);
+        func_0217D254(8, (char *)4, 2, sGhttpSslServerNameDoesNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 954);
         result &= ~0x4000;
     }
 
@@ -62,16 +62,16 @@ int func_021C1668(int result, CPSSslConnection *con, int level)
     case 0:
         break;
     case 1:
-        func_0217D254(8, (char *)4, 2, g_021CE9AC, g_021CE7B0, g_021CE686, 963);
+        func_0217D254(8, (char *)4, 2, sGhttpSslNoRootCaInstalled, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 963);
         break;
     case 2:
-        func_0217D254(8, (char *)4, 2, g_021CE9E4, g_021CE7B0, g_021CE686, 969);
+        func_0217D254(8, (char *)4, 2, sGhttpSslBadSignatureDoNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 969);
         break;
     case 3:
-        func_0217D254(8, (char *)4, 2, g_021CEA14, g_021CE7B0, g_021CE686, 975);
+        func_0217D254(8, (char *)4, 2, sGhttpSslUnknownSignatureAlgorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 975);
         break;
     case 4:
-        func_0217D254(8, (char *)4, 2, g_021CEA44, g_021CE7B0, g_021CE686, 981);
+        func_0217D254(8, (char *)4, 2, sGhttpSslUnknownPublicKeyAlrorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 981);
         break;
     }
     return result;

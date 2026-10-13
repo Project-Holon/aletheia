@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_020882D0  0x020882D0  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_Halt  0x020882D0  arm
  */
 
-extern void func_02087988(void);
-extern void func_020882D0(void);
+extern void OS_DisableInterrupts(void);
+extern void OS_Halt(void);
 
 void OSi_DisableInterruptsAndHalt(void)
 {
-    func_02087988();
+    OS_DisableInterrupts();
     while (1) {
-        func_020882D0();
+        OS_Halt();
     }
 }

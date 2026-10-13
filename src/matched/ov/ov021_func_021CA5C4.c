@@ -110,7 +110,7 @@
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02087BCC  0x02087BCC  arm
+ *   OS_ResetSystem  0x02087BCC  arm
  *   EVENT_BSUBWAY_COMM_Start  0x021542C0  thumb  ov007
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
@@ -274,7 +274,7 @@ extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 
 extern int BSUBWAY_SCR_GetTrainNo(void *a);
-extern void func_02087BCC(u32 a);
+extern void OS_ResetSystem(u32 a);
 extern void func_0200D85C(struct Blk3C *p);
 extern u32 func_0200D87C(struct Blk3C *p);
 struct Obj00020;
@@ -476,7 +476,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         *dst = BSUBWAY_SCR_GetTrainNo(s30);
         break;
     case 1:
-        func_02087BCC(0);
+        OS_ResetSystem(0);
         break;
     case 2:
         func_0200D85C((struct Blk3C *)s40);

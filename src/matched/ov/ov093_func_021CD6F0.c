@@ -22,11 +22,11 @@
  *   BTL_CLIENT_StepMain 0x021CDA18 thumb ov093
  *   BTL_MAIN_GetField 0x021BA08C thumb ov093
  *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
- *   func_021D3F04 0x021D3F04 thumb ov093
- *   func_021D3D9C 0x021D3D9C thumb ov093
+ *   BTL_CLIENT_ResetCounter 0x021D3F04 thumb ov093
+ *   BTL_CLIENT_LoadTrainerItems 0x021D3D9C thumb ov093
  *   BTL_MAIN_GetTrainerAiFlags 0x021B9FBC thumb ov093
  *   BTL_MAIN_GetServerFlow 0x021BA820 thumb ov093
- *   func_02187F00 0x02187F00 thumb ov096
+ *   TR_AI_Create 0x02187F00 thumb ov096
  *   BTL_MAIN_IsRecordingActive 0x021B90F8 thumb ov093
  *   BTL_REC_CreateBuffer 0x021EE5E4 thumb ov093
  */
@@ -43,11 +43,11 @@ extern int BTL_CLIENT_StepMain(u8 *);
 struct Q2;
 extern u32 BTL_MAIN_GetField(struct Q2 *p);
 extern void BTL_CLIENT_SET_Clear(u8 *);
-extern void func_021D3F04(u8 *);
-extern void func_021D3D9C(u8 *);
+extern void BTL_CLIENT_ResetCounter(u8 *);
+extern void BTL_CLIENT_LoadTrainerItems(u8 *);
 extern int BTL_MAIN_GetTrainerAiFlags(char *, int);
 extern u32 BTL_MAIN_GetServerFlow(int *);
-extern void *func_02187F00(void **, u32, u32, u32, u16);
+extern void *TR_AI_Create(void **, u32, u32, u32, u16);
 extern int BTL_MAIN_IsRecordingActive(u8 *);
 extern void *BTL_REC_CreateBuffer(u32);
 
@@ -91,12 +91,12 @@ u8 *BTL_CLIENT_Create(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f
     *(u32 *)(p + 0x34) = BTL_MAIN_GetField((struct Q2 *)a);
     p[0x1aa] = f;
     BTL_CLIENT_SET_Clear(p + 0x2c);
-    func_021D3F04(p + 0x18);
-    func_021D3D9C(p);
+    BTL_CLIENT_ResetCounter(p + 0x18);
+    BTL_CLIENT_LoadTrainerItems(p);
     *(struct Copy24 *)(p + 0xf4) = *h;
     if (p[0x1a7] == 1 && g == 0) {
         k = BTL_MAIN_GetTrainerAiFlags(*(char **)p, p[0x1a6]);
-        *(void **)(p + 0xf0) = func_02187F00(*(void ***)p, BTL_MAIN_GetServerFlow(*(int **)p), *(u32 *)(p + 4), k, *(u16 *)(p + 0x19a));
+        *(void **)(p + 0xf0) = TR_AI_Create(*(void ***)p, BTL_MAIN_GetServerFlow(*(int **)p), *(u32 *)(p + 4), k, *(u16 *)(p + 0x19a));
     } else {
         *(int *)(p + 0xf0) = 0;
     }

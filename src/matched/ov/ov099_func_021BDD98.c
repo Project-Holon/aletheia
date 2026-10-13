@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD98
+ * function: WIFICLUB_IsActivePhase
  * address:  0x021BDD98
  * packet:   pkt_ov099_021BDD98
  * region:   ov099
@@ -13,7 +13,7 @@
  *
  * symbols:
  */
-int func_021BDD98(int x) {
+int WIFICLUB_IsActivePhase(int x) {
     if (x < 15 && x > 3) return 1;
     return 0;
 }

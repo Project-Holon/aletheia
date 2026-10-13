@@ -1,6 +1,6 @@
 #ifndef ALETHEIA_G_OSTHREADBSS_H
 #define ALETHEIA_G_OSTHREADBSS_H
-/* g_02150FD0 (arm9) */
+/* gOsThreadBss (arm9) */
 struct OsThreadBss {
     void *OSi_SystemCallbackInSwitchThread;
     unsigned int OSi_RescheduleCount;

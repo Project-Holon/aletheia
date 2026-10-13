@@ -1,5 +1,5 @@
 /*
- * function: func_021CAA70
+ * function: CRYPTO_VerifySignature
  * address:  0x021CAA70
  * packet:   pkt_ov114_021CAA70
  * region:   ov114
@@ -13,16 +13,16 @@
  *
  * symbols:
  *   func_020816B8  0x020816B8  arm
- *   func_021CA9F8  0x021CA9F8  arm  ov114
+ *   CRYPTO_VerifySignatureWithHash  0x021CA9F8  arm  ov114
  */
 
 extern void func_020816B8(void *digest, void *data, unsigned long dataLength);
-extern int func_021CA9F8(void *hash_ptr, void *sign_ptr, void *mod_ptr);
+extern int CRYPTO_VerifySignatureWithHash(void *hash_ptr, void *sign_ptr, void *mod_ptr);
 
-int func_021CAA70(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr)
+int CRYPTO_VerifySignature(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr)
 {
 	unsigned char hash[20];
 
 	func_020816B8(hash, data_ptr, data_len);
-	return func_021CA9F8(hash, sign_ptr, mod_ptr);
+	return CRYPTO_VerifySignatureWithHash(hash, sign_ptr, mod_ptr);
 }

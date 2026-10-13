@@ -14,7 +14,7 @@
  *   func_02011324  0x02011324  thumb
  *   func_02040588  0x02040588  arm
  *   ARC_TOOL_LoadMember  0x02048F60  arm
- *   func_02082A48  0x02082A48  arm
+ *   MIi_CpuClear16  0x02082A48  arm
  *   func_021F8198  0x021F8198  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021F8934  0x021F8934  thumb  ov094
@@ -65,7 +65,7 @@ extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern void func_02082A48(u16 data, void *destp, u32 size);
+extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 extern void func_021F8198(int a, int b);
 extern int func_021F8694(void);
 extern void func_021F8934(int a);
@@ -88,7 +88,7 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
     if (q != 0)
         t->q248 = *q;
     else
-        func_02082A48(0, &t->q248, 0x10);
+        MIi_CpuClear16(0, &t->q248, 0x10);
     t->fdc = a1;
     t->fe0 = a2;
     t->f244 = 1;

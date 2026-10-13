@@ -11,9 +11,9 @@
  *
  * NitroSystem G3D NNS_G3dScrPosToWorldLine (util.c): screen pixel to the
  * world-space near point (and, when pFar is non-null, far point) through the
- * inverse view-projection matrix func_0206AE2C returns. FX_Div is
+ * inverse view-projection matrix NNS_G3dGlbGetInvVPMtx returns. FX_Div is
  * func_0207C768, FX_InvAsync func_0207C8A0, FX_GetInvResultFx64c
- * func_0207C848, the viewport unpack func_0206AE94. Returns -1 when the
+ * func_0207C848, the viewport unpack NNS_G3dGlbGetViewPort. Returns -1 when the
  * pixel is outside the viewport, else 0.
  *
  * Two levers: the viewport extents are named locals dx/dy (dy = y2 - y1 is
@@ -23,9 +23,9 @@
  * arms are laid out differently); ../2.0/sp2 is byte-exact.
  *
  * symbols:
- *   func_0206AE94  0x0206AE94  arm
+ *   NNS_G3dGlbGetViewPort  0x0206AE94  arm
  *   func_0207C768  0x0207C768  arm
- *   func_0206AE2C  0x0206AE2C  arm
+ *   NNS_G3dGlbGetInvVPMtx  0x0206AE2C  arm
  *   func_0207C8A0  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
  */
@@ -42,10 +42,10 @@ typedef struct {
     fx32 _30, _31, _32, _33;
 } MtxFx44;
 
-extern void func_0206AE94(unsigned int *a0, unsigned int *a1, unsigned int *a2, unsigned int *a3);
+extern void NNS_G3dGlbGetViewPort(unsigned int *a0, unsigned int *a1, unsigned int *a2, unsigned int *a3);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
-extern void *func_0206AE2C(void);
+extern void *NNS_G3dGlbGetInvVPMtx(void);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
 
@@ -64,7 +64,7 @@ int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     fx32 w, nx, ny, nz, fw, fx, fy, fz;
     fx64c invW;
 
-    func_0206AE94((unsigned int *)(&x1), (unsigned int *)(&y1), (unsigned int *)(&x2), (unsigned int *)(&y2));
+    NNS_G3dGlbGetViewPort((unsigned int *)(&x1), (unsigned int *)(&y1), (unsigned int *)(&x2), (unsigned int *)(&y2));
     {
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -78,7 +78,7 @@ int func_0206E0C4(int px, int py, VecFx32 *pNear, VecFx32 *pFar)
     x = (x - 0x800) * 2;
     y = (y - 0x800) * 2;
 
-    m = func_0206AE2C();
+    m = NNS_G3dGlbGetInvVPMtx();
     w = (fx32)(((fx64)x * m->_03 + (fx64)y * m->_13) >> 12) + m->_33;
     func_0207C8A0(w - m->_23);
     nx = (fx32)(((fx64)x * m->_00 + (fx64)y * m->_10) >> 12) + m->_30;

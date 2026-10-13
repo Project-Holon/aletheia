@@ -1,5 +1,5 @@
 /*
- * function: func_021B989C
+ * function: WIFICLUBACTOR_ShowMarkerAtActor
  * address:  0x021B989C
  * packet:   pkt_ov099_021B989C
  * region:   ov099
@@ -13,7 +13,7 @@
  *   func_021C4AC4  0x021C4AC4  thumb  ov127
  *   func_021C5858  0x021C5858  thumb  ov127
  *   func_021C584C  0x021C584C  thumb  ov127
- *   func_021B9F90  0x021B9F90  thumb
+ *   WIFICLUBACTOR_ShowMarker  0x021B9F90  thumb
  */
 typedef struct {
     short x, y;
@@ -28,12 +28,12 @@ extern Pos func_021C4AC4(void *v);
 typedef unsigned char  u8;
 extern int func_021C5858(u8 *p);
 extern void func_021C584C(u8 *p, int a);
-extern void func_021B9F90(void *o, Pos pos, int c);
+extern void WIFICLUBACTOR_ShowMarker(void *o, Pos pos, int c);
 
-void func_021B989C(void *o, Rec *r)
+void WIFICLUBACTOR_ShowMarkerAtActor(void *o, Rec *r)
 {
     Pos p = func_021C4AC4(r->f0);
 
-    func_021B9F90(o, p, func_021C5858(r->f4) - 2);
+    WIFICLUBACTOR_ShowMarker(o, p, func_021C5858(r->f4) - 2);
     func_021C584C(r->f4, 0);
 }

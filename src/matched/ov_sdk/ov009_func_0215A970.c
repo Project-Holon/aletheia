@@ -1,5 +1,5 @@
 /*
- * function: func_0215A970
+ * function: CPS_SocGetEport
  * address:  0x0215A970
  * packet:   pkt_ov009_0215A970
  * region:   ov009
@@ -42,7 +42,7 @@ struct NetVars {
 extern struct ThreadInfo g_02150FEC;
 extern struct NetVars g_021A826C;
 
-unsigned short func_0215A970(void)
+unsigned short CPS_SocGetEport(void)
 {
 	unsigned long conflict;
 	struct Soc *soc;

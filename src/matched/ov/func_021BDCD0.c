@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCD0
+ * function: WIFICLUB_LoadFriendRoster
  * address:  0x021BDCD0
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -30,7 +30,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 
-void func_021BDCD0(char *p)
+void WIFICLUB_LoadFriendRoster(char *p)
 {
     func_02009860((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18249 *)p)->fC4));
 }

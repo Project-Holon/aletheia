@@ -14,11 +14,11 @@
  * symbols:
  *   func_020862B8  0x020862B8  arm
  *   memcmp  0x020923F0  arm
- *   func_02082D44  0x02082D44  arm
- *   func_0208F05C  0x0208F05C  arm
- *   g_021DE640  0x021DE640  data
- *   g_021DA8C4  0x021DA8C4  data
- *   g_021DA8C0  0x021DA8C0  data
+ *   MI_CpuCopy8  0x02082D44  arm
+ *   WM_GetOtherElements  0x0208F05C  arm
+ *   gSearchWork  0x021DE640  data
+ *   sSearchZeroBssid  0x021DA8C4  data
+ *   sSearchBeaconTag  0x021DA8C0  data
  */
 
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
@@ -86,12 +86,12 @@ typedef struct {
 } tagMEMSEARCH;
 
 extern void func_020862B8(void *startAddr, u32 nBytes);
-extern void func_02082D44(void *srcp, void *dstp, u32 size);
-extern WMOtherElements func_0208F05C(WMBssDesc *bssDesc);
+extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
+extern WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
 
-extern tagMEMSEARCH *g_021DE640;
-extern u8 g_021DA8C4[6];
-extern u8 g_021DA8C0[4];
+extern tagMEMSEARCH *gSearchWork;
+extern u8 sSearchZeroBssid[6];
+extern u8 sSearchBeaconTag[4];
 
 void func_021CF1D4(WMStartScanExCallback *prm)
 {
@@ -102,8 +102,8 @@ void func_021CF1D4(WMStartScanExCallback *prm)
     int j;
     int k;
 
-    info = g_021DE640->info;
-    func_020862B8(g_021DE640->scanBuf, 1024);
+    info = gSearchWork->info;
+    func_020862B8(gSearchWork->scanBuf, 1024);
     for (i = 0; i < prm->bssDescCount; i++) {
         desc = prm->bssDesc[i];
         if (desc->ssid[0] == 0 || desc->gameInfoLength != 0)
@@ -114,28 +114,28 @@ void func_021CF1D4(WMStartScanExCallback *prm)
         }
         if (j == 20) {
             for (j = 0; j < 20; j++) {
-                if (memcmp(info[j].bssid, g_021DA8C4, 6) == 0)
+                if (memcmp(info[j].bssid, sSearchZeroBssid, 6) == 0)
                     break;
             }
             if (j == 20)
                 return;
         }
-        func_02082D44(desc->bssid, info[j].bssid, 6);
-        func_02082D44(desc->ssid, info[j].ssid, 32);
+        MI_CpuCopy8(desc->bssid, info[j].bssid, 6);
+        MI_CpuCopy8(desc->ssid, info[j].ssid, 32);
         info[j].level = prm->linkLevel[i];
         if ((desc->capaInfo & 0x10) == 0) {
             info[j].wep = 0;
             continue;
         }
         info[j].wep = 1;
-        elems = func_0208F05C(desc);
+        elems = WM_GetOtherElements(desc);
         for (k = 0; k < elems.count; k++) {
             if (elems.element[k].id == 0x30) {
                 info[j].wep = 2;
                 break;
             }
             if (elems.element[k].id == 0xdd && elems.element[k].length >= 4 &&
-                memcmp(elems.element[k].body, g_021DA8C0, 4) == 0) {
+                memcmp(elems.element[k].body, sSearchBeaconTag, 4) == 0) {
                 info[j].wep = 2;
                 break;
             }

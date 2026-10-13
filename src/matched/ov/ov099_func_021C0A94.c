@@ -1,5 +1,5 @@
 /*
- * function: func_021C0A94
+ * function: WIFICLUB_StatePollCancelRequestPrompt
  * address: 0x021C0A94
  * packet: pkt_ov099_021C0A94
  * region: ov099
@@ -8,31 +8,31 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA928 0x021BA928 thumb ov099
- *   func_021BA858 0x021BA858 thumb ov099
- *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021BC090 0x021BC090 thumb ov099
+ *   WIFICLUB_UpdateTalkStream 0x021BA928 thumb ov099
+ *   WIFICLUB_PollYesNoMenu 0x021BA858 thumb ov099
+ *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_ResetTimeIcon 0x021BC090 thumb ov099
  */
 #include "../include/Obj00008.h"
-extern int func_021BA928(char *,int);
+extern int WIFICLUB_UpdateTalkStream(char *,int);
 typedef unsigned int   u32;
-extern u32 func_021BA858(char *p);
-extern void func_021BAAB8(char *,int,int);
-extern void func_021BA8EC(char *);
-extern void func_021BC090(char *);
-int func_021C0A94(char *p,int ret) {
+extern u32 WIFICLUB_PollYesNoMenu(char *p);
+extern void WIFICLUB_ShowStreamedMessage(char *,int,int);
+extern void WIFICLUB_ClearTalkWindow(char *);
+extern void WIFICLUB_ResetTimeIcon(char *);
+int WIFICLUB_StatePollCancelRequestPrompt(char *p,int ret) {
     int r;
-    if(!func_021BA928(p,ret))return ret;
-    r=func_021BA858(p);
+    if(!WIFICLUB_UpdateTalkStream(p,ret))return ret;
+    r=WIFICLUB_PollYesNoMenu(p);
     if(r==-1)return ret;
     if(r==0){
-        func_021BAAB8(p,74,0);
+        WIFICLUB_ShowStreamedMessage(p,74,0);
         ((struct Obj00008 *)p)->f1CC=21;
     }else {
-        func_021BA8EC(p);
-        func_021BAAB8(p,14,0);
-        func_021BC090(p);
+        WIFICLUB_ClearTalkWindow(p);
+        WIFICLUB_ShowStreamedMessage(p,14,0);
+        WIFICLUB_ResetTimeIcon(p);
         ((struct Obj00008 *)p)->f1CC=136;
     }
     return ret;

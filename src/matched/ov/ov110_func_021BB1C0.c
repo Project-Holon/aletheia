@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1C0
+ * function: PMSI_SEARCH_HasResults
  * address:  0x021BB1C0
  * packet:   pkt_ov110_021BB1C0
  * region:   ov110
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 func_021BB1C0(u8 *p) { return ((struct Obj22355 *)p)->fAF1; }
+u8 PMSI_SEARCH_HasResults(u8 *p) { return ((struct Obj22355 *)p)->fAF1; }

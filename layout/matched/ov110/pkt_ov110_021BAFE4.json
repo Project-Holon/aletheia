@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAFE4",
+   "name": "PMSI_SEARCH_ClearInput",
    "address": "0x021BAFE4",
    "kind": "game",
    "region": "ov110",

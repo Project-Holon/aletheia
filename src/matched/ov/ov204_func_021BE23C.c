@@ -15,7 +15,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   func_02082A60 0x02082A60 arm
+ *   MIi_CpuCopy16 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
@@ -29,7 +29,7 @@ extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
-extern void func_02082A60(const void *,void *,u32);
+extern void MIi_CpuCopy16(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 int func_021BE23C(char *p,void *unused,int *state)
@@ -47,7 +47,7 @@ int func_021BE23C(char *p,void *unused,int *state)
     if (*state==1) {
         func_02049658(arc,12,2,0,0,0,heap);
         buf=ARC_UTIL_LoadPaletteDataFromHandle(arc,14,0,(void **)&out,heap);
-        func_02082A60((char *)out+12,p+0xA8,4096);
+        MIi_CpuCopy16((char *)out+12,p+0xA8,4096);
         func_020307B0(buf);
     }
     ARC_TOOL_DeleteHandle(arc);

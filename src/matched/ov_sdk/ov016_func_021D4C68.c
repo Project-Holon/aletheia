@@ -1,5 +1,5 @@
 /*
- * function: func_021D4C68
+ * function: DWCi_ARClRelease
  * address:  0x021D4C68
  * packet:   pkt_ov016_021D4C68
  * region:   ov016
@@ -12,19 +12,19 @@
  * sdk:      DWCi_ARClRelease (libdwcutil.TWL.HYB.a(archive.o))
  *
  * symbols:
- *   func_021D6438  0x021D6438  arm  ov016
- *   func_021D546C  0x021D546C  arm  ov016
- *   g_021DE66C  0x021DE66C  data
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   DWCi_QUElPushBack  0x021D546C  arm  ov016
+ *   gMemArchive  0x021DE66C  data
  */
 
 #include "../include/G_MemArc.h"
 
-extern void func_021D6438(void **mem);
-extern void func_021D546C(void *que, void *elem);
-extern struct MemArc *g_021DE66C;
+extern void DWCi_HEAPlFree_(void **mem);
+extern void DWCi_QUElPushBack(void *que, void *elem);
+extern struct MemArc *gMemArchive;
 
-void func_021D4C68(void *file)
+void DWCi_ARClRelease(void *file)
 {
-	func_021D6438(&file);
-	func_021D546C(*(void **)(((char *)g_021DE66C) + 0x84), file);
+	DWCi_HEAPlFree_(&file);
+	DWCi_QUElPushBack(*(void **)(((char *)gMemArchive) + 0x84), file);
 }

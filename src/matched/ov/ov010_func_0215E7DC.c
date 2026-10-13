@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0200D4AC 0x0200D4AC thumb
- *   func_0200D480 0x0200D480 thumb
- *   func_0200D50C 0x0200D50C thumb
+ *   MOVE_POKEMON_SAVE_GetEntry 0x0200D4AC thumb
+ *   MOVE_POKEMON_SAVE_SetEntryLocation 0x0200D480 thumb
+ *   MOVE_POKEMON_SAVE_SetEntryField 0x0200D50C thumb
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct Blk38;
 struct GdsEnt;
-extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
-extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
+extern struct GdsEnt *MOVE_POKEMON_SAVE_GetEntry(struct Blk38 *p, u32 i);
+extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct Blk38 *p, u32 i, u8 v);
+extern void MOVE_POKEMON_SAVE_SetEntryField(struct GdsEnt *e, u32 i, u32 v);
 void MOVE_POKEMON_SetEntryLocation(void *p,u32 i,u8 v,u32 n)
 {
- void *rec = func_0200D4AC(p,i);
- func_0200D480(p,i,v);
- func_0200D50C(rec,1,n);
+ void *rec = MOVE_POKEMON_SAVE_GetEntry(p,i);
+ MOVE_POKEMON_SAVE_SetEntryLocation(p,i,v);
+ MOVE_POKEMON_SAVE_SetEntryField(rec,1,n);
 }

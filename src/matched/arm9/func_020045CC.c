@@ -1,5 +1,5 @@
 /*
- * function: func_020045CC
+ * function: SVC_UncompressRL16FromDevice
  * address:  0x020045CC
  * packet:   pkt_020045CC
  * region:   arm9
@@ -14,7 +14,7 @@
 
 /* hand-written in the original: SVC stub in the arm9 secure area (SVC_UncompressRL16FromDevice), `swi N; bx lr` in the BIOS call table */
 
-asm void func_020045CC(void)
+asm void SVC_UncompressRL16FromDevice(void)
 {
     swi 0x15
     bx lr

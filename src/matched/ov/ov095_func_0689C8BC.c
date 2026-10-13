@@ -1,5 +1,5 @@
 /*
- * function: func_0689C8BC
+ * function: BTL_ID_IsMeFirstFailMove
  * address: 0x0689C8BC
  * packet: pkt_ov095_0689C8BC
  * region: ov095
@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov095/unit_0689C888.c and filed here.
  *
  * symbols:
- *   d_0689E31C 0x0689E31C data a2
- *   func_0689C888 0x0689C888 thumb
+ *   gMeFirstFailMoves 0x0689E31C data a2
+ *   BTL_ID_IsInList 0x0689C888 thumb
  */
 
-int func_0689C888(unsigned a, unsigned short *b, unsigned n);
-int func_0689C8BC(unsigned a);
-extern unsigned short d_0689E31C[];
+int BTL_ID_IsInList(unsigned a, unsigned short *b, unsigned n);
+int BTL_ID_IsMeFirstFailMove(unsigned a);
+extern unsigned short gMeFirstFailMoves[];
 
-int func_0689C8BC(unsigned a)
+int BTL_ID_IsMeFirstFailMove(unsigned a)
 {
-    return func_0689C888(a, d_0689E31C, 10);
+    return BTL_ID_IsInList(a, gMeFirstFailMoves, 10);
 }

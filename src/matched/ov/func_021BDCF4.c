@@ -1,5 +1,5 @@
 /*
- * function: func_021BDCF4
+ * function: WIFICLUB_CopyFriendEntry
  * address:  0x021BDCF4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -31,7 +31,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 
-void func_021BDCF4(int a, int b, char *p)
+void WIFICLUB_CopyFriendEntry(int a, int b, char *p)
 {
     func_02009C24((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18251 *)p)->fC4), a, b);
 }

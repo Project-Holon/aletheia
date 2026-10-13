@@ -1,5 +1,5 @@
 /*
- * function: func_0217653C
+ * function: DWCi_TempNewNodeInfo_Clear
  * address:  0x0217653C
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,14 +12,15 @@
  * Clears the block 0x554 bytes into the module block.
  *
  * symbols:
+ *   DWCi_NodeInfo_Clear  0x0217656C  arm
 
  */
 
 extern int func_02175F3C(void);
-extern void func_0217656C(void *p);
+extern void DWCi_NodeInfo_Clear(void *p);
 
-void func_0217653C(void)
+void DWCi_TempNewNodeInfo_Clear(void)
 {
-    func_0217656C((void *)(func_02175F3C() + 0x554));
+    DWCi_NodeInfo_Clear((void *)(func_02175F3C() + 0x554));
 }
 

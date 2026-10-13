@@ -12,20 +12,22 @@
  * SDK: TwlDWC/libdwcnd.TWL.HYB.a(dwci_nd.o).  decl_line 519, param callback.
  *
  * symbols:
- *   d_021D3B9C   0x021D3B9C  data
+ *   gDwciNdStatics   0x021D3B9C  data
  *   nhttpCleanupCallback   0x021C64E0  arm
+ *   NHTTP_CleanupAsync  0x021BE680  arm
+ *   DWCi_NdCleanupConnectionHandle  0x021C654C  arm
  */
 typedef unsigned long u32;
 
-extern char d_021D3B9C[];
-extern int func_021C654C(void * volatile handle);
-extern void func_021BE680(int a);
+extern char gDwciNdStatics[];
+extern int DWCi_NdCleanupConnectionHandle(void * volatile handle);
+extern void NHTTP_CleanupAsync(int a);
 extern void nhttpCleanupCallback(void);
 
 void DWCi_NdCleanupAsync(void *callback)
 {
-    *(u32 *)(d_021D3B9C + 8) = 0;
-    *(void **)(d_021D3B9C + 0x24) = callback;
-    func_021C654C(*(void **)(d_021D3B9C + 0x10));
-    func_021BE680((int)nhttpCleanupCallback);
+    *(u32 *)(gDwciNdStatics + 8) = 0;
+    *(void **)(gDwciNdStatics + 0x24) = callback;
+    DWCi_NdCleanupConnectionHandle(*(void **)(gDwciNdStatics + 0x10));
+    NHTTP_CleanupAsync((int)nhttpCleanupCallback);
 }

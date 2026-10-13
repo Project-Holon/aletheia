@@ -18,8 +18,8 @@ int SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive(void);
  * `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C; .word 0x02146B80`,
  * no witness outside this range.  Leaf C tried (DIFF only, the two loads and
  * the two pool words come out swapped, 8 bytes):
- *   extern void func_02061B5C(void *); extern char d_02146B80[];
- *   void func_02061C30(void) { func_02061B5C(d_02146B80); }
- *   (`return func_02061B5C((int)d_02146B80)` with int types: same DIFF)
+ *   extern void NNSi_GfdResetVramTransferTaskQueue(void *); extern char d_02146B80[];
+ *   void NNS_GfdResetVramTransferTaskQueue(void) { NNSi_GfdResetVramTransferTaskQueue(d_02146B80); }
+ *   (`return NNSi_GfdResetVramTransferTaskQueue((int)d_02146B80)` with int types: same DIFF)
  */
 int SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive(void) { return 1; }

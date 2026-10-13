@@ -1,5 +1,5 @@
 /*
- * function: func_021BC490
+ * function: PMSIV_EDIT_ParserNext
  * address: 0x021BC490
  * packet: pkt_ov110_021BC490
  * region: ov110
@@ -29,7 +29,7 @@ typedef struct Cursor {
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 extern u32 func_0201D670(const u16 *,u32);
 extern u16 *func_0201D688(u16 *);
-int func_021BC490(Cursor *p,struct Strbuf *out)
+int PMSIV_EDIT_ParserNext(Cursor *p,struct Strbuf *out)
 {
     u16 *start;
     int result;

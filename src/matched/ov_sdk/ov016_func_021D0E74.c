@@ -19,9 +19,9 @@
  *   DC_InvalidateRange  0x020862B8  arm
  *   memcmp  0x020923F0  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   g_021DA94E  0x021DA94E  data
- *   g_021DE654  0x021DE654  data
- *   g_021DA948  0x021DA948  data
+ *   sUsbApSsid  0x021DA94E  data
+ *   gUsbapWork  0x021DE654  data
+ *   sUsbApZeroBssid  0x021DA948  data
  */
 
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
@@ -61,9 +61,9 @@ typedef struct {
 
 extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
-extern MemUsbT *g_021DE654;
-extern char g_021DA94E[9];
-extern u8 g_021DA948[6];
+extern MemUsbT *gUsbapWork;
+extern char sUsbApSsid[9];
+extern u8 sUsbApZeroBssid[6];
 
 void func_021D0E74(ScanCbT *prm)
 {
@@ -74,23 +74,23 @@ void func_021D0E74(ScanCbT *prm)
     for (i = 0; i < prm->bssDescCount; i++) {
         info = prm->bssDesc[i];
         DC_InvalidateRange(info, 0xc0);
-        if (memcmp(info->ssid, g_021DA94E, 8) != 0)
+        if (memcmp(info->ssid, sUsbApSsid, 8) != 0)
             continue;
         for (j = 0; j < 16; j++) {
-            if (memcmp(info->bssid, g_021DE654->ap[j].bssid, 6) == 0) {
-                if (g_021DE654->ap[j].used)
+            if (memcmp(info->bssid, gUsbapWork->ap[j].bssid, 6) == 0) {
+                if (gUsbapWork->ap[j].used)
                     goto next;
                 if (!(info->ssid[9] & 1))
                     goto next;
-                if (g_021DE654->callback)
-                    g_021DE654->callback(1);
+                if (gUsbapWork->callback)
+                    gUsbapWork->callback(1);
                 return;
             }
         }
         for (j = 0; j < 16; j++) {
-            if (memcmp(g_021DE654->ap[j].bssid, g_021DA948, 6) == 0) {
-                MI_CpuCopy8(info->bssid, ((struct ApT *)g_021DE654->ap)[j].bssid, 6);
-                g_021DE654->ap[j].used = (info->ssid[9] & 1) ? 1 : 0;
+            if (memcmp(gUsbapWork->ap[j].bssid, sUsbApZeroBssid, 6) == 0) {
+                MI_CpuCopy8(info->bssid, ((struct ApT *)gUsbapWork->ap)[j].bssid, 6);
+                gUsbapWork->ap[j].used = (info->ssid[9] & 1) ? 1 : 0;
                 break;
             }
         }

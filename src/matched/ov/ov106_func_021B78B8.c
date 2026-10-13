@@ -1,5 +1,5 @@
 /*
- * function: func_021B78B8
+ * function: IRC_RANKING_SeqRun
  * address: 0x021B78B8
  * packet: pkt_ov106_021B78B8
  * region: ov106
@@ -13,4 +13,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct C C;
 struct C { void (*callback)(C *, int *, int); int flag, value, arg; };
-void func_021B78B8(C *p) { if (p->flag == 0) p->callback(p, &p->value, p->arg); }
+void IRC_RANKING_SeqRun(C *p) { if (p->flag == 0) p->callback(p, &p->value, p->arg); }

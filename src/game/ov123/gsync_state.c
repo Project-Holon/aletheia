@@ -61,7 +61,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
@@ -96,7 +96,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -121,7 +121,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_0204363C 0x0204363C arm
  *   func_0207D534 0x0207D534 arm
- *   func_0207D46C 0x0207D46C arm
+ *   GX_DispOn 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -167,17 +167,17 @@
  *   d_021DAA54 0x021DAA54 data ov123 a1
  *   g_021DAC20 0x021DAC20 data ov123 a4
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
- *   func_021C5B80 0x021C5B80 arm ov114
- *   func_021C5928 0x021C5928 arm ov114
+ *   DWC_NdCleanupAsync 0x021C5B80 arm ov114
+ *   DWC_NdInitAsync 0x021C5928 arm ov114
  *   d_021DAA58 0x021DAA58 data a1
  *   d_021DAA60 0x021DAA60 data a1
  *   STD_TSNPrintf 0x0208D80C arm
- *   func_021C5C04 0x021C5C04 arm ov114
+ *   DWC_NdSetAttr 0x021C5C04 arm ov114
  *   d_021DAA74 0x021DAA74 data a1
- *   func_021C5DB4 0x021C5DB4 arm ov114
- *   func_021C5C38 0x021C5C38 arm ov114
- *   func_021C5CFC 0x021C5CFC arm ov114
- *   func_021C5AB8  0x021C5AB8  arm  ov114
+ *   DWC_NdCancelAsync 0x021C5DB4 arm ov114
+ *   DWC_NdGetFileListAsync 0x021C5C38 arm ov114
+ *   DWC_NdGetFileAsync 0x021C5CFC arm ov114
+ *   DWC_NdProcess  0x021C5AB8  arm  ov114
  *   ov067_id 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
  *   d_021DAB68 0x021DAB68 data a1
@@ -187,7 +187,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
  *   d_021DA758 0x021DA758 data a4
- *   func_0207E3D0 0x0207E3D0 arm
+ *   GX_LoadBGPltt 0x0207E3D0 arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   d_021DAACC 0x021DAACC data a4
@@ -225,10 +225,10 @@
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_0207E51C 0x0207E51C arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
  *   KEY_GetTrg  0x020362DC  arm
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
- *   func_021B9774 0x021B9774 thumb ov114
+ *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   d_021DA844 0x021DA844 data a4
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
@@ -239,13 +239,13 @@
  *   func_02009290 0x02009290 thumb
  *   func_020092F8 0x020092F8 thumb
  *   func_020093D4 0x020093D4 thumb
- *   func_021B99DC 0x021B99DC thumb ov114
- *   func_021B9790 0x021B9790 thumb ov114
- *   func_021B97F4 0x021B97F4 thumb ov114
- *   func_021B95D4 0x021B95D4 thumb ov114
- *   func_021B973C 0x021B973C thumb ov114
- *   func_021B9748 0x021B9748 thumb ov114
- *   func_021BE79C 0x021BE79C arm ov114
+ *   NHTTP_RAP_GetResultCode 0x021B99DC thumb ov114
+ *   NHTTP_RAP_PollConnection 0x021B9790 thumb ov114
+ *   NHTTP_RAP_GetRecvBuffer 0x021B97F4 thumb ov114
+ *   NHTTP_RAP_CreateRequest 0x021B95D4 thumb ov114
+ *   NHTTP_RAP_GetConnection 0x021B973C thumb ov114
+ *   NHTTP_RAP_StartConnection 0x021B9748 thumb ov114
+ *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   func_020092D0 0x020092D0 thumb
  *   func_020090F8 0x020090F8 thumb
  *   func_0203F1FC 0x0203F1FC arm
@@ -283,10 +283,10 @@
  *   func_02009428 0x02009428 thumb
  *   func_020185F0 0x020185F0 thumb
  *   func_02009294 0x02009294 thumb
- *   func_021B9838  0x021B9838  thumb  ov114
+ *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   ov114_id 0x00000072 data
  *   func_020092EC 0x020092EC thumb
- *   func_021B9800 0x021B9800 thumb ov114
+ *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   d_021DABA4 0x021DABA4 data a1
  *   func_0200F7C0 0x0200F7C0 thumb
@@ -584,7 +584,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02082D44(const void *, void *, u32);
+extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
@@ -614,7 +614,7 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *p, int i);
-extern void func_020862F0(void *, int);
+extern void DWCi_ScreenDC_FlushRange(void *, int);
 extern void func_0207E5D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -641,7 +641,7 @@ extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u8,u32);
 extern void func_0204363C(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_0207D46C(void);
+extern void GX_DispOn(void);
 extern void func_0203F8F4(u16 heapId);
 extern void BMP_WIN_Init(u16);
 extern void func_0201DD60(void);
@@ -696,17 +696,17 @@ extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_0200F7DC(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
-extern int func_021C5B80(void);
-extern int func_021C5928(void (*callback)(void *, u32, int), char *gamecd, char *passwd);
+extern int DWC_NdCleanupAsync(void);
+extern int DWC_NdInitAsync(void (*callback)(void *, u32, int), char *gamecd, char *passwd);
 extern int STD_TSNPrintf(char *,int,const char *,...);
-extern int func_021C5C04(char *attr1, char *attr2, char *attr3);
-extern int func_021C5DB4(void);
-extern int func_021C5C38(void *filelist, unsigned int offset, unsigned int num);
-extern int func_021C5CFC(void *fileinfo, char *buf, unsigned int size);
-extern void func_021C5AB8(void);
+extern int DWC_NdSetAttr(char *attr1, char *attr2, char *attr3);
+extern int DWC_NdCancelAsync(void);
+extern int DWC_NdGetFileListAsync(void *filelist, unsigned int offset, unsigned int num);
+extern int DWC_NdGetFileAsync(void *fileinfo, char *buf, unsigned int size);
+extern void DWC_NdProcess(void);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
-extern void func_0207E3D0(const void *, int, int);
+extern void GX_LoadBGPltt(const void *, int, int);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern int func_0201BC3C(void);
@@ -729,10 +729,10 @@ extern u32 func_02019D30(u32 a, u32 n);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern void func_0207E51C(void *,int,int);
+extern void GX_LoadOBJPltt(void *,int,int);
 extern u32 KEY_GetTrg(void);
 extern void GAME_DATA_SaveCancel(char *p);
-extern void func_021B9774(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(u8 *p);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 v);
@@ -749,13 +749,13 @@ extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
 extern int func_020185F0(void *);
-extern int func_021B99DC(u8 *p);
-extern int func_021B9790(u8 *p);
-extern u8 *func_021B97F4(u8 *p);
-extern int func_021B95D4(int index, u8 *p);
-extern int func_021B973C(char *p);
-extern int func_021B9748(u8 *p);
-extern int func_021BE79C(void *handle, void *value_p, unsigned long length);
+extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_PollConnection(u8 *p);
+extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
+extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
+extern int NHTTP_RAP_GetConnection(char *p);
+extern int NHTTP_RAP_StartConnection(u8 *p);
+extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 extern void func_020092D0(struct Sub02009210Obj *obj, u8 value);
 extern void func_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
 extern int GAME_DATA_PartSaveMain(char *p, int a1);
@@ -804,13 +804,13 @@ extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
 extern void func_02007664(void *save, u32 box, u32 slot);
-extern void func_021B9838(u8 *p);
+extern void NHTTP_RAP_Destroy(u8 *p);
 extern u32 func_02009228(void);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern u32 func_0201293C(const struct BigObj *p);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
-extern u8 *func_021B9800(int,int,int);
+extern u8 *NHTTP_RAP_Create(int,int,int);
 extern void DWC_RAP_SetErrorCallback(int,int);
 extern u32 func_0200FB24(void);
 extern void func_0200F7C0(u32 value);
@@ -1435,8 +1435,8 @@ void func_021D4884(GsyncStateObj3 *p)
     func_02049B68(h, 1, 4, 0, 0, p->fC);
     func_02049B68(h, 0, 0, 0, 0, p->fC);
     allocated = func_02049F78(h, 1, (u32)(&record), p->fC);
-    func_02082D44(((GsyncStateObj23 *)record)->fC, (char *)p + 0x44, 0xe0);
-    func_02082D44(((GsyncStateObj23 *)record)->fC, (char *)p + 0x124, 0xe0);
+    MI_CpuCopy8(((GsyncStateObj23 *)record)->fC, (char *)p + 0x44, 0xe0);
+    MI_CpuCopy8(((GsyncStateObj23 *)record)->fC, (char *)p + 0x124, 0xe0);
     func_021D43B8((u16 *)((char *)p + 0x124), (const u16 *)d_021DA9D0, 7);
     func_020307B0(allocated);
     p->f40 = func_02049740(h, 4, 4, 0, 0, p->fC);
@@ -1641,7 +1641,7 @@ void func_021D4CBC(GsyncStateObj3 *p, int n, int count)
     PALANM_CopyHwPaletteToSlot(obj, n, 0, bytes);
     PALANM_BlendChannel(obj, (int)n, (int)0, (u16)(count * 16), (int)6, (int)0);
     buffer = (void *)PALANM_GetTransWork(obj, n);
-    func_020862F0(buffer, bytes);
+    DWCi_ScreenDC_FlushRange(buffer, bytes);
     switch (n) {
     case 3: func_0207E5D0(buffer, 0, bytes); break;
     case 1: func_0207E468(buffer, 0, bytes); break;
@@ -1659,8 +1659,8 @@ void func_021D4CBC(GsyncStateObj3 *p, int n, int count)
 void func_021D4D40(GsyncStateObj3 *p, int flag)
 {
     if (flag) {
-        func_02082D44((void *)0x05000600, p->f280, 0x200);
-        func_02082D44((void *)0x05000400, p->f284, 0x200);
+        MI_CpuCopy8((void *)0x05000600, p->f280, 0x200);
+        MI_CpuCopy8((void *)0x05000400, p->f284, 0x200);
         func_021D4CBC(p, 3, 14);
         func_021D4CBC(p, 1, 9);
     } else {
@@ -1954,7 +1954,7 @@ int func_021D5128(void *a,int b,GsyncStateObj16 *q)
     func_0204363C(1);
     if(q->f2C8) bright=16; else bright=-16;
     func_0207D534((void *)0x0400006c,bright); func_0207D534((void *)0x0400106c,bright);
-    *(volatile u32 *)0x04001000|=0x10000; func_0207D46C();
+    *(volatile u32 *)0x04001000|=0x10000; GX_DispOn();
     func_0203F8F4(p->fC); BMP_WIN_Init(p->fC); func_0201DD60();
     BG_SYS_SetVramBanks((const struct DispVram *)d_021DA9F0);
     cfg=d_021DA680; func_0203FC28((struct DispConfig *)(&cfg));
@@ -2417,12 +2417,12 @@ int func_021D5BA0(GsyncStateObj1 *p){return p->fB8;}
 
 
 
-int func_021D5BA8(char *p){if(!((GsyncStateObj11 *)p)->fC4){if(func_021C5B80())((GsyncStateObj11 *)p)->fC4=1;}return ((GsyncStateObj11 *)p)->fB0==0;}
+int func_021D5BA8(char *p){if(!((GsyncStateObj11 *)p)->fC4){if(DWC_NdCleanupAsync())((GsyncStateObj11 *)p)->fC4=1;}return ((GsyncStateObj11 *)p)->fB0==0;}
 
 
 
 
-int func_021D5BD4(GsyncStateObj11 *p){p->fB0=0;if(!func_021C5928(func_021D5AC0,d_021DAA58,d_021DAA60))return 0;DWC_RAP_SetErrorHookCallback((int)func_021D5BA8,(int)p);return 1;}
+int func_021D5BD4(GsyncStateObj11 *p){p->fB0=0;if(!DWC_NdInitAsync(func_021D5AC0,d_021DAA58,d_021DAA60))return 0;DWC_RAP_SetErrorHookCallback((int)func_021D5BA8,(int)p);return 1;}
 
 
 
@@ -2437,7 +2437,7 @@ int func_021D5C2C(GsyncStateObj1 *p){if(p->fD0&&p->fC8)return 1;if(*(int *)(g_02
 
 
 
-int func_021D5C64(GsyncStateObj11 *p,void *arg,int value){char buf[20];int ok=0;p->fB0=0;STD_TSNPrintf(buf,20,d_021DAA74,value);if(func_021C5C04(arg,buf,(char *)d_021DAA54))ok=1;return ok;}
+int func_021D5C64(GsyncStateObj11 *p,void *arg,int value){char buf[20];int ok=0;p->fB0=0;STD_TSNPrintf(buf,20,d_021DAA74,value);if(DWC_NdSetAttr(arg,buf,(char *)d_021DAA54))ok=1;return ok;}
 
 
 
@@ -2458,7 +2458,7 @@ int func_021D5CAC(GsyncStateObj1 *p)
     if (p->fCC) {
         if (++p->fCC>3600) {
             p->fD0=1;
-            if (!func_021C5DB4()) p->fC8=1;
+            if (!DWC_NdCancelAsync()) p->fC8=1;
             return 0;
         }
     }
@@ -2468,17 +2468,17 @@ int func_021D5CAC(GsyncStateObj1 *p)
 
 
 
-int func_021D5CF8(GsyncStateObj11 *p){int ok=1;p->fB0=0;p->fCC=1;p->fD0=0;if(!func_021C5C38(p,0,1))ok=0;return ok;}
+int func_021D5CF8(GsyncStateObj11 *p){int ok=1;p->fB0=0;p->fCC=1;p->fD0=0;if(!DWC_NdGetFileListAsync(p,0,1))ok=0;return ok;}
 
 
 
 
-int func_021D5D24(GsyncStateObj11 *p){int ok=1;p->fB0=0;p->fCC=1;p->fD0=0;if(!func_021C5CFC(p,p->fB8,p->fBC+0x40))ok=0;return ok;}
+int func_021D5D24(GsyncStateObj11 *p){int ok=1;p->fB0=0;p->fCC=1;p->fD0=0;if(!DWC_NdGetFileAsync(p,p->fB8,p->fBC+0x40))ok=0;return ok;}
 
 
 
 
-int func_021D5D58(GsyncStateObj11 *p){int ok;if(!p->fC4){ok=0;p->fB0=0;if(!func_021C5B80())return ok;}return 1;}
+int func_021D5D58(GsyncStateObj11 *p){int ok;if(!p->fC4){ok=0;p->fB0=0;if(!DWC_NdCleanupAsync())return ok;}return 1;}
 
 
 
@@ -2487,7 +2487,7 @@ int func_021D5D58(GsyncStateObj11 *p){int ok;if(!p->fC4){ok=0;p->fB0=0;if(!func_
 void func_021D5D7C(GsyncStateObj1 *p)
 {
     if (func_021D5CAC(p) != 0)
-        func_021C5AB8();
+        DWC_NdProcess();
 }
 
 
@@ -2509,7 +2509,7 @@ u8 *func_021D5D94(u32 heap)
     func_02034AC4((int)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(p->f43C4);
     CLACT_InitSystem((const struct Cfg *)d_020A1464,(u32)d_021DAA9C,p->f43C4);
     p->fC=CLACT_CreateUnit(40,0,p->f43C4);
@@ -2581,7 +2581,7 @@ void func_021D60F8(void *a, u8 *p)
     if (n % 10 == 1) {
         base = *(u8 * *)&((struct GsyncObj172 *)(((GsyncStateObj3 *)p)->f18))->fC;
         off = (n / 10 + 2) * 32;
-        func_0207E3D0(base + off, 64, 32);
+        GX_LoadBGPltt(base + off, 64, 32);
         func_0207E468(base + off, 64, 32);
     }
     if (((GsyncStateObj3 *)p)->f4564 >= 80) ((GsyncStateObj3 *)p)->f4564 = 0;
@@ -2825,27 +2825,27 @@ void func_021D6548(void *unused, u8 *p)
         *(volatile u32 *)0x0400001C = *(s16_021D634C *)(p + 0x43C8 + idx * 2) & 0x1FF;
         v = *(int *)(p + 0x455C);
         if (v >= 0xC0) {
-            func_0207E3D0(d_021DAA88, 0x142, 2);
+            GX_LoadBGPltt(d_021DAA88, 0x142, 2);
             return;
         }
         if (v == 0) {
-            func_0207E3D0(&d_021DAA88[9], 0x142, 2);
+            GX_LoadBGPltt(&d_021DAA88[9], 0x142, 2);
             return;
         }
         if (line > 200) {
-            func_0207E3D0(d_021DAA88, 0x142, 2);
+            GX_LoadBGPltt(d_021DAA88, 0x142, 2);
             return;
         }
         if (v > line) {
-            func_0207E3D0(d_021DAA88, 0x142, 2);
+            GX_LoadBGPltt(d_021DAA88, 0x142, 2);
             return;
         }
         d = line - v;
         if ((u32)d < 10 && d >= 0) {
-            func_0207E3D0(&d_021DAA88[d], 0x142, 2);
+            GX_LoadBGPltt(&d_021DAA88[d], 0x142, 2);
             return;
         }
-        func_0207E3D0(&d_021DAA88[9], 0x142, 2);
+        GX_LoadBGPltt(&d_021DAA88[9], 0x142, 2);
     }
 }
 
@@ -3139,11 +3139,11 @@ void func_021D6AB8(GsyncStateObj2 *p)
         if (species) {
             buf = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,2),p->f43C4);
             func_02062A98(buf,(void **)(&out));
-            func_02082D44(((GsyncStateObj30 *)out)->fC,(u8 *)p+0xbc+i*0x224,32);
+            MI_CpuCopy8(((GsyncStateObj30 *)out)->fC,(u8 *)p+0xbc+i*0x224,32);
             func_020307B0(buf);
             buf2 = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,1),p->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(((GsyncStateObj24 *)out2)->f14,(u8 *)p+0xdc+i*0x224,512);
+            MI_CpuCopy8(((GsyncStateObj24 *)out2)->f14,(u8 *)p+0xdc+i*0x224,512);
             func_020307B0(buf2);
         }
     }
@@ -3159,7 +3159,7 @@ void func_021D6AB8(GsyncStateObj2 *p)
             id = POKE_TOOL_CalcGraphicIndex(species,form,gender,0);
             buf2 = ARC_TOOL_LoadHandleMember(h2,id,p->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(((GsyncStateObj24 *)out2)->f14,(u8 *)p+0xdc+n*0x224,512);
+            MI_CpuCopy8(((GsyncStateObj24 *)out2)->f14,(u8 *)p+0xdc+n*0x224,512);
             func_020307B0(buf2);
             *(u32 *)((u8 *)p+n*0x224+0x2dc) = value;
         }
@@ -3180,7 +3180,7 @@ void func_021D6C48(GsyncStateObj2 *p,int i,void *h)
 {
     Desc d;
     CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));
-    func_02082D44((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
+    MI_CpuCopy8((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
     CLACT_SetActorPaletteOffset(h,(u8)(*(u32 *)((char *)p+i*0x224+0x2dc)),1);
 }
 
@@ -3197,9 +3197,9 @@ void func_021D6C90(GsyncStateObj2 *p,int i,void *h)
 {
     Desc d;
     CLACT_GetActorImageProxy(h,(struct Struct36 *)(&d));
-    func_02082D44((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
-    func_020862F0((char *)p+0xbc+i*0x224,0x20);
-    func_0207E51C((char *)p+0xbc+i*0x224,0x100,0x20);
+    MI_CpuCopy8((char *)p+0xdc+i*0x224,(void *)(d.x[1]+0x6400000),0x200);
+    DWCi_ScreenDC_FlushRange((char *)p+0xbc+i*0x224,0x20);
+    GX_LoadOBJPltt((char *)p+0xbc+i*0x224,0x100,0x20);
 }
 
 
@@ -3420,7 +3420,7 @@ void func_021D6F70(unsigned char *a)
 void func_021D6FF0(char *p)
 {
     int n=((GsyncStateObj1 *)p)->f80+29;
-    if (((GsyncStateObj1 *)p)->f10) func_021B9774(((GsyncStateObj1 *)p)->f10);
+    if (((GsyncStateObj1 *)p)->f10) NHTTP_RAP_DeleteConnection(((GsyncStateObj1 *)p)->f10);
     if (((GsyncStateObj1 *)p)->f80==0xfff0) n=39;
     else if (((GsyncStateObj1 *)p)->f80==0xfff1) n=40;
     else if (((GsyncStateObj1 *)p)->f80==0xfff2) n=41;
@@ -3567,7 +3567,7 @@ void func_021D7224(GsyncStateObj1 *p)
     if (func_020076D0(p->f24,(int *)((char *)p+0x48),(int *)((char *)p+0x4c))) {
         q=func_02030734(p->f0,func_020173EC(),1,d_021DAB78,0x245);
         size=func_020173EC();
-        func_02082D44(func_02009290(g),q,size);
+        MI_CpuCopy8(func_02009290(g),q,size);
         if (p->f6C) {
             n=func_02017E1C(q,158,0);
             if (n==100) p->f6C=0;
@@ -3626,9 +3626,9 @@ void func_021D72D8(char *p)
 
 void func_021D7390(char *p)
 {
-    if (func_021D6E08((GsyncStateObj1 *)p,func_021B99DC(((GsyncStateObj1 *)p)->f10))==0) {
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)==0) {
-            func_021B97F4(((GsyncStateObj1 *)p)->f10);
+    if (func_021D6E08((GsyncStateObj1 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))==0) {
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)==0) {
+            NHTTP_RAP_GetRecvBuffer(((GsyncStateObj1 *)p)->f10);
             func_02009448(((GsyncStateObj1 *)p)->f28);
             ((GsyncStateObj1 *)p)->fAE=1;
             func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D72D8,0x2ae);
@@ -3650,11 +3650,11 @@ void func_021D73D8(char *p)
         return;
     }
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(8,((GsyncStateObj1 *)p)->f10)) {
+        if (NHTTP_RAP_CreateRequest(8,((GsyncStateObj1 *)p)->f10)) {
             p[2]=1;
             p[3]=0;
-            func_021BE79C((void *)func_021B973C(((GsyncStateObj1 *)p)->f10),(void *)((unsigned int)(p+2)),4);
-            if (func_021B9748(((GsyncStateObj1 *)p)->f10)==0)
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateObj1 *)p)->f10),(void *)((unsigned int)(p+2)),4);
+            if (NHTTP_RAP_StartConnection(((GsyncStateObj1 *)p)->f10)==0)
                 func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D7390,0x2cd);
         }
     }
@@ -3767,7 +3767,7 @@ void func_021D75D0(int a)
     x=(int)func_02030734(((GsyncStateObj1 *)a)->f0,0x3000,0,d_021DAB78,0x34a);
     (*(int *)&((GsyncStateObj1 *)a)->f40)=x;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(b,4,((GsyncStateObj1 *)a)->f0,x,0x3000);
-    func_02082D44(p,(void *)x,0x2600);
+    MI_CpuCopy8(p,(void *)x,0x2600);
     func_02009108((struct Sub020090B0Obj *)func_02009210((void *)b),checksum);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateObj1 *)a)->f2C,4);
     func_021D6EE0((GsyncStateObj1 *)a,(int)func_021D758C,0x355);
@@ -3816,7 +3816,7 @@ void func_021D76F0(int a)
     x=(int)func_02030734(((GsyncStateObj1 *)a)->f0,0x6800,0,d_021DAB78,0x37d);
     *(int *)&((GsyncStateObj1 *)a)->f3C=x;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(b,7,((GsyncStateObj1 *)a)->f0,*(int *)&((GsyncStateObj1 *)a)->f3C,0x6800);
-    func_02082D44(p,((GsyncStateObj1 *)a)->f3C,0x6200);
+    MI_CpuCopy8(p,((GsyncStateObj1 *)a)->f3C,0x6200);
     func_0200E8E0((void *)(*(int *)&((GsyncStateObj1 *)a)->f3C),1);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateObj1 *)a)->f2C,7);
     func_021D6EE0((GsyncStateObj1 *)a,(int)func_021D76B8,0x383);
@@ -4207,14 +4207,14 @@ void func_021D7F9C(char *p)
     if (func_021D6E70((GsyncStateObj1 *)p) && !func_021D6EBC((GsyncStateObj1 *)p)) {
         if (((GsyncStateObj1 *)p)->f70<30) ++((GsyncStateObj1 *)p)->f70;
         func_021D66D0((GsyncStateObj2 *)(((GsyncStateObj1 *)p)->f14),((GsyncStateObj1 *)p)->f70);
-        if (func_021D6E08((GsyncStateObj1 *)p,func_021B99DC(((GsyncStateObj1 *)p)->f10))) return;
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)) return;
-        q=(char *)func_021B97F4((u8 *)(((GsyncStateObj1 *)p)->f10));
+        if (func_021D6E08((GsyncStateObj1 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)) return;
+        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj1 *)p)->f10));
         v=func_02009448(((GsyncStateObj1 *)p)->f28);
         data=q+0x80;
         allocated=func_02030734(((GsyncStateObj1 *)p)->f0,0x11c,1,d_021DAB78,0x573);
         (*(void * *)&((GsyncStateObj1 *)p)->f38)=allocated;
-        func_02082D44(data,allocated,0x11c);
+        MI_CpuCopy8(data,allocated,0x11c);
         func_021D7E58((GsyncStateObj1 *)p,v,(GsyncStateObj3 *)data,(int *)q);
         return;
     } else {
@@ -4245,7 +4245,7 @@ void func_021D7F9C(char *p)
 void func_021D80B8(char *p)
 {
     if (func_021D6E70((GsyncStateObj1 *)p) && !func_021D6EBC((GsyncStateObj1 *)p)) {
-        if (func_021B95D4(2, ((GsyncStateObj1 *)p)->f10) && !func_021B9748(((GsyncStateObj1 *)p)->f10)) {
+        if (NHTTP_RAP_CreateRequest(2, ((GsyncStateObj1 *)p)->f10) && !NHTTP_RAP_StartConnection(((GsyncStateObj1 *)p)->f10)) {
             func_021D6EE0((GsyncStateObj1 *)p, (int)func_021D7F9C, 0x59d);
             return;
         }
@@ -4436,9 +4436,9 @@ void func_021D8490(char *p)
 {
     char *q;
     if (GFL_NET_GetRunState()) {
-        if (func_021D6E08((GsyncStateObj1 *)p, func_021B99DC(((GsyncStateObj1 *)p)->f10))) return;
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)) return;
-        q = (char *)func_021B97F4((u8 *)(((GsyncStateObj1 *)p)->f10));
+        if (func_021D6E08((GsyncStateObj1 *)p, NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)) return;
+        q = (char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj1 *)p)->f10));
         if (((GsyncStateObj19 *)q)->f0 == 2) {
             func_021D6EE0((GsyncStateObj1 *)p, (int)func_021D8958, 0x6d4);
             return;
@@ -4464,10 +4464,10 @@ void func_021D8520(char *p)
     int x;
     unsigned int v;
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(9,*(void **)(p+0x10))) {
+        if (NHTTP_RAP_CreateRequest(9,*(void **)(p+0x10))) {
             v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
-            func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
-            if (!func_021B9748(*(void **)(p+0x10)))
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(void **)(p+0x10)),(void *)v,0x80000);
+            if (!NHTTP_RAP_StartConnection(*(void **)(p+0x10)))
                 func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D8490,0x6fa);
         }
     } else {
@@ -4574,10 +4574,10 @@ void func_021D8790(char *p)
 {
     char *q;
     if (GFL_NET_GetRunState()) {
-        if (func_021D6E08((GsyncStateObj1 *)p,func_021B99DC(((GsyncStateObj1 *)p)->f10))) return;
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)) return;
-        q=(char *)func_021B97F4((u8 *)(((GsyncStateObj1 *)p)->f10));
-        func_02082D44(q+0x80,(char *)((GsyncStateObj1 *)p)->f20+0xc,0x44);
+        if (func_021D6E08((GsyncStateObj1 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)) return;
+        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj1 *)p)->f10));
+        MI_CpuCopy8(q+0x80,(char *)((GsyncStateObj1 *)p)->f20+0xc,0x44);
         ((struct GsyncObj175 *)(((GsyncStateObj1 *)p)->f20))->f50=1;
         func_021D8650((GsyncStateObj1 *)p,((GsyncStateObj3 *)q)->f80,(int *)q);
     } else {
@@ -4593,8 +4593,8 @@ void func_021D87F8(char *p)
     func_021D57B8((GsyncStateObj5 *)(((GsyncStateObj1 *)p)->f18),13);
     func_021D5A7C((GsyncStateObj9 *)(((GsyncStateObj1 *)p)->f18));
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(0,((GsyncStateObj1 *)p)->f10)) {
-            if (!func_021B9748(((GsyncStateObj1 *)p)->f10))
+        if (NHTTP_RAP_CreateRequest(0,((GsyncStateObj1 *)p)->f10)) {
+            if (!NHTTP_RAP_StartConnection(((GsyncStateObj1 *)p)->f10))
                 func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D8790,0x7ea);
         }
     } else {
@@ -4634,12 +4634,12 @@ void func_021D88C0(char *p)
     char *q;
     int state;
     if (GFL_NET_GetRunState()) {
-        if (func_021D6E08((GsyncStateObj1 *)p,func_021B99DC(((GsyncStateObj1 *)p)->f10))) return;
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)) return;
-        q=(char *)func_021B97F4((u8 *)(((GsyncStateObj1 *)p)->f10));
+        if (func_021D6E08((GsyncStateObj1 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)) return;
+        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj1 *)p)->f10));
         state=((GsyncStateObj33 *)q)->f0;
         if (state==0 || state==8) {
-            func_02082D44(q+0x80,(char *)((GsyncStateObj1 *)p)->f20+0x1d8,0x80);
+            MI_CpuCopy8(q+0x80,(char *)((GsyncStateObj1 *)p)->f20+0x1d8,0x80);
             ((struct GsyncObj175 *)(((GsyncStateObj1 *)p)->f20))->f1C8=5;
             func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D6F04,0x837);
         } else {
@@ -4676,7 +4676,7 @@ void func_021D8958(char *p)
         return;
     }
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(1,((GsyncStateObj1 *)p)->f10) && !func_021B9748(((GsyncStateObj1 *)p)->f10))
+        if (NHTTP_RAP_CreateRequest(1,((GsyncStateObj1 *)p)->f10) && !NHTTP_RAP_StartConnection(((GsyncStateObj1 *)p)->f10))
             func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D88C0,0x871);
     } else {
         if (KEY_GetTrg() || TOUCHPANEL_GetTrg())
@@ -4797,9 +4797,9 @@ void func_021D8C04(char *p)
     if (func_021D6E70((GsyncStateObj1 *)p)) {
         if (((GsyncStateObj1 *)p)->f70<50) ++((GsyncStateObj1 *)p)->f70;
         func_021D66D0((GsyncStateObj2 *)(((GsyncStateObj1 *)p)->f14),((GsyncStateObj1 *)p)->f70);
-        if (func_021D6E08((GsyncStateObj1 *)p,func_021B99DC(((GsyncStateObj1 *)p)->f10))) return;
-        if (func_021B9790(((GsyncStateObj1 *)p)->f10)) return;
-        q=(char *)func_021B97F4((u8 *)(((GsyncStateObj1 *)p)->f10));
+        if (func_021D6E08((GsyncStateObj1 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj1 *)p)->f10))) return;
+        if (NHTTP_RAP_PollConnection(((GsyncStateObj1 *)p)->f10)) return;
+        q=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj1 *)p)->f10));
         if (func_021D6EA4((GsyncStateObj1 *)p)) func_021D5A60((GsyncStateObj2 *)(((GsyncStateObj1 *)p)->f18));
         state=((GsyncStateObj34 *)q)->f0;
         if (state==0) {
@@ -4836,12 +4836,12 @@ void func_021D8D08(char *p)
     if (func_021D580C((GsyncStateObj2 *)(*(char **)(p+0x18)))) {
         *(int *)(p+0x74)=0;
         if (func_021D6E70((GsyncStateObj1 *)p)) {
-            if (func_021B95D4(3,*(void **)(p+0x10))) {
+            if (NHTTP_RAP_CreateRequest(3,*(void **)(p+0x10))) {
                 v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
-                func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
+                NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(void **)(p+0x10)),(void *)v,0x80000);
                 func_021D66D0((GsyncStateObj2 *)(*(void **)(p+0x14)),0);
                 *(int *)(p+0x70)=0;
-                if (!func_021B9748(*(void **)(p+0x10)))
+                if (!NHTTP_RAP_StartConnection(*(void **)(p+0x10)))
                     func_021D6EE0((GsyncStateObj1 *)p,(int)func_021D8C04,0x986);
             }
         } else {
@@ -4925,8 +4925,8 @@ void func_021D8EC4(char *p)
 void func_021D8F3C(char *p)
 {
     if (*(u32 *)&((GsyncStateObj1 *)p)->f10 != 0) {
-        func_021B9774(((GsyncStateObj1 *)p)->f10);
-        func_021B9838(((GsyncStateObj1 *)p)->f10);
+        NHTTP_RAP_DeleteConnection(((GsyncStateObj1 *)p)->f10);
+        NHTTP_RAP_Destroy(((GsyncStateObj1 *)p)->f10);
         *(u32 *)&((GsyncStateObj1 *)p)->f10 = 0;
     }
 }
@@ -4942,7 +4942,7 @@ void func_021D8F58(GsyncStateObj1 *p)
     void *q;
     v=func_02009448(p->f28);
     if (p->f34) {
-        func_02082D44(p->f34,v,func_02009228());
+        MI_CpuCopy8(p->f34,v,func_02009228());
         func_020307B0(p->f34);
         p->f34=0;
     }
@@ -5004,7 +5004,7 @@ int func_021D8FBC(void *a,int b,GsyncStateObj3 *q)
             break;
         }
         if (*(int *)&q->f1C8!=4) {
-            p->f10=func_021B9800(98,value,(int)((char *)q+0x54));
+            p->f10=NHTTP_RAP_Create(98,value,(int)((char *)q+0x54));
             DWC_RAP_SetErrorCallback((int)func_021D8F3C,(int)p);
         }
     }
@@ -5025,7 +5025,7 @@ int func_021D9158(void *a, int b, int c, GsyncStateObj1 *p)
     result=1;
     if (WIPE_SYS_EndCheck() && !p->fAE && func_0200FB24()) {
         if ((*(void * *)&p->f8)) func_021D5D58((GsyncStateObj11 *)((*(void * *)&p->f8)));
-        func_021B9774(p->f10);
+        NHTTP_RAP_DeleteConnection(p->f10);
         if (p->fAD) {
             GAME_DATA_SaveCancel((*(void * *)&p->f2C));
             p->fAD=0;
@@ -5069,7 +5069,7 @@ int func_021D920C(void *a, int b, int c, GsyncStateObj10 *p)
     if (p->f44) func_020307B0(p->f44);
     if (GFL_NET_GetRunState()) DWC_RAP_SetErrorHookCallback(0,0);
     if (p->f10) {
-        func_021B9838(p->f10);
+        NHTTP_RAP_Destroy(p->f10);
         DWC_RAP_SetErrorCallback(0,0);
     }
     func_020315D4(a);
@@ -5342,7 +5342,7 @@ char *func_021D9958(int heap)
     BG_SYS_SetSubVisiblePlanes(0);
     func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
-    func_0207D46C();
+    GX_DispOn();
     func_0203F8F4(p->f9E4);
     CLACT_InitSystem((const struct Cfg *)d_020A1464,(u32)d_021DABCC,p->f9E4);
     p->f97C=CLACT_CreateUnit(40,0,p->f9E4);
@@ -5501,8 +5501,8 @@ void func_021D9D3C(GsyncStateObj12 *p)
     heap = p->f9E4;
     MI_CpuFill8((char *)p + 8, 0, 0x970);
     allocated = func_02049F78(h, 2, (u32)&record, heap);
-    func_02082D44(record->data, (char *)p + 0x10, 0x1e0);
-    func_02082D44(record->data, (char *)p + 0x1f0, 0x1e0);
+    MI_CpuCopy8(record->data, (char *)p + 0x10, 0x1e0);
+    MI_CpuCopy8(record->data, (char *)p + 0x1f0, 0x1e0);
     func_020307B0(allocated);
     for (i = 0; i < 15; i++) {
         base1 = (u16 *)((char *)p + 0x1f0);
@@ -5526,7 +5526,7 @@ void func_021D9D3C(GsyncStateObj12 *p)
             }
         }
     }
-    func_020862F0((char *)p + 0x1f0, 0x780);
+    DWCi_ScreenDC_FlushRange((char *)p + 0x1f0, 0x780);
     *(u32 *)((char *)p + 0xc) = 1;
     *(void **)((char *)p + 8) = func_020056A0((void *)func_021D9F40, (char *)p + 8, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
@@ -5541,7 +5541,7 @@ void func_021D9F40(void *unused, char *p)
     if (((GsyncStateObj13 *)p)->f4) {
         ((GsyncStateObj13 *)p)->f96B^=1;
         if (!(*(volatile u8 *)&((GsyncStateObj13 *)p)->f96B&1)) {
-            func_0207E3D0(p+0x1f0+((GsyncStateObj13 *)p)->f968*32,40,14);
+            GX_LoadBGPltt(p+0x1f0+((GsyncStateObj13 *)p)->f968*32,40,14);
             func_0207E468(p+0x1f0+((GsyncStateObj13 *)p)->f968*32,40,14);
             ++((GsyncStateObj13 *)p)->f968;
             if (*(volatile s16_021D8A9C *)&((GsyncStateObj13 *)p)->f968>=60) ((GsyncStateObj13 *)p)->f968=0;
@@ -5651,7 +5651,7 @@ void func_021DA1EC(char *p)
 {
     unsigned n;
     n = ((GsyncStateObj4 *)p)->f70 + 11;
-    if (((GsyncStateObj4 *)p)->f8) func_021B9774(((GsyncStateObj4 *)p)->f8);
+    if (((GsyncStateObj4 *)p)->f8) NHTTP_RAP_DeleteConnection(((GsyncStateObj4 *)p)->f8);
     if (((GsyncStateObj4 *)p)->f70 == 0xfff1) n = 22;
     else if (((GsyncStateObj4 *)p)->f70 == 0xfff2) n = 23;
     else if (((GsyncStateObj4 *)p)->f70 == 0xfff3) n = 20;
@@ -5696,8 +5696,8 @@ void func_021DA308(char *p) { func_021D9514((GsyncStateObj5 *)(((GsyncStateObj4 
 void func_021DA328(char *p)
 {
     int *q;
-    if (GFL_NET_GetRunState() && !func_021D9FD4((GsyncStateObj4 *)p,func_021B99DC(((GsyncStateObj4 *)p)->f8)) && !func_021B9790(((GsyncStateObj4 *)p)->f8)) {
-        q = (int *)(char *)func_021B97F4((u8 *)(((GsyncStateObj4 *)p)->f8));
+    if (GFL_NET_GetRunState() && !func_021D9FD4((GsyncStateObj4 *)p,NHTTP_RAP_GetResultCode(((GsyncStateObj4 *)p)->f8)) && !NHTTP_RAP_PollConnection(((GsyncStateObj4 *)p)->f8)) {
+        q = (int *)(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateObj4 *)p)->f8));
         func_021D9634((GsyncStateObj2 *)(((GsyncStateObj4 *)p)->f10));
         if (*q == 2) { func_021DA034((GsyncStateObj4 *)p,(int)func_021DA1A0,0x1d4); return; }
         if (*q == 0) { func_021DA034((GsyncStateObj4 *)p,(int)func_021DA1A0,0x1d7); return; }
@@ -5719,10 +5719,10 @@ void func_021DA3A0(char *p)
     int a;
     unsigned b;
     if (GFL_NET_GetRunState()) {
-        if (func_021B95D4(9,*(void **)(p + 8))) {
+        if (NHTTP_RAP_CreateRequest(9,*(void **)(p + 8))) {
             b = (unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p + 0x1c),&a);
-            func_021BE79C((void *)func_021B973C(*(void **)(p + 8)),(void *)b,0x80000);
-            if (!func_021B9748(*(void **)(p + 8))) {
+            NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(*(void **)(p + 8)),(void *)b,0x80000);
+            if (!NHTTP_RAP_StartConnection(*(void **)(p + 8))) {
                 func_021DA034((GsyncStateObj4 *)p,(int)func_021DA328,0x1f6);
                 return;
             }
@@ -5742,7 +5742,7 @@ void func_021DA434(char *p) { func_021D9844((GsyncStateObj2 *)(((GsyncStateObj4 
 
 
 
-void func_021DA45C(char *p) { if(((GsyncStateObj4 *)p)->f8) { func_021B9774(((GsyncStateObj4 *)p)->f8); func_021B9838(((GsyncStateObj4 *)p)->f8); ((GsyncStateObj4 *)p)->f8=0; } }
+void func_021DA45C(char *p) { if(((GsyncStateObj4 *)p)->f8) { NHTTP_RAP_DeleteConnection(((GsyncStateObj4 *)p)->f8); NHTTP_RAP_Destroy(((GsyncStateObj4 *)p)->f8); ((GsyncStateObj4 *)p)->f8=0; } }
 
 
 
@@ -5760,7 +5760,7 @@ int func_021DA478(void *a,int unused,GsyncStateObj14 *q)
     p->f20=q->f0;
     p->f28=func_0200853C((const struct Sub0200852CObj *)func_02012944(q->f0));
     if(GFL_NET_GetRunState()) {
-        p->f8=func_021B9800(q->f8,p->f28,q->f4);
+        p->f8=NHTTP_RAP_Create(q->f8,p->f28,q->f4);
         DWC_RAP_SetErrorCallback((int)func_021DA45C,(int)p);
     }
     p->fC=func_021D9958(p->f0);
@@ -5792,7 +5792,7 @@ int func_021DA54C(int a,int b,GsyncStateObj35 *c,GsyncStateObj1 *p)
     func_021D9404((GsyncStateObj2 *)(p->f10));
     if (WIPE_SYS_EndCheck()) {
         if (func_0200FB24()) {
-            func_021B9774((*(void * *)&p->f8));
+            NHTTP_RAP_DeleteConnection((*(void * *)&p->f8));
             if (p->f6C) {
                 GAME_DATA_SaveCancel(p->f20);
                 p->f6C = 0;

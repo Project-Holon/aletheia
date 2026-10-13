@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E90
+ * function: IRC_RANKING_InputGetFlick
  * address: 0x021B8E90
  * packet: pkt_ov106_021B8E90
  * region: ov106
@@ -47,7 +47,7 @@ static inline int convert(int v)
         f = _fsub(_fflt((int)((u32)v << 12)), 0.5f);
     return _ffix(f);
 }
-int func_021B8E90(State *p, Pair *start, Pair *end, Vec *delta, int *count)
+int IRC_RANKING_InputGetFlick(State *p, Pair *start, Pair *end, Vec *delta, int *count)
 {
     Vec a, b;
     int y;

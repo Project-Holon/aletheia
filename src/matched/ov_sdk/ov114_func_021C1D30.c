@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D30
+ * function: ghiHandleStatus
  * address:  0x021C1D30
  * packet:   pkt_ov114_021C1D30
  * region:   ov114
@@ -19,7 +19,7 @@ typedef struct GHIConnection {
 	int statusCode;
 } GHIConnection;
 
-void func_021C1D30(GHIConnection *connection)
+void ghiHandleStatus(GHIConnection *connection)
 {
 	switch (connection->statusCode / 100) {
 	case 1:

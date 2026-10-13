@@ -1,5 +1,5 @@
 /*
- * function: func_02085158
+ * function: OSi_RemoveThreadFromList
  * address:  0x02085158
  * packet:   pkt_02085158
  * region:   arm9
@@ -12,7 +12,7 @@
  * sdk:      OSi_RemoveThreadFromList (os_thread.o)
  *
  * symbols:
- *   g_02150FD0  0x02150FD0  data
+ *   gOsThreadBss  0x02150FD0  data
  */
 
 typedef unsigned long long u64;
@@ -136,14 +136,14 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OsThreadBss g_02150FD0;
+extern OsThreadBss gOsThreadBss;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-void func_02085158(OSThread *thread)
+void OSi_RemoveThreadFromList(OSThread *thread)
 {
-    OSThread *t = g_02150FD0.OSi_ThreadInfo.list;
+    OSThread *t = gOsThreadBss.OSi_ThreadInfo.list;
     OSThread *pre = 0;
 
     while (t && t != thread) {
@@ -152,7 +152,7 @@ void func_02085158(OSThread *thread)
     }
 
     if (!pre) {
-        g_02150FD0.OSi_ThreadInfo.list = thread->next;
+        gOsThreadBss.OSi_ThreadInfo.list = thread->next;
     } else {
         pre->next = thread->next;
     }

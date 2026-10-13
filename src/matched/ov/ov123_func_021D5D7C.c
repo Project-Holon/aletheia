@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_021D5CAC  0x021D5CAC  thumb
- *   func_021C5AB8  0x021C5AB8  arm  ov114
+ *   DWC_NdProcess  0x021C5AB8  arm  ov114
  *
  * Addresses are Black-image addresses.
  */
 
 extern int func_021D5CAC(char *p);
-extern void func_021C5AB8(void);
+extern void DWC_NdProcess(void);
 
 void func_021D5D7C(char *p)
 {
     if (func_021D5CAC(p) != 0)
-        func_021C5AB8();
+        DWC_NdProcess();
 }

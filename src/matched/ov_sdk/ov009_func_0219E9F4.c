@@ -15,8 +15,8 @@
  * has no witness: no catalog row, no label, and ov021 overlaps the address.
  *
  * symbols:
- *   func_0219D928  0x0219D928  arm  ov009
- *   func_0219DF04  0x0219DF04  arm  ov009
+ *   SBQueryEngineUpdateServer  0x0219D928  arm  ov009
+ *   SBQueryEngineRemoveServerFromFIFOs  0x0219DF04  arm  ov009
  *   func_021A02E0  0x021A02E0  arm  ov009
  *   func_02184200  0x02184200  arm  ov009
  *   func_0219D8D8  0x0219D8D8  arm  ov009
@@ -72,8 +72,8 @@ struct ServerBrowser {
     void *instance;
 };
 
-extern void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
-extern void func_0219DF04(SBQueryEngine *engine, SBServer *server);
+extern void SBQueryEngineUpdateServer(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
+extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 struct SBL;
 extern void func_021A02E0(struct SBL *slist);
 extern int func_02184200(const int *p);
@@ -99,9 +99,9 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         } else
             qtype = 2;
         if (serverlist->backendgameflags & 0x80)
-            func_0219D928(&sb->engine, server, 0, qtype, 1);
+            SBQueryEngineUpdateServer(&sb->engine, server, 0, qtype, 1);
         else
-            func_0219D928(&sb->engine, server, 0, qtype, 0);
+            SBQueryEngineUpdateServer(&sb->engine, server, 0, qtype, 0);
         break;
     case 1:
         if (!(server->state & 0x43))
@@ -111,7 +111,7 @@ void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void 
         break;
     case 2:
         if (server->state & 0x2c)
-            func_0219DF04(&sb->engine, server);
+            SBQueryEngineRemoveServerFromFIFOs(&sb->engine, server);
         sb->BrowserCallback(sb, 3, server, sb->instance);
         break;
     case 3:

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFDB0
+ * function: PMSIV_WORDWIN_SetThumbRow
  * address: 0x021BFDB0
  * packet: pkt_ov110_021BFDB0
  * region: ov110
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
+void PMSIV_WORDWIN_SetThumbRow(u8 *p,unsigned a,unsigned n) {
     Vec2 pos;
     s16 lo,hi;
     pos.x=244;

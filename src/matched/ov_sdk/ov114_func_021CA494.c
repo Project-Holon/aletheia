@@ -1,5 +1,5 @@
 /*
- * function: func_021CA494
+ * function: CRYPTOi_RSA
  * address:  0x021CA494
  * packet:   pkt_ov114_021CA494
  * region:   ov114
@@ -12,15 +12,15 @@
  * sdk:      CRYPTOi_RSA (sign.o)
  *
  * symbols:
- *   func_021CAD1C  0x021CAD1C  arm  ov114
- *   func_021CACD0  0x021CACD0  arm  ov114
- *   func_021CAF24  0x021CAF24  arm  ov114
- *   func_021CAEC8  0x021CAEC8  arm  ov114
- *   func_021CC124  0x021CC124  arm  ov114
- *   func_021CAB94  0x021CAB94  arm  ov114
- *   func_021CB010  0x021CB010  arm  ov114
- *   func_021CABDC  0x021CABDC  arm  ov114
- *   func_021CAD6C  0x021CAD6C  arm  ov114
+ *   CRYPTOi__BN_CTX_new  0x021CAD1C  arm  ov114
+ *   CRYPTOi__BN_init  0x021CACD0  arm  ov114
+ *   CRYPTOi__BN_bin2bn  0x021CAF24  arm  ov114
+ *   CRYPTOi__BN_set_word  0x021CAEC8  arm  ov114
+ *   CRYPTOi__BN_mod_exp  0x021CC124  arm  ov114
+ *   CRYPTOi__BN_num_bits  0x021CAB94  arm  ov114
+ *   CRYPTOi__BN_bn2bin  0x021CB010  arm  ov114
+ *   CRYPTOi__BN_free  0x021CABDC  arm  ov114
+ *   CRYPTOi__BN_CTX_free  0x021CAD6C  arm  ov114
  */
 
 typedef struct bignum_st
@@ -34,18 +34,18 @@ typedef struct bignum_st
 
 typedef struct bignum_ctx BN_CTX;
 
-extern void *func_021CAD1C(void);
-extern void func_021CACD0(int a);
-extern BIGNUM *func_021CAF24(const unsigned char *, int, BIGNUM *);
+extern void *CRYPTOi__BN_CTX_new(void);
+extern void CRYPTOi__BN_init(int a);
+extern BIGNUM *CRYPTOi__BN_bin2bn(const unsigned char *, int, BIGNUM *);
 typedef unsigned char  u8;
-extern int func_021CAEC8(u8 *a, unsigned long w);
-extern int func_021CC124(BIGNUM *, const BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
-extern int func_021CAB94(const BIGNUM *);
-extern int func_021CB010(const BIGNUM *, unsigned char *);
-extern void func_021CABDC(u8 *p);
-extern void func_021CAD6C(u8 *ctx);
+extern int CRYPTOi__BN_set_word(u8 *a, unsigned long w);
+extern int CRYPTOi__BN_mod_exp(BIGNUM *, const BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
+extern int CRYPTOi__BN_num_bits(const BIGNUM *);
+extern int CRYPTOi__BN_bn2bin(const BIGNUM *, unsigned char *);
+extern void CRYPTOi__BN_free(u8 *p);
+extern void CRYPTOi__BN_CTX_free(u8 *ctx);
 
-int func_021CA494(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *mod_ptr, int mod_len, unsigned long exp_num)
+int CRYPTOi_RSA(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *mod_ptr, int mod_len, unsigned long exp_num)
 {
     BN_CTX *ctx;
     BIGNUM src;
@@ -57,50 +57,50 @@ int func_021CA494(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *
     if (dst_ptr == 0 || src_ptr == 0 || mod_ptr == 0)
         return -3;
 
-    ctx = func_021CAD1C();
-    func_021CACD0((int)(&src));
-    func_021CACD0((int)(&dst));
-    func_021CACD0((int)(&exp));
-    func_021CACD0((int)(&mod));
+    ctx = CRYPTOi__BN_CTX_new();
+    CRYPTOi__BN_init((int)(&src));
+    CRYPTOi__BN_init((int)(&dst));
+    CRYPTOi__BN_init((int)(&exp));
+    CRYPTOi__BN_init((int)(&mod));
 
     if (ctx == 0)
     {
         ret = -2;
         goto end;
     }
-    if (func_021CAF24((unsigned char *)src_ptr, src_len, &src) == 0)
+    if (CRYPTOi__BN_bin2bn((unsigned char *)src_ptr, src_len, &src) == 0)
     {
         ret = -2;
         goto end;
     }
-    if (func_021CAEC8((u8 *)(&exp), exp_num) == 0)
+    if (CRYPTOi__BN_set_word((u8 *)(&exp), exp_num) == 0)
     {
         ret = -2;
         goto end;
     }
-    if (func_021CAF24((unsigned char *)mod_ptr, mod_len, &mod) == 0)
+    if (CRYPTOi__BN_bin2bn((unsigned char *)mod_ptr, mod_len, &mod) == 0)
     {
         ret = -2;
         goto end;
     }
-    if (func_021CC124(&dst, &src, &exp, &mod, ctx) == 0)
+    if (CRYPTOi__BN_mod_exp(&dst, &src, &exp, &mod, ctx) == 0)
     {
         ret = -2;
         goto end;
     }
-    if (dst_len < (func_021CAB94(&dst) + 7) / 8)
+    if (dst_len < (CRYPTOi__BN_num_bits(&dst) + 7) / 8)
     {
         ret = -1;
         goto end;
     }
-    ret = func_021CB010(&dst, (unsigned char *)dst_ptr);
+    ret = CRYPTOi__BN_bn2bin(&dst, (unsigned char *)dst_ptr);
 
 end:
-    func_021CABDC((u8 *)(&src));
-    func_021CABDC((u8 *)(&dst));
-    func_021CABDC((u8 *)(&exp));
-    func_021CABDC((u8 *)(&mod));
+    CRYPTOi__BN_free((u8 *)(&src));
+    CRYPTOi__BN_free((u8 *)(&dst));
+    CRYPTOi__BN_free((u8 *)(&exp));
+    CRYPTOi__BN_free((u8 *)(&mod));
     if (ctx != 0)
-        func_021CAD6C((u8 *)ctx);
+        CRYPTOi__BN_CTX_free((u8 *)ctx);
     return ret;
 }

@@ -178,15 +178,15 @@
  *   func_0201F41C 0x0201F41C thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   CLACT_GetActorPaletteProxy 0x0204B764 arm
  *   func_02063800 0x02063800 arm
- *   func_0207E51C 0x0207E51C arm
+ *   GX_LoadOBJPltt 0x0207E51C arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   d_021F57A8 0x021F57A8 data ov194 a1
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
@@ -484,15 +484,15 @@ extern void CLACT_VBlankSystem(void);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern void func_0201F41C(const u16 *,u16 *,u32);
 extern unsigned short STRBUF_GetEosChar(void);
-extern void func_02082D44(const void *, void *, unsigned);
+extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern u8 *NNS_G3dGetTex(u8 *);
 extern u16 CLACT_GetActorCharacterIndex(u8 *);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
-extern void func_020862F0(void *,unsigned);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned);
 extern void CLACT_GetActorPaletteProxy(const char *src, struct Struct20 *dst);
 extern int func_02063800(char *,int);
-extern void func_0207E51C(void *,int,unsigned);
+extern void GX_LoadOBJPltt(void *,int,unsigned);
 extern void func_0207E5D0(void *,int,unsigned);
 int func_021F2F8C(Pair *p,Pair *out);
 void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32_021F2F8C heap);
@@ -2340,7 +2340,7 @@ void func_021F51A4(const char *src, char *dst, unsigned *a, unsigned *b, unsigne
 {
     int i;
     for (i = 0; i < 8; i++) {
-        func_02082D44(src + *a, dst + *b, n);
+        MI_CpuCopy8(src + *a, dst + *b, n);
         *a += step;
         *b += n;
     }
@@ -2380,9 +2380,9 @@ void func_021F51E4(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 heigh
     CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
     func_020307B0(buf);
     u32 poff=((struct Obj14519 *)tex)->f38;
-    func_020862F0(tex+poff,32);
+    DWCi_ScreenDC_FlushRange(tex+poff,32);
     CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
-    if(mode==0 || mode==2) func_0207E51C(tex+poff,func_02063800((char *)&pal,1),32);
+    if(mode==0 || mode==2) GX_LoadOBJPltt(tex+poff,func_02063800((char *)&pal,1),32);
     if(mode==1 || mode==2) func_0207E5D0(tex+poff,func_02063800((char *)&pal,2),32);
     func_020307B0(raw);
     ARC_TOOL_DeleteHandle(archive);

@@ -10,9 +10,9 @@
  * status: EXACT
  * lever: one-word aggregate locals preserve the early address setup and merge.
  * symbols:
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   func_021D6328 0x021D6328 thumb ov120
- *   func_020862F0 0x020862F0 arm
+ *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   d_021D8920 0x021D8920 data a4
@@ -31,16 +31,16 @@ typedef struct Pair { int a,b; } Pair;
 typedef struct Word { int a; } Word;
 extern const Word d_021D8920,d_021D891C,d_021D8918;
 extern const Pair d_021D895C,d_021D896C,d_021D894C,d_021D8954,d_021D8944,d_021D8964;
-extern void func_02082D44(const void *,void *,unsigned int);
+extern void MI_CpuCopy8(const void *,void *,unsigned int);
 extern void func_021D6328(u8 *,int,int *,int *,int);
-extern void func_020862F0(void *,unsigned long);
+extern void DWCi_ScreenDC_FlushRange(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
 void func_021D63F4(u8 *p,int flag,int mode)
 {
     if(flag) {
-        func_02082D44((void *)0x05000600,((struct Obj05350 *)p)->f124,0x200);
-        func_02082D44((void *)0x05000400,((struct Obj05350 *)p)->f128,0x200);
+        MI_CpuCopy8((void *)0x05000600,((struct Obj05350 *)p)->f124,0x200);
+        MI_CpuCopy8((void *)0x05000400,((struct Obj05350 *)p)->f128,0x200);
         switch(mode) {
         case 2: {
             Word a={0};
@@ -76,9 +76,9 @@ void func_021D63F4(u8 *p,int flag,int mode)
         }
         }
     } else {
-        func_020862F0(((struct Obj05350 *)p)->f124,0x200);
+        DWCi_ScreenDC_FlushRange(((struct Obj05350 *)p)->f124,0x200);
         func_0207E5D0(((struct Obj05350 *)p)->f124,0,0x200);
-        func_020862F0(((struct Obj05350 *)p)->f128,0x200);
+        DWCi_ScreenDC_FlushRange(((struct Obj05350 *)p)->f128,0x200);
         func_0207E468(((struct Obj05350 *)p)->f128,0,0x200);
     }
 }

@@ -69,7 +69,7 @@
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   FIELD_3DBG_LoadBillboardTexture  0x021A1698  thumb  ov021
  *   FIELD_3DBG_SetBillboardPolygonId  0x021A16D8  thumb  ov021
  *   gWeatherBillboardTextureDesc     0x021EE710  data  a4
@@ -145,7 +145,7 @@ s32 CLACT_RegisterCellAnim(void *archive, u32 cell, u32 cellAnim, u32 heapId);
 void CLACT_ReleaseCharacter(u32 id);
 void CLACT_ReleasePalette(u32 id);
 void CLACT_ReleaseCellAnim(u32 id);
-void func_02082D44(const void *src, void *dst, int size);
+void MI_CpuCopy8(const void *src, void *dst, int size);
 int FIELD_3DBG_LoadBillboardTexture(Field3dbgBillboard *billboard, void *archive, void *textureDesc, int heapId);
 void FIELD_3DBG_SetBillboardPolygonId(Field3dbgBillboard *billboard, u8 polygonId);
 void FIELD_3DBG_FreeBillboardTexture(Field3dbgBillboard *billboard);
@@ -1129,7 +1129,7 @@ void WEATHER_TASK_FreeSpriteResources(WeatherResourceSet *resources)
  */
 void WEATHER_TASK_InitBillboard(WeatherResourceSet *resources, int index, Field3dbgBillboard *billboard, const WeatherBillboardInit *init, unsigned short heapId)
 {
-    func_02082D44(init, gWeatherBillboardTextureDesc, 12);
+    MI_CpuCopy8(init, gWeatherBillboardTextureDesc, 12);
     if (d_021EE710b[8] != 0x1f) {
         d_021EE710b[8] = 0x1f;
     }

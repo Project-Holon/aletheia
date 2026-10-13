@@ -1,5 +1,5 @@
 /*
- * function: func_021B8178
+ * function: IRC_RHYTHM_IsCountdownFinished
  * address:  0x021B8178
  * packet:   pkt_ov104_021B8178
  * region:   ov104
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 func_021B8178(u8 *p) { return ((struct Obj22226 *)p)->f18; }
+u32 IRC_RHYTHM_IsCountdownFinished(u8 *p) { return ((struct Obj22226 *)p)->f18; }

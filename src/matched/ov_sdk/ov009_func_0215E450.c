@@ -12,12 +12,12 @@
  * sdk:      SOCLi_WriteCallBack (socl_write.o)
  *
  * symbols:
- *   func_0215AAB0  0x0215AAB0  arm  ov009
+ *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   func_0215E588  0x0215E588  arm  ov009
  *   func_0215E620  0x0215E620  arm  ov009
- *   func_0215B470  0x0215B470  arm  ov009
- *   func_0215AD3C  0x0215AD3C  arm  ov009
- *   func_02085800  0x02085800  arm
+ *   CPS_SocWrite  0x0215B470  arm  ov009
+ *   CPS_TcpClose  0x0215AD3C  arm  ov009
+ *   OS_WakeupThread  0x02085800  arm
  */
 
 struct SOCLiCommandWrite;
@@ -69,14 +69,14 @@ struct SOCLiCommandWrite {
     unsigned long remote_ip;
 };
 
-extern void func_0215AAB0(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
+extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern int func_0215E588(int len);
 typedef unsigned char  u8;
 struct Ring;
 extern int func_0215E620(u8 *dst, int len, struct Ring *r);
-extern unsigned long func_0215B470(unsigned char *buf, unsigned long len);
-extern void func_0215AD3C(void);
-extern void func_02085800(void *queue);
+extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
+extern void CPS_TcpClose(void);
+extern void OS_WakeupThread(void *queue);
 
 static inline int isStream(signed char m)
 {
@@ -106,7 +106,7 @@ static int func_0215E450(void *arg)
     if ((socket->flag_mode == 0 || socket->flag_mode == 4) && !(socket->state & 4))
         goto fail;
     if (cpacket->remote_ip)
-        func_0215AAB0(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
+        CPS_SocBind(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
     hdr = 0x36;
     if (!isStream(socket->flag_mode))
         hdr = 0x2a;
@@ -119,12 +119,12 @@ static int func_0215E450(void *arg)
         int n = func_0215E620(sndbuf + hdr, sndbuf_len, (struct Ring *)cpacket);
         if (n <= 0)
             goto done;
-        result = func_0215B470(sndbuf + hdr, n);
+        result = CPS_SocWrite(sndbuf + hdr, n);
         if (result <= 0) {
             if (isStream(socket->flag_mode)) {
                 socket->state &= ~0xe;
                 socket->state |= 0x80;
-                func_0215AD3C();
+                CPS_TcpClose();
             }
             copied = -0x4c;
             goto done;
@@ -136,6 +136,6 @@ fail:
     copied = -0x4c;
 done:
     send_pipe->buffer.out = cpacket->wrtbuf_after;
-    func_02085800(&send_pipe->buffer.waiting);
+    OS_WakeupThread(&send_pipe->buffer.waiting);
     return copied;
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   func_02082AC0 0x02082AC0 arm
+ *   MIi_CpuClearFast 0x02082AC0 arm
  *   func_02012FFC 0x02012FFC thumb
  *   func_021C4184 0x021C4184 thumb ov136
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
 extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
-extern void func_02082AC0(unsigned, void *, unsigned);
+extern void MIi_CpuClearFast(unsigned, void *, unsigned);
 extern signed char func_02012FFC(void);
 extern void func_021C4184(void *, u8 *);
 typedef unsigned int   u32;
@@ -39,7 +39,7 @@ int func_021C41E0(void *a, void *b, u8 *p)
     u8 v;
     GFL_HEAP_CreateChildHeap(1, 0x64, 0x20000);
     q = PROCSYS_AllocProcWork(a, 0x15C, 0x64);
-    func_02082AC0(0, q, 0x15C);
+    MIi_CpuClearFast(0, q, 0x15C);
     ((struct Obj01064 *)q)->f0 = 0x64;
     ((struct Obj01064 *)q)->f1C = p;
     q[0xB] = ((struct Obj08198 *)p)->f0;

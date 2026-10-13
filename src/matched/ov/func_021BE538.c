@@ -1,5 +1,5 @@
 /*
- * function: func_021BE538
+ * function: WIFICLUB_ExitHook
  * address:  0x021BE538
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -13,6 +13,6 @@
  * because something branches to it.
  */
 
-void func_021BE538(char *p)
+void WIFICLUB_ExitHook(char *p)
 {
 }

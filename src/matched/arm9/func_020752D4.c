@@ -1,5 +1,5 @@
 /*
- * function: func_020752D4
+ * function: NNSi_SndArcDisposeWaveArcTable
  * address:  0x020752D4
  * packet:   pkt_02074A6C
  * region:   arm9
@@ -9,19 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * See src/matched/func_020752A4.c: the pair is deliberately not one unit.
+ * See src/matched/NNSi_SndArcDisposeWaveArc.c: the pair is deliberately not one unit.
+ *
+ * symbols:
+ *   NNSi_SndArcForgetFileAddress  0x020751F4  arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020751F4(u32 a, u32 b, u32 c);
+extern void NNSi_SndArcForgetFileAddress(u32 a, u32 b, u32 c);
 struct SNDWaveArc;
 extern void func_0208A424(struct SNDWaveArc *waveArc);
 
-void func_020752D4(int a, int b, int c, int d)
+void NNSi_SndArcDisposeWaveArcTable(int a, int b, int c, int d)
 {
-    func_020751F4(a, c, d);
+    NNSi_SndArcForgetFileAddress(a, c, d);
     func_0208A424((struct SNDWaveArc *)a);
 }

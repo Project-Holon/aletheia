@@ -1,5 +1,5 @@
 /*
- * function: func_0207AC64
+ * function: FS_SetDefaultDMA
  * address:  0x0207AC64
  * packet:   pkt_0207AC64
  * region:   arm9
@@ -36,7 +36,7 @@ extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL FS_SuspendArchive(FSArchive *p_arc);
 extern BOOL FS_ResumeArchive(FSArchive *arc);
 
-u32 func_0207AC64(u32 dma_no)
+u32 FS_SetDefaultDMA(u32 dma_no)
 {
     u32 bak_psr = OS_DisableInterrupts();
     u32 bak_dma_no = (*(u32 *)&fsi_default_dma_no);

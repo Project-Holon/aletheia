@@ -1,5 +1,5 @@
 /*
- * function: func_0206F214
+ * function: NNSi_G3dAnmGetTransData
  * address:  0x0206F214
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  *
- * Scalar keyframe sampler without the lerp (func_0206EE60 calls it for the
+ * Scalar keyframe sampler without the lerp (NNSi_G3dAnmCalcJntAnmNode calls it for the
  * three scalar channels when the cursor has no fraction or root->f08 bit 0 is
- * clear): the same flag cascade as src/matched/func_02070524.c, writing the
+ * clear): the same flag cascade as src/matched/NNSi_G3dAnmGetTexSRTScalarData.c, writing the
  * key (plain), the mean of two keys (two:) or the 3:1 blend of two keys into
  * *out.  Flags bit 29 selects s16 keys over s32 keys; the s32 3:1 blend is a
  * 64-bit expression.
@@ -37,7 +37,7 @@
  *   - `plain:` is written s16-arm first with its own return; 2.0 inverts it
  *     into the image's `ldreq/streq/popeq` word arm.  Word-arm-first is
  *     predicated whole and four bytes short;
- *   - `two:` spelled as func_02070524's `two:` block (pointer g / byte
+ *   - `two:` spelled as NNSi_G3dAnmGetTexSRTScalarData's `two:` block (pointer g / byte
  *     offset o for s16, pointer w built in the arm for s32, (w+4) read first);
  *   - the `k & 2` arm goes through a named temporary `q` (`k = k >> 2`
  *     directly is 77 bytes out: the value numbering moves k out of r4);
@@ -47,8 +47,8 @@
  * No relocation sites.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206F214.c \
- *       --func func_0206F214 --addr 0x0206F214 --cc ../2.0/sp2p2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetTransData.c \
+ *       --func NNSi_G3dAnmGetTransData --addr 0x0206F214 --cc ../2.0/sp2p2 --arm
  */
 #include "../include/Obj16634.h"
 typedef unsigned int   u32;
@@ -58,7 +58,7 @@ typedef unsigned char  u8;
 
 typedef struct { u32 flags; u32 off04; } Rec;
 
-void func_0206F214(int *out, int t, Rec *r, u8 *base)
+void NNSi_G3dAnmGetTransData(int *out, int t, Rec *r, u8 *base)
 {
     int *p;
     u32 f;

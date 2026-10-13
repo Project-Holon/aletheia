@@ -1,5 +1,5 @@
 /*
- * function: func_021E0080
+ * function: sciReportBeginTeamData
  * address:  0x021E0080
  * packet:   pkt_ov175_021E0080
  * region:   ov175
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-int func_021E0080(u32 *p)
+int sciReportBeginTeamData(u32 *p)
 {
     p[0] = 4;
     return 0;

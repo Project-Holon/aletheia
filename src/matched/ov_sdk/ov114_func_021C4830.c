@@ -1,5 +1,5 @@
 /*
- * function: func_021C4830
+ * function: ghiParseStatus
  * address:  0x021C4830
  * packet:   pkt_ov114_021C4830
  * region:   ov114
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   STD_TSScanf  0x0208CF34  arm
- *   g_021CF210   0x021CF210  data
+ *   sGhttpHttp4   0x021CF210  data
  *   g_020A61DC   0x020A61DC  data
  */
 
@@ -32,12 +32,12 @@ typedef struct GHIConnection {
 } GHIConnection;
 
 extern int STD_TSScanf(char *src, char *fmt, ...);
-extern char g_021CF210[];
+extern char sGhttpHttp4[];
 extern const unsigned short g_020A61DC[];
 
 static inline int isspace(int c) { return ((c < 0 || c >= 0x80) ? 0 : (g_020A61DC[c] & 0x100)); }
 
-int func_021C4830(GHIConnection *connection)
+int ghiParseStatus(GHIConnection *connection)
 {
     int majorVersion;
     int minorVersion;
@@ -46,7 +46,7 @@ int func_021C4830(GHIConnection *connection)
     int rcode;
     char c;
 
-    rcode = STD_TSScanf(connection->fA4, g_021CF210, &majorVersion, &minorVersion,
+    rcode = STD_TSScanf(connection->fA4, sGhttpHttp4, &majorVersion, &minorVersion,
                         &statusCode, &statusStringIndex);
     if (rcode != 3 || majorVersion < 1 || statusCode < 100 || statusCode >= 600) {
         connection->f124 = 1;

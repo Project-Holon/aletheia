@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B80E8",
-    "func_021B8340"
+    "IRC_RESULT_StateShowScore",
+    "IRC_RESULT_StateEnd"
+   ],
+   "addresses": [
+    "0x021B80E8",
+    "0x021B8340"
    ]
   }
  ]

@@ -15,7 +15,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj19172.h"
 
@@ -30,7 +30,7 @@ struct Entry;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 u32 GFL_NET_GetHandleNetID(struct Link *p);
 void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx);
-void func_02082D44(void *d, int s, int n);
+void MI_CpuCopy8(void *d, int s, int n);
 
 void INTRUDE_CMD_RecvMemberEntry(int a, int b, char *c, char *d)
 {
@@ -41,6 +41,6 @@ void INTRUDE_CMD_RecvMemberEntry(int a, int b, char *c, char *d)
     t = (unsigned char)c[0x24];
     INTRUDE_COMM_StoreSessionEntry((u8 *)(d + 0x1AC), (const u16 *)c, t);
     if (t != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) {
-        func_02082D44(c, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)v, t), 0x10);
+        MI_CpuCopy8(c, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)v, t), 0x10);
     }
 }

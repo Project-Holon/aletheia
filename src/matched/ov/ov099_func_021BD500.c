@@ -1,5 +1,5 @@
 /*
- * function: func_021BD500
+ * function: WIFICLUB_StateShowBoxPartyViolations
  * address: 0x021BD500
  * packet: pkt_ov099_021BD500
  * region: ov099
@@ -8,30 +8,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BA928 0x021BA928 thumb ov099
+ *   WIFICLUB_UpdateTalkStream 0x021BA928 thumb ov099
  *   KEY_GetTrg 0x020362DC arm
- *   func_021BA8EC 0x021BA8EC thumb ov099
- *   func_021BCBBC 0x021BCBBC thumb ov099
- *   func_021BBEB4 0x021BBEB4 thumb ov099
+ *   WIFICLUB_ClearTalkWindow 0x021BA8EC thumb ov099
+ *   WIFICLUB_CheckSavedRegulation 0x021BCBBC thumb ov099
+ *   WIFICLUB_ShowRuleWindow 0x021BBEB4 thumb ov099
  */
 #include "../include/Obj07949.h"
 #include "../include/Obj22037.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BA928(char *p, int result);
+extern int WIFICLUB_UpdateTalkStream(char *p, int result);
 extern u32 KEY_GetTrg(void);
-extern void func_021BA8EC(char *p);
-extern int func_021BCBBC(int a, int b, int *out);
+extern void WIFICLUB_ClearTalkWindow(char *p);
+extern int WIFICLUB_CheckSavedRegulation(int a, int b, int *out);
 struct O;
-extern void func_021BBEB4(struct O *p, int mask, u32 a, int mode);
-int func_021BD500(char *p, int result)
+extern void WIFICLUB_ShowRuleWindow(struct O *p, int mask, u32 a, int mode);
+int WIFICLUB_StateShowBoxPartyViolations(char *p, int result)
 {
     int out;
-    if (func_021BA928(p, result) == 0) return result;
+    if (WIFICLUB_UpdateTalkStream(p, result) == 0) return result;
     if (KEY_GetTrg() != 0) {
-        func_021BA8EC(p);
-        func_021BCBBC(((struct Obj07949 *)p)->f1348, ((struct Obj07949 *)p)->fCC, &out);
-        func_021BBEB4((struct O *)p, out, ((struct Obj22037 *)(*(u8 * *)&((struct Obj07949 *)p)->f248))->f48, 3);
+        WIFICLUB_ClearTalkWindow(p);
+        WIFICLUB_CheckSavedRegulation(((struct Obj07949 *)p)->f1348, ((struct Obj07949 *)p)->fCC, &out);
+        WIFICLUB_ShowRuleWindow((struct O *)p, out, ((struct Obj22037 *)(*(u8 * *)&((struct Obj07949 *)p)->f248))->f48, 3);
         ((struct Obj07949 *)p)->f1CC = 0x6d;
     }
     return result;

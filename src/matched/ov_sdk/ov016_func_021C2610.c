@@ -27,9 +27,9 @@
  *   _ll_udiv                             0x0209C00C  arm
  *   _ull_mod                             0x0209C018  arm
  *   DWCi_FNTlRenewBg                     0x021D5FC4  arm
- *   g_021DB2F0                           0x021DB2F0  data  a1
- *   g_021DB310                           0x021DB310  data  a1
- *   g_021DB324                           0x021DB324  data  a1
+ *   sSceneOptInfoTable1                           0x021DB2F0  data  a1
+ *   sSceneOptInfoTable2                           0x021DB310  data  a1
+ *   sSceneOptInfoTable3                           0x021DB324  data  a1
  */
 
 struct tagDWCWiFiInfo {
@@ -44,9 +44,9 @@ int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, char *src, int len
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
 void DWCi_FNTlRenewBg(void *canvas);
-extern char g_021DB2F0[];
-extern char g_021DB310[];
-extern char g_021DB324[];
+extern char sSceneOptInfoTable1[];
+extern char sSceneOptInfoTable2[];
+extern char sSceneOptInfoTable3[];
 
 void drawInfo(void)
 {
@@ -61,7 +61,7 @@ void drawInfo(void)
 
     canvas = DWCi_FNTlFormBgEx(0, 0);
     OS_GetMacAddress(mac);
-    OS_SNPrintf(tmpbuf, 20, g_021DB2F0, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable1, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     DWCi_FNTlDrawRect(canvas, 8, 0x40, 0xf0, 0x1c, 2, 0x480, buf);
     DWCi_BM_GetWiFiInfo(&info);
@@ -73,10 +73,10 @@ void drawInfo(void)
             tmp[2 - i] = (int)(id % 10000);
             id /= 10000;
         }
-        OS_SNPrintf(tmpbuf, 20, g_021DB310, tmp[0], tmp[1], tmp[2], tmp[3]);
+        OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable2, tmp[0], tmp[1], tmp[2], tmp[3]);
         DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     } else {
-        OS_SNPrintf(tmpbuf, 20, g_021DB324);
+        OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable3);
         DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
     }
     DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);

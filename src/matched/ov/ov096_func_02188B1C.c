@@ -1,5 +1,5 @@
 /*
- * function: func_02188B1C
+ * function: TR_AI_CmdIfValueInList
  * address:  0x02188B1C
  * packet:   pkt_ov096_02188B1C
  * region:   ov096
@@ -24,7 +24,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
-int func_02188B1C(struct Cursor *a, int b)
+int TR_AI_CmdIfValueInList(struct Cursor *a, int b)
 {
     u16 *p;
     int m;

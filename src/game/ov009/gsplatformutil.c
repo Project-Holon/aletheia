@@ -20,7 +20,7 @@
  * sdk:      B64EncodeStream (libdwcgscommon.TWL.HYB.a(gsplatformutil.o))
  *
  * symbols:
- *   func_02084F40                  0x02084F40  arm
+ *   OS_SPrintf                  0x02084F40  arm
  *   g_021A3834                     0x021A3834  data
  *   func_0217D254                  0x0217D254  arm ov009
  *   SOC_GetHostByName                  0x0215F650  arm ov009
@@ -33,7 +33,7 @@
  *   g_020A60DC     0x020A60DC  data
  *   OS_GetTick     0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_02085A38 0x02085A38 arm
+ *   OS_Sleep 0x02085A38 arm
  *   g_021AD164                     0x021AD164  data
  *   g_021A37CC                     0x021A37CC  data
  *   g_021A3800                     0x021A3800  data
@@ -85,7 +85,7 @@ typedef struct {
     int mode;
 } B64StreamData;
 
-extern int func_02084F40(char *dst, char *fmt, ...);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern void *func_0217EAB0(unsigned long size);
@@ -95,7 +95,7 @@ extern void *gsimalloc(unsigned long size);
 extern void *memcpy(void *dst, void *src, unsigned long n);
 extern unsigned long long OS_GetTick(void);
 extern unsigned long long _ll_udiv(unsigned long long a, unsigned long long b);
-extern void func_02085A38(unsigned int msec);
+extern void OS_Sleep(unsigned int msec);
 extern void *func_020923B0(void *p, int c, u32 n);
 void func_0217F130(char *theNumberStr, long long theNumber);
 int func_0217F150(char *hostname, struct GSIResolveHostnameInfo **handle);
@@ -140,7 +140,7 @@ extern char g_021A1A02[];
  */
 void func_0217F130(char *theNumberStr, long long theNumber)
 {
-    func_02084F40(theNumberStr, g_021A3834, theNumber);
+    OS_SPrintf(theNumberStr, g_021A3834, theNumber);
 }
 
 
@@ -270,7 +270,7 @@ unsigned int current_time_hires(void)
 
 void msleep(unsigned int msec)
 {
-    func_02085A38(msec);
+    OS_Sleep(msec);
 }
 
 

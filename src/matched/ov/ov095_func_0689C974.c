@@ -1,5 +1,5 @@
 /*
- * function: func_0689C974
+ * function: BTL_ID_IsMultitypeAbility
  * address:  0x0689C974
  * packet:   pkt_0689C974
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-int func_0689C974(int a)
+int BTL_ID_IsMultitypeAbility(int a)
 {
     return a == 0x79;
 }

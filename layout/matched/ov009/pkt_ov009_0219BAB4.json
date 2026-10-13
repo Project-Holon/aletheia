@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219BAB4",
+   "name": "compute_challenge_response",
    "address": "0x0219BAB4",
    "kind": "sdk",
    "region": "ov009",

@@ -14,7 +14,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_ClearTimeFlags  0x020143F0  thumb
- *   func_0200D440  0x0200D440  thumb
+ *   MOVE_POKEMON_SAVE_RollStartLocation  0x0200D440  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKERUS_DecreaseDays  0x0201B100  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
@@ -46,7 +46,7 @@ struct Sub02009470Obj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_ClearTimeFlags(u8 *a);
-extern void func_0200D440(void *sys);
+extern void MOVE_POKEMON_SAVE_RollStartLocation(void *sys);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void POKERUS_DecreaseDays(void *, int);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
@@ -65,7 +65,7 @@ void FIELD_CLOCK_UpdateDays(int a, int b)
     FIELD_CLOCK_GetCounter(a);
     x = (int)GAME_DATA_GetSaveControl((struct Big *)a);
     ZONEDATA_ClearTimeFlags((u8 *)GAME_DATA_GetEventWork((const struct BigObj *)a));
-    func_0200D440((void *)x);
+    MOVE_POKEMON_SAVE_RollStartLocation((void *)x);
     POKERUS_DecreaseDays(GAME_DATA_GetMyParty((void *)a), b);
     func_02008E30(GAME_DATA_GetTrainerRecord((int *)a));
     func_0200952C(func_02009470((void *)x));

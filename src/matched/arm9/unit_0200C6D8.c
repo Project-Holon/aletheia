@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: MUSICAL_DIST_SAVE_GetPayload, MUSICAL_DIST_SAVE_GetPayloadSize, MUSICAL_DIST_SAVE_GetBlockSize, func_0200C6EC,
- *           func_0200C6F0, func_0200C720
+ * function: MUSICAL_DIST_SAVE_GetPayload, MUSICAL_DIST_SAVE_GetPayloadSize, MUSICAL_DIST_SAVE_GetBlockSize, MUSICAL_DIST_SAVE_NoOp,
+ *           MUSICAL_DIST_SAVE_IsFooterSet, ZUKAN_SAVE_IsInvalidSpecies
  *
  * 96 bytes, 0x0200C6D8..0x0200C738, 6 functions, none of which carries a
  * label in the generated listing.
@@ -28,12 +28,12 @@
  * individual entry points are not.
  *
  * The two getters at the top reach the 0x2C-byte object MUSICAL_DIST_SAVE_Create
- * allocates; func_0200C6F0 works on a 0x2000-byte buffer instead, comparing
+ * allocates; MUSICAL_DIST_SAVE_IsFooterSet works on a 0x2000-byte buffer instead, comparing
  * the 0x20 bytes at +0x1FE0 against a cleared stack copy of the same length,
- * which is a "is this record still blank" test.  func_0200C6EC is `bx lr` and
+ * which is a "is this record still blank" test.  MUSICAL_DIST_SAVE_NoOp is `bx lr` and
  * nothing else, a hook that was never filled in.
  *
- * func_0200C720 is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
+ * ZUKAN_SAVE_IsInvalidSpecies is the shape docs/idioms/the-fall-through-arm-is-the-source-order.md
  * warns about, read the other way: the `beq` jumps **into** the `return 1`
  * block and the `bls` jumps **past** it, which is the short-circuit `||` of
  * one `if`, not two statements.
@@ -76,11 +76,11 @@ u32 MUSICAL_DIST_SAVE_GetBlockSize(void)
     return 0x2600;
 }
 
-void func_0200C6EC(void)
+void MUSICAL_DIST_SAVE_NoOp(void)
 {
 }
 
-u32 func_0200C6F0(struct Buf2000 *p)
+u32 MUSICAL_DIST_SAVE_IsFooterSet(struct Buf2000 *p)
 {
     u8 blank[0x20];
     u32 r = 0;
@@ -92,7 +92,7 @@ u32 func_0200C6F0(struct Buf2000 *p)
     return r;
 }
 
-u32 func_0200C720(u32 v)
+u32 ZUKAN_SAVE_IsInvalidSpecies(u32 v)
 {
     if (v == 0 || v > 0x289) {
         return 1;

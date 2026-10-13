@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBE0
+ * function: NHTTPi_Request2Connection
  * address:  0x021BEBE0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BEAB8  0x021BEAB8  arm  ov114
+ *   NHTTPi_ControlConnectionList  0x021BEAB8  arm  ov114
  *
  *
- * ov114 tail-call thunk: func_021BEAB8(a, b, 1) via `ldr ip,pool; bx ip`.
+ * ov114 tail-call thunk: NHTTPi_ControlConnectionList(a, b, 1) via `ldr ip,pool; bx ip`.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Conn;
-extern struct Conn *func_021BEAB8(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
+extern struct Conn *NHTTPi_ControlConnectionList(void *mutexInfo_p, struct Conn *handle_p, unsigned long order);
 
-void func_021BEBE0(int a, int b)
+void NHTTPi_Request2Connection(int a, int b)
 {
-    func_021BEAB8((void *)a, (struct Conn *)b, 1);
+    NHTTPi_ControlConnectionList((void *)a, (struct Conn *)b, 1);
 }

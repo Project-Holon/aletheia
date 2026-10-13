@@ -1,5 +1,5 @@
 /*
- * function: func_021B8524
+ * function: IRC_RANKING_ListDrawRows
  * address: 0x021B8524
  * packet: pkt_ov106_021B8524
  * region: ov106
@@ -11,7 +11,7 @@
  *   func_02041300 0x02041300 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   func_021B8A28 0x021B8A28 thumb ov106
+ *   IRC_RANKING_RowDraw 0x021B8A28 thumb ov106
  */
 #include "../include/Obj01390.h"
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void func_021B8A28(u32 *,u32,u32,u16);
-void func_021B8524(u8 *p) {
+extern void IRC_RANKING_RowDraw(u32 *,u32,u32,u16);
+void IRC_RANKING_ListDrawRows(u8 *p) {
     int i, y;
     func_02041300(p[0x548],0,0,0,32,24,0);
     func_02041300(p[0x54a],0,0,0,32,24,0);
@@ -34,14 +34,14 @@ void func_021B8524(u8 *p) {
         if (i>=0 && i<((struct Obj01390 *)p)->f554) {
             y=(i-((struct Obj01390 *)p)->f55C)*3+4;
             if (y>=0 && y<=24)
-                func_021B8A28((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f568,p[0x548],(u16)y);
+                IRC_RANKING_RowDraw((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f568,p[0x548],(u16)y);
         }
     }
     for (i=((struct Obj01390 *)p)->f55C+4; i<((struct Obj01390 *)p)->f55C+17; i++) {
         if (i>=0 && i<((struct Obj01390 *)p)->f554) {
             y=(i-(((struct Obj01390 *)p)->f55C+4))*3;
             if (y>=0 && y<=24)
-                func_021B8A28((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f56C,p[0x54a],(u16)y);
+                IRC_RANKING_RowDraw((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f56C,p[0x54a],(u16)y);
         }
     }
 }

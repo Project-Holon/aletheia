@@ -1,5 +1,5 @@
 /*
- * function: func_021D6EEC
+ * function: DWCi_OBJlEnd
  * address:  0x021D6EEC
  * packet:   pkt_ov016_021D6EEC
  * region:   ov016
@@ -13,16 +13,16 @@
  *
  * symbols:
  *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
- *   func_021D6438  0x021D6438  arm  ov016
- *   g_021DE6A8  0x021DE6A8  data
+ *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
+ *   gObjWork  0x021DE6A8  data
  */
 
 extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
-extern void func_021D6438(void **mem);
-extern char *g_021DE6A8;
+extern void DWCi_HEAPlFree_(void **mem);
+extern char *gObjWork;
 
-void func_021D6EEC(void)
+void DWCi_OBJlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(1, *(void **)(g_021DE6A8 + 0x808));
-	func_021D6438((void *)0x021DE6A8);
+	DWCi_TSKlDeleteByIndex(1, *(void **)(gObjWork + 0x808));
+	DWCi_HEAPlFree_((void *)0x021DE6A8);
 }

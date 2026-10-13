@@ -1,5 +1,5 @@
 /*
- * function: func_021C4C00
+ * function: ghiAppendToChunkHeaderBuffer
  * address:  0x021C4C00
  * packet:   pkt_ov114_021C4C00
  * region:   ov114
@@ -24,7 +24,7 @@ typedef struct
     int chunkHeaderLen;
 } GHIConnection;
 
-void func_021C4C00(GHIConnection *connection, char *data, int len)
+void ghiAppendToChunkHeaderBuffer(GHIConnection *connection, char *data, int len)
 {
     int n;
     if (len == 0 || connection->chunkHeaderLen >= 10)

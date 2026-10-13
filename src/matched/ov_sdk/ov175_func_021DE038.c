@@ -1,5 +1,5 @@
 /*
- * function: func_021DE038
+ * function: sakeiUpdateRecordValidateInput
  * address:  0x021DE038
  * packet:   pkt_021DE038
  * region:   ov175
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021DDB38  0x021DDB38  arm
+ *   sakeiValidateRequestFields  0x021DDB38  arm
  *
  * Pre-flight check of the +0x08 block: a missing head or an empty count is
  * rejected with 4, a non-positive count with 6, a missing name table with 5;
- * otherwise the table is checked word by word by func_021DDB38.
+ * otherwise the table is checked word by word by sakeiValidateRequestFields.
  */
 
-extern int func_021DDB38(char **names, int n);
+extern int sakeiValidateRequestFields(char **names, int n);
 
-int func_021DE038(char *p)
+int sakeiUpdateRecordValidateInput(char *p)
 {
     int *q = *(int **)(p + 8);
 
@@ -29,5 +29,5 @@ int func_021DE038(char *p)
         return 6;
     if (q[2] == 0)
         return 5;
-    return func_021DDB38((char **)q[2], q[3]);
+    return sakeiValidateRequestFields((char **)q[2], q[3]);
 }

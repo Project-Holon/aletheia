@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02004490  0x02004490  thumb
+ *   SVC_WaitByLoop  0x02004490  thumb
  *
  * Bit-banged ack protocol over a four-byte register window.  a0 == 0 selects
  * the send direction: the window is walked with the nibble counter in the top
@@ -26,7 +26,7 @@
 
 typedef unsigned char u8;
 
-extern void func_02004490(int v);
+extern void SVC_WaitByLoop(int v);
 
 void func_02084AB0(int a0, volatile u8 *p)
 {
@@ -37,7 +37,7 @@ void func_02084AB0(int a0, volatile u8 *p)
         do {
             p[0] = (u8)((i & 0xf) | 0x80);
             while (p[0] != p[1] && p[2] == 0) {
-                func_02004490(0x400);
+                SVC_WaitByLoop(0x400);
             }
             i++;
         } while (p[2] == 0);
@@ -51,13 +51,13 @@ void func_02084AB0(int a0, volatile u8 *p)
                 p[1] = p[0];
                 sum += p[1];
             } else {
-                func_02004490(0x400);
+                SVC_WaitByLoop(0x400);
             }
         }
         p[3] = 0;
         p[2] = 1;
         while (p[3] == 0) {
-            func_02004490(0x400);
+            SVC_WaitByLoop(0x400);
         }
     }
 }

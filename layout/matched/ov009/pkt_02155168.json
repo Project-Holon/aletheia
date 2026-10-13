@@ -280,7 +280,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02157280",
+   "name": "CPS_SetCheckNConfigCallback",
    "address": "0x02157280",
    "kind": "sdk",
    "region": "ov009",
@@ -297,7 +297,7 @@
    }
   },
   {
-   "name": "func_02157630",
+   "name": "CPS_SetScavengerCallback",
    "address": "0x02157630",
    "kind": "sdk",
    "region": "ov009",
@@ -314,7 +314,7 @@
    }
   },
   {
-   "name": "func_02157808",
+   "name": "invert_checksum",
    "address": "0x02157808",
    "kind": "sdk",
    "region": "ov009",
@@ -326,7 +326,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215781C",
+   "name": "calc_checksum",
    "address": "0x0215781C",
    "kind": "sdk",
    "region": "ov009",
@@ -338,7 +338,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02157928",
+   "name": "is_multicast",
    "address": "0x02157928",
    "kind": "sdk",
    "region": "ov009",
@@ -350,7 +350,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021579BC",
+   "name": "maccmp",
    "address": "0x021579BC",
    "kind": "sdk",
    "region": "ov009",
@@ -362,7 +362,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215938C",
+   "name": "no_need_inq",
    "address": "0x0215938C",
    "kind": "sdk",
    "region": "ov009",
@@ -374,7 +374,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02159494",
+   "name": "_tcp_send_finack",
    "address": "0x02159494",
    "kind": "sdk",
    "region": "ov009",
@@ -386,7 +386,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021599EC",
+   "name": "pull_rwin_chunks",
    "address": "0x021599EC",
    "kind": "sdk",
    "region": "ov009",
@@ -398,7 +398,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02159A30",
+   "name": "push_rwin_chunks",
    "address": "0x02159A30",
    "kind": "sdk",
    "region": "ov009",
@@ -410,7 +410,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215AA5C",
+   "name": "CPS_SocRegister",
    "address": "0x0215AA5C",
    "kind": "sdk",
    "region": "ov009",
@@ -422,7 +422,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215AA70",
+   "name": "CPS_SocUnRegister",
    "address": "0x0215AA70",
    "kind": "sdk",
    "region": "ov009",
@@ -434,7 +434,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215AA88",
+   "name": "CPS_SocDatagramMode",
    "address": "0x0215AA88",
    "kind": "sdk",
    "region": "ov009",
@@ -446,7 +446,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215AB5C",
+   "name": "CPS_SocRelease",
    "address": "0x0215AB5C",
    "kind": "sdk",
    "region": "ov009",
@@ -1365,7 +1365,7 @@
    }
   },
   {
-   "name": "func_0216EB48",
+   "name": "DWCi_StopResendingMatchCommand",
    "address": "0x0216EB48",
    "kind": "sdk",
    "region": "ov009",
@@ -1389,7 +1389,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216F370",
+   "name": "DWCi_IsShutdownMatch",
    "address": "0x0216F370",
    "kind": "sdk",
    "region": "ov009",
@@ -1401,7 +1401,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021725EC",
+   "name": "DWCi_PostProcessConnectionSYNFinishFullmesh",
    "address": "0x021725EC",
    "kind": "sdk",
    "region": "ov009",
@@ -1413,7 +1413,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02173C84",
+   "name": "DWCi_GetAIDFromProfileID",
    "address": "0x02173C84",
    "kind": "sdk",
    "region": "ov009",
@@ -1449,7 +1449,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02175EFC",
+   "name": "DWCi_IsServerChanging",
    "address": "0x02175EFC",
    "kind": "sdk",
    "region": "ov009",
@@ -1461,7 +1461,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02175F1C",
+   "name": "DWCi_SetMatchCnt",
    "address": "0x02175F1C",
    "kind": "sdk",
    "region": "ov009",
@@ -1507,7 +1507,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02175FC8",
+   "name": "DWCi_IsServerChangeEnabled",
    "address": "0x02175FC8",
    "kind": "sdk",
    "region": "ov009",
@@ -1519,7 +1519,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217601C",
+   "name": "DWCi_NodeInfoList_Clear",
    "address": "0x0217601C",
    "kind": "sdk",
    "region": "ov009",
@@ -1531,7 +1531,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217603C",
+   "name": "DWCi_NodeInfoList_GetCount",
    "address": "0x0217603C",
    "kind": "sdk",
    "region": "ov009",
@@ -1543,7 +1543,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176344",
+   "name": "DWCi_NodeInfoList_GetMyNodeInfo",
    "address": "0x02176344",
    "kind": "sdk",
    "region": "ov009",
@@ -1555,7 +1555,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176358",
+   "name": "DWCi_NodeInfoList_GetServerNodeInfo",
    "address": "0x02176358",
    "kind": "sdk",
    "region": "ov009",
@@ -1567,7 +1567,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217653C",
+   "name": "DWCi_TempNewNodeInfo_Clear",
    "address": "0x0217653C",
    "kind": "sdk",
    "region": "ov009",
@@ -1579,7 +1579,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176554",
+   "name": "DWCi_TempNewNodeInfo_IsValid",
    "address": "0x02176554",
    "kind": "sdk",
    "region": "ov009",
@@ -1591,7 +1591,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217656C",
+   "name": "DWCi_NodeInfo_Clear",
    "address": "0x0217656C",
    "kind": "sdk",
    "region": "ov009",
@@ -1603,7 +1603,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176580",
+   "name": "DWCi_NodeInfo_IsValid",
    "address": "0x02176580",
    "kind": "sdk",
    "region": "ov009",
@@ -1615,7 +1615,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021767E4",
+   "name": "DWCi_IsFirstServer",
    "address": "0x021767E4",
    "kind": "sdk",
    "region": "ov009",
@@ -1627,7 +1627,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176860",
+   "name": "DWCi_GetTopologyType",
    "address": "0x02176860",
    "kind": "sdk",
    "region": "ov009",
@@ -1639,7 +1639,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217695C",
+   "name": "DWCi_IsFullMesh",
    "address": "0x0217695C",
    "kind": "sdk",
    "region": "ov009",
@@ -1663,7 +1663,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02176A8C",
+   "name": "disp_match_state",
    "address": "0x02176A8C",
    "kind": "sdk",
    "region": "ov009",
@@ -1680,7 +1680,7 @@
    }
   },
   {
-   "name": "func_02176AA8",
+   "name": "DWCi_SetMatchmakeProfileId",
    "address": "0x02176AA8",
    "kind": "sdk",
    "region": "ov009",
@@ -1923,7 +1923,7 @@
    }
   },
   {
-   "name": "func_02177EC8",
+   "name": "DWC_Auth_SetCustomNas",
    "address": "0x02177EC8",
    "kind": "sdk",
    "region": "ov009",
@@ -3174,7 +3174,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219B5EC",
+   "name": "qr2_keybuffer_add",
    "address": "0x0219B5EC",
    "kind": "sdk",
    "region": "ov009",
@@ -3186,7 +3186,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219B7FC",
+   "name": "swap_byte",
    "address": "0x0219B7FC",
    "kind": "sdk",
    "region": "ov009",
@@ -3198,7 +3198,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219D4B4",
+   "name": "FIFOAddRear",
    "address": "0x0219D4B4",
    "kind": "sdk",
    "region": "ov009",
@@ -3210,7 +3210,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219D4E8",
+   "name": "FIFOAddFront",
    "address": "0x0219D4E8",
    "kind": "sdk",
    "region": "ov009",
@@ -3222,7 +3222,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219D5B0",
+   "name": "FIFOClear",
    "address": "0x0219D5B0",
    "kind": "sdk",
    "region": "ov009",
@@ -3234,7 +3234,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219D8E0",
+   "name": "SBEngineHaltUpdates",
    "address": "0x0219D8E0",
    "kind": "sdk",
    "region": "ov009",
@@ -3258,7 +3258,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219DEE8",
+   "name": "SBQueryEngineAddQueryKey",
    "address": "0x0219DEE8",
    "kind": "sdk",
    "region": "ov009",

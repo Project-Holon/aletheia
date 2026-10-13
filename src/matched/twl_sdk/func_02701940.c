@@ -12,8 +12,8 @@
  * symbols:
  *   data_02732FC8  0x02732FC8  data twl a2
  *   data_02733FC8  0x02733FC8  data twl a2
- *   func_02087988  0x02087988  arm twl a2
- *   func_0208799C  0x0208799C  arm twl a2
+ *   OS_DisableInterrupts  0x02087988  arm twl a2
+ *   OS_RestoreInterrupts  0x0208799C  arm twl a2
  *   CameraSendPxiCommand  0x027019B4  arm twl a2
  */
 
@@ -48,19 +48,19 @@ typedef struct CamPxiState {
     u32 flagsB;
     s32 value;
 } CamPxiState;
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 extern CamPxiCmd data_02732FC8;
 extern CamPxiState data_02733FC8;
 
 int CAMERA_SetLEDAsyncCore(u32 command, CamPxiCallback callback, u32 arg) {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     if (data_02732FC8.busy != 0) {
-        func_0208799C(irq);
+        OS_RestoreInterrupts(irq);
         return 2;
     }
     data_02732FC8.busy = 1;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
     data_02732FC8.callback = callback;
     data_02732FC8.arg = arg;
     data_02733FC8.value = command;

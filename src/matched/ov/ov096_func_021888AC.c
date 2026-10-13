@@ -1,5 +1,5 @@
 /*
- * function: func_021888AC
+ * function: TR_AI_CmdIfNotSick
  * address: 0x021888AC
  * packet: pkt_ov096_021888AC
  * region: ov096
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021888BC 0x021888BC thumb ov096
+ *   TR_AI_CompareSick 0x021888BC thumb ov096
  */
 #include "../include/Obj21927.h"
 struct Cursor;
-extern int func_021888BC(struct Cursor *a, int b, int c);
-int func_021888AC(struct Cursor *a, int b)
+extern int TR_AI_CompareSick(struct Cursor *a, int b, int c);
+int TR_AI_CmdIfNotSick(struct Cursor *a, int b)
 {
-    func_021888BC(a, b, 3);
+    TR_AI_CompareSick(a, b, 3);
     return ((struct Obj21927 *)((unsigned int)b))->fC4;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E0098
+ * function: sciReportEnd
  * address:  0x021E0098
  * packet:   pkt_ov175_021E0098
  * region:   ov175
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E0090  0x021E0090  arm  ov175
+ *   sciReportReturnZeroWithArg  0x021E0090  arm  ov175
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int func_021E0090(void *a0);
+extern int sciReportReturnZeroWithArg(void *a0);
 
 #define BS32(x) ((u32)((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | \
                        (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000)))
 #define BS16(x) ((u16)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 
-int func_021E0098(u8 *p, int f, u32 v)
+int sciReportEnd(u8 *p, int f, u32 v)
 {
     u8 *q = *(u8 **)(p + 0x124);
 
-    func_021E0090(p);
+    sciReportReturnZeroWithArg(p);
     if (f != 0)
         *(u32 *)(q + 0x1c) |= 1;
     *(u32 *)(q + 0x18) = BS32(v);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C17D4
+ * function: PMS_SELECT_GRAPHIC_TransferSceneBgs
  * address:  0x021C17D4
  * packet:   pkt_ov110_021C17D4
  * region:   ov110
@@ -17,7 +17,7 @@
 
 extern void func_020419E4(void);
 
-void func_021C17D4(void *a0)
+void PMS_SELECT_GRAPHIC_TransferSceneBgs(void *a0)
 {
     func_020419E4();
 }

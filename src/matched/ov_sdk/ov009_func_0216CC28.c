@@ -1,5 +1,5 @@
 /*
- * function: func_0216CC28
+ * function: DWCi_MatchInit
  * address:  0x0216CC28
  * packet:   pkt_0216CC28
  * region:   ov009
@@ -14,30 +14,30 @@
  * pair is the one place a local reuses one getter result.
  *
  * symbols:
- *   func_02175F1C  0x02175F1C  arm  ov009
+ *   DWCi_SetMatchCnt  0x02175F1C  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02175F4C  0x02175F4C  arm  ov009
+ *   DWCi_SetMatchStatus  0x02175F4C  arm  ov009
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_0217601C  0x0217601C  arm  ov009
- *   func_0217653C  0x0217653C  arm  ov009
- *   func_02173B18  0x02173B18  arm  ov009
+ *   DWCi_NodeInfoList_Clear  0x0217601C  arm  ov009
+ *   DWCi_TempNewNodeInfo_Clear  0x0217653C  arm  ov009
+ *   DWCi_ClearGameMatchKeys  0x02173B18  arm  ov009
  *   func_0216F388  0x0216F388  arm  ov009
  */
 
-extern void  func_02175F1C(int a0);
+extern void  DWCi_SetMatchCnt(int a0);
 extern int func_02175F3C(void);
-extern void  func_02175F4C(int a0);
+extern void  DWCi_SetMatchStatus(int a0);
 extern void  MI_CpuFill8(void *p, int v, int n);
-extern void  func_0217601C(void);
-extern void  func_0217653C(void);
-extern void  func_02173B18(void);
+extern void  DWCi_NodeInfoList_Clear(void);
+extern void  DWCi_TempNewNodeInfo_Clear(void);
+extern void  DWCi_ClearGameMatchKeys(void);
 extern int   func_0216F388(int a0);
 
-int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+int DWCi_MatchInit(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     char *q;
 
-    func_02175F1C(a0);
+    DWCi_SetMatchCnt(a0);
     *(int *)(func_02175F3C() + 0x0) = a1;
     *(int *)(func_02175F3C() + 4) = a2;
     *(int *)(func_02175F3C() + 8) = a3;
@@ -45,7 +45,7 @@ int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
     *(int *)(func_02175F3C() + 0x5d8) = 0;
     *(unsigned short *)(func_02175F3C() + 0x5d4) = 0;
     *(int *)(func_02175F3C() + 0x5e0) = 0;
-    func_02175F4C(0);
+    DWCi_SetMatchStatus(0);
     *(char *)(func_02175F3C() + 0x19) = 0;
     *(int *)(func_02175F3C() + 0x678) = 0;
     *(int *)(func_02175F3C() + 0x684) = a4;
@@ -73,8 +73,8 @@ int func_0216CC28(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
     *(char *)(func_02175F3C() + 0x7b5) = 0;
     *(char *)(func_02175F3C() + 0x7b6) = 0;
     *(int *)(func_02175F3C() + 0x7b0) = 0;
-    func_0217601C();
-    func_0217653C();
-    func_02173B18();
+    DWCi_NodeInfoList_Clear();
+    DWCi_TempNewNodeInfo_Clear();
+    DWCi_ClearGameMatchKeys();
     return func_0216F388(0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFAB8
+ * function: scCreateSession
  * address:  0x021DFAB8
  * packet:   pkt_ov175_021DFAB8
  * region:   ov175
@@ -14,19 +14,19 @@
  * to sciWsCreateMatchlessSession with the stored host list.
  *
  * symbols:
- *   func_021E26BC  0x021E26BC  arm  ov175
- *   func_021E0774  0x021E0774  arm  ov175
+ *   wsLoginCertIsValid  0x021E26BC  arm  ov175
+ *   sciWsCreateSession  0x021E0774  arm  ov175
  */
 
 typedef unsigned int u32;
 
 struct GSLoginCertificate;
-extern int func_021E26BC(struct GSLoginCertificate *cert);
-extern int func_021E0774(void *, u32, u32, u32, u32, u32, u32);
+extern int wsLoginCertIsValid(struct GSLoginCertificate *cert);
+extern int sciWsCreateSession(void *, u32, u32, u32, u32, u32, u32);
 
-int func_021DFAB8(u32 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
+int scCreateSession(u32 *p, u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    if (func_021E26BC((void *)a) == 0)
+    if (wsLoginCertIsValid((void *)a) == 0)
         return 2;
-    return func_021E0774(p, p[0x4c / 4], a, b, c, d, e);
+    return sciWsCreateSession(p, p[0x4c / 4], a, b, c, d, e);
 }

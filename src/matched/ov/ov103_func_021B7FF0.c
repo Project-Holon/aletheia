@@ -1,5 +1,5 @@
 /*
- * function: func_021B7FF0
+ * function: IRC_COMPATIBLE_TOUCH_TEST_UpdateTextQueue
  * address:  0x021B7FF0
  * packet:   pkt_ov103_021B7FF0
  * region:   ov103
@@ -23,4 +23,4 @@ typedef int s32;
 
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-u32 func_021B7FF0(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22185 *)p)->f8)); }
+u32 IRC_COMPATIBLE_TOUCH_TEST_UpdateTextQueue(u8 *p) { return PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22185 *)p)->f8)); }

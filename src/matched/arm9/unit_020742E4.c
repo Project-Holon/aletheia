@@ -15,7 +15,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ptr_0214EA50  0x0214EA50  data
+ *   gNNSSndCurrentArc  0x0214EA50  data
  *
  * Header and offset table lookups for resource dispatch.
  *
@@ -46,18 +46,18 @@ struct Global {
     struct Header *header;
 };
 
-extern struct Global *ptr_0214EA50;
+extern struct Global *gNNSSndCurrentArc;
 
 struct Global *NNS_SndArcSetCurrent(struct Global *val)
 {
-    struct Global *old = ptr_0214EA50;
-    ptr_0214EA50 = val;
+    struct Global *old = gNNSSndCurrentArc;
+    gNNSSndCurrentArc = val;
     return old;
 }
 
 struct Global *NNS_SndArcGetCurrent(void)
 {
-    return ptr_0214EA50;
+    return gNNSSndCurrentArc;
 }
 
 extern void *NNS_SndArcGetSeqInfo(int index);
@@ -73,7 +73,7 @@ void *NNS_SndArcGetSeqParam(int index)
 
 void *NNS_SndArcGetSeqInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_08;
@@ -102,7 +102,7 @@ void *NNS_SndArcGetSeqInfo(int index)
 
 void *NNS_SndArcGetSeqArcInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_0c;
@@ -131,7 +131,7 @@ void *NNS_SndArcGetSeqArcInfo(int index)
 
 void *NNS_SndArcGetBankInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_10;
@@ -160,7 +160,7 @@ void *NNS_SndArcGetBankInfo(int index)
 
 void *NNS_SndArcGetWaveArcInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_14;
@@ -189,7 +189,7 @@ void *NNS_SndArcGetWaveArcInfo(int index)
 
 void *NNS_SndArcGetPlayerInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_18;
@@ -218,7 +218,7 @@ void *NNS_SndArcGetPlayerInfo(int index)
 
 void *NNS_SndArcGetGroupInfo(int index)
 {
-    struct Global *g = ptr_0214EA50;
+    struct Global *g = gNNSSndCurrentArc;
     struct Header *h = g->header;
     struct Table *t;
     u32 offset = h->offset_1c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7CC
+ * function: WIFICLUBACTOR_GetCommandTable
  * address:  0x021BA7CC
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern u8 data_021C28A8[];
 
-u8 *func_021BA7CC(void)
+u8 *WIFICLUBACTOR_GetCommandTable(void)
 {
     return data_021C28A8;
 }

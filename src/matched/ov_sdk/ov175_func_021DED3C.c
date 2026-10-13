@@ -1,5 +1,5 @@
 /*
- * function: func_021DED3C
+ * function: sakeiGetRandomRecordFillSoapRequest
  * address:  0x021DED3C
  * packet:   pkt_ov175_021DED3C
  * region:   ov175
@@ -13,35 +13,35 @@
  * (TwlDWC/libdwcgssake.TWL.HYB.a, sakerequestread.o), ov175.
  *
  * symbols:
- *   d_021E3DF8     0x021E3DF8  data
- *   d_021E3EFC     0x021E3EFC  data
- *   d_021E3F04     0x021E3F04  data
- *   d_021E3F1C     0x021E3F1C  data
+ *   sReadXmlNamespacePrefix     0x021E3DF8  data
+ *   sReadTagTableid     0x021E3EFC  data
+ *   sReadTagFilter     0x021E3F04  data
+ *   sReadTagMax     0x021E3F1C  data
  *   func_02182AC0  0x02182AC0  arm
  *   func_02182CF0  0x02182CF0  arm
- *   func_021DE184  0x021DE184  arm  ov175
+ *   sakeiFillSoapRequestFieldNames  0x021DE184  arm  ov175
  */
 
 typedef unsigned int u32;
 
-extern char d_021E3DF8[];
-extern char d_021E3EFC[];
-extern char d_021E3F04[];
-extern char d_021E3F1C[];
+extern char sReadXmlNamespacePrefix[];
+extern char sReadTagTableid[];
+extern char sReadTagFilter[];
+extern char sReadTagMax[];
 extern void func_02182AC0(void *, void *, void *, void *);
 extern void func_02182CF0(void *, void *, void *, int);
-extern void func_021DE184(u32 ctx, u32 *arr, int n);
+extern void sakeiFillSoapRequestFieldNames(u32 ctx, u32 *arr, int n);
 
-int func_021DED3C(u32 ctx)
+int sakeiGetRandomRecordFillSoapRequest(u32 ctx)
 {
     u32 *p = *(u32 **)((char *)ctx + 8);
 
-    func_02182AC0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3EFC,
+    func_02182AC0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagTableid,
                   (void *)p[0]);
     if (p[3] != 0)
-        func_02182AC0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3F04,
+        func_02182AC0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagFilter,
                       (void *)p[3]);
-    func_02182CF0(*(void **)((char *)ctx + 0x18), d_021E3DF8, d_021E3F1C, 1);
-    func_021DE184(ctx, (u32 *)p[1], p[2]);
+    func_02182CF0(*(void **)((char *)ctx + 0x18), sReadXmlNamespacePrefix, sReadTagMax, 1);
+    sakeiFillSoapRequestFieldNames(ctx, (u32 *)p[1], p[2]);
     return 0;
 }

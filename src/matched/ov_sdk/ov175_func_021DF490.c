@@ -1,5 +1,5 @@
 /*
- * function: func_021DF490
+ * function: DWC_ScGetLoginCertificate
  * address:  0x021DF490
  * packet:   pkt_ov175_021DF490
  * region:   ov175
@@ -18,7 +18,7 @@
 
 extern char d_021E4F34[];
 
-int func_021DF490(void **p)
+int DWC_ScGetLoginCertificate(void **p)
 {
     *p = d_021E4F34;
     return 0;

@@ -12,7 +12,7 @@
  *   g_pWhPipeWork     0x021797A4  data  ov014  a4
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0203F1FC  0x0203F1FC  arm
- *   func_020862F0  0x020862F0  arm
+ *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   func_02178E28  0x02178E28  thumb  ov014
  *   WIH_SetBeaconGameInfo  0x021795D4  thumb  ov014
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern u8 *g_pWhPipeWork;
 void *GFL_NET_GetInitParam(void);
 u16 func_0203F1FC(const u8 *src, u32 len);
-void func_020862F0(void *p, u32 n);
+void DWCi_ScreenDC_FlushRange(void *p, u32 n);
 int WIH_GetSysState(void);
 void func_02178E28(void *p, u32 n);
 void WIH_SetBeaconGameInfo(int a, int b, int c, int d);
@@ -39,7 +39,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
     u8 *st = GFL_NET_GetInitParam();
     if (p != 0 && st != 0) {
         ((struct Obj19335 *)buf)->f0 = func_0203F1FC(buf + 2, len - 2);
-        func_020862F0(buf, len);
+        DWCi_ScreenDC_FlushRange(buf, len);
         if (WIH_GetSysState() == 1) {
             func_02178E28(buf, (u16)len);
             return;

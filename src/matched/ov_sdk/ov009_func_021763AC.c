@@ -1,5 +1,5 @@
 /*
- * function: func_021763AC
+ * function: DWCi_NodeInfoList_GetNodeInfoForProfileID
  * address:  0x021763AC
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern char *func_02175F3C(void);
 
-char *func_021763AC(int pid)
+char *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid)
 {
     int i;
 

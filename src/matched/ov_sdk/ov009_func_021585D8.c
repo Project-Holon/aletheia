@@ -1,5 +1,5 @@
 /*
- * function: func_021585D8
+ * function: send_udp
  * address:  0x021585D8
  * packet:   pkt_ov009_021585D8
  * region:   ov009
@@ -12,9 +12,9 @@
  * sdk:      send_udp (libcps.TWL.HYB.a network.o)
  *
  * symbols:
- *   func_02157700            0x02157700  arm  ov009
- *   func_02157808            0x02157808  arm  ov009
- *   func_0215832C            0x0215832C  arm  ov009
+ *   calc_checksum_do            0x02157700  arm  ov009
+ *   invert_checksum            0x02157808  arm  ov009
+ *   send_ip            0x0215832C  arm  ov009
  *   g_021A826C               0x021A826C  data
  */
 
@@ -29,9 +29,9 @@ struct _CPSSoc {
 	unsigned char *sndbuf;          /* 0x58 */
 };
 
-extern unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum);
-extern unsigned short func_02157808(unsigned short sum);
-extern void func_0215832C(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
+extern unsigned long calc_checksum_do(unsigned char *s, unsigned long len, unsigned long sum);
+extern unsigned short invert_checksum(unsigned short sum);
+extern void send_ip(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
 extern unsigned char g_021A826C;
 
 #define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
@@ -41,7 +41,7 @@ static inline unsigned short swap16(unsigned short x)
 	return (unsigned short)((x >> 8) | (x << 8));
 }
 
-void func_021585D8(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
+void send_udp(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
 {
 	unsigned char *hdr;
 
@@ -56,6 +56,6 @@ void func_021585D8(unsigned char *data, unsigned long len, struct _CPSSoc *soc)
 	*(unsigned short *)(hdr + 2) = swap16(soc->remote_port);
 	*(unsigned short *)(hdr + 0) = swap16(soc->local_port);
 	*(unsigned short *)(hdr + 6) = 0;
-	*(unsigned short *)(hdr + 6) = swap16(func_02157808((unsigned short)func_02157700(data, len, func_02157700(hdr - 0xc, 0x14, 0))));
-	func_0215832C(hdr, 8, data, len, soc->remote_ip, 0x11);
+	*(unsigned short *)(hdr + 6) = swap16(invert_checksum((unsigned short)calc_checksum_do(data, len, calc_checksum_do(hdr - 0xc, 0x14, 0))));
+	send_ip(hdr, 8, data, len, soc->remote_ip, 0x11);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216FAD4",
+   "name": "DWCi_GetDefaultMatchFilter",
    "address": "0x0216FAD4",
    "kind": "sdk",
    "region": "ov009",

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02188F2C",
-    "func_02188F50"
+    "TR_AI_CmdLoadAbility",
+    "TR_AI_CmdNop"
+   ],
+   "addresses": [
+    "0x02188F2C",
+    "0x02188F50"
    ]
   }
  ]

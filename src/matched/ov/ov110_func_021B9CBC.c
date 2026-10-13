@@ -1,5 +1,5 @@
 /*
- * function: func_021B9CBC
+ * function: PMS_INPUT_VIEW_EndTask
  * address: 0x021B9CBC
  * packet: pkt_ov110_021B9CBC
  * region: ov110
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern u32 func_020307B0(void *p);
-void func_021B9CBC(u8 *p)
+void PMS_INPUT_VIEW_EndTask(u8 *p)
 {
     func_02030EAC(*(void **)(*(u32 *)&((struct Obj00135 *)p)->f0 + ((struct Obj00135 *)p)->f10 * 4 + 8));
     *(u32 *)(*(u32 *)&((struct Obj00135 *)p)->f0 + ((struct Obj00135 *)p)->f10 * 4 + 8) = 0;

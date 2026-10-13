@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0D4
+ * function: PMSIV_MENU_DeleteItems
  * address: 0x021BD0D4
  * packet: pkt_ov110_021BD0D4
  * region: ov110
@@ -23,7 +23,7 @@ struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
-void func_021BD0D4(u8 *p)
+void PMSIV_MENU_DeleteItems(u8 *p)
 {
     int i;
     for(i=0;i<8;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x70));

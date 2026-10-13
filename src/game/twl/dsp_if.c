@@ -10,15 +10,20 @@
  * isa:      arm
  * status:   EXACT
  * sdk:      libdsp.TWL.HYB.a dsp_if.o
+ *
+ * symbols:
+ *   OS_DisableInterrupts  0x02087988  arm  arm9
+ *   OS_RestoreInterrupts  0x0208799C  arm  arm9
+ *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef int s32;
 typedef volatile u16 vu16;
 
-extern void func_02087A04(u32);
-extern u32 func_02087988(void);
-extern void func_0208799C(u32);
+extern void OS_SpinWaitSysCycles(u32);
+extern u32 OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 void DSP_PowerOnCore(void);
 void DSP_PowerOffCore(void);
 void DSP_ResetOnCore(void);
@@ -53,7 +58,7 @@ void DSP_PowerOnCore(void)
 {
     REG_PWR &= 0xFFFE;
     REG_CNT = (REG_CNT & 0xFFFD) | 2;
-    func_02087A04(2);
+    OS_SpinWaitSysCycles(2);
     REG_PWR = (REG_PWR & 0xFFFE) | 1;
     DSP_ResetOnCore();
 }
@@ -145,7 +150,7 @@ u16 DSP_RecvDataCore(u32 ch)
 
 void DSP_SendFifoExCore(u32 a, u16 v, u16 *src, s32 n, u16 flags)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u32 x = (u16)((flags & 2) ? 0 : 2);
     REG_CTRL = v;
     REG_MODE = (REG_MODE & ~0xF002) | a | x;
@@ -162,13 +167,13 @@ void DSP_SendFifoExCore(u32 a, u16 v, u16 *src, s32 n, u16 flags)
             REG_DATA = *src++;
         }
     }
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 
 void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags)
 {
-    u32 irq = func_02087988();
+    u32 irq = OS_DisableInterrupts();
     u32 x = (u16)((flags & 1) ? 0 : 2);
     u32 sel;
     switch (flags & 0x300) {
@@ -193,7 +198,7 @@ void DSP_RecvFifoExCore(u32 a, u16 *dst, u16 v, s32 n, u16 flags)
         }
     }
     REG_MODE &= 0xFFEF;
-    func_0208799C(irq);
+    OS_RestoreInterrupts(irq);
 }
 
 u16 DSP_GetSemaphoreCore(void)

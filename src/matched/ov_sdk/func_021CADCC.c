@@ -11,8 +11,10 @@
  *
  * symbols:
  *   func_021CADCC   0x021CADCC  arm
+ *   DWCi_BTNlSet  0x021BCB28  arm
+ *   DWCi_IPTlCheckTrigger  0x021D6824  arm
  *
- * Two-stage guard around func_021BCB28.
+ * Two-stage guard around DWCi_BTNlSet.
  * Addresses are Black-image addresses.
  *
  * Verified with:
@@ -20,17 +22,17 @@
  *       --func func_021CADCC --addr 0x021CADCC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D6824(unsigned int f);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern int func_021CAC44(void);
-extern void func_021BCB28(signed char v);
+extern void DWCi_BTNlSet(signed char v);
 
 void func_021CADCC(void)
 {
-    if (func_021D6824(2))
+    if (DWCi_IPTlCheckTrigger(2))
     {
-        func_021BCB28(0);
+        DWCi_BTNlSet(0);
         return;
     }
     if (func_021CAC44())
-        func_021BCB28(0);
+        DWCi_BTNlSet(0);
 }

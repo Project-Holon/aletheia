@@ -1,5 +1,5 @@
 /*
- * function: func_021C17D4
+ * function: WIFICLUB_StateOpenSeatYesNo
  * address:  0x021C17D4
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA928  0x021BA928  thumb  ov099
- *   func_021BA828  0x021BA828  thumb  ov099
+ *   WIFICLUB_UpdateTalkStream  0x021BA928  thumb  ov099
+ *   WIFICLUB_OpenYesNoMenu  0x021BA828  thumb  ov099
  *
  * Runs the setup and stamps selector 0x38 when the guard answers true.
  */
@@ -25,13 +25,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_021BA928(void *p, int v);
-extern void func_021BA828(char *p);
+extern int WIFICLUB_UpdateTalkStream(void *p, int v);
+extern void WIFICLUB_OpenYesNoMenu(char *p);
 
-int func_021C17D4(char *p, int v)
+int WIFICLUB_StateOpenSeatYesNo(char *p, int v)
 {
-    if (func_021BA928(p, v) != 0) {
-        func_021BA828(p);
+    if (WIFICLUB_UpdateTalkStream(p, v) != 0) {
+        WIFICLUB_OpenYesNoMenu(p);
         *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x38;
     }
 

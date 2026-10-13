@@ -1,7 +1,7 @@
 /*
  * file:     wcm_system.c
  * unit:     yes
- * function: WCM_Init, WCM_InitEx_Alt, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, WCM_UpdateOption, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, WcmKeepAliveAlarm_Alt, WCMi_GetDefaultDeviceId
+ * function: WCM_Init, WCM_InitEx, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, WCM_UpdateOption, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, WcmKeepAliveAlarm, WCMi_GetDefaultDeviceId
  * address:  0x02164D64
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -21,13 +21,13 @@
  *   WCM_GetWorkSize        0x02164F38 arm ov009
  *   WcmInitOption        0x021658F8 arm ov009
  *   func_02166304        0x02166304 arm ov009
- *   func_02087058        0x02087058 arm
+ *   OS_IsTickAvailable        0x02087058 arm
  *   func_02086FE8        0x02086FE8 arm
- *   func_02087244        0x02087244 arm
+ *   OS_IsAlarmAvailable        0x02087244 arm
  *   func_02087208        0x02087208 arm
  *   func_02087254        0x02087254 arm
  *   WcmConfigure        0x021657D8 arm ov009
- *   func_0208EE60        0x0208EE60 arm
+ *   WM_GetAllowedChannel        0x0208EE60 arm
  *   func_02166880        0x02166880 arm ov009
  *   WCMi_NwmifStartupAsync        0x0273199C arm twl
  *   func_021669B8        0x021669B8 arm ov009
@@ -76,7 +76,6 @@ typedef struct WCMNotice {
 } WCMNotice;
 
 
-extern void WCM_InitEx(void *buf, long len, unsigned char deviceId);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -85,13 +84,13 @@ extern unsigned char WCMi_GetDefaultDeviceId(void);
 extern int OS_IsRunOnTwl(void);
 extern void WcmInitOption(void);
 extern void func_02166304(void);
-extern long func_02087058(void);
+extern long OS_IsTickAvailable(void);
 extern void func_02086FE8(void);
-extern long func_02087244(void);
+extern long OS_IsAlarmAvailable(void);
 extern void func_02087208(void);
 extern void func_02087254(void *alarm);
 extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
-extern unsigned short func_0208EE60(void);
+extern unsigned short WM_GetAllowedChannel(void);
 extern long func_02166880(void);
 extern long WCMi_NwmifStartupAsync(void);
 extern long func_021669B8(void);
@@ -109,9 +108,7 @@ extern unsigned short WCMi_WmifGetAllowedChannel(void);
 extern unsigned short WCMi_NwmifGetAllowedChannel(void);
 extern void OS_CancelAlarm(void *alarm);
 extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
-extern void WcmKeepAliveAlarm(void *arg);
 
-long WCM_InitEx_Alt(void *buf, long len, unsigned char deviceId);
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
 long WCM_StartupAsync(void *config, void (*notify)(void *));
@@ -134,7 +131,8 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
 void WCMi_SetPhase(unsigned char phase);
 void WCMi_ResetKeepAliveAlarm(void);
 extern void func_02165AF4(void);
-void WcmKeepAliveAlarm_Alt(void);
+long WCM_InitEx(void *buf, long len, unsigned char deviceId);
+void WcmKeepAliveAlarm(void);
 
 void WCM_Init(void *buf, long len)
 {
@@ -200,7 +198,7 @@ static WCMWork *wcmw = 0;
  * hoists the address load above the zero materialisation.  blocker: the
  * `ldr sb` address load and the `str r1,[sp]` expectLen spill will not swap.
  */
-long WCM_InitEx_Alt(void *buf, long len, unsigned char deviceId)
+long WCM_InitEx(void *buf, long len, unsigned char deviceId)
 {
     long expectLen;
     unsigned long e;
@@ -243,10 +241,10 @@ long WCM_InitEx_Alt(void *buf, long len, unsigned char deviceId)
     wcmw->deviceId = deviceId;
     WcmInitOption();
     func_02166304();
-    if (func_02087058() == 0) {
+    if (OS_IsTickAvailable() == 0) {
         func_02086FE8();
     }
-    if (func_02087244() == 0) {
+    if (OS_IsAlarmAvailable() == 0) {
         func_02087208();
     }
     func_02087254(wcmw->alarm);
@@ -323,7 +321,7 @@ long WCM_StartupAsync(void *config, void (*notify)(void *))
         OS_RestoreInterrupts(e);
         return 1;
     }
-    if (func_0208EE60() == 0) {
+    if (WM_GetAllowedChannel() == 0) {
         return 5;
     }
     switch (wcmw->deviceId) {
@@ -829,7 +827,7 @@ void WCMi_SetPhase(unsigned char phase)
     }
     if (phase == 9) {
         OS_CancelAlarm(wcmw->alarm);
-        OS_SetAlarm(wcmw->alarm, 0x022F5341ULL, WcmKeepAliveAlarm, 0);
+        OS_SetAlarm(wcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
     }
     OS_RestoreInterrupts(e);
 }
@@ -844,12 +842,12 @@ void WCMi_ResetKeepAliveAlarm(void)
 
     OS_CancelAlarm(wcmw->alarm);
     if (wcmw->phase == 9)
-        OS_SetAlarm(wcmw->alarm, 0x022f5341, WcmKeepAliveAlarm, 0);
+        OS_SetAlarm(wcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
     OS_RestoreInterrupts(e);
 }
 
 
-void WcmKeepAliveAlarm_Alt(void)
+void WcmKeepAliveAlarm(void)
 {
     func_02165AF4();
 }

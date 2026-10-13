@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF208",
+   "name": "PMS_WORDLIST_MoveByKeys",
    "address": "0x021BF208",
    "kind": "game",
    "region": "ov110",

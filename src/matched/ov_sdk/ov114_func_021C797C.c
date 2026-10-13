@@ -13,18 +13,18 @@
  *
  * symbols:
  *   d_021D3C20   0x021D3C20  data
- *   d_021D3B9C   0x021D3B9C  data
+ *   gDwciNdStatics   0x021D3B9C  data
  */
 typedef unsigned long u32;
 
 extern char d_021D3C20[];
-extern char d_021D3B9C[];
+extern char gDwciNdStatics[];
 extern void OS_LockMutex(void *mutex);
 extern void OS_UnlockMutex(void *mutex);
 
 void DWCi_Ndi_unprepareHttpCallback(void)
 {
     OS_LockMutex(d_021D3C20);
-    *(u32 *)(d_021D3B9C + 0x20) = 0;
+    *(u32 *)(gDwciNdStatics + 0x20) = 0;
     OS_UnlockMutex(d_021D3C20);
 }

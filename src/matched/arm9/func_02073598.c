@@ -1,5 +1,5 @@
 /*
- * function: func_02073598
+ * function: NNSi_SndInsertActiveSeqPlayer
  * address:  0x02073598
  * packet:   pkt_02073548
  * region:   arm9
@@ -12,9 +12,9 @@
  * symbols:
  *   func_02060614  0x02060614  arm
  *   func_02060550  0x02060550  arm
- *   g_0214E018     0x0214E018  data
+ *   gSndActiveSeqList     0x0214E018  data
  *
- * Priority-ordered insert into the g_0214E018 list.  Walks the list with the
+ * Priority-ordered insert into the gSndActiveSeqList list.  Walks the list with the
  * generic iterator func_02060614 (a null cursor asks for the head, a node asks
  * for its successor), stops at the first node whose b3d priority byte is
  * strictly greater than the new object's, and inserts before it with
@@ -25,17 +25,17 @@
  * interesting:
  *
  * 1. THE LIST OBJECT IS AN ARRAY, NOT A POINTER.  The parked version declared
- *    `extern void *g_0214E018;` and passed `g_0214E018`, so every call site
+ *    `extern void *gSndActiveSeqList;` and passed `gSndActiveSeqList`, so every call site
  *    emitted an extra `ldr r0, [r0]` to LOAD the pointer out of the object.
  *    The image has no such load: it hands the ADDRESS 0x0214E018 straight to
- *    the callee.  `extern char g_0214E018[];` is the spelling every matched
- *    sibling in this range already uses (func_0207312C, func_020731E0), and
+ *    the callee.  `extern char gSndActiveSeqList[];` is the spelling every matched
+ *    sibling in this range already uses (NNS_SndPlayerInit, NNS_SndPlayerMain), and
  *    this file disagreeing with them was the whole of the 47-byte residue's
  *    tail.  Fixing it alone took the file to 8 bytes out, all in the head.
  *
  * 2. PIN ../2.0/sp2, the "kept constants" tell (docs/FRONTEND-PINS.md, and
  *    docs/families/cluster_020726D0.h).  With the declaration fixed, dsi/1.1p1
- *    still hoists the g_0214E018 pool word into callee-saved r4 BEFORE the
+ *    still hoists the gSndActiveSeqList pool word into callee-saved r4 BEFORE the
  *    `mov r5, r0` (giving `ldr r4,[pc,#0x44] / mov r5,r0 / mov r0,r4`) and
  *    serves both the entry call and the loop call from it.  The image instead
  *    materialises the entry call's argument from its OWN pool word
@@ -49,8 +49,8 @@
  * is `obj->b3d < curr->b3d`; a signed spelling emits `blt`.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02073598.c \
- *       --func func_02073598 --addr 0x02073598 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_SndInsertActiveSeqPlayer.c \
+ *       --func NNSi_SndInsertActiveSeqPlayer --addr 0x02073598 --cc ../2.0/sp2 --arm
  */
 
 typedef unsigned char u8;
@@ -60,19 +60,19 @@ typedef struct Obj_02073548 {
     u8 b3d;
 } Obj_02073548;
 
-extern char g_0214E018[];
+extern char gSndActiveSeqList[];
 struct DList;
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_02060550(volatile struct DList *list, void *before, void *elem);
 
-void func_02073598(Obj_02073548 *obj)
+void NNSi_SndInsertActiveSeqPlayer(Obj_02073548 *obj)
 {
-    Obj_02073548 *curr = func_02060614((struct DList *)g_0214E018, 0);
+    Obj_02073548 *curr = func_02060614((struct DList *)gSndActiveSeqList, 0);
     while (curr != 0) {
         if (obj->b3d < curr->b3d) {
             break;
         }
-        curr = func_02060614((struct DList *)g_0214E018, curr);
+        curr = func_02060614((struct DList *)gSndActiveSeqList, curr);
     }
-    func_02060550((volatile struct DList *)g_0214E018, curr, obj);
+    func_02060550((volatile struct DList *)gSndActiveSeqList, curr, obj);
 }

@@ -20,9 +20,9 @@
  *   _SndSlots  0x020AA1B8  data
  *   GFL_USE_EndSndSlot        0x02005858  thumb
  *   GFL_USE_BeginSndSlot        0x02005834  thumb
- *   func_0207482C       0x0207482C  arm
- *   func_02074A6C       0x02074A6C  arm
- *   func_02074894       0x02074894  arm
+ *   NNS_SndHeapAlloc       0x0207482C  arm
+ *   NNS_SndArcLoadSeq       0x02074A6C  arm
+ *   NNS_SndHeapSaveState       0x02074894  arm
  *
  * Push one connection slot onto the stack unit_02005A4C.c pops from: take
  * the current slot's field at +0xC as the saved status word, close the
@@ -68,10 +68,10 @@ extern struct Sub02005A98Slot _SndSlots[];
 
 extern void  GFL_USE_EndSndSlot(void);
 extern void  GFL_USE_BeginSndSlot(u32 v);
-extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern u32   func_02074A6C(u32 a, u32 b);
+extern u32 NNS_SndHeapAlloc(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32   NNS_SndArcLoadSeq(u32 a, u32 b);
 struct S;
-extern int   func_02074894(struct S *a);
+extern int   NNS_SndHeapSaveState(struct S *a);
 
 struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *a0, u32 a1)
 {
@@ -84,12 +84,12 @@ struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *a0, u32 a1)
     saved = slot->unk0C;
     GFL_USE_EndSndSlot();
     i = 0;
-    p = (struct Sub02005A98Hdr *)func_0207482C(*_SndStack.unk08, 8, 0, 0, 0);
+    p = (struct Sub02005A98Hdr *)NNS_SndHeapAlloc(*_SndStack.unk08, 8, 0, 0, 0);
     for (i = 0; i < a1; i++) {
-        func_02074A6C(a0[i], (u32)*_SndStack.unk08);
+        NNS_SndArcLoadSeq(a0[i], (u32)*_SndStack.unk08);
     }
     p->n = a1;
     p->status = saved;
-    GFL_USE_BeginSndSlot(func_02074894((struct S *)*_SndStack.unk08));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState((struct S *)*_SndStack.unk08));
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F34
+ * function: WIFICLUBACTOR_DeleteClactActors
  * address:  0x021B9F34
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -32,7 +32,7 @@ typedef struct {
     void *f18;
 } S;
 
-void func_021B9F34(S *s)
+void WIFICLUBACTOR_DeleteClactActors(S *s)
 {
     CLACT_DeleteActor(s->f14);
     CLACT_DeleteActor(s->f18);

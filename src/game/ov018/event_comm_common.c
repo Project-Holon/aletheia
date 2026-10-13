@@ -112,7 +112,7 @@
  *   COMM_PLAYER_GetPlayerModel 0x02167A14 thumb ov010
  *   MYSTATUS_Copy 0x02008494 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
- *   func_02082D44 0x02082D44 arm
+ *   MI_CpuCopy8 0x02082D44 arm
  *   INTRUDE_COMM_SetState 0x02174E14 thumb ov011
  *   INTRUDE_COMM_GetRequestKind  0x02175DCC  thumb  ov011
  *   INTRUDE_COMM_GetSessionResult  0x02175BCC  thumb  ov011
@@ -465,7 +465,7 @@ extern int COMM_PLAYER_CheckActive(struct CommPlayerWork *commPlayer, int netId)
 extern struct FldMmdl *COMM_PLAYER_GetPlayerModel(struct CommPlayerWork *commPlayer, int netId);
 extern void MYSTATUS_Copy(void *src, void *dest);
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
-extern void func_02082D44(const void *src, void *dest, int size);
+extern void MI_CpuCopy8(const void *src, void *dest, int size);
 extern void INTRUDE_COMM_SetState(IntrudeCommSys *sys, int state);
 extern int INTRUDE_COMM_GetRequestKind(IntrudeSession *session);
 extern IntrudeResultRecord *INTRUDE_COMM_GetSessionResult(IntrudeSession *session);
@@ -479,7 +479,6 @@ extern void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *sys);
 extern int INTRUDE_COMM_SendNoticeBytes(int netId, int answer);
 extern u8 *INTRUDE_COMM_GetNotice(IntrudeCommSys *sys);
 extern int FLDMMDL_CheckPossibleAcmd(struct FldMmdl *mmdl);
-void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 extern void EVENT_COMM_COMMON_StartMsgEvent110Alt(struct GameEvent *event, EventCommCommonWork *work);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
@@ -1361,7 +1360,7 @@ void EVENT_COMM_COMMON_InitCommonWork(struct GameSystem *gameSystem, IntrudeComm
     work->msgIndex = EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (u8)netId);
     MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(func_020120F4(gameSystem), partnerNetId), work->myStatus);
     if (INTRUDE_COMM_IsSessionActive(&sys->session) == 1) {
-        func_02082D44(INTRUDE_COMM_GetActiveSessionRequest(&sys->session), &work->member, 0x34);
+        MI_CpuCopy8(INTRUDE_COMM_GetActiveSessionRequest(&sys->session), &work->member, 0x34);
     }
     EVENT_COMM_COMMON_InitMsgBox(&work->msgBox, gameSystem);
     INTRUDE_COMM_SetState(sys, 1);
@@ -1411,7 +1410,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
         requestKind = INTRUDE_COMM_GetRequestKind(&sys->session);
         if (sys->peers[work->common.peerSlot].lidClosed == 1) {
             copy = func_02030734((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 493);
-            func_02082D44(work, copy, 0x98);
+            MI_CpuCopy8(work, copy, 0x98);
             if (INTRUDE_COMM_GetSessionResult(&sys->session) == 0 && INTRUDE_COMM_IsSessionActive(&sys->session) == 1
                 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1 && INTRUDE_COMM_IsRequestFromNetId(&sys->session, work->common.peerSlot) == 1) {
                 EVENT_COMM_COMMON_StartMsgScriptEvent(event, copy);
@@ -1421,7 +1420,7 @@ int EVENT_COMM_COMMON_TalkEventMain(struct GameEvent *event, int *seq, void *wk)
             func_020307B0(copy);
         } else if (sys->peers[work->common.peerSlot].state != 0) {
             copy = func_02030734((u16)((work->common.heapId & 0x7FFF) | 0x8000), 0x98, 1, sEventCommCommonFile, 517);
-            func_02082D44(work, copy, 0x98);
+            MI_CpuCopy8(work, copy, 0x98);
             if (sys->peers[work->common.peerSlot].state == 2) {
                 if (requestKind == 5) {
                     EVENT_COMM_COMMON_ChangeSearchFoundEvent(event, copy);
@@ -1908,7 +1907,7 @@ void EVENT_COMM_COMMON_ChangeTalkMsgEvent(struct GameEvent *event, EventCommComm
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkMsgEventMain, 0xA8);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkMsgEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -1952,7 +1951,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerGiftTargetEvent(struct GameEvent *event, E
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /*
@@ -2032,7 +2031,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerGiftAsTargetEvent(struct GameEvent *event,
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkPowerGiftAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2072,7 +2071,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerGiftAsTargetEvent(struct GameEvent *even
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkedPowerGiftAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2112,7 +2111,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerGiftTargetEvent(struct GameEvent *event,
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /*
@@ -2175,7 +2174,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerShareTargetEvent(struct GameEvent *event, 
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerShareTargetEventMain, 0xA0);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkPowerShareTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2215,7 +2214,7 @@ void EVENT_COMM_COMMON_ChangeTalkPowerShareAsTargetEvent(struct GameEvent *event
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain, 0xA0);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /* Talk event: shows the notice, then activates the G-Power of the mission argument (overlay 83). */
@@ -2263,7 +2262,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerShareAsTargetEvent(struct GameEvent *eve
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain, 0xA0);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /* Talked event: the mission is achieved; reports it, then starts the mission result event. */
@@ -2335,7 +2334,7 @@ void EVENT_COMM_COMMON_ChangeTalkedPowerShareTargetEvent(struct GameEvent *event
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain, 0xA0);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkedPowerShareTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2377,7 +2376,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleTargetEvent(struct GameEvent *event, Even
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 0;
     work->battle.gameSystem = gameSystem;
     work->battle.partnerNetId = src->peerSlot;
@@ -2535,7 +2534,7 @@ void EVENT_COMM_COMMON_ChangeTalkBattleAsTargetEvent(struct GameEvent *event, Ev
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 0;
     work->battle.gameSystem = gameSystem;
     work->battle.partnerNetId = work->common.peerSlot;
@@ -2687,7 +2686,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleAsTargetEvent(struct GameEvent *event, 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleRequestEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 1;
     work->battle.gameSystem = gameSystem;
     work->battle.partnerNetId = work->common.peerSlot;
@@ -2703,7 +2702,7 @@ void EVENT_COMM_COMMON_ChangeTalkedBattleTargetEvent(struct GameEvent *event, Ev
     gameSystem = GAME_EVENT_GetGameSystem(event);
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_BattleAnswerEventMain, sizeof(EventCommBattleTalkWork));
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     work->battle.isTalked = 1;
     work->battle.gameSystem = gameSystem;
     work->battle.partnerNetId = work->common.peerSlot;
@@ -2715,7 +2714,7 @@ void EVENT_COMM_COMMON_ChangeTalkSearchTargetEvent(struct GameEvent *event, Even
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkSearchTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkSearchTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2757,7 +2756,7 @@ void EVENT_COMM_COMMON_ChangeTalkSearchAsTargetEvent(struct GameEvent *event, Ev
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkSearchAsTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkSearchAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2794,7 +2793,7 @@ void EVENT_COMM_COMMON_ChangeTalkedSearchAsTargetEvent(struct GameEvent *event, 
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /* Talked event: shows the notice; when the visit is still running, warps back to the palace. */
@@ -2841,7 +2840,7 @@ void EVENT_COMM_COMMON_ChangeTalkedSearchTargetEvent(struct GameEvent *event, Ev
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedSearchTargetEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkedSearchTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -2878,7 +2877,7 @@ void EVENT_COMM_COMMON_ChangeSearchFoundEvent(struct GameEvent *event, EventComm
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_SearchFoundEventMain, 0xA4);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /*
@@ -3017,7 +3016,7 @@ void EVENT_COMM_COMMON_ChangeTalkGreetingTargetEvent(struct GameEvent *event, Ev
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkGreetingTargetEventMain, 0x9C);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkGreetingTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -3054,7 +3053,7 @@ void EVENT_COMM_COMMON_ChangeTalkGreetingAsTargetEvent(struct GameEvent *event, 
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain, 0x9C);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkGreetingAsTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -3091,7 +3090,7 @@ void EVENT_COMM_COMMON_ChangeTalkedGreetingAsTargetEvent(struct GameEvent *event
     void *work;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain, 0x9C);
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
 }
 
 /* Talked event: shows the notice; when the visit is still running, warps back to the palace. */
@@ -3134,7 +3133,7 @@ int EVENT_COMM_COMMON_TalkedGreetingAsTargetEventMain(struct GameEvent *event, i
 void EVENT_COMM_COMMON_ChangeTalkedGreetingTargetEvent(struct GameEvent *event, EventCommCommonWork *src)
 {
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_TalkedGreetingTargetEventMain, 0x9C);
-    func_02082D44(src, func_020124E8(event), sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, func_020124E8(event), sizeof(EventCommCommonWork));
 }
 
 int EVENT_COMM_COMMON_TalkedGreetingTargetEventMain(struct GameEvent *event, int *seq, void *wk)
@@ -3305,7 +3304,7 @@ void EVENT_COMM_COMMON_ChangeTalkItemSaleEvent(struct GameEvent *event, EventCom
     u16 *itemId;
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_ItemSaleEventMain, sizeof(EventCommItemSaleWork));
     work = func_020124E8(event);
-    func_02082D44(src, work, sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, work, sizeof(EventCommCommonWork));
     itemId = &work->member.head.param.x;
     if (INTRUDE_COMM_IsValidProfileCode(*itemId) == 0) {
         *itemId = 17;
@@ -3432,7 +3431,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
 void EVENT_COMM_COMMON_ChangeTalkItemPurchaseEvent(struct GameEvent *event, EventCommCommonWork *src)
 {
     GAME_EVENT_Change(event, EVENT_COMM_COMMON_ItemPurchaseEventMain, sizeof(EventCommItemSaleWork));
-    func_02082D44(src, func_020124E8(event), sizeof(EventCommCommonWork));
+    MI_CpuCopy8(src, func_020124E8(event), sizeof(EventCommCommonWork));
 }
 
 /*

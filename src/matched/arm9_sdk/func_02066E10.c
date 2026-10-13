@@ -1,5 +1,5 @@
 /*
- * function: func_02066E10
+ * function: NNS_G2dSetOamSoftEmuAutoZOffsetStep
  * address:  0x02066E10
  * packet:   pkt_02066E10
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8218 0x020A8218 data
+ *   sOamSoftEmuAutoZOffsetStep 0x020A8218 data
  */
 
-#define g_020A8218 (*(int *)0x020A8218)
+#define sOamSoftEmuAutoZOffsetStep (*(int *)0x020A8218)
 
-void func_02066E10(int step)
+void NNS_G2dSetOamSoftEmuAutoZOffsetStep(int step)
 {
-    g_020A8218 = step;
+    sOamSoftEmuAutoZOffsetStep = step;
 }

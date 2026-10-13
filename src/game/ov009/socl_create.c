@@ -19,11 +19,11 @@
  *   SOCLiConfigPtr                     0x021a1cd8 data
  *   SOCLi_CreateSocketCallBack         0x0215d124 arm
  *   SOCLi_Resource                     0x021aa4ac data
- *   func_0215AA5C  0x0215AA5C  arm  ov009
- *   func_0215AB7C  0x0215AB7C  arm  ov009
- *   func_0215AB10  0x0215AB10  arm  ov009
- *   func_0215AA88  0x0215AA88  arm  ov009
- *   func_0215AB94  0x0215AB94  arm  ov009
+ *   CPS_SocRegister  0x0215AA5C  arm  ov009
+ *   CPS_SocDup  0x0215AB7C  arm  ov009
+ *   CPS_SocUse  0x0215AB10  arm  ov009
+ *   CPS_SocDatagramMode  0x0215AA88  arm  ov009
+ *   CPS_SetUdpCallback  0x0215AB94  arm  ov009
  *   func_0215DF08  0x0215DF08  arm  ov009
  *   OS_DisableInterrupts  0x02087988  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -269,11 +269,11 @@ extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void 
 extern int SOCLi_ExecCommandPacketInCtrlPipe(struct SOCLSocket *socket,
                                              struct SOCLiCommandPacket *command);
 extern int SOCLi_CreateSocketCallBack(void *arg);
-extern void func_0215AA5C(int v);
-extern void func_0215AB7C(void *thread);
-extern void func_0215AB10(void);
-extern void func_0215AA88(void);
-extern void func_0215AB94(int (*callback)(unsigned char *, unsigned long, void *));
+extern void CPS_SocRegister(int v);
+extern void CPS_SocDup(void *thread);
+extern void CPS_SocUse(void);
+extern void CPS_SocDatagramMode(void);
+extern void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, void *));
 extern int func_0215DF08(unsigned char *data, unsigned long len, struct CPSSoc *soc);
 extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -347,21 +347,21 @@ int func_0215D124(void *arg)
 	unsigned char *send_pipe;
 
 	socket = ((Cmd *)arg)->socket;
-	func_0215AA5C((int)socket);
+	CPS_SocRegister((int)socket);
 	send_pipe = socket->send_pipe;
 	switch (socket->flag_mode) {
 	case 0:
 	case 4:
-		func_0215AB7C(send_pipe + 0x20);
-		func_0215AB10();
+		CPS_SocDup(send_pipe + 0x20);
+		CPS_SocUse();
 		break;
 	case 1:
-		func_0215AB10();
-		func_0215AA88();
-		func_0215AB94((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
+		CPS_SocUse();
+		CPS_SocDatagramMode();
+		CPS_SetUdpCallback((int (*)(unsigned char *, long unsigned int,  void *))func_0215DF08);
 		break;
 	case 2:
-		func_0215AA88();
+		CPS_SocDatagramMode();
 		break;
 	}
 	socket->state = 1;
@@ -526,7 +526,7 @@ unsigned char *func_0215D3A0(unsigned char *ptr, Buf *buf, unsigned long size)
  * The layouts below are the ones the two adds confirm: the message queue sits
  * at +0, the thread at +0x20 and the mutex at +0xe0, so sizeof(OSMessageQueue)
  * = 0x20 and sizeof(OSThread) = 0xc0. Both are the definitions already proven
- * in src/matched/arm9_sdk/func_02085D94.c and func_020853C0.c, not fresh
+ * in src/matched/arm9_sdk/func_02085D94.c and OS_CreateThread.c, not fresh
  * guesses. The four-byte thread param is fixed independently by
  * func_0215D280 (SOCLi_GetSizeCommandPipe: +0 is the stack size, +2 a priority
  * byte, +3 the message count) and by func_0215D200 (pipe1/pipe2 are 4 bytes).

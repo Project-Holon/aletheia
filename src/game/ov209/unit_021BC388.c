@@ -64,13 +64,13 @@
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02041EE4 0x02041EE4 arm
- *   func_0200CA8C 0x0200CA8C thumb
+ *   ZUKAN_SAVE_GetLastViewedSpecies 0x0200CA8C thumb
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
- *   func_0200CED4 0x0200CED4 thumb
- *   func_0200D064 0x0200D064 thumb
+ *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
+ *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Clone 0x02045874 arm
  *   data_021BE7AC 0x021BE7AC data a4
@@ -103,11 +103,11 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_0200CA70 0x0200CA70 thumb
- *   func_0200CA5C 0x0200CA5C thumb
+ *   ZUKAN_SAVE_GetViewMode 0x0200CA70 thumb
+ *   ZUKAN_SAVE_SetViewMode 0x0200CA5C thumb
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
- *   func_0200CA78 0x0200CA78 thumb
+ *   ZUKAN_SAVE_SetLastViewedSpecies 0x0200CA78 thumb
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
  *   BMP_WIN_Init 0x02045088 arm
@@ -130,11 +130,11 @@
  *   BMP_GetPixels 0x020437D4 arm
  *   func_02049EF4 0x02049EF4 arm
  *   func_02049DF4 0x02049DF4 arm
- *   func_02082A90 0x02082A90 arm
- *   func_0200D0CC 0x0200D0CC thumb
- *   func_0200CF28 0x0200CF28 thumb
- *   func_0200D0F8 0x0200D0F8 thumb
- *   func_0200CF54 0x0200CF54 thumb
+ *   MIi_CpuCopy32 0x02082A90 arm
+ *   ZUKAN_SAVE_CountSeenNational 0x0200D0CC thumb
+ *   ZUKAN_SAVE_CountCaughtNational 0x0200CF28 thumb
+ *   ZUKAN_SAVE_CountSeenRegional 0x0200D0F8 thumb
+ *   ZUKAN_SAVE_CountCaughtRegional 0x0200CF54 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   FRAME_LIST_GetPrinter 0x021B9394 thumb ov067
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -174,16 +174,16 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   func_021C940C 0x021C940C thumb ov212
  *   CLACT_SetActorVisible 0x0204BA20 arm
- *   func_0200CA54 0x0200CA54 thumb
- *   func_0200CA38 0x0200CA38 thumb
+ *   ZUKAN_SAVE_GetDexObtained 0x0200CA54 thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   d_021BE9F0 0x021BE9F0 data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   d_021BE9BC 0x021BE9BC data a4
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
- *   func_0200CC40 0x0200CC40 thumb
+ *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   func_0200D288 0x0200D288 thumb
+ *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
  *   POKEGRA_RegisterCgr 0x0202D81C thumb
  *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
  *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
@@ -357,13 +357,13 @@ extern void MSGDATA_Delete(struct Rec *);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern u32 func_020307B0(void *p);
 extern void func_02041EE4(u32, u32, u32);
-extern u16 func_0200CA8C(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *p);
 extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
 extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
-extern u32 func_0200CED4(struct Blk37 *p, u16 id);
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void FRAME_LIST_Delete(struct S *);
@@ -392,11 +392,11 @@ extern void func_021B93D4(struct S *s, int v);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern u32 func_0200CA70(struct Blk37 *p);
-extern void func_0200CA5C(struct Blk37 *p, u32 v);
+extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
+extern void ZUKAN_SAVE_SetViewMode(struct Blk37 *p, u32 v);
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, unsigned, unsigned, unsigned);
-extern void func_0200CA78(void *,u16);
+extern void ZUKAN_SAVE_SetLastViewedSpecies(void *,u16);
 extern int GAME_DATA_CheckSaveFlag(int, int);
 extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
 extern void BMP_WIN_Init(unsigned short);
@@ -418,11 +418,11 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_02082A90(const void *src, void *dst, u32 size);
-extern u16 func_0200D0CC(struct Blk37 *p);
-extern u16 func_0200CF28(struct Blk37 *p);
-extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
-extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+extern u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountCaughtNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap);
+extern u16 ZUKAN_SAVE_CountCaughtRegional(struct Blk37 *p, u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern unsigned FRAME_LIST_GetPrinter(char *);
 extern void CLACT_ExitSystem(void);
@@ -461,14 +461,14 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
-extern u32 func_0200CA54(struct Blk37 *p);
-extern u32 func_0200CA38(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 extern void CLACT_DeleteActor(struct Obj *);
 extern void CLACT_DeleteUnit(struct Bank *);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern int POKEGRA_OpenHandle(int a0);
-extern u32 func_0200D288(struct Blk37 *p, u32 which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
@@ -790,7 +790,7 @@ void func_021BC9A8(struct Context_021BC388 *p)
     void *arc,*str;
     u32 species,i;
     arc=func_020490F4(159,0x806b);
-    species=func_0200CA8C((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save);
+    species=ZUKAN_SAVE_GetLastViewedSpecies((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save);
     tmpl=data_021BE7AC;
     tmpl.count=649;tmpl.p24=p;
     for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
@@ -811,12 +811,12 @@ void func_021BC9A8(struct Context_021BC388 *p)
     FRAME_LIST_LoadPalettes(p->list,arc,48,2,3);
     ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
-        if(func_0200CED4((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
+        if(ZUKAN_SAVE_IsCaught((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
             STRBUF_Delete(str);
             FRAME_LIST_AddItem(p->list,0,0x20000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
-        }else if(func_0200D064((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
+        }else if(ZUKAN_SAVE_IsSeen((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
             STRBUF_Delete(str);
@@ -1019,7 +1019,7 @@ int func_021BCE98(struct Context_021BCBE0 *p)
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,9,4,8);
         case 9:
             GFL_USE_PlaySeDefaultVolume(1356);
-            if(func_0200CA70(p->in->save)==1)func_0200CA5C(p->in->save,0);else func_0200CA5C(p->in->save,1);
+            if(ZUKAN_SAVE_GetViewMode(p->in->save)==1)ZUKAN_SAVE_SetViewMode(p->in->save,0);else ZUKAN_SAVE_SetViewMode(p->in->save,1);
             p->in->state=2;
             func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,8,5,8);
         case 10:GFL_USE_PlaySeDefaultVolume(1606);func_021BD354((char *)p);break;
@@ -1126,7 +1126,7 @@ int func_021BD2F4(char *p,int i) { if((FRAME_LIST_GetItemValue(*(char * *)&((str
 
 
 
-void func_021BD314(char *p,int i) { if(func_021BD2F4(p,i)==1)func_0200CA78(((struct Obj25556 *)(*(char * *)&((struct Obj00088 *)p)->f0))->f4,FRAME_LIST_GetItemValue(*(char * *)&((struct Obj00088 *)p)->fC2C,i)); }
+void func_021BD314(char *p,int i) { if(func_021BD2F4(p,i)==1)ZUKAN_SAVE_SetLastViewedSpecies(((struct Obj25556 *)(*(char * *)&((struct Obj00088 *)p)->f0))->f4,FRAME_LIST_GetItemValue(*(char * *)&((struct Obj00088 *)p)->fC2C,i)); }
 
 
 
@@ -1276,7 +1276,7 @@ void func_021BD4F4(u8 *p, u32 idx)
         do {
             for (i = 0; i < w; i++) {
                 u16 c = *(u16 *)(row + (y + j) * 64 + i * 2);
-                func_02082A90(gfx + (c & 0x3FF) * 32, dst + (i + j * w) * 32, 0x20);
+                MIi_CpuCopy32(gfx + (c & 0x3FF) * 32, dst + (i + j * w) * 32, 0x20);
             }
             j++;
         } while (j < h);
@@ -1292,7 +1292,7 @@ void func_021BD4F4(u8 *p, u32 idx)
 void func_021BD5D4(char *p)
 {
     func_021BD4F4((u8 *)p, 0);
-    if (func_0200CA70(((struct Obj25560 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1)
+    if (ZUKAN_SAVE_GetViewMode(((struct Obj25560 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1)
         func_021BD440(p, 0, 1, 0, 4, 0x39e0, 0);
     else
         func_021BD440(p, 0, 0, 0, 4, 0x39e0, 0);
@@ -1306,12 +1306,12 @@ void func_021BD5D4(char *p)
 void func_021BD628(char *p)
 {
     unsigned a, b;
-    if (func_0200CA70(((struct Obj25561 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1) {
-        a = func_0200D0CC(((struct Obj25562 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
-        b = func_0200CF28(((struct Obj25563 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
+    if (ZUKAN_SAVE_GetViewMode(((struct Obj25561 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1) {
+        a = ZUKAN_SAVE_CountSeenNational(((struct Obj25562 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
+        b = ZUKAN_SAVE_CountCaughtNational(((struct Obj25563 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
     } else {
-        a = func_0200D0F8(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
-        b = func_0200CF54(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
+        a = ZUKAN_SAVE_CountSeenRegional(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
+        b = ZUKAN_SAVE_CountCaughtRegional(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
     }
     func_021BD4F4((u8 *)p, 1);
     func_021BD4F4((u8 *)p, 2);
@@ -1347,7 +1347,7 @@ void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
     unsigned ps;
     void *text;
     ps = FRAME_LIST_GetPrinter(*(char * *)&((struct Obj02924 *)p)->fC2C);
-    if (func_0200CA70(*(struct Blk37 * *)&((struct Obj25567 *)(*(char * *)&((struct Obj02924 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_GetViewMode(*(struct Blk37 * *)&((struct Obj25567 *)(*(char * *)&((struct Obj02924 *)p)->f0))->f4) == 0)
         index = (*(u16 **)(p + 0xc38))[index];
     text = func_02045EC0(*(struct MsgBank * *)&((struct Obj02924 *)p)->f3C, 8);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, 0, index, 3, 2, 1);
@@ -1545,9 +1545,9 @@ void func_021BDC08(char *p)
         func_021BD8D8(p, 0, 0);
         func_021BD8D8(p, 1, 0);
     }
-    if (func_0200CA54(((struct Obj25571 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_GetDexObtained(((struct Obj25571 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 9, 0);
-    if (func_0200CA38(((struct Obj25572 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
+    if (ZUKAN_SAVE_IsNationalDexEnabled(((struct Obj25572 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 8, 0);
     if (((struct Obj25573 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f8 == 1) {
         func_021BD8D8(p, 8, 0);
@@ -1603,9 +1603,9 @@ void func_021BDD7C(char *p,u16 species)
     } else {
         void *arc;
         unsigned personality;
-        func_0200CC40(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
+        ZUKAN_SAVE_GetViewGenderAndForm(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
         arc=(void *)POKEGRA_OpenHandle(0x806b);
-        personality=species==0x147?func_0200D288(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
+        personality=species==0x147?ZUKAN_SAVE_GetSpindaPersonality(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
         *(unsigned *)(p+t.w8*4+0xb64)=POKEGRA_RegisterCgr((u32)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
         *(unsigned *)(p+t.wC*4+0xbf4)=POKEGRA_RegisterPalette((int)arc,species,outForm,out1,out2,0,0,0,base,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);
@@ -1723,7 +1723,7 @@ void func_021BE29C(char *p,u16 species,enum Position pos,int mode)
 {
     unsigned out1,outForm,out2;
     int index;
-    func_0200CC40(*(u8 * *)&((struct Obj25579 *)(*(char * *)&((struct Obj25578 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
+    ZUKAN_SAVE_GetViewGenderAndForm(*(u8 * *)&((struct Obj25579 *)(*(char * *)&((struct Obj25578 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
     index=func_021BE25C((int)p,mode);
     func_021BE1B8(p,index,species,outForm,out1,mode);
     func_021BD8D8(p,index,1);

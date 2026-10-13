@@ -19,14 +19,14 @@
  *   func_0217EAE0                  0x0217EAE0  arm ov009
  *   func_02181C2C                  0x02181C2C  arm ov009
  *   func_02181D10                  0x02181D10  arm ov009
- *   func_021C2284                  0x021C2284  arm
+ *   ghttpRequestThink                  0x021C2284  arm
  *   func_021C2304                  0x021C2304  arm
- *   func_021C2310                  0x021C2310  arm
- *   func_021C2338                  0x021C2338  arm
- *   func_021C20A4                  0x021C20A4  arm
- *   func_021C22A4                  0x021C22A4  arm
+ *   ghttpPostSetAutoFree                  0x021C2310  arm
+ *   ghttpPostAddXml                  0x021C2338  arm
+ *   ghttpGetExA                  0x021C20A4  arm
+ *   ghttpCancelRequest                  0x021C22A4  arm
  *   func_02181DA0  0x02181DA0  arm  ov009
- *   func_021C2324  0x021C2324  arm  ov114
+ *   ghttpFreePostAndUpdateConnection  0x021C2324  arm  ov114
  */
 typedef void (*GSSoapCallback)(int, void *, void *, void *);
 
@@ -68,14 +68,14 @@ extern void func_0217CE48(GSTask *theTask, unsigned int theTimeoutMs);
 extern void func_0217EAE0(void *ptr);
 extern void *func_02181C2C(void);
 extern int func_02181D10(void *stream, char *data, int len);
-extern int func_021C2284(int request);
+extern int ghttpRequestThink(int request);
 extern void *func_021C2304();
-extern void func_021C2310(void *post, int autoFree);
-extern void func_021C2338();
-extern int func_021C20A4(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
-extern void func_021C22A4(int request);
+extern void ghttpPostSetAutoFree(void *post, int autoFree);
+extern void ghttpPostAddXml();
+extern int ghttpGetExA(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
+extern void ghttpCancelRequest(int request);
 void func_02181DA0(int x);
-void func_021C2324(int x, int y);
+void ghttpFreePostAndUpdateConnection(int x, int y);
 void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void *theUserData);
 GSSoapTask *func_0217FDA0(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, unsigned int theTimeoutMs, void *theUserData);
 GSSoapTask *func_0217FE68(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData);
@@ -214,7 +214,7 @@ int func_0217FF70(void *theTask)
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     if (aSoapTask->completed != 0)
         return 4;
-    func_021C2284(aSoapTask->httpRequest);
+    ghttpRequestThink(aSoapTask->httpRequest);
     return 1;
 }
 
@@ -235,11 +235,11 @@ void func_0217FF94(void *theTask)
         aSoapTask->result = 1;
         return;
     }
-    func_021C2310(aSoapTask->post, 0);
-    func_021C2338(aSoapTask->post, aSoapTask->request);
+    ghttpPostSetAutoFree(aSoapTask->post, 0);
+    ghttpPostAddXml(aSoapTask->post, aSoapTask->request);
     if (aSoapTask->customFunc != 0)
         aSoapTask->customFunc(aSoapTask->post, aSoapTask->userData);
-    aSoapTask->httpRequest = func_021C20A4(aSoapTask->url, aSoapTask->service, 0, 0, aSoapTask->post, 0, 0, 0, func_0217FF14, aSoapTask);
+    aSoapTask->httpRequest = ghttpGetExA(aSoapTask->url, aSoapTask->service, 0, 0, aSoapTask->post, 0, 0, 0, func_0217FF14, aSoapTask);
 }
 
 
@@ -253,7 +253,7 @@ void func_0218002C(void *theTask)
     if (soapTask->completed != 0)
         return;
     if (soapTask->httpRequest >= 0)
-        func_021C22A4(soapTask->httpRequest);
+        ghttpCancelRequest(soapTask->httpRequest);
     soapTask->result = 18;
 }
 
@@ -283,7 +283,7 @@ int func_02180080(void *theTask)
     if (p->buffer)
         func_0217EAE0(p->buffer);
     if (p->post)
-        func_021C2324(p->httpRequest, (int)p->post);
+        ghttpFreePostAndUpdateConnection(p->httpRequest, (int)p->post);
     func_0217EAE0(p);
     return 1;
 }

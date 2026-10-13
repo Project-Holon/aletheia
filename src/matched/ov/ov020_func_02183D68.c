@@ -21,7 +21,7 @@
  *   PALANM_StartTimer  0x02021444  thumb
  *   EVENT_MAPCHANGE_AddPresetMail  0x02185F6C  thumb  ov020
  *   func_0208068C  0x0208068C  arm
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  *   EVENT_MAPCHANGE_NewGameStartEvent  0x02183C9C  thumb  ov020
  */
@@ -45,7 +45,7 @@ extern void func_02008B20(struct Sub02008AECObj *obj);
 extern void PALANM_StartTimer(void);
 extern void EVENT_MAPCHANGE_AddPresetMail(int a);
 extern void func_0208068C(int a);
-extern void func_02082AC0(int v, u32 a, u32 b);
+extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void func_02080B98(void);
 extern int EVENT_MAPCHANGE_NewGameStartEvent(void *obj, int *state, struct Arg *arg);
 
@@ -62,7 +62,7 @@ int EVENT_MAPCHANGE_CreateNewGameStartEvent(int a)
     PALANM_StartTimer();
     EVENT_MAPCHANGE_AddPresetMail(r4[1]);
     func_0208068C(0x1ff);
-    func_02082AC0(0, 0x1a << 22, 0x29 << 14);
+    MIi_CpuClearFast(0, 0x1a << 22, 0x29 << 14);
     func_02080B98();
     return r6;
 }

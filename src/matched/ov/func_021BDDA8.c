@@ -1,5 +1,5 @@
 /*
- * function: func_021BDDA8
+ * function: WIFICLUB_IsKindActive
  * address:  0x021BDDA8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-BOOL func_021BDDA8(int x)
+BOOL WIFICLUB_IsKindActive(int x)
 {
     if (x == 2) {
         return 1;

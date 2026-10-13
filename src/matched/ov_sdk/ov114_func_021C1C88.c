@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C88
+ * function: ghiEncryptorSslEncryptFunc
  * address:  0x021C1C88
  * packet:   pkt_ov114_021C1C88
  * region:   ov114
@@ -16,7 +16,7 @@
  *           0x021C117C.  Seeded in layout/function_starts.txt.
  */
 
-int func_021C1C88(void)
+int ghiEncryptorSslEncryptFunc(void)
 {
     return 3;
 }

@@ -24,8 +24,8 @@
  * sdk:      SOCLi_GetOptimumSendBufLen (libsoc.TWL.HYB.a(socl_write.o))
  *
  * symbols:
- *   func_02087988  0x02087988  arm
- *   func_0208799C  0x0208799C  arm
+ *   OS_DisableInterrupts  0x02087988  arm
+ *   OS_RestoreInterrupts  0x0208799C  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   g_02150FEC     0x02150FEC  data
  *   g_021AA450     0x021AA450  data
@@ -54,8 +54,8 @@ typedef struct {
 	Thr *cur;
 } Info;
 
-extern unsigned long func_02087988(void);
-extern unsigned long func_0208799C(unsigned long state);
+extern unsigned long OS_DisableInterrupts(void);
+extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern int func_0209C0A4(int a, int b);
 extern Info g_02150FEC;
 extern struct CPSConfig g_021AA450;
@@ -68,7 +68,7 @@ int func_0215E588(int len)
 	int count;
 
 	soc = g_02150FEC.cur->soc;
-	enabled = func_02087988();
+	enabled = OS_DisableInterrupts();
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {
 			int w = soc->winSize;
@@ -86,7 +86,7 @@ int func_0215E588(int len)
 	} else {
 		temp = g_021AA450.bufSize << 1;
 	}
-	func_0208799C(enabled);
+	OS_RestoreInterrupts(enabled);
 	if (temp > 0) {
 		count = func_0209C0A4(len, temp);
 		if (count > 0) {

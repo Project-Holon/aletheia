@@ -12,7 +12,7 @@
  * symbols:
  *   G2x_SetBlendBrightness_          0x0207D658  arm
  *   DWCi_TSKlForm                    0x021D7680  arm
- *   g_021DAA6C                       0x021DAA6C  data
+ *   sEffectTable3                       0x021DAA6C  data
  *   MemEffect                        0x021DE67C  data
  *   taskFade                         0x021D566C  arm
  *
@@ -53,13 +53,13 @@ extern void G2x_SetBlendBrightness_(unsigned long addr, int plane, int brightnes
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work,
                            unsigned char prio);
 extern struct tagMEMEFFECT *MemEffect;
-extern S4 g_021DAA6C;
+extern S4 sEffectTable3;
 
 static void taskFade(void *task, void *work);
 
 bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame)
 {
-    S4 BRIGHT = g_021DAA6C;
+    S4 BRIGHT = sEffectTable3;
     struct tagEFFPRM *prm;
     bool ok;
 

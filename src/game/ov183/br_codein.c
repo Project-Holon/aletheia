@@ -207,7 +207,7 @@
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   d_021E3758 0x021E3758 data a4
  *   d_021E3728 0x021E3728 data a4
- *   func_0200CA1C 0x0200CA1C thumb
+ *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   func_021FFBD4 0x021FFBD4 thumb ov186
  *   func_021FFE5C 0x021FFE5C thumb ov186
  *   func_021FFE34 0x021FFE34 thumb ov186
@@ -625,7 +625,7 @@ extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int func_021FB4CC(u32 *p, int a1, int a2);
 extern void BMP_MENUWORK_AddMsgItem(Slot_021DB2E0 *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void *func_0200CA1C(void *);
+extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern char *func_021FFBD4(void *, void *, int, int, int, int, int, u16);
 extern void func_021FFE5C(char *);
 extern unsigned func_021FFE34(char *p);
@@ -4692,7 +4692,7 @@ int func_021DFFB0(struct CodeinWorkB *p, struct CodeinArgB *q)
 
 void func_021E0044(struct CodeinWorkA *p, struct CodeinArgA *q)
 {
-    p->f1C = func_021FFBD4(func_0200CA1C((*(void * *)&q->f10)), (*(void * *)&q->f8), q->f4, p->f44, q->f0, (*(int *)&p->f3C), p->f40, p->f54);
+    p->f1C = func_021FFBD4(ZUKAN_SAVE_GetFromGameData((*(void * *)&q->f10)), (*(void * *)&q->f8), q->f4, p->f44, q->f0, (*(int *)&p->f3C), p->f40, p->f54);
     func_021FFE5C(p->f1C);
     func_021FFE34(p->f1C);
 }

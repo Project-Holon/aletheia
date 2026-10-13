@@ -1,5 +1,5 @@
 /*
- * function: func_021D3A20
+ * function: BTL_CLIENT_StepConsumeHeldItem
  * address: 0x021D3A20
  * packet: pkt_ov093_021D3A20
  * region: ov093
@@ -19,7 +19,7 @@ struct UtilWork;
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 struct QK;
 extern void BTL_POKEPARAM_ConsumeHeldItem(struct QK *p, u16 v);
-int func_021D3A20(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_StepConsumeHeldItem(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = BTL_SIDE_GetPokeByIdThunk((char *)a[1], (u8)c[0]);

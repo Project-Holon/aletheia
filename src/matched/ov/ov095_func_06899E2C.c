@@ -1,5 +1,5 @@
 /*
- * function: func_06899E2C
+ * function: BTLV_SCD_ClearTasks
  * address: 0x06899E2C
  * packet: pkt_ov095_06899E2C
  * region: ov095
@@ -11,7 +11,7 @@
 #include "../include/Obj07909.h"
 #include "../include/Obj21887.h"
 typedef unsigned int u32;
-void func_06899E2C(unsigned char *p) {
+void BTLV_SCD_ClearTasks(unsigned char *p) {
  int i;
  u32 zero;
  unsigned char *q;

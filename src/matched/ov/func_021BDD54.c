@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD54
+ * function: WIFICLUB_GetStatusPhase
  * address:  0x021BDD54
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C27D8  0x021C27D8  thumb
+ *   WIFICLUB_GetStatusActionArg  0x021C27D8  thumb
  *
- * Tail call onto the byte getter func_021C27D8 on the second argument.
+ * Tail call onto the byte getter WIFICLUB_GetStatusActionArg on the second argument.
  */
 
 typedef unsigned char  u8;
@@ -28,9 +28,9 @@ typedef struct {
     u8 f18;
 } S;
 
-extern u8 func_021C27D8(S *s);
+extern u8 WIFICLUB_GetStatusActionArg(S *s);
 
-u8 func_021BDD54(int unused, S *s)
+u8 WIFICLUB_GetStatusPhase(int unused, S *s)
 {
-    return func_021C27D8(s);
+    return WIFICLUB_GetStatusActionArg(s);
 }

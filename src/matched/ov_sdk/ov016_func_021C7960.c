@@ -15,8 +15,8 @@
  *           the open-coded expression swaps r1 and r2.
  *
  * symbols:
- *   g_021DE5E4     0x021DE5E4  data
- *   g_021DA5D4     0x021DA5D4  data
+ *   gMemSsea     0x021DE5E4  data
+ *   sSceneSetEditAddressDigitX     0x021DA5D4  data
  */
 
 #include "../include/G_MemSsea.h"
@@ -35,8 +35,8 @@ typedef struct GXOamAttr {
 
 typedef struct MemSsea MemSsea;
 
-extern struct MemSsea *g_021DE5E4;
-extern unsigned char g_021DA5D4[];
+extern struct MemSsea *gMemSsea;
+extern unsigned char sSceneSetEditAddressDigitX[];
 
 static inline void SetObjPosition(GXOamAttr *oam, int x, int y)
 {
@@ -45,9 +45,9 @@ static inline void SetObjPosition(GXOamAttr *oam, int x, int y)
 
 void func_021C7960(void)
 {
-    int x = g_021DE5E4->pos;
+    int x = gMemSsea->pos;
 
     if (x > 3)
         x = 3;
-    SetObjPosition(g_021DE5E4->caret, g_021DA5D4[x * 3 + 2], 0x28);
+    SetObjPosition(gMemSsea->caret, sSceneSetEditAddressDigitX[x * 3 + 2], 0x28);
 }

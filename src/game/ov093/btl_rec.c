@@ -44,7 +44,7 @@
  *   func_02030734  0x02030734  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   func_020307B0   0x020307B0  arm arm9
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
  *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
@@ -159,7 +159,7 @@ typedef struct {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void func_02082D44(const void *src, void *dst, u32 size);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 void BTL_CALC_ActionSetRecordError(u32 *record);
 void BTL_CALC_ActionSetRecordReset(u32 *record);
 extern char gBtlRecFileName[];
@@ -189,7 +189,7 @@ void BTL_REC_AppendPacket(BtlRecBuffer *buffer, const u8 *src, int size)
         size = size - 1;
         end = offset + size;
         if (end <= 0xC00) {
-            func_02082D44(src + 1, &buffer->data[offset], size);
+            MI_CpuCopy8(src + 1, &buffer->data[offset], size);
             buffer->writeOffset = end;
         } else {
             buffer->overflowed = 1;
@@ -299,7 +299,7 @@ u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outF
                 if (subChannel != channel) {
                     readPos[channel] += words * 4;
                 } else {
-                    func_02082D44(bytes + readPos[channel], reader->lastRecord[channel], words * 4);
+                    MI_CpuCopy8(bytes + readPos[channel], reader->lastRecord[channel], words * 4);
                     found = reader->lastRecord[channel];
                     readPos[channel] += words * 4;
                     *outSize = words;
@@ -428,7 +428,7 @@ void BTL_REC_AddRecord(BtlRecPacket *packet, u8 channel, const void *words, u32 
             packet->channelMask = mask | (u8)(1 << channel);
             packet->recordCount++;
             packet->data[packet->used] = (channel << 5) | count;
-            func_02082D44(words, &packet->data[packet->used + 1], size);
+            MI_CpuCopy8(words, &packet->data[packet->used + 1], size);
             packet->used = end;
         } else {
             packet->full = 1;
@@ -464,7 +464,7 @@ u8 *BTL_REC_MakeResetPacket(BtlRecPacket *packet, u32 *outSize)
 
 void BTL_REC_LoadPacket(BtlRecPacket *packet, const void *src, int size)
 {
-    func_02082D44(src, packet->data, size);
+    MI_CpuCopy8(src, packet->data, size);
     packet->used = size;
     packet->channelMask = 0;
     packet->recordCount = 0;
@@ -488,7 +488,7 @@ int BTL_REC_NextRecord(BtlRecPacket *packet, u32 *pos, u8 *outChannel, u8 *outWo
         *outWords = header & 0x1f;
         size = *outWords * 4;
         *pos = *pos + 1;
-        func_02082D44(&packet->data[*pos], dst, size);
+        MI_CpuCopy8(&packet->data[*pos], dst, size);
         *pos = *pos + size;
         return 1;
     }

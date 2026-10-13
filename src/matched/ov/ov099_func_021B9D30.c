@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D30
+ * function: WIFICLUBACTOR_InitSpriteManager
  * address: 0x021B9D30
  * packet: pkt_ov099_021B9D30
  * region: ov099
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021C5590(void *,void *,u32,void *,int,u32,u32); extern void func_021C5664(char *,int,int);
-void func_021B9D30(u8 *p,void *q,u32 heap) { void *r; r=func_021C5590(((struct Obj13679 *)p)->f14,0,48,q,0,0,heap); ((struct Obj13679 *)p)->f590=r; func_021C5664(r,2,heap); }
+void WIFICLUBACTOR_InitSpriteManager(u8 *p,void *q,u32 heap) { void *r; r=func_021C5590(((struct Obj13679 *)p)->f14,0,48,q,0,0,heap); ((struct Obj13679 *)p)->f590=r; func_021C5664(r,2,heap); }

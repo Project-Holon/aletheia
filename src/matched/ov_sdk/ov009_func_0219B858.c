@@ -1,5 +1,5 @@
 /*
- * function: func_0219B858
+ * function: gs_encode
  * address:  0x0219B858
  * packet:   pkt_ov009_0219B858
  * region:   ov009
@@ -12,12 +12,12 @@
  * sdk:      gs_encode (qr2.o)
  *
  * symbols:
- *   func_0219B810  0x0219B810  arm  ov009
+ *   encode_ct  0x0219B810  arm  ov009
  */
 
-extern unsigned char func_0219B810(unsigned char c);
+extern unsigned char encode_ct(unsigned char c);
 
-void func_0219B858(unsigned char *ins, int size, unsigned char *result)
+void gs_encode(unsigned char *ins, int size, unsigned char *result)
 {
     int i;
     int pos;
@@ -37,7 +37,7 @@ void func_0219B858(unsigned char *ins, int size, unsigned char *result)
         kwart[2] = ((trip[1] & 15) << 2) + (trip[2] >> 6);
         kwart[3] = trip[2] & 63;
         for (pos = 0; pos <= 3; pos++)
-            *result++ = func_0219B810(kwart[pos]);
+            *result++ = encode_ct(kwart[pos]);
     }
     *result = 0;
 }

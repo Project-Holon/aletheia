@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02087988 0x02087988  arm
- *   func_0208799C 0x0208799C  arm
+ *   OS_DisableInterrupts 0x02087988  arm
+ *   OS_RestoreInterrupts 0x0208799C  arm
  *   func_02060614 0x02060614  arm
  *   func_020605B4 0x020605B4  arm
  *   func_02075B28 0x02075B28  arm
@@ -25,8 +25,8 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02087988(void);
-extern void func_0208799C(u32);
+extern u32  OS_DisableInterrupts(void);
+extern void OS_RestoreInterrupts(u32);
 struct DList;
 extern void *func_02060614(struct DList *list, void *elem);
 extern void func_020605B4(volatile struct DList *list, void *elem);
@@ -34,7 +34,7 @@ extern int func_02075B28(void *a0);
 
 void func_02075AB8(void *a, u32 v)
 {
-    u32 state = func_02087988();
+    u32 state = OS_DisableInterrupts();
     void *p = func_02060614(a, 0);
 
     while (p != 0) {
@@ -46,5 +46,5 @@ void func_02075AB8(void *a, u32 v)
         }
         p = n;
     }
-    func_0208799C(state);
+    OS_RestoreInterrupts(state);
 }

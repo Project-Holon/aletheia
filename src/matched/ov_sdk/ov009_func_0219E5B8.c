@@ -22,7 +22,7 @@
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  */
 
 typedef struct _SBServer {
@@ -52,7 +52,7 @@ extern int func_0209ABEC(const char *s1, const char *s2, unsigned int n);
 extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 
 void func_0219E5B8(_SBServer *server, char *data, int len)
 {
@@ -133,7 +133,7 @@ void func_0219E5B8(_SBServer *server, char *data, int len)
                     v = data;
                     data += dlen;
                     len -= dlen;
-                    func_02084F40(tempkey, g_021A8164, k, nindex);
+                    OS_SPrintf(tempkey, g_021A8164, k, nindex);
                     func_0219E01C(server, tempkey, v);
                     nindex++;
                 }

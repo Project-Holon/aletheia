@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE74
+ * function: NHTTPi_SetBodyBuffer
  * address:  0x021BEE74
  * packet:   pkt_ov114_021BEE74
  * region:   ov114
@@ -12,8 +12,8 @@
  * sdk:      NHTTPi_SetBodyBuffer (libnhttp.TWL.HYB.a(d_nhttp_common.o))
  *
  * symbols:
- *   func_021BEBC8 0x021BEBC8 arm ov114
- *   func_021BEC00 0x021BEC00 arm ov114
+ *   NHTTPi_Connection2Response 0x021BEBC8 arm ov114
+ *   NHTTPi_GetConnection 0x021BEC00 arm ov114
  */
 
 typedef struct {
@@ -26,14 +26,14 @@ typedef struct {
 } Res;
 
 struct Conn;
-extern struct Conn *func_021BEC00(int a, int b);
-extern int func_021BEBC8(int a, int b);
+extern struct Conn *NHTTPi_GetConnection(int a, int b);
+extern int NHTTPi_Connection2Response(int a, int b);
 
-int func_021BEE74(void *mutexInfo_p, void *handle, void *buf_p, unsigned long length, unsigned long offset)
+int NHTTPi_SetBodyBuffer(void *mutexInfo_p, void *handle, void *buf_p, unsigned long length, unsigned long offset)
 {
-    void *connection_p = func_021BEC00((int)mutexInfo_p, (int)handle);
+    void *connection_p = NHTTPi_GetConnection((int)mutexInfo_p, (int)handle);
     if (connection_p) {
-        Res *res_p = (Res *)func_021BEBC8((int)mutexInfo_p, (int)connection_p);
+        Res *res_p = (Res *)NHTTPi_Connection2Response((int)mutexInfo_p, (int)connection_p);
         if (res_p == 0) {
             return -1;
         }

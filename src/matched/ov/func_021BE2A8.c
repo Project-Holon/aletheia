@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2A8
+ * function: WIFICLUB_FindPeerActor
  * address:  0x021BE2A8
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B9A50  0x021B9A50  thumb  ov099
+ *   WIFICLUBACTOR_GetActorId  0x021B9A50  thumb  ov099
  *
  * Walks the 0x21 pointers of the table at +0x814 and returns the first whose
- * func_021B9A50 answer is the second argument, else 0.
+ * WIFICLUBACTOR_GetActorId answer is the second argument, else 0.
  *
  * The two slots of the table are addressed by two spellings that differ in
  * where the 0x814 constant sits: `p + i * 4 + 0x814` on the test and the call,
@@ -31,15 +31,15 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern u8 func_021B9A50(char *p);
+extern u8 WIFICLUBACTOR_GetActorId(char *p);
 
-void *func_021BE2A8(char *p, int key)
+void *WIFICLUB_FindPeerActor(char *p, int key)
 {
     int i;
 
     for (i = 0; i < 0x21; i++) {
         if (*(u32 *)(p + i * 4 + 0x814) != 0 &&
-            func_021B9A50(*(char **)(p + i * 4 + 0x814)) == key) {
+            WIFICLUBACTOR_GetActorId(*(char **)(p + i * 4 + 0x814)) == key) {
             return *(void **)(p + 0x814 + i * 4);
         }
     }

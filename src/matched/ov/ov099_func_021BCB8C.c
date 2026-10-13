@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB8C
+ * function: WIFICLUB_LoadSavedRegulation
  * address: 0x021BCB8C
  * packet: pkt_ov099_021BCB8C
  * region: ov099
@@ -20,7 +20,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *);
 extern void *func_0200BAF4(int a0, int a1);
-int func_021BCB8C(void *p)
+int WIFICLUB_LoadSavedRegulation(void *p)
 {
     void *obj = func_0200BAC8(GAME_DATA_GetSaveControl(p));
     if (func_0200BBA8(obj) == 0) return 0;

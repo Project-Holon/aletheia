@@ -1,5 +1,5 @@
 /*
- * function: func_021B8518
+ * function: IRC_RANKING_ListGetScrollMax
  * address:  0x021B8518
  * packet:   pkt_ov106_021B8518
  * region:   ov106
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-s16 func_021B8518(u8 *p) { return ((struct Obj22264 *)p)->f55A; }
+s16 IRC_RANKING_ListGetScrollMax(u8 *p) { return ((struct Obj22264 *)p)->f55A; }

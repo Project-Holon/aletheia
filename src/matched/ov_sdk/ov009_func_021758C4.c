@@ -22,16 +22,16 @@
  *           (the register AID dies in), 480 bytes, 0 out.
  *
  * symbols:
- *   func_0217637C  0x0217637C  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForIndex  0x0217637C  arm  ov009
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0216F20C  0x0216F20C  arm  ov009
- *   func_02175EB4  0x02175EB4  arm  ov009
+ *   DWCi_GPSetServerStatus  0x0216F20C  arm  ov009
+ *   DWCi_IsServerSuspendEnabled  0x02175EB4  arm  ov009
  *   DWC_GetMyAID  0x0216B838  arm  ov009
- *   func_0216CB90  0x0216CB90  arm  ov009
- *   func_02176410  0x02176410  arm  ov009
- *   func_0216FF2C  0x0216FF2C  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
- *   func_0217603C  0x0217603C  arm  ov009
+ *   DWC_GetSuspendMatch  0x0216CB90  arm  ov009
+ *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410  arm  ov009
+ *   DWCi_SendMatchCommand  0x0216FF2C  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
+ *   DWCi_NodeInfoList_GetCount  0x0217603C  arm  ov009
  */
 
 typedef unsigned char u8;
@@ -63,16 +63,16 @@ typedef struct DWCstMatchControl {
     u32 w678;                   /* +0x678 */
 } DWCstMatchControl;
 
-extern char *func_0217637C(int index);
+extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern int func_02175F3C(void);
-extern int func_0216F20C(int status);
-extern int func_02175EB4(void);
+extern int DWCi_GPSetServerStatus(int status);
+extern int DWCi_IsServerSuspendEnabled(void);
 extern u8 DWC_GetMyAID(void);
-extern int func_0216CB90(void);
-extern char *func_02176410(unsigned char aid);
-extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
-extern int func_021719A4(int error);
-extern int func_0217603C(void);
+extern int DWC_GetSuspendMatch(void);
+extern char *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
+extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
+extern int DWCi_HandleMatchCommandError(int error);
+extern int DWCi_NodeInfoList_GetCount(void);
 
 static int func_021758C4(u8 AID, int suspend, int immediate)
 {
@@ -88,25 +88,25 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
 
     result = 1;
     sendlen = 0;
-    pServerNodeInfo = (DWCstNodeInfo *)func_0217637C(0);
+    pServerNodeInfo = (DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(0);
     oldbitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
     if (suspend)
         ((DWCstMatchControl *)func_02175F3C())->suspendBitmap |= result << AID;
     else
         ((DWCstMatchControl *)func_02175F3C())->suspendBitmap &= ~(result << AID);
     if (oldbitmap != ((DWCstMatchControl *)func_02175F3C())->suspendBitmap)
-        func_0216F20C(-1);
+        DWCi_GPSetServerStatus(-1);
     bitmap = ((DWCstMatchControl *)func_02175F3C())->suspendBitmap;
-    if (!func_02175EB4())
+    if (!DWCi_IsServerSuspendEnabled())
         bitmap &= ~(result << DWC_GetMyAID());
-    sm = func_0216CB90();
+    sm = DWC_GetSuspendMatch();
     bRet = 1;
     if (!((suspend && sm) || (!suspend && !sm)))
         bRet = 0;
     if (immediate == 1) {
         DWCstNodeInfo *pNodeInfo;
 
-        pNodeInfo = (DWCstNodeInfo *)func_02176410(AID);
+        pNodeInfo = (DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForAID(AID);
         senddata[sendlen++] = ((DWCstMatchControl *)func_02175F3C())->w678;
         senddata[sendlen++] = result;
         if (bRet) {
@@ -115,9 +115,9 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
                 senddata[sendlen++] = bitmap;
             }
         }
-        result = func_0216FF2C(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
+        result = DWCi_SendMatchCommand(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
                                pNodeInfo->publicQueryPort, (const unsigned int *)senddata, sendlen);
-        if (func_021719A4(result))
+        if (DWCi_HandleMatchCommandError(result))
             return 0;
     }
     if (bRet) {
@@ -127,13 +127,13 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
             senddata[1] = 1;
             senddata[2] = suspend;
             senddata[3] = bitmap;
-            for (i = 0; i < func_0217603C(); i++) {
-                DWCstNodeInfo *pNodeInfo = (DWCstNodeInfo *)func_0217637C(i);
+            for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
+                DWCstNodeInfo *pNodeInfo = (DWCstNodeInfo *)DWCi_NodeInfoList_GetNodeInfoForIndex(i);
 
                 if (pNodeInfo != pServerNodeInfo) {
-                    result = func_0216FF2C(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
+                    result = DWCi_SendMatchCommand(0x82, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
                                            pNodeInfo->publicQueryPort, (const unsigned int *)senddata, 4);
-                    if (func_021719A4(result))
+                    if (DWCi_HandleMatchCommandError(result))
                         return 0;
                 }
             }

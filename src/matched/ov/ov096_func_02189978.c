@@ -1,5 +1,5 @@
 /*
- * function: func_02189978
+ * function: TR_AI_CmdLoadItemFieldNoSick19
  * address:  0x02189978
  * packet:   pkt_ov096_02189978
  * region:   ov096
@@ -10,9 +10,9 @@
  * status:   EXACT*
  * symbols:
  *   VM_GetU32  0x0201134C  thumb
- *   func_0218A160  0x0218A160  thumb  ov096
- *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_0218A3F4  0x0218A3F4  thumb  ov096
+ *   TR_AI_GetPosition  0x0218A160  thumb  ov096
+ *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
+ *   TR_AI_GetItemField  0x0218A3F4  thumb  ov096
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  */
@@ -27,24 +27,24 @@ typedef int s32;
 
 struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
-extern u8 func_0218A160(u8 *p, int k);
-extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 TR_AI_GetPosition(u8 *p, int k);
+extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 struct Unk021D62A8;
-extern int func_0218A3F4(int a, int b, int c);
+extern int TR_AI_GetItemField(int a, int b, int c);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 
-int func_02189978(struct Cursor *a, int b) {
+int TR_AI_CmdLoadItemFieldNoSick19(struct Cursor *a, int b) {
     int r;
     u8 t;
     int s;
     r = VM_GetU32(a);
-    t = func_0218A160((u8 *)b, r);
+    t = TR_AI_GetPosition((u8 *)b, r);
     ((struct Obj10187 *)b)->f38 = 0;
-    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
-        s = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, t));
-        ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, (u16)s, 10);
+    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)TR_AI_GetPoke((u8 *)b, t), 0x13) == 0) {
+        s = BTL_POKEPARAM_GetItem((struct QI *)TR_AI_GetPoke((u8 *)b, t));
+        ((struct Obj10187 *)b)->f38 = TR_AI_GetItemField(b, (u16)s, 10);
     }
     return ((struct Obj10187 *)b)->fC4;
 }

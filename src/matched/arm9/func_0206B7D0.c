@@ -1,5 +1,5 @@
 /*
- * function: func_0206B7D0
+ * function: NNSi_G3dFuncSbc_NODE
  * address:  0x0206B7D0
  * packet:   pkt_0206B7A8
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The three-byte opcode of the script object family (func_0206B94C is the
+ * The three-byte opcode of the script object family (NNSi_G3dFuncSbc_MTX is the
  * two-byte form one slot over).  Bit 9 of the flag word at +0x08 aborts; the
  * operand byte at f00[1] is cached at +0xac, bit 2 is set, the output cursor
  * at +0xb8 is pointed at the object's own +0x184 word, and the state byte at
@@ -19,11 +19,11 @@
  * +0x4c) or by f00[2] & 1, and after stop 2 bit 0 of the flag word mirrors
  * it.  The tail advances the program counter by three.
  *
- * 2.0/sp2 pin: docs/notes/func_0206B7D0.c.txt records a whole pass stuck at
+ * 2.0/sp2 pin: docs/notes/NNSi_G3dFuncSbc_NODE.c.txt records a whole pass stuck at
  * 368 bytes against 380 under the project default dsi/1.1p1, diagnosed there
  * as the front end hoisting the `p->f14 ? p->f8e : 0` ternary above the field
  * stores.  It is not a source problem: this identical body is byte-exact
- * under ../2.0/sp2, the same front end its sibling func_0206B94C is pinned
+ * under ../2.0/sp2, the same front end its sibling NNSi_G3dFuncSbc_MTX is pinned
  * to.
  */
 
@@ -58,7 +58,7 @@ struct Obj0206B7D0 {
     u32   f184;
 };
 
-void func_0206B7D0(Obj0206B7D0 *p)
+void NNSi_G3dFuncSbc_NODE(Obj0206B7D0 *p)
 {
     if (!(p->f08 & 0x200)) {
         u32 b;

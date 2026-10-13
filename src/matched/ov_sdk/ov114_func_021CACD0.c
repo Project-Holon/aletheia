@@ -1,5 +1,5 @@
 /*
- * function: func_021CACD0
+ * function: CRYPTOi__BN_init
  * address:  0x021CACD0
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MI_CpuFill8(int, int, int);
 
-void func_021CACD0(int a)
+void CRYPTOi__BN_init(int a)
 {
     MI_CpuFill8(a, 0, 0x14);
 }

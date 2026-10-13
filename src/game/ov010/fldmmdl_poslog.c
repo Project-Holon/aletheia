@@ -23,10 +23,10 @@
  *   FLDMMDL_GetPos 0x0216D88C thumb ov010
  *   FLDMMDL_SysSearchGridPosHeight  0x0216DDDC  thumb  ov010
  *   FLDMMDL_HasMovedPos  0x0216E51C  thumb  ov010
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
- *   func_0200CFA0  0x0200CFA0  thumb
+ *   ZUKAN_SAVE_RegisterSeen  0x0200CFA0  thumb
  *   d_02172554  0x02172554  data  ov010  a2
  *   d_02172556  0x02172556  data  ov010  a2
  */
@@ -82,10 +82,10 @@ int FLDMMDL_HasMovedPos();
 int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out);
 void FLDMMDL_StoreMovedPos(void *a, int a1);
 extern u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
-extern void *func_0200CA1C(void *a);
+extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
-extern void func_0200CFA0(struct ZukanSave *p, void *m);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *p, void *m);
 int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 int FLDMMDL_IsMovedPosObjCode(u16 id);
 void FLDMMDL_InitPosRecord(PosRecord *rec, u16 x, u16 y, int z);
@@ -300,14 +300,14 @@ void FLDMMDL_ApplyBurmyFormForPlace(void *saveData, void *mon, int placeId)
     int species;
     int i;
 
-    zukan = func_0200CA1C(saveData);
+    zukan = ZUKAN_SAVE_GetFromGameData(saveData);
     species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     for (i = 0; i < 25; i++) {
         if (placeId == d_02172554[i][0]) {
             int form = d_02172556[i][0];
             if (species == 0x19c) {
                 POKE_TOOL_ChangeForm(mon, (u16)form);
-                func_0200CFA0(zukan, mon);
+                ZUKAN_SAVE_RegisterSeen(zukan, mon);
             }
             return;
         }

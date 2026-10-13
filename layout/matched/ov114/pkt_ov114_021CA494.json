@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA494",
+   "name": "CRYPTOi_RSA",
    "address": "0x021CA494",
    "kind": "sdk",
    "region": "ov114",

@@ -24,10 +24,10 @@
  *   dispCaret                        0x021C7960  arm   ov016
  *   drawAddress                      0x021C78A0  arm   ov016
  *   DWCi_ChangeScene                 0x021C0E40  arm
- *   g_021DB4C8                       0x021DB4C8  data
- *   g_021DA5E0                       0x021DA5E0  data
- *   g_021DE5E4                       0x021DE5E4  data
- *   g_021DB4F0                       0x021DB4F0  data
+ *   sSceneSetEditAddressCurrentGetters                       0x021DB4C8  data
+ *   sSceneSetEditAddressMessageIds                       0x021DA5E0  data
+ *   gMemSsea                       0x021DE5E4  data
+ *   sSceneSetEditAddressBlankDigits                       0x021DB4F0  data
  *   procInit                         0x021C72AC  arm   ov016
  */
 typedef unsigned char u8;
@@ -47,10 +47,10 @@ struct MsgTab {
     u8 m[5];
 };
 
-extern const struct FuncTab g_021DB4C8;
-extern const struct MsgTab g_021DA5E0;
-extern struct MEMSSEA *g_021DE5E4;
-extern char g_021DB4F0[];
+extern const struct FuncTab sSceneSetEditAddressCurrentGetters;
+extern const struct MsgTab sSceneSetEditAddressMessageIds;
+extern struct MEMSSEA *gMemSsea;
+extern char sSceneSetEditAddressBlankDigits[];
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 extern void DWCi_GetParam2_(void **param2, void **param3);
@@ -70,28 +70,28 @@ static void procInit(void);
 
 void DWCi_SceneSetEditAddress(void)
 {
-    struct FuncTab FUNC = g_021DB4C8;
-    struct MsgTab MSG = g_021DA5E0;
+    struct FuncTab FUNC = sSceneSetEditAddressCurrentGetters;
+    struct MsgTab MSG = sSceneSetEditAddressMessageIds;
     int prm;
     struct MEMSSEA *p;
 
-    g_021DE5E4 = DWCi_HEAPlAllocEx(0x18, 4);
+    gMemSsea = DWCi_HEAPlAllocEx(0x18, 4);
     DWCi_GetParam2_((void **)&prm, 0);
-    FUNC.f[prm](g_021DE5E4->text);
-    p = g_021DE5E4;
-    if (memcmp(p->text, g_021DB4F0, 3) != 0) {
+    FUNC.f[prm](gMemSsea->text);
+    p = gMemSsea;
+    if (memcmp(p->text, sSceneSetEditAddressBlankDigits, 3) != 0) {
         p->state = 3;
     } else {
         MI_CpuFill8(p->text, 0, 12);
-        g_021DE5E4->state = 0;
+        gMemSsea->state = 0;
     }
     initGraphics();
     DWCi_HLlLoad(prm + 0xb);
     DWCi_COMMENTlDispEx(MSG.m[prm], -1, 0);
     DWCi_CMNlStep(2);
-    g_021DE5E4->font = DWCi_FNTlFormBgEx(0, 0);
-    g_021DE5E4->oam = DWCi_CEINlSetExObj(0, 0x3f);
-    g_021DE5E4->oam[2] = (g_021DE5E4->oam[2] & ~0xc00) | 0xc00;
+    gMemSsea->font = DWCi_FNTlFormBgEx(0, 0);
+    gMemSsea->oam = DWCi_CEINlSetExObj(0, 0x3f);
+    gMemSsea->oam[2] = (gMemSsea->oam[2] & ~0xc00) | 0xc00;
     dispCaret();
     drawAddress();
     DWCi_ChangeScene(procInit);

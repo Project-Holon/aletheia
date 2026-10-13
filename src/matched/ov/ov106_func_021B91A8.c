@@ -1,5 +1,5 @@
 /*
- * function: func_021B91A8
+ * function: IRC_RANKING_PrintCentered
  * address: 0x021B91A8
  * packet: pkt_ov106_021B91A8
  * region: ov106
@@ -41,7 +41,7 @@ extern struct WordSet *func_0201EC64(u32);
 extern void func_0201F02C(struct WordSet *,u32,void *);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern u32 func_0201ED04(struct WordSet *p);
-void func_021B91A8(struct Descriptor *desc,struct StrObj *text,void *value,u32 font) {
+void IRC_RANKING_PrintCentered(struct Descriptor *desc,struct StrObj *text,void *value,u32 font) {
  u16 x,y; struct WordSet *set; struct U16Vec *expanded;
  if(!value) {
   x=BMP_WIN_GetWidth(desc)*4;

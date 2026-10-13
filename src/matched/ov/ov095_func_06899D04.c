@@ -1,5 +1,5 @@
 /*
- * function: func_06899D04
+ * function: BTLV_SCD_IsInputSlideDone
  * address: 0x06899D04
  * packet: pkt_ov095_06899D04
  * region: ov095
@@ -15,7 +15,7 @@
 #include "../include/Obj21884.h"
 typedef unsigned int u32;
 extern int func_06899D1C(u32);
-int func_06899D04(u32 p)
+int BTLV_SCD_IsInputSlideDone(u32 p)
 {
     if (func_06899D1C(((struct Obj21884 *)p)->fB0) == 0) return 1;
     return 0;

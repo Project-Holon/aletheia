@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7C4
+ * function: PMS_INPUT_HasInitialSentence
  * address:  0x021BF7C4
  * packet:   pkt_ov110_021BF7C4
  * region:   ov110
@@ -25,4 +25,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u32 PMSI_PARAM_HasInitialSentence(const u8 *p);
-u32 func_021BF7C4(u8 *p) { return PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj22393 *)p)->f0)); }
+u32 PMS_INPUT_HasInitialSentence(u8 *p) { return PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj22393 *)p)->f0)); }

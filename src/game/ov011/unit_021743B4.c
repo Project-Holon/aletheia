@@ -27,7 +27,7 @@
  *   COMM_PLAYER_SUPPORT_GetMode  0x0202E7E0  thumb
  *   func_02012950  0x02012950  thumb
  *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
- *   func_02082D44  0x02082D44  arm
+ *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   func_020127D0  0x020127D0  thumb
  *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb ov010
@@ -177,7 +177,7 @@ u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
 int COMM_PLAYER_SUPPORT_GetMode(int a);
 struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
-void func_02082D44(const void *s, void *d, int n);
+void MI_CpuCopy8(const void *s, void *d, int n);
 void GAME_COMM_PushPairMessage(u32 a, u32 b, u32 c);
 u8 *func_020127D0(u8 *o, u32 idx);
 int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
@@ -491,7 +491,7 @@ void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys
 {
     GAME_COMM_GetGameData(work->gameComm);
     if ((work->peerMask & (1 << netId)) && work->profilePending == 0) {
-        func_02082D44(profile, &work->profile, 0x14);
+        MI_CpuCopy8(profile, &work->profile, 0x14);
         work->profilePending = 1;
     }
 }
@@ -568,7 +568,7 @@ void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys 
     gameData = GAME_COMM_GetGameData(work->gameComm);
     unionInfo = (int)func_020127D0((u8 *)gameData, 0);
     FIELD_WFBC_DATA_LOCAL_Sanitize(info, GAME_DATA_GetMyStatusByNetId((void *)gameData, netId));
-    func_02082D44(info, (void *)unionInfo, 0x1E8);
+    MI_CpuCopy8(info, (void *)unionInfo, 0x1E8);
     GAME_DATA_TakeUnionInfo((u8 *)gameData, info);
     work->unionInfoReceived = 1;
 }
@@ -584,7 +584,7 @@ int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info)
     if (GFL_NET_IsSendQueueEntryOfHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x225) == 1) {
         return 0;
     }
-    func_02082D44(info, work->unionInfoBuffer, 0x1E8);
+    MI_CpuCopy8(info, work->unionInfoBuffer, 0x1E8);
     return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), netMask & 0xFF, 0x225, 0x1E8, info, 0, 0, 1);
 }
 
@@ -960,8 +960,8 @@ void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work)
 {
     int gameData;
     gameData = GAME_COMM_GetGameData(work->gameComm);
-    func_02082D44(func_02012944((void *)gameData), work->ownMyStatus, MYSTATUS_GetSize());
-    func_02082D44(GAME_DATA_GetLastBattleRecSlot((void *)gameData), work->lastBattleRecSlot, 0x10);
+    MI_CpuCopy8(func_02012944((void *)gameData), work->ownMyStatus, MYSTATUS_GetSize());
+    MI_CpuCopy8(GAME_DATA_GetLastBattleRecSlot((void *)gameData), work->lastBattleRecSlot, 0x10);
     INTRUDE_COMM_UpdateSelfRecord(work);
     if (work->localPeer.intrudeId == 0x80) {
         func_02175710(work, GFL_NET_SYSTEM_GetCurrentAid());
@@ -990,7 +990,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStat
     changed = 1;
 skip:
     MYSTATUS_Copy(record->myStatus, (void *)status);
-    func_02082D44(record->battleRecSlot, func_020127AC((struct SaveBlock *)gameData, netId), 0x10);
+    MI_CpuCopy8(record->battleRecSlot, func_020127AC((struct SaveBlock *)gameData, netId), 0x10);
     GAME_DATA_SetSlotFlag((struct BigObj *)gameData, netId, record->peer.season);
     INTRUDE_COMM_StorePlayerRecord(work, netId, &record->peer, 1);
     work->peerMask |= (u8)(1 << netId);
@@ -1008,7 +1008,7 @@ void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const Intru
     u32 vanish;
     peer = &work->peers[netId];
     vanish = peer->package.vanish;
-    func_02082D44(src, peer, 0x1C);
+    MI_CpuCopy8(src, peer, 0x1C);
     peer->package.vanish = vanish;
     peer->remoteVanish = (u8)src->package.vanish;
     if (src->package.vanish == 1) {

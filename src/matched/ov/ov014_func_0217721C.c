@@ -12,15 +12,15 @@
  * symbols:
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
  *   WIH_DWC_GetAlertLevel 0x02010848 thumb
- *   func_0208EE9C 0x0208EE9C arm
+ *   WM_GetLinkLevel 0x0208EE9C arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 GFL_NET_GetGameKind(void);
 extern u16 WIH_DWC_GetAlertLevel(void);
-extern int func_0208EE9C(void);
+extern int WM_GetLinkLevel(void);
 int GFL_NET_DEVWIRELESS_GetSignalLevel(void)
 {
     if (GFL_NET_GetGameKind() == 3) return 3 - WIH_DWC_GetAlertLevel();
-    return 3 - func_0208EE9C();
+    return 3 - WM_GetLinkLevel();
 }

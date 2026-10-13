@@ -1,5 +1,5 @@
 /*
- * function: func_021E1F18
+ * function: DWCi_GdbHandleStartRequestResult
  * address:  0x021E1F18
  * packet:   pkt_021E1F18
  * region:   ov175
@@ -10,28 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021E47B0   0x021E47B0  data
+ *   sDwcGdbErrorFormat   0x021E47B0  data
+ *   DWCi_GdbPrintf  0x021E17D8  arm
+ *   DWCi_GdbStartRequestResultToError  0x021E1DD0  arm
+ *   DWCi_GdbGetStartRequestErrorCode  0x021E1EAC  arm
  *
- * func_021E1EC4's sibling with the selector in the second argument: the first
+ * DWCi_GdbHandleStartupResult's sibling with the selector in the second argument: the first
  * argument survives the acquire and is handed to the sub-id allocator.
  */
 
 typedef unsigned int u32;
 
-extern int  func_021E1DD0(int mode, int *out);
-extern void func_021E17D8(int line, char *fmt, ...);
-extern int  func_021E1EAC(int a, int b);
+extern int  DWCi_GdbStartRequestResultToError(int mode, int *out);
+extern void DWCi_GdbPrintf(int line, char *fmt, ...);
+extern int  DWCi_GdbGetStartRequestErrorCode(int a, int b);
 extern void func_02059F54(int a, int b);
-extern u32  g_021E47B0[];
+extern u32  sDwcGdbErrorFormat[];
 
-int func_021E1F18(int a, int mode)
+int DWCi_GdbHandleStartRequestResult(int a, int mode)
 {
     int local;
-    int h = func_021E1DD0(mode, &local);
+    int h = DWCi_GdbStartRequestResultToError(mode, &local);
 
     if (h != 0) {
-        func_021E17D8(0x6ec, (char *)((int)g_021E47B0), h);
-        func_02059F54(local, func_021E1EAC(a, h));
+        DWCi_GdbPrintf(0x6ec, (char *)((int)sDwcGdbErrorFormat), h);
+        func_02059F54(local, DWCi_GdbGetStartRequestErrorCode(a, h));
     }
     return h;
 }

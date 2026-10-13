@@ -22,14 +22,14 @@
  *   func_02008B08  0x02008B08  thumb
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   func_0201293C  0x0201293C  thumb
- *   func_0200CA1C  0x0200CA1C  thumb
+ *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_02009470  0x02009470  thumb
  *   func_02008730  0x02008730  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_0201292C  0x0201292C  thumb
- *   func_0200CA38  0x0200CA38  thumb
+ *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   func_02009CC0  0x02009CC0  thumb
  *   EVENT_WORLDTRADE_Main  0x02154390  thumb  ov004
  */
@@ -60,14 +60,14 @@ void *func_0200AD6C(void *sys);
 struct Sub02008AECObj *func_02008B08(void *sys);
 void *POKEPARTY_GetSaveData(void *sys);
 u32 func_0201293C(const struct BigObj *p);
-void *func_0200CA1C(void *a);
+void *ZUKAN_SAVE_GetFromGameData(void *a);
 u32 func_0201283C(const struct BigObj *p);
 struct Sub02009470Obj *func_02009470(void *sys);
 struct Sub0200852CObj *func_02008730(void *sys);
 struct Sub02008700Obj *func_0200873C(void *sys);
 struct Sub02008C20Obj *func_02008C58(void *sys);
 void *func_0201292C(const struct BigObj *p);
-u32 func_0200CA38(struct Blk37 *p);
+u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
 int func_02009CC0(void *a0);
 u32 EVENT_WORLDTRADE_Main(void *obj, u32 *mode, u32 *args);
 
@@ -90,7 +90,7 @@ int EVENT_WORLDTRADE_Create(int a, int b, int c)
     p[4] = (int)func_02008B08((void *)p[18]);
     p[5] = (int)POKEPARTY_GetSaveData((void *)p[18]);
     p[6] = func_0201293C((const struct BigObj *)r6);
-    p[7] = (int)func_0200CA1C((void *)r6);
+    p[7] = (int)ZUKAN_SAVE_GetFromGameData((void *)r6);
     p[8] = func_0201283C((const struct BigObj *)r6);
     p[9] = (int)func_02009470((void *)p[18]);
     p[10] = (int)func_02008730((void *)p[18]);
@@ -98,7 +98,7 @@ int EVENT_WORLDTRADE_Create(int a, int b, int c)
     p[12] = (int)func_02008C58((void *)p[18]);
     *(void **)&p[13] = func_0201292C((const struct BigObj *)r6);
     p[19] = a;
-    p[14] = func_0200CA38((struct Blk37 *)p[7]);
+    p[14] = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)p[7]);
     p[15] = func_02009CC0((void *)p[8]);
     p[16] = 0;
     p[17] = 0;

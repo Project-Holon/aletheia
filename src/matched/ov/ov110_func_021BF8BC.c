@@ -1,5 +1,5 @@
 /*
- * function: func_021BF8BC
+ * function: PMSIV_WORDWIN_Delete
  * address: 0x021BF8BC
  * packet: pkt_ov110_021BF8BC
  * region: ov110
@@ -25,7 +25,7 @@ extern void CLACT_DeleteActor(struct Obj *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-void func_021BF8BC(u8 *p) {
+void PMSIV_WORDWIN_Delete(u8 *p) {
     if(*(struct Obj * *)&((struct Obj03755 *)p)->f14) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03755 *)p)->f14);
     if(*(struct Obj * *)&((struct Obj03755 *)p)->f1C) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03755 *)p)->f1C);
     if(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48) STRBUF_Delete(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFE08
+ * function: scReportAddByteValue
  * address:  0x021DFE08
  * packet:   pkt_021DFE08
  * region:   ov175
@@ -10,15 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E03F8  0x_021E03F8  arm  ov175
+ *   sciReportAddByteValue  0x021E03F8  arm
+ *   sciReportAddByteValue  0x_021E03F8  arm  ov175
  *
- * ARM tail jump to func_021E03F8 in the ov175 writer group.
+ * ARM tail jump to sciReportAddByteValue in the ov175 writer group.
  */
 
-extern void func_021E03F8(void);
+extern void sciReportAddByteValue(void);
 
-void func_021DFE08(void)
+void scReportAddByteValue(void)
 {
-    func_021E03F8();
+    sciReportAddByteValue();
 }
 

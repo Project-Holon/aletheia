@@ -12,6 +12,8 @@
  *   d_021D9E40 0x021D9E40 data a4
  *   d_021D9640 0x021D9640 data a4
  *   func_021D7D24 0x021D7D24 arm ov125
+ *   OS_CreateThread  0x020853C0  arm  arm9
+ *   OS_WakeupThreadDirect  0x02085868  arm  arm9
  */
 
 #include "../include/G_Clear.h"
@@ -19,10 +21,10 @@
 extern char d_021DA0B4[], d_021D9640[];
 extern struct Clear d_021D9E40;
 extern void func_021D7D24(void *);
-extern void func_020853C0(void *, void (*)(void *), int, void *, int, unsigned);
-extern void func_02085868(void *);
+extern void OS_CreateThread(void *, void (*)(void *), int, void *, int, unsigned);
+extern void OS_WakeupThreadDirect(void *);
 int func_021D7D30(void) {
- func_020853C0(d_021DA0B4, func_021D7D24, 0, d_021D9640, 0x800, ((unsigned *)&d_021D9E40)[0x270/4]);
- func_02085868(d_021DA0B4);
+ OS_CreateThread(d_021DA0B4, func_021D7D24, 0, d_021D9640, 0x800, ((unsigned *)&d_021D9E40)[0x270/4]);
+ OS_WakeupThreadDirect(d_021DA0B4);
  return 1;
 }

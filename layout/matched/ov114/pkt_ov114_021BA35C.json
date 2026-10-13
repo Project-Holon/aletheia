@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA35C",
+   "name": "NHTTPi_strToHex",
    "address": "0x021BA35C",
    "kind": "sdk",
    "region": "ov114",

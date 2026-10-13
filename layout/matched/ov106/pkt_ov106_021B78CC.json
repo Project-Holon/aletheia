@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B78CC",
+   "name": "IRC_RANKING_SeqIsDone",
    "address": "0x021B78CC",
    "kind": "game",
    "region": "ov106",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD740
+ * function: PMS_INPUT_SelectSentenceType
  * address: 0x021BD740
  * packet: pkt_ov110_021BD740
  * region: ov110
@@ -21,7 +21,7 @@ typedef short s16;
 typedef unsigned int u32;
 extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
 extern void PMSI_PARAM_SetSentenceId(void *,int,int);
-void func_021BD740(u8 *p,void *out,int v)
+void PMS_INPUT_SelectSentenceType(u8 *p,void *out,int v)
 {
     p[2]=0;
     ((struct Obj05295 *)p)->f0=v;

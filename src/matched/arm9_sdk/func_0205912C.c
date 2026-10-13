@@ -1,5 +1,5 @@
 /*
- * function: func_0205912C
+ * function: CTRDG_IsBitID
  * address:  0x0205912C
  * packet:   pkt_0205912C
  * region:   arm9
@@ -22,7 +22,7 @@ typedef int BOOL;
 extern BOOL CTRDG_IsExisting(void);
 extern BOOL CTRDGi_IsBitIDAtInit(u8 bitID);
 
-BOOL func_0205912C(u8 bitID)
+BOOL CTRDG_IsBitID(u8 bitID)
 {
     return (CTRDG_IsExisting() && CTRDGi_IsBitIDAtInit(bitID)) ? 1 : 0;
 }

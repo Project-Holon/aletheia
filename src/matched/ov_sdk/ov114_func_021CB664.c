@@ -1,5 +1,5 @@
 /*
- * function: func_021CB664
+ * function: CRYPTOi__BN_uadd
  * address:  0x021CB664
  * packet:   pkt_ov114_021CB664
  * region:   ov114
@@ -11,8 +11,8 @@
  *
  * sdk:      CRYPTOi__BN_uadd (libcrypto.TWL.HYB.a crypto_bobj1.o)
  * symbols:
- *   func_021CADAC                    0x021cadac arm ov114
- *   func_021CDB08                    0x021cdb08 arm ov114
+ *   CRYPTOi__bn_expand2                    0x021cadac arm ov114
+ *   CRYPTOi__bn_add_words                    0x021cdb08 arm ov114
  */
 
 typedef unsigned long BN_ULONG;
@@ -25,12 +25,12 @@ typedef struct {
     int flags;
 } BIGNUM;
 
-extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
-extern BN_ULONG func_021CDB08(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp, int num);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *a, int words);
+extern BN_ULONG CRYPTOi__bn_add_words(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp, int num);
 
-#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : func_021CADAC((a), (words)))
+#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (words)))
 
-int func_021CB664(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
+int CRYPTOi__BN_uadd(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
 {
     int max, min, i;
     BN_ULONG *ap, *bp, *rp, carry, t1;
@@ -53,7 +53,7 @@ int func_021CB664(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
     bp = b->d;
     rp = r->d;
 
-    carry = func_021CDB08(rp, ap, bp, min);
+    carry = CRYPTOi__bn_add_words(rp, ap, bp, min);
     rp += min;
     ap += min;
     bp += min;

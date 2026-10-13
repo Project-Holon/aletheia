@@ -16,7 +16,7 @@
  *   func_0219F978  0x0219F978  arm  ov009
  *   func_0219D114  0x0219D114  arm  ov009
  *   func_0219E01C  0x0219E01C  arm  ov009
- *   func_02084F40  0x02084F40  arm
+ *   OS_SPrintf  0x02084F40  arm
  *   func_0209477C  0x0209477C  arm
  *
  * The two-byte nunits copy is memcpy from string.h, which mwccarm inlines as the
@@ -31,7 +31,7 @@ extern char g_021A8164[];
 extern int func_0219F978(char *buf, int len);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
-extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern unsigned int func_0209477C(const char *s);
 
 void func_0219E3CC(_SBServer *server, char *data, int len)
@@ -92,7 +92,7 @@ void func_0219E3CC(_SBServer *server, char *data, int len)
                 dlen = func_0219F978(data, len);
                 if (dlen < 0)
                     return;
-                func_02084F40(tempkey, g_021A8164, k, i);
+                OS_SPrintf(tempkey, g_021A8164, k, i);
                 func_0219E01C(server, tempkey, data);
                 data += dlen;
                 len -= dlen;

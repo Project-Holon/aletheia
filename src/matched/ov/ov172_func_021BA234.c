@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02072BDC 0x02072BDC arm
+ *   NNS_SndWaveOutStop 0x02072BDC arm
  */
 #include "../include/Obj04555.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Slot02072BDC Slot02072BDC;
-extern void func_02072BDC(Slot02072BDC *s);
+extern void NNS_SndWaveOutStop(Slot02072BDC *s);
 void func_021BA234(void *p)
 {
     ((struct Obj04555 *)p)->fC = 0;
-    func_02072BDC(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);
+    NNS_SndWaveOutStop(*(Slot02072BDC * *)&((struct Obj04555 *)p)->f20);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CAMERA_StopCaptureCore  0x0270212C  arm twl a2
- *   func_02087A04  0x02087A04  arm twl a2
+ *   OS_SpinWaitSysCycles  0x02087A04  arm twl a2
  *   CAMERA_IsBusyCore  0x027020F0  arm twl a2
  *   CAMERA_ClearBufferCore  0x027021E4  arm twl a2
  *   CAMERA_I2CActivateCore  0x02700DB8  arm twl a2
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void CAMERA_StopCaptureCore(void);
-extern void func_02087A04(u32);
+extern void OS_SpinWaitSysCycles(u32);
 extern s32 CAMERA_IsBusyCore(void);
 extern void CAMERA_ClearBufferCore(void);
 extern u32 CAMERA_I2CActivateCore(u32 a0);
@@ -32,7 +32,7 @@ void CAMERA_StopCore(void) {
     CAMERA_StopCaptureCore();
     goto entry;
     do {
-        func_02087A04(r4);
+        OS_SpinWaitSysCycles(r4);
 entry:
         if (r5-- <= 0) break;
     } while (CAMERA_IsBusyCore() != 0);

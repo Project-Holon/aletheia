@@ -1,5 +1,5 @@
 /*
- * function: func_0208A998
+ * function: TP_GetUserInfo
  * address:  0x0208A998
  * packet:   pkt_0208A998
  * region:   arm9
@@ -56,7 +56,7 @@ typedef struct NvTpPoints {
 int TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 x1, u16 y1, u16 dx1, u16 dy1,
                           u16 x2, u16 y2, u16 dx2, u16 dy2);
 
-BOOL func_0208A998(TPCalibrateParam *calibrate)
+BOOL TP_GetUserInfo(TPCalibrateParam *calibrate)
 {
     u16 x1, y1, x2, y2, dx1, dy1, dx2, dy2;
     NvTpPoints *w = (NvTpPoints *)0x02FFFC80;

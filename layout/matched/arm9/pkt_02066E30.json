@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02066E30",
+   "name": "NNSi_G2dDrawSoftEmuSprite",
    "address": "0x02066E30",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067998",
+   "name": "NNSi_G2dDrawCellToSurface3D",
    "address": "0x02067998",
    "kind": "game",
    "region": "arm9",

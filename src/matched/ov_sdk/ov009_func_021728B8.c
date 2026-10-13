@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_02172A58  0x02172A58  arm  ov009
+ *   DWCi_FinishCancelMatch  0x02172A58  arm  ov009
  *   DWCi_GT2GetConnectionListIdx  0x0216BB6C  arm  ov009
  *   func_02199FB4  0x02199FB4  arm  ov009
  *   func_02195DE4  0x02195DE4  arm  ov009
- *   func_02171F68  0x02171F68  arm  ov009
- *   func_021719A4  0x021719A4  arm  ov009
- *   func_02172B08  0x02172B08  arm  ov009
+ *   DWCi_CancelReservation  0x02171F68  arm  ov009
+ *   DWCi_HandleMatchCommandError  0x021719A4  arm  ov009
+ *   DWCi_InvalidateReservation  0x02172B08  arm  ov009
  *
  * The DWARF declares DWCi_CancelReservation(void); every call site here loads
  * r0 = 0 first, so the file passes the argument.
@@ -45,13 +45,13 @@ typedef struct DWCstMatchControl {
 } DWCstMatchControl;
 
 extern int func_02175F3C(void);
-extern void func_02172A58(void);
+extern void DWCi_FinishCancelMatch(void);
 extern int DWCi_GT2GetConnectionListIdx(void);
 extern void func_02199FB4(int cookie);
 extern void func_02195DE4(int *p);
-extern int func_02171F68(int arg);
-extern int func_021719A4(int error);
-extern int func_02172B08(void);
+extern int DWCi_CancelReservation(int arg);
+extern int DWCi_HandleMatchCommandError(int error);
+extern int DWCi_InvalidateReservation(void);
 
 static void func_021728B8(void)
 {
@@ -61,7 +61,7 @@ static void func_021728B8(void)
     ((DWCstMatchControl *)func_02175F3C())->w680 = 0;
     anyGT2ConnectionExist = 0;
     if (((DWCstMatchControl *)func_02175F3C())->state == 22) {
-        func_02172A58();
+        DWCi_FinishCancelMatch();
         return;
     }
     if (DWCi_GT2GetConnectionListIdx())
@@ -77,11 +77,11 @@ static void func_021728B8(void)
         if (anyGT2ConnectionExist) {
             func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
         } else {
-            result = func_021719A4(func_02171F68(0));
+            result = DWCi_HandleMatchCommandError(DWCi_CancelReservation(0));
             if (result)
                 return;
         }
-        func_02172A58();
+        DWCi_FinishCancelMatch();
         return;
     }
 
@@ -89,11 +89,11 @@ static void func_021728B8(void)
         ((DWCstMatchControl *)func_02175F3C())->state == 5 || ((DWCstMatchControl *)func_02175F3C())->state == 6 ||
         ((DWCstMatchControl *)func_02175F3C())->state == 14 || ((DWCstMatchControl *)func_02175F3C())->state == 15) {
         if (((DWCstMatchControl *)func_02175F3C())->reservation) {
-            result = func_021719A4(func_02171F68(0));
+            result = DWCi_HandleMatchCommandError(DWCi_CancelReservation(0));
             if (result)
                 return;
         }
-        result = func_021719A4(func_02172B08());
+        result = DWCi_HandleMatchCommandError(DWCi_InvalidateReservation());
         if (result)
             return;
     }
@@ -105,5 +105,5 @@ static void func_021728B8(void)
         ((DWCstMatchControl *)func_02175F3C())->cancelState = 1;
         func_02195DE4((int *)(*((DWCstMatchControl *)func_02175F3C())->pGt2Socket));
     }
-    func_02172A58();
+    DWCi_FinishCancelMatch();
 }

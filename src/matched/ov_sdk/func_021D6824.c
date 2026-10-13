@@ -1,5 +1,5 @@
 /*
- * function: func_021D6824
+ * function: DWCi_IPTlCheckTrigger
  * address:  0x021D6824
  * packet:   pkt_021D6824
  * region:   ov016
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D6824 0x021D6824 arm
+ *   DWCi_IPTlCheckTrigger 0x021D6824 arm
  *
  * Gate on the hardware bit, then test the flag word at +0x32 for the whole mask.
  * Addresses are Black-image addresses.
  */
 
-int func_021D6824(unsigned int f)
+int DWCi_IPTlCheckTrigger(unsigned int f)
 {
     int *g = (int *)0x021DE688;
     unsigned short v = *(unsigned short *)0x02FFFFA8;

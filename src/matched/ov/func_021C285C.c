@@ -1,5 +1,5 @@
 /*
- * function: func_021C285C
+ * function: WIFICLUB_GetStatusModeFlag
  * address:  0x021C285C
  * packet:   pkt_021B95A0
  * region:   ov099
@@ -23,7 +23,7 @@ typedef struct {
     u8 b0:1, b1:1, b2:1, b3:1, b4:1, b5:1, b6:1, b7:1;
 } S;
 
-int func_021C285C(S *s)
+int WIFICLUB_GetStatusModeFlag(S *s)
 {
     return s->b4;
 }

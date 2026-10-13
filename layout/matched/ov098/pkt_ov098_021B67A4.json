@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B67A4",
+   "name": "PDC_MAIN_StartFadeIn",
    "address": "0x021B67A4",
    "kind": "game",
    "region": "ov098",

@@ -1,5 +1,5 @@
 /*
- * function: func_0207229C
+ * function: NNSi_G3dTexMtxScaleTrans_Max
  * address:  0x0207229C
  * packet:   pkt_02071DD4
  * region:   arm9
@@ -50,7 +50,7 @@ struct DST {
     s32 f34;
 };
 
-void func_0207229C(struct DST *d, struct SRC *s)
+void NNSi_G3dTexMtxScaleTrans_Max(struct DST *d, struct SRC *s)
 {
     s32 a, b, nb, hi;
 

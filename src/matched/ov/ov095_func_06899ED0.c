@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_06899ED0, func_06899F00
+ * function: BTLV_SCD_StartActionMenu, BTLV_SCD_StartActionMenuBackOnly
  * address:  0x06899ED0
  * packet:   pkt_ov095_06899ED0
  * region:   ov095
@@ -14,10 +14,10 @@
  * (the extent 0x06899ED0..0x06899F28 is code and pool only).
  *
  * symbols:
- *   func_06899E48  0x06899E48  thumb  ov095
- *   func_0689A030  0x0689A030  thumb  ov095
- *   func_0689A76C  0x0689A76C  thumb  ov095
- *   func_0689A84C  0x0689A84C  thumb  ov095
+ *   BTLV_SCD_PushTask  0x06899E48  thumb  ov095
+ *   BTLV_SCD_OpenActionMenuStep  0x0689A030  thumb  ov095
+ *   BTLV_SCD_WaitActionTouchStep  0x0689A76C  thumb  ov095
+ *   BTLV_SCD_WaitBackTouchStep  0x0689A84C  thumb  ov095
  */
 
 typedef unsigned char u8;
@@ -37,26 +37,26 @@ typedef struct Obj {
 } Obj;
 
 struct Q;
-extern int func_0689A030(int unused, u8 *p);
-extern int func_0689A76C(int *st, u8 *s);
-extern int func_0689A84C(u32 unused, u32 p);
-extern void func_06899E48(struct Q *p, void *a, void *b);
+extern int BTLV_SCD_OpenActionMenuStep(int unused, u8 *p);
+extern int BTLV_SCD_WaitActionTouchStep(int *st, u8 *s);
+extern int BTLV_SCD_WaitBackTouchStep(u32 unused, u32 p);
+extern void BTLV_SCD_PushTask(struct Q *p, void *a, void *b);
 
-void func_06899ED0(Obj *o, int a, u8 b, u8 c, int d)
+void BTLV_SCD_StartActionMenu(Obj *o, int a, u8 b, u8 c, int d)
 {
     o->f6c = a;
     o->f70 = d;
     o->f98 = 0;
     o->f8b = b;
     o->f91 = c;
-    func_06899E48((struct Q *)o, func_0689A030, (void (*)(void))func_0689A76C);
+    BTLV_SCD_PushTask((struct Q *)o, BTLV_SCD_OpenActionMenuStep, (void (*)(void))BTLV_SCD_WaitActionTouchStep);
 }
 
-void func_06899F00(Obj *o, int a, u8 b, int c)
+void BTLV_SCD_StartActionMenuBackOnly(Obj *o, int a, u8 b, int c)
 {
     o->f6c = a;
     o->f70 = c;
     o->f98 = 0;
     o->f8b = b;
-    func_06899E48((struct Q *)o, func_0689A030, (void (*)(void))func_0689A84C);
+    BTLV_SCD_PushTask((struct Q *)o, BTLV_SCD_OpenActionMenuStep, (void (*)(void))BTLV_SCD_WaitBackTouchStep);
 }

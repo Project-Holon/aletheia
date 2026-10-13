@@ -25,8 +25,8 @@
  *   CAMERA_SetBufferErrorInterruptCore  0x02702268  arm twl a2
  *   CAMERA_SetMasterInterruptCore  0x02702208  arm twl a2
  *   func_02084774  0x02084774  arm twl a2
- *   func_02084998  0x02084998  arm twl a2
- *   func_02085638  0x02085638  arm twl a2
+ *   OS_DisableIrqMask  0x02084998  arm twl a2
+ *   OS_KillThread  0x02085638  arm twl a2
  */
 
 typedef unsigned int u32;
@@ -47,8 +47,8 @@ extern void CAMERA_SetVsyncInterruptCore(u32);
 extern void CAMERA_SetBufferErrorInterruptCore(u32);
 extern void CAMERA_SetMasterInterruptCore(u32);
 extern void func_02084774(u32, u32);
-extern void func_02084998(u32);
-extern void func_02085638(u32*, u32);
+extern void OS_DisableIrqMask(u32);
+extern void OS_KillThread(u32*, u32);
 
 void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
@@ -64,6 +64,6 @@ void CAMERA_EndCore(void) {
     CAMERA_SetBufferErrorInterruptCore(0);
     CAMERA_SetMasterInterruptCore(0);
     func_02084774(0x02000000, 0);
-    func_02084998(0x02000000);
-    func_02085638(data_0273302C, 0);
+    OS_DisableIrqMask(0x02000000);
+    OS_KillThread(data_0273302C, 0);
 }

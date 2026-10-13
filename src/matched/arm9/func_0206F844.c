@@ -1,5 +1,5 @@
 /*
- * function: func_0206F844
+ * function: NNSi_G3dAnmGetRotData
  * address:  0x0206F844
  * packet:   pkt_0206EB00
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Rotation keyframe sampler without the lerp (docs/families/
- * cluster_0206EB00.h): func_0206F214's flag cascade with func_0206FFA0
+ * cluster_0206EB00.h): NNSi_G3dAnmGetTransData's flag cascade with NNSi_G3dAnmDecodeRotKey
  * decodes in place of key loads.  plain: decode key k into out, rebuild
  * row 2 by the cross product if the decode returned 1, else normalise it;
  * two: decode k2 into out and k2+1 into mb and sum; 3:1: decode i0 into out
@@ -28,12 +28,12 @@
  * `((u16 *)p + k2)[1]`.
  *
  * symbols:
- *   func_0206FFA0   0x0206FFA0  arm
+ *   NNSi_G3dAnmDecodeRotKey   0x0206FFA0  arm
  *   VEC_Normalize   0x0207CCA4  arm
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0206F844.c \
- *       --func func_0206F844 --addr 0x0206F844 --arm --cc ../2.0/sp2p2
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetRotData.c \
+ *       --func NNSi_G3dAnmGetRotData --addr 0x0206F844 --arm --cc ../2.0/sp2p2
  */
 typedef unsigned int   u32;
 typedef unsigned short u16;
@@ -43,10 +43,10 @@ typedef unsigned char  u8;
 typedef struct { u32 flags; u32 off04; } Rec;
 typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; u32 f0c; u32 f10; } Hdr;
 
-extern int  func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
+extern int  NNSi_G3dAnmDecodeRotKey(int *out, s16 *a, s16 *b, u32 id);
 extern void VEC_Normalize(const int *src, int *dst);
 
-void func_0206F844(int *out, int t, Rec *r, Hdr *h)
+void NNSi_G3dAnmGetRotData(int *out, int t, Rec *r, Hdr *h)
 {
     u32 f;
     u32 k;
@@ -87,8 +87,8 @@ void func_0206F844(int *out, int t, Rec *r, Hdr *h)
 
                     if (k & 2) { k2 = k >> 2; i0 = k2 + 1; }
                     else { i0 = k >> 2; k2 = i0 + 1; }
-                    ok2 |= func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[i0]);
-                    ok2 |= func_0206FFA0(ma, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+                    ok2 |= NNSi_G3dAnmDecodeRotKey(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[i0]);
+                    ok2 |= NNSi_G3dAnmDecodeRotKey(ma, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
                     out[0] = ma[0] + out[0] * 3;
                     out[1] = ma[1] + out[1] * 3;
                     out[2] = ma[2] + out[2] * 3;
@@ -123,8 +123,8 @@ void func_0206F844(int *out, int t, Rec *r, Hdr *h)
 
 two:
     ok = 0;
-    ok |= func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
-    ok |= func_0206FFA0(mb, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p + k2)[1]);
+    ok |= NNSi_G3dAnmDecodeRotKey(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+    ok |= NNSi_G3dAnmDecodeRotKey(mb, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p + k2)[1]);
     out[0] = out[0] + mb[0];
     out[1] = out[1] + mb[1];
     out[2] = out[2] + mb[2];
@@ -150,7 +150,7 @@ two:
     return;
 
 plain:
-    if (func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]) != 0) {
+    if (NNSi_G3dAnmDecodeRotKey(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]) != 0) {
         int a, b, c;
         a = (out[1] * out[5] - out[2] * out[4]) >> 12;
         b = (out[2] * out[3] - out[0] * out[5]) >> 12;

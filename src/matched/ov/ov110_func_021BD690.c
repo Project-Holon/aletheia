@@ -1,5 +1,5 @@
 /*
- * function: func_021BD690
+ * function: PMS_INPUT_InitSentenceCursor
  * address: 0x021BD690
  * packet: pkt_ov110_021BD690
  * region: ov110
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 extern int PMSI_PARAM_GetSentenceType(const u16 *p);
 extern u8 PMSI_PARAM_GetSentenceCount(u32 i);
 extern unsigned int PMSI_PARAM_GetSentenceId(const u16 *p);
-void func_021BD690(u8 *p, u16 *out)
+void PMS_INPUT_InitSentenceCursor(u8 *p, u16 *out)
 {
     *(s16 *)p=PMSI_PARAM_GetSentenceType(out);
     p[3]=PMSI_PARAM_GetSentenceCount(*(s16 *)p);

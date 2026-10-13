@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4FE0  0x021D4FE0  arm
- *   func_021D52D4  0x021D52D4  arm
- *   func_021D51F0  0x021D51F0  arm
- *   func_021D5118  0x021D5118  arm
- *   g_021DE560     0x021DE560  data
- *   d_021DA3D8     0x021DA3D8  data
- *   d_021DA3DA     0x021DA3DA  data
+ *   DWCi_CELLlGetObj  0x021D4FE0  arm
+ *   DWCi_CEINlSet  0x021D52D4  arm
+ *   DWCi_CELLlSetPriority  0x021D51F0  arm
+ *   DWCi_CELLlSetPosition  0x021D5118  arm
+ *   gKeyboard10Work     0x021DE560  data
+ *   sKeyboard10CellPosX     0x021DA3D8  data
+ *   sKeyboard10CellPosY     0x021DA3DA  data
  */
 
 typedef unsigned char u8;
@@ -30,13 +30,13 @@ struct G {
     s8  f63;
 };
 
-extern char *func_021D4FE0(char *p, unsigned int i);
-extern void  func_021D52D4(int a, int b, int c);
-extern void func_021D51F0(void *cell, int idx, int priority);
-extern void func_021D5118(void *cell, int idx, int x, int y);
-extern struct G *g_021DE560;
-extern u16   d_021DA3D8[][2];
-extern u16   d_021DA3DA[][2];
+extern char *DWCi_CELLlGetObj(char *p, unsigned int i);
+extern void  DWCi_CEINlSet(int a, int b, int c);
+extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
+extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
+extern struct G *gKeyboard10Work;
+extern u16   sKeyboard10CellPosX[][2];
+extern u16   sKeyboard10CellPosY[][2];
 
 void func_021C03F0(void)
 {
@@ -44,13 +44,13 @@ void func_021C03F0(void)
     int sel = 0x44;
     int v;
 
-    g = g_021DE560;
+    g = gKeyboard10Work;
     if (g->f63 > 0xb)
         sel = 0x45;
-    v = (int)func_021D4FE0((char *)g->f58, 0);
-    func_021D52D4(0, sel, v);
-    g = g_021DE560;
-    func_021D51F0((void *)g->f58, -1, 2);
-    g = g_021DE560;
-    func_021D5118((void *)g->f58, -1, d_021DA3D8[g->f63][0], d_021DA3DA[g->f63][0]);
+    v = (int)DWCi_CELLlGetObj((char *)g->f58, 0);
+    DWCi_CEINlSet(0, sel, v);
+    g = gKeyboard10Work;
+    DWCi_CELLlSetPriority((void *)g->f58, -1, 2);
+    g = gKeyboard10Work;
+    DWCi_CELLlSetPosition((void *)g->f58, -1, sKeyboard10CellPosX[g->f63][0], sKeyboard10CellPosY[g->f63][0]);
 }

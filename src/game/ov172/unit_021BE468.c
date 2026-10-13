@@ -126,7 +126,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy);
  * sdk:      Mel_JPEGDecodeExif (libssp.TWL.HYB.a jpegdec.o)
  *
  * symbols:
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_021C0BB4  0x021C0BB4  arm  ov172
  *   g_021C88F0     0x021C88F0  data
  *   g_021C8D1C     0x021C8D1C  data ov172

@@ -1,5 +1,5 @@
 /*
- * function: func_02070524
+ * function: NNSi_G3dAnmGetTexSRTScalarData
  * address:  0x02070524
  * packet:   pkt_02070360
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Scalar keyframe sampler for the animation track engine (the callee
- * func_02070730 uses for the two scale tracks and the two translation
+ * NNSi_G3dAnmGetTexSRTData uses for the two scale tracks and the two translation
  * tracks).  `flags` is the track descriptor word: bit 29 means the value is
  * inline (return `off` unchanged), bits 31:30 select the key stride
  * (full / half / quarter), bit 28 selects s16 keys over u32 keys, and bits
@@ -24,7 +24,7 @@
  * predicates it.  Under ../2.0/sp2 the same C is byte-exact.
  *
  * Three source levers, all measured, all needed (see
- * docs/notes/func_02070524.c.txt for the full history):
+ * docs/notes/NNSi_G3dAnmGetTexSRTScalarData.c.txt for the full history):
  *   1. the quad tail spelled as three statements (`v0 *= 3; v0 += v1;
  *      return v0 >> 2;`), not as the single expression `(v0*3 + v1) >> 2`,
  *      which normalises the accumulate into `add r0, r1, r0`;
@@ -39,8 +39,8 @@
  * No relocation sites: the function is self-contained.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_02070524.c \
- *       --func func_02070524 --addr 0x02070524 --cc ../2.0/sp2 --arm
+ *   python3 tools/match.py one --src src/matched/NNSi_G3dAnmGetTexSRTScalarData.c \
+ *       --func NNSi_G3dAnmGetTexSRTScalarData --addr 0x02070524 --cc ../2.0/sp2 --arm
  */
 #include "../include/Obj16643.h"
 typedef unsigned short u16;
@@ -48,7 +48,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-s32 func_02070524(u32 *base, u32 flags, u32 off, u32 idx)
+s32 NNSi_G3dAnmGetTexSRTScalarData(u32 *base, u32 flags, u32 off, u32 idx)
 {
     u32 n;
     u32 i0;

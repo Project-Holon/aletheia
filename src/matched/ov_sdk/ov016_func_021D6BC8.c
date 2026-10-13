@@ -1,5 +1,5 @@
 /*
- * function: func_021D6BC8
+ * function: DWCi_IPTlCheckFold
  * address:  0x021D6BC8
  * packet:   pkt_ov016_021D6BC8
  * region:   ov016
@@ -13,38 +13,38 @@
  *
  * symbols:
  *   PM_SetLCDPower 0x0208C64C  arm
- *   func_02087AE4  0x02087AE4  arm
- *   func_0207D46C  0x0207D46C  arm
- *   func_0207D42C  0x0207D42C  arm
- *   g_021DE688     0x021DE688  data
+ *   OS_WaitVBlankIntr  0x02087AE4  arm
+ *   GX_DispOn  0x0207D46C  arm
+ *   GX_DispOff  0x0207D42C  arm
+ *   gInputStatics     0x021DE688  data
  */
 
 extern int PM_SetLCDPower(int sw);
-extern void func_02087AE4(void);
-extern void func_0207D46C(void);
-extern void func_0207D42C(void);
-extern unsigned char g_021DE688;
+extern void OS_WaitVBlankIntr(void);
+extern void GX_DispOn(void);
+extern void GX_DispOff(void);
+extern unsigned char gInputStatics;
 
-void func_021D6BC8(void)
+void DWCi_IPTlCheckFold(void)
 {
-    if (g_021DE688) {
+    if (gInputStatics) {
         if ((*(volatile unsigned short *)0x02FFFFA8 & 0x8000) >> 15)
             return;
         if (PM_SetLCDPower(1)) {
-            func_02087AE4();
-            func_0207D46C();
+            OS_WaitVBlankIntr();
+            GX_DispOn();
             *(volatile unsigned int *)0x04001000 |= 0x10000;
-            func_02087AE4();
-            g_021DE688 = 0;
+            OS_WaitVBlankIntr();
+            gInputStatics = 0;
         }
     } else {
         if (!((*(volatile unsigned short *)0x02FFFFA8 & 0x8000) >> 15))
             return;
-        func_02087AE4();
-        func_0207D42C();
+        OS_WaitVBlankIntr();
+        GX_DispOff();
         *(volatile unsigned int *)0x04001000 &= ~0x10000;
-        func_02087AE4();
+        OS_WaitVBlankIntr();
         if (PM_SetLCDPower(0))
-            g_021DE688 = 1;
+            gInputStatics = 1;
     }
 }
