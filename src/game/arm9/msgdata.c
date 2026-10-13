@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: func_02045B38, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex
+ * function: func_02045B38, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex, MSGDATA_SetLanguage, DWCi_Language
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,7 +11,16 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * Split from bmp.c at 0x02045B38 (__FILE__ anchor boundary, certain cut).
+ * The one-byte global setter that closes pkt_02045C44.  It saves nothing,
+ * so disasm.py folded it into MSGDATA_GetLanguageIndex's extent and reported that
+ * function as EXACT* until this file existed
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x020461D4
+ * wants seeding into layout/function_starts.txt.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/MSGDATA_SetLanguage.c \
+ *       --func MSGDATA_SetLanguage --addr 0x020461D4 --cc 1.1p1 --arm
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
@@ -39,6 +48,8 @@
  *   STRBUF_SetChars 0x02045A00 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
+ *   g_Byte_02146A54  0x02146A54  data
+ *   g_02146A54 0x02146A54 data
  */
 struct ArcFile;
 struct Strbuf;
@@ -130,6 +141,7 @@ void STRBUF_Truncate(struct Strbuf *vec, u32 length);
 void STRBUF_SetChars(struct Strbuf *buf, const void *src, u32 n);
 u16 *STRBUF_GetChars(struct Strbuf *vec);
 u16 STRBUF_GetEosChar(void);
+extern void g_02146A54(void);
 struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 u32 MSGDATA_Delete(struct MsgBank *bank);
 struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
@@ -143,7 +155,11 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId);
 void MSGDATA_LoadBank(struct MsgBankLoad *bank);
 void MSGDATA_RefreshLanguage(struct MsgBank *bank);
 s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file);
+void MSGDATA_SetLanguage(u8 languageId);
+asm void DWCi_Language(void);
 extern char MSGDATA_AllocSite[];
+extern u8 g_Byte_02146A54;
+
 
 
 
@@ -205,6 +221,7 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
 
 
 
+
 /*
  * Tear down the record: when the +0x14 handle is live, release the two
  * buffers it owns (the second only if non-NULL) and close the handle, then
@@ -231,6 +248,7 @@ u32 MSGDATA_Delete(struct MsgBank *bank)
     }
     return func_020307B0(bank);
 }
+
 
 
 
@@ -302,6 +320,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 
 
 
+
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 {
     u32 size;
@@ -347,6 +366,7 @@ void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 
 
 
+
 /*
  * Advance the object by one: read its current index (STRBUF_GetLength), ask
  * sub_02045E3C for the entry one past it in the list STRBUF_GetChars returns,
@@ -366,6 +386,7 @@ void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex)
 
     STRBUF_Truncate(str, MSGDATA_DecryptUnits(STRBUF_GetChars(str), used + 1, msgIndex));
 }
+
 
 
 
@@ -413,6 +434,7 @@ u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
 
 
 
+
 /*
  * Message bank string allocator and loader: given a bank and an entry index,
  * reads the entry descriptor (from the resident array or stream), allocates
@@ -447,6 +469,7 @@ struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
 
 
 
+
 /*
  * A three-instruction accessor: follow the pointer at +0 of the object and
  * return the halfword at +2 of what it points at.  It saves nothing, so
@@ -465,6 +488,7 @@ u16 MSGDATA_GetMessageCount(const struct MsgBank *bank)
 {
     return bank->file->count;
 }
+
 
 
 
@@ -525,6 +549,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
 
 
 
+
 /*
  * Read a message file's header out of the archive and keep it.  The fixed
  * twelve-byte part is read onto the stack first because its language count is
@@ -573,6 +598,7 @@ struct MsgFile *MSGDATA_LoadFileHeader(void *stream, u32 origin, u16 heapId)
 }
 
 
+
 /*
  * msgdata.c: point the MsgData object at the selected language bank.  The
  * archive header holds one u32 bank offset per language at +0x0C; with no
@@ -601,6 +627,7 @@ void MSGDATA_LoadBank(struct MsgBankLoad *bank)
         ARC_TOOL_ReadHandle(bank->stream, size, bank->base);
     }
 }
+
 
 
 /*
@@ -635,6 +662,7 @@ void MSGDATA_RefreshLanguage(struct MsgBank *bank)
 }
 
 
+
 /*
  * Clamp sub_020461E4's answer to the count the header keeps at +0: past the
  * end wraps back to entry zero.  The comparison is signed (`movge`), so the
@@ -662,4 +690,21 @@ s32 MSGDATA_GetLanguageIndex(const struct MsgFile *file)
         langIndex = 0;
     }
     return langIndex;
+}
+
+
+/* Stores the current text language code.  The getter at 0x020461E4 returns
+ * this byte; the message bank loader (msgdata.c) clamps it to the language
+ * count of the file it opens, and the config code and the save-control
+ * screen set it. */
+void MSGDATA_SetLanguage(u8 languageId)
+{
+    g_Byte_02146A54 = languageId;
+}
+
+asm void DWCi_Language(void)
+{
+    ldr r0, =g_02146A54
+    ldrb r0, [r0]
+    bx lr
 }

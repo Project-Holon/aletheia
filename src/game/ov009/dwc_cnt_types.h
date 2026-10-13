@@ -5,7 +5,7 @@
  * g_021AA878.st points to, allocated by DWC_InitFriendsMatch. It embeds the
  * login control (dwc_login_types.h), the friend control (opaque here), the
  * match control (dwc_match_ctl_types.h) and the transport info
- * (TransInfo, unit_02176DEC.c, 0x728 bytes).
+ * (TransInfo, dwc_transport.c, 0x728 bytes).
  */
 
 #include "dwc_login_types.h"

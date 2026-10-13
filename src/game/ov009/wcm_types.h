@@ -2,7 +2,7 @@
 #define OV009_WCM_TYPES_H
 /*
  * Shared WCM (wireless connection manager) types for ov009 units
- * unit_02165B80 and unit_02166880. One definition per object, offsets
+ * wcm_aplist and wcm_wmif. One definition per object, offsets
  * checked against every view the parts had.
  */
 

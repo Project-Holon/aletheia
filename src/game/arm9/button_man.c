@@ -1,8 +1,8 @@
 /*
  * file:     button_man.c
  * unit:     yes
- * function: BUTTON_MAN_GetBlock, BUTTON_MAN_GetPos, BUTTON_MAN_SetPos, BUTTON_MAN_GetRot, BUTTON_MAN_GetScaleX, BUTTON_MAN_SetScaleX, BUTTON_MAN_GetScaleY, BUTTON_MAN_SetScaleY, BUTTON_MAN_GetOffsetX, BUTTON_MAN_SetOffsetX, BUTTON_MAN_GetOffsetY, BUTTON_MAN_SetOffsetY, BUTTON_MAN_GetAngle, BUTTON_MAN_GetAlpha, BUTTON_MAN_SetEmitterPos, BUTTON_MAN_SetRot, BUTTON_MAN_SetAngle, BUTTON_MAN_SetAlpha, BUTTON_MAN_FindRowData, BUTTON_MAN_SetRow2, BUTTON_MAN_SetRow3Half, BUTTON_MAN_SetRow5, BUTTON_MAN_SetCallback, BUTTON_MAN_SetUserData, BUTTON_MAN_GetUserData, BUTTON_MAN_Func1A3C, BUTTON_MAN_AppendList0, BUTTON_MAN_Func1AA0, BUTTON_MAN_AppendList1, BUTTON_MAN_GetResourceType, BUTTON_MAN_CallHandlerById, BUTTON_MAN_Create, BUTTON_MAN_ClearSlot, BUTTON_MAN_Delete, BUTTON_MAN_UpdateSlots, BUTTON_MAN_SlotHandlerIdle, BUTTON_MAN_SlotHandlerPressed, BUTTON_MAN_SlotSetKind, BUTTON_MAN_RotScaleMtx22, BUTTON_MAN_InitSphere, BUTTON_MAN_SegmentSphereTest, BUTTON_MAN_InitSegment, BUTTON_MAN_ScaleVec, BUTTON_MAN_MakeRotMtxXYZ, BUTTON_MAN_MakeLookAtMtx, BUTTON_MAN_ConvertUcs2ToSjis, BUTTON_MAN_Ucs2CharToSjis
- * address:  0x02051788
+ * function: func_02051774, BUTTON_MAN_GetBlock, BUTTON_MAN_GetPos, BUTTON_MAN_SetPos, BUTTON_MAN_GetRot, BUTTON_MAN_GetScaleX, BUTTON_MAN_SetScaleX, BUTTON_MAN_GetScaleY, BUTTON_MAN_SetScaleY, BUTTON_MAN_GetOffsetX, BUTTON_MAN_SetOffsetX, BUTTON_MAN_GetOffsetY, BUTTON_MAN_SetOffsetY, BUTTON_MAN_GetAngle, BUTTON_MAN_GetAlpha, BUTTON_MAN_SetEmitterPos, BUTTON_MAN_SetRot, BUTTON_MAN_SetAngle, BUTTON_MAN_SetAlpha, BUTTON_MAN_FindRowData, BUTTON_MAN_SetRow2, BUTTON_MAN_SetRow3Half, BUTTON_MAN_SetRow5, BUTTON_MAN_SetCallback, BUTTON_MAN_SetUserData, BUTTON_MAN_GetUserData, BUTTON_MAN_Func1A3C, BUTTON_MAN_AppendList0, BUTTON_MAN_Func1AA0, BUTTON_MAN_AppendList1, BUTTON_MAN_GetResourceType, BUTTON_MAN_CallHandlerById, BUTTON_MAN_Create, BUTTON_MAN_ClearSlot, BUTTON_MAN_Delete, BUTTON_MAN_UpdateSlots, BUTTON_MAN_SlotHandlerIdle, BUTTON_MAN_SlotHandlerPressed, BUTTON_MAN_SlotSetKind, BUTTON_MAN_RotScaleMtx22, BUTTON_MAN_InitSphere, BUTTON_MAN_SegmentSphereTest, BUTTON_MAN_InitSegment, BUTTON_MAN_ScaleVec, BUTTON_MAN_MakeRotMtxXYZ, BUTTON_MAN_MakeLookAtMtx, BUTTON_MAN_ConvertUcs2ToSjis, BUTTON_MAN_Ucs2CharToSjis
+ * address:  0x02051774
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -12,12 +12,18 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * ARM9 ARM leaf. Loads the global pointer d_02146A88, then reads +0x40 of
+ * the object it points at. Called by the ov118 storage helpers
+ * func_021D6EAC/func_021D6F0C as the value they store back through
+ * BUTTON_MAN_SetUserData.
+ * Addresses are Black-image addresses.
  * Own object: the button_man.c __FILE__ string (layout/file_anchors.txt, pool
  * of BUTTON_MAN_Create).  Builds EXACT with 1.1p1 and dsi/1.2, DIFF with
- * ../1.2/sp2 (the compiler of unit_020524C8.c next to it) and with
- * -proc arm7tdmi (the flags of unit_0205841C.c).
+ * ../1.2/sp2 (the compiler of spl_emitter.c next to it) and with
+ * -proc arm7tdmi (the flags of spl_random.c).
  *
  * symbols:
+ *   d_02146A88  0x02146A88  data
  *   func_02057EF8  0x02057EF8  arm
  *   func_02057F8C  0x02057F8C  arm
  *   func_020580A8  0x020580A8  arm
@@ -60,11 +66,16 @@
  *   FX_Atan2Idx    0x0207CFB8  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
  */
+typedef unsigned int u32;
+
 typedef unsigned char  u8;
+
 typedef unsigned short u16;
-typedef unsigned int   u32;
+
 typedef signed short   s16;
+
 typedef signed int     s32;
+
 typedef long long      s64;
 
 typedef struct {
@@ -208,14 +219,7 @@ extern void MTX_RotZ33_(Mtx33 *m, s16 sinv, s16 cosv);
 extern void MTX_Concat33(const Mtx33 *a, const Mtx33 *b, Mtx33 *dst);
 extern int  FX_Atan2Idx(int y, int x);
 extern u16 STRBUF_GetEosChar(void);
-
-extern struct SysCtx *g_pParticleMan;
-extern char g_020A7FCC[];
-extern s16 FX_SinCosTable_[];
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
-extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
-
+u32 func_02051774(void);
 int BUTTON_MAN_GetBlock(struct Obj3D *p);
 void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out);
 void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v);
@@ -263,6 +267,23 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst);
 void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst);
 void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
 int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
+extern u32 d_02146A88;
+extern struct SysCtx *g_pParticleMan;
+extern char g_020A7FCC[];
+extern s16 FX_SinCosTable_[];
+
+
+u32 func_02051774(void)
+{
+    return *(u32 *)(*(u32 *)&d_02146A88 + 0x40);
+}
+
+extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+
+extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+
+extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
+
 
 /*
  * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
@@ -272,6 +293,7 @@ int BUTTON_MAN_GetBlock(struct Obj3D *p)
     return (int)p->blk;
 }
 
+
 /*
  * Copies the vector at offset 0x34 out. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -279,6 +301,7 @@ void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out)
 {
     *out = p->pos;
 }
+
 
 /*
  * Stores a vector at offset 0x34. Filed as the witness for ov094 func_021FD1CC.
@@ -288,6 +311,7 @@ void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v)
     p->pos = *v;
 }
 
+
 /*
  * Copies the three halfwords at offset 0x50 out. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -295,6 +319,7 @@ void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out)
 {
     *out = p->rot;
 }
+
 
 /*
  * Returns the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
@@ -304,6 +329,7 @@ int BUTTON_MAN_GetScaleX(struct Obj3D *p)
     return p->scaleX;
 }
 
+
 /*
  * Stores the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -311,6 +337,7 @@ void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v)
 {
     p->scaleX = v;
 }
+
 
 /*
  * Returns the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
@@ -320,6 +347,7 @@ int BUTTON_MAN_GetScaleY(struct Obj3D *p)
     return p->scaleY;
 }
 
+
 /*
  * Stores the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -327,6 +355,7 @@ void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v)
 {
     p->scaleY = v;
 }
+
 
 /*
  * Returns the word at offset 0x64 as a short. Filed as the witness for ov094 func_021FD1CC.
@@ -336,6 +365,7 @@ short BUTTON_MAN_GetOffsetX(struct Obj3D *p)
     return p->offsetX;
 }
 
+
 /*
  * Stores the word at offset 0x64. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -343,6 +373,7 @@ void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v)
 {
     p->offsetX = v;
 }
+
 
 /*
  * Returns the word at offset 0x68 as a short. Filed as the witness for ov094 func_021FD1CC.
@@ -352,6 +383,7 @@ short BUTTON_MAN_GetOffsetY(struct Obj3D *p)
     return p->offsetY;
 }
 
+
 /*
  * Stores the word at offset 0x68. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -359,6 +391,7 @@ void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v)
 {
     p->offsetY = v;
 }
+
 
 /*
  * Returns the word at offset 0x6c as a short. Filed as the witness for ov094 func_021FD1CC.
@@ -368,6 +401,7 @@ short BUTTON_MAN_GetAngle(struct Obj3D *p)
     return p->angle;
 }
 
+
 /*
  * Returns the halfword at offset 0x70. Filed as the witness for ov094 func_021FD1CC.
  */
@@ -375,6 +409,7 @@ unsigned short BUTTON_MAN_GetAlpha(struct Obj3D *p)
 {
     return p->alpha;
 }
+
 
 /*
  * particle.c (wave 13): the emitter's three-word position at +0x28..+0x30 is
@@ -400,6 +435,7 @@ void BUTTON_MAN_SetEmitterPos(struct Obj3D *e, const Vec3 *q)
     e->emitPos.z = q->z + e->blk->inner->pos.z;
 }
 
+
 /*
  * Setter on the same object as its packet-mate src/matched/BUTTON_MAN_FindRowData.c:
  * copies a three-component 16-bit vector into the object's 0x50..0x54
@@ -413,6 +449,7 @@ void BUTTON_MAN_SetRot(struct Obj3D *o, const Vec3U16 *v)
     o->rot.z = v->z;
 }
 
+
 /*
  * Word setter on the same object as its packet-mate
  * src/matched/BUTTON_MAN_FindRowData.c: stores the argument into field 0x6c.
@@ -422,6 +459,7 @@ void BUTTON_MAN_SetAngle(struct Obj3D *o, u32 v)
     o->angle = v;
 }
 
+
 /*
  * Halfword setter on the same object as its packet-mate
  * src/matched/BUTTON_MAN_FindRowData.c: stores the argument into field 0x70.
@@ -430,6 +468,7 @@ void BUTTON_MAN_SetAlpha(struct Obj3D *o, u16 v)
 {
     o->alpha = v;
 }
+
 
 /*
  * Linear search of the block at obj+0x20 for the first 8-byte entry whose
@@ -495,6 +534,7 @@ void *BUTTON_MAN_FindRowData(struct Obj3D *obj, int kind)
     return 0;
 }
 
+
 /*
  * Copies a 12-byte record into the slot BUTTON_MAN_FindRowData hands back for class 2.
  * Verified with:
@@ -508,6 +548,7 @@ void BUTTON_MAN_SetRow2(struct Obj3D *p, Vec3 *q)
     if (r != 0)
         *r = *q;
 }
+
 
 /*
  * The class-3 slot carries only a halfword at +2.
@@ -523,6 +564,7 @@ void BUTTON_MAN_SetRow3Half(struct Obj3D *p, u16 *q)
         r[1] = *q;
 }
 
+
 /*
  * Same 12-byte copy as BUTTON_MAN_SetRow2, out of the class-5 slot.
  * Verified with:
@@ -537,6 +579,7 @@ void BUTTON_MAN_SetRow5(struct Obj3D *p, Vec3 *q)
         *r = *q;
 }
 
+
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
  * `p[0x90/4] = v`. With BUTTON_MAN_SetUserData (the +0x94 twin) it is the storage
@@ -549,6 +592,7 @@ void BUTTON_MAN_SetCallback(struct Obj3D *p, int v)
     p->callback = v;
 }
 
+
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte store helper,
  * `p[0x94/4] = v`. The +0x94 twin of BUTTON_MAN_SetCallback.
@@ -559,6 +603,7 @@ void BUTTON_MAN_SetUserData(struct Obj3D *p, int v)
 {
     p->userData = v;
 }
+
 
 /*
  * Unlabelled ARM leaf in the ARM9 module: an 8-byte load helper,
@@ -571,6 +616,7 @@ int BUTTON_MAN_GetUserData(struct Obj3D *p)
     return p->userData;
 }
 
+
 /*
  * Calls func_020614D4 with a constant 0 as its third argument and returns the
  * low halfword of the result scaled by eight (a2 and a3 are unused).
@@ -581,6 +627,7 @@ unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
 
     return (unsigned int)(t0 << 16) >> 13;
 }
+
 
 /*
  * The caller's registered handler (the function pointer in the clact.c global
@@ -612,6 +659,7 @@ u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
     return (u16)v * 8;
 }
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_Func1AA0.c \
@@ -621,6 +669,7 @@ int BUTTON_MAN_Func1AA0(int a, int b)
 {
     return (u16)func_020616CC(a, b, 1) << 3;
 }
+
 
 /*
  * Byte-for-byte the twin of BUTTON_MAN_AppendList0 over the second table: same
@@ -641,6 +690,7 @@ u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
     return (u16)v * 8;
 }
 
+
 /*
  * ARM leaf, seeded 2026-09-27 from the ov195 call site 0x02208954
  * (func_0220887C). Returns the u16 at +8 of its argument.
@@ -651,6 +701,7 @@ u16 BUTTON_MAN_GetResourceType(void *res)
 {
     return ((u16 *)res)[4];
 }
+
 
 /*
  * Eight-way dispatch on a button-man handler id: each of the eight ids tail
@@ -683,6 +734,7 @@ int BUTTON_MAN_CallHandlerById(int i)
     return 0;
 }
 
+
 struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
 {
     struct ButtonMan *r;
@@ -714,12 +766,14 @@ struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 ar
     return r;
 }
 
+
 void BUTTON_MAN_ClearSlot(struct Slot *slot)
 {
     slot->kind = 0;
     slot->state = 0;
     slot->count = 0;
 }
+
 
 /*
  * Verified with:
@@ -731,6 +785,7 @@ void BUTTON_MAN_Delete(struct ButtonMan *bm)
     func_020307B0(bm->slots);
     func_020307B0(bm);
 }
+
 
 /*
  * The per-frame slot refresh: every slot state byte is rewritten to
@@ -786,6 +841,7 @@ s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c)
     return ret;
 }
 
+
 /*
  * The conjunction shares one exit; `*(u8 *)(p+1)` is the armed flag the
  * 0x02051E10 sibling also tests.
@@ -800,6 +856,7 @@ int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b)
     BUTTON_MAN_SlotSetKind(p, 1);
     return 0;
 }
+
 
 /*
  * State-machine step over a small ARM struct: if the flag byte at +1 is set,
@@ -829,6 +886,7 @@ int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x)
     return 1;
 }
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotSetKind.c \
@@ -839,6 +897,7 @@ void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
     p->kind = (u8)a;
     p->count = 0;
 }
+
 
 /*
  * Scaled 2x2 rotation: convert the angle to a 16-bit turn fraction (mode 1:
@@ -865,11 +924,13 @@ void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 
     MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
+
 void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius)
 {
     dst->c = *src;
     dst->r = radius;
 }
+
 
 /*
  * Segment-versus-sphere test: project the ball's centre onto the segment
@@ -929,6 +990,7 @@ done:
     return res.hit;
 }
 
+
 /*
  * Verified with:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_InitSegment.c \
@@ -940,6 +1002,7 @@ void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
     p->dir = *r;
     p->radius = v;
 }
+
 
 /*
  * VEC_MultAdd-style scale: dst = v * s in 1.19.12 fixed point, component by
@@ -967,6 +1030,7 @@ void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);
     dst->z = (int)((((s64)v->z * s) + 0x800) >> 12);
 }
+
 
 /*
  * Build a 3x3 rotation matrix from three angles, composed X, then Y, then Z.
@@ -1011,6 +1075,7 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
     MTX_RotZ33_(&tmp, FX_SinCosTable_[2 * i], FX_SinCosTable_[2 * i + 1]);
     MTX_Concat33(dst, &tmp, dst);
 }
+
 
 /*
  * Turn a direction vector into a look-at rotation matrix: pitch about X, yaw
@@ -1061,6 +1126,7 @@ void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
 
     MTX_Concat33(&mx, &my, dst);
 }
+
 
 /*
  * Convert a run of n wide characters at `a` into the narrow buffer at `b`,
@@ -1122,6 +1188,7 @@ void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n)
             return;
     } while (i < n);
 }
+
 
 /*
  * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to

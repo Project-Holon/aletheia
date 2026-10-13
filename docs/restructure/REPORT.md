@@ -11,11 +11,11 @@ TU split at a real boundary counts once as split):
 
 | Area | Whole | Percent |
 |---|---|---|
-| ARM9 | 439 / 440 | 99.8% |
-| Overlays | 1478 / 1481 | 99.8% |
+| ARM9 | 397 / 398 | 99.7% |
+| Overlays | 1371 / 1374 | 99.8% |
 | twl | 48 / 48 | 100% |
 | ITCM | 4 / 4 | 100% |
-| **Total** | **1969 / 1973** | **99.8%** |
+| **Total** | **1820 / 1824** | **99.8%** |
 
 Round 17 drops the old 1816 estimate (the user, 2026-10-12: the estimate may
 move freely with evidence). The figure is now the file count itself.

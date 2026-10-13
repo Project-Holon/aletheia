@@ -1,23 +1,23 @@
 region	start	end	size	class	kind	shard	isa	conf	note	first_ins	ins	prev_src	prev_file	next_src	next_file	draft
-arm9	0x02004000	0x0200407E	126	data	hidden				ptrs=0 t:udf@2004000 a:udf@2004000 secure_area					func_0200407E	src/game/arm9/unit_0200407E.c	
-arm9	0x02004082	0x020040E2	96	data	hidden				ptrs=0 t:undecodable@2004082 a:align secure_area			func_0200407E	src/game/arm9/unit_0200407E.c	func_020040E2	src/game/arm9/unit_020040E2.c	
-arm9	0x020040E6	0x02004136	80	data	hidden				ptrs=0 t:ok secure_area			func_020040E2	src/game/arm9/unit_020040E2.c	func_02004136	src/game/arm9/unit_02004136.c	
-arm9	0x0200413A	0x020041B2	120	data	hidden				ptrs=1 t:ok secure_area			func_02004136	src/game/arm9/unit_02004136.c	func_020041B2	src/game/arm9/unit_020041B2.c	
-arm9	0x020041B6	0x0200421A	100	data	hidden				ptrs=0 t:undecodable@20041E4 a:align secure_area			func_020041B2	src/game/arm9/unit_020041B2.c	func_0200421A	src/game/arm9/unit_0200421A.c	
-arm9	0x0200421E	0x02004226	8	leaf	hidden		thumb	weak	tailcall	cmp r1, #0xea; asrs r1, r2, #7; lsls r1, r2; bx sl	4	func_0200421A	src/game/arm9/unit_0200421A.c	func_02004278	src/game/arm9/unit_02004278.c	
-arm9	0x02004226	0x02004278	82	data	hidden				ptrs=1 t:pool out of range @200422C a:align secure_area			func_0200421A	src/game/arm9/unit_0200421A.c	func_02004278	src/game/arm9/unit_02004278.c	
-arm9	0x0200427C	0x020042E2	102	data	hidden				ptrs=0 t:cond branch out @200428E a:undecodable@2004294 secure_area			func_02004278	src/game/arm9/unit_02004278.c	func_020042E2	src/game/arm9/unit_020042E2.c	
-arm9	0x020042E6	0x020043D0	234	data	hidden				ptrs=1 t:cond branch out @20042E6 a:align secure_area			func_020042E2	src/game/arm9/unit_020042E2.c	func_020043D0	src/game/arm9/unit_020043D0.c	
-arm9	0x020043D4	0x02004434	96	data	hidden				ptrs=0 t:ok secure_area			func_020043D0	src/game/arm9/unit_020043D0.c	func_02004434	src/game/arm9/unit_02004434.c	
-arm9	0x02004438	0x02004490	88	data	hidden				ptrs=1 t:pool out of range @200443E a:cond branch out @2004444 secure_area			func_02004434	src/game/arm9/unit_02004434.c	func_02004490	src/game/arm9/unit_02004490.c	
-arm9	0x02004494	0x020044FE	106	data	hidden				ptrs=0 t:cond branch out @2004498 a:cond branch out @20044F4 secure_area			func_02004490	src/game/arm9/unit_02004490.c	func_020044FE	src/game/arm9/unit_020044FE.c	
-arm9	0x02004502	0x02004560	94	data	hidden				ptrs=4 t:cond branch out @2004504 a:align secure_area			func_020044FE	src/game/arm9/unit_020044FE.c	func_02004560	src/game/arm9/unit_02004560.c	
-arm9	0x02004564	0x020045CC	104	data	hidden				ptrs=2 t:ok secure_area			func_02004560	src/game/arm9/unit_02004560.c	func_020045CC	src/game/arm9/unit_020045CC.c	
-arm9	0x020045D0	0x02004632	98	data	hidden				ptrs=0 t:ok secure_area			func_020045CC	src/game/arm9/unit_020045CC.c	func_02004632	src/game/arm9/unit_02004632.c	
-arm9	0x02004636	0x02004694	94	data	hidden				ptrs=1 t:udf@2004648 a:align secure_area			func_02004632	src/game/arm9/unit_02004632.c	func_02004694	src/game/arm9/unit_02004694.c	
-arm9	0x02004698	0x0200471C	132	data	hidden				ptrs=0 t:cond branch out @20046A4 a:undecodable@20046A4 secure_area			func_02004694	src/game/arm9/unit_02004694.c	func_0200471C	src/game/arm9/unit_0200471C.c	
-arm9	0x02004720	0x020047A6	134	data	hidden				ptrs=0 t:cond branch out @2004728 a:undecodable@2004728 secure_area			func_0200471C	src/game/arm9/unit_0200471C.c	func_020047A6	src/game/arm9/unit_020047A6.c	
-arm9	0x020047AA	0x02004800	86	data	hidden				ptrs=1 t:ok secure_area			func_020047A6	src/game/arm9/unit_020047A6.c	func_02004800	src/game/arm9/crt0.c	
+arm9	0x02004000	0x0200407E	126	data	hidden				ptrs=0 t:udf@2004000 a:udf@2004000 secure_area					func_0200407E	src/game/arm9/svc_table_1.c	
+arm9	0x02004082	0x020040E2	96	data	hidden				ptrs=0 t:undecodable@2004082 a:align secure_area			func_0200407E	src/game/arm9/svc_table_1.c	func_020040E2	src/game/arm9/svc_table_2.c	
+arm9	0x020040E6	0x02004136	80	data	hidden				ptrs=0 t:ok secure_area			func_020040E2	src/game/arm9/svc_table_2.c	func_02004136	src/game/arm9/svc_table_3.c	
+arm9	0x0200413A	0x020041B2	120	data	hidden				ptrs=1 t:ok secure_area			func_02004136	src/game/arm9/svc_table_3.c	func_020041B2	src/game/arm9/svc_table_4.c	
+arm9	0x020041B6	0x0200421A	100	data	hidden				ptrs=0 t:undecodable@20041E4 a:align secure_area			func_020041B2	src/game/arm9/svc_table_4.c	func_0200421A	src/game/arm9/svc_table_5.c	
+arm9	0x0200421E	0x02004226	8	leaf	hidden		thumb	weak	tailcall	cmp r1, #0xea; asrs r1, r2, #7; lsls r1, r2; bx sl	4	func_0200421A	src/game/arm9/svc_table_5.c	func_02004278	src/game/arm9/svc_table_6.c	
+arm9	0x02004226	0x02004278	82	data	hidden				ptrs=1 t:pool out of range @200422C a:align secure_area			func_0200421A	src/game/arm9/svc_table_5.c	func_02004278	src/game/arm9/svc_table_6.c	
+arm9	0x0200427C	0x020042E2	102	data	hidden				ptrs=0 t:cond branch out @200428E a:undecodable@2004294 secure_area			func_02004278	src/game/arm9/svc_table_6.c	func_020042E2	src/game/arm9/svc_table_7.c	
+arm9	0x020042E6	0x020043D0	234	data	hidden				ptrs=1 t:cond branch out @20042E6 a:align secure_area			func_020042E2	src/game/arm9/svc_table_7.c	func_020043D0	src/game/arm9/svc_table_8.c	
+arm9	0x020043D4	0x02004434	96	data	hidden				ptrs=0 t:ok secure_area			func_020043D0	src/game/arm9/svc_table_8.c	func_02004434	src/game/arm9/svc_table_9.c	
+arm9	0x02004438	0x02004490	88	data	hidden				ptrs=1 t:pool out of range @200443E a:cond branch out @2004444 secure_area			func_02004434	src/game/arm9/svc_table_9.c	func_02004490	src/game/arm9/svc_table_10.c	
+arm9	0x02004494	0x020044FE	106	data	hidden				ptrs=0 t:cond branch out @2004498 a:cond branch out @20044F4 secure_area			func_02004490	src/game/arm9/svc_table_10.c	func_020044FE	src/game/arm9/svc_table_11.c	
+arm9	0x02004502	0x02004560	94	data	hidden				ptrs=4 t:cond branch out @2004504 a:align secure_area			func_020044FE	src/game/arm9/svc_table_11.c	func_02004560	src/game/arm9/svc_table_12.c	
+arm9	0x02004564	0x020045CC	104	data	hidden				ptrs=2 t:ok secure_area			func_02004560	src/game/arm9/svc_table_12.c	func_020045CC	src/game/arm9/svc_table_13.c	
+arm9	0x020045D0	0x02004632	98	data	hidden				ptrs=0 t:ok secure_area			func_020045CC	src/game/arm9/svc_table_13.c	func_02004632	src/game/arm9/svc_table_14.c	
+arm9	0x02004636	0x02004694	94	data	hidden				ptrs=1 t:udf@2004648 a:align secure_area			func_02004632	src/game/arm9/svc_table_14.c	func_02004694	src/game/arm9/svc_table_15.c	
+arm9	0x02004698	0x0200471C	132	data	hidden				ptrs=0 t:cond branch out @20046A4 a:undecodable@20046A4 secure_area			func_02004694	src/game/arm9/svc_table_15.c	func_0200471C	src/game/arm9/svc_table_16.c	
+arm9	0x02004720	0x020047A6	134	data	hidden				ptrs=0 t:cond branch out @2004728 a:undecodable@2004728 secure_area			func_0200471C	src/game/arm9/svc_table_16.c	func_020047A6	src/game/arm9/svc_table_17.c	
+arm9	0x020047AA	0x02004800	86	data	hidden				ptrs=1 t:ok secure_area			func_020047A6	src/game/arm9/svc_table_17.c	func_02004800	src/game/arm9/crt0.c	
 arm9	0x02004F7C	0x02004F94	24	data	hidden				ptrs=4 a:too many conditions t:udf@2004F8E			func_02004F20	src/game/arm9/crt0.c	func_02005124	src/game/arm9/gfl_use.c	
 arm9	0x02004F94	0x02004FB0	28	leaf	hidden		arm	strong	ref	ldrh r2, [r0]; cmp r1, r2; bxeq lr; mov r3, #0x10	7	func_02004F20	src/game/arm9/crt0.c	func_02005124	src/game/arm9/gfl_use.c	
 arm9	0x02004FB0	0x02004FD4	36	data	hidden				ptrs=7 a:too many conditions t:udf@2004FCE			func_02004F20	src/game/arm9/crt0.c	func_02005124	src/game/arm9/gfl_use.c	
@@ -394,10 +394,10 @@ arm9	0x0200C5F8	0x0200C6D8	224	func	labeled	EXACT	thumb	strong	label,push	push {
 arm9	0x0200C6D8	0x0200C6DC	4	leaf	labeled	EXACT	thumb	strong	label	ldr r0, [r0, #0x24]; bx lr	2	func_0200C52C	src/game/arm9/musical_dist_save.c	func_0200C6EC	src/game/arm9/musical_dist_save.c	
 arm9	0x0200C6DC	0x0200C6E4	8	leaf	labeled		thumb	strong	label	ldr r0, [r0, #0x20]; ldr r0, [r0]; bx lr	3	func_0200C52C	src/game/arm9/musical_dist_save.c	func_0200C6EC	src/game/arm9/musical_dist_save.c	
 arm9	0x0200C6E4	0x0200C6EC	8	leaf	labeled		thumb	strong	label,ref	movs r0, #0x26; lsls r0, r0, #8; bx lr	3	func_0200C52C	src/game/arm9/musical_dist_save.c	func_0200C6EC	src/game/arm9/musical_dist_save.c	
-arm9	0x0200D59C	0x0200D5C8	44	func	labeled	EXACT	thumb	strong	label,push	push {r3, r4, lr}; sub sp, #4; movs r1, #0x50; lsls r0, r0, #0x10	17	func_0200D58C	src/game/arm9/unit_0200C7C0.c	func_0200D6EC	src/game/arm9/unit_0200D70C.c	
-arm9	0x0200D5C8	0x0200D5D0	8	leaf	labeled		thumb	strong	tailstub target=0x020307B0 arm	ldr r3,[pc]; bx r3	2	func_0200D58C	src/game/arm9/unit_0200C7C0.c	func_0200D6EC	src/game/arm9/unit_0200D70C.c	
-arm9	0x0200D5D0	0x0200D6D0	256	func	labeled	EXACT	thumb	strong	label,push	push {r4, r5, r6, r7, lr}; sub sp, #0x6c; adds r7, r1, #0; adds r5, r0, #0	110	func_0200D58C	src/game/arm9/unit_0200C7C0.c	func_0200D6EC	src/game/arm9/unit_0200D70C.c	
-arm9	0x0200D6D0	0x0200D6EC	28	func	labeled	EXACT	thumb	strong	label,push	push {r3, r4, r5, lr}; lsls r1, r1, #0x10; adds r4, r0, #0; movs r0, #0xf	12	func_0200D58C	src/game/arm9/unit_0200C7C0.c	func_0200D6EC	src/game/arm9/unit_0200D70C.c	
+arm9	0x0200D59C	0x0200D5C8	44	func	labeled	EXACT	thumb	strong	label,push	push {r3, r4, lr}; sub sp, #4; movs r1, #0x50; lsls r0, r0, #0x10	17	func_0200D58C	src/game/arm9/musical_dist_save_1.c	func_0200D6EC	src/game/arm9/gds_profile_1.c	
+arm9	0x0200D5C8	0x0200D5D0	8	leaf	labeled		thumb	strong	tailstub target=0x020307B0 arm	ldr r3,[pc]; bx r3	2	func_0200D58C	src/game/arm9/musical_dist_save_1.c	func_0200D6EC	src/game/arm9/gds_profile_1.c	
+arm9	0x0200D5D0	0x0200D6D0	256	func	labeled	EXACT	thumb	strong	label,push	push {r4, r5, r6, r7, lr}; sub sp, #0x6c; adds r7, r1, #0; adds r5, r0, #0	110	func_0200D58C	src/game/arm9/musical_dist_save_1.c	func_0200D6EC	src/game/arm9/gds_profile_1.c	
+arm9	0x0200D6D0	0x0200D6EC	28	func	labeled	EXACT	thumb	strong	label,push	push {r3, r4, r5, lr}; lsls r1, r1, #0x10; adds r4, r0, #0; movs r0, #0xf	12	func_0200D58C	src/game/arm9/musical_dist_save_1.c	func_0200D6EC	src/game/arm9/gds_profile_1.c	
 arm9	0x0200DE6C	0x0200DE94	40	func	labeled		thumb	strong	label,push	push {r3, r4, r5, r6, r7, lr}; movs r7, #0x41; adds r5, r0, #0; adds r4, r2, #0	19	func_0200DE64	src/game/arm9/bsubway_savedata.c	func_0200DE94	src/game/arm9/bsubway_savedata.c	
 arm9	0x0200DEA0	0x0200DEA8	8	leaf	labeled		thumb	strong	label	movs r1, #1; lsls r1, r1, #8; ldrb r0, [r0, r1]; bx lr	4	func_0200DE94	src/game/arm9/bsubway_savedata.c	func_0200DEA8	src/game/arm9/bsubway_savedata.c	
 arm9	0x0200DF10	0x0200DF40	48	func	labeled	EXACT	thumb	strong	label,push	push {r4, r5, r6, lr}; adds r5, r0, #0; adds r0, r1, #0; ldr r1, [pc, #0x20]	18	func_0200DEA8	src/game/arm9/bsubway_savedata.c	func_0200E008	src/game/arm9/bsubway_savedata.c	
@@ -964,10 +964,10 @@ arm9	0x0202E0C8	0x0202E0E0	24	func	labeled	EXACT	thumb	strong	label,ref,push	pus
 arm9	0x0202E430	0x0202E43C	12	leaf	labeled	EXACT	thumb	strong	label,ref	cmp r0, #4; blo #0x202e438; movs r0, #1; bx lr	6	func_0202E3E4	src/game/arm9/iss_switch_sys.c	func_0202E43C	src/game/arm9/iss_switch_sys.c	
 arm9	0x0202E54C	0x0202E560	20	func	labeled	EXACT	thumb	strong	label,push	push {r4, lr}; adds r4, r0, #0; ldr r0, [r4, #0x20]; blx #0x2045808	7	func_0202E4EC	src/game/arm9/codein_param.c	func_0202E560	src/game/arm9/codein_param.c	
 arm9	0x0202EA20	0x0202EA40	32	func	labeled	EXACT	thumb	strong	label,push	push {r4, lr}; adds r4, r0, #0; ldr r0, [r4, #4]; blx #0x20307b0	11	func_0202E9AC	src/game/arm9/time_icon.c	func_0202EA40	src/game/arm9/time_icon.c	
-arm9	0x0202FBAC	0x0202FBD0	36	leaf	labeled	EXACT	arm	strong	label,ref	ldr r1, [pc, #0x18]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	8	func_0202FB34	src/game/arm9/unit_0202FB34.c	func_0202FC48	src/game/arm9/unit_0202FBAC.c	
-arm9	0x0202FBD0	0x0202FBF8	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/unit_0202FB34.c	func_0202FC48	src/game/arm9/unit_0202FBAC.c	
-arm9	0x0202FBF8	0x0202FC20	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/unit_0202FB34.c	func_0202FC48	src/game/arm9/unit_0202FBAC.c	
-arm9	0x0202FC20	0x0202FC48	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/unit_0202FB34.c	func_0202FC48	src/game/arm9/unit_0202FBAC.c	
+arm9	0x0202FBAC	0x0202FBD0	36	leaf	labeled	EXACT	arm	strong	label,ref	ldr r1, [pc, #0x18]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	8	func_0202FB34	src/game/arm9/rc4s_arm4cw.c	func_0202FC48	src/game/arm9/gfl_heap.c	
+arm9	0x0202FBD0	0x0202FBF8	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/rc4s_arm4cw.c	func_0202FC48	src/game/arm9/gfl_heap.c	
+arm9	0x0202FBF8	0x0202FC20	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/rc4s_arm4cw.c	func_0202FC48	src/game/arm9/gfl_heap.c	
+arm9	0x0202FC20	0x0202FC48	40	leaf	labeled		arm	strong	label,ref	ldr r1, [pc, #0x1c]; ldr r2, [r1, #4]; ldrb r2, [r2, r0]; cmp r2, #0xff	9	func_0202FB34	src/game/arm9/rc4s_arm4cw.c	func_0202FC48	src/game/arm9/gfl_heap.c	
 arm9	0x020319E4	0x020319F0	12	leaf	labeled		arm	strong	tailstub target=0x020329AC arm	ldr ip,[pc]; bx ip	2	func_020319C0	src/game/arm9/backup_system.c	func_020319F0	src/game/arm9/backup_system.c	
 arm9	0x02031E70	0x02031E7C	12	leaf	labeled		arm	strong	tailstub target=0x020338F8 arm	ldr ip,[pc]; bx ip	2	func_02031E68	src/game/arm9/backup_system.c	func_02031E7C	src/game/arm9/backup_system.c	
 arm9	0x020332FC	0x0203331C	32	leaf	labeled	EXACT	arm	strong	label,ref	ldr r3, [r0, #0x138]; lsr r2, r1, #4; lsl r0, r1, #0x1c; ldr r1, [r3, r2, lsl #2]	8	func_020332A4	src/game/arm9/backup_system.c	func_0203331C	src/game/arm9/backup_system.c	
@@ -1180,42 +1180,42 @@ arm9	0x0204D4C4	0x0204D4E0	28	func	labeled	EXACT	arm	strong	label,ref,push	push 
 arm9	0x0204D4E0	0x0204D4F0	16	leaf	labeled		arm	strong	label,ref,tailcall	ldr ip, [pc, #4]; add r0, r0, #0xc; bx ip	3	func_0204D4B4	src/game/arm9/clact.c	func_0204D500	src/game/arm9/clact.c	
 arm9	0x0204D4F0	0x0204D500	16	leaf	labeled		arm	strong	label,ref,tailcall	ldr ip, [pc, #4]; add r0, r0, #0xc; bx ip	3	func_0204D4B4	src/game/arm9/clact.c	func_0204D500	src/game/arm9/clact.c	
 arm9	0x0204E720	0x0204E804	228	func	labeled	EXACT	arm	strong	label,push	push {r4, r5, r6, lr}; ldr r5, [pc, #0xd4]; movs r4, r3; ldr r3, [r5]	56	func_0204E708	src/game/arm9/fade.c	func_0204E804	src/game/arm9/fade.c	
-arm9	0x0204F6B4	0x0204F6DC	40	leaf	labeled	EXACT	arm	strong	label	ldr r3, [r0, #8]; mov r0, #0x1c; mla r3, r1, r0, r3; ldrh r1, [r3, #0x18]	10	func_0204F684	src/game/arm9/unit_0204F2FC.c	func_0204F704	src/game/arm9/unit_0204F2FC.c	
-arm9	0x0204F6DC	0x0204F704	40	leaf	labeled		arm	strong	label	ldr r3, [r0, #8]; mov r0, #0x1c; mla r3, r1, r0, r3; ldrh r1, [r3, #0x18]	10	func_0204F684	src/game/arm9/unit_0204F2FC.c	func_0204F704	src/game/arm9/unit_0204F2FC.c	
-arm9	0x0205841C	0x02058478	92	func	labeled	EXACT	arm	strong	label,ref,push	push {r4, lr}; ldr ip, [pc, #0x44]; ldr r2, [pc, #0x44]; ldr r4, [ip]	20	func_020583CC	src/game/arm9/unit_020524C8.c	func_020584E0	src/game/arm9/unit_020584E0.c	
-arm9	0x02058478	0x020584E0	104	func	labeled		arm	strong	label,ref,push	push {r4, lr}; ldr ip, [pc, #0x50]; ldr r2, [pc, #0x50]; ldr r4, [ip]	23	func_020583CC	src/game/arm9/unit_020524C8.c	func_020584E0	src/game/arm9/unit_020584E0.c	
-arm9	0x02059870	0x0205987C	12	leaf	labeled		arm	strong	tailstub target=0x0205987C arm	ldr ip,[pc]; bx ip	2	func_02059858	src/game/arm9/unit_02059858.c	func_0205987C	src/game/arm9/unit_02059858.c	
-arm9	0x02061A14	0x02061A20	12	leaf	labeled		arm	strong	tailstub target=0x0207E684 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A20	0x02061A2C	12	leaf	labeled		arm	strong	tailstub target=0x0207E780 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A2C	0x02061A38	12	leaf	labeled		arm	strong	tailstub target=0x0207EEFC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A38	0x02061A44	12	leaf	labeled		arm	strong	tailstub target=0x0207F024 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A44	0x02061A50	12	leaf	labeled		arm	strong	tailstub target=0x0207F14C arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A50	0x02061A5C	12	leaf	labeled		arm	strong	tailstub target=0x0207F274 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A5C	0x02061A68	12	leaf	labeled		arm	strong	tailstub target=0x0207E944 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A68	0x02061A74	12	leaf	labeled		arm	strong	tailstub target=0x0207EABC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A74	0x02061A80	12	leaf	labeled		arm	strong	tailstub target=0x0207EC34 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A80	0x02061A8C	12	leaf	labeled		arm	strong	tailstub target=0x0207EDAC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A8C	0x02061A98	12	leaf	labeled		arm	strong	tailstub target=0x0207EC34 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061A98	0x02061AA4	12	leaf	labeled		arm	strong	tailstub target=0x0207EDAC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061AA4	0x02061AB0	12	leaf	labeled		arm	strong	tailstub target=0x0207E5D0 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061AB0	0x02061ABC	12	leaf	labeled		arm	strong	tailstub target=0x0207E468 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/unit_020619BC.c	func_02061ABC	src/game/arm9/unit_02061ABC.c	
-arm9	0x02061B14	0x02061B20	12	leaf	labeled		arm	strong	tailstub target=0x0207E708 arm	ldr ip,[pc]; bx ip	2	func_02061AE8	src/game/arm9/unit_02061ABC.c	func_02061B2C	src/game/arm9/unit_02061B2C.c	
-arm9	0x02061B20	0x02061B2C	12	leaf	labeled		arm	strong	tailstub target=0x0207E804 arm	ldr ip,[pc]; bx ip	2	func_02061AE8	src/game/arm9/unit_02061ABC.c	func_02061B2C	src/game/arm9/unit_02061B2C.c	
-arm9	0x0207A51C	0x0207A528	12	leaf	labeled		arm	strong	tailstub target=0x02078588 arm	ldr ip,[pc]; bx ip	2	func_0207A4B0	src/game/arm9/unit_02079304.c	func_0207A528	src/game/arm9/unit_02079304.c	
-arm9	0x02081E6C	0x02081E7C	16	data	hidden				ptrs=0 a:cond branch out @2081E6C t:no end			func_02081BE4	src/game/arm9/unit_02081BE4.c	func_02081E7C	src/game/arm9/unit_02081E7C.c	
-arm9	0x02090BB8	0x02090BC4	12	leaf	labeled		arm	strong	tailstub target=0x0209028C arm	ldr ip,[pc]; bx ip	2	func_02090B9C	src/game/arm9/unit_02090B9C.c	func_02090BC4	src/game/arm9/unit_02090BC4.c	
-arm9	0x02090ECC	0x02090ED8	12	leaf	labeled		arm	strong	tailstub target=0x0208E4CC arm	ldr ip,[pc]; bx ip	2	func_02090E50	src/game/arm9/unit_02090BC4.c	func_02090ED8	src/game/arm9/unit_02090ED8.c	
-arm9	0x020911F0	0x02091200	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731755			func_020911D8	src/game/arm9/unit_020911D4.c	func_02091200	src/game/arm9/unit_020911D4.c	
-arm9	0x02091220	0x02091230	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731761			func_02091200	src/game/arm9/unit_020911D4.c	func_02091230	src/game/arm9/unit_020911D4.c	
-arm9	0x0209124C	0x0209125C	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731765			func_02091230	src/game/arm9/unit_020911D4.c	func_0209125C	src/game/arm9/unit_020911D4.c	
-arm9	0x02091284	0x0209128C	8	veneer	labeled	EXACT	arm	strong	ldr pc,[pc,#-4]; target=0x02731920			func_0209125C	src/game/arm9/unit_020911D4.c	func_0209128C	src/game/arm9/unit_020911D4.c	
-arm9	0x0209468C	0x02094694	8	leaf	hidden		arm	weak		add sp, sp, #8; pop {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}	2	func_0209455C	src/game/arm9/unit_020911D4.c	func_02094694	src/game/arm9/unit_020911D4.c	
-arm9	0x0209666C	0x02096670	4	leaf	hidden		arm	weak		bx lr	1	func_02096620	src/game/arm9/unit_020911D4.c	func_02096670	src/game/arm9/unit_020911D4.c	
-arm9	0x0209AF1C	0x0209AF34	24	data	hidden				ptrs=0 a:no end t:ok			func_0209AC04	src/game/arm9/unit_0209AC04.c	func_0209B2E8	src/game/arm9/unit_0209AC04.c	
-arm9	0x0209CB78	0x0209CB80	8	leaf	hidden		arm	weak		mvn r0, #0x80000000; bx lr	2	func_0209C95C	src/game/arm9/unit_0209AC04.c	func_0209CE10	src/game/arm9/unit_0209AC04.c	
-arm9	0x0209CB80	0x0209CB8C	12	data	hidden				ptrs=0 a:no end t:ok			func_0209C95C	src/game/arm9/unit_0209AC04.c	func_0209CE10	src/game/arm9/unit_0209AC04.c	
-arm9	0x0209CE04	0x0209CE10	12	data	hidden				ptrs=0 a:no end t:ok			func_0209C95C	src/game/arm9/unit_0209AC04.c	func_0209CE10	src/game/arm9/unit_0209AC04.c	
-arm9	0x0209D1C8	0x0209D1E0	24	data	hidden				ptrs=0 a:no end t:ok			func_0209CE10	src/game/arm9/unit_0209AC04.c	func_0209D1E0	src/game/arm9/unit_0209AC04.c	
+arm9	0x0204F6B4	0x0204F6DC	40	leaf	labeled	EXACT	arm	strong	label	ldr r3, [r0, #8]; mov r0, #0x1c; mla r3, r1, r0, r3; ldrh r1, [r3, #0x18]	10	func_0204F684	src/game/arm9/billboard.c	func_0204F704	src/game/arm9/billboard.c	
+arm9	0x0204F6DC	0x0204F704	40	leaf	labeled		arm	strong	label	ldr r3, [r0, #8]; mov r0, #0x1c; mla r3, r1, r0, r3; ldrh r1, [r3, #0x18]	10	func_0204F684	src/game/arm9/billboard.c	func_0204F704	src/game/arm9/billboard.c	
+arm9	0x0205841C	0x02058478	92	func	labeled	EXACT	arm	strong	label,ref,push	push {r4, lr}; ldr ip, [pc, #0x44]; ldr r2, [pc, #0x44]; ldr r4, [ip]	20	func_020583CC	src/game/arm9/spl_emitter.c	func_020584E0	src/game/arm9/dwc_backup.c	
+arm9	0x02058478	0x020584E0	104	func	labeled		arm	strong	label,ref,push	push {r4, lr}; ldr ip, [pc, #0x50]; ldr r2, [pc, #0x50]; ldr r4, [ip]	23	func_020583CC	src/game/arm9/spl_emitter.c	func_020584E0	src/game/arm9/dwc_backup.c	
+arm9	0x02059870	0x0205987C	12	leaf	labeled		arm	strong	tailstub target=0x0205987C arm	ldr ip,[pc]; bx ip	2	func_02059858	src/game/arm9/dwc_account_9.c	func_0205987C	src/game/arm9/dwc_account_9.c	
+arm9	0x02061A14	0x02061A20	12	leaf	labeled		arm	strong	tailstub target=0x0207E684 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A20	0x02061A2C	12	leaf	labeled		arm	strong	tailstub target=0x0207E780 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A2C	0x02061A38	12	leaf	labeled		arm	strong	tailstub target=0x0207EEFC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A38	0x02061A44	12	leaf	labeled		arm	strong	tailstub target=0x0207F024 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A44	0x02061A50	12	leaf	labeled		arm	strong	tailstub target=0x0207F14C arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A50	0x02061A5C	12	leaf	labeled		arm	strong	tailstub target=0x0207F274 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A5C	0x02061A68	12	leaf	labeled		arm	strong	tailstub target=0x0207E944 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A68	0x02061A74	12	leaf	labeled		arm	strong	tailstub target=0x0207EABC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A74	0x02061A80	12	leaf	labeled		arm	strong	tailstub target=0x0207EC34 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A80	0x02061A8C	12	leaf	labeled		arm	strong	tailstub target=0x0207EDAC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A8C	0x02061A98	12	leaf	labeled		arm	strong	tailstub target=0x0207EC34 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061A98	0x02061AA4	12	leaf	labeled		arm	strong	tailstub target=0x0207EDAC arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061AA4	0x02061AB0	12	leaf	labeled		arm	strong	tailstub target=0x0207E5D0 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061AB0	0x02061ABC	12	leaf	labeled		arm	strong	tailstub target=0x0207E468 arm	ldr ip,[pc]; bx ip	2	func_020619E8	src/game/arm9/nns_gfd_vram_load_1.c	func_02061ABC	src/game/arm9/nns_gfd_vram_load_2.c	
+arm9	0x02061B14	0x02061B20	12	leaf	labeled		arm	strong	tailstub target=0x0207E708 arm	ldr ip,[pc]; bx ip	2	func_02061AE8	src/game/arm9/nns_gfd_vram_load_2.c	func_02061B2C	src/game/arm9/nns_gfd_vram_load_3.c	
+arm9	0x02061B20	0x02061B2C	12	leaf	labeled		arm	strong	tailstub target=0x0207E804 arm	ldr ip,[pc]; bx ip	2	func_02061AE8	src/game/arm9/nns_gfd_vram_load_2.c	func_02061B2C	src/game/arm9/nns_gfd_vram_load_3.c	
+arm9	0x0207A51C	0x0207A528	12	leaf	labeled		arm	strong	tailstub target=0x02078588 arm	ldr ip,[pc]; bx ip	2	func_0207A4B0	src/game/arm9/fs_proc_default.c	func_0207A528	src/game/arm9/fs_proc_default.c	
+arm9	0x02081E6C	0x02081E7C	16	data	hidden				ptrs=0 a:cond branch out @2081E6C t:no end			func_02081BE4	src/game/arm9/qsort.c	func_02081E7C	src/game/arm9/sha1.c	
+arm9	0x02090BB8	0x02090BC4	12	leaf	labeled		arm	strong	tailstub target=0x0209028C arm	ldr ip,[pc]; bx ip	2	func_02090B9C	src/game/arm9/wm_ks.c	func_02090BC4	src/game/arm9/wm_etc.c	
+arm9	0x02090ECC	0x02090ED8	12	leaf	labeled		arm	strong	tailstub target=0x0208E4CC arm	ldr ip,[pc]; bx ip	2	func_02090E50	src/game/arm9/wm_etc.c	func_02090ED8	src/game/arm9/wm_common.c	
+arm9	0x020911F0	0x02091200	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731755			func_020911D8	src/game/arm9/msl_c_lib.c	func_02091200	src/game/arm9/msl_c_lib.c	
+arm9	0x02091220	0x02091230	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731761			func_02091200	src/game/arm9/msl_c_lib.c	func_02091230	src/game/arm9/msl_c_lib.c	
+arm9	0x0209124C	0x0209125C	16	veneer	labeled	EXACT	thumb	strong	bx pc; nop; ldr ip,[pc]; bx ip; target=0x02731765			func_02091230	src/game/arm9/msl_c_lib.c	func_0209125C	src/game/arm9/msl_c_lib.c	
+arm9	0x02091284	0x0209128C	8	veneer	labeled	EXACT	arm	strong	ldr pc,[pc,#-4]; target=0x02731920			func_0209125C	src/game/arm9/msl_c_lib.c	func_0209128C	src/game/arm9/msl_c_lib.c	
+arm9	0x0209468C	0x02094694	8	leaf	hidden		arm	weak		add sp, sp, #8; pop {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}	2	func_0209455C	src/game/arm9/msl_c_lib.c	func_02094694	src/game/arm9/msl_c_lib.c	
+arm9	0x0209666C	0x02096670	4	leaf	hidden		arm	weak		bx lr	1	func_02096620	src/game/arm9/msl_c_lib.c	func_02096670	src/game/arm9/msl_c_lib.c	
+arm9	0x0209AF1C	0x0209AF34	24	data	hidden				ptrs=0 a:no end t:ok			func_0209AC04	src/game/arm9/cw_runtime.c	func_0209B2E8	src/game/arm9/cw_runtime.c	
+arm9	0x0209CB78	0x0209CB80	8	leaf	hidden		arm	weak		mvn r0, #0x80000000; bx lr	2	func_0209C95C	src/game/arm9/cw_runtime.c	func_0209CE10	src/game/arm9/cw_runtime.c	
+arm9	0x0209CB80	0x0209CB8C	12	data	hidden				ptrs=0 a:no end t:ok			func_0209C95C	src/game/arm9/cw_runtime.c	func_0209CE10	src/game/arm9/cw_runtime.c	
+arm9	0x0209CE04	0x0209CE10	12	data	hidden				ptrs=0 a:no end t:ok			func_0209C95C	src/game/arm9/cw_runtime.c	func_0209CE10	src/game/arm9/cw_runtime.c	
+arm9	0x0209D1C8	0x0209D1E0	24	data	hidden				ptrs=0 a:no end t:ok			func_0209CE10	src/game/arm9/cw_runtime.c	func_0209D1E0	src/game/arm9/cw_runtime.c	
 arm9_autoload0_ITCM	0x01FF8000	0x01FF8020	32	pad	hidden				fill					func_01FF8020	src/game/arm9_autoload0_ITCM/unit_01FF8020.c	
 twl	0x02707CB4	0x0272E9E8	159028	data	hidden				ptrs=1769 a:cond branch out @2707CB8 t:undecodable@27095C6			func_02707C48	src/game/twl/aes_cache.c	func_0272E9E8	src/game/twl/card_rom.c	
 twl	0x0272EB9C	0x0272EBDC	64	frag	hidden		arm	strong	runs into next start,ref	cdple p6, #0xc, c0, c0, c1, #1; svclo #0xce98ba; stclls p2, c9, [r3, #0x298]!; mvneq pc, r6, asr #4	16	func_0272EA74	src/game/twl/card_rom.c	func_0272EBDC	src/game/twl/card_hash.c	
@@ -1320,7 +1320,7 @@ ov014	0x02177C3C	0x02177C44	8	leaf	hidden		thumb	strong	tailstub target=0x02178E
 ov014	0x02177C44	0x02177C4C	8	leaf	hidden		thumb	strong	tailstub target=0x021795A5 thumb	ldr r3,[pc]; bx r3	2	func_02177214	src/game/ov014/unit_021771F8.c	func_02177C4C	src/game/ov014/net_whpipe_p02.c	
 ov014	0x02177EB0	0x02177ED4	36	func	labeled	EXACT	thumb	strong	label,ref,push	push {r3, lr}; bl #0x2179570; cmp r0, #0; beq #0x2177ec8	12	func_02177E9C	src/game/ov014/net_whpipe_p02.c	func_02177ED4	src/game/ov014/net_whpipe_p02.c	
 ov016	0x021B979C	0x021B97A8	12	leaf	labeled	EXACT	thumb	strong	label,ref,tailcall	ldr r3, [pc, #4]; movs r1, #0; bx r3	3	func_021B976C	src/game/ov016/atermset.c	func_021B97A8	src/game/ov016/atermset.c	
-ov016	0x021C1624	0x021C1630	12	leaf	labeled		arm	strong	tailstub target=0x021D647C arm	ldr ip,[pc]; bx ip	2	func_021C1614	src/game/ov016/unit_021C1488.c	func_021C1630	src/game/ov016/unit_021C1630.c	
+ov016	0x021C1624	0x021C1630	12	leaf	labeled		arm	strong	tailstub target=0x021D647C arm	ldr ip,[pc]; bx ip	2	func_021C1614	src/game/ov016/rakuraku.c	func_021C1630	src/game/ov016/sceneend.c	
 ov018	0x021829C8	0x021829E8	32	func	labeled	EXACT	thumb	strong	label,ref,push	push {r4, lr}; ldr r2, [r1, #0x48]; lsls r2, r2, #0x1c; lsrs r4, r2, #0x1c	13	func_021829A8	src/game/ov018/unit_021828B8.c	func_021829F8	src/game/ov018/unit_021828B8.c	
 ov018	0x021829E8	0x021829F8	16	leaf	hidden		thumb	strong	ref,tailcall	ldr r2, [pc, #4]; ldr r3, [pc, #8]; bx r3	3	func_021829A8	src/game/ov018/unit_021828B8.c	func_021829F8	src/game/ov018/unit_021828B8.c	
 ov021	0x021A4698	0x021A46F0	88	func	labeled	EXACT*	thumb	strong	label,ref,push	push {r4, r5, r6, lr}; adds r5, r1, #0; adds r6, r0, #0; adds r4, r2, #0	37	func_021A4664	src/game/ov021/field_player_grid.c	func_021A4890	src/game/ov021/field_player_grid.c	

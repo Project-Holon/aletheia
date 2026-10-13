@@ -4,7 +4,7 @@
  * DWC match control block (ov009, dwc_match.o): the block returned by
  * DWCi_GetMatchCnt (0x02175F3C), the node record, the connection record, the
  * match-key slot and the NNThink global. One definition per object, shared by
- * unit_0216C858, unit_0216F014 and unit_0217576C.
+ * dwc_match_1, dwc_match_3 and dwc_match_13.
  */
 
 #ifndef OV009_DWC_BASIC_TYPES

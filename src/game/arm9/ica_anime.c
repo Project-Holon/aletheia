@@ -260,7 +260,7 @@ typedef signed short s16;
 
 /* Game initialisation parameters (0x14 bytes, GAMESYSTEM_SetupInitWork). */
 /*
- * Work of the save-screen proc of unit_02010B98.c (0x1A8 bytes at heap 0x5B,
+ * Work of the save-screen proc of net_err_proc.c (0x1A8 bytes at heap 0x5B,
  * func_02010BB8); only the fields func_02010D98 and that constructor touch.
  */
 struct SaveScreenWork {

@@ -1,7 +1,7 @@
 /*
  * file:     time_icon.c
  * unit:     yes
- * function: COMM_PLAYER_SUPPORT_Create, func_0202E794, COMM_PLAYER_SUPPORT_Init, COMM_PLAYER_SUPPORT_SetModeAndCurrent, COMM_PLAYER_SUPPORT_GetCurrent, COMM_PLAYER_SUPPORT_GetMode, COMM_PLAYER_SUPPORT_SavePreviousAndSuspend, COMM_PLAYER_SUPPORT_StashMode, COMM_PLAYER_SUPPORT_HasSavedMode, COMM_PLAYER_SUPPORT_GetActiveRecord, COMM_PLAYER_SUPPORT_GetInfoCode, func_0202E848, func_0202E888, func_0202E8A4, func_0202E8B8, func_0202E8CC, COMM_PLAYER_SUPPORT_FindPeerRecord, COMM_PLAYER_SUPPORT_GetRecordFieldPtr, COMM_PLAYER_SUPPORT_GetRecordField, BLINK_PALANM_Create, BLINK_PALANM_LoadPalettes, func_0202EA20, BLINK_PALANM_Update, BLINK_PALANM_ResetPhase, func_0202EB0C, func_0202EB14, func_0202EB44, func_0202EB4C, func_0202EB60, func_0202EB7C, func_0202EB9C, func_0202EC24, func_0202EC44, func_0202EC7C, func_0202ECB0, func_0202ED00, func_0202ED60, func_0202ED90, func_0202EDE4, func_0202EE0C, TIME_ICON_Create, TIME_ICON_CreateNode, TIME_ICON_Init, TIME_ICON_Alloc, TIME_ICON_Start, TIME_ICON_Delete, TIME_ICON_TaskMain, TIME_ICON_NodeMain, TIME_ICON_Update, sub_0202F114, sub_0202F138, sub_0202F144, sub_0202F170, func_0202F190, func_0202F1B4, func_0202F27C, func_0202F2AC, func_0202F2F4, func_0202F30C, func_0202F358, func_0202F3AC, func_0202F41C, func_0202F464, func_0202F47C, func_0202F488, func_0202F498, func_0202F630, func_0202F640, func_0202F688, func_0202F6D8, func_0202F72C, func_0202F738, func_0202F768, func_0202F774, func_0202F788, func_0202F7C4, func_0202F870, func_0202F940, func_0202F9F4, func_0202F9F8
+ * function: COMM_PLAYER_SUPPORT_Create, func_0202E794, COMM_PLAYER_SUPPORT_Init, COMM_PLAYER_SUPPORT_SetModeAndCurrent, COMM_PLAYER_SUPPORT_GetCurrent, COMM_PLAYER_SUPPORT_GetMode, COMM_PLAYER_SUPPORT_SavePreviousAndSuspend, COMM_PLAYER_SUPPORT_StashMode, COMM_PLAYER_SUPPORT_HasSavedMode, COMM_PLAYER_SUPPORT_GetActiveRecord, COMM_PLAYER_SUPPORT_GetInfoCode, func_0202E848, func_0202E888, func_0202E8A4, func_0202E8B8, func_0202E8CC, COMM_PLAYER_SUPPORT_FindPeerRecord, COMM_PLAYER_SUPPORT_GetRecordFieldPtr, COMM_PLAYER_SUPPORT_GetRecordField, BLINK_PALANM_Create, BLINK_PALANM_LoadPalettes, func_0202EA20, BLINK_PALANM_Update, BLINK_PALANM_ResetPhase, func_0202EB0C, func_0202EB14, func_0202EB44, func_0202EB4C, func_0202EB60, func_0202EB7C, func_0202EB9C, func_0202EC24, func_0202EC44, func_0202EC7C, func_0202ECB0, func_0202ED00, func_0202ED60, func_0202ED90, func_0202EDE4, func_0202EE0C, TIME_ICON_Create, TIME_ICON_CreateNode, TIME_ICON_Init, TIME_ICON_Alloc, TIME_ICON_Start, TIME_ICON_Delete, TIME_ICON_TaskMain, TIME_ICON_NodeMain, TIME_ICON_Update, sub_0202F114, sub_0202F138, sub_0202F144, sub_0202F170, func_0202F190, func_0202F1B4, func_0202F27C, func_0202F2AC, func_0202F2F4, func_0202F30C, func_0202F358, func_0202F3AC, func_0202F41C, func_0202F464, func_0202F47C, func_0202F488, func_0202F498, func_0202F630, func_0202F640, func_0202F688, func_0202F6D8, func_0202F72C, func_0202F738, func_0202F768, func_0202F774, func_0202F788, func_0202F7C4, func_0202F870, func_0202F940, func_0202F9F4, func_0202F9F8, func_0202FAB0
  * address:  0x0202E770
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,7 +11,16 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ *
  * Split from time_icon.c at 0x0202E770 (__FILE__ anchor boundary, certain cut).
+ * time_icon.c.  The unlabelled four-byte leaf after func_0202F9F8's literal
+ * pool (`movs r0, #1; bx lr`), which the listing extent of func_0202F9F8
+ * swallows.  It saves nothing, so disasm.py never labels it
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); seed
+ * 0x0202FAB0 in layout/function_starts.txt.
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202FAB0.c \
+ *       --func func_0202FAB0 --addr 0x0202FAB0 --cc 1.1p1 --thumb
  *
  * symbols:
  *   func_02030734    0x02030734  arm
@@ -121,15 +130,11 @@
  */
 #define REG32(a) (*(volatile u32 *)(a))
 #define REG16(a) (*(volatile u16 *)(a))
-
-/* Hardware registers (main engine, A) used by the shutdown display reset. */
-#define REG_DISPCNT_A       0x04000000
 #define REG_BG1CNT_A        0x0400000A
 #define REG_BG1HOFS_A       0x04000014
 #define REG_BLDCNT_A        0x04000050
 #define REG_MASTER_BRIGHT_A 0x0400006C
 #define REG_MASTER_BRIGHT_B 0x0400106C
-
 struct Tcb;
 struct TcbList;
 struct TcblNode;
@@ -145,11 +150,14 @@ struct PlayerLookup;
 struct HistoryOwner;
 struct ResourceFile;
 struct ArchiveRecord;
-
 typedef unsigned char  u8;
+
 typedef unsigned short u16;
+
 typedef unsigned int   u32;
+
 typedef signed short   s16;
+
 typedef signed int     s32;
 
 /* A 0x20-byte player record, read through the accessors func_02008510 etc. */
@@ -366,8 +374,6 @@ extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *te
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
-
-/* Prototypes of this file's functions. */
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
 void COMM_PLAYER_SUPPORT_Delete(void *support);
 void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support);
@@ -448,6 +454,7 @@ void func_0202F870(void);
 void func_0202F940(u32 messageId);
 int func_0202F9F4(void);
 int func_0202F9F8(void *unused, u32 *state);
+int func_0202FAB0(void);
 extern const char comm_player_support_File[];
 extern const char blink_palanm_File[];
 extern const s16 FX_SinCosTable_[];
@@ -461,6 +468,11 @@ extern u8 d_021BD574[];
 extern struct OverlayLaunchWork sOverlayLaunchWork;
 extern u8 sOverlayLaunchWorkArg[];
 
+
+/* Hardware registers (main engine, A) used by the shutdown display reset. */
+#define REG_DISPCNT_A       0x04000000
+
+
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId)
 {
     struct CommPlayerSupport *support = func_02030734(heapId, 0x4c, 1, comm_player_support_File, 0x2c);
@@ -468,6 +480,7 @@ struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId)
     COMM_PLAYER_SUPPORT_Init(support);
     return support;
 }
+
 
 /*
  * A pool-word-and-bx tail call into the ARM deallocator
@@ -480,6 +493,7 @@ void COMM_PLAYER_SUPPORT_Delete(void *support)
     func_020307B0(support);
 }
 
+
 void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
 {
     MI_CpuFill8(support, 0, 0x4c);
@@ -490,12 +504,14 @@ void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
     MYSTATUS_Init(&support->previous);
 }
 
+
 /* Sets the mode word and copies a 32-byte record into the current slot. */
 void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record)
 {
     support->mode = mode;
     support->current = *record;
 }
+
 
 /*
  * Returns the current record.  Leaf accessor matched to give overlay call
@@ -506,8 +522,10 @@ struct PlayerRecord *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *su
     return &support->current;
 }
 
+
 /* Witness leaf for ov093 BTL_SERVER_FLOW_ProcPlayerSupportHeal (tiny arm9 leaf). */
 u32 COMM_PLAYER_SUPPORT_GetMode(struct CommPlayerSupport *support) { return support->mode; }
+
 
 /* Remembers the mode and the current record, then enters mode 3. */
 void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(struct CommPlayerSupport *support)
@@ -516,6 +534,7 @@ void COMM_PLAYER_SUPPORT_SavePreviousAndSuspend(struct CommPlayerSupport *suppor
     support->previous = support->current;
     support->mode = 3;
 }
+
 
 /*
  * Moves the mode into the stashed slot and clears it.  Witness for the call
@@ -527,6 +546,7 @@ void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support)
     support->mode = 0;
 }
 
+
 /* Nonzero if either the previous mode or the stashed mode is set. */
 int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support)
 {
@@ -534,6 +554,7 @@ int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support)
         return 1;
     return 0;
 }
+
 
 /* The saved record when a previous mode is set, else the current record. */
 struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support)
@@ -543,10 +564,12 @@ struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSuppor
     return &support->current;
 }
 
+
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info)
 {
     return INTRUDE_COMM_GetAreaSlotFlag(func_02012138(info));
 }
+
 
 /*
  * Reads the stored season of the record into *outStored and the season to
@@ -578,6 +601,7 @@ int func_0202E848(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent)
     }
 }
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -608,20 +632,24 @@ u8 sub_0202E888(void)
     return (u8)((date.month - 1) & 3);
 }
 
+
 u8 sub_0202E8A4(u8 season)
 {
     return (u8)((season + 1) % 4);
 }
+
 
 u8 sub_0202E8B8(s32 season)
 {
     return (u8)((season + 3) % 4);
 }
 
+
 u8 sub_0202E8CC(s32 handle, s32 value)
 {
     return GAME_DATA_SetSeason(handle, (u8)value);
 }
+
 
 /*
  * Matches a six-byte address against the three-slot address table of the
@@ -663,6 +691,7 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
     return 0;
 }
 
+
 /*
  * A forwarding leaf after COMM_PLAYER_SUPPORT_FindPeerRecord's pop: a pool-word tail call to
  * func_020084F4 (the u16 pointer accessor), the caller's argument passed
@@ -673,11 +702,13 @@ u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record)
     return func_020084F4(record);
 }
 
+
 /* Forwarding leaf: pool-word tail call to func_02008534 (the u16 getter). */
 u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record)
 {
     return func_02008534(record);
 }
+
 
 /*
  * TU: blink_palanm.c (__FILE__ 0x020A7804, lines 0x3c and 0x3d).
@@ -711,6 +742,7 @@ struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode
     return anm;
 }
 
+
 /*
  * TU: blink_palanm.c (__FILE__ 0x020A7804, lines 0x83 and 0x84).
  * Loads the palette file and copies two rows of colorCount colors into the
@@ -733,6 +765,7 @@ void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileI
     func_020307B0(handle);
 }
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -752,6 +785,7 @@ u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm)
     func_020307B0(anm->outColors);
     return func_020307B0(anm);
 }
+
 
 /*
  * blink_palanm.c: the per-frame BGR555 cross-fade.  Advances the phase word
@@ -803,6 +837,7 @@ s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm)
     return func_02061CA4(anm->targetMask, anm->firstColor * 2, (u32)anm->outColors, anm->colorCount * 2);
 }
 
+
 /*
  * blink_palanm.c: resets the fade phase word at +0x10 of the blink object
  * (the word BLINK_PALANM_Update advances by 0x400 per frame).  An unlabelled leaf
@@ -815,6 +850,7 @@ void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm)
     anm->phase = 0;
 }
 
+
 /*
  * A pool-word-and-bx tail call into an ARM SDK entry point
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), eight bytes with no
@@ -825,6 +861,7 @@ u32 sub_0202EB0C(void)
 {
     return OS_IsRunOnTwl();
 }
+
 
 /* Nonzero when running on a DSi with both capability bits (0 and 5) set. */
 int func_0202EB14(void)
@@ -838,11 +875,13 @@ int func_0202EB14(void)
     return 0;
 }
 
+
 /* Bare tail call into an ARM SDK leaf. */
 void func_0202EB44(void)
 {
     func_02087DC4();
 }
+
 
 /*
  * Neither call sets an argument register, so both callees are declared
@@ -861,6 +900,7 @@ u32 sub_0202EB4C(void)
     return 1;
 }
 
+
 /*
  * Fills an 0x54-byte structure on the stack from an ARM SDK getter and
  * copies two of its bytes out through the two pointer parameters. The
@@ -878,6 +918,7 @@ void sub_0202EB60(u8 *outFavoriteColor, u8 *outBirthMonth)
     *outFavoriteColor = info.favoriteColor;
     *outBirthMonth = info.birthMonth;
 }
+
 
 /*
  * Byte-correct, MATCH-capped.
@@ -900,6 +941,7 @@ u32 func_0202EB7C(struct HistoryOwner *owner, struct HistoryEntry *entry)
     }
     return func_0202EB9C(owner, entry);
 }
+
 
 /*
  * The history table dispatcher (look the entry up; remove and notify, or
@@ -944,6 +986,7 @@ u32 func_0202EB9C(struct HistoryOwner *owner, struct HistoryEntry *entry)
     return 2;
 }
 
+
 /*
  * A whole translation unit, matched as one byte range.
  *
@@ -978,6 +1021,7 @@ u32 sub_0202EC24(const struct HistoryEntry *table)
     return i;
 }
 
+
 /*
  * Counts the occupied entries whose key matches, capped at five.  Same
  * 0x28-byte record as func_0202EC7C, matched next door.
@@ -1001,6 +1045,7 @@ u32 func_0202EC44(struct HistoryEntry *table, u32 key)
     return count;
 }
 
+
 /* Index of the first occupied entry with the given key, or 0x14. */
 s32 func_0202EC7C(struct HistoryEntry *table, u32 key)
 {
@@ -1014,6 +1059,7 @@ s32 func_0202EC7C(struct HistoryEntry *table, u32 key)
     }
     return 0x14;
 }
+
 
 /*
  * Finds the first occupied entry whose two keys both match the reference
@@ -1038,6 +1084,7 @@ s32 func_0202ECB0(struct HistoryEntry *table, struct HistoryEntry *entry)
     }
     return 0x14;
 }
+
 
 /*
  * Removes entry `index` by shifting the following entries down, then clears
@@ -1081,6 +1128,7 @@ void func_0202ED00(struct HistoryEntry *table, u32 index)
     }
 }
 
+
 /*
  * Stores the entry in the owner's table, then asks the owner whether the
  * entry's key now needs its follow-up (func_020095E8).  The key is read out
@@ -1098,6 +1146,7 @@ void func_0202ED60(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 m
     if (func_02009750(owner, key) != 0)
         func_020095E8(owner);
 }
+
 
 /*
  * Stores the entry at the first free index of the table (func_0202EC24),
@@ -1120,6 +1169,7 @@ void func_0202ED90(struct HistoryEntry *table, struct HistoryEntry *entry, u32 m
     table[index] = *entry;
 }
 
+
 /* Maps value into the band [rangeStart+margin/2, rangeEnd-margin/2]: 0 below it and maxValue above it. */
 u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin)
 {
@@ -1136,6 +1186,7 @@ u32 func_0202EDE4(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 mar
     offset = value - low;
     return (offset * (maxValue << 8) / (high - low)) >> 8;
 }
+
 
 /*
  * A scaled-span helper: the span (end - start - margin) is raised eight
@@ -1165,6 +1216,7 @@ u32 func_0202EE0C(u32 total, u32 rate, u32 start, u32 end, u32 margin)
     return (start + scaled) + (margin >> 1);
 }
 
+
 /*
  * Allocates and fills the 0x1c-byte time icon.  The heap id is the fifth
  * (stack) argument and is re-read from its slot for the second use (it is
@@ -1191,6 +1243,7 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
     return icon;
 }
 
+
 /*
  * Sibling of TIME_ICON_Create: the same 0x1c-byte TimeIcon, built through the
  * TCBL_AddTask node allocator instead of func_02030734.  The node is
@@ -1211,6 +1264,7 @@ struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *
     icon->isActive = 1;
     return icon;
 }
+
 
 /*
  * Fills in a freshly allocated icon: the heap id, the fill color, the frame
@@ -1243,6 +1297,7 @@ void TIME_ICON_Init(struct TimeIcon *icon, struct BmpWin *refWin, u8 fillColor, 
     func_02041B6C(BMP_WIN_GetBgLayer(icon->win));
 }
 
+
 /* Allocates an idle TimeIcon: heap id and frame sheet only; TIME_ICON_Start finishes it. */
 struct TimeIcon *TIME_ICON_Alloc(u32 heapId)
 {
@@ -1255,6 +1310,7 @@ struct TimeIcon *TIME_ICON_Alloc(u32 heapId)
     icon->node = 0;
     return icon;
 }
+
 
 /*
  * TIME_ICON_Init's twin for an icon from TIME_ICON_Alloc: the window is built
@@ -1287,6 +1343,7 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
     icon->isActive = 1;
 }
 
+
 /*
  * Deletes the icon.  An icon that never got a window (neither task nor
  * node) only frees its sheet and itself; otherwise it clears the window,
@@ -1316,17 +1373,20 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
         TCBL_DeleteTask(icon->node);
 }
 
+
 /* Task callback of an icon created with a task list. */
 void TIME_ICON_TaskMain(struct Tcb *tcb, void *work)
 {
     TIME_ICON_Update(work);
 }
 
+
 /* Node callback of an icon created with a TCBL node. */
 void TIME_ICON_NodeMain(struct TcblNode *node, void *work)
 {
     TIME_ICON_Update(work);
 }
+
 
 /*
  * One tick of the icon: while the wait counter runs down it only counts;
@@ -1354,6 +1414,7 @@ void TIME_ICON_Update(struct TimeIcon *icon)
     }
 }
 
+
 /*
  * Bit `index` of a byte array, inverted: 1 when the bit is clear.
  * Unlabelled leaf in the 0x0202F114..0x0202F190 gap.
@@ -1373,6 +1434,7 @@ u32 sub_0202F114(const u8 *bits, u32 index)
     return 1;
 }
 
+
 /*
  * First field (item id) of row `row` of the 0x2E-row item graphics extra
  * table; the sibling lookups sub_0202F144 (second field) and sub_0202F170
@@ -1383,6 +1445,7 @@ u16 sub_0202F138(u32 row)
 {
     return sItemGfxExtraTable[row].itemId;
 }
+
 
 /*
  * Second field of the row whose item id matches, 0 when there is none.
@@ -1397,6 +1460,7 @@ u32 sub_0202F144(u32 itemId)
     }
     return 0;
 }
+
 
 /*
  * Row index of the entry whose item id matches, 0 when there is none.
@@ -1413,10 +1477,12 @@ u32 sub_0202F170(u16 itemId)
     return 0;
 }
 
+
 void func_0202F190(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
 {
     func_0202F1B4(func_020185F0(gameData), mode, record, eventId, index);
 }
+
 
 /*
  * Seven-way mode switch around a func_02017DBC / func_02017DE4 bracket.
@@ -1472,6 +1538,7 @@ void func_0202F1B4(struct SaveData *save, u32 mode, const struct PlayerRecord *r
     func_02017DE4(save, savedFlag);
 }
 
+
 /* Stores today's RTC date into save variables 0x92 to 0x94. */
 void func_0202F27C(struct SaveData *save)
 {
@@ -1484,6 +1551,7 @@ void func_0202F27C(struct SaveData *save)
     POKE_TOOL_SetBoxValue(save, 0x94, date.day);
 }
 
+
 void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
 {
     if (func_02017E88(save, 0xAA, 0) == 1)
@@ -1494,10 +1562,12 @@ void func_0202F2AC(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 
     POKE_TOOL_SetBoxValue(save, 0x6D, 1);
 }
 
+
 void func_0202F2F4(struct SaveData *save, u32 variant)
 {
     func_0202F358(save, 0, 0, 0, 0, variant);
 }
+
 
 /* Stores the event id with today's date into the given variant. */
 void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
@@ -1511,6 +1581,7 @@ void func_0202F30C(struct SaveData *save, u32 eventId, u32 variant)
     else
         func_0202F358(save, eventId, date.year, date.month, date.day, variant);
 }
+
 
 /*
  * Installs the four save variables of one variant (event id, year, month,
@@ -1527,6 +1598,7 @@ void func_0202F358(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 
     POKE_TOOL_SetBoxValue(save, base + 0x90, month);
     POKE_TOOL_SetBoxValue(save, base + 0x91, day);
 }
+
 
 /*
  * Reads the four save variables of one variant and hands them, with the
@@ -1547,6 +1619,7 @@ void func_0202F3AC(struct SaveData *save, u32 variant)
     func_0202F358(save, eventId, year, month, day, otherVariant);
 }
 
+
 /*
  * Stores the record's name (variable 0x8d), key (0x9a) and kind (7) and
  * frees the name string.
@@ -1563,6 +1636,7 @@ void func_0202F41C(struct SaveData *save, const struct PlayerRecord *record, u32
     STRBUF_Delete(name);
 }
 
+
 /* Copies save variable 0x9e into 0x99. */
 void func_0202F464(struct SaveData *save)
 {
@@ -1570,6 +1644,7 @@ void func_0202F464(struct SaveData *save)
 
     POKE_TOOL_SetBoxValue(save, 0x99, value);
 }
+
 
 /*
  * Unlabelled 12-byte Thumb leaf (a tail call through a pool word to
@@ -1582,10 +1657,12 @@ void func_0202F47C(struct SaveData *save)
     POKE_TOOL_SetBoxValue(save, 0x77, 0x15);
 }
 
+
 int func_0202F488(void *gameData, int stage)
 {
     return func_0202F498(func_020185F0(gameData), stage);
 }
+
 
 /*
  * Nonzero when the save variables match the expected state of the given
@@ -1656,6 +1733,7 @@ int func_0202F498(struct SaveData *save, int stage)
     return 0;
 }
 
+
 /*
  * Promoted out of src/pending: the callee func_0202F640 became a manifest
  * entry this pass, so the second call site resolves on `matched`.
@@ -1664,6 +1742,7 @@ void func_0202F630(void *gameData, u32 stage)
 {
     func_0202F640(func_020185F0(gameData), stage);
 }
+
 
 /*
  * The two trailing pool words (0x753B / 0x753D, bare literals with no
@@ -1688,6 +1767,7 @@ void func_0202F640(struct SaveData *save, u32 stage)
     func_02017DE4(save, savedFlag);
 }
 
+
 /*
  * Unlabelled Thumb leaf (no entry in layout/function_starts.txt; the listing
  * shows the range as ARM). Compiled body is 80 bytes including its literal
@@ -1703,6 +1783,7 @@ unsigned int func_0202F688(unsigned int id) {
   return 89;
 }
 
+
 /* The in-bank index half of the pair above (see func_0202F688); 84 bytes with its pool. */
 unsigned int func_0202F6D8(unsigned int id) {
   if(id<0x7531) { if(id>=117) return 2; }
@@ -1711,6 +1792,7 @@ unsigned int func_0202F6D8(unsigned int id) {
   else { if(id<=65535) { id-=0xea61; if(id>=3) return 0; } else return 2; }
   return id;
 }
+
 
 /*
  * Twelve-byte tail forwarder (pool word and bx) to func_020212E4 with the
@@ -1721,6 +1803,7 @@ u32 func_0202F72C(void *unused, u16 value, u16 unused2)
 {
     return func_020212E4(value);
 }
+
 
 /* 1 when none of the four save variables 0x36 to 0x39 passes func_020212E4. */
 int func_0202F738(struct SaveData *save, int unused)
@@ -1735,6 +1818,7 @@ int func_0202F738(struct SaveData *save, int unused)
     return 1;
 }
 
+
 /*
  * An unlabelled tail-call leaf (it saves nothing, so disasm.py prints it as
  * .word data): func_0202F788(0).  With func_0202F774 it is the callback pair
@@ -1748,6 +1832,7 @@ void func_0202F768(void)
 {
     func_0202F788(0);
 }
+
 
 /*
  * The second unlabelled tail-call leaf of the callback pair GFL_USE_InitSystem
@@ -1766,6 +1851,7 @@ void func_0202F774(u32 on)
     }
     func_0202F788(mode);
 }
+
 
 /*
  * The power callback reached from func_0202F768 as func_0202F788(0) (and
@@ -1788,6 +1874,7 @@ void func_0202F788(u32 mode)
     for (;;)
         GFL_USE_PollPowerExit();
 }
+
 
 /*
  * The two calls to this packet's own followers (0x0202F870 at +0x7A and
@@ -1828,6 +1915,7 @@ void func_0202F7C4(u32 messageId)
     func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_A, 0);
     func_0207D534((volatile u16 *)REG_MASTER_BRIGHT_B, 0x10);
 }
+
 
 /*
  * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
@@ -1885,6 +1973,7 @@ void func_0202F870(void)
     func_020307B0((void *)res);
 }
 
+
 /*
  * EXACT* -- the inferred extent (184 bytes) runs 4 bytes past this
  * function's own 180, over the unlabelled 4-byte leaf at 0x0202F9F4
@@ -1929,10 +2018,12 @@ void func_0202F940(u32 messageId)
     BMP_Delete(bmp);
 }
 
+
 int func_0202F9F4(void)
 {
     return 1;
 }
+
 
 /*
  * wave 17 (overlay_id class): EXACT. The pooled overlay-id sites ov088_id
@@ -1992,4 +2083,9 @@ int func_0202F9F8(void *unused, u32 *state)
         break;
     }
     return 0;
+}
+
+int func_0202FAB0(void)
+{
+    return 1;
 }

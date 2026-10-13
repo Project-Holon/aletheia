@@ -264,6 +264,7 @@ def build_groups(rows):
     errs = []
     groups = collections.OrderedDict()
     seen_old = {}
+    selfrows = {}
     for old, new, ln in rows:
         o, n = norm(old), norm(new)
         if o in seen_old:
@@ -289,9 +290,11 @@ def build_groups(rows):
             errs.append('line %d: %s is not a snake_case .c name' % (ln, os.path.basename(n)))
             continue
         if o == n:
-            errs.append('line %d: %s maps to itself' % (ln, o))
-            continue
+            selfrows[o] = ln        # an existing file that takes in the other members of its group
         groups.setdefault(n, Group(n, [])).olds.append(o)
+    for o, ln in selfrows.items():
+        if len(groups[o].olds) < 2:
+            errs.append('line %d: %s maps to itself' % (ln, o))
     all_old = set(seen_old)
     for n, g in groups.items():
         if os.path.exists(os.path.join(ROOT, n)) and n not in g.olds:

@@ -17,7 +17,7 @@
  * The object is built with -ipa file: a static function nobody in the file calls is
  * dropped, so the parts of the earlier split each lost callees. Every function is static,
  * as the vendor object binds it, except the four ATERMi_ApConfig* entry points (global in
- * the object, called from unit_021C1488.c) and soAlloc / soFree, which the vendor object
+ * the object, called from rakuraku.c) and soAlloc / soFree, which the vendor object
  * reaches through its own AtermSOConfig initializer; that data is defined outside this
  * file here, so they stay global or -ipa file drops them.
  * AtermApc_callback and GetMacEncKey (func_021BA2F8) are defined K&R style: DWARF gives

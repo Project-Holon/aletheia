@@ -2,7 +2,7 @@
 #define ALETHEIA_OV009_DWC_LOGIN_TYPES_H
 /*
  * DWC login module (ov009, dwc_login.o): the login control block that the
- * global at 0x021AA874 points to, plus the prototypes unit_0216A1F4 shares.
+ * global at 0x021AA874 points to, plus the prototypes dwc_login shares.
  * Field offsets checked against every view the parts used.
  */
 

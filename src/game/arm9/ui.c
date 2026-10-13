@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: func_02034E24, func_02034EF8, func_02034F5C, func_02034F74, func_02034F84, func_02034FA0, func_02034FB8, func_02034FD4, func_02034FE8, func_02035004, func_02035010, func_02035034, func_02035040, func_02035064, func_02035080, func_0203508C, func_02035100, func_02035108, func_02035120, func_0203512C, func_02035138, func_0203515C, func_0203516C, func_02035188, func_020351A0, func_020351BC, func_020351D0, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC
+ * function: func_02034E24, func_02034EF8, func_02034F5C, func_02034F74, func_02034F84, func_02034FA0, func_02034FB8, func_02034FD4, func_02034FE8, func_02035004, func_02035010, func_02035034, func_02035040, func_02035064, func_02035080, func_0203508C, func_02035100, func_02035108, func_02035120, func_0203512C, func_02035138, func_0203515C, func_0203516C, func_02035188, func_020351A0, func_020351BC, func_020351D0, func_020351EC, func_020351F8, func_0203521C, func_02035224, func_0203524C, func_02035268, func_02035284, func_020352AC, func_020352DC, DWCi_IsFold
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -148,9 +148,11 @@ void sub_02035268(struct UiCtx *p);
 void sub_02035284(struct UiCtx *p);
 void sub_020352AC(struct UiCtx *p);
 void sub_020352DC(void);
+asm void DWCi_IsFold(void);
 extern const char s_UiFile[];
 extern void *g_02034F5C_Ptr;
 extern struct UiCtx *gUiState;
+
 
 
 
@@ -244,6 +246,7 @@ void sub_02034E24(u32 heap, u8 mode)
 
 
 
+
 /*
  * One tick of the main loop the areaman singleton drives: bump the frame
  * counter at +0x3e, run the five per-frame services in order, then, only
@@ -295,6 +298,7 @@ void sub_02034EF8(struct AreaCtx *p)
 
 
 
+
 /*
  * A tail call, `ldr r3,[pc]`/`bx r3`, passing one argument through: the
  * value of a global pointer, dereferenced once.
@@ -319,10 +323,12 @@ void sub_02034F5C(void)
 
 
 
+
 void func_02034F74(struct UiCtx *p, u8 flags)
 {
     p->always |= flags;
 }
+
 
 
 
@@ -336,10 +342,12 @@ void func_02034F84(u8 flags)
 
 
 
+
 void func_02034FA0(struct UiCtx *p, unsigned char flags)
 {
     p->always &= (unsigned char)~flags;
 }
+
 
 
 
@@ -355,6 +363,7 @@ void func_02034FB8(u8 v)
 
 
 
+
 u32 func_02034FD4(struct UiCtx *p, u8 flags)
 {
     return (p->always & flags) != 0;
@@ -365,10 +374,12 @@ u32 func_02034FD4(struct UiCtx *p, u8 flags)
 
 
 
+
 u32 func_02034FE8(u8 flags)
 {
     return func_02034FD4(gUiState, flags);
 }
+
 
 
 
@@ -389,6 +400,7 @@ void func_02035004(struct UiCtx *o, UiCb a, void *b)
 
 
 
+
 /*
  * Wrapper: calls func_02035004 with the object gUiState points at as the first argument.
  */
@@ -396,6 +408,7 @@ void func_02035010(UiCb a, void *b)
 {
     func_02035004(gUiState, a, b);
 }
+
 
 
 
@@ -414,6 +427,7 @@ void func_02035034(struct UiCtx *o, UiCb a, void *b)
 
 
 
+
 /*
  * Wrapper: calls func_02035034 with the object gUiState points at as the first argument.
  */
@@ -421,6 +435,7 @@ void func_02035040(UiCb a, void *b)
 {
     func_02035034(gUiState, a, b);
 }
+
 
 
 
@@ -435,6 +450,7 @@ void func_02035064(UiPred fn, void *arg)
     gUiState->on_24 = fn;
     gUiState->arg_34 = arg;
 }
+
 
 
 
@@ -463,6 +479,7 @@ void sub_02035080(struct UiCtx *p, UiCb fn, void *arg)
 
 
 
+
 void func_0203508C(UiCb a, UiCb b, void *c)
 {
     struct UiCtx *g = gUiState;
@@ -478,6 +495,7 @@ void func_0203508C(UiCb a, UiCb b, void *c)
     func_02035080(gUiState, a, c);
     func_02035120(gUiState, b, c);
 }
+
 
 
 
@@ -504,6 +522,7 @@ UiCb func_02035100(struct UiCtx *p)
 
 
 
+
 /*
  * closed:   the tail call's target 0x02035100 is now a manifest entry
  *           (matched class); the global resolves on `literal x100`.
@@ -517,6 +536,7 @@ UiCb func_02035108(void)
 {
     return func_02035100(gUiState);
 }
+
 
 
 
@@ -549,11 +569,13 @@ void sub_02035120(struct UiCtx *p, UiCb fn, void *arg)
 
 
 
+
 void func_0203512C(struct UiCtx *p, UiCb fn, void *arg)
 {
     p->on_20 = fn;
     p->arg_30 = arg;
 }
+
 
 
 
@@ -570,6 +592,7 @@ void func_02035138(UiCb fn, void *arg)
 {
     func_0203512C(gUiState, fn, arg);
 }
+
 
 
 
@@ -600,10 +623,12 @@ void sub_0203515C(struct UiCtx *p, u8 mask)
 
 
 
+
 void func_0203516C(u8 mask)
 {
     func_0203515C(gUiState, mask);
 }
+
 
 
 
@@ -631,10 +656,12 @@ void sub_02035188(struct UiCtx *p, u8 mask)
 
 
 
+
 int func_020351A0(u32 v)
 {
     return func_02035188(gUiState, v);
 }
+
 
 
 
@@ -661,10 +688,12 @@ u32 sub_020351BC(struct UiCtx *p, u32 mask)
 
 
 
+
 u32 func_020351D0(u32 mask)
 {
     return func_020351BC(gUiState, mask);
 }
+
 
 
 
@@ -694,6 +723,7 @@ void sub_020351EC(struct UiCtx *p, u32 a, u32 b)
 
 
 
+
 /*
  * Forwards both arguments to the setter sub_020351EC on the object held in
  * gUiState (a tail call through ip).  No lr push, so disasm.py never
@@ -703,6 +733,7 @@ void sub_020351F8(u32 a, u32 b)
 {
     sub_020351EC(gUiState, a, b);
 }
+
 
 
 
@@ -723,6 +754,7 @@ u32 sub_0203521C(u32 *p)
 {
     return *p;
 }
+
 
 
 
@@ -756,6 +788,7 @@ struct UiCtx *sub_02035224(void)
 
 
 
+
 /*
  * One of the five optional callback slots the UI context carries: run the
  * hook at +0x14 with its own argument at +0x28 if one is installed, and do
@@ -777,6 +810,7 @@ void sub_0203524C(struct UiCtx *p)
 
 
 
+
 /*
  * The +0x10 callback slot, same shape as sub_0203524C and sharing its
  * argument word at +0x28.
@@ -790,6 +824,7 @@ void sub_02035268(struct UiCtx *p)
         p->on_10(p->arg_28);
     }
 }
+
 
 
 
@@ -817,6 +852,7 @@ void sub_02035284(struct UiCtx *p)
 
 
 
+
 /*
  * The disarming half of sub_02035284: run the +0x18 hook with the same
  * +0x2c argument and clear the armed flag, but only if the context was armed
@@ -836,6 +872,7 @@ void sub_020352AC(struct UiCtx *p)
         p->armed = 0;
     }
 }
+
 
 
 
@@ -890,4 +927,15 @@ void sub_020352DC(void)
         gUiState->unk3F = 5;
     else
         gUiState->unk3F = 1;
+}
+
+asm void DWCi_IsFold(void)
+{
+    ldr r0, =0x02FFFFA8
+    ldrh r0, [r0]
+    and r0, r0, #0x8000
+    movs r0, r0, asr #15
+    movne r0, #1
+    moveq r0, #0
+    bx lr
 }

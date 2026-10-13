@@ -1,7 +1,7 @@
 #ifndef GAME_ARM9_CELL_ANIM_TYPES_H
 #define GAME_ARM9_CELL_ANIM_TYPES_H
 
-/* Cell animation object (0x58 bytes in MultiCellAnim, see unit_020643CC.c). */
+/* Cell animation object (0x58 bytes in MultiCellAnim, see nns_g2d_multi_cell_animation_2.c). */
 
 struct O02064140;
 struct CellDataBank;

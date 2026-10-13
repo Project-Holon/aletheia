@@ -1,7 +1,7 @@
 #ifndef OV009_GSUDP_TYPES_H
 #define OV009_GSUDP_TYPES_H
 /*
- * Shared GameSpy UDP engine types for ov009 unit_02180410. One definition per
+ * Shared GameSpy UDP engine types for ov009 gsudpengine. One definition per
  * object, offsets checked against every view the parts had.
  */
 

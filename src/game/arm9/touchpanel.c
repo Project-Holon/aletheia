@@ -227,7 +227,7 @@ typedef struct {
     WmIcon *icon;
 } WmIconEasy;
 
-/* unit_0200EE48.c: archive data ids of the icon graphics */
+/* net_device_table.c: archive data ids of the icon graphics */
 typedef struct {
     u32 charData[2];
     u32 palette;

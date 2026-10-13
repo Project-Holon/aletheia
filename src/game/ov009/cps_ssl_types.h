@@ -1,7 +1,7 @@
 #ifndef OV009_CPS_SSL_TYPES_H
 #define OV009_CPS_SSL_TYPES_H
 /*
- * Shared CPS SSL types for ov009 unit_0215FDA4. One definition per object,
+ * Shared CPS SSL types for ov009 ssl. One definition per object,
  * offsets checked against every view the parts had.
  */
 

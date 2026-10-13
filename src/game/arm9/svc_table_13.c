@@ -1,0 +1,20 @@
+/*
+ * file:     svc_table_13.c
+ * function: func_020045CC
+ * address:  0x020045CC
+ * packet:   pkt_020045CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ */
+
+/* hand-written in the original: SVC stub in the arm9 secure area (SVC_UncompressRL16FromDevice), `swi N; bx lr` in the BIOS call table */
+
+asm void func_020045CC(void)
+{
+    swi 0x15
+    bx lr
+}

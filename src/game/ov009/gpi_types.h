@@ -1,8 +1,8 @@
 #ifndef ALETHEIA_OV009_GPI_TYPES_H
 #define ALETHEIA_OV009_GPI_TYPES_H
 /*
- * GameSpy GP ("GPI") types shared by unit_02187010, unit_0218E3B0,
- * unit_0218F9F8 and unit_021903B0 (ov009, the libdwcgsgp gp*.o objects).
+ * GameSpy GP ("GPI") types shared by gpibuddy, gpipeer_1,
+ * gpiprofile and gpisearch (ov009, the libdwcgsgp gp*.o objects).
  * One definition per object, field offsets checked against every view the
  * parts used.
  *
